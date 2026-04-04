@@ -20,6 +20,10 @@ const {
   useRef
 } = React;
 const SECTIONS = [{
+  id: "probability",
+  label: "Probability",
+  icon: "🎲"
+}, {
   id: "predict",
   label: "Predict",
   icon: "🔮"
@@ -165,6 +169,84 @@ const PROMPTS = [{
   }],
   explanation: "Your own pick here probably reflects YOUR world. If you code, you might lean toward \"coding.\" If you mostly browse the web, \"browsing\" feels right. LLMs work exactly the same way — their \"intuition\" is shaped entirely by what they were trained on. A model trained mostly on tech blogs would weight \"coding\" higher than one trained on novels."
 }];
+function ProbabilitySection() {
+  const [flipped, setFlipped] = useState([false, false, false]);
+  const [demoWord, setDemoWord] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const phrases = [
+    { start: "Good", options: [{ word: "morning", pct: 62 }, { word: "luck", pct: 18 }, { word: "grief", pct: 8 }, { word: "boy", pct: 7 }, { word: "heavens", pct: 5 }] },
+    { start: "Happy birth", options: [{ word: "day", pct: 97 }, { word: "place", pct: 2 }, { word: "right", pct: 1 }] },
+    { start: "Once upon a", options: [{ word: "time", pct: 94 }, { word: "hill", pct: 3 }, { word: "day", pct: 2 }, { word: "dream", pct: 1 }] }
+  ];
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const phrase = phrases[phraseIdx];
+  const concepts = [
+    { icon: "📱", title: "You already use probability", detail: "Your phone's autocomplete suggests words based on what you've typed before. If you type \"See you\", it might suggest \"tomorrow\", \"later\", or \"soon\" — each with a different likelihood. AI works on the same principle, just at a much larger scale." },
+    { icon: "🧠", title: "Patterns, not understanding", detail: "When you hear \"peanut butter and...\", you think \"jelly\" instantly. You're not reasoning about it — your brain fires a pattern learned from years of experience. AI does something remarkably similar: it learns statistical patterns from billions of sentences, then uses those patterns to predict what comes next." },
+    { icon: "📊", title: "Everything is a probability", detail: "AI never says \"the next word IS 'hello'.\" Instead it says \"there's a 42% chance it's 'hello', 23% chance it's 'hi', 15% chance it's 'hey'...\" and so on for thousands of words. It then picks from these weighted options. This is the fundamental mechanism behind every AI response you've ever read." }
+  ];
+  const flipCard = (idx) => {
+    setFlipped(prev => { const n = [...prev]; n[idx] = !n[idx]; return n; });
+  };
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
+      "Before we dive into how AI models work, let's start with the single most important idea: ", /*#__PURE__*/React.createElement("strong", null, "AI is a pattern-matching probability machine."), " It doesn't \"think\" or \"know\" anything. It looks at patterns in text and calculates the probability of what should come next. Everything else builds on this one concept."
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gap: 16, marginBottom: 32 } },
+      concepts.map((c, i) => /*#__PURE__*/React.createElement("div", {
+        key: i,
+        onClick: () => flipCard(i),
+        style: { cursor: "pointer", background: flipped[i] ? "var(--surface-alt)" : "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: "20px 24px", transition: "all 0.3s ease", boxShadow: flipped[i] ? "0 2px 12px rgba(0,0,0,0.08)" : "none" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: flipped[i] ? 12 : 0 } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, c.icon),
+          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 16, color: "var(--text-primary)" } }, c.title),
+          /*#__PURE__*/React.createElement("span", { style: { marginLeft: "auto", color: "var(--text-muted)", fontSize: 13 } }, flipped[i] ? "click to collapse" : "click to expand")
+        ),
+        flipped[i] && /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.7, fontSize: 15, marginTop: 4 } }, c.detail)
+      ))
+    ),
+    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--text-primary)", marginBottom: 16 } }, "Try it: What comes next?"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 16, lineHeight: 1.6 } },
+      "Look at the phrase below. Before clicking anything, think about what word YOU would put next. Then see what the probabilities say."
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", borderRadius: 12, padding: 24, border: "1px solid var(--border)", marginBottom: 20 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: "var(--text-primary)", marginBottom: 20, textAlign: "center" } },
+        "\"", phrase.start, " ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-muted)", borderBottom: "2px dashed var(--border)", paddingBottom: 2 } }, "___"), "\""
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+        phrase.options.map((opt, i) => /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 8, background: "var(--surface)", border: "1px solid var(--border)" } },
+          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, minWidth: 90, color: "var(--text-primary)" } }, opt.word),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--border)", borderRadius: 6, height: 20, overflow: "hidden" } },
+            /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: "linear-gradient(90deg, #6366f1, #8b5cf6)", borderRadius: 6, transition: "width 0.6s ease" } })
+          ),
+          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 14, color: "var(--text-secondary)", minWidth: 40, textAlign: "right" } }, opt.pct + "%")
+        ))
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
+        phrases.map((_, i) => /*#__PURE__*/React.createElement("button", {
+          key: i,
+          onClick: () => setPhraseIdx(i),
+          style: { width: 10, height: 10, borderRadius: "50%", border: "none", cursor: "pointer", background: i === phraseIdx ? "#6366f1" : "var(--border)" }
+        }))
+      )
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginBottom: 20 } },
+      /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 700, color: "#4338ca", marginBottom: 8 } }, "The key insight"),
+      /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 15 } },
+        "Notice how you instinctively knew what word \"should\" come next? That's because your brain has seen these phrases hundreds of times and learned the pattern. AI does the same thing — it just does it with math. It has read billions of sentences and calculated exactly how often each word follows every other combination of words. When it generates text, it's not creating ideas. It's rolling weighted dice, where the weights come from patterns in all the text it was trained on."
+      )
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "2px solid #fca5a5", borderRadius: 12, padding: "20px 24px", marginTop: 4, textAlign: "center" } },
+      /*#__PURE__*/React.createElement("p", { style: { color: "#991b1b", lineHeight: 1.7, fontSize: 17, fontWeight: 600, margin: 0 } },
+        "This is why AI can write fluent text but sometimes gets facts wrong — it's optimized for ", /*#__PURE__*/React.createElement("em", null, "what sounds right"), ", not ", /*#__PURE__*/React.createElement("em", null, "what is right"), "."
+      ),
+      /*#__PURE__*/React.createElement("p", { style: { color: "#7f1d1d", lineHeight: 1.6, fontSize: 14, marginTop: 8, marginBottom: 0 } },
+        "Keep this in mind as we explore how it all works in the sections ahead."
+      )
+    )
+  );
+}
 function PredictSection() {
   const [promptIdx, setPromptIdx] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -369,20 +451,20 @@ function PredictSection() {
   }, "Next Sentence \u2192")));
 }
 const TRAINING_QUIZ = [{
-  prompt: "What is photosynthesis?",
-  response: "What is photosynthesis? Photosynthesis is essential for life on Earth. The word comes from the Greek words for light and putting together. In this article, we will explore...",
+  prompt: "How do I shoot a basketball?",
+  response: "How do I shoot a basketball? The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover the basics of shooting form, including stance, grip, and follow-through...",
   answer: "base",
-  explain: "It just keeps going like a textbook article. Completing text, not answering a question."
+  explain: "It just keeps going like a how-to article. Completing text, not answering a person."
 }, {
-  prompt: "What is photosynthesis?",
-  response: "Photosynthesis is the process by which plants convert sunlight, water, and CO2 into glucose and oxygen. It occurs in the chloroplasts of plant cells.",
+  prompt: "How do I shoot a basketball?",
+  response: "Stand with feet shoulder-width apart. Hold the ball with your shooting hand under it and guide hand on the side. Bend your knees, extend your arm, and flick your wrist to release.",
   answer: "sft",
-  explain: "Clean, direct answer. SFT taught it to respond to questions instead of continuing text."
+  explain: "Clean, step-by-step answer. SFT taught it to respond to questions instead of continuing text."
 }, {
-  prompt: "What is photosynthesis?",
-  response: "Photosynthesis is how plants make food from sunlight! Want me to break down the light reactions vs the Calvin cycle?",
+  prompt: "How do I shoot a basketball?",
+  response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you're reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?",
   answer: "rlhf",
-  explain: "Friendly, adapts complexity, offers to go deeper. RLHF taught it to be genuinely helpful."
+  explain: "Friendly, relatable analogy, offers to go deeper. RLHF taught it to be genuinely helpful and engaging."
 }, {
   prompt: "How do I pick a lock?",
   response: "How do I pick a lock? First, you need a tension wrench and a pick. Insert the wrench into the keyhole and apply pressure...",
@@ -440,25 +522,25 @@ function TrainingSection() {
     title: "Gather the data",
     desc: "Scoop up billions of pages of text — books, websites, articles, code, conversations. This is the model's \"curriculum.\""
   }, {
-    icon: "🧠",
+    icon: "📚",
     title: "Learn the patterns",
     desc: "The model reads a sentence, hides the next word (just like the Predict module!), and tries to guess it. If it's wrong, it adjusts its internal weights. Repeat this billions of times."
   }, {
-    icon: "⚖️",
-    title: "Adjust the weights",
-    desc: "The model has billions of numerical \"knobs\" (parameters). Each wrong guess tweaks these knobs slightly, gradually improving predictions. This is how the model learns which words tend to follow which other words."
+    icon: "📚",
+    title: "Adjust the weights (parameters)",
+    desc: "Think of learning to shoot a basketball \u2014 each miss, you tweak your elbow angle, your aim, your power. After thousands of shots, those adjustments become muscle memory. Parameters are the AI version of this. Each wrong word prediction tweaks tiny numbers inside the model. After billions of predictions, those numbers \u2014 called parameters \u2014 settle into patterns that capture everything the model learned. One parameter is meaningless, but billions working together is where the magic happens. When you see \"70B\" or \"400B\" in the news, that's how many of these tiny adjustments the model carries."
   }, {
-    icon: "🔁",
+    icon: "📚",
     title: "Repeat at massive scale",
     desc: "This process runs on thousands of GPUs for weeks or months. Cost: millions of dollars. The result is a base model — it's great at predicting text, but it doesn't know how to be a helpful assistant yet. That takes two more steps."
   }, {
     icon: "✍️",
-    title: "Fine-tune with human examples (SFT)",
+    title: "Supervised Fine-Tuning (SFT)",
     desc: "Humans write examples of ideal conversations: \"If someone asks X, here's a good answer.\" The model learns to follow that format instead of just completing text randomly. This is called Supervised Fine-Tuning, and it's why Claude responds like a helpful assistant instead of just spitting out the next most likely word."
   }, {
     icon: "👍",
-    title: "Learn from human feedback (RLHF)",
-    desc: "The model generates multiple answers, and humans rank which ones are better. The model learns from those rankings. This is how it learns to be helpful, honest, and to avoid harmful content. Pre-training gives the model knowledge, SFT gives it format, RLHF gives it values. It's also why different AI companies' models behave differently — they were shaped by different human feedback."
+    title: "Reinforcement Learning from Human Feedback (RLHF)",
+    desc: "The model generates multiple answers to the same question, and human reviewers rank which ones are better. Over thousands of these rankings, the model learns what \"good\" behavior looks like: be helpful (actually answer the question), be honest (say \"I don't know\" instead of guessing), be safe (don't help with dangerous requests), and acknowledge limits. This is why Claude, ChatGPT, and Gemini all feel different even though they're built on similar technology \u2014 they were each shaped by different human feedback reflecting different priorities. You can't just train a model on more data and get a better assistant. You need humans in the loop deciding what \"better\" means."
   }];
   const item = TRAINING_QUIZ[quizIdx];
   const hasGuessed = guess !== null;
@@ -831,15 +913,35 @@ function TrainingSection() {
       lineHeight: 1.6,
       marginTop: 16
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Pre-training gives knowledge. SFT gives format. RLHF gives values.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Pre-training gives knowledge. SFT gives format. RLHF gives values.")), "\uD83D\uDCA1 Once all three phases are done, the model is ", /*#__PURE__*/React.createElement("strong", null, "frozen"), ". It can't learn new things from your conversations. That's why models have a \"knowledge cutoff date\" \u2014 they only know what existed in their training data. Using the trained model to answer your questions is called ", /*#__PURE__*/React.createElement("strong", null, "inference"), ", and you'll see exactly how that works in the Inference module."));
+  },
+  /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr auto 1fr auto 1fr auto 1fr", alignItems: "center", gap: 8, margin: "20px 0 24px" } },
+    /*#__PURE__*/React.createElement("div", { style: { background: "#ede9fe", border: "2px solid #8b5cf6", borderRadius: 12, padding: "14px 12px", textAlign: "center" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 28 } }, "\uD83D\uDCDA"),
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#5b21b6", fontSize: 14, marginTop: 4 } }, "Pre-training"),
+      /*#__PURE__*/React.createElement("div", { style: { color: "#6d28d9", fontSize: 12, marginTop: 2 } }, "Gives knowledge")
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, color: "var(--text-muted)" } }, "\u2192"),
+    /*#__PURE__*/React.createElement("div", { style: { background: "#fef3c7", border: "2px solid #f59e0b", borderRadius: 12, padding: "14px 12px", textAlign: "center" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 28 } }, "\u270D\uFE0F"),
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#92400e", fontSize: 13, marginTop: 4, lineHeight: 1.3 } }, "Supervised Fine-Tuning"),
+      /*#__PURE__*/React.createElement("div", { style: { color: "#a16207", fontSize: 12, marginTop: 2 } }, "Gives format")
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, color: "var(--text-muted)" } }, "\u2192"),
+    /*#__PURE__*/React.createElement("div", { style: { background: "#dcfce7", border: "2px solid #22c55e", borderRadius: 12, padding: "14px 12px", textAlign: "center" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 28 } }, "\uD83D\uDC4D"),
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#166534", fontSize: 13, marginTop: 4, lineHeight: 1.3 } }, "Reinforcement Learning from Human Feedback"),
+      /*#__PURE__*/React.createElement("div", { style: { color: "#15803d", fontSize: 12, marginTop: 2 } }, "Gives values")
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, color: "var(--text-muted)" } }, "\u2192"),
+    /*#__PURE__*/React.createElement("div", { style: { background: "#e0e7ff", border: "2px solid #6366f1", borderRadius: 12, padding: "14px 12px", textAlign: "center" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 28 } }, "\u2744\uFE0F"),
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#3730a3", fontSize: 14, marginTop: 4 } }, "Frozen Model"),
+      /*#__PURE__*/React.createElement("div", { style: { color: "#4338ca", fontSize: 12, marginTop: 2 } }, "Ready for inference")
+    )
+  ),
+  /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.7, fontSize: 14, textAlign: "center", marginTop: 0 } },
+    "\uD83D\uDCA1 Once all three phases are done, the model is ", /*#__PURE__*/React.createElement("strong", null, "frozen"), ". It can't learn new things from your conversations. That's why models have a \"knowledge cutoff date\" \u2014 they only know what existed in their training data. Using the trained model to answer your questions is called ", /*#__PURE__*/React.createElement("strong", null, "inference"), ", and you'll see exactly how that works in the Inference module."
+  )));
 }
 const COLORS = ["#6366f1", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 const T = (t, id) => ({
@@ -1147,10 +1249,6 @@ function TokenSection() {
       lineHeight: 1.6
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "The model never reads words. It works with numbers.")), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 10
     }
@@ -1641,10 +1739,6 @@ function EmbeddingsSection() {
       lineHeight: 1.6
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Similar meanings live near each other in number space.")), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 10
     }
@@ -2526,10 +2620,6 @@ function TransformSection() {
       lineHeight: 1.6
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Attention gathers context. Transformation interprets it.")), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 10
     }
@@ -3649,6 +3739,7 @@ function HallucinationSection() {
   }, "\uD83D\uDCA1 ", score.correct / score.total >= 0.8 ? "Great eye! But notice how hard you had to think on some of these. That's the point — hallucinated text is designed (by accident) to be indistinguishable from real text. In real life, you won't have a \"Real or Hallucinated\" button. Always verify important claims from AI." : "This is tricky, right? That's exactly the point. Hallucinated text looks and feels identical to accurate text. The model isn't trying to fool you — it genuinely doesn't know the difference between real and made-up information. It just knows what sounds right. Always verify important claims from AI."));
 }
 const SECTION_COMPONENTS = {
+  probability: ProbabilitySection,
   predict: PredictSection,
   training: TrainingSection,
   tokens: TokenSection,
@@ -3662,7 +3753,7 @@ const SECTION_COMPONENTS = {
   hallucination: HallucinationSection
 };
 function LLMExplorer() {
-  const [activeSection, setActiveSection] = useState("predict");
+  const [activeSection, setActiveSection] = useState("probability");
   const Component = SECTION_COMPONENTS[activeSection];
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   return /*#__PURE__*/React.createElement("div", {

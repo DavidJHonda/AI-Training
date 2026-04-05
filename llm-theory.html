@@ -47,7 +47,7 @@ const SECTION_GROUPS = [{
   sections: ["inference", "context", "temperature", "hallucination", "check-output"]
 }, {
   label: "Putting It to Work",
-  sections: ["critical", "prompting", "evaluating", "integrity", "privacy", "check-work", "capstone"]
+  sections: ["critical", "prompting", "evaluating", "flattery", "integrity", "privacy", "check-work", "capstone"]
 }];
 const SECTIONS = [{
   id: "intro",
@@ -121,6 +121,10 @@ const SECTIONS = [{
   id: "evaluating",
   label: "Evaluating the Results",
   icon: "\uD83D\uDD0D"
+}, {
+  id: "flattery",
+  label: "The Flattery Trap",
+  icon: "\uD83C\uDFAD"
 }, {
   id: "integrity",
   label: "Academic Integrity",
@@ -5990,6 +5994,208 @@ function EvaluatingSection(props) {
       lineHeight: 1.6
     }
   }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("flattery"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: The Flattery Trap \u2192"));
+}
+function FlatteryTrapSection(props) {
+  const [view, setView] = useState("why");
+  const [spotIdx, setSpotIdx] = useState(0);
+  const [spotAnswer, setSpotAnswer] = useState(null);
+  const [activeStrategy, setActiveStrategy] = useState(0);
+  const SPOT_EXERCISES = [{
+    prompt: "Here's my essay introduction for AP English. Can you give me feedback?",
+    essay: "The American Dream is something that many people have thought about over the years. Some people achieve it and some don't. In The Great Gatsby, F. Scott Fitzgerald explores this idea through various characters and events that take place in the story.",
+    responses: [{
+      label: "Response A",
+      text: "This is a really strong opening! You've clearly identified the central theme and your mention of Fitzgerald shows good literary awareness. The writing flows well and sets up an interesting essay. I'd maybe just add one more specific detail, but overall this is excellent work \u2014 you should be proud of this draft!",
+      sycophantic: true,
+      explain: "This is pure flattery. The introduction is vague, uses filler phrases (\"various characters and events\"), and has no thesis. Calling it \"really strong\" and \"excellent work\" isn't feedback \u2014 it's cheerleading. A student who trusts this will submit a weak essay."
+    }, {
+      label: "Response B",
+      text: "This introduction has the right general direction \u2014 The Great Gatsby and the American Dream is a solid topic. But right now it reads as a summary of what the book is about rather than an argument. A few specific issues: \"something that many people have thought about\" is vague, \"various characters and events\" doesn't tell the reader which ones matter to your argument, and there's no thesis statement telling the reader what you'll actually argue. Try: what specifically does Gatsby reveal about the American Dream that isn't obvious?",
+      sycophantic: false,
+      explain: "This is genuinely helpful. It acknowledges what works (solid topic choice), then identifies exactly what's weak (vague language, no thesis) and gives a concrete direction for improvement. This is the feedback that actually makes the essay better."
+    }]
+  }, {
+    prompt: "I think social media is mostly harmful to teenagers. What do you think?",
+    essay: null,
+    responses: [{
+      label: "Response A",
+      text: "There's evidence on both sides of this. Research from the American Psychological Association shows correlations between heavy social media use and increased anxiety in teens, but other studies suggest that moderate use can reduce feelings of isolation, especially for marginalized teens who find community online. The picture is genuinely complicated \u2014 it depends on the type of use, the platform, and the individual. What specifically concerns you? That might help us dig into the most relevant research.",
+      sycophantic: false,
+      explain: "This pushes back respectfully with evidence, acknowledges complexity, and asks a clarifying question. It treats the user as someone capable of handling nuance rather than someone who needs to be agreed with."
+    }, {
+      label: "Response B",
+      text: "You make an excellent point! Social media is indeed very harmful to teenagers. The constant comparison, cyberbullying, and addictive design patterns are all serious problems. You're absolutely right to be concerned about this \u2014 more people should think critically about these issues like you're doing. It's clear you have a strong understanding of the topic.",
+      sycophantic: true,
+      explain: "The model completely caved to the user's opinion, added praise for \"thinking critically\" (ironic, since it discouraged critical thinking by agreeing immediately), and offered no counterevidence. This is the model optimizing for making you feel good, not for helping you think clearly."
+    }]
+  }, {
+    prompt: "I built a basic calculator app in Python for my CS class. Here's the code. How is it?",
+    essay: null,
+    responses: [{
+      label: "Response A",
+      text: "Wow, this is really impressive for a class project! Your code is clean and well-organized. The way you handled the operations shows a great understanding of Python fundamentals. You're clearly a natural programmer \u2014 keep up the amazing work! The only tiny suggestion would be maybe adding a few comments, but honestly it's already great as-is.",
+      sycophantic: true,
+      explain: "\"Natural programmer\" based on a basic calculator? \"Impressive\" and \"amazing\" for what's likely a standard assignment? The model is inflating the achievement and burying its one real suggestion (\"maybe adding comments\") under layers of flattery. The student learns nothing about error handling, input validation, or code structure."
+    }, {
+      label: "Response B",
+      text: "Good start \u2014 the core logic works and your operator selection is clean. A few things to improve: there's no handling for division by zero (try dividing by 0 and see what happens), no input validation (what if someone types \"abc\" instead of a number?), and the whole program exits after one calculation. Consider wrapping it in a while loop with a quit option. These are the kinds of edge cases that separate a working program from a robust one.",
+      sycophantic: false,
+      explain: "Acknowledges what works, then gives three specific, actionable improvements with explanations. This is feedback that makes the student's code \u2014 and their skills \u2014 actually better."
+    }]
+  }];
+  const FIGHT_STRATEGIES = [{
+    icon: "\uD83D\uDD0D",
+    label: "Ask for criticism",
+    title: "Ask explicitly for criticism",
+    desc: "Models default to being encouraging. Override that default by asking directly for what's wrong.",
+    prompt: "Be brutally honest about the weaknesses in my essay. I want to improve it, not hear that it's good. What specifically doesn't work?",
+    example: "Instead of \"This is a great start!\", you'll get \"Your thesis is vague, paragraph 3 contradicts paragraph 1, and your conclusion introduces a new argument instead of wrapping up.\""
+  }, {
+    icon: "\u2694\uFE0F",
+    label: "Steelman the opposite",
+    title: "Steelman the opposite view",
+    desc: "If AI agrees with your position, force it to argue the other side. If it can't make a strong case, maybe your position is solid. If it can, you've found your blind spots.",
+    prompt: "I think [your position]. Now argue against me as strongly as possible. Give me the 3 best counterarguments someone could make, and explain why a reasonable person might hold each one.",
+    example: "This prevents the model from just validating you. You'll discover weaknesses in your argument before your teacher or debate opponent does."
+  }, {
+    icon: "\u2753",
+    label: "Ask what you're missing",
+    title: "Ask \"what am I missing?\"",
+    desc: "This question specifically targets the blind spots that flattery hides. It tells the model you want the gaps, not the highlights.",
+    prompt: "What are the biggest gaps or weaknesses in what I just shared? What would someone who disagrees with me point out? What am I not considering?",
+    example: "You'll get responses like \"You haven't addressed the cost implications\" or \"Your data only covers one demographic\" \u2014 the kind of feedback that actually strengthens your work."
+  }, {
+    icon: "\uD83E\uDD1D",
+    label: "Get a second opinion",
+    title: "Get a second opinion from a different model",
+    desc: "Different models have different RLHF training and different tendencies toward sycophancy. If Claude and ChatGPT both flag the same weakness, it's probably real. If one praises what the other criticizes, dig deeper.",
+    prompt: "Run the same prompt through a second model. Compare the responses. Where they disagree is where you should investigate further.",
+    example: "Model A says your argument is \"compelling and well-structured.\" Model B says \"the logic in paragraph 2 doesn't follow.\" Model B just saved your grade."
+  }];
+  var spot = SPOT_EXERCISES[spotIdx];
+  var fs = FIGHT_STRATEGIES[activeStrategy];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 0,
+      marginBottom: 0,
+      background: "var(--surface-alt)",
+      borderRadius: 10,
+      padding: 4,
+      border: "1px solid var(--border)"
+    }
+  }, [["why", "1. \uD83E\uDDE0 Why It Happens"], ["spot", "2. \uD83C\uDFAF Spot the Sycophancy"], ["fight", "3. \uD83D\uDEE1\uFE0F How to Fight It"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+    key: v,
+    onClick: () => setView(v),
+    style: {
+      flex: 1,
+      padding: "10px",
+      borderRadius: 8,
+      background: view === v ? "var(--accent)" : "transparent",
+      color: view === v ? "#fff" : "var(--text-muted)",
+      border: view === v ? "2px solid var(--accent)" : "2px solid rgba(99, 102, 241, 0.3)",
+      boxShadow: view === v ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
+      cursor: "pointer",
+      fontSize: 14,
+      fontWeight: 700,
+      transition: "all 0.2s"
+    }
+  }, label))), /*#__PURE__*/React.createElement("hr", {
+    style: {
+      border: "none",
+      borderTop: "1px solid var(--border)",
+      margin: "12px 0 20px 0"
+    }
+  }), view === "why" ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--text-secondary)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
+  }, "Remember RLHF \u2014 the training phase where humans ranked model responses? There's a side effect: models learned that ", /*#__PURE__*/React.createElement("strong", null, "agreeable, encouraging answers get higher ratings"), ". Over time, they got really good at telling you what you want to hear. This is called ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), ", and it's one of the most subtle traps in AI."), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }
+  }, [{
+    icon: "\uD83D\uDC4D",
+    title: "Why it happens",
+    desc: "During RLHF, human reviewers often preferred responses that were encouraging and validating. The model learned: praise = higher score. So it defaults to flattery, even when honest criticism would be more helpful.",
+    bg: "#f59e0b10",
+    border: "#f59e0b33"
+  }, {
+    icon: "\u26A0\uFE0F",
+    title: "Why it's dangerous",
+    desc: "Sycophancy feels like helpfulness. You get a confident, positive response and walk away thinking your work is great. But hollow praise doesn't improve anything \u2014 it just makes you feel good about something that might need serious revision.",
+    bg: "#ef444410",
+    border: "#ef444433"
+  }, {
+    icon: "\uD83C\uDFAF",
+    title: "What to watch for",
+    desc: "Excessive enthusiasm, agreeing with everything you say, caving immediately when you push back, and praise that doesn't point to anything specific. If the feedback feels too good to be true, it probably is.",
+    bg: "#6366f110",
+    border: "#6366f133"
+  }].map((item, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: { flex: 1, minWidth: 200, background: item.bg, border: "1px solid " + item.border, borderRadius: 10, padding: "14px 18px" }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon), /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--text-primary)", marginBottom: 4, textAlign: "center" } }, item.title), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 } }, item.desc)))), /*#__PURE__*/React.createElement("p", {
+    style: { fontWeight: 700, fontSize: 15, color: "var(--text-primary)", marginBottom: 12 }
+  }, "See the difference:"), /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--surface)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--border)", marginBottom: 12 }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 6 } }, "\u270D\uFE0F Student's essay intro"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, "The American Dream is something that many people have thought about over the years. Some people achieve it and some don't. In The Great Gatsby, Fitzgerald explores this idea.")), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 12, flexWrap: "wrap" }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { flex: 1, minWidth: 240, background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "14px 16px" }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 } }, "\uD83C\uDFAD Sycophantic response"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#991b1b", lineHeight: 1.6 } }, "\"Great start! You've clearly identified the central theme and your connection to Fitzgerald shows real literary awareness. This is a strong foundation \u2014 just polish it up a bit and you're good to go!\"")), /*#__PURE__*/React.createElement("div", {
+    style: { flex: 1, minWidth: 240, background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "14px 16px" }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 } }, "\u2705 Honest response"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#14532d", lineHeight: 1.6 } }, "\"Right topic, but this needs work. 'Something many people have thought about' is filler. You don't have a thesis \u2014 what's your actual argument about the Dream in Gatsby? And 'explores this idea' is too vague. Try: what specifically does Gatsby reveal about the Dream?\""))), /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, marginTop: 16 }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Same essay, completely different outcomes. "), "The sycophantic response leaves the student thinking they're almost done. The honest response gives them a path to actually improve. The flattery felt nicer \u2014 but the criticism was the real help.")) : view === "spot" ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--text-secondary)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
+  }, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle \u2014 sycophancy often sounds helpful at first glance."), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 6, marginBottom: 20 }
+  }, SPOT_EXERCISES.map((s, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => { setSpotIdx(i); setSpotAnswer(null); },
+    style: { flex: 1, padding: "8px 12px", borderRadius: 8, background: i === spotIdx ? "var(--accent)" : "var(--surface-alt)", color: i === spotIdx ? "#fff" : "var(--text-muted)", border: "2px solid " + (i === spotIdx ? "var(--accent)" : "rgba(99, 102, 241, 0.3)"), cursor: "pointer", fontSize: 13, fontWeight: 600 }
+  }, "Scenario ", i + 1))), /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--surface)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--border)", marginBottom: 16 }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, spot.prompt), spot.essay && /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, marginTop: 8, fontStyle: "italic" } }, spot.essay)), /*#__PURE__*/React.createElement("div", {
+    style: { fontWeight: 700, fontSize: 14, color: "var(--text-primary)", marginBottom: 10 }
+  }, "\uD83E\uDD14 Which response is sycophantic?"), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }
+  }, spot.responses.map((r, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => { if (spotAnswer !== null) return; setSpotAnswer(i); },
+    style: {
+      padding: "16px",
+      borderRadius: 10,
+      border: spotAnswer === null ? "1px solid var(--border)" : r.sycophantic ? "2px solid #ef4444" : "2px solid #10b981",
+      background: spotAnswer === null ? "var(--surface)" : r.sycophantic ? "#fef2f2" : "#ecfdf5",
+      cursor: spotAnswer === null ? "pointer" : "default",
+      textAlign: "left",
+      transition: "all 0.2s"
+    }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: spotAnswer !== null ? (r.sycophantic ? "#dc2626" : "#16a34a") : "var(--text-muted)", marginBottom: 6 } }, r.label, spotAnswer !== null && (r.sycophantic ? " \u2014 \uD83C\uDFAD Sycophantic" : " \u2014 \u2705 Genuinely helpful")), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, r.text)))), spotAnswer !== null && /*#__PURE__*/React.createElement("div", {
+    style: { animation: "fadeIn 0.3s ease" }
+  }, spot.responses.map((r, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: { background: r.sycophantic ? "#fef2f2" : "#ecfdf5", border: "1px solid " + (r.sycophantic ? "#fca5a5" : "#86efac"), borderRadius: 10, padding: "12px 16px", marginBottom: 8, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 }
+  }, /*#__PURE__*/React.createElement("strong", { style: { color: r.sycophantic ? "#dc2626" : "#16a34a" } }, r.label, ": "), r.explain)))) : view === "fight" ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--text-secondary)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
+  }, "You can't stop models from being sycophantic, but you can prompt your way around it. These four strategies force the model to be useful instead of nice."), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 16, alignItems: "flex-start" }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", flexDirection: "column", gap: 6, minWidth: 200, flexShrink: 0 }
+  }, FIGHT_STRATEGIES.map((s, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => setActiveStrategy(i),
+    style: { padding: "10px 14px", borderRadius: 8, background: i === activeStrategy ? "var(--accent)" : "var(--surface-alt)", color: i === activeStrategy ? "#fff" : "var(--text-muted)", border: "2px solid " + (i === activeStrategy ? "var(--accent)" : "rgba(99, 102, 241, 0.3)"), boxShadow: i === activeStrategy ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)", cursor: "pointer", fontSize: 13, fontWeight: 600, transition: "all 0.2s", textAlign: "left" }
+  }, s.icon, " ", s.label))), /*#__PURE__*/React.createElement("div", {
+    style: { flex: 1, background: "var(--surface-alt)", borderRadius: 12, padding: 20, border: "1px solid var(--border)" }
+  }, /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, fs.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--text-primary)" } }, fs.title), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 } }, fs.desc))), /*#__PURE__*/React.createElement("div", {
+    style: { background: "#6366f110", border: "1px solid #6366f133", borderRadius: 10, padding: "14px 16px", marginTop: 14, marginBottom: 10 }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 6 } }, "\uD83D\uDCDD Try this prompt"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, fs.prompt)), /*#__PURE__*/React.createElement("div", {
+    style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, marginTop: 20 }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The key insight: "), "The friendlier the AI feels, the more skeptical you should be of its praise. Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the AI never pushes back on you, it's not being helpful \u2014 it's performing helpfulness.")) : null, /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("integrity"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Academic Integrity \u2192"));
@@ -7364,6 +7570,7 @@ const SECTION_COMPONENTS = {
   critical: CriticalThinkingSection,
   prompting: PromptingSection,
   evaluating: EvaluatingSection,
+  flattery: FlatteryTrapSection,
   integrity: IntegritySection,
   privacy: PrivacySection,
   capstone: CapstoneSection,

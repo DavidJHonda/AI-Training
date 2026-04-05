@@ -47,7 +47,7 @@ const SECTION_GROUPS = [{
   sections: ["inference", "context", "temperature", "hallucination", "check-output"]
 }, {
   label: "Putting It to Work",
-  sections: ["critical", "prompting", "evaluating", "integrity", "privacy", "capstone"]
+  sections: ["critical", "prompting", "evaluating", "integrity", "privacy", "check-work", "capstone"]
 }];
 const SECTIONS = [{
   id: "intro",
@@ -129,6 +129,10 @@ const SECTIONS = [{
   id: "privacy",
   label: "Privacy & Awareness",
   icon: "\uD83D\uDD12"
+}, {
+  id: "check-work",
+  label: "Checkpoint",
+  icon: "\u2705"
 }, {
   id: "capstone",
   label: "Putting It All Together",
@@ -297,7 +301,7 @@ function IntroSection(props) {
     }
   }, t.linkLabel)))))));
 }
-function AIvsCodeSection() {
+function AIvsCodeSection(props) {
   const [step, setStep] = useState(0);
   const scenarios = [
     {
@@ -423,10 +427,14 @@ function AIvsCodeSection() {
       /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 15 } },
         "Every rule we tried was reasonable \u2014 and every one broke. IF-THEN rules are ", /*#__PURE__*/React.createElement("strong", null, "brittle"), ": they only catch exactly what you told them to catch. AI learns the ", /*#__PURE__*/React.createElement("em", null, "pattern"), " behind spam, so it handles tricks and edge cases it's never seen before. But there's a tradeoff: you can read and understand every IF-THEN rule, while AI's \"reasoning\" is locked inside billions of numbers. That's the fundamental shift \u2014 from programs we write to systems that learn."
       )
-    )
+    ),
+    /*#__PURE__*/React.createElement("button", {
+      onClick: () => props.onNavigate && props.onNavigate("data"),
+      style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+    }, "Next: Data \u2192")
   );
 }
-function DataSection() {
+function DataSection(props) {
   const [view, setView] = useState("input");
   const [activeExample, setActiveExample] = useState(0);
   const [aiParsed, setAiParsed] = useState(false);
@@ -632,7 +640,11 @@ function DataSection() {
       /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 15 } },
         "Traditional programs are like a librarian who can only file and retrieve books \u2014 they need everything labeled and shelved correctly. AI is more like a person who can ", /*#__PURE__*/React.createElement("em", null, "read"), " the books, ", /*#__PURE__*/React.createElement("em", null, "look at"), " photos, ", /*#__PURE__*/React.createElement("em", null, "listen to"), " recordings, and then ", /*#__PURE__*/React.createElement("em", null, "write"), " you a summary in whatever format you need. But how does it actually do this? It all comes back to ", /*#__PURE__*/React.createElement("strong", null, "probability and patterns"), " \u2014 which is what we'll explore next."
       )
-    )
+    ),
+    /*#__PURE__*/React.createElement("button", {
+      onClick: () => props.onNavigate && props.onNavigate("training"),
+      style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+    }, "Next: Training \u2192")
   );
 }
 function ProbabilitySection(props) {
@@ -748,9 +760,9 @@ function ProbabilitySection(props) {
             style: { padding: "10px 24px", borderRadius: 8, background: "var(--surface-alt)", color: "var(--text-secondary)", border: "1px solid var(--border)", cursor: "pointer", fontSize: 14, fontWeight: 600 }
           }, "\u21BB Start Over"),
           isLastPhrase && props.onNavigate && /*#__PURE__*/React.createElement("button", {
-            onClick: function() { props.onNavigate("training"); },
+            onClick: function() { props.onNavigate("check-foundations"); },
             style: { padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
-          }, "Next Section: Training \u2192")
+          }, "Next: Checkpoint \u2192")
         )
       ),
       !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
@@ -940,7 +952,7 @@ function BiasQuiz() {
     )
   );
 }
-function TrainingSection() {
+function TrainingSection(props) {
   const [view, setView] = useState("steps");
   const [matchIdx, setMatchIdx] = useState(0);
   const [assignments, setAssignments] = useState({});
@@ -1260,7 +1272,10 @@ function TrainingSection() {
   ),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.7, fontSize: 14, textAlign: "center", marginTop: 8 } },
     "\uD83D\uDCA1 Once all three phases are done, the model is ", /*#__PURE__*/React.createElement("strong", null, "frozen"), ". It can't learn new things from your conversations. That's why models have a \"knowledge cutoff date\" \u2014 they only know what existed in their training data. Using the trained model to answer your questions is called ", /*#__PURE__*/React.createElement("strong", null, "inference"), ", and you'll see exactly how that works in the Inference module."
-  )));
+  )), /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("probability"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Probability \u2192"));
 }
 const COLORS = ["#6366f1", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 const T = (t, id) => ({
@@ -1305,7 +1320,7 @@ const CATEGORIES = {
   "Slang": ["lol", "bruh moment", "rizz", "skibidi"],
   "Sentences": ["Hello world", "She sells seashells by the seashore", "To be or not to be"]
 };
-function TokenSection() {
+function TokenSection(props) {
   const [input, setInput] = useState("unbelievable");
   const showIds = true;
   const [tokenObjs, setTokenObjs] = useState(TOKENS["unbelievable"]);
@@ -1560,7 +1575,10 @@ function TokenSection() {
       fontSize: 13,
       color: "var(--text-muted)"
     }
-  }, "Try one of the ", Object.values(CATEGORIES).flat().length, "+ examples above to explore how tokenization works.")));
+  }, "Try one of the ", Object.values(CATEGORIES).flat().length, "+ examples above to explore how tokenization works.")), /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("embeddings"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Embeddings \u2192"));
 }
 const EMBEDDING_WORDS = [{
   word: "king",
@@ -1686,7 +1704,7 @@ const MATH_EXAMPLES = [{
   result: "sad",
   explain: "Swap the valence from positive to negative, and \"happy\" becomes \"sad.\" Emotional relationships are encoded as directions, just like gender and geography. This is why LLMs can reason about sentiment."
 }];
-function EmbeddingsSection() {
+function EmbeddingsSection(props) {
   const [view, setView] = useState("math");
   const [mathIdx, setMathIdx] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -2073,7 +2091,10 @@ function EmbeddingsSection() {
     style: {
       marginBottom: 10
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Similar meanings live near each other in number space.")), "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Embeddings are the bridge."), " Tokenization turns text into numbers, but embeddings turn those numbers into ", /*#__PURE__*/React.createElement("em", null, "meaning"), ". These vectors are what actually flow into the layers you'll explore in the next modules. Without embeddings, attention would have nothing meaningful to attend to."));
+  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Similar meanings live near each other in number space.")), "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Embeddings are the bridge."), " Tokenization turns text into numbers, but embeddings turn those numbers into ", /*#__PURE__*/React.createElement("em", null, "meaning"), ". These vectors are what actually flow into the layers you'll explore in the next modules. Without embeddings, attention would have nothing meaningful to attend to."), /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("layers"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Layers \u2192"));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -2165,7 +2186,7 @@ const LAYER_WORDS = {
   }
 };
 const LAYER_EXAMPLES = Object.keys(LAYER_WORDS);
-function LayersSection() {
+function LayersSection(props) {
   const [view, setView] = useState("overview");
   const [activeWord, setActiveWord] = useState("bank");
   const [activeLayer, setActiveLayer] = useState(0);
@@ -2550,7 +2571,10 @@ function LayersSection() {
     style: {
       marginBottom: 10
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually. Use the ", /*#__PURE__*/React.createElement("strong", null, "Attention"), " and ", /*#__PURE__*/React.createElement("strong", null, "Transform"), " tabs above to zoom into each step.")), view === "attention" && /*#__PURE__*/React.createElement(AttentionSection, null), view === "transform" && /*#__PURE__*/React.createElement(TransformSection, null));
+  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually. Use the ", /*#__PURE__*/React.createElement("strong", null, "Attention"), " and ", /*#__PURE__*/React.createElement("strong", null, "Transform"), " tabs above to zoom into each step.")), view === "attention" && /*#__PURE__*/React.createElement(AttentionSection, null), view === "transform" && /*#__PURE__*/React.createElement(TransformSection, null), /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("check-model"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Checkpoint \u2192"));
 }
 const ATTENTION_EXAMPLES = [{
   sentence: ["The", "cat", "sat", "on", "the", "mat", "because", "it", "was", "tired"],
@@ -2893,7 +2917,7 @@ function TransformSection() {
     }
   }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Attention gathers context. Transform interprets it.")), "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "They work as a team."), " Attention decides what context is relevant. Transform decides what that context means. Neither works alone. This two-step process repeats in every layer, refining the meaning a little further each time \u2014 which is exactly what you saw in the Overview."));
 }
-function InferenceSection() {
+function InferenceSection(props) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = [{
     icon: "💬",
@@ -3158,7 +3182,10 @@ function InferenceSection() {
       fontSize: 12,
       color: "var(--text-muted)"
     }
-  }, "Happens every chat"))));
+  }, "Happens every chat"))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("context"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Context \u2192"));
 }
 const CONTEXT_EXAMPLES = [{
   label: "No context",
@@ -3207,7 +3234,7 @@ const CONTEXT_WINDOW_FACTS = [{
   words: "~150,000",
   analogy: "2-3 novels"
 }];
-function ContextSection() {
+function ContextSection(props) {
   const [activeExample, setActiveExample] = useState(0);
   const [view, setView] = useState("what");
   const ex = CONTEXT_EXAMPLES[activeExample];
@@ -3650,7 +3677,10 @@ function ContextSection() {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", ex.explain)) : null);
+  }, "\uD83D\uDCA1 ", ex.explain)) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("temperature"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Temperature \u2192"));
 }
 const TEMP_OUTPUTS = {
   "Once upon a time": {
@@ -3675,7 +3705,7 @@ const TEMP_OUTPUTS = {
   },
 };
 const TEMP_PROMPTS = ["Once upon a time", "The best programming language is", "The secret to a great pizza is", "If cats could talk they would say"];
-function TemperatureSection() {
+function TemperatureSection(props) {
   const [temp, setTemp] = useState(0);
   const [promptIdx, setPromptIdx] = useState(0);
   const [view, setView] = useState("temp");
@@ -4053,7 +4083,10 @@ function TemperatureSection() {
       lineHeight: 1.6,
       marginTop: 16
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Temperature controls variety. Model choice controls quality. "), "A small model at high temperature produces random, often shallow output. A large model at high temperature produces genuinely clever, surprising responses. Choose the model for the depth you need, then let temperature handle the creativity.")) : null);
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Temperature controls variety. Model choice controls quality. "), "A small model at high temperature produces random, often shallow output. A large model at high temperature produces genuinely clever, surprising responses. Choose the model for the depth you need, then let temperature handle the creativity.")) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("hallucination"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Hallucinate \u2192"));
 }
 const HALLUCINATION_QUIZ = [{
   question: "Who wrote the novel 'The Stellar Gardens of Neptune'?",
@@ -4494,7 +4527,10 @@ function HallucinationSection() {
     style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
   }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 }
-  }, vs.rule))))) : null);
+  }, vs.rule))))) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("check-output"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Checkpoint \u2192"));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -4552,7 +4588,7 @@ const CT_CONCEPTS = [{
     analysis: "They don't. The journal is real, but that specific study, that exact statistic, and \"Dr. Sarah Chen\" are all fabricated. The model generated plausible-sounding citations because that's what it's trained to do \u2014 produce text that looks right. Never trust AI-generated citations without verifying them yourself."
   }
 }];
-function CriticalThinkingSection() {
+function CriticalThinkingSection(props) {
   const [view, setView] = useState("101");
   const [activeConcept, setActiveConcept] = useState(0);
   const [showAnalysis, setShowAnalysis] = useState(false);
@@ -5042,7 +5078,10 @@ function CriticalThinkingSection() {
   }, "\u2705 Try this instead"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 }
   }, sb.instead)))));
-  }() : null);
+  }() : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("prompting"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: The Art of Prompting \u2192"));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -5108,10 +5147,57 @@ const PROMPT_QUALITIES = [{
   good: "Step 1: Help me come up with a strong thesis statement for a 5-page paper on the Cold War. The paper should focus on how the space race reflected larger political tensions.",
   why: "Cramming everything into one prompt means the thesis might be weak, the research shallow, and the citations made up. Breaking it into steps lets you nail the thesis first, then build on a solid foundation."
 }];
-function PromptingSection() {
+function PromptingSection(props) {
   const [view, setView] = useState("why");
   const [activeQuality, setActiveQuality] = useState(0);
   const [showGood, setShowGood] = useState(false);
+  const [exerciseIdx, setExerciseIdx] = useState(0);
+  const [exerciseAnswer, setExerciseAnswer] = useState(null);
+  const [exerciseRevealed, setExerciseRevealed] = useState(false);
+  const PROMPT_EXERCISES = [{
+    quality: "Clarity",
+    icon: "\uD83D\uDCA1",
+    scenario: "You have a history essay due on the causes of World War I. You need help getting started.",
+    bad: "Tell me about World War I.",
+    options: [
+      "The prompt is too short",
+      "It doesn't specify what aspect of WWI or what kind of help you need",
+      "It should use more formal language",
+      "It needs to mention which AI model to use"
+    ],
+    correct: 1,
+    good: "I'm writing a 5-page history essay on the causes of World War I. I need to argue that the alliance system was the most significant cause. Can you help me outline the key arguments for this thesis and suggest 2-3 counterarguments I should address?",
+    explain: "The weak prompt could return anything \u2014 a timeline, a summary, a list of battles. The strong prompt specifies the assignment (5-page essay), the angle (alliance system as top cause), and the kind of help needed (outline + counterarguments). Clarity means saying exactly what you mean so the model doesn't have to guess."
+  }, {
+    quality: "Context",
+    icon: "\uD83D\uDCCB",
+    scenario: "You're studying for your AP Biology exam tomorrow and struggling with cellular respiration.",
+    bad: "Explain cellular respiration.",
+    options: [
+      "It should ask for a longer explanation",
+      "It doesn't give the model any background about your level, goal, or what you're stuck on",
+      "It should specify which textbook to reference",
+      "The topic is too advanced for AI"
+    ],
+    correct: 1,
+    good: "I have an AP Biology exam tomorrow and I'm struggling with cellular respiration. I understand glycolysis but get confused at the Krebs cycle and electron transport chain. Can you explain those two stages step by step, using simple analogies? Focus on what I'd need to know for a multiple-choice AP exam.",
+    explain: "Without context, the model might explain cellular respiration at a PhD level or a 5th-grade level. The strong prompt gives your level (AP Bio), what you already know (glycolysis), where you're stuck (Krebs + ETC), how you learn best (analogies), and the goal (AP exam prep). Context lets the model tailor the response to you specifically."
+  }, {
+    quality: "Format Instructions",
+    icon: "\uD83D\uDCDD",
+    scenario: "You're comparing two colleges and need to present the information to your parents this weekend.",
+    bad: "Compare UCLA and UC Berkeley.",
+    options: [
+      "It should ask about more than two colleges",
+      "It needs to mention your GPA and test scores",
+      "It doesn't tell the model what to compare or how to structure the response",
+      "The prompt should be longer"
+    ],
+    correct: 2,
+    good: "Compare UCLA and UC Berkeley in a table with these columns: Category, UCLA, UC Berkeley. Cover: acceptance rate, average class size, strongest programs, campus vibe, cost of attendance for California residents, and distance from home (I'm in San Diego). Keep each cell to 1-2 sentences so I can show my parents.",
+    explain: "The weak prompt might return five paragraphs you'd have to reorganize yourself. The strong prompt specifies the format (table), the categories to compare, the level of detail (1-2 sentences per cell), and the audience (parents). Format instructions turn an AI wall-of-text into something you can actually use."
+  }];
+  const ex = PROMPT_EXERCISES[exerciseIdx];
   const q = PROMPT_QUALITIES[activeQuality];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5123,7 +5209,7 @@ function PromptingSection() {
       padding: 4,
       border: "1px solid var(--border)"
     }
-  }, [["why", "1. \uD83C\uDFAF Why It Matters"], ["qualities", "2. \u270D\uFE0F The 7 Qualities"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["why", "1. \uD83C\uDFAF Why It Matters"], ["qualities", "2. \u270D\uFE0F The 7 Qualities"], ["exercise", "3. \uD83E\uDDEA Fix the Prompt"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setView(v),
     style: {
@@ -5337,7 +5423,122 @@ function PromptingSection() {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why it works: "), q.why))))) : null);
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why it works: "), q.why))))) : view === "exercise" ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: "var(--text-secondary)",
+      marginBottom: 20,
+      fontSize: 15,
+      lineHeight: 1.7
+    }
+  }, "Time to practice. Each scenario shows a bad prompt \u2014 figure out what's wrong with it, then see the improved version."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      marginBottom: 20
+    }
+  }, PROMPT_EXERCISES.map((pe, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => { setExerciseIdx(i); setExerciseAnswer(null); setExerciseRevealed(false); },
+    style: {
+      flex: 1,
+      padding: "8px 12px",
+      borderRadius: 8,
+      background: i === exerciseIdx ? "var(--accent)" : "var(--surface-alt)",
+      color: i === exerciseIdx ? "#fff" : "var(--text-muted)",
+      border: `2px solid ${i === exerciseIdx ? "var(--accent)" : "rgba(99, 102, 241, 0.3)"}`,
+      boxShadow: i === exerciseIdx ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
+      cursor: "pointer",
+      fontSize: 13,
+      fontWeight: 600
+    }
+  }, pe.icon, " ", pe.quality))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#6366f110",
+      border: "1px solid #6366f133",
+      borderRadius: 10,
+      padding: "12px 16px",
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 4 }
+  }, "\uD83C\uDFAF Scenario"), /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 }
+  }, ex.scenario)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fef2f2",
+      border: "1px solid #fca5a5",
+      borderRadius: 10,
+      padding: "14px 16px",
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 }
+  }, "\u274C The bad prompt"), /*#__PURE__*/React.createElement("div", {
+    style: { fontFamily: "'Courier Prime', monospace", fontSize: 15, color: "#991b1b", lineHeight: 1.6 }
+  }, "\"", ex.bad, "\"")), /*#__PURE__*/React.createElement("div", {
+    style: { fontWeight: 700, fontSize: 14, color: "var(--text-primary)", marginBottom: 10 }
+  }, "\uD83E\uDD14 What's the main problem with this prompt?"), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }
+  }, ex.options.map((opt, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => {
+      if (exerciseAnswer !== null) return;
+      setExerciseAnswer(i);
+    },
+    style: {
+      padding: "12px 16px",
+      borderRadius: 10,
+      border: exerciseAnswer === null ? "1px solid var(--border)" : i === ex.correct ? "2px solid #10b981" : i === exerciseAnswer ? "2px solid #ef4444" : "1px solid var(--border)",
+      background: exerciseAnswer === null ? "var(--surface)" : i === ex.correct ? "#ecfdf5" : i === exerciseAnswer ? "#fef2f2" : "var(--surface)",
+      cursor: exerciseAnswer === null ? "pointer" : "default",
+      textAlign: "left",
+      fontSize: 14,
+      color: "var(--text-primary)",
+      fontWeight: exerciseAnswer !== null && i === ex.correct ? 700 : 400,
+      transition: "all 0.2s"
+    }
+  }, opt))), exerciseAnswer !== null && !exerciseRevealed && /*#__PURE__*/React.createElement("button", {
+    onClick: () => setExerciseRevealed(true),
+    style: {
+      padding: "10px 20px",
+      borderRadius: 8,
+      background: "#6366f1",
+      color: "#fff",
+      border: "none",
+      cursor: "pointer",
+      fontSize: 14,
+      fontWeight: 600,
+      width: "100%",
+      marginBottom: 16
+    }
+  }, "\u2728 See the improved prompt"), exerciseRevealed && /*#__PURE__*/React.createElement("div", {
+    style: { animation: "fadeIn 0.3s ease" }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#ecfdf5",
+      border: "1px solid #86efac",
+      borderRadius: 10,
+      padding: "14px 16px",
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 }
+  }, "\u2705 The improved prompt"), /*#__PURE__*/React.createElement("div", {
+    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "#14532d", lineHeight: 1.6 }
+  }, ex.good)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--info-bg)",
+      border: "1px solid var(--info)",
+      borderRadius: 10,
+      padding: 14,
+      fontSize: 14,
+      color: "var(--text-primary)",
+      lineHeight: 1.6
+    }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain))) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("evaluating"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Evaluating the Results \u2192"));
 }
 const EVAL_CRITERIA = [{
   id: "accuracy",
@@ -5418,7 +5619,7 @@ const EVAL_CRITERIA = [{
     note: "Entirely one-sided. Doesn't mention potential challenges like coverage gaps, client expectations, or industry-specific constraints. Presents opinion as settled fact."
   }
 }];
-function EvaluatingSection() {
+function EvaluatingSection(props) {
   const [view, setView] = useState("why");
   const [activeCriterion, setActiveCriterion] = useState(0);
   const [showExample, setShowExample] = useState(false);
@@ -5788,7 +5989,10 @@ function EvaluatingSection() {
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))) : null);
+  }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("integrity"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Academic Integrity \u2192"));
 }
 const INTEGRITY_SCENARIOS = [{
   id: "essay",
@@ -5863,7 +6067,7 @@ const INTEGRITY_SCENARIOS = [{
     explain: "Using AI for brainstorming is generally fine. You're using it to narrow your focus, then doing genuine research. Just don't cite the AI's brainstorming as a source."
   }]
 }];
-function IntegritySection() {
+function IntegritySection(props) {
   const [view, setView] = useState("line");
   const [activeScenario, setActiveScenario] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -6170,9 +6374,12 @@ function IntegritySection() {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The goal isn't to avoid AI. "), "It's to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don't use it at all \u2014 and far more than those who let it do the thinking for them.")) : null);
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The goal isn't to avoid AI. "), "It's to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don't use it at all \u2014 and far more than those who let it do the thinking for them.")) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("privacy"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Privacy & Awareness \u2192"));
 }
-function PrivacySection() {
+function PrivacySection(props) {
   const [view, setView] = useState("what");
   const [activeRule, setActiveRule] = useState(0);
   const [showWhy, setShowWhy] = useState(false);
@@ -6502,7 +6709,10 @@ function PrivacySection() {
     style: { fontWeight: 700, color: "var(--text-primary)", marginBottom: 2, fontSize: 14 }
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--text-secondary)", fontSize: 13, lineHeight: 1.55 }
-  }, item.desc)))))) : null);
+  }, item.desc)))))) : null, /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("check-work"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Checkpoint \u2192"));
 }
 function CapstoneSection(props) {
   const saved = props.capstoneQuiz;
@@ -6999,6 +7209,27 @@ const CHECKPOINT_DATA = {
       correct: 1,
       explain: "The model generates all text the same way \u2014 by predicting what sounds right. A fabricated Supreme Court case and a real physics fact are produced by the exact same process. Confidence is not evidence."
     }]
+  },
+  "check-work": {
+    title: "Putting It to Work",
+    nextGroup: "the Capstone",
+    nextSection: "capstone",
+    questions: [{
+      question: "You're using AI to research a topic you know nothing about. What's the biggest risk?",
+      options: ["The AI will refuse to answer", "You have no way to evaluate whether the response is accurate", "The response will be too short", "The AI will give you someone else's opinion"],
+      correct: 1,
+      explain: "This is the \"Know What You Don't Know\" habit from Critical Thinking. When you lack domain knowledge, you can't spot hallucinations, missing context, or subtle errors. The less you know about a topic, the more carefully you need to verify with outside sources."
+    }, {
+      question: "Which prompt will get the most useful response for studying?",
+      options: ["Help me study for my test.", "Explain everything about the Civil War.", "I have an AP US History exam Friday. Quiz me on the 3 main causes of the Civil War, then explain what I get wrong.", "Tell me about history."],
+      correct: 2,
+      explain: "The strong prompt applies three key qualities: context (AP exam on Friday), specificity (3 main causes of the Civil War), and format instructions (quiz me, then explain mistakes). The model knows exactly what to do and how to structure its help."
+    }, {
+      question: "AI gives you a confident, well-written paragraph for your essay. What should you do first?",
+      options: ["Submit it \u2014 it sounds good", "Ask AI to make it longer", "Check whether the facts are accurate and the reasoning holds up", "Rewrite it word-for-word in your own handwriting"],
+      correct: 2,
+      explain: "Every AI response is a draft, not a final answer. The first step is always evaluation: are the facts correct? Is the reasoning sound? Does it actually answer what you asked? Confident writing and accurate writing look identical \u2014 your job is to verify before you use it."
+    }]
   }
 };
 function CheckpointSection(props) {
@@ -7116,6 +7347,7 @@ function CheckpointSection(props) {
 function CheckFoundations(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-foundations", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
 function CheckModel(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-model", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
 function CheckOutput(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-output", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
+function CheckWork(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-work", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
 const SECTION_COMPONENTS = {
   intro: IntroSection,
   aivscode: AIvsCodeSection,
@@ -7137,7 +7369,8 @@ const SECTION_COMPONENTS = {
   capstone: CapstoneSection,
   "check-foundations": CheckFoundations,
   "check-model": CheckModel,
-  "check-output": CheckOutput
+  "check-output": CheckOutput,
+  "check-work": CheckWork
 };
 function LLMExplorer() {
   const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
@@ -7152,6 +7385,7 @@ function LLMExplorer() {
       activeSection: id,
       visited: (prev.visited || []).includes(id) ? prev.visited : [...(prev.visited || []), id]
     }));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const setCapstoneQuiz = (quiz) => {
     setProgress(prev => ({ ...prev, capstoneQuiz: quiz }));
@@ -7228,62 +7462,95 @@ function LLMExplorer() {
       marginTop: 8,
       fontSize: 15
     }
-  }, "Interactive modules exploring what's happening under the hood")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 6,
-      marginBottom: 28,
-      justifyContent: "center"
-    }
-  }, SECTION_GROUPS.map((group, gi) => /*#__PURE__*/React.createElement("div", {
-    key: gi,
-    style: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 6,
-      alignItems: "center",
-      justifyContent: "center"
-    }
-  }, group.label && /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 11,
-      fontWeight: 700,
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      color: "var(--text-muted)",
-      marginRight: 4,
-      whiteSpace: "nowrap"
-    }
-  }, group.label), group.sections.map(sid => {
-    const s = SECTIONS.find(sec => sec.id === sid);
-    const isActive = s.id === activeSection;
-    const isVisited = !isActive && (progress.visited || []).includes(s.id);
-    return /*#__PURE__*/React.createElement("button", {
-      key: s.id,
-      onClick: () => setActiveSection(s.id),
+  }, "Interactive modules exploring what's happening under the hood")), function() {
+    var activeGroupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.includes(activeSection); });
+    if (activeGroupIdx < 1) activeGroupIdx = 1;
+    var activeGroup = SECTION_GROUPS[activeGroupIdx];
+    return /*#__PURE__*/React.createElement("div", {
+      style: { marginBottom: 28 }
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
-        padding: "8px 14px",
-        borderRadius: 8,
-        background: isActive ? "var(--accent)" : isVisited ? "rgba(99, 102, 241, 0.08)" : "var(--surface-alt)",
-        color: isActive ? "#fff" : isVisited ? "var(--text-secondary)" : "var(--text-muted)",
-        border: `2px solid ${isActive ? "var(--accent)" : isVisited ? "rgba(99, 102, 241, 0.5)" : "rgba(99, 102, 241, 0.3)"}`,
-        boxShadow: isActive ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-        cursor: "pointer",
-        fontSize: 13,
-        fontWeight: 600,
-        transition: "all 0.2s",
-        whiteSpace: "nowrap"
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 10
       }
-    }, s.icon, " ", s.label);
-  })))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      fontSize: 12,
-      color: "var(--text-muted)",
-      marginBottom: 16
-    }
-  }, (progress.visited || []).length, " / ", SECTIONS.length, " sections explored"), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("a", {
+      onClick: () => setActiveSection("intro"),
+      style: {
+        fontSize: 13,
+        color: activeSection === "intro" ? "var(--accent)" : "var(--text-muted)",
+        cursor: "pointer",
+        fontWeight: 600,
+        whiteSpace: "nowrap",
+        textDecoration: "none",
+        flexShrink: 0
+      }
+    }, "\u2190 Intro"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 6,
+        flex: 1,
+        justifyContent: "center",
+        flexWrap: "wrap"
+      }
+    }, SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
+      var groupIdx = gi + 1;
+      var isActiveGroup = groupIdx === activeGroupIdx;
+      return /*#__PURE__*/React.createElement("button", {
+        key: gi,
+        onClick: () => setActiveSection(group.sections[0]),
+        style: {
+          padding: "8px 16px",
+          borderRadius: 8,
+          background: isActiveGroup ? "var(--accent)" : "var(--surface-alt)",
+          color: isActiveGroup ? "#fff" : "var(--text-muted)",
+          border: `2px solid ${isActiveGroup ? "var(--accent)" : "rgba(99, 102, 241, 0.3)"}`,
+          boxShadow: isActiveGroup ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
+          cursor: "pointer",
+          fontSize: 13,
+          fontWeight: 700,
+          transition: "all 0.2s",
+          whiteSpace: "nowrap"
+        }
+      }, group.label);
+    }))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 6,
+        justifyContent: "center"
+      }
+    }, activeGroup.sections.map(function(sid) {
+      var s = SECTIONS.find(function(sec) { return sec.id === sid; });
+      var isActive = s.id === activeSection;
+      var isVisited = !isActive && (progress.visited || []).includes(s.id);
+      return /*#__PURE__*/React.createElement("button", {
+        key: s.id,
+        onClick: () => setActiveSection(s.id),
+        style: {
+          padding: "6px 12px",
+          borderRadius: 8,
+          background: isActive ? "var(--accent)" : isVisited ? "rgba(99, 102, 241, 0.08)" : "var(--surface-alt)",
+          color: isActive ? "#fff" : isVisited ? "var(--text-secondary)" : "var(--text-muted)",
+          border: `2px solid ${isActive ? "var(--accent)" : isVisited ? "rgba(99, 102, 241, 0.5)" : "rgba(99, 102, 241, 0.3)"}`,
+          boxShadow: isActive ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
+          cursor: "pointer",
+          fontSize: 12,
+          fontWeight: 600,
+          transition: "all 0.2s",
+          whiteSpace: "nowrap"
+        }
+      }, isVisited ? "\u2713 " : "", s.icon, " ", s.label);
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        fontSize: 12,
+        color: "var(--text-muted)",
+        marginTop: 12
+      }
+    }, (progress.visited || []).length, " / ", SECTIONS.length, " sections explored"));
+  }(), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--surface)",
       borderRadius: 16,

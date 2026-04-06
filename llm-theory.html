@@ -41,7 +41,7 @@ const SECTION_GROUPS = [{
   sections: ["training", "tokens", "embeddings", "layers", "inference", "check-model"]
 }, {
   label: "What You Can Control",
-  sections: ["context", "temperature", "customization", "check-control"]
+  sections: ["modelselection", "context", "temperature", "customization", "check-control"]
 }, {
   label: "How to Use It Well",
   sections: ["critical", "flattery", "prompting", "verify", "evaluating", "check-work"]
@@ -97,6 +97,10 @@ const SECTIONS = [{
   id: "check-model",
   label: "Checkpoint",
   icon: "\u2705"
+}, {
+  id: "modelselection",
+  label: "Choosing Your Model",
+  icon: "\uD83C\uDF9B\uFE0F"
 }, {
   id: "context",
   label: "Context",
@@ -164,8 +168,8 @@ function IntroSection(props) {
   }, {
     label: "What You Can Control",
     icon: "\uD83C\uDFAF",
-    desc: "How context, temperature, and customization shape the responses you get from AI.",
-    sections: [{ id: "context", icon: "\uD83D\uDCCB", label: "Context" }, { id: "temperature", icon: "\uD83C\uDF21\uFE0F", label: "Temperature" }, { id: "customization", icon: "\u2699\uFE0F", label: "Customization & Memory" }]
+    desc: "How model choice, context, temperature, and customization shape the responses you get from AI.",
+    sections: [{ id: "modelselection", icon: "\uD83C\uDF9B\uFE0F", label: "Choosing Your Model" }, { id: "context", icon: "\uD83D\uDCCB", label: "Context" }, { id: "temperature", icon: "\uD83C\uDF21\uFE0F", label: "Temperature" }, { id: "customization", icon: "\u2699\uFE0F", label: "Customization & Memory" }]
   }, {
     label: "How to Use It Well",
     icon: "\uD83D\uDE80",
@@ -265,7 +269,10 @@ function IntroSection(props) {
       fontSize: 12,
       fontWeight: 600
     }
-  }, s.icon, " ", s.label)))))), /*#__PURE__*/React.createElement("div", {
+  }, s.icon, " ", s.label)))))), props.showH2H ? /*#__PURE__*/React.createElement(HeadToHead, { onCorrect: props.onCorrect, onWrong: props.onWrong }) : /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.setShowH2H && props.setShowH2H(true),
+    style: { display: "block", width: "100%", padding: "14px 20px", borderRadius: 10, background: "var(--surface-alt)", border: "2px solid var(--border)", cursor: "pointer", fontSize: 15, fontWeight: 700, color: "var(--text-secondary)", marginBottom: 24, textAlign: "center", transition: "all 0.2s" }
+  }, "\u2694\uFE0F Head-to-Head \u2014 Challenge a friend"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 8
     }
@@ -445,6 +452,7 @@ function AIvsCodeSection(props) {
         "Every rule we tried was reasonable \u2014 and every one broke. IF-THEN rules are ", /*#__PURE__*/React.createElement("strong", null, "brittle"), ": they only catch exactly what you told them to catch. AI learns the ", /*#__PURE__*/React.createElement("em", null, "pattern"), " behind spam, so it handles tricks and edge cases it's never seen before. But there's a tradeoff: you can read and understand every IF-THEN rule, while AI's \"reasoning\" is locked inside billions of numbers. That's the fundamental shift \u2014 from programs we write to systems that learn."
       )
     ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Rules break. Patterns don\u2019t.")),
     /*#__PURE__*/React.createElement("button", {
       onClick: () => props.onNavigate && props.onNavigate("data"),
       style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
@@ -658,6 +666,7 @@ function DataSection(props) {
         "Traditional programs are like a librarian who can only file and retrieve books \u2014 they need everything labeled and shelved correctly. AI is more like a person who can ", /*#__PURE__*/React.createElement("em", null, "read"), " the books, ", /*#__PURE__*/React.createElement("em", null, "look at"), " photos, ", /*#__PURE__*/React.createElement("em", null, "listen to"), " recordings, and then ", /*#__PURE__*/React.createElement("em", null, "write"), " you a summary in whatever format you need. But how does it actually do this? It all comes back to ", /*#__PURE__*/React.createElement("strong", null, "probability and patterns"), " \u2014 which is what we'll explore next."
       )
     ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Garbage in, garbage out \u2014 at massive scale.")),
     /*#__PURE__*/React.createElement("button", {
       onClick: () => props.onNavigate && props.onNavigate("probability"),
       style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
@@ -776,6 +785,7 @@ function ProbabilitySection(props) {
             onClick: startOver,
             style: { padding: "10px 24px", borderRadius: 8, background: "var(--surface-alt)", color: "var(--text-secondary)", border: "1px solid var(--border)", cursor: "pointer", fontSize: 14, fontWeight: 600 }
           }, "\u21BB Start Over"),
+          isLastPhrase && /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", textAlign: "center", width: "100%" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Every word is a bet. The model always picks the safest one.")),
           isLastPhrase && props.onNavigate && /*#__PURE__*/React.createElement("button", {
             onClick: function() { props.onNavigate("hallucination"); },
             style: { padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
@@ -1050,7 +1060,7 @@ function TrainingSection(props) {
       padding: 4,
       border: "1px solid var(--border)"
     }
-  }, [["steps", "1. \uD83D\uDCCB How It Works"], ["compare", "2. \uD83D\uDD2C Guess the Stage"], ["bias", "3. \u26A0\uFE0F Training Bias"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["steps", "1. \uD83D\uDCCB How It Works"], ["compare", "2. \uD83D\uDD2C Guess the Stage"], ["bias", "3. \u26A0\uFE0F What Can Go Wrong"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setView(v),
     style: {
@@ -1286,10 +1296,7 @@ function TrainingSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#3730a3", fontSize: 15, marginTop: 4 } }, "Frozen Model"),
       /*#__PURE__*/React.createElement("div", { style: { color: "#4338ca", fontSize: 12, marginTop: 2 } }, "Ready to answer your questions")
     )
-  ),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.7, fontSize: 14, textAlign: "center", marginTop: 8 } },
-    "\uD83D\uDCA1 Once all three phases are done, the model is ", /*#__PURE__*/React.createElement("strong", null, "frozen"), ". It can't learn new things from your conversations. That's why models have a \"knowledge cutoff date\" \u2014 they only know what existed in their training data. Using the trained model to answer your questions is called ", /*#__PURE__*/React.createElement("strong", null, "inference"), ", and you'll see exactly how that works in the Inference module."
-  )), /*#__PURE__*/React.createElement("button", {
+  )), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "It studied everything, once. Now it\u2019s frozen.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("tokens"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Tokens \u2192"));
@@ -1518,61 +1525,7 @@ function TokenSection(props) {
       fontSize: 11,
       color: "var(--text-muted)"
     }
-  }, "#", i + 1)))), showIds && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 16,
-      padding: "14px 16px",
-      background: "var(--surface)",
-      borderRadius: 8,
-      border: "1px dashed var(--border)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      textTransform: "uppercase",
-      letterSpacing: 1.5,
-      color: "var(--text-muted)",
-      marginBottom: 8
-    }
-  }, "What the model actually sees"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Courier Prime', monospace",
-      fontSize: 16,
-      color: "var(--accent)",
-      fontWeight: 700,
-      letterSpacing: 1
-    }
-  }, "[", tokenObjs.map(o => o.id).join(", "), "]"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "var(--text-muted)",
-      marginTop: 6
-    }
-  }, "\"", lastTokenized, "\" \u2192 ", tokenObjs.length, " number", tokenObjs.length !== 1 ? "s" : "", ". The text is gone. From here on, the model works entirely with these integers.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 16,
-      padding: "12px 16px",
-      background: "var(--surface)",
-      borderRadius: 8,
-      display: "flex",
-      justifyContent: "space-between"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14,
-      color: "var(--text-secondary)"
-    }
-  }, "Characters: ", /*#__PURE__*/React.createElement("strong", null, lastTokenized.length)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14,
-      color: "var(--text-secondary)"
-    }
-  }, "Tokens: ", /*#__PURE__*/React.createElement("strong", null, tokens.length)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14,
-      color: "var(--text-secondary)"
-    }
-  }, "Ratio: ", /*#__PURE__*/React.createElement("strong", null, (lastTokenized.length / tokens.length).toFixed(1)), " chars/token"))), !tokenObjs && input.trim() && /*#__PURE__*/React.createElement("div", {
+  }, "#", i + 1)))), !tokenObjs && input.trim() && /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--surface-alt)",
       borderRadius: 12,
@@ -1592,7 +1545,7 @@ function TokenSection(props) {
       fontSize: 13,
       color: "var(--text-muted)"
     }
-  }, "Try one of the ", Object.values(CATEGORIES).flat().length, "+ examples above to explore how tokenization works.")), /*#__PURE__*/React.createElement("button", {
+  }, "Try one of the ", Object.values(CATEGORIES).flat().length, "+ examples above to explore how tokenization works.")), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "The model doesn\u2019t read words. It reads pieces of words.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("embeddings"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Embeddings \u2192"));
@@ -2094,21 +2047,7 @@ function EmbeddingsSection(props) {
       margin: 0,
       animation: "fadeIn 0.3s ease"
     }
-  }, mathEx.explain))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 16,
-      fontSize: 14,
-      color: "var(--text-primary)",
-      lineHeight: 1.6
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Similar meanings live near each other in number space.")), "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Embeddings are the bridge."), " Tokenization turns text into numbers, but embeddings turn those numbers into ", /*#__PURE__*/React.createElement("em", null, "meaning"), ". These vectors are what actually flow into the layers you'll explore in the next modules. Without embeddings, attention would have nothing meaningful to attend to."), /*#__PURE__*/React.createElement("button", {
+  }, mathEx.explain))), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Meaning becomes location. Similar ideas live near each other.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("layers"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Layers \u2192"));
@@ -2588,7 +2527,7 @@ function LayersSection(props) {
     style: {
       marginBottom: 10
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually. Use the ", /*#__PURE__*/React.createElement("strong", null, "Attention"), " and ", /*#__PURE__*/React.createElement("strong", null, "Transform"), " tabs above to zoom into each step.")), view === "attention" && /*#__PURE__*/React.createElement(AttentionSection, null), view === "transform" && /*#__PURE__*/React.createElement(TransformSection, null), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually. Use the ", /*#__PURE__*/React.createElement("strong", null, "Attention"), " and ", /*#__PURE__*/React.createElement("strong", null, "Transform"), " tabs above to zoom into each step.")), view === "attention" && /*#__PURE__*/React.createElement(AttentionSection, null), view === "transform" && /*#__PURE__*/React.createElement(TransformSection, null), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Every word asks every other word: are you relevant to me?")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("inference"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: From Prompt to Output \u2192"));
@@ -2781,17 +2720,7 @@ function AttentionSection() {
       lineHeight: 1.65,
       marginTop: 16
     }
-  }, ex.explanation))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 16,
-      fontSize: 14,
-      color: "var(--text-primary)",
-      lineHeight: 1.65
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Every word decides which other words matter to it.")));
+  }, ex.explanation))));
 }
 const TRANSFORM_EXAMPLES = [{
   sentence: "I walked along the river bank at sunset",
@@ -3199,7 +3128,7 @@ function InferenceSection(props) {
       fontSize: 12,
       color: "var(--text-muted)"
     }
-  }, "Happens every chat"))), /*#__PURE__*/React.createElement("button", {
+  }, "Happens every chat"))), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Your question runs through billions of calculations in under a second.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("check-model"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Checkpoint \u2192"));
@@ -3397,17 +3326,9 @@ function ContextSection(props) {
       marginBottom: 16
     }
   }, [{
-    icon: "\uD83E\uDDE0",
-    title: "Why not infinite?",
-    desc: "Every token attends to every other token (the Attention step you explored in Layers). Double the tokens = four times the computation. There's a real cost to bigger windows."
-  }, {
     icon: "\uD83D\uDCC9",
     title: "The forgetting problem",
     desc: "LLMs have no persistent memory by default. Once something scrolls out of the context window it's completely gone \u2014 like a whiteboard that gets erased. This is also why Claude Code slows down in long sessions \u2014 the window fills up. Imagine you can only remember the last 10 pages of a book you're reading. You're great at answering questions about those 10 pages, but ask about chapter 1 when you're on chapter 20 and it's just gone."
-  }, {
-    icon: "\uD83D\uDD04",
-    title: "Every message reruns everything",
-    desc: "Each time you send a message, the ENTIRE context window goes through all layers from scratch. The model doesn't 'remember' processing your previous messages \u2014 it reprocesses them every time."
   }].map((item, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
@@ -3568,7 +3489,7 @@ function ContextSection(props) {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", ex.explain)) : null, /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCA1 ", ex.explain)) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "The model only knows what\u2019s on the whiteboard right now.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("temperature"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Temperature \u2192"));
@@ -3700,7 +3621,7 @@ function CustomizationSection(props) {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " Company rules, automatic memory, your custom instructions, your conversation \u2014 it all flows through the same layers and attention. The model doesn't treat any of it as special. It's all just tokens in the context window."), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " Company rules, automatic memory, your custom instructions, your conversation \u2014 it all flows through the same layers and attention. The model doesn't treat any of it as special. It's all just tokens in the context window."), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Same model, completely different behavior depending on how it\u2019s set up.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("check-control"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Checkpoint \u2192"));
@@ -3727,6 +3648,130 @@ const TEMP_OUTPUTS = {
     1: ["'I've seen your browser history and I'm not angry, just disappointed.'", "'My full name is Sir Reginald Fluffington III. You may call me God.'", "'The red dot is fake and I KNOW it's fake but I can't stop.'"]
   },
 };
+function ModelSelectionSection(props) {
+  const [view, setView] = useState("players");
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [scenarioAnswer, setScenarioAnswer] = useState(null);
+  const MODELS = [{
+    name: "Claude", maker: "Anthropic", color: "#d97706",
+    strength: "Strongest at reasoning and long documents. Careful and nuanced.",
+    weakness: "No real-time web access by default.",
+    bestFor: "Analysis, writing, long context tasks."
+  }, {
+    name: "ChatGPT", maker: "OpenAI", color: "#10b981",
+    strength: "Most versatile, widely integrated, strong at creative tasks.",
+    weakness: "Can be overconfident, varies significantly by version.",
+    bestFor: "Brainstorming, coding, everyday tasks."
+  }, {
+    name: "Gemini", maker: "Google", color: "#3b82f6",
+    strength: "Strong real-time web access and Google integration, multimodal.",
+    weakness: "Reasoning depth lags behind Claude and GPT-4 class models.",
+    bestFor: "Research, current events, Google Workspace tasks."
+  }];
+  const SCENARIOS = [{
+    prompt: "You need to summarize a 60-page research report and pull out the key arguments.",
+    answer: "Claude", explain: "Claude handles long context best and excels at careful reasoning \u2014 exactly what you need when pulling structured arguments from a dense document."
+  }, {
+    prompt: "You want to brainstorm 20 creative names for a podcast about sports science.",
+    answer: "ChatGPT", explain: "ChatGPT is strongest at creative generation and breadth. It\u2019ll give you a wide range of options fast, which is what brainstorming needs."
+  }, {
+    prompt: "You need to know what happened in the news this week and summarize the top stories.",
+    answer: "Gemini", explain: "Gemini has real-time web access built in. The other models would be working from their training data, which doesn\u2019t include this week."
+  }, {
+    prompt: "You\u2019re writing a persuasive essay and want detailed feedback on your argument structure.",
+    answer: "Claude", explain: "Claude excels at nuanced analysis and careful reasoning. It\u2019ll give you structured, specific feedback on logic and argumentation rather than generic praise."
+  }];
+  const sc = SCENARIOS[scenarioIdx];
+  const TIERS = [{
+    tier: "Flagship", examples: "Claude Opus, GPT-4o, Gemini Ultra",
+    capability: 100, speed: 40, cost: 100,
+    desc: "Maximum reasoning depth. Use for complex analysis, nuanced writing, multi-step problems."
+  }, {
+    tier: "Mid-tier", examples: "Claude Sonnet, GPT-4o mini, Gemini Pro",
+    capability: 70, speed: 75, cost: 50,
+    desc: "Strong balance of quality and speed. Good default for most tasks."
+  }, {
+    tier: "Fast / Light", examples: "Claude Haiku, GPT-3.5, Gemini Flash",
+    capability: 40, speed: 100, cost: 15,
+    desc: "Quick answers, low cost. Great for simple lookups, formatting, and high-volume tasks."
+  }];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--text-secondary)", marginBottom: 20, lineHeight: 1.6 }
+  }, "The best model is the one that fits the job. Most people just use whatever they opened last. Here\u2019s how to actually choose."), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 0, marginBottom: 0, background: "var(--surface-alt)", borderRadius: 10, padding: 4, border: "1px solid var(--border)" }
+  }, [["players", "1. \uD83C\uDF9B\uFE0F The Main Players"], ["pick", "2. \uD83C\uDFAF Pick the Right Tool"], ["dial", "3. \u26A1 The Real Dial"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+    key: v, onClick: () => setView(v),
+    style: { flex: 1, padding: "10px", borderRadius: 8, background: view === v ? "var(--accent)" : "transparent", color: view === v ? "#fff" : "var(--text-muted)", border: view === v ? "2px solid var(--accent)" : "2px solid rgba(99, 102, 241, 0.3)", boxShadow: view === v ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)", cursor: "pointer", fontSize: 14, fontWeight: 700, transition: "all 0.2s" }
+  }, label))), /*#__PURE__*/React.createElement("hr", { style: { border: "none", borderTop: "1px solid var(--border)", margin: "12px 0 20px 0" } }),
+  view === "players" ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" } },
+      MODELS.map((m, i) => /*#__PURE__*/React.createElement("div", {
+        key: i, style: { flex: 1, minWidth: 200, background: "var(--surface-alt)", borderRadius: 12, padding: "18px 16px", border: "2px solid " + m.color + "33" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 18, color: m.color, marginBottom: 2 } }, m.name),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)", marginBottom: 12 } }, m.maker),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("strong", null, "Strength: "), m.strength),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("strong", null, "Best for: "), m.bestFor),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--error)", lineHeight: 1.5 } },
+          /*#__PURE__*/React.createElement("strong", null, "Weakness: "), m.weakness)
+      ))
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
+      "\uD83D\uDCA1 Models within each family vary significantly \u2014 Claude Opus vs Sonnet, GPT-4o vs GPT-3.5. Newer versions release frequently, so it\u2019s worth checking current benchmarks before choosing for important work.")
+  ) : view === "pick" ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-muted)", marginBottom: 16 } }, "Scenario ", scenarioIdx + 1, " of ", SCENARIOS.length),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", borderRadius: 12, padding: 20, border: "1px solid var(--border)", marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--text-primary)", marginBottom: 16 } }, sc.prompt),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
+        MODELS.map((m, i) => /*#__PURE__*/React.createElement("button", {
+          key: i,
+          onClick: () => { if (scenarioAnswer === null) setScenarioAnswer(m.name); },
+          style: {
+            flex: 1, minWidth: 120, padding: "12px 16px", borderRadius: 10, textAlign: "center", cursor: scenarioAnswer === null ? "pointer" : "default", fontSize: 14, fontWeight: 700, transition: "all 0.2s",
+            background: scenarioAnswer === null ? "var(--surface)" : m.name === sc.answer ? "#ecfdf5" : m.name === scenarioAnswer ? "#fef2f2" : "var(--surface)",
+            border: scenarioAnswer === null ? "1px solid var(--border)" : m.name === sc.answer ? "2px solid #10b981" : m.name === scenarioAnswer ? "2px solid #ef4444" : "1px solid var(--border)",
+            color: scenarioAnswer === null ? m.color : m.name === sc.answer ? "#10b981" : m.name === scenarioAnswer ? "#ef4444" : "var(--text-muted)"
+          }
+        }, m.name))
+      ),
+      scenarioAnswer !== null && /*#__PURE__*/React.createElement("div", { style: { marginTop: 14, background: scenarioAnswer === sc.answer ? "#ecfdf5" : "#fef2f2", border: "1px solid " + (scenarioAnswer === sc.answer ? "#86efac" : "#fca5a5"), borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
+        /*#__PURE__*/React.createElement("strong", { style: { color: scenarioAnswer === sc.answer ? "#16a34a" : "#dc2626" } }, scenarioAnswer === sc.answer ? "\u2705 " : "\u274C Best choice: " + sc.answer + ". "), sc.explain)
+    ),
+    scenarioAnswer !== null && scenarioIdx < SCENARIOS.length - 1 && /*#__PURE__*/React.createElement("button", {
+      onClick: () => { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
+      style: { display: "block", width: "100%", padding: "10px 20px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
+    }, "Next Scenario \u2192")
+  ) : view === "dial" ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 20, fontSize: 14, lineHeight: 1.6 } },
+      "Within each model family there are tiers. The tradeoff is always the same: capability vs speed vs cost."),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 20 } },
+      TIERS.map((t, i) => /*#__PURE__*/React.createElement("div", {
+        key: i, style: { background: "var(--surface-alt)", borderRadius: 12, padding: "16px 18px", border: "1px solid var(--border)" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--text-primary)", marginBottom: 2 } }, t.tier),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)", marginBottom: 12 } }, t.examples),
+        [["Capability", t.capability, "var(--accent)"], ["Speed", t.speed, "#10b981"], ["Cost", t.cost, "#f59e0b"]].map(([label, val, color]) =>
+          /*#__PURE__*/React.createElement("div", { key: label, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--text-muted)", width: 70, flexShrink: 0 } }, label),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--border)", borderRadius: 3 } },
+              /*#__PURE__*/React.createElement("div", { style: { width: val + "%", height: "100%", background: color, borderRadius: 3 } })
+            )
+          )
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5, marginTop: 8 } }, t.desc)
+      ))
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
+      "\uD83D\uDCA1 For quick tasks, a faster cheaper model is often better. For complex tasks, the most capable model earns its cost. ", /*#__PURE__*/React.createElement("strong", null, "When in doubt, start with the strongest model. You can always dial back."))
+  ) : null,
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "The best model is the one that fits the job. Using the wrong tool is still the wrong tool.")),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("context"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Context \u2192"));
+}
 const TEMP_PROMPTS = ["Once upon a time", "The best programming language is", "The secret to a great pizza is", "If cats could talk they would say"];
 function TemperatureSection(props) {
   const [temp, setTemp] = useState(0);
@@ -4106,7 +4151,7 @@ function TemperatureSection(props) {
       lineHeight: 1.6,
       marginTop: 16
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Temperature controls variety. Model choice controls quality. "), "A small model at high temperature produces random, often shallow output. A large model at high temperature produces genuinely clever, surprising responses. Choose the model for the depth you need, then let temperature handle the creativity.")) : null, /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Temperature controls variety. Model choice controls quality. "), "A small model at high temperature produces random, often shallow output. A large model at high temperature produces genuinely clever, surprising responses. Choose the model for the depth you need, then let temperature handle the creativity.")) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Turn it up for creativity. Turn it down for precision.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("customization"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Customization & Memory \u2192"));
@@ -4172,6 +4217,7 @@ function HallucinationSection(props) {
         total: s.total + 1
       }));
       setAnswered(prev => new Set([...prev, currentIdx]));
+      if (g === item.real) { if (props.onCorrect) props.onCorrect(); } else { if (props.onWrong) props.onWrong(); }
     }
   };
   const next = () => {
@@ -4392,7 +4438,7 @@ function HallucinationSection(props) {
       lineHeight: 1.6,
       marginTop: 16
     }
-  }, "\uD83D\uDCA1 ", score.correct / score.total >= 0.8 ? "Great eye! But notice how hard you had to think on some of these. That's the point — hallucinated text is designed (by accident) to be indistinguishable from real text. In real life, you won't have a \"Real or Hallucinated\" button. Always verify important claims from AI." : "This is tricky, right? That's exactly the point. Hallucinated text looks and feels identical to accurate text. The model isn't trying to fool you — it genuinely doesn't know the difference between real and made-up information. It just knows what sounds right. Always verify important claims from AI.")), /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCA1 ", score.correct / score.total >= 0.8 ? "Great eye! But notice how hard you had to think on some of these. That's the point — hallucinated text is designed (by accident) to be indistinguishable from real text. In real life, you won't have a \"Real or Hallucinated\" button. Always verify important claims from AI." : "This is tricky, right? That's exactly the point. Hallucinated text looks and feels identical to accurate text. The model isn't trying to fool you — it genuinely doesn't know the difference between real and made-up information. It just knows what sounds right. Always verify important claims from AI.")), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "It doesn\u2019t know what\u2019s true. It knows what sounds true.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("check-foundations"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Checkpoint \u2192"));
@@ -4523,7 +4569,7 @@ function VerifySection(props) {
     style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
   }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 }
-  }, vs.rule)))), /*#__PURE__*/React.createElement("button", {
+  }, vs.rule)))), /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "If you can\u2019t find the source, assume it doesn\u2019t exist.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("evaluating"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Evaluating the Results \u2192"));
@@ -4634,7 +4680,7 @@ function CriticalThinkingSection(props) {
       padding: 4,
       border: "1px solid var(--border)"
     }
-  }, [["101", "1. \uD83C\uDF93 Why It Matters"], ["concepts", "2. \uD83D\uDD0D The 5 Habits"], ["stepback", "3. \u270B When to Step Back"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["101", "1. \uD83C\uDF93 Why It Matters"], ["concepts", "2. \uD83D\uDD0D The 5 Habits"], ["stepback", "3. \uD83C\uDFAF How to Use It"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setView(v),
     style: {
@@ -5074,7 +5120,7 @@ function CriticalThinkingSection(props) {
   }, "\u2705 Try this instead"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 }
   }, sb.instead)))));
-  }() : null, /*#__PURE__*/React.createElement("button", {
+  }() : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "AI amplifies whatever you bring to it \u2014 good thinking or bad.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("flattery"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: The Flattery Trap \u2192"));
@@ -5531,7 +5577,7 @@ function PromptingSection(props) {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain))) : null, /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain))) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Vague in, vague out. Specific in, specific out.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("verify"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: How to Verify \u2192"));
@@ -5654,7 +5700,7 @@ function EvaluatingSection(props) {
       padding: 4,
       border: "1px solid var(--border)"
     }
-  }, [["why", "1. \uD83C\uDFAF Why Evaluate?"], ["criteria", "2. \uD83D\uDD0D The 6 Criteria"], ["iterate", "3. \uD83D\uDD04 The Iteration Mindset"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["why", "1. \uD83C\uDFAF Why Evaluate?"], ["criteria", "2. \uD83D\uDD0D The 6 Criteria"], ["iterate", "3. \u26A1 Put It to Work"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setView(v),
     style: {
@@ -5985,7 +6031,7 @@ function EvaluatingSection(props) {
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))) : null, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "First response is a draft. Always.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("check-work"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Checkpoint \u2192"));
@@ -6187,7 +6233,7 @@ function FlatteryTrapSection(props) {
     style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, marginTop: 20 }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The key insight: "), "The friendlier the AI feels, the more skeptical you should be of its praise. Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the AI never pushes back on you, it's not being helpful \u2014 it's performing helpfulness.")) : null, /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The key insight: "), "The friendlier the AI feels, the more skeptical you should be of its praise. Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the AI never pushes back on you, it's not being helpful \u2014 it's performing helpfulness.")) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "The friendlier it feels, the more skeptical you should be.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("prompting"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: The Art of Prompting \u2192"));
@@ -6572,7 +6618,7 @@ function IntegritySection(props) {
       color: "var(--text-primary)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The goal isn't to avoid AI. "), "It's to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don't use it at all \u2014 and far more than those who let it do the thinking for them.")) : null, /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The goal isn't to avoid AI. "), "It's to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don't use it at all \u2014 and far more than those who let it do the thinking for them.")) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Using AI isn\u2019t cheating. Pretending you didn\u2019t is.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("privacy"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Privacy & Awareness \u2192"));
@@ -6650,7 +6696,7 @@ function PrivacySection(props) {
       padding: 4,
       border: "1px solid var(--border)"
     }
-  }, [["what", "1. \uD83D\uDD12 What Gets Stored?"], ["rules", "2. \uD83D\uDEE1\uFE0F The 5 Rules"], ["platforms", "3. \uD83D\uDCF1 Platform Guide"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["what", "1. \uD83D\uDD12 What Gets Stored?"], ["rules", "2. \uD83D\uDEE1\uFE0F The 5 Rules"], ["platforms", "3. \u26A1 Protect Yourself"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setView(v),
     style: {
@@ -6907,7 +6953,7 @@ function PrivacySection(props) {
     style: { fontWeight: 700, color: "var(--text-primary)", marginBottom: 2, fontSize: 14 }
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--text-secondary)", fontSize: 13, lineHeight: 1.55 }
-  }, item.desc)))))) : null, /*#__PURE__*/React.createElement("button", {
+  }, item.desc)))))) : null, /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "If you wouldn\u2019t say it to a stranger, don\u2019t type it to an AI.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("capstone"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Capstone \u2192"));
@@ -7264,6 +7310,7 @@ function CapstoneSection(props) {
       var newScore = { correct: quizScore.correct + (i === qz.correct ? 1 : 0), total: quizScore.total + 1 };
       setQuizScore(newScore);
       persistQuiz(quizIdx, i, newScore);
+      if (i === qz.correct) { if (props.onCorrect) props.onCorrect(); } else { if (props.onWrong) props.onWrong(); }
     },
     style: {
       padding: "12px 16px",
@@ -7308,41 +7355,67 @@ function CapstoneSection(props) {
       fontWeight: 600,
       width: "100%"
     }
-  }, quizIdx < QUIZ.length - 1 ? "Next Question \u2192" : "See Final Score")))) : /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      padding: "20px 0"
-    }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 12 } }, quizScore.correct >= 7 ? "\uD83C\uDFC6" : quizScore.correct >= 5 ? "\uD83D\uDCAA" : "\uD83D\uDCDA"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 32, fontWeight: 800, color: "var(--text-primary)", marginBottom: 8 }
-  }, quizScore.correct, " / ", QUIZ.length), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 15, color: "var(--text-secondary)", marginBottom: 20, lineHeight: 1.6 }
-  }, quizScore.correct >= 7 ? "Excellent. You've got a strong understanding of how AI works and how to use it well." : quizScore.correct >= 5 ? "Solid foundation. Review the sections you missed and you'll have it locked down." : "Good start. Revisit the sections mentioned in the explanations \u2014 the understanding will click with another pass."), /*#__PURE__*/React.createElement("button", {
-    onClick: () => { setQuizIdx(0); setQuizAnswer(null); setQuizScore({ correct: 0, total: 0 }); persistQuiz(0, null, { correct: 0, total: 0 }); },
-    style: {
-      padding: "10px 24px",
-      borderRadius: 8,
-      background: "var(--surface-alt)",
-      color: "var(--text-secondary)",
-      border: "1px solid var(--border)",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600,
-      marginRight: 10
-    }
-  }, "\u21BB Try Again"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => props.onNavigate && props.onNavigate("intro"),
-    style: {
-      padding: "10px 24px",
-      borderRadius: 8,
-      background: "var(--accent)",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600
-    }
-  }, "\uD83D\uDCD6 Back to Intro"))) : null);
+  }, quizIdx < QUIZ.length - 1 ? "Next Question \u2192" : "See Final Score")))) : function() {
+    var cpIds = ["check-foundations", "check-model", "check-control", "check-work"];
+    var cpLabels = ["How AI Thinks", "Why It Works That Way", "What You Can Control", "How to Use It Well"];
+    var cpQuizzes = props.checkpointQuizzes || {};
+    var totalCorrect = quizScore.correct;
+    var totalQs = QUIZ.length;
+    cpIds.forEach(function(id) { var cq = cpQuizzes[id]; if (cq) { totalCorrect += cq.correct; totalQs += cq.total; } });
+    var pct = totalQs > 0 ? (totalCorrect / totalQs * 100) : 0;
+    var rank = pct >= 90 ? "AI Expert" : pct >= 75 ? "AI Analyst" : pct >= 60 ? "AI Apprentice" : "Still Learning";
+    var rankDesc = pct >= 90 ? "You understand AI deeply enough to teach others." : pct >= 75 ? "Strong understanding \u2014 you know how to use AI effectively." : pct >= 60 ? "Good foundation \u2014 a few more reps and you\u2019ll have it locked." : "Keep going \u2014 revisit the modules and try again.";
+    var rankEmoji = pct >= 90 ? "\uD83C\uDFC6" : pct >= 75 ? "\uD83D\uDE80" : pct >= 60 ? "\uD83D\uDCAA" : "\uD83D\uDCDA";
+    var shareText = "I scored " + totalCorrect + "/" + totalQs + " on How Large Language Models Think \u2014 " + rank;
+    var [copied, setCopied] = useState(false);
+    return /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0" } },
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 24 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 8 } }, rankEmoji),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, fontWeight: 800, color: "var(--accent)", marginBottom: 4 } }, rank),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--text-secondary)", marginBottom: 8 } }, rankDesc),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--text-primary)" } }, totalCorrect, " of ", totalQs, " questions correct across the full course")
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 } },
+        cpIds.map(function(id, i) {
+          var cq = cpQuizzes[id];
+          var c = cq ? cq.correct : 0;
+          var t = cq ? cq.total : 0;
+          var color = t === 0 ? "var(--text-muted)" : c === t ? "#10b981" : c >= Math.ceil(t * 0.67) ? "#f59e0b" : "#ef4444";
+          return /*#__PURE__*/React.createElement("div", { key: id, style: { display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--surface-alt)", borderRadius: 8, padding: "10px 16px", border: "1px solid var(--border)" } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 600, color: "var(--text-primary)" } }, cpLabels[i]),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: color } }, t > 0 ? c + "/" + t : "\u2014"),
+              /*#__PURE__*/React.createElement("div", { style: { width: 8, height: 8, borderRadius: "50%", background: color } })
+            )
+          );
+        }),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--surface-alt)", borderRadius: 8, padding: "10px 16px", border: "1px solid var(--border)" } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 600, color: "var(--text-primary)" } }, "Capstone"),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: quizScore.correct === QUIZ.length ? "#10b981" : quizScore.correct >= Math.ceil(QUIZ.length * 0.67) ? "#f59e0b" : "#ef4444" } }, quizScore.correct, "/", QUIZ.length),
+            /*#__PURE__*/React.createElement("div", { style: { width: 8, height: 8, borderRadius: "50%", background: quizScore.correct === QUIZ.length ? "#10b981" : quizScore.correct >= Math.ceil(QUIZ.length * 0.67) ? "#f59e0b" : "#ef4444" } })
+          )
+        )
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, background: "var(--surface-alt)", borderRadius: 8, padding: "10px 16px", border: "1px solid var(--border)", marginBottom: 20 } },
+        /*#__PURE__*/React.createElement("span", { style: { flex: 1, fontSize: 13, color: "var(--text-secondary)", fontFamily: "'Courier Prime', monospace" } }, shareText),
+        /*#__PURE__*/React.createElement("button", {
+          onClick: () => { navigator.clipboard.writeText(shareText); setCopied(true); setTimeout(() => setCopied(false), 2000); },
+          style: { padding: "6px 12px", borderRadius: 6, background: copied ? "#10b981" : "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, whiteSpace: "nowrap" }
+        }, copied ? "\u2713 Copied" : "Copy")
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "center" } },
+        /*#__PURE__*/React.createElement("button", {
+          onClick: () => { if (props.resetCheckpoints) props.resetCheckpoints(); setQuizIdx(0); setQuizAnswer(null); setQuizScore({ correct: 0, total: 0 }); persistQuiz(0, null, { correct: 0, total: 0 }); props.onNavigate && props.onNavigate("check-foundations"); },
+          style: { padding: "12px 24px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+        }, "Try to beat this \u2192"),
+        /*#__PURE__*/React.createElement("button", {
+          onClick: () => props.onNavigate && props.onNavigate("intro"),
+          style: { padding: "12px 24px", borderRadius: 8, background: "var(--surface-alt)", color: "var(--text-secondary)", border: "1px solid var(--border)", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+        }, "\uD83D\uDCD6 Back to Intro")
+      )
+    );
+  }()) : null);
 }
 const CHECKPOINT_DATA = {
   "check-foundations": {
@@ -7369,7 +7442,7 @@ const CHECKPOINT_DATA = {
   "check-model": {
     title: "Why It Works That Way",
     nextGroup: "What You Can Control",
-    nextSection: "context",
+    nextSection: "modelselection",
     questions: [{
       question: "Why does the model break text into tokens instead of using whole words?",
       options: ["Whole words take too much memory", "It needs a fixed vocabulary \u2014 rare words get split into known subparts", "Tokens are easier to display on screen", "It's a limitation that will be fixed in future models"],
@@ -7406,6 +7479,11 @@ const CHECKPOINT_DATA = {
       options: ["They permanently change the model's training", "They are loaded into the context window alongside your message, shaping what the model generates", "They are stored in a separate database the model queries", "They only affect the model's tone, not its content"],
       correct: 1,
       explain: "Custom instructions, memory, and conversation history are all just tokens loaded into the context window. The model doesn't treat any of it as special \u2014 it all flows through the same layers and attention mechanisms. This is why setting up good instructions can dramatically change the quality of responses."
+    }, {
+      question: "You need to find out what happened in the news today. Which model is the best fit?",
+      options: ["Claude \u2014 it has the strongest reasoning", "ChatGPT \u2014 it's the most popular", "Gemini \u2014 it has real-time web access", "Any model \u2014 they all have the same capabilities"],
+      correct: 2,
+      explain: "Gemini has built-in real-time web access, making it the best choice for current events. Claude and ChatGPT work from training data with a knowledge cutoff \u2014 they don't know what happened today unless given tools. Choosing the right model for the task matters as much as writing a good prompt."
     }]
   },
   "check-work": {
@@ -7430,6 +7508,101 @@ const CHECKPOINT_DATA = {
     }]
   }
 };
+function getAllCheckpointQuestions() {
+  var qs = [];
+  ["check-foundations", "check-model", "check-control", "check-work"].forEach(function(id) {
+    CHECKPOINT_DATA[id].questions.forEach(function(q, i) { qs.push(Object.assign({}, q, { source: id, qIdx: i })); });
+  });
+  return qs;
+}
+function HeadToHead(props) {
+  const [phase, setPhase] = useState("setup");
+  const [p1Name, setP1Name] = useState("Player 1");
+  const [p2Name, setP2Name] = useState("Player 2");
+  const [questions, setQuestions] = useState([]);
+  const [qIdx, setQIdx] = useState(0);
+  const [scores, setScores] = useState([0, 0]);
+  const [turn, setTurn] = useState(0);
+  const [answered, setAnswered] = useState(null);
+  const startGame = () => {
+    var all = getAllCheckpointQuestions();
+    var shuffled = all.slice().sort(() => Math.random() - 0.5);
+    setQuestions(shuffled);
+    setQIdx(0);
+    setScores([0, 0]);
+    setTurn(0);
+    setAnswered(null);
+    setPhase("play");
+  };
+  if (phase === "setup") {
+    return /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0" } },
+      /*#__PURE__*/React.createElement("h3", { style: { fontWeight: 700, fontSize: 18, color: "var(--text-primary)", marginBottom: 16, textAlign: "center" } }, "\u2694\uFE0F Head-to-Head"),
+      /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6, marginBottom: 20, textAlign: "center" } }, "Two players, same device. Take turns answering questions from across the course. First to 10 wins."),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20 } },
+        /*#__PURE__*/React.createElement("input", { type: "text", value: p1Name, onChange: e => setP1Name(e.target.value), placeholder: "Player 1", style: { flex: 1, padding: "10px 14px", borderRadius: 8, border: "2px solid var(--border)", background: "var(--surface)", color: "var(--text-primary)", fontSize: 14, boxSizing: "border-box" } }),
+        /*#__PURE__*/React.createElement("input", { type: "text", value: p2Name, onChange: e => setP2Name(e.target.value), placeholder: "Player 2", style: { flex: 1, padding: "10px 14px", borderRadius: 8, border: "2px solid var(--border)", background: "var(--surface)", color: "var(--text-primary)", fontSize: 14, boxSizing: "border-box" } })
+      ),
+      /*#__PURE__*/React.createElement("button", { onClick: startGame, style: { display: "block", width: "100%", padding: "14px", borderRadius: 10, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700 } }, "Start Match \u2192")
+    );
+  }
+  var winner = scores[0] >= 10 ? 0 : scores[1] >= 10 ? 1 : null;
+  if (winner !== null || phase === "done") {
+    var w = scores[0] >= 10 ? 0 : 1;
+    return /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", padding: "30px 0" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 12 } }, "\uD83C\uDFC6"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, color: "var(--text-primary)", marginBottom: 8 } }, w === 0 ? p1Name : p2Name, " wins!"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, fontWeight: 800, color: "var(--accent)", marginBottom: 24 } }, scores[0], " \u2014 ", scores[1]),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "center" } },
+        /*#__PURE__*/React.createElement("button", { onClick: startGame, style: { padding: "12px 24px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 } }, "Play Again \u2192"),
+        /*#__PURE__*/React.createElement("button", { onClick: () => setPhase("setup"), style: { padding: "12px 24px", borderRadius: 8, background: "var(--surface-alt)", color: "var(--text-secondary)", border: "1px solid var(--border)", cursor: "pointer", fontSize: 15, fontWeight: 700 } }, "New Players")
+      )
+    );
+  }
+  if (qIdx >= questions.length) { startGame(); return null; }
+  var q = questions[qIdx];
+  var currentPlayer = turn === 0 ? p1Name : p2Name;
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--surface-alt)", borderRadius: 10, padding: "12px 20px", marginBottom: 16, border: "1px solid var(--border)" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: turn === 0 ? "var(--accent)" : "var(--text-muted)" } }, p1Name, ": ", scores[0]),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-muted)", fontWeight: 600 } }, "\u2694\uFE0F First to 10"),
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: turn === 1 ? "var(--accent)" : "var(--text-muted)" } }, p2Name, ": ", scores[1])
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 12, fontSize: 14, fontWeight: 700, color: "var(--accent)" } }, currentPlayer, "'s turn"),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", borderRadius: 12, padding: 20, border: "1px solid var(--border)", marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--text-primary)", marginBottom: 16 } }, q.question),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+        q.options.map((opt, i) => /*#__PURE__*/React.createElement("button", {
+          key: i,
+          onClick: () => {
+            if (answered !== null) return;
+            setAnswered(i);
+            if (i === q.correct) {
+              var ns = scores.slice(); ns[turn]++; setScores(ns);
+              if (props.onCorrect) props.onCorrect();
+            } else {
+              if (props.onWrong) props.onWrong();
+            }
+          },
+          style: {
+            padding: "12px 16px", borderRadius: 10,
+            border: answered === null ? "1px solid var(--border)" : i === q.correct ? "2px solid #10b981" : i === answered ? "2px solid #ef4444" : "1px solid var(--border)",
+            background: answered === null ? "var(--surface)" : i === q.correct ? "#ecfdf5" : i === answered ? "#fef2f2" : "var(--surface)",
+            cursor: answered === null ? "pointer" : "default", textAlign: "left", fontSize: 14, color: "var(--text-primary)",
+            fontWeight: answered !== null && i === q.correct ? 700 : 400, transition: "all 0.2s"
+          }
+        }, opt))
+      ),
+      answered !== null && /*#__PURE__*/React.createElement("div", { style: { marginTop: 12 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: answered === q.correct ? "#ecfdf5" : "#fef2f2", border: "1px solid " + (answered === q.correct ? "#86efac" : "#fca5a5"), borderRadius: 10, padding: "12px 16px", marginBottom: 12, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
+          /*#__PURE__*/React.createElement("strong", { style: { color: answered === q.correct ? "#16a34a" : "#dc2626" } }, answered === q.correct ? "\u2705 Correct!" : "\u274C Not quite."), " ", q.explain),
+        /*#__PURE__*/React.createElement("button", {
+          onClick: () => { setAnswered(null); setTurn(1 - turn); setQIdx(qIdx + 1); },
+          style: { padding: "10px 20px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, width: "100%" }
+        }, "Next: ", turn === 0 ? p2Name : p1Name, "'s turn \u2192")
+      )
+    )
+  );
+}
 function CheckpointSection(props) {
   var data = CHECKPOINT_DATA[props.checkpointId];
   var saved = (props.checkpointQuizzes || {})[props.checkpointId];
@@ -7481,6 +7654,7 @@ function CheckpointSection(props) {
       var newScore = { correct: score.correct + (i === q.correct ? 1 : 0), total: score.total + 1 };
       setScore(newScore);
       persistCheck(currentQ, i, newScore);
+      if (i === q.correct) { if (props.onCorrect) props.onCorrect(); } else { if (props.onWrong) props.onWrong(); }
     },
     style: {
       padding: "12px 16px",
@@ -7542,10 +7716,10 @@ function CheckpointSection(props) {
     }
   }, "Continue to ", data.nextGroup, " \u2192")));
 }
-function CheckFoundations(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-foundations", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
-function CheckModel(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-model", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
-function CheckControl(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-control", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
-function CheckWork(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-work", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz }); }
+function CheckFoundations(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-foundations", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz, onCorrect: props.onCorrect, onWrong: props.onWrong }); }
+function CheckModel(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-model", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz, onCorrect: props.onCorrect, onWrong: props.onWrong }); }
+function CheckControl(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-control", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz, onCorrect: props.onCorrect, onWrong: props.onWrong }); }
+function CheckWork(props) { return /*#__PURE__*/React.createElement(CheckpointSection, { checkpointId: "check-work", onNavigate: props.onNavigate, checkpointQuizzes: props.checkpointQuizzes, setCheckpointQuiz: props.setCheckpointQuiz, onCorrect: props.onCorrect, onWrong: props.onWrong }); }
 const SECTION_COMPONENTS = {
   intro: IntroSection,
   aivscode: AIvsCodeSection,
@@ -7557,6 +7731,7 @@ const SECTION_COMPONENTS = {
   embeddings: EmbeddingsSection,
   layers: LayersSection,
   inference: InferenceSection,
+  modelselection: ModelSelectionSection,
   context: ContextSection,
   temperature: TemperatureSection,
   customization: CustomizationSection,
@@ -7573,14 +7748,56 @@ const SECTION_COMPONENTS = {
   "check-control": CheckControl,
   "check-work": CheckWork
 };
+const TRANSITION_CARDS = {
+  "intro": {
+    copy: "AI is the most important tool of your generation. This is how it actually works.",
+    button: "Let\u2019s start \u2192"
+  },
+  "training": {
+    copy: "You\u2019ve seen what AI does and where it breaks. Now let\u2019s look inside and see exactly why.",
+    button: "Go deeper \u2192"
+  },
+  "modelselection": {
+    copy: "You just learned how the machine works. Now here\u2019s what you can actually control.",
+    button: "Take control \u2192"
+  },
+  "critical": {
+    copy: "You know how it works. Now here\u2019s how to use that against it.",
+    button: "Let\u2019s go \u2192"
+  },
+  "integrity": {
+    copy: "Almost there. This last section is about the bigger picture \u2014 and it matters more than people realize.",
+    button: "Finish strong \u2192"
+  }
+};
 function LLMExplorer() {
   const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
     activeSection: "intro",
     visited: ["intro"],
     capstoneQuiz: null
   });
+  const [activeTransition, setActiveTransition] = useState(
+    !(progress.dismissedTransitions || []).includes("intro") ? "intro" : null
+  );
   const activeSection = progress.activeSection;
+  const dismissTransition = () => {
+    setProgress(prev => ({
+      ...prev,
+      dismissedTransitions: [...(prev.dismissedTransitions || []), activeTransition]
+    }));
+    setActiveTransition(null);
+  };
   const setActiveSection = (id) => {
+    if (TRANSITION_CARDS[id] && !(progress.dismissedTransitions || []).includes(id)) {
+      setActiveTransition(id);
+      setProgress(prev => ({
+        ...prev,
+        activeSection: id,
+        visited: (prev.visited || []).includes(id) ? prev.visited : [...(prev.visited || []), id]
+      }));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     setProgress(prev => ({
       ...prev,
       activeSection: id,
@@ -7593,6 +7810,13 @@ function LLMExplorer() {
   };
   const setCheckpointQuiz = (id, quiz) => {
     setProgress(prev => ({ ...prev, checkpointQuizzes: { ...(prev.checkpointQuizzes || {}), [id]: quiz } }));
+  };
+  const [streak, setStreak] = useState(0);
+  const [showH2H, setShowH2H] = useState(false);
+  const onCorrect = () => setStreak(s => s + 1);
+  const onWrong = () => setStreak(0);
+  const resetCheckpoints = () => {
+    setProgress(prev => ({ ...prev, checkpointQuizzes: {}, capstoneQuiz: null }));
   };
   const Component = SECTION_COMPONENTS[activeSection];
   const currentSection = SECTIONS.find(s => s.id === activeSection);
@@ -7741,13 +7965,46 @@ function LLMExplorer() {
         }
       }, isVisited ? "\u2713 " : "", s.icon, " ", s.label);
     })));
-  }(), /*#__PURE__*/React.createElement("div", {
+  }(), activeTransition && TRANSITION_CARDS[activeTransition] ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a1d29",
+      borderRadius: 16,
+      padding: "60px 28px",
+      border: "1px solid var(--accent)",
+      boxShadow: "0 4px 24px rgba(99, 102, 241, 0.15)",
+      textAlign: "center",
+      animation: "fadeIn 0.4s ease"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: "#e8eaf0",
+      fontSize: 20,
+      fontWeight: 600,
+      lineHeight: 1.6,
+      maxWidth: 520,
+      margin: "0 auto 32px"
+    }
+  }, TRANSITION_CARDS[activeTransition].copy), /*#__PURE__*/React.createElement("button", {
+    onClick: dismissTransition,
+    style: {
+      padding: "14px 36px",
+      borderRadius: 10,
+      background: "var(--accent)",
+      color: "#fff",
+      border: "none",
+      cursor: "pointer",
+      fontSize: 16,
+      fontWeight: 700,
+      boxShadow: "0 2px 12px rgba(99, 102, 241, 0.4)"
+    }
+  }, TRANSITION_CARDS[activeTransition].button)) : /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--surface)",
       borderRadius: 16,
       padding: "28px 28px",
       border: "1px solid var(--border)",
-      boxShadow: "0 2px 12px rgba(0,0,0,0.04)"
+      boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+      position: "relative"
     }
   }, /*#__PURE__*/React.createElement("h2", {
     style: {
@@ -7756,7 +8013,7 @@ function LLMExplorer() {
       color: "var(--text-primary)",
       margin: "0 0 20px 0"
     }
-  }, currentSection.icon, " ", currentSection.label), /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, checkpointQuizzes: progress.checkpointQuizzes || {}, setCheckpointQuiz: setCheckpointQuiz })), /*#__PURE__*/React.createElement("div", {
+  }, currentSection.icon, " ", currentSection.label), streak >= 3 && /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: 16, right: 20, background: "#1a1d29", color: "#f59e0b", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700, animation: "fadeIn 0.3s ease" } }, "\uD83D\uDD25 ", streak, " streak"), /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, checkpointQuizzes: progress.checkpointQuizzes || {}, setCheckpointQuiz: setCheckpointQuiz, onCorrect: onCorrect, onWrong: onWrong, resetCheckpoints: resetCheckpoints, showH2H: showH2H, setShowH2H: setShowH2H }))), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       marginTop: 20,

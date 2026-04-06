@@ -41,7 +41,7 @@ const SECTION_GROUPS = [{
   sections: ["training", "tokens", "embeddings", "layers", "inference", "check-model"]
 }, {
   label: "What You Can Control",
-  sections: ["modelselection", "context", "temperature", "customization", "check-control"]
+  sections: ["modelselection", "thinkingmode", "context", "temperature", "customization", "check-control"]
 }, {
   label: "How to Use It Well",
   sections: ["critical", "flattery", "prompting", "verify", "evaluating", "check-work"]
@@ -101,6 +101,10 @@ const SECTIONS = [{
   id: "modelselection",
   label: "Choosing Your Model",
   icon: "\uD83C\uDF9B\uFE0F"
+}, {
+  id: "thinkingmode",
+  label: "Thinking Mode",
+  icon: "\uD83E\uDDE0"
 }, {
   id: "context",
   label: "Context",
@@ -169,7 +173,7 @@ function IntroSection(props) {
     label: "What You Can Control",
     icon: "\uD83C\uDFAF",
     desc: "How model choice, context, temperature, and customization shape the responses you get from AI.",
-    sections: [{ id: "modelselection", icon: "\uD83C\uDF9B\uFE0F", label: "Choosing Your Model" }, { id: "context", icon: "\uD83D\uDCCB", label: "Context" }, { id: "temperature", icon: "\uD83C\uDF21\uFE0F", label: "Temperature" }, { id: "customization", icon: "\u2699\uFE0F", label: "Customization & Memory" }]
+    sections: [{ id: "modelselection", icon: "\uD83C\uDF9B\uFE0F", label: "Choosing Your Model" }, { id: "thinkingmode", icon: "\uD83E\uDDE0", label: "Thinking Mode" }, { id: "context", icon: "\uD83D\uDCCB", label: "Context" }, { id: "temperature", icon: "\uD83C\uDF21\uFE0F", label: "Temperature" }, { id: "customization", icon: "\u2699\uFE0F", label: "Customization & Memory" }]
   }, {
     label: "How to Use It Well",
     icon: "\uD83D\uDE80",
@@ -1525,7 +1529,7 @@ function TokenSection(props) {
       fontSize: 11,
       color: "var(--text-muted)"
     }
-  }, "#", i + 1)))), !tokenObjs && input.trim() && /*#__PURE__*/React.createElement("div", {
+  }, "#", i + 1))))), !tokenObjs && input.trim() && /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--surface-alt)",
       borderRadius: 12,
@@ -3654,46 +3658,46 @@ function ModelSelectionSection(props) {
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
   const MODELS = [{
     name: "Claude", maker: "Anthropic", color: "#d97706",
-    strength: "Strongest at reasoning and long documents. Careful and nuanced.",
-    weakness: "No real-time web access by default.",
-    bestFor: "Analysis, writing, long context tasks."
+    strength: "Best at long documents, careful reasoning, and nuanced writing. Most precise at following complex instructions. Honest about uncertainty.",
+    weakness: "Smaller third-party ecosystem than ChatGPT.",
+    bestFor: "Analysis, research, long-form writing, tasks where accuracy matters most."
   }, {
     name: "ChatGPT", maker: "OpenAI", color: "#10b981",
-    strength: "Most versatile, widely integrated, strong at creative tasks.",
-    weakness: "Can be overconfident, varies significantly by version.",
-    bestFor: "Brainstorming, coding, everyday tasks."
+    strength: "Most versatile, widest range of integrations, strong at creative tasks and coding. Largest ecosystem of third-party tools built around it.",
+    weakness: "Can be overconfident, quality varies by version.",
+    bestFor: "Brainstorming, coding, everyday varied tasks, anything needing third-party integrations."
   }, {
     name: "Gemini", maker: "Google", color: "#3b82f6",
-    strength: "Strong real-time web access and Google integration, multimodal.",
-    weakness: "Reasoning depth lags behind Claude and GPT-4 class models.",
-    bestFor: "Research, current events, Google Workspace tasks."
+    strength: "Best real-time web access and Google Workspace integration. Strong at multimodal tasks combining images, documents, and search.",
+    weakness: "Reasoning depth generally trails Claude and ChatGPT on complex analysis.",
+    bestFor: "Current events, research requiring live data, anything in the Google ecosystem."
   }];
   const SCENARIOS = [{
     prompt: "You need to summarize a 60-page research report and pull out the key arguments.",
-    answer: "Claude", explain: "Claude handles long context best and excels at careful reasoning \u2014 exactly what you need when pulling structured arguments from a dense document."
+    answer: "Claude", explain: "Claude \u2014 Anthropic built it to prioritize careful reasoning and accuracy on complex tasks. Long documents and structured analysis are where it shines."
   }, {
     prompt: "You want to brainstorm 20 creative names for a podcast about sports science.",
-    answer: "ChatGPT", explain: "ChatGPT is strongest at creative generation and breadth. It\u2019ll give you a wide range of options fast, which is what brainstorming needs."
+    answer: "ChatGPT", explain: "ChatGPT \u2014 OpenAI optimized it for versatility and creative breadth. It\u2019ll give you a wide range of options fast, which is what brainstorming needs."
   }, {
     prompt: "You need to know what happened in the news this week and summarize the top stories.",
-    answer: "Gemini", explain: "Gemini has real-time web access built in. The other models would be working from their training data, which doesn\u2019t include this week."
+    answer: "Gemini", explain: "Gemini \u2014 Google built it with real-time web access as a core feature. The other models work from training data, which doesn\u2019t include this week."
   }, {
     prompt: "You\u2019re writing a persuasive essay and want detailed feedback on your argument structure.",
-    answer: "Claude", explain: "Claude excels at nuanced analysis and careful reasoning. It\u2019ll give you structured, specific feedback on logic and argumentation rather than generic praise."
+    answer: "Claude", explain: "Claude \u2014 Anthropic\u2019s focus on honesty and careful reasoning means it gives structured, specific feedback on logic and argumentation rather than generic praise."
   }];
   const sc = SCENARIOS[scenarioIdx];
   const TIERS = [{
-    tier: "Flagship", examples: "Claude Opus, GPT-4o, Gemini Ultra",
+    tier: "Flagship", examples: "The most capable model each company offers",
     capability: 100, speed: 40, cost: 100,
-    desc: "Maximum reasoning depth. Use for complex analysis, nuanced writing, multi-step problems."
+    desc: "Maximum reasoning depth. Use for complex analysis, nuanced writing, and multi-step problems."
   }, {
-    tier: "Mid-tier", examples: "Claude Sonnet, GPT-4o mini, Gemini Pro",
+    tier: "Mid-tier", examples: "Strong balance of quality and speed",
     capability: 70, speed: 75, cost: 50,
-    desc: "Strong balance of quality and speed. Good default for most tasks."
+    desc: "Good default for most tasks. Often the best value."
   }, {
-    tier: "Fast / Light", examples: "Claude Haiku, GPT-3.5, Gemini Flash",
+    tier: "Fast / Light", examples: "Quick and cheap",
     capability: 40, speed: 100, cost: 15,
-    desc: "Quick answers, low cost. Great for simple lookups, formatting, and high-volume tasks."
+    desc: "Best for simple lookups, formatting, and high-volume tasks."
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--text-secondary)", marginBottom: 20, lineHeight: 1.6 }
@@ -3719,7 +3723,7 @@ function ModelSelectionSection(props) {
       ))
     ),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
-      "\uD83D\uDCA1 Models within each family vary significantly \u2014 Claude Opus vs Sonnet, GPT-4o vs GPT-3.5. Newer versions release frequently, so it\u2019s worth checking current benchmarks before choosing for important work.")
+      "\uD83D\uDCA1 Each company releases new versions regularly \u2014 the names change but the philosophies don\u2019t. These strengths reflect each company\u2019s priorities, not just their current version. Check their websites for current model names.")
   ) : view === "pick" ? /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-muted)", marginBottom: 16 } }, "Scenario ", scenarioIdx + 1, " of ", SCENARIOS.length),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", borderRadius: 12, padding: 20, border: "1px solid var(--border)", marginBottom: 16 } },
@@ -3764,9 +3768,103 @@ function ModelSelectionSection(props) {
       ))
     ),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
-      "\uD83D\uDCA1 For quick tasks, a faster cheaper model is often better. For complex tasks, the most capable model earns its cost. ", /*#__PURE__*/React.createElement("strong", null, "When in doubt, start with the strongest model. You can always dial back."))
+      "\uD83D\uDCA1 For quick tasks, a faster cheaper model is often better. For complex tasks, the most capable model earns its cost. ", /*#__PURE__*/React.createElement("strong", null, "When in doubt, start with the strongest model. You can always dial back."), " Tip: each company publishes current model names on their website. The tiers stay consistent even as the names change.")
   ) : null,
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "The best model is the one that fits the job. Using the wrong tool is still the wrong tool.")),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("thinkingmode"),
+    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+  }, "Next: Thinking Mode \u2192"));
+}
+function ThinkingModeSection(props) {
+  const [view, setView] = useState("speeds");
+  const [taskAnswers, setTaskAnswers] = useState({});
+  const TASKS = [{
+    task: "Write 10 ideas for a YouTube channel name",
+    answer: "Fast", explain: "Creative brainstorming is about breadth and speed. Fast mode generates lots of options quickly \u2014 exactly what you need."
+  }, {
+    task: "Analyze whether my business plan has any logical flaws",
+    answer: "Thinking", explain: "Finding logical flaws requires step-by-step reasoning through connected arguments. Thinking mode checks its own work and catches subtleties fast mode misses."
+  }, {
+    task: "Summarize this article in 3 bullet points",
+    answer: "Fast", explain: "Summarization is pattern matching \u2014 the model identifies key points and compresses them. Fast mode handles this well without deep reasoning."
+  }, {
+    task: "Solve this multi-step calculus problem",
+    answer: "Thinking", explain: "Multi-step math requires the model to work through each step sequentially and verify its logic. Thinking mode dramatically reduces errors on problems like this."
+  }];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--text-secondary)", marginBottom: 20, lineHeight: 1.6 }
+  }, "Every major AI has two speeds: fast and deep. Most people never switch out of fast. Here\u2019s what you\u2019re missing and when to use each one."), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 0, marginBottom: 0, background: "var(--surface-alt)", borderRadius: 10, padding: 4, border: "1px solid var(--border)" }
+  }, [["speeds", "1. \u26A1 Two Speeds"], ["apps", "2. \uD83C\uDFAF How Each App Does It"], ["when", "3. \uD83E\uDDE0 When to Switch"]].map(([v, label]) => /*#__PURE__*/React.createElement("button", {
+    key: v, onClick: () => setView(v),
+    style: { flex: 1, padding: "10px", borderRadius: 8, background: view === v ? "var(--accent)" : "transparent", color: view === v ? "#fff" : "var(--text-muted)", border: view === v ? "2px solid var(--accent)" : "2px solid rgba(99, 102, 241, 0.3)", boxShadow: view === v ? "0 2px 8px rgba(99, 102, 241, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)", cursor: "pointer", fontSize: 14, fontWeight: 700, transition: "all 0.2s" }
+  }, label))), /*#__PURE__*/React.createElement("hr", { style: { border: "none", borderTop: "1px solid var(--border)", margin: "12px 0 20px 0" } }),
+  view === "speeds" ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } }, "Every major AI has a fast mode and a thinking mode. Fast mode answers immediately using pattern matching. Thinking mode pauses to reason through the problem step by step before answering."),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap" } },
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 220, background: "var(--surface-alt)", borderRadius: 12, padding: "18px 16px", border: "2px solid #10b98133" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, "\u26A1"),
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 17, color: "#10b981", marginBottom: 10 } }, "Fast Mode"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, /*#__PURE__*/React.createElement("strong", null, "When: "), "Everyday questions, brainstorming, simple tasks"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, /*#__PURE__*/React.createElement("strong", null, "How it works: "), "Pattern matches from training, answers immediately"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5, fontStyle: "italic" } }, "Quick but can miss nuance on hard problems")
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 220, background: "var(--surface-alt)", borderRadius: 12, padding: "18px 16px", border: "2px solid #6366f133" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, "\uD83E\uDDE0"),
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 17, color: "var(--accent)", marginBottom: 10 } }, "Thinking Mode"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, /*#__PURE__*/React.createElement("strong", null, "When: "), "Complex analysis, math, multi-step problems, anything where you\u2019ve gotten a bad answer and want better"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, /*#__PURE__*/React.createElement("strong", null, "How it works: "), "Reasons step by step before responding, checks its own work"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5, fontStyle: "italic" } }, "Slower, sometimes costs more, but meaningfully better on hard problems")
+      )
+    )
+  ) : view === "apps" ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" } },
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--surface-alt)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--border)" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "#d97706", marginBottom: 8 } }, "Claude"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, "Two separate controls \u2014 pick your model (Opus, Sonnet, Haiku) then toggle Extended Thinking on or off independently."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--accent)", fontWeight: 600 } }, "Key: model choice and thinking mode are separate decisions")
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--surface-alt)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--border)" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "#10b981", marginBottom: 8 } }, "ChatGPT"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, "Two controls \u2014 first pick a tier (Instant, Thinking, Pro) then within Thinking mode pick effort level (Light, Standard, Extended, Heavy)."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--accent)", fontWeight: 600 } }, "Key: effort is a dial within the thinking tier")
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--surface-alt)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--border)" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "#3b82f6", marginBottom: 8 } }, "Gemini"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 8 } }, "One combined dropdown \u2014 Fast (answers quickly), Thinking (solves complex problems), Pro (advanced math and code)."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--accent)", fontWeight: 600 } }, "Key: model and thinking combined into a single choice")
+      )
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, marginBottom: 20 } }, "\uD83D\uDCA1 Same dial, three different labels. Once you understand what it does, you can find it anywhere."),
+    /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 700, fontSize: 15, color: "var(--text-primary)", marginBottom: 12 } }, "Match the task to the mode:"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+      TASKS.map((t, i) => /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--surface-alt)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--border)" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 600, fontSize: 14, color: "var(--text-primary)", marginBottom: 10 } }, t.task),
+        taskAnswers[i] === undefined ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8 } },
+          ["Fast", "Thinking"].map(mode => /*#__PURE__*/React.createElement("button", {
+            key: mode,
+            onClick: () => setTaskAnswers(prev => Object.assign({}, prev, { [i]: mode })),
+            style: { flex: 1, padding: "8px 14px", borderRadius: 8, background: "var(--surface)", border: "1px solid var(--border)", cursor: "pointer", fontSize: 13, fontWeight: 600, color: mode === "Fast" ? "#10b981" : "var(--accent)" }
+          }, mode === "Fast" ? "\u26A1 Fast" : "\uD83E\uDDE0 Thinking"))
+        ) : /*#__PURE__*/React.createElement("div", { style: { background: taskAnswers[i] === t.answer ? "#ecfdf5" : "#fef2f2", border: "1px solid " + (taskAnswers[i] === t.answer ? "#86efac" : "#fca5a5"), borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5 } },
+          /*#__PURE__*/React.createElement("strong", { style: { color: taskAnswers[i] === t.answer ? "#16a34a" : "#dc2626" } }, taskAnswers[i] === t.answer ? "\u2705 " : "\u274C Answer: " + t.answer + ". "), t.explain)
+      ))
+    )
+  ) : view === "when" ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" } },
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 220, background: "var(--surface-alt)", borderRadius: 12, padding: "16px 18px", border: "2px solid #6366f133" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--accent)", marginBottom: 12 } }, "\uD83E\uDDE0 Switch to Thinking Mode when:"),
+        [{text: "The problem has multiple steps"}, {text: "You got a bad answer and need a better one"}, {text: "Accuracy matters more than speed"}, {text: "You\u2019re analyzing something with real consequences"}].map((item, i) => /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 6 } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, flexShrink: 0 } }, "\u2713"), item.text))
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 220, background: "var(--surface-alt)", borderRadius: 12, padding: "16px 18px", border: "2px solid #10b98133" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "#10b981", marginBottom: 12 } }, "\u26A1 Stick with Fast Mode when:"),
+        [{text: "You need a quick answer"}, {text: "The task is creative or generative"}, {text: "You\u2019re brainstorming or exploring"}, {text: "Speed matters more than depth"}].map((item, i) => /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5, marginBottom: 6 } }, /*#__PURE__*/React.createElement("span", { style: { color: "#10b981", fontWeight: 700, flexShrink: 0 } }, "\u2713"), item.text))
+      )
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } }, "\uD83D\uDCA1 When in doubt, try fast first. If the answer feels shallow, switch to thinking mode and ask again.")
+  ) : null,
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 8, padding: "10px 16px", marginTop: 20, textAlign: "center" } }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 13 } }, "Bottom line: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 13 } }, "Most people use one speed for everything. You now know when to shift gears.")),
   /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("context"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
@@ -7484,6 +7582,11 @@ const CHECKPOINT_DATA = {
       options: ["Claude \u2014 it has the strongest reasoning", "ChatGPT \u2014 it's the most popular", "Gemini \u2014 it has real-time web access", "Any model \u2014 they all have the same capabilities"],
       correct: 2,
       explain: "Gemini has built-in real-time web access, making it the best choice for current events. Claude and ChatGPT work from training data with a knowledge cutoff \u2014 they don't know what happened today unless given tools. Choosing the right model for the task matters as much as writing a good prompt."
+    }, {
+      question: "You asked AI to check your math homework and it got two problems wrong. What should you try?",
+      options: ["Use a different AI company", "Switch to thinking mode and ask again", "Assume AI can't do math", "Ask the same question three more times"],
+      correct: 1,
+      explain: "Thinking mode reasons step by step and checks its own work, which dramatically improves accuracy on multi-step problems like math. Fast mode pattern-matches an answer quickly but can miss nuance. When you get a bad answer on a complex task, switching modes is the first thing to try."
     }]
   },
   "check-work": {
@@ -7732,6 +7835,7 @@ const SECTION_COMPONENTS = {
   layers: LayersSection,
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
+  thinkingmode: ThinkingModeSection,
   context: ContextSection,
   temperature: TemperatureSection,
   customization: CustomizationSection,
@@ -8013,7 +8117,7 @@ function LLMExplorer() {
       color: "var(--text-primary)",
       margin: "0 0 20px 0"
     }
-  }, currentSection.icon, " ", currentSection.label), streak >= 3 && /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: 16, right: 20, background: "#1a1d29", color: "#f59e0b", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700, animation: "fadeIn 0.3s ease" } }, "\uD83D\uDD25 ", streak, " streak"), /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, checkpointQuizzes: progress.checkpointQuizzes || {}, setCheckpointQuiz: setCheckpointQuiz, onCorrect: onCorrect, onWrong: onWrong, resetCheckpoints: resetCheckpoints, showH2H: showH2H, setShowH2H: setShowH2H }))), /*#__PURE__*/React.createElement("div", {
+  }, currentSection.icon, " ", currentSection.label), streak >= 3 && /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: 16, right: 20, background: "#1a1d29", color: "#f59e0b", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700, animation: "fadeIn 0.3s ease" } }, "\uD83D\uDD25 ", streak, " streak"), /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, checkpointQuizzes: progress.checkpointQuizzes || {}, setCheckpointQuiz: setCheckpointQuiz, onCorrect: onCorrect, onWrong: onWrong, resetCheckpoints: resetCheckpoints, showH2H: showH2H, setShowH2H: setShowH2H })), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       marginTop: 20,

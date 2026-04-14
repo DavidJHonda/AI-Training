@@ -49,7 +49,7 @@ const SECTION_GROUPS = [{
   sections: ["aivscode", "generative", "blackbox", "data", "probability", "hallucination", "check-foundations"]
 }, {
   label: "How AI Is Built",
-  sections: ["training", "tokens", "embeddings", "vectors", "howreads", "check-model"]
+  sections: ["training", "tokens", "embeddings", "howreads", "check-model"]
 }, {
   label: "How AI Responds",
   sections: ["prediction", "layers", "attention", "transform", "inference", "context", "check-respond"]
@@ -135,10 +135,6 @@ const SECTIONS = [{
   label: "Meaning",
   title: "How AI Learns Meaning",
   icon: "\uD83D\uDCD0"
-}, {
-  id: "vectors",
-  label: "Vectors",
-  icon: "\uD83E\uDDED"
 }, {
   id: "prediction",
   label: "Prediction",
@@ -1867,6 +1863,9 @@ function TrainingSection(props) {
       lineHeight: 1.6
     }
   }, "How did the model get so good at predicting words? Think of it like learning a sport: first you study the game by watching thousands of hours of film, then a coach helps you turn that knowledge into actual skill."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--text-secondary)", marginBottom: 20, lineHeight: 1.6 }
+  }, "Before training starts, engineers set up the model\u2019s architecture, tokenizer, and vocabulary so text can be converted into token IDs the model can work with. Then the training begins. You\u2019ll learn about Tokens in the next module."),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 24, marginBottom: 8 }
   },
@@ -2051,15 +2050,6 @@ function TokenSection(props) {
       E("div", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.5 } }, "The model converts it to a number. It has an ID, but no meaning yet.")));
   var bridgeLine = E("div", { style: { textAlign: "center", marginTop: 16, marginBottom: 0 } },
     E("div", { style: { fontSize: 15, fontWeight: 600, color: "var(--text-primary)" } }, "The number alone is meaningless. That\u2019s why the next step exists."));
-  var whatsNextBox = E("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--surface-alt)", borderRadius: 12, border: "1px solid var(--border)" } },
-    E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\u2192 What\u2019s next"),
-    E("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "But a number alone is meaningless"),
-    E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 24, marginBottom: 16 } },
-      E("div", { style: { textAlign: "center" } },
-        E("div", { style: { fontSize: 32, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "cat"),
-        E("div", { style: { fontSize: 24, fontWeight: 700, color: "var(--accent)" } }, "\u2193"),
-        E("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 28, fontWeight: 700, color: "var(--accent)" } }, "9246")),
-      E("div", { style: { color: "var(--text-muted)", fontSize: 14, lineHeight: 1.6, maxWidth: 280 } }, "Token 9246 tells the model which chunk it\u2019s looking at \u2014 but not what it means. That\u2019s what the next step solves.")));
   var bottomLine = E("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } },
     E("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }),
     E("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"),
@@ -2077,7 +2067,6 @@ function TokenSection(props) {
     seeItBox,
     humanAiGrid,
     bridgeLine,
-    whatsNextBox,
     bottomLine,
     navButton);
 }
@@ -2353,93 +2342,13 @@ function EmbeddingsSection(props) {
     }
   }, "[0.23, -0.87, 0.41, 1.05, -0.33, 0.72, -1.14, 0.09, -0.56, 0.88, -0.21, 0.67, ...]"),
   /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginTop: 6, textAlign: "center" } }, "Thousands of dimensions. Each one captures a different aspect of what \u2018cat\u2019 means.")))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Meaning becomes a list of numbers. That\u2019s what a vector is.")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => props.onNavigate && props.onNavigate("vectors"),
-    style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-  }, "Next: Vectors \u2192"));
-}
-function VectorsSection(props) {
-  const [computePhase, setComputePhase] = useState("typing-q");
-  const [computeQChars, setComputeQChars] = useState(0);
-  const [computeAiWords, setComputeAiWords] = useState(0);
-  const [computeReveal, setComputeReveal] = useState(false);
-  const computeQuestion = "How many times did Michael Jordan win the MVP in the NBA?";
-  const computeAnswer = "Michael Jordan won the NBA Most Valuable Player award five times: 1988, 1991, 1992, 1996, and 1998. All five were with the Chicago Bulls.";
-  const computeAnswerWords = computeAnswer.split(" ");
-  useEffect(function() {
-    if (computePhase === "typing-q") {
-      if (computeQChars >= computeQuestion.length) { setTimeout(function() { setComputePhase("typing-ai"); }, 500); return; }
-      var iv = setInterval(function() {
-        setComputeQChars(function(c) { if (c >= computeQuestion.length) { clearInterval(iv); return c; } return c + 1; });
-      }, 35);
-      return function() { clearInterval(iv); };
-    }
-    if (computePhase === "typing-ai") {
-      if (computeAiWords >= computeAnswerWords.length) { setComputePhase("done"); return; }
-      var iv2 = setInterval(function() {
-        setComputeAiWords(function(w) { if (w >= computeAnswerWords.length) { clearInterval(iv2); return w; } return w + 1; });
-      }, 90);
-      return function() { clearInterval(iv2); };
-    }
-  }, [computePhase, computeQChars, computeAiWords]);
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--text-secondary)",
-      marginBottom: 20,
-      lineHeight: 1.6
-    }
-  }, "Now that words have been converted into vectors \u2014 lists of numbers that capture meaning \u2014 here\u2019s why that matters."),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginBottom: 0 } },
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginTop: 24, marginBottom: 0 } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 } }, "Does every token get its own vector?"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6 } }, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one \u2014 \u2018un\u2019, \u2018believ\u2019, \u2018able\u2019 \u2014 gets its own vector with thousands of numbers. The model doesn\u2019t start with the meaning of the full word. It builds meaning from the pieces. That\u2019s what the layers do next.")),
-/*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 16,
-      fontSize: 14,
-      color: "var(--text-primary)",
-      lineHeight: 1.6,
-      marginTop: 24,
-      marginBottom: 0
-    }
-  },
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDD11 The key insight"),
-  /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "The Scale of What\u2019s Happening"),
-  /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-secondary)", marginBottom: 16 } }, "Watch what happens behind the scenes when you ask a simple question."),
-  /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, alignItems: "start" } },
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontSize: 12, fontWeight: 700, marginBottom: 4 } }, "You"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: "12px 12px 12px 2px", padding: "14px 16px", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
-          computeQuestion.slice(0, computeQChars),
-          computePhase === "typing-q" ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null)),
-      /*#__PURE__*/React.createElement("div", null)),
-    computePhase !== "typing-q" ? /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" } },
-      /*#__PURE__*/React.createElement("div", null),
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 700, marginBottom: 4, textAlign: "right" } }, "AI"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "12px 12px 2px 12px", padding: "14px 16px", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, minHeight: 60 } },
-          computeAnswerWords.slice(0, computeAiWords).join(" "),
-          computePhase === "typing-ai" ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))) : null),
-  computePhase === "done" && !computeReveal ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 8 } },
-    /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setComputeReveal(true); },
-      style: { padding: "10px 24px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-    }, "See What AI Calculated \u2193")) : null,
-  computeReveal ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 } },
-      [["Tokens in your question:", "~14"], ["Dimensions per token:", "thousands"], ["Layers processed:", "~100"], ["At each layer:", "every token checks its relationship to every other token"]].map(function(row, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "var(--surface)", borderRadius: 8, border: "1px solid var(--border)" } },
-          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--text-primary)", fontSize: 14 } }, row[0]),
-          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Courier Prime', monospace", fontWeight: 700, color: "var(--accent)", fontSize: 14 } }, row[1]));
-      })),
-    /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6 } }, "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token. That\u2019s why AI types one word at a time \u2014 each word requires a full pass through all of this before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Every token becomes a vector. Every vector gets processed through every layer. That\u2019s how meaning turns into prediction.")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => props.onNavigate && props.onNavigate("prediction"),
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Meaning becomes a list of numbers. That\u2019s what a vector is.")), /*#__PURE__*/React.createElement("button", {
+    onClick: () => props.onNavigate && props.onNavigate("check-model"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-  }, "Next: Prediction \u2192"));
+  }, "Next: Quick Check \u2192"));
 }
 function PredictionSection(props) {
   const [hoveredWord, setHoveredWord] = useState(null);
@@ -3413,6 +3322,29 @@ function TransformSectionModule(props) {
 }
 function InferenceSection(props) {
   const [activeStep, setActiveStep] = useState(0);
+  const [computePhase, setComputePhase] = useState("typing-q");
+  const [computeQChars, setComputeQChars] = useState(0);
+  const [computeAiWords, setComputeAiWords] = useState(0);
+  const [computeReveal, setComputeReveal] = useState(false);
+  const computeQuestion = "How many times did Michael Jordan win the MVP in the NBA?";
+  const computeAnswer = "Michael Jordan won the NBA Most Valuable Player award five times: 1988, 1991, 1992, 1996, and 1998. All five were with the Chicago Bulls.";
+  const computeAnswerWords = computeAnswer.split(" ");
+  useEffect(function() {
+    if (computePhase === "typing-q") {
+      if (computeQChars >= computeQuestion.length) { setTimeout(function() { setComputePhase("typing-ai"); }, 500); return; }
+      var iv = setInterval(function() {
+        setComputeQChars(function(c) { if (c >= computeQuestion.length) { clearInterval(iv); return c; } return c + 1; });
+      }, 35);
+      return function() { clearInterval(iv); };
+    }
+    if (computePhase === "typing-ai") {
+      if (computeAiWords >= computeAnswerWords.length) { setComputePhase("done"); return; }
+      var iv2 = setInterval(function() {
+        setComputeAiWords(function(w) { if (w >= computeAnswerWords.length) { clearInterval(iv2); return w; } return w + 1; });
+      }, 90);
+      return function() { clearInterval(iv2); };
+    }
+  }, [computePhase, computeQChars, computeAiWords]);
   const steps = [{
     icon: "\uD83D\uDCAC",
     title: "You type a prompt",
@@ -3681,7 +3613,42 @@ function InferenceSection(props) {
       fontSize: 12,
       color: "var(--text-muted)"
     }
-  }, "Happens every chat"))), /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Your question runs through billions of calculations in under a second.")), /*#__PURE__*/React.createElement("button", {
+  }, "Happens every chat"))),
+  /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, marginTop: 24, marginBottom: 0 }
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDD11 The key insight"),
+    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "The Scale of What\u2019s Happening"),
+    /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-secondary)", marginBottom: 16 } }, "Watch what happens behind the scenes when you ask a simple question."),
+    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, alignItems: "start" } },
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontSize: 12, fontWeight: 700, marginBottom: 4 } }, "You"),
+          /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: "12px 12px 12px 2px", padding: "14px 16px", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6 } },
+            computeQuestion.slice(0, computeQChars),
+            computePhase === "typing-q" ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null)),
+        /*#__PURE__*/React.createElement("div", null)),
+      computePhase !== "typing-q" ? /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" } },
+        /*#__PURE__*/React.createElement("div", null),
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 700, marginBottom: 4, textAlign: "right" } }, "AI"),
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "12px 12px 2px 12px", padding: "14px 16px", fontSize: 14, color: "var(--text-primary)", lineHeight: 1.6, minHeight: 60 } },
+            computeAnswerWords.slice(0, computeAiWords).join(" "),
+            computePhase === "typing-ai" ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))) : null),
+    computePhase === "done" && !computeReveal ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 8 } },
+      /*#__PURE__*/React.createElement("button", {
+        onClick: function() { setComputeReveal(true); },
+        style: { padding: "10px 24px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
+      }, "See What AI Calculated \u2193")) : null,
+    computeReveal ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 } },
+        [["Tokens in your question:", "~14"], ["Dimensions per token:", "thousands"], ["Layers processed:", "~100"], ["At each layer:", "every token checks its relationship to every other token"]].map(function(row, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "var(--surface)", borderRadius: 8, border: "1px solid var(--border)" } },
+            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--text-primary)", fontSize: 14 } }, row[0]),
+            /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Courier Prime', monospace", fontWeight: 700, color: "var(--accent)", fontSize: 14 } }, row[1]));
+        })),
+      /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6 } }, "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token. That\u2019s why AI types one word at a time \u2014 each word requires a full pass through all of this before the next word can begin.")) : null),
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Your question runs through billions of calculations in under a second.")), /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("context"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Context \u2192"));
@@ -8378,7 +8345,6 @@ const SECTION_COMPONENTS = {
   training: TrainingSection,
   tokens: TokenSection,
   embeddings: EmbeddingsSection,
-  vectors: VectorsSection,
   prediction: PredictionSection,
   layers: LayersSection,
   attention: AttentionSectionModule,

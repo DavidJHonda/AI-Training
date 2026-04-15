@@ -45,19 +45,19 @@ const SECTION_GROUPS = [{
   label: "Intro",
   sections: ["preassessment", "aihistory", "aistrengths", "whydeeper", "intro"]
 }, {
-  label: "How AI Thinks",
-  sections: ["aivscode", "generative", "blackbox", "data", "probability", "hallucination", "check-foundations"]
+  label: "Foundations",
+  sections: ["aivscode", "generative", "blackbox", "data", "hallucination", "check-foundations"]
 }, {
-  label: "How AI Is Built",
+  label: "Building the Model",
   sections: ["training", "tokens", "embeddings", "howreads", "check-model"]
 }, {
-  label: "How AI Responds",
-  sections: ["prediction", "layers", "attention", "transform", "inference", "context", "check-respond"]
+  label: "Producing an Answer",
+  sections: ["context", "probability", "prediction", "layers", "attention", "transform", "inference", "check-respond"]
 }, {
-  label: "Knobs and Dials",
+  label: "Controls",
   sections: ["modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "check-control"]
 }, {
-  label: "Use It Well",
+  label: "Using AI Well",
   sections: ["critical", "flattery", "prompting", "thoughtpartner", "verify", "evaluating", "check-work"]
 }, {
   label: "Responsible Use",
@@ -1458,9 +1458,9 @@ function DataSection(props) {
       ))),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Computer programs need clean data. AI runs on everything humans produce.")),
     /*#__PURE__*/React.createElement("button", {
-      onClick: () => props.onNavigate && props.onNavigate("probability"),
+      onClick: () => props.onNavigate && props.onNavigate("hallucination"),
       style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-    }, "Next: Probability \u2192")
+    }, "Next: Hallucination \u2192")
   );
 }
 function HowAIReadsSection(props) {
@@ -1639,9 +1639,9 @@ function ProbabilitySection(props) {
           }, "\u21BB Start Over"),
           score.total >= 5 && /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "AI ranks many possible next words by probability. Sometimes it picks the top one. Sometimes it picks a less likely one to allow variation.")),
           score.total >= 5 && props.onNavigate && /*#__PURE__*/React.createElement("button", {
-            onClick: function() { props.onNavigate("hallucination"); },
+            onClick: function() { props.onNavigate("prediction"); },
             style: { display: "block", margin: "12px auto 0", padding: "10px 24px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
-          }, "Next: Hallucination \u2192"))
+          }, "Next: Prediction \u2192"))
       ),
       !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
         phrases.map(function(_, i) { return /*#__PURE__*/React.createElement("div", {
@@ -2458,6 +2458,28 @@ function PredictionSection(props) {
   const [hoveredWord, setHoveredWord] = useState(null);
   const [ctxStep, setCtxStep] = useState(1);
   const [ctxChoice, setCtxChoice] = useState(null);
+  const [seeStep, setSeeStep] = useState(0);
+  const [promptChars, setPromptChars] = useState(0);
+  const [promptDone, setPromptDone] = useState(false);
+  const [aiRespWords, setAiRespWords] = useState(0);
+  const [aiRespDone, setAiRespDone] = useState(false);
+  var seePromptText = "I\u2019m planning a trip to France in June. What\u2019s the capital?";
+  var seeAiText = "The capital of France is Paris. June is a great time to visit \u2014 the weather is typically warm with long daylight hours, perfect for exploring the city on foot. A few highlights worth planning around: the Mus\u00e9e d\u2019Orsay is less crowded than the Louvre and just as impressive, the Marais district has some of the best food in the city, and if you\u2019re there on June 21st, the F\u00eate de la Musique fills the streets with live performances. Would you like help building an itinerary?";
+  var seeAiWordsArr = seeAiText.split(" ");
+  var seeCursor = /*#__PURE__*/React.createElement("span", { style: { color: "var(--accent)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
+  useEffect(function() {
+    if (seeStep < 1 || promptDone) return;
+    if (promptChars >= seePromptText.length) { setPromptDone(true); return; }
+    var iv = setInterval(function() { setPromptChars(function(c) { if (c >= seePromptText.length) { clearInterval(iv); return c; } return c + 1; }); }, 35);
+    return function() { clearInterval(iv); };
+  }, [seeStep, promptChars, promptDone]);
+  useEffect(function() {
+    if (seeStep < 5 || aiRespDone) return;
+    var t = setTimeout(function() {
+      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= seeAiWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
+    }, 500);
+    return function() { clearTimeout(t); };
+  }, [seeStep]);
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 20 } }, /*#__PURE__*/React.createElement("span", null, "Remember this TRY IT? If AI answered only based on raw probability, it would always return ", /*#__PURE__*/React.createElement("strong", null, "morning"), ". What if ", /*#__PURE__*/React.createElement("strong", null, "luck"), ", ", /*#__PURE__*/React.createElement("strong", null, "grief"), ", ", /*#__PURE__*/React.createElement("strong", null, "boy"), ", or ", /*#__PURE__*/React.createElement("strong", null, "heavens"), " is the better answer?")),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", borderRadius: 12, padding: 24, border: "1px solid var(--border)", marginBottom: 20 } },
@@ -2479,10 +2501,66 @@ function PredictionSection(props) {
             /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 14, color: "var(--text-secondary)", minWidth: 40, textAlign: "right" } }, opt.pct + "%")),
           /*#__PURE__*/React.createElement("div", { style: { padding: "6px 14px 8px", fontSize: 12, color: "var(--text-muted)", lineHeight: 1.5, background: opt.isTop ? "#f5f3ff" : "var(--surface-alt)", borderBottomLeftRadius: 8, borderBottomRightRadius: 8, borderLeft: opt.isTop ? "2px solid #6366f1" : "1px solid var(--border)", borderRight: opt.isTop ? "2px solid #6366f1" : "1px solid var(--border)", borderBottom: opt.isTop ? "2px solid #6366f1" : "1px solid var(--border)" } }, opt.note));
       }))),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 12 } }, "AI does 2 tasks BEFORE it returns the word with the highest probability."),
+  /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 12 } }, "AI runs a 3-step process before it returns words."),
   /*#__PURE__*/React.createElement("ol", { style: { color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20, paddingLeft: 24 } },
     /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Similarity"), " \u2014 gives the model a map. This tells AI which words belong in the same ", /*#__PURE__*/React.createElement("strong", null, "neighborhood"), " of meaning."),
-    /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Context"), " \u2014 tells it which part of the ", /*#__PURE__*/React.createElement("strong", null, "neighborhood"), " matters right now. This tells AI which specific part of the neighborhood matters right now.")),
+    /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Context"), " \u2014 tells it which part of the ", /*#__PURE__*/React.createElement("strong", null, "neighborhood"), " matters right now. This tells AI which specific part of the neighborhood matters right now."),
+    /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Probability"), " \u2014 selects the next word based on the probability given the Similarity and the Context.")),
+
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 0, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--surface-alt)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 20 } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F See It"),
+    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--text-primary)", marginBottom: 16 } }, "Three Steps to an Answer"),
+    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 16 } }, "Watch how the model processes a single prompt."),
+
+    seeStep < 1 && /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(1); }, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "Start \u2192"),
+
+    seeStep >= 1 && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginBottom: 20 } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 12, padding: "12px 16px", maxWidth: "80%", fontSize: 15, color: "var(--text-primary)", lineHeight: 1.5 } },
+          promptChars > 0 ? seePromptText.slice(0, promptChars) : "\u00A0",
+          !promptDone ? seeCursor : null)),
+      promptDone && seeStep < 2 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(2); }, style: { display: "block", margin: "12px auto 0", padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "See Similarity Step \u2192") : null),
+
+    seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: 16, marginTop: 12, animation: "fadeIn 0.4s ease", marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#3b82f6", marginBottom: 4 } }, "Step 1: Similarity"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", marginBottom: 8 } }, "\u201CCapital\u201D activates a broad world cities / capital-city neighborhood"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 0 } },
+        ["Paris", "London", "Tokyo", "Berlin", "Washington D.C.", "Ottawa", "Canberra"].map(function(city) {
+          return /*#__PURE__*/React.createElement("span", { key: city, style: { display: "inline-block", background: "#eff6ff", border: "1px solid #3b82f6", borderRadius: 20, padding: "5px 14px", fontSize: 13, fontWeight: 600, color: "#1e40af", margin: 4 } }, city);
+        })),
+      seeStep < 3 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(3); }, style: { display: "block", margin: "16px auto 0", padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "See Context Step \u2192") : null),
+
+    seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: 16, marginTop: 12, animation: "fadeIn 0.4s ease", marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#8b5cf6", marginBottom: 4 } }, "Step 2: Context"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", marginBottom: 8 } }, "\u201CFrance\u201D narrows attention toward the France region"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 0 } },
+        ["Paris", "Lyon", "Marseille", "Versailles"].map(function(city) {
+          return /*#__PURE__*/React.createElement("span", { key: city, style: { display: "inline-block", background: "#faf5ff", border: "1px solid #8b5cf6", borderRadius: 20, padding: "5px 14px", fontSize: 13, fontWeight: 600, color: "#5b21b6", margin: 4 } }, city);
+        })),
+      seeStep < 4 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(4); }, style: { display: "block", margin: "16px auto 0", padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "See Probability Step \u2192") : null),
+
+    seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: 16, marginTop: 12, animation: "fadeIn 0.4s ease", marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#10b981", marginBottom: 4 } }, "Step 3: Probability"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", marginBottom: 8 } }, "Within that narrowed context, Paris becomes overwhelmingly most likely."),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 } },
+        [{ word: "Paris", pct: 91 }, { word: "Lyon", pct: 4 }, { word: "Marseille", pct: 3 }, { word: "Versailles", pct: 2 }].map(function(item) {
+          return /*#__PURE__*/React.createElement("div", { key: item.word, style: { display: "flex", alignItems: "center", gap: 12, padding: "8px 14px", borderRadius: 8, background: item.pct > 50 ? "#eef2ff" : "var(--surface)", border: item.pct > 50 ? "2px solid #6366f1" : "1px solid var(--border)" } },
+            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, minWidth: 90, color: "var(--text-primary)" } }, item.word),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--border)", borderRadius: 6, height: 20, overflow: "hidden" } },
+              /*#__PURE__*/React.createElement("div", { style: { width: item.pct + "%", height: "100%", background: item.pct > 50 ? "linear-gradient(90deg, #6366f1, #8b5cf6)" : "#c7d2fe", borderRadius: 6, transition: "width 0.6s ease" } })),
+            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 14, color: "var(--text-secondary)", minWidth: 40, textAlign: "right" } }, item.pct + "%"));
+        })),
+      seeStep < 5 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(5); }, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "See AI\u2019s Response \u2192") : null),
+
+    seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", marginTop: 12, marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: "12px 16px", maxWidth: "80%", fontSize: 15, color: "var(--text-primary)", lineHeight: 1.5, animation: "fadeIn 0.4s ease" } },
+        aiRespWords > 0 ? seeAiWordsArr.slice(0, aiRespWords).join(" ") : "\u00A0",
+        !aiRespDone ? seeCursor : null)),
+
+    aiRespDone && /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginTop: 16, animation: "fadeIn 0.4s ease" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-muted)", marginBottom: 4 } }, "\uD83D\uDD11 Key Insight"),
+      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 } }, "This happened for every word in that response. The model didn\u2019t just look up \u2018capital of France.\u2019 It ran similarity, context, and probability for each word \u2014 \u2018The,\u2019 \u2018capital,\u2019 \u2018of,\u2019 \u2018France,\u2019 \u2018is,\u2019 \u2018Paris\u2019 \u2014 and kept going. Every single word is a prediction."))),
+
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 20 } }, "The table below has a new column, Pepsi. Notice that the vectors for Coke and Pepsi are identical, except for sweetness. Based on the vectors, Coke and Pepsi have more similar meaning than either word does with Black Coffee."),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", borderRadius: 12, border: "1px solid var(--border)", overflow: "hidden", maxWidth: "calc(100% - 48px)", margin: "0 auto 20px" } },
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--border)", alignItems: "center" } },
@@ -3799,9 +3877,9 @@ function InferenceSection(props) {
         })),
       /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6 } }, "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token. That\u2019s why AI types one word at a time \u2014 each word requires a full pass through all of this before the next word can begin.")) : null),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "Your question runs through billions of calculations in under a second.")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => props.onNavigate && props.onNavigate("context"),
+    onClick: () => props.onNavigate && props.onNavigate("check-respond"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-  }, "Next: Context \u2192"));
+  }, "Next: Quick Check \u2192"));
 }
 const CONTEXT_EXAMPLES = [{
   label: "No context",
@@ -4130,9 +4208,9 @@ function ContextSection(props) {
     }
   }, "\uD83D\uDCA1 ", ex.explain)),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } }, /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }), /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"), /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "The model only knows what\u2019s on the whiteboard. You control what goes on it. Use that.")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => props.onNavigate && props.onNavigate("check-respond"),
+    onClick: () => props.onNavigate && props.onNavigate("probability"),
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-  }, "Next: Quick Check \u2192"));
+  }, "Next: Probability \u2192"));
 }
 function CustomizationSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
@@ -7965,8 +8043,8 @@ function AIFutureSection(props) {
 }
 const CHECKPOINT_DATA = {
   "check-foundations": {
-    title: "How AI Thinks",
-    nextGroup: "How AI Works",
+    title: "Foundations",
+    nextGroup: "Building the Model",
     nextSection: "training",
     questions: [{
       question: "Why can't a traditional IF-THEN spam filter catch \"fr33 m0n3y\"?",
@@ -8001,9 +8079,9 @@ const CHECKPOINT_DATA = {
     }]
   },
   "check-model": {
-    title: "How AI Is Built",
-    nextGroup: "How AI Responds",
-    nextSection: "prediction",
+    title: "Building the Model",
+    nextGroup: "Producing an Answer",
+    nextSection: "context",
     questions: [{
       question: "Why does the model break text into tokens instead of using whole words?",
       options: ["Whole words take too much memory", "It needs a fixed vocabulary \u2014 rare words get split into known subparts", "Tokens are easier to display on screen", "It's a limitation that will be fixed in future models"],
@@ -8027,8 +8105,8 @@ const CHECKPOINT_DATA = {
     }]
   },
   "check-respond": {
-    title: "How AI Responds",
-    nextGroup: "Knobs and Dials",
+    title: "Producing an Answer",
+    nextGroup: "Controls",
     nextSection: "modelselection",
     questions: [{
       question: "What does the attention mechanism do inside each layer?",
@@ -8063,8 +8141,8 @@ const CHECKPOINT_DATA = {
     }]
   },
   "check-control": {
-    title: "Knobs and Dials",
-    nextGroup: "Use It Well",
+    title: "Controls",
+    nextGroup: "Using AI Well",
     nextSection: "critical",
     questions: [{
       question: "What happens when you increase the temperature setting on an AI model?",
@@ -8130,7 +8208,7 @@ const CHECKPOINT_DATA = {
     }]
   },
   "check-work": {
-    title: "Use It Well",
+    title: "Using AI Well",
     nextGroup: "Responsible Use",
     nextSection: "integrity",
     questions: [{

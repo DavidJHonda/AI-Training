@@ -178,7 +178,7 @@ const SECTIONS = [{
   icon: "\uD83E\uDDE0"
 }, {
   id: "context",
-  label: "Context",
+  label: "Context Window",
   icon: "\uD83D\uDCCB"
 }, {
   id: "temperature",
@@ -3927,48 +3927,100 @@ const CONTEXT_WINDOW_FACTS = [{
 function ContextSection(props) {
   const [activeExample, setActiveExample] = useState(0);
   const ex = CONTEXT_EXAMPLES[activeExample];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  const [seeItScenario, setSeeItScenario] = useState(null);
+  const [seeItSeen, setSeeItSeen] = useState([]);
+  const [seeItPhase, setSeeItPhase] = useState(0);
+  const [seeItChars, setSeeItChars] = useState(0);
+  var SEE_IT_SCENARIOS = [
+    { label: "\uD83C\uDFC0 Basketball", context: "I\u2019ve been practicing my free throws but I keep missing to the left.", prompt: "How do I improve my shot?", response: "It sounds like you might be pushing the ball with your dominant hand rather than guiding it. Try squaring your shooting elbow directly under the ball and focusing on a soft follow-through toward the center of the rim. A consistent release point will help you correct that leftward drift." },
+    { label: "\uD83D\uDCF7 Photography", context: "I just got a DSLR and I\u2019m trying to take sharper portraits.", prompt: "How do I improve my shot?", response: "For sharper portraits, make sure you\u2019re focusing on the subject\u2019s eyes \u2014 that\u2019s where the viewer looks first. Use a wider aperture like f/2.8 to blur the background, and keep your shutter speed at least 1/200s to avoid motion blur. A tripod or image stabilization helps too." },
+    { label: "\u2615 Espresso", context: "I\u2019m pulling espresso shots on my new machine but they taste sour.", prompt: "How do I improve my shot?", response: "Sour usually means under-extraction \u2014 the water moved through the grounds too quickly. Try grinding finer so the water has more contact time. If that doesn\u2019t fix it, check your dose and make sure you\u2019re using enough coffee for the basket size. Aim for a 25\u201330 second pull." }
+  ];
+  var startSeeIt = function(idx) { setSeeItScenario(idx); setSeeItPhase(1); setSeeItChars(0); };
+  var seeItAllDone = seeItSeen.length >= 3;
+  useEffect(function() {
+    if (seeItScenario === null || seeItPhase < 1 || seeItPhase > 3) return;
+    var sc = SEE_IT_SCENARIOS[seeItScenario];
+    if (seeItPhase === 1 || seeItPhase === 2) {
+      var text = seeItPhase === 1 ? sc.context : sc.prompt;
+      var len = text.length;
+      var speed = Math.max(30, Math.min(40, 1200 / len));
+      var done = false;
+      var interval = setInterval(function() {
+        setSeeItChars(function(c) {
+          if (c >= len) {
+            if (!done) { done = true; clearInterval(interval); setTimeout(function() { setSeeItPhase(function(p) { return p + 1; }); setSeeItChars(0); }, 400); }
+            return c;
+          }
+          return c + 1;
+        });
+      }, speed);
+      return function() { clearInterval(interval); };
+    }
+    if (seeItPhase === 3) {
+      var words = sc.response.split(" ");
+      var len = words.length;
+      var done = false;
+      var interval = setInterval(function() {
+        setSeeItChars(function(c) {
+          if (c >= len) {
+            if (!done) { done = true; clearInterval(interval); setSeeItPhase(4); setSeeItSeen(function(prev) { return prev.indexOf(seeItScenario) >= 0 ? prev : prev.concat([seeItScenario]); }); }
+            return c;
+          }
+          return c + 1;
+        });
+      }, 90);
+      return function() { clearInterval(interval); };
+    }
+  }, [seeItScenario, seeItPhase]);
+  var seeItSc = seeItScenario !== null ? SEE_IT_SCENARIOS[seeItScenario] : null;
+  var seeItCursor = /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: "1em", background: "var(--accent)", marginLeft: 1, verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" } });
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { marginLeft: 24, marginRight: 24, padding: 24, background: "var(--surface-alt)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 20 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F SEE IT"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--text-primary)", marginBottom: 6 } }, "Same Prompt, Different Answer"),
+      /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
+        "The exact same question gets a completely different answer depending on what the model can see."),
+      seeItScenario === null ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+        /*#__PURE__*/React.createElement("button", {
+          onClick: function() { startSeeIt(0); },
+          style: { padding: "12px 28px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+        }, "First Scenario \u2192")
+      ) : null,
+      seeItSc !== null ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, animation: "fadeIn 0.3s ease" } },
+        seeItPhase >= 1 ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end" } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: "4px 12px 12px 12px", padding: "12px 16px", fontSize: 15, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "80%" } },
+            seeItPhase === 1 ? /*#__PURE__*/React.createElement(React.Fragment, null, seeItSc.context.slice(0, seeItChars), seeItChars < seeItSc.context.length ? seeItCursor : null) : seeItSc.context)
+        ) : null,
+        seeItPhase >= 2 ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", animation: "fadeIn 0.3s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: "4px 12px 12px 12px", padding: "12px 16px", fontSize: 15, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "80%", fontWeight: 600 } },
+            seeItPhase === 2 ? /*#__PURE__*/React.createElement(React.Fragment, null, seeItSc.prompt.slice(0, seeItChars), seeItChars < seeItSc.prompt.length ? seeItCursor : null) : seeItSc.prompt)
+        ) : null,
+        seeItPhase >= 3 ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "12px 4px 12px 12px", padding: "12px 16px", fontSize: 15, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "80%" } },
+            seeItPhase === 3 ? /*#__PURE__*/React.createElement(React.Fragment, null, seeItSc.response.split(" ").slice(0, seeItChars).join(" "), seeItChars < seeItSc.response.split(" ").length ? seeItCursor : null) : seeItSc.response)
+        ) : null,
+        seeItPhase >= 4 && seeItScenario === 2 ? /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginTop: 8, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", marginBottom: 4 } }, "\uD83D\uDD11 Key Insight"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6 } },
+            "Same exact words \u2014 \u201CHow do I improve my shot?\u201D \u2014 three completely different answers. The only thing that changed was what the model could see before the question. That surrounding information is called ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--text-primary)" } }, "context"), ", and it changes everything.")
+        ) : null,
+        seeItPhase >= 4 && seeItScenario < 2 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 8 } },
+          /*#__PURE__*/React.createElement("button", {
+            onClick: function() { startSeeIt(seeItScenario + 1); },
+            style: { padding: "10px 24px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
+          }, "Next Scenario \u2192")
+        ) : null
+      ) : null
+    ),
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--text-secondary)",
-      marginBottom: 12,
-      lineHeight: 1.6
-    }
-  }, "Ask AI ", /*#__PURE__*/React.createElement("em", null, "\"How do I improve my shot?\""), " and you could get:"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 10,
-      marginBottom: 16,
-      flexWrap: "wrap"
-    }
-  }, ["\uD83C\uDFC0 Basketball coaching tips", "\uD83D\uDCF7 Photography advice", "\u2615 Espresso technique"].map((item, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      flex: 1,
-      minWidth: 140,
-      background: "var(--surface-alt)",
-      borderRadius: 8,
-      padding: "10px 14px",
-      border: "1px solid var(--border)",
-      fontSize: 14,
-      fontWeight: 600,
-      color: "var(--text-primary)",
-      textAlign: "center"
-    }
-  }, item))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--text-secondary)",
       marginBottom: 16,
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, "Same question, three completely different answers. The answer depends on what else the model can see \u2014 are you in a basketball chat with AI? A photography class? A coffee chat? That surrounding information is called ", /*#__PURE__*/React.createElement("strong", null, "context"), ", and it changes everything."), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--text-secondary)",
-      marginBottom: 16,
-      fontSize: 14,
-      lineHeight: 1.6
-    }
-  }, "The ", /*#__PURE__*/React.createElement("strong", null, "context window"), " is everything the model can see at once when generating a response. Think of it like a whiteboard \u2014 everything you're working with has to fit on the whiteboard. It includes your current message, any conversation history, customization instructions, and memory from past conversations. It has a fixed size, measured in tokens:"), SNAPSHOT_NOTE, /*#__PURE__*/React.createElement("div", {
+  }, "The context window is everything the model can see at once when generating a response. It includes your current message, any conversation history, customization instructions, and memory from past conversations. Think of it like a whiteboard \u2014 everything you\u2019re working with has to fit. It has a fixed size, measured in tokens:"), SNAPSHOT_NOTE, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",

@@ -497,8 +497,6 @@ function AIHistorySection(props) {
   var titleRefs = useRef([]);
   var cardRefs = useRef([]);
   var _ps = useState(null), paths = _ps[0], setPaths = _ps[1];
-  var _vbs = useState(1), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
-  var BAYES_CONTINUE_LABELS = ["Check your starting belief →", "Draw a red ball →", "Draw again →"];
   useEffect(function() {
     function calc() {
       var c = containerRef.current;
@@ -522,14 +520,65 @@ function AIHistorySection(props) {
       style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.7, marginBottom: 32 }
     }, "Every time AI writes a sentence, it\u2019s running math to predict the most likely answer. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
     /*#__PURE__*/React.createElement("div", {
-      style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.6, marginBottom: 16 }
+      style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 20, marginBottom: 32 }
     },
-      /*#__PURE__*/React.createElement("p", { style: { margin: 0 } }, "You\u2019ve heard of ", /*#__PURE__*/React.createElement("b", null, "ChatGPT"), ". Its name actually tells you a lot about how it works.")
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 11, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14 }
+      }, "The AI Landscape"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }
+      },
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 10, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 10 }
+          }, "Main focus in this course"),
+          [
+            { term: "AI", def: "The broad field of building systems that perform tasks that usually seem to require human intelligence." },
+            { term: "Generative AI", def: "AI that creates new content, like text, images, audio, or video." },
+            { term: "LLM", def: "A Large Language Model. It\u2019s the engine behind tools like ChatGPT and Claude. It works by predicting what to say next, one piece at a time." }
+          ].map(function(d, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", marginBottom: 8 }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--text-primary)", marginBottom: 3 } }, d.term),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 } }, d.def)
+            );
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 10, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 10 }
+          }, "Related terms you\u2019ll hear"),
+          [
+            { term: "Product", def: "The app you use, like ChatGPT, Claude, or Gemini. A product can be built around one or more models." },
+            { term: "Model", def: "The trained engine inside the product that generates the response. Some products use one model, while others let you choose between several." },
+            { term: "Chatbot", def: "A conversational interface built around a model." },
+            { term: "Agent", def: "A system that uses AI to take steps, use tools, and work toward a goal." }
+          ].map(function(d, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", marginBottom: 8 }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--text-primary)", marginBottom: 3 } }, d.term),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 } }, d.def)
+            );
+          })
+        )
+      ),
+      /*#__PURE__*/React.createElement("div", {
+        style: { borderTop: "1px solid var(--border)", marginTop: 8, paddingTop: 12, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, fontStyle: "italic", textAlign: "center" }
+      }, "This course mainly focuses on LLMs, how they work, and the products built around them.")
     ),
     /*#__PURE__*/React.createElement("div", {
         ref: containerRef,
         style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 24, marginBottom: 32, position: "relative" }
       },
+        /*#__PURE__*/React.createElement("div", {
+          style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.6, textAlign: "left", marginBottom: 24 }
+        },
+          /*#__PURE__*/React.createElement("p", { style: { margin: 0 } }, "You\u2019ve heard of ", /*#__PURE__*/React.createElement("b", null, "ChatGPT"), ". Its name actually tells you a lot about how ", /*#__PURE__*/React.createElement("b", null, "LLMs"), " work.")
+        ),
         /*#__PURE__*/React.createElement("div", {
           style: { textAlign: "center", fontSize: 40, fontWeight: 800, letterSpacing: 6, marginBottom: 0 }
         },
@@ -568,7 +617,29 @@ function AIHistorySection(props) {
                   style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }
                 }, col.desc)));
           }))),
-    /*#__PURE__*/React.createElement("div", { style: { height: 24 } }),
+    /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } },
+      /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }),
+      /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"),
+      /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "AI is math that uses probability to make predictions.")),
+    /*#__PURE__*/React.createElement("button", {
+      onClick: function() { props.onNavigate && props.onNavigate("howwegothere"); },
+      style: { display: "block", margin: "24px auto 0", padding: "14px 36px", borderRadius: 10, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, boxShadow: "0 2px 12px rgba(16, 185, 129, 0.4)" }
+    }, "Next: How We Got Here →")
+  );
+}
+function HowWeGotHereSection(props) {
+  var TIMELINE = [
+    { year: "1943", title: "Math Modeled After the Brain", desc: "Scientists modeled math after how brain cells fire. This was the first concept of a neural network: using interconnected nodes in layers to process data, recognize complex patterns, and make predictions.", tag: "→ Layers" },
+    { year: "1950", title: "Turing Asks: Can Machines Think?", desc: "He proposed a test: if you can’t tell whether you’re talking to a human or a machine, does the difference matter? You’ve probably already asked yourself that.", tag: null },
+    { year: "1956", title: "AI becomes a field", desc: /*#__PURE__*/React.createElement("span", null, "John McCarthy helped give the field its name: Artificial Intelligence. Researchers like ", /*#__PURE__*/React.createElement("strong", null, "Claude"), " Shannon helped turn scattered ideas about logic, information, and learning into a real area of study."), tag: null },
+    { year: "1957", title: "The Perceptron", desc: "The first machine that could learn from examples. It was primitive, but it proved the concept: machines can learn, not just follow instructions.", tag: "→ Training" },
+    { year: "1986", title: "Backpropagation", desc: "The method that lets a machine learn from its mistakes. Each wrong answer makes the next one slightly better, over billions of attempts.", tag: "→ Training" },
+    { year: "2017", title: "Attention Is All You Need", desc: "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The transformer was born.", tag: "→ Transformers" },
+    { year: "2022", title: "ChatGPT Launches", desc: "The public finally saw what large language models could do. AI stopped feeling like a research topic and started feeling like a tool anyone could use.", tag: null }
+  ];
+  var _vbs = useState(0), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
+  var BAYES_CONTINUE_LABELS = ["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"];
+  return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 24, marginBottom: 32 }
     },
@@ -583,7 +654,7 @@ function AIHistorySection(props) {
     },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 6 } }, "👁️ See It"),
       /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.7, marginBottom: 20, marginTop: 0 } },
-        "Walk through the two-bag example. Watch how each piece of evidence shifts the probability."
+        "Here\u2019s the genius behind Bayes\u2019 Theorem. Watch it in action."
       ),
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column" } },
         [
@@ -785,7 +856,7 @@ function AIHistorySection(props) {
         /*#__PURE__*/React.createElement("button", {
           onClick: function() { setVisibleBayesSteps(visibleBayesSteps + 1); },
           style: { display: "inline-block", padding: "12px 28px", borderRadius: 10, background: "var(--accent)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, boxShadow: "0 2px 10px rgba(99, 102, 241, 0.25)" }
-        }, BAYES_CONTINUE_LABELS[visibleBayesSteps - 1])
+        }, BAYES_CONTINUE_LABELS[visibleBayesSteps])
       ) : null,
       visibleBayesSteps >= 4 ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 10, padding: "14px 18px", textAlign: "center", marginTop: 20, animation: "fadeIn 0.5s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "#4338ca", lineHeight: 1.5 } },
@@ -793,29 +864,8 @@ function AIHistorySection(props) {
         )
       ) : null
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } },
-      /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "AI is math that uses probability to make predictions.")),
-    /*#__PURE__*/React.createElement("button", {
-      onClick: function() { props.onNavigate && props.onNavigate("howwegothere"); },
-      style: { display: "block", margin: "24px auto 0", padding: "14px 36px", borderRadius: 10, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, boxShadow: "0 2px 12px rgba(16, 185, 129, 0.4)" }
-    }, "Next: How We Got Here →")
-  );
-}
-function HowWeGotHereSection(props) {
-  var TIMELINE = [
-    { year: "1943", title: "Math Modeled After the Brain", desc: "Scientists modeled math after how brain cells fire. This was the first concept of a neural network: using interconnected nodes in layers to process data, recognize complex patterns, and make predictions.", tag: "→ Layers" },
-    { year: "1950", title: "Turing Asks: Can Machines Think?", desc: "He proposed a test: if you can’t tell whether you’re talking to a human or a machine, does the difference matter? You’ve probably already asked yourself that.", tag: null },
-    { year: "1956", title: "AI becomes a field", desc: /*#__PURE__*/React.createElement("span", null, "John McCarthy helped give the field its name: Artificial Intelligence. Researchers like ", /*#__PURE__*/React.createElement("strong", null, "Claude"), " Shannon helped turn scattered ideas about logic, information, and learning into a real area of study."), tag: null },
-    { year: "1957", title: "The Perceptron", desc: "The first machine that could learn from examples. It was primitive, but it proved the concept: machines can learn, not just follow instructions.", tag: "→ Training" },
-    { year: "1986", title: "Backpropagation", desc: "The method that lets a machine learn from its mistakes. Each wrong answer makes the next one slightly better, over billions of attempts.", tag: "→ Training" },
-    { year: "2017", title: "Attention Is All You Need", desc: "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The transformer was born.", tag: "→ Transformers" },
-    { year: "2022", title: "ChatGPT Launches", desc: "The public finally saw what large language models could do. AI stopped feeling like a research topic and started feeling like a tool anyone could use.", tag: null }
-  ];
-  return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("p", {
-      style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.6, marginBottom: 28 }
+      style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.6, margin: "24px 0 28px 0" }
     }, "Bayes gave us the math. The next three centuries turned that idea into systems that could learn, remember, and generate."),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 24, marginBottom: 32, maxWidth: "66%", marginLeft: "auto", marginRight: "auto" }
@@ -1093,59 +1143,14 @@ function AIStrengthsSection(props) {
         }, "Next: Why Go Deeper? \u2192")))));
 }
 function WhyDeeperSection(props) {
+  var _er = useState(null), expandedRow = _er[0], setExpandedRow = _er[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("p", {
-      style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.7, marginBottom: 28 }
-    }, "Most people use AI the way they drive a car: turn the key, get an answer, move on. That works. But there\u2019s a difference between using the tool and understanding it:"),
-    /*#__PURE__*/React.createElement("div", {
-      style: { maxWidth: "88%", margin: "0 auto 28px auto", borderRadius: 14, border: "1px solid var(--border)", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr" } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderRight: "1px solid var(--border)", padding: "16px 22px", display: "flex", gap: 12, alignItems: "center" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, flexShrink: 0 } }, "\uD83D\uDC64"),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 1 } }, "Most people today"),
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "#dc2626" } }, "The Typical User"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", fontStyle: "italic", marginTop: 1 } }, "Uses the tool"))),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#f0fdf4", padding: "16px 22px", display: "flex", gap: 12, alignItems: "center" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, flexShrink: 0 } }, "\uD83D\uDD27"),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 1 } }, "Where the advantage goes"),
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "#059669" } }, "The Skilled User"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", fontStyle: "italic", marginTop: 1 } }, "Understands the tool")))),
-
-      [
-        { left: "Gets an answer", right: "Understands how the answer was produced" },
-        { left: "Accepts the output", right: "Checks the output" },
-        { left: "Misses errors", right: "Spots errors early" },
-        { left: "Can\u2019t explain what the tool is doing", right: "Can explain what the tool is doing" }
-      ].map(function(row, i, arr) {
-        var isLast = i === arr.length - 1;
-        var bg = i % 2 === 0 ? "var(--surface)" : "var(--surface-alt)";
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid var(--border)" } },
-          /*#__PURE__*/React.createElement("div", {
-            style: { padding: "14px 22px", display: "flex", alignItems: "center", gap: 10, background: bg, borderRight: "1px solid var(--border)" }
-          },
-            /*#__PURE__*/React.createElement("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "#fef2f2", border: "1px solid #fecaca", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#ef4444", flexShrink: 0 } }, "\u25CB"),
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.5 } }, row.left)),
-          /*#__PURE__*/React.createElement("div", {
-            style: { padding: "14px 22px", display: "flex", alignItems: "center", gap: 10, background: bg }
-          },
-            /*#__PURE__*/React.createElement("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "#ecfdf5", border: "1px solid #86efac", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "#10b981", fontWeight: 700, flexShrink: 0 } }, "\u2713"),
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, color: "var(--text-primary)", fontWeight: 600, lineHeight: 1.5 } }, row.right)));
-      })
-    ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: "16px 20px", marginBottom: 28 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Why this matters"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--text-primary)", lineHeight: 1.5 } }, "Most people will use AI. The edge will belong to the people who understand it well enough to question it, direct it, and catch it when it fails.")),
+      style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.7, marginBottom: 24 }
+    }, "Most people use AI every day, but very few can explain what it\u2019s actually doing. Right now, most people can\u2019t answer questions like these. By the end of this class, you will."),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: 24, marginBottom: 28 }
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontWeight: 700, fontSize: 16, color: "var(--accent)", marginBottom: 16 }
-      }, "Right now, most people can\u2019t answer any of these. By the end, you\u2019ll be able to explain every one."),
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         ["Why does AI sometimes make up facts that sound completely real?", "Why does AI type one word at a time?", "Why do conversations with AI get slower and worse the longer they go?", "Why can the same question get a different answer every time?", "Why does the way you ask a question change the quality of the answer?", "Why does AI agree with you even when you\u2019re wrong?", "Why do some people get dramatically better results from AI than others?"].map(function(q, i) {
           return /*#__PURE__*/React.createElement("div", {
@@ -1156,10 +1161,93 @@ function WhyDeeperSection(props) {
             /*#__PURE__*/React.createElement("span", { style: { fontSize: 16, fontWeight: 600, color: "var(--text-primary)" } }, q));
         })
       )),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.7, marginBottom: 24 }
+    }, "That difference is the point. Most people use AI, but they don\u2019t understand what\u2019s happening under the hood. ", /*#__PURE__*/React.createElement("b", null, "They get answers, but they can\u2019t explain why the tool behaves the way it does.")),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 17, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.4, textAlign: "center", marginBottom: 8 }
+    }, "That\u2019s the difference between a Typical User and a Skilled User."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 12, color: "var(--text-muted)", textAlign: "center", fontStyle: "italic", marginBottom: 14 }
+    }, "Click a row to see what that difference looks like."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { maxWidth: "88%", margin: "0 auto 28px auto", borderRadius: 14, border: "1px solid var(--border)", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr" } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderRight: "1px solid var(--border)", padding: "16px 22px", display: "flex", gap: 12, alignItems: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, flexShrink: 0 } }, "👤"),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 1 } }, "Most people today"),
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "#dc2626" } }, "Typical User"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", fontStyle: "italic", marginTop: 1 } }, "Uses the tool"))),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#f0fdf4", padding: "16px 22px", display: "flex", gap: 12, alignItems: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, flexShrink: 0 } }, "🔧"),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 1 } }, "Where the advantage goes"),
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "#059669" } }, "Skilled User"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", fontStyle: "italic", marginTop: 1 } }, "Understands the tool")))),
+
+      [
+        { left: "Gets an answer", right: "Understands how the answer was produced",
+          typical: "AI gives an answer that sounds good, and they move on.",
+          skilled: "They understand that the answer came from prediction, context, and patterns in the training data." },
+        { left: "Accepts the output", right: "Checks the output",
+          typical: "AI gives a citation that looks real, so they use it.",
+          skilled: "They check whether the source actually exists before trusting it." },
+        { left: "Misses errors", right: "Spots errors early",
+          typical: "The answer sounds confident, so they assume it\u2019s correct.",
+          skilled: "They notice weak logic, missing evidence, or made-up details before using it." },
+        { left: "Can\u2019t explain what the tool is doing", right: "Can explain what the tool is doing",
+          typical: "They can use AI, but they can\u2019t explain why it gives different answers or makes mistakes.",
+          skilled: "They can explain the basics of how the system works and why it behaves the way it does." }
+      ].map(function(row, i, arr) {
+        var isOpen = expandedRow === i;
+        var bg = i % 2 === 0 ? "var(--surface)" : "var(--surface-alt)";
+        return /*#__PURE__*/React.createElement(React.Fragment, { key: i },
+          /*#__PURE__*/React.createElement("div", {
+            onClick: function() { setExpandedRow(isOpen ? null : i); },
+            style: { display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid var(--border)", cursor: "pointer" }
+          },
+            /*#__PURE__*/React.createElement("div", {
+              style: { padding: "14px 22px", display: "flex", alignItems: "center", gap: 10, background: bg, borderRight: "1px solid var(--border)" }
+            },
+              /*#__PURE__*/React.createElement("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "#fef2f2", border: "1px solid #fecaca", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#ef4444", flexShrink: 0 } }, "○"),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.5 } }, row.left)),
+            /*#__PURE__*/React.createElement("div", {
+              style: { padding: "14px 22px", display: "flex", alignItems: "center", gap: 10, background: bg }
+            },
+              /*#__PURE__*/React.createElement("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "#ecfdf5", border: "1px solid #86efac", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "#10b981", fontWeight: 700, flexShrink: 0 } }, "✓"),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, color: "var(--text-primary)", fontWeight: 600, lineHeight: 1.5, flex: 1 } }, row.right),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 16, fontWeight: 800, color: "var(--accent)", transition: "transform 0.2s ease", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0, lineHeight: 1 } }, "▾"))),
+          isOpen ? /*#__PURE__*/React.createElement("div", {
+            style: { display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid var(--border)", animation: "fadeIn 0.25s ease" }
+          },
+            /*#__PURE__*/React.createElement("div", {
+              style: { background: "#fef2f2", borderRight: "1px solid var(--border)", padding: "14px 22px" }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#b91c1c", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "Typical User"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#7f1d1d", lineHeight: 1.6 } }, row.typical)),
+            /*#__PURE__*/React.createElement("div", {
+              style: { background: "#f0fdf4", padding: "14px 22px" }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#047857", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "Skilled User"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#064e3b", lineHeight: 1.6 } }, row.skilled))
+          ) : null
+        );
+      })
+    ),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: "16px 20px", marginBottom: 20 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Why this matters"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--text-primary)", lineHeight: 1.5 } }, "Most people will use AI. The edge will belong to the people who understand it well enough to question it, direct it, and catch it when it fails.")),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6, textAlign: "center", fontStyle: "italic", marginTop: 16, marginBottom: 0 }
+    }, "This class is about crossing that gap."),
     /*#__PURE__*/React.createElement("button", {
       onClick: function() { props.onNavigate && props.onNavigate("aivscode"); },
-      style: { display: "block", margin: "24px auto 0", padding: "14px 36px", borderRadius: 10, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, boxShadow: "0 2px 12px rgba(16, 185, 129, 0.4)" }
-    }, "Next: Rules vs Patterns \u2192")
+      style: { display: "block", margin: "20px auto 0", padding: "14px 36px", borderRadius: 10, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, boxShadow: "0 2px 12px rgba(16, 185, 129, 0.4)" }
+    }, "Next: Rules vs Patterns →")
   );
 }
 function IntroSection(props) {
@@ -1583,9 +1671,24 @@ function GenerativeSection(props) {
 }
 function BlackBoxSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 28, lineHeight: 1.7, fontSize: 16 } },
-      "Traditional programs can be traced back to rules a human wrote. AI cannot usually be traced back that way. Its behavior comes from patterns learned during training. ",
-      /*#__PURE__*/React.createElement("strong", null, "That’s why AI is called a black box: you can see the output, but you usually can’t point to one clear rule that produced it.")
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
+      "Sometimes AI gives an answer that looks polished, official, and trustworthy, but it\u2019s completely wrong. That kind of failure is one of the clearest signs that no one wrote exact rules for what it says."
+    ),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--surface-alt)", border: "2px solid var(--accent)", borderRadius: 12, padding: 24, marginBottom: 24, boxShadow: "0 2px 12px rgba(99, 102, 241, 0.10)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 } }, "What this looks like in real life"),
+      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 24, fontWeight: 800, color: "var(--text-primary)", marginTop: 0, marginBottom: 12, lineHeight: 1.2 } }, "Books That Don\u2019t Exist"),
+      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 12px 0" } },
+        "A person asks AI for recommended books or sources on a topic. The answer looks polished and trustworthy: titles, author names, and short descriptions. But some of the books do not exist."
+      ),
+      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--text-primary)", fontWeight: 600, lineHeight: 1.7, margin: 0 } },
+        "That\u2019s the kind of AI failure people actually hear about: an answer that sounds legitimate, but isn\u2019t."
+      )
+    ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--text-secondary)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
+      /*#__PURE__*/React.createElement("strong", { style: { color: "var(--text-primary)" } }, "So why does that happen?"),
+      " Because AI learned patterns for what a trustworthy answer looks like. It did not learn one written rule that guarantees every answer is true."
     ),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
       /*#__PURE__*/React.createElement("div", { style: { background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20, display: "flex", flexDirection: "column" } },
@@ -1602,41 +1705,18 @@ function BlackBoxSection(props) {
         /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 28 } }, "AI"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Learned Patterns"),
         /*#__PURE__*/React.createElement("p", { style: { color: "#3b1f6e", fontSize: 14, lineHeight: 1.6, marginBottom: 0, flex: 1 } },
-          "AI behavior comes from patterns learned across billions of examples. Companies can steer it through more training and feedback, but they usually can’t point to one line of code that explains any given output."))
+          "AI behavior comes from patterns learned across billions of examples. Companies can steer it through more training and feedback, but they usually can\u2019t point to one line of code that explains any given output."))
     ),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 12, padding: "18px 22px", marginTop: 8 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "Why this matters"),
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 } },
-        "When AI behaves in an unexpected way, there is usually no single rule to inspect and fix. Companies can retrain the model, add guardrails, or filter outputs, but the system is still built on learned patterns, not one written rule."
-      )
-    ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 10 } }, "Why AI makes the news"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
-        [
-          { icon: "📣", title: "Confidently wrong fact", text: "The model gives a factual answer that sounds certain, but it is wrong.", why: "It generated the most likely-looking answer, not a guaranteed true one." },
-          { icon: "📚", title: "Made-up source", text: "The model gives a citation or reference that looks real but does not exist.", why: "It learned the pattern of what sources look like, not whether a specific one is real." },
-          { icon: "📝", title: "Invented policy", text: "The model tells a customer a refund rule or company policy that sounds believable, but is not true.", why: "It generated a plausible answer from patterns, not from a verified internal rulebook." }
-        ].map(function(c, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--surface-alt)", border: "1px solid var(--border)", borderRadius: 10, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 6 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, c.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--text-primary)" } }, c.title)
-            ),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6 } }, c.text),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)", lineHeight: 1.5 } },
-              /*#__PURE__*/React.createElement("strong", { style: { color: "var(--text-secondary)" } }, "Why: "), c.why)
-          );
-        })
-      ),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6, marginTop: 12, marginBottom: 0, fontStyle: "italic" } },
-        "These failures can often be reduced with better guardrails, retrieval, or product design. But they don’t disappear just because someone writes one more rule."
+        "When AI produces a wrong answer that sounds convincing, there is usually no single written rule to inspect and fix. Companies can retrain the model, add guardrails, or filter outputs, but the system is still built on learned patterns, not one authored rule."
       )
     ),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 32, marginBottom: 32, textAlign: "center" } },
       /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--border)", margin: "0 0 24px 0" } }),
       /*#__PURE__*/React.createElement("div", { style: { color: "var(--accent)", fontWeight: 700, fontSize: 14, marginBottom: 6 } }, "Bottom line:"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "With regular software, you can inspect the rule. With AI, you can steer the behavior, but you usually can’t trace it to one written rule.")),
+      /*#__PURE__*/React.createElement("div", { style: { color: "var(--text-primary)", fontWeight: 700, fontSize: 20, lineHeight: 1.4 } }, "With regular software, you can inspect the rule. With AI, you can steer the behavior, but you usually can\u2019t trace it to one written rule.")),
     /*#__PURE__*/React.createElement("button", {
       onClick: function() { props.onNavigate && props.onNavigate("generative"); },
       style: { display: "block", margin: "24px auto 0", padding: "14px 36px", borderRadius: 10, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700 }

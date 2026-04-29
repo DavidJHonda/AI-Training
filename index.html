@@ -1521,11 +1521,10 @@ function KeyTermsSection(props) {
   var scoreMsg = wrongCount === 0 ? "No misses." : wrongCount <= 3 ? "A few stumbles, but you got there." : "The ones that tripped you up are worth a second look.";
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "keyterms" }),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "🧪 TRY IT"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Vocab Quiz"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 16 } }, round === 0 ? "Round 1 of 2 (8 terms)" : "Round 2 of 2 (8 terms)"),
-      !roundComplete ? /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Vocab Quiz",
+    action: !roundComplete ? /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 } },
           /*#__PURE__*/React.createElement("div", null,
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--inkMuted)", marginBottom: 8 } }, "Terms"),
@@ -1577,7 +1576,10 @@ function KeyTermsSection(props) {
             )
           );
         })() : null
-      ) : round === 0 ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", marginTop: 16 } },
+      ) : null
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 16 } }, round === 0 ? "Round 1 of 2 (8 terms)" : "Round 2 of 2 (8 terms)"),
+    !roundComplete ? null : round === 0 ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", marginTop: 16 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "8 down, 8 to go."),
         /*#__PURE__*/React.createElement("button", {
           onClick: function() { setRound(1); setSelected(null); setWrongFeedback(null); },
@@ -1667,17 +1669,19 @@ function AIvsCodeSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F See It"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Rules vs. Patterns"),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
-      "Traditional software follows authored rules. AI learns patterns from examples. This is the difference."
-    ),
-    visibleRules === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16, marginBottom: 20 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Rules vs. Patterns",
+    action: visibleRules === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16, marginBottom: 20 } },
       /*#__PURE__*/React.createElement("button", {
         onClick: function() { setVisibleRules(1); },
         style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-      }, "See First Rule \u2192")) : null,
+      }, "See First Rule \u2192")) : null
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
+      "Traditional software follows authored rules. AI learns patterns from examples. This is the difference."
+    ),
+    visibleRules === 0 ? null : null,
     scenarios.slice(0, visibleRules).map(function(s, i) {
       var rs = revealSteps[i] || 0;
       var isLastVisible = i === visibleRules - 1;
@@ -1803,21 +1807,22 @@ function GenerativeSection(props) {
         /*#__PURE__*/React.createElement("p", { style: { color: "#3b1f6e", fontSize: 14, lineHeight: 1.6, marginBottom: 12, flex: 1 } },
           "The core model generates responses rather than retrieving stored answers. It produces text one word at a time, each word chosen by probability. Same question, different wording, often a different result."))
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F SEE IT"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Stored Answers vs. Built From Probability"),
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
-        "Same question, two completely different systems. Watch what happens inside each one."
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201CWhat\u2019s the capital of France?\u201D")),
-      revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Stored Answers vs. Built From Probability",
+    action: revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
         /*#__PURE__*/React.createElement("button", {
           onClick: function() { setRevealStep(1); },
           style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-        }, "See Computer Program Results \u2192")) :
-      /*#__PURE__*/React.createElement("div", null,
+        }, "See Computer Program Results \u2192")) : null
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
+        "Same question, two completely different systems. Watch what happens inside each one."
+      ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201CWhat\u2019s the capital of France?\u201D")),
+    revealStep === 0 ? null : /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
           /*#__PURE__*/React.createElement("div", { style: { background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20 } },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "\uD83D\uDCBB"),
@@ -1942,14 +1947,15 @@ function DataSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F See It"),
-      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 20 } }, "Computer Program vs AI"),
-      !seeItStarted ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 8 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      title: "Computer Program vs AI",
+      action: !seeItStarted ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
         /*#__PURE__*/React.createElement("button", {
           onClick: function() { setSeeItStarted(true); },
           style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-        }, "First Scenario \u2192")) : /*#__PURE__*/React.createElement("div", null,
+        }, "First Scenario \u2192")) : null
+    }, !seeItStarted ? null : /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 8 } }, "Scenario ", scenarioIdx + 1, " of 4"),
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
         /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", fontSize: 13, fontWeight: 700, color: "var(--primary)", background: "#eef2ff", border: "1px solid var(--rule)", padding: "4px 12px", borderRadius: 20 } }, SCENE_LABELS[scenarioIdx])),
@@ -2223,17 +2229,19 @@ function ProbabilitySection(props) {
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0, lineHeight: 1 } }, "\u2192"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } },
           "The model picks ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "tomorrow"), " because it has the highest probability. Then it repeats the entire process for the next word, and the next, and the next, until the response is complete."))),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA Try It"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Guess the Most Probable Word"),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6 } },
-      "Which word is the AI most likely to pick next? Take your best guess, then see the actual probabilities."
-    ),
-    !probQuizStarted ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 8 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Guess the Most Probable Word",
+    action: !probQuizStarted ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 8 } },
       /*#__PURE__*/React.createElement("button", {
         onClick: function() { setProbQuizStarted(true); },
         style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-      }, "First Phrase \u2192")) : /*#__PURE__*/React.createElement("div", null,
+      }, "First Phrase \u2192")) : null
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6 } },
+      "Which word is the AI most likely to pick next? Take your best guess, then see the actual probabilities."
+    ),
+    !probQuizStarted ? null : /*#__PURE__*/React.createElement("div", null,
     score.total > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "inline-block", background: "var(--bg)", borderRadius: 8, padding: "6px 14px", marginBottom: 12, fontSize: 13, color: "var(--inkMuted)", border: "1px solid var(--rule)" } },
       "Score: ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, score.correct + "/" + score.total)
     ),
@@ -2490,13 +2498,13 @@ function TrainingBiasSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 } }, m.text));
       })
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 32 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 } }, "🧪 Try It"),
-      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "Spot the Shortcut"),
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Spot the Shortcut"
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 } },
         "Four real cases where models looked like they had learned the concept and were actually learning something easier. See if you can catch the shortcut."),
-      /*#__PURE__*/React.createElement(BiasQuiz, null)
-    ),
+    /*#__PURE__*/React.createElement(BiasQuiz, null)),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Hallucination is a failure of prediction. Training bias is a failure of learning from skewed data. {Different mechanisms, different fixes}." }),
     /*#__PURE__*/React.createElement("button", {
       onClick: function() { props.onNavigate && props.onNavigate("tokens"); },
@@ -2636,9 +2644,12 @@ function TrainingSection(props) {
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 16 } }, item[0]),
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)" } }, item[1]));
     }))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F SEE IT"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Watch It Happen"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Watch It Happen",
+    action: visibleStages === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+      /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[0])) : null
+  },
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
       "Here\u2019s one question going through all seven stages. Watch how the AI response evolves."
     ),
@@ -2659,13 +2670,11 @@ function TrainingSection(props) {
           visibleText,
           isTyping ? /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: "1em", background: "var(--primary)", marginLeft: 1, verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" } }) : null));
     }),
-    visibleStages === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-      /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[0])) : null,
+    visibleStages === 0 ? null : null,
     seeItTypingDone && visibleStages > 0 && visibleStages < 7 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
       /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null,
     seeItTypingDone && visibleStages >= 7 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
-      /*#__PURE__*/React.createElement("button", { onClick: resetSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--card)", color: "var(--inkSoft)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 14, fontWeight: 600 } }, "\u21BB Start Over")) : null
-  ),
+      /*#__PURE__*/React.createElement("button", { onClick: resetSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--card)", color: "var(--inkSoft)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 14, fontWeight: 600 } }, "\u21BB Start Over")) : null),
     stepsRevealed >= 7 ? /*#__PURE__*/React.createElement(React.Fragment, null,
       /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns. Everything after is just {looking things up}." }),
       /*#__PURE__*/React.createElement("button", {
@@ -2725,8 +2734,10 @@ function TokenSection(props) {
     { word: "supercalifragilisticexpialidocious", tokens: [{t: "super", id: 9712}, {t: "cal", id: 4484}, {t: "if", id: 333}, {t: "rag", id: 22955}, {t: "il", id: 321}, {t: "istic", id: 3258}, {t: "exp", id: 4036}, {t: "ial", id: 532}, {t: "id", id: 307}, {t: "ocious", id: 71621}], note: "10 tokens (rare words get shattered)" }
   ];
   var E = React.createElement;
-  var seeItBox = E("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    E("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "How Tokenization Works"),
+  var seeItBox = React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "How Tokenization Works"
+  },
     E("div", { style: { display: "flex", flexDirection: "column", gap: 16 } }, staticExamples.map(function(ex, idx) {
       return E("div", { key: idx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
         E("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" } },
@@ -3052,10 +3063,11 @@ function NameThatDrinkTryIt() {
       E("div", { style: { display: "flex", gap: 12, justifyContent: "center" } }, q.choices.map(function(c) { return answerBtn(c[0], c[1]); })),
       feedback);
   }
-  return E("div", { style: { marginTop: 24, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    E("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 12 } }, "Name That Drink"),
-    E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 20 } }, "You just saw 6 dimensions. Can you identify a drink from only 2?"),
+  return React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Name That Drink",
+    hint: "You just saw 6 dimensions. Can you identify a drink from only 2?"
+  },
     content);
 }
 function EmbeddingsSection(props) {
@@ -3211,12 +3223,12 @@ function PredictionSection(props) {
         style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
       }, predStepsRevealed === 0 ? "See First Step" : predStepsRevealed === 1 ? "See Next Step \u2192" : "See Final Step \u2192")) : null),
 
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 0, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 20 } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F See It"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Three Steps to an Answer"),
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 16 } }, "Watch how the model processes a single prompt."),
-
-    seeStep < 1 && /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(1); }, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "Start \u2192"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Three Steps to an Answer",
+    hint: "Watch how the model processes a single prompt.",
+    action: seeStep < 1 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(1); }, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "Start \u2192") : null
+  },
 
     seeStep >= 1 && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginBottom: 20 } },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
@@ -3296,9 +3308,10 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 20 } }, "Once the model sees the full context, it raises the probabilities of words from the right neighborhood and lowers the probabilities of words that do not fit."),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "What actually gets predicted?"),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 20 } }, "The model assigns probabilities to possible next tokens and picks one."),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 0, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 20 } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F See It"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Meaning Map"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Meaning Map"
+  },
     /*#__PURE__*/React.createElement("p", {
       style: {
         color: "var(--inkSoft)",
@@ -3401,9 +3414,10 @@ function PredictionSection(props) {
         textTransform: "capitalize"
       }
     }, group))))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 0, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 20 } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA Try It"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Context Changes Everything"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Context Changes Everything"
+  },
     (function() {
       var allWords = ["glass", "espresso", "form", "clock", "gun", "camera"];
       var grayAt2 = ["glass", "espresso"];
@@ -4693,19 +4707,18 @@ function ContextSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: 14 } }, "The forgetting problem"),
         /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, "The model itself has no memory between conversations. Within a conversation, once something scrolls out of the context window it\u2019s gone, like a whiteboard that gets erased. This is why long sessions get slower and less accurate. Some products save information about you separately, but the model only sees what\u2019s in the current window."))),
 
-    /*#__PURE__*/React.createElement("div", { style: { marginLeft: 0, marginRight: 0, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 20 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC40 SEE IT"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Same Prompt, Different Context, Different Answer"),
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
-        "Watch how the exact same question (\u201CWhat should I use?\u201D) gets a completely different answer depending on what else is in the context window."),
-
-      !started ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Same Prompt, Different Context, Different Answer",
+    action: !started ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
         /*#__PURE__*/React.createElement("button", {
           onClick: function() { setStarted(true); startScenario(0); },
           style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-        }, "First Scenario \u2192")) :
-
-      /*#__PURE__*/React.createElement("div", null,
+        }, "First Scenario \u2192")) : null
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
+        "Watch how the exact same question (\u201CWhat should I use?\u201D) gets a completely different answer depending on what else is in the context window."),
+    !started ? null : /*#__PURE__*/React.createElement("div", null,
 
         seen.length > 0 && (phase === 0 || scenarioIdx > 0) ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6, marginBottom: 16 } },
           CONTEXT_EXAMPLES.map(function(ex, i) {
@@ -4988,9 +5001,10 @@ function ModelSelectionSection(props) {
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginBottom: 28 } },
     "\uD83D\uDCA1 Each company releases new versions regularly: the names change, but the philosophies don\u2019t. These strengths reflect each company\u2019s priorities, not just their current version. Check their websites for current model names."),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Pick the Right Tool"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Pick the Right Tool"
+  },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginBottom: 16 } }, "Scenario ", scenarioIdx + 1, " of ", SCENARIOS.length),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 16 } }, sc.prompt),
@@ -5118,9 +5132,10 @@ function ThinkingModeSection(props) {
     )
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginBottom: 28 } }, "\uD83D\uDCA1 Same dial, three different labels. Once you understand what it does, you can find it anywhere."),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 28 } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 700, fontSize: 20, color: "var(--ink)", marginBottom: 12 } }, "Match the Task to the Mode"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Match the Task to the Mode"
+  },
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
       TASKS.map((t, i) => /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)" } },
         /*#__PURE__*/React.createElement("div", { style: { fontWeight: 600, fontSize: 14, color: "var(--ink)", marginBottom: 10 } }, t.task),
@@ -5204,16 +5219,18 @@ function TemperatureSection(props) {
     style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 4 }
   }, "High Temperature"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, "Creative, surprising. Same input \u2192 different output each time."))), /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-/*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA Try It"),
-/*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "The Temperature Dial"),
-/*#__PURE__*/React.createElement("p", {
+  }, "Creative, surprising. Same input \u2192 different output each time."))), /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "The Temperature Dial"
+  },
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
       lineHeight: 1.6
     }
-  }, "Drag the slider below to see the difference."), /*#__PURE__*/React.createElement("div", {
+  }, "Drag the slider below to see the difference."),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -5244,7 +5261,8 @@ function TemperatureSection(props) {
       fontWeight: 600,
       whiteSpace: "nowrap"
     }
-  }, "Next Example \u2192")), /*#__PURE__*/React.createElement("div", {
+  }, "Next Example \u2192")),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 20
     }
@@ -5287,7 +5305,8 @@ function TemperatureSection(props) {
       color: "var(--inkMuted)",
       marginTop: 4
     }
-  }, /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDCA Deterministic"), /*#__PURE__*/React.createElement("span", null, "Balanced"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD25 Creative"))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDCA Deterministic"), /*#__PURE__*/React.createElement("span", null, "Balanced"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD25 Creative"))),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -5325,7 +5344,8 @@ function TemperatureSection(props) {
       padding: "2px 6px",
       borderRadius: 4
     }
-  }, prompt, " "), out)))), /*#__PURE__*/React.createElement("div", {
+  }, prompt, " "), out)))),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--info-bg)",
       border: "1px solid var(--info)",
@@ -5548,10 +5568,11 @@ function VerifySection(props) {
       fontSize: 15,
       lineHeight: 1.7
     }
-  }, "Knowing that AI hallucinates isn't enough. You need a practical toolkit for catching it. These five strategies will help you verify AI output before you use it."), /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F SEE IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Verification Strategies"),
-/*#__PURE__*/React.createElement("div", {
+  }, "Knowing that AI hallucinates isn't enough. You need a practical toolkit for catching it. These five strategies will help you verify AI output before you use it."), /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Verification Strategies"
+  },
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -5747,10 +5768,11 @@ function CriticalThinkingSection(props) {
       lineHeight: 1.7
     }
   }, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these before revealing the answer."),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Spot the Problem"),
-  /*#__PURE__*/React.createElement("div", {
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Spot the Problem"
+  },
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -5843,17 +5865,19 @@ function CriticalThinkingSection(props) {
   }, "\uD83D\uDCA1 The lesson"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
   }, ex101.lesson)))))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "The 5 Habits"),
-  /*#__PURE__*/React.createElement("p", {
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "The 5 Habits"
+  },
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 16,
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, "Each habit includes a real scenario. See if you can spot the issue before revealing the analysis."), /*#__PURE__*/React.createElement("div", {
+  }, "Each habit includes a real scenario. See if you can spot the issue before revealing the analysis."),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -5957,10 +5981,11 @@ function CriticalThinkingSection(props) {
       lineHeight: 1.6
     }
   }, "\uD83D\uDCA1 ", ct.scenario.analysis))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "How to Use It"),
-  function() {
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "How to Use It"
+  },
+    function() {
   var STEPBACK = [{
     icon: "\uD83E\uDDE0",
     label: "Building a skill",
@@ -6084,11 +6109,12 @@ function CriticalThinkingSection(props) {
     style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
   }, sb.instead)))));
   }()),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 18px", marginTop: 28, marginBottom: 20, border: "1px solid var(--rule)" } },
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 18px", marginTop: 28, marginBottom: 20, border: "1px solid var(--rule)" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 } }, "Callback"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.7, fontSize: 14, margin: 0 } },
       "Models can also inherit bias from their training data. You saw earlier that AI reflects whatever patterns are in what it was trained on, including the gaps. Your critical thinking sits on top of that, but the mechanism starts inside the model.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "AI amplifies whatever you bring to it: {good thinking or bad}." }), /*#__PURE__*/React.createElement("button", {
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "AI amplifies whatever you bring to it: {good thinking or bad}." }),
+    /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("flattery"),
     style: showAnalysis || show101 ? { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 } : { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--card)", color: "var(--inkMuted)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 15, fontWeight: 600 }
   }, "Next: The Flattery Trap \u2192")));
@@ -6259,10 +6285,11 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--bg)", border: "2px solid var(--primary)", borderRadius: 8, padding: "10px 16px", marginBottom: 24, textAlign: "center" }
   }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, fontSize: 13 } }, ba.callout)),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F See It"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Format Changes Everything"),
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 16 } }, "Same prompt. Four completely different outputs. The format instruction is everything."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Format Changes Everything",
+    hint: "Same prompt. Four completely different outputs. The format instruction is everything."
+  },
     /*#__PURE__*/React.createElement("div", { style: { background: "rgba(110,81,255,0.09)", borderRadius: 8, padding: "12px 16px", marginBottom: 16, fontSize: 15, fontWeight: 600, color: "var(--ink)", textAlign: "center" } }, "\uD83D\uDCAC \u201CExplain photosynthesis.\u201D"),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 16 } },
       [["kid", "\uD83D\uDC76 For a 10-year-old"], ["bio", "\uD83D\uDD2C For a biology student"], ["tweet", "\uD83D\uDC26 As a tweet"], ["guide", "\uD83D\uDCCB As a study guide"]].map(function(b) { return /*#__PURE__*/React.createElement("button", {
@@ -6487,17 +6514,19 @@ function PromptingSection(props) {
       lineHeight: 1.6
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why it works: "), q.why))))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 12 } }, "Fix the Prompt"),
-  /*#__PURE__*/React.createElement("p", {
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Fix the Prompt"
+  },
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
       fontSize: 15,
       lineHeight: 1.7
     }
-  }, "Time to practice. Each scenario shows a bad prompt. Figure out what's wrong with it, then see the improved version."), /*#__PURE__*/React.createElement("div", {
+  }, "Time to practice. Each scenario shows a bad prompt. Figure out what's wrong with it, then see the improved version."),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 6,
@@ -6518,7 +6547,8 @@ function PromptingSection(props) {
       fontSize: 13,
       fontWeight: 600
     }
-  }, pe.icon, " ", pe.quality))), /*#__PURE__*/React.createElement("div", {
+  }, pe.icon, " ", pe.quality))),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#6e51ff10",
       border: "1px solid #6e51ff33",
@@ -6530,7 +6560,8 @@ function PromptingSection(props) {
     style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 4 }
   }, "\uD83C\uDFAF Scenario"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ex.scenario)), /*#__PURE__*/React.createElement("div", {
+  }, ex.scenario)),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#fef2f2",
       border: "1px solid #fca5a5",
@@ -6542,9 +6573,11 @@ function PromptingSection(props) {
     style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 }
   }, "\u274C The bad prompt"), /*#__PURE__*/React.createElement("div", {
     style: { fontFamily: "'Courier Prime', monospace", fontSize: 15, color: "#991b1b", lineHeight: 1.6 }
-  }, "\"", ex.bad, "\"")), /*#__PURE__*/React.createElement("div", {
+  }, "\"", ex.bad, "\"")),
+    /*#__PURE__*/React.createElement("div", {
     style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 10 }
-  }, "\uD83E\uDD14 What's the main problem with this prompt?"), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83E\uDD14 What's the main problem with this prompt?"),
+    /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }
   }, ex.options.map((opt, i) => /*#__PURE__*/React.createElement("button", {
     key: i,
@@ -6564,7 +6597,8 @@ function PromptingSection(props) {
       fontWeight: exerciseAnswer !== null && i === ex.correct ? 700 : 400,
       transition: "all 0.2s"
     }
-  }, opt))), exerciseAnswer !== null && !exerciseRevealed && /*#__PURE__*/React.createElement("button", {
+  }, opt))),
+    exerciseAnswer !== null && !exerciseRevealed && /*#__PURE__*/React.createElement("button", {
     onClick: () => setExerciseRevealed(true),
     style: {
       padding: "10px 20px",
@@ -6578,7 +6612,8 @@ function PromptingSection(props) {
       width: "100%",
       marginBottom: 16
     }
-  }, "\u2728 See the improved prompt"), exerciseRevealed && /*#__PURE__*/React.createElement("div", {
+  }, "\u2728 See the improved prompt"),
+    exerciseRevealed && /*#__PURE__*/React.createElement("div", {
     style: { animation: "fadeIn 0.3s ease" }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -6665,11 +6700,12 @@ function ThoughtPartnerSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thoughtpartner" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 15 } },
       "AI can help you explore ideas, pressure-test your thinking, and get unstuck. But the thinking still has to be yours. The best use of AI as a thought partner is when ", /*#__PURE__*/React.createElement("strong", null, "you"), " drive the conversation and ", /*#__PURE__*/React.createElement("strong", null, "you"), " make the decisions."),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 24, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F SEE IT"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Thinking Together"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 24 } }, "Watch how the user drives this conversation. AI helps explore and narrow, but every decision is the user\u2019s."),
-      TP_EXCHANGES.slice(0, tpStep).map(function(ex, i) {
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "Thinking Together",
+    hint: "Watch how the user drives this conversation. AI helps explore and narrow, but every decision is the user\u2019s."
+  },
+    TP_EXCHANGES.slice(0, tpStep).map(function(ex, i) {
         var isLatest = i === tpStep - 1;
         var isTypingUser = isLatest && phase === "typing-user";
         var isPausing = isLatest && phase === "pausing";
@@ -6689,9 +6725,9 @@ function ThoughtPartnerSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "12px 12px 2px 12px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 60 } },
               visibleAiText, showAiCursor ? cursor : null)));
       }),
-      showButton && !allDone && tpStep < 5 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
+    showButton && !allDone && tpStep < 5 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
         /*#__PURE__*/React.createElement("button", { onClick: advanceStep, style: { background: "var(--primary)", color: "#fff", padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 700, border: "none", cursor: "pointer" } }, "Continue \u2192")) : null,
-      allDone ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
+    allDone ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "Notice what happened: the user started vague, then made every choice: tech over other fields, AI tools over coding, local businesses over remote work. AI helped explore the options and think through obstacles, but it never decided anything. That\u2019s what a good thought partner does.")) : null),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI can help you think further. It should {never think for you}." }),
     /*#__PURE__*/React.createElement("button", {
@@ -6855,17 +6891,19 @@ function EvaluatingSection(props) {
     style: { fontWeight: 700, fontSize: 14, color: item.color, marginBottom: 4 }
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, item.desc)))), /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDC41\uFE0F SEE IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "The 6 Criteria"),
-  /*#__PURE__*/React.createElement("p", {
+  }, item.desc)))), /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "The 6 Criteria"
+  },
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 16,
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, "Use these six criteria as a checklist every time you evaluate AI output. Click each one to see what to look for."), /*#__PURE__*/React.createElement("div", {
+  }, "Use these six criteria as a checklist every time you evaluate AI output. Click each one to see what to look for."),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -6983,17 +7021,19 @@ function EvaluatingSection(props) {
   }, /*#__PURE__*/React.createElement("strong", {
     style: { color: c.example.verdict === "pass" ? "#16a34a" : "#dc2626" }
   }, c.example.verdict === "pass" ? "\u2705 Pass" : "\u274C Fail"), " ", c.example.note))))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Put It to Work"),
-  /*#__PURE__*/React.createElement("p", {
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Put It to Work"
+  },
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
       fontSize: 15,
       lineHeight: 1.7
     }
-  }, "When the output isn\u2019t good enough, don\u2019t start over. Instead, ", /*#__PURE__*/React.createElement("strong", null, "refine and try again"), "."), /*#__PURE__*/React.createElement("div", {
+  }, "When the output isn\u2019t good enough, don\u2019t start over. Instead, ", /*#__PURE__*/React.createElement("strong", null, "refine and try again"), "."),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 12,
@@ -7035,7 +7075,8 @@ function EvaluatingSection(props) {
     style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 4 }
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, item.desc)))), /*#__PURE__*/React.createElement("div", {
+  }, item.desc)))),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
       fontWeight: 700,
@@ -7045,7 +7086,8 @@ function EvaluatingSection(props) {
       marginBottom: 4
     }
   }, "\uD83D\uDC41\uFE0F See It"),
-  /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Prompt \u2192 Evaluate \u2192 Refine"), /*#__PURE__*/React.createElement("div", {
+    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Prompt \u2192 Evaluate \u2192 Refine"),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -7066,7 +7108,8 @@ function EvaluatingSection(props) {
       fontSize: 13,
       fontWeight: 600
     }
-  }, "Round ", s.step))), /*#__PURE__*/React.createElement("div", {
+  }, "Round ", s.step))),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--bg)",
       borderRadius: 12,
@@ -7112,7 +7155,8 @@ function EvaluatingSection(props) {
       lineHeight: 1.6
     }
   }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "True isn\u2019t enough. The question is: {would you actually use this?}" }), /*#__PURE__*/React.createElement("button", {
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "True isn\u2019t enough. The question is: {would you actually use this?}" }),
+    /*#__PURE__*/React.createElement("button", {
     onClick: () => props.onNavigate && props.onNavigate("questionsvaluable"),
     style: showExample || activeCriterion > 0 ? { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 } : { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "var(--card)", color: "var(--inkMuted)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 15, fontWeight: 600 }
   }, "Next: Questions Matter \u2192")));
@@ -7233,9 +7277,10 @@ function FlatteryTrapSection(props) {
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 } }, "\u2705 Honest response"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#14532d", lineHeight: 1.6 } }, "\"Right topic, but this needs work. 'Something many people have thought about' is filler. You don't have a thesis. What's your actual argument about the Dream in Gatsby? And 'explores this idea' is too vague. Try: what specifically does Gatsby reveal about the Dream?\""))), /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 16 }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Same essay, completely different outcomes. "), "The sycophantic response leaves the student thinking they're almost done. The honest response gives them a path to actually improve. The flattery felt nicer, but the criticism was the real help."),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Spot the Sycophancy"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Spot the Sycophancy"
+  },
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
   }, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."), /*#__PURE__*/React.createElement("div", {
@@ -7454,17 +7499,19 @@ function IntegritySection(props) {
       lineHeight: 1.6
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The simple test: "), "If your teacher asked you to explain your work without any notes, could you? If yes, AI helped you learn. If no, AI did the work for you."),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA TRY IT"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Real Scenarios"),
-  /*#__PURE__*/React.createElement("p", {
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Real Scenarios"
+  },
+    /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 16,
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."), /*#__PURE__*/React.createElement("div", {
+  }, "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."),
+    /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -9105,13 +9152,14 @@ function HumanEdgeSection(props) {
         );
       })
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 24 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA Try It"),
-      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Spot the Stronger Use of AI"),
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Spot the Stronger Use of AI"
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
         "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."
       ),
-      SCENARIOS.map(function(sc, sIdx) {
+    SCENARIOS.map(function(sc, sIdx) {
         var picked = picks[sIdx];
         var revealed = picked !== undefined;
         return /*#__PURE__*/React.createElement("div", { key: sIdx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: sIdx < SCENARIOS.length - 1 ? 12 : 0 } },
@@ -9146,8 +9194,7 @@ function HumanEdgeSection(props) {
             /*#__PURE__*/React.createElement("strong", null, "Why: "), sc.explain
           ) : null
         );
-      })
-    ),
+      })),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDD11 The key insight"),
       /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.7, margin: 0 } },
@@ -9276,13 +9323,14 @@ function WorkChangesSection(props) {
         );
       })
     ),
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b", marginBottom: 24 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83E\uDDEA Try It"),
-      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Sort the Tasks by Exposure"),
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    title: "Sort the Tasks by Exposure"
+  },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
         "For each task, choose the bucket that fits best. Use the framework above as your guide."
       ),
-      TASKS.map(function(t, tIdx) {
+    TASKS.map(function(t, tIdx) {
         var picked = taskAnswers[tIdx];
         var revealed = picked !== undefined;
         var correct = picked === t.answer;
@@ -9310,8 +9358,7 @@ function WorkChangesSection(props) {
             /*#__PURE__*/React.createElement("strong", null, correct ? "\u2705 " : "Best fit: "), t.explain
           ) : null
         );
-      })
-    ),
+      })),
     /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "How AI absorbs work"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
       "Change rarely happens at the level of a whole job all at once. It moves in stages."

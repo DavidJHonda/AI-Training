@@ -70,6 +70,52 @@ function useLocalStorage(key, defaultVal) {
   };
   return [val, set];
 }
+function LessonHeader(props) {
+  var sectionId = props.sectionId;
+  var groupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.indexOf(sectionId) !== -1; });
+  if (groupIdx < 0) return null;
+  var group = SECTION_GROUPS[groupIdx];
+  var lessonIdx = group.sections.indexOf(sectionId);
+  var sec = SECTIONS.find(function(s) { return s.id === sectionId; });
+  if (!sec) return null;
+  var sectionNumber = String(groupIdx + 1).padStart(2, "0");
+  var lessonNumber = String(lessonIdx + 1).padStart(2, "0");
+  var groupName = group.label.toUpperCase();
+  var resolvedTitle = props.titleOverride !== undefined ? props.titleOverride : (sec.title || sec.label);
+  var body, punct;
+  if (resolvedTitle && resolvedTitle.length > 0) {
+    var last = resolvedTitle.charAt(resolvedTitle.length - 1);
+    if (last === "." || last === "?" || last === "!") {
+      body = resolvedTitle.slice(0, -1);
+      punct = last;
+    } else {
+      body = resolvedTitle;
+      punct = ".";
+    }
+  } else {
+    body = "";
+    punct = "";
+  }
+  return /*#__PURE__*/React.createElement("div", { className: "lesson-header" },
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { width: 22, height: 1.5, background: "var(--primary)" } }),
+      /*#__PURE__*/React.createElement("span", {
+        style: { fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)" }
+      }, "SECTION " + sectionNumber + " · " + groupName + " · LESSON " + lessonNumber)
+    ),
+    /*#__PURE__*/React.createElement("h1", {
+      style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: "0 0 8px 0" }
+    },
+      body,
+      punct ? /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, punct) : null
+    ),
+    props.subtitle ? /*#__PURE__*/React.createElement("p", {
+      style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.5, color: "var(--inkSoft)", maxWidth: 640, textWrap: "pretty", margin: "0 0 32px 0" }
+    }, props.subtitle) : null
+  );
+}
 const SECTION_GROUPS = [{
   label: "Intro",
   sections: ["preassessment", "intro"]
@@ -465,6 +511,7 @@ function PreAssessmentSection(props) {
   };
   var fillPct = Math.round(correctCount / 10 * 100);
   return /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 24 } },
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "preassessment" }),
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
       qIdx === 0 && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkMuted)", marginBottom: 12 } }, "Alright ", getName(), ", let\u2019s see what you know."),
       /*#__PURE__*/React.createElement("div", {
@@ -544,6 +591,7 @@ function AIHistorySection(props) {
     return function() { window.removeEventListener("resize", calc); };
   }, []);
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.7, marginBottom: 32 }
     }, "Every time AI writes a sentence, it\u2019s running math to predict the most likely answer. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
@@ -668,6 +716,7 @@ function HowWeGotHereSection(props) {
   var _vbs = useState(0), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
   var BAYES_CONTINUE_LABELS = ["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 32 }
     },
@@ -985,6 +1034,7 @@ function AIStrengthsSection(props) {
   var catCorrectCount = 0;
   SCENARIOS.forEach(function(sc, i) { if (answers[i] === sc.correct) correctCount++; if (catAnswers[i] === sc.tag) catCorrectCount++; });
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aistrengths" }),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.7, marginBottom: 28 }
     }, "AI can be useful for almost any task. The real question is not whether it can help. It is how much you should rely on what it gives you. One question helps you tell the difference between a Good Fit and something to Use Carefully."),
@@ -1173,6 +1223,7 @@ function AIStrengthsSection(props) {
 function WhyDeeperSection(props) {
   var _er = useState(null), expandedRow = _er[0], setExpandedRow = _er[1];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.7, marginBottom: 24 }
     }, "Most people use AI every day, but very few can explain what it\u2019s actually doing. Right now, most people can\u2019t answer questions like these. By the end of this class, you will."),
@@ -1289,7 +1340,7 @@ function IntroSection(props) {
     { icon: "\uD83C\uDF0D", label: "AI in the Real World", desc: "Questions that matter, human skills that rise in value, integrity, privacy, and how AI reshapes work." },
     { icon: "\uD83C\uDFC1", label: "Finish Line", desc: "Review, prove what you know, and finish with the timed capstone." }
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "intro" }), /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 32, maxWidth: "66%", marginLeft: "auto", marginRight: "auto" }
   },
     /*#__PURE__*/React.createElement("div", {
@@ -1378,6 +1429,7 @@ function KeyTermsSection(props) {
   };
   var scoreMsg = wrongCount === 0 ? "No misses." : wrongCount <= 3 ? "A few stumbles, but you got there." : "The ones that tripped you up are worth a second look.";
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "keyterms" }),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "🧪 TRY IT"),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "Vocab Quiz"),
@@ -1492,6 +1544,7 @@ function AIvsCodeSection(props) {
     }
   ];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
       "Before we explore AI, let's understand what makes it different from regular computer programs. The difference is more fundamental than you might think."
     ),
@@ -1639,6 +1692,7 @@ function TypingAICard() {
 function GenerativeSection(props) {
   var _rs = useState(0), revealStep = _rs[0], setRevealStep = _rs[1];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "generative" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.7, fontSize: 16 } },
       "Most people think AI works like stored-answer software: you ask a question, and it finds the answer in a database. The core model doesn\u2019t work that way. Instead of retrieving a stored answer, it generates each response one word at a time, using probability. This is also why the same question can produce a different answer each time you ask it."
     ),
@@ -1699,6 +1753,7 @@ function GenerativeSection(props) {
 }
 function BlackBoxSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "blackbox" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
       "Sometimes AI gives an answer that looks polished, official, and trustworthy, but it\u2019s completely wrong. That kind of failure is one of the clearest signs that no one wrote exact rules for what it says."
     ),
@@ -1772,6 +1827,7 @@ function DataSection(props) {
     return function() { clearInterval(interval); };
   }, [seeItStarted]);
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "data" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 20, lineHeight: 1.7, fontSize: 16 } },
       "Computer programs and AI don\u2019t just think differently. They run on completely different fuel."
     ),
@@ -1963,6 +2019,7 @@ function DataSection(props) {
 function HowAIReadsSection(props) {
   var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "because", "it", "was", "tired"];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howreads" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 12, lineHeight: 1.7, fontSize: 16 } },
       "Vectors give each token its own meaning, but language depends on relationships ", /*#__PURE__*/React.createElement("em", null, "between"), " tokens. Consider: ", /*#__PURE__*/React.createElement("strong", null, "\u201CThe cat sat on the mat because it was tired.\u201D"), " The word \u201Cit\u201D could refer to anything. To understand the sentence, the model needs to connect \u201Cit\u201D back to \u201Ccat,\u201D not just know what each word means in isolation."),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
@@ -2051,6 +2108,7 @@ function ProbabilitySection(props) {
     setScore({ correct: 0, total: 0 });
   };
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "probability" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
       "AI doesn\u2019t know the next word. It assigns probabilities to many possible next words, then picks one. Every response is built this way, one choice at a time."
     ),
@@ -2321,6 +2379,7 @@ function TrainingBiasSection(props) {
     { icon: "🕳️", label: "Blind spots", text: "Some cases aren’t in the data at all. Whatever is missing, the model can’t learn, and it has no way to know it’s missing. The gaps are invisible from the inside." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.7, fontSize: 16 } },
       "Training bias happens when the data teaches the model a distorted version of reality. The model learns what is in front of it, and nothing more. If the data is skewed, incomplete, or shortcut-heavy, the model inherits all of it."),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px solid var(--primary)", borderRadius: 12, padding: 20, marginBottom: 28 } },
@@ -2413,7 +2472,7 @@ function TrainingSection(props) {
     title: "Humans rank AI\u2019s answers (RLHF)",
     text: "The model writes multiple answers and human reviewers rank which are best. It\u2019s like a coaching staff reviewing film after every game: \u2018that play was the right call, but that one needs work.\u2019 Over thousands of rankings, it learns to be helpful, honest, and safe. This is why Claude, ChatGPT, and Gemini all feel different: they each had different coaches with different priorities."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "training" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -2665,6 +2724,7 @@ function TokenSection(props) {
     style: { display: "block", margin: "24px auto 0", padding: "12px 28px", borderRadius: 8, background: "#10b981", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
   }, "Next: Meaning \u2192");
   return E("div", null,
+    E(LessonHeader, { sectionId: "tokens" }),
     E("p", { style: { color: "var(--inkSoft)", marginBottom: 20, lineHeight: 1.6 } },
       "Computers only process numbers. They can\u2019t read text the way you do. Before an LLM can work with your words, it needs to convert them into numbers. The text gets split into chunks called ",
       E("strong", null, "tokens."), " Sometimes these are whole words, and other times, pieces of words."),
@@ -2918,6 +2978,7 @@ function EmbeddingsSection(props) {
   var aStyle = { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 0 };
   var blockStyle = { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 16 };
   return /*#__PURE__*/E("div", null,
+    /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E("p", { style: { color: "var(--inkSoft)", marginBottom: 20, lineHeight: 1.6 } },
     "If the model sees the word \u201Ccat\u201D as 9246, how does it learn what the word cat means? That\u2019s a process called ",
     E("strong", null, "Embedding"), "."),
@@ -3023,6 +3084,7 @@ function PredictionSection(props) {
     return function() { clearTimeout(t); };
   }, [seeStep]);
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 20 } }, /*#__PURE__*/React.createElement("span", null, "Remember this TRY IT? If AI answered only based on raw probability, it would always return ", /*#__PURE__*/React.createElement("strong", null, "morning"), ". What if ", /*#__PURE__*/React.createElement("strong", null, "luck"), ", ", /*#__PURE__*/React.createElement("strong", null, "grief"), ", ", /*#__PURE__*/React.createElement("strong", null, "boy"), ", or ", /*#__PURE__*/React.createElement("strong", null, "heavens"), " is the better answer?")),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 12, padding: 24, border: "1px solid var(--rule)", marginBottom: 20 } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: "var(--ink)", marginBottom: 20, textAlign: "center" } },
@@ -3403,7 +3465,7 @@ function LayersSection(props) {
   const [activeLayer, setActiveLayer] = useState(0);
   const word = LAYER_WORDS[activeWord];
   const layer = word.layers[activeLayer];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(TechnicalNote), /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }), /*#__PURE__*/React.createElement(TechnicalNote), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -3781,6 +3843,7 @@ function AttentionSectionModule(props) {
   const ex = ATTENTION_EXAMPLES[exIdx];
   const selectExample = i => { setExIdx(i); setShowResult(false); };
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "attention" }),
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, lineHeight: 1.7, fontSize: 16 }
   }, "Inside every layer, two things happen. First: the model figures out which words matter to each other. This is called attention."),
@@ -3975,6 +4038,7 @@ const TRANSFORM_EXAMPLES = [{
 }];
 function TransformSectionModule(props) {
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "transform" }),
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, lineHeight: 1.7, fontSize: 16 }
   }, "Attention figured out which words matter. Now Transform interprets what they mean together."),
@@ -4166,7 +4230,7 @@ function InferenceSection(props) {
     color: "#10b981"
   }];
   const step = steps[activeStep];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -4505,6 +4569,7 @@ function ContextSection(props) {
   var startScenario = function(idx) { setScenarioIdx(idx); setPhase(1); setChars(0); };
 
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "context" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 15, lineHeight: 1.7 } },
       "The context window is everything the model can see at once when generating a response. Think of it like a whiteboard: everything you\u2019re working with has to fit on it, and the model can\u2019t see anything that\u2019s not there."),
 
@@ -4623,7 +4688,7 @@ function ContextSection(props) {
     }, "Next: Probability \u2192") : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the example above to continue"));
 }
 function CustomizationSection(props) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 16,
@@ -4823,7 +4888,7 @@ function ModelSelectionSection(props) {
     capability: 40, speed: 100, cost: 15,
     desc: "Best for simple lookups, formatting, and high-volume tasks."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
   }, "The best product is the one that fits the job. Most people just use whatever they opened last. Here\u2019s how to actually choose."), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
@@ -4890,6 +4955,7 @@ function ChoosingModelSection(props) {
     desc: "Use for simple tasks: reformatting notes, quick lookups, translating a sentence, generating a list. Fast and cheap, but shallow on anything complex."
   }];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.7, fontSize: 16 } },
       "You picked the product: Claude, ChatGPT, or Gemini. Now you need to pick the model. Each product offers multiple models that trade off capability, speed, and cost. Picking the right one for the task makes a real difference."),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 20 } },
@@ -4932,7 +4998,7 @@ function ThinkingModeSection(props) {
     task: "Solve this multi-step calculus problem",
     answer: "Thinking", explain: "Multi-step math requires the model to work through each step sequentially and verify its logic. Thinking mode dramatically reduces errors on problems like this."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thinkingmode" }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
   }, "Every major AI has two speeds: fast and deep. Most people never switch out of fast. Here\u2019s what you\u2019re missing and when to use each one."),
   SNAPSHOT_NOTE,
@@ -5012,7 +5078,7 @@ function TemperatureSection(props) {
   const prompt = TEMP_PROMPTS[promptIdx];
   const tempKey = temp <= 0.2 ? 0 : temp <= 0.7 ? 0.5 : 1;
   const outputs = TEMP_OUTPUTS[prompt]?.[tempKey] || [];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -5308,7 +5374,7 @@ function HallucinationSection(props) {
   const next = function() {
     if (currentIdx < 7) { setCurrentIdx(function(i) { return i + 1; }); setGuess(null); setTypingDone(false); }
   };
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination", subtitle: "Sometimes the AI tells you something that sounds completely right — confident, detailed, well-written — and is just made up." }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
   }, "AI learns patterns from data, then uses those patterns to predict likely next words. ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "But probable doesn\u2019t mean true."), " A fabricated Supreme Court case can be just as probable as a real physics fact. This is called hallucination, and this section will help you spot it."),
     /*#__PURE__*/React.createElement("p", {
@@ -5389,7 +5455,7 @@ function VerifySection(props) {
     rule: "If part of an answer is verifiably true, don't assume the rest is too."
   }];
   const vs = VERIFY_STRATEGIES[activeStrategy];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", marginBottom: 20, paddingBottom: 16, borderBottom: "1px solid var(--rule)" }
   }, /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 20, fontWeight: 800, color: "var(--primary)" }
@@ -5583,7 +5649,7 @@ function CriticalThinkingSection(props) {
     lesson: "Headlines are designed to get clicks, not to inform. Before sharing or believing, ask: how big was the study? Who funded it? What did they actually measure?"
   }];
   const ex101 = CT_101[active101];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -6076,7 +6142,7 @@ function PromptingSection(props) {
   }];
   const [baIdx, setBaIdx] = useState(0);
   const ba = BEFORE_AFTER[baIdx];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
   }, "You\u2019ve learned how LLMs work: how they process tokens, use context, and generate responses word by word. Now here\u2019s the practical payoff: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
   /*#__PURE__*/React.createElement("div", {
@@ -6514,6 +6580,7 @@ function ThoughtPartnerSection(props) {
   var showButton = phase === "idle" || phase === "done";
   var cursor = /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thoughtpartner" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 15 } },
       "AI can help you explore ideas, pressure-test your thinking, and get unstuck. But the thinking still has to be yours. The best use of AI as a thought partner is when ", /*#__PURE__*/React.createElement("strong", null, "you"), " drive the conversation and ", /*#__PURE__*/React.createElement("strong", null, "you"), " make the decisions."),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 24, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "2px solid #f59e0b" } },
@@ -6660,7 +6727,7 @@ function EvaluatingSection(props) {
     action: null
   }];
   const iterStep = ITERATION_STEPS[iterationStep];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "evaluating" }), /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", marginBottom: 20, paddingBottom: 16, borderBottom: "1px solid var(--rule)" }
   }, /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 20, fontWeight: 800, color: "var(--primary)" }
@@ -7049,7 +7116,7 @@ function FlatteryTrapSection(props) {
   }];
   var spot = SPOT_EXERCISES[spotIdx];
   var fs = FIGHT_STRATEGIES[activeStrategy];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 20, fontSize: 15, lineHeight: 1.7 }
   }, "Remember RLHF, the training phase where humans ranked model responses? There's a side effect: models learned that ", /*#__PURE__*/React.createElement("strong", null, "agreeable, encouraging answers get higher ratings"), ". Over time, they got really good at telling you what you want to hear. This is called ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), ", and it's one of the most subtle traps in AI."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }
@@ -7224,7 +7291,7 @@ function IntegritySection(props) {
   const [activeScenario, setActiveScenario] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const sc = INTEGRITY_SCENARIOS[activeScenario];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "integrity" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -7568,7 +7635,7 @@ function PrivacySection(props) {
     icon: "\uD83C\uDFEB",
     facts: ["Your school may monitor all AI conversations", "Different privacy rules may apply than consumer versions", "Your school's IT department may have access to your history", "These often have stricter content filters"]
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "privacy" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -7814,7 +7881,7 @@ function PrivacySection(props) {
   }, "Next: Work Changes \u2192"));
 }
 function WhatYouLearnedSection(props) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 20,
@@ -7933,7 +8000,7 @@ function FullWorkflowSection(props) {
     action: "The paper is yours. AI helped you research and refine, but every argument, every sentence, every insight is in your own voice. You can explain and defend every part of it."
   }];
   const ws = WALKTHROUGH[walkStep];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "fullworkflow" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
       marginBottom: 16,
@@ -8309,6 +8376,7 @@ function TestYourselfSection(props) {
   var rankEmoji = pct >= 90 ? "🏆" : pct >= 75 ? "🚀" : pct >= 60 ? "💪" : "📚";
   var shareText = "I scored " + quizScore.correct + "/" + QUIZ.length + " on Be Smarter Than the Tool, rank: " + rank;
   return /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0" } },
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "testyourself" }),
     /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 8 } }, rankEmoji),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, fontWeight: 800, color: "var(--primary)", marginBottom: 4 } }, rank),
@@ -8641,6 +8709,7 @@ function HeadToHeadSection(props) {
     labelDesc = "You finished, but the mistakes stack up. Revisit the concepts and try again.";
   }
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "headtohead" }),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px solid " + labelColor, borderRadius: 14, padding: 28, textAlign: "center", marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 4 } }, labelEmoji),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: labelColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 } }, "Result"),
@@ -8733,6 +8802,7 @@ function QuestionsValuableSection(props) {
     { icon: "\u27A1\uFE0F", title: "Asking the next better question", desc: "The real value of AI is in the second, third, and fourth question. That\u2019s where thinking happens." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 8, lineHeight: 1.7, fontSize: 16 } },
       "AI makes answers cheap. That does not make humans less valuable. It changes ",
       /*#__PURE__*/React.createElement("em", null, "where"),
@@ -8909,6 +8979,7 @@ function HumanEdgeSection(props) {
     setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
   };
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "humanedge" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
       "AI can produce a first draft of almost anything in seconds. That changes what makes a person valuable. The skills that matter most now are the ones AI still can\u2019t do well: deciding what to ask, judging what\u2019s good, catching what\u2019s wrong, and knowing where the answer needs to go. The bottleneck moves from production to direction."
     ),
@@ -9074,6 +9145,7 @@ function WorkChangesSection(props) {
     setTaskAnswers(function(prev) { var next = Object.assign({}, prev); next[tIdx] = bId; return next; });
   };
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "workchanges" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.7, fontSize: 16 } },
       "AI does not hit all work equally. Before it changes whole jobs, it changes specific tasks inside those jobs. The useful question isn\u2019t \u201Cis my job safe?\u201D It\u2019s \u201Cwhich parts of any job are repeatable, digital, and easy to verify?\u201D Those are the parts AI absorbs first. The parts that depend on real-world action, responsibility, and judgment are absorbed much more slowly, if at all."
     ),
@@ -9308,6 +9380,7 @@ function AIFutureSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 24, fontSize: 15, fontWeight: 700, color: "var(--primary)" } }, "The goal is not cynicism. The goal is better judgment."));
   }
   return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aifuture" }),
     /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 24 } }, "Some people think AI will cure cancer, eliminate poverty, and make everything better for everyone. Others think it will steal every job, seize control of infrastructure, and end civilization as we know it. Both camps are completely confident. Both can\u2019t be right. Here\u2019s how to figure out who\u2019s actually worth listening to, and how to make that call yourself from now on."),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)" } },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 0, marginBottom: 0, background: "var(--card)", borderRadius: 10, padding: 4, border: "1px solid var(--rule)" } },
@@ -9526,14 +9599,7 @@ function LLMExplorer() {
       position: "relative",
       marginTop: 0
     }
-  }, /*#__PURE__*/React.createElement("h2", {
-    style: {
-      fontSize: 22,
-      fontWeight: 800,
-      color: "var(--ink)",
-      margin: "0 0 20px 0"
-    }
-  }, currentSection.icon, " ", currentSection.title || currentSection.label), /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, resetCapstone: resetCapstone })), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, resetCapstone: resetCapstone })), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       marginTop: 20,

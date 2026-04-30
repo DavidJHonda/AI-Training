@@ -979,6 +979,8 @@ function HowWeGotHereSection(props) {
     { year: "2022", title: "ChatGPT Launches", desc: "The public finally saw what large language models could do. AI stopped feeling like a research topic and started feeling like a tool anyone could use.", tag: null }
   ];
   var _vbs = useState(0), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
+  var _rev = useState(0), revealedCount = _rev[0], setRevealedCount = _rev[1];
+  var revealNext = function() { setRevealedCount(function(n) { return n + 1; }); };
   var BAYES_CONTINUE_LABELS = ["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
@@ -986,6 +988,10 @@ function HowWeGotHereSection(props) {
       style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", maxWidth: 720, textWrap: "pretty", margin: "0 0 32px 0" }
     }, "The math behind AI didn’t start with computers. It started with people trying to predict coin flips and dice rolls, centuries before anyone imagined a machine that could write."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE TIMELINE"),
+    revealedCount === 0 ? /*#__PURE__*/React.createElement("div", { style: { margin: "32px auto", textAlign: "center" } },
+      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: revealNext, style: { margin: 0, display: "inline-block" } }, "Where it began")
+    ) : null,
+    revealedCount >= 1 ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 24 }
     },
@@ -997,27 +1003,19 @@ function HowWeGotHereSection(props) {
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
-      title: "Two Coins, Three Outcomes",
-      hint: "When you can see every possibility, probability is just counting."
+      title: "Two Coins, Three Outcomes"
     },
       /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "space-around", gap: 18, marginBottom: 18 }
-        },
-          [
-            { coins: ["H", "H"], label: "HEADS-HEADS" },
-            { coins: ["H", "T"], label: "HEADS-TAILS" },
-            { coins: ["T", "H"], label: "TAILS-HEADS" },
-            { coins: ["T", "T"], label: "TAILS-TAILS" }
-          ].map(function(p, i) {
+        (function() {
+          var coinPair = function(coins, label, key) {
             return /*#__PURE__*/React.createElement("div", {
-              key: i,
+              key: key,
               style: { display: "flex", flexDirection: "column", alignItems: "center" }
             },
               /*#__PURE__*/React.createElement("div", {
                 style: { display: "flex", gap: 6, marginBottom: 8 }
               },
-                p.coins.map(function(c, j) {
+                coins.map(function(c, j) {
                   return /*#__PURE__*/React.createElement("div", {
                     key: j,
                     style: { width: 36, height: 36, borderRadius: "50%", background: "#fff", border: "2px solid var(--rule)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, color: "var(--ink)" }
@@ -1026,10 +1024,24 @@ function HowWeGotHereSection(props) {
               ),
               /*#__PURE__*/React.createElement("div", {
                 style: { fontSize: 11, color: "var(--inkMuted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.10em" }
-              }, p.label)
+              }, label)
             );
-          })
-        ),
+          };
+          return /*#__PURE__*/React.createElement("div", {
+            style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 18 }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center" } },
+              coinPair(["H", "H"], "HEADS-HEADS", 0)
+            ),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between" } },
+              coinPair(["H", "T"], "HEADS-TAILS", 0),
+              coinPair(["T", "H"], "TAILS-HEADS", 1)
+            ),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center" } },
+              coinPair(["T", "T"], "TAILS-TAILS", 0)
+            )
+          );
+        })(),
         /*#__PURE__*/React.createElement("div", {
           style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }
         },
@@ -1040,7 +1052,7 @@ function HowWeGotHereSection(props) {
           ].map(function(s, i) {
             return /*#__PURE__*/React.createElement("div", {
               key: i,
-              style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14 }
+              style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14, textAlign: "center" }
             },
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", marginBottom: 4 } }, s.eyebrow),
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: "var(--ink)", marginBottom: 2 } }, s.count),
@@ -1049,7 +1061,12 @@ function HowWeGotHereSection(props) {
           })
         )
       )
-    ),
+    )
+    ) : null,
+    revealedCount === 1 ? /*#__PURE__*/React.createElement("div", { style: { margin: "32px auto", textAlign: "center" } },
+      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: revealNext, style: { margin: 0, display: "inline-block" } }, "Next: 1763")
+    ) : null,
+    revealedCount >= 2 ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
     /*#__PURE__*/React.createElement("p", {
       style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.65, color: "var(--inkSoft)", margin: "32px 0", textWrap: "pretty" }
     }, "But what if you can’t see everything? What if the bag is closed, the dice are hidden, the future hasn’t happened yet? Probability math couldn’t help — until Thomas Bayes."),
@@ -1078,23 +1095,27 @@ function HowWeGotHereSection(props) {
                 ),
                 /*#__PURE__*/React.createElement("ul", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7, margin: "8px 0 0 0", paddingLeft: 22 } },
                   /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } },
-                    "In the first bag, they place 8 red and 2 blue. We’ll call this the Red-Heavy Bag."),
+                    "In the first bag, they place 8 red and 2 blue (",
+                    /*#__PURE__*/React.createElement("span", { style: { color: "#dc2626" } }, "Red-Heavy Bag"),
+                    ")."),
                   /*#__PURE__*/React.createElement("li", null,
-                    "In the second bag, they place the remaining 2 red and 8 blue basketballs.")
+                    "In the second bag, they place the remaining 2 red and 8 blue (",
+                    /*#__PURE__*/React.createElement("span", { style: { color: "#2563eb" } }, "Blue-Heavy Bag"),
+                    ").")
                 ),
                 /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7, marginTop: 12 } },
                   "You are blindfolded, and someone gives you one of the bags. You don’t know which bag they gave you."
                 ),
                 /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 } },
                   [
-                    { name: "Red-Heavy Bag", red: 8, blue: 2, border: "#ef4444" },
-                    { name: "Blue-Heavy Bag", red: 2, blue: 8, border: "#3b82f6" }
+                    { name: "Red-Heavy Bag", red: 8, blue: 2, border: "#ef4444", textColor: "#dc2626" },
+                    { name: "Blue-Heavy Bag", red: 2, blue: 8, border: "#3b82f6", textColor: "#2563eb" }
                   ].map(function(bag, bi) {
                     return /*#__PURE__*/React.createElement("div", {
                       key: bi,
                       style: { background: "var(--bg)", border: "2px solid " + bag.border, borderRadius: 10, padding: "12px 12px", textAlign: "center" }
                     },
-                      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--ink)", marginBottom: 8, letterSpacing: 0.3 } }, bag.name),
+                      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: bag.textColor, marginBottom: 8, letterSpacing: 0.3 } }, bag.name),
                       /*#__PURE__*/React.createElement("div", {
                         style: { display: "grid", gridTemplateColumns: "repeat(5, 16px)", gap: 5, justifyContent: "center", marginBottom: 8 }
                       },
@@ -1275,11 +1296,12 @@ function HowWeGotHereSection(props) {
         )
       ) : null
     ),
-    /*#__PURE__*/React.createElement("p", {
-      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, margin: "18px 0 18px 0" }
-    }, "Bayes gave us the math. The next three centuries turned that idea into systems that could learn, remember, and generate."),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 32, maxWidth: "66%", marginLeft: "auto", marginRight: "auto" }
+    ) : null,
+    revealedCount === 2 ? /*#__PURE__*/React.createElement("div", { style: { margin: "32px auto", textAlign: "center" } },
+      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: revealNext, style: { margin: 0, display: "inline-block" } }, "Next: " + TIMELINE[0].year)
+    ) : null,
+    revealedCount >= 3 ? /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginTop: 32, marginBottom: 32, maxWidth: "66%", marginLeft: "auto", marginRight: "auto", animation: "fadeIn 0.4s ease" }
     },
       /*#__PURE__*/React.createElement("div", {
         style: { position: "relative", paddingLeft: 30 }
@@ -1287,10 +1309,11 @@ function HowWeGotHereSection(props) {
         /*#__PURE__*/React.createElement("div", {
           style: { position: "absolute", left: 4, top: 12, bottom: 12, width: 2, background: "var(--rule)" }
         }),
-        TIMELINE.map(function(entry, i) {
+        TIMELINE.slice(0, revealedCount - 2).map(function(entry, i) {
+          var visibleSlice = revealedCount - 2;
           return /*#__PURE__*/React.createElement("div", {
             key: i,
-            style: { position: "relative", paddingBottom: i < TIMELINE.length - 1 ? 12 : 0 }
+            style: { position: "relative", paddingBottom: i < visibleSlice - 1 ? 12 : 0, animation: i === visibleSlice - 1 ? "fadeIn 0.4s ease" : "none" }
           },
             /*#__PURE__*/React.createElement("div", {
               style: { position: "absolute", left: -26, top: 16, width: 10, height: 10, borderRadius: "50%", background: "var(--primary)" }
@@ -1308,9 +1331,12 @@ function HowWeGotHereSection(props) {
               /*#__PURE__*/React.createElement("div", {
                 style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 }
               }, entry.desc)));
-        }))),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "From Bayes to GPT, AI didn’t arrive. {It accumulated}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("aistrengths"); } }, "Next: Where AI Helps")
+        }))) : null,
+    (revealedCount >= 3 && revealedCount < 9) ? /*#__PURE__*/React.createElement("div", { style: { margin: "32px auto", textAlign: "center" } },
+      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: revealNext, style: { margin: 0, display: "inline-block" } }, "Next: " + TIMELINE[revealedCount - 2].year)
+    ) : null,
+    revealedCount >= 9 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "From Bayes to GPT, AI didn’t arrive. {It accumulated}." }) : null,
+    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("aistrengths"); }, disabled: revealedCount < 9 }, "Next: Where AI Helps")
   );
 }
 function AIStrengthsSection(props) {
@@ -1327,7 +1353,7 @@ function AIStrengthsSection(props) {
     { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", explain: "Summarizing is a strong fit. AI compresses information quickly, and you already know the material well enough to spot if it dropped something important.", tag: "Summarizing" }
   ];
   var COLORS = { good: "#10b981", careful: "#f59e0b" };
-  var LABELS = { good: "Good Fit", careful: "Use Carefully" };
+  var LABELS = { good: "Good Fit", careful: "Look It Up" };
   var ALL_TAGS = ["Brainstorming", "Summarizing", "First drafts", "Explaining concepts", "Reformatting", "Citations", "Current events", "Medical advice", "Your Original Voice", "Judgment calls"];
   var _qs = useState(false), quizStarted = _qs[0], setQuizStarted = _qs[1];
   var _si = useState(0), sIdx = _si[0], setSIdx = _si[1];
@@ -1369,7 +1395,10 @@ function AIStrengthsSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aistrengths" }),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
-    }, "AI can be useful for almost any task. The real question is not whether it can help. It is how much you should rely on what it gives you. One question helps you tell the difference between a Good Fit and something to Use Carefully."),
+    }, "AI can be useful for almost any task. The real question is not whether it can help. It is how much you should rely on what it gives you."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "One question helps you tell the difference between a Good Fit and something to Look Up."),
 
     /*#__PURE__*/React.createElement("div", { style: { maxWidth: "88%", margin: "0 auto 36px auto" } },
 
@@ -1378,7 +1407,7 @@ function AIStrengthsSection(props) {
           style: { display: "inline-block", padding: "20px 32px", borderRadius: 14, background: "var(--card)", border: "2px solid var(--primary)", boxShadow: "0 2px 12px rgba(110, 81, 255, 0.12)" }
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 6 } }, "The Simple Test"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, "Can you evaluate the output yourself?"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginTop: 10, fontStyle: "italic", opacity: (yesClicked && noClicked) ? 0 : 1, transition: "opacity 0.4s ease" } }, "\u2193 Click Yes or No to see each side."))),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, "Can you judge the result yourself?"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginTop: 10, fontStyle: "italic", opacity: (yesClicked && noClicked) ? 0 : 1, transition: "opacity 0.4s ease" } }, "\u2193 Click Yes or No to see each side."))),
 
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", position: "relative", height: 128 } },
         /*#__PURE__*/React.createElement("svg", { style: { width: "100%", height: "128", position: "absolute", top: 0, left: 0, overflow: "visible" }, viewBox: "0 0 800 128", preserveAspectRatio: "xMidYMid meet" },
@@ -1397,19 +1426,10 @@ function AIStrengthsSection(props) {
           },
             /*#__PURE__*/React.createElement("div", { style: { background: "#f0fdf4", borderBottom: "1px solid #d1fae5", padding: "16px 20px" } },
               /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#059669" } }, "\u2705 Good Fit")),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px 4px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#059669", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8, opacity: 0.85 } }, "Easy to judge"),
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-                ["Brainstorming", "First drafts", "Reformatting"].map(function(item, i) {
-                  return /*#__PURE__*/React.createElement("span", { key: "ej" + i, style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "#ecfdf5", border: "1px solid #d1fae5", fontSize: 13, fontWeight: 500, color: "#065f46" } },
-                    /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 } }),
-                    item);
-                }))),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "10px 18px 14px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#059669", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8, opacity: 0.85 } }, "Helpful, but cross-check"),
+            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px" } },
               /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" } },
-                ["Summarizing", "Explaining concepts"].map(function(item, i) {
-                  return /*#__PURE__*/React.createElement("span", { key: "hc" + i, style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "#ecfdf5", border: "1px solid #d1fae5", fontSize: 13, fontWeight: 500, color: "#065f46" } },
+                ["Brainstorming", "Summarizing", "First drafts", "Explaining concepts", "Reformatting"].map(function(item, i) {
+                  return /*#__PURE__*/React.createElement("span", { key: "gf" + i, style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "#ecfdf5", border: "1px solid #d1fae5", fontSize: 13, fontWeight: 500, color: "#065f46" } },
                     /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 } }),
                     item);
                 }))),
@@ -1421,28 +1441,19 @@ function AIStrengthsSection(props) {
             style: { border: "2px solid #f59e0b", borderRadius: 14, background: "var(--card)", boxShadow: "0 2px 8px rgba(245, 158, 11, 0.12)", overflow: "hidden", visibility: noClicked ? "visible" : "hidden", animation: noClicked ? "fadeIn 0.4s ease" : "none" }
           },
             /*#__PURE__*/React.createElement("div", { style: { background: "#fffef5", borderBottom: "1px solid #fde68a", padding: "16px 20px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#d97706" } }, "\u26A0\uFE0F Use Carefully")),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px 4px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8, opacity: 0.85 } }, "Verify outside the model"),
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-                ["Citations", "Current events", "Medical advice"].map(function(item, i) {
-                  return /*#__PURE__*/React.createElement("span", { key: "vo" + i, style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "#fef9ec", border: "1px solid #fde68a", fontSize: 13, fontWeight: 500, color: "#78350f" } },
-                    /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#f59e0b", flexShrink: 0 } }),
-                    item);
-                }))),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "10px 18px 14px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8, opacity: 0.85 } }, "Keep human control"),
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#d97706" } }, "\uD83D\uDD0D Look It Up")),
+            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px" } },
               /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" } },
-                ["Your Original Voice", "Judgment calls"].map(function(item, i) {
-                  return /*#__PURE__*/React.createElement("span", { key: "hc" + i, style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "#fef9ec", border: "1px solid #fde68a", fontSize: 13, fontWeight: 500, color: "#78350f" } },
+                ["Citations", "Current events", "Medical advice", "Your Original Voice", "Judgment calls"].map(function(item, i) {
+                  return /*#__PURE__*/React.createElement("span", { key: "lu" + i, style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "#fef9ec", border: "1px solid #fde68a", fontSize: 13, fontWeight: 500, color: "#78350f" } },
                     /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#f59e0b", flexShrink: 0 } }),
                     item);
                 }))),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Use carefully when the answer must be true, current, trustworthy, or distinctly yours."))))),
+            /*#__PURE__*/React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Look it up when the answer must be true, current, trustworthy, or distinctly yours."))))),
     (yesClicked && noClicked) && /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       title: "Name the Task, Make the Call",
-      hint: "Read the prompt. First identify what kind of task it is, then decide: Good Fit or Use Carefully?",
+      hint: "Read the prompt. First identify what kind of task it is, then decide: Good Fit or Look It Up?",
       action: !quizStarted ? /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { setQuizStarted(true); }, style: { margin: 0 } }, "First Scenario") : null
     }, !quizStarted ? null : /*#__PURE__*/React.createElement("div", null,
       completedCount > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: allDone ? 0 : 16 } },
@@ -1486,7 +1497,7 @@ function AIStrengthsSection(props) {
             pickedCat !== s.tag && /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", padding: "6px 14px", borderRadius: 20, fontSize: 13, fontWeight: 600, background: "#ecfdf5", color: "#059669", border: "1px solid #86efac" } }, s.tag))),
 
         catChosen && !revealed && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 2: Good Fit or Use Carefully?"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 2: Good Fit or Look It Up?"),
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12 } },
             ["good", "careful"].map(function(choice) {
               return /*#__PURE__*/React.createElement("button", {
@@ -1502,7 +1513,7 @@ function AIStrengthsSection(props) {
             }))),
 
         catChosen && revealed && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 2: Good Fit or Use Carefully?"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 2: Good Fit or Look It Up?"),
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16 } },
             ["good", "careful"].map(function(choice) {
               var isActive = pickedJudgment === choice;
@@ -1542,7 +1553,7 @@ function AIStrengthsSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", marginBottom: 12 } }, "Judgments: ", correctCount, " of ", SCENARIOS.length, " correct"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4, marginBottom: 20 } },
           correctCount >= 8 && catCorrectCount >= 8 ? "Strong instincts. You can identify the task type and judge whether AI is the right tool for it." :
-          correctCount >= 5 ? "Decent judgment, but naming the task type is what sharpens it. The category tells you whether you can evaluate the output, and that\u2019s the whole test." :
+          correctCount >= 5 ? "Decent judgment, but naming the task type is what sharpens it. The category tells you whether you can judge the result, and that\u2019s the whole test." :
           "A lot of these surprised you, and that\u2019s the point. Once you learn to name the task, the judgment follows."),
         /*#__PURE__*/React.createElement(BottomLine, { thought: "Use AI where {speed matters more than judgment}." }),
         /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("whydeeper"); } }, "Next: Why Go Deeper?")))));

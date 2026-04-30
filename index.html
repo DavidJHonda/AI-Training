@@ -100,10 +100,13 @@ function LessonHeader(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
     },
-      /*#__PURE__*/React.createElement("div", { style: { width: 22, height: 1.5, background: "var(--primary)" } }),
+      /*#__PURE__*/React.createElement("div", { style: { width: 22, height: 1.5, background: "var(--inkMuted)" } }),
       /*#__PURE__*/React.createElement("span", {
-        style: { fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)" }
-      }, "SECTION " + sectionNumber + " · " + groupName + " · LESSON " + lessonNumber)
+        style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)" }
+      }, "SECTION " + sectionNumber + " · " + groupName + " · "),
+      /*#__PURE__*/React.createElement("span", {
+        style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)" }
+      }, "LESSON " + lessonNumber)
     ),
     /*#__PURE__*/React.createElement("h1", {
       style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: "0 0 18px 0" }
@@ -115,6 +118,14 @@ function LessonHeader(props) {
       style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.5, color: "var(--inkSoft)", maxWidth: 640, textWrap: "pretty", margin: "0 0 32px 0" }
     }, props.subtitle) : null
   );
+}
+function SectionKicker(props) {
+  var size = props.size === "small" ? "small" : "large";
+  var baseStyle = size === "small"
+    ? { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em", color: "var(--primary)", margin: "32px 0 10px 0" }
+    : { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--primary)", margin: "32px 0 16px 0" };
+  var style = props.style ? Object.assign({}, baseStyle, props.style) : baseStyle;
+  return /*#__PURE__*/React.createElement("div", { style: style }, props.children);
 }
 function InteractiveBox(props) {
   var variant = props.variant === "see" ? "see" : "try";
@@ -349,189 +360,234 @@ const SECTION_GROUPS = [{
 }];
 const SECTIONS = [{
   id: "preassessment",
+  kicker: "WHERE YOU STAND",
   label: "Pre-Check",
   icon: "\uD83C\uDFAF"
 }, {
   id: "aihistory",
+  kicker: "THE AI LANDSCAPE",
   label: "What Is AI?",
   title: "What is AI?",
   icon: "\uD83E\uDDEC"
 }, {
   id: "howwegothere",
+  kicker: "THE LONG ROAD",
   label: "How We Got Here",
   icon: "\uD83D\uDCDC"
 }, {
   id: "aistrengths",
+  kicker: "WHERE IT EARNS ITS KEEP",
   label: "Where AI Helps",
   icon: "\u2696\uFE0F"
 }, {
   id: "whydeeper",
+  kicker: "THE EDGE",
   label: "Why Go Deeper?",
   icon: "\uD83D\uDD27"
 }, {
   id: "intro",
+  kicker: "WHAT'S AHEAD",
   label: "Class Roadmap",
   icon: "\uD83D\uDDFA\uFE0F"
 }, {
   id: "keyterms",
+  kicker: "SAY IT BACK",
   label: "Vocab Quiz",
   icon: "\uD83E\uDDE9"
 }, {
   id: "aivscode",
+  kicker: "TWO WAYS TO BUILD SOFTWARE",
   label: "Rules vs Patterns",
   icon: "\u26A1"
 }, {
   id: "generative",
+  kicker: "BUILT, NOT STORED",
   label: "The G in GPT",
   icon: "\u2728"
 }, {
   id: "blackbox",
+  kicker: "NOBODY PROGRAMMED THIS",
   label: "No One Wrote the Rules",
   icon: "\uD83D\uDCE6"
 }, {
   id: "data",
+  kicker: "IT NEEDS DATA TO LEARN",
   label: "AI's Fuel",
   icon: "\u26FD"
 }, {
   id: "howreads",
+  kicker: "ALL AT ONCE",
   label: "Transformer Architecture",
   icon: "\uD83D\uDCD6"
 }, {
   id: "probability",
+  kicker: "ONE WORD AT A TIME",
   label: "Probability",
   icon: "\uD83C\uDFB2"
 }, {
   id: "hallucination",
+  kicker: "PROBABLE ≠ TRUE",
   label: "Hallucination",
   icon: "\uD83E\uDEE7"
 }, {
   id: "training",
+  kicker: "HOW IT LEARNS",
   label: "Training",
   icon: "\uD83D\uDCDA"
 }, {
   id: "trainingbias",
+  kicker: "SHORTCUTS THE MODEL TAKES",
   label: "Training Bias",
   title: "Bias in the Training Data",
   icon: "\u2696\uFE0F"
 }, {
   id: "tokens",
+  kicker: "BEFORE THE MATH",
   label: "Tokens",
   icon: "\uD83E\uDDE9"
 }, {
   id: "embeddings",
+  kicker: "MEANING AS NUMBERS",
   label: "Meaning",
   title: "From Tokens to Meaning",
   icon: "\uD83D\uDCD0"
 }, {
   id: "prediction",
+  kicker: "THE GUESSING GAME",
   label: "Prediction",
   icon: "\uD83C\uDFAF"
 }, {
   id: "layers",
+  kicker: "BUILDING UP MEANING",
   label: "Layers",
   icon: "\uD83E\uDDC5"
 }, {
   id: "attention",
+  kicker: "WHAT MATTERS HERE",
   label: "Attention",
   icon: "\uD83C\uDFAF"
 }, {
   id: "transform",
+  kicker: "CONTEXT RESHAPES IT",
   label: "Update the Meaning",
   icon: "\uD83D\uDD04"
 }, {
   id: "inference",
+  kicker: "THE FULL JOURNEY",
   label: "From Prompt to Output",
   icon: "\u26A1"
 }, {
   id: "modelselection",
+  kicker: "THE WRAPPER MATTERS",
   label: "Choosing the Product",
   icon: "\uD83C\uDF9B\uFE0F"
 }, {
   id: "choosemodel",
+  kicker: "MATCH MODEL TO JOB",
   label: "Choosing the Model",
   icon: "\u26A1"
 }, {
   id: "thinkingmode",
+  kicker: "SPEED VS DEPTH",
   label: "Thinking Mode",
   icon: "\uD83E\uDDE0"
 }, {
   id: "context",
+  kicker: "WHAT IT CAN SEE",
   label: "Context Window",
   icon: "\uD83D\uDCCB"
 }, {
   id: "temperature",
+  kicker: "THE CREATIVITY DIAL",
   label: "Temperature",
   icon: "\uD83C\uDF21\uFE0F"
 }, {
   id: "customization",
+  kicker: "MAKE IT YOURS",
   label: "Customization & Memory",
   icon: "\u2699\uFE0F"
 }, {
   id: "critical",
+  kicker: "BRING YOUR BRAIN",
   label: "Critical Thinking & AI",
   icon: "\uD83E\uDDD0"
 }, {
   id: "flattery",
+  kicker: "WATCH THE FRIENDLINESS",
   label: "The Flattery Trap",
   icon: "\uD83C\uDFAD"
 }, {
   id: "prompting",
+  kicker: "CLEAR IN, CLEAR OUT",
   label: "The Art of Prompting",
   icon: "\u270D\uFE0F"
 }, {
   id: "thoughtpartner",
+  kicker: "THINK WITH IT, NOT FOR YOU",
   label: "Your Thought Partner",
   icon: "\uD83E\uDD1D"
 }, {
   id: "verify",
+  kicker: "TRUST, THEN CHECK",
   label: "How to Verify",
   icon: "\uD83D\uDEE0\uFE0F"
 }, {
   id: "evaluating",
+  kicker: "GOOD ENOUGH FOR WHAT?",
   label: "Evaluating the Results",
   icon: "\uD83D\uDD0D"
 }, {
   id: "integrity",
+  kicker: "USE IT, OWN IT",
   label: "Academic Integrity",
   icon: "\uD83C\uDF93"
 }, {
   id: "privacy",
+  kicker: "WHAT YOU TYPE TRAVELS",
   label: "Privacy & Awareness",
   icon: "\uD83D\uDD12"
 }, {
   id: "whatyoulearned",
+  kicker: "THE BIG PICTURE",
   label: "What You Learned",
   icon: "\uD83D\uDCCB"
 }, {
   id: "fullworkflow",
+  kicker: "THE FULL LOOP",
   label: "Full Workflow",
   icon: "\uD83D\uDDFA\uFE0F"
 }, {
   id: "testyourself",
+  kicker: "THE REAL TEST",
   label: "Test Yourself",
   icon: "\uD83C\uDFC6"
 }, {
   id: "headtohead",
+  kicker: "AGAINST THE CLOCK",
   label: "Beat the Clock",
   title: "Beat the Clock",
   icon: "\u23F1\uFE0F"
 }, {
   id: "questionsvaluable",
+  kicker: "THE QUESTION IS THE JOB",
   label: "Questions Matter",
   title: "When Answers Get Cheap",
   icon: "\u2753"
 }, {
   id: "humanedge",
+  kicker: "WHAT STAYS HUMAN",
   label: "Skills That Matter",
   title: "Skills That Matter in an AI World",
   icon: "\uD83E\uDDED"
 }, {
   id: "workchanges",
+  kicker: "THE JOBS RESHUFFLE",
   label: "Work Changes",
   title: "What Work Changes Most, and Why",
   icon: "\uD83D\uDCCA"
 }, {
   id: "aifuture",
+  kicker: "WHAT COMES NEXT",
   label: "AI & The Future",
   icon: "\uD83D\uDD2D"
 }];
@@ -766,7 +822,14 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "Artificial intelligence (AI) is a branch of computer science that develops systems capable of performing tasks typically requiring human intelligence, such as learning, reasoning, problem-solving, perception, and understanding language."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
     }, "Every time AI writes a sentence, it\u2019s running math to predict the most likely answer. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "This course mainly focuses on LLMs, how they work, and the products built around them."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "WORDS YOU'LL HEAR"),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 32 }
     },
@@ -799,7 +862,8 @@ function AIHistorySection(props) {
             { term: "Product", def: "The app you use, like ChatGPT, Claude, or Gemini. A product can be built around one or more models." },
             { term: "Model", def: "The trained engine inside the product that generates the response. Some products use one model, while others let you choose between several." },
             { term: "Chatbot", def: "A conversational interface built around a model." },
-            { term: "Agent", def: "A system that uses AI to take steps, use tools, and work toward a goal." }
+            { term: "Agent", def: "A system that uses AI to take steps, use tools, and work toward a goal." },
+            { term: "Machine Learning", def: "Often used interchangeably with AI in news and conversation. Technically it’s the technique behind modern AI: systems that learn patterns from data instead of following rules someone wrote." }
           ].map(function(d, i) {
             return /*#__PURE__*/React.createElement("div", {
               key: i,
@@ -812,9 +876,39 @@ function AIHistorySection(props) {
         )
       ),
     ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "YOU ALREADY USE AI"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 0 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }
+      },
+        [
+          { term: "Recommendation Systems", def: "Spotify deciding what song plays next. Netflix knowing what you\u2019ll want to watch. TikTok\u2019s For You page." },
+          { term: "Virtual Assistants", def: "Siri, Alexa, \u201CHey Google\u201D \u2014 anything that talks back when you talk to it." },
+          { term: "Navigation", def: "Google Maps predicting traffic, calculating routes, telling you when to leave." },
+          { term: "Face Recognition", def: "Unlocking your phone with your face. Tagging photos automatically." },
+          { term: "Photo Search", def: "Searching \u201Cbeach\u201D or \u201Cdog\u201D in your photos app and getting every match." }
+        ].map(function(d, i) {
+          var cardStyle = { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 12px" };
+          if (i === 4) cardStyle = Object.assign({}, cardStyle, { gridColumn: "1 / -1" });
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: cardStyle
+          },
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 3 } }, d.term),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, d.def)
+          );
+        })
+      )
+    ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "GENERATIVE AI"),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
-    }, "This course mainly focuses on LLMs, how they work, and the products built around them. You\u2019ve heard of ChatGPT. Its name actually tells you a lot about how LLMs work. Click each color to see the explanation."),
+    }, "ChatGPT, Claude, Gemini are the tools you\u2019ll actually use in this course. They are the newest layer on top of all of this. They don\u2019t just recognize patterns; they generate new content from them."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "In this exercise, you\u2019ll learn how the name ChatGPT explains how Generative AI works. Click each color to see an explanation."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       title: "ChatGPT, decoded"
@@ -888,11 +982,82 @@ function HowWeGotHereSection(props) {
   var BAYES_CONTINUE_LABELS = ["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
+    /*#__PURE__*/React.createElement("p", {
+      style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", maxWidth: 720, textWrap: "pretty", margin: "0 0 32px 0" }
+    }, "The math behind AI didn’t start with computers. It started with people trying to predict coin flips and dice rolls, centuries before anyone imagined a machine that could write."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "THE TIMELINE"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 24 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 6 } }, "1654 · Pascal & Fermat"),
+      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 22, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.3 } }, "Where Probability Math Began"),
+      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.7, margin: 0 } },
+        "Two French mathematicians exchanged letters that gave us the first formal theory of probability. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one. Useful, but only when you can see everything."
+      )
+    ),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      title: "Two Coins, Three Outcomes",
+      hint: "When you can see every possibility, probability is just counting."
+    },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "space-around", gap: 18, marginBottom: 18 }
+        },
+          [
+            { coins: ["H", "H"], label: "HEADS-HEADS" },
+            { coins: ["H", "T"], label: "HEADS-TAILS" },
+            { coins: ["T", "H"], label: "TAILS-HEADS" },
+            { coins: ["T", "T"], label: "TAILS-TAILS" }
+          ].map(function(p, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { display: "flex", flexDirection: "column", alignItems: "center" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { display: "flex", gap: 6, marginBottom: 8 }
+              },
+                p.coins.map(function(c, j) {
+                  return /*#__PURE__*/React.createElement("div", {
+                    key: j,
+                    style: { width: 36, height: 36, borderRadius: "50%", background: "#fff", border: "2px solid var(--rule)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, color: "var(--ink)" }
+                  }, c);
+                })
+              ),
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontSize: 11, color: "var(--inkMuted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.10em" }
+              }, p.label)
+            );
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }
+        },
+          [
+            { eyebrow: "TWO HEADS", count: "1 in 4", pct: "25%" },
+            { eyebrow: "ONE OF EACH", count: "2 in 4", pct: "50%" },
+            { eyebrow: "TWO TAILS", count: "1 in 4", pct: "25%" }
+          ].map(function(s, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14 }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", marginBottom: 4 } }, s.eyebrow),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: "var(--ink)", marginBottom: 2 } }, s.count),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--primary)" } }, s.pct)
+            );
+          })
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement("p", {
+      style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.65, color: "var(--inkSoft)", margin: "32px 0", textWrap: "pretty" }
+    }, "But what if you can’t see everything? What if the bag is closed, the dice are hidden, the future hasn’t happened yet? Probability math couldn’t help — until Thomas Bayes."),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 32 }
     },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 6 } }, "1763 · Bayes’ Theorem"),
-      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 22, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.3 } }, "The First Math Breakthrough Behind AI"),
+      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 22, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.3 } }, "The Math Breakthrough Behind AI"),
       /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.7, margin: 0 } },
         "Thomas Bayes was a minister, mathematician, and philosopher. He developed a theorem that showed how new evidence should change what you believe is most likely. That idea became a cornerstone of how AI makes predictions."
       )
@@ -9477,6 +9642,31 @@ function AIFutureSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aifuture" }),
     /*#__PURE__*/React.createElement("p", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18 } }, "Some people think AI will cure cancer, eliminate poverty, and make everything better for everyone. Others think it will steal every job, seize control of infrastructure, and end civilization as we know it. Both camps are completely confident. Both can\u2019t be right. Here\u2019s how to figure out who\u2019s actually worth listening to, and how to make that call yourself from now on."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 14, padding: 28, margin: "32px 0" }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 8 }
+      }, "The terms you\u2019ll hear in the debate"),
+      /*#__PURE__*/React.createElement("p", {
+        style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 18px 0" }
+      }, "Read enough about AI\u2019s future and you\u2019ll hit two acronyms."),
+      /*#__PURE__*/React.createElement("p", {
+        style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 14px 0" }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)" } }, "AGI (Artificial General Intelligence)"),
+        " \u2014 a hypothetical AI that can do any intellectual task a human can. Some researchers think it\u2019s a few years away. Others think it\u2019s decades. Others think the term is meaningless."
+      ),
+      /*#__PURE__*/React.createElement("p", {
+        style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 18px 0" }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)" } }, "ASI (Artificial Super Intelligence)"),
+        " \u2014 a hypothetical AI smarter than any human, at everything. Even more contested."
+      ),
+      /*#__PURE__*/React.createElement("p", {
+        style: { fontSize: 17, lineHeight: 1.65, color: "var(--ink)", margin: 0 }
+      }, "Neither exists. Both shape how people argue about AI today. Now you know the vocabulary of the argument.")
+    ),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 48, marginLeft: 24, marginRight: 24, padding: 24, background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)" } },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 0, marginBottom: 0, background: "var(--card)", borderRadius: 10, padding: 4, border: "1px solid var(--rule)" } },
         [["track", "\uD83D\uDCCA Why Smart Predictions Fail"], ["watch", "\uD83C\uDFAF How to Judge the Next Claim"]].map(function(t) {

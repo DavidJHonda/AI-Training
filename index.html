@@ -254,12 +254,8 @@ function QuizBlock(props) {
       style: { fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em", color: "var(--inkMuted)", marginBottom: 18 }
     }, qLabel) : null,
     React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: 30, fontWeight: 400, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.3, textWrap: "pretty", marginBottom: 24 }
-    },
-      React.createElement("span", { style: { color: "var(--primary)" } }, "\u201C"),
-      props.statement,
-      React.createElement("span", { style: { color: "var(--primary)" } }, "\u201D")
-    ),
+      style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35, textWrap: "pretty", marginBottom: 24 }
+    }, props.statement),
     React.createElement("div", {
       style: { display: "grid", gridTemplateColumns: options.length <= 2 ? "1fr 1fr" : "1fr", gap: options.length <= 2 ? 24 : 12 }
     },
@@ -358,7 +354,7 @@ const SECTIONS = [{
 }, {
   id: "aihistory",
   label: "What Is AI?",
-  title: "Artificial Intelligence is math that makes predictions.",
+  title: "What is AI?",
   icon: "\uD83E\uDDEC"
 }, {
   id: "howwegothere",
@@ -705,9 +701,8 @@ function PreAssessmentSection(props) {
   };
   var fillPct = Math.round(correctCount / 10 * 100);
   return /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 24 } },
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "preassessment" }),
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-      qIdx === 0 && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkMuted)", marginBottom: 12 } }, "Alright ", getName(), ", let\u2019s see what you know."),
+      qIdx === 0 && /*#__PURE__*/React.createElement("p", { style: { fontFamily: "var(--sans)", fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18 } }, "Alright ", getName(), ", let\u2019s see what you know."),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }
       }, /*#__PURE__*/React.createElement("span", {
@@ -747,6 +742,8 @@ function AIHistorySection(props) {
   var titleRefs = useRef([]);
   var cardRefs = useRef([]);
   var _ps = useState(null), paths = _ps[0], setPaths = _ps[1];
+  var _rs = useState({}), revealed = _rs[0], setRevealed = _rs[1];
+  var revealLetter = function(i) { setRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
       var c = containerRef.current;
@@ -774,14 +771,11 @@ function AIHistorySection(props) {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 32 }
     },
       /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14 }
-      }, "The AI Landscape"),
-      /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }
       },
         /*#__PURE__*/React.createElement("div", null,
           /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 10, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 10 }
+            style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14 }
           }, "Main focus in this course"),
           [
             { term: "AI", def: "The broad field of building systems that perform tasks that usually seem to require human intelligence." },
@@ -799,7 +793,7 @@ function AIHistorySection(props) {
         ),
         /*#__PURE__*/React.createElement("div", null,
           /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 10, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 10 }
+            style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14 }
           }, "Related terms you\u2019ll hear"),
           [
             { term: "Product", def: "The app you use, like ChatGPT, Claude, or Gemini. A product can be built around one or more models." },
@@ -817,31 +811,38 @@ function AIHistorySection(props) {
           })
         )
       ),
-      /*#__PURE__*/React.createElement("div", {
-        style: { borderTop: "1px solid var(--rule)", marginTop: 8, paddingTop: 12, fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", textAlign: "center" }
-      }, "This course mainly focuses on LLMs, how they work, and the products built around them.")
     ),
-    /*#__PURE__*/React.createElement("div", {
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "This course mainly focuses on LLMs, how they work, and the products built around them. You\u2019ve heard of ChatGPT. Its name actually tells you a lot about how LLMs work. Click each color to see the explanation."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      title: "ChatGPT, decoded"
+    },
+      /*#__PURE__*/React.createElement("div", {
         ref: containerRef,
-        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 32, position: "relative" }
+        style: { position: "relative" }
       },
-        /*#__PURE__*/React.createElement("div", {
-          style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, textAlign: "left", marginBottom: 24 }
-        },
-          /*#__PURE__*/React.createElement("p", { style: { margin: 0 } }, "You\u2019ve heard of ", /*#__PURE__*/React.createElement("b", null, "ChatGPT"), ". Its name actually tells you a lot about how ", /*#__PURE__*/React.createElement("b", null, "LLMs"), " work.")
-        ),
         /*#__PURE__*/React.createElement("div", {
           style: { textAlign: "center", fontSize: 40, fontWeight: 800, letterSpacing: 6, marginBottom: 0 }
         },
-          /*#__PURE__*/React.createElement("span", { ref: function(el) { titleRefs.current[0] = el; }, style: { color: "#3b82f6" } }, "Chat"),
-          /*#__PURE__*/React.createElement("span", { ref: function(el) { titleRefs.current[1] = el; }, style: { color: "#10b981" } }, "G"),
-          /*#__PURE__*/React.createElement("span", { ref: function(el) { titleRefs.current[2] = el; }, style: { color: "#f59e0b" } }, "P"),
-          /*#__PURE__*/React.createElement("span", { ref: function(el) { titleRefs.current[3] = el; }, style: { color: "#8b5cf6" } }, "T")),
+          COLS.map(function(col, i) {
+            var letter = i === 0 ? "Chat" : i === 1 ? "G" : i === 2 ? "P" : "T";
+            var isRevealed = !!revealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { titleRefs.current[i] = el; },
+              onClick: function() { revealLetter(i); },
+              style: { color: col.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, letter);
+          })
+        ),
         /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
         paths ? /*#__PURE__*/React.createElement("svg", {
           style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
         },
           paths.map(function(p, i) {
+            if (!revealed[i]) return null;
             var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
             var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
             var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
@@ -854,12 +855,13 @@ function AIHistorySection(props) {
           style: { display: "flex", gap: 12 }
         },
           COLS.map(function(col, i) {
+            var isRevealed = !!revealed[i];
             return /*#__PURE__*/React.createElement("div", {
               key: i, ref: function(el) { cardRefs.current[i] = el; },
               style: { flex: 1 }
             },
               /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + col.color }
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + col.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
               },
                 /*#__PURE__*/React.createElement("div", {
                   style: { fontWeight: 700, fontSize: 15, color: col.color, marginBottom: 6 }
@@ -867,7 +869,7 @@ function AIHistorySection(props) {
                 /*#__PURE__*/React.createElement("div", {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
                 }, col.desc)));
-          }))),
+          })))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI is math that uses probability to {make predictions}." }),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("howwegothere"); } }, "Next: How We Got Here")
   );
@@ -1525,6 +1527,43 @@ function IntroSection(props) {
               style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.5 }
             }, item.desc)));
       }))),
+  /* TEMP: design tokens reference table -- remove later */
+  (function() {
+    var TYPE_TOKENS = [
+      { role: "Lesson title", font: "Instrument Serif", size: "clamp(40, 5.5vw, 64)", weight: "400" },
+      { role: "Subtitle / lead", font: "Plus Jakarta Sans", size: "17", weight: "400" },
+      { role: "Body paragraph", font: "Plus Jakarta Sans", size: "17", weight: "400" },
+      { role: "Box term", font: "Plus Jakarta Sans", size: "15", weight: "700" },
+      { role: "Box body", font: "Plus Jakarta Sans", size: "14", weight: "400" },
+      { role: "Eyebrow (kicker)", font: "Plus Jakarta Sans", size: "12 (purple) / 11 (gray)", weight: "600" },
+      { role: "Caption / aside", font: "Plus Jakarta Sans", size: "13", weight: "400 italic" }
+    ];
+    var headerCell = { textAlign: "left", padding: "10px 14px", fontSize: 13, fontWeight: 700, color: "var(--ink)", borderBottom: "1px solid var(--rule)" };
+    var bodyCell = { textAlign: "left", padding: "10px 14px", fontSize: 14, color: "var(--inkSoft)", borderBottom: "1px solid var(--ruleSoft)", verticalAlign: "top" };
+    return /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginTop: 32, maxWidth: "66%", marginLeft: "auto", marginRight: "auto" }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 12 }
+      }, "Type tokens (temporary reference)"),
+      /*#__PURE__*/React.createElement("table", {
+        style: { width: "100%", borderCollapse: "collapse", fontFamily: "var(--sans)" }
+      },
+        /*#__PURE__*/React.createElement("thead", null,
+          /*#__PURE__*/React.createElement("tr", null,
+            /*#__PURE__*/React.createElement("th", { style: headerCell }, "Role"),
+            /*#__PURE__*/React.createElement("th", { style: headerCell }, "Font"),
+            /*#__PURE__*/React.createElement("th", { style: headerCell }, "Size"),
+            /*#__PURE__*/React.createElement("th", { style: headerCell }, "Weight"))),
+        /*#__PURE__*/React.createElement("tbody", null,
+          TYPE_TOKENS.map(function(row, i) {
+            return /*#__PURE__*/React.createElement("tr", { key: i },
+              /*#__PURE__*/React.createElement("td", { style: Object.assign({}, bodyCell, { color: "var(--ink)", fontWeight: 600 }) }, row.role),
+              /*#__PURE__*/React.createElement("td", { style: bodyCell }, row.font),
+              /*#__PURE__*/React.createElement("td", { style: bodyCell }, row.size),
+              /*#__PURE__*/React.createElement("td", { style: bodyCell }, row.weight));
+          }))));
+  })(),
   /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", color: "var(--primary)", fontWeight: 600, fontSize: 16, marginTop: 32 }
   }, "Each section builds on the last. By the end, you\u2019ll understand every piece."),
@@ -9601,10 +9640,7 @@ function LLMExplorer() {
       margin: "0 auto",
       padding: "56px 32px 80px",
       "--info": "#3b82f6",
-      "--info-raw": "#3b82f6",
-      "--info-bg": "#eff6ff",
-      "--success-bg": "#ecfdf5",
-      "--error-bg": "#fef2f2"
+      "--info-bg": "#eff6ff"
     }
   }, /*#__PURE__*/React.createElement("style", null, `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap');
@@ -9621,7 +9657,7 @@ function LLMExplorer() {
     var activeGroup = SECTION_GROUPS[activeGroupIdx];
     return /*#__PURE__*/React.createElement(React.Fragment, null,
       /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", justifyContent: "center", flexWrap: "nowrap", gap: 6, marginTop: 24, marginBottom: 16 }
+        style: { display: "flex", justifyContent: "center", flexWrap: "nowrap", gap: 6, marginTop: 24, marginBottom: 14 }
       }, SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
         var isActiveGroup = group === activeGroup;
         var groupComplete = !isActiveGroup && group.sections.every(function(sid) { return (progress.visited || []).includes(sid); });
@@ -9639,7 +9675,7 @@ function LLMExplorer() {
             border: "none",
             boxShadow: isActiveGroup ? "0 6px 18px rgba(110, 81, 255, 0.28)" : subtleShadow,
             cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, letterSpacing: "-0.005em",
-            transition: "all 0.2s", whiteSpace: "nowrap", position: "relative"
+            transition: "all 150ms ease", whiteSpace: "nowrap", position: "relative"
           }
         },
           groupComplete ? /*#__PURE__*/React.createElement("span", {
@@ -9652,10 +9688,10 @@ function LLMExplorer() {
   }(), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--card)",
-      borderRadius: "0 0 16px 16px",
-      padding: "28px 28px",
+      borderRadius: 18,
+      padding: "44px 56px",
       border: "1px solid var(--rule)",
-      boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+      boxShadow: "0 1px 0 rgba(14, 10, 31, 0.02), 0 12px 40px -20px rgba(14, 10, 31, 0.08)",
       position: "relative",
       marginTop: 0
     }

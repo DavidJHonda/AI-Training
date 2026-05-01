@@ -446,7 +446,7 @@ const SECTIONS = [{
   id: "trainingbias",
   kicker: "SHORTCUTS THE MODEL TAKES",
   label: "Training Bias",
-  title: "Bias in the Training Data",
+  title: "Training Bias",
   icon: "\u2696\uFE0F"
 }, {
   id: "tokens",
@@ -457,7 +457,7 @@ const SECTIONS = [{
   id: "embeddings",
   kicker: "MEANING AS NUMBERS",
   label: "Meaning",
-  title: "From Tokens to Meaning",
+  title: "Meaning",
   icon: "\uD83D\uDCD0"
 }, {
   id: "prediction",
@@ -973,7 +973,7 @@ function AIHistorySection(props) {
                 }, col.desc)));
           })))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI is math that uses probability to {make predictions}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("howwegothere"); } }, "Next: How We Got Here")
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: COLS.every(function(_, i) { return !!revealed[i]; }), onClick: function() { props.onNavigate && props.onNavigate("howwegothere"); }, label: "Next: How We Got Here" })
   );
 }
 function HowWeGotHereSection(props) {
@@ -1589,8 +1589,8 @@ function AIStrengthsSection(props) {
           correctCount >= 8 && catCorrectCount >= 8 ? "Strong instincts. You can identify the task type and judge whether AI is the right tool for it." :
           correctCount >= 5 ? "Decent judgment, but naming the task type is what sharpens it. The category tells you whether you can judge the result, and that\u2019s the whole test." :
           "A lot of these surprised you, and that\u2019s the point. Once you learn to name the task, the judgment follows."),
-        /*#__PURE__*/React.createElement(BottomLine, { thought: "Use AI where {speed matters more than judgment}." }),
-        /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("aivscode"); } }, "Next: Rules vs Patterns")))));
+        /*#__PURE__*/React.createElement(BottomLine, { thought: "Use AI where {speed matters more than judgment}." })))),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.onNavigate && props.onNavigate("aivscode"); }, label: "Next: Rules vs Patterns" }));
 }
 function WhyDeeperSection(props) {
   var _er = useState(null), expandedRow = _er[0], setExpandedRow = _er[1];
@@ -2662,7 +2662,7 @@ function ProbabilitySection(props) {
             onClick: startOver,
             style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--bg)", color: "var(--inkSoft)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 14, fontWeight: 600 }
           }, "\u21BB Start Over"),
-          score.total >= 5 && props.onNavigate && /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate("prediction"); } }, "Next: Prediction"))
+          /*#__PURE__*/React.createElement(NextLessonGate, { ready: score.total >= 5, onClick: function() { props.onNavigate && props.onNavigate("prediction"); }, label: "Next: Prediction" }))
       ),
       !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
         phrases.map(function(_, i) { return /*#__PURE__*/React.createElement("div", {
@@ -2723,7 +2723,7 @@ const STAGE_INFO = {
     icon: "👍"
   }
 };
-function BiasQuiz() {
+function BiasQuiz(props) {
   const [biasIdx, setBiasIdx] = useState(0);
   const [biasGuess, setBiasGuess] = useState(null);
   const [biasScore, setBiasScore] = useState({ correct: 0, total: 0 });
@@ -2807,6 +2807,7 @@ function BiasQuiz() {
       onAnswer: function(idx) {
         setBiasGuess(idx);
         setBiasScore(function(prev) { return { correct: prev.correct + (idx === bs.correct ? 1 : 0), total: prev.total + 1 }; });
+        if (isLastBias && props && props.onComplete) props.onComplete();
       }
     }),
     biasGuess !== null && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10 } },
@@ -2824,6 +2825,7 @@ function BiasQuiz() {
   );
 }
 function TrainingBiasSection(props) {
+  const [biasComplete, setBiasComplete] = useState(false);
   const MECHANISMS = [
     { icon: "📈", label: "Overrepresentation", text: "Some patterns appear so often that the model treats them as the default. If an internet forum dominates the training set, its tone and assumptions become the model’s baseline for everything." },
     { icon: "📉", label: "Underrepresentation", text: "Some cases barely appear, so the model barely learns them. Face recognition trained mostly on one demographic performs worse on others. Pedestrians in heavy rain almost invisible in a daytime-heavy dataset." },
@@ -2858,9 +2860,9 @@ function TrainingBiasSection(props) {
   },
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 } },
         "Four real cases where models looked like they had learned the concept and were actually learning something easier. See if you can catch the shortcut."),
-    /*#__PURE__*/React.createElement(BiasQuiz, null)),
+    /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } })),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Hallucination is a failure of prediction. Training bias is a failure of learning from skewed data. {Different mechanisms, different fixes}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("tokens"); } }, "Next: Tokens")
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.onNavigate && props.onNavigate("tokens"); }, label: "Next: Tokens" })
   );
 }
 function TrainingSection(props) {
@@ -2925,7 +2927,10 @@ function TrainingSection(props) {
       lineHeight: 1.65,
       fontSize: 17
     }
-  }, "How did the model get so good at predicting words? Think of it like learning a sport: first you study the game by watching thousands of hours of film, then a coach helps you turn that knowledge into actual skill."),
+  }, "Now that you’ve learned some AI fundamentals, let’s look at how AI companies build a Large Language Model."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 }
+  }, "Think of it like learning a sport: first you study the game by watching thousands of hours of film, then a coach helps you turn that knowledge into actual skill."),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 8 }
   },
@@ -3326,12 +3331,13 @@ function TechnicalNote(props) {
     style: { position: "absolute", top: 10, right: 12, background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", fontWeight: 600, padding: "4px 8px" }
   }, "Got it \u2715"));
 }
-function NameThatDrinkTryIt() {
+function NameThatDrinkTryIt(props) {
   var E = React.createElement;
   var _s = React.useState(false), started = _s[0], setStarted = _s[1];
   var _q = React.useState(0), qIdx = _q[0], setQIdx = _q[1];
   var _a = React.useState(null), answer = _a[0], setAnswer = _a[1];
   var _r = React.useState([]), results = _r[0], setResults = _r[1];
+  React.useEffect(function() { if (qIdx >= 3 && props && props.onComplete) props.onComplete(); }, [qIdx]);
   var questions = [
     { dims: [["Sweetness", 9], ["Fizziness", 10]], correct: "Coke", choices: [["Coke", "\uD83E\uDD64"], ["Black Coffee", "\u2615"]] },
     { dims: [["Bitterness", 9], ["Heat Level", 9]], correct: "Black Coffee", choices: [["Coke", "\uD83E\uDD64"], ["Black Coffee", "\u2615"]] },
@@ -3415,13 +3421,14 @@ function NameThatDrinkTryIt() {
 }
 function EmbeddingsSection(props) {
   var E = React.createElement;
+  var _mc = useState(false), meaningComplete = _mc[0], setMeaningComplete = _mc[1];
   var qStyle = { fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 6 };
   var aStyle = { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 0 };
   var blockStyle = { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 16 };
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-    "If the model sees the word \u201Ccat\u201D as 9246, how does it learn what the word cat means? That\u2019s a process called ",
+    "How does the model get from tokens to meaning? In other words, if the model sees the word \u201Ccat\u201D as 9246, how does it learn what the word cat means? That\u2019s a process called ",
     E("strong", null, "Embedding"), "."),
   E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
     "The best way of understanding this is through an example. You are comparing Coke and Black Coffee based on 6 dimensions. You take a sip of both drinks and rate them on a scale of 1 to 10 for each dimension."),
@@ -3469,7 +3476,7 @@ function EmbeddingsSection(props) {
       E("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--primary)", marginTop: 12 } }, "Token ID: 4873"),
       E("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 18, fontWeight: 700, color: "#8b5cf6", marginTop: 8 } }, "Vector: [9, 1, 10, 2, 3, 8]"),
       E("div", { style: { fontSize: 11, color: "var(--inkMuted)", marginTop: 6 } }, "Sweetness \u00B7 Bitterness \u00B7 Fizziness \u00B7 Heat \u00B7 Caffeine \u00B7 Darkness"))),
-  E(NameThatDrinkTryIt, null),
+  E(NameThatDrinkTryIt, { onComplete: function() { setMeaningComplete(true); } }),
   E("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginTop: 32, marginBottom: 12 } }, "AI Needs MANY More Dimensions"),
   E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "6 Dimensions were enough to tell Coke from Black Coffee. But, it wasn\u2019t enough to tell Coke from Pepsi. How does AI handle this? ", E("strong", null, "It creates thousands of dimensions for each token.")),
   E("div", { style: { display: "flex", gap: 16, marginTop: 24, marginBottom: 24 } },
@@ -3492,7 +3499,7 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 16, marginTop: 24, marginBottom: 0 } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "Does every token get its own vector?"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of numbers. The model doesn\u2019t start with the meaning of the full word. It builds meaning from the pieces.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Meaning becomes a list of numbers. {That\u2019s what a vector is}." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("context") }, "Next: Producing an Answer"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Meaning becomes a list of numbers. {That\u2019s what a vector is}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.onNavigate && props.onNavigate("context"), label: "Next: Producing an Answer" }));
 }
 function PredictionSection(props) {
   const [hoveredWord, setHoveredWord] = useState(null);
@@ -5358,7 +5365,7 @@ function ModelSelectionSection(props) {
       style: { display: "block", width: "100%", padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
     }, "Next Scenario \u2192")),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "ChatGPT, Claude, Gemini — they’re products. The model is {what’s underneath}." }),
-  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("choosemodel") }, "Next: Choosing the Model"));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx === SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("choosemodel"), label: "Next: Choosing the Model" }));
 }
 function ChoosingModelSection(props) {
   var TIERS = [{
@@ -5486,7 +5493,7 @@ function ThinkingModeSection(props) {
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18, marginBottom: 18 } }, "\uD83D\uDCA1 When in doubt, try fast first. If the answer feels shallow, switch to thinking mode and ask again."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Thinking mode trades speed for quality. Use it {when the answer matters more than the wait}." }),
-  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("temperature") }, "Next: Temperature"));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.onNavigate && props.onNavigate("temperature"), label: "Next: Temperature" }));
 }
 const TEMP_PROMPTS = ["Once upon a time", "The best programming language is", "The secret to a great pizza is", "If cats could talk they would say"];
 function TemperatureSection(props) {
@@ -5801,19 +5808,22 @@ function HallucinationSection(props) {
     { title: "Fake detail", body: "A real person, place, or concept with invented dates, stats, quotes, or specifics." },
     { title: "Almost true", body: "A real idea mixed with a fake name, fake extension, or wrong detail." }
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }), /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-  }, "You have learned three things so far. AI learns patterns from data. It builds answers one word at a time. It picks words that fit the context and sound likely."), /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-  }, "That creates one of AI’s biggest problems: what sounds likely is not always true."), /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-  }, "People call this a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". In normal language, it means the AI made something up. More precisely, it means the model generated a claim that sounds real but is not grounded in reality."), /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-  }, "The dangerous part is that hallucinations do not look sloppy. They often look clean, confident, detailed, and specific."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "You have probably seen the warning: ", /*#__PURE__*/React.createElement("strong", null, "AI can make mistakes. Check important information."), " For something so amazing and powerful, AI makes mistakes?"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 8, fontSize: 17, lineHeight: 1.65 } },
+      "Yes. And you’ve already learned 3 reasons ", /*#__PURE__*/React.createElement("strong", null, "why"), ":"),
+    /*#__PURE__*/React.createElement("ol", { style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginTop: 0, marginBottom: 18, paddingLeft: 28 } },
+      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "AI learns patterns from data."),
+      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "It builds answers one word at a time."),
+      /*#__PURE__*/React.createElement("li", null, "It picks words that fit the context and sound likely.")),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "That creates the problem: ", /*#__PURE__*/React.createElement("strong", null, "likely does not always mean true.")),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "One specific version of that problem is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". It’s a strange word to use, because AI doesn’t literally see anything. But the idea is simple: AI generates a claim that sounds real, even though it is made up."),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
       /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 8, marginTop: 0 } }, "What counts as a hallucination?"),
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 10px 0" } }, "Not every wrong answer is a hallucination. A hallucination is a made-up detail presented like a fact."),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, lineHeight: 1.6, color: "var(--inkMuted)", background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 12px", marginBottom: 14 } }, "The word is weird. AI is not literally seeing things. It is generating text that fits the pattern, even when the claim is false."),
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 } },
         hallucinationTypes.map(function(item, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14 } },
@@ -5824,7 +5834,7 @@ function HallucinationSection(props) {
     ),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-    }, "In this exercise, you\u2019ll select whether AI\u2019s response was Real or Hallucinated. ", /*#__PURE__*/React.createElement("strong", null, "Hallucinated answers often sound just as confident as real ones.")),
+    }, "In this exercise, you\u2019ll select whether AI\u2019s response was Real or Hallucinated."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     title: "Real or Hallucinated?",
@@ -5860,7 +5870,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 12 } }, "Notice which ones you got right, and which ones you missed."),
     /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 0, marginBottom: 0 } }, "When you know a subject, hallucinations are easy to catch. When you don\u2019t, the model sounds just as confident, and you have no way to tell. Don\u2019t worry. You\u2019ll learn the skills to evaluate AI output even when you\u2019re not the expert.")) : null,
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Probable and true are not the same thing. {That\u2019s why you verify.}" }),
-  allDone ? /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("training") }, "Next: Building the Model") : null);
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.onNavigate && props.onNavigate("training"), label: "Next: Building the Model" }));
 }
 function VerifySection(props) {
   const [activeStrategy, setActiveStrategy] = useState(0);
@@ -8012,6 +8022,7 @@ function IntegritySection(props) {
 function PrivacySection(props) {
   const [activeRule, setActiveRule] = useState(0);
   const [showWhy, setShowWhy] = useState(false);
+  const [viewedRules, setViewedRules] = useState(function() { var s = new Set(); s.add(0); return s; });
   const PRIVACY_RULES = [{
     id: "personal",
     label: "Personal Information",
@@ -8167,7 +8178,7 @@ function PrivacySection(props) {
     }
   }, PRIVACY_RULES.map((r, i) => /*#__PURE__*/React.createElement("button", {
     key: r.id,
-    onClick: () => { setActiveRule(i); setShowWhy(false); },
+    onClick: () => { setActiveRule(i); setShowWhy(false); setViewedRules(function(prev) { var n = new Set(prev); n.add(i); return n; }); },
     style: {
       padding: "10px 14px",
       borderRadius: 8,
@@ -8313,7 +8324,7 @@ function PrivacySection(props) {
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
   }, item.desc))))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("workchanges") }, "Next: Work Changes"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: viewedRules.size >= PRIVACY_RULES.length, onClick: () => props.onNavigate && props.onNavigate("workchanges"), label: "Next: Work Changes" }));
 }
 function WhatYouLearnedSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement("p", {
@@ -9499,7 +9510,7 @@ function HumanEdgeSection(props) {
         "AI raises the cost of vague work and raises the value of sharp thinking. The skills above don\u2019t replace AI. They\u2019re what makes AI worth using.")
     ),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI can do the math. {The judgment is still yours}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("integrity"); } }, "Next: Academic Integrity")
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.onNavigate && props.onNavigate("integrity"); }, label: "Next: Academic Integrity" })
   );
 }
 function WorkChangesSection(props) {
@@ -9678,7 +9689,7 @@ function WorkChangesSection(props) {
         "Knowing which parts of any job are exposed (and which aren\u2019t) is more useful than guessing which jobs are \u201Csafe.\u201D Most work changes long before most jobs disappear.")
     ),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The work isn’t going away. It’s {being rearranged}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("aifuture"); } }, "Next: AI & The Future")
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: function() { props.onNavigate && props.onNavigate("aifuture"); }, label: "Next: AI & The Future" })
   );
 }
 function AIFutureSection(props) {
@@ -9845,7 +9856,7 @@ function AIFutureSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "#e8eaf0", lineHeight: 1.6, marginBottom: 8 } }, "The smartest people are not the ones who panic or worship."),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.6 } }, "They\u2019re the ones who can judge.")) : null),
     claimsDone ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Understand the tool. Evaluate the claims. {That\u2019s the whole game}." }) : null,
-    claimsDone ? /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("whatyoulearned"); } }, "Next: What You Learned") : null);
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimsDone, onClick: function() { props.onNavigate && props.onNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }
 const SECTION_COMPONENTS = {
   preassessment: PreAssessmentSection,

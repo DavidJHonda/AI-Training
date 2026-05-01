@@ -2727,6 +2727,7 @@ function BiasQuiz(props) {
   const [biasIdx, setBiasIdx] = useState(0);
   const [biasGuess, setBiasGuess] = useState(null);
   const [biasScore, setBiasScore] = useState({ correct: 0, total: 0 });
+  const [biasStarted, setBiasStarted] = useState(false);
   const biasScenarios = [
     {
       icon: "\uD83D\uDC3A",
@@ -2783,14 +2784,17 @@ function BiasQuiz(props) {
   ];
   var bs = biasScenarios[biasIdx];
   var isLastBias = biasIdx === biasScenarios.length - 1;
+  if (!biasStarted) {
+    return /*#__PURE__*/React.createElement("button", {
+      onClick: function() { setBiasStarted(true); },
+      style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+    }, "See First Scenario");
+  }
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
-      "The model can only learn from the data it was trained on. If that data is skewed or incomplete, the model absorbs those biases. But ", /*#__PURE__*/React.createElement("em", null, "why"), " does the bias happen? See if you can figure it out."
-    ),
     biasScore.total > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "inline-block", background: "var(--bg)", borderRadius: 8, padding: "6px 14px", marginBottom: 12, fontSize: 13, color: "var(--inkMuted)", border: "1px solid var(--rule)" } },
       "Score: ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, biasScore.correct + "/" + biasScore.total)
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)", marginBottom: 16 } },
+    /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)", marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
         /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
@@ -2798,8 +2802,6 @@ function BiasQuiz(props) {
     /*#__PURE__*/React.createElement(QuizBlock, {
       key: biasIdx,
       statement: bs.question,
-      questionNumber: biasIdx + 1,
-      totalQuestions: biasScenarios.length,
       options: bs.choices.map(function(choice, i) {
         return { label: choice.text, correct: i === bs.correct, feedback: choice.explain };
       }),
@@ -2827,41 +2829,43 @@ function BiasQuiz(props) {
 function TrainingBiasSection(props) {
   const [biasComplete, setBiasComplete] = useState(false);
   const MECHANISMS = [
-    { icon: "📈", label: "Overrepresentation", text: "Some patterns appear so often that the model treats them as the default. If an internet forum dominates the training set, its tone and assumptions become the model’s baseline for everything." },
-    { icon: "📉", label: "Underrepresentation", text: "Some cases barely appear, so the model barely learns them. Face recognition trained mostly on one demographic performs worse on others. Pedestrians in heavy rain almost invisible in a daytime-heavy dataset." },
-    { icon: "🪤", label: "Shortcuts", text: "The model finds an easier signal than the real one. “Snow in the background” is a cheaper way to guess “wolf” than actually learning what a wolf looks like. The shortcut works on the training data and fails in the wild." },
-    { icon: "🕳️", label: "Blind spots", text: "Some cases aren’t in the data at all. Whatever is missing, the model can’t learn, and it has no way to know it’s missing. The gaps are invisible from the inside." }
+    { icon: "📈", label: "Too much", term: "Overrepresentation", line1: "Too much of one pattern.", line2: "The model starts treating it as normal." },
+    { icon: "📉", label: "Too little", term: "Underrepresentation", line1: "Too little of some cases.", line2: "The model performs worse when those cases appear." },
+    { icon: "🪤", label: "Wrong clue", term: "Shortcuts", line1: "The wrong clue works in training.", line2: "The model learns the clue instead of the real concept." },
+    { icon: "🕳️", label: "Missing slice", term: "Blind spots", line1: "Some cases are missing entirely.", line2: "The model cannot learn what it never sees." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      "Training bias happens when the data teaches the model a distorted version of reality. The model learns what is in front of it, and nothing more. If the data is skewed, incomplete, or shortcut-heavy, the model inherits all of it."),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px solid var(--primary)", borderRadius: 12, padding: 20, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 6 } }, "Definition"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 8 } }, "A model reflects the patterns in its training data, including the parts nobody intended."),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
-        "This is not first a critical-thinking problem. It is a model-building problem. Bias enters during training, before a single user types a prompt.")
-    ),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "How bias gets in"),
+      "Training bias happens when the data gives the model a distorted version of reality. The model learns the patterns in front of it. If the data is skewed, incomplete, or full of shortcuts, the model can inherit those problems."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” the model might tell you to drive 180 miles per hour on a closed track."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "That answer would not come from evil intent. It would come from bad training data. The model learned one slice of driving and treated it like the whole thing."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 28, lineHeight: 1.65, fontSize: 17 } },
+      "That’s training bias."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "HOW BIAS GETS IN"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 16 } },
       "Not one mechanism. Four overlapping ones, all traceable to the data the model saw."),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 32 } },
       MECHANISMS.map(function(m, i) {
         return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8 } },
             /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, m.icon),
             /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, m.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 } }, m.text));
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line1),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line2),
+          m.term ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--inkMuted)", marginTop: 8 } }, m.term) : null);
       })
     ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "In this exercise, you’ll see some true examples of Training Bias. See if you can guess the mistake made by the model."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
-    title: "Spot the Shortcut"
+    title: "What Did the Model Actually Learn?"
   },
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 } },
-        "Four real cases where models looked like they had learned the concept and were actually learning something easier. See if you can catch the shortcut."),
     /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } })),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "Hallucination is a failure of prediction. Training bias is a failure of learning from skewed data. {Different mechanisms, different fixes}." }),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "Training bias happens when the model learns {the wrong pattern from the data}." }),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.onNavigate && props.onNavigate("tokens"); }, label: "Next: Tokens" })
   );
 }
@@ -2920,19 +2924,21 @@ function TrainingSection(props) {
     title: "Humans rank AI\u2019s answers (RLHF)",
     text: "The model writes multiple answers and human reviewers rank which are best. It\u2019s like a coaching staff reviewing film after every game: \u2018that play was the right call, but that one needs work.\u2019 Over thousands of rankings, it learns to be helpful, honest, and safe. This is why Claude, ChatGPT, and Gemini all feel different: they each had different coaches with different priorities."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "training" }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--inkSoft)",
-      marginBottom: 18,
-      lineHeight: 1.65,
-      fontSize: 17
-    }
-  }, "Now that you’ve learned some AI fundamentals, let’s look at how AI companies build a Large Language Model."),
-  /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 }
-  }, "Think of it like learning a sport: first you study the game by watching thousands of hours of film, then a coach helps you turn that knowledge into actual skill."),
-  /*#__PURE__*/React.createElement("div", {
-    style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 8 }
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "training" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Now that you’ve learned some AI fundamentals, let’s back up and look at how AI companies build a Large Language Model in the first place."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Think about learning to drive. You do not start by jumping onto the highway alone. First, you study the rules, watch other drivers, practice in controlled situations, make mistakes, and get corrected by an instructor. All of that happens before you drive on your own."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Training works the same way for LLMs. Before you ever open ChatGPT or Claude, the model has already gone through a massive training process. It studies huge amounts of data, practices predicting what comes next, and adjusts its internal numbers over and over again based on whether its prediction was right or wrong."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Then humans coach it. They show it examples of better answers, rank its responses, and teach it to behave more like a useful chatbot instead of a raw text predictor."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have knowledge cutoffs. Products can add live search, files, memory, or tools, but the core model is not relearning from scratch every time you chat."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    title: "How LLMs Train"
   },
     /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2996,17 +3002,18 @@ function TrainingSection(props) {
         marginTop: 8,
         animation: "fadeIn 0.3s ease"
       }
-    }, [["\u23F1\uFE0F", "Weeks to months"], ["\uD83D\uDCB0", "Massive cost"], ["\uD83D\uDDA5\uFE0F", "Huge computing power"], ["1\uFE0F\u20E3", "Happens once"]].map(function(item, i) {
+    }, [["\u23F1\uFE0F", "Weeks to months"], ["\uD83D\uDCB0", "Massive cost"], ["\uD83D\uDDA5\uFE0F", "Huge computing power"], ["🏗\uFE0F", "Build phase"]].map(function(item, i) {
       return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "#eef2ff", borderRadius: 20, padding: "8px 16px", display: "flex", alignItems: "center", gap: 6 } },
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 16 } }, item[0]),
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)" } }, item[1]));
     }))),
+  stepsRevealed >= 7 ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     title: "Watch It Happen"
   },
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
-      "Here\u2019s one question going through all seven stages. Watch how the AI response evolves."
+      "Here’s one basketball question moving through the training process. Watch how the model changes from raw pattern learner to useful chatbot."
     ),
     /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--ink)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" } }, "You"),
@@ -3027,10 +3034,8 @@ function TrainingSection(props) {
     }),
     visibleStages === 0 ? /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[0]) : null,
     seeItTypingDone && visibleStages > 0 && visibleStages < 7 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
-      /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null,
-    seeItTypingDone && visibleStages >= 7 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
-      /*#__PURE__*/React.createElement("button", { onClick: resetSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--card)", color: "var(--inkSoft)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 14, fontWeight: 600 } }, "\u21BB Start Over")) : null),
-    stepsRevealed >= 7 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns. Everything after is just {looking things up}." }) : null,
+      /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null)) : null,
+    stepsRevealed >= 7 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns patterns. Chatting is when it {uses them}." }) : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= 7, onClick: () => props.onNavigate && props.onNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
@@ -3079,24 +3084,23 @@ const CATEGORIES = {
 };
 function TokenSection(props) {
   const staticExamples = [
-    { word: "the", tokens: [{t: "the", id: 1820}], note: "1 token (common words stay whole)" },
-    { word: "basketball", tokens: [{t: "basket", id: 60844}, {t: "ball", id: 4803}], note: "2 tokens" },
     { word: "unbelievable", tokens: [{t: "un", id: 359}, {t: "believ", id: 81928}, {t: "able", id: 481}], note: "3 tokens (broken into known parts)" },
-    { word: "supercalifragilisticexpialidocious", tokens: [{t: "super", id: 9712}, {t: "cal", id: 4484}, {t: "if", id: 333}, {t: "rag", id: 22955}, {t: "il", id: 321}, {t: "istic", id: 3258}, {t: "exp", id: 4036}, {t: "ial", id: 532}, {t: "id", id: 307}, {t: "ocious", id: 71621}], note: "10 tokens (rare words get shattered)" }
+    { word: "basketball", tokens: [{t: "basket", id: 60844}, {t: "ball", id: 4803}], note: "2 tokens" },
+    { word: "ChatGPT", tokens: [{t: "Chat", id: 16047}, {t: "G", id: 38}, {t: "PT", id: 2898}], note: "3 tokens (brand names get split)" },
+    { word: "I ❤️ AI", tokens: [{t: "I", id: 40}, {t: " ❤️", id: 157644}, {t: " AI", id: 15592}], note: "3 tokens (emoji gets its own ID)" },
+    { word: "https://www.quickbookstraining.com", tokens: [{t: "https", id: 5765}, {t: "://", id: 1358}, {t: "www", id: 2185}, {t: ".quick", id: 23489}, {t: "books", id: 12483}, {t: "training", id: 6573}, {t: ".com", id: 916}], note: "7 tokens (URLs split into known pieces)" }
   ];
   var E = React.createElement;
-  var seeItBox = React.createElement(InteractiveBox, {
-    variant: "see",
-    title: "How Tokenization Works"
-  },
+  var seeItBox = E(React.Fragment, null,
+    E(SectionKicker, null, "HOW TOKENIZATION LOOKS"),
     E("div", { style: { display: "flex", flexDirection: "column", gap: 16 } }, staticExamples.map(function(ex, idx) {
-      return E("div", { key: idx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
+      return E("div", { key: idx, style: { background: "#faf5ff", borderRadius: 12, padding: 20, border: "2px solid #8b5cf6" } },
         E("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" } },
           E("span", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 17, fontWeight: 700, color: "var(--ink)" } }, "\"" + ex.word + "\""),
           E("span", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
           E("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, alignItems: "flex-start" } }, ex.tokens.map(function(tok, i) {
             return E("div", { key: i, style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 4 } },
-              E("span", { style: { background: COLORS[i % COLORS.length] + "22", border: "2px solid " + COLORS[i % COLORS.length], borderRadius: 8, padding: "8px 14px", fontFamily: "'Courier Prime', monospace", fontSize: 17, color: COLORS[i % COLORS.length], fontWeight: 600, whiteSpace: "pre" } }, tok.t),
+              E("span", { style: { background: "#fff", border: "2px solid " + COLORS[i % COLORS.length], borderRadius: 8, padding: "8px 14px", fontFamily: "'Courier Prime', monospace", fontSize: 17, color: COLORS[i % COLORS.length], fontWeight: 600, whiteSpace: "pre" } }, tok.t),
               E("span", { style: { fontSize: 11, fontFamily: "'Courier Prime', monospace", color: COLORS[i % COLORS.length], fontWeight: 700, background: COLORS[i % COLORS.length] + "15", padding: "1px 6px", borderRadius: 4 } }, tok.id));
           }))),
         E("div", { style: { color: "var(--inkMuted)", fontSize: 13, marginTop: 8 } }, ex.note));
@@ -3158,7 +3162,7 @@ function TokenSection(props) {
       E("div", { style: { fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic", marginBottom: 8 } }, "IDs are illustrative examples."),
       E("div", { style: { fontSize: 14, color: "#3b1f6e", lineHeight: 1.5, textAlign: "center", marginTop: "auto" } }, "No meaning yet: just token pieces and numbers. The model doesn\u2019t know this is about basketball until later layers build that understanding.")));
   var tokenQA = E("div", { style: { marginTop: 32 } },
-    E("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "\uD83D\uDCD6 How the token vocabulary is built"),
+    E(SectionKicker, null, "HOW THE TOKEN VOCABULARY IS BUILT"),
     E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "During System setup, engineers choose the size of the token vocabulary. 100K to 200K are commonly used for today's models."),
     E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "How do they break text into chunks and assign Token IDs? They run a special token-building algorithm against a massive collection of text from books, websites, articles, conversations, and code."),
     E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, fontSize: 17 } },
@@ -3166,20 +3170,38 @@ function TokenSection(props) {
       E("strong", null, "\u201Cthe\u201D"), " may stay whole. Longer words like ",
       E("strong", null, "\u201Cunbelievable\u201D"), " can be split into parts like ",
       E("strong", null, "un + believ + able"), ", because each of those chunks is reused in many words. Once that vocabulary is locked, the model uses the same token vocabulary every time it reads text."));
+  var bridgeSteps = [
+    { title: "Text becomes tokens", body: "The sentence gets split into chunks." },
+    { title: "Tokens become IDs", body: "Each chunk becomes a number the model can process." },
+    { title: "IDs become meaning later", body: "The next step is learning which tokens relate to each other." }
+  ];
+  var meaningBridge = E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginTop: 32, marginBottom: 28 } },
+    E("h3", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 8, marginTop: 0 } }, "The bridge to meaning"),
+    E("p", { style: { fontSize: 15, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 16px 0" } }, "Token IDs are the starting point, not the understanding."),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 } },
+      bridgeSteps.map(function(step, i) {
+        return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14 } },
+          E("div", { style: { background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 999, marginBottom: 10 } }, String(i + 1)),
+          E("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, step.title),
+          E("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, step.body));
+      })),
+    E("div", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 800, fontSize: 14, lineHeight: 1.5, borderRadius: 8, padding: "10px 12px", textAlign: "center", marginTop: 14 } }, "Tokens are numbers. Meaning comes next."));
   var bottomLine = E(BottomLine, { thought: "The model doesn\u2019t read words. It converts them into numbers, and {does math from there}." });
   var navButton = E(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("embeddings"); } }, "Next: Meaning");
   return E("div", null,
     E(LessonHeader, { sectionId: "tokens" }),
     E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      "Computers only process numbers. They can\u2019t read text the way you do. Before an LLM can work with your words, it needs to convert them into numbers. The text gets split into chunks called ",
-      E("strong", null, "tokens."), " Sometimes these are whole words, and other times, pieces of words."),
+      "You have seen that AI learns patterns and generates answers one step at a time. But there is one problem: computers do not work with words the way humans do."),
     E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      "Next, each chunk is mapped to a specific number (a ",
-      E("strong", null, "token ID"), "). Anytime the model sees the chunk, it converts it to the token ID."),
+      "Before a model can process text, it has to convert the text into numbers. That process is called ",
+      E("strong", null, "tokenization"), "."),
+    E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "A token might be a whole word, part of a word, punctuation, emoji, code, or even a space before a word. Each token gets a number called a ",
+      E("strong", null, "token ID"), "."),
     humanAiGrid,
+    E("div", { style: { marginTop: 32 } }, seeItBox),
     tokenQA,
-    seeItBox,
-    humanAiGrid2,
+    meaningBridge,
     bottomLine,
     navButton);
 }

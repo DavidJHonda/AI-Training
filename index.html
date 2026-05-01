@@ -1920,7 +1920,7 @@ function AIvsCodeSection(props) {
       ],
       missingVariable: "Altitude",
       missingExplain: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently.",
-      patternView: "AI can learn from many recipes that altitude changes baking time, temperature, and flour."
+      patternView: "AI has seen recipes baked at sea level, at altitude, in dry kitchens and humid ones. It learned that the right time and temperature depend on conditions, not on one fixed instruction. So it can adjust the answer to your kitchen instead of repeating a single rule."
     },
     {
       rule: "IF meat is brown THEN it’s cooked",
@@ -1937,7 +1937,7 @@ function AIvsCodeSection(props) {
       ],
       missingVariable: "Food type and internal temperature",
       missingExplain: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside.",
-      patternView: "AI can learn that chicken safety depends on internal temperature, not just color."
+      patternView: "AI has seen cooking guides for beef, chicken, pork, and fish. It learned that “cooked” means different things for each one. Chicken needs an internal temperature, fish flakes apart, beef can be brown and still rare. So AI adapts its answer to what you’re actually cooking instead of applying one color rule where that rule is dangerous."
     },
     {
       rule: "IF it smells done THEN take it out",
@@ -1954,7 +1954,7 @@ function AIvsCodeSection(props) {
       ],
       missingVariable: "What is happening inside",
       missingExplain: "The rule only notices smell. Dense foods can smell finished long before the center is cooked.",
-      patternView: "AI can learn that dense foods need time and internal doneness checks, not just smell."
+      patternView: "AI has seen pastries, dense breads, custards, and broiled foods. It learned that smell only signals doneness for some of them. Dense batters need time and a center check, custards need temperature, broiler items need eyes on them. So AI matches the right doneness check to the dish instead of trusting one signal across foods that don’t fit it."
     }
   ];
   var allDone = visibleRules >= 3 && missingPicks[2] !== undefined;
@@ -1992,10 +1992,13 @@ function AIvsCodeSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
       "Here’s why rules sometimes don’t work: ",
       /*#__PURE__*/React.createElement("strong", null, "they sometimes break when reality changes"),
-      ". In this exercise, read the rule first. Then, try to identify WHEN the rule breaks."
+      ". AI can sometimes handle those variables because it has learned patterns from many examples."
+    ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "In this exercise, read the rule first. Then, try to identify WHEN the rule breaks."
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -2009,7 +2012,7 @@ function AIvsCodeSection(props) {
       var pick = missingPicks[i];
       var picked = pick !== undefined;
       var pickedCorrect = picked && s.missingOptions[pick].correct;
-      var isActive = !allDone && i === visibleRules - 1;
+      var isActive = i === visibleRules - 1;
       var hasNext = i < scenarios.length - 1;
 
       if (!isActive) {
@@ -2049,12 +2052,11 @@ function AIvsCodeSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #ddd6fe", borderRadius: 12, padding: "16px 20px", marginBottom: 12 } },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: pickedCorrect ? "#059669" : "#b45309", marginBottom: 12 } },
               pickedCorrect ? "✅ Correct — that’s where the rule breaks." : "Not quite — the rule breaks when the situation changes in this way."),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 4 } }, "The rule missed"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "#5b21b6", marginBottom: 8 } }, s.missingVariable),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 } }, "The rule missed"),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.missingExplain)),
 
           /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #e9d5ff", borderRadius: 10, padding: "12px 16px", marginBottom: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "Pattern view"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "AI view based on patterns"),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.patternView)),
 
           hasNext ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
@@ -2064,11 +2066,7 @@ function AIvsCodeSection(props) {
             }, "See Next Rule →")) : null) : null);
     })),
     allDone ? /*#__PURE__*/React.createElement(React.Fragment, null,
-      /*#__PURE__*/React.createElement("div", { style: { background: "#f5f3ff", borderRadius: 12, padding: "20px 24px", marginTop: 24, marginBottom: 8 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 8 } }, "The pattern:"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.6 } },
-          "Rules work when the situation stays predictable. Rules break when the real world has variables the rule did not include. AI can sometimes handle those variables because it learned patterns from lots of examples.")),
-      /*#__PURE__*/React.createElement(BottomLine, { thought: "Old software follows rules someone wrote. AI finds patterns {no one wrote down}." }),
+      /*#__PURE__*/React.createElement(BottomLine, { thought: "AI finds patterns {no one wrote down}." }),
       /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("blackbox") }, "Next: No One Wrote the Rules")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the examples above to continue")
   );
 }

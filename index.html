@@ -228,6 +228,14 @@ function PrimaryButton(props) {
   var arrowStyle = { display: "inline-block", marginLeft: 6, transform: !dis && isHover ? "translateX(2px)" : "none", transition: "transform 150ms ease" };
   return React.createElement("button", { onClick: dis ? undefined : props.onClick, disabled: dis, style: merged, onMouseEnter: function() { setHover(true); }, onMouseLeave: function() { setHover(false); } }, props.children, showArrow ? React.createElement("span", { style: arrowStyle }, " \u2192") : null);
 }
+function NextLessonGate(props) {
+  if (props.ready) {
+    return React.createElement(PrimaryButton, { onClick: props.onClick }, props.label);
+  }
+  return React.createElement("div", {
+    style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" }
+  }, "Complete the exercises to continue");
+}
 function SecondaryButton(props) {
   var arrow = props.arrow === undefined ? "leading" : props.arrow;
   var showLeading = arrow === "leading"; var showTrailing = arrow === "trailing";
@@ -1339,7 +1347,7 @@ function HowWeGotHereSection(props) {
       /*#__PURE__*/React.createElement(PrimaryButton, { onClick: revealNext, style: { margin: 0, display: "inline-block" } }, "Next: " + TIMELINE[revealedCount - 2].year)
     ) : null,
     revealedCount >= 9 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "From Bayes to GPT, AI didn’t arrive. {It accumulated}." }) : null,
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("aistrengths"); }, disabled: revealedCount < 9 }, "Next: The AI Trust Test")
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealedCount >= 9, onClick: function() { props.onNavigate && props.onNavigate("aistrengths"); }, label: "Next: The AI Trust Test" })
   );
 }
 function AIStrengthsSection(props) {
@@ -2065,9 +2073,8 @@ function AIvsCodeSection(props) {
               style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
             }, "See Next Rule →")) : null) : null);
     })),
-    allDone ? /*#__PURE__*/React.createElement(React.Fragment, null,
-      /*#__PURE__*/React.createElement(BottomLine, { thought: "AI finds patterns {no one wrote down}." }),
-      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("blackbox") }, "Next: No One Wrote the Rules")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the examples above to continue")
+    allDone ? /*#__PURE__*/React.createElement(BottomLine, { thought: "AI finds patterns {no one wrote down}." }) : null,
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.onNavigate && props.onNavigate("blackbox"), label: "Next: No One Wrote the Rules" })
   );
 }
 function TypingAICard() {
@@ -2207,7 +2214,7 @@ function GenerativeSection(props) {
             style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
           }, "See AI Results →")) : null)),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI builds answers {one word at a time}. That’s why they stream, and why they vary." }),
-    revealStep >= 2 ? /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("data"); } }, "Next: AI’s Fuel") : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the example above to continue"));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealStep >= 2, onClick: function() { props.onNavigate && props.onNavigate("data"); }, label: "Next: AI’s Fuel" }));
 }
 function BlackBoxSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -2477,8 +2484,8 @@ function DataSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "#4338ca", marginBottom: 8 } }, "What this unlocks"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3730a3", lineHeight: 1.6 } }, "Once AI can find structure in messy input, it can return that structure in whatever format you ask for: table, summary, checklist, email, code, plan, or order form."),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--primary)", marginTop: 10 } }, "Messy input does not have to stay messy.")),
-      /*#__PURE__*/React.createElement(BottomLine, { thought: "AI learned from messy human data. That’s why it can find {structure in the mess}." }),
-      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("hallucination") }, "Next: Hallucination")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the examples above to continue")
+      /*#__PURE__*/React.createElement(BottomLine, { thought: "AI learned from messy human data. That’s why it can find {structure in the mess}." })) : null,
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.onNavigate && props.onNavigate("hallucination"), label: "Next: Hallucination" })
   );
 }
 function HowAIReadsSection(props) {
@@ -3018,9 +3025,8 @@ function TrainingSection(props) {
       /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null,
     seeItTypingDone && visibleStages >= 7 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
       /*#__PURE__*/React.createElement("button", { onClick: resetSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--card)", color: "var(--inkSoft)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 14, fontWeight: 600 } }, "\u21BB Start Over")) : null),
-    stepsRevealed >= 7 ? /*#__PURE__*/React.createElement(React.Fragment, null,
-      /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns. Everything after is just {looking things up}." }),
-      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("trainingbias") }, "Next: Training Bias")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the stages above to continue"));
+    stepsRevealed >= 7 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns. Everything after is just {looking things up}." }) : null,
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= 7, onClick: () => props.onNavigate && props.onNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 const T = (t, id) => ({
@@ -3802,7 +3808,7 @@ function PredictionSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6 } }, "Each word you added changed which predictions made sense. That\u2019s exactly what the model does: it processes all the words together to narrow thousands of possibilities down to the best one.")) : null);
     })(),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } }, "You just felt what the model needs to do. But how does it figure out which words matter to which other words? Vectors alone can\u2019t do this. The architecture that makes it possible is up next.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vectors make prediction possible. {Layers make it accurate}." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("howreads"), disabled: !(predStepsRevealed > 0) }, "Next: Transformer Architecture"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vectors make prediction possible. {Layers make it accurate}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: predStepsRevealed > 0, onClick: () => props.onNavigate && props.onNavigate("howreads"), label: "Next: Transformer Architecture" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -4250,7 +4256,7 @@ function LayersSection(props) {
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually, through repeated cycles of attention and transformation.")), /*#__PURE__*/React.createElement(BottomLine, { thought: "Each layer adds {a little more meaning}. Dozens of layers, real understanding." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("attention"), disabled: !(activeLayer > 0 || activeWord !== "bank") }, "Next: Attention")));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeLayer > 0 || activeWord !== "bank", onClick: () => props.onNavigate && props.onNavigate("attention"), label: "Next: Attention" })));
 }
 const ATTENTION_EXAMPLES = [{
   sentence: ["The", "cat", "sat", "on", "the", "mat", "because", "it", "was", "tired"],
@@ -4924,7 +4930,7 @@ function InferenceSection(props) {
             /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Courier Prime', monospace", fontWeight: 700, color: "var(--primary)", fontSize: 14 } }, row[1]));
         })),
       /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6 } }, "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token. That\u2019s why AI types one word at a time: each word requires a full pass through all of this before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Your question runs through {billions of calculations} in under a second." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("modelselection"), disabled: !(activeStep > 0) }, "Next: Controls"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Your question runs through {billions of calculations} in under a second." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, onClick: () => props.onNavigate && props.onNavigate("modelselection"), label: "Next: Controls" }));
 }
 const CONTEXT_EXAMPLES = [{
   label: "No prior context",
@@ -5101,7 +5107,7 @@ function ContextSection(props) {
       )),
 
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The model only knows what\u2019s on the whiteboard. You control what goes on it. {Use that}." }),
-    seen.length > 0 ? /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("probability"); } }, "Next: Probability") : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the example above to continue"));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: seen.length > 0, onClick: function() { props.onNavigate && props.onNavigate("probability"); }, label: "Next: Probability" }));
 }
 function CustomizationSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }), /*#__PURE__*/React.createElement("p", {
@@ -5673,7 +5679,7 @@ function TemperatureSection(props) {
       marginTop: 18,
       marginBottom: 18
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework.")), /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("customization"), disabled: !(promptIdx > 0 || temp > 0) }, "Next: Customization & Memory"));
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework.")), /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, onClick: () => props.onNavigate && props.onNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 const HALLUCINATION_QUIZ = [{
   question: "Who led the NHL in goals for the 2025 season?",
@@ -5990,7 +5996,7 @@ function VerifySection(props) {
     style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
   }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("evaluating"), disabled: !(activeStrategy > 0) }, "Next: Evaluating the Results"));
+  }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating the Results" }));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -6449,7 +6455,7 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.7, fontSize: 14, margin: 0 } },
       "Models can also inherit bias from their training data. You saw earlier that AI reflects whatever patterns are in what it was trained on, including the gaps. Your critical thinking sits on top of that, but the mechanism starts inside the model.")),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI amplifies whatever you bring to it: {good thinking or bad}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("flattery"), disabled: !(showAnalysis || show101) }, "Next: The Flattery Trap")));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: showAnalysis || show101, onClick: () => props.onNavigate && props.onNavigate("flattery"), label: "Next: The Flattery Trap" })));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -6970,7 +6976,7 @@ function PromptingSection(props) {
       lineHeight: 1.6
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("thoughtpartner"), disabled: !(exerciseAnswer !== null || showGood) }, "Next: Your Thought Partner"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, onClick: () => props.onNavigate && props.onNavigate("thoughtpartner"), label: "Next: Your Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
   const [tpStep, setTpStep] = useState(0);
@@ -7059,7 +7065,7 @@ function ThoughtPartnerSection(props) {
     allDone ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "Notice what happened: the user started vague, then made every choice: tech over other fields, AI tools over coding, local businesses over remote work. AI helped explore the options and think through obstacles, but it never decided anything. That\u2019s what a good thought partner does.")) : null),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI can help you think further. It should {never think for you}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("verify"), disabled: !(tpStep > 0) }, "Next: How to Verify"));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpStep > 0, onClick: () => props.onNavigate && props.onNavigate("verify"), label: "Next: How to Verify" }));
 }
 const EVAL_CRITERIA = [{
   id: "accuracy",
@@ -7475,7 +7481,7 @@ function EvaluatingSection(props) {
     }
   }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "True isn\u2019t enough. The question is: {would you actually use this?}" }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("questionsvaluable"), disabled: !(showExample || activeCriterion > 0) }, "Next: Questions Matter")));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: showExample || activeCriterion > 0, onClick: () => props.onNavigate && props.onNavigate("questionsvaluable"), label: "Next: Questions Matter" })));
 }
 function FlatteryTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -7639,7 +7645,7 @@ function FlatteryTrapSection(props) {
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18, marginBottom: 18 }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The key insight: "), "The friendlier the model feels, the more skeptical you should be of its praise. Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the model never pushes back on you, it\u2019s not being helpful. It\u2019s performing helpfulness."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("prompting"), disabled: !(spotAnswer !== null || activeStrategy > 0) }, "Next: The Art of Prompting"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("prompting"), label: "Next: The Art of Prompting" }));
 }
 const INTEGRITY_SCENARIOS = [{
   id: "essay",
@@ -8001,7 +8007,7 @@ function IntegritySection(props) {
       marginBottom: 18
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The goal isn't to avoid AI. "), "It's to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don't use it at all, and far more than those who let it do the thinking for them."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Using AI isn\u2019t cheating. {Pretending you didn\u2019t is}." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("privacy"), disabled: !(selectedOption !== null || activeScenario > 0) }, "Next: Privacy & Awareness"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Using AI isn\u2019t cheating. {Pretending you didn\u2019t is}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, onClick: () => props.onNavigate && props.onNavigate("privacy"), label: "Next: Privacy & Awareness" }));
 }
 function PrivacySection(props) {
   const [activeRule, setActiveRule] = useState(0);

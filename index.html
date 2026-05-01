@@ -2070,11 +2070,11 @@ function AIvsCodeSection(props) {
       /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("blackbox") }, "Next: No One Wrote the Rules")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the examples above to continue")
   );
 }
-function TypingAICard() {
+function TypingAICard(props) {
   var responses = [
-    "Paris is the capital of France. Situated along the Seine River in the north-central part of the country, Paris has served as France\u2019s political, economic, and cultural center since the 10th century. With a population of roughly 2.1 million in the city proper, it is one of the most visited cities in the world.",
-    "The capital of France is Paris, a city renowned for its art, architecture, and cultural influence. Often called the \u2018City of Light,\u2019 Paris has been a major European center of finance, diplomacy, and fashion for centuries. It\u2019s also home to iconic landmarks like the Eiffel Tower and the Louvre.",
-    "France\u2019s capital is Paris. It sits in the north of the country along the Seine River and has been the seat of French government for over a thousand years. Today, Paris is known globally for its cuisine, museums, and history, attracting an estimated 30 million visitors annually."
+    { text: "Paris is the capital of France.", path: ["Paris", "is", "the", "capital"] },
+    { text: "The capital of France is Paris.", path: ["The", "capital", "of", "France"] },
+    { text: "France’s capital city is Paris.", path: ["France’s", "capital", "city", "is"] }
   ];
   var _ri = useState(0), responseIdx = _ri[0], setResponseIdx = _ri[1];
   var _tw = useState(""), typedWords = _tw[0], setTypedWords = _tw[1];
@@ -2083,7 +2083,7 @@ function TypingAICard() {
   var wordsRef = useRef([]);
   var indexRef = useRef(0);
   function startTyping(idx) {
-    var words = responses[idx].split(" ");
+    var words = responses[idx].text.split(" ");
     wordsRef.current = words;
     indexRef.current = 0;
     setTypedWords("");
@@ -2107,125 +2107,176 @@ function TypingAICard() {
     setResponseIdx(next);
     setAskCount(askCount + 1);
     startTyping(next);
+    if (props && props.onVariationSeen) props.onVariationSeen();
   }
   return /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", border: "2px solid #8b5cf6", borderRadius: 12, padding: 20, animation: "fadeIn 0.4s ease" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "\uD83E\uDDE0"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
     /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built From Probability"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Generated One Word at a Time"),
     /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 8, padding: 12, border: "1px solid #c4b5fd", fontSize: 14, color: "#3b1f6e", lineHeight: 1.6, marginBottom: 12, minHeight: 48 } },
-      typedWords ? "\u201C" + typedWords + (typingDone ? "\u201D" : "") : ""),
+      typedWords ? "“" + typedWords + (typingDone ? "”" : "") : ""),
     typingDone ? /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("button", {
         onClick: handleAskAgain,
         style: { display: "block", margin: "0 auto 12px", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-      }, "Ask Again \u2192"),
-      askCount >= 1 ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#5b21b6", fontWeight: 600, fontStyle: "italic", textAlign: "center" } },
-        "Same question. Different words. Because the core model generates rather than retrieves.") : null) : null);
+      }, "Ask Again →"),
+      askCount >= 1 ? /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#5b21b6", fontWeight: 700, textAlign: "center", marginBottom: 2 } }, "Same question. Same answer. Different path."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkSoft)", fontStyle: "italic", textAlign: "center", marginBottom: 12 } }, "Once the first word changes, the next probabilities change too."),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", marginTop: 12 } },
+          responses.map(function(r, i) {
+            return /*#__PURE__*/React.createElement("div", { key: i, style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.7, fontFamily: "monospace" } },
+              /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, marginRight: 6 } }, "Path " + (i + 1) + ":"),
+              r.path.join(" → "), " …");
+          }))) : null) : null);
 }
 function GenerativeSection(props) {
   var _rs = useState(0), revealStep = _rs[0], setRevealStep = _rs[1];
+  var _vs = useState(false), variationSeen = _vs[0], setVariationSeen = _vs[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "generative" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
-      "You\u2019ve noticed that AI types one word at a time when it responds. Now, you\u2019ll learn why."
+      "You have probably noticed two strange things about AI. First, it types its answer one word at a time. Second, if you ask the same question again, the answer may come out differently."
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
-      "When AI responds, it generates each word of the response one at a time. That\u2019s very different from traditional computer software. With software, you ask a question and the program finds an answer in a database."
-    ),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--ink)", fontWeight: 600, marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
-      "There is no database in AI."
+      "Both happen for the same reason: AI is ",
+      /*#__PURE__*/React.createElement("strong", null, "generative"),
+      ". It does not usually pull a finished answer off a shelf. The core model ",
+      /*#__PURE__*/React.createElement("strong", null, "builds the response as it goes"),
+      "."
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
-      "This also answers a question that puzzles many people. You can ask the same question to AI and likely get a different answer each time. That\u2019s because AI generates the answer. It doesn\u2019t look it up."
+      "At each step, it asks: ",
+      /*#__PURE__*/React.createElement("strong", null, "what word probably comes next?"),
+      " Then it adds that word and repeats the process."
     ),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, lineHeight: 1.65, fontSize: 17 } },
-      "How does it pick each word? That comes from probability \u2014 and we\u2019ll see exactly how next."
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 14 } }, "Two questions, one answer"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Why does AI type one word at a time?"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Because each word is chosen after the words before it.")),
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Why can the same question get a different answer?"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Because there are usually several possible next words, and different choices can send the response down a different path."))),
+      /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 700, borderRadius: 8, padding: "10px 12px", marginTop: 14, textAlign: "center", fontSize: 14, lineHeight: 1.5 } },
+        "The key: AI is not retrieving one official answer. It is generating a path.")
     ),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
       /*#__PURE__*/React.createElement("div", { style: { background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20, display: "flex", flexDirection: "column" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDCBB"),
-        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 28 } }, "Computer Program"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Stored Answers"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "💻"),
+        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 22 } }, "Stored or Programmed Software"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Fixed Result"),
         /*#__PURE__*/React.createElement("p", { style: { color: "#1e3a5f", fontSize: 14, lineHeight: 1.6, marginBottom: 12, flex: 1 } },
-          "The answer already exists in a database. The program finds it and hands it back. Same question, same answer, every time.")),
+          "Some software returns a fixed answer, lookup, or programmed result. Same input, same output.")),
       /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", border: "2px solid #8b5cf6", borderRadius: 12, padding: 20, display: "flex", flexDirection: "column" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDE0"),
-        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 28 } }, "AI"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built From Probability"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "🧠"),
+        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 22 } }, "Generative AI"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built as It Goes"),
         /*#__PURE__*/React.createElement("p", { style: { color: "#3b1f6e", fontSize: 14, lineHeight: 1.6, marginBottom: 12, flex: 1 } },
-          "The core model generates responses rather than retrieving stored answers. It produces text one word at a time, each word chosen by probability. Same question, different wording, often a different result."))
+          "The core model generates text step by step. Each word depends on the words already chosen, so the same prompt can take a different path."))
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
-    title: "Stored Answers vs. Built From Probability"
+    title: "Why It Streams, Why It Varies"
   },
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
-        "Same question, two completely different systems. Watch what happens inside each one."
+        "Same question, two different systems. Watch one return a fixed result while the other builds a response as it goes."
       ),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201CWhat\u2019s the capital of France?\u201D")),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What’s the capital of France?”")),
     revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
         /*#__PURE__*/React.createElement("button", {
           onClick: function() { setRevealStep(1); },
           style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-        }, "See Computer Program Results \u2192")) : /*#__PURE__*/React.createElement("div", null,
+        }, "See Fixed Result →")) : /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
           /*#__PURE__*/React.createElement("div", { style: { background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "\uD83D\uDCBB"),
-            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Computer Program"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Stored Answers"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
+            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Stored or Programmed Software"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Fixed Result"),
             /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 8, padding: 12, border: "1px solid #bfdbfe", fontSize: 14, color: "#1e3a5f", lineHeight: 1.6, marginBottom: 12 } },
-              "\u201CThe capital of France is Paris.\u201D"),
+              "“The capital of France is Paris.”"),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
-              "Ask again \u2192 same answer, every time.")),
-          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, null) :
+              "Ask again → same wording, every time.")),
+          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, { onVariationSeen: function() { setVariationSeen(true); } }) :
           /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "\u2728 Generative results..."))),
+            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "Generative result appears here..."))),
         revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
           /*#__PURE__*/React.createElement("button", {
             onClick: function() { setRevealStep(2); },
             style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-          }, "See AI Results \u2192")) : null)),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "Generative means answers are built {one word at a time}." }),
-    revealStep >= 2 ? /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("data"); } }, "Next: AI\u2019s Fuel") : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the example above to continue"));
+          }, "See Generative Result →")) : null,
+        revealStep >= 2 && !variationSeen ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12, fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic" } },
+          "Click Ask Again once to see why the same prompt can vary.") : null)),
+    revealStep >= 2 && variationSeen ? /*#__PURE__*/React.createElement(React.Fragment, null,
+      /*#__PURE__*/React.createElement(BottomLine, { thought: "AI builds answers {one word at a time}. That’s why they stream, and why they vary." }),
+      /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("data"); } }, "Next: AI’s Fuel")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the example above to continue"));
 }
 function BlackBoxSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "blackbox" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      "You just saw why AI uses patterns instead of rules. Patterns are powerful \u2014 but they come with a hidden cost."
+      "You just saw why AI uses patterns instead of rules. Patterns are powerful, but they come with a cost."
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      "Think about it this way. When you use a credit card, someone wrote a rule that says: \"if the card number is wrong, don\u2019t accept the transaction.\" That rule is iron-clad. It runs the same way every time, on every transaction, forever."
+      "Think about a credit card checkout. Someone can write an exact rule: if the card number is invalid, do not accept the transaction. That rule is predictable. It runs the same way every time."
     ),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--ink)", fontWeight: 600, marginBottom: 32, lineHeight: 1.65, fontSize: 17 } },
-      "AI doesn\u2019t have those rules. It can\u2019t."
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--ink)", fontWeight: 600, marginBottom: 28, lineHeight: 1.65, fontSize: 17 } },
+      "AI products have controls around them. But the core model is not a rulebook."
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 10 } }, "The tradeoff"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 18 } },
+        "Rules are predictable but limited. Patterns are flexible but harder to guarantee."),
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid #bfdbfe", borderRadius: 10, padding: "14px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, color: "#1e40af", fontSize: 15, marginBottom: 8 } }, "Regular software"),
+          /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 18, color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7 } },
+            /*#__PURE__*/React.createElement("li", null, "Exact rule"),
+            /*#__PURE__*/React.createElement("li", null, "Easy to inspect"),
+            /*#__PURE__*/React.createElement("li", null, "Same result every time"),
+            /*#__PURE__*/React.createElement("li", null, "Strong when the situation is narrow"))),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid #ddd6fe", borderRadius: 10, padding: "14px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, color: "#5b21b6", fontSize: 15, marginBottom: 8 } }, "AI"),
+          /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 18, color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7 } },
+            /*#__PURE__*/React.createElement("li", null, "Learned behavior"),
+            /*#__PURE__*/React.createElement("li", null, "Harder to inspect"),
+            /*#__PURE__*/React.createElement("li", null, "Can vary by wording and context"),
+            /*#__PURE__*/React.createElement("li", null, "Strong when the situation is messy")))
+      )
     ),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 }
     },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 12 } }, "You\u2019ll see it in the news"),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 14px 0" } },
-        "Every few weeks, a story breaks about AI doing something it shouldn\u2019t have:"
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 12 } }, "You’ll see it in the news"),
+      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 12px 0" } },
+        "These failures do not happen because AI wants to break rules. They happen because learned behavior is harder to lock down than written rules."
+      ),
+      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 12px 0" } },
+        "That is why you’ll keep seeing stories like these:"
       ),
       /*#__PURE__*/React.createElement("ul", { style: { paddingLeft: 22, margin: "0 0 14px 0" } },
-        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Criminals using AI to break into computer systems."),
-        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Bullies generating fake images and videos to humiliate classmates."),
-        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "AI giving medical advice that\u2019s wrong in ways that hurt people.")
+        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Scams and cybercrime scale faster because AI can generate code, messages, and fake identities quickly."),
+        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Fake images and videos can humiliate real people, including students."),
+        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Medical or safety advice can sound confident while still being wrong.")
       ),
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: 0 } },
-        "When you hear stories like these, you\u2019ll know why they happen. There\u2019s no rule that says \"don\u2019t do this.\" The system can only learn from examples and try to behave the way it\u2019s been steered."
+        "When you hear stories like these, remember the mechanism: the system is being steered by examples and guardrails, not controlled by one perfect rule for every possible situation."
       )
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT THE AI COMPANIES DO"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
-      "Three major AI companies \u2014 OpenAI, Anthropic, and Google \u2014 work hard to prevent these failures. They retrain their models, add guardrails, and filter outputs. These steps catch a lot of bad behavior."
+      "AI companies are not ignoring this. They use safety training, system instructions, filters, testing, monitoring, and product rules to reduce bad behavior."
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 0, lineHeight: 1.65, fontSize: 17 } },
-      "But the safety systems are themselves built on patterns, not rules. They get steadily better, but they can\u2019t catch everything."
+      "Those systems catch a lot. But they are still trying to guide learned behavior, not enforce one perfect rule for every possible situation."
     ),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "With regular software, you can inspect the rule. With AI, you can {steer the behavior}, but you usually can\u2019t trace it to one written rule." }),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "16px 20px", textAlign: "center", color: "#4338ca", fontWeight: 800, fontSize: 17, marginTop: 16, marginBottom: 8 }
+    }, "Guardrails reduce risk. They do not erase it."),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "AI is powerful because no one wrote every rule. It is {risky for the same reason}." }),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("generative"); } }, "Next: Generative"));
 }
 function DataSection(props) {

@@ -1895,34 +1895,49 @@ function KeyTermsSection(props) {
 }
 function AIvsCodeSection(props) {
   const [visibleRules, setVisibleRules] = useState(0);
-  const [revealSteps, setRevealSteps] = useState({0: 0, 1: 0, 2: 0});
-  function setRevealFor(idx, val) { setRevealSteps(function(prev) { var next = Object.assign({}, prev); next[idx] = val; return next; }); }
+  const [missingPicks, setMissingPicks] = useState({});
+  function pickMissingVariable(idx, optionIdx) {
+    if (missingPicks[idx] !== undefined) return;
+    setMissingPicks(function(prev) {
+      var next = Object.assign({}, prev);
+      next[idx] = optionIdx;
+      return next;
+    });
+  }
   const scenarios = [
     {
-      rule: "IF oven temp is 350\u00B0 THEN bake for 30 minutes",
-      ruleIf: "oven temp is 350\u00B0",
+      rule: "IF oven temp is 350° THEN bake for 30 minutes",
+      ruleIf: "oven temp is 350°",
       ruleThen: "bake for 30 minutes",
-      ruleShort: "350\u00B0 = 30 min",
+      ruleShort: "350° = 30 min",
       catchScenario: "Standard chocolate chip cookies at sea level",
-      catchVerdict: "Perfect!",
-      catchExplain: "Baked perfectly. The rule works exactly as written: standard conditions, standard result.",
       breakScenario: "Same cookies at high altitude (Denver, Colorado)",
-      breakVerdict: "Burnt!",
-      breakExplain: "Flat, crispy, burnt edges. At high altitude air pressure is lower so moisture evaporates faster. The rule has no idea where you are.",
-      aiExplain: "AI learned from thousands of recipes baked at different altitudes. It recognizes the pattern: high altitude means less time, lower temp, more flour. No one had to write that rule. It figured it out."
+      missingQuestion: "What could break this rule?",
+      missingOptions: [
+        { label: "Same recipe at sea level", correct: false },
+        { label: "Same recipe at high altitude", correct: true },
+        { label: "Same oven, same kitchen", correct: false }
+      ],
+      missingVariable: "Altitude",
+      missingExplain: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently.",
+      patternView: "AI can learn from many recipes that altitude changes baking time, temperature, and flour."
     },
     {
-      rule: "IF meat is brown THEN it's cooked",
+      rule: "IF meat is brown THEN it’s cooked",
       ruleIf: "meat is brown",
-      ruleThen: "it\u2019s cooked",
+      ruleThen: "it’s cooked",
       ruleShort: "Brown = cooked",
       catchScenario: "Beef burger on a hot grill",
-      catchVerdict: "Cooked!",
-      catchExplain: "Brown outside, cooked through. The rule works fine for beef, where browning and doneness happen together.",
       breakScenario: "Chicken breast in a pan",
-      breakVerdict: "Dangerous!",
-      breakExplain: "Brown outside, raw inside. Chicken can look perfectly cooked and still be dangerously undercooked. This rule could make someone seriously sick.",
-      aiExplain: "AI learned that chicken doneness is about internal temperature and texture, not color. It recognizes the difference between proteins. A rule that works for beef is dangerous for chicken."
+      missingQuestion: "What could break this rule?",
+      missingOptions: [
+        { label: "Beef burger on a hot grill", correct: false },
+        { label: "Chicken breast in a pan", correct: true },
+        { label: "Steak with a browned outside", correct: false }
+      ],
+      missingVariable: "Food type and internal temperature",
+      missingExplain: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside.",
+      patternView: "AI can learn that chicken safety depends on internal temperature, not just color."
     },
     {
       rule: "IF it smells done THEN take it out",
@@ -1930,42 +1945,47 @@ function AIvsCodeSection(props) {
       ruleThen: "take it out",
       ruleShort: "Smells done = done",
       catchScenario: "Garlic bread under the broiler",
-      catchVerdict: "Perfect!",
-      catchExplain: "Golden, fragrant, perfect. The smell of toasted bread is a reliable signal when you\u2019re watching closely.",
       breakScenario: "Banana bread in a closed oven",
-      breakVerdict: "Raw inside!",
-      breakExplain: "Smells amazing, and is completely raw in the middle. Dense batters smell done long before the center is cooked. The rule has no way to know what\u2019s inside.",
-      aiExplain: "AI learned that smell is one signal among many. Dense batters need time and temperature together. It knows banana bread needs 55\u201365 minutes regardless of how good the kitchen smells."
+      missingQuestion: "What could break this rule?",
+      missingOptions: [
+        { label: "Garlic bread under the broiler", correct: false },
+        { label: "Banana bread in a closed oven", correct: true },
+        { label: "Toast you are watching closely", correct: false }
+      ],
+      missingVariable: "What is happening inside",
+      missingExplain: "The rule only notices smell. Dense foods can smell finished long before the center is cooked.",
+      patternView: "AI can learn that dense foods need time and internal doneness checks, not just smell."
     }
   ];
+  var allDone = visibleRules >= 3 && missingPicks[2] !== undefined;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
       "Open the calculator on your phone. It works the same way today as it did five years ago. Open ChatGPT, and it answers differently every time you ask the same question. Both are software. Why are they so different?"
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      "Their answers come from completely different places. One is following a recipe a human wrote. The other learned from millions of examples and is making its best guess."
+      "Their answers come from completely different places. One is following rules a human wrote. The other learned from millions of examples and is making its best guess."
     ),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
       /*#__PURE__*/React.createElement("div", { style: { background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20, display: "flex", flexDirection: "column" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDCBB"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "💻"),
         /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 28 } }, "Computer Program"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Follows Rules a Human Wrote"),
         /*#__PURE__*/React.createElement("div", { style: { background: "#dbeafe", borderRadius: 8, padding: 12, fontFamily: "monospace", fontSize: 13, lineHeight: 1.6, color: "#1e3a5f" } },
-          "IF temp is 350\u00B0 AND time is 30min", /*#__PURE__*/React.createElement("br", null),
-          "\u00A0\u00A0THEN cookies are done",
+          "IF temp is 350° AND time is 30min", /*#__PURE__*/React.createElement("br", null),
+          "  THEN cookies are done",
           /*#__PURE__*/React.createElement("div", { style: { height: 14 } }),
           "IF meat is brown", /*#__PURE__*/React.createElement("br", null),
-          "\u00A0\u00A0THEN meat is cooked"
+          "  THEN meat is cooked"
         )
       ),
       /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", border: "2px solid #8b5cf6", borderRadius: 12, padding: 20, display: "flex", flexDirection: "column" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDE0"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "🧠"),
         /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 28 } }, "AI"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Learned Patterns from Examples"),
         /*#__PURE__*/React.createElement("div", { style: { background: "#ede9fe", borderRadius: 8, padding: 12, fontSize: 13, lineHeight: 1.6, color: "#3b1f6e" } },
-          "Show it 10,000 successful recipes \u2713", /*#__PURE__*/React.createElement("br", null),
-          "Show it 10,000 failed recipes \u2713",
+          "Show it 10,000 successful recipes ✓", /*#__PURE__*/React.createElement("br", null),
+          "Show it 10,000 failed recipes ✓",
           /*#__PURE__*/React.createElement("div", { style: { height: 14 } }),
           "It figures out the patterns itself", /*#__PURE__*/React.createElement("br", null),
           "Handles situations it was never shown"
@@ -1973,61 +1993,81 @@ function AIvsCodeSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-      /*#__PURE__*/React.createElement("strong", null, "Why does this matter?"),
-      /*#__PURE__*/React.createElement("br", null),
-      "Because Patterns are usually more effective than Rules. In this exercise, you’ll learn why."
+      "Here’s why rules sometimes don’t work: ",
+      /*#__PURE__*/React.createElement("strong", null, "they sometimes break when reality changes"),
+      ". In this exercise, read the rule first. Then, try to identify WHEN the rule breaks."
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    title: "Rules vs. Patterns"
+    variant: "try",
+    title: "When the Rule Breaks"
   },
-    visibleRules === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-      /*#__PURE__*/React.createElement("button", {
-        onClick: function() { setVisibleRules(1); },
-        style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-      }, "See First Rule →")) : null,
+    visibleRules === 0 ? /*#__PURE__*/React.createElement("button", {
+      onClick: function() { setVisibleRules(1); },
+      style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+    }, "See First Rule →") : null,
     scenarios.slice(0, visibleRules).map(function(s, i) {
-      var rs = revealSteps[i] || 0;
-      var isLastVisible = i === visibleRules - 1;
+      var pick = missingPicks[i];
+      var picked = pick !== undefined;
+      var pickedCorrect = picked && s.missingOptions[pick].correct;
+      var isActive = !allDone && i === visibleRules - 1;
       var hasNext = i < scenarios.length - 1;
-      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginTop: i > 0 ? 32 : 0 } },
+
+      if (!isActive) {
+        return null;
+      }
+
+      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginTop: i > 0 ? 16 : 0 } },
         /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--primary)", marginBottom: 8 } }, "Rule " + (i + 1)),
         /*#__PURE__*/React.createElement("div", { style: { background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "16px 20px", marginBottom: 16 } },
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "monospace", fontSize: 14, lineHeight: 1.8, color: "#1e3a5f" } },
             /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "IF"), " ", s.ruleIf, /*#__PURE__*/React.createElement("br", null),
             /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "THEN"), " ", s.ruleThen)),
-        rs === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-          /*#__PURE__*/React.createElement("button", { onClick: function() { setRevealFor(i, 1); }, style: { padding: "12px 28px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 } }, "See Computer Program Results \u2192")) :
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 20, alignItems: "start" } },
-            /*#__PURE__*/React.createElement("div", { style: { animation: rs === 1 ? "fadeIn 0.4s ease" : "none" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "#1e40af", marginBottom: 12 } }, "Computer Program"),
-              /*#__PURE__*/React.createElement("div", { style: { background: "#f0fdf4", borderLeft: "3px solid #16a34a", borderRadius: 8, padding: "12px 16px", marginBottom: 10 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 12, color: "#16a34a", marginBottom: 4 } }, "\u2705 Works"),
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 2 } }, s.catchScenario),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.catchExplain)),
-              /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderLeft: "3px solid #dc2626", borderRadius: 8, padding: "12px 16px", marginBottom: 16 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 12, color: "#dc2626", marginBottom: 4 } }, "\u274C Breaks"),
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 2 } }, s.breakScenario),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.breakExplain)),
-              null),
-            rs >= 2 ? /*#__PURE__*/React.createElement("div", { style: { borderLeft: "1px solid var(--rule)", paddingLeft: 24, animation: "fadeIn 0.4s ease" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "#5b21b6", marginBottom: 12 } }, "AI"),
-              /*#__PURE__*/React.createElement("div", { style: { background: "#ede9fe", border: "1px solid #e9d5ff", borderRadius: 10, padding: 20 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 13, color: "#5b21b6", marginBottom: 10 } }, "\uD83E\uDDE0 How AI handles it"),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } }, s.aiExplain))) : /*#__PURE__*/React.createElement("div", null)),
-          rs === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-            /*#__PURE__*/React.createElement("button", {
-              onClick: function() { setRevealFor(i, 2); },
-              style: { display: "inline-block", padding: "10px 24px", borderRadius: 8, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-            }, "See AI Results \u2192")) : null,
-          rs >= 2 && hasNext && isLastVisible ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
+
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fefce8", border: "1px solid #fde68a", borderRadius: 10, padding: "16px 20px", marginBottom: 16 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 12 } }, s.missingQuestion),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            s.missingOptions.map(function(opt, oi) {
+              var isPicked = pick === oi;
+              var bg = "var(--card)";
+              var borderColor = "var(--rule)";
+              var color = "var(--ink)";
+              var weight = 600;
+              if (picked) {
+                if (opt.correct) { bg = "#ecfdf5"; borderColor = "#10b981"; color = "#065f46"; weight = 700; }
+                else if (isPicked) { bg = "#fef2f2"; borderColor = "#ef4444"; color = "#991b1b"; }
+                else { color = "var(--inkMuted)"; }
+              }
+              return /*#__PURE__*/React.createElement("button", {
+                key: oi,
+                onClick: function() { pickMissingVariable(i, oi); },
+                disabled: picked,
+                style: { padding: "10px 14px", borderRadius: 8, fontSize: 14, fontWeight: weight, background: bg, color: color, border: "1px solid " + borderColor, cursor: picked ? "default" : "pointer", textAlign: "left", transition: "all 0.15s", fontFamily: "inherit" }
+              }, opt.label);
+            }))),
+
+        picked ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #ddd6fe", borderRadius: 12, padding: "16px 20px", marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: pickedCorrect ? "#059669" : "#b45309", marginBottom: 12 } },
+              pickedCorrect ? "✅ Correct — that’s where the rule breaks." : "Not quite — the rule breaks when the situation changes in this way."),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 4 } }, "The rule missed"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "#5b21b6", marginBottom: 8 } }, s.missingVariable),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.missingExplain)),
+
+          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #e9d5ff", borderRadius: 10, padding: "12px 16px", marginBottom: 16 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "Pattern view"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.patternView)),
+
+          hasNext ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
             /*#__PURE__*/React.createElement("button", {
               onClick: function() { setVisibleRules(visibleRules + 1); },
-              style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-            }, "See Next Rule \u2192")) : null));
+              style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
+            }, "See Next Rule →")) : null) : null);
     })),
-    visibleRules >= 3 && revealSteps[2] >= 2 ? /*#__PURE__*/React.createElement(React.Fragment, null,
+    allDone ? /*#__PURE__*/React.createElement(React.Fragment, null,
+      /*#__PURE__*/React.createElement("div", { style: { background: "#f5f3ff", borderRadius: 12, padding: "20px 24px", marginTop: 24, marginBottom: 8 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 8 } }, "The pattern:"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.6 } },
+          "Rules work when the situation stays predictable. Rules break when the real world has variables the rule did not include. AI can sometimes handle those variables because it learned patterns from lots of examples.")),
       /*#__PURE__*/React.createElement(BottomLine, { thought: "Old software follows rules someone wrote. AI finds patterns {no one wrote down}." }),
       /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("blackbox") }, "Next: No One Wrote the Rules")) : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" } }, "Complete the examples above to continue")
   );

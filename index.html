@@ -349,7 +349,7 @@ const SECTION_GROUPS = [{
   sections: ["aihistory", "howwegothere", "aistrengths", "aivscode", "blackbox", "generative", "data", "hallucination"]
 }, {
   label: "Building the Model",
-  sections: ["training", "trainingbias", "tokens", "embeddings", "howreads"]
+  sections: ["training", "trainingbias", "tokens", "embeddings", "behindthenumbers", "howreads"]
 }, {
   label: "Producing an Answer",
   sections: ["context", "probability", "prediction", "layers", "attention", "transform", "inference"]
@@ -459,6 +459,12 @@ const SECTIONS = [{
   label: "Meaning",
   title: "Meaning",
   icon: "\uD83D\uDCD0"
+}, {
+  id: "behindthenumbers",
+  kicker: "WHERE THE NUMBERS COME FROM",
+  label: "Behind the Numbers",
+  title: "Behind the Numbers",
+  icon: "\uD83D\uDD0D"
 }, {
   id: "prediction",
   kicker: "THE GUESSING GAME",
@@ -3164,28 +3170,20 @@ function TokenSection(props) {
   var tokenQA = E("div", { style: { marginTop: 32 } },
     E(SectionKicker, null, "HOW THE TOKEN VOCABULARY IS BUILT"),
     E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "During System setup, engineers choose the size of the token vocabulary. 100K to 200K are commonly used for today's models."),
-    E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "How do they break text into chunks and assign Token IDs? They run a special token-building algorithm against a massive collection of text from books, websites, articles, conversations, and code."),
+    E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "How do they break text into chunks and assign Token IDs? They use a special token-building process that studies a massive collection of text and looks for reusable chunks."),
     E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, fontSize: 17 } },
       "The goal is to find the most efficient set of reusable pieces. Common chunks like ",
       E("strong", null, "\u201Cthe\u201D"), " may stay whole. Longer words like ",
       E("strong", null, "\u201Cunbelievable\u201D"), " can be split into parts like ",
       E("strong", null, "un + believ + able"), ", because each of those chunks is reused in many words. Once that vocabulary is locked, the model uses the same token vocabulary every time it reads text."));
-  var bridgeSteps = [
-    { title: "Text becomes tokens", body: "The sentence gets split into chunks." },
-    { title: "Tokens become IDs", body: "Each chunk becomes a number the model can process." },
-    { title: "IDs become meaning later", body: "The next step is learning which tokens relate to each other." }
-  ];
-  var meaningBridge = E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginTop: 32, marginBottom: 28 } },
-    E("h3", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 8, marginTop: 0 } }, "The bridge to meaning"),
-    E("p", { style: { fontSize: 15, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 16px 0" } }, "Token IDs are the starting point, not the understanding."),
-    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 } },
-      bridgeSteps.map(function(step, i) {
-        return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14 } },
-          E("div", { style: { background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 999, marginBottom: 10 } }, String(i + 1)),
-          E("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, step.title),
-          E("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, step.body));
-      })),
-    E("div", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 800, fontSize: 14, lineHeight: 1.5, borderRadius: 8, padding: "10px 12px", textAlign: "center", marginTop: 14 } }, "Tokens are numbers. Meaning comes next."));
+  var meaningBridge = E("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 22, marginTop: 32, marginBottom: 28 } },
+    E("h3", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 8, marginTop: 0 } }, "A number is not understanding"),
+    E("p", { style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: 0 } },
+      "After tokenization, the model has numbers it can work with. But those numbers are just IDs. ",
+      E("strong", null, "9246"),
+      " does not mean “cat” by itself; it only points to the token ",
+      E("strong", null, "cat"),
+      ". Turning those IDs into meaning is the next lesson."));
   var bottomLine = E(BottomLine, { thought: "The model doesn\u2019t read words. It converts them into numbers, and {does math from there}." });
   var navButton = E(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("embeddings"); } }, "Next: Meaning");
   return E("div", null,
@@ -3363,7 +3361,7 @@ function NameThatDrinkTryIt(props) {
   var questions = [
     { dims: [["Sweetness", 9], ["Fizziness", 10]], correct: "Coke", choices: [["Coke", "\uD83E\uDD64"], ["Black Coffee", "\u2615"]] },
     { dims: [["Bitterness", 9], ["Heat Level", 9]], correct: "Black Coffee", choices: [["Coke", "\uD83E\uDD64"], ["Black Coffee", "\u2615"]] },
-    { dims: [["Sweetness", 9], ["Fizziness", 10]], correct: "Nobody Knows", title: "Trick Question", choices: [["Coke", "\uD83E\uDD64"], ["Pepsi", "\uD83E\uDD64"], ["Nobody Knows", "\uD83E\uDD37"]] }
+    { dims: [["Sweetness", 9], ["Fizziness", 10]], correct: "Not Enough Info", title: "Trick Question", choices: [["Coke", "\uD83E\uDD64"], ["Pepsi", "\uD83E\uDD64"], ["Not Enough Info", "\uD83E\uDD37"]] }
   ];
   var done = qIdx >= 3;
   var q = questions[Math.min(qIdx, 2)];
@@ -3385,6 +3383,7 @@ function NameThatDrinkTryIt(props) {
     if (isQ3) { setTried(tried.concat([choice])); }
     if (choice === q.correct) { setResults(results.concat([tried.length === 0])); }
     else if (!isQ3) { setResults(results.concat([false])); }
+    if (isQ3 && choice === q.correct && props && props.onComplete) { props.onComplete(); }
   };
   var handleNext = function() {
     setQIdx(qIdx + 1); setAnswer(null); setTried([]);
@@ -3408,7 +3407,7 @@ function NameThatDrinkTryIt(props) {
   var content;
   if (!started) {
     content = E("div", { style: { textAlign: "center" } },
-      React.createElement(PrimaryButton, { onClick: function() { setStarted(true); }, style: { margin: 0 } }, "First Question"));
+      React.createElement(PrimaryButton, { onClick: function() { setStarted(true); }, style: { margin: "0 auto" } }, "First Question"));
   } else if (done) {
     var numCorrect = results.filter(function(r) { return r; }).length;
     content = E("div", null,
@@ -3425,8 +3424,9 @@ function NameThatDrinkTryIt(props) {
       feedback = E("div", null,
         E("div", { style: { padding: "12px 16px", borderRadius: 8, marginTop: 12, background: wasCorrect ? "#dcfce7" : "#fef2f2", border: "1px solid " + (wasCorrect ? "#86efac" : "#fca5a5"), fontSize: 14, color: "var(--ink)" } },
           wasCorrect ? (isQ3 ? "\u2705 Correct! 2 Dimensions is not enough information to identify Coke vs Pepsi." : "\u2705 Correct!") : wrongMsg),
-        (wasCorrect || !isQ3) ? E("div", { style: { textAlign: "center" } },
-          E("button", { onClick: handleNext, style: { marginTop: 12, padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "Next Question \u2192")) : null);
+        (!isQ3 ? E("div", { style: { textAlign: "center" } },
+          E("button", { onClick: handleNext, style: { marginTop: 12, padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "Next Question \u2192"))
+          : null));
     }
     content = E("div", null,
       E("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 12 } }, (q.title || "Question " + (qIdx + 1) + " of 3")),
@@ -3450,10 +3450,9 @@ function EmbeddingsSection(props) {
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-    "How does the model get from tokens to meaning? In other words, if the model sees the word \u201Ccat\u201D as 9246, how does it learn what the word cat means? That\u2019s a process called ",
-    E("strong", null, "Embedding"), "."),
+    "How does the model get from tokens (numbers) to meaning? In other words, if the model sees the word \u201Ccat\u201D as 9246, how does it learn what the word cat means?"),
   E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
-    "The best way of understanding this is through an example. You are comparing Coke and Black Coffee based on 6 dimensions. You take a sip of both drinks and rate them on a scale of 1 to 10 for each dimension."),
+    "The best way of understanding this is through an example. You compare Coke and Black Coffee based on 6 dimensions. You take a sip of both drinks and rate them on a scale of 1 to 10 for each dimension."),
   E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", maxWidth: "calc(100% - 192px)", margin: "0 auto 16px" } },
       E("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--rule)", alignItems: "center" } },
         E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px" } }, "Dimension"),
@@ -3476,9 +3475,6 @@ function EmbeddingsSection(props) {
           cellStyle(row[2], "#8b5cf6", "#f3e8ff"));
       })),
   E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginTop: 18, marginBottom: 18, fontSize: 17 } }, "Now, you see how numbers can represent Meaning. Based on the table, Coke and Black Coffee can be identified by the numbers above."),
-  E("ul", { style: { color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12, paddingLeft: 24 } },
-    E("li", { style: { marginBottom: 6 } }, E("strong", null, "Dimension"), ": the specific characteristic tracked, like Sweetness and Bitterness."),
-    E("li", null, E("strong", null, "Value"), ": the number value assigned to the Dimension for the Token.")),
   E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "This introduces the concept of Vectors, which is fundamental to how AI works. A vector is simply a list of numbers that represents what the token means."),
   E("div", { style: { display: "flex", gap: 16, marginTop: 24, marginBottom: 24 } },
     E("div", { style: { flex: 1, background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" } },
@@ -3518,10 +3514,72 @@ function EmbeddingsSection(props) {
           E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "The numbers"))),
       E("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--primary)", marginTop: 12 } }, "Token ID: 4873"),
       E("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, fontWeight: 700, color: "#8b5cf6", marginTop: 8, lineHeight: 1.6, wordBreak: "break-all" } }, "Vector: [9, 1, 10, 2, 3, 8, 4, 7, 2, 5, 9, 1, 6, 3, 8, 0, 4, 7, 2, 5, 1, 9, 3, 6, 8, 4, 7, 2, 0, 5, 1, 3, 9, 6, 4, 8, 2, 7, 5, 1, 3, 8, 6, 0, 9, 2, 7, 4, 1, 5, 10, 3, 6, 8, 2, 9, 4, 7, 1, 0, 5, 3, 8, 6, 2, 9, 7, 4, 1, 5, 10, 3, 8, 0, 6, 2, 9, 7, 4, 1, 5, 3, 8, 6, 2, 7, 0, 9, 4, 1, ... ", E("span", { style: { fontStyle: "italic" } }, "Plus 1000s more"), "]"))),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 16, marginTop: 24, marginBottom: 0 } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "Does every token get its own vector?"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of numbers. The model doesn\u2019t start with the meaning of the full word. It builds meaning from the pieces.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Meaning becomes a list of numbers. {That\u2019s what a vector is}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.onNavigate && props.onNavigate("context"), label: "Next: Producing an Answer" }));
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginTop: 24, marginBottom: 0 } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Does every token get its own vector?"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of numbers. The model doesn\u2019t start with the meaning of the full word. It builds meaning from the pieces.")),
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Meaning becomes a list of numbers. {That\u2019s what a vector is}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.onNavigate && props.onNavigate("behindthenumbers"), label: "Next: Behind the Numbers" }));
+}
+function BehindTheNumbersSection(props) {
+  var E = React.createElement;
+  return E("div", null,
+    E(LessonHeader, { sectionId: "behindthenumbers" }),
+
+    E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "You just rated Coke on six dimensions. But who decided sweetness gets a 9? You did. Your tongue, your taste memory, your sense of what \u201Csweet\u201D even means. That whole package made the call. So what does the AI version of \u201Cyou\u201D look like?"),
+
+    E(SectionKicker, null, "NAMING WHAT JUST HAPPENED"),
+    E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "The taste test gave you four things. Let\u2019s name them."),
+
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 } },
+      [
+        { title: "Dimension", body: "The category being measured. In your test: Sweetness, Bitterness, Fizziness. Six of them." },
+        { title: "Value", body: "The number assigned to a dimension. Coke\u2019s Sweetness value was 9. Its Fizziness value was 10." },
+        { title: "Embedding", body: "The full row of values for one token. Coke\u2019s embedding was [9, 1, 10, 2, 3, 8]. Heads up: \u201Cembedding\u201D means two things. The list of numbers is an embedding. The act of producing it is also called embedding. Same word, two jobs." },
+        { title: "Parameters", body: "The taster\u2019s brain. The thing that decided 9 was the right number for Coke\u2019s sweetness. You never saw this in the table because it\u2019s not a number on the page. It\u2019s the thing that wrote the numbers." }
+      ].map(function(item, i) {
+        return E("div", { key: i, style: { display: "flex", gap: 16, alignItems: "flex-start", background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
+          E("div", { style: { width: 32, height: 32, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, flexShrink: 0, marginTop: 2 } }, i + 1),
+          E("div", null,
+            E("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 15 } }, item.title),
+            E("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.55 } }, item.body)));
+      })),
+
+    E(SectionKicker, null, "HOW BIG THIS GETS IN A REAL MODEL"),
+    E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Your taste test used 6 dimensions and one taster. A real model uses way more of both."),
+
+    E("div", { style: { display: "flex", gap: 16, marginTop: 16, marginBottom: 18 } },
+      E("div", { style: { flex: 1, background: "#f0f9ff", border: "2px solid #3b82f6", borderRadius: 12, padding: 20 } },
+        E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
+          E("span", { style: { fontSize: 28 } }, "\uD83E\uDDD1"),
+          E("div", { style: { textAlign: "left" } },
+            E("div", { style: { fontSize: 16, fontWeight: 700, color: "#1e40af" } }, "Your Taste Test"),
+            E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "What you did"))),
+        E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } },
+          E("div", { style: { marginBottom: 6 } }, "6 dimensions per drink"),
+          E("div", { style: { marginBottom: 6 } }, "1 taster"),
+          E("div", null, "Took a few seconds"))),
+      E("div", { style: { flex: 1, background: "#faf5ff", border: "2px solid #8b5cf6", borderRadius: 12, padding: 20 } },
+        E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
+          E("span", { style: { fontSize: 28 } }, "\uD83E\uDDE0"),
+          E("div", { style: { textAlign: "left" } },
+            E("div", { style: { fontSize: 16, fontWeight: 700, color: "#5b21b6" } }, "Real AI Model"),
+            E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "What AI does"))),
+        E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } },
+          E("div", { style: { marginBottom: 6 } }, "Thousands of dimensions per token"),
+          E("div", { style: { marginBottom: 6 } }, "Hundreds of billions of parameters"),
+          E("div", null, "Trained for months on text from the internet")))),
+
+    E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } },
+      "When the news says \u201CGPT-4 has X billion parameters,\u201D those are the dials we\u2019re talking about. Same idea as the taster\u2019s brain. Just bigger."),
+
+    E(SectionKicker, null, "WHERE THE PARAMETERS COME FROM"),
+    E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
+      "Parameters get set during Training. The model didn\u2019t know Coke was sweet before training. It read enough text to figure out which words tend to show up near \u201Csweet,\u201D which words show up near \u201Cfizzy,\u201D and built up a sense of every token from those patterns. The result of all that figuring is the parameters. Once training ends, the parameters are frozen. Every conversation you have with the model uses the exact same set of dials."),
+
+    E(BottomLine, { thought: "Six numbers in your test. {Billions in the model. Training built them all.}" }),
+    E(NextLessonGate, { ready: true, onClick: function() { props.onNavigate && props.onNavigate("context"); }, label: "Next: Producing an Answer" }));
 }
 function PredictionSection(props) {
   const [hoveredWord, setHoveredWord] = useState(null);
@@ -9899,6 +9957,7 @@ const SECTION_COMPONENTS = {
   trainingbias: TrainingBiasSection,
   tokens: TokenSection,
   embeddings: EmbeddingsSection,
+  behindthenumbers: BehindTheNumbersSection,
   prediction: PredictionSection,
   layers: LayersSection,
   attention: AttentionSectionModule,

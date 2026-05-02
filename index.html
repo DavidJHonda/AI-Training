@@ -266,15 +266,16 @@ function QuizBlock(props) {
       : "Q";
   }
   var feedbackText = hasPicked && options[picked] ? options[picked].feedback : null;
+  var minimal = !!props.minimal;
   return React.createElement("div", {
-    style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 14, padding: 28 }
+    style: minimal ? { padding: 0 } : { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 14, padding: 28 }
   },
-    qLabel ? React.createElement("div", {
+    !minimal && qLabel ? React.createElement("div", {
       style: { fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em", color: "var(--inkMuted)", marginBottom: 18 }
     }, qLabel) : null,
-    React.createElement("div", {
+    !minimal ? React.createElement("div", {
       style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35, textWrap: "pretty", marginBottom: 24 }
-    }, props.statement),
+    }, props.statement) : null,
     React.createElement("div", {
       style: { display: "grid", gridTemplateColumns: options.length <= 2 ? "1fr 1fr" : "1fr", gap: options.length <= 2 ? 24 : 12 }
     },
@@ -341,6 +342,37 @@ function ProgressBar(props) {
     )
   );
 }
+function UserBubble(props) {
+  var text = props.text || "";
+  var visibleChars = (typeof props.visibleChars === "number") ? props.visibleChars : text.length;
+  var showCursor = visibleChars < text.length;
+  var maxWidth = props.maxWidth || "min(82%, 620px)";
+  var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
+  return React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", animation: "fadeIn 0.3s ease" } },
+    React.createElement("div", { style: { maxWidth: maxWidth } },
+      React.createElement("div", { style: { color: "var(--primary)", fontSize: 12, fontWeight: 800, marginBottom: 5, textAlign: "right" } }, "You"),
+      React.createElement("div", { style: { background: "#fff", borderRadius: "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } },
+        text.slice(0, visibleChars),
+        showCursor ? cursor : null)));
+}
+function AIBubble(props) {
+  var text = props.text || "";
+  var words = text.split(" ");
+  var visibleWords = (typeof props.visibleWords === "number") ? props.visibleWords : words.length;
+  var showCursor = visibleWords < words.length;
+  var maxWidth = props.maxWidth || "min(88%, 700px)";
+  var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
+  return React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
+    React.createElement("div", { style: { maxWidth: maxWidth } },
+      React.createElement("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 800, marginBottom: 5 } }, "AI"),
+      React.createElement("div", { style: { background: "var(--card)", borderRadius: "16px 16px 16px 4px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)" } },
+        words.slice(0, visibleWords).join(" "),
+        showCursor ? cursor : null)));
+}
+function ThinkingBubble() {
+  return React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
+    React.createElement("div", { style: { background: "var(--card)", color: "var(--inkMuted)", borderRadius: "16px 16px 16px 4px", padding: "10px 14px", fontSize: 13, fontWeight: 700, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } }, "AI is thinking..."));
+}
 const SECTION_GROUPS = [{
   label: "Intro",
   sections: ["preassessment", "whydeeper", "intro"]
@@ -375,7 +407,6 @@ const SECTIONS = [{
   id: "aihistory",
   kicker: "THE AI LANDSCAPE",
   label: "What Is AI?",
-  title: "What is AI?",
   icon: "\uD83E\uDDEC"
 }, {
   id: "howwegothere",
@@ -489,6 +520,7 @@ const SECTIONS = [{
   id: "inference",
   kicker: "THE FULL JOURNEY",
   label: "From Prompt to Output",
+  title: "Prompt to Output",
   icon: "\u26A1"
 }, {
   id: "modelselection",
@@ -519,11 +551,13 @@ const SECTIONS = [{
   id: "customization",
   kicker: "MAKE IT YOURS",
   label: "Customization & Memory",
+  title: "Customization",
   icon: "\u2699\uFE0F"
 }, {
   id: "critical",
   kicker: "BRING YOUR BRAIN",
   label: "Critical Thinking & AI",
+  title: "Critical Thinking",
   icon: "\uD83E\uDDD0"
 }, {
   id: "mindtrap",
@@ -534,16 +568,19 @@ const SECTIONS = [{
   id: "flattery",
   kicker: "WATCH THE FRIENDLINESS",
   label: "The Flattery Trap",
+  title: "Flattery Trap",
   icon: "\uD83C\uDFAD"
 }, {
   id: "prompting",
   kicker: "CLEAR IN, CLEAR OUT",
   label: "The Art of Prompting",
+  title: "Art of Prompting",
   icon: "\u270D\uFE0F"
 }, {
   id: "thoughtpartner",
   kicker: "THINK WITH IT, NOT FOR YOU",
   label: "Your Thought Partner",
+  title: "Thought Partner",
   icon: "\uD83E\uDD1D"
 }, {
   id: "verify",
@@ -554,16 +591,19 @@ const SECTIONS = [{
   id: "evaluating",
   kicker: "GOOD ENOUGH FOR WHAT?",
   label: "Evaluating the Results",
+  title: "Evaluating",
   icon: "\uD83D\uDD0D"
 }, {
   id: "integrity",
   kicker: "USE IT, OWN IT",
   label: "Academic Integrity",
+  title: "Integrity",
   icon: "\uD83C\uDF93"
 }, {
   id: "privacy",
   kicker: "WHAT YOU TYPE TRAVELS",
   label: "Privacy & Awareness",
+  title: "Privacy",
   icon: "\uD83D\uDD12"
 }, {
   id: "whatyoulearned",
@@ -590,19 +630,16 @@ const SECTIONS = [{
   id: "questionsvaluable",
   kicker: "THE QUESTION IS THE JOB",
   label: "Questions Matter",
-  title: "When Answers Get Cheap",
   icon: "\u2753"
 }, {
   id: "humanedge",
   kicker: "WHAT STAYS HUMAN",
   label: "Skills That Matter",
-  title: "Skills That Matter in an AI World",
   icon: "\uD83E\uDDED"
 }, {
   id: "workchanges",
   kicker: "THE JOBS RESHUFFLE",
   label: "Work Changes",
-  title: "What Work Changes Most, and Why",
   icon: "\uD83D\uDCCA"
 }, {
   id: "aifuture",
@@ -4155,10 +4192,8 @@ function PredictionSection(props) {
     }, "Start") : null,
 
     seeStep >= 1 && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginBottom: 20 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 12, padding: "12px 16px", maxWidth: "80%", fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } },
-          promptChars > 0 ? seePromptText.slice(0, promptChars) : "\u00A0",
-          !promptDone ? seeCursor : null)),
+      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
+        /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars })),
       promptDone && seeStep < 2 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(2); }, style: { display: "block", margin: "12px auto 0", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "See Similarity Step \u2192") : null),
 
     seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, marginTop: 12, animation: "fadeIn 0.4s ease", marginBottom: 16 } },
@@ -4192,10 +4227,8 @@ function PredictionSection(props) {
         })),
       seeStep < 5 ? /*#__PURE__*/React.createElement("button", { onClick: function() { setSeeStep(5); }, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "See AI\u2019s Response \u2192") : null),
 
-    seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", marginTop: 12, marginBottom: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "12px 16px", maxWidth: "80%", fontSize: 15, color: "var(--ink)", lineHeight: 1.5, animation: "fadeIn 0.4s ease" } },
-        aiRespWords > 0 ? seeAiWordsArr.slice(0, aiRespWords).join(" ") : "\u00A0",
-        !aiRespDone ? seeCursor : null)),
+    seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { marginTop: 12, marginBottom: 16 } },
+      /*#__PURE__*/React.createElement(AIBubble, { text: seeAiText, visibleWords: aiRespWords })),
 
     aiRespDone && /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 16, marginTop: 16, animation: "fadeIn 0.4s ease" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "\uD83D\uDD11 Key Insight"),
@@ -5193,11 +5226,15 @@ function InferenceSection(props) {
   const computeAnswerWords = computeAnswer.split(" ");
   useEffect(function() {
     if (computePhase === "typing-q") {
-      if (computeQChars >= computeQuestion.length) { setTimeout(function() { setComputePhase("typing-ai"); }, 500); return; }
+      if (computeQChars >= computeQuestion.length) { setComputePhase("thinking"); return; }
       var iv = setInterval(function() {
         setComputeQChars(function(c) { if (c >= computeQuestion.length) { clearInterval(iv); return c; } return c + 1; });
       }, 35);
       return function() { clearInterval(iv); };
+    }
+    if (computePhase === "thinking") {
+      var t = setTimeout(function() { setComputePhase("typing-ai"); }, 2000);
+      return function() { clearTimeout(t); };
     }
     if (computePhase === "typing-ai") {
       if (computeAiWords >= computeAnswerWords.length) { setComputePhase("done"); return; }
@@ -5483,21 +5520,10 @@ function InferenceSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 } }, "\uD83D\uDD11 The key insight"),
     /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 12 } }, "The Scale of What\u2019s Happening"),
     /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", marginBottom: 16 } }, "Watch what happens behind the scenes when you ask a simple question."),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, alignItems: "start" } },
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { color: "var(--primary)", fontSize: 12, fontWeight: 700, marginBottom: 4 } }, "You"),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: "12px 12px 12px 2px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
-            computeQuestion.slice(0, computeQChars),
-            computePhase === "typing-q" ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null)),
-        /*#__PURE__*/React.createElement("div", null)),
-      computePhase !== "typing-q" ? /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" } },
-        /*#__PURE__*/React.createElement("div", null),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 700, marginBottom: 4, textAlign: "right" } }, "AI"),
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "12px 12px 2px 12px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 60 } },
-            computeAnswerWords.slice(0, computeAiWords).join(" "),
-            computePhase === "typing-ai" ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))) : null),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
+      /*#__PURE__*/React.createElement(UserBubble, { text: computeQuestion, visibleChars: computeQChars }),
+      computePhase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
+      (computePhase === "typing-ai" || computePhase === "done") ? /*#__PURE__*/React.createElement(AIBubble, { text: computeAnswer, visibleWords: computeAiWords }) : null),
     computePhase === "done" && !computeReveal ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 8 } },
       /*#__PURE__*/React.createElement("button", {
         onClick: function() { setComputeReveal(true); },
@@ -6322,14 +6348,15 @@ function HallucinationChatBubble(props) {
   }, [props.question]);
   useEffect(function() {
     if (phase === "typing-q") {
-      if (qChars >= props.question.length) {
-        var t = setTimeout(function() { setPhase("typing-ai"); }, 500);
-        return function() { clearTimeout(t); };
-      }
+      if (qChars >= props.question.length) { setPhase("thinking"); return; }
       var iv = setInterval(function() {
         setQChars(function(c) { if (c >= props.question.length) { clearInterval(iv); return c; } return c + 1; });
       }, 35);
       return function() { clearInterval(iv); };
+    }
+    if (phase === "thinking") {
+      var t = setTimeout(function() { setPhase("typing-ai"); }, 2000);
+      return function() { clearTimeout(t); };
     }
     if (phase === "typing-ai") {
       if (aiWords >= words.length) { setPhase("done"); return; }
@@ -6344,24 +6371,10 @@ function HallucinationChatBubble(props) {
   }, [aiWords]);
   var isDone = phase === "done";
   if (props.onTypingDone && isDone) props.onTypingDone();
-  var cursor = /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
-  return /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, alignItems: "start" } },
-    /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--primary)", fontSize: 12, fontWeight: 700, marginBottom: 4 } }, "You"),
-      /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: "12px 12px 12px 2px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
-        props.question.slice(0, qChars),
-        phase === "typing-q" ? cursor : null
-      )
-    ),
-    /*#__PURE__*/React.createElement("div", null,
-      (phase === "typing-ai" || phase === "done") ? /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 700, marginBottom: 4, textAlign: "right" } }, "AI"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "12px 12px 2px 12px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 60 } },
-          words.slice(0, aiWords).join(" "),
-          phase === "typing-ai" ? cursor : null)
-      ) : null
-    )
-  );
+  return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
+    /*#__PURE__*/React.createElement(UserBubble, { text: props.question, visibleChars: qChars }),
+    phase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
+    (phase === "typing-ai" || phase === "done") ? /*#__PURE__*/React.createElement(AIBubble, { text: props.response, visibleWords: aiWords }) : null);
 }
 function HallucinationSection(props) {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -6434,8 +6447,7 @@ function HallucinationSection(props) {
       /*#__PURE__*/React.createElement(QuizBlock, {
         key: currentIdx,
         statement: item.question,
-        questionNumber: currentIdx + 1,
-        totalQuestions: 8,
+        minimal: true,
         options: [
           { label: "Real", correct: item.real === true, feedback: (item.real ? "Correct! This was REAL. " : "Not quite! This was HALLUCINATED. ") + item.explain },
           { label: "Hallucinated", correct: item.real === false, feedback: (item.real ? "Not quite! This was REAL. " : "Correct! This was HALLUCINATED. ") + item.explain }

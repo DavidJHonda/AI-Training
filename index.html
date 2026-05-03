@@ -373,6 +373,41 @@ function ThinkingBubble() {
   return React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
     React.createElement("div", { style: { background: "var(--card)", color: "var(--inkMuted)", borderRadius: "16px 16px 16px 4px", padding: "10px 14px", fontSize: 13, fontWeight: 700, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } }, "AI is thinking..."));
 }
+function RevealSequence(props) {
+  if (!props.started) {
+    return React.createElement("div", { style: { textAlign: "center", padding: "12px 0" } },
+      React.createElement("button", {
+        onClick: props.onStart,
+        style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
+      }, props.startLabel || "Start"));
+  }
+  if (props.isComplete) {
+    return props.completionElement || null;
+  }
+  var isLast = props.currentIdx === props.items.length - 1;
+  var label = isLast ? (props.finishLabel || "Finish") : (props.nextLabel || "Next \u2192");
+  var canAdvance = props.canAdvance !== false;
+  return React.createElement("div", null,
+    React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 } },
+      (props.currentIdx + 1) + " of " + props.items.length),
+    props.children,
+    React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
+      React.createElement("button", {
+        onClick: canAdvance ? props.onNext : null,
+        disabled: !canAdvance,
+        style: {
+          padding: "10px 24px",
+          borderRadius: 8,
+          background: canAdvance ? "var(--primary)" : "var(--rule)",
+          color: canAdvance ? "#fff" : "var(--inkMuted)",
+          border: "none",
+          cursor: canAdvance ? "pointer" : "not-allowed",
+          fontSize: 14,
+          fontWeight: 700,
+          transition: "all 0.2s"
+        }
+      }, label)));
+}
 const SECTION_GROUPS = [{
   label: "Intro",
   sections: ["preassessment", "whydeeper", "intro"]
@@ -6465,6 +6500,7 @@ function HallucinationSection(props) {
 }
 function VerifySection(props) {
   const [activeStrategy, setActiveStrategy] = useState(0);
+  const [startedVerify, setStartedVerify] = useState(false);
   const VERIFY_STRATEGIES = [{
     icon: "\uD83D\uDD0D",
     label: "Cross-reference the claim",
@@ -6501,7 +6537,7 @@ function VerifySection(props) {
     doThis: "The Zeigarnik Effect is real. But \"the Zelkov Effect\" is fabricated: the model invented a plausible-sounding extension of a real concept. When AI references something you can verify alongside something you can't, check the unfamiliar part.",
     rule: "If part of an answer is verifiably true, don't assume the rest is too."
   }];
-  const vs = VERIFY_STRATEGIES[activeStrategy];
+  const vs = VERIFY_STRATEGIES[activeStrategy] || VERIFY_STRATEGIES[VERIFY_STRATEGIES.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", marginBottom: 20, paddingBottom: 16, borderBottom: "1px solid var(--rule)" }
   }, /*#__PURE__*/React.createElement("div", {
@@ -6517,87 +6553,55 @@ function VerifySection(props) {
     variant: "see",
     title: "Verification Strategies"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, VERIFY_STRATEGIES.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => setActiveStrategy(i),
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === activeStrategy ? "var(--primary)" : "var(--bg)",
-      color: i === activeStrategy ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === activeStrategy ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === activeStrategy ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, s.icon, " ", s.label))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, vs.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, vs.label), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, vs.desc))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#ef444410",
-      border: "1px solid #ef444433",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginTop: 14,
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
-  }, "\uD83E\uDD16 AI says"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, vs.aiSays)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#10b98110",
-      border: "1px solid #10b98133",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-  }, "\u2705 What to do"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, vs.doThis)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: "12px 16px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
-  }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating the Results" }));
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: VERIFY_STRATEGIES,
+      currentIdx: activeStrategy,
+      started: startedVerify,
+      onStart: function() { setStartedVerify(true); },
+      onNext: function() { setActiveStrategy(activeStrategy + 1); },
+      canAdvance: true,
+      isComplete: activeStrategy >= VERIFY_STRATEGIES.length,
+      startLabel: "First Strategy",
+      nextLabel: "Next Strategy \u2192",
+      finishLabel: "All five strategies",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDD0D"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Five strategies in your toolkit."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Pick the one that fits the claim. Verify before you trust."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
+        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, vs.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
+        }, vs.label), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+        }, vs.desc))),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#ef444410", border: "1px solid #ef444433", borderRadius: 10, padding: "14px 16px", marginTop: 14, marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
+        }, "\uD83E\uDD16 AI says"), /*#__PURE__*/React.createElement("div", {
+          style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, vs.aiSays)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px", marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
+        }, "\u2705 What to do"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, vs.doThis)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px" }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
+        }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating the Results" }));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -6661,7 +6665,10 @@ function CriticalThinkingSection(props) {
   const [activeStepback, setActiveStepback] = useState(0);
   const [active101, setActive101] = useState(0);
   const [show101, setShow101] = useState(false);
-  const ct = CT_CONCEPTS[activeConcept];
+  const [started101, setStarted101] = useState(false);
+  const [started5Habits, setStarted5Habits] = useState(false);
+  const [startedStepback, setStartedStepback] = useState(false);
+  const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   const CT_101 = [{
     label: "Ice cream & drowning",
     icon: "\uD83C\uDF66",
@@ -6693,7 +6700,7 @@ function CriticalThinkingSection(props) {
     reality: "The study had 15 participants, ran for two weeks, and was funded by a chocolate company. The headline is technically accurate but deeply misleading.",
     lesson: "Headlines are designed to get clicks, not to inform. Before sharing or believing, ask: how big was the study? Who funded it? What did they actually measure?"
   }];
-  const ex101 = CT_101[active101];
+  const ex101 = CT_101[active101] || CT_101[CT_101.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -6714,209 +6721,117 @@ function CriticalThinkingSection(props) {
     variant: "try",
     title: "Spot the Problem"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, CT_101.map((item, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => { setActive101(i); setShow101(false); },
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === active101 ? "var(--primary)" : "var(--bg)",
-      color: i === active101 ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === active101 ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === active101 ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, item.icon, " ", item.label))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, ex101.icon), /*#__PURE__*/React.createElement("span", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, ex101.label)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#f59e0b10",
-      border: "1px solid #f59e0b33",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 }
-  }, "\uD83E\uDDD0 The claim"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ex101.claim)), !show101 ? /*#__PURE__*/React.createElement("button", {
-    onClick: () => setShow101(true),
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: "var(--primary)",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600,
-      width: "100%"
-    }
-  }, "\uD83E\uDDD0 What's the problem here?") : /*#__PURE__*/React.createElement("div", {
-    style: { animation: "fadeIn 0.3s ease" }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#ef444410",
-      border: "1px solid #ef444433",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
-  }, "\uD83D\uDD0D The reality"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ex101.reality)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: "12px 16px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
-  }, "\uD83D\uDCA1 The lesson"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ex101.lesson)))))),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: CT_101,
+      currentIdx: active101,
+      started: started101,
+      onStart: function() { setStarted101(true); },
+      onNext: function() { setActive101(active101 + 1); setShow101(false); },
+      canAdvance: show101,
+      isComplete: active101 >= CT_101.length,
+      startLabel: "First Problem",
+      nextLabel: "Next Problem \u2192",
+      finishLabel: "See the Wrap-up",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u2705"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "All five problems spotted."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } },
+          "Same instinct works on AI output. The model sounds confident either way. Your job is to check what it\u2019s claiming."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
+        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, ex101.icon), /*#__PURE__*/React.createElement("span", {
+          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
+        }, ex101.label)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#f59e0b10", border: "1px solid #f59e0b33", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 }
+        }, "\uD83E\uDDD0 The claim"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, ex101.claim)),
+        !show101 ? /*#__PURE__*/React.createElement("button", {
+          onClick: function() { setShow101(true); },
+          style: { padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, width: "100%" }
+        }, "\uD83E\uDDD0 What\u2019s the problem here?") : /*#__PURE__*/React.createElement("div", {
+          style: { animation: "fadeIn 0.3s ease" }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { background: "#ef444410", border: "1px solid #ef444433", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
+        }, "\uD83D\uDD0D The reality"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, ex101.reality)), /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px" }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
+        }, "\uD83D\uDCA1 The lesson"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, ex101.lesson)))))),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
     "There are five habits that separate students who use AI well from students who let it use them. See if you can spot the issue in each scenario before revealing the analysis."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     title: "The 5 Habits"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, CT_CONCEPTS.map((cc, i) => /*#__PURE__*/React.createElement("button", {
-    key: cc.id,
-    onClick: () => { setActiveConcept(i); setShowAnalysis(false); },
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === activeConcept ? "var(--primary)" : "var(--bg)",
-      color: i === activeConcept ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === activeConcept ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === activeConcept ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, cc.icon, " ", cc.label))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, ct.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, ct.label), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, ct.desc))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--card)",
-      borderRadius: 10,
-      padding: "14px 16px",
-      border: "1px solid var(--rule)",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 }
-  }, "Prompt"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ct.scenario.prompt)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--card)",
-      borderRadius: 10,
-      padding: "14px 16px",
-      border: "1px solid var(--rule)",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-  }, "AI Response"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ct.scenario.response)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#f59e0b10",
-      border: "1px solid #f59e0b33",
-      borderRadius: 10,
-      padding: "12px 16px",
-      marginBottom: 12,
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: { fontSize: 14, fontWeight: 600, color: "var(--ink)" }
-  }, "\uD83E\uDDD0 ", ct.scenario.question)), !showAnalysis ? /*#__PURE__*/React.createElement("button", {
-    onClick: () => setShowAnalysis(true),
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: "var(--primary)",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600,
-      width: "100%"
-    }
-  }, "\uD83D\uDD0D Reveal the analysis") : /*#__PURE__*/React.createElement("div", {
-    style: {
-      animation: "fadeIn 0.3s ease",
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 14,
-      fontSize: 14,
-      color: "var(--ink)",
-      lineHeight: 1.6
-    }
-  }, "\uD83D\uDCA1 ", ct.scenario.analysis))),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: CT_CONCEPTS,
+      currentIdx: activeConcept,
+      started: started5Habits,
+      onStart: function() { setStarted5Habits(true); },
+      onNext: function() { setActiveConcept(activeConcept + 1); setShowAnalysis(false); },
+      canAdvance: showAnalysis,
+      isComplete: activeConcept >= CT_CONCEPTS.length,
+      startLabel: "First Habit",
+      nextLabel: "Next Habit \u2192",
+      finishLabel: "All five locked in",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDE0"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Five habits, one job."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Stay in the loop. Every prompt, every answer, every time."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
+        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, ct.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
+        }, ct.label), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+        }, ct.desc))),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginTop: 14, marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 }
+        }, "Prompt"), /*#__PURE__*/React.createElement("div", {
+          style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, ct.scenario.prompt)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
+        }, "AI Response"), /*#__PURE__*/React.createElement("div", {
+          style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, ct.scenario.response)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#f59e0b10", border: "1px solid #f59e0b33", borderRadius: 10, padding: "12px 16px", marginBottom: 12, textAlign: "center" }
+        }, /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 14, fontWeight: 600, color: "var(--ink)" }
+        }, "\uD83E\uDDD0 ", ct.scenario.question)),
+        !showAnalysis ? /*#__PURE__*/React.createElement("button", {
+          onClick: function() { setShowAnalysis(true); },
+          style: { padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, width: "100%" }
+        }, "\uD83D\uDD0D Reveal the analysis") : /*#__PURE__*/React.createElement("div", {
+          style: { animation: "fadeIn 0.3s ease", background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 14, fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, "\uD83D\uDCA1 ", ct.scenario.analysis))),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
       "Critical thinking starts before you even open AI. For each situation, decide whether AI helps you learn, or whether it skips the part where the learning actually happens."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -6957,7 +6872,7 @@ function CriticalThinkingSection(props) {
     problem: "The debate prep (arguing, challenging each other's ideas, finding weaknesses in your own position) is where the learning happens. AI gives you a polished list, but nobody on the team actually thought through why those arguments work.",
     instead: "Brainstorm as a group first. Debate each other. Build your arguments through conversation. Then, if you want, use AI as a stress-test: \"here's our argument: what's the strongest counterargument?\" Let it challenge your thinking, not replace it."
   }];
-  var sb = STEPBACK[activeStepback];
+  var sb = STEPBACK[activeStepback] || STEPBACK[STEPBACK.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -6965,87 +6880,55 @@ function CriticalThinkingSection(props) {
       fontSize: 17,
       lineHeight: 1.65
     }
-  }, "Using AI well also means knowing when ", /*#__PURE__*/React.createElement("strong", null, "not"), " to use it."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, STEPBACK.map((item, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => setActiveStepback(i),
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === activeStepback ? "var(--primary)" : "var(--bg)",
-      color: i === activeStepback ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === activeStepback ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === activeStepback ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, item.icon, " ", item.label))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, sb.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, sb.title), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, sb.desc))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#f59e0b10",
-      border: "1px solid #f59e0b33",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginTop: 14,
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 }
-  }, "\uD83D\uDCCB The scenario"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, sb.scenario)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#ef444410",
-      border: "1px solid #ef444433",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
-  }, "\u274C The problem"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, sb.problem)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#10b98110",
-      border: "1px solid #10b98133",
-      borderRadius: 10,
-      padding: "14px 16px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-  }, "\u2705 Try this instead"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, sb.instead)))));
+  }, "Using AI well also means knowing when ", /*#__PURE__*/React.createElement("strong", null, "not"), " to use it."), /*#__PURE__*/React.createElement(RevealSequence, {
+      items: STEPBACK,
+      currentIdx: activeStepback,
+      started: startedStepback,
+      onStart: function() { setStartedStepback(true); },
+      onNext: function() { setActiveStepback(activeStepback + 1); },
+      canAdvance: true,
+      isComplete: activeStepback >= STEPBACK.length,
+      startLabel: "First Situation",
+      nextLabel: "Next Situation \u2192",
+      finishLabel: "Done with all four",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u270B"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Knowing when to skip AI is the skill."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "If the friction is the point, the AI shortcut isn't a shortcut. It's a detour around the learning."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
+        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, sb.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
+        }, sb.title), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+        }, sb.desc))),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#f59e0b10", border: "1px solid #f59e0b33", borderRadius: 10, padding: "14px 16px", marginTop: 14, marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 }
+        }, "\uD83D\uDCCB The scenario"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, sb.scenario)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#ef444410", border: "1px solid #ef444433", borderRadius: 10, padding: "14px 16px", marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
+        }, "\u274C The problem"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, sb.problem)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
+        }, "\u2705 Try this instead"), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, sb.instead)))));
   }()),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 18px", marginTop: 28, marginBottom: 20, border: "1px solid var(--rule)" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 } }, "Callback"),
@@ -7125,6 +7008,7 @@ function PromptingSection(props) {
   const [exerciseAnswer, setExerciseAnswer] = useState(null);
   const [exerciseRevealed, setExerciseRevealed] = useState(false);
   const [promptDemo, setPromptDemo] = useState("kid");
+  const [startedFixPrompt, setStartedFixPrompt] = useState(false);
   const PROMPT_EXERCISES = [{
     quality: "Clarity",
     icon: "\uD83D\uDCA1",
@@ -7168,7 +7052,7 @@ function PromptingSection(props) {
     good: "Compare UCLA and UC Berkeley in a table with these columns: Category, UCLA, UC Berkeley. Cover: acceptance rate, average class size, strongest programs, campus vibe, cost of attendance for California residents, and distance from home (I'm in San Diego). Keep each cell to 1-2 sentences so I can show my parents.",
     explain: "The weak prompt might return five paragraphs you'd have to reorganize yourself. The strong prompt specifies the format (table), the categories to compare, the level of detail (1-2 sentences per cell), and the audience (parents). Format instructions turn an AI wall-of-text into something you can actually use."
   }];
-  const ex = PROMPT_EXERCISES[exerciseIdx];
+  const ex = PROMPT_EXERCISES[exerciseIdx] || PROMPT_EXERCISES[PROMPT_EXERCISES.length - 1];
   const q = PROMPT_QUALITIES[activeQuality];
   const BEFORE_AFTER = [{
     bad: "Help me study history.",
@@ -7457,28 +7341,24 @@ function PromptingSection(props) {
     variant: "try",
     title: "Fix the Prompt"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 6,
-      marginBottom: 20
-    }
-  }, PROMPT_EXERCISES.map((pe, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => { setExerciseIdx(i); setExerciseAnswer(null); setExerciseRevealed(false); },
-    style: {
-      flex: 1,
-      padding: "8px 12px",
-      borderRadius: 8,
-      background: i === exerciseIdx ? "var(--primary)" : "var(--bg)",
-      color: i === exerciseIdx ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === exerciseIdx ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === exerciseIdx ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600
-    }
-  }, pe.icon, " ", pe.quality))),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: PROMPT_EXERCISES,
+      currentIdx: exerciseIdx,
+      started: startedFixPrompt,
+      onStart: function() { setStartedFixPrompt(true); },
+      onNext: function() { setExerciseIdx(exerciseIdx + 1); setExerciseAnswer(null); setExerciseRevealed(false); },
+      canAdvance: exerciseRevealed,
+      isComplete: exerciseIdx >= PROMPT_EXERCISES.length,
+      startLabel: "First Scenario",
+      nextLabel: "Next Scenario \u2192",
+      finishLabel: "Wrap it up",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u270D\uFE0F"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "All four prompts upgraded."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Same model. Same task. Better question. The output follows the prompt."))
+    },
     /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#6e51ff10",
@@ -7568,7 +7448,7 @@ function PromptingSection(props) {
       color: "var(--ink)",
       lineHeight: 1.6
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain))),
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain)))),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, onClick: () => props.onNavigate && props.onNavigate("thoughtpartner"), label: "Next: Your Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
@@ -7848,7 +7728,9 @@ function EvaluatingSection(props) {
   const [activeCriterion, setActiveCriterion] = useState(0);
   const [showExample, setShowExample] = useState(false);
   const [iterationStep, setIterationStep] = useState(0);
-  const c = EVAL_CRITERIA[activeCriterion];
+  const [startedCriteria, setStartedCriteria] = useState(false);
+  const [startedRefine, setStartedRefine] = useState(false);
+  const c = EVAL_CRITERIA[activeCriterion] || EVAL_CRITERIA[EVAL_CRITERIA.length - 1];
   const ITERATION_STEPS = [{
     step: 1,
     label: "First attempt",
@@ -7871,7 +7753,7 @@ function EvaluatingSection(props) {
     issue: null,
     action: null
   }];
-  const iterStep = ITERATION_STEPS[iterationStep];
+  const iterStep = ITERATION_STEPS[iterationStep] || ITERATION_STEPS[ITERATION_STEPS.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "evaluating" }), /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", marginBottom: 20, paddingBottom: 16, borderBottom: "1px solid var(--rule)" }
   }, /*#__PURE__*/React.createElement("div", {
@@ -7928,124 +7810,69 @@ function EvaluatingSection(props) {
     variant: "see",
     title: "The 6 Criteria"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, EVAL_CRITERIA.map((ec, i) => /*#__PURE__*/React.createElement("button", {
-    key: ec.id,
-    onClick: () => { setActiveCriterion(i); setShowExample(false); },
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === activeCriterion ? "var(--primary)" : "var(--bg)",
-      color: i === activeCriterion ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === activeCriterion ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === activeCriterion ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, ec.icon, " ", ec.label))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, c.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, c.label), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--primary)", fontWeight: 600, fontStyle: "italic" }
-  }, c.question))), /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 }
-  }, c.desc), /*#__PURE__*/React.createElement("div", {
-    style: { marginBottom: 16 }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 8 }
-  }, "What to check"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", flexDirection: "column", gap: 6 }
-  }, c.checkpoints.map((cp, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      display: "flex",
-      alignItems: "flex-start",
-      gap: 8,
-      background: "var(--card)",
-      borderRadius: 8,
-      padding: "8px 12px",
-      border: "1px solid var(--rule)",
-      fontSize: 13,
-      color: "var(--ink)",
-      lineHeight: 1.5
-    }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, flexShrink: 0 } }, "\u2022"), cp)))), !showExample ? /*#__PURE__*/React.createElement("button", {
-    onClick: () => setShowExample(true),
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: "var(--primary)",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600,
-      width: "100%"
-    }
-  }, "\uD83D\uDD0D Show example") : /*#__PURE__*/React.createElement("div", {
-    style: { animation: "fadeIn 0.3s ease" }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--card)",
-      borderRadius: 10,
-      padding: "14px 16px",
-      border: "1px solid var(--rule)",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 }
-  }, "Prompt"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, c.example.prompt)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--card)",
-      borderRadius: 10,
-      padding: "14px 16px",
-      border: "1px solid var(--rule)",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-  }, "Response"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, c.example.response)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: c.example.verdict === "pass" ? "#ecfdf5" : "#fef2f2",
-      border: "1px solid " + (c.example.verdict === "pass" ? "#86efac" : "#fca5a5"),
-      borderRadius: 10,
-      padding: "12px 16px",
-      fontSize: 14,
-      color: "var(--ink)",
-      lineHeight: 1.6
-    }
-  }, /*#__PURE__*/React.createElement("strong", {
-    style: { color: c.example.verdict === "pass" ? "#16a34a" : "#dc2626" }
-  }, c.example.verdict === "pass" ? "\u2705 Pass" : "\u274C Fail"), " ", c.example.note))))),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: EVAL_CRITERIA,
+      currentIdx: activeCriterion,
+      started: startedCriteria,
+      onStart: function() { setStartedCriteria(true); },
+      onNext: function() { setActiveCriterion(activeCriterion + 1); setShowExample(false); },
+      canAdvance: showExample,
+      isComplete: activeCriterion >= EVAL_CRITERIA.length,
+      startLabel: "First Criterion",
+      nextLabel: "Next Criterion \u2192",
+      finishLabel: "Done with the checklist",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u2705"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Six checks. One question."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Is this answer good enough to use? Run every output through this list before you trust it."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
+        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, c.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
+        }, c.label), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--primary)", fontWeight: 600, fontStyle: "italic" }
+        }, c.question))),
+        /*#__PURE__*/React.createElement("p", {
+          style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 }
+        }, c.desc),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 8 }
+          }, "What to check"),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+            c.checkpoints.map(function(cp, i) { return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { display: "flex", alignItems: "flex-start", gap: 8, background: "var(--card)", borderRadius: 8, padding: "8px 12px", border: "1px solid var(--rule)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }
+            }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, flexShrink: 0 } }, "\u2022"), cp); }))),
+        !showExample ? /*#__PURE__*/React.createElement("button", {
+          onClick: function() { setShowExample(true); },
+          style: { padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, width: "100%" }
+        }, "\uD83D\uDD0D Show example") : /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
+          /*#__PURE__*/React.createElement("div", {
+            style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 }
+          }, "Prompt"), /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+          }, c.example.prompt)),
+          /*#__PURE__*/React.createElement("div", {
+            style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
+          }, "Response"), /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+          }, c.example.response)),
+          /*#__PURE__*/React.createElement("div", {
+            style: { background: c.example.verdict === "pass" ? "#ecfdf5" : "#fef2f2", border: "1px solid " + (c.example.verdict === "pass" ? "#86efac" : "#fca5a5"), borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+          }, /*#__PURE__*/React.createElement("strong", {
+            style: { color: c.example.verdict === "pass" ? "#16a34a" : "#dc2626" }
+          }, c.example.verdict === "pass" ? "\u2705 Pass" : "\u274C Fail"), " ", c.example.note))))),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
     "When the output isn\u2019t good enough, don\u2019t start over. Instead, ", /*#__PURE__*/React.createElement("strong", null, "refine and try again"), "."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -8101,29 +7928,25 @@ function EvaluatingSection(props) {
     variant: "see",
     title: "Prompt \u2192 Evaluate \u2192 Refine"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 8,
-      marginBottom: 16
-    }
-  }, ITERATION_STEPS.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => setIterationStep(i),
-    style: {
-      flex: 1,
-      padding: "8px 10px",
-      borderRadius: 8,
-      background: i === iterationStep ? "var(--primary)" : "var(--bg)",
-      color: i === iterationStep ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === iterationStep ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === iterationStep ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600
-    }
-  }, "Round ", s.step))),
-    /*#__PURE__*/React.createElement("div", {
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: ITERATION_STEPS,
+      currentIdx: iterationStep,
+      started: startedRefine,
+      onStart: function() { setStartedRefine(true); },
+      onNext: function() { setIterationStep(iterationStep + 1); },
+      canAdvance: true,
+      isComplete: iterationStep >= ITERATION_STEPS.length,
+      startLabel: "Round 1",
+      nextLabel: "Next Round \u2192",
+      finishLabel: "See the takeaway",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDD04"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Prompt. Evaluate. Refine. Repeat."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Three rounds got us from a generic summary to a real Instagram post. Each round was a small refinement, not a complete rewrite."))
+    },
+      /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--bg)",
       borderRadius: 12,
@@ -8168,7 +7991,7 @@ function EvaluatingSection(props) {
       fontSize: 14,
       lineHeight: 1.6
     }
-  }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))),
+  }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "True isn\u2019t enough. The question is: {would you actually use this?}" }),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: showExample || activeCriterion > 0, onClick: () => props.onNavigate && props.onNavigate("questionsvaluable"), label: "Next: Questions Matter" })));
 }

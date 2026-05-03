@@ -887,6 +887,11 @@ function AIHistorySection(props) {
     { label: "Pre-trained", desc: "It learned from billions of pages of text, images, audio, video, and code before you ever used it.", color: "#f59e0b" },
     { label: "Transformer", desc: "The architecture that lets it process all your words at once, not one at a time.", color: "#8b5cf6" }
   ];
+  var MAPS_LENS = [
+    { icon: "\uD83D\uDEE3\uFE0F", label: "Patterns", desc: "Road speed, traffic, time of day, accidents, and your past trips." },
+    { icon: "\uD83D\uDCCA", label: "Probability", desc: "Which route is most likely to be fastest right now?" },
+    { icon: "\u23F1\uFE0F", label: "Prediction", desc: "Your route and estimated arrival time." }
+  ];
   var EVERYDAY_AI_USES = [
     { icon: "\uD83C\uDFA7", label: "Recommendations", prediction: "Predicts what you might like next.", examples: "Spotify, Netflix, TikTok" },
     { icon: "\uD83D\uDDFA\uFE0F", label: "Navigation", prediction: "Predicts traffic and arrival time.", examples: "Google Maps, Waze" },
@@ -926,6 +931,9 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
     }, "Every time AI writes a sentence, it\u2019s running math to predict the most likely answer. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "The subtitle of this class names the lens: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI systems find repeated signals in data, estimate what is most likely, and use those estimates to choose or generate an output. You\u2019ll see this same lens show up in every lesson."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "YOU ALREADY USE AI"),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 20, padding: 24, marginBottom: 30 }
@@ -959,7 +967,36 @@ function AIHistorySection(props) {
           })))),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
-    }, "This course mainly focuses on LLMs, how they work, and the products built around them."),
+    }, "Let\u2019s open one of those boxes. Google Maps is a good example. When it gives you driving directions, it isn\u2019t magically seeing the future. It\u2019s making a prediction using the same lens."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 24 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "inline-block", background: "var(--primary)", color: "#fff", fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "4px 12px", letterSpacing: 0.5, marginBottom: 12 }
+      }, "Example: Google Maps"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 6 }
+      }, "How does it give you directions?"),
+      /*#__PURE__*/React.createElement("p", {
+        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
+      }, "It uses the same three moves, even though it\u2019s not the same kind of AI as ChatGPT."),
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }
+      }, MAPS_LENS.map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, item.label),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+      }))),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "And sometimes it misses. A route takes longer than expected. A shortcut turns slower. The arrival time changes while you\u2019re driving. Usually we forgive it because it\u2019s still useful, and we may not even know what the better route would have been."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
+    }, "That\u2019s the attitude we want with tools like ChatGPT: useful, impressive, and sometimes wrong. The goal isn\u2019t to reject the tool. It\u2019s to understand what kind of prediction machine you\u2019re using."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "WORDS YOU'LL HEAR"),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 32 }
@@ -1693,6 +1730,47 @@ function AIStrengthsSection(props) {
 function WhyDeeperSection(props) {
   var E = React.createElement;
   var pStyle = { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 };
+  const [missingIdx, setMissingIdx] = useState(0);
+  const [missingAnswer, setMissingAnswer] = useState(null);
+  const [startedMissing, setStartedMissing] = useState(false);
+  const MISSING_SCENARIOS = [{
+    prompt: "What\u2019s the best way to study?",
+    response: "The best way to study is the active recall method. Test yourself on the material instead of just rereading. Use spaced repetition to space out your review sessions. Take breaks every 25 minutes. Get good sleep and stay hydrated.",
+    options: [
+      { label: "Framing the real problem", correct: true, feedback: "Right. \u2018Best way to study\u2019 doesn\u2019t mean anything without context. Study for what subject? What test format? How long do you have? Do you learn better by writing or by talking it through? The AI gave you a generic answer because the question was generic. Frame the real problem and the answer changes." },
+      { label: "Understanding how AI thinks", correct: false, feedback: "Not quite. The AI\u2019s tips are real and reasonable. The problem isn\u2019t that the AI made something up. The problem is that without knowing your specific situation, even good tips are useless." },
+      { label: "Checking what matters", correct: false, feedback: "These are well-known study tips that wouldn\u2019t require fact-checking. The deeper issue is that the AI couldn\u2019t give you a useful answer because you didn\u2019t give it enough to work with." },
+      { label: "Making the human call", correct: false, feedback: "There\u2019s no judgment call here. The issue is upstream: you asked too vague a question. The AI can\u2019t make a call because there\u2019s nothing specific to call on." }
+    ]
+  }, {
+    prompt: "Summarize the main themes of \u2018To Kill a Mockingbird.\u2019",
+    response: "The novel explores racial injustice through the trial of Tom Robinson, who is falsely accused. A pivotal scene shows Atticus delivering his final courtroom speech, breaking down in tears as he points to the jury and asks them to remember they have children too. The novel also examines childhood innocence through Scout\u2019s eyes.",
+    options: [
+      { label: "Framing the real problem", correct: false, feedback: "The question is clear enough. The deeper issue is in the response itself, not the prompt." },
+      { label: "Understanding how AI thinks", correct: true, feedback: "Right. The AI is generating what a courtroom speech in this novel WOULD sound like, not what it actually says. Atticus does not break down in tears in his final speech. He doesn\u2019t point to the jury. The model pattern-matched a powerful courtroom scene. Knowing the model can fabricate vivid details is the edge." },
+      { label: "Checking what matters", correct: false, feedback: "Verification is part of it, but the deeper issue is understanding why this happens. The AI didn\u2019t fail at fact-checking. It generated a plausible-sounding scene from patterns. Knowing how the tool thinks is what tells you to check." },
+      { label: "Making the human call", correct: false, feedback: "No judgment call here. The model is just confidently wrong about a specific scene. Knowing how it thinks is what tips you off." }
+    ]
+  }, {
+    prompt: "What are the strongest arguments against the death penalty?",
+    response: "The three strongest arguments are: (1) wrongful conviction risk, citing the Innocence Project\u2019s 2023 report showing 187 exonerations from death row since 1973; (2) cost, citing a 2019 Stanford study that found capital cases cost 8x more than life-without-parole cases; (3) lack of deterrent effect, citing the 2021 National Research Council meta-analysis.",
+    options: [
+      { label: "Framing the real problem", correct: false, feedback: "The question is well-framed. The issue is what comes after." },
+      { label: "Understanding how AI thinks", correct: false, feedback: "Knowing how AI thinks is part of why you\u2019d check. But the specific move here is the verification itself. You need to verify those citations exist before you use them." },
+      { label: "Checking what matters", correct: true, feedback: "Right. The AI gave you specific numbers, named sources, and dates. That\u2019s exactly the pattern hallucinations take. Before you use any of these citations in an essay or argument, verify each one. Some of those studies might be real. Some might be the model pattern-matching what a real citation would sound like." },
+      { label: "Making the human call", correct: false, feedback: "No values judgment is being asked. The arguments themselves are reasonable; the question is whether the supporting evidence is real." }
+    ]
+  }, {
+    prompt: "Should I major in computer science or English?",
+    response: "Computer science offers stronger immediate job prospects with median starting salaries around $75K and high demand for technical roles. English builds critical thinking, writing, and communication skills that are valuable across many careers. Computer science is more practical; English is more flexible. The data favors computer science for early-career income.",
+    options: [
+      { label: "Framing the real problem", correct: false, feedback: "The question is direct. The deeper issue is whether the AI should be answering it at all." },
+      { label: "Understanding how AI thinks", correct: false, feedback: "The AI\u2019s reasoning here isn\u2019t hallucinated; it\u2019s the kind of reasonable summary you\u2019d find in a career guide. The issue is whose decision this is." },
+      { label: "Checking what matters", correct: false, feedback: "The numbers are roughly right. Verification isn\u2019t the issue. The issue is who should be making this call." },
+      { label: "Making the human call", correct: true, feedback: "Right. The AI gave a confident answer to a question that\u2019s actually about your values, your interests, what you love doing, and what you\u2019d still love doing in 20 years. The AI doesn\u2019t know any of that. \u2018The data favors computer science\u2019 isn\u2019t a decision. It\u2019s an input. The decision is yours." }
+    ]
+  }];
+  const ms = MISSING_SCENARIOS[Math.min(missingIdx, MISSING_SCENARIOS.length - 1)];
   var SHIFT_CARDS = [
     { eyebrow: "Before AI", title: "Answers were expensive", body: "Finding information, drafting, summarizing, coding, and rewriting all took time. A lot of work was just getting to a usable first answer." },
     { eyebrow: "With AI", title: "Answers are cheap", body: "First drafts, explanations, summaries, ideas, outlines, and code help can appear in seconds. That changes what counts as valuable." },
@@ -1754,6 +1832,46 @@ function WhyDeeperSection(props) {
             /*#__PURE__*/E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, card.title)),
           /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
       })),
+    /*#__PURE__*/E("p", { style: pStyle },
+      "Quick test. Each scenario shows an AI response that sounds confident. Pick which edge is missing."),
+    /*#__PURE__*/E(InteractiveBox, { variant: "try", title: "What's the AI Missing?" },
+      /*#__PURE__*/E(RevealSequence, {
+        items: MISSING_SCENARIOS,
+        currentIdx: missingIdx,
+        started: startedMissing,
+        onStart: function() { setStartedMissing(true); },
+        onNext: function() { setMissingIdx(missingIdx + 1); setMissingAnswer(null); },
+        canAdvance: missingAnswer !== null,
+        isComplete: missingIdx >= MISSING_SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "Done with all four",
+        completionElement: /*#__PURE__*/E("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/E("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDED"),
+          /*#__PURE__*/E("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "AI gave you four answers. You found what was missing in each one."),
+          /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "That\u2019s the edge. Not memorizing what AI is bad at. Noticing what\u2019s missing in real time."))
+      },
+        /*#__PURE__*/E("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
+        },
+          /*#__PURE__*/E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"),
+          /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, fontStyle: "italic" } }, "\u201C", ms.prompt, "\u201D")),
+        /*#__PURE__*/E("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+        },
+          /*#__PURE__*/E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\uD83E\uDD16 The AI response"),
+          /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, ms.response)),
+        /*#__PURE__*/E(QuizBlock, {
+          key: missingIdx,
+          statement: "Which human edge is missing here?",
+          questionNumber: missingIdx + 1,
+          totalQuestions: MISSING_SCENARIOS.length,
+          options: ms.options,
+          picked: missingAnswer != null ? missingAnswer : undefined,
+          onAnswer: function(idx) { setMissingAnswer(idx); }
+        }))),
     /*#__PURE__*/E("div", {
       style: { background: "linear-gradient(135deg, var(--primaryFaint), #fff)", borderRadius: 18, padding: 24, marginBottom: 30, boxShadow: "0 14px 36px rgba(76, 45, 255, 0.09)" }
     },
@@ -2655,6 +2773,12 @@ function DataSection(props) {
 function HowAIReadsSection(props) {
   var E = React.createElement;
   var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "IT", "was", "tired"];
+  const [itGuess, setItGuess] = useState(null);
+  const IT_OPTIONS = [
+    { word: "cat", correct: true, note: "Right. Your brain caught it instantly. The model has to work for this. It scans every word in the sentence, looking for clues that match \u2018was tired.\u2019 Cats get tired. Mats and rainstorms don\u2019t. The model assigns the highest connection weight to \u2018cat,\u2019 and that\u2019s how it carries the right meaning forward into the next layer." },
+    { word: "mat", correct: false, note: "Mat is the closest noun to \u2018IT,\u2019 so a simple system that just looks at nearby words might guess this. But mats don\u2019t get tired. The model has to look further to find the word that actually fits the predicate \u2018was tired.\u2019" },
+    { word: "rainstorm", correct: false, note: "Rainstorm is right next to \u2018because,\u2019 so it\u2019s a tempting candidate by position. But rainstorms don\u2019t get tired. The model uses the predicate \u2018was tired\u2019 to rule this out and keep looking for an animate noun." }
+  ];
 
   var pStyle = {
     color: "var(--inkSoft)",
@@ -2795,50 +2919,72 @@ function HowAIReadsSection(props) {
       "For example, look at this sentence:"
     ),
 
-    E("div", {
-      style: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 7,
-        rowGap: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        marginBottom: 12
-      }
-    },
-      sentenceWords.map(function(w, i) {
-        var important = w === "cat" || w === "mat" || w === "IT" || w === "tired";
-        return E("span", {
-          key: i,
-          style: {
-            background: important ? "var(--primaryFaint)" : "var(--bg)",
-            color: important ? "var(--primary)" : "var(--ink)",
-            borderRadius: 8,
-            padding: "6px 10px",
-            fontSize: 14,
-            fontFamily: "’Courier Prime’, monospace",
-            fontWeight: important ? 800 : 600
-          }
-        }, w);
-      })
-    ),
-    E("p", {
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-        color: "var(--inkSoft)",
-        lineHeight: 1.55,
-        marginBottom: 18
-      }
-    },
-      "Your brain knows ",
-      E("strong", null, "IT"),
-      " means ",
-      E("strong", null, "cat"),
-      ", not ",
-      E("strong", null, "mat"),
-      ". The model needs a way for those token vectors to find each other."
-    ),
+    E(InteractiveBox, { variant: "see", title: "Who Does \u201CIT\u201D Refer To?" },
+      E("div", {
+        style: {
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 7,
+          rowGap: 10,
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 18,
+          padding: "18px 12px",
+          background: "var(--card)",
+          borderRadius: 12,
+          border: "1px solid var(--rule)"
+        }
+      },
+        sentenceWords.map(function(w, i) {
+          var isClickable = (w === "cat" || w === "mat" || w === "rainstorm");
+          var isIT = w === "IT";
+          var isGuessed = itGuess && itGuess.word === w;
+          var bgColor, textColor;
+          if (isIT) { bgColor = "var(--primary)"; textColor = "#fff"; }
+          else if (isGuessed && itGuess.correct) { bgColor = "#10b981"; textColor = "#fff"; }
+          else if (isGuessed && !itGuess.correct) { bgColor = "#ef4444"; textColor = "#fff"; }
+          else if (isClickable && !itGuess) { bgColor = "var(--primaryFaint)"; textColor = "var(--primary)"; }
+          else { bgColor = "var(--bg)"; textColor = "var(--ink)"; }
+          return E("span", {
+            key: i,
+            onClick: isClickable && !itGuess ? function() { var opt = IT_OPTIONS.find(function(o) { return o.word === w; }); setItGuess(opt); } : null,
+            style: {
+              background: bgColor,
+              color: textColor,
+              borderRadius: 8,
+              padding: "8px 12px",
+              fontSize: 15,
+              fontFamily: "’Courier Prime’, monospace",
+              fontWeight: (isClickable || isIT) ? 800 : 600,
+              cursor: (isClickable && !itGuess) ? "pointer" : "default",
+              border: (isClickable && !itGuess) ? "2px dashed var(--primary)" : "2px solid transparent",
+              transition: "all 0.2s ease"
+            }
+          }, w);
+        })
+      ),
+      !itGuess ? E("p", {
+        style: { textAlign: "center", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, margin: 0, fontStyle: "italic" }
+      }, "Click the word IT refers to.") : E("div", {
+        style: {
+          background: itGuess.correct ? "#ecfdf5" : "#fef2f2",
+          border: "1px solid " + (itGuess.correct ? "#86efac" : "#fca5a5"),
+          borderRadius: 10,
+          padding: "14px 16px",
+          fontSize: 14,
+          color: "var(--ink)",
+          lineHeight: 1.6,
+          animation: "fadeIn 0.3s ease"
+        }
+      },
+        E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: itGuess.correct ? "#15803d" : "#dc2626", marginBottom: 6 } },
+          itGuess.correct ? "\u2705 Right" : "\u274C Not quite"),
+        itGuess.note,
+        !itGuess.correct ? E("div", { style: { marginTop: 10 } },
+          E("button", {
+            onClick: function() { setItGuess(null); },
+            style: { padding: "6px 14px", borderRadius: 6, background: "var(--card)", color: "var(--ink)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 13, fontWeight: 600 }
+          }, "Try Again")) : null)),
 
     E("p", { style: pStyle },
       "Earlier AI systems often processed text more sequentially, one token after another. That made long-distance relationships harder. Important early words could become harder to carry forward, especially in longer text."
@@ -5825,6 +5971,33 @@ function ContextSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: seen.length > 0, onClick: function() { props.onNavigate && props.onNavigate("probability"); }, label: "Next: Probability" }));
 }
 function CustomizationSection(props) {
+  const [setupIdx, setSetupIdx] = useState(0);
+  const SETUP_VERSIONS = [{
+    label: "Default",
+    sublabel: "No setup",
+    layers: ["Training only"],
+    response: "Sure, here are some general study tips: review your notes, use active recall by quizzing yourself, take breaks every 25 to 30 minutes, get a good night\u2019s sleep, and try to study in a quiet space without distractions. Want me to elaborate on any of these?",
+    explain: "The AI has no idea what test you have, what subject, or what you already know. It defaults to generic advice. Useful only if you really know nothing about studying. Useless for actually preparing."
+  }, {
+    label: "+ Custom Instruction",
+    sublabel: "You set: 'Be direct'",
+    layers: ["Training", "Custom instruction"],
+    response: "I can give you a focused plan, but I need to know what test it is. What subject? Multiple choice or essay? What units does it cover? Tell me that and we\u2019ll skip the warmup.",
+    explain: "Now the AI knows you want directness, so it skips generic tips. But it still has no clue what test you mean. The custom instruction shapes HOW it responds, not what it knows."
+  }, {
+    label: "+ Memory",
+    sublabel: "Stored: your test schedule",
+    layers: ["Training", "Custom instruction", "Memory"],
+    response: "Got it. For AP Bio tomorrow, you mentioned last week that cellular respiration was tripping you up. Want to start there? I\u2019ll give you a focused 2-hour plan covering glycolysis, the Krebs cycle, and the electron transport chain, with a quick concept check after each section.",
+    explain: "Memory loaded your test schedule and a past concern into the context window. The AI now \u2018remembers\u2019 you have AP Bio Tuesday and that cellular respiration was a struggle. None of this is new intelligence. It\u2019s just text the AI gets to read at the start of every conversation."
+  }, {
+    label: "+ This Conversation",
+    sublabel: "Earlier you said: 'I'm freaking out'",
+    layers: ["Training", "Custom instruction", "Memory", "Current conversation"],
+    response: "Take a breath. Two hours is enough for cellular respiration if we focus. Forget glycolysis details for now; let\u2019s nail the big picture first: where ATP comes from, why oxygen matters, and the three stages in order. Once that clicks, the details follow. Ready to start with one question?",
+    explain: "Now everything in the current chat shapes the response too. The AI heard \u2018I\u2019m freaking out,\u2019 so it adjusts the tone, narrows the scope, and offers a starting point. Same prompt, four layers later, completely different help."
+  }];
+  const sv = SETUP_VERSIONS[setupIdx];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -5953,7 +6126,56 @@ function CustomizationSection(props) {
       marginTop: 18,
       marginBottom: 18
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Key distinction:"), " Training shapes the model itself. Everything else (memory, custom instructions, your conversation) is text loaded into the context window. The model doesn\u2019t know which layer it came from. It\u2019s all just tokens."), /*#__PURE__*/React.createElement(BottomLine, { thought: "Same model, {completely different behavior} depending on how it\u2019s set up." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("critical") }, "Next: Using AI Well"));
+  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Key distinction:"), " Training shapes the model itself. Everything else (memory, custom instructions, your conversation) is text loaded into the context window. The model doesn\u2019t know which layer it came from. It\u2019s all just tokens."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+  }, "Watch how each layer changes the same prompt. The AI is identical. The setup is what shifts."),
+  /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", title: "Same Prompt, Different Setup" },
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 18 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"),
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "\u201CHelp me study for tomorrow.\u201D")),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 6, marginBottom: 18 }
+    }, SETUP_VERSIONS.map(function(v, i) {
+      return /*#__PURE__*/React.createElement("button", {
+        key: i,
+        onClick: function() { setSetupIdx(i); },
+        style: {
+          padding: "10px 8px",
+          borderRadius: 8,
+          background: i === setupIdx ? "var(--primary)" : "var(--bg)",
+          color: i === setupIdx ? "#fff" : "var(--inkMuted)",
+          border: "2px solid " + (i === setupIdx ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"),
+          boxShadow: i === setupIdx ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
+          cursor: "pointer",
+          fontSize: 12,
+          fontWeight: 700,
+          textAlign: "center",
+          lineHeight: 1.3
+        }
+      },
+        /*#__PURE__*/React.createElement("div", null, v.label),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 500, opacity: 0.85, marginTop: 3 } }, v.sublabel));
+    })),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }
+    }, sv.layers.map(function(layer, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { background: "var(--primaryFaint)", color: "var(--primary)", borderRadius: 999, padding: "4px 10px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }
+      }, layer);
+    })),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)", marginBottom: 14, animation: "fadeIn 0.3s ease" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 The response"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, sv.response)),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, animation: "fadeIn 0.3s ease" }
+    }, "\uD83D\uDCA1 ", sv.explain)),
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Same model, {completely different behavior} depending on how it\u2019s set up." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("critical") }, "Next: Using AI Well"));
 }
 const TEMP_OUTPUTS = {
   "Once upon a time": {
@@ -9062,157 +9284,123 @@ function WhatYouLearnedSection(props) {
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("fullworkflow") }, "Next: Full Workflow"));
 }
 function FullWorkflowSection(props) {
-  const [walkStep, setWalkStep] = useState(0);
-  const WALKTHROUGH = [{
+  const [stageIdx, setStageIdx] = useState(0);
+  const [stageAnswer, setStageAnswer] = useState(null);
+  const [startedWorkflow, setStartedWorkflow] = useState(false);
+  const WORKFLOW_STAGES = [{
     step: 1,
-    title: "Start with critical thinking",
-    icon: "\uD83E\uDDD0",
     section: "Critical Thinking",
-    desc: "Before you even open an AI tool, ask yourself: what am I trying to accomplish? What do I already know? What do I need help with?",
-    example: "You have a history paper on the space race due Friday. You know the basics (Apollo 11, Cold War rivalry) but need to develop a thesis about how it reflected larger political tensions.",
-    action: "You've identified what you know and what you need. Now you're ready to prompt with purpose instead of just typing \"write about the space race.\""
+    icon: "\uD83E\uDDD0",
+    title: "What do you do FIRST?",
+    setup: "You haven\u2019t opened AI yet. The debate is in 4 days.",
+    options: [
+      { label: "Open Claude and type \u2018give me the best arguments for school uniforms.\u2019", correct: false, feedback: "You skipped the most important step. AI can give you 10 arguments, but if you don\u2019t know your own position or what evidence you\u2019d find convincing, you can\u2019t evaluate which arguments are actually strong. You\u2019ll memorize someone else\u2019s thinking instead of building your own." },
+      { label: "Google \u2018school uniforms debate\u2019 and read the top 5 articles to figure out what you think.", correct: false, feedback: "Reading is fine, but you\u2019re still skipping the critical thinking step. The articles will tell you what they think, not help you figure out what YOU think. Start with what\u2019s in your own head." },
+      { label: "Sit with a notebook for 5 minutes. Figure out what you already know, what you actually believe, and what specifically you need help with.", correct: true, feedback: "Right. Critical thinking starts before you open any tool. You can\u2019t prompt well if you don\u2019t know what you\u2019re trying to do. Five minutes of thinking saves you an hour of bad AI output." }
+    ]
   }, {
     step: 2,
-    title: "Craft a strong prompt",
-    icon: "\u270D\uFE0F",
     section: "Prompting",
-    desc: "Apply the 7 qualities: be clear, give context, be specific, set a role if helpful, and ask for one thing at a time.",
-    example: "\"I'm writing a 5-page AP History paper on the space race. I need a thesis statement arguing that the space race was more about political image than scientific progress. Give me 3 thesis options with different angles.\"",
-    action: "This prompt has clarity (thesis options), context (AP History, 5 pages), specificity (political image vs. science), and a focused ask (3 options). Much better than \"help me with my paper.\""
+    icon: "\u270D\uFE0F",
+    title: "What\u2019s your first prompt?",
+    setup: "You decided you\u2019re arguing AGAINST school uniforms. You know the freedom-of-expression angle but want stronger economic and social arguments.",
+    options: [
+      { label: "\u2018Help me with my debate about school uniforms.\u2019", correct: false, feedback: "Way too vague. The AI doesn\u2019t know which side you\u2019re on, what kind of help you want, what you already have, or what counts as good. You\u2019ll get a generic overview that doesn\u2019t advance your thinking." },
+      { label: "\u2018I\u2019m a 10th grader prepping for a class debate AGAINST school uniforms. I already have the freedom-of-expression angle. Give me 3 strong arguments from economic and social angles, with the strongest evidence I could actually find sources for.\u2019", correct: true, feedback: "Right. Role (10th grader), format (debate), position (against), what you have, what you need (3 arguments, 2 specific angles), and a quality bar (evidence you can verify). The AI now has enough to actually help." },
+      { label: "\u2018School uniforms have been a debate topic for many years and there are arguments on both sides. I am a 10th grader and I have a debate coming up next week. My side is against. Could you please share with me some arguments? Make them really good ones because my grade depends on this.\u2019", correct: false, feedback: "Long but not specific. The setup buries the ask. \u2018Really good ones\u2019 isn\u2019t a quality bar. \u2018My grade depends on this\u2019 doesn\u2019t make the AI try harder. Length isn\u2019t the same as clarity." }
+    ]
   }, {
     step: 3,
-    title: "Evaluate the response",
-    icon: "\uD83D\uDD0D",
     section: "Evaluating",
-    desc: "Run through the 6 criteria: Is it accurate? Relevant? Complete? Right tone? Right format? Any bias?",
-    example: "AI gives you three thesis options. Option 2 mentions a \"1964 joint lunar agreement between the US and USSR\" that you've never heard of. Options 1 and 3 reference events you recognize.",
-    action: "Red flag on option 2: that agreement might be hallucinated. You verify: it doesn't exist. You discard option 2, refine option 1 (which checks out), and move forward with confidence."
+    icon: "\uD83D\uDD0D",
+    title: "What\u2019s your move?",
+    setup: "AI gave you 3 arguments. One of them cites a 2019 study from Yale showing uniforms reduced classroom focus by 23%. Sounds great for your side.",
+    options: [
+      { label: "Use it. The number is specific, the source is named, the year is recent. Solid.", correct: false, feedback: "That\u2019s exactly the trap. \u2018Specific number + named source\u2019 is what hallucinations look like. The model isn\u2019t lying on purpose. It\u2019s pattern-matching what a real study citation would sound like. If you cite this in the debate and it\u2019s fake, your whole argument loses." },
+      { label: "Throw out the whole response and start over. If the AI made one thing up, the rest is probably wrong too.", correct: false, feedback: "Overcorrecting. The other arguments may be solid. The right move is to verify the parts that matter (the specific claims you\u2019d use), not to nuke everything." },
+      { label: "Search Google Scholar and Yale\u2019s site for \u2018Yale 2019 school uniforms classroom focus study.\u2019 If it doesn\u2019t exist, drop that argument and keep the others.", correct: true, feedback: "Right. The strongest claims are also the most likely to be hallucinated. Verify the specific studies and stats you\u2019d cite. Keep what\u2019s real, drop what isn\u2019t. (Spoiler: that Yale study doesn\u2019t exist.)" }
+    ]
   }, {
     step: 4,
-    title: "Iterate and refine",
+    section: "Iterating",
     icon: "\uD83D\uDD04",
-    section: "Evaluating",
-    desc: "The first response is a draft, not a final answer. Use what you learned from evaluation to improve.",
-    example: "Option 1's thesis is good but too broad. You ask: \"Narrow this thesis to focus specifically on how Kennedy used the moon landing as a Cold War propaganda tool.\"",
-    action: "Now you have a focused, specific thesis you understand well enough to defend. The AI helped you think, but the direction is yours."
+    title: "What\u2019s the followup prompt?",
+    setup: "You verified two arguments. The third (about uniform costs hitting low-income families) is real, but the AI\u2019s version of it is weak. You want to strengthen it.",
+    options: [
+      { label: "Start a new chat. Type the original prompt again, but ask for \u2018better arguments this time.\u2019", correct: false, feedback: "Restarting throws away the work you already did. The AI has no idea what \u2018better\u2019 means here, and you\u2019ll likely get the same level of output. Refining beats restarting." },
+      { label: "\u2018The third argument about uniform costs is the right idea but feels weak. Strengthen it: name a specific dollar range that\u2019s realistic, name what families typically spend, and give me one angle the opposing side can\u2019t easily counter.\u2019", correct: true, feedback: "Right. You\u2019re telling the AI what\u2019s working, what isn\u2019t, and what specifically would make it stronger. The AI can iterate because you gave it a target. (Verify the dollar ranges before you use them.)" },
+      { label: "Copy the third argument into your notes as is. The basic idea is what matters; the rest you can wing.", correct: false, feedback: "\u2018I\u2019ll wing it\u2019 is how a debate falls apart in front of judges. The AI gave you a draft. Iterate on it until it\u2019s sharp. That\u2019s what AI is actually good at." }
+    ]
   }, {
     step: 5,
-    title: "Use it with integrity",
+    section: "Integrity",
     icon: "\uD83C\uDF93",
-    section: "Academic Integrity",
-    desc: "You have a great thesis. Now write the paper yourself. Use AI as a research aid, not a ghostwriter.",
-    example: "You write your paper, using AI to clarify concepts you don't understand (\"Explain the Outer Space Treaty of 1967 in simple terms\") and to review your draft (\"Does my argument in paragraph 3 logically follow from paragraph 2?\").",
-    action: "The paper is yours. AI helped you research and refine, but every argument, every sentence, every insight is in your own voice. You can explain and defend every part of it."
+    title: "Final move. What goes in the actual debate?",
+    setup: "You have 3 verified, refined arguments. The debate is tomorrow.",
+    options: [
+      { label: "Memorize the AI\u2019s wording exactly so you can deliver it cleanly.", correct: false, feedback: "If a judge asks a followup question, you have nothing. You memorized words instead of understanding the argument. The whole point of doing the work was to be able to defend the position, not perform it." },
+      { label: "Print the AI output and read from it during the debate.", correct: false, feedback: "Beyond probably violating the debate rules, you\u2019d be performing AI\u2019s thinking, not yours. Anyone watching can tell." },
+      { label: "Take the verified arguments and rewrite them in your own words. Practice defending each one out loud. Be ready to explain where the evidence comes from.", correct: true, feedback: "Right. You used AI to research and refine, but the arguments are now yours: you understand them, you can defend them, and you can take a question without freezing. That\u2019s the whole workflow paying off." }
+    ]
   }];
-  const ws = WALKTHROUGH[walkStep];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "fullworkflow" }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--inkSoft)",
-      marginBottom: 18,
-      fontSize: 17,
-      lineHeight: 1.65
-    }
-  }, "Here's the complete workflow from start to finish: every section of this training applied to one real task. Click through each step."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 6,
-      marginBottom: 20
-    }
-  }, WALKTHROUGH.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => setWalkStep(i),
-    style: {
-      flex: 1,
-      padding: "8px 6px",
-      borderRadius: 8,
-      background: i === walkStep ? "var(--primary)" : i < walkStep ? "#6e51ff20" : "var(--bg)",
-      color: i === walkStep ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === walkStep ? "var(--primary)" : i < walkStep ? "rgba(110, 81, 255, 0.4)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === walkStep ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 12,
-      fontWeight: 600
-    }
-  }, "Step ", s.step))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)",
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, ws.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, "Step ", ws.step, ": ", ws.title), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, color: "var(--primary)", fontWeight: 600 }
-  }, "From: ", ws.section))), /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 14 }
-  }, ws.desc), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--card)",
-      borderRadius: 10,
-      padding: "14px 16px",
-      border: "1px solid var(--rule)",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 }
-  }, "\uD83D\uDCDD Example"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ws.example)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#10b98110",
-      border: "1px solid #10b98133",
-      borderRadius: 10,
-      padding: "12px 16px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-  }, "\u2705 Result"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ws.action))), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 10 }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => setWalkStep(Math.max(0, walkStep - 1)),
-    disabled: walkStep === 0,
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: walkStep === 0 ? "var(--bg)" : "var(--card)",
-      color: walkStep === 0 ? "var(--inkMuted)" : "var(--ink)",
-      border: "1px solid var(--rule)",
-      cursor: walkStep === 0 ? "default" : "pointer",
-      fontSize: 14,
-      fontWeight: 600
-    }
-  }, "\u2190 Previous"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setWalkStep(Math.min(WALKTHROUGH.length - 1, walkStep + 1)),
-    disabled: walkStep === WALKTHROUGH.length - 1,
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: walkStep === WALKTHROUGH.length - 1 ? "var(--bg)" : "var(--primary)",
-      color: walkStep === WALKTHROUGH.length - 1 ? "var(--inkMuted)" : "#fff",
-      border: "none",
-      cursor: walkStep === WALKTHROUGH.length - 1 ? "default" : "pointer",
-      fontSize: 14,
-      fontWeight: 600
-    }
-  }, "Next \u2192")), walkStep === WALKTHROUGH.length - 1 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 16,
-      fontSize: 14,
-      color: "var(--ink)",
-      lineHeight: 1.6,
-      marginTop: 18,
-      marginBottom: 18
-    }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "That's the complete cycle. "), "Critical thinking \u2192 prompting \u2192 evaluating \u2192 iterating \u2192 using it with integrity. Every section of this training feeds into a real workflow you can use every time you open an AI tool."), /*#__PURE__*/React.createElement(BottomLine, { thought: "Prompt, evaluate, refine, verify. {Same loop every time}." }),
+  const stage = WORKFLOW_STAGES[Math.min(stageIdx, WORKFLOW_STAGES.length - 1)];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "fullworkflow" }),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+    }, "Five skills, one workflow. You\u2019ve learned each piece. Now put them together on a real assignment."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "16px 20px", marginBottom: 24 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8 } }, "\uD83C\uDFAF The assignment"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.5, fontWeight: 600 } },
+        "Class debate next week. Topic: School uniforms in public schools. Your side: against. You need 3 strong arguments and the evidence to back them up.")),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+    }, "At each stage, decide your next move. Wrong moves are real mistakes people make. Pick the one that actually applies what you\u2019ve learned."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "Build the Workflow" },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: WORKFLOW_STAGES,
+        currentIdx: stageIdx,
+        started: startedWorkflow,
+        onStart: function() { setStartedWorkflow(true); },
+        onNext: function() { setStageIdx(stageIdx + 1); setStageAnswer(null); },
+        canAdvance: stageAnswer !== null,
+        isComplete: stageIdx >= WORKFLOW_STAGES.length,
+        startLabel: "Start the Workflow",
+        nextLabel: "Next Stage \u2192",
+        finishLabel: "Finish the Workflow",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, marginBottom: 10 } }, "\uD83D\uDD01"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Critical thinking \u2192 prompt \u2192 evaluate \u2192 iterate \u2192 own it."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Same loop every time. Different assignment, same five moves. The AI is a tool. The workflow is the skill."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { width: 36, height: 36, borderRadius: 8, background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }
+          }, stage.icon),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1 } }, "Stage ", stage.step, " \u00B7 ", stage.section),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.3 } }, stage.title))),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The situation"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, stage.setup)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: stageIdx,
+          statement: "What's your move?",
+          questionNumber: stageIdx + 1,
+          totalQuestions: WORKFLOW_STAGES.length,
+          options: stage.options,
+          picked: stageAnswer != null ? stageAnswer : undefined,
+          onAnswer: function(idx) { setStageAnswer(idx); }
+        }))),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "Prompt, evaluate, refine, verify. {Same loop every time}." }),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("keyterms") }, "Next: Vocab Quiz"));
 }
 function TestYourselfSection(props) {

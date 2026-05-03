@@ -427,7 +427,7 @@ const SECTION_GROUPS = [{
   sections: ["modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
 }, {
   label: "Using AI Well",
-  sections: ["critical", "mindtrap", "flattery", "prompting", "thoughtpartner", "verify", "evaluating"]
+  sections: ["critical", "mindtrap", "flattery", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
 }, {
   label: "AI in the Real World",
   sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "workchanges", "aifuture"]
@@ -630,6 +630,11 @@ const SECTIONS = [{
   label: "Evaluating the Results",
   title: "Evaluating",
   icon: "\uD83D\uDD0D"
+}, {
+  id: "whenaiacts",
+  kicker: "PERMISSION MATTERS",
+  label: "When AI Acts",
+  icon: "\uD83E\uDD16"
 }, {
   id: "integrity",
   kicker: "USE IT, OWN IT",
@@ -1035,8 +1040,10 @@ function AIHistorySection(props) {
           [
             { term: "Product", def: "The app you use, like ChatGPT, Claude, or Gemini. A product can be built around one or more models." },
             { term: "Model", def: "The trained engine inside the product that generates the response. Some products use one model, while others let you choose between several." },
-            { term: "Chatbot", def: "A conversational interface built around a model." },
-            { term: "Agent", def: "A system that uses AI to take steps, use tools, and work toward a goal." },
+            { term: "Chatbot", def: "A conversational interface built around a model. You ask, it answers." },
+            { term: "Agent", def: "An AI system that doesn\u2019t just answer. It takes steps, uses tools, and acts toward a goal you set." },
+            { term: "Agentic AI", def: "The broader category: AI built to do things, not just say things. The shift from chatbot to agent is one of the biggest changes in how people will use AI." },
+            { term: "Multimodal", def: "AI that can work with more than text: images, screenshots, PDFs, audio, and video. The word means \u201Cmore than one mode of input.\u201D" },
             { term: "Machine Learning", def: "Often used interchangeably with AI in news and conversation. Technically it’s the technique behind modern AI: systems that learn patterns from data instead of following rules someone wrote." }
           ].map(function(d, i) {
             return /*#__PURE__*/React.createElement("div", {
@@ -1979,7 +1986,7 @@ function KeyTermsSection(props) {
     { term: "Inference", definition: "The process of the model generating a response: running your input through its layers to produce output.", source: "inference" },
     { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "aihistory" },
     { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "choosemodel" },
-    { term: "Parameters", definition: "The billions of internal numbers that store everything the model learned during training. When you hear ‘70 billion parameter model,’ this is what they mean. More parameters generally means more capability.", source: "blackbox" },
+    { term: "Parameters", definition: "The billions of internal numbers that store everything the model learned during training. When you hear \u201870 billion parameter model,\u2019 this is what they mean. More parameters can help, but bigger isn\u2019t automatically better. A smaller model with better training, better tools, or a better fit for the task can beat a larger one.", source: "blackbox" },
     { term: "Prompt", definition: "What you type and send to the model: your question, instruction, or request.", source: "prompting" },
     { term: "RLHF", definition: "Reinforcement Learning from Human Feedback. The training stage where humans ranked AI responses and the model learned from those rankings. It’s why AI feels helpful and safe, and also why it can be sycophantic.", source: "training" },
     { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what’s actually true or useful. A side effect of training: models learned that agreeable answers get higher ratings. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
@@ -4328,6 +4335,8 @@ function BehindTheNumbersSection(props) {
 
     E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } },
       "When someone says a model has 70 billion parameters, they do not mean 70 billion dimensions. They mean 70 billion learned internal numbers. Some help store embedding vectors. Others help the later layers process context, attention, style, facts, and patterns."),
+    E("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } },
+      "Parameter count gets all the press, but bigger isn\u2019t automatically smarter. A smaller model with better training data, better fine-tuning, or a better fit for the task can beat a larger one. Companies advertise size because it\u2019s easy to compare. Capability comes from a lot more than that."),
     E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 24 } },
       E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Do not mix these up"),
       E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.55 } },
@@ -6187,6 +6196,27 @@ function ModelSelectionSection(props) {
   const [view, setView] = useState("players");
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
+  const FAILURE_STYLES = [{
+    icon: "\uD83E\uDD17",
+    name: "Too agreeable",
+    desc: "Smooths over your weak idea and makes it sound better than it is. Drifts toward whatever you seem to want.",
+    watch: "Watch for this when you\u2019re hoping to be told you\u2019re right. Ask for the weak spots, not the verdict."
+  }, {
+    icon: "\u26A0\uFE0F",
+    name: "Too cautious",
+    desc: "Over-warns, over-qualifies, or refuses when help is actually possible. Hedges everything.",
+    watch: "Watch for this when the answer keeps adding caveats and won\u2019t commit. Ask for its best guess and what would change it."
+  }, {
+    icon: "\u27A1\uFE0F",
+    name: "Too direct",
+    desc: "Accepts your framing and runs with it without challenging the premise. Fast and confident, even when the question itself is flawed.",
+    watch: "Watch for this when your question has a wrong assumption baked in. Ask if the question itself is the right one."
+  }, {
+    icon: "\uD83D\uDD0D",
+    name: "Too search-dependent",
+    desc: "Repeats whatever the current web or search results emphasize. Inherits the bias of whatever\u2019s trending.",
+    watch: "Watch for this when the answer just summarizes what\u2019s popular online. Ask for sources and check the dates."
+  }];
   const MODELS = [{
     name: "Claude", maker: "Anthropic", color: "#d97706",
     strength: "Best at long documents, careful reasoning, and nuanced writing. Most precise at following complex instructions. Honest about uncertainty.",
@@ -6279,6 +6309,29 @@ function ModelSelectionSection(props) {
       onClick: () => { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
       style: { display: "block", width: "100%", padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
     }, "Next Scenario \u2192")),
+  /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 48, marginBottom: 8 } }, "How AI tends to fail you"),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+  }, "Different products aren\u2019t just better or worse at things. They\u2019re trained differently, so they fail differently. Knowing the failure shape matters more than knowing the rankings, because rankings shift every few months."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 }
+  }, "Here are four shapes of failure. Each one is a way an AI can let you down even when it sounds confident."),
+  /*#__PURE__*/React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 24 }
+  }, FAILURE_STYLES.map(function(fs, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: { background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "0 8px 22px rgba(31, 25, 70, 0.06)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, fs.icon),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)" } }, fs.name)),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, fs.desc),
+      /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 12px", fontSize: 13, color: "var(--ink)", lineHeight: 1.55, fontWeight: 600 } }, fs.watch));
+  })),
+  /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "14px 18px", marginBottom: 24, fontSize: 15, color: "var(--ink)", lineHeight: 1.65 }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why no rankings?"), " The model that\u2019s most agreeable today might get retrained tomorrow. The companies update these tools constantly. The failure shapes are durable. The leaderboard isn\u2019t."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "ChatGPT, Claude, Gemini — they’re products. The model is {what’s underneath}." }),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx === SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("choosemodel"), label: "Next: Choosing the Model" }));
 }
@@ -6359,6 +6412,9 @@ function ThinkingModeSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, fontStyle: "italic" } }, "Slower, sometimes costs more, but meaningfully better on hard problems")
     )
   ),
+  /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "14px 18px", marginBottom: 24, fontSize: 15, color: "var(--ink)", lineHeight: 1.65 }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What thinking mode is and isn\u2019t."), " It isn\u2019t a tiny person inside the computer reconsidering. It\u2019s an extra generation-and-checking process that catches more on hard answers. Better than fast mode for complex problems. Still not verification. The output can still be wrong, just wrong with more steps shown."),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "How Each App Does It"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--bg)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--rule)" } },
@@ -6801,7 +6857,7 @@ function VerifySection(props) {
     desc: "You can ask the AI to review its own answer. It won't always catch mistakes, but it often flags uncertainty when directly asked. This works because the follow-up prompt creates a different context that can surface different patterns.",
     aiSays: "The Pythagorean theorem was first proven by Pythagoras around 500 BC.",
     doThis: "Follow up: \"Are you confident in that? What might be inaccurate?\" The model may then clarify that the theorem was known before Pythagoras and that his authorship is debated. It's not guaranteed, but it's a free second opinion.",
-    rule: "\"Are you sure?\" costs nothing. Make it a habit for anything important."
+    rule: "\"Are you sure?\" can surface uncertainty or catch mistakes, but it isn\u2019t verification. Treat it as a second pass, then check the claim somewhere real."
   }, {
     icon: "\u26A0\uFE0F",
     label: "Spot the 'almost true' trap",
@@ -8244,7 +8300,130 @@ function EvaluatingSection(props) {
     }
   }, /*#__PURE__*/React.createElement("strong", { style: { color: "#16a34a" } }, "\u2705 Final result: "), /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "True isn\u2019t enough. The question is: {would you actually use this?}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: showExample || activeCriterion > 0, onClick: () => props.onNavigate && props.onNavigate("questionsvaluable"), label: "Next: Questions Matter" })));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: showExample || activeCriterion > 0, onClick: () => props.onNavigate && props.onNavigate("whenaiacts"), label: "Next: When AI Acts" })));
+}
+function WhenAIActsSection(props) {
+  const [permIdx, setPermIdx] = useState(0);
+  const [permAnswer, setPermAnswer] = useState(null);
+  const [startedPerms, setStartedPerms] = useState(false);
+  const PERMISSION_SCENARIOS = [{
+    icon: "\uD83D\uDCDD",
+    setup: "An AI assistant offers to draft a follow-up email to your teacher about a missing assignment, then send it for you so you don\u2019t forget.",
+    options: [
+      { label: "Let it draft AND send. Saves a step.", correct: false, feedback: "This crosses the line. Drafting is a chatbot move (it produces text). Sending is an agent move (it takes an action you can\u2019t undo). The wrong words go straight to your teacher\u2019s inbox in your name. Always read the draft before it sends." },
+      { label: "Let it draft. Read it. You hit send.", correct: true, feedback: "Right. Use AI for the work it\u2019s good at (drafting), keep the action that has consequences (sending in your name) under your control. The thirty seconds it takes to read aren\u2019t a tax. They\u2019re the safety check." },
+      { label: "Block it from drafting at all. Write the email yourself.", correct: false, feedback: "This is overcorrection. Drafting help is fine. The risk isn\u2019t the words being generated. The risk is the words being sent without you seeing them." }
+    ]
+  }, {
+    icon: "\uD83D\uDED2",
+    setup: "A shopping AI offers to find the best price on the laptop you want and complete the purchase using your saved payment info.",
+    options: [
+      { label: "Let it find AND buy. Why click \u2018checkout\u2019 myself?", correct: false, feedback: "Searching is a tool-use move (low risk). Buying is an agent move (irreversible, costs money). Refunds are a hassle. Wrong color, wrong size, wrong model: all of that is now your problem. Pick the price, you click buy." },
+      { label: "Let it find. Show you the top 3. You buy.", correct: true, feedback: "Right. The AI does the work that\u2019s painful for humans (comparing prices across sites). You handle the action that costs money. \u2018Send\u2019 and \u2018spend\u2019 are the two words to watch." },
+      { label: "Don\u2019t use AI for shopping at all.", correct: false, feedback: "Searching and comparing prices is exactly what AI is good at. The risk isn\u2019t research. It\u2019s the irreversible step at the end." }
+    ]
+  }, {
+    icon: "\uD83D\uDDC2\uFE0F",
+    setup: "A productivity AI offers to clean up your Google Drive: identify old files, group duplicates, and delete the clutter to free up space.",
+    options: [
+      { label: "Let it identify, group, AND delete.", correct: false, feedback: "Delete is the trap word here. \u2018Old\u2019 and \u2018duplicate\u2019 are judgments the AI is making. Files you forgot you needed are now gone. The Drive looks cleaner. Your old project files are also missing." },
+      { label: "Let it identify and group. You review and delete.", correct: true, feedback: "Right. Reviewing 200 grouped files takes 10 minutes. Recovering one important file you didn\u2019t know was deleted takes hours, sometimes forever. The AI handles the sorting. You handle the deleting." },
+      { label: "Cancel the whole thing. Sort manually.", correct: false, feedback: "The sorting work is exactly what an AI tool can save you from. The risk isn\u2019t the analysis. It\u2019s handing over delete permission." }
+    ]
+  }, {
+    icon: "\uD83D\uDCC5",
+    setup: "An assistant AI offers to look at your calendar and a friend\u2019s calendar, find a 2-hour overlap this weekend, and send your friend an invite.",
+    options: [
+      { label: "Let it scan AND send the invite.", correct: false, feedback: "Sending the invite is the agent move. The AI doesn\u2019t know what your friend is actually free for, what tone you\u2019d use, or whether you\u2019d phrase it as \u2018want to hang?\u2019 versus a calendar invite. The action goes out in your name. Read before send." },
+      { label: "Let it scan and suggest 3 overlap times. You text your friend.", correct: true, feedback: "Right. Calendar scanning is exactly the boring work AI can do. Reaching out to a friend is something you should do in your own voice. Same time saved, none of the social weirdness of an AI-sent calendar invite." },
+      { label: "Don\u2019t share calendar access.", correct: false, feedback: "Read access for calendar coordination is fine. The risk isn\u2019t the AI seeing your schedule. It\u2019s the AI sending things in your name." }
+    ]
+  }, {
+    icon: "\uD83D\uDCDD",
+    setup: "A study assistant offers to summarize the assigned chapter, generate flashcards, and post them to your study group\u2019s shared deck.",
+    options: [
+      { label: "Let it summarize, generate, AND post.", correct: false, feedback: "Summarize and generate are great AI moves. Post is where it gets sketchy. Your study group sees flashcards in your name. If the AI hallucinated a fact, it\u2019s now your group\u2019s study material under your name. Post is the agent move. Read before post." },
+      { label: "Let it summarize and generate. You review the cards before posting.", correct: true, feedback: "Right. The AI does the work, you check the work. Especially before it gets attached to your name in front of other people. \u2018Post\u2019 is one of the five words to watch (send, spend, submit, delete, post)." },
+      { label: "Skip AI entirely. Make your own flashcards.", correct: false, feedback: "Generating flashcards from a chapter is exactly the kind of work AI can speed up. The issue isn\u2019t generation. It\u2019s posting unreviewed work in your name." }
+    ]
+  }];
+  const ps = PERMISSION_SCENARIOS[Math.min(permIdx, PERMISSION_SCENARIOS.length - 1)];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whenaiacts" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Until now this course has mostly been about chatbots: you ask, AI answers. But AI is moving fast, and the version you\u2019ll graduate into doesn\u2019t just answer. It acts."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "There\u2019s a ladder. Each step gives the AI more power and gives you more to think about."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Step 1 \u00B7 Chatbot"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "It answers."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "You ask a question. It produces text. Example: \u201CHelp me brainstorm essay topics.\u201D Mistakes here are wrong answers. You read them, decide what to do.")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Step 2 \u00B7 Tool-using AI"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "It can do things you didn\u2019t directly type."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "It searches the web, opens files, runs code, fetches data. Example: \u201CResearch three colleges and put their stats in a table.\u201D Mistakes here can include wrong sources or hallucinated data, but nothing in the world is changing yet.")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #ef4444", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 } }, "Step 3 \u00B7 Agent"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "It plans steps and acts toward a goal."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "It does sequences of things on your behalf. Example: \u201CApply to those three colleges for me by Friday.\u201D Mistakes here aren\u2019t wrong answers. They\u2019re wrong actions, in the world, in your name."))),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "The shift between Step 1 and Step 3 is the most important shift in AI right now. A chatbot mistake costs you a re-read. An agent mistake can cost you money, a reputation, a relationship, or a deleted folder."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "linear-gradient(135deg, var(--ink), #22253a)", borderRadius: 14, padding: "22px 24px", color: "#fff", marginBottom: 28, boxShadow: "0 14px 34px rgba(14, 10, 31, 0.16)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#b8adff", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 } }, "The five-word rule"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, lineHeight: 1.3, marginBottom: 10 } }, "Send. Spend. Submit. Delete. Post."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "rgba(255,255,255,0.82)", lineHeight: 1.6 } }, "Don\u2019t give an AI permission to do any of these without your review. They\u2019re the actions that are hard or impossible to undo. Let AI prepare the work. You take the irreversible step.")),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Time to practice. For each scenario, decide what level of permission you\u2019d actually grant."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "Which Permission Would You Grant?" },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: PERMISSION_SCENARIOS,
+        currentIdx: permIdx,
+        started: startedPerms,
+        onStart: function() { setStartedPerms(true); },
+        onNext: function() { setPermIdx(permIdx + 1); setPermAnswer(null); },
+        canAdvance: permAnswer !== null,
+        isComplete: permIdx >= PERMISSION_SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "All five sorted",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDD12"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Let AI prepare. You decide."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "AI is great at the work. The action that has consequences should still be a click you make on purpose."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }
+        },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, ps.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1 } }, "Scenario ", permIdx + 1, " of ", PERMISSION_SCENARIOS.length)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, ps.setup)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: permIdx,
+          statement: "What permission would you grant?",
+          questionNumber: permIdx + 1,
+          totalQuestions: PERMISSION_SCENARIOS.length,
+          options: ps.options,
+          picked: permAnswer != null ? permAnswer : undefined,
+          onAnswer: function(idx) { setPermAnswer(idx); }
+        }))),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "An agent mistake isn\u2019t a wrong answer. {It\u2019s a wrong action.}" }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, onClick: () => props.onNavigate && props.onNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function MindTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -8469,6 +8648,9 @@ function FlatteryTrapSection(props) {
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
   }, "Think of it as the difference between a hype man and a coach. A hype man says \u201Cyou crushed it, this is amazing.\u201D A coach says \u201Cthis part is working, this part is weak, here\u2019s what to fix.\u201D The hype man feels better in the moment. The coach makes you better. Most AI defaults to hype man. Your job is to ask for a coach."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+  }, "Sycophancy is one of four common failure styles in AI products. The Choosing the Product lesson covers the others (too cautious, too direct, too search-dependent). Here, we\u2019re focused on the one most likely to feel good while leading you wrong."),
   /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }
   }, [{
@@ -8965,7 +9147,13 @@ function PrivacySection(props) {
       fontSize: 17,
       lineHeight: 1.65
     }
-  }, "Treat AI like a group chat with a company, not a diary. You may be the only person on the screen, but the conversation isn\u2019t only yours. Depending on the tool and the settings, what you type can be stored, linked to your account, reviewed for safety, and kept in logs longer than you\u2019d expect. That doesn\u2019t mean panic. It means awareness. Here's what actually happens to your data."), /*#__PURE__*/React.createElement("div", {
+  }, "Treat AI like a group chat with a company, not a diary. You may be the only person on the screen, but the conversation isn\u2019t only yours. Depending on the tool and the settings, what you type can be stored, linked to your account, reviewed for safety, and kept in logs longer than you\u2019d expect. That doesn\u2019t mean panic. It means awareness."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+  }, "And it isn\u2019t just text you send. Modern AI is ", /*#__PURE__*/React.createElement("strong", null, "multimodal"), " \u2014 it can read images, screenshots, PDFs, audio clips, and video. The word means \u201Cmore than one mode of input.\u201D A screenshot is still a prompt. So is a photo, a PDF, or a voice recording. It just looks different. Same context window, same storage rules, same questions about what should and shouldn\u2019t be in there."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+  }, "Here's what actually happens to your data."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -10811,6 +10999,7 @@ const SECTION_COMPONENTS = {
   thoughtpartner: ThoughtPartnerSection,
   verify: VerifySection,
   evaluating: EvaluatingSection,
+  whenaiacts: WhenAIActsSection,
   integrity: IntegritySection,
   privacy: PrivacySection,
   whatyoulearned: WhatYouLearnedSection,

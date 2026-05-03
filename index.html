@@ -2306,6 +2306,46 @@ function GenerativeSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealStep >= 2, onClick: function() { props.onNavigate && props.onNavigate("data"); }, label: "Next: AI’s Fuel" }));
 }
 function BlackBoxSection(props) {
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [scenarioAnswer, setScenarioAnswer] = useState(null);
+  const [startedRulePattern, setStartedRulePattern] = useState(false);
+  const RULE_PATTERN_SCENARIOS = [{
+    setup: "Validating that a credit card number is real before charging it.",
+    options: [
+      { label: "Rule", correct: true, feedback: "Right. There\u2019s an exact math formula (the Luhn algorithm) that runs the same way every time. No learning involved. Same input always produces the same answer." },
+      { label: "Pattern", correct: false, feedback: "Not this one. Card validation runs a fixed math check (the Luhn algorithm). Same input, same output, every single time. No learning needed." },
+      { label: "Guardrail", correct: false, feedback: "Not quite. A guardrail is a safety layer around AI behavior. Card validation isn\u2019t about AI at all. It\u2019s a pure math rule." }
+    ]
+  }, {
+    setup: "Telling whether a photo contains a cat.",
+    options: [
+      { label: "Rule", correct: false, feedback: "Hard to imagine the rule. Cats come in 100+ breeds, every angle, every lighting condition. There\u2019s no exact formula for \u2018cat shape.\u2019 The model learned this from millions of labeled photos." },
+      { label: "Pattern", correct: true, feedback: "Right. Nobody wrote a definition of \u2018cat\u2019 in code. The model learned what cats look like by seeing millions of examples. That\u2019s why it sometimes mistakes a Pomeranian for a fox." },
+      { label: "Guardrail", correct: false, feedback: "Not quite. A guardrail blocks unsafe outputs. Cat detection is the core task itself, learned from data." }
+    ]
+  }, {
+    setup: "Marking an email as spam.",
+    options: [
+      { label: "Rule", correct: false, feedback: "Spammers change tactics constantly. A rule like \u2018block emails with the word VIAGRA\u2019 stops working the moment they write V1AGRA. Spam filters learned from billions of examples instead." },
+      { label: "Pattern", correct: true, feedback: "Right. Spam keeps evolving, so spam filters keep learning. They watch what real users mark as spam and update what they recognize. That\u2019s a pattern, not a rule." },
+      { label: "Guardrail", correct: false, feedback: "Not quite. A guardrail is a safety check. Spam filters are doing the core classification, not blocking model outputs." }
+    ]
+  }, {
+    setup: "Computing the cube root of 729.",
+    options: [
+      { label: "Rule", correct: true, feedback: "Right. There\u2019s a fixed math operation that gives exactly 9. Every time. No learning, no probability. Pure rule. (Even when an AI does this, the well-built ones hand it to a calculator function instead of guessing.)" },
+      { label: "Pattern", correct: false, feedback: "Math has exact rules. AI can guess at math through patterns, which is why it sometimes gets simple arithmetic wrong. But the underlying answer is rule-based, not learned." },
+      { label: "Guardrail", correct: false, feedback: "Not quite. A guardrail is about safety. Math has nothing to do with that. The cube root is a fixed math rule." }
+    ]
+  }, {
+    setup: "An AI assistant refusing to recommend a specific dose of acetaminophen.",
+    options: [
+      { label: "Rule", correct: false, feedback: "It might feel like a rule, but the AI doesn\u2019t have a hardcoded list of every drug it can\u2019t discuss. The refusal comes from a safety layer the company built around the model." },
+      { label: "Pattern", correct: false, feedback: "The model could pattern-match its way to a dosage answer using its training data. The refusal isn\u2019t the model\u2019s instinct. It\u2019s a guardrail the company added on top." },
+      { label: "Guardrail", correct: true, feedback: "Right. The AI company added a safety layer that catches medical dosage requests and redirects them. It\u2019s not the core model behavior. It\u2019s the safety system around the model." }
+    ]
+  }];
+  const sc = RULE_PATTERN_SCENARIOS[Math.min(scenarioIdx, RULE_PATTERN_SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "blackbox" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
@@ -2365,8 +2405,43 @@ function BlackBoxSection(props) {
       "Those systems catch a lot. But they are still trying to guide learned behavior, not enforce one perfect rule for every possible situation."
     ),
     /*#__PURE__*/React.createElement("div", {
-      style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "16px 20px", textAlign: "center", color: "#4338ca", fontWeight: 800, fontSize: 17, marginTop: 16, marginBottom: 8 }
+      style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "16px 20px", textAlign: "center", color: "#4338ca", fontWeight: 800, fontSize: 17, marginTop: 16, marginBottom: 28 }
     }, "Guardrails reduce risk. They do not erase it."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Time to put it together. For each scenario, decide what's actually running underneath: a written rule, a learned pattern, or a safety guardrail."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "Rule, Pattern, or Guardrail?" },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: RULE_PATTERN_SCENARIOS,
+        currentIdx: scenarioIdx,
+        started: startedRulePattern,
+        onStart: function() { setStartedRulePattern(true); },
+        onNext: function() { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
+        canAdvance: scenarioAnswer !== null,
+        isComplete: scenarioIdx >= RULE_PATTERN_SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "All five sorted",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83C\uDFAF"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Three different things, one product."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "When you use an AI tool, you\u2019re using all three at once. Knowing which is which changes how you trust the output."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The scenario"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, sc.setup)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: scenarioIdx,
+          statement: "What's actually happening here?",
+          questionNumber: scenarioIdx + 1,
+          totalQuestions: RULE_PATTERN_SCENARIOS.length,
+          options: sc.options,
+          picked: scenarioAnswer != null ? scenarioAnswer : undefined,
+          onAnswer: function(idx) { setScenarioAnswer(idx); }
+        }))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI is powerful because no one wrote every rule. It is {risky for the same reason}." }),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("generative"); } }, "Next: Generative"));
 }
@@ -8627,51 +8702,57 @@ function IntegritySection(props) {
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Using AI isn\u2019t cheating. {Pretending you didn\u2019t is}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, onClick: () => props.onNavigate && props.onNavigate("privacy"), label: "Next: Privacy & Awareness" }));
 }
 function PrivacySection(props) {
-  const [activeRule, setActiveRule] = useState(0);
-  const [showWhy, setShowWhy] = useState(false);
-  const [viewedRules, setViewedRules] = useState(function() { var s = new Set(); s.add(0); return s; });
-  const PRIVACY_RULES = [{
-    id: "personal",
-    label: "Personal Information",
+  const [redactIdx, setRedactIdx] = useState(0);
+  const [redactAnswer, setRedactAnswer] = useState(null);
+  const [startedRedact, setStartedRedact] = useState(false);
+  const REDACT_SCENARIOS = [{
+    category: "Personal information",
     icon: "\uD83D\uDC64",
-    rule: "Never share your full name, home address, phone number, date of birth, or passwords with an AI.",
-    bad: "I\u2019m Jake Thompson, I live at 142 Oak Street, Springfield. My phone is 555-0142 and my birthday is March 8, 2009. Can you help me write my college application?",
-    good: "I\u2019m writing my college application and need help structuring the personal essay. I\u2019ll leave out my identifying details. Can you help with the structure?",
-    why: "AI conversations may be stored on company servers, reviewed by employees, or exposed in a data breach. Your name, address, and birthday together are enough for someone to impersonate you."
+    unsafe: "I'm Jake Thompson, I live at 142 Oak Street, Springfield. My phone is 555-0142 and my birthday is March 8, 2009. Can you help me write my college application?",
+    options: [
+      { label: "I'm a high school senior writing my college application. Can you help me structure the personal essay so it has a strong opening and ties to my main accomplishments?", correct: true, feedback: "Right. Name, address, phone, and birthday all gone. The actual question (help with the college essay) got more specific so the AI can still help." },
+      { label: "I'm a senior named Jake. Can you help me with my college application? It's for schools in the Springfield area.", correct: false, feedback: "Better but still leaking. \u2018Jake\u2019 plus \u2018Springfield area\u2019 is enough for someone reading the logs to narrow you down. The location detail isn\u2019t needed for college essay help anyway." },
+      { label: "Can you help me with something? I'd rather not say what.", correct: false, feedback: "Over-redacted into uselessness. The AI can\u2019t help if it doesn\u2019t know what you\u2019re asking. Privacy means removing identifiers, not removing the question." }
+    ]
   }, {
-    id: "school",
-    label: "School Accounts & Logins",
+    category: "School logins",
     icon: "\uD83C\uDFEB",
-    rule: "Never paste login credentials, screenshots of your grades or school portal, or your student ID number.",
-    bad: "Here\u2019s a screenshot of my grades from PowerSchool. My login is jthompson@lincoln.edu, password: Basketball2026! Can you help me figure out which classes are pulling my GPA down?",
-    good: "My grades this semester are: English B+, Chem C, History A-, Pre-Calc C+. Which areas should I focus on to raise my GPA the most?",
-    why: "Screenshots of school portals often contain your full name, student ID, and other details you didn\u2019t notice. Passwords in AI logs could let someone access your accounts. Type the data you need help with. Never paste the whole screen."
+    unsafe: "Here's a screenshot of my grades from PowerSchool. My login is jthompson@lincoln.edu, password: Basketball2026! Can you help me figure out which classes are pulling my GPA down?",
+    options: [
+      { label: "Here's a screenshot of my grades. Which classes look like they're pulling my GPA down most?", correct: false, feedback: "Removed the login but kept the screenshot. Screenshots usually contain your full name, student ID, school name, and other identifiers you didn\u2019t notice. Type the data instead." },
+      { label: "My grades this semester are: English B+, Chem C, History A-, Pre-Calc C+. Which areas should I focus on to raise my GPA the most?", correct: true, feedback: "Right. Login and password gone, screenshot gone, school identifiers gone. Just the data the AI actually needs to answer the question." },
+      { label: "My login is jthompson@lincoln.edu. Don't share it. My grades are English B+, Chem C, History A-, Pre-Calc C+. Which classes are pulling my GPA down?", correct: false, feedback: "Telling the AI not to share your login doesn\u2019t un-store it. Once it\u2019s in the conversation, it\u2019s on someone\u2019s server." }
+    ]
   }, {
-    id: "photos",
-    label: "Photos & Location",
+    category: "Photos and location",
     icon: "\uD83D\uDCF8",
-    rule: "Be careful sharing photos that show faces, school names, license plates, or location details. AI vision tools can process and store images.",
-    bad: "Here\u2019s a selfie from the parking lot at school. Can you tell me what the sign behind me says?",
-    good: "There\u2019s a sign at my school I can\u2019t read clearly. It starts with \u2018All visitors must...\u2019 What do signs like that usually say?",
-    why: "Photos contain metadata (GPS coordinates, timestamps) and visual details (your face, school name, license plates in the background) that can identify you and your location. Once uploaded, you can\u2019t take them back."
+    unsafe: "Here's a selfie from the parking lot at school. Can you tell me what the sign behind me says?",
+    options: [
+      { label: "Here's a photo, but I cropped my face out. Can you tell me what the sign behind me says?", correct: false, feedback: "Cropping your face still leaves the school name, license plates, and GPS metadata embedded in the photo. Photos give away more than you think." },
+      { label: "There's a sign at my school I can't read clearly. It starts with \u2018All visitors must...\u2019 What do signs like that usually say?", correct: true, feedback: "Right. No photo at all. You typed the partial text you could read and let the AI fill in the standard wording. Same answer, no metadata, no face, no license plates." },
+      { label: "Here's a selfie from school, but I'll delete it after. Can you read the sign behind me?", correct: false, feedback: "\u2018I\u2019ll delete it after\u2019 doesn\u2019t help. The image is already on the AI company\u2019s servers the moment you upload it. Deleting your local copy doesn\u2019t reach back into their database." }
+    ]
   }, {
-    id: "financial",
-    label: "Financial Information",
+    category: "Financial information",
     icon: "\uD83D\uDCB3",
-    rule: "Never share credit card numbers, bank details, Venmo/Cash App info, or your family\u2019s financial information.",
-    bad: "My parents make about $85K combined and we have $12K in savings. I\u2019m applying for financial aid. Can you help me fill out the FAFSA? Here\u2019s a photo of their tax return.",
-    good: "I\u2019m applying for financial aid and confused by the FAFSA. Can you explain what \u2018Expected Family Contribution\u2019 means and how the income questions work? I\u2019ll fill in the numbers myself.",
-    why: "Your family\u2019s income, savings, and tax details are private. Sharing them in an AI conversation puts that information on someone else\u2019s server. Ask about the process, and fill in the numbers yourself."
+    unsafe: "My parents make about $85K combined and we have $12K in savings. I'm applying for financial aid. Can you help me fill out the FAFSA? Here's a photo of their tax return.",
+    options: [
+      { label: "I'm applying for financial aid and confused by the FAFSA. Can you explain what \u2018Expected Family Contribution\u2019 means and how the income questions work? I'll fill in the numbers myself.", correct: true, feedback: "Right. No income, no savings, no tax return photo. You\u2019re asking the AI to explain the process so you can apply what you learn to your real numbers privately." },
+      { label: "My family's total income is around $85K. Can you help me fill out the FAFSA for that income range?", correct: false, feedback: "Family income is private financial information regardless of whether you share the exact number. The AI can explain how FAFSA works without knowing your numbers." },
+      { label: "Can you help me with FAFSA?", correct: false, feedback: "Over-redacted. The AI doesn\u2019t know what specifically confuses you, so you\u2019ll get a generic overview that doesn\u2019t address your actual question. Privacy doesn\u2019t mean vague." }
+    ]
   }, {
-    id: "others",
-    label: "Other People's Information",
+    category: "Other people",
     icon: "\uD83D\uDC65",
-    rule: "Don\u2019t share other people\u2019s messages, personal details, photos, or medical/mental health information without their consent.",
-    bad: "My friend Sarah has been really depressed lately and sent me these texts last night: [screenshot]. She also told me she stopped taking her medication. What should I do?",
-    good: "A friend is going through a hard time and I\u2019m worried about them. What are some ways to be supportive without overstepping? When should I talk to a trusted adult?",
-    why: "Sarah didn\u2019t consent to her mental health details and private messages being stored on an AI company\u2019s server. The same applies to sharing classmates\u2019 grades, teachers\u2019 emails, or photos of other people. Ask for advice without exposing someone else\u2019s private information."
+    unsafe: "My friend Sarah has been really depressed lately and sent me these texts last night: [screenshot]. She also told me she stopped taking her medication. What should I do?",
+    options: [
+      { label: "My friend has been depressed. Here are her texts so you can see how serious it is: [screenshot]. What should I do?", correct: false, feedback: "Removed her name but kept her texts. The texts ARE her private information. She didn\u2019t agree to have them stored on an AI company\u2019s server." },
+      { label: "A friend is going through a hard time and I'm worried about them. What are some ways to be supportive without overstepping? When should I talk to a trusted adult?", correct: true, feedback: "Right. No name, no texts, no medical details. The AI can give you real guidance on supporting a friend without exposing anything personal about her." },
+      { label: "My friend Sarah is really depressed and stopped taking her medication. What should I do? (I won't share her texts.)", correct: false, feedback: "Her name is identifying. Her medical details (depression, medication, stopping medication) are her private health info. Not sharing the texts doesn\u2019t fix sharing the situation." }
+    ]
   }];
-  const pr = PRIVACY_RULES[activeRule];
+  const rs = REDACT_SCENARIOS[Math.min(redactIdx, REDACT_SCENARIOS.length - 1)];
+
   const PLATFORM_FACTS = [{
     platform: "ChatGPT (OpenAI)",
     icon: "\uD83D\uDFE2",
@@ -8763,105 +8844,46 @@ function PrivacySection(props) {
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The golden rule: "), "Never type anything into an AI tool that you wouldn't be comfortable seeing on a public billboard with your name on it."),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 48, marginBottom: 16 } }, "The 5 Rules"),
   /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--inkSoft)",
-      marginBottom: 18,
-      fontSize: 17,
-      lineHeight: 1.65
-    }
-  }, "These five rules will keep you safe. Click each one to see what to avoid and what to do instead."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, PRIVACY_RULES.map((r, i) => /*#__PURE__*/React.createElement("button", {
-    key: r.id,
-    onClick: () => { setActiveRule(i); setShowWhy(false); setViewedRules(function(prev) { var n = new Set(prev); n.add(i); return n; }); },
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === activeRule ? "var(--primary)" : "var(--bg)",
-      color: i === activeRule ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === activeRule ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === activeRule ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, r.icon, " ", r.label))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, pr.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, pr.label), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, pr.rule))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#fef2f2",
-      border: "1px solid #fca5a5",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 }
-  }, "\u274C Don\u2019t type this"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "#991b1b", lineHeight: 1.6, whiteSpace: "pre-wrap" }
-  }, pr.bad)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#ecfdf5",
-      border: "1px solid #86efac",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 }
-  }, "\u2705 Do this instead"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "#14532d", lineHeight: 1.6, whiteSpace: "pre-wrap" }
-  }, pr.good)), !showWhy ? /*#__PURE__*/React.createElement("button", {
-    onClick: () => setShowWhy(true),
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: "var(--primary)",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600,
-      width: "100%"
-    }
-  }, "\uD83D\uDD12 Why does this matter?") : /*#__PURE__*/React.createElement("div", {
-    style: {
-      animation: "fadeIn 0.3s ease",
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 14,
-      fontSize: 14,
-      color: "var(--ink)",
-      lineHeight: 1.6
-    }
-  }, "\uD83D\uDCA1 ", pr.why))),
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+  }, "Five rules. The fastest way to learn them is to practice them. Each scenario shows an unsafe prompt. Pick the version that's actually safe to send."),
+  /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "Redact the Prompt" },
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: REDACT_SCENARIOS,
+      currentIdx: redactIdx,
+      started: startedRedact,
+      onStart: function() { setStartedRedact(true); },
+      onNext: function() { setRedactIdx(redactIdx + 1); setRedactAnswer(null); },
+      canAdvance: redactAnswer !== null,
+      isComplete: redactIdx >= REDACT_SCENARIOS.length,
+      startLabel: "First Prompt",
+      nextLabel: "Next Prompt \u2192",
+      finishLabel: "All five practiced",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDD12"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Privacy is a reflex, not a rule."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Once you start asking \u2018what does the AI actually need to answer this?\u2019 the redaction happens automatically."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, rs.icon),
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, rs.category)),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "14px 16px", marginBottom: 16 }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 } }, "\u26A0\uFE0F The unsafe prompt"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, fontStyle: "italic" } }, "\u201C", rs.unsafe, "\u201D")),
+      /*#__PURE__*/React.createElement(QuizBlock, {
+        key: redactIdx,
+        statement: "Which version is actually safe to send?",
+        questionNumber: redactIdx + 1,
+        totalQuestions: REDACT_SCENARIOS.length,
+        options: rs.options,
+        picked: redactAnswer != null ? redactAnswer : undefined,
+        onAnswer: function(idx) { setRedactAnswer(idx); }
+      }))),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 48, marginBottom: 16 } }, "Protect Yourself"),
   /*#__PURE__*/React.createElement("p", {
     style: {
@@ -8931,7 +8953,7 @@ function PrivacySection(props) {
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
   }, item.desc))))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: viewedRules.size >= PRIVACY_RULES.length, onClick: () => props.onNavigate && props.onNavigate("workchanges"), label: "Next: Work Changes" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("workchanges"), label: "Next: Work Changes" }));
 }
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
@@ -9830,6 +9852,46 @@ function HeadToHeadSection(props) {
   );
 }
 function QuestionsValuableSection(props) {
+  const [upgradeIdx, setUpgradeIdx] = useState(0);
+  const [upgradeAnswer, setUpgradeAnswer] = useState(null);
+  const [startedUpgrade, setStartedUpgrade] = useState(false);
+  const UPGRADE_SCENARIOS = [{
+    weak: "What should I do for my project?",
+    options: [
+      { label: "Give me ideas for a project that's interesting and a good amount of work for a high school student. I want it to be something that I can finish on time and that will get me a good grade.", correct: false, feedback: "More words, same problem. \u2018Interesting,\u2019 \u2018good amount of work,\u2019 \u2018good grade\u2019 are still vague. The AI doesn\u2019t know what class, what topic area, or what counts as \u2018good.\u2019 You\u2019ll get a list of generic project ideas." },
+      { label: "I have a 3-week project for my AP Biology class. Topic is open as long as it ties to genetics. I want to do something hands-on, not a slideshow. Give me 4 project ideas at different difficulty levels and tell me what each one would actually involve.", correct: true, feedback: "Right. Class, time frame, topic constraint, format preference, and a clear ask (4 ideas, varied difficulty, with actual scope). The AI now has enough to give you something usable." },
+      { label: "What's the easiest project I can do that will still get an A?", correct: false, feedback: "Specific in the wrong direction. You\u2019re optimizing for least effort, not for what would actually help you learn or stand out. The AI will recommend something low-effort, and you\u2019ll wonder why it feels lazy." }
+    ]
+  }, {
+    weak: "Help me with my essay.",
+    options: [
+      { label: "I'm writing a 5-page essay for AP English on \u2018The Great Gatsby.\u2019 My thesis is that Gatsby's pursuit of Daisy is really a pursuit of a version of himself, not her. I have a draft of paragraph 1 below. Tell me whether the paragraph supports my thesis and where it gets weaker.", correct: true, feedback: "Right. Specifies the class, length, topic, the thesis, what the AI is looking at, and exactly what feedback you want. The AI can now actually help instead of generating a generic essay." },
+      { label: "Help me write a 5-page essay on \u2018The Great Gatsby.\u2019 Make sure it's well-organized and uses good evidence and has a strong conclusion.", correct: false, feedback: "The AI will write the whole thing for you, which means the essay isn\u2019t yours anymore. \u2018Well-organized\u2019 and \u2018strong conclusion\u2019 are vague anyway. The AI uses generic essay structure and you submit something that doesn\u2019t sound like you." },
+      { label: "Help me with my essay. It's about \u2018The Great Gatsby.\u2019 I want it to be really good.", correct: false, feedback: "More context, same problem. You\u2019ve added the topic but the AI still doesn\u2019t know what kind of help you want, what your thesis is, or what \u2018really good\u2019 means to you. You\u2019ll get a generic response." }
+    ]
+  }, {
+    weak: "Give me ideas.",
+    options: [
+      { label: "Give me 10 creative ideas. Mix them up and make them interesting and different from each other.", correct: false, feedback: "Adding \u2018creative\u2019 and \u201810\u2019 doesn\u2019t fix the core problem. Ideas for what? The AI will generate 10 random things that have nothing to do with what you actually need." },
+      { label: "I'm planning my 16th birthday and have a $200 budget. 8 friends will come, mostly girls, and we live in Dallas. Give me 5 ideas that are something other than a movie or restaurant. For each one, estimate the cost.", correct: true, feedback: "Right. Specifies the situation (16th birthday), the budget, the group size and makeup, the location, what to avoid, the count, and an extra ask (cost estimate). Now the AI can actually be useful." },
+      { label: "Give me ideas for fun things to do that aren't boring.", correct: false, feedback: "More words, no more information. \u2018Fun\u2019 and \u2018boring\u2019 are still subjective and the AI has no idea who you are or what your situation is." }
+    ]
+  }, {
+    weak: "Is this prompt good?",
+    options: [
+      { label: "Read the prompt below and tell me if it's a good prompt.", correct: false, feedback: "Same problem with extra words. \u2018Good\u2019 isn\u2019t a standard. The AI will guess at what you mean and either say yes or list generic prompt-engineering tips." },
+      { label: "Below is a prompt I'm planning to send to ChatGPT to help me study for my AP Chem final. Tell me: (1) what it does well, (2) what it's missing, and (3) one rewrite that would get me better study help.", correct: true, feedback: "Right. The AI now knows the prompt's purpose (studying for AP Chem final), exactly what to evaluate, and the format you want back (3 things, including a concrete rewrite). You can act on the response." },
+      { label: "Is this a good prompt? Be detailed in your answer and list everything I could improve.", correct: false, feedback: "You\u2019ll get a long list of generic prompt-engineering advice that may or may not apply to what you\u2019re actually trying to do. Length isn\u2019t the same as usefulness." }
+    ]
+  }, {
+    weak: "What's a good college?",
+    options: [
+      { label: "I'm a junior with a 3.7 GPA, I want to study computer science, my family can pay about $25K a year, and I'd like to stay in the southern US. List 6 colleges that could be a fit and group them into reach, target, and safety based on my GPA.", correct: true, feedback: "Right. GPA, intended major, budget, geography, and the structure you want the answer in. The AI can now give you something genuinely useful instead of \u2018Harvard is good.\u2019" },
+      { label: "What's a good college that has a strong program and isn't too expensive?", correct: false, feedback: "More words, no more help. \u2018Strong program\u2019 in what? \u2018Not too expensive\u2019 to whom? The AI fills in the blanks however it wants and you get a generic list." },
+      { label: "Is Harvard a good college?", correct: false, feedback: "Specific but the wrong question. You\u2019re asking about one school instead of getting help finding the right ones for you. AI says \u2018yes Harvard is good\u2019 and you\u2019ve learned nothing about your actual college search." }
+    ]
+  }];
+  const us = UPGRADE_SCENARIOS[Math.min(upgradeIdx, UPGRADE_SCENARIOS.length - 1)];
   var SHIFT_COLS = [
     {
       sub: "Answers were expensive",
@@ -9954,7 +10016,42 @@ function QuestionsValuableSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px", marginBottom: 32, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } },
       "The second person gets more value not because the AI is smarter, but because the human asked a better question. Purpose, role, format, and a real judgment call, all packed into one prompt."
     ),
-    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "What actually becomes valuable now"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Your turn. Each scenario starts with a weak prompt. Pick the version that actually upgrades it. Watch out for the ones that just add more words."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "Upgrade the Question" },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: UPGRADE_SCENARIOS,
+        currentIdx: upgradeIdx,
+        started: startedUpgrade,
+        onStart: function() { setStartedUpgrade(true); },
+        onNext: function() { setUpgradeIdx(upgradeIdx + 1); setUpgradeAnswer(null); },
+        canAdvance: upgradeAnswer !== null,
+        isComplete: upgradeIdx >= UPGRADE_SCENARIOS.length,
+        startLabel: "First Question",
+        nextLabel: "Next Question \u2192",
+        finishLabel: "Done with all five",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u270D\uFE0F"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Five upgrades practiced."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "More words isn't more help. Better questions are specific about who, what, and what good looks like."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "14px 16px", marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 } }, "\uD83D\uDCDD The weak prompt"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6 } }, "\u201C", us.weak, "\u201D")),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: upgradeIdx,
+          statement: "Which version actually upgrades it?",
+          questionNumber: upgradeIdx + 1,
+          totalQuestions: UPGRADE_SCENARIOS.length,
+          options: us.options,
+          picked: upgradeAnswer != null ? upgradeAnswer : undefined,
+          onAnswer: function(idx) { setUpgradeAnswer(idx); }
+        }))),
+    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 6, marginTop: 32 } }, "What actually becomes valuable now"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
       "Not prompt tricks. Real thinking skills, surfaced by a tool that can finally handle the easy part."
     ),

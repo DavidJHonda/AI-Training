@@ -430,7 +430,7 @@ const SECTION_GROUPS = [{
   sections: ["critical", "mindtrap", "flattery", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
 }, {
   label: "AI in the Real World",
-  sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "synthetic", "workchanges", "aifuture"]
+  sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "judged", "synthetic", "workchanges", "aifuture"]
 }, {
   label: "Finish Line",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -647,6 +647,12 @@ const SECTIONS = [{
   label: "Privacy & Awareness",
   title: "Privacy",
   icon: "\uD83D\uDD12"
+}, {
+  id: "judged",
+  kicker: "DECISIONS ABOUT YOU",
+  label: "When AI Judges You",
+  title: "When AI Judges You",
+  icon: "\u2696\uFE0F"
 }, {
   id: "synthetic",
   kicker: "FAKE IS CHEAP NOW",
@@ -9464,7 +9470,137 @@ function PrivacySection(props) {
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
   }, item.desc))))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("judged"), label: "Next: When AI Judges You" }));
+}
+function WhenAIJudgesSection(props) {
+  const [permIdx, setPermIdx] = useState(0);
+  const [permAnswer, setPermAnswer] = useState(null);
+  const [startedPerms, setStartedPerms] = useState(false);
+  const SCENARIOS = [{
+    icon: "\uD83D\uDEA8",
+    setup: "Your English teacher emails you that your essay got flagged by an AI detector with a 73% score. You wrote every word yourself. She wants to talk after class tomorrow.",
+    options: [
+      { label: "Show up and apologize. Denying it will just make it worse.", correct: false, feedback: "Don\u2019t apologize for something you didn\u2019t do. That\u2019s admitting to a thing the system invented. Your job is to get the human looking at the actual evidence, not to confirm a faulty score." },
+      { label: "Bring your process: outline, drafts, version history, sources. Ask which detector was used, how the score was calculated, and what the appeal path is.", correct: true, feedback: "Right. You\u2019re running the five questions on a system that just judged you. What data was used (your essay run against a detector trained on who knows what). Can you push back (yes, with the process you can show). What happens if it\u2019s wrong (you need to know the appeal path before the meeting, not after)." },
+      { label: "Send a long defensive email before the meeting.", correct: false, feedback: "A wall of email arrives looking defensive. Bring evidence to the meeting, not a pre-written argument. The teacher hasn\u2019t accused you of anything yet. Don\u2019t respond to an accusation she didn\u2019t make." }
+    ]
+  }, {
+    icon: "\uD83C\uDFEB",
+    setup: "A college you\u2019re applying to mentions, on a slide buried in their info session, that initial application reviews are \u2018AI-assisted.\u2019 They don\u2019t say what that means. Your application is due in three weeks.",
+    options: [
+      { label: "Stuff your application with buzzwords the AI probably likes. \u2018Leadership,\u2019 \u2018growth,\u2019 \u2018initiative.\u2019", correct: false, feedback: "You\u2019re guessing what the AI wants. You don\u2019t know what data was used to train it, what it weighs, or even whether it\u2019s reading for keywords or something else entirely. Writing for a system you can\u2019t see is a losing move." },
+      { label: "Write the strongest application you can for a human reader. Ask the school in writing what their AI-assist actually does and how decisions can be appealed.", correct: true, feedback: "Right. You can\u2019t out-think a black box, but you can ask \u2018who is responsible\u2019 and \u2018can you push back.\u2019 Schools that won\u2019t answer those questions in writing are telling you something by refusing to." },
+      { label: "Skip the school. AI in admissions is a deal-breaker.", correct: false, feedback: "Maybe, but this is happening at most schools now. Refusing all of them isn\u2019t a strategy. The skill is going in informed and asking the right questions, not refusing the field." }
+    ]
+  }, {
+    icon: "\uD83D\uDCF1",
+    setup: "Your TikTok For You feed has been pushing political content from a side you don\u2019t agree with. You don\u2019t remember signaling that you wanted it. You can\u2019t see what data the algorithm is using to decide that\u2019s what you want.",
+    options: [
+      { label: "It\u2019s just a feed. Not a big deal. Keep scrolling.", correct: false, feedback: "Feeds shape what you think is normal. \u2018Not a big deal\u2019 stops being true the moment you realize the version of reality you\u2019re seeing is curated for you by an algorithm you can\u2019t question. Quiet decisions aren\u2019t small ones." },
+      { label: "Use \u2018not interested\u2019 actively. Follow specific accounts directly to bypass the algorithm where you can. Check your activity history if the platform shows it.", correct: true, feedback: "Right. You can\u2019t see the algorithm\u2019s data, but you can take the small levers you do have. \u2018Not interested\u2019 is the closest thing you get to a vote on what\u2019s shown to you next. Following accounts directly is the closest thing to choosing your own feed." },
+      { label: "Just delete the app.", correct: false, feedback: "Valid as a personal call, but it doesn\u2019t answer \u2018who is this helping?\u2019 The platform\u2019s ranking isn\u2019t broken from their side. It\u2019s doing what their incentives say to do. Knowing that is a separate skill from quitting." }
+    ]
+  }, {
+    icon: "\uD83D\uDEAB",
+    setup: "You posted a comment in a Discord server that was auto-removed for \u2018community guidelines violations.\u2019 You read it back. It\u2019s benign. The system gave no specifics. There\u2019s no obvious appeal button.",
+    options: [
+      { label: "Repost it. Maybe the algorithm misfires and lets it through this time.", correct: false, feedback: "Now you might get flagged for repeated violations, which usually triggers harsher consequences. Don\u2019t fight an opaque system by repeating the input. The system is keeping score." },
+      { label: "Look for the human: a moderator you can DM, an appeals form, or an open mod channel. If none exists, that tells you about the system itself.", correct: true, feedback: "Right. You\u2019re asking \u2018can you push back?\u2019 If the answer is no, that\u2019s real information about the community\u2019s priorities. Some servers are designed to make appeal cheap. Others aren\u2019t. The lack of a path IS a signal." },
+      { label: "Quit the server. If the moderation is unfair, it\u2019s not worth being there.", correct: false, feedback: "Maybe. But that\u2019s the question \u2018what happens if it\u2019s wrong?\u2019 being answered by walking away. It might be the right call, but it should be a deliberate one, not a reflex from one auto-removal." }
+    ]
+  }, {
+    icon: "\uD83D\uDCBC",
+    setup: "You\u2019re applying for a summer internship. The portal says in tiny text that \u2018an AI tool may be used to evaluate initial applications.\u2019 No human will see your application unless the AI passes you to the next round.",
+    options: [
+      { label: "Don\u2019t apply. Avoid any company that uses AI screens.", correct: false, feedback: "A growing share of companies do. Avoiding all of them shrinks your options to almost nothing. The skill is going in informed, not avoiding." },
+      { label: "Submit your strongest application. Then research whether the company, or the screening tool they use, has documented rescreening or appeals if you\u2019re rejected.", correct: true, feedback: "Right. You\u2019re asking \u2018what happens if it\u2019s wrong?\u2019 BEFORE it judges you. Some companies have rescreen options, especially for technical roles where false negatives are expensive for them. Knowing that ahead of time matters." },
+      { label: "Put white-text keywords in your resume to game the AI.", correct: false, feedback: "This is a known trick. It\u2019s also a known disqualifier when caught, and modern screens often catch it. Same goes for AI-generated cover letters that ramble in giveaway ways. Don\u2019t hand the system a reason to pass on you." }
+    ]
+  }];
+  const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "judged" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "This whole course has been about you using AI well. But there\u2019s a side of AI you don\u2019t open and don\u2019t control. AI is also being used on you. Right now, today, this week."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Maybe a system already decided which posts you saw on TikTok this morning. Maybe a flagging tool ran on your last essay before your teacher did. Maybe an algorithm scored your college application before any human looked at it. These systems don\u2019t ask permission. They don\u2019t announce themselves. They make decisions about you based on data you may not know they had."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "The skill for the rest of your life isn\u2019t just operating AI well. It\u2019s knowing what to do when AI is operating on you. Three big modes to recognize first."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Mode 1 \u00B7 What you see"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Algorithms decide what lands in front of you."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "TikTok\u2019s For You feed, YouTube recommendations, Instagram Explore, search results, the order of your inbox. The system shapes your day before you even tap.")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Mode 2 \u00B7 What you can do"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Filters and flags decide whether you can post, comment, apply, or stay logged in."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Content moderation, school plagiarism flags, account suspensions, automated rejections. Lines you can hit without seeing them coming.")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #ef4444", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 } }, "Mode 3 \u00B7 What gets attached to your name"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Scores and classifications follow you."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Hiring screen ratings, college admissions tools, credit scores, plagiarism scores, fraud risk flags. A number or label that decides whether a human even looks at your case."))),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Whichever mode it is, you have one tool. A short list of questions to ask any system that\u2019s judging you. Memorize them."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "linear-gradient(135deg, var(--ink), #22253a)", borderRadius: 14, padding: "22px 24px", color: "#fff", marginBottom: 28, boxShadow: "0 14px 34px rgba(14, 10, 31, 0.16)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#b8adff", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 } }, "The five questions"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, lineHeight: 1.3, marginBottom: 14 } }, "Run these on any AI that\u2019s running on you."),
+      /*#__PURE__*/React.createElement("ol", { style: { margin: 0, paddingLeft: 22, color: "rgba(255,255,255,0.92)", fontSize: 15, lineHeight: 1.8 } },
+        /*#__PURE__*/React.createElement("li", null, "Who is responsible?"),
+        /*#__PURE__*/React.createElement("li", null, "What data was used?"),
+        /*#__PURE__*/React.createElement("li", null, "Can you push back?"),
+        /*#__PURE__*/React.createElement("li", null, "What happens if it\u2019s wrong?"),
+        /*#__PURE__*/React.createElement("li", null, "Who is this helping, and who is it hurting?"))),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "What\u2019s Your Move?" },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: SCENARIOS,
+        currentIdx: permIdx,
+        started: startedPerms,
+        onStart: function() { setStartedPerms(true); },
+        onNext: function() { setPermIdx(permIdx + 1); setPermAnswer(null); },
+        canAdvance: permAnswer !== null,
+        isComplete: permIdx >= SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "All five sorted",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u2696\uFE0F"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Five questions. Every system. Every time."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "You won\u2019t always get clear answers. The questions still work. A system that won\u2019t tell you who\u2019s responsible is telling you something."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }
+        },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, ps.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1 } }, "Scenario ", permIdx + 1, " of ", SCENARIOS.length)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, ps.setup)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: permIdx,
+          statement: "What\u2019s your move?",
+          questionNumber: permIdx + 1,
+          totalQuestions: SCENARIOS.length,
+          options: ps.options,
+          picked: permAnswer != null ? permAnswer : undefined,
+          onAnswer: function(idx) { setPermAnswer(idx); }
+        }))),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "The AI you never opened {is still making decisions about you.}" }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, onClick: () => props.onNavigate && props.onNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
 }
 function SyntheticMediaSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -11261,6 +11397,7 @@ const SECTION_COMPONENTS = {
   whenaiacts: WhenAIActsSection,
   integrity: IntegritySection,
   privacy: PrivacySection,
+  judged: WhenAIJudgesSection,
   synthetic: SyntheticMediaSection,
   whatyoulearned: WhatYouLearnedSection,
   fullworkflow: FullWorkflowSection,

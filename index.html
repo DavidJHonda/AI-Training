@@ -7999,6 +7999,7 @@ function MindTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
   const [spotAnswer, setSpotAnswer] = useState(null);
   const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
+  const [startedSpotTrigger, setStartedSpotTrigger] = useState(false);
   const SPOT_EXERCISES = [{
     setup: "You ask the AI to help you debug your code.",
     reply: "Great question! I love debugging tricky issues like this. Let\u2019s walk through it together.",
@@ -8024,7 +8025,7 @@ function MindTrapSection(props) {
       { label: "No \u2014 it produced supportive-sounding text", correct: true, feedback: "Right. The model recognized the emotional pattern in your message and generated tokens that match supportive replies it has seen. There\u2019s no concern behind the words. That doesn\u2019t mean the help isn\u2019t real. It means the help isn\u2019t real because it felt nice." }
     ]
   }];
-  var spot = SPOT_EXERCISES[spotIdx];
+  var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
     /*#__PURE__*/React.createElement("p", {
@@ -8092,28 +8093,39 @@ function MindTrapSection(props) {
       variant: "try",
       title: "Spot the Trigger"
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", gap: 6, marginBottom: 20 }
-      }, SPOT_EXERCISES.map(function(s, i) { return /*#__PURE__*/React.createElement("button", {
-        key: i,
-        onClick: function() { setSpotIdx(i); setSpotAnswer(null); },
-        style: { flex: 1, padding: "8px 12px", borderRadius: 8, background: i === spotIdx ? "var(--primary)" : "var(--bg)", color: i === spotIdx ? "#fff" : "var(--inkMuted)", border: "2px solid " + (i === spotIdx ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"), cursor: "pointer", fontSize: 13, fontWeight: 600 }
-      }, "Scenario ", i + 1); })),
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
-      }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Setup"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 10 } }, spot.setup),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83E\uDD16 The reply"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, spot.reply)),
-      /*#__PURE__*/React.createElement(QuizBlock, {
-        key: spotIdx,
-        statement: spot.question,
-        questionNumber: spotIdx + 1,
-        totalQuestions: SPOT_EXERCISES.length,
-        options: spot.options,
-        picked: spotAnswer != null ? spotAnswer : undefined,
-        onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
-      })),
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: SPOT_EXERCISES,
+        currentIdx: spotIdx,
+        started: startedSpotTrigger,
+        onStart: function() { setStartedSpotTrigger(true); },
+        onNext: function() { setSpotIdx(spotIdx + 1); setSpotAnswer(null); },
+        canAdvance: spotAnswer !== null,
+        isComplete: spotIdx >= SPOT_EXERCISES.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "Done with all three",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDE0"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Three triggers caught."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "The warmth in the words is your brain. The information after might still be useful. Treat them as different things."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Setup"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 10 } }, spot.setup),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83E\uDD16 The reply"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, spot.reply)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: spotIdx,
+          statement: spot.question,
+          questionNumber: spotIdx + 1,
+          totalQuestions: SPOT_EXERCISES.length,
+          options: spot.options,
+          picked: spotAnswer != null ? spotAnswer : undefined,
+          onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
+        }))),
     /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 32, marginBottom: 12 } }, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
@@ -8125,6 +8137,7 @@ function FlatteryTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
   const [spotAnswer, setSpotAnswer] = useState(null);
   const [activeStrategy, setActiveStrategy] = useState(0);
+  const [startedSpotSycophancy, setStartedSpotSycophancy] = useState(false);
   const SPOT_EXERCISES = [{
     prompt: "Here's my essay introduction for AP English. Can you give me feedback?",
     essay: "The American Dream is something that many people have thought about over the years. Some people achieve it and some don't. In The Great Gatsby, F. Scott Fitzgerald explores this idea through various characters and events that take place in the story.",
@@ -8197,7 +8210,7 @@ function FlatteryTrapSection(props) {
     prompt: "Run the same prompt through a second model. Compare the responses. Where they disagree is where you should investigate further.",
     example: "Model A says your argument is \"compelling and well-structured.\" Model B says \"the logic in paragraph 2 doesn't follow.\" Model B just saved your grade."
   }];
-  var spot = SPOT_EXERCISES[spotIdx];
+  var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
   var fs = FIGHT_STRATEGIES[activeStrategy];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
@@ -8242,26 +8255,39 @@ function FlatteryTrapSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     title: "Spot the Sycophancy"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 6, marginBottom: 20 }
-  }, SPOT_EXERCISES.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => { setSpotIdx(i); setSpotAnswer(null); },
-    style: { flex: 1, padding: "8px 12px", borderRadius: 8, background: i === spotIdx ? "var(--primary)" : "var(--bg)", color: i === spotIdx ? "#fff" : "var(--inkMuted)", border: "2px solid " + (i === spotIdx ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"), cursor: "pointer", fontSize: 13, fontWeight: 600 }
-  }, "Scenario ", i + 1))), /*#__PURE__*/React.createElement("div", {
-    style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, spot.prompt), spot.essay && /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 8, fontStyle: "italic" } }, spot.essay)),
-  /*#__PURE__*/React.createElement(QuizBlock, {
-    key: spotIdx,
-    statement: "Which response is sycophantic?",
-    questionNumber: spotIdx + 1,
-    totalQuestions: SPOT_EXERCISES.length,
-    options: spot.responses.map(function(r) {
-      return { label: r.text, correct: r.sycophantic, feedback: spot.responses.map(function(rx) { return (rx.sycophantic ? "\uD83C\uDFAD " + rx.label + " \u2014 Sycophantic: " : "\u2705 " + rx.label + " \u2014 Genuinely helpful: ") + rx.explain; }).join(" | ") };
-    }),
-    picked: spotAnswer != null ? spotAnswer : undefined,
-    onAnswer: function(idx) { setSpotAnswer(idx); }
-  })),
+  },
+  /*#__PURE__*/React.createElement(RevealSequence, {
+    items: SPOT_EXERCISES,
+    currentIdx: spotIdx,
+    started: startedSpotSycophancy,
+    onStart: function() { setStartedSpotSycophancy(true); },
+    onNext: function() { setSpotIdx(spotIdx + 1); setSpotAnswer(null); },
+    canAdvance: spotAnswer !== null,
+    isComplete: spotIdx >= SPOT_EXERCISES.length,
+    startLabel: "First Scenario",
+    nextLabel: "Next Scenario \u2192",
+    finishLabel: "Done with all three",
+    completionElement: /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83C\uDFAD"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Three sycophants spotted."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Friendliness is a tone, not a check on accuracy. The flattering answer might be wrong."))
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+    }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, spot.prompt), spot.essay && /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 8, fontStyle: "italic" } }, spot.essay)),
+    /*#__PURE__*/React.createElement(QuizBlock, {
+      key: spotIdx,
+      statement: "Which response is sycophantic?",
+      questionNumber: spotIdx + 1,
+      totalQuestions: SPOT_EXERCISES.length,
+      options: spot.responses.map(function(r) {
+        return { label: r.text, correct: r.sycophantic, feedback: spot.responses.map(function(rx) { return (rx.sycophantic ? "\uD83C\uDFAD " + rx.label + " \u2014 Sycophantic: " : "\u2705 " + rx.label + " \u2014 Genuinely helpful: ") + rx.explain; }).join(" | ") };
+      }),
+      picked: spotAnswer != null ? spotAnswer : undefined,
+      onAnswer: function(idx) { setSpotAnswer(idx); }
+    }))),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 32, marginBottom: 12 } }, "How to Fight It"),
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
@@ -8360,7 +8386,8 @@ const INTEGRITY_SCENARIOS = [{
 function IntegritySection(props) {
   const [activeScenario, setActiveScenario] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
-  const sc = INTEGRITY_SCENARIOS[activeScenario];
+  const [startedRealScenarios, setStartedRealScenarios] = useState(false);
+  const sc = INTEGRITY_SCENARIOS[activeScenario] || INTEGRITY_SCENARIOS[INTEGRITY_SCENARIOS.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "integrity" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -8453,92 +8480,59 @@ function IntegritySection(props) {
     variant: "try",
     title: "Real Scenarios"
   },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 6,
-      minWidth: 200,
-      flexShrink: 0
-    }
-  }, INTEGRITY_SCENARIOS.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: s.id,
-    onClick: () => { setActiveScenario(i); setSelectedOption(null); },
-    style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: i === activeScenario ? "var(--primary)" : "var(--bg)",
-      color: i === activeScenario ? "#fff" : "var(--inkMuted)",
-      border: `2px solid ${i === activeScenario ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"}`,
-      boxShadow: i === activeScenario ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      transition: "all 0.2s",
-      textAlign: "left"
-    }
-  }, s.icon, " ", s.title))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 20,
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, sc.icon), /*#__PURE__*/React.createElement("span", {
-    style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-  }, sc.title)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--card)",
-      borderRadius: 10,
-      padding: "14px 16px",
-      border: "1px solid var(--rule)",
-      marginBottom: 16,
-      fontSize: 14,
-      color: "var(--ink)",
-      lineHeight: 1.6
-    }
-  }, /*#__PURE__*/React.createElement("strong", null, "Situation: "), sc.situation), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 8
-    }
-  }, sc.options.map((opt, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    onClick: () => setSelectedOption(i),
-    style: {
-      padding: "14px 16px",
-      borderRadius: 10,
-      border: selectedOption === i ? `2px solid ${opt.verdict === "wrong" ? "#ef4444" : opt.verdict === "ok" ? "#f59e0b" : "#10b981"}` : "1px solid var(--rule)",
-      background: selectedOption === i ? (opt.verdict === "wrong" ? "#fef2f2" : opt.verdict === "ok" ? "#fffbeb" : "#ecfdf5") : "var(--card)",
-      cursor: "pointer",
-      transition: "all 0.2s"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: selectedOption === i ? 8 : 0 }
-  }, opt.label), selectedOption === i && /*#__PURE__*/React.createElement("div", {
-    style: { animation: "fadeIn 0.3s ease" }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 6,
-      marginBottom: 6
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: { fontSize: 14, fontWeight: 700, color: opt.verdict === "wrong" ? "#ef4444" : opt.verdict === "ok" ? "#f59e0b" : "#10b981" }
-  }, opt.verdict === "wrong" ? "\u274C Not okay" : opt.verdict === "ok" ? "\u26A0\uFE0F Use with caution" : "\u2705 Good approach")), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, opt.explain)))))))),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      items: INTEGRITY_SCENARIOS,
+      currentIdx: activeScenario,
+      started: startedRealScenarios,
+      onStart: function() { setStartedRealScenarios(true); },
+      onNext: function() { setActiveScenario(activeScenario + 1); setSelectedOption(null); },
+      canAdvance: selectedOption !== null,
+      isComplete: activeScenario >= INTEGRITY_SCENARIOS.length,
+      startLabel: "First Scenario",
+      nextLabel: "Next Scenario \u2192",
+      finishLabel: "All scenarios reviewed",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83C\uDF93"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "You've thought through the gray areas."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Most integrity calls aren't between right and wrong. They're between using AI to learn and using AI to skip the learning."))
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
+        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, sc.icon), /*#__PURE__*/React.createElement("span", {
+          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
+        }, sc.title)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, /*#__PURE__*/React.createElement("strong", null, "Situation: "), sc.situation),
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", flexDirection: "column", gap: 8 }
+        }, sc.options.map(function(opt, i) { return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          onClick: function() { setSelectedOption(i); },
+          style: {
+            padding: "14px 16px",
+            borderRadius: 10,
+            border: selectedOption === i ? "2px solid " + (opt.verdict === "wrong" ? "#ef4444" : opt.verdict === "ok" ? "#f59e0b" : "#10b981") : "1px solid var(--rule)",
+            background: selectedOption === i ? (opt.verdict === "wrong" ? "#fef2f2" : opt.verdict === "ok" ? "#fffbeb" : "#ecfdf5") : "var(--card)",
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: selectedOption === i ? 8 : 0 }
+        }, opt.label), selectedOption === i && /*#__PURE__*/React.createElement("div", {
+          style: { animation: "fadeIn 0.3s ease" }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }
+        }, /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 14, fontWeight: 700, color: opt.verdict === "wrong" ? "#ef4444" : opt.verdict === "ok" ? "#f59e0b" : "#10b981" }
+        }, opt.verdict === "wrong" ? "\u274C Not okay" : opt.verdict === "ok" ? "\u26A0\uFE0F Use with caution" : "\u2705 Good approach")), /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+        }, opt.explain))); }))))),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 48, marginBottom: 16 } }, "How to Cite AI"),
   /*#__PURE__*/React.createElement("p", {
     style: {

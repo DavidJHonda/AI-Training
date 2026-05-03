@@ -56,6 +56,8 @@ const {
 function getName() {
   try { return localStorage.getItem("llm-user-name") || "Friend"; } catch(e) { return "Friend"; }
 }
+const COURSE_TITLE = "Be Smarter Than the Tool";
+const COURSE_SUBTITLE = "Patterns, Probability, and Predictions Behind AI";
 function useLocalStorage(key, defaultVal) {
   const [val, setVal] = useState(() => {
     try {
@@ -332,7 +334,7 @@ function ProgressBar(props) {
   var completed = props.lessonsCompleted || 0;
   var total = props.totalLessons || 45;
   var pct = Math.min(100, Math.round(completed / total * 100));
-  return React.createElement("div", { style: { width: 220 } },
+  return React.createElement("div", { style: { width: "min(220px, 100%)" } },
     React.createElement("div", { style: { textAlign: "right", marginBottom: 6, fontSize: 12, fontFamily: "var(--sans)", lineHeight: 1.4 } },
       React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)" } }, completed),
       React.createElement("span", { style: { fontWeight: 500, color: "var(--inkMuted)" } }, " of " + total + " lessons")
@@ -8942,6 +8944,15 @@ function PrivacySection(props) {
   /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: viewedRules.size >= PRIVACY_RULES.length, onClick: () => props.onNavigate && props.onNavigate("workchanges"), label: "Next: Work Changes" }));
 }
 function WhatYouLearnedSection(props) {
+  const QUESTIONS_YOU_CAN_ANSWER = [
+    "Why does AI sometimes make up facts that sound completely real?",
+    "Why does AI type one word at a time?",
+    "Why do conversations with AI get slower and worse the longer they go?",
+    "Why can the same question get a different answer every time?",
+    "Why does the way you ask a question change the quality of the answer?",
+    "Why does AI agree with you even when you\u2019re wrong?",
+    "Why do some people get dramatically better results from AI than others?"
+  ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -9001,7 +9012,30 @@ function WhatYouLearnedSection(props) {
   }, group.items.map((item, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: group.color, fontWeight: 700, flexShrink: 0 } }, "\u2022"), item)))))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", { style: { color: group.color, fontWeight: 700, flexShrink: 0 } }, "\u2022"), item)))))),
+  /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--primaryFaint)", border: "1px solid #6e51ff33", borderRadius: 12, padding: "20px 24px", marginBottom: 24 }
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.2, color: "var(--primary)", marginBottom: 8 }
+    }, "Questions you can answer now"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35, marginBottom: 8 }
+    }, "Here\u2019s the whole course in question form."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.65, margin: "0 0 18px 0" }
+    }, "Most people who use AI every day can\u2019t answer these. You can."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", gap: 10 }
+    }, QUESTIONS_YOU_CAN_ANSWER.map(function(q, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 16px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { width: 28, height: 28, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 } }, i + 1),
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 600, color: "var(--ink)", lineHeight: 1.5 } }, q));
+    }))),
+  /*#__PURE__*/React.createElement("div", {
     style: {
       background: "linear-gradient(135deg, #ede9fe, #e0e7ff)",
       borderRadius: 12,
@@ -10596,7 +10630,8 @@ function LLMExplorer() {
       style: { textAlign: "center", maxWidth: 560, animation: "fadeIn 0.4s ease" }
     },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", letterSpacing: 3, textTransform: "uppercase", marginBottom: 16 } }, "INTERACTIVE COURSE"),
-      /*#__PURE__*/React.createElement("h1", { style: { fontSize: 42, fontWeight: 800, color: "#ffffff", lineHeight: 1.2, margin: 0 } }, getName() === "Friend" ? "Your AI Training" : getName() + "\u2019s AI Training"),
+      /*#__PURE__*/React.createElement("h1", { style: { fontSize: 42, fontWeight: 800, color: "#ffffff", lineHeight: 1.2, margin: 0 } }, COURSE_TITLE),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 600, color: "rgba(255,255,255,0.82)", lineHeight: 1.45, maxWidth: 560, margin: "14px auto 0" } }, COURSE_SUBTITLE),
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.6, maxWidth: 500, margin: "16px auto 0" } }, "An interactive course on AI: how it works, where it fails, and how to use it better than everyone else."),
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.6, maxWidth: 480, margin: "8px auto 0", fontStyle: "italic" } }, "You\u2019ve probably heard the scary predictions. By the end of this course you\u2019ll have enough understanding to decide for yourself what\u2019s real and what\u2019s noise."),
       /*#__PURE__*/React.createElement("div", { style: { width: 60, height: 1, background: "rgba(255,255,255,0.15)", margin: "32px auto" } }),
@@ -10626,12 +10661,69 @@ function LLMExplorer() {
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap');
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-      `), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 36 }
-  }, /*#__PURE__*/React.createElement("h1", {
-    style: { fontSize: 32, fontWeight: 800, color: "var(--ink)", margin: 0, lineHeight: 1.2 }
-  }, getName() === "Friend" ? "Your AI Training" : getName() + "\u2019s AI Training"),
-  /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.visited || []).length })), function() {
+        .course-topbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 28px;
+          margin-bottom: 36px;
+        }
+        .course-title-lockup { min-width: 0; }
+        .course-title-main {
+          font-family: var(--sans);
+          font-size: 34px;
+          font-weight: 800;
+          color: var(--ink);
+          line-height: 1.12;
+          letter-spacing: -0.035em;
+          margin: 0;
+        }
+        .course-title-subtitle {
+          font-family: var(--sans);
+          font-size: 17px;
+          font-weight: 500;
+          color: var(--inkSoft);
+          line-height: 1.45;
+          margin-top: 8px;
+        }
+        .course-user-progress {
+          flex: 0 0 220px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+        .course-user-name {
+          font-family: var(--sans);
+          font-size: 13px;
+          font-weight: 800;
+          color: var(--ink);
+          margin-bottom: 6px;
+        }
+        @media (max-width: 760px) {
+          .course-topbar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 28px;
+          }
+          .course-title-main { font-size: 28px; }
+          .course-title-subtitle { font-size: 16px; }
+          .course-user-progress {
+            width: 100%;
+            flex: none;
+            align-items: flex-start;
+          }
+        }
+      `), /*#__PURE__*/React.createElement("div", { className: "course-topbar" },
+    /*#__PURE__*/React.createElement("div", { className: "course-title-lockup" },
+      /*#__PURE__*/React.createElement("h1", { className: "course-title-main" }, COURSE_TITLE),
+      /*#__PURE__*/React.createElement("div", { className: "course-title-subtitle" }, COURSE_SUBTITLE)
+    ),
+    /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
+      /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
+      /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.visited || []).length })
+    )
+  ), function() {
     var activeGroupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.includes(activeSection); });
     if (activeGroupIdx < 0) activeGroupIdx = 0;
     var activeGroup = SECTION_GROUPS[activeGroupIdx];

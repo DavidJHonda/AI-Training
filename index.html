@@ -430,7 +430,7 @@ const SECTION_GROUPS = [{
   sections: ["critical", "mindtrap", "flattery", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
 }, {
   label: "AI in the Real World",
-  sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "workchanges", "aifuture"]
+  sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "synthetic", "workchanges", "aifuture"]
 }, {
   label: "Finish Line",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -647,6 +647,12 @@ const SECTIONS = [{
   label: "Privacy & Awareness",
   title: "Privacy",
   icon: "\uD83D\uDD12"
+}, {
+  id: "synthetic",
+  kicker: "FAKE IS CHEAP NOW",
+  label: "Seeing Isn\u2019t Proof",
+  title: "Seeing Isn\u2019t Proof",
+  icon: "\uD83D\uDC41\uFE0F"
 }, {
   id: "whatyoulearned",
   kicker: "THE BIG PICTURE",
@@ -9343,7 +9349,131 @@ function PrivacySection(props) {
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
   }, item.desc))))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("workchanges"), label: "Next: Work Changes" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
+}
+function SyntheticMediaSection(props) {
+  const [permIdx, setPermIdx] = useState(0);
+  const [permAnswer, setPermAnswer] = useState(null);
+  const [startedPerms, setStartedPerms] = useState(false);
+  const SCENARIOS = [{
+    icon: "\uD83D\uDCDE",
+    setup: "You get a voicemail that sounds exactly like your mom. She says she\u2019s locked out at work and needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
+    options: [
+      { label: "It sounds exactly like her. Text her the login so she\u2019s not stuck.", correct: false, feedback: "Voice is no longer proof. AI can clone a voice from about 30 seconds of audio, and that audio can come from anywhere your mom has been recorded \u2014 a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
+      { label: "Don\u2019t send anything. Call her actual number first to confirm.", correct: true, feedback: "Right. Calling back on a number you already trust is the cheapest fraud check that exists. If the real her picks up, you ask if she left a voicemail. If she didn\u2019t, you just caught a scam in ten seconds. Verify on a different channel from the message." },
+      { label: "Reply to the voicemail asking \u2018Is this really you?\u2019 to verify.", correct: false, feedback: "Whoever set up the scam can keep the conversation going. They control the channel. Verification has to happen somewhere they don\u2019t control. \u2018Is this really you?\u2019 is a question every scammer is ready to answer convincingly." }
+    ]
+  }, {
+    icon: "\uD83D\uDCF8",
+    setup: "A photo is going around showing you doing something embarrassing at a party last weekend. You weren\u2019t at that party. The photo looks real. Three of your classmates have already seen it.",
+    options: [
+      { label: "Post a denial right away. Get ahead of it.", correct: false, feedback: "Denial without proof reads like a denial. Right now you have no evidence the photo is fake \u2014 it just looks real and you know you weren\u2019t there. Posting fast feels like control and usually backfires. People remember the accusation, not the response." },
+      { label: "Save the image, screenshot where it\u2019s spreading, and tell a parent or counselor before responding publicly.", correct: true, feedback: "Right. Documentation matters because the image will keep moving. A trusted adult can help you figure out the right move \u2014 contacting the platform, contacting the school, sometimes contacting law enforcement. Public reaction can wait. Quiet first steps are stronger than fast loud ones." },
+      { label: "Confront whoever shared it first and demand they take it down.", correct: false, feedback: "Now it\u2019s a public fight, and they hold the audience\u2019s attention while it\u2019s happening. Adults and platform reports get faster results without making the story bigger. The goal isn\u2019t to win the argument. The goal is to stop the spread." }
+    ]
+  }, {
+    icon: "\uD83C\uDFAC",
+    setup: "A 12-second clip is blowing up on TikTok showing your school principal saying something racist on what looks like a Zoom call. Voice and face look like him. Comments are at 8K. Two of your friends already reposted it.",
+    options: [
+      { label: "Repost with \u2018wtf is this real??\u2019 so people can decide.", correct: false, feedback: "A question mark doesn\u2019t make you neutral. The repost spreads it either way. If it\u2019s fake, you helped a lie reach more people. If it\u2019s real, journalists are already on it without your help. Either way, your repost did something you didn\u2019t intend." },
+      { label: "Don\u2019t repost. Search for the clip on actual news sites. If it\u2019s real, news will cover it. If only TikTok has it, treat it as fake until something more solid shows up.", correct: true, feedback: "Right. Corroboration is the test. Real news travels through more than one channel \u2014 a school district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it\u2019s breaking. Sometimes it means it\u2019s fabricated. Waiting an hour costs nothing and tells you which." },
+      { label: "Comment \u2018this is fake\u2019 on the post.", correct: false, feedback: "You don\u2019t actually know yet. Calling something fake without checking is just as wrong as resharing it as true. Both are confident claims with no evidence behind them. Skip the comment until you\u2019ve looked." }
+    ]
+  }, {
+    icon: "\uD83D\uDCF9",
+    setup: "Someone you\u2019ve been DMing for three weeks says they finally want to video call. Their pictures look like a real person. They\u2019ve been sweet, normal, never weird. The call request feels like a step forward.",
+    options: [
+      { label: "Take the call. A live face is proof. You\u2019ll know in 30 seconds.", correct: false, feedback: "A live face is no longer proof. Real-time deepfake video exists, especially for short calls in low light or with a bad connection (which is the easiest excuse to engineer). And even if the face is real, three weeks of DMs is not three weeks of knowing someone. The risk isn\u2019t the technology. It\u2019s acting alone." },
+      { label: "Tell a friend or family member who they are first, and reverse-image-search their photos before deciding.", correct: true, feedback: "Right. Reverse image search catches photos lifted from someone else\u2019s social account \u2014 one of the most common tells. Telling someone trusted gives you a sanity check from outside the relationship. Both are free. Neither cancels the call. They just mean you\u2019re not the only person who knows what\u2019s going on." },
+      { label: "Block them just in case.", correct: false, feedback: "Overcorrection. The risk isn\u2019t the call. The risk is acting alone on someone you can\u2019t verify. Bringing a sanity check in solves it without nuking what might be a real person." }
+    ]
+  }, {
+    icon: "\uD83D\uDCAC",
+    setup: "Another friend shows you a screenshot of texts where your best friend supposedly trash-talked you behind your back. The screenshot looks real. The wording sounds like something they might say.",
+    options: [
+      { label: "Confront your best friend with the screenshot. They owe you an explanation.", correct: false, feedback: "A fake screenshot can blow up a real friendship in one minute. Editing a text screenshot is something you can do in any photo app, and \u2018sounds like something they\u2019d say\u2019 is exactly what makes a fake convincing. Confrontation locks them into defending themselves before you know what actually happened." },
+      { label: "Don\u2019t react. Ask your best friend directly what happened, without showing the screenshot. Compare what they say to what\u2019s in the image.", correct: true, feedback: "Right. Their natural answer gives you more signal than a confrontation. If the texts are real, the conversation will line up with the screenshot. If they\u2019re fake, the gaps will show. You also haven\u2019t handed them the script. The screenshot is your check, not your accusation." },
+      { label: "Show the screenshot to other friends to ask if they think it looks real.", correct: false, feedback: "Now multiple people are reacting to a screenshot that may not be real. The friendship is in everyone else\u2019s mouths before you\u2019ve even talked to your best friend. Whatever the truth turns out to be, you\u2019ve already done damage." }
+    ]
+  }];
+  const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "synthetic" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "AI now makes fake text cheap. Fake images cheap. Fake voices cheap. Fake video is getting there fast. The price of generating something convincing has collapsed, and it\u2019s only going one direction."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Which means the old test you grew up with \u2014 \u2018does this look real?\u2019 \u2014 doesn\u2019t work anymore. Looking real is no longer the bar. The new question is harder and more useful: ",
+      /*#__PURE__*/React.createElement("strong", null, "where did this come from?")),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Three checks help you answer that. Run any image, clip, voicemail, or screenshot through these before you react, share, or believe."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #6e51ff", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#6e51ff", marginBottom: 6 } }, "Check 1 \u00B7 Source"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Where did this come from?"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Did this come from somewhere with a reason to know? A direct news source. A person you actually know. A verified account. Or did it come from \u2018a friend forwarded it,\u2019 which is the digital version of \u2018I heard from a guy.\u2019")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Check 2 \u00B7 Context"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Does the surrounding info hold up?"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Look around the thing, not just at it. Date, location, what else was happening. A clip of your principal saying something wild on Tuesday afternoon \u2014 was your principal even in that meeting on Tuesday? Does the room match where they actually were?")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Check 3 \u00B7 Corroboration"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Does anywhere else show the same thing?"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "The biggest filter. Real news shows up in multiple places. Real events get talked about by people who weren\u2019t coordinating. If a clip is everywhere on TikTok but nowhere on Google News, that\u2019s information."))),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "linear-gradient(135deg, var(--ink), #22253a)", borderRadius: 14, padding: "22px 24px", color: "#fff", marginBottom: 28, boxShadow: "0 14px 34px rgba(14, 10, 31, 0.16)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#b8adff", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 } }, "The new question"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, lineHeight: 1.3, marginBottom: 10 } }, "Not \u2018does this look real?\u2019 anymore."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "rgba(255,255,255,0.82)", lineHeight: 1.6 } }, "Ask where it came from. Look at what surrounds it. Check if anyone else has the same thing. Three questions, every time, before you react.")),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Time to practice. Each scenario shows something that looks convincing. Pick the move you\u2019d actually make."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", title: "What\u2019s Your Move?" },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: SCENARIOS,
+        currentIdx: permIdx,
+        started: startedPerms,
+        onStart: function() { setStartedPerms(true); },
+        onNext: function() { setPermIdx(permIdx + 1); setPermAnswer(null); },
+        canAdvance: permAnswer !== null,
+        isComplete: permIdx >= SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "All five sorted",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDC41\uFE0F"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Source. Context. Corroboration."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Run anything you\u2019re about to react to through the three checks. Slowing down by a minute is almost always the right call."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }
+        },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, ps.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1 } }, "Scenario ", permIdx + 1, " of ", SCENARIOS.length)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, ps.setup)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: permIdx,
+          statement: "What\u2019s your move?",
+          questionNumber: permIdx + 1,
+          totalQuestions: SCENARIOS.length,
+          options: ps.options,
+          picked: permAnswer != null ? permAnswer : undefined,
+          onAnswer: function(idx) { setPermAnswer(idx); }
+        }))),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "Seeing is no longer proof. {Where it came from is.}" }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, onClick: () => props.onNavigate && props.onNavigate("workchanges"), label: "Next: Work Changes" }));
 }
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
@@ -11016,6 +11146,7 @@ const SECTION_COMPONENTS = {
   whenaiacts: WhenAIActsSection,
   integrity: IntegritySection,
   privacy: PrivacySection,
+  synthetic: SyntheticMediaSection,
   whatyoulearned: WhatYouLearnedSection,
   fullworkflow: FullWorkflowSection,
   testyourself: TestYourselfSection,

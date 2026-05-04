@@ -99,6 +99,7 @@ When David asks for content changes, the right pattern is:
 ### Consistency push (in progress)
 - Wave 1: Defined ShowcaseBox component. Migrated three boxes in AIHistorySection to use it. Canonical style: --primaryFaint fill, no border, borderRadius 20, padding 24, with SectionKicker outside the box.
 - Wave 2: Defined KeyInsight component. Migrated 5 existing key-insight boxes (ModelSelection, Verify, FlatteryTrap, QuestionsValuable, WorkChanges) to use it. Canonical style: --info-bg fill, no border, 🔑 icon, body at 17px. Distinct from ShowcaseBox by color.
+- Wave 3: Redesigned KeyInsight to inline layout (icon + text in one flow, no flex columns). Migrated 17 callouts total: PreAssessment, Embeddings, BehindTheNumbers, Inference (restructured from wrapped demo to h3 + body + KeyInsight), Customization, ModelSelection, ChoosingModel (merged two boxes into one), ThinkingMode, Hallucination, FlatteryTrap, Integrity (×3: simple test, best defense, goal), Privacy (golden rule), QuestionsValuable (The shift), HumanEdge, WorkChanges. Zero remaining "🔑 Key Insight" or "🔑 The key insight" eyebrow strings in the file.
 
 ## Open / pending
 
@@ -107,7 +108,7 @@ When David asks for content changes, the right pattern is:
 - 7 quizzes intentionally bespoke, not converted to QuizBlock (Test Yourself, Probability, Integrity, AI Strengths, HeadToHead, Key Terms, Training sorting)
 - The twins haven't tested the app yet — recommendation is to ship and watch real students use it
 - Two leftover items identified during audit, intentionally not cleaned up: dead "capstone" entry in CHIP_LABELS, orphan "llm-precheck-score" localStorage write that nothing reads back
-- Consistency push: Wave 1 (ShowcaseBox) shipped. Future waves to extract TipCard (icon + title + desc pattern), StageCard (colored-border ladder pattern), and HighlightBox (dark gradient highlight pattern) once enough usages are catalogued. Smaller standardization passes still pending: h3 spacing, info-callout format consistency, two-column compare blocks.
+- Consistency push: Waves 1 (ShowcaseBox) and 2 (KeyInsight) shipped. ShowcaseBox migrations now applied across roughly 25 boxes throughout the file (AIHistory, BlackBox, Generative, Data, Hallucination, TrainingBias, Embeddings, BehindTheNumbers, HowAIReads, Context, ModelSelection, ChoosingModel, Customization, MindTrap, FlatteryTrap, Evaluating, Prompting, WhenAIActs, QuestionsValuable, HumanEdge, Integrity, Privacy, WhenAIJudges, SyntheticMedia, WorkChanges, AIFuture, WhatYouLearned). AIFuture closing restructured to remove gradient frame and use SectionKicker + body + ShowcaseBox + page-level callouts. Lavender-fill-no-border established as a usable pattern in two flavors: full ShowcaseBox component for framework content with cards, plain styled wrapper for prose sidebars. Future waves to extract TipCard (icon + title + desc pattern), StageCard (colored-border ladder pattern, used in 3+ ShowcaseBoxes), and HighlightBox (dark gradient highlight pattern) once enough usages are catalogued. Decision pending whether to demote casual 💡 lightbulb tips to plain bold body paragraphs (current lean) or formalize as a separate small Tip pattern. Smaller standardization passes still pending: h3 spacing, info-callout format consistency, two-column compare blocks.
 
 ## How to ask for help in this Project
 

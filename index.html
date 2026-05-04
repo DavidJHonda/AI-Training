@@ -129,6 +129,22 @@ function SectionKicker(props) {
   var style = props.style ? Object.assign({}, baseStyle, props.style) : baseStyle;
   return /*#__PURE__*/React.createElement("div", { style: style }, props.children);
 }
+function ShowcaseBox(props) {
+  return /*#__PURE__*/React.createElement("div", { style: { marginTop: props.marginTop != null ? props.marginTop : 0 } },
+    props.kicker ? /*#__PURE__*/React.createElement(SectionKicker, null, props.kicker) : null,
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: props.marginBottom != null ? props.marginBottom : 24 }
+    },
+      props.headline ? /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
+      }, props.headline) : null,
+      props.intro ? /*#__PURE__*/React.createElement("p", {
+        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
+      }, props.intro) : null,
+      props.children
+    )
+  );
+}
 function InteractiveBox(props) {
   var variant = props.variant === "see" ? "see" : "try";
   var iconAndLabel = variant === "see" ? "👁 SEE IT" : "✎ TRY IT";
@@ -332,7 +348,7 @@ function QuizBlock(props) {
 }
 function ProgressBar(props) {
   var completed = props.lessonsCompleted || 0;
-  var total = props.totalLessons || 45;
+  var total = props.totalLessons || SECTIONS.length;
   var pct = Math.min(100, Math.round(completed / total * 100));
   return React.createElement("div", { style: { width: "min(220px, 100%)" } },
     React.createElement("div", { style: { textAlign: "right", marginBottom: 6, fontSize: 12, fontFamily: "var(--sans)", lineHeight: 1.4 } },
@@ -951,52 +967,30 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
     }, "The subtitle of this class names the lens: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI systems find repeated signals in data, estimate what is most likely, and use those estimates to choose or generate an output. You\u2019ll see this same lens show up in every lesson."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "YOU ALREADY USE AI"),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 20, padding: 24, marginBottom: 30 }
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "YOU ALREADY USE AI",
+      headline: "AI is hiding in apps you use every day.",
+      intro: "Most of the time, it is doing one thing: predicting what you might tap, say, watch, search for, or need next.",
+      marginBottom: 30
     },
       /*#__PURE__*/React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 22, alignItems: "center" }
+        style: { display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }
       },
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", {
-            style: { display: "inline-block", background: "var(--primary)", color: "#fff", fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "4px 12px", letterSpacing: 0.5, marginBottom: 12 }
-          }, "Already in your pocket"),
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
-          }, "AI is hiding in apps you use every day."),
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 14 }
-          }, "Most of the time, it is doing one thing: predicting what you might tap, say, watch, search for, or need next."),
-),
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }
-        },
-          EVERYDAY_AI_USES.map(function(item, i) {
-            return /*#__PURE__*/React.createElement("div", {
-              key: i,
-              style: { background: "var(--card)", borderRadius: 14, padding: 14, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)", border: "1px solid rgba(231, 227, 242, 0.65)", width: 145, flexShrink: 0 }
-            },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, item.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 3 } }, item.label),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.45, marginBottom: 4 } }, item.prediction),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)" } }, item.examples));
-          })))),
-    /*#__PURE__*/React.createElement("p", {
-      style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
-    }, "Let\u2019s open one of those boxes. Google Maps is a good example. When it gives you driving directions, it isn\u2019t magically seeing the future. It\u2019s making a prediction using the same lens."),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 24 }
+        EVERYDAY_AI_USES.map(function(item, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 14, padding: 14, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)", border: "1px solid rgba(231, 227, 242, 0.65)", width: 145, flexShrink: 0 }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, item.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 3 } }, item.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.45, marginBottom: 4 } }, item.prediction),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)" } }, item.examples));
+        }))),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "EXAMPLE: GOOGLE MAPS",
+      headline: "How does it give you directions?",
+      intro: "Google Maps isn\u2019t magically seeing the future. It\u2019s making a prediction using the same lens you just saw, even though it\u2019s not the same kind of AI as ChatGPT."
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "inline-block", background: "var(--primary)", color: "#fff", fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "4px 12px", letterSpacing: 0.5, marginBottom: 12 }
-      }, "Example: Google Maps"),
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 6 }
-      }, "How does it give you directions?"),
-      /*#__PURE__*/React.createElement("p", {
-        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
-      }, "It uses the same three moves, even though it\u2019s not the same kind of AI as ChatGPT."),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }
       }, MAPS_LENS.map(function(item, i) {
@@ -1019,22 +1013,21 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 }
     }, "That\u2019s the attitude we want with tools like ChatGPT: useful, impressive, and sometimes wrong. The goal isn\u2019t to reject the tool. It\u2019s to understand what kind of prediction machine you\u2019re using."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WORDS YOU'LL HEAR"),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 32 }
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "WORDS YOU'LL HEAR",
+      marginBottom: 32
     },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }
       },
         /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14 }
-          }, "Core terms in this course"),
           [
             { term: "AI", def: "The broad field of building systems that perform tasks that usually seem to require human intelligence." },
             { term: "Generative AI", def: /*#__PURE__*/React.createElement(React.Fragment, null, "AI that ", /*#__PURE__*/React.createElement("strong", null, "creates new content"), ", like text, images, audio, or video.") },
             { term: "LLM", def: "A Large Language Model. It\u2019s the engine behind tools like ChatGPT and Claude. It works by predicting what to say next, one piece at a time." },
-            { term: "Prompt", def: "The message you give the AI: your question, instruction, examples, or context. It is the input the model uses to decide what to generate." }
+            { term: "Prompt", def: "The message you give the AI: your question, instruction, examples, or context. It is the input the model uses to decide what to generate." },
+            { term: "Product", def: "The app you use, like ChatGPT, Claude, or Gemini. A product can be built around one or more models." },
+            { term: "Model", def: "The trained engine inside the product that generates the response. Some products use one model, while others let you choose between several." }
           ].map(function(d, i) {
             return /*#__PURE__*/React.createElement("div", {
               key: i,
@@ -1046,17 +1039,12 @@ function AIHistorySection(props) {
           })
         ),
         /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14 }
-          }, "Related terms you\u2019ll hear"),
           [
-            { term: "Product", def: "The app you use, like ChatGPT, Claude, or Gemini. A product can be built around one or more models." },
-            { term: "Model", def: "The trained engine inside the product that generates the response. Some products use one model, while others let you choose between several." },
             { term: "Chatbot", def: "A conversational interface built around a model. You ask, it answers." },
             { term: "Agent", def: "An AI system that doesn\u2019t just answer. It takes steps, uses tools, and acts toward a goal you set." },
             { term: "Agentic AI", def: "The broader category: AI built to do things, not just say things. The shift from chatbot to agent is one of the biggest changes in how people will use AI." },
             { term: "Multimodal", def: "AI that can work with more than text: images, screenshots, PDFs, audio, and video. The word means \u201Cmore than one mode of input.\u201D" },
-            { term: "Machine Learning", def: "Often used interchangeably with AI in news and conversation. Technically it’s the technique behind modern AI: systems that learn patterns from data instead of following rules someone wrote." }
+            { term: "Machine Learning", def: "Often used interchangeably with AI in news and conversation. Technically it\u2019s the technique behind modern AI: systems that learn patterns from data instead of following rules someone wrote." }
           ].map(function(d, i) {
             return /*#__PURE__*/React.createElement("div", {
               key: i,
@@ -1067,7 +1055,7 @@ function AIHistorySection(props) {
             );
           })
         )
-      ),
+      )
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "GENERATIVE AI"),
     /*#__PURE__*/React.createElement("p", {
@@ -2358,9 +2346,11 @@ function GenerativeSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "what word probably comes next?"),
       " Then it adds that word and repeats the process."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 6 } }, "The AI generative loop"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 14 } }, "Every response is built by repeating the same loop."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "THE AI GENERATIVE LOOP",
+      intro: "Every response is built by repeating the same loop.",
+      marginBottom: 28
+    },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 } },
         [
           { n: "1", title: "Read what exists so far", body: "Your prompt, the chat so far, and the words already generated." },
@@ -2372,21 +2362,19 @@ function GenerativeSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 22, height: 22, borderRadius: 999, background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, marginBottom: 8 } }, step.n),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--ink)", marginBottom: 4, lineHeight: 1.35 } }, step.title),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, step.body));
-        })),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 800, borderRadius: 8, padding: "10px 12px", textAlign: "center", marginTop: 14, fontSize: 14, lineHeight: 1.5 } },
-        "Same prompt. Different next-word choices. Different path.")
+        }))
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 14 } }, "Two questions, one answer"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Why does AI type one word at a time?"),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "TWO QUESTIONS, ONE ANSWER",
+      marginBottom: 28
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.35 } }, "Why does AI type one word at a time?"),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Because each word is chosen after the words before it.")),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Why can the same question get a different answer?"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Because there are usually several possible next words, and different choices can send the response down a different path."))),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 700, borderRadius: 8, padding: "10px 12px", marginTop: 14, textAlign: "center", fontSize: 14, lineHeight: 1.5 } },
-        "The key: AI is not retrieving one official answer. It is generating a path.")
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.35 } }, "Why can the same question get a different answer?"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Because there are usually several possible next words, and different choices can send the response down a different path.")))
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
       "This is different than computer programs that use stored answers. In this exercise, you’ll see an example based on a single question, “What’s the best game for my new PS5?”"
@@ -2485,45 +2473,41 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--ink)", fontWeight: 600, marginBottom: 28, lineHeight: 1.65, fontSize: 17 } },
       "AI products have controls around them. But the core model is not a rulebook."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 10 } }, "The tradeoff"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 18 } },
-        "Rules are predictable but limited. Patterns are flexible but harder to guarantee."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "THE TRADEOFF",
+      headline: "Rules are predictable but limited. Patterns are flexible but harder to guarantee.",
+      marginBottom: 28
+    },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid #bfdbfe", borderRadius: 10, padding: "14px 16px" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, color: "#1e40af", fontSize: 15, marginBottom: 8 } }, "Regular software"),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 15, marginBottom: 8 } }, "Regular software"),
           /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 18, color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7 } },
             /*#__PURE__*/React.createElement("li", null, "Exact rule"),
             /*#__PURE__*/React.createElement("li", null, "Easy to inspect"),
             /*#__PURE__*/React.createElement("li", null, "Same result every time"),
             /*#__PURE__*/React.createElement("li", null, "Strong when the situation is narrow"))),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid #ddd6fe", borderRadius: 10, padding: "14px 16px" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, color: "#5b21b6", fontSize: 15, marginBottom: 8 } }, "AI"),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 15, marginBottom: 8 } }, "AI"),
           /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 18, color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7 } },
             /*#__PURE__*/React.createElement("li", null, "Learned behavior"),
             /*#__PURE__*/React.createElement("li", null, "Harder to inspect"),
             /*#__PURE__*/React.createElement("li", null, "Can vary by wording and context"),
-            /*#__PURE__*/React.createElement("li", null, "Strong when the situation is messy")))
-      )
+            /*#__PURE__*/React.createElement("li", null, "Strong when the situation is messy"))))
     ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 12 } }, "You’ll see it in the news"),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 12px 0" } },
-        "These failures do not happen because AI wants to break rules. They happen because learned behavior is harder to lock down than written rules."
-      ),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 12px 0" } },
-        "That is why you’ll keep seeing stories like these:"
-      ),
-      /*#__PURE__*/React.createElement("ul", { style: { paddingLeft: 22, margin: "0 0 14px 0" } },
-        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Scams and cybercrime scale faster because AI can generate code, messages, and fake identities quickly."),
-        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Fake images and videos can humiliate real people, including students."),
-        /*#__PURE__*/React.createElement("li", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 6 } }, "Medical or safety advice can sound confident while still being wrong.")
-      ),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7, margin: 0 } },
-        "When you hear stories like these, remember the mechanism: the system is being steered by examples and guardrails, not controlled by one perfect rule for every possible situation."
-      )
+    /*#__PURE__*/React.createElement(SectionKicker, null, "YOU\u2019LL SEE IT IN THE NEWS"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, fontSize: 17, lineHeight: 1.65 } },
+      "These failures do not happen because AI wants to break rules. They happen because learned behavior is harder to lock down than written rules."
+    ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 12, fontSize: 17, lineHeight: 1.65 } },
+      "That is why you\u2019ll keep seeing stories like these:"
+    ),
+    /*#__PURE__*/React.createElement("ul", { style: { paddingLeft: 22, margin: "0 0 16px 0" } },
+      /*#__PURE__*/React.createElement("li", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 6 } }, "Scams and cybercrime scale faster because AI can generate code, messages, and fake identities quickly."),
+      /*#__PURE__*/React.createElement("li", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 6 } }, "Fake images and videos can humiliate real people, including students."),
+      /*#__PURE__*/React.createElement("li", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 6 } }, "Medical or safety advice can sound confident while still being wrong.")
+    ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 28, fontSize: 17, lineHeight: 1.65 } },
+      "When you hear stories like these, remember the mechanism: the system is being steered by examples and guardrails, not controlled by one perfect rule for every possible situation."
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT THE AI COMPANIES DO"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, lineHeight: 1.65, fontSize: 17 } },
@@ -2631,10 +2615,11 @@ function DataSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 6 } }, "The move AI makes"),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 0, marginBottom: 16 } },
-        "AI takes messy input, applies what it learned during training, and returns it in a structured form."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "THE MOVE AI MAKES",
+      intro: "AI takes messy input, applies what it learned during training, and returns it in a structured form.",
+      marginBottom: 28
+    },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
         [
           { title: "Unstructured input", body: "Messy text, speech, images, documents, audio, or video." },
@@ -2844,26 +2829,10 @@ function HowAIReadsSection(props) {
       "But that still leaves one huge problem: words are not like Coke. Coke means roughly the same thing sitting by itself. Words change meaning depending on the other words around them."
     ),
 
-    E("div", {
-      style: {
-        background: "var(--bg)",
-        border: "1px solid var(--rule)",
-        borderRadius: 12,
-        padding: 22,
-        marginBottom: 28
-      }
+    E(ShowcaseBox, {
+      kicker: "FROM NUMBER PROFILES TO CONTEXT",
+      marginBottom: 28
     },
-      E("div", {
-        style: {
-          fontSize: 13,
-          fontWeight: 800,
-          color: "var(--primary)",
-          textTransform: "uppercase",
-          letterSpacing: "0.5px",
-          marginBottom: 14
-        }
-      }, "FROM NUMBER PROFILES TO CONTEXT"),
-
       E("div", {
         style: {
           display: "grid",
@@ -2876,9 +2845,9 @@ function HowAIReadsSection(props) {
             key: card.title,
             style: {
               background: "var(--card)",
+              border: "1px solid var(--rule)",
               borderRadius: 15,
-              padding: "16px 18px",
-              boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)"
+              padding: "16px 18px"
             }
           },
             E("div", {
@@ -3523,19 +3492,22 @@ function TrainingBiasSection(props) {
       "That answer would not come from evil intent. It would come from bad training data. The model learned one slice of driving and treated it like the whole thing."),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 28, lineHeight: 1.65, fontSize: 17 } },
       "That’s training bias."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "HOW BIAS GETS IN"),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, marginBottom: 16 } },
-      "Not one mechanism. Four overlapping ones, all traceable to the data the model saw."),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 32 } },
-      MECHANISMS.map(function(m, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, m.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, m.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line1),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line2),
-          m.term ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--inkMuted)", marginTop: 8 } }, m.term) : null);
-      })
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "HOW BIAS GETS IN",
+      intro: "Not one mechanism. Four overlapping ones, all traceable to the data the model saw.",
+      marginBottom: 32
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
+        MECHANISMS.map(function(m, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, m.icon),
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, m.label)),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line1),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line2),
+            m.term ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--inkMuted)", marginTop: 8 } }, m.term) : null);
+        })
+      )
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
       "In this exercise, you’ll see some true examples of Training Bias. See if you can guess the mistake made by the model."),
@@ -4122,14 +4094,16 @@ function EmbeddingsSection(props) {
   var blockStyle = { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 16 };
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
-  E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, marginBottom: 24 } },
-    E("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 12 } }, "FROM TOKENS TO MEANING"),
+  E(ShowcaseBox, {
+    kicker: "FROM TOKENS TO MEANING",
+    marginBottom: 24
+  },
     E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, alignItems: "stretch" } },
-      E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "0 6px 18px rgba(14, 10, 31, 0.05)" } },
+      E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: "14px 16px" } },
         E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: 5 } }, "Last lesson"),
         E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 5 } }, "Text \u2192 token IDs"),
         E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "The model got stable labels for pieces of text.")),
-      E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "0 6px 18px rgba(14, 10, 31, 0.05)" } },
+      E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: "14px 16px" } },
         E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: 5 } }, "This lesson"),
         E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 5 } }, "Token IDs \u2192 meaning profiles"),
         E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Now those labels need numbers the model can compare.")))
@@ -4291,7 +4265,7 @@ function BehindTheNumbersSection(props) {
     E("p", { style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 } },
       "The Coke example was not random soda trivia. It was a tiny version of what an embedding layer does: turn something into numbers so the model can compare patterns."),
 
-    E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 22, marginBottom: 28 } },
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 } },
 
       E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, marginBottom: 18 } },
         E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } },
@@ -4679,7 +4653,7 @@ function PredictionSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6 } }, "Each word you added changed which predictions made sense. That\u2019s exactly what the model does: it processes all the words together to narrow thousands of possibilities down to the best one.")) : null);
     })(),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } }, "You just felt what the model needs to do. But how does it figure out which words matter to which other words? Vectors alone can\u2019t do this. The architecture that makes it possible is up next.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vectors make prediction possible. {Layers make it accurate}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: predStepsRevealed > 0, onClick: () => props.onNavigate && props.onNavigate("howreads"), label: "Next: Transformer Architecture" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vectors make prediction possible. {Layers make it accurate}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: predStepsRevealed > 0, onClick: () => props.onNavigate && props.onNavigate("layers"), label: "Next: Layers" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -5941,8 +5915,11 @@ function ContextSection(props) {
         null
       )),
 
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", padding: "20px 22px", marginBottom: 24 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 12 } }, "What goes on the whiteboard:"),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "WHAT GOES ON THE WHITEBOARD",
+      marginTop: 24,
+      marginBottom: 24
+    },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
         [
           { icon: "\uD83D\uDCAC", label: "Your current prompt", desc: "The message you just typed" },
@@ -6328,26 +6305,32 @@ function ModelSelectionSection(props) {
       onClick: () => { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
       style: { display: "block", width: "100%", padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
     }, "Next Scenario \u2192")),
-  /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 48, marginBottom: 8 } }, "How AI tends to fail you"),
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48 } },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "HOW AI TENDS TO FAIL YOU")
+  ),
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
   }, "Different products aren\u2019t just better or worse at things. They\u2019re trained differently, so they fail differently. Knowing the failure shape matters more than knowing the rankings, because rankings shift every few months."),
   /*#__PURE__*/React.createElement("p", {
-    style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 }
+    style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
   }, "Here are four shapes of failure. Each one is a way an AI can let you down even when it sounds confident."),
-  /*#__PURE__*/React.createElement("div", {
-    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 24 }
-  }, FAILURE_STYLES.map(function(fs, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: { background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "0 8px 22px rgba(31, 25, 70, 0.06)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, fs.icon),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)" } }, fs.name)),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, fs.desc),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 12px", fontSize: 13, color: "var(--ink)", lineHeight: 1.55, fontWeight: 600 } }, fs.watch));
-  })),
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
+    marginBottom: 24
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }
+    }, FAILURE_STYLES.map(function(fs, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: 18 }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, fs.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)" } }, fs.name)),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, fs.desc),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 12px", fontSize: 13, color: "var(--ink)", lineHeight: 1.55, fontWeight: 600 } }, fs.watch));
+    }))
+  ),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "14px 18px", marginBottom: 24, fontSize: 15, color: "var(--ink)", lineHeight: 1.65 }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why no rankings?"), " The model that\u2019s most agreeable today might get retrained tomorrow. The companies update these tools constantly. The failure shapes are durable. The leaderboard isn\u2019t."),
@@ -6703,7 +6686,7 @@ function TemperatureSection(props) {
       marginTop: 18,
       marginBottom: 18
     }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework.")), /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, onClick: () => props.onNavigate && props.onNavigate("customization"), label: "Next: Customization & Memory" }));
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework.")), /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, onClick: () => props.onNavigate && props.onNavigate("customization"), label: "Next: Customization" }));
 }
 const HALLUCINATION_QUIZ = [{
   question: "Who led the NHL in goals for the 2025 season?",
@@ -6825,17 +6808,21 @@ function HallucinationSection(props) {
       "That creates the problem: ", /*#__PURE__*/React.createElement("strong", null, "likely does not always mean true.")),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
       "One specific version of that problem is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". It’s a strange word to use, because AI doesn’t literally see anything. But the idea is simple: AI generates a claim that sounds real, even though it is made up."),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("h3", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 8, marginTop: 0 } }, "What counts as a hallucination?"),
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 10px 0" } }, "Not every wrong answer is a hallucination. A hallucination is a made-up detail presented like a fact."),
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 } },
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "WHAT COUNTS AS A HALLUCINATION?",
+      intro: "Not every wrong answer is a hallucination. A hallucination is a made-up detail presented like a fact.",
+      marginBottom: 18
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
         hallucinationTypes.map(function(item, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 14 } },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, item.title),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, item.body));
-        })),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 800, fontSize: 14, lineHeight: 1.5, borderRadius: 8, padding: "10px 12px", textAlign: "center", marginTop: 14 } }, "The dangerous part: hallucinations often look clean, confident, detailed, and specific.")
+        }))
     ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 28, fontSize: 17, lineHeight: 1.65 } },
+      /*#__PURE__*/React.createElement("strong", null, "The dangerous part:"),
+      " hallucinations often look clean, confident, detailed, and specific."),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
     }, "In this exercise, you\u2019ll select whether AI\u2019s response was Real or Hallucinated."),
@@ -6980,7 +6967,7 @@ function VerifySection(props) {
           style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
         }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating the Results" }));
+        }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating" }));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -7817,7 +7804,7 @@ function PromptingSection(props) {
       lineHeight: 1.6
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain)))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, onClick: () => props.onNavigate && props.onNavigate("thoughtpartner"), label: "Next: Your Thought Partner" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, onClick: () => props.onNavigate && props.onNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
   const [tpStep, setTpStep] = useState(0);
@@ -8632,7 +8619,7 @@ function MindTrapSection(props) {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
     }, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math\u201D with nothing interesting going on. That\u2019s also a bias. These are genuinely new systems that don\u2019t map onto either box. They\u2019re not minds the way you are. They\u2019re also not calculators. The honest answer is that nobody fully knows yet, and pretending you do, in either direction, makes you dumber."),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "It feels human. {It is something else.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.onNavigate && props.onNavigate("flattery"); }, label: "Next: The Flattery Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.onNavigate && props.onNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -8816,7 +8803,7 @@ function FlatteryTrapSection(props) {
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18, marginBottom: 18 }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The key insight: "), "The friendlier the model feels, the more skeptical you should be of its praise. Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the model never pushes back on you, it\u2019s not being helpful. It\u2019s performing helpfulness."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("prompting"), label: "Next: The Art of Prompting" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("prompting"), label: "Next: Art of Prompting" }));
 }
 const INTEGRITY_SCENARIOS = [{
   id: "essay",
@@ -9239,7 +9226,7 @@ function IntegritySection(props) {
       marginBottom: 18
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "The goal isn't to avoid AI. "), "It's to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don't use it at all, and far more than those who let it do the thinking for them."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "\u2018AI made it\u2019 doesn\u2019t mean \u2018I did it.\u2019 {And it doesn\u2019t mean \u2018I own it.\u2019}" }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, onClick: () => props.onNavigate && props.onNavigate("privacy"), label: "Next: Privacy & Awareness" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "\u2018AI made it\u2019 doesn\u2019t mean \u2018I did it.\u2019 {And it doesn\u2019t mean \u2018I own it.\u2019}" }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, onClick: () => props.onNavigate && props.onNavigate("privacy"), label: "Next: Privacy" }));
 }
 function PrivacySection(props) {
   const [redactIdx, setRedactIdx] = useState(0);
@@ -11011,7 +10998,7 @@ function HumanEdgeSection(props) {
         "AI raises the cost of vague work and raises the value of sharp thinking. The skills above don\u2019t replace AI. They\u2019re what makes AI worth using.")
     ),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI can do the math. {The judgment is still yours}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.onNavigate && props.onNavigate("integrity"); }, label: "Next: Academic Integrity" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.onNavigate && props.onNavigate("integrity"); }, label: "Next: Integrity" })
   );
 }
 function WorkChangesSection(props) {

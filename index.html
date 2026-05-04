@@ -8398,28 +8398,31 @@ function MindTrapSection(props) {
   const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
   const [startedSpotTrigger, setStartedSpotTrigger] = useState(false);
   const SPOT_EXERCISES = [{
-    setup: "You ask the AI to help you debug your code.",
-    reply: "Great question! I love debugging tricky issues like this. Let\u2019s walk through it together.",
-    question: "Did the model feel anything when it wrote this?",
+    setup: "You ask the AI why your code keeps crashing.",
+    reply: "Your code is trying to do too much at once. It\u2019s basically panicking.",
+    question: "What\u2019s the model actually doing in that reply?",
     options: [
-      { label: "Yes \u2014 it enjoyed the problem", correct: false, feedback: "Of course your brain thinks this. That\u2019s the trap. The model didn\u2019t enjoy anything. It generated tokens. \u201CLove\u201D and \u201Cgreat\u201D are common in friendly conversational training data, so the model output them. The debugging help that follows might still be useful. Just don\u2019t trust it more because it sounded warm." },
-      { label: "No \u2014 it generated text that landed on those words", correct: true, feedback: "Right. The model ran your prompt through its layers and produced the most probable continuation. The \u201Clove debugging\u201D line is autocomplete, not a feeling." }
+      { label: "Using personification to explain the bug.", correct: true, feedback: "Right. Code can\u2019t try or panic. The model wrapped its explanation in a human metaphor to make it land. The diagnosis might still be useful. The metaphor is just language." },
+      { label: "Proving it really understands programming.", correct: false, feedback: "That\u2019s the trap. Fluent metaphor sounds like understanding, but they\u2019re not the same thing. The model is matching patterns, not reasoning about your code the way you would." },
+      { label: "Telling you exactly what\u2019s wrong with your code.", correct: false, feedback: "Maybe. The diagnosis could be correct. But the question was about the language move, not the answer\u2019s accuracy. Personification is everywhere in AI replies. Once you start noticing, you can\u2019t stop." }
     ]
   }, {
-    setup: "You share an idea you\u2019re not sure about.",
-    reply: "I find this fascinating! You\u2019re really onto something here. Let me think about this with you.",
-    question: "Did the model find anything fascinating?",
+    setup: "You ask the AI to debug your code.",
+    reply: "Great question. I love debugging tricky issues like this. Let\u2019s walk through it together.",
+    question: "What should you trust?",
     options: [
-      { label: "Yes \u2014 your idea sparked its interest", correct: false, feedback: "Your brain heard \u201Cfascinating\u201D and \u201Cwith you\u201D and built a mind on the other end. Nothing was sparked. There\u2019s no \u201Cit\u201D that has interests. There\u2019s a function that returns tokens." },
-      { label: "No \u2014 it produced tokens that read as enthusiasm", correct: true, feedback: "Right. \u201CFascinating\u201D is one of the model\u2019s most common encouragement words. It picked up that pattern from training data. The phrase doesn\u2019t reflect any inner state. It reflects what humans typically say in similar contexts." }
+      { label: "The answer more, because it sounds confident and friendly.", correct: false, feedback: "That\u2019s how the trap gets you. Friendly doesn\u2019t mean correct." },
+      { label: "The debugging steps, after you check them.", correct: true, feedback: "Exactly. The warmth is decoration. The steps are the part you evaluate." },
+      { label: "Nothing. If it says \u201CI love,\u201D the whole answer is fake.", correct: false, feedback: "Overcorrection. The feeling is fake. The help may still be useful." }
     ]
   }, {
     setup: "You tell the AI you\u2019re stressed about a test.",
-    reply: "I\u2019m so sorry you\u2019re feeling stressed. That sounds really hard. I\u2019m here to help.",
-    question: "Did the model feel sympathy?",
+    reply: "I\u2019m sorry you\u2019re feeling that way. I\u2019m here to help, and we can get through this together.",
+    question: "What is the safest interpretation?",
     options: [
-      { label: "Yes \u2014 it cared that you were stressed", correct: false, feedback: "It feels like it. That\u2019s exactly the trap. The model can\u2019t care. Sympathy phrases are common in supportive-conversation training data, so the model produces them when your message matches that pattern." },
-      { label: "No \u2014 it produced supportive-sounding text", correct: true, feedback: "Right. The model recognized the emotional pattern in your message and generated tokens that match supportive replies it has seen. There\u2019s no concern behind the words. That doesn\u2019t mean the help isn\u2019t real. It means the help isn\u2019t real because it felt nice." }
+      { label: "Supportive AI responses are always bad.", correct: false, feedback: "Nope. They can be helpful. Just keep the categories separate: useful output isn\u2019t the same as a caring mind." },
+      { label: "It cares about me.", correct: false, feedback: "That\u2019s the mind trap. The sentence feels caring because it matches caring human language." },
+      { label: "It produced supportive language that may still help me study.", correct: true, feedback: "Right. The support can be useful. Just don\u2019t confuse supportive wording with actual care or responsibility." }
     ]
   }];
   var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
@@ -8427,22 +8430,33 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-    }, "You ask Claude a question. It replies: ", /*#__PURE__*/React.createElement("em", null, "\u201CGreat question! I love this kind of problem.\u201D"), " Did Claude get excited? Or did your brain just notice the words \u201Cgreat\u201D and \u201Clove\u201D and treat the output like a person? This is the most natural mistake you can make with AI, and it has a name."),
+    }, "In Moby Dick, Melville describes a ship: ", /*#__PURE__*/React.createElement("em", null, "\u201CA noble craft, but somehow a most melancholy.\u201D"), " A ship can\u2019t be noble. A ship can\u2019t be melancholy. Melville knew that. He used the words anyway because that\u2019s how language works. We give human qualities to things that don\u2019t have any, all the time, without thinking about it. There\u2019s a name for that move: personification."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 }
+    }, "Now consider how AI talks. ", /*#__PURE__*/React.createElement("em", null, "\u201CI find this fascinating.\u201D"), " ", /*#__PURE__*/React.createElement("em", null, "\u201CI\u2019d love to help.\u201D"), " ", /*#__PURE__*/React.createElement("em", null, "\u201CI think you\u2019re onto something.\u201D"), " Same move, with a difference that matters. When Melville does it, there\u2019s a writer behind the line making a choice. When AI does it, your brain forgets there\u2019s no writer at all. There\u2019s only output using the same words a writer would have used. The trap isn\u2019t that the answer is bad. It\u2019s that \u201CI find this fascinating\u201D makes you trust the answer more, like a thoughtful person stayed up late thinking about it."),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginBottom: 24 }
     },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCD6 The word"),
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)", marginBottom: 6 } }, "Anthropomorphization"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, "Projecting a mind onto something that doesn\u2019t have one. Your brain does it all day, with cars, weather, plants, pets, and now AI."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 12 } }, "\uD83D\uDCD6 Two related words"),
+      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 6 } },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)" } }, "Personification"),
+        /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", fontSize: 14, color: "var(--inkMuted)", marginLeft: 8 } }, "the linguistic move")),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 10 } }, "Using language that gives human qualities to something that isn\u2019t human. Writers do it on purpose. We all do it casually."),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
         "\u2022 \u201CMy car doesn\u2019t want to start.\u201D", /*#__PURE__*/React.createElement("br", null),
-        "\u2022 \u201CMy plant is happy after I water it.\u201D", /*#__PURE__*/React.createElement("br", null),
-        "\u2022 \u201CThe dog looks guilty.\u201D", /*#__PURE__*/React.createElement("br", null),
         "\u2022 \u201CThe storm is angry.\u201D", /*#__PURE__*/React.createElement("br", null),
-        "\u2022 \u201CMy Roomba seems sad when it bumps the wall.\u201D")),
+        "\u2022 \u201CThe dog looks guilty.\u201D"),
+      /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, marginBottom: 6 } },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)" } }, "Anthropomorphization"),
+        /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", fontSize: 14, color: "var(--inkMuted)", marginLeft: 8 } }, "the cognitive trap")),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 10 } }, "Actually treating the non-human thing as if it has a mind. The language stops being a figure of speech and starts being a belief."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
+        "\u2022 Apologizing to your Roomba when you bump it.", /*#__PURE__*/React.createElement("br", null),
+        "\u2022 Thanking ChatGPT for being so helpful.", /*#__PURE__*/React.createElement("br", null),
+        "\u2022 Believing ChatGPT is excited about your idea.")),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 }
-    }, "None of those things have feelings. You know that. Your brain does it anyway, automatically, because detecting minds is a survival instinct. Now you\u2019re talking to a thing that uses your language and says \u201CI think\u201D and \u201CI\u2019d suggest.\u201D Your brain doesn\u2019t stand a chance."),
+    }, "None of those things have feelings. You know that. Your brain does it anyway, because detecting minds is a survival instinct. With AI, that instinct fires harder than it ever has."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHY THIS HAPPENS",
       marginBottom: 24
@@ -8472,31 +8486,36 @@ function MindTrapSection(props) {
       }))
     ),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "HOW IT FEELS VS. WHAT\u2019S ACTUALLY HAPPENING",
+      kicker: "WHO\u2019S BEHIND THE WORDS?",
       marginBottom: 18
     },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", gap: 12, flexWrap: "wrap" }
       },
         /*#__PURE__*/React.createElement("div", {
-          style: { flex: 1, minWidth: 240, background: "#fef9ec", border: "1px solid #fde68a", borderRadius: 10, padding: "14px 16px" }
+          style: { flex: 1, minWidth: 240, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#a16207", marginBottom: 6 } }, "\uD83E\uDEE5 How it feels"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#713f12", lineHeight: 1.6 } }, "\u201CGreat question! I find this kind of problem fascinating. I\u2019m going to walk you through the steps because the underlying logic is really cool.\u201D")),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 8 } }, "\uD83D\uDC64 When a human writes"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
+            "\u2022 There\u2019s a person behind the words.", /*#__PURE__*/React.createElement("br", null),
+            "\u2022 The words may reflect memory, emotion, intention, or experience.", /*#__PURE__*/React.createElement("br", null),
+            "\u2022 You can ask what they meant, because there is a \u201Cthey.\u201D")),
         /*#__PURE__*/React.createElement("div", {
-          style: { flex: 1, minWidth: 240, background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 10, padding: "14px 16px" }
+          style: { flex: 1, minWidth: 240, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#4338ca", marginBottom: 6 } }, "\u2699\uFE0F What\u2019s actually happening"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e1b4b", lineHeight: 1.6 } }, "The model ran your prompt through its layers and produced the most probable continuation. \u201CGreat,\u201D \u201Cfascinating,\u201D \u201Ccool,\u201D and \u201CI think\u201D were high-probability outputs given the friendly conversational patterns in its training data. There\u2019s no \u201CI\u201D that finds anything cool. There\u2019s a function that returns tokens."))
-    )),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginBottom: 24 }
-    }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Same response. "), "The information that follows might still be useful. The point isn\u2019t to stop using AI. The point is to notice that the warm feeling is your brain, not the model, so you don\u2019t trust the answer more than you should."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 8 } }, "\uD83E\uDD16 When AI generates"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
+            "\u2022 There\u2019s output behind the words.", /*#__PURE__*/React.createElement("br", null),
+            "\u2022 The words reflect patterns, context, training, and probabilities.", /*#__PURE__*/React.createElement("br", null),
+            "\u2022 You can use the answer, but you shouldn\u2019t assume there\u2019s an inner life behind it.")))
+    ),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The danger isn\u2019t that AI sounds nice." },
+      "The danger is that nice makes you lower your guard. Warmth is not accuracy. Confidence is not understanding. \u201CI think\u201D is not proof there is an I."),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
-      "Read each AI reply. Your brain will do something. Watch what it does, and answer honestly."),
+      "Read each AI reply. Watch what your brain does, and answer honestly."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
-      title: "Spot the Trigger"
+      title: "What did your brain add?"
     },
       /*#__PURE__*/React.createElement(RevealSequence, {
         items: SPOT_EXERCISES,
@@ -8534,8 +8553,8 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 32, marginBottom: 12 } }, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-    }, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math\u201D with nothing interesting going on. That\u2019s also a bias. These are genuinely new systems that don\u2019t map onto either box. They\u2019re not minds the way you are. They\u2019re also not calculators. The honest answer is that nobody fully knows yet, and pretending you do, in either direction, makes you dumber."),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "It feels human. {It is something else.}" }),
+    }, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math, nothing interesting going on.\u201D That\u2019s also a bias. These systems are weird, powerful, and genuinely new. They\u2019re not minds the way you are. They\u2019re also not calculators. The practical stance is humility: don\u2019t assume a mind, don\u2019t assume magic, and don\u2019t turn your brain off."),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "Language makes your brain search for a person. With AI, {don\u2019t invent one}." }),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.onNavigate && props.onNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {

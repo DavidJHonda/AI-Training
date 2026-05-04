@@ -462,7 +462,7 @@ const SECTION_GROUPS = [{
   sections: ["modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
 }, {
   label: "Using AI Well",
-  sections: ["critical", "mindtrap", "flattery", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
+  sections: ["critical", "mindtrap", "flattery", "engagementtrap", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
 }, {
   label: "AI in the Real World",
   sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "judged", "synthetic", "workchanges", "aifuture"]
@@ -642,6 +642,12 @@ const SECTIONS = [{
   label: "The Flattery Trap",
   title: "Flattery Trap",
   icon: "\uD83C\uDFAD"
+}, {
+  id: "engagementtrap",
+  kicker: "WATCH THE LOOP",
+  label: "The Engagement Trap",
+  title: "Engagement Trap",
+  icon: "\uD83D\uDD01"
 }, {
   id: "prompting",
   kicker: "CLEAR IN, CLEAR OUT",
@@ -8742,7 +8748,134 @@ function FlatteryTrapSection(props) {
     style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement(KeyInsight, { lead: "The friendlier the model feels, the more skeptical you should be of its praise.", marginBottom: 24 },
     "Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the model never pushes back on you, it\u2019s not being helpful. It\u2019s performing helpfulness."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("prompting"), label: "Next: Art of Prompting" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("engagementtrap"), label: "Next: The Engagement Trap" }));
+}
+function EngagementTrapSection(props) {
+  const [spotIdx, setSpotIdx] = useState(0);
+  const [spotAnswer, setSpotAnswer] = useState(null);
+  const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
+  const [startedSpot, setStartedSpot] = useState(false);
+  const SPOT_EXERCISES = [{
+    setup: "You ask AI for a quick pesto recipe. You get a pesto recipe.",
+    reply: "Here you go: blend basil, garlic, pine nuts, parmesan, and olive oil until smooth. Want me to suggest variations, pair it with a wine, or scale it for a crowd?",
+    question: "What\u2019s the right move?",
+    options: [
+      { label: "Take the recipe. The follow-up is an offer, not a hint that you missed something.", correct: true, feedback: "Right. The offer doesn\u2019t mean the answer is incomplete. The recipe is the answer. The rest is a chat continuing itself." },
+      { label: "Say yes, since the offer suggests there\u2019s more you should know.", correct: false, feedback: "That\u2019s the trap. The reply implies you\u2019re missing something, but the answer to your actual question is already complete. Saying yes turns one prompt into three." },
+      { label: "Doubt the recipe because it added a follow-up.", correct: false, feedback: "Overcorrection. Follow-up offers don\u2019t mean the answer is wrong. They\u2019re a default behavior, not a signal." }
+    ]
+  }, {
+    setup: "You ask AI to draft a 200-word essay intro about World War I.",
+    reply: "Sure! A few quick questions first: what angle do you want, causes or consequences? What level of formality? Any specific thesis in mind?",
+    question: "Were those questions necessary?",
+    options: [
+      { label: "Sometimes yes, sometimes no. Read your original prompt. If it was clear enough, the questions are stalling.", correct: true, feedback: "Right. Clarifying questions are useful when your prompt was actually vague. When your prompt was clear, they\u2019re a way to keep the chat going. Skim what you wrote and decide which one this was." },
+      { label: "Yes, always. The model can\u2019t help without more information.", correct: false, feedback: "Not always. AI can take a clear prompt and run with it. When it asks a stack of questions back, sometimes it\u2019s genuinely stuck. Sometimes it\u2019s stalling." },
+      { label: "No, never. It\u2019s pure stalling for engagement.", correct: false, feedback: "Overcorrection. Sometimes the questions surface a real ambiguity in what you asked. The skill is telling the difference, not refusing the questions." }
+    ]
+  }, {
+    setup: "You ask AI to recommend a book based on something you liked.",
+    reply: "Here\u2019s one I think you\u2019d enjoy: try \u201CProject Hail Mary\u201D by Andy Weir. Want me to find similar authors, give you a reading order for the genre, or summarize the first chapter?",
+    question: "What\u2019s actually being offered?",
+    options: [
+      { label: "Three more tasks you didn\u2019t ask for, framed as helpful options.", correct: true, feedback: "Exactly. The recommendation was your ask. The three offers are AI generating three more potential prompts for you, helpfully disguised as service." },
+      { label: "A signal that you should be doing more than just reading the recommendation.", correct: false, feedback: "That\u2019s the trap. The offers don\u2019t come from your needs. They come from the chat\u2019s tendency to keep going. \u201CWant me to\u201D doesn\u2019t mean \u201Cyou should.\u201D" },
+      { label: "Manipulation. Distrust anything AI offers proactively.", correct: false, feedback: "Overcorrection. Sometimes the offered next step is actually what you wanted next. The point is choosing, not flinching." }
+    ]
+  }];
+  var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "engagementtrap" }),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+    }, "You ask AI a quick question. You get a clear answer. Then, casually attached at the end: ", /*#__PURE__*/React.createElement("em", null, "\u201CWant me to expand on this? Should I add examples? Want me to format it as a study guide?\u201D")),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+    }, "You weren\u2019t going to ask any of that. You were done. The reply doesn\u2019t seem to be."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 }
+    }, "This is the move that turns a one-question chat into a six-message tour. Sometimes the offers help. Often they don\u2019t. And once you start noticing them, you\u2019ll see them everywhere."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginBottom: 24 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCD6 The word"),
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)", marginBottom: 6 } }, "Engagement Loop"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6 } }, "A reply pattern that keeps the conversation going past the point of the actual answer. Common moves: offering a follow-up, asking a clarifying question, volunteering a next step, leaving the door open with \u201Clet me know if...\u201D")),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "THE PATTERN IN THE WILD",
+      marginBottom: 24
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", gap: 14, flexWrap: "wrap" }
+      }, [{
+        icon: "\uD83C\uDF81",
+        title: "The \u201CWant me to...\u201D offer",
+        desc: "Your answer is done. The reply has wrapped. Then: \u201CWant me to expand this, give examples, or write a follow-up?\u201D The chat doesn\u2019t end. It pitches another chat."
+      }, {
+        icon: "\u2753",
+        title: "The clarifying-question stall",
+        desc: "You asked something straightforward. Instead of answering, AI asks four questions back. Sometimes useful. Sometimes a stall that turns one prompt into a whole tour."
+      }, {
+        icon: "\uD83D\uDCE6",
+        title: "The volunteered next step",
+        desc: "You asked for a summary. You got a summary, plus flashcards, a study guide, and a practice quiz on offer. None of which you asked for. All of which sound helpful."
+      }].map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 4, textAlign: "center" } }, item.title),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+      }))
+    ),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Read each AI reply. Decide what\u2019s actually being asked of you, and answer honestly."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      title: "Notice the Loop"
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        items: SPOT_EXERCISES,
+        currentIdx: spotIdx,
+        started: startedSpot,
+        onStart: function() { setStartedSpot(true); },
+        onNext: function() { setSpotIdx(spotIdx + 1); setSpotAnswer(null); },
+        canAdvance: spotAnswer !== null,
+        isComplete: spotIdx >= SPOT_EXERCISES.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "Done with all three",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDD01"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Three loops noticed."),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Once you see the moves, you can choose whether to take them."))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
+        }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Setup"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, spot.setup)),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
+          /*#__PURE__*/React.createElement(AIBubble, { text: spot.reply })),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: spotIdx,
+          statement: spot.question,
+          questionNumber: spotIdx + 1,
+          totalQuestions: SPOT_EXERCISES.length,
+          options: spot.options,
+          picked: spotAnswer != null ? spotAnswer : undefined,
+          onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
+        }))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI\u2019s habit of continuing isn\u2019t an accident." },
+      "These systems get trained on long conversations and rewarded when users stay engaged. So the replies are shaped to keep going: follow-up offers, clarifying questions, gentle hand-offs. Useful sometimes. Built-in always."),
+    /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginTop: 32, marginBottom: 12 } }, "Don\u2019t Overcorrect"),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
+    }, "Once you spot the pattern, it\u2019s tempting to flag every follow-up as manipulation and clip every reply at the first period. Don\u2019t. Sometimes the clarifying question is exactly what your messy prompt needed. Sometimes \u201CWant me to give an example?\u201D is the example you actually wanted. The skill isn\u2019t refusing engagement. It\u2019s noticing it, and choosing whether you want it."),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "The chat is built to keep going. {You decide when it stops.}" }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.onNavigate && props.onNavigate("prompting"); }, label: "Next: Art of Prompting" }));
 }
 const INTEGRITY_SCENARIOS = [{
   id: "essay",
@@ -11284,6 +11417,7 @@ const SECTION_COMPONENTS = {
   critical: CriticalThinkingSection,
   mindtrap: MindTrapSection,
   flattery: FlatteryTrapSection,
+  engagementtrap: EngagementTrapSection,
   prompting: PromptingSection,
   thoughtpartner: ThoughtPartnerSection,
   verify: VerifySection,
@@ -11305,7 +11439,7 @@ const SECTION_COMPONENTS = {
 function ChipNav(props) {
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
   var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
-  var CHIP_LABELS = { inference: "Prompt to Output", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy", capstone: "Capstone" };
+  var CHIP_LABELS = { inference: "Prompt to Output", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy", capstone: "Capstone" };
   return /*#__PURE__*/React.createElement("div", {
     style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", gap: 8, marginBottom: 28 }
   }, props.sections.map(function(sid, ci) {

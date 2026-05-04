@@ -38,6 +38,7 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 - BottomLine: italic eyebrow + 32px serif thought. Use {emphasis} braces for italic-purple emphasis spans.
 - InteractiveBox: variant "try" (✎) or "see" (👁), purple-dashed border, --primaryFaint fill, green eyebrow. Optional title/hint/action/children.
 - ShowcaseBox: framed callout for introducing or illustrating a concept, typically containing supporting cards. --primaryFaint fill, no border, borderRadius 20, padding 24. Props: kicker (renders SectionKicker above box), headline (bold line at top of box), intro (supporting paragraph), marginBottom (override default 24px). Children render below the intro. All props except children are optional.
+- KeyInsight: structural takeaway callout, distinct from ShowcaseBox. --info-bg fill (light blue), no border, borderRadius 14, 🔑 icon. Props: lead (optional bold inline phrase before body), marginTop and marginBottom (override default 24px). Children render as body text at standard 17px. Used for lesson-level zoom-out takeaways, not casual tips. Different visual color from ShowcaseBox to differentiate the two patterns.
 - PrimaryButton: purple fill, white text, hover lift, --primaryDeep on hover. Disabled prop. Renders trailing arrow automatically.
 - SecondaryButton: transparent, --rule border, leading or trailing arrow.
 - QuizBlock: recessed --bg fill, --rule border. Statement is sans 22px/600/--ink (NOT serif italic). Per-option correct via opt.correct.
@@ -97,6 +98,7 @@ When David asks for content changes, the right pattern is:
 
 ### Consistency push (in progress)
 - Wave 1: Defined ShowcaseBox component. Migrated three boxes in AIHistorySection to use it. Canonical style: --primaryFaint fill, no border, borderRadius 20, padding 24, with SectionKicker outside the box.
+- Wave 2: Defined KeyInsight component. Migrated 5 existing key-insight boxes (ModelSelection, Verify, FlatteryTrap, QuestionsValuable, WorkChanges) to use it. Canonical style: --info-bg fill, no border, 🔑 icon, body at 17px. Distinct from ShowcaseBox by color.
 
 ## Open / pending
 

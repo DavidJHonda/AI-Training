@@ -1767,6 +1767,48 @@ function WhyDeeperSection(props) {
   const [missingIdx, setMissingIdx] = useState(0);
   const [missingAnswer, setMissingAnswer] = useState(null);
   const [startedMissing, setStartedMissing] = useState(false);
+  const [missingPhase, setMissingPhase] = useState("idle");
+  const [missingUserChar, setMissingUserChar] = useState(0);
+  const [missingAiWord, setMissingAiWord] = useState(0);
+  useEffect(function() {
+    if (startedMissing && missingPhase === "idle") {
+      setMissingUserChar(0);
+      setMissingAiWord(0);
+      setMissingPhase("typing-user");
+    }
+  }, [startedMissing, missingIdx]);
+  useEffect(function() {
+    if (missingPhase === "typing-user") {
+      var chars = MISSING_SCENARIOS[missingIdx].prompt;
+      if (missingUserChar >= chars.length) { setMissingPhase("pausing"); return; }
+      var timer = setInterval(function() {
+        setMissingUserChar(function(prev) {
+          if (prev >= chars.length - 1) { clearInterval(timer); setMissingPhase("pausing"); return chars.length; }
+          return prev + 1;
+        });
+      }, 25);
+      return function() { clearInterval(timer); };
+    }
+  }, [missingPhase, missingIdx]);
+  useEffect(function() {
+    if (missingPhase === "pausing") {
+      var timer = setTimeout(function() { setMissingAiWord(0); setMissingPhase("typing-ai"); }, 2000);
+      return function() { clearTimeout(timer); };
+    }
+  }, [missingPhase]);
+  useEffect(function() {
+    if (missingPhase === "typing-ai") {
+      var words = MISSING_SCENARIOS[missingIdx].response.split(" ");
+      if (missingAiWord >= words.length) { setMissingPhase("done"); return; }
+      var timer = setInterval(function() {
+        setMissingAiWord(function(prev) {
+          if (prev >= words.length - 1) { clearInterval(timer); setMissingPhase("done"); return words.length; }
+          return prev + 1;
+        });
+      }, 45);
+      return function() { clearInterval(timer); };
+    }
+  }, [missingPhase, missingIdx]);
   const MISSING_SCENARIOS = [{
     prompt: "What\u2019s the best way to study?",
     response: "The best way to study is the active recall method. Test yourself on the material instead of just rereading. Use spaced repetition to space out your review sessions. Take breaks every 25 minutes. Get good sleep and stay hydrated.",
@@ -1878,7 +1920,7 @@ function WhyDeeperSection(props) {
         currentIdx: missingIdx,
         started: startedMissing,
         onStart: function() { setStartedMissing(true); },
-        onNext: function() { setMissingIdx(missingIdx + 1); setMissingAnswer(null); },
+        onNext: function() { setMissingIdx(missingIdx + 1); setMissingAnswer(null); setMissingPhase("idle"); setMissingUserChar(0); setMissingAiWord(0); },
         canAdvance: missingAnswer !== null,
         isComplete: missingIdx >= MISSING_SCENARIOS.length,
         startLabel: "First Scenario",
@@ -1892,9 +1934,21 @@ function WhyDeeperSection(props) {
           /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "That\u2019s the edge. Not memorizing what AI is bad at. Noticing what\u2019s missing in real time."))
       },
         /*#__PURE__*/E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
-          /*#__PURE__*/E(UserBubble, { text: ms.prompt }),
-          /*#__PURE__*/E(AIBubble, { text: ms.response })),
-        /*#__PURE__*/E(QuizBlock, {
+          /*#__PURE__*/E("div", { style: { display: "flex", justifyContent: "flex-end" } },
+            /*#__PURE__*/E("div", { style: { maxWidth: "min(82%, 620px)" } },
+              /*#__PURE__*/E("div", { style: { color: "var(--primary)", fontSize: 12, fontWeight: 800, marginBottom: 5, textAlign: "right" } }, "You"),
+              /*#__PURE__*/E("div", { style: { background: "#fff", borderRadius: "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } },
+                missingPhase === "typing-user" ? ms.prompt.substring(0, missingUserChar) : ms.prompt,
+                missingPhase === "typing-user" ? /*#__PURE__*/E("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))),
+          missingPhase === "pausing" ? /*#__PURE__*/E("div", { style: { display: "flex", justifyContent: "flex-start" } },
+            /*#__PURE__*/E("div", { style: { background: "var(--card)", color: "var(--inkMuted)", borderRadius: "16px 16px 16px 4px", padding: "10px 14px", fontSize: 13, fontWeight: 700, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } }, "AI is thinking...")) : null,
+          (missingPhase === "typing-ai" || missingPhase === "done") ? /*#__PURE__*/E("div", { style: { display: "flex", justifyContent: "flex-start" } },
+            /*#__PURE__*/E("div", { style: { maxWidth: "min(88%, 700px)" } },
+              /*#__PURE__*/E("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 800, marginBottom: 5 } }, "AI"),
+              /*#__PURE__*/E("div", { style: { background: "var(--card)", borderRadius: "16px 16px 16px 4px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)" } },
+                missingPhase === "typing-ai" ? ms.response.split(" ").slice(0, missingAiWord).join(" ") : ms.response,
+                missingPhase === "typing-ai" ? /*#__PURE__*/E("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))) : null),
+        missingPhase === "done" ? /*#__PURE__*/E(QuizBlock, {
           key: missingIdx,
           statement: "Which human edge is missing here?",
           questionNumber: missingIdx + 1,
@@ -1902,7 +1956,7 @@ function WhyDeeperSection(props) {
           options: ms.options,
           picked: missingAnswer != null ? missingAnswer : undefined,
           onAnswer: function(idx) { setMissingAnswer(idx); }
-        }))),
+        }) : null)),
     /*#__PURE__*/E(ShowcaseBox, {
       kicker: "WHY THIS MATTERS NOW",
       headline: "Three places this skill shows up first."

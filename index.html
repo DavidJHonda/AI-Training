@@ -292,16 +292,97 @@ function QuizBlock(props) {
     if (props.picked == null) setInternalPicked(idx);
     if (props.onAnswer) props.onAnswer(idx, options[idx] && options[idx].correct);
   };
-  var BADGES = ["A", "B", "C", "D", "E", "F"];
   var hoveredOpt = useState(null); var hoverIdx = hoveredOpt[0]; var setHoverIdx = hoveredOpt[1];
+  var minimal = !!props.minimal;
+  var surface = props.surface === "mint" ? "mint" : "default";
+  var feedbackText = hasPicked && options[picked] ? options[picked].feedback : null;
+
+  if (surface === "mint") {
+    var hasNumeral = props.questionNumber != null;
+    var numeralOpacity = hasPicked ? 1 : 0.6;
+    var titleRow = React.createElement("div", {
+      style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 }
+    },
+      hasNumeral ? React.createElement("div", {
+        style: { fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "#2f7d4f", opacity: numeralOpacity, flexShrink: 0 }
+      }, String(props.questionNumber).padStart(2, "0")) : null,
+      React.createElement("div", {
+        style: { flex: 1, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, fontWeight: 600, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }
+      }, props.statement));
+
+    var optionsList = React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
+    },
+      options.map(function(opt, i) {
+        var isHovered = !hasPicked && hoverIdx === i;
+        var isCorrect = !!opt.correct;
+        var isPicked = picked === i;
+        var bgColor, borderColor, textColor, opacity;
+        if (!hasPicked) {
+          bgColor = isHovered ? "#eef4eb" : "#fff";
+          borderColor = isHovered ? "#2f7d4f" : "var(--rule)";
+          textColor = "#0e0a1f";
+          opacity = 1;
+        } else if (isPicked && isCorrect) {
+          bgColor = "#1f9d5f"; borderColor = "#1f9d5f"; textColor = "#fff"; opacity = 1;
+        } else if (isPicked && !isCorrect) {
+          bgColor = "#f1f0f3"; borderColor = "transparent"; textColor = "#6e6986"; opacity = 1;
+        } else {
+          bgColor = "#fff"; borderColor = "var(--rule)"; textColor = "#0e0a1f"; opacity = 1;
+        }
+        return React.createElement("button", {
+          key: i,
+          onClick: function() { handlePick(i); },
+          onMouseEnter: function() { if (!hasPicked) setHoverIdx(i); },
+          onMouseLeave: function() { setHoverIdx(null); },
+          disabled: hasPicked,
+          style: {
+            display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
+            background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
+            cursor: hasPicked ? "default" : "pointer", textAlign: "left",
+            fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600,
+            color: textColor, opacity: opacity, transition: "all 150ms ease", width: "100%"
+          }
+        },
+          React.createElement("div", { style: { flex: 1 } }, opt.label),
+          (isPicked && isCorrect) ? React.createElement("span", { style: { color: "#fff", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
+          (isPicked && !isCorrect) ? React.createElement("span", { style: { color: "#d4334a", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
+        );
+      })
+    );
+
+    var feedbackBlock = feedbackText ? React.createElement("div", {
+      style: {
+        display: "flex", gap: 10, alignItems: "flex-start",
+        marginTop: 16, paddingLeft: hasNumeral ? 66 : 0,
+        fontFamily: "'Source Serif 4', 'Instrument Serif', serif",
+        fontWeight: 400, fontSize: 16, lineHeight: 1.55,
+        maxWidth: "calc(60ch + " + (hasNumeral ? 66 : 0) + "px)",
+        color: pickedCorrect ? "#1f9d5f" : "#d4334a",
+        animation: "fadeIn 0.3s ease"
+      }
+    },
+      React.createElement("span", { style: {
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        width: 20, height: 20, borderRadius: 999,
+        background: pickedCorrect ? "#1f9d5f" : "#d4334a", color: "#fff",
+        fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 3,
+        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
+      } }, pickedCorrect ? "\u2713" : "\u2715"),
+      React.createElement("div", null, feedbackText)
+    ) : null;
+
+    return React.createElement("div", { style: { padding: 0 } }, titleRow, optionsList, feedbackBlock);
+  }
+
+  // Default surface (unchanged from previous behavior)
+  var BADGES = ["A", "B", "C", "D", "E", "F"];
   var qLabel = null;
   if (props.questionNumber != null) {
     qLabel = props.totalQuestions != null
       ? "Q \u00B7 QUESTION " + props.questionNumber + " OF " + props.totalQuestions
       : "Q";
   }
-  var feedbackText = hasPicked && options[picked] ? options[picked].feedback : null;
-  var minimal = !!props.minimal;
   return React.createElement("div", {
     style: minimal ? { padding: 0 } : { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 14, padding: 28 }
   },
@@ -409,11 +490,20 @@ function ThinkingBubble() {
     React.createElement("div", { style: { background: "var(--card)", color: "var(--inkMuted)", borderRadius: "16px 16px 16px 4px", padding: "10px 14px", fontSize: 13, fontWeight: 700, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } }, "AI is thinking..."));
 }
 function RevealSequence(props) {
+  var isMint = props.surface === "mint";
+  var primaryColor = isMint ? "#0e0a1f" : "var(--primary)";
+  var primaryHoverColor = isMint ? "#22253a" : "var(--primary)";
+  var disabledBg = isMint ? "#d8d6e0" : "var(--rule)";
+  var btnFontFamily = isMint ? "'Plus Jakarta Sans', system-ui, sans-serif" : "inherit";
   if (!props.started) {
     return React.createElement("div", { style: { textAlign: "center", padding: "12px 0" } },
       React.createElement("button", {
         onClick: props.onStart,
-        style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
+        style: {
+          padding: "10px 24px", borderRadius: 8,
+          background: primaryColor, color: "#fff", border: "none", cursor: "pointer",
+          fontSize: 14, fontWeight: 700, fontFamily: btnFontFamily
+        }
       }, props.startLabel || "Start"));
   }
   if (props.isComplete) {
@@ -423,7 +513,7 @@ function RevealSequence(props) {
   var label = isLast ? (props.finishLabel || "Finish") : (props.nextLabel || "Next \u2192");
   var canAdvance = props.canAdvance !== false;
   return React.createElement("div", null,
-    React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 } },
+    isMint ? null : React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 } },
       (props.currentIdx + 1) + " of " + props.items.length),
     props.children,
     React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
@@ -433,12 +523,13 @@ function RevealSequence(props) {
         style: {
           padding: "10px 24px",
           borderRadius: 8,
-          background: canAdvance ? "var(--primary)" : "var(--rule)",
+          background: canAdvance ? primaryColor : disabledBg,
           color: canAdvance ? "#fff" : "var(--inkMuted)",
           border: "none",
           cursor: canAdvance ? "pointer" : "not-allowed",
           fontSize: 14,
           fontWeight: 700,
+          fontFamily: btnFontFamily,
           transition: "all 0.2s"
         }
       }, label)));
@@ -8639,9 +8730,16 @@ function MindTrapSection(props) {
       "Read each AI reply. Watch what your brain does, and answer honestly."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
-      title: "What did your brain add?"
+      surface: "mint",
+      title: "What did your brain add?",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(spotIdx + (spotAnswer !== null ? 1 : 0), SPOT_EXERCISES.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SPOT_EXERCISES.length))
     },
       /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "mint",
         items: SPOT_EXERCISES,
         currentIdx: spotIdx,
         started: startedSpotTrigger,
@@ -8653,20 +8751,20 @@ function MindTrapSection(props) {
         nextLabel: "Next Scenario \u2192",
         finishLabel: "Done with all three",
         completionElement: /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+          style: { padding: "20px 0", textAlign: "center" }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDE0"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Three triggers caught."),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "The warmth in the words is your brain. The information after might still be useful. Treat them as different things."))
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83E\uDDE0"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Three triggers caught."),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The warmth in the words is your brain. The information after might still be useful. Treat them as different things."))
       },
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 10 }
-        }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Setup"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, spot.setup)),
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD Setup"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, spot.setup)),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
           /*#__PURE__*/React.createElement(AIBubble, { text: spot.reply })),
         /*#__PURE__*/React.createElement(QuizBlock, {
           key: spotIdx,
+          surface: "mint",
           statement: spot.question,
           questionNumber: spotIdx + 1,
           totalQuestions: SPOT_EXERCISES.length,

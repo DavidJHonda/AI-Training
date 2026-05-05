@@ -29,6 +29,11 @@
     --amber: #d97706;
     --red: #d4334a;
 
+    /* SEE IT band */
+    --seeBand: #faf6ec;
+    --seeAccent: #a36a17;
+    --seeRule: rgba(163, 106, 23, 0.18);
+
     /* type */
     --sans: "Plus Jakarta Sans", system-ui, sans-serif;
     --serif: "Instrument Serif", Georgia, serif;
@@ -166,22 +171,25 @@ function KeyInsight(props) {
 }
 function InteractiveBox(props) {
   var variant = props.variant === "see" ? "see" : "try";
-  var iconAndLabel = variant === "see" ? "👁 SEE IT" : "✎ TRY IT";
+  var iconAndLabel = variant === "see" ? "\u25C9 SEE IT" : "\u270E TRY IT";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";
   var hasHint = props.hint !== undefined && props.hint !== null && props.hint !== "";
   var hasChildren = props.children !== undefined && props.children !== null && props.children !== false;
   var hasTextStack = hasTitle || hasHint;
-  var surface = props.surface === "mint" ? "mint" : "default";
+  var surface = props.surface === "mint" ? "mint" : props.surface === "sand" ? "sand" : "default";
   var containerStyle = surface === "mint"
     ? { background: "#eef4eb", border: "none", borderRadius: 16, padding: "26px 28px" }
+    : surface === "sand"
+    ? { background: "var(--seeBand)", border: "none", borderRadius: 24, padding: "32px 36px 36px" }
     : { background: "var(--primaryFaint)", border: "2px dashed var(--primary)", borderRadius: 16, padding: "26px 28px" };
+  var eyebrowColor = surface === "sand" ? "var(--seeAccent)" : "var(--green)";
   var eyebrowStyle = {
     fontSize: 11,
     fontWeight: 700,
     textTransform: "uppercase",
     letterSpacing: "0.14em",
-    color: "var(--green)",
+    color: eyebrowColor,
     marginBottom: 14
   };
   var titleStyle = {
@@ -491,10 +499,11 @@ function ThinkingBubble() {
 }
 function RevealSequence(props) {
   var isMint = props.surface === "mint";
-  var primaryColor = isMint ? "#0e0a1f" : "var(--primary)";
-  var primaryHoverColor = isMint ? "#22253a" : "var(--primary)";
-  var disabledBg = isMint ? "#d8d6e0" : "var(--rule)";
-  var btnFontFamily = isMint ? "'Plus Jakarta Sans', system-ui, sans-serif" : "inherit";
+  var isSand = props.surface === "sand";
+  var primaryColor = isMint || isSand ? "#0e0a1f" : "var(--primary)";
+  var primaryHoverColor = isMint || isSand ? "#22253a" : "var(--primary)";
+  var disabledBg = isMint || isSand ? "#d8d6e0" : "var(--rule)";
+  var btnFontFamily = isMint || isSand ? "'Plus Jakarta Sans', system-ui, sans-serif" : "inherit";
   if (!props.started) {
     return React.createElement("div", { style: { textAlign: "center", padding: "12px 0" } },
       React.createElement("button", {
@@ -513,7 +522,7 @@ function RevealSequence(props) {
   var label = isLast ? (props.finishLabel || "Finish") : (props.nextLabel || "Next \u2192");
   var canAdvance = props.canAdvance !== false;
   return React.createElement("div", null,
-    isMint ? null : React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 } },
+    isMint || isSand ? null : React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 } },
       (props.currentIdx + 1) + " of " + props.items.length),
     props.children,
     React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
@@ -7121,7 +7130,7 @@ function VerifySection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", marginBottom: 20, paddingBottom: 16, borderBottom: "1px solid var(--rule)" }
   }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 20, fontWeight: 800, color: "var(--primary)" }
+    style: { fontSize: 20, fontWeight: 800, color: "var(--seeAccent)" }
   }, "The question: Is this true?")), /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -7129,11 +7138,19 @@ function VerifySection(props) {
       fontSize: 17,
       lineHeight: 1.65
     }
-  }, "Knowing that AI hallucinates isn't enough. You need a practical toolkit for catching it. These five strategies will help you verify AI output before you use it."), /*#__PURE__*/React.createElement(InteractiveBox, {
+  }, "Knowing that AI hallucinates isn't enough. You need a practical toolkit for catching it. These five strategies will help you verify AI output before you use it."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
-    title: "Verification Strategies"
+    surface: "sand",
+    title: "Verification Strategies",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(activeStrategy + (startedVerify ? 1 : 0), VERIFY_STRATEGIES.length)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + VERIFY_STRATEGIES.length))
   },
     /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "sand",
       items: VERIFY_STRATEGIES,
       currentIdx: activeStrategy,
       started: startedVerify,
@@ -7143,40 +7160,31 @@ function VerifySection(props) {
       isComplete: activeStrategy >= VERIFY_STRATEGIES.length,
       startLabel: "First Strategy",
       nextLabel: "Next Strategy \u2192",
-      finishLabel: "All six strategies",
+      finishLabel: "All five strategies \u2192",
       completionElement: /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        style: { padding: "20px 0", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDD0D"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Six strategies in your toolkit."),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Pick the one that fits the claim. Verify before you trust."))
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDD0D"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Five strategies in your toolkit."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Pick the one that fits the claim. Verify before you trust."))
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, vs.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-        }, vs.label), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-        }, vs.desc))),
-        /*#__PURE__*/React.createElement("div", { style: { marginTop: 14, marginBottom: 10 } },
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(activeStrategy + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, vs.icon),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, vs.label)),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.55 } }, vs.desc))),
+        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 14 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\uD83E\uDD16 What the AI says"),
           /*#__PURE__*/React.createElement(AIBubble, { text: vs.aiSays })),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px", marginBottom: 10 }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-        }, "\u2705 What to do"), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, vs.doThis)),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px" }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--info)", marginBottom: 6 }
-        }, "\uD83D\uDCA1 The rule"), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy > 0, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating" }));
+        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 14 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\u2705 What to do"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, vs.doThis)),
+        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\uD83D\uDCA1 The rule"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, fontStyle: "italic" } }, vs.rule))))), /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy >= VERIFY_STRATEGIES.length, onClick: () => props.onNavigate && props.onNavigate("evaluating"), label: "Next: Evaluating" }));
 }
 const CT_CONCEPTS = [{
   id: "question",

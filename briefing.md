@@ -4,14 +4,14 @@
 An instructor-led AI education web app for high schoolers. Single HTML file with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Course structure
-8 section groups, 50 lessons total.
+8 section groups, 51 lessons total.
 
 - Intro (3): preassessment, whydeeper (titled "Why Learn AI?"), intro
 - Foundations (8): aihistory, howwegothere, aistrengths, aivscode, blackbox, generative, data, hallucination
 - Building the Model (6): training, trainingbias, tokens, embeddings, behindthenumbers, howreads
 - Producing an Answer (7): context, probability, prediction, layers, attention, transform, inference
 - Controls (5): modelselection, choosemodel, thinkingmode, temperature, customization
-- Using AI Well (8): critical, mindtrap, flattery, prompting, thoughtpartner, verify, evaluating, whenaiacts
+- Using AI Well (9): critical, mindtrap, flattery, engagementtrap, prompting, thoughtpartner, verify, evaluating, whenaiacts
 - AI in the Real World (8): questionsvaluable, humanedge, integrity, privacy, judged, synthetic, workchanges, aifuture
 - Finish Line (5): whatyoulearned, fullworkflow, keyterms, testyourself, headtohead
 
@@ -20,7 +20,7 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 ### Tokens (CSS custom properties, defined in :root)
 - Colors: --bg #f6f5fb, --card #fff, --primary #6e51ff, --primaryDeep #4c2dff, --primaryFaint #f7f4ff, --ink #0e0a1f, --inkSoft #3a3550, --inkMuted #6e6986, --rule #e7e3f2, --green #1f9d5f, --red #d4334a
 - Section divider color: #e5e7eb (used directly, not as a token)
-- Typography: --sans (Plus Jakarta Sans), --serif (Instrument Serif)
+- Typography: --sans (Plus Jakarta Sans), --serif (Instrument Serif). Activity feedback prose uses Source Serif 4 (loaded from Google Fonts alongside the other two). All three are referenced directly by font-family string rather than CSS variable.
 - Body paragraph standard: 17px / 1.65 line-height / var(--inkSoft)
 
 ### Design philosophy
@@ -36,9 +36,9 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 - LessonHeader (~line 73): position eyebrow + serif title + optional subtitle. Eyebrow has split styling: "SECTION NN · GROUP · " in var(--inkMuted), "LESSON NN" in var(--primary).
 - SectionKicker: page-level (size="large", 18px) or pre-content (size="small", 13px). Both purple, uppercase, weight 700. Use sparingly — only for genuinely multi-topic lessons or as the eyebrow for a ShowcaseBox. Default behavior is no kicker.
 - BottomLine: italic eyebrow + 32px serif thought. Use {emphasis} braces for italic-purple emphasis spans.
-- InteractiveBox: variant "try" (✎) or "see" (👁), purple-dashed border, --primaryFaint fill, green eyebrow. Optional title/hint/action/children.
+- InteractiveBox: variant "try" (✎) or "see" (👁), purple-dashed border, --primaryFaint fill, green eyebrow. Optional title/hint/action/children. New `surface` prop accepts "mint" to switch container chrome to flat #eef4eb fill with no border (used by Pattern 2 activities). Default surface preserves the lavender + dashed treatment.
 - ShowcaseBox: framed callout for introducing or illustrating a concept, typically containing supporting cards. --primaryFaint fill, no border, borderRadius 20, padding 24. Props: kicker (renders SectionKicker above box), headline (bold line at top of box), intro (supporting paragraph), marginBottom (override default 24px). Children render below the intro. All props except children are optional.
-- KeyInsight: structural takeaway callout, distinct from ShowcaseBox. --info-bg fill (light blue), no border, borderRadius 14, 🔑 icon. Props: lead (optional bold inline phrase before body), marginTop and marginBottom (override default 24px). Children render as body text at standard 17px. Used for lesson-level zoom-out takeaways, not casual tips. Different visual color from ShowcaseBox to differentiate the two patterns.
+- KeyInsight: structural takeaway callout, distinct from ShowcaseBox. --info-bg fill (light blue), no border, borderRadius 14, 🔑 icon, inline layout (no eyebrow row, no flex columns). Props: lead (optional bold inline phrase rendered immediately after the 🔑), marginTop and marginBottom (override default 24px). Body renders at 17px / 1.65 line-height. Used for lesson-level zoom-out takeaways, not casual tips.
 - PrimaryButton: purple fill, white text, hover lift, --primaryDeep on hover. Disabled prop. Renders trailing arrow automatically.
 - SecondaryButton: transparent, --rule border, leading or trailing arrow.
 - QuizBlock: recessed --bg fill, --rule border. Statement is sans 22px/600/--ink (NOT serif italic). Per-option correct via opt.correct.
@@ -47,6 +47,43 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 ### Patterns
 - Append-only progressive disclosure: state variable revealedCount, increments on click, content blocks render conditionally. Used in howwegothere (9 reveals through 350 years of history). Lighter than full state-machine progressive disclosure; classroom-friendly because past content stays visible.
 - BottomLine and Next-button gating: when content uses progressive disclosure, BottomLine and the lesson's Next-button should be disabled until the final reveal. Pattern in use on aivscode, data, training, howwegothere.
+
+## Activity Patterns
+TRY IT and SEE IT activities follow one of two sanctioned interaction patterns. Both share the same visual language so the course feels unified across activities.
+
+### Choosing between patterns
+- **Pattern 1 (Progressive Disclosure)**: each scenario is its own moment with setup + question + per-question feedback. Use when sequential pacing builds the lesson. Best for quiz-style scenarios where the student needs to focus on one item at a time.
+- **Pattern 2 (Parallel Sort/Match)**: all items visible at once, sorted independently. Use when the cognitive work is "look at the full picture, make multiple decisions." Best for sorting/categorization tasks. Per-item feedback reveals as each item is answered.
+- Bespoke activities (text entry, redaction, builders, sliders) sit outside both patterns and stay one-off.
+
+### Shared visual language
+Both Pattern 1 and Pattern 2 inherit the mint surface and the typography below.
+
+- Container: InteractiveBox with `surface: "mint"` — flat #eef4eb fill, no border, borderRadius 16, padding 26px 28px
+- TRY IT eyebrow: Plus Jakarta Sans 700, 11px, letter-spacing 0.14em, uppercase, mint accent #2f7d4f
+- Activity title: Plus Jakarta Sans 700, 22px (default InteractiveBox title size), --ink color
+- Question numerals: Instrument Serif 400, 44px, line-height 1, color #2f7d4f, opacity 0.6 when locked / 1.0 when active or answered
+- Question prompts: Plus Jakarta Sans 600, 18px, line-height 1.4, color #0e0a1f, max-width 56ch
+- Answer pills: Plus Jakarta Sans 700, 14px, padding 11px 22px, min-width 96px, borderRadius 999. Default state: white fill, --rule border, --ink text. Correct selection: filled #1f9d5f, white text, ✓ inside. Wrong selection: #f1f0f3 fill, transparent border, #6e6986 text, red ✕ inside (#d4334a). Untouched pill on a wrong row: stays default white outline.
+- Feedback prose: Source Serif 4 (italic optional), 16px, line-height 1.55, max-width 60ch. Color #1f9d5f for correct, #d4334a for wrong. Prefixed by a 20px circular ✓ or ✕ icon in matching color with white glyph.
+- Counter pill (top-right of activity): white fill, soft shadow, "N OF M" — bold count + uppercase letterspaced "of M".
+
+### Pattern 1: Progressive Disclosure spec
+- InteractiveBox `variant: "try"` or `"see"`, `surface: "mint"`, with title and counter `action`
+- RevealSequence drives advancement: state for currentIdx, started, answer-per-scenario
+- Inside RevealSequence children, render: scenario card (mint subtle), optional chat bubbles, then QuizBlock
+- QuizBlock renders vertical-stack option buttons styled to match the shared visual language (same fonts, same border treatment, in-place feedback expansion)
+- Completion element: centered card, soft icon, bold one-line takeaway, soft body text — all in shared typography
+
+### Pattern 2: Parallel Sort/Match spec
+- InteractiveBox `variant: "try"`, `surface: "mint"`, with title and counter `action`
+- All items render in vertical sequence with hairline dividers between rows: `1px solid rgba(63, 107, 63, 0.18)`, padding 24 above/below per row, no divider above first row
+- Each row layout: numeral on left + content stack on right, vertically centered with each other (alignItems center on the title row), gap 22px
+- Content stack indents pills and feedback under the task text using paddingLeft equal to numeral width + gap (typically 66px)
+- Per-item feedback reveals immediately after answer; answers lock once chosen
+- NextLessonGate ready when `Object.keys(answers).length >= items.length`
+
+Reference implementation: ThinkingMode "Match the Task to the Mode" (canonical Pattern 2). Pattern 1 reference implementations: MindTrap, FlatteryTrap, EngagementTrap, BlackBox (Rule/Pattern/Guardrail), Hallucination.
 
 ## Workflow
 
@@ -100,15 +137,17 @@ When David asks for content changes, the right pattern is:
 - Wave 1: Defined ShowcaseBox component. Migrated three boxes in AIHistorySection to use it. Canonical style: --primaryFaint fill, no border, borderRadius 20, padding 24, with SectionKicker outside the box.
 - Wave 2: Defined KeyInsight component. Migrated 5 existing key-insight boxes (ModelSelection, Verify, FlatteryTrap, QuestionsValuable, WorkChanges) to use it. Canonical style: --info-bg fill, no border, 🔑 icon, body at 17px. Distinct from ShowcaseBox by color.
 - Wave 3: Redesigned KeyInsight to inline layout (icon + text in one flow, no flex columns). Migrated 17 callouts total: PreAssessment, Embeddings, BehindTheNumbers, Inference (restructured from wrapped demo to h3 + body + KeyInsight), Customization, ModelSelection, ChoosingModel (merged two boxes into one), ThinkingMode, Hallucination, FlatteryTrap, Integrity (×3: simple test, best defense, goal), Privacy (golden rule), QuestionsValuable (The shift), HumanEdge, WorkChanges. Zero remaining "🔑 Key Insight" or "🔑 The key insight" eyebrow strings in the file.
+- Mind Trap rewrite: replaced opening with Moby Dick boat-personification hook ("A noble craft, but somehow a most melancholy"). Added two-word definition card teaching personification (linguistic move) + anthropomorphization (cognitive trap). Reframed second ShowcaseBox to "Who's Behind the Words?" comparing human writing vs AI generation. Replaced 3-scenario activity with 3-option format (correct / mind-trap wrong / overcorrection wrong); scenario 1 swapped from analysis-of-quote to AI-personifying-code example. Added KeyInsight ("The danger isn't that AI sounds nice"). Updated BottomLine to "Language makes your brain search for a person. With AI, {don't invent one}."
+- New lesson: Engagement Trap (id `engagementtrap`) added to Using AI Well between Flattery and Prompting. Teaches the conversation-continuation pattern (offering follow-ups, asking clarifying questions, volunteering next steps). Three-card "Pattern in the wild" ShowcaseBox + 3-scenario activity + KeyInsight on training-for-engagement + Don't Overcorrect closer. Course total moved from 50 to 51 lessons. Made it the third entry in the trap-trilogy alongside Mind Trap and Flattery Trap.
+- Wave 4 (in progress): Activity Pattern visual system established. Pattern 2 canonical built on ThinkingMode "Match the Task to the Mode": mint InteractiveBox surface, Instrument Serif numerals (44px, mint accent), Plus Jakarta Sans question prompts (18px / 600), pill answer buttons (no icons, correctness-based fill colors — green correct / soft-gray wrong with red ✕), Source Serif 4 feedback prose, hairline dividers between rows, "N OF M" counter pill in top-right. Pattern 1 visual migration to mint surface + matching typography pending across roughly 20 activities.
 
 ## Open / pending
 
-- 16 BottomLine takeaways drafted from scratch during Wave 4b — David said he'd review in context later
 - Mobile responsive pass not validated
 - 7 quizzes intentionally bespoke, not converted to QuizBlock (Test Yourself, Probability, Integrity, AI Strengths, HeadToHead, Key Terms, Training sorting)
 - The twins haven't tested the app yet — recommendation is to ship and watch real students use it
 - Two leftover items identified during audit, intentionally not cleaned up: dead "capstone" entry in CHIP_LABELS, orphan "llm-precheck-score" localStorage write that nothing reads back
-- Consistency push: Waves 1 (ShowcaseBox) and 2 (KeyInsight) shipped. ShowcaseBox migrations now applied across roughly 25 boxes throughout the file (AIHistory, BlackBox, Generative, Data, Hallucination, TrainingBias, Embeddings, BehindTheNumbers, HowAIReads, Context, ModelSelection, ChoosingModel, Customization, MindTrap, FlatteryTrap, Evaluating, Prompting, WhenAIActs, QuestionsValuable, HumanEdge, Integrity, Privacy, WhenAIJudges, SyntheticMedia, WorkChanges, AIFuture, WhatYouLearned). AIFuture closing restructured to remove gradient frame and use SectionKicker + body + ShowcaseBox + page-level callouts. Lavender-fill-no-border established as a usable pattern in two flavors: full ShowcaseBox component for framework content with cards, plain styled wrapper for prose sidebars. Future waves to extract TipCard (icon + title + desc pattern), StageCard (colored-border ladder pattern, used in 3+ ShowcaseBoxes), and HighlightBox (dark gradient highlight pattern) once enough usages are catalogued. Decision pending whether to demote casual 💡 lightbulb tips to plain bold body paragraphs (current lean) or formalize as a separate small Tip pattern. Smaller standardization passes still pending: h3 spacing, info-callout format consistency, two-column compare blocks.
+- Consistency push: Waves 1 (ShowcaseBox), 2/3 (KeyInsight), and the Activity Patterns work shipped. ShowcaseBox migrations applied across roughly 28 sections including IntroSection (Skills hero + Roadmap blocks consolidated to ShowcaseBox) and WhyDeeperSection (EDGE_CARDS + FUTURE_CARDS converted). IntroSection's Skills hero specifically merged the freestanding hero gradient + SectionKicker + cards into one unified ShowcaseBox. AIFuture closing previously restructured to remove gradient frame and use SectionKicker + body + ShowcaseBox + page-level callouts. Lavender-fill-no-border established as a usable pattern in two flavors: full ShowcaseBox component for framework content with cards, plain styled wrapper for prose sidebars. Future waves to extract TipCard (icon + title + desc pattern), StageCard (colored-border ladder pattern, used in 3+ ShowcaseBoxes), and HighlightBox (dark gradient highlight pattern) once enough usages are catalogued. Decision pending whether to demote casual 💡 lightbulb tips to plain bold body paragraphs (current lean) or formalize as a separate small Tip pattern. Smaller standardization passes still pending: h3 spacing, info-callout format consistency, two-column compare blocks. Pattern 1 visual migration to the new mint Activity Pattern system pending across the roughly 20 progressive-disclosure quiz activities.
 
 ## How to ask for help in this Project
 

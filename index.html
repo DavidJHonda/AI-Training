@@ -172,12 +172,10 @@ function InteractiveBox(props) {
   var hasHint = props.hint !== undefined && props.hint !== null && props.hint !== "";
   var hasChildren = props.children !== undefined && props.children !== null && props.children !== false;
   var hasTextStack = hasTitle || hasHint;
-  var containerStyle = {
-    background: "var(--primaryFaint)",
-    border: "2px dashed var(--primary)",
-    borderRadius: 16,
-    padding: "26px 28px"
-  };
+  var surface = props.surface === "mint" ? "mint" : "default";
+  var containerStyle = surface === "mint"
+    ? { background: "#eef4eb", border: "none", borderRadius: 16, padding: "26px 28px" }
+    : { background: "var(--primaryFaint)", border: "2px dashed var(--primary)", borderRadius: 16, padding: "26px 28px" };
   var eyebrowStyle = {
     fontSize: 11,
     fontWeight: 700,
@@ -6466,20 +6464,87 @@ function ThinkingModeSection(props) {
     "Some tasks need speed. Others need depth. For each task below, decide which mode fits."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
-    title: "Match the Task to the Mode"
+    surface: "mint",
+    title: "Match the Task to the Mode",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(taskAnswers).length),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TASKS.length))
   },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-      TASKS.map((t, i) => /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 600, fontSize: 14, color: "var(--ink)", marginBottom: 10 } }, t.task),
-        taskAnswers[i] === undefined ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8 } },
-          ["Fast", "Thinking"].map(mode => /*#__PURE__*/React.createElement("button", {
-            key: mode,
-            onClick: () => setTaskAnswers(prev => Object.assign({}, prev, { [i]: mode })),
-            style: { flex: 1, padding: "8px 14px", borderRadius: 8, background: "var(--card)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 13, fontWeight: 600, color: mode === "Fast" ? "#10b981" : "var(--primary)" }
-          }, mode === "Fast" ? "\u26A1 Fast" : "\uD83E\uDDE0 Thinking"))
-        ) : /*#__PURE__*/React.createElement("div", { style: { background: taskAnswers[i] === t.answer ? "#ecfdf5" : "#fef2f2", border: "1px solid " + (taskAnswers[i] === t.answer ? "#86efac" : "#fca5a5"), borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "var(--ink)", lineHeight: 1.5 } },
-          /*#__PURE__*/React.createElement("strong", { style: { color: taskAnswers[i] === t.answer ? "#16a34a" : "#dc2626" } }, taskAnswers[i] === t.answer ? "\u2705 " : "\u274C Answer: " + t.answer + ". "), t.explain)
-      ))
+    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick Fast or Thinking for each task. We\u2019ll explain why as you go."),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column" } },
+      TASKS.map(function(t, i) {
+        var answered = taskAnswers[i] !== undefined;
+        var picked = taskAnswers[i];
+        var correct = picked === t.answer;
+        function PillButton(mode) {
+          var basePill = {
+            display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
+            padding: "11px 22px", borderRadius: 999, minWidth: 96,
+            fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+            fontSize: 14, fontWeight: 700
+          };
+          if (!answered) {
+            return /*#__PURE__*/React.createElement("button", {
+              key: mode,
+              onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, mode]])); }); },
+              style: Object.assign({}, basePill, {
+                background: "#fff", border: "1.5px solid var(--rule)",
+                cursor: "pointer", color: "#0e0a1f", transition: "all 0.15s"
+              })
+            }, mode);
+          }
+          var isPicked = picked === mode;
+          if (isPicked && correct) {
+            return /*#__PURE__*/React.createElement("div", { key: mode, style: Object.assign({}, basePill, {
+              background: "#1f9d5f", border: "1.5px solid #1f9d5f", color: "#fff"
+            }) },
+              mode,
+              /*#__PURE__*/React.createElement("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2713"));
+          }
+          if (isPicked && !correct) {
+            return /*#__PURE__*/React.createElement("div", { key: mode, style: Object.assign({}, basePill, {
+              background: "#f1f0f3", border: "1.5px solid transparent", color: "#6e6986"
+            }) },
+              mode,
+              /*#__PURE__*/React.createElement("span", { style: { color: "#d4334a", fontWeight: 800 } }, "\u2715"));
+          }
+          return /*#__PURE__*/React.createElement("div", { key: mode, style: Object.assign({}, basePill, {
+            background: "#fff", border: "1.5px solid var(--rule)", color: "#0e0a1f"
+          }) }, mode);
+        }
+        var numeralOpacity = answered ? 1 : 0.6;
+        return /*#__PURE__*/React.createElement("div", { key: i, style: {
+          padding: i === 0 ? "0 4px 24px" : "24px 4px",
+          borderTop: i === 0 ? "none" : "1px solid rgba(63, 107, 63, 0.18)"
+        } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 16 } },
+            /*#__PURE__*/React.createElement("div", {
+              style: { fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "#2f7d4f", opacity: numeralOpacity, flexShrink: 0 }
+            }, String(i + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, fontWeight: 600, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, t.task + ".")),
+          /*#__PURE__*/React.createElement("div", { style: { paddingLeft: 66 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" } },
+              PillButton("Fast"),
+              PillButton("Thinking")),
+            answered ? /*#__PURE__*/React.createElement("div", { style: {
+              display: "flex", gap: 10, alignItems: "flex-start",
+              marginTop: 14,
+              fontFamily: "'Source Serif 4', 'Instrument Serif', serif",
+              fontWeight: 400, fontSize: 16, lineHeight: 1.55,
+              maxWidth: "60ch",
+              color: correct ? "#1f9d5f" : "#d4334a"
+            } },
+              /*#__PURE__*/React.createElement("span", { style: {
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                width: 20, height: 20, borderRadius: 999,
+                background: correct ? "#1f9d5f" : "#d4334a", color: "#fff",
+                fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 3,
+                fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
+              } }, correct ? "\u2713" : "\u2715"),
+              /*#__PURE__*/React.createElement("div", null, t.explain)) : null));
+      })
     )),
   /*#__PURE__*/React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 16 } }, "When to Switch"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" } },
@@ -11593,7 +11658,7 @@ function LLMExplorer() {
       "--info-bg": "#eff6ff"
     }
   }, /*#__PURE__*/React.createElement("style", null, `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap');
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .course-topbar {

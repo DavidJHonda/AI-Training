@@ -2004,8 +2004,18 @@ function WhyDeeperSection(props) {
         }))),
     /*#__PURE__*/E("p", { style: pStyle },
       "Quick test. Each scenario shows an AI response that sounds confident. Pick which edge is missing."),
-    /*#__PURE__*/E(InteractiveBox, { variant: "try", surface: "mint", title: "What's the AI Missing?" },
+    /*#__PURE__*/E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "What's the AI Missing?",
+      action: /*#__PURE__*/E("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(missingIdx + (missingAnswer !== null ? 1 : 0), MISSING_SCENARIOS.length)),
+        /*#__PURE__*/E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + MISSING_SCENARIOS.length))
+    },
       /*#__PURE__*/E(RevealSequence, {
+        surface: "mint",
         items: MISSING_SCENARIOS,
         currentIdx: missingIdx,
         started: startedMissing,
@@ -2015,31 +2025,27 @@ function WhyDeeperSection(props) {
         isComplete: missingIdx >= MISSING_SCENARIOS.length,
         startLabel: "First Scenario",
         nextLabel: "Next Scenario \u2192",
-        finishLabel: "Done with all four",
+        finishLabel: "Done with all four \u2192",
         completionElement: /*#__PURE__*/E("div", {
-          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+          style: { padding: "20px 0", textAlign: "center" }
         },
-          /*#__PURE__*/E("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDED"),
-          /*#__PURE__*/E("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "AI gave you four answers. You found what was missing in each one."),
-          /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "That\u2019s the edge. Not memorizing what AI is bad at. Noticing what\u2019s missing in real time."))
+          /*#__PURE__*/E("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83E\uDDED"),
+          /*#__PURE__*/E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "AI gave you four answers. You found what was missing in each one."),
+          /*#__PURE__*/E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "That\u2019s the edge. Not memorizing what AI is bad at. Noticing what\u2019s missing in real time."))
       },
-        /*#__PURE__*/E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
-          /*#__PURE__*/E("div", { style: { display: "flex", justifyContent: "flex-end" } },
-            /*#__PURE__*/E("div", { style: { maxWidth: "min(82%, 620px)" } },
-              /*#__PURE__*/E("div", { style: { color: "var(--primary)", fontSize: 12, fontWeight: 800, marginBottom: 5, textAlign: "right" } }, "You"),
-              /*#__PURE__*/E("div", { style: { background: "#fff", borderRadius: "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } },
-                missingPhase === "typing-user" ? ms.prompt.substring(0, missingUserChar) : ms.prompt,
-                missingPhase === "typing-user" ? /*#__PURE__*/E("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))),
-          missingPhase === "pausing" ? /*#__PURE__*/E("div", { style: { display: "flex", justifyContent: "flex-start" } },
-            /*#__PURE__*/E("div", { style: { background: "var(--card)", color: "var(--inkMuted)", borderRadius: "16px 16px 16px 4px", padding: "10px 14px", fontSize: 13, fontWeight: 700, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } }, "AI is thinking...")) : null,
-          (missingPhase === "typing-ai" || missingPhase === "done") ? /*#__PURE__*/E("div", { style: { display: "flex", justifyContent: "flex-start" } },
-            /*#__PURE__*/E("div", { style: { maxWidth: "min(88%, 700px)" } },
-              /*#__PURE__*/E("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 800, marginBottom: 5 } }, "AI"),
-              /*#__PURE__*/E("div", { style: { background: "var(--card)", borderRadius: "16px 16px 16px 4px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)" } },
-                missingPhase === "typing-ai" ? ms.response.split(" ").slice(0, missingAiWord).join(" ") : ms.response,
-                missingPhase === "typing-ai" ? /*#__PURE__*/E("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|") : null))) : null),
+        /*#__PURE__*/E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 } },
+          /*#__PURE__*/E(UserBubble, {
+            text: ms.prompt,
+            visibleChars: missingPhase === "typing-user" ? missingUserChar : ms.prompt.length
+          }),
+          missingPhase === "pausing" ? /*#__PURE__*/E(ThinkingBubble, null) : null,
+          (missingPhase === "typing-ai" || missingPhase === "done") ? /*#__PURE__*/E(AIBubble, {
+            text: ms.response,
+            visibleWords: missingPhase === "typing-ai" ? missingAiWord : ms.response.split(" ").length
+          }) : null),
         missingPhase === "done" ? /*#__PURE__*/E(QuizBlock, {
           key: missingIdx,
+          surface: "mint",
           statement: "Which human edge is missing here?",
           questionNumber: missingIdx + 1,
           totalQuestions: MISSING_SCENARIOS.length,
@@ -6298,6 +6304,7 @@ function ModelSelectionSection(props) {
   const [view, setView] = useState("players");
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
+  const [startedScenarios, setStartedScenarios] = useState(false);
   const FAILURE_STYLES = [{
     icon: "\uD83E\uDD17",
     name: "Too agreeable",
@@ -6337,18 +6344,34 @@ function ModelSelectionSection(props) {
   }];
   const SCENARIOS = [{
     prompt: "You need to summarize a 60-page research report and pull out the key arguments.",
-    answer: "Claude", explain: "Claude. Anthropic built it to prioritize careful reasoning and accuracy on complex tasks. Long documents and structured analysis are where it shines."
+    options: [
+      { label: "Claude", correct: true, feedback: "Claude. Anthropic built it to prioritize careful reasoning and accuracy on complex tasks. Long documents and structured analysis are where it shines." },
+      { label: "ChatGPT", correct: false, feedback: "ChatGPT can do this, but it\u2019s optimized for breadth and creative range, not careful reading of a long dense document. You\u2019d get a usable summary and a higher chance of glossed-over detail or confident mistakes on the technical bits. Claude is built for this exact job." },
+      { label: "Gemini", correct: false, feedback: "Gemini\u2019s strengths are live data and Google Workspace integration. For a 60-page report you already have in hand, those advantages don\u2019t help. The job is depth on a long document, and that\u2019s where Claude pulls ahead." }
+    ]
   }, {
     prompt: "You want to brainstorm 20 creative names for a podcast about sports science.",
-    answer: "ChatGPT", explain: "ChatGPT. OpenAI optimized it for versatility and creative breadth. It\u2019ll give you a wide range of options fast, which is what brainstorming needs."
+    options: [
+      { label: "Claude", correct: false, feedback: "Claude will give you good names, but it tends to be careful and considered. For pure brainstorming, where you want quantity and range first and quality later, ChatGPT\u2019s breadth usually wins." },
+      { label: "ChatGPT", correct: true, feedback: "ChatGPT. OpenAI optimized it for versatility and creative breadth. It\u2019ll give you a wide range of options fast, which is what brainstorming needs." },
+      { label: "Gemini", correct: false, feedback: "Gemini can brainstorm, but its strengths are real-time data and Google integration, neither of which help with a creative naming exercise. ChatGPT was built to spitball, and that\u2019s the job here." }
+    ]
   }, {
     prompt: "You need to know what happened in the news this week and summarize the top stories.",
-    answer: "Gemini", explain: "Gemini. Google built it with real-time web access as a core feature. The other models work from training data, which doesn\u2019t include this week."
+    options: [
+      { label: "Claude", correct: false, feedback: "Claude is excellent at analysis, but its training data has a cutoff. For \u2018what happened this week\u2019 it can\u2019t help unless you paste articles in yourself. Gemini was built with real-time web access for exactly this." },
+      { label: "ChatGPT", correct: false, feedback: "ChatGPT can search the web, but Google built Gemini with web-grounded answers as a core feature, not an add-on. For news this week specifically, Gemini is the cleaner fit." },
+      { label: "Gemini", correct: true, feedback: "Gemini. Google built it with real-time web access as a core feature. The other models work from training data, which doesn\u2019t include this week." }
+    ]
   }, {
     prompt: "You\u2019re writing a persuasive essay and want detailed feedback on your argument structure.",
-    answer: "Claude", explain: "Claude. Anthropic\u2019s focus on honesty and careful reasoning means it gives structured, specific feedback on logic and argumentation rather than generic praise."
+    options: [
+      { label: "Claude", correct: true, feedback: "Claude. Anthropic\u2019s focus on honesty and careful reasoning means it gives structured, specific feedback on logic and argumentation rather than generic praise." },
+      { label: "ChatGPT", correct: false, feedback: "ChatGPT will give you feedback, but it tends to be agreeable more than rigorous. You\u2019re more likely to hear what\u2019s good than what\u2019s actually weak. For sharp critique on argument structure, Claude pushes back harder." },
+      { label: "Gemini", correct: false, feedback: "Gemini is strong on current information and Google integration. Neither of those help when you need someone to tear apart your argument and tell you exactly where the logic falls down. Claude is the tougher critic here." }
+    ]
   }];
-  const sc = SCENARIOS[scenarioIdx];
+  const sc = SCENARIOS[Math.min(scenarioIdx, SCENARIOS.length - 1)];
   const TIERS = [{
     tier: "Flagship", examples: "The most capable model each company offers",
     capability: 100, speed: 40, cost: 100,
@@ -6384,34 +6407,49 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18, marginBottom: 18 } },
     "\uD83D\uDCA1 Each company releases new versions regularly: the names change, but the philosophies don\u2019t. These strengths reflect each company\u2019s priorities, not just their current version. Check their websites for current model names."),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
-    "Match the right model to the job. You'll see five real scenarios and pick which model fits each best."),
+    "Match the right model to the job. Four scenarios. Pick which one fits each best."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Pick the Right Tool"
+    title: "Pick the Right Tool",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(scenarioIdx + (scenarioAnswer !== null ? 1 : 0), SCENARIOS.length)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length))
   },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginBottom: 16 } }, "Scenario ", scenarioIdx + 1, " of ", SCENARIOS.length),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 16 } }, sc.prompt),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
-        MODELS.map((m, i) => /*#__PURE__*/React.createElement("button", {
-          key: i,
-          onClick: () => { if (scenarioAnswer === null) setScenarioAnswer(m.name); },
-          style: {
-            flex: 1, minWidth: 120, padding: "12px 16px", borderRadius: 10, textAlign: "center", cursor: scenarioAnswer === null ? "pointer" : "default", fontSize: 14, fontWeight: 700, transition: "all 0.2s",
-            background: scenarioAnswer === null ? "var(--card)" : m.name === sc.answer ? "#ecfdf5" : m.name === scenarioAnswer ? "#fef2f2" : "var(--card)",
-            border: scenarioAnswer === null ? "1px solid var(--rule)" : m.name === sc.answer ? "2px solid #10b981" : m.name === scenarioAnswer ? "2px solid #ef4444" : "1px solid var(--rule)",
-            color: scenarioAnswer === null ? m.color : m.name === sc.answer ? "#10b981" : m.name === scenarioAnswer ? "#ef4444" : "var(--inkMuted)"
-          }
-        }, m.name))
-      ),
-      scenarioAnswer !== null && /*#__PURE__*/React.createElement("div", { style: { marginTop: 14, background: scenarioAnswer === sc.answer ? "#ecfdf5" : "#fef2f2", border: "1px solid " + (scenarioAnswer === sc.answer ? "#86efac" : "#fca5a5"), borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
-        /*#__PURE__*/React.createElement("strong", { style: { color: scenarioAnswer === sc.answer ? "#16a34a" : "#dc2626" } }, scenarioAnswer === sc.answer ? "\u2705 " : "\u274C Best choice: " + sc.answer + ". "), sc.explain)
-    ),
-    scenarioAnswer !== null && scenarioIdx < SCENARIOS.length - 1 && /*#__PURE__*/React.createElement("button", {
-      onClick: () => { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
-      style: { display: "block", width: "100%", padding: "10px 20px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }
-    }, "Next Scenario \u2192")),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "mint",
+      items: SCENARIOS,
+      currentIdx: scenarioIdx,
+      started: startedScenarios,
+      onStart: function() { setStartedScenarios(true); },
+      onNext: function() { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
+      canAdvance: scenarioAnswer !== null,
+      isComplete: scenarioIdx >= SCENARIOS.length,
+      startLabel: "First Scenario",
+      nextLabel: "Next Scenario \u2192",
+      finishLabel: "Wrap it up \u2192",
+      completionElement: /*#__PURE__*/React.createElement("div", {
+        style: { padding: "20px 0", textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83C\uDFAF"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Four jobs matched."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The model names will change. The principle won\u2019t: pick the tool whose strengths match what the task actually needs."))
+    },
+      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83C\uDFAF The scenario"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt)),
+      /*#__PURE__*/React.createElement(QuizBlock, {
+        key: scenarioIdx,
+        surface: "mint",
+        statement: "Which model fits best?",
+        questionNumber: scenarioIdx + 1,
+        totalQuestions: SCENARIOS.length,
+        options: sc.options,
+        picked: scenarioAnswer != null ? scenarioAnswer : undefined,
+        onAnswer: function(idx) { setScenarioAnswer(idx); }
+      }))),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 48 } },
     /*#__PURE__*/React.createElement(SectionKicker, null, "HOW AI TENDS TO FAIL YOU")
   ),
@@ -6441,7 +6479,7 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Why no rankings?" },
     "The model that\u2019s most agreeable today might get retrained tomorrow. The companies update these tools constantly. The failure shapes are durable. The leaderboard isn\u2019t."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "ChatGPT, Claude, Gemini — they’re products. The model is {what’s underneath}." }),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx === SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("choosemodel"), label: "Next: Choosing the Model" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.onNavigate && props.onNavigate("choosemodel"), label: "Next: Choosing the Model" }));
 }
 function ChoosingModelSection(props) {
   var TIERS = [{
@@ -7534,7 +7572,6 @@ function PromptingSection(props) {
   const [showGood, setShowGood] = useState(false);
   const [exerciseIdx, setExerciseIdx] = useState(0);
   const [exerciseAnswer, setExerciseAnswer] = useState(null);
-  const [exerciseRevealed, setExerciseRevealed] = useState(false);
   const [promptDemo, setPromptDemo] = useState("kid");
   const [startedFixPrompt, setStartedFixPrompt] = useState(false);
   const PROMPT_EXERCISES = [{
@@ -7543,42 +7580,39 @@ function PromptingSection(props) {
     scenario: "You have a history essay due on the causes of World War I. You need help getting started.",
     bad: "Tell me about World War I.",
     options: [
-      "The prompt is too short",
-      "It doesn't specify what aspect of WWI or what kind of help you need",
-      "It should use more formal language",
-      "It needs to mention which AI model to use"
+      { label: "The prompt is too short", correct: false, feedback: "Length isn\u2019t the real issue. A short prompt can be great if it\u2019s specific. \u2018Give me 3 causes of WWI in one sentence each\u2019 is short and would work fine. The problem is what\u2019s missing, not how many words there are." },
+      { label: "It doesn\u2019t specify what aspect of WWI or what kind of help you need", correct: true, feedback: "Right. The prompt could return a timeline, a summary, a list of battles, or anything else. Specifying the assignment, the angle, and the kind of help needed turns a generic answer into a useful one." },
+      { label: "It should use more formal language", correct: false, feedback: "Tone doesn\u2019t matter much here. The model handles casual and formal phrasing equally well. The fix isn\u2019t making the prompt sound more academic, it\u2019s telling the model what you actually need." },
+      { label: "It needs to mention which AI model to use", correct: false, feedback: "You picked the model when you opened the chat. The prompt itself doesn\u2019t need to say which one. The actual gap is what you want the model to do." }
     ],
-    correct: 1,
     good: "I'm writing a 5-page history essay on the causes of World War I. I need to argue that the alliance system was the most significant cause. Can you help me outline the key arguments for this thesis and suggest 2-3 counterarguments I should address?",
-    explain: "The weak prompt could return anything: a timeline, a summary, a list of battles. The strong prompt specifies the assignment (5-page essay), the angle (alliance system as top cause), and the kind of help needed (outline + counterarguments). Clarity means saying exactly what you mean so the model doesn't have to guess."
+    explain: "The weak prompt could return anything: a timeline, a summary, a list of battles. The strong prompt specifies the assignment (5-page essay), the angle (alliance system as top cause), and the kind of help needed (outline + counterarguments). Clarity means saying exactly what you mean so the model doesn\u2019t have to guess."
   }, {
     quality: "Context",
     icon: "\uD83D\uDCCB",
     scenario: "You're studying for your AP Biology exam tomorrow and struggling with cellular respiration.",
     bad: "Explain cellular respiration.",
     options: [
-      "It should ask for a longer explanation",
-      "It doesn't give the model any background about your level, goal, or what you're stuck on",
-      "It should specify which textbook to reference",
-      "The topic is too advanced for AI"
+      { label: "It should ask for a longer explanation", correct: false, feedback: "Longer doesn\u2019t mean better. A 2,000-word explanation written for grad students would be worse than two paragraphs aimed at AP Bio level. The fix isn\u2019t length, it\u2019s telling the model who you are and what you need." },
+      { label: "It doesn\u2019t give the model any background about your level, goal, or what you\u2019re stuck on", correct: true, feedback: "Right. Without context the model could explain this at any level, from middle school to PhD. Telling it your level, what you already know, and what you\u2019re stuck on is what makes the answer actually useful to you." },
+      { label: "It should specify which textbook to reference", correct: false, feedback: "The model can\u2019t open your textbook. What it needs is your level, your sticking point, and what kind of explanation works for you. Naming a textbook doesn\u2019t fix the gap." },
+      { label: "The topic is too advanced for AI", correct: false, feedback: "Cellular respiration is well within the model\u2019s range. The issue isn\u2019t the topic, it\u2019s that the model doesn\u2019t know who\u2019s asking or why." }
     ],
-    correct: 1,
     good: "I have an AP Biology exam tomorrow and I'm struggling with cellular respiration. I understand glycolysis but get confused at the Krebs cycle and electron transport chain. Can you explain those two stages step by step, using simple analogies? Focus on what I'd need to know for a multiple-choice AP exam.",
-    explain: "Without context, the model might explain cellular respiration at a PhD level or a 5th-grade level. The strong prompt gives your level (AP Bio), what you already know (glycolysis), where you're stuck (Krebs + ETC), how you learn best (analogies), and the goal (AP exam prep). Context lets the model tailor the response to you specifically."
+    explain: "Without context, the model might explain cellular respiration at a PhD level or a 5th-grade level. The strong prompt gives your level (AP Bio), what you already know (glycolysis), where you\u2019re stuck (Krebs + ETC), how you learn best (analogies), and the goal (AP exam prep). Context lets the model tailor the response to you specifically."
   }, {
     quality: "Format Instructions",
     icon: "\uD83D\uDCDD",
     scenario: "You're comparing two colleges and need to present the information to your parents this weekend.",
     bad: "Compare UCLA and UC Berkeley.",
     options: [
-      "It should ask about more than two colleges",
-      "It needs to mention your GPA and test scores",
-      "It doesn't tell the model what to compare or how to structure the response",
-      "The prompt should be longer"
+      { label: "It should ask about more than two colleges", correct: false, feedback: "Two is fine. The number of colleges isn\u2019t the issue. The issue is that the model has no idea what to compare them on or how to structure the answer." },
+      { label: "It needs to mention your GPA and test scores", correct: false, feedback: "That would help if you were asking about admissions chances. But this prompt is asking for a comparison, and the gap is that you didn\u2019t tell the model what to compare or how to lay it out." },
+      { label: "It doesn\u2019t tell the model what to compare or how to structure the response", correct: true, feedback: "Right. Without format instructions the model picks for you, usually a wall of paragraphs you\u2019d have to reorganize. Specifying the categories AND the structure (a table, in this case) gives you something you can actually use." },
+      { label: "The prompt should be longer", correct: false, feedback: "Longer for the sake of longer doesn\u2019t fix anything. The good version isn\u2019t much longer in spirit, it\u2019s just specific about what to compare and how to format the answer." }
     ],
-    correct: 2,
     good: "Compare UCLA and UC Berkeley in a table with these columns: Category, UCLA, UC Berkeley. Cover: acceptance rate, average class size, strongest programs, campus vibe, cost of attendance for California residents, and distance from home (I'm in San Diego). Keep each cell to 1-2 sentences so I can show my parents.",
-    explain: "The weak prompt might return five paragraphs you'd have to reorganize yourself. The strong prompt specifies the format (table), the categories to compare, the level of detail (1-2 sentences per cell), and the audience (parents). Format instructions turn an AI wall-of-text into something you can actually use."
+    explain: "The weak prompt might return five paragraphs you\u2019d have to reorganize yourself. The strong prompt specifies the format (table), the categories to compare, the level of detail (1-2 sentences per cell), and the audience (parents). Format instructions turn an AI wall-of-text into something you can actually use."
   }];
   const ex = PROMPT_EXERCISES[exerciseIdx] || PROMPT_EXERCISES[PROMPT_EXERCISES.length - 1];
   const q = PROMPT_QUALITIES[activeQuality];
@@ -7868,116 +7902,52 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Fix the Prompt"
+    title: "Fix the Prompt",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(exerciseIdx + (exerciseAnswer !== null ? 1 : 0), PROMPT_EXERCISES.length)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + PROMPT_EXERCISES.length))
   },
     /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "mint",
       items: PROMPT_EXERCISES,
       currentIdx: exerciseIdx,
       started: startedFixPrompt,
       onStart: function() { setStartedFixPrompt(true); },
-      onNext: function() { setExerciseIdx(exerciseIdx + 1); setExerciseAnswer(null); setExerciseRevealed(false); },
-      canAdvance: exerciseRevealed,
+      onNext: function() { setExerciseIdx(exerciseIdx + 1); setExerciseAnswer(null); },
+      canAdvance: exerciseAnswer !== null,
       isComplete: exerciseIdx >= PROMPT_EXERCISES.length,
       startLabel: "First Scenario",
       nextLabel: "Next Scenario \u2192",
-      finishLabel: "Wrap it up",
+      finishLabel: "Wrap it up \u2192",
       completionElement: /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
+        style: { padding: "20px 0", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u270D\uFE0F"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "All four prompts upgraded."),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Same model. Same task. Better question. The output follows the prompt."))
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\u270D\uFE0F"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Three prompts upgraded."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Same model. Same task. Better question. The output follows the prompt."))
     },
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#6e51ff10",
-      border: "1px solid #6e51ff33",
-      borderRadius: 10,
-      padding: "12px 16px",
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 4 }
-  }, "\uD83C\uDFAF Scenario"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, ex.scenario)),
-    /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#fef2f2",
-      border: "1px solid #fca5a5",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 }
-  }, "\u274C The bad prompt"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 15, color: "#991b1b", lineHeight: 1.6 }
-  }, "\"", ex.bad, "\"")),
-    /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 14, color: "var(--ink)", marginBottom: 10 }
-  }, "\uD83E\uDD14 What's the main problem with this prompt?"),
-    /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }
-  }, ex.options.map((opt, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => {
-      if (exerciseAnswer !== null) return;
-      setExerciseAnswer(i);
-    },
-    style: {
-      padding: "12px 16px",
-      borderRadius: 10,
-      border: exerciseAnswer === null ? "1px solid var(--rule)" : i === ex.correct ? "2px solid #10b981" : i === exerciseAnswer ? "2px solid #ef4444" : "1px solid var(--rule)",
-      background: exerciseAnswer === null ? "var(--card)" : i === ex.correct ? "#ecfdf5" : i === exerciseAnswer ? "#fef2f2" : "var(--card)",
-      cursor: exerciseAnswer === null ? "pointer" : "default",
-      textAlign: "left",
-      fontSize: 14,
-      color: "var(--ink)",
-      fontWeight: exerciseAnswer !== null && i === ex.correct ? 700 : 400,
-      transition: "all 0.2s"
-    }
-  }, opt))),
-    exerciseAnswer !== null && !exerciseRevealed && /*#__PURE__*/React.createElement("button", {
-    onClick: () => setExerciseRevealed(true),
-    style: {
-      padding: "10px 20px",
-      borderRadius: 8,
-      background: "var(--primary)",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-      fontWeight: 600,
-      width: "100%",
-      marginBottom: 16
-    }
-  }, "\u2728 See the improved prompt"),
-    exerciseRevealed && /*#__PURE__*/React.createElement("div", {
-    style: { animation: "fadeIn 0.3s ease" }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#ecfdf5",
-      border: "1px solid #86efac",
-      borderRadius: 10,
-      padding: "14px 16px",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 }
-  }, "\u2705 The improved prompt"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "#14532d", lineHeight: 1.6 }
-  }, ex.good)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      border: "1px solid var(--info)",
-      borderRadius: 10,
-      padding: 14,
-      fontSize: 14,
-      color: "var(--ink)",
-      lineHeight: 1.6
-    }
-  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "What changed: "), ex.explain)))),
+      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83C\uDFAF The scenario"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch", marginBottom: 14 } }, ex.scenario),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#d4334a", marginBottom: 8 } }, "\u274C The bad prompt"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 15, color: "#0e0a1f", lineHeight: 1.55, fontStyle: "italic" } }, "\u201C", ex.bad, "\u201D")),
+      /*#__PURE__*/React.createElement(QuizBlock, {
+        key: exerciseIdx,
+        surface: "mint",
+        statement: "What\u2019s the main problem with this prompt?",
+        questionNumber: exerciseIdx + 1,
+        totalQuestions: PROMPT_EXERCISES.length,
+        options: ex.options,
+        picked: exerciseAnswer != null ? exerciseAnswer : undefined,
+        onAnswer: function(idx) { setExerciseAnswer(idx); }
+      }),
+      exerciseAnswer !== null ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 24, paddingTop: 24, borderTop: "1px solid rgba(63, 107, 63, 0.18)", animation: "fadeIn 0.3s ease" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1f9d5f", marginBottom: 8 } }, "\u2728 The improved prompt"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 15, color: "#0e0a1f", lineHeight: 1.55, marginBottom: 14, fontStyle: "italic" } }, "\u201C", ex.good, "\u201D"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch" } }, ex.explain)
+      ) : null)),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, onClick: () => props.onNavigate && props.onNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {

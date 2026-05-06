@@ -2059,22 +2059,22 @@ function IntroSection(props) {
 }
 function KeyTermsSection(props) {
   var ALL_TERMS = [
+    { term: "Attention", definition: "How the model figures out which words relate to which other words. It’s why ‘bank’ means different things in ‘river bank’ vs ‘savings bank.’ Each word weighs every other word.", source: "attention" },
     { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "context" },
-    { term: "Context Window", definition: "The maximum amount of text the model can see at once, including your messages, conversation history, and instructions. Anything outside it is completely invisible to the model.", source: "context" },
-    { term: "Embedding", definition: "A way of turning words into numbers that captures meaning, not just identity. Words with similar meanings end up close together in mathematical space, which is why AI can do things like solve ‘king minus man plus woman equals queen.’", source: "embeddings" },
-    { term: "Hallucination", definition: "When AI states something false with complete confidence. Not a glitch, but a direct consequence of how probability-based prediction works. The model doesn’t know what’s true, only what sounds right.", source: "hallucination" },
-    { term: "Inference", definition: "The process of the model generating a response: running your input through its layers to produce output.", source: "inference" },
+    { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "context" },
+    { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve ‘king − man + woman = queen.’", source: "embeddings" },
+    { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn’t know what’s true, only what sounds right.", source: "hallucination" },
+    { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
     { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "aihistory" },
     { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "choosemodel" },
-    { term: "Parameters", definition: "The billions of internal numbers that store everything the model learned during training. When you hear \u201870 billion parameter model,\u2019 this is what they mean. More parameters can help, but bigger isn\u2019t automatically better. A smaller model with better training, better tools, or a better fit for the task can beat a larger one.", source: "blackbox" },
     { term: "Prompt", definition: "What you type and send to the model: your question, instruction, or request.", source: "prompting" },
-    { term: "RLHF", definition: "Reinforcement Learning from Human Feedback. The training stage where humans ranked AI responses and the model learned from those rankings. It’s why AI feels helpful and safe, and also why it can be sycophantic.", source: "training" },
-    { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what’s actually true or useful. A side effect of training: models learned that agreeable answers get higher ratings. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
-    { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves, what it will and won’t do, and what persona it takes on. You usually can’t see them but they’re always there.", source: "customization" },
-    { term: "Temperature", definition: "A setting that controls how the model samples from its probability distribution. Low temperature picks the most likely words, giving consistent output. High temperature lets less likely words through, giving more varied, and sometimes incoherent, output.", source: "temperature" },
+    { term: "Prompt Injection", definition: "When hidden instructions in a webpage or email trick AI into doing something you didn’t ask for. AI can’t tell those instructions from yours.", source: "whenaiacts" },
+    { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what’s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
+    { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can’t see them, but they’re always there.", source: "customization" },
+    { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "temperature" },
     { term: "Token", definition: "The unit models use to read and write. Roughly ¾ of a word.", source: "tokens" },
-    { term: "Training", definition: "The process of exposing a model to billions of examples so it learns patterns. It happens over weeks or months using massive computing power. When it’s done the model’s weights are frozen. It can’t permanently learn from your conversations, but it can adapt to examples and instructions you give it within a single session.", source: "training" },
-    { term: "Unstructured Data", definition: "Information that doesn’t fit neatly into rows and columns: conversations, images, audio, video, reviews, jokes. Traditional code can’t make sense of it. AI was trained on it.", source: "data" }
+    { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model’s weights are frozen. It doesn’t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
+    { term: "Unstructured Data", definition: "Information that doesn't fit neatly into rows and columns: conversations, images, audio, video, reviews, jokes. Traditional code can't make sense of it. AI was trained on it.", source: "data" }
   ];
   var findTerm = function(name) { for (var i = 0; i < ALL_TERMS.length; i++) { if (ALL_TERMS[i].term === name) return ALL_TERMS[i]; } return null; };
   function shuffle(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = a[i]; a[i] = a[j]; a[j] = tmp; } return a; }
@@ -9763,12 +9763,16 @@ function WhenAIJudgesSection(props) {
     ),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
       "Whichever mode it is, you have one tool. A short list of questions to ask any system that\u2019s judging you. Memorize them."),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "linear-gradient(135deg, var(--ink), #22253a)", borderRadius: 14, padding: "22px 24px", color: "#fff", marginBottom: 28, boxShadow: "0 14px 34px rgba(14, 10, 31, 0.16)" }
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "THE FIVE QUESTIONS",
+      headline: /*#__PURE__*/React.createElement("div", {
+        style: { fontFamily: "'Instrument Serif', serif", fontSize: 30, fontWeight: 400, color: "var(--ink)", lineHeight: 1.2, letterSpacing: "-0.01em" }
+      },
+        "Run these on any AI that\u2019s ",
+        /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, "running on you.")),
+      marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#b8adff", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 } }, "The five questions"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, lineHeight: 1.3, marginBottom: 14 } }, "Run these on any AI that\u2019s running on you."),
-      /*#__PURE__*/React.createElement("ol", { style: { margin: 0, paddingLeft: 22, color: "rgba(255,255,255,0.92)", fontSize: 15, lineHeight: 1.8 } },
+      /*#__PURE__*/React.createElement("ol", { style: { margin: 0, paddingLeft: 22, color: "var(--ink)", fontSize: 15, lineHeight: 1.8 } },
         /*#__PURE__*/React.createElement("li", null, "Who is responsible?"),
         /*#__PURE__*/React.createElement("li", null, "What data was used?"),
         /*#__PURE__*/React.createElement("li", null, "Can you push back?"),
@@ -9975,7 +9979,7 @@ function WhatYouLearnedSection(props) {
       fontSize: 17,
       lineHeight: 1.65
     }
-  }, "You've completed every section of this training. Here's a quick map of everything you now understand: from how AI works under the hood to how to use it effectively."), /*#__PURE__*/React.createElement("div", {
+  }, "Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -9983,51 +9987,41 @@ function WhatYouLearnedSection(props) {
       marginBottom: 24
     }
   }, [{
-    group: "The Foundations",
-    icon: "\uD83C\uDFD7\uFE0F",
+    group: "Patterns",
+    icon: "\uD83E\uDDE9",
     color: "var(--primary)",
     bg: "#6e51ff10",
     border: "#6e51ff33",
-    items: ["AI learns patterns from data instead of following rigid rules", "It trained on billions of pages of text: books, websites, conversations", "Training has three phases: reading, learning to converse, then learning from human feedback", "Every response is a probability prediction: the most likely next word, not the \"right\" answer"]
+    body: "You get why AI works at all. It read billions of pages and now spots patterns the way you spot your friend\u2019s handwriting. Better prompts = better patterns to match."
   }, {
-    group: "Inside the Model",
-    icon: "\uD83D\uDD27",
-    color: "#8b5cf6",
-    bg: "#8b5cf610",
-    border: "#8b5cf633",
-    items: ["Text gets broken into tokens: chunks that are roughly \u00BE of a word", "Tokens become embeddings: lists of numbers that capture meaning and relationships", "~100 layers of attention and transformation refine that meaning using context", "The same word means different things in different sentences; layers figure that out"]
-  }, {
-    group: "What Shapes the Output",
-    icon: "\uD83C\uDFAF",
+    group: "Probability",
+    icon: "\uD83C\uDFB2",
     color: "#f59e0b",
     bg: "#f59e0b10",
     border: "#f59e0b33",
-    items: ["Every response runs through the full pipeline: tokenize \u2192 embed \u2192 layers \u2192 predict", "Context window = everything the model can see (and it has a limit)", "Temperature controls randomness; model choice controls quality", "Hallucination is real: the model generates what sounds right, not what is right"]
+    body: "Every answer is a guess. The model picks the most likely next word, not the right one. That\u2019s why the same prompt twice gives two different answers, and why hallucinations happen."
   }, {
-    group: "Putting It to Work",
-    icon: "\uD83D\uDE80",
-    color: "#10b981",
-    bg: "#10b98110",
-    border: "#10b98133",
-    items: ["Critical thinking is the meta-skill: question everything, verify what matters", "Good prompts are clear, specific, and give the model enough context", "Every AI response is a draft: evaluate and iterate", "AI flattery is a trap: if the model never pushes back, it's not being helpful", "Use AI to learn, not to skip learning: the work should still be yours", "Protect your privacy: never share personal info, and know what platforms do with your data"]
+    group: "Predictions",
+    icon: "\uD83D\uDD2E",
+    color: "#8b5cf6",
+    bg: "#8b5cf610",
+    border: "#8b5cf633",
+    body: "Every output is a prediction, not a fact. Confident sounding isn\u2019t the same as right. You can spot when it\u2019s bluffing, push back when it flatters you, and stay the one in charge."
   }].map((group, gi) => /*#__PURE__*/React.createElement("div", {
     key: gi,
     style: {
       background: group.bg,
       border: "1px solid " + group.border,
-      borderRadius: 12,
-      padding: "16px 20px"
+      borderRadius: 14,
+      padding: "20px 24px"
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, group.icon), /*#__PURE__*/React.createElement("span", {
-    style: { fontWeight: 700, fontSize: 15, color: group.color }
-  }, group.group)), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", flexDirection: "column", gap: 4 }
-  }, group.items.map((item, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: group.color, fontWeight: 700, flexShrink: 0 } }, "\u2022"), item)))))),
+    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }
+  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, group.icon), /*#__PURE__*/React.createElement("span", {
+    style: { fontWeight: 700, fontSize: 17, color: group.color }
+  }, group.group)), /*#__PURE__*/React.createElement("p", {
+    style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0 }
+  }, group.body)))),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "QUESTIONS YOU CAN ANSWER NOW",
     headline: "Here\u2019s the whole course in question form.",
@@ -10047,15 +10041,27 @@ function WhatYouLearnedSection(props) {
   /*#__PURE__*/React.createElement("div", {
     style: {
       background: "linear-gradient(135deg, #ede9fe, #e0e7ff)",
-      borderRadius: 12,
-      padding: 20,
-      textAlign: "center"
+      borderRadius: 20,
+      padding: "40px 32px",
+      textAlign: "center",
+      marginBottom: 24
     }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, marginBottom: 8 } }, "\uD83C\uDFC6"), /*#__PURE__*/React.createElement("h4", {
-    style: { fontWeight: 700, color: "#4338ca", marginBottom: 8, fontSize: 16 }
-  }, "You know more about AI than most adults"), /*#__PURE__*/React.createElement("p", {
-    style: { color: "#3730a3", lineHeight: 1.7, fontSize: 14, margin: 0 }
-  }, "You can explain what tokens are, how embeddings capture meaning, and why attention matters. Most people who use ChatGPT daily can't. That understanding is what separates someone who uses AI from someone who uses AI ", /*#__PURE__*/React.createElement("em", null, "well"), ".")), /*#__PURE__*/React.createElement(BottomLine, { thought: "You now know {what most people don’t}: how the tool actually works." }),
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 56, marginBottom: 16, lineHeight: 1 } }, "\uD83C\uDFC6"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontFamily: "'Instrument Serif', serif", fontSize: 38, fontWeight: 400, color: "var(--ink)", lineHeight: 1.18, letterSpacing: "-0.02em", marginBottom: 16 }
+    },
+      "You know more about AI than ",
+      /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, "most adults.")
+    ),
+    /*#__PURE__*/React.createElement("p", {
+      style: { color: "var(--inkSoft)", fontSize: 16, lineHeight: 1.65, margin: "0 auto", maxWidth: 580 }
+    },
+      "You can explain what tokens are, how embeddings capture meaning, and why attention matters. Most people who use ChatGPT daily can\u2019t. That understanding is what separates someone who uses AI from someone who uses AI ",
+      /*#__PURE__*/React.createElement("em", null, "well"),
+      "."
+    )
+  ), /*#__PURE__*/React.createElement(BottomLine, { thought: "You now know {what most people don’t}: how the tool actually works." }),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("fullworkflow") }, "Next: Full Workflow"));
 }
 function FullWorkflowSection(props) {

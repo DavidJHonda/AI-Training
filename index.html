@@ -2995,7 +2995,7 @@ function HowAIReadsSection(props) {
       "For example, look at this sentence:"
     ),
 
-    E(InteractiveBox, { variant: "see", title: "Who Does \u201CIT\u201D Refer To?" },
+    E(InteractiveBox, { variant: "see", surface: "sand", title: "Who Does \u201CIT\u201D Refer To?" },
       E("div", {
         style: {
           display: "flex",
@@ -3330,6 +3330,7 @@ function ProbabilitySection(props) {
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
+      surface: "sand",
       title: "How the model picks a word",
       hint: "Given the text \u201CSee you,\u201D the model calculates probabilities for thousands of possible next words. Here are the top candidates:"
     },
@@ -3906,14 +3907,12 @@ function TokenSection(props) {
       E("strong", null, "\u201Cthe\u201D"), " may stay whole. Longer words like ",
       E("strong", null, "\u201Cunbelievable\u201D"), " can be split into parts like ",
       E("strong", null, "un + believ + able"), ", because each of those chunks is reused in many words. Once that vocabulary is locked, the model uses the same token vocabulary every time it reads text."));
-  var meaningBridge = E("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 22, marginTop: 32, marginBottom: 28 } },
-    E("h3", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 8, marginTop: 0 } }, "A number is not understanding"),
-    E("p", { style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: 0 } },
-      "After tokenization, the model has numbers it can work with. But those numbers are just IDs. ",
-      E("strong", null, "9246"),
-      " does not mean “cat” by itself; it only points to the token ",
-      E("strong", null, "cat"),
-      ". Turning those IDs into meaning is the next lesson."));
+  var meaningBridge = E(KeyInsight, { lead: "A number is not understanding.", marginTop: 32, marginBottom: 28 },
+    "After tokenization, the model has numbers it can work with. But those numbers are just IDs. ",
+    E("strong", null, "9246"),
+    " does not mean “cat” by itself; it only points to the token ",
+    E("strong", null, "cat"),
+    ". Turning those IDs into meaning is the next lesson.");
   var bottomLine = E(BottomLine, { thought: "The model doesn\u2019t read words. It converts them into numbers, and {does math from there}." });
   var navButton = E(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("embeddings"); } }, "Next: Meaning");
   return E("div", null,
@@ -4857,7 +4856,7 @@ function LayersSection(props) {
       lineHeight: 1.65,
       fontSize: 17
     }
-  }, "Embeddings give each word a fixed meaning, but \"bank\" has the same numbers whether you\u2019re talking about a river or money. The model\u2019s ~100 layers are where it figures out what you actually mean.", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "Think of it like reading a sentence one pass at a time, understanding a little more each time. Each layer runs two steps: ", /*#__PURE__*/React.createElement("strong", null, "attention"), " (which words matter to each other?) then ", /*#__PURE__*/React.createElement("strong", null, "transformation"), " (what do they mean together?). By the end, \"bank\" means something completely different depending on the sentence."))), /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", title: "Watch Meaning Build Layer by Layer" },
+  }, "Embeddings give each word a fixed meaning, but \"bank\" has the same numbers whether you\u2019re talking about a river or money. The model\u2019s ~100 layers are where it figures out what you actually mean.", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "Think of it like reading a sentence one pass at a time, understanding a little more each time. Each layer runs two steps: ", /*#__PURE__*/React.createElement("strong", null, "attention"), " (which words matter to each other?) then ", /*#__PURE__*/React.createElement("strong", null, "transformation"), " (what do they mean together?). By the end, \"bank\" means something completely different depending on the sentence."))), /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", surface: "sand", title: "Watch Meaning Build Layer by Layer" },
   /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--bg)",
@@ -5239,7 +5238,12 @@ function AttentionSectionModule(props) {
       lineHeight: 1.65,
       fontSize: 17
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "Attention"), " is how the model figures out which surrounding words matter to each other. Each word looks at every other word and assigns a weight.", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "A word like \"bank\" starts with one fixed vector, but its meaning depends on context. Attention asks of every other word: \"how much should you influence my meaning?\" The weights are percentages that add up to 100%. Higher weight means more influence on the final meaning."))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("strong", null, "Attention"), " is how the model figures out which surrounding words matter to each other. Each word looks at every other word and assigns a weight.", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "A word like \"bank\" starts with one fixed vector, but its meaning depends on context. Attention asks of every other word: \"how much should you influence my meaning?\" The weights are percentages that add up to 100%. Higher weight means more influence on the final meaning."))), /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "What Each Word Pays Attention To"
+  },
+  /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -5398,7 +5402,7 @@ function AttentionSectionModule(props) {
       marginTop: 18,
       marginBottom: 18
     }
-  }, ex.explanation))),
+  }, ex.explanation)))),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Attention doesn\u2019t care about distance. {It cares about meaning}." }),
   /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("transform") }, "Next: Update the Meaning"));
 }
@@ -5430,7 +5434,12 @@ function TransformSectionModule(props) {
       lineHeight: 1.65,
       fontSize: 17
     }
-  }, "Here\u2019s \"bank\" in two different sentences:", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "Transform takes the word\u2019s vector plus everything attention gathered, runs it through the model\u2019s learned parameters, and outputs an updated vector with a more specific meaning. Same machinery, different attention input, completely different output."))), /*#__PURE__*/React.createElement("div", {
+  }, "Here\u2019s \"bank\" in two different sentences:", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "Transform takes the word\u2019s vector plus everything attention gathered, runs it through the model\u2019s learned parameters, and outputs an updated vector with a more specific meaning. Same machinery, different attention input, completely different output."))), /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "Same Word, Two Meanings"
+  },
+  /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -5440,10 +5449,10 @@ function TransformSectionModule(props) {
   }, TRANSFORM_EXAMPLES.map((ex, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      background: "var(--bg)",
-      borderRadius: 12,
+      background: "#fff",
+      borderRadius: 14,
       padding: 24,
-      border: "2px solid " + ex.color
+      boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5526,7 +5535,7 @@ function TransformSectionModule(props) {
       lineHeight: 1.65,
       margin: 0
     }
-  }, ex.detail)))), /*#__PURE__*/React.createElement("div", {
+  }, ex.detail))))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--info-bg)",
       border: "1px solid var(--info)",
@@ -5619,7 +5628,12 @@ function InferenceSection(props) {
       lineHeight: 1.65,
       fontSize: 17
     }
-  }, "You\u2019ve learned the individual pieces. Now here\u2019s the complete journey from your question to AI\u2019s answer, every time you hit send."), /*#__PURE__*/React.createElement("div", {
+  }, "You\u2019ve learned the individual pieces. Now here\u2019s the complete journey from your question to AI\u2019s answer, every time you hit send."), /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "The Complete Journey"
+  },
+  /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -5844,9 +5858,14 @@ function InferenceSection(props) {
       fontSize: 12,
       color: "var(--inkMuted)"
     }
-  }, "Happens every chat"))),
+  }, "Happens every chat")))),
   /*#__PURE__*/React.createElement(LessonSubhead, null, "The Scale of What\u2019s Happening"),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 } }, "Watch what happens behind the scenes when you ask a simple question."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "Behind a Single Question"
+  },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
     /*#__PURE__*/React.createElement(UserBubble, { text: computeQuestion, visibleChars: computeQChars }),
     computePhase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
@@ -5864,7 +5883,7 @@ function InferenceSection(props) {
           /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Courier Prime', monospace", fontWeight: 700, color: "var(--primary)", fontSize: 14 } }, row[1]));
       })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI types one word at a time because each word is a full pass through the model." },
-      "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null,
+      "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Your question runs through {billions of calculations} in under a second." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, onClick: () => props.onNavigate && props.onNavigate("modelselection"), label: "Next: Controls" }));
 }
 const CONTEXT_EXAMPLES = [{
@@ -7589,9 +7608,11 @@ function PromptingSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
   }, "You\u2019ve learned how LLMs work: how they process tokens, use context, and generate responses word by word. Now here\u2019s the practical payoff: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
-  /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 800, fontSize: 17, color: "var(--ink)", marginBottom: 16 }
-  }, "See the difference first."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "Bad Prompt, Better Prompt"
+  },
   /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 8, marginBottom: 16 }
   }, BEFORE_AFTER.map(function(_, i) { return /*#__PURE__*/React.createElement("button", {
@@ -7620,11 +7641,12 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ba.goodOut))),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--bg)", border: "2px solid var(--primary)", borderRadius: 8, padding: "10px 16px", marginBottom: 24, textAlign: "center" }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, fontSize: 13 } }, ba.callout)),
+  }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, fontSize: 13 } }, ba.callout))),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
     "Same prompt, four formats, four completely different answers. Switch between them to see how a single instruction reshapes the whole output."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
+    surface: "sand",
     title: "Format Changes Everything",
     hint: "Same prompt. Four completely different outputs. The format instruction is everything."
   },

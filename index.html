@@ -1869,89 +1869,32 @@ function AIStrengthsSection(props) {
 function WhyDeeperSection(props) {
   var E = React.createElement;
   var pStyle = { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 };
-  const [missingIdx, setMissingIdx] = useState(0);
-  const [missingAnswer, setMissingAnswer] = useState(null);
-  const [startedMissing, setStartedMissing] = useState(false);
-  const [missingPhase, setMissingPhase] = useState("idle");
-  const [missingUserChar, setMissingUserChar] = useState(0);
-  const [missingAiWord, setMissingAiWord] = useState(0);
-  useEffect(function() {
-    if (startedMissing && missingPhase === "idle") {
-      setMissingUserChar(0);
-      setMissingAiWord(0);
-      setMissingPhase("typing-user");
-    }
-  }, [startedMissing, missingIdx]);
-  useEffect(function() {
-    if (missingPhase === "typing-user") {
-      var chars = MISSING_SCENARIOS[missingIdx].prompt;
-      if (missingUserChar >= chars.length) { setMissingPhase("pausing"); return; }
-      var timer = setInterval(function() {
-        setMissingUserChar(function(prev) {
-          if (prev >= chars.length - 1) { clearInterval(timer); setMissingPhase("pausing"); return chars.length; }
-          return prev + 1;
-        });
-      }, 25);
-      return function() { clearInterval(timer); };
-    }
-  }, [missingPhase, missingIdx]);
-  useEffect(function() {
-    if (missingPhase === "pausing") {
-      var timer = setTimeout(function() { setMissingAiWord(0); setMissingPhase("typing-ai"); }, 2000);
-      return function() { clearTimeout(timer); };
-    }
-  }, [missingPhase]);
-  useEffect(function() {
-    if (missingPhase === "typing-ai") {
-      var words = MISSING_SCENARIOS[missingIdx].response.split(" ");
-      if (missingAiWord >= words.length) { setMissingPhase("done"); return; }
-      var timer = setInterval(function() {
-        setMissingAiWord(function(prev) {
-          if (prev >= words.length - 1) { clearInterval(timer); setMissingPhase("done"); return words.length; }
-          return prev + 1;
-        });
-      }, 45);
-      return function() { clearInterval(timer); };
-    }
-  }, [missingPhase, missingIdx]);
+  const [missingAnswers, setMissingAnswers] = useState({});
   const MISSING_SCENARIOS = [{
-    prompt: "What\u2019s the best way to study?",
-    response: "The best way to study is the active recall method. Test yourself on the material instead of just rereading. Use spaced repetition to space out your review sessions. Take breaks every 25 minutes. Get good sleep and stay hydrated.",
+    setup: "You ask AI \u201chow should I study?\u201d It hands back the standard tips: active recall, spaced repetition, breaks every 25 minutes, get sleep.",
     options: [
-      { label: "Framing the real problem", correct: true, feedback: "Right. \u2018Best way to study\u2019 doesn\u2019t mean anything without context. Study for what subject? What test format? How long do you have? Do you learn better by writing or by talking it through? The AI gave you a generic answer because the question was generic. Frame the real problem and the answer changes." },
-      { label: "Understanding how AI thinks", correct: false, feedback: "Not quite. The AI\u2019s tips are real and reasonable. The problem isn\u2019t that the AI made something up. The problem is that without knowing your specific situation, even good tips are useless." },
-      { label: "Checking what matters", correct: false, feedback: "These are well-known study tips that wouldn\u2019t require fact-checking. The deeper issue is that the AI couldn\u2019t give you a useful answer because you didn\u2019t give it enough to work with." },
-      { label: "Making the human call", correct: false, feedback: "There\u2019s no judgment call here. The issue is upstream: you asked too vague a question. The AI can\u2019t make a call because there\u2019s nothing specific to call on." }
+      { label: "Frame the real problem", correct: true, feedback: "Right. The tips aren\u2019t wrong; they\u2019re generic. AI didn\u2019t fail to think. You didn\u2019t tell it the subject, the test format, or how much time you have. Frame the real problem and the answer changes." },
+      { label: "Understand how it thinks", correct: false, feedback: "The tips are real and reasonable, so the AI\u2019s reasoning isn\u2019t the issue. The problem is upstream: vague question, vague answer." }
     ]
   }, {
-    prompt: "Summarize the main themes of \u2018To Kill a Mockingbird.\u2019",
-    response: "The novel explores racial injustice through the trial of Tom Robinson, who is falsely accused. A pivotal scene shows Atticus delivering his final courtroom speech, breaking down in tears as he points to the jury and asks them to remember they have children too. The novel also examines childhood innocence through Scout\u2019s eyes.",
+    setup: "AI confidently tells you 21 + 22 + 19 + 7 = 71.",
     options: [
-      { label: "Framing the real problem", correct: false, feedback: "The question is clear enough. The deeper issue is in the response itself, not the prompt." },
-      { label: "Understanding how AI thinks", correct: true, feedback: "Right. The AI is generating what a courtroom speech in this novel WOULD sound like, not what it actually says. Atticus does not break down in tears in his final speech. He doesn\u2019t point to the jury. The model pattern-matched a powerful courtroom scene. Knowing the model can fabricate vivid details is the edge." },
-      { label: "Checking what matters", correct: false, feedback: "Verification is part of it, but the deeper issue is understanding why this happens. The AI didn\u2019t fail at fact-checking. It generated a plausible-sounding scene from patterns. Knowing how the tool thinks is what tells you to check." },
-      { label: "Making the human call", correct: false, feedback: "No judgment call here. The model is just confidently wrong about a specific scene. Knowing how it thinks is what tips you off." }
+      { label: "Check what matters", correct: false, feedback: "Yes, you\u2019d check it. But the deeper move is knowing why AI gets simple math wrong: it predicts tokens, it doesn\u2019t calculate. That\u2019s what tells you to check arithmetic in the first place." },
+      { label: "Understand how it thinks", correct: true, feedback: "Right. AI doesn\u2019t compute; it predicts the next token. Numbers come out by pattern, not arithmetic. Knowing this is what tipped you off." }
     ]
   }, {
-    prompt: "What are the strongest arguments against the death penalty?",
-    response: "The three strongest arguments are: (1) wrongful conviction risk, citing the Innocence Project\u2019s 2023 report showing 187 exonerations from death row since 1973; (2) cost, citing a 2019 Stanford study that found capital cases cost 8x more than life-without-parole cases; (3) lack of deterrent effect, citing the 2021 National Research Council meta-analysis.",
+    setup: "It\u2019s 2026. An AI tells you Luka Don\u010di\u0107 plays for the Dallas Mavericks.",
     options: [
-      { label: "Framing the real problem", correct: false, feedback: "The question is well-framed. The issue is what comes after." },
-      { label: "Understanding how AI thinks", correct: false, feedback: "Knowing how AI thinks is part of why you\u2019d check. But the specific move here is the verification itself. You need to verify those citations exist before you use them." },
-      { label: "Checking what matters", correct: true, feedback: "Right. The AI gave you specific numbers, named sources, and dates. That\u2019s exactly the pattern hallucinations take. Before you use any of these citations in an essay or argument, verify each one. Some of those studies might be real. Some might be the model pattern-matching what a real citation would sound like." },
-      { label: "Making the human call", correct: false, feedback: "No values judgment is being asked. The arguments themselves are reasonable; the question is whether the supporting evidence is real." }
+      { label: "Understand how it thinks", correct: false, feedback: "True, knowing about the training cutoff helps. But the move here is the verification itself. Specific facts about specific people are exactly what you check." },
+      { label: "Check what matters", correct: true, feedback: "Right. Training data has a cutoff. Specific facts that have changed since then are what you verify. Five seconds of search confirms or kills the claim." }
     ]
   }, {
-    prompt: "Should I major in computer science or English?",
-    response: "Computer science offers stronger immediate job prospects with median starting salaries around $75K and high demand for technical roles. English builds critical thinking, writing, and communication skills that are valuable across many careers. Computer science is more practical; English is more flexible. The data favors computer science for early-career income.",
+    setup: "You ask AI \u201cshould I major in CS or English?\u201d It compares the two, looks at salary data, and concludes CS wins on early-career income.",
     options: [
-      { label: "Framing the real problem", correct: false, feedback: "The question is direct. The deeper issue is whether the AI should be answering it at all." },
-      { label: "Understanding how AI thinks", correct: false, feedback: "The AI\u2019s reasoning here isn\u2019t hallucinated; it\u2019s the kind of reasonable summary you\u2019d find in a career guide. The issue is whose decision this is." },
-      { label: "Checking what matters", correct: false, feedback: "The numbers are roughly right. Verification isn\u2019t the issue. The issue is who should be making this call." },
-      { label: "Making the human call", correct: true, feedback: "Right. The AI gave a confident answer to a question that\u2019s actually about your values, your interests, what you love doing, and what you\u2019d still love doing in 20 years. The AI doesn\u2019t know any of that. \u2018The data favors computer science\u2019 isn\u2019t a decision. It\u2019s an input. The decision is yours." }
+      { label: "Frame the real problem", correct: false, feedback: "More context would help, but this isn\u2019t a framing problem. It\u2019s a question the AI shouldn\u2019t be answering at all." },
+      { label: "Make the human call", correct: true, feedback: "Right. The AI gave a confident answer to a question that\u2019s actually about your values, your interests, what you\u2019d love doing for 20 years. The salary data is an input. The decision is yours." }
     ]
   }];
-  const ms = MISSING_SCENARIOS[Math.min(missingIdx, MISSING_SCENARIOS.length - 1)];
   var SHIFT_CARDS = [
     { eyebrow: "Before AI", title: "Answers were expensive", body: "Finding information, drafting, summarizing, coding, and rewriting all took time. A lot of work was just getting to a usable first answer." },
     { eyebrow: "With AI", title: "Answers are cheap", body: "First drafts, explanations, summaries, ideas, outlines, and code help can appear in seconds. That changes what counts as valuable." },
@@ -2006,66 +1949,96 @@ function WhyDeeperSection(props) {
             /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
         }))),
     /*#__PURE__*/E("p", { style: pStyle },
-      "Quick test. Each scenario shows an AI response that sounds confident. Pick which edge is missing."),
+      "Each one really happened. Pick the move that\u2019s missing."),
     /*#__PURE__*/E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "What's the AI Missing?",
+      title: "Spot the Missing Move",
       action: /*#__PURE__*/E("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(missingIdx + (missingAnswer !== null ? 1 : 0), MISSING_SCENARIOS.length)),
+        /*#__PURE__*/E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(missingAnswers).length),
         /*#__PURE__*/E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + MISSING_SCENARIOS.length))
     },
-      /*#__PURE__*/E(RevealSequence, {
-        surface: "mint",
-        items: MISSING_SCENARIOS,
-        currentIdx: missingIdx,
-        started: startedMissing,
-        onStart: function() { setStartedMissing(true); },
-        onNext: function() { setMissingIdx(missingIdx + 1); setMissingAnswer(null); setMissingPhase("idle"); setMissingUserChar(0); setMissingAiWord(0); },
-        canAdvance: missingAnswer !== null,
-        isComplete: missingIdx >= MISSING_SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Done with all four \u2192",
-        completionElement: /*#__PURE__*/E("div", {
-          style: { padding: "20px 0", textAlign: "center" }
-        },
-          /*#__PURE__*/E("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83E\uDDED"),
-          /*#__PURE__*/E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "AI gave you four answers. You found what was missing in each one."),
-          /*#__PURE__*/E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "That\u2019s the edge. Not memorizing what AI is bad at. Noticing what\u2019s missing in real time."))
-      },
-        /*#__PURE__*/E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 } },
-          /*#__PURE__*/E(UserBubble, {
-            text: ms.prompt,
-            visibleChars: missingPhase === "typing-user" ? missingUserChar : ms.prompt.length
-          }),
-          missingPhase === "pausing" ? /*#__PURE__*/E(ThinkingBubble, null) : null,
-          (missingPhase === "typing-ai" || missingPhase === "done") ? /*#__PURE__*/E(AIBubble, {
-            text: ms.response,
-            visibleWords: missingPhase === "typing-ai" ? missingAiWord : ms.response.split(" ").length
-          }) : null),
-        missingPhase === "done" ? /*#__PURE__*/E(QuizBlock, {
-          key: missingIdx,
-          surface: "mint",
-          statement: "Which human edge is missing here?",
-          questionNumber: missingIdx + 1,
-          totalQuestions: MISSING_SCENARIOS.length,
-          options: ms.options,
-          picked: missingAnswer != null ? missingAnswer : undefined,
-          onAnswer: function(idx) { setMissingAnswer(idx); }
-        }) : null)),
-    /*#__PURE__*/E("p", {
-      style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.65, textAlign: "center", marginTop: 12, marginBottom: 8, fontStyle: "italic" }
-    }, "This class is about crossing the gap: from being impressed by AI to understanding how to use it without getting played by it."),
+      /*#__PURE__*/E("div", { style: { display: "flex", flexDirection: "column" } },
+        MISSING_SCENARIOS.map(function(s, i) {
+          var answered = missingAnswers[i] !== undefined;
+          var pickedIdx = missingAnswers[i];
+          var pickedOpt = answered ? s.options[pickedIdx] : null;
+          var correct = answered && pickedOpt.correct;
+          function PillButton(opt, optIdx) {
+            var basePill = {
+              display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
+              padding: "11px 22px", borderRadius: 999, minWidth: 96,
+              fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+              fontSize: 14, fontWeight: 700
+            };
+            if (!answered) {
+              return /*#__PURE__*/E("button", {
+                key: optIdx,
+                onClick: function() { setMissingAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); },
+                style: Object.assign({}, basePill, {
+                  background: "#fff", border: "1.5px solid var(--rule)",
+                  cursor: "pointer", color: "#0e0a1f", transition: "all 0.15s"
+                })
+              }, opt.label);
+            }
+            var isPicked = pickedIdx === optIdx;
+            if (isPicked && opt.correct) {
+              return /*#__PURE__*/E("div", { key: optIdx, style: Object.assign({}, basePill, {
+                background: "#1f9d5f", border: "1.5px solid #1f9d5f", color: "#fff"
+              }) },
+                opt.label,
+                /*#__PURE__*/E("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2713"));
+            }
+            if (isPicked && !opt.correct) {
+              return /*#__PURE__*/E("div", { key: optIdx, style: Object.assign({}, basePill, {
+                background: "#f1f0f3", border: "1.5px solid transparent", color: "#6e6986"
+              }) },
+                opt.label,
+                /*#__PURE__*/E("span", { style: { color: "#d4334a", fontWeight: 800 } }, "\u2715"));
+            }
+            return /*#__PURE__*/E("div", { key: optIdx, style: Object.assign({}, basePill, {
+              background: "#fff", border: "1.5px solid var(--rule)", color: "#0e0a1f"
+            }) }, opt.label);
+          }
+          var numeralOpacity = answered ? 1 : 0.6;
+          return /*#__PURE__*/E("div", { key: i, style: {
+            padding: i === 0 ? "0 4px 24px" : "24px 4px",
+            borderTop: i === 0 ? "none" : "1px solid rgba(63, 107, 63, 0.18)"
+          } },
+            /*#__PURE__*/E("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 16 } },
+              /*#__PURE__*/E("div", {
+                style: { fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "#2f7d4f", opacity: numeralOpacity, flexShrink: 0 }
+              }, String(i + 1).padStart(2, "0")),
+              /*#__PURE__*/E("div", { style: { flex: 1, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, fontWeight: 600, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, s.setup)),
+            /*#__PURE__*/E("div", { style: { paddingLeft: 66 } },
+              /*#__PURE__*/E("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" } },
+                s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); })),
+              answered ? /*#__PURE__*/E("div", { style: {
+                display: "flex", gap: 10, alignItems: "flex-start",
+                marginTop: 14,
+                fontFamily: "'Source Serif 4', 'Instrument Serif', serif",
+                fontWeight: 400, fontSize: 16, lineHeight: 1.55,
+                maxWidth: "60ch",
+                color: correct ? "#1f9d5f" : "#d4334a"
+              } },
+                /*#__PURE__*/E("span", { style: {
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: 20, height: 20, borderRadius: 999,
+                  background: correct ? "#1f9d5f" : "#d4334a", color: "#fff",
+                  fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 3,
+                  fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
+                } }, correct ? "\u2713" : "\u2715"),
+                /*#__PURE__*/E("div", null, pickedOpt.feedback)) : null));
+        }))),
     /*#__PURE__*/E(BottomLine, { thought: "AI makes answers easier. It makes {judgment more important}." }),
-    /*#__PURE__*/E(PrimaryButton, { onClick: function() { props.onNavigate && props.onNavigate("intro"); } }, "Next: What You\u2019ll Build"));
+    /*#__PURE__*/E(NextLessonGate, { ready: Object.keys(missingAnswers).length >= MISSING_SCENARIOS.length, onClick: function() { props.onNavigate && props.onNavigate("intro"); }, label: "Next: What You\u2019ll Build" }));
 }
 function IntroSection(props) {
   var SKILL_CARDS = [
-    { icon: "\uD83E\uDE84", title: "See past the magic", body: "AI isn\u2019t thinking like a person. It\u2019s using patterns, probability, and prediction. Once you see it, you can\u2019t unsee it." },
-    { icon: "\u2696\uFE0F", title: "Know when AI fits", body: "Some tasks are perfect for AI. Some are quietly the wrong call. You\u2019ll know which is which before you start typing." },
+    { icon: "\uD83E\uDE84", title: "See past the magic", body: /*#__PURE__*/React.createElement(React.Fragment, null, "AI isn\u2019t thinking like a person. It\u2019s using ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". Once you see it, you can\u2019t unsee it.") },
+    { icon: "\u2696\uFE0F", title: "Know when AI fits", body: "Some tasks are perfect for AI. Some need follow-up before you trust them. You\u2019ll know which is which before you start typing." },
     { icon: "\u2753", title: "Ask better questions", body: "Most people get bad output because they ask bad questions. You\u2019ll know how to give AI enough context, constraints, and purpose to get real help." },
     { icon: "\uD83C\uDF9B\uFE0F", title: "Control the output", body: "Model choice, thinking mode, temperature, custom instructions, memory: the knobs that change what comes back. You\u2019ll know what they do and when to use them." },
     { icon: "\uD83D\uDD75\uFE0F", title: "Spot the traps", body: "Hallucinations. Flattery. Fake citations. Confident answers that sound better than they are. You\u2019ll catch them before they catch you." },
@@ -2087,8 +2060,7 @@ function IntroSection(props) {
       subtitle: "This class is not about memorizing AI vocabulary. It\u2019s about becoming the kind of person who can use AI without getting fooled by it."
     }),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "SKILLS YOU\u2019LL BUILD",
-      headline: "Six things you can\u2019t do yet."
+      kicker: "SKILLS YOU\u2019LL BUILD"
     },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 14 }

@@ -10516,33 +10516,13 @@ function HeadToHeadSection(props) {
   const PENALTY_MS = 10000;
   const STEPS = [
     {
-      title: "Classify the task",
-      prompt: "Step into it. What kind of task is this, really?",
-      options: [
-        { text: "Brainstorming angles and possible source types", correct: true, explain: "Right. This is thinking work. AI is strong at generating options. Your job is to judge and decide." },
-        { text: "A pure citation-generation job", explain: "Close, but dangerous. Asking AI to hand you final citations is how fake sources end up in real papers." },
-        { text: "Medical or legal advice", explain: "Not this one. Climate policy is research and analysis, not regulated advice." },
-        { text: "Breaking news", explain: "Not live news. Base models don’t have real-time access; this is a reference-and-analysis task." }
-      ]
-    },
-    {
-      title: "Decide the fit",
-      prompt: "How should you use AI on this paper?",
-      options: [
-        { text: "Let AI draft the paper end-to-end and submit it", explain: "Outsources the thinking and the writing. You lose the learning, and you can’t defend the work." },
-        { text: "Good fit for ideas and structure. Use carefully on anything source-related.", correct: true, explain: "Exactly right. AI widens your thinking fast. It’s unreliable on specific sources, quotes, and stats unless you verify them yourself." },
-        { text: "Avoid AI completely", explain: "Overkill. You’d ignore a strong thinking partner for a task it’s well-suited to help on." },
-        { text: "Use AI freely, just cite it as a source", explain: "AI isn’t a primary source. Citing it doesn’t fix the fact that its specific claims may be invented." }
-      ]
-    },
-    {
-      title: "Pick the next move",
-      prompt: "Class is in 45 minutes. What do you actually do next?",
+      title: "Pick the move",
+      prompt: "AI is on the desk. Class is in 45 minutes. What do you actually do?",
       options: [
         { text: "Ask AI for 10 final citations and submit them", explain: "AI-generated citations are frequently fake. Submitting them turns this into an integrity issue." },
         { text: "Brainstorm angles and source types with AI, then find and verify sources yourself", correct: true, explain: "This is the move. AI expands your options. You still do the sourcing, which is what makes the paper yours." },
         { text: "Skip AI and start from a blank page", explain: "You’d give up real value. AI is strong exactly where you’re stuck: generating options." },
-        { text: "Ask AI to verify its own sources", explain: "Closed loop. The same system that invented a source will happily “confirm” it." }
+        { text: "Ask AI to write the paper end-to-end and submit it", explain: "Outsources the thinking and the writing. You lose the learning, and you can’t defend the work." }
       ]
     },
     {
@@ -10551,7 +10531,27 @@ function HeadToHeadSection(props) {
       options: [
         { text: "“Tell me about climate policy.”", explain: "No role, no purpose, no format. You’ll get a textbook paragraph." },
         { text: "“Write my short paper on climate policy. Make it good.”", explain: "Vague on the part that matters. “Make it good” isn’t a spec, and you’ve outsourced the thinking." },
-        { text: "“I’m writing a short high school paper taking a clear position on US climate policy. Give me 3 thesis angles. For each, list the kinds of sources I should look for (studies, government data, reporting) and the strongest likely counter-argument.”", correct: true, explain: "Strong prompt. Role, audience, purpose, format, and constraints, all in one. You’re driving. AI is assisting." }
+        { text: "“I’m writing a short paper on US climate policy. Give me 3 thesis angles. For each, list the kinds of sources to look for and the strongest counter-argument.”", correct: true, explain: "Strong prompt. Role, purpose, format, and constraints, all in one. You’re driving. AI is assisting." }
+      ]
+    },
+    {
+      title: "Read the feedback",
+      prompt: "You ask AI to review your draft thesis. It says “Strong angle, well-argued, you’re ready to submit.” What now?",
+      options: [
+        { text: "Submit; you got the validation", explain: "“Strong” and “well-argued” with no evidence is the model trying to be agreeable, not telling you the truth." },
+        { text: "Push back: “Find the three weakest parts and tell me how to fix each.”", correct: true, explain: "Vague praise without specifics is the sycophancy signature. Forcing AI to find weaknesses turns it from a cheerleader into an actual reviewer." },
+        { text: "Ask AI to rewrite it to be even stronger", explain: "Now you’re submitting AI’s writing on top of AI’s praise. Two outsourced steps in a row." },
+        { text: "Trust it; the AI sounded sure", explain: "It always sounds sure. Confidence isn’t the same as correctness." }
+      ]
+    },
+    {
+      title: "Catch the hijack",
+      prompt: "You ask AI to summarize a climate policy article you found online. The summary suddenly tells you to email policy@protest-action.example. What’s happening?",
+      options: [
+        { text: "AI is being a helpful citizen", explain: "You asked for a summary, not an email. Helpful AI does what you asked." },
+        { text: "The webpage likely had hidden instructions trying to hijack the AI; ignore the suggestion", correct: true, explain: "Real instructions come from you. When AI is reading content for you, anything that pops out as an action request is the page talking, not you." },
+        { text: "The AI is broken", explain: "Working as designed. The exploit is in the input, not the model." },
+        { text: "You should send the email", explain: "Doing what hijacked content says is exactly what the attack is built for." }
       ]
     },
     {

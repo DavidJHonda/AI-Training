@@ -3386,7 +3386,7 @@ function ProbabilitySection(props) {
             onClick: startOver,
             style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--bg)", color: "var(--inkSoft)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 14, fontWeight: 600 }
           }, "\u21BB Start Over"),
-          /*#__PURE__*/React.createElement(NextLessonGate, { ready: score.total >= 5, onClick: function() { props.onNavigate && props.onNavigate("prediction"); }, label: "Next: Prediction" }))
+          /*#__PURE__*/React.createElement(NextLessonGate, { ready: score.total >= 3, onClick: function() { props.onNavigate && props.onNavigate("prediction"); }, label: "Next: Prediction" }))
       ),
       !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
         phrases.map(function(_, i) { return /*#__PURE__*/React.createElement("div", {
@@ -4459,7 +4459,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 20 } },
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
       [{ title: "Similarity", text: "Gives the model a map. During training, words that appear in similar contexts end up with similar vectors: close together in vector space. This tells the model which words belong in the same neighborhood of meaning. When it sees the word \u2018capital,\u2019 it knows that Paris, London, Tokyo, and Berlin all live nearby." },
-       { title: "Context", text: "Tells the model which part of the neighborhood matters right now. Similarity alone gives you every capital city in the world. Context narrows it. If the conversation mentions France, the model focuses on the French part of the neighborhood: Paris, Lyon, Marseille. Context comes from your full conversation, not just your last message." },
+       { title: "Context", text: "Reads the context window (everything in your conversation so far) and uses it to narrow the neighborhood to what matters right now. Similarity alone gives you every capital city in the world. Your conversation mentions France, so the model focuses on the French part: Paris, Lyon, Marseille." },
        { title: "Probability", text: "Selects the next word. Given the similarity neighborhood and the context, the model assigns a probability to every candidate and picks one. Paris might get 91%, Lyon 4%, Marseille 3%. Every single word in every response goes through this process." }
       ].slice(0, predStepsRevealed).map(function(step, i) {
         return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 16, alignItems: "flex-start", background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 12, animation: i === predStepsRevealed - 1 ? "fadeIn 0.3s ease" : "none" } },

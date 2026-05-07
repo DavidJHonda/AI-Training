@@ -566,7 +566,7 @@ const SECTION_GROUPS = [{
   sections: ["modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "documentchat"]
 }, {
   label: "Using AI Well",
-  sections: ["critical", "mindtrap", "flattery", "engagementtrap", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
+  sections: ["critical", "mindtrap", "flattery", "engagementtrap", "prompting", "thoughtpartner", "studying", "verify", "evaluating", "whenaiacts"]
 }, {
   label: "AI in the Real World",
   sections: ["questionsvaluable", "humanedge", "integrity", "privacy", "judged", "synthetic", "workchanges", "aifuture"]
@@ -769,6 +769,12 @@ const SECTIONS = [{
   label: "Your Thought Partner",
   title: "Thought Partner",
   icon: "\uD83E\uDD1D"
+}, {
+  id: "studying",
+  kicker: "USE IT TO LEARN",
+  label: "Studying With AI",
+  title: "Studying",
+  icon: "\uD83D\uDCD3"
 }, {
   id: "verify",
   kicker: "TRUST, THEN CHECK",
@@ -8321,7 +8327,186 @@ function ThoughtPartnerSection(props) {
     allDone ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "Notice what happened: the user started vague, then made every choice: tech over other fields, AI tools over coding, local businesses over remote work. AI helped explore the options and think through obstacles, but it never decided anything. That\u2019s what a good thought partner does.")) : null),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI can help you think further. It should {never think for you}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpStep > 0, onClick: () => props.onNavigate && props.onNavigate("verify"), label: "Next: How to Verify" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpStep > 0, onClick: () => props.onNavigate && props.onNavigate("studying"), label: "Next: Studying With AI" }));
+}
+function StudyingWithAISection(props) {
+  const [activeMove, setActiveMove] = useState(0);
+  const [picks, setPicks] = useState({});
+
+  const TUTOR_MOVES = [{
+    id: "questions",
+    label: "Ask me questions one at a time",
+    icon: "\u2753",
+    desc: "Forces retrieval from memory, not recognition on a screen.",
+    skipPrompt: "Explain everything I need to know about World War I.",
+    tutorPrompt: "I have a test on WWI causes tomorrow. Ask me one question at a time and wait for me to answer. Start with the alliance system.",
+    why: "Recognition feels like learning (\u201Cyeah, that looks familiar\u201D). Retrieval IS learning (\u201Cwait, I remember this\u201D). The difference shows up on the test."
+  }, {
+    id: "hints",
+    label: "Give me hints, not the answer",
+    icon: "\uD83E\uDDED",
+    desc: "Preserves the moment your brain solves the problem.",
+    skipPrompt: "What's the answer to problem 7?",
+    tutorPrompt: "I'm stuck on problem 7. Don't give me the answer. Give me a hint that points to the next step.",
+    why: "The moment your brain solves the problem is the moment the connection forms. Skip that moment, skip the connection."
+  }, {
+    id: "reasoning",
+    label: "Check my reasoning, don\u2019t tell me yet",
+    icon: "\uD83E\uDDE0",
+    desc: "Builds the harder skill: spotting your own errors.",
+    skipPrompt: "Is this right? [shares answer]",
+    tutorPrompt: "Here's my answer and my reasoning. Don't tell me if it's right yet. Walk through my logic step by step and tell me where it might break down.",
+    why: "Spotting errors yourself is harder than reading them. The harder version is what builds the skill."
+  }, {
+    id: "mistake",
+    label: "Explain where I made the mistake",
+    icon: "\uD83D\uDC1B",
+    desc: "Treats your wrong answer as the data, not the right answer.",
+    skipPrompt: "I got it wrong. What's the right answer?",
+    tutorPrompt: "I got this wrong. Here's what I did. Explain specifically where my reasoning went off, not what the right answer is.",
+    why: "Knowing the right answer doesn't fix the broken thinking that produced the wrong one. The mistake is the data."
+  }, {
+    id: "practice",
+    label: "Practice problems at my level",
+    icon: "\uD83C\uDFCB\uFE0F",
+    desc: "Calibrated difficulty. Too easy doesn\u2019t build skill. Too hard kills motivation.",
+    skipPrompt: "Solve these problems for me.",
+    tutorPrompt: "Generate three quadratic equations. One easy, one medium, one hard. Don't solve them. Wait for my answers.",
+    why: "Practice that\u2019s too easy doesn\u2019t build skill. Practice that\u2019s too hard kills motivation. The right level is where most teens never land without help."
+  }, {
+    id: "quiz",
+    label: "Quiz me, then adapt",
+    icon: "\uD83C\uDFAF",
+    desc: "Adaptive testing across any subject, on demand, free.",
+    skipPrompt: "Tell me everything about the Cold War.",
+    tutorPrompt: "Quiz me on the Cold War. Five questions. After each, tell me if I'm right. If I miss something, ask harder questions on that topic until I get it. If I'm crushing it, ramp up.",
+    why: "Adaptive quizzing is the gold standard of study tools. AI can do it on any subject, on demand, for free."
+  }];
+
+  const SCENARIOS = [{
+    situation: "You have a calculus problem you can\u2019t solve. The homework is due in 30 minutes. Pick the better prompt.",
+    options: [
+      { label: "\u201CSolve this problem for me: [problem]. Show every step.\u201D", correct: false, feedback: "The deadline tempts you toward this. You\u2019ll get the answer and the steps, and you\u2019ll fail a similar problem on the test. The deadline costs you the learning." },
+      { label: "\u201CI\u2019m stuck on this problem. Give me a hint that points to the next step. Don\u2019t solve it yet.\u201D", correct: true, feedback: "Right. You stay in the work. If the hint isn\u2019t enough, ask for another. Each hint gets you closer without skipping the part where your brain forms the connection." },
+      { label: "\u201CCheck my work on this problem: [problem and attempt]. What\u2019s wrong?\u201D", correct: false, feedback: "Useful for diagnosis, but only after you\u2019ve actually attempted it. If you\u2019re truly stuck and haven\u2019t tried yet, hints come first. This move belongs after an attempt, not before one." }
+    ]
+  }, {
+    situation: "You read the chapter on the Civil Rights Movement once. You feel like you understand it. The test is tomorrow morning. Pick the better prompt.",
+    options: [
+      { label: "\u201CSummarize the Civil Rights Movement so I can review.\u201D", correct: false, feedback: "Reading a summary feels productive. It\u2019s recognition, not retrieval. You\u2019ll feel ready and underperform." },
+      { label: "\u201CQuiz me on the Civil Rights Movement. Start with five questions. Tell me what I miss and ask harder follow-ups on those topics.\u201D", correct: true, feedback: "Right. Active recall plus adaptive difficulty. You find out what you don\u2019t actually know in time to do something about it." },
+      { label: "\u201CMake me flashcards on the Civil Rights Movement.\u201D", correct: false, feedback: "Decent, but flashcards leave the studying step still ahead of you. Quizzing IS the studying step." }
+    ]
+  }, {
+    situation: "You got an essay back with a B-. Your teacher marked up logic problems in your second body paragraph. Pick the better prompt.",
+    options: [
+      { label: "\u201CRewrite my second body paragraph to fix the logic problems.\u201D", correct: false, feedback: "The next essay you write will have the same logic problems, because nothing in your thinking changed. AI fixed the paper, not the writer." },
+      { label: "\u201CHere\u2019s my paragraph and my teacher\u2019s notes. Don\u2019t rewrite it. Explain specifically where my logic broke down so I can fix it myself.\u201D", correct: true, feedback: "Right. You learn the pattern. The next essay improves because you understand what went wrong, not just what was wrong." },
+      { label: "\u201CHelp me understand what my teacher meant by \u2018logic problems\u2019 in this paragraph.\u201D", correct: false, feedback: "Good first step before the better prompt above. If you don\u2019t understand the feedback, decode the comment first, then move to the explain-my-mistake prompt." }
+    ]
+  }];
+
+  const tm = TUTOR_MOVES[activeMove];
+
+  const pickOption = function(sIdx, oIdx) {
+    setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
+  };
+
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "studying" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, fontSize: 17, lineHeight: 1.65 } },
+      "Thought Partner taught you the rhythm of using AI to think with you instead of for you. Studying is the same rhythm applied to a specific job: getting the material into your head and keeping it there."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 } },
+      "The trap teens fall into is using AI to skip the part where the learning actually happens. Asking AI for the answer feels productive. It\u2019s not. The answer ends up in the chat, not in your brain."),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "What gets skipped when you skip the work"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, fontSize: 17, lineHeight: 1.65 } },
+      "Reading a summary feels like studying. So does watching AI explain something. Both are recognition: \u201Cyeah, that looks familiar.\u201D Recognition is what you have when you read a friend\u2019s name and know their face. It\u2019s not the same as remembering their phone number from scratch."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 } },
+      "Tests measure what you can produce, not what you recognize. The gap between \u201CI get it\u201D and \u201CI can do it\u201D is the gap that AI can either close or widen, depending on how you use it."),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "Six tutor moves"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
+      "Click through each move to see what skip-mode and tutor-mode look like for the same job."),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 24 } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, minWidth: 220, flexShrink: 0 } },
+        TUTOR_MOVES.map(function(m, i) {
+          return /*#__PURE__*/React.createElement("button", {
+            key: m.id,
+            onClick: function() { setActiveMove(i); },
+            style: {
+              padding: "10px 14px",
+              borderRadius: 8,
+              background: i === activeMove ? "var(--primary)" : "var(--bg)",
+              color: i === activeMove ? "#fff" : "var(--inkMuted)",
+              border: "2px solid " + (i === activeMove ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"),
+              boxShadow: i === activeMove ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
+              cursor: "pointer",
+              fontSize: 13,
+              fontWeight: 600,
+              transition: "all 0.2s",
+              textAlign: "left"
+            }
+          }, m.icon, " ", m.label);
+        })
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, tm.icon),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, tm.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, tm.desc))),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "12px 14px", marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 } }, "\u274C Skip mode"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "#991b1b", lineHeight: 1.55 } }, tm.skipPrompt)),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "12px 14px", marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 } }, "\u2705 Tutor mode"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 14, color: "#14532d", lineHeight: 1.55 } }, tm.tutorPrompt)),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 14, fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
+          "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why it works for learning: "), tm.why)
+      )
+    ),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The struggle isn\u2019t an obstacle to learning." },
+      "It\u2019s the part where learning actually happens. AI can help you struggle better. It can also let you skip the struggle entirely. Both feel like progress in the moment. Only one shows up on the test."),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "Pick the better tutor move"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "Three real situations. In each one, you\u2019ve got AI open and a choice to make. Pick the prompt that helps you learn the thing, not just finish the assignment."),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", surface: "mint", title: "Pick the Better Tutor Move" },
+      SCENARIOS.map(function(sc, sIdx) {
+        var picked = picks[sIdx];
+        var revealed = picked !== undefined;
+        return /*#__PURE__*/React.createElement("div", { key: sIdx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: sIdx < SCENARIOS.length - 1 ? 12 : 0 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Scenario " + (sIdx + 1)),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 14 } }, sc.situation),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: revealed ? 12 : 0 } },
+            sc.options.map(function(opt, oIdx) {
+              var isPicked = picked === oIdx;
+              var bg = !revealed
+                ? "var(--bg)"
+                : opt.correct ? "#ecfdf5" : (isPicked ? "#fef2f2" : "var(--bg)");
+              var border = !revealed
+                ? "1px solid var(--rule)"
+                : opt.correct ? "2px solid #86efac" : (isPicked ? "2px solid #fca5a5" : "1px solid var(--rule)");
+              return /*#__PURE__*/React.createElement("button", {
+                key: oIdx,
+                onClick: function() { if (!revealed) pickOption(sIdx, oIdx); },
+                disabled: revealed,
+                style: { textAlign: "left", padding: "12px 14px", borderRadius: 10, background: bg, border: border, cursor: revealed ? "default" : "pointer", transition: "all 0.2s", width: "100%", fontFamily: "inherit", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 8 } },
+                  revealed && opt.correct ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#16a34a", flexShrink: 0 } }, "\u2713") : null,
+                  revealed && !opt.correct && isPicked ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#dc2626", flexShrink: 0 } }, "\u2717") : null,
+                  /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Courier Prime', monospace", fontStyle: "italic" } }, opt.label)
+                )
+              );
+            })
+          ),
+          revealed ? /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: 8, padding: "12px 14px", fontSize: 13, color: "#4338ca", lineHeight: 1.6 } },
+            /*#__PURE__*/React.createElement("strong", null, "Why: "), sc.options[picked].feedback) : null
+        );
+      })
+    ),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "Same model. Different prompt. {Different brain by test day.}" }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.onNavigate && props.onNavigate("verify"); }, label: "Next: How to Verify" })
+  );
 }
 const EVAL_CRITERIA = [{
   id: "accuracy",
@@ -11989,6 +12174,7 @@ const SECTION_COMPONENTS = {
   engagementtrap: EngagementTrapSection,
   prompting: PromptingSection,
   thoughtpartner: ThoughtPartnerSection,
+  studying: StudyingWithAISection,
   verify: VerifySection,
   evaluating: EvaluatingSection,
   whenaiacts: WhenAIActsSection,

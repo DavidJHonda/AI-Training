@@ -563,7 +563,7 @@ const SECTION_GROUPS = [{
   sections: ["context", "probability", "prediction", "layers", "attention", "transform", "inference"]
 }, {
   label: "Controls",
-  sections: ["modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
+  sections: ["modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "documentchat"]
 }, {
   label: "Using AI Well",
   sections: ["critical", "mindtrap", "flattery", "engagementtrap", "prompting", "thoughtpartner", "verify", "evaluating", "whenaiacts"]
@@ -729,6 +729,11 @@ const SECTIONS = [{
   label: "Customization & Memory",
   title: "Customization",
   icon: "\u2699\uFE0F"
+}, {
+  id: "documentchat",
+  kicker: "WHEN YOU UPLOAD A FILE",
+  label: "Document Chat",
+  icon: "\uD83D\uDCC4"
 }, {
   id: "critical",
   kicker: "BRING YOUR BRAIN",
@@ -6190,7 +6195,198 @@ function CustomizationSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, animation: "fadeIn 0.3s ease" }
     }, "\uD83D\uDCA1 ", sv.explain)),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Same model, {completely different behavior} depending on how it\u2019s set up." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("critical") }, "Next: Using AI Well"));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Same model, {completely different behavior} depending on how it\u2019s set up." }), /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.onNavigate && props.onNavigate("documentchat") }, "Next: Document Chat"));
+}
+function DocumentChatSection(props) {
+  const [stepIdx, setStepIdx] = useState(0);
+  const [startedSee, setStartedSee] = useState(false);
+  const [picks, setPicks] = useState({});
+
+  const STEPS = [{
+    heading: "Step 1: Your document gets split into chunks",
+    body: "Before you ever ask a question, the document gets cut into smaller pieces. A 10-page essay might become 30 chunks, each a paragraph or two long. The chunks sit in a database, waiting.",
+    chunks: [
+      { label: "Chunk 1", text: "...the Compromise of 1850 included five separate laws passed in September of that year..." },
+      { label: "Chunk 2", text: "...California entered the Union as a free state, while the New Mexico and Utah territories..." },
+      { label: "Chunk 3", text: "...the Fugitive Slave Act required citizens in free states to assist in the capture..." }
+    ],
+    showVector: false,
+    showRetrieval: false
+  }, {
+    heading: "Step 2: Each chunk gets a meaning vector",
+    body: "Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. A paragraph on the Compromise of 1850 ends up close in meaning to other paragraphs about U.S. politics, slavery, and pre-Civil War history.",
+    chunks: [
+      { label: "Chunk 1", text: "...the Compromise of 1850 included five separate laws passed in September of that year...", vector: "[0.42, -0.18, 0.91, 0.33, ...]" },
+      { label: "Chunk 2", text: "...California entered the Union as a free state, while the New Mexico and Utah territories...", vector: "[0.38, -0.21, 0.85, 0.29, ...]" },
+      { label: "Chunk 3", text: "...the Fugitive Slave Act required citizens in free states to assist in the capture...", vector: "[0.51, -0.15, 0.79, 0.41, ...]" }
+    ],
+    showVector: true,
+    showRetrieval: false
+  }, {
+    heading: "Step 3: Your question becomes a vector too. The closest chunks get loaded.",
+    body: "When you ask \u201Cwhat was the Compromise of 1850?\u201D, your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole document) go onto the whiteboard. The model answers based on what got retrieved.",
+    question: { text: "What was the Compromise of 1850?", vector: "[0.45, -0.19, 0.88, 0.36, ...]" },
+    chunks: [
+      { label: "Chunk 1", text: "...the Compromise of 1850 included five separate laws passed in September of that year...", vector: "[0.42, -0.18, 0.91, 0.33, ...]", matched: true },
+      { label: "Chunk 2", text: "...California entered the Union as a free state, while the New Mexico and Utah territories...", vector: "[0.38, -0.21, 0.85, 0.29, ...]", matched: true },
+      { label: "Chunk 3", text: "...the Fugitive Slave Act required citizens in free states to assist in the capture...", vector: "[0.51, -0.15, 0.79, 0.41, ...]", matched: false }
+    ],
+    showVector: true,
+    showRetrieval: true
+  }];
+
+  const SCENARIOS = [{
+    situation: "You upload your 25-page syllabus and ask \u201Cwhen\u2019s the final exam?\u201D The AI says May 15 confidently. You check: the syllabus actually says May 22. What happened?",
+    question: "Why did the AI get the date wrong?",
+    options: [
+      { label: "The AI hallucinated the date.", correct: false, feedback: "Not quite. The system actually retrieved a real date from your document, just not the one you needed. A chunk mentioning a midterm or a project deadline got pulled in instead. Without the right chunk on the whiteboard, the model can only answer from what it has." },
+      { label: "Long PDFs are too confusing for the AI.", correct: false, feedback: "Length isn\u2019t the issue. The issue is which chunks got retrieved. A 100-page document works fine if the question matches the right chunk. A 5-page document fails if the question doesn\u2019t." },
+      { label: "The retrieved chunk had a different date in it. The model answered confidently from the wrong piece.", correct: true, feedback: "Right. Retrieval doesn\u2019t care that you wanted the final exam date specifically. It cares which chunks have meaning closest to your question. Fix: ask \u201Cwhat is the date of the FINAL EXAM\u201D or quote a phrase you remember from the syllabus to steer retrieval to the right chunk." }
+    ]
+  }, {
+    situation: "You upload your 8-page essay and ask AI to give you feedback on the whole thing. It gives detailed feedback on your intro and conclusion but barely mentions your middle paragraphs. Why?",
+    question: "What\u2019s actually going on?",
+    options: [
+      { label: "The AI ran out of room.", correct: false, feedback: "The context window has plenty of room for the chunks that got retrieved. The issue is which chunks the system picked when you asked for whole-essay feedback." },
+      { label: "Intros and conclusions are denser in meaning, so they ranked higher when the system retrieved chunks.", correct: true, feedback: "Right. Intros and conclusions usually signal main arguments and themes, which makes their vectors match a generic \u201Cfeedback on the whole thing\u201D question better than body-paragraph chunks. Fix: ask about specific sections one at a time. \u201CFeedback on paragraph 4\u201D retrieves paragraph 4." },
+      { label: "The AI doesn\u2019t like middle paragraphs.", correct: false, feedback: "Not a real reason. The model has no preference. The retrieval system picks chunks based on math, not aesthetics." }
+    ]
+  }, {
+    situation: "You ask AI about a specific quote in your novel. It says the quote means X. But when you check the book, the surrounding paragraph shows the quote means the opposite. It was sarcastic. How did AI miss the sarcasm?",
+    question: "Where did the meaning get lost?",
+    options: [
+      { label: "AI doesn\u2019t understand sarcasm.", correct: false, feedback: "Closer than the others, but not quite. AI can read sarcasm fine if the surrounding context is there. The problem here is that the surrounding context wasn\u2019t on the whiteboard." },
+      { label: "The retrieved chunk had your quote, but not the chapter\u2019s setup or the tone shift before it. Without surrounding context, even a correct quote gets read wrong.", correct: true, feedback: "Right. Chunks come without their neighbors. The quote was retrieved, but the paragraphs that gave it its sarcastic meaning were not. Fix: paste the quote AND the paragraphs around it directly into your prompt instead of relying on retrieval." },
+      { label: "The AI quoted the book wrong.", correct: false, feedback: "No. The quote is real, the retrieval worked. What got lost is the context that gave the quote its meaning." }
+    ]
+  }];
+
+  const pickOption = function(sIdx, oIdx) {
+    setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
+  };
+
+  const renderStepVisual = function(step) {
+    return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginTop: 16 } },
+      step.question ? /*#__PURE__*/React.createElement("div", {
+        style: { background: "#eef2ff", border: "2px solid #c7d2fe", borderRadius: 10, padding: "12px 14px", marginBottom: 6 }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#4338ca", marginBottom: 4 } }, "Your question"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 6, fontStyle: "italic" } }, "\u201C", step.question.text, "\u201D"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 12, color: "#4338ca" } }, step.question.vector)
+      ) : null,
+      step.chunks.map(function(c, i) {
+        var faded = step.showRetrieval && !c.matched;
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: {
+            background: c.matched && step.showRetrieval ? "#ecfdf5" : "var(--card)",
+            border: c.matched && step.showRetrieval ? "2px solid #86efac" : "1px solid var(--rule)",
+            borderRadius: 10,
+            padding: "12px 14px",
+            opacity: faded ? 0.4 : 1,
+            transition: "all 0.3s"
+          }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)" } }, c.label),
+            c.matched && step.showRetrieval ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#16a34a" } }, "\u2713 Retrieved") : null
+          ),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--ink)", lineHeight: 1.5, marginBottom: step.showVector ? 6 : 0 } }, c.text),
+          step.showVector && c.vector ? /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 12, color: "var(--inkMuted)" } }, c.vector) : null
+        );
+      })
+    );
+  };
+
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "documentchat" }),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "You can drag a PDF, paste a Google Doc, or upload an image of a worksheet, and the AI will answer questions about it. This is one of the most common ways teens use AI for school. It\u2019s also one of the easiest places to get a confident wrong answer if you don\u2019t know what\u2019s actually happening."),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "The wrong mental model"),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 14, fontSize: 17, lineHeight: 1.65 } },
+      "It would be nice if AI worked like this: you upload a document, the model reads the whole thing top to bottom, then answers your question with the whole document in mind."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 } },
+      "That\u2019s not what happens. Most documents are bigger than the context window can hold. So the system breaks your document into chunks (a paragraph or two each), and only the chunks most relevant to your question end up on the whiteboard. The model never sees the whole document at once."),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "How chunks get picked"),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "How a Document Becomes an Answer",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(stepIdx + (startedSee ? 1 : 0), STEPS.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + STEPS.length))
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "sand",
+        items: STEPS,
+        currentIdx: stepIdx,
+        started: startedSee,
+        onStart: function() { setStartedSee(true); },
+        onNext: function() { setStepIdx(stepIdx + 1); },
+        canAdvance: true,
+        isComplete: stepIdx >= STEPS.length,
+        startLabel: "Walk Through It",
+        nextLabel: "Next Step \u2192",
+        finishLabel: "Wrap it up \u2192",
+        completionElement: /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDCC4"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Chunk. Vector. Retrieve."),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The model only sees what got pulled in. The rest of the document might as well not exist."))
+      },
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 10 } }, STEPS[Math.min(stepIdx, STEPS.length - 1)].heading),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.65, maxWidth: "62ch", marginBottom: 4 } }, STEPS[Math.min(stepIdx, STEPS.length - 1)].body),
+          renderStepVisual(STEPS[Math.min(stepIdx, STEPS.length - 1)])
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Document chat is the embedding lesson in action." },
+      "The chunks have meaning profiles. Your question has a meaning profile. Whichever chunks come up closest are what the model gets to read. If the right chunk doesn\u2019t get retrieved, the model has no idea it exists."),
+    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
+      "That\u2019s where document chat gets weird. The answers can be confidently wrong, partially complete, or quoted out of context, all because of how chunks got picked. Try spotting what went wrong below."),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "Why did it miss this?"),
+    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", surface: "mint", title: "Why Did It Miss This?" },
+      SCENARIOS.map(function(sc, sIdx) {
+        var picked = picks[sIdx];
+        var revealed = picked !== undefined;
+        return /*#__PURE__*/React.createElement("div", { key: sIdx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: sIdx < SCENARIOS.length - 1 ? 12 : 0 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Scenario " + (sIdx + 1)),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 12 } }, sc.situation),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", fontWeight: 600, marginBottom: 10 } }, sc.question),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: revealed ? 12 : 0 } },
+            sc.options.map(function(opt, oIdx) {
+              var isPicked = picked === oIdx;
+              var bg = !revealed
+                ? "var(--bg)"
+                : opt.correct ? "#ecfdf5" : (isPicked ? "#fef2f2" : "var(--bg)");
+              var border = !revealed
+                ? "1px solid var(--rule)"
+                : opt.correct ? "2px solid #86efac" : (isPicked ? "2px solid #fca5a5" : "1px solid var(--rule)");
+              return /*#__PURE__*/React.createElement("button", {
+                key: oIdx,
+                onClick: function() { if (!revealed) pickOption(sIdx, oIdx); },
+                disabled: revealed,
+                style: { textAlign: "left", padding: "12px 14px", borderRadius: 10, background: bg, border: border, cursor: revealed ? "default" : "pointer", transition: "all 0.2s", width: "100%", fontFamily: "inherit", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 8 } },
+                  revealed && opt.correct ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#16a34a", flexShrink: 0 } }, "\u2713") : null,
+                  revealed && !opt.correct && isPicked ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#dc2626", flexShrink: 0 } }, "\u2717") : null,
+                  /*#__PURE__*/React.createElement("span", null, opt.label)
+                )
+              );
+            })
+          ),
+          revealed ? /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: 8, padding: "12px 14px", fontSize: 13, color: "#4338ca", lineHeight: 1.6 } },
+            /*#__PURE__*/React.createElement("strong", null, "Why: "), sc.options[picked].feedback
+          ) : null
+        );
+      })
+    ),
+    /*#__PURE__*/React.createElement(BottomLine, { thought: "AI doesn\u2019t read your document. {It looks up the parts that match your question.}" }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.onNavigate && props.onNavigate("critical"); }, label: "Next: Using AI Well" })
+  );
 }
 const TEMP_OUTPUTS = {
   "Once upon a time": {
@@ -11786,6 +11982,7 @@ const SECTION_COMPONENTS = {
   context: ContextSection,
   temperature: TemperatureSection,
   customization: CustomizationSection,
+  documentchat: DocumentChatSection,
   critical: CriticalThinkingSection,
   mindtrap: MindTrapSection,
   flattery: FlatteryTrapSection,

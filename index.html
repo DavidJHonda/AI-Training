@@ -41,6 +41,20 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--sans); background: var(--bg); margin: 0; }
   .welcome-input:focus { border-color: var(--primary) !important; }
+  *:focus { outline: none; }
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
   @keyframes waveBar { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
   @keyframes levelReveal { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes shimmer { from { background-position: -200% center; } to { background-position: 200% center; } }
@@ -277,13 +291,32 @@ function PrimaryButton(props) {
   var arrowStyle = { display: "inline-block", marginLeft: 6, transform: !dis && isHover ? "translateX(2px)" : "none", transition: "transform 150ms ease" };
   return React.createElement("button", { onClick: dis ? undefined : props.onClick, disabled: dis, style: merged, onMouseEnter: function() { setHover(true); }, onMouseLeave: function() { setHover(false); } }, props.children, showArrow ? React.createElement("span", { style: arrowStyle }, " \u2192") : null);
 }
+function useReducedMotion() {
+  var _rm = useState(function() {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+  var reduced = _rm[0], setReduced = _rm[1];
+  useEffect(function() {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var handler = function(e) { setReduced(e.matches); };
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else if (mq.addListener) mq.addListener(handler);
+    return function() {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else if (mq.removeListener) mq.removeListener(handler);
+    };
+  }, []);
+  return reduced;
+}
 function NextLessonGate(props) {
   if (props.ready) {
     return React.createElement(PrimaryButton, { onClick: props.onClick }, props.label);
   }
   return React.createElement("div", {
     style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" }
-  }, "Complete the exercises to continue");
+  }, props.lockedMessage || "Complete the exercises to continue");
 }
 function SecondaryButton(props) {
   var arrow = props.arrow === undefined ? "leading" : props.arrow;
@@ -4426,7 +4459,7 @@ function BehindTheNumbersSection(props) {
       "Training is where parameters get set. At first, the model\u2019s internal numbers are not useful. During training, the model keeps predicting, checking how wrong it was, and adjusting its parameters. After huge numbers of tiny adjustments, the parameters start to capture patterns in language. Once training ends, those parameters are frozen. Your conversations use them, but ordinary chats do not rewrite them."),
 
     E(BottomLine, { thought: "Embeddings are learned vectors. {Training creates the values. Parameters store the patterns.}" }),
-    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); }, label: "Next: Transformer Architecture" }));
+    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Transformer Architecture"));
 }
 function PredictionSection(props) {
   const [hoveredWord, setHoveredWord] = useState(null);
@@ -4752,7 +4785,7 @@ function PredictionSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6 } }, "Each word you added changed which predictions made sense. That\u2019s exactly what the model does: it processes all the words together to narrow thousands of possibilities down to the best one.")) : null);
     })(),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } }, "You just felt what the model needs to do. But how does it figure out which words matter to which other words? Vectors alone can\u2019t do this. The architecture that makes it possible is up next.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vectors make prediction possible. {Layers make it accurate}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: predStepsRevealed > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("layers"), label: "Next: Layers" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vectors make prediction possible. {Layers make it accurate}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: predStepsRevealed > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("layers"), label: "Next: Layers" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -5200,7 +5233,7 @@ function LayersSection(props) {
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually, through repeated cycles of attention and transformation.")), /*#__PURE__*/React.createElement(BottomLine, { thought: "Each layer adds {a little more meaning}. Dozens of layers, a context-rich representation the model can act on." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeLayer > 0 || activeWord !== "bank", onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Attention" })));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeLayer > 0 || activeWord !== "bank", lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Attention" })));
 }
 const ATTENTION_EXAMPLES = [{
   sentence: ["The", "cat", "sat", "on", "the", "mat", "because", "it", "was", "tired"],
@@ -5888,7 +5921,7 @@ function InferenceSection(props) {
       })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI types one word at a time because each word is a full pass through the model." },
       "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Your question runs through {billions of calculations} in under a second." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("modelselection"), label: "Next: Controls" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Your question runs through {billions of calculations} in under a second." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("modelselection"), label: "Next: Controls" }));
 }
 const CONTEXT_EXAMPLES = [{
   label: "No prior context",
@@ -5931,6 +5964,7 @@ function ContextSection(props) {
   var _ch = useState(0), chars = _ch[0], setChars = _ch[1];
   var _seen = useState([]), seen = _seen[0], setSeen = _seen[1];
   var _started = useState(false), started = _started[0], setStarted = _started[1];
+  var reducedMotion = useReducedMotion();
   var sc = CONTEXT_EXAMPLES[scenarioIdx];
   var cursor = /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: "1em", background: "var(--primary)", marginLeft: 1, verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" } });
 
@@ -5939,25 +5973,28 @@ function ContextSection(props) {
     if (!started || phase === 0 || phase === 3) return;
     if (phase === 1) {
       var len = sc.prompt.length;
-      var speed = Math.max(30, Math.min(40, 1200 / len));
+      var speed = reducedMotion ? 1 : Math.max(30, Math.min(40, 1200 / len));
+      var pauseAfter = reducedMotion ? 0 : 400;
       var interval = setInterval(function() {
-        setChars(function(c) { if (c >= len) { clearInterval(interval); setTimeout(function() { setPhase(1.5); }, 400); return c; } return c + 1; });
+        setChars(function(c) { if (c >= len) { clearInterval(interval); setTimeout(function() { setPhase(1.5); }, pauseAfter); return c; } return c + 1; });
       }, speed);
       return function() { clearInterval(interval); };
     }
     if (phase === 1.5) {
-      var timer = setTimeout(function() { setChars(0); setPhase(2); }, 2000);
+      var thinkPause = reducedMotion ? 0 : 2000;
+      var timer = setTimeout(function() { setChars(0); setPhase(2); }, thinkPause);
       return function() { clearTimeout(timer); };
     }
     if (phase === 2) {
       var words = sc.response.split(" ");
       var len = words.length;
+      var speed = reducedMotion ? 1 : 80;
       var interval = setInterval(function() {
         setChars(function(c) { if (c >= len) { clearInterval(interval); setPhase(3); setSeen(function(prev) { return prev.indexOf(scenarioIdx) >= 0 ? prev : prev.concat([scenarioIdx]); }); return c; } return c + 1; });
-      }, 80);
+      }, speed);
       return function() { clearInterval(interval); };
     }
-  }, [scenarioIdx, phase]);
+  }, [scenarioIdx, phase, reducedMotion]);
 
   var startScenario = function(idx) { setScenarioIdx(idx); setPhase(1); setChars(0); };
 
@@ -6079,7 +6116,7 @@ function ContextSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, "The model itself has no memory between conversations. Within a conversation, once something scrolls out of the context window it\u2019s gone, like a whiteboard that gets erased. This is why long sessions get slower and less accurate. Some products save information about you separately, but the model only sees what\u2019s in the current window."))),
 
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The model only knows what\u2019s on the whiteboard. You control what goes on it. {Use that}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: seen.length > 0, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("probability"); }, label: "Next: Probability" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: seen.length > 0, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("probability"); }, label: "Next: Probability" }));
 }
 function CustomizationSection(props) {
   const [setupIdx, setSetupIdx] = useState(0);
@@ -6494,9 +6531,9 @@ function ModelSelectionSection(props) {
   }, {
     prompt: "You need to know what happened in the news this week and summarize the top stories.",
     options: [
-      { label: "Claude", correct: false, feedback: "Claude is excellent at analysis, but its training data has a cutoff. For \u2018what happened this week\u2019 it can\u2019t help unless you paste articles in yourself. Gemini was built with real-time web access for exactly this." },
+      { label: "Claude", correct: false, feedback: "Claude has web search too, but its strength is careful analysis of what you give it, not pulling fresh news. Google built Gemini around web grounding as a core feature. For \u2018what happened this week,\u2019 Gemini is the cleaner fit." },
       { label: "ChatGPT", correct: false, feedback: "ChatGPT can search the web, but Google built Gemini with web-grounded answers as a core feature, not an add-on. For news this week specifically, Gemini is the cleaner fit." },
-      { label: "Gemini", correct: true, feedback: "Gemini. Google built it with real-time web access as a core feature. The other models work from training data, which doesn\u2019t include this week." }
+      { label: "Gemini", correct: true, feedback: "Gemini. Google built it around real-time web access as a core feature, not an add-on. The others can search the web too, but it was bolted onto their products later." }
     ]
   }, {
     prompt: "You\u2019re writing a persuasive essay and want detailed feedback on your argument structure.",
@@ -7054,7 +7091,7 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(LessonSubhead, null, "What temperature is not"),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 } },
     "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
 }
 const HALLUCINATION_QUIZ = [{
   question: "Who led the NHL in goals for the 2025 season?",
@@ -7717,7 +7754,7 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.7, fontSize: 14, margin: 0 } },
       "Models can also inherit bias from their training data. You saw earlier that AI reflects whatever patterns are in what it was trained on, including the gaps. Your critical thinking sits on top of that, but the mechanism starts inside the model.")),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI amplifies whatever you bring to it: {good thinking or bad}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitAnswer !== null || problemAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("mindtrap"), label: "Next: The Mind Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitAnswer !== null || problemAnswer !== null, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("mindtrap"), label: "Next: The Mind Trap" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -8176,7 +8213,7 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
   }, "Two diagnostic patterns: if you keep getting wrong-shaped responses (too long, too formal, too generic), that's usually missing Constraints or Format. If you keep getting answers that don't fit your situation, that's usually missing Context or Specificity."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: exerciseAnswer !== null || showGood, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
   const [tpStep, setTpStep] = useState(0);
@@ -8383,7 +8420,7 @@ function ThoughtPartnerSection(props) {
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 24, fontSize: 17, lineHeight: 1.65 } },
     "Different problems take different moves. The pattern is the same: you stay in the work, AI helps you see what you\u2019re not seeing."),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI can help you think further. It should {never think for you}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpStep > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("studying"), label: "Next: Studying With AI" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("studying"), label: "Next: Studying With AI" }));
 }
 function StudyingWithAISection(props) {
   const [activeMove, setActiveMove] = useState(0);
@@ -9008,7 +9045,7 @@ function WhenAIActsSection(props) {
           onAnswer: function(idx) { setPermAnswer(idx); }
         }))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "An agent mistake isn\u2019t a wrong answer. {It\u2019s a wrong action.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function MindTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -9190,7 +9227,7 @@ function MindTrapSection(props) {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
     }, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math, nothing interesting going on.\u201D That\u2019s also a bias. These systems are weird, powerful, and genuinely new. They\u2019re not minds the way you are. They\u2019re also not calculators. The practical stance is humility: don\u2019t assume a mind, don\u2019t assume magic, and don\u2019t turn your brain off."),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Language makes your brain search for a person. With AI, {don\u2019t invent one}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -9386,7 +9423,7 @@ function FlatteryTrapSection(props) {
     style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement(KeyInsight, { lead: "The friendlier the model feels, the more skeptical you should be of its praise.", marginBottom: 24 },
     "Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the model never pushes back on you, it\u2019s not being helpful. It\u2019s performing helpfulness."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: The Engagement Trap" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: The Engagement Trap" }));
 }
 function EngagementTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -9520,7 +9557,7 @@ function EngagementTrapSection(props) {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
     }, "Once you spot the pattern, it\u2019s tempting to flag every follow-up as manipulation and clip every reply at the first period. Don\u2019t. Sometimes the clarifying question is exactly what your messy prompt needed. Sometimes \u201CWant me to give an example?\u201D is the example you actually wanted. The skill isn\u2019t refusing engagement. It\u2019s noticing it, and choosing whether you want it."),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The chat is built to keep going. {You decide when it stops.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" }));
 }
 const INTEGRITY_SCENARIOS = [{
   id: "essay",
@@ -9926,7 +9963,7 @@ function IntegritySection(props) {
       }))),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "The goal isn\u2019t to avoid AI." },
     "It\u2019s to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don\u2019t use it at all, and far more than those who let it do the thinking for them."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "\u2018AI made it\u2019 doesn\u2019t mean \u2018I did it.\u2019 {And it doesn\u2019t mean \u2018I own it.\u2019}" }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "\u2018AI made it\u2019 doesn\u2019t mean \u2018I did it.\u2019 {And it doesn\u2019t mean \u2018I own it.\u2019}" }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy" }));
 }
 function PrivacySection(props) {
   const [redactIdx, setRedactIdx] = useState(0);
@@ -10153,7 +10190,7 @@ function PrivacySection(props) {
   ),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t just about what you type." },
     "When AI reads email, docs, or web pages on your behalf, hidden instructions in that content can hijack what AI does next. That\u2019s prompt injection (covered in When AI Acts). The data you carefully protected can still walk out the door if AI follows the wrong instructions."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactAnswer !== null, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
 }
 function WhenAIJudgesSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -10306,7 +10343,7 @@ function WhenAIJudgesSection(props) {
           onAnswer: function(idx) { setPermAnswer(idx); }
         }))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The AI you never opened {is still making decisions about you.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
 }
 function SyntheticMediaSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -10441,7 +10478,7 @@ function SyntheticMediaSection(props) {
           onAnswer: function(idx) { setPermAnswer(idx); }
         }))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Seeing is no longer proof. {Where it came from is.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("workchanges"), label: "Next: Work Changes" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("workchanges"), label: "Next: Work Changes" }));
 }
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
@@ -12311,12 +12348,14 @@ function ChipNav(props) {
       onClick: function() { props.onNavigate(s.id); },
       onMouseEnter: function() { setChipHover(ci); },
       onMouseLeave: function() { setChipHover(null); },
+      "aria-current": isActive ? "page" : undefined,
+      "aria-label": chipLabel + (isActive ? ", current lesson" : isDone ? ", completed" : ""),
       style: { height: 78, padding: "6px 4px", borderRadius: 12, background: bg, border: "none", boxShadow: shadow, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, transition: "all 0.2s", position: "relative", overflow: "hidden", transform: transform }
     },
       isDone ? /*#__PURE__*/React.createElement("span", {
         style: { position: "absolute", top: 4, left: 5, fontSize: 8, fontWeight: 800, letterSpacing: "0.1em", color: "var(--green)", lineHeight: 1 }
       }, "DONE") : null,
-      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, opacity: iconOpacity } }, s.icon),
+      /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { fontSize: 22, lineHeight: 1, opacity: iconOpacity } }, s.icon),
       /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 600, letterSpacing: "-0.005em", lineHeight: 1.3, textAlign: "center", whiteSpace: "normal", wordBreak: "break-word", maxWidth: "100%", color: labelColor } }, chipLabel));
   }));
 }
@@ -12494,6 +12533,8 @@ function LLMExplorer() {
           onClick: function() { setActiveSection(group.sections[0]); },
           onMouseEnter: function() { setPillHover(gi); },
           onMouseLeave: function() { setPillHover(null); },
+          "aria-current": isActiveGroup ? "true" : undefined,
+          "aria-label": group.label + (isActiveGroup ? ", current section" : groupComplete ? ", section complete" : ""),
           style: {
             padding: groupComplete ? "11px 15px 11px 32px" : "11px 15px", borderRadius: 999,
             background: isActiveGroup ? "var(--primary)" : "var(--card)",
@@ -12505,6 +12546,7 @@ function LLMExplorer() {
           }
         },
           groupComplete ? /*#__PURE__*/React.createElement("span", {
+            "aria-hidden": "true",
             style: { position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 16, height: 16, borderRadius: "50%", background: "var(--green)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff", fontWeight: 700 }
           }, "\u2713") : null,
           group.label);

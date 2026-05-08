@@ -12260,7 +12260,11 @@ function WorkChangesSection(props) {
 function AIFutureSection(props) {
   const [tab, setTab] = useState("track");
   const [claimIdx, setClaimIdx] = useState(0);
-  const [claimPick, setClaimPick] = useState(null);
+  const [incentivesPick, setIncentivesPick] = useState(null);
+  const [frictionPick, setFrictionPick] = useState(null);
+  const [evidencePick, setEvidencePick] = useState(null);
+  const [bucketPick, setBucketPick] = useState(null);
+  const [claimRevealed, setClaimRevealed] = useState(false);
   const [startedClaims, setStartedClaims] = useState(false);
   const [revealed, setRevealed] = useState({});
   var ALL_CARDS = [
@@ -12294,53 +12298,52 @@ function AIFutureSection(props) {
     { label: "Mechanism & Friction", question: "Does this fit how AI actually works?", example: "\u2018AI means you don\u2019t need school anymore.\u2019 For that to be true, every AI answer would have to be correct, colleges and employers would have to stop valuing degrees, and you\u2019d have to learn complex skills with no structure, feedback, or deadlines. None of that is happening." },
     { label: "Evidence", question: "Is this based on evidence, or just extrapolation?", example: "\u2018AI beat a pro gamer at chess\u2019 is evidence. \u2018AI will dominate all esports\u2019 is extrapolation. One controlled game is not the same as real-time team strategy in Valorant or Rocket League. A demo proves something is possible. It doesn\u2019t prove it will spread, scale, or dominate soon." }
   ];
-  var CLAIMS = [
+  var TRIBUNAL_CLAIMS = [
     {
       text: "AI will replace all teachers within 5 years.",
-      answer: "hype",
-      options: [
-        { label: "\uD83D\uDEA8 Serious now", correct: false, feedback: "This isn\u2019t close to happening. Classroom management, motivation, supervision, parent interaction, and student trust aren\u2019t solved problems for AI. Treating this as serious-now would have you bracing for a change that isn\u2019t in motion." },
-        { label: "\u23F3 Possible later", correct: false, feedback: "It\u2019s tempting to put this in \u2018later\u2019 because parts of teaching are getting AI assistance. But \u2018replace ALL teachers\u2019 is a much bigger claim. The friction is enormous: classroom management, motivation, supervision, parent interaction, and student trust." },
-        { label: "\uD83D\uDCA8 Mostly hype", correct: true, feedback: "Right. This assumes classroom management, motivation, supervision, parent interaction, and student trust can all be automated cleanly and cheaply. None of those are close. AI will keep changing teaching. Replacing all teachers in 5 years isn\u2019t the shape of that change." }
-      ]
+      incentives: { recommended: "neutral", rationale: "No one\u2019s making big money off this specific claim. It\u2019s mostly fear (parents, news cycles) and over-confidence from people who watched a chatbot tutor a single concept and extrapolated to all of education." },
+      friction: { recommended: "major", rationale: "Massive friction. Classroom management, motivation, supervision, parent relationships, accreditation, union contracts. None of those move in 5 years even if the technology magically worked." },
+      evidence: { recommended: "extrapolation", rationale: "Based on demos. ChatGPT can explain a concept. That\u2019s a long way from running a classroom of 30 distractible 15-year-olds for 7 hours a day." },
+      bucket: { recommended: "hype", rationale: "When the incentive is fear, the friction is enormous, and the evidence is just demos, you\u2019re looking at hype. The technology will keep changing teaching. Replacing all teachers in 5 years isn\u2019t the shape of that change." }
     },
     {
       text: "Basic writing, routine analysis, and simple coding will keep losing value fast.",
-      answer: "serious",
-      options: [
-        { label: "\uD83D\uDEA8 Serious now", correct: true, feedback: "Right. This is already visible in real workflows. Companies are compressing lower-level tasks right now. Not a prediction. It\u2019s happening." },
-        { label: "\u23F3 Possible later", correct: false, feedback: "Filing this under \u2018later\u2019 underestimates what\u2019s already in motion. Entry-level writing, routine analysis, and simple coding tasks are already being absorbed in real workflows. The \u2018later\u2019 here was last year." },
-        { label: "\uD83D\uDCA8 Mostly hype", correct: false, feedback: "Calling this hype misreads the data. The compression of lower-level tasks isn\u2019t a forecast, it\u2019s already showing up in hiring and in how teams structure work. This one\u2019s real." }
-      ]
+      incentives: { recommended: "some", rationale: "Companies who automate get cheaper. People who write about AI for a living have an interest in dramatic framing. But the trend itself shows up in actual hiring data, not just opinion pieces." },
+      friction: { recommended: "few", rationale: "Few barriers. The tasks themselves are already automated and the tools are widely available. There\u2019s no regulation, no trust gap, no infrastructure to build. It\u2019s already happening." },
+      evidence: { recommended: "strong", rationale: "Strong, multiple sources. Layoffs, hiring patterns, and freelance platform data all show compression of these task categories. Not a forecast. A measurement." },
+      bucket: { recommended: "serious", rationale: "Low friction, strong evidence, already in motion. This is a \u2018serious now\u2019 claim. Plan around it, don\u2019t dismiss it." }
     },
     {
       text: "AI will soon run entire companies by itself.",
-      answer: "later",
-      options: [
-        { label: "\uD83D\uDEA8 Serious now", correct: false, feedback: "Not now. Running an entire company means accountability, legal risk, politics, and consequence-bearing decisions. Those don\u2019t get handed to a model in the current moment, even if individual tasks are getting automated." },
-        { label: "\u23F3 Possible later", correct: true, feedback: "Right. Directionally interesting, but the friction is enormous: accountability, legal risk, politics, human trust, and consequence-bearing decisions. \u2018Later\u2019 is the right bucket. Soon isn\u2019t." },
-        { label: "\uD83D\uDCA8 Mostly hype", correct: false, feedback: "Pure hype underrates the direction of travel. Pieces of company operations are getting automated, and that trend isn\u2019t reversing. The hype is in the timeline (\u2018soon\u2019), not in the underlying possibility." }
-      ]
-    },
-    {
-      text: "Misinformation is about to get cheaper and more scalable.",
-      answer: "serious",
-      options: [
-        { label: "\uD83D\uDEA8 Serious now", correct: true, feedback: "Right. The economics already point this way. Generating convincing false content is cheaper than ever, and the tools are widely available." },
-        { label: "\u23F3 Possible later", correct: false, feedback: "This is already in motion. Convincing fake images, voices, and articles can be made in minutes by anyone. Treating it as a future problem misses what\u2019s already happening at scale." },
-        { label: "\uD83D\uDCA8 Mostly hype", correct: false, feedback: "Calling this hype is wishful. The cost of generating convincing false content has already dropped, and the tools are already widely available. The trajectory is real, not theoretical." }
-      ]
-    },
-    {
-      text: "A single company will permanently win AI.",
-      answer: "hype",
-      options: [
-        { label: "\uD83D\uDEA8 Serious now", correct: false, feedback: "No company is locked in as a permanent winner. The leader changes every few months, the open-source ecosystem keeps catching up, and switching costs for users are low. \u2018Permanently\u2019 is the part that breaks this claim." },
-        { label: "\u23F3 Possible later", correct: false, feedback: "It\u2019s tempting to imagine consolidation eventually. But \u2018permanently win\u2019 is a much stronger claim than \u2018leader for a while.\u2019 The field moves too fast and the products are too imitable for permanent dominance." },
-        { label: "\uD83D\uDCA8 Mostly hype", correct: true, feedback: "Right. The field moves too fast, the ecosystem is too broad, and the products are too imitable for permanent dominance. Today\u2019s leader has been different from last year\u2019s. Next year will likely be different again." }
-      ]
+      incentives: { recommended: "strong", rationale: "Strong incentive on both sides. Tech companies pitching this are selling agentic products. Their critics drive engagement by playing up the risk. Both camps are loud and both have stake." },
+      friction: { recommended: "major", rationale: "Huge friction. Accountability, legal liability, employment law, customer trust, regulatory frameworks. Even if AI could technically run a company, the world isn\u2019t structured to let it." },
+      evidence: { recommended: "mixed", rationale: "Mixed. Pieces of company operations are getting automated (real). \u2018Run an entire company autonomously\u2019 is still mostly a demo or a startup pitch. The direction is real, the timeline isn\u2019t." },
+      bucket: { recommended: "later", rationale: "Strong incentives to exaggerate plus huge friction plus mixed evidence puts this in \u2018possible later.\u2019 The direction may be real. The \u2018soon\u2019 is the part that\u2019s hype." }
     }
   ];
+  var TEST_OPTIONS = {
+    incentives: [
+      { id: "strong", label: "Strong incentive to exaggerate" },
+      { id: "some", label: "Some incentive" },
+      { id: "neutral", label: "Mostly neutral" }
+    ],
+    friction: [
+      { id: "major", label: "Faces major friction" },
+      { id: "some", label: "Some friction" },
+      { id: "few", label: "Few barriers" }
+    ],
+    evidence: [
+      { id: "strong", label: "Strong evidence" },
+      { id: "mixed", label: "Mixed evidence" },
+      { id: "extrapolation", label: "Mostly extrapolation" }
+    ]
+  };
+  var BUCKET_OPTIONS = [
+    { id: "serious", label: "\uD83D\uDEA8 Serious now" },
+    { id: "later", label: "\u23F3 Possible later" },
+    { id: "hype", label: "\uD83D\uDCA8 Mostly hype" }
+  ];
+  function lookupOption(testKey, optionId) { return TEST_OPTIONS[testKey].find(function(o) { return o.id === optionId; }); }
   var BUCKET_META = { serious: { label: "\uD83D\uDEA8 Serious now", bg: "#fef2f2", border: "#fca5a5", color: "#dc2626" }, later: { label: "\u23F3 Possible later", bg: "#fffbeb", border: "#fcd34d", color: "#d97706" }, hype: { label: "\uD83D\uDCA8 Mostly hype", bg: "#ecfdf5", border: "#86efac", color: "#16a34a" } };
   var BLACK_BOX_REASONS = [
     { icon: "\uD83E\uDDE0", title: "The rules are learned, not written.", desc: "A person didn\u2019t write every possible answer by hand. The model learned patterns from training data." },
@@ -12386,7 +12389,6 @@ function AIFutureSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.6, textAlign: "center", marginTop: 16 } }, "A demo proves something can happen. It does not prove it will spread, scale, or dominate soon.")),
       /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 24, fontSize: 15, fontWeight: 700, color: "var(--primary)" } }, "Technical possibility is not social inevitability."));
   } else {
-    var currentClaim = CLAIMS[Math.min(claimIdx, CLAIMS.length - 1)];
     tabContent = /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 4 } }, "When you hear a prediction about AI (scary or exciting), do not just ask whether it sounds possible. Ask what would need to be true, and what still gets in the way."),
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 20, fontWeight: 600 } }, "Run every claim through three tests."),
@@ -12401,28 +12403,28 @@ function AIFutureSection(props) {
       }),
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginTop: 24, marginBottom: 24 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, "Then classify it."),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, "Your job is not to agree or disagree instantly. Your job is to place the claim in one of three buckets:"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, "Run all three tests on the claim. Once you\u2019ve evaluated each one, place the claim in one of three buckets:"),
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "center" } },
           ["serious", "later", "hype"].map(function(k) { var m = BUCKET_META[k]; return /*#__PURE__*/React.createElement("span", { key: k, style: { background: m.bg, border: "1px solid " + m.border, color: m.color, fontSize: 13, fontWeight: 700, padding: "6px 14px", borderRadius: 8 } }, m.label); }))),
       /*#__PURE__*/React.createElement(InteractiveBox, {
         variant: "try",
         surface: "mint",
-        title: "Classify the Claim",
+        title: "Test the Claim",
         action: /*#__PURE__*/React.createElement("div", {
           style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
         },
-          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(claimIdx + (claimPick !== null ? 1 : 0), CLAIMS.length)),
-          /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + CLAIMS.length))
+          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(claimIdx + (claimRevealed ? 1 : 0), TRIBUNAL_CLAIMS.length)),
+          /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TRIBUNAL_CLAIMS.length))
       },
         /*#__PURE__*/React.createElement(RevealSequence, {
           surface: "mint",
-          items: CLAIMS,
+          items: TRIBUNAL_CLAIMS,
           currentIdx: claimIdx,
           started: startedClaims,
           onStart: function() { setStartedClaims(true); },
-          onNext: function() { setClaimIdx(claimIdx + 1); setClaimPick(null); },
-          canAdvance: claimPick !== null,
-          isComplete: claimIdx >= CLAIMS.length,
+          onNext: function() { setClaimIdx(claimIdx + 1); setIncentivesPick(null); setFrictionPick(null); setEvidencePick(null); setBucketPick(null); setClaimRevealed(false); },
+          canAdvance: claimRevealed,
+          isComplete: claimIdx >= TRIBUNAL_CLAIMS.length,
           startLabel: "First Claim",
           nextLabel: "Next Claim \u2192",
           finishLabel: "See the takeaway \u2192",
@@ -12430,22 +12432,89 @@ function AIFutureSection(props) {
             style: { padding: "20px 0", textAlign: "center" }
           },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\u2696\uFE0F"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Five claims sorted."),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The goal is not cynicism. The goal is better judgment. Three buckets. Every prediction. Every time."))
-        },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD The claim"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch", fontStyle: "italic" } }, "\u201C", currentClaim.text, "\u201D")),
-          /*#__PURE__*/React.createElement(QuizBlock, {
-            key: claimIdx,
-            surface: "mint",
-            statement: "Which bucket fits best?",
-            questionNumber: claimIdx + 1,
-            totalQuestions: CLAIMS.length,
-            options: currentClaim.options,
-            picked: claimPick != null ? claimPick : undefined,
-            onAnswer: function(idx) { setClaimPick(idx); }
-          }))));
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Three claims, three tests each."),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The goal is not cynicism. The goal is structured judgment. Same three tests every time. The bucket falls out of the answers."))
+        }, function() {
+          var currentClaim = TRIBUNAL_CLAIMS[Math.min(claimIdx, TRIBUNAL_CLAIMS.length - 1)];
+          var testPicks = { incentives: incentivesPick, friction: frictionPick, evidence: evidencePick };
+          var allTestsFilled = incentivesPick !== null && frictionPick !== null && evidencePick !== null;
+          var testSetters = { incentives: setIncentivesPick, friction: setFrictionPick, evidence: setEvidencePick };
+          var testKeys = ["incentives", "friction", "evidence"];
+          var matchCount = testKeys.filter(function(k) { return testPicks[k] === currentClaim[k].recommended; }).length + (bucketPick === currentClaim.bucket.recommended ? 1 : 0);
+          if (!claimRevealed) {
+            return /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { marginBottom: 24 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD The claim"),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch", fontStyle: "italic" } }, "\u201C", currentClaim.text, "\u201D")),
+              testKeys.map(function(testKey, ti) {
+                var test = TESTS[ti];
+                var opts = TEST_OPTIONS[testKey];
+                var pick = testPicks[testKey];
+                var setter = testSetters[testKey];
+                return /*#__PURE__*/React.createElement("div", { key: testKey, style: ti > 0 ? { borderTop: "1px solid rgba(63, 107, 63, 0.18)", paddingTop: 18, marginTop: 18 } : {} },
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#2f7d4f", marginBottom: 6 } }, "TEST " + (ti + 1) + ": " + test.label.toUpperCase()),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ink)", marginBottom: 12 } }, test.question),
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
+                    opts.map(function(opt) {
+                      var sel = pick === opt.id;
+                      return /*#__PURE__*/React.createElement("button", { key: opt.id, onClick: function() { setter(opt.id); }, style: { padding: "9px 16px", borderRadius: 999, background: sel ? "#2f7d4f" : "#fff", color: sel ? "#fff" : "var(--ink)", border: sel ? "1px solid #2f7d4f" : "1px solid var(--rule)", cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 700, transition: "all 0.15s" } }, opt.label);
+                    })));
+              }),
+              allTestsFilled ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid rgba(63, 107, 63, 0.18)", marginTop: 8, paddingTop: 24 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#0e0a1f", marginBottom: 6 } }, "NOW CLASSIFY"),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ink)", marginBottom: 12 } }, "Which bucket fits best?"),
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 10 } },
+                  BUCKET_OPTIONS.map(function(b) {
+                    var m = BUCKET_META[b.id];
+                    var sel = bucketPick === b.id;
+                    return /*#__PURE__*/React.createElement("button", { key: b.id, onClick: function() { setBucketPick(b.id); }, style: { padding: "10px 18px", borderRadius: 999, background: sel ? m.color : m.bg, color: sel ? "#fff" : m.color, border: "1px solid " + (sel ? m.color : m.border), cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, transition: "all 0.15s" } }, b.label);
+                  }))) : null,
+              bucketPick !== null ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 22 } },
+                /*#__PURE__*/React.createElement("button", { onClick: function() { setClaimRevealed(true); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See the recommended evaluation \u2192")) : null);
+          }
+          return /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { marginBottom: 24 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD The claim"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch", fontStyle: "italic" } }, "\u201C", currentClaim.text, "\u201D")),
+            testKeys.map(function(testKey, ti) {
+              var test = TESTS[ti];
+              var pick = testPicks[testKey];
+              var rec = currentClaim[testKey].recommended;
+              var matched = pick === rec;
+              return /*#__PURE__*/React.createElement("div", { key: testKey, style: { background: "#fff", border: "1px solid var(--rule)", borderLeft: matched ? "3px solid #1f9d5f" : "3px solid #a36a17", borderRadius: 12, padding: "14px 18px", marginBottom: 12 } },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 10 } },
+                  /*#__PURE__*/React.createElement("div", null,
+                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#2f7d4f" } }, "TEST " + (ti + 1) + ": " + test.label.toUpperCase()),
+                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--ink)", marginTop: 2 } }, test.question)),
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "4px 10px", borderRadius: 999, background: matched ? "#dcfce7" : "#fef3c7", color: matched ? "#1f9d5f" : "#a36a17", flexShrink: 0 } }, matched ? "\u2713 Match" : "Different")),
+                !matched ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 24, marginBottom: 10, fontSize: 13 } },
+                  /*#__PURE__*/React.createElement("div", null,
+                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 4 } }, "YOUR PICK"),
+                    /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", fontSize: 14 } }, lookupOption(testKey, pick).label)),
+                  /*#__PURE__*/React.createElement("div", null,
+                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "#2f7d4f", marginBottom: 4 } }, "RECOMMENDED"),
+                    /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#2f7d4f", fontSize: 14 } }, lookupOption(testKey, rec).label))) : null,
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 14, lineHeight: 1.55, color: "var(--inkSoft)", maxWidth: "60ch" } }, currentClaim[testKey].rationale));
+            }),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid var(--rule)", borderLeft: bucketPick === currentClaim.bucket.recommended ? "3px solid #1f9d5f" : "3px solid #d4334a", borderRadius: 12, padding: "14px 18px", marginBottom: 12 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 10 } },
+                /*#__PURE__*/React.createElement("div", null,
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#0e0a1f" } }, "VERDICT"),
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--ink)", marginTop: 2 } }, "Which bucket fits best?")),
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "4px 10px", borderRadius: 999, background: bucketPick === currentClaim.bucket.recommended ? "#dcfce7" : "#fee2e2", color: bucketPick === currentClaim.bucket.recommended ? "#1f9d5f" : "#d4334a", flexShrink: 0 } }, bucketPick === currentClaim.bucket.recommended ? "\u2713 Match" : "\u2715 Off")),
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 24, marginBottom: 10, fontSize: 13 } },
+                /*#__PURE__*/React.createElement("div", null,
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 4 } }, "YOUR PICK"),
+                  /*#__PURE__*/React.createElement("span", { style: { background: BUCKET_META[bucketPick].bg, border: "1px solid " + BUCKET_META[bucketPick].border, color: BUCKET_META[bucketPick].color, fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 6 } }, BUCKET_META[bucketPick].label)),
+                /*#__PURE__*/React.createElement("div", null,
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "#2f7d4f", marginBottom: 4 } }, "RECOMMENDED"),
+                  /*#__PURE__*/React.createElement("span", { style: { background: BUCKET_META[currentClaim.bucket.recommended].bg, border: "1px solid " + BUCKET_META[currentClaim.bucket.recommended].border, color: BUCKET_META[currentClaim.bucket.recommended].color, fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 6 } }, BUCKET_META[currentClaim.bucket.recommended].label))),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 14, lineHeight: 1.55, color: "var(--inkSoft)", maxWidth: "60ch" } }, currentClaim.bucket.rationale)),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", maxWidth: "60ch", marginTop: 22, padding: "0 4px" } },
+              matchCount === 4 ? "Clean read. The structured judgment is exactly what the lesson is for." :
+              matchCount >= 2 ? "Mixed match. The places you differed are where reasonable people land in different buckets. The point of the tests is to make those tradeoffs explicit." :
+              "Worth re-reading the rationale per test. The bucket only falls out cleanly when the underlying tests do."));
+        }())));
 
   }
   return /*#__PURE__*/React.createElement("div", null,
@@ -12531,8 +12600,8 @@ function AIFutureSection(props) {
         }))),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren\u2019t the ones who panic or worship."),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They\u2019re the ones who can judge."),
-    claimIdx >= CLAIMS.length ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Powerful doesn\u2019t mean perfectly explainable. {That\u2019s why your judgment matters}." }) : null,
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimIdx >= CLAIMS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
+    claimIdx >= TRIBUNAL_CLAIMS.length ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Powerful doesn\u2019t mean perfectly explainable. {That\u2019s why your judgment matters}." }) : null,
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimIdx >= TRIBUNAL_CLAIMS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }
 const SECTION_COMPONENTS = {
   preassessment: PreAssessmentSection,

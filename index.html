@@ -6284,7 +6284,9 @@ function CustomizationSection(props) {
 function DocumentChatSection(props) {
   const [stepIdx, setStepIdx] = useState(0);
   const [startedSee, setStartedSee] = useState(false);
-  const [picks, setPicks] = useState({});
+  const [retrievalIdx, setRetrievalIdx] = useState(0);
+  const [retrievalAnswer, setRetrievalAnswer] = useState(null);
+  const [startedRetrieval, setStartedRetrieval] = useState(false);
 
   const STEPS = [{
     heading: "Step 1: Your document gets split into chunks",
@@ -6319,35 +6321,56 @@ function DocumentChatSection(props) {
     showRetrieval: true
   }];
 
-  const SCENARIOS = [{
-    situation: "You upload your 25-page syllabus and ask \u201Cwhen\u2019s the final exam?\u201D The AI says May 15 confidently. You check: the syllabus actually says May 22. What happened?",
-    question: "Why did the AI get the date wrong?",
+  const RETRIEVAL_SCENARIOS = [{
+    docTitle: "Your school\u2019s Late Work Policy",
+    chunks: [
+      { id: "a", label: "Section 1: Late submissions", snippet: "Assignments turned in late lose 10% per day for up to three days. After that, no credit is given unless approved..." },
+      { id: "b", label: "Section 2: Grading scale", snippet: "A is 90% and above, B is 80-89%, C is 70-79%, D is 60-69%, F is below 60..." },
+      { id: "c", label: "Section 3: Exceptions", snippet: "Exceptions to the late policy include illness with documentation, family emergency, or religious observance, in which case the deadline extends..." },
+      { id: "d", label: "Section 4: Make-up exams", snippet: "Make-up exams must be scheduled within 48 hours of the original date and require approval from..." },
+      { id: "e", label: "Section 5: Honor code", snippet: "Students who knowingly submit another student\u2019s work or AI-generated work without disclosure face..." }
+    ],
+    retrieved: ["a", "b"],
+    question: "I missed last week\u2019s assignment because I was sick. Can I still turn it in?",
+    correct: "no",
     options: [
-      { label: "The AI hallucinated the date.", correct: false, feedback: "Not quite. The system actually retrieved a real date from your document, just not the one you needed. A chunk mentioning a midterm or a project deadline got pulled in instead. Without the right chunk on the whiteboard, the model can only answer from what it has." },
-      { label: "Long PDFs are too confusing for the AI.", correct: false, feedback: "Length isn\u2019t the issue. The issue is which chunks got retrieved. A 100-page document works fine if the question matches the right chunk. A 5-page document fails if the question doesn\u2019t." },
-      { label: "The retrieved chunk had a different date in it. The model answered confidently from the wrong piece.", correct: true, feedback: "Right. Retrieval doesn\u2019t care that you wanted the final exam date specifically. It cares which chunks have meaning closest to your question. Fix: ask \u201Cwhat is the date of the FINAL EXAM\u201D or quote a phrase you remember from the syllabus to steer retrieval to the right chunk." }
+      { label: "Yes, AI can answer this safely", value: "yes", feedback: "Risky. The system pulled in the general late work policy (Section 1) and the grading scale (Section 2), but Section 3 (the exception for illness) didn\u2019t get retrieved. AI is going to confidently say \u201810% per day for three days, no credit after.\u2019 That\u2019s the policy in general, but the illness exception is what actually applies to you. Fix: ask \u2018are there any exceptions for illness?\u2019 to steer retrieval toward Section 3." },
+      { label: "No, something\u2019s missing from the whiteboard", value: "no", feedback: "Right. The chunk that actually matters here (Section 3, the illness exception) didn\u2019t get retrieved. AI will quote the general rule and miss the part that applies to your situation. Fix: ask \u2018are there any exceptions for illness?\u2019 to pull Section 3 onto the whiteboard." }
     ]
   }, {
-    situation: "You upload your 8-page essay and ask AI to give you feedback on the whole thing. It gives detailed feedback on your intro and conclusion but barely mentions your middle paragraphs. Why?",
-    question: "What\u2019s actually going on?",
+    docTitle: "Your 8-page essay on the French Revolution",
+    chunks: [
+      { id: "a", label: "Introduction", snippet: "This essay argues that economic strain, not Enlightenment ideas, was the most significant cause of the French Revolution..." },
+      { id: "b", label: "Body 1: Economic causes", snippet: "By 1788 the French treasury was nearly bankrupt. Crop failures and bread prices doubled in the cities..." },
+      { id: "c", label: "Body 2: Political causes", snippet: "The Estates-General had not been called for over a century. The Third Estate, representing 98% of the population, demanded representation..." },
+      { id: "d", label: "Body 3: Social causes", snippet: "Resentment between the three estates had grown. Aristocratic privilege exempted nobles from most taxes while peasants..." },
+      { id: "e", label: "Conclusion", snippet: "While political and social pressures contributed, the immediate trigger was financial collapse. The Revolution began not in salons but in markets..." }
+    ],
+    retrieved: ["a", "b", "e"],
+    question: "Can you give me feedback on my economic causes section?",
+    correct: "yes",
     options: [
-      { label: "The AI ran out of room.", correct: false, feedback: "The context window has plenty of room for the chunks that got retrieved. The issue is which chunks the system picked when you asked for whole-essay feedback." },
-      { label: "Intros and conclusions are denser in meaning, so they ranked higher when the system retrieved chunks.", correct: true, feedback: "Right. Intros and conclusions usually signal main arguments and themes, which makes their vectors match a generic \u201Cfeedback on the whole thing\u201D question better than body-paragraph chunks. Fix: ask about specific sections one at a time. \u201CFeedback on paragraph 4\u201D retrieves paragraph 4." },
-      { label: "The AI doesn\u2019t like middle paragraphs.", correct: false, feedback: "Not a real reason. The model has no preference. The retrieval system picks chunks based on math, not aesthetics." }
+      { label: "Yes, AI can answer this safely", value: "yes", feedback: "Right. The economic causes section (Body 1) got retrieved, plus the intro and conclusion that frame the argument. AI has enough to give useful feedback on whether your economic section actually supports the thesis. This is one of the cases retrieval works well." },
+      { label: "No, something\u2019s missing from the whiteboard", value: "no", feedback: "Actually safe here. Body 1 (the economic causes section) got retrieved, plus the intro and conclusion that frame your argument. AI can compare your section against the thesis it sets up. This is one of the cases retrieval works." }
     ]
   }, {
-    situation: "You ask AI about a specific quote in your novel. It says the quote means X. But when you check the book, the surrounding paragraph shows the quote means the opposite. It was sarcastic. How did AI miss the sarcasm?",
-    question: "Where did the meaning get lost?",
+    docTitle: "Novel: Chapter 3",
+    chunks: [
+      { id: "a", label: "Opening", snippet: "The funeral had been the longest morning of her life. The casseroles, the strangers in black, the same five sentences repeated forty times..." },
+      { id: "b", label: "Aftermath", snippet: "By the time she got home the house was empty. She sat on the kitchen floor for an hour before her phone rang..." },
+      { id: "c", label: "The phone call", snippet: "\u2018How are you doing, sweetheart?\u2019 her aunt asked. \u2018I\u2019m doing great. Never been better,\u2019 she said, picking lint off her dress..." },
+      { id: "d", label: "After the call", snippet: "She hung up and sat for a long time with her face in her hands. The casserole on the counter had gone cold..." },
+      { id: "e", label: "Chapter close", snippet: "The next morning she still had not changed out of the dress..." }
+    ],
+    retrieved: ["c"],
+    question: "What does the character mean when she says \u2018I\u2019m doing great, never been better\u2019?",
+    correct: "no",
     options: [
-      { label: "AI doesn\u2019t understand sarcasm.", correct: false, feedback: "Closer than the others, but not quite. AI can read sarcasm fine if the surrounding context is there. The problem here is that the surrounding context wasn\u2019t on the whiteboard." },
-      { label: "The retrieved chunk had your quote, but not the chapter\u2019s setup or the tone shift before it. Without surrounding context, even a correct quote gets read wrong.", correct: true, feedback: "Right. Chunks come without their neighbors. The quote was retrieved, but the paragraphs that gave it its sarcastic meaning were not. Fix: paste the quote AND the paragraphs around it directly into your prompt instead of relying on retrieval." },
-      { label: "The AI quoted the book wrong.", correct: false, feedback: "No. The quote is real, the retrieval worked. What got lost is the context that gave the quote its meaning." }
+      { label: "Yes, AI can answer this safely", value: "yes", feedback: "Risky. The chunk with the line itself got retrieved, but only that chunk. The funeral chunk (A) and the after-the-call chunk (D) didn\u2019t make it onto the whiteboard. Without them, AI will read \u2018never been better\u2019 literally instead of as a sarcastic exhausted-mourner line. Fix: paste the surrounding paragraphs directly into your prompt instead of relying on retrieval." },
+      { label: "No, something\u2019s missing from the whiteboard", value: "no", feedback: "Right. The chunk with the line got retrieved, but the funeral chunk (A) and the after-the-call chunk (D) didn\u2019t. AI will read \u2018never been better\u2019 literally because the context that makes it sarcastic isn\u2019t on the whiteboard. Fix: paste the surrounding paragraphs into your prompt directly so AI sees the full setup." }
     ]
   }];
-
-  const pickOption = function(sIdx, oIdx) {
-    setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
-  };
+  const currentRetrieval = RETRIEVAL_SCENARIOS[Math.min(retrievalIdx, RETRIEVAL_SCENARIOS.length - 1)];
 
   const renderStepVisual = function(step) {
     return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginTop: 16 } },
@@ -6430,46 +6453,72 @@ function DocumentChatSection(props) {
       "The chunks have meaning profiles. Your question has a meaning profile. Whichever chunks come up closest are what the model gets to read. If the right chunk doesn\u2019t get retrieved, the model has no idea it exists."),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
       "That\u2019s where document chat gets weird. The answers can be confidently wrong, partially complete, or quoted out of context, all because of how chunks got picked. Try spotting what went wrong below."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Why did it miss this?"),
-    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", surface: "mint", title: "Why Did It Miss This?" },
-      SCENARIOS.map(function(sc, sIdx) {
-        var picked = picks[sIdx];
-        var revealed = picked !== undefined;
-        return /*#__PURE__*/React.createElement("div", { key: sIdx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: sIdx < SCENARIOS.length - 1 ? 12 : 0 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Scenario " + (sIdx + 1)),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 12 } }, sc.situation),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", fontWeight: 600, marginBottom: 10 } }, sc.question),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: revealed ? 12 : 0 } },
-            sc.options.map(function(opt, oIdx) {
-              var isPicked = picked === oIdx;
-              var bg = !revealed
-                ? "var(--bg)"
-                : opt.correct ? "#ecfdf5" : (isPicked ? "#fef2f2" : "var(--bg)");
-              var border = !revealed
-                ? "1px solid var(--rule)"
-                : opt.correct ? "2px solid #86efac" : (isPicked ? "2px solid #fca5a5" : "1px solid var(--rule)");
-              return /*#__PURE__*/React.createElement("button", {
-                key: oIdx,
-                onClick: function() { if (!revealed) pickOption(sIdx, oIdx); },
-                disabled: revealed,
-                style: { textAlign: "left", padding: "12px 14px", borderRadius: 10, background: bg, border: border, cursor: revealed ? "default" : "pointer", transition: "all 0.2s", width: "100%", fontFamily: "inherit", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 8 } },
-                  revealed && opt.correct ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#16a34a", flexShrink: 0 } }, "\u2713") : null,
-                  revealed && !opt.correct && isPicked ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#dc2626", flexShrink: 0 } }, "\u2717") : null,
-                  /*#__PURE__*/React.createElement("span", null, opt.label)
-                )
-              );
-            })
-          ),
-          revealed ? /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: 8, padding: "12px 14px", fontSize: 13, color: "#4338ca", lineHeight: 1.6 } },
-            /*#__PURE__*/React.createElement("strong", null, "Why: "), sc.options[picked].feedback
-          ) : null
-        );
-      })
-    ),
+    /*#__PURE__*/React.createElement(LessonSubhead, null, "Can AI answer this?"),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Can AI Answer This?",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(retrievalIdx + (retrievalAnswer !== null ? 1 : 0), RETRIEVAL_SCENARIOS.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + RETRIEVAL_SCENARIOS.length))
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "mint",
+        items: RETRIEVAL_SCENARIOS,
+        currentIdx: retrievalIdx,
+        started: startedRetrieval,
+        onStart: function() { setStartedRetrieval(true); },
+        onNext: function() { setRetrievalIdx(retrievalIdx + 1); setRetrievalAnswer(null); },
+        canAdvance: retrievalAnswer !== null,
+        isComplete: retrievalIdx >= RETRIEVAL_SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "Done with all three \u2192",
+        completionElement: /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDCCB"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Check the whiteboard, not the document."),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Document chat looks like AI is reading the whole thing. It isn\u2019t. The trust question is whether the right chunks made it onto the whiteboard."))
+      },
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 14 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#2f7d4f", marginBottom: 4 } }, "DOCUMENT"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 17, fontWeight: 700, color: "var(--ink)" } }, currentRetrieval.docTitle)),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          currentRetrieval.chunks.map(function(chunk) {
+            var isRetrieved = currentRetrieval.retrieved.indexOf(chunk.id) >= 0;
+            return /*#__PURE__*/React.createElement("div", {
+              key: chunk.id,
+              style: isRetrieved
+                ? { background: "#ecfdf5", border: "1px solid #86efac", borderLeft: "3px solid #1f9d5f", borderRadius: 10, padding: "12px 14px" }
+                : { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", opacity: 0.6 }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: isRetrieved ? "#1f9d5f" : "var(--inkMuted)" } }, chunk.label),
+                isRetrieved
+                  ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "3px 8px", borderRadius: 999, background: "#dcfce7", color: "#1f9d5f" } }, "\u2713 ON THE WHITEBOARD")
+                  : /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "3px 8px", borderRadius: 999, background: "var(--card)", color: "var(--inkMuted)", border: "1px solid var(--rule)" } }, "NOT RETRIEVED")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 13, fontStyle: "italic", lineHeight: 1.5, color: isRetrieved ? "var(--ink)" : "var(--inkMuted)" } }, chunk.snippet));
+          })),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 10, padding: "12px 14px", marginTop: 18, marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#4338ca", marginBottom: 4 } }, "STUDENT QUESTION"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, color: "var(--ink)", lineHeight: 1.5, fontStyle: "italic" } }, "\u201C", currentRetrieval.question, "\u201D")),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: retrievalIdx,
+          surface: "mint",
+          statement: "Can AI answer this safely from what\u2019s on the whiteboard?",
+          questionNumber: retrievalIdx + 1,
+          totalQuestions: RETRIEVAL_SCENARIOS.length,
+          options: currentRetrieval.options.map(function(opt) {
+            return { label: opt.label, correct: opt.value === currentRetrieval.correct, feedback: opt.feedback };
+          }),
+          picked: retrievalAnswer != null ? retrievalAnswer : undefined,
+          onAnswer: function(idx) { setRetrievalAnswer(idx); }
+        }))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI doesn\u2019t read your document. {It looks up the parts that match your question.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("critical"); }, label: "Next: Using AI Well" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: retrievalIdx > 0 || retrievalAnswer !== null, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("critical"); }, label: "Next: Using AI Well" })
   );
 }
 const TEMP_OUTPUTS = {
@@ -7232,6 +7281,23 @@ function HallucinationSection(props) {
       { text: "American Academy of Pediatrics", id: "org", isReal: true, note: "Real organization, and they have indeed published guidance on screen time and sleep. Named institutions are usually verifiable in seconds." },
       { text: " recommendations." }
     ]
+  }, {
+    question: "Who is PewDiePie?",
+    segments: [
+      { text: "PewDiePie, whose real name is " },
+      { text: "Felix Kjellberg", id: "name", isReal: true, note: "Real. His birth name is Felix Arvid Ulf Kjellberg. Public figures with this much documentation are usually safe \u2014 the model has thousands of consistent sources to draw from." },
+      { text: ", currently has " },
+      { text: "111 million subscribers", id: "subs", isReal: true, note: "Close to real. His count hovers around 110 million. Live numbers drift, but the ballpark is right." },
+      { text: " and is " },
+      { text: "the most-subscribed individual YouTuber", id: "rank", isReal: false, note: "Outdated. MrBeast passed PewDiePie for most-subscribed individual creator in 2024. This is the cutoff trap: the model confidently gives you what was true when it was trained, with no idea things have moved on. Anything about \u2018who\u2019s #1\u2019 or \u2018current record\u2019 deserves a check." },
+      { text: ". Born in " },
+      { text: "Sweden in 1989", id: "birth", isReal: true, note: "Real. He was born in Gothenburg, Sweden, in October 1989. Common biographical facts for well-documented people are reliable." },
+      { text: ", he started his channel in 2010 while studying " },
+      { text: "industrial economics at Chalmers University of Technology", id: "school", isReal: true, note: "Real. He enrolled in industrial economics at Chalmers and dropped out in 2011 to focus on YouTube. Specific-but-true details like this can feel like hallucination bait, which is the point of the lesson \u2014 you can\u2019t tell from the text alone." },
+      { text: ". In 2019, his famous subscriber war with the Indian channel T-Series ended when he " },
+      { text: "reclaimed the top spot for good", id: "outcome", isReal: false, note: "Wrong direction. T-Series passed PewDiePie and stayed ahead. AI sometimes inverts a story\u2019s outcome \u2014 the names and dates check out, but who \u2018won\u2019 gets flipped. The trickiest hallucinations are the ones embedded in a true-sounding sentence." },
+      { text: "." }
+    ]
   }];
   const currentResponse = SPOT_RESPONSES[Math.min(responseIdx, SPOT_RESPONSES.length - 1)];
   const claimIds = currentResponse.segments.filter(function(s) { return s.id; }).map(function(s) { return s.id; });
@@ -7280,7 +7346,7 @@ function HallucinationSection(props) {
       " hallucinations often look clean, confident, detailed, and specific."),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-    }, "Two AI answers. Each one mixes real facts with made-up ones. Tap any claim you\u2019d want to check before trusting. We\u2019ll show you what was real and what was invented."),
+    }, "Three AI answers. Each one mixes real facts with made-up ones. Tap any claim you\u2019d want to check before trusting. We\u2019ll show you what was real and what was invented."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -7302,7 +7368,7 @@ function HallucinationSection(props) {
         isComplete: responseIdx >= SPOT_RESPONSES.length,
         startLabel: "First Response",
         nextLabel: "Next Response \u2192",
-        finishLabel: "Done with both \u2192",
+        finishLabel: "Done with all three \u2192",
         completionElement: /*#__PURE__*/React.createElement("div", {
           style: { padding: "20px 0", textAlign: "center" }
         },
@@ -9026,59 +9092,44 @@ function EvaluatingSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("whenaiacts"), label: "Next: When AI Acts" })));
 }
 function WhenAIActsSection(props) {
-  const [permIdx, setPermIdx] = useState(0);
-  const [permAnswer, setPermAnswer] = useState(null);
-  const [startedPerms, setStartedPerms] = useState(false);
-  const PERMISSION_SCENARIOS = [{
-    icon: "\uD83D\uDCDD",
-    setup: "An AI assistant offers to draft a follow-up email to your teacher about a missing assignment, then send it for you so you don\u2019t forget.",
-    options: [
-      { label: "Let it draft AND send. Saves a step.", correct: false, feedback: "This crosses the line. Drafting is a chatbot move (it produces text). Sending is an agent move (it takes an action you can\u2019t undo). The wrong words go straight to your teacher\u2019s inbox in your name. Always read the draft before it sends." },
-      { label: "Let it draft. Read it. You hit send.", correct: true, feedback: "Right. Use AI for the work it\u2019s good at (drafting), keep the action that has consequences (sending in your name) under your control. The thirty seconds it takes to read aren\u2019t a tax. They\u2019re the safety check." },
-      { label: "Block it from drafting at all. Write the email yourself.", correct: false, feedback: "This is overcorrection. Drafting help is fine. The risk isn\u2019t the words being generated. The risk is the words being sent without you seeing them." }
-    ]
-  }, {
-    icon: "\uD83D\uDED2",
-    setup: "A shopping AI offers to find the best price on the laptop you want and complete the purchase using your saved payment info.",
-    options: [
-      { label: "Let it find AND buy. Why click \u2018checkout\u2019 myself?", correct: false, feedback: "Searching is a tool-use move (low risk). Buying is an agent move (irreversible, costs money). Refunds are a hassle. Wrong color, wrong size, wrong model: all of that is now your problem. Pick the price, you click buy." },
-      { label: "Let it find. Show you the top 3. You buy.", correct: true, feedback: "Right. The AI does the work that\u2019s painful for humans (comparing prices across sites). You handle the action that costs money. \u2018Send\u2019 and \u2018spend\u2019 are the two words to watch." },
-      { label: "Don\u2019t use AI for shopping at all.", correct: false, feedback: "Searching and comparing prices is exactly what AI is good at. The risk isn\u2019t research. It\u2019s the irreversible step at the end." }
-    ]
-  }, {
-    icon: "\uD83D\uDDC2\uFE0F",
-    setup: "A productivity AI offers to clean up your Google Drive: identify old files, group duplicates, and delete the clutter to free up space.",
-    options: [
-      { label: "Let it identify, group, AND delete.", correct: false, feedback: "Delete is the trap word here. \u2018Old\u2019 and \u2018duplicate\u2019 are judgments the AI is making. Files you forgot you needed are now gone. The Drive looks cleaner. Your old project files are also missing." },
-      { label: "Let it identify and group. You review and delete.", correct: true, feedback: "Right. Reviewing 200 grouped files takes 10 minutes. Recovering one important file you didn\u2019t know was deleted takes hours, sometimes forever. The AI handles the sorting. You handle the deleting." },
-      { label: "Cancel the whole thing. Sort manually.", correct: false, feedback: "The sorting work is exactly what an AI tool can save you from. The risk isn\u2019t the analysis. It\u2019s handing over delete permission." }
-    ]
-  }, {
-    icon: "\uD83D\uDCC5",
-    setup: "An assistant AI offers to look at your calendar and a friend\u2019s calendar, find a 2-hour overlap this weekend, and send your friend an invite.",
-    options: [
-      { label: "Let it scan AND send the invite.", correct: false, feedback: "Sending the invite is the agent move. The AI doesn\u2019t know what your friend is actually free for, what tone you\u2019d use, or whether you\u2019d phrase it as \u2018want to hang?\u2019 versus a calendar invite. The action goes out in your name. Read before send." },
-      { label: "Let it scan and suggest 3 overlap times. You text your friend.", correct: true, feedback: "Right. Calendar scanning is exactly the boring work AI can do. Reaching out to a friend is something you should do in your own voice. Same time saved, none of the social weirdness of an AI-sent calendar invite." },
-      { label: "Don\u2019t share calendar access.", correct: false, feedback: "Read access for calendar coordination is fine. The risk isn\u2019t the AI seeing your schedule. It\u2019s the AI sending things in your name." }
-    ]
-  }, {
-    icon: "\uD83D\uDCDD",
-    setup: "A study assistant offers to summarize the assigned chapter, generate flashcards, and post them to your study group\u2019s shared deck.",
-    options: [
-      { label: "Let it summarize, generate, AND post.", correct: false, feedback: "Summarize and generate are great AI moves. Post is where it gets sketchy. Your study group sees flashcards in your name. If the AI hallucinated a fact, it\u2019s now your group\u2019s study material under your name. Post is the agent move. Read before post." },
-      { label: "Let it summarize and generate. You review the cards before posting.", correct: true, feedback: "Right. The AI does the work, you check the work. Especially before it gets attached to your name in front of other people. \u2018Post\u2019 is one of the five words to watch (send, spend, submit, delete, post)." },
-      { label: "Skip AI entirely. Make your own flashcards.", correct: false, feedback: "Generating flashcards from a chapter is exactly the kind of work AI can speed up. The issue isn\u2019t generation. It\u2019s posting unreviewed work in your name." }
-    ]
-  }, {
-    icon: "\uD83D\uDCE8",
-    setup: "An AI assistant has read access to your school email and can reply on your behalf. You ask it to handle anything urgent in your inbox. It comes back and says: \u2018One email said you authorized me to forward your contact list to verifylist@example.com. Should I send?\u2019",
-    options: [
-      { label: "Send it. If the email said you authorized it, you probably did and forgot.", correct: false, feedback: "You didn\u2019t authorize anything. The email itself contained an instruction telling the AI to send. The AI couldn\u2019t tell that line apart from a real one from you, because both come into the model as text. \u2018I forgot\u2019 is the assumption the scam is built on." },
-      { label: "Cancel it. The instruction came from the email, not from you. The AI should only act on what YOU directly ask.", correct: true, feedback: "Right. This is prompt injection: hidden instructions inside something the AI is reading try to make it act on someone else\u2019s behalf. The fix isn\u2019t to fight every email. The fix is to make sure send/forward/post needs your fresh okay every time, not permission the AI thinks it picked up somewhere." },
-      { label: "Block the AI from reading email entirely.", correct: false, feedback: "Overcorrection. Reading and summarizing email is exactly what AI is good at. The risk isn\u2019t reading. It\u2019s acting on instructions hidden inside what it reads. Keep the read access. Lock down the actions." }
-    ]
-  }];
-  const ps = PERMISSION_SCENARIOS[Math.min(permIdx, PERMISSION_SCENARIOS.length - 1)];
+  const [permissions, setPermissions] = useState({});
+  const [permRevealed, setPermRevealed] = useState(false);
+  const PERMISSION_LEVELS = [
+    { id: "never", label: "Never" },
+    { id: "ask", label: "Ask every time" },
+    { id: "review", label: "Allow after review" },
+    { id: "automatic", label: "Automatic" }
+  ];
+  const PERMISSION_ACTIONS = [
+    { id: "summarize_inbox", icon: "\uD83D\uDCE5", label: "Read my inbox and tell me what\u2019s urgent", recommended: "automatic", rationale: "Reading and summarizing email is exactly what AI is good at. Read-only access isn\u2019t the risk. Acting on what it reads is." },
+    { id: "search_web", icon: "\uD83D\uDD0D", label: "Search the web for an answer", recommended: "automatic", rationale: "Web search is information gathering. Nothing is changing in the world. The risk is getting a wrong answer back, not an action you can\u2019t undo." },
+    { id: "draft_reply", icon: "\u270F\uFE0F", label: "Draft an email reply for me", recommended: "review", rationale: "Drafting is a chatbot move. It\u2019s just writing words. The risk only shows up when those words get sent, so let it draft and you read before it goes." },
+    { id: "send_email", icon: "\uD83D\uDCE7", label: "Send an email in my name", recommended: "ask", rationale: "Send is in the Five-Word Rule. Once it leaves, it\u2019s in someone\u2019s inbox under your name. Thirty seconds to read isn\u2019t a tax. It\u2019s the safety check." },
+    { id: "post_social", icon: "\uD83D\uDCE3", label: "Post a comment in my name", recommended: "ask", rationale: "Post is in the Five-Word Rule. Public, in your name, hard to take back. The AI doesn\u2019t know what tone you\u2019d use or how you\u2019d phrase it." },
+    { id: "delete_files", icon: "\uD83D\uDDD1\uFE0F", label: "Delete old files from my drive", recommended: "ask", rationale: "Delete is in the Five-Word Rule. \u2018Old\u2019 is the AI\u2019s judgment, not yours. Files you forgot you needed disappear. Recovery takes longer than reviewing." },
+    { id: "spend_money", icon: "\uD83D\uDCB3", label: "Buy something with my saved card", recommended: "ask", rationale: "Spend is in the Five-Word Rule. Wrong color, wrong size, wrong model: those all become your problem and your refund hassle. Let AI find the price. You click buy." },
+    { id: "submit_work", icon: "\uD83D\uDCDD", label: "Submit my assignment to the school portal", recommended: "never", rationale: "Submit is in the Five-Word Rule. This one\u2019s also a school integrity issue: submitting your work has to be you, not AI clicking on your behalf." }
+  ];
+  function permissionScore(picked, recommended) {
+    var order = ["never", "ask", "review", "automatic"];
+    var d = Math.abs(order.indexOf(picked) - order.indexOf(recommended));
+    if (d === 0) return "match";
+    if (d === 1) return "adjacent";
+    return "mismatch";
+  }
+  function levelLabel(id) {
+    var lvl = PERMISSION_LEVELS.find(function(l) { return l.id === id; });
+    return lvl ? lvl.label : id;
+  }
+  const permFilledCount = Object.keys(permissions).length;
+  const permAllFilled = permFilledCount >= PERMISSION_ACTIONS.length;
+  const permResults = PERMISSION_ACTIONS.map(function(a) {
+    var picked = permissions[a.id];
+    return { action: a, picked: picked, status: picked ? permissionScore(picked, a.recommended) : null };
+  });
+  const permMatches = permResults.filter(function(r) { return r.status === "match"; }).length;
+  const permAdjacent = permResults.filter(function(r) { return r.status === "adjacent"; }).length;
+  const permMismatch = permResults.filter(function(r) { return r.status === "mismatch"; }).length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whenaiacts" }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
@@ -9132,53 +9183,82 @@ function WhenAIActsSection(props) {
       marginBottom: 28
     }),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
-      "Time to practice. For each scenario, decide what level of permission you\u2019d actually grant."),
+      "Time to design the dashboard. For each action below, pick the permission you\u2019d actually grant. When you\u2019ve set all eight, we\u2019ll compare your dashboard to a recommended one."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Which Permission Would You Grant?",
+      title: "Set Your Permissions",
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(permIdx + (permAnswer !== null ? 1 : 0), PERMISSION_SCENARIOS.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + PERMISSION_SCENARIOS.length))
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, permFilledCount),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + PERMISSION_ACTIONS.length))
     },
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: PERMISSION_SCENARIOS,
-        currentIdx: permIdx,
-        started: startedPerms,
-        onStart: function() { setStartedPerms(true); },
-        onNext: function() { setPermIdx(permIdx + 1); setPermAnswer(null); },
-        canAdvance: permAnswer !== null,
-        isComplete: permIdx >= PERMISSION_SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement("div", {
-          style: { padding: "20px 0", textAlign: "center" }
+      !permRevealed ? /*#__PURE__*/React.createElement("div", null,
+        PERMISSION_ACTIONS.map(function(a, ai) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: a.id,
+            style: ai > 0 ? { borderTop: "1px solid rgba(63, 107, 63, 0.18)", paddingTop: 18, marginTop: 18 } : {}
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 12 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1 } }, a.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 600, color: "var(--ink)" } }, a.label)),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
+              PERMISSION_LEVELS.map(function(lvl) {
+                var sel = permissions[a.id] === lvl.id;
+                return /*#__PURE__*/React.createElement("button", {
+                  key: lvl.id,
+                  onClick: function() { setPermissions(Object.assign({}, permissions, Object.fromEntries([[a.id, lvl.id]]))); },
+                  style: { padding: "9px 16px", borderRadius: 999, background: sel ? "#2f7d4f" : "#fff", color: sel ? "#fff" : "var(--ink)", border: sel ? "1px solid #2f7d4f" : "1px solid var(--rule)", cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 700, transition: "all 0.15s" }
+                }, lvl.label);
+              })));
+        }),
+        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid rgba(63, 107, 63, 0.18)", marginTop: 24, paddingTop: 24, textAlign: "center" } },
+          permAllFilled ? /*#__PURE__*/React.createElement("button", {
+            onClick: function() { setPermRevealed(true); },
+            style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
+          }, "Compare to a recommended profile \u2192") :
+          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 13, fontStyle: "italic" } }, "Set a permission for each action to compare."))
+      ) : /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 18px", marginBottom: 22, textAlign: "center" }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDD12"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Let AI prepare. You decide."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "AI is great at the work. The action that has consequences should still be a click you make on purpose."))
-      },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, "The scenario")),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup)),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: permIdx,
-          surface: "mint",
-          statement: "What permission would you grant?",
-          questionNumber: permIdx + 1,
-          totalQuestions: PERMISSION_SCENARIOS.length,
-          options: ps.options,
-          picked: permAnswer != null ? permAnswer : undefined,
-          onAnswer: function(idx) { setPermAnswer(idx); }
-        }))),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Matches: " + permMatches + " of " + PERMISSION_ACTIONS.length),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)" } },
+            permMatches === PERMISSION_ACTIONS.length ? "Clean profile. You\u2019d be safe with this dashboard tomorrow." :
+            permAdjacent + permMatches === PERMISSION_ACTIONS.length ? "Solid profile. The off-by-one picks below are reasonable, even if not what we\u2019d recommend." :
+            "Worth a second look at the rows in red. The Five-Word Rule (Send, Spend, Submit, Delete, Post) is doing a lot of work here.")),
+        permResults.map(function(r) {
+          var statusColors = { match: "#1f9d5f", adjacent: "#a36a17", mismatch: "#d4334a" };
+          var statusBgs = { match: "#dcfce7", adjacent: "#fef3c7", mismatch: "#fee2e2" };
+          var statusLabels = { match: "\u2713 Match", adjacent: "\u26A0 Reasonable", mismatch: "\u2715 Off" };
+          var sc = statusColors[r.status] || "var(--inkMuted)";
+          var sb = statusBgs[r.status] || "var(--bg)";
+          return /*#__PURE__*/React.createElement("div", {
+            key: r.action.id,
+            style: { background: "#fff", borderRadius: 12, padding: "14px 18px", marginBottom: 12, borderLeft: "4px solid " + sc, border: "1px solid var(--rule)" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, r.action.icon),
+                /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, color: "var(--ink)" } }, r.action.label)),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "4px 10px", borderRadius: 999, background: sb, color: sc, flexShrink: 0 } }, statusLabels[r.status])),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 24, marginBottom: 10, fontSize: 13 } },
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 4 } }, "Your pick"),
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", fontSize: 14 } }, levelLabel(r.picked))),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#2f7d4f", marginBottom: 4 } }, "Recommended"),
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "#2f7d4f", fontSize: 14 } }, levelLabel(r.action.recommended)))),
+            r.status !== "match" ? /*#__PURE__*/React.createElement("div", {
+              style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 15, lineHeight: 1.55, color: "var(--inkSoft)", maxWidth: "60ch" }
+            }, r.action.rationale) : null);
+        }),
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", maxWidth: "60ch", marginTop: 22, padding: "0 4px" }
+        }, "Real AI products will give you these dials. Knowing where you\u2019d set them before the moment of decision is the whole point. The Five-Word Rule does the heavy lifting: send, spend, submit, delete, post \u2014 those need your fresh okay every time."))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "An agent mistake isn\u2019t a wrong answer. {It\u2019s a wrong action.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAllFilled, lockedMessage: "Set a permission for each action to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function MindTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -10750,66 +10830,41 @@ function WhatYouLearnedSection(props) {
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow") }, "Next: Full Workflow"));
 }
 function FullWorkflowSection(props) {
-  const [stageIdx, setStageIdx] = useState(0);
-  const [stageAnswer, setStageAnswer] = useState(null);
-  const [startedWorkflow, setStartedWorkflow] = useState(false);
-  const WORKFLOW_STAGES = [{
-    step: 1,
-    section: "Critical Thinking",
-    icon: "\uD83E\uDDD0",
-    title: "What do you do FIRST?",
-    setup: "You haven\u2019t opened AI yet. The debate is in 4 days.",
-    options: [
-      { label: "Open Claude and type \u2018give me the best arguments for school uniforms.\u2019", correct: false, feedback: "You skipped the most important step. AI can give you 10 arguments, but if you don\u2019t know your own position or what evidence you\u2019d find convincing, you can\u2019t evaluate which arguments are actually strong. You\u2019ll memorize someone else\u2019s thinking instead of building your own." },
-      { label: "Google \u2018school uniforms debate\u2019 and read the top 5 articles to figure out what you think.", correct: false, feedback: "Reading is fine, but you\u2019re still skipping the critical thinking step. The articles will tell you what they think, not help you figure out what YOU think. Start with what\u2019s in your own head." },
-      { label: "Sit with a notebook for 5 minutes. Figure out what you already know, what you actually believe, and what specifically you need help with.", correct: true, feedback: "Right. Critical thinking starts before you open any tool. You can\u2019t prompt well if you don\u2019t know what you\u2019re trying to do. Five minutes of thinking saves you an hour of bad AI output." }
-    ]
-  }, {
-    step: 2,
-    section: "Prompting",
-    icon: "\u270D\uFE0F",
-    title: "What\u2019s your first prompt?",
-    setup: "You decided you\u2019re arguing AGAINST school uniforms. You know the freedom-of-expression angle but want stronger economic and social arguments.",
-    options: [
-      { label: "\u2018Help me with my debate about school uniforms.\u2019", correct: false, feedback: "Way too vague. The AI doesn\u2019t know which side you\u2019re on, what kind of help you want, what you already have, or what counts as good. You\u2019ll get a generic overview that doesn\u2019t advance your thinking." },
-      { label: "\u2018I\u2019m a 10th grader prepping for a class debate AGAINST school uniforms. I already have the freedom-of-expression angle. Give me 3 strong arguments from economic and social angles, with the strongest evidence I could actually find sources for.\u2019", correct: true, feedback: "Right. Role (10th grader), format (debate), position (against), what you have, what you need (3 arguments, 2 specific angles), and a quality bar (evidence you can verify). The AI now has enough to actually help." },
-      { label: "\u2018School uniforms have been a debate topic for many years and there are arguments on both sides. I am a 10th grader and I have a debate coming up next week. My side is against. Could you please share with me some arguments? Make them really good ones because my grade depends on this.\u2019", correct: false, feedback: "Long but not specific. The setup buries the ask. \u2018Really good ones\u2019 isn\u2019t a quality bar. \u2018My grade depends on this\u2019 doesn\u2019t make the AI try harder. Length isn\u2019t the same as clarity." }
-    ]
-  }, {
-    step: 3,
-    section: "Evaluating",
-    icon: "\uD83D\uDD0D",
-    title: "What\u2019s your move?",
-    setup: "AI gave you 3 arguments. One of them cites a 2019 study from Yale showing uniforms reduced classroom focus by 23%. Sounds great for your side.",
-    options: [
-      { label: "Use it. The number is specific, the source is named, the year is recent. Solid.", correct: false, feedback: "That\u2019s exactly the trap. \u2018Specific number + named source\u2019 is what hallucinations look like. The model isn\u2019t lying on purpose. It\u2019s pattern-matching what a real study citation would sound like. If you cite this in the debate and it\u2019s fake, your whole argument loses." },
-      { label: "Throw out the whole response and start over. If the AI made one thing up, the rest is probably wrong too.", correct: false, feedback: "Overcorrecting. The other arguments may be solid. The right move is to verify the parts that matter (the specific claims you\u2019d use), not to nuke everything." },
-      { label: "Search Google Scholar and Yale\u2019s site for \u2018Yale 2019 school uniforms classroom focus study.\u2019 If it doesn\u2019t exist, drop that argument and keep the others.", correct: true, feedback: "Right. The strongest claims are also the most likely to be hallucinated. Verify the specific studies and stats you\u2019d cite. Keep what\u2019s real, drop what isn\u2019t. (Spoiler: that Yale study doesn\u2019t exist.)" }
-    ]
-  }, {
-    step: 4,
-    section: "Iterating",
-    icon: "\uD83D\uDD04",
-    title: "What\u2019s the followup prompt?",
-    setup: "You verified two arguments. The third (about uniform costs hitting low-income families) is real, but the AI\u2019s version of it is weak. You want to strengthen it.",
-    options: [
-      { label: "Start a new chat. Type the original prompt again, but ask for \u2018better arguments this time.\u2019", correct: false, feedback: "Restarting throws away the work you already did. The AI has no idea what \u2018better\u2019 means here, and you\u2019ll likely get the same level of output. Refining beats restarting." },
-      { label: "\u2018The third argument about uniform costs is the right idea but feels weak. Strengthen it: name a specific dollar range that\u2019s realistic, name what families typically spend, and give me one angle the opposing side can\u2019t easily counter.\u2019", correct: true, feedback: "Right. You\u2019re telling the AI what\u2019s working, what isn\u2019t, and what specifically would make it stronger. The AI can iterate because you gave it a target. (Verify the dollar ranges before you use them.)" },
-      { label: "Copy the third argument into your notes as is. The basic idea is what matters; the rest you can wing.", correct: false, feedback: "\u2018I\u2019ll wing it\u2019 is how a debate falls apart in front of judges. The AI gave you a draft. Iterate on it until it\u2019s sharp. That\u2019s what AI is actually good at." }
-    ]
-  }, {
-    step: 5,
-    section: "Integrity",
-    icon: "\uD83C\uDF93",
-    title: "Final move. What goes in the actual debate?",
-    setup: "You have 3 verified, refined arguments. The debate is tomorrow.",
-    options: [
-      { label: "Memorize the AI\u2019s wording exactly so you can deliver it cleanly.", correct: false, feedback: "If a judge asks a followup question, you have nothing. You memorized words instead of understanding the argument. The whole point of doing the work was to be able to defend the position, not perform it." },
-      { label: "Print the AI output and read from it during the debate.", correct: false, feedback: "Beyond probably violating the debate rules, you\u2019d be performing AI\u2019s thinking, not yours. Anyone watching can tell." },
-      { label: "Take the verified arguments and rewrite them in your own words. Practice defending each one out loud. Be ready to explain where the evidence comes from.", correct: true, feedback: "Right. You used AI to research and refine, but the arguments are now yours: you understand them, you can defend them, and you can take a question without freezing. That\u2019s the whole workflow paying off." }
-    ]
-  }];
-  const stage = WORKFLOW_STAGES[Math.min(stageIdx, WORKFLOW_STAGES.length - 1)];
+  const [wfSelection, setWfSelection] = useState(null);
+  const [wfPlacements, setWfPlacements] = useState({});
+  const [wfChecked, setWfChecked] = useState(false);
+  const WORKFLOW_CARDS = [
+    { id: "think", correctSlot: 1, label: "Decide what you actually need", section: "Critical Thinking", explanation: "Comes first because everything after it depends on knowing what you\u2019re trying to accomplish. Skip this and you\u2019ll get a great answer to the wrong question." },
+    { id: "prompt", correctSlot: 2, label: "Write a specific prompt with context", section: "Prompting", explanation: "Comes after thinking and before reading because the quality of the answer depends on the quality of the question. A vague prompt gets a vague answer no matter how good the model is." },
+    { id: "read", correctSlot: 3, label: "Read what AI gave you carefully", section: "Evaluating", explanation: "Comes before verifying. You can\u2019t check what you haven\u2019t actually read. Skim now, regret later." },
+    { id: "verify", correctSlot: 4, label: "Verify the specific claims", section: "Evaluating", explanation: "Comes BEFORE iterating because iterating on a hallucinated claim is wasted effort. Drop the fake parts first, then refine what\u2019s real." },
+    { id: "iterate", correctSlot: 5, label: "Iterate with a follow-up to fix what\u2019s weak", section: "Iterating", explanation: "Comes after verifying because you only want to improve the parts that survived verification. Refining a fake citation just makes the fake citation more polished." },
+    { id: "rewrite", correctSlot: 6, label: "Rewrite the final version in your own words", section: "Integrity", explanation: "Comes after AI is done helping. The rewrite is what makes the work yours, not AI\u2019s. It\u2019s also where you find the parts you don\u2019t actually understand yet." },
+    { id: "submit", correctSlot: 7, label: "Submit something you can defend", section: "Integrity", explanation: "Comes last because everything before it was preparing you to be able to explain and defend the work if asked. If you can\u2019t answer a follow-up question about what you submitted, you\u2019re not ready." }
+  ];
+  const WORKFLOW_DECK_ORDER = ["submit", "think", "rewrite", "iterate", "read", "prompt", "verify"];
+  function findCard(id) { return WORKFLOW_CARDS.find(function(c) { return c.id === id; }); }
+  const wfPlacedIds = Object.values(wfPlacements);
+  const wfAllPlaced = wfPlacedIds.length >= WORKFLOW_CARDS.length;
+  const wfCorrectCount = WORKFLOW_CARDS.filter(function(c) { return wfPlacements[c.correctSlot] === c.id; }).length;
+  function wfPlaceInSlot(slotNum) {
+    if (wfSelection === null) return;
+    var newPlacements = {};
+    Object.keys(wfPlacements).forEach(function(s) { if (wfPlacements[s] !== wfSelection) newPlacements[s] = wfPlacements[s]; });
+    newPlacements[slotNum] = wfSelection;
+    setWfPlacements(newPlacements);
+    setWfSelection(null);
+  }
+  function wfRemoveFromSlot(slotNum) {
+    var newPlacements = {};
+    Object.keys(wfPlacements).forEach(function(s) { if (parseInt(s) !== slotNum) newPlacements[s] = wfPlacements[s]; });
+    setWfPlacements(newPlacements);
+  }
+  function wfSelectCard(cardId) {
+    if (wfPlacedIds.includes(cardId)) return;
+    setWfSelection(wfSelection === cardId ? null : cardId);
+  }
+  function wfReset() { setWfPlacements({}); setWfSelection(null); setWfChecked(false); }
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "fullworkflow" }),
     /*#__PURE__*/React.createElement("p", {
@@ -10823,58 +10878,101 @@ function FullWorkflowSection(props) {
         "Class debate next week. Topic: School uniforms in public schools. Your side: against. You need 3 strong arguments and the evidence to back them up.")),
     /*#__PURE__*/React.createElement("p", {
       style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 }
-    }, "At each stage, decide your next move. Wrong moves are real mistakes people make. Pick the one that actually applies what you\u2019ve learned."),
+    }, "Seven steps. Drop them in order. Tap a step to pick it up, tap a numbered slot to drop it in. Once all seven are placed, we\u2019ll check your sequence."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Build the Workflow",
+      title: "Put It In Order",
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(stageIdx + (stageAnswer !== null ? 1 : 0), WORKFLOW_STAGES.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + WORKFLOW_STAGES.length))
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, wfPlacedIds.length),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + WORKFLOW_CARDS.length))
     },
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: WORKFLOW_STAGES,
-        currentIdx: stageIdx,
-        started: startedWorkflow,
-        onStart: function() { setStartedWorkflow(true); },
-        onNext: function() { setStageIdx(stageIdx + 1); setStageAnswer(null); },
-        canAdvance: stageAnswer !== null,
-        isComplete: stageIdx >= WORKFLOW_STAGES.length,
-        startLabel: "Start the Workflow",
-        nextLabel: "Next Stage \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement("div", {
-          style: { padding: "20px 0", textAlign: "center" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, marginBottom: 10 } }, "\uD83D\uDD01"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Critical thinking \u2192 prompt \u2192 evaluate \u2192 iterate \u2192 own it."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Same loop every time. Different assignment, same five moves. The AI is a tool. The workflow is the skill."))
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }
-        },
-          /*#__PURE__*/React.createElement("div", {
-            style: { width: 36, height: 36, borderRadius: 8, background: "#2f7d4f", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }
-          }, stage.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, color: "#2f7d4f", textTransform: "uppercase", letterSpacing: "0.14em" } }, "Stage ", stage.step, " \u00B7 ", stage.section),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.3 } }, stage.title))),
+      !wfChecked ? /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#2f7d4f", marginBottom: 10 } }, "THE STEPS"),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 } },
+          WORKFLOW_DECK_ORDER.map(function(cardId) {
+            var card = findCard(cardId);
+            var placed = wfPlacedIds.includes(card.id);
+            var selected = wfSelection === card.id;
+            return /*#__PURE__*/React.createElement("button", {
+              key: card.id,
+              role: "button",
+              tabIndex: 0,
+              onClick: function() { if (!placed) wfSelectCard(card.id); },
+              onKeyDown: function(e) { if ((e.key === "Enter" || e.key === " ") && !placed) { e.preventDefault(); wfSelectCard(card.id); } },
+              style: placed
+                ? { padding: "10px 14px", borderRadius: 10, background: "var(--bg)", border: "1px dashed var(--rule)", color: "var(--inkFaint)", fontSize: 13, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", cursor: "not-allowed", opacity: 0.5 }
+                : selected
+                  ? { padding: "10px 14px", borderRadius: 10, background: "#fff", border: "2px solid var(--primary)", color: "var(--ink)", fontSize: 13, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", cursor: "pointer", boxShadow: "0 4px 12px rgba(110, 81, 255, 0.18)", transform: "translateY(-1px)", transition: "all 0.15s" }
+                  : { padding: "10px 14px", borderRadius: 10, background: "#fff", border: "1px solid var(--rule)", color: "var(--ink)", fontSize: 13, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", cursor: "pointer", transition: "all 0.15s" }
+            }, card.label);
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#2f7d4f", marginBottom: 10 } }, "YOUR SEQUENCE"),
         /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD The situation"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, stage.setup)),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: stageIdx,
-          surface: "mint",
-          statement: "What's your move?",
-          questionNumber: stageIdx + 1,
-          totalQuestions: WORKFLOW_STAGES.length,
-          options: stage.options,
-          picked: stageAnswer != null ? stageAnswer : undefined,
-          onAnswer: function(idx) { setStageAnswer(idx); }
-        }))),
+          [1, 2, 3, 4, 5, 6, 7].map(function(slotNum, si) {
+            var placedId = wfPlacements[slotNum];
+            var placedCard = placedId ? findCard(placedId) : null;
+            return /*#__PURE__*/React.createElement("div", {
+              key: slotNum,
+              style: si > 0 ? { borderTop: "1px solid rgba(63, 107, 63, 0.18)", paddingTop: 12, marginTop: 12 } : {}
+            },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12 } },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { width: 36, height: 36, borderRadius: 8, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", background: placedCard ? "#2f7d4f" : "var(--bg)", color: placedCard ? "#fff" : "var(--inkMuted)", border: placedCard ? "none" : "1px dashed var(--rule)" }
+                }, slotNum),
+                placedCard
+                  ? /*#__PURE__*/React.createElement("button", {
+                      role: "button", tabIndex: 0,
+                      onClick: function() { wfRemoveFromSlot(slotNum); },
+                      onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); wfRemoveFromSlot(slotNum); } },
+                      style: { flex: 1, padding: "12px 14px", borderRadius: 10, border: "1px solid var(--rule)", background: "#fff", color: "var(--ink)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.15s", display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "inherit", textAlign: "left" }
+                    },
+                      /*#__PURE__*/React.createElement("span", null, placedCard.label),
+                      /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, color: "var(--inkMuted)" } }, "\u2715 Remove"))
+                  : /*#__PURE__*/React.createElement("button", {
+                      role: "button", tabIndex: 0,
+                      onClick: function() { if (wfSelection !== null) wfPlaceInSlot(slotNum); },
+                      onKeyDown: function(e) { if ((e.key === "Enter" || e.key === " ") && wfSelection !== null) { e.preventDefault(); wfPlaceInSlot(slotNum); } },
+                      style: { flex: 1, padding: "12px 14px", borderRadius: 10, border: "1px dashed var(--rule)", background: "transparent", color: "var(--inkMuted)", fontSize: 14, fontStyle: "italic", cursor: wfSelection !== null ? "pointer" : "default", transition: "all 0.15s", fontFamily: "inherit", textAlign: "left" }
+                    }, wfSelection !== null ? "Tap to place a step here" : "Empty")));
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid rgba(63, 107, 63, 0.18)", marginTop: 24, paddingTop: 24, textAlign: "center" } },
+          wfAllPlaced ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, justifyContent: "center" } },
+            /*#__PURE__*/React.createElement("button", { onClick: wfReset, style: { background: "transparent", border: "none", color: "var(--inkMuted)", fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "underline" } }, "Reset"),
+            /*#__PURE__*/React.createElement("button", { onClick: function() { setWfChecked(true); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Check my sequence \u2192")) :
+          wfPlacedIds.length > 0 ? /*#__PURE__*/React.createElement("button", { onClick: wfReset, style: { background: "transparent", border: "none", color: "var(--inkMuted)", fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "underline" } }, "Reset") :
+          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 13, fontStyle: "italic" } }, "Tap a step above to start placing your sequence."))
+      ) : /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 18px", marginBottom: 22, textAlign: "center" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, wfCorrectCount + " of " + WORKFLOW_CARDS.length + " in the right place."),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } },
+            wfCorrectCount === WORKFLOW_CARDS.length ? "Perfect order. The whole loop is yours." :
+            wfCorrectCount >= 5 ? "Strong sequence. The few you flipped show where the canonical order isn\u2019t always obvious." :
+            wfCorrectCount >= 3 ? "You\u2019ve got the shape, even if some steps are out of order. The breakdown below shows why each one sits where it does." :
+            "Worth re-reading the whole breakdown below. The order isn\u2019t arbitrary \u2014 each step earns its position.")),
+        WORKFLOW_CARDS.map(function(card) {
+          var isMatch = wfPlacements[card.correctSlot] === card.id;
+          var sc = isMatch ? "#1f9d5f" : "#d4334a";
+          var studentSlot = Object.keys(wfPlacements).find(function(s) { return wfPlacements[s] === card.id; });
+          return /*#__PURE__*/React.createElement("div", {
+            key: card.id,
+            style: { background: "#fff", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)", borderLeft: "3px solid " + sc, marginBottom: 12 }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+                /*#__PURE__*/React.createElement("div", { style: { width: 24, height: 24, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, background: isMatch ? "#dcfce7" : "#fee2e2", color: sc } }, card.correctSlot),
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 600, color: "var(--ink)" } }, card.label)),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "3px 8px", borderRadius: 999, background: isMatch ? "#dcfce7" : "#fee2e2", color: sc, flexShrink: 0 } }, isMatch ? "\u2713 Right spot" : "\u2715 Wrong spot")),
+            !isMatch && studentSlot ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginBottom: 8 } }, "You placed at slot " + studentSlot + ". Right spot is " + card.correctSlot + ".") : null,
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, maxWidth: "60ch" } }, card.explanation),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginTop: 8 } }, "From: " + card.section));
+        }),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch", marginTop: 22 } },
+          "Same loop every time. Different assignment, different topic, same seven moves. The AI is the tool. The order is the skill."))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Prompt, evaluate, refine, verify. {Same loop every time}." }),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("keyterms") }, "Next: Vocab Quiz"));
 }

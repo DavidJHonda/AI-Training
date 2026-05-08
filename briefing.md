@@ -4,14 +4,14 @@
 An instructor-led AI education web app for high schoolers. Single HTML file with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Course structure
-8 section groups, 51 lessons total.
+8 section groups, 53 lessons total.
 
 - Intro (3): preassessment, whydeeper (titled "Why Learn AI?"), intro
 - Foundations (8): aihistory, howwegothere, aistrengths, aivscode, blackbox, generative, data, hallucination
 - Building the Model (6): training, trainingbias, tokens, embeddings, behindthenumbers, howreads
 - Producing an Answer (7): context, probability, prediction, layers, attention, transform, inference
-- Controls (5): modelselection, choosemodel, thinkingmode, temperature, customization
-- Using AI Well (9): critical, mindtrap, flattery, engagementtrap, prompting, thoughtpartner, verify, evaluating, whenaiacts
+- Controls (6): modelselection, choosemodel, thinkingmode, temperature, customization, documentchat
+- Using AI Well (10): critical, mindtrap, flattery, engagementtrap, prompting, thoughtpartner, studying, verify, evaluating, whenaiacts
 - AI in the Real World (8): questionsvaluable, humanedge, integrity, privacy, judged, synthetic, workchanges, aifuture
 - Finish Line (5): whatyoulearned, fullworkflow, keyterms, testyourself, headtohead
 
@@ -46,6 +46,8 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 - SecondaryButton: transparent, --rule border, leading or trailing arrow.
 - QuizBlock: recessed --bg fill, --rule border. Statement is sans 22px/600/--ink (NOT serif italic). Per-option correct via opt.correct.
 - ProgressBar: 220px header right slot, "X of N lessons" where N = SECTIONS.length, gradient track --primary→#b08eff.
+- NextLessonGate: bottom-of-lesson "Next" button gated on a `ready` boolean. Renders the destination PrimaryButton when ready, otherwise renders a small `lockedMessage` prop string (default "Complete the exercises to continue"). Strong-gate lessons use the default; weak-gate lessons override with "Try one to continue" so the locked message stays honest about what the gate actually requires.
+- useReducedMotion: hook that reads `prefers-reduced-motion` via matchMedia and updates if the OS preference changes mid-session. Returns a boolean. Used to gate JS-driven typewriter and reveal animations so they tick at 1ms (effectively instant) when the user has requested reduced motion.
 
 ### Patterns
 - Append-only progressive disclosure: state variable revealedCount, increments on click, content blocks render conditionally. Used in howwegothere (9 reveals through 350 years of history). Lighter than full state-machine progressive disclosure; classroom-friendly because past content stays visible.
@@ -160,6 +162,15 @@ When David asks for content changes, the right pattern is:
 - Integrity: added "Plagiarism vs Copyright" section (two-card neutral contrast + three practical rules), "Show Your Process" section (5 artifact types + receipts callout). Removed misleading "AI detectors are getting better" line from a scenario explanation. BottomLine updated to "'AI made it' doesn't mean 'I did it.' And it doesn't mean 'I own it.'"
 - Choosing the Model: added "When you hear 'best model'" closing section with four-question checklist (On what test? For what task? With what tools? At what cost and speed?).
 
+### Progress system + accessibility
+
+- Intro stakes block: the third Intro lesson ("What You'll Build") gained a four-paragraph stakes opener inserted between the LessonHeader and the existing "How we'll get there" roadmap. Names the specific stakes a 16-year-old can feel today (college, major, first job, internship), foreshadows the WorkChanges idea (AI absorbs tasks, not jobs) without using the framework vocabulary, and pivots into the existing roadmap.
+- Real completion tracking: added `progress.completed` (array of lesson ids the student actually finished) alongside the existing `progress.visited` (array of lesson ids the student navigated to). The DONE badge on chips, the green checkmark on group pills, and the progress bar count all read from `completed` now. `visited` stays as a navigation signal only, so chip-nav clicks no longer falsely mark lessons complete. Three functions in LLMExplorer: `setActiveSection(id)` adds to visited only (used by ChipNav and mid-lesson navigation), `completeAndNavigate(id)` marks the current `activeSection` complete and navigates (used by every bottom-of-lesson Next handler across all 53 lessons), and `markComplete(id)` marks complete without navigating (used by HeadToHead's `finishChallenge` since the last lesson has no forward Next).
+- NextLessonGate `lockedMessage` prop: the locked message under disabled Next buttons used to always read "Complete the exercises to continue," which lied to the student on the ~16 weak-gate lessons that unlock after a single interaction. Added a `lockedMessage` prop with the original default; weak-gate lessons override with "Try one to continue." Strong-gate lessons (HowWeGotHere, Verify, Evaluating, ThinkingMode, ModelSelection, full-completion gates) keep the default. Also replaced BehindTheNumbers' `ready: true` NextLessonGate with a plain PrimaryButton, since `ready: true` was a NextLessonGate dressed up as a PrimaryButton.
+- HowWeGotHere off-by-one fix: the timeline reveal button condition was `revealedCount < 9` but TIMELINE has 6 entries, so at completion (revealedCount === 8) the button rendered with `TIMELINE[6].year` and crashed. Changed to `revealedCount < 8`.
+- ModelSelection scenario 3 feedback rewrite: the "news this week" scenario claimed Claude and ChatGPT "work from training data" and "can't help unless you paste articles in yourself." Both products have web search now. Rewrote the Claude wrong-answer and the Gemini correct-answer feedback to use the durable "core feature vs add-on" framing.
+- Accessibility cluster: global `:focus-visible` outline rule (purple, 2px, 2px offset) so keyboard users can see where they are; global `@media (prefers-reduced-motion: reduce)` rule that neutralizes CSS animations and transitions; useReducedMotion hook applied to ContextSection's JS-driven typewriter (1ms tick when reduced); aria-current + aria-label on ChipNav buttons and group pills with completion / current context spoken; aria-hidden on emoji spans and the group pill checkmark glyph (decorative for screen readers); chip+group nav wrapped in `<nav aria-label="Course navigation">`; lesson card wrapped in `<main id="main-content">`; ProgressBar gained `role="progressbar"`, aria-valuenow / valuemin / valuemax, aria-label, and an aria-live="polite" region around the count text so completion changes get announced.
+
 ### Audit pass
 - ProgressBar fallback now reads from SECTIONS.length instead of hardcoded 45.
 - PredictionSection routing fixed: was incorrectly routing to "howreads" (Building the Model group), now correctly routes to "layers" (Producing an Answer group).
@@ -180,9 +191,12 @@ When David asks for content changes, the right pattern is:
 
 ## Open / pending
 
-- Mobile responsive pass not validated
+- Mobile responsive pass deprioritized (not a current concern)
 - 7 quizzes intentionally bespoke, not converted to QuizBlock (Test Yourself, Probability, Integrity, AI Strengths, HeadToHead, Key Terms, Training sorting)
 - The twins haven't tested the app yet — recommendation is to ship and watch real students use it
+- Reduced-motion sweep pending: the `useReducedMotion` hook is in place and applied to ContextSection's typewriter. The other ~10 JS-driven animations across the file (HowWeGotHere Bayes ladder, AIvsCode, BlackBox, TrainingBias, BehindTheNumbers, Transform, Temperature, ThoughtPartner, etc.) follow the same pattern and are a one-line patch each. Roll out as twins flag specific lessons or as a single sweep when convenient.
+- Hardcoded-number brittleness: several lessons compare state variables against hardcoded numbers that should match an array length but don't reference it directly (PreAssessment "10", Training "7", Hallucination "7" and "8", ThoughtPartner "5"). None currently crash; HowWeGotHere was the only mismatched case. Worth a hardening pass to replace each with `ARRAY.length` reference, but not blocking.
+- HALLUCINATION_QUIZ has 14 entries but the lesson surfaces only the first 8. Worth confirming whether the extra 6 are dead data or a reserved pool for future variability.
 - Two leftover items identified during audit, intentionally not cleaned up: dead "capstone" entry in CHIP_LABELS, orphan "llm-precheck-score" localStorage write that nothing reads back
 - SEE IT Pattern A spec is settled with seven activities migrated (Verify "Verification Strategies" reference, plus six Wave SEE-1 + SEE-2 conversions). Pattern A now has three documented sub-variants: standard (one stage swaps in at a time, used by Verify, 6 Criteria, Prompt-Evaluate-Refine, Messy In, Same Prompt Different Context); ladder-mode (cumulative reveal with hairline-separated stages in one ivory card, used by How LLMs Train and Three Steps to an Answer); and no-completion-card (used by Same Prompt Different Context where the activity ends naturally on the last stage). Wave SEE-3 will establish the SEE IT Pattern B reference; the natural candidate is Generative "Stored Answers vs Built From Probability" since it is a clean two-card comparison with no animation or scenarios. Other Pattern B candidates: Customization "Same Prompt, Different Setup", Prompting "Format Changes Everything", AIHistory "Two Coins, Three Outcomes". Bucket SEE-D bespoke chrome-only migrations (sand band + amber accent only, interior intact) are queued for a later wave and now include nine activities: AIHistory "ChatGPT, decoded", AIHistory "Bayes' Theorem in Action", HowAIReads "Who Does 'IT' Refer To?", Probability "How the model picks a word", Training "Watch It Happen", Token "Tokenize It", Prediction "Meaning Map", Layers "Watch Meaning Build Layer by Layer" (reclassified mid-wave), and ThoughtPartner "Thinking Together". Pattern B reference and SEE-D bulk are both deferred until after twin user testing. Future waves to extract TipCard, StageCard, and HighlightBox once enough usages are catalogued. Decision pending whether to demote casual 💡 lightbulb tips to plain bold body paragraphs (current lean) or formalize as a separate small Tip pattern. Smaller standardization passes still pending: info-callout format consistency, two-column compare blocks. Wave 6 (Bucket D Pattern 2 interior migration for HumanEdge and WorkChanges) and bespoke-chrome normalization across the 13 legitimately bespoke TRY IT activities both deferred until after twin user testing. Twin testing remains the next priority.
 

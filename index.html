@@ -329,6 +329,45 @@ function NextLessonGate(props) {
     style: { textAlign: "center", margin: "24px auto 0", fontSize: 13, color: "var(--inkMuted)" }
   }, props.lockedMessage || "Complete the exercises to continue");
 }
+
+function OpenerSection(props) {
+  var E = React.createElement;
+  var pStyle = { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginBottom: 18 };
+  var renderParas = function(items) {
+    if (!items) return null;
+    if (typeof items === "string") items = [items];
+    return items.map(function(p, i) {
+      return E("p", { key: i, style: pStyle }, p);
+    });
+  };
+  return E("div", null,
+    E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
+    renderParas(props.whyThisMatters),
+    E(SectionKicker, null, "WHAT YOU\u2019LL LEARN"),
+    renderParas(props.whatYoullLearnIntro),
+    E(ShowcaseBox, null,
+      E("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }
+      },
+        (props.openQuestions || []).map(function(q) {
+          var lesson = SECTIONS.find(function(s) { return s.id === q.lessonId; });
+          return E("div", {
+            key: q.lessonId,
+            style: { background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)", display: "flex", flexDirection: "column", gap: 14, minHeight: 110 }
+          },
+            E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35 } }, q.question),
+            lesson ? E("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--inkMuted)", marginTop: "auto" } },
+              E("span", { style: { fontSize: 16 } }, lesson.icon),
+              E("span", { style: { fontWeight: 600 } }, lesson.label)
+            ) : null);
+        }))),
+    renderParas(props.whatYoullLearnClosing),
+    props.mistake ? E(KeyInsight, { lead: "The common mistake:" }, props.mistake) : null,
+    E(BottomLine, { thought: props.question }),
+    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); } }, props.nextLessonLabel)
+  );
+}
+
 function SecondaryButton(props) {
   var arrow = props.arrow === undefined ? "leading" : props.arrow;
   var showLeading = arrow === "leading"; var showTrailing = arrow === "trailing";
@@ -609,10 +648,10 @@ const SECTION_GROUPS = [{
   sections: ["preassessment", "whydeeper", "humanjob", "intro"]
 }, {
   label: "Foundations",
-  sections: ["aihistory", "howwegothere", "aivscode", "blackbox", "generative", "data"]
+  sections: ["openerfoundations", "aihistory", "howwegothere", "aivscode", "blackbox", "generative", "data"]
 }, {
   label: "Building the Model",
-  sections: ["training", "trainingbias", "tokens", "embeddings", "behindthenumbers", "howreads"]
+  sections: ["tokens", "embeddings", "behindthenumbers", "howreads", "training", "trainingbias"]
 }, {
   label: "Producing an Answer",
   sections: ["context", "probability", "prediction", "layers", "attention", "transform", "inference"]
@@ -634,6 +673,11 @@ const SECTIONS = [{
   kicker: "WHERE YOU STAND",
   label: "Pre-Check",
   icon: "\uD83C\uDFAF"
+}, {
+  id: "openerfoundations",
+  kicker: "OPENER",
+  label: "Opener",
+  icon: "\uD83D\uDDFA\uFE0F"
 }, {
   id: "aihistory",
   kicker: "THE AI LANDSCAPE",
@@ -1119,6 +1163,38 @@ function PreAssessmentSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: "50%", left: 40, transform: "translateY(-50%)", fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", whiteSpace: "nowrap" } }, fillPct, "%")),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#ef4444", fontWeight: 600, marginTop: 4 } }, "Behind")));
 }
+function OpenerFoundationsSection(props) {
+  return React.createElement(OpenerSection, {
+    sectionId: "openerfoundations",
+    bigIdea: "Before you can use AI well, you need to understand what it is. Not magic, not a person, not a search engine, and not normal software.",
+    whyThisMatters: [
+      "AI runs on computers, but it doesn\u2019t behave like the computer programs most people are used to.",
+      "A normal program follows instructions someone wrote. AI is different. It learns patterns from examples, then uses those patterns to generate answers, images, code, summaries, plans, and ideas.",
+      "That\u2019s why AI is suddenly everywhere. It can help people solve serious problems, speed up work, explain difficult concepts, and create things that used to take much longer. But it can also behave in ways that feel strange if you expect it to act like normal software.",
+      "So before we talk about how to use AI, we need to understand what kind of tool it is.",
+      "If you were hired to design cars for Tesla, it would help to understand how electric cars work. It would be tough to design a car if you didn\u2019t understand the fundamentals of the machine."
+    ],
+    whatYoullLearnIntro: [
+      "That\u2019s the goal of this section: open the hood and learn the basic building blocks of AI. Each lesson answers a question."
+    ],
+    openQuestions: [
+      { question: "Is AI really intelligence?", lessonId: "aihistory" },
+      { question: "How did centuries of math turn into ChatGPT?", lessonId: "howwegothere" },
+      { question: "Why doesn\u2019t AI work like other software?", lessonId: "aivscode" },
+      { question: "How can no one have written AI\u2019s rules?", lessonId: "blackbox" },
+      { question: "What makes ChatGPT different from a calculator?", lessonId: "generative" },
+      { question: "Why does AI need billions of pages?", lessonId: "data" }
+    ],
+    whatYoullLearnClosing: [
+      "This section isn\u2019t about \u201Chow to prompt better\u201D yet. It\u2019s about understanding the machine you\u2019re prompting."
+    ],
+    question: "Keep this question in mind: {What kind of tool am I dealing with, and what should I expect from it?}",
+    nextLessonId: "aihistory",
+    nextLessonLabel: "Next: What Is AI?",
+    completeAndNavigate: props.completeAndNavigate
+  });
+}
+
 function AIHistorySection(props) {
   var COLS = [
     { label: "Chat", desc: "A conversational interface. You type, it responds.", color: "#3b82f6" },
@@ -2428,7 +2504,7 @@ function IntroSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The goal isn\u2019t to use AI more. The goal is to {use it better}." }),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); } }, "Next: What Is AI?"));
+    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); } }, "Next: Opener"));
 }
 function KeyTermsSection(props) {
   var ALL_TERMS = [
@@ -3232,7 +3308,7 @@ function DataSection(props) {
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
                 /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(2); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See AI Result \u2192")) : null))))),
     dataComplete ? /*#__PURE__*/React.createElement(BottomLine, { thought: "AI learned from messy human data. That\u2019s why it can find {structure in the mess}." }) : null,
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("tokens"), label: "Next: Tokens" })
   );
 }
 function HowAIReadsSection(props) {
@@ -3659,7 +3735,7 @@ function HowAIReadsSection(props) {
 
     E(BottomLine, { thought: "The transformer lets every token compare with every other token. {That is how context becomes computable}." }),
 
-    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("context"); } }, "Next: Producing an Answer")
+    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); } }, "Next: Training")
   );
 }
 function ProbabilitySection(props) {
@@ -3990,7 +4066,7 @@ function TrainingBiasSection(props) {
   },
     /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } })),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Training bias happens when the model learns {the wrong pattern from the data}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("context"); }, label: "Next: Producing an Answer" })
   );
 }
 function TrainingSection(props) {
@@ -13123,6 +13199,7 @@ function AIFutureSection(props) {
 }
 const SECTION_COMPONENTS = {
   preassessment: PreAssessmentSection,
+  openerfoundations: OpenerFoundationsSection,
   aihistory: AIHistorySection,
   howwegothere: HowWeGotHereSection,
   aistrengths: AIStrengthsSection,

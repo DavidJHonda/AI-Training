@@ -651,7 +651,7 @@ const SECTION_GROUPS = [{
   sections: ["openerfoundations", "aihistory", "howwegothere", "aivscode", "blackbox", "generative", "data"]
 }, {
   label: "Inside the Model",
-  sections: ["openerinside", "tokens", "embeddings", "behindthenumbers", "howreads", "training", "trainingbias"]
+  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "training", "trainingbias"]
 }, {
   label: "How AI Answers",
   sections: ["openeranswers", "context", "probability", "prediction", "layers", "attention", "transform", "inference"]
@@ -775,6 +775,12 @@ const SECTIONS = [{
   label: "Embeddings: Meaning as Numbers",
   title: "Embeddings",
   icon: "\uD83D\uDCD0"
+}, {
+  id: "vectorspace",
+  kicker: "WORDS HAVE NEIGHBORS",
+  label: "Vector Space: Meaning by Similarity",
+  title: "Vector Space",
+  icon: "\uD83C\uDFD8\uFE0F"
 }, {
   id: "behindthenumbers",
   kicker: "WHERE THE NUMBERS COME FROM",
@@ -4295,6 +4301,7 @@ function OpenerInsideSection(props) {
     openQuestions: [
       { question: "How does AI turn text into something a computer can process?", lessonId: "tokens" },
       { question: "How can numbers represent the meaning of words?", lessonId: "embeddings" },
+      { question: "Why does similar meaning sit close together in the model?", lessonId: "vectorspace" },
       { question: "What are the learned values inside a model?", lessonId: "behindthenumbers" },
       { question: "What kind of structure lets modern AI handle language so well?", lessonId: "howreads" },
       { question: "How did the model learn the patterns it uses?", lessonId: "training" },
@@ -4798,8 +4805,158 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginTop: 24, marginBottom: 0 } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Does every token get its own embedding vector?"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own embedding vector with thousands of values. The model does not start with the meaning of the full word. It builds meaning from the pieces.")),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "A token ID becomes an embedding vector: {a meaning profile stored as numbers}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"), label: "Next: Behind the Numbers" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "A token ID becomes an embedding vector: {a meaning profile stored as numbers}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" }));
 }
+function VectorSpaceSection(props) {
+  var E = React.createElement;
+  var pStyle = { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 };
+  const [hoveredWord, setHoveredWord] = useState(null);
+
+  return E("div", null,
+    E(LessonHeader, { sectionId: "vectorspace" }),
+    E("p", { style: pStyle },
+      "Embeddings turn each word into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
+    E("p", { style: pStyle },
+      "Two words with similar vectors mean similar things. Two words with different vectors mean different things."),
+    E("p", { style: pStyle },
+      "Here\u2019s what that looks like."),
+    E("p", { style: pStyle },
+      "The table below has a new column, Pepsi. Notice that the vectors for Coke and Pepsi are identical, except for sweetness. Based on the vectors, Coke and Pepsi have more similar meaning than either word does with Black Coffee."),
+    E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", maxWidth: "calc(100% - 48px)", margin: "0 auto 20px" } },
+      E("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--rule)", alignItems: "center" } },
+        E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px" } }, "Dimension"),
+        E("div", { style: { textAlign: "center" } },
+          E("span", { style: { background: "#fee2e2", color: "#991b1b", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Coke")),
+        E("div", { style: { textAlign: "center" } },
+          E("span", { style: { background: "#dbeafe", color: "#1e40af", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Pepsi")),
+        E("div", { style: { textAlign: "center" } },
+          E("span", { style: { background: "#f3e8ff", color: "#5b21b6", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\u2615 Black Coffee"))),
+      [["Sweetness", 9, 10, 1], ["Bitterness", 1, 1, 9], ["Fizziness", 10, 10, 0], ["Heat Level", 2, 2, 9], ["Caffeine", 3, 3, 8], ["Color darkness", 8, 8, 10]].map(function(row, i) {
+        var cellStyle = function(val, barColor, bgColor) {
+          return E("div", { style: { display: "flex", alignItems: "center", gap: 8, justifyContent: "center" } },
+            E("div", { style: { width: 80, height: 8, background: bgColor, borderRadius: 4, overflow: "hidden", flexShrink: 0 } },
+              E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: barColor, borderRadius: 4 } })),
+            E("span", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 17, fontWeight: 700, color: "var(--ink)", minWidth: 20, textAlign: "right" } }, val));
+        };
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "12px 20px", borderBottom: i < 5 ? "1px solid var(--rule)" : "none", alignItems: "center", background: i % 2 === 0 ? "transparent" : "rgba(0,0,0,0.015)" } },
+          E("div", { style: { fontSize: 15, color: "var(--inkSoft)", fontWeight: 600 } }, row[0]),
+          cellStyle(row[1], "#ef4444", "#fee2e2"),
+          cellStyle(row[2], "#3b82f6", "#dbeafe"),
+          cellStyle(row[3], "#8b5cf6", "#f3e8ff"));
+      })),
+    E(LessonSubhead, null, "Similarity- How does AI know which words are similar?"),
+    E("p", { style: pStyle },
+      "Vectors let the model compare concepts numerically. Coke and Pepsi end up much closer to each other than either one does to Black Coffee because their values line up across most dimensions."),
+    E(LessonSubhead, null, "Why does similarity matter?"),
+    E("p", { style: pStyle },
+      "Similar words have similar vectors, so the model knows which words belong in the same neighborhood of meaning."),
+    E("p", { style: pStyle },
+      "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each word\u2019s vector. Here\u2019s what AI\u2019s map of meaning looks like when we flatten it to 2D."),
+    E(InteractiveBox, {
+      variant: "see",
+      title: "Meaning Map"
+    },
+      E("div", {
+        style: {
+          background: "var(--bg)",
+          borderRadius: 12,
+          padding: 16,
+          border: "1px solid var(--rule)",
+          marginBottom: 16,
+          position: "relative",
+          height: 340,
+          overflow: "hidden"
+        }
+      },
+        [{ label: "Royalty", color: "#8b5cf6", left: "62%", top: "5%", width: "26%", height: "30%" },
+         { label: "People", color: "var(--primary)", left: "30%", top: "20%", width: "28%", height: "32%" },
+         { label: "Animals", color: "#10b981", left: "8%", top: "55%", width: "28%", height: "34%" },
+         { label: "Vehicles", color: "#f59e0b", left: "62%", top: "60%", width: "28%", height: "30%" },
+         { label: "Emotions", color: "#ec4899", left: "24%", top: "72%", width: "46%", height: "26%" }].map(function(zone, i) {
+          return E("div", { key: "zone-" + i, style: {
+            position: "absolute",
+            left: zone.left,
+            top: zone.top,
+            width: zone.width,
+            height: zone.height,
+            background: zone.color + "08",
+            border: "1.5px dashed " + zone.color + "25",
+            borderRadius: 16,
+            pointerEvents: "none"
+          } },
+            E("div", { style: {
+              position: "absolute",
+              top: 4,
+              left: 8,
+              fontSize: 10,
+              fontWeight: 700,
+              color: zone.color + "60",
+              textTransform: "uppercase",
+              letterSpacing: 1
+            } }, zone.label));
+        }),
+        EMBEDDING_WORDS.map((w, i) => {
+          const isHovered = hoveredWord === w.group;
+          const dimmed = hoveredWord && hoveredWord !== w.group;
+          return E("div", {
+            key: i,
+            onMouseEnter: () => setHoveredWord(w.group),
+            onMouseLeave: () => setHoveredWord(null),
+            style: {
+              position: "absolute",
+              left: `${w.x}%`,
+              top: `${w.y}%`,
+              transform: "translate(-50%, -50%)",
+              padding: "4px 10px",
+              borderRadius: 6,
+              background: GROUP_COLORS[w.group] + (isHovered ? "30" : "15"),
+              border: `1.5px solid ${GROUP_COLORS[w.group]}${dimmed ? "33" : ""}`,
+              fontFamily: "'Courier Prime', monospace",
+              fontSize: 13,
+              fontWeight: 600,
+              color: dimmed ? "var(--inkMuted)" : GROUP_COLORS[w.group],
+              cursor: "pointer",
+              transition: "all 0.2s",
+              opacity: dimmed ? 0.35 : 1,
+              whiteSpace: "nowrap"
+            }
+          }, w.word);
+        })),
+      E("div", {
+        style: {
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 10,
+          justifyContent: "center"
+        }
+      }, Object.entries(GROUP_COLORS).map(([group, color]) => E("div", {
+        key: group,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 4
+        }
+      }, E("div", {
+        style: {
+          width: 10,
+          height: 10,
+          borderRadius: "50%",
+          background: color
+        }
+      }), E("span", {
+        style: {
+          fontSize: 12,
+          color: "var(--inkMuted)",
+          textTransform: "capitalize"
+        }
+      }, group))))),
+    E(LessonSubhead, null, "So how does that help prediction?"),
+    E("p", { style: pStyle },
+      "Once the model sees the full context, it raises the probabilities of words from the right neighborhood and lowers the probabilities of words that don\u2019t fit. We\u2019ll see exactly how that works when we get to prediction."),
+    E(BottomLine, { thought: "Vectors don\u2019t just store words. They place words {near other words they\u2019re related to in meaning}." }),
+    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"); }, label: "Next: Behind the Numbers" }));
+}
+
 function BehindTheNumbersSection(props) {
   var E = React.createElement;
   var NAMING_STEPS = [
@@ -4926,7 +5083,6 @@ function BehindTheNumbersSection(props) {
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Transformer Architecture"));
 }
 function PredictionSection(props) {
-  const [hoveredWord, setHoveredWord] = useState(null);
   const [ctxStep, setCtxStep] = useState(1);
   const [ctxChoice, setCtxChoice] = useState(null);
   const [predStepsRevealed, setPredStepsRevealed] = useState(0);
@@ -5064,139 +5220,10 @@ function PredictionSection(props) {
             }))),
         seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
           /*#__PURE__*/React.createElement(AIBubble, { text: seeAiText, visibleWords: aiRespWords }))))),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "The table below has a new column, Pepsi. Notice that the vectors for Coke and Pepsi are identical, except for sweetness. Based on the vectors, Coke and Pepsi have more similar meaning than either word does with Black Coffee."),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", maxWidth: "calc(100% - 48px)", margin: "0 auto 20px" } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--rule)", alignItems: "center" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px" } }, "Dimension"),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-        /*#__PURE__*/React.createElement("span", { style: { background: "#fee2e2", color: "#991b1b", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Coke")),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-        /*#__PURE__*/React.createElement("span", { style: { background: "#dbeafe", color: "#1e40af", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Pepsi")),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-        /*#__PURE__*/React.createElement("span", { style: { background: "#f3e8ff", color: "#5b21b6", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\u2615 Black Coffee"))),
-    [["Sweetness", 9, 10, 1], ["Bitterness", 1, 1, 9], ["Fizziness", 10, 10, 0], ["Heat Level", 2, 2, 9], ["Caffeine", 3, 3, 8], ["Color darkness", 8, 8, 10]].map(function(row, i) {
-      var cellStyle = function(val, barColor, bgColor) {
-        return /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, justifyContent: "center" } },
-          /*#__PURE__*/React.createElement("div", { style: { width: 80, height: 8, background: bgColor, borderRadius: 4, overflow: "hidden", flexShrink: 0 } },
-            /*#__PURE__*/React.createElement("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: barColor, borderRadius: 4 } })),
-          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Courier Prime', monospace", fontSize: 17, fontWeight: 700, color: "var(--ink)", minWidth: 20, textAlign: "right" } }, val));
-      };
-      return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "12px 20px", borderBottom: i < 5 ? "1px solid var(--rule)" : "none", alignItems: "center", background: i % 2 === 0 ? "transparent" : "rgba(0,0,0,0.015)" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", fontWeight: 600 } }, row[0]),
-        cellStyle(row[1], "#ef4444", "#fee2e2"),
-        cellStyle(row[2], "#3b82f6", "#dbeafe"),
-        cellStyle(row[3], "#8b5cf6", "#f3e8ff"));
-    })),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "Similarity- How does AI know which words are similar?"),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "Vectors let the model compare concepts numerically. Coke and Pepsi end up much closer to each other than either one does to Black Coffee because their values line up across most dimensions."),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "Why does similarity matter?"),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "Similar words have similar vectors, so the model knows which words belong in the same neighborhood of meaning."),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "So how does that help prediction?"),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "Once the model sees the full context, it raises the probabilities of words from the right neighborhood and lowers the probabilities of words that do not fit."),
   /*#__PURE__*/React.createElement(LessonSubhead, null, "What actually gets predicted?"),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 18, fontSize: 17 } }, "The model assigns probabilities to possible next tokens and picks one."),
   /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
-    "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each word\u2019s vector. Here\u2019s what AI\u2019s map of meaning looks like when we flatten it to 2D."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    title: "Meaning Map"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: {
-        background: "var(--bg)",
-        borderRadius: 12,
-        padding: 16,
-        border: "1px solid var(--rule)",
-        marginBottom: 16,
-        position: "relative",
-        height: 340,
-        overflow: "hidden"
-      }
-    },
-    [{ label: "Royalty", color: "#8b5cf6", left: "62%", top: "5%", width: "26%", height: "30%" },
-     { label: "People", color: "var(--primary)", left: "30%", top: "20%", width: "28%", height: "32%" },
-     { label: "Animals", color: "#10b981", left: "8%", top: "55%", width: "28%", height: "34%" },
-     { label: "Vehicles", color: "#f59e0b", left: "62%", top: "60%", width: "28%", height: "30%" },
-     { label: "Emotions", color: "#ec4899", left: "24%", top: "72%", width: "46%", height: "26%" }].map(function(zone, i) {
-      return /*#__PURE__*/React.createElement("div", { key: "zone-" + i, style: {
-        position: "absolute",
-        left: zone.left,
-        top: zone.top,
-        width: zone.width,
-        height: zone.height,
-        background: zone.color + "08",
-        border: "1.5px dashed " + zone.color + "25",
-        borderRadius: 16,
-        pointerEvents: "none"
-      } },
-        /*#__PURE__*/React.createElement("div", { style: {
-          position: "absolute",
-          top: 4,
-          left: 8,
-          fontSize: 10,
-          fontWeight: 700,
-          color: zone.color + "60",
-          textTransform: "uppercase",
-          letterSpacing: 1
-        } }, zone.label));
-    }),
-    EMBEDDING_WORDS.map((w, i) => {
-      const isHovered = hoveredWord === w.group;
-      const dimmed = hoveredWord && hoveredWord !== w.group;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        onMouseEnter: () => setHoveredWord(w.group),
-        onMouseLeave: () => setHoveredWord(null),
-        style: {
-          position: "absolute",
-          left: `${w.x}%`,
-          top: `${w.y}%`,
-          transform: "translate(-50%, -50%)",
-          padding: "4px 10px",
-          borderRadius: 6,
-          background: GROUP_COLORS[w.group] + (isHovered ? "30" : "15"),
-          border: `1.5px solid ${GROUP_COLORS[w.group]}${dimmed ? "33" : ""}`,
-          fontFamily: "'Courier Prime', monospace",
-          fontSize: 13,
-          fontWeight: 600,
-          color: dimmed ? "var(--inkMuted)" : GROUP_COLORS[w.group],
-          cursor: "pointer",
-          transition: "all 0.2s",
-          opacity: dimmed ? 0.35 : 1,
-          whiteSpace: "nowrap"
-        }
-      }, w.word);
-    })),
-    /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 10,
-        justifyContent: "center"
-      }
-    }, Object.entries(GROUP_COLORS).map(([group, color]) => /*#__PURE__*/React.createElement("div", {
-      key: group,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 4
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 10,
-        height: 10,
-        borderRadius: "50%",
-        background: color
-      }
-    }), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        color: "var(--inkMuted)",
-        textTransform: "capitalize"
-      }
-    }, group))))),
-  /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 17, lineHeight: 1.65 } },
-    "Each time you add more words, the meaning narrows. Pick a word at each step and watch how your options shrink as the context gets clearer."),
+    "Try this. Each time you add more words, the meaning narrows. Pick a word at each step and watch how your options shrink."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -13301,6 +13328,7 @@ const SECTION_COMPONENTS = {
   trainingbias: TrainingBiasSection,
   tokens: TokenSection,
   embeddings: EmbeddingsSection,
+  vectorspace: VectorSpaceSection,
   behindthenumbers: BehindTheNumbersSection,
   prediction: PredictionSection,
   layers: LayersSection,

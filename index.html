@@ -343,6 +343,7 @@ function OpenerSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
     renderParas(props.whyThisMatters),
+    props.featuredCard || null,
     E(SectionKicker, null, "WHAT YOU\u2019LL LEARN"),
     renderParas(props.whatYoullLearnIntro),
     E(ShowcaseBox, null,
@@ -650,16 +651,16 @@ const SECTION_GROUPS = [{
   label: "Foundations",
   sections: ["openerfoundations", "aihistory", "howwegothere", "aivscode", "blackbox", "generative", "data"]
 }, {
-  label: "Inside the Model",
+  label: "Inside AI",
   sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "training", "trainingbias"]
 }, {
-  label: "How AI Answers",
+  label: "AI Answers",
   sections: ["openeranswers", "context", "probability", "prediction", "layers", "attention", "transform", "inference"]
 }, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "documentchat"]
 }, {
-  label: "AI Traps",
+  label: "Traps",
   sections: ["openertraps", "hallucination", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
 }, {
   label: "Human Judgment",
@@ -668,10 +669,10 @@ const SECTION_GROUPS = [{
   label: "Using AI",
   sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating"]
 }, {
-  label: "AI in the Real World",
+  label: "Real World",
   sections: ["openerrealworld", "integrity", "privacy", "judged", "synthetic", "workchanges", "aifuture"]
 }, {
-  label: "Finish Line",
+  label: "Finish",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
 }];
 const SECTIONS = [{
@@ -826,8 +827,8 @@ const SECTIONS = [{
 }, {
   id: "inference",
   kicker: "THE FULL JOURNEY",
-  label: "From Prompt to Output",
-  title: "Prompt to Output",
+  label: "Inference: From Prompt to Output",
+  title: "Inference",
   icon: "\u26A1"
 }, {
   id: "openercontrols",
@@ -2565,9 +2566,9 @@ function IntroSection(props) {
         " checks your instincts. ",
         /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Foundations"),
         " covers what AI is and why it fails. ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Inside the Model"),
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Inside AI"),
         " and ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "How AI Answers"),
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "AI Answers"),
         " pull it apart: how it\u2019s built, how it responds. ",
         /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Controls"),
         " hands you the dials: model choice, thinking mode, temperature."
@@ -2575,7 +2576,7 @@ function IntroSection(props) {
       /*#__PURE__*/React.createElement("p", {
         style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
       },
-        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "AI Traps"),
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Traps"),
         " covers the failure modes: hallucinations, flattery, engagement loops, even AI that feels like real support. ",
         /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Human Judgment"),
         " names what\u2019s yours: when to use AI, how to evaluate its output, and what only people add."
@@ -2587,7 +2588,7 @@ function IntroSection(props) {
         " teaches you what to do with all of it. ",
         /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Real World"),
         " covers ethics, privacy, and how AI changes school and work. ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Finish Line"),
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Finish"),
         " ties it together and tests you."
       )
     ),
@@ -2601,6 +2602,7 @@ function KeyTermsSection(props) {
     { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "context" },
     { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve ‘king − man + woman = queen.’", source: "embeddings" },
     { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn’t know what’s true, only what sounds right.", source: "hallucination" },
+    { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
     { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
     { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "aihistory" },
     { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "choosemodel" },
@@ -6148,7 +6150,7 @@ function TransformSectionModule(props) {
     }
   }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Attention gathers context. Transform interprets it.")), "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "They work as a team."), " Attention decides what context is relevant. Transform decides what that context means. Neither works alone. This two-step process repeats in every layer, refining the meaning a little further each time."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Same word, same model, completely different meaning. {Context is everything}." }),
-  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference") }, "Next: Prompt to Output"));
+  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference") }, "Next: Inference"));
 }
 function InferenceSection(props) {
   const [activeStep, setActiveStep] = useState(0);
@@ -6217,16 +6219,17 @@ function InferenceSection(props) {
   }];
   const step = steps[activeStep];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--inkSoft)",
-      marginBottom: 18,
-      lineHeight: 1.65,
-      fontSize: 17
-    }
-  }, "You\u2019ve learned the individual pieces. Now here\u2019s the complete journey from your question to AI\u2019s answer, every time you hit send."),
+    style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 }
+  }, "You\u2019ve learned the individual pieces: context, probability, prediction, layers, attention, and transformation."),
   /*#__PURE__*/React.createElement("p", {
     style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 }
-  }, "Training was when the model learned patterns from data. Inference is when the trained model uses those patterns to produce an answer. Every time you hit send, the model runs through the five steps below. It\u2019s not learning from your prompt during inference; that happened earlier. Some products store conversations or remember details about you, but that\u2019s the product layer. The model itself starts each conversation fresh."),
+  }, "Now we can name the full process."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 }
+  }, "Inference is what happens every time you hit send. The trained model takes your prompt, runs it through its layers, predicts the next token, adds that token to the response, and repeats until the answer is complete."),
+  /*#__PURE__*/React.createElement("p", {
+    style: { color: "var(--inkSoft)", marginBottom: 18, lineHeight: 1.65, fontSize: 17 }
+  }, "It isn\u2019t training again. It\u2019s using what training already built."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
@@ -6523,7 +6526,6 @@ const CONTEXT_WINDOW_FACTS = [{
 function OpenerAnswersSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openeranswers",
-    bigIdea: "The gap between your prompt and the answer is where AI actually does its work. It has a name: inference.",
     whyThisMatters: [
       "Don\u2019t forget: in this course, you\u2019re still designing electric cars.",
       "In the last section, you opened the hood. You looked at the parts inside the machine: how text becomes tokens, how tokens become numbers, how those numbers carry meaning, and how training shapes the model before anyone ever uses it.",
@@ -6531,6 +6533,33 @@ function OpenerAnswersSection(props) {
       "AI works the same way. When you type a prompt and hit send, the model doesn\u2019t start training from scratch. It uses what it already learned. Your words move through the system: context, probability, prediction, layers, attention, and transformation. Then the model chooses the next token, adds it to the response, and does it again.",
       "That process is called inference."
     ],
+    featuredCard: React.createElement(ShowcaseBox, {
+      kicker: "TRAINING VS. INFERENCE",
+      headline: "Two different processes."
+    },
+      React.createElement("p", {
+        style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
+      },
+        React.createElement("strong", { style: { color: "var(--ink)" } }, "Training"),
+        " is when the model learns. It studies huge amounts of data, makes predictions, checks how wrong it was, and adjusts its internal numbers. This happens before you ever use the model."
+      ),
+      React.createElement("p", {
+        style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
+      },
+        React.createElement("strong", { style: { color: "var(--ink)" } }, "Inference"),
+        " is when the model answers. It takes your prompt, uses the patterns it already learned, and generates output one token at a time."
+      ),
+      React.createElement("p", {
+        style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
+      },
+        "The model isn\u2019t rebuilding itself every time you chat. It\u2019s using the system that was already built."
+      ),
+      React.createElement("p", {
+        style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65, margin: 0, fontWeight: 700 }
+      },
+        "Training creates the model. Inference uses the model."
+      )
+    ),
     whatYoullLearnIntro: [
       "This section is about what happens in that tiny gap between your prompt and the answer on the screen. Each lesson answers a question."
     ],
@@ -13579,7 +13608,7 @@ const SECTION_COMPONENTS = {
 function ChipNav(props) {
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
   var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
-  var CHIP_LABELS = { inference: "Prompt to Output", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy", capstone: "Capstone" };
+  var CHIP_LABELS = { inference: "Inference", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy", capstone: "Capstone" };
   return /*#__PURE__*/React.createElement("div", {
     style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", gap: 8, marginBottom: 28 }
   }, props.sections.map(function(sid, ci) {

@@ -394,6 +394,30 @@ function SecondaryButton(props) {
   var merged = props.style ? Object.assign({}, base, props.style) : base;
   return React.createElement("button", { onClick: dis ? undefined : props.onClick, disabled: dis, style: merged, onMouseEnter: function() { setHover(true); }, onMouseLeave: function() { setHover(false); } }, showLeading ? React.createElement("span", { style: { display: "inline-block", marginRight: 6 } }, "\u2190 ") : null, props.children, showTrailing ? React.createElement("span", { style: { display: "inline-block", marginLeft: 6 } }, " \u2192") : null);
 }
+
+function ActivityButton(props) {
+  var sizeStyles = props.size === "large"
+    ? { padding: "12px 28px", fontSize: 15 }
+    : { padding: "10px 24px", fontSize: 14 };
+  var style = Object.assign({
+    background: props.disabled ? "#d1d5db" : "#0e0a1f",
+    color: "#fff",
+    border: "none",
+    borderRadius: 8,
+    cursor: props.disabled ? "not-allowed" : "pointer",
+    fontWeight: 700,
+    fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
+  }, sizeStyles);
+  if (props.style) {
+    Object.assign(style, props.style);
+  }
+  return React.createElement("button", {
+    onClick: props.onClick,
+    disabled: props.disabled,
+    style: style
+  }, props.children);
+}
+
 function FeedbackPill(props) {
   // state: "default" | "picked-correct" | "picked-wrong" | "answered-untouched"
   var basePill = {
@@ -1666,10 +1690,7 @@ function AIStrengthsSection(props) {
       variant: "try",
       surface: "mint",
       title: "Name the Task, Make the Call"
-    }, !quizStarted ? /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setQuizStarted(true); },
-      style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-    }, "First Scenario") : /*#__PURE__*/React.createElement("div", null,
+    }, !quizStarted ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setQuizStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "First Scenario") : /*#__PURE__*/React.createElement("div", null,
       completedCount > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: allDone ? 0 : 16 } },
         SCENARIOS.slice(0, allDone ? SCENARIOS.length : sIdx).map(function(sc, i) {
           var catRight = catAnswers[i] === sc.tag;
@@ -1757,10 +1778,7 @@ function AIStrengthsSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 } }, "Why"),
             s.explain),
 
-          /*#__PURE__*/React.createElement("button", {
-            onClick: function() { if (sIdx < SCENARIOS.length - 1) { setSIdx(sIdx + 1); } else { setAllDone(true); } },
-            style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, animation: "fadeIn 0.3s ease", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-          }, sIdx < SCENARIOS.length - 1 ? "Next scenario \u2192" : "Finish \u2192"))),
+          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { if (sIdx < SCENARIOS.length - 1) { setSIdx(sIdx + 1); } else { setAllDone(true); } }, size: "large", style: { display: "block", margin: "0 auto", animation: "fadeIn 0.3s ease" } }, sIdx < SCENARIOS.length - 1 ? "Next scenario \u2192" : "Finish \u2192"))),
 
       allDone && /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", marginBottom: 4 } }, "Categories: ", catCorrectCount, " of ", SCENARIOS.length, " correct"),
@@ -2231,10 +2249,7 @@ function KeyTermsSection(props) {
                 onClick: reviewFeedback,
                 style: { padding: "10px 16px", borderRadius: 8, background: "var(--card)", color: "var(--primary)", border: "2px solid var(--primary)", cursor: "pointer", fontSize: 13, fontWeight: 700 }
               }, "→ Review " + pickedTerm.term) : null,
-              /*#__PURE__*/React.createElement("button", {
-                onClick: dismissFeedback,
-                style: { flex: 1, padding: "10px 16px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-              }, "Got it, try again")
+              /*#__PURE__*/React.createElement(ActivityButton, { onClick: dismissFeedback, style: { padding: "10px 16px", fontSize: 13, flex: 1 } }, "Got it, try again")
             )
           );
         })() : null
@@ -2243,10 +2258,7 @@ function KeyTermsSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 16 } }, round === 0 ? "Round 1 of 2 (8 terms)" : "Round 2 of 2 (8 terms)"),
     !roundComplete ? null : round === 0 ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", marginTop: 16 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "8 down, 8 to go."),
-        /*#__PURE__*/React.createElement("button", {
-          onClick: function() { setRound(1); setSelected(null); setWrongFeedback(null); },
-          style: { marginTop: 12, background: "#0e0a1f", color: "#fff", padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-        }, "Next Round →")) : /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", marginTop: 16 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRound(1); setSelected(null); setWrongFeedback(null); }, style: { marginTop: 12 } }, "Next Round →")) : /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", marginTop: 16 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "All 16 matched. ", scoreMsg))),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { if (props.completeAndNavigate) props.completeAndNavigate("testyourself"); } }, "Next: Test Yourself"));
 }
@@ -2362,10 +2374,7 @@ function AIvsCodeSection(props) {
     surface: "mint",
     title: "When the Rule Breaks"
   },
-    visibleRules === 0 ? /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setVisibleRules(1); },
-      style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-    }, "See First Rule →") : null,
+    visibleRules === 0 ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setVisibleRules(1); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Rule →") : null,
     scenarios.slice(0, visibleRules).map(function(s, i) {
       var pick = missingPicks[i];
       var picked = pick !== undefined;
@@ -2418,10 +2427,7 @@ function AIvsCodeSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.patternView)),
 
           hasNext ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-            /*#__PURE__*/React.createElement("button", {
-              onClick: function() { setVisibleRules(visibleRules + 1); },
-              style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-            }, "See Next Rule →")) : null) : null);
+            /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setVisibleRules(visibleRules + 1); }, style: { display: "block", margin: "0 auto" } }, "See Next Rule →")) : null) : null);
     })),
     allDone ? /*#__PURE__*/React.createElement(BottomLine, { thought: "AI finds patterns {no one wrote down}." }) : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("blackbox"), label: "Next: No One Wrote the Rules" })
@@ -2543,10 +2549,7 @@ function GenerativeSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What’s the best game for my new PS5?”")),
     revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-        /*#__PURE__*/React.createElement("button", {
-          onClick: function() { setRevealStep(1); },
-          style: { padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-        }, "See Computer Program Results →")) : /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(1); }, size: "large" }, "See Computer Program Results →")) : /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
           /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
@@ -2560,10 +2563,7 @@ function GenerativeSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
             /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ Generative results..."))),
         revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-          /*#__PURE__*/React.createElement("button", {
-            onClick: function() { setRevealStep(2); },
-            style: { padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-          }, "See AI Results →")) : null)),
+          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(2); }, size: "large" }, "See AI Results →")) : null)),
     /*#__PURE__*/React.createElement(LessonSubhead, null, "What about when it searches?"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "You\u2019ve seen it. You ask ChatGPT something and a \u2018searching the web\u2019 animation pops up. So is the AI generating, or searching?"),
@@ -2836,7 +2836,7 @@ function DataSection(props) {
                 TEXT_INPUT.slice(0, textTyped),
                 textTyped < TEXT_INPUT.length ? /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: "1em", background: "var(--seeAccent)", marginLeft: 1, verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" } }) : null),
               dataReveal === 0 ? (textTypingDone ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(1); }, style: { padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See Regular Software Result \u2192")) : null) :
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(1); }, size: "large" }, "See Regular Software Result \u2192")) : null) :
               /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
                 /*#__PURE__*/React.createElement("div", { style: { animation: dataReveal === 1 ? "fadeIn 0.4s ease" : "none" } },
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "#1e40af", marginBottom: 4 } }, "Regular Software"),
@@ -2852,7 +2852,7 @@ function DataSection(props) {
                       /*#__PURE__*/React.createElement("tbody", null, [["Math", "~82 (B-)", "Struggled"], ["English", "~91 (A-)", "Confident"], ["Science", "~78 (C+)", "Neutral"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI inferred that \u2018rough\u2019 signals struggle, \u2018best score\u2019 signals high performance, and \u2018not great not terrible\u2019 signals average.")) : /*#__PURE__*/React.createElement("div", null)),
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(2); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See AI Result \u2192")) : null),
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null),
             view === "image" && /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 10, border: "1px solid var(--rule)", padding: 16, marginBottom: 20, textAlign: "center" } },
                 /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 240 160", style: { width: "100%", maxWidth: 400, height: 160, borderRadius: 8, border: "1px solid #d4c5a0", display: "block", margin: "0 auto" } },
@@ -2865,7 +2865,7 @@ function DataSection(props) {
                   /*#__PURE__*/React.createElement("text", { x: 30, y: 108, fontFamily: "Segoe UI, sans-serif", fontSize: 14, fill: "#2d2d2d", transform: "rotate(-1, 30, 108)" }, "Sourdough bread"),
                   /*#__PURE__*/React.createElement("text", { x: 30, y: 140, fontFamily: "Segoe UI, sans-serif", fontSize: 14, fill: "#2d2d2d", transform: "rotate(0.5, 30, 140)" }, "Bananas (ripe) x6"))),
               dataReveal === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(1); }, style: { padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See Regular Software Result \u2192")) :
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(1); }, size: "large" }, "See Regular Software Result \u2192")) :
               /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
                 /*#__PURE__*/React.createElement("div", { style: { animation: dataReveal === 1 ? "fadeIn 0.4s ease" : "none" } },
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "#1e40af", marginBottom: 4 } }, "Regular Software"),
@@ -2883,14 +2883,13 @@ function DataSection(props) {
                       /*#__PURE__*/React.createElement("tbody", null, [["Milk", "2", "Whole milk"], ["Eggs", "1 dozen", "Large"], ["Bread", "1 loaf", "Sourdough"], ["Bananas", "6", "Ripe"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI can infer the structure from the image: items, quantities, and notes. The messy photo becomes a clean table.")) : /*#__PURE__*/React.createElement("div", null)),
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(2); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See AI Result \u2192")) : null),
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null),
             view === "speech" && /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 10, border: "1px solid var(--rule)", padding: 16, marginBottom: 20, textAlign: "center" } },
                 /*#__PURE__*/React.createElement("div", { style: { display: "inline-block" } },
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--seeAccent)", fontWeight: 600, marginBottom: 8 } }, "\uD83D\uDD0A Click to hear the order"),
                   /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 12 } },
-                    /*#__PURE__*/React.createElement("button", {
-                      onClick: function() {
+                    /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() {
                         if (isPlaying) { window.speechSynthesis.cancel(); setIsPlaying(false); return; }
                         var u = new SpeechSynthesisUtterance("Yeah can I get a double burger but no onions, large fries with extra salt, and like two medium Cokes");
                         u.rate = 1.0; u.pitch = 1.0;
@@ -2899,16 +2898,14 @@ function DataSection(props) {
                         window.speechSynthesis.cancel();
                         window.speechSynthesis.speak(u);
                         setIsPlaying(true);
-                      },
-                      style: { width: 44, height: 44, borderRadius: "50%", background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }
-                    }, isPlaying ? "\u23F8" : "\u25B6"),
+                      }, style: { fontSize: 18, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, borderRadius: "50%" } }, isPlaying ? "\u23F8" : "\u25B6"),
                     /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 3, alignItems: "center", height: 40 } },
                       [8,16,24,32,20,36,28,40,24,32,16,28,20,12,8].map(function(h, i) {
                         return /*#__PURE__*/React.createElement("div", { key: i, style: { width: 4, height: h, borderRadius: 2, background: "#93c5fd", transformOrigin: "center", animation: isPlaying ? "waveBar " + (0.4 + i % 5 * 0.1) + "s ease-in-out infinite alternate" : "none" } });
                       }))),
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 12, color: "#1e3a5f", marginTop: 8 } }, "audio_clip.mp3 (0:08)"))),
               dataReveal === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(1); }, style: { padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See Regular Software Result \u2192")) :
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(1); }, size: "large" }, "See Regular Software Result \u2192")) :
               /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
                 /*#__PURE__*/React.createElement("div", { style: { animation: dataReveal === 1 ? "fadeIn 0.4s ease" : "none" } },
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "#1e40af", marginBottom: 4 } }, "Regular Software"),
@@ -2927,7 +2924,7 @@ function DataSection(props) {
                       /*#__PURE__*/React.createElement("tbody", null, [["Burger", "Double", "1", "No onions"], ["Fries", "Large", "1", "Extra salt"], ["Coke", "Medium", "2", "\u2014"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI can transcribe the speech, infer the items, and map the casual sentence into order fields.")) : /*#__PURE__*/React.createElement("div", null)),
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setDataReveal(2); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See AI Result \u2192")) : null))))),
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null))))),
     dataComplete ? /*#__PURE__*/React.createElement(BottomLine, { thought: "AI learned from messy human data. That\u2019s why it can find {structure in the mess}." }) : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerinside"), label: "Next: Inside AI" })
   );
@@ -3422,10 +3419,7 @@ function ProbabilitySection(props) {
     surface: "mint",
     title: "Guess the Most Probable Word"
   },
-    !probQuizStarted ? /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setProbQuizStarted(true); },
-      style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-    }, "First Phrase") : /*#__PURE__*/React.createElement("div", null,
+    !probQuizStarted ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setProbQuizStarted(true); }, style: { display: "block", margin: "0 auto", fontWeight: 600 } }, "First Phrase") : /*#__PURE__*/React.createElement("div", null,
     score.total > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "inline-block", background: "var(--bg)", borderRadius: 8, padding: "6px 14px", marginBottom: 12, fontSize: 13, color: "var(--inkMuted)", border: "1px solid var(--rule)" } },
       "Score: ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, score.correct + "/" + score.total)
     ),
@@ -3465,10 +3459,7 @@ function ProbabilitySection(props) {
           /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Why? "), phrase.explanation
         ),
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10, marginTop: 16 } },
-          !isLastPhrase && /*#__PURE__*/React.createElement("button", {
-            onClick: nextPhrase,
-            style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-          }, "Next Phrase \u2192")),
+          !isLastPhrase && /*#__PURE__*/React.createElement(ActivityButton, { onClick: nextPhrase, style: { fontWeight: 600 } }, "Next Phrase \u2192")),
         isLastPhrase && /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
           /*#__PURE__*/React.createElement("button", {
             onClick: startOver,
@@ -3548,10 +3539,7 @@ function BiasQuiz(props) {
   var bs = biasScenarios[biasIdx];
   var isLastBias = biasIdx === biasScenarios.length - 1;
   if (!biasStarted) {
-    return /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setBiasStarted(true); },
-      style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-    }, "See First Scenario");
+    return /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Scenario");
   }
   return /*#__PURE__*/React.createElement("div", null,
     biasScore.total > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "inline-block", background: "var(--bg)", borderRadius: 8, padding: "6px 14px", marginBottom: 12, fontSize: 13, color: "var(--inkMuted)", border: "1px solid var(--rule)" } },
@@ -3576,10 +3564,7 @@ function BiasQuiz(props) {
       }
     }),
     biasGuess !== null && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10 } },
-      !isLastBias && /*#__PURE__*/React.createElement("button", {
-        onClick: function() { setBiasIdx(function(i) { return i + 1; }); setBiasGuess(null); },
-        style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-      }, "Next Scenario \u2192"),
+      !isLastBias && /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasIdx(function(i) { return i + 1; }); setBiasGuess(null); }, style: { fontWeight: 600 } }, "Next Scenario \u2192"),
       isLastBias && /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", flex: 1 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "#4338ca", marginBottom: 8 } }, "Final score: " + biasScore.correct + "/" + biasScore.total),
         /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 14, margin: 0 } },
@@ -3761,7 +3746,7 @@ function TrainingSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, step.title),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, step.text)));
           }))))),
-  stepsRevealed >= 7 ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
+  stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
@@ -3788,10 +3773,10 @@ function TrainingSection(props) {
           isTyping ? /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: "1em", background: "var(--primary)", marginLeft: 1, verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" } }) : null));
     }),
     visibleStages === 0 ? /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[0]) : null,
-    seeItTypingDone && visibleStages > 0 && visibleStages < 7 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
+    seeItTypingDone && visibleStages > 0 && visibleStages < seeItStages.length ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
       /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null)) : null,
-    stepsRevealed >= 7 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns patterns. Chatting is when it {uses them}." }) : null,
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= 7, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
+    stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns patterns. Chatting is when it {uses them}." }) : null,
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 const T = (t, id) => ({
@@ -4174,7 +4159,7 @@ function NameThatDrinkTryIt(props) {
         E("div", { style: { padding: "12px 16px", borderRadius: 8, marginTop: 12, background: wasCorrect ? "#dcfce7" : "#fef2f2", border: "1px solid " + (wasCorrect ? "#86efac" : "#fca5a5"), fontSize: 14, color: "var(--ink)" } },
           wasCorrect ? (isQ3 ? "\u2705 Correct! 2 Dimensions is not enough information to identify Coke vs Pepsi." : "\u2705 Correct!") : wrongMsg),
         (!isQ3 ? E("div", { style: { textAlign: "center" } },
-          E("button", { onClick: handleNext, style: { marginTop: 12, padding: "10px 20px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Next Question \u2192"))
+          E(ActivityButton, { onClick: handleNext, style: { padding: "10px 20px", marginTop: 12 } }, "Next Question \u2192"))
           : null));
     }
     content = E("div", null,
@@ -4367,7 +4352,7 @@ function VectorSpaceSection(props) {
           cellStyle(row[2], "#3b82f6", "#dbeafe"),
           cellStyle(row[3], "#8b5cf6", "#f3e8ff"));
       })),
-    E(LessonSubhead, null, "Similarity- How does AI know which words are similar?"),
+    E(LessonSubhead, null, "How AI knows which words are similar"),
     E(BodyP, null,
       "Vectors let the model compare concepts numerically. Coke and Pepsi end up much closer to each other than either one does to Black Coffee because their values line up across most dimensions."),
     E(LessonSubhead, null, "Why does similarity matter?"),
@@ -4795,7 +4780,7 @@ function PredictionSection(props) {
           })) : null,
         fb ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 16, animation: "fadeIn 0.3s ease" } },
           /*#__PURE__*/React.createElement("div", { style: { color: fb.color, fontWeight: 700, fontSize: 14, marginBottom: 8 } }, fb.text),
-          buttons[ctxStep - 1] ? /*#__PURE__*/React.createElement("button", { onClick: function() { setCtxStep(ctxStep + 1); setCtxChoice(null); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, marginTop: 8, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, buttons[ctxStep - 1]) : null) : null,
+          buttons[ctxStep - 1] ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setCtxStep(ctxStep + 1); setCtxChoice(null); }, style: { marginTop: 8 } }, buttons[ctxStep - 1]) : null) : null,
         ctxStep === 4 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6 } }, "Each word you added changed which predictions made sense. That\u2019s exactly what the model does: it processes all the words together to narrow thousands of possibilities down to the best one.")) : null);
     })(),
@@ -7030,21 +7015,7 @@ function TemperatureSection(props) {
       padding: "8px 14px",
       borderRadius: 8
     }
-  }, "\u201C", prompt, "...\u201D"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setPromptIdx((promptIdx + 1) % TEMP_PROMPTS.length),
-    style: {
-      padding: "8px 16px",
-      borderRadius: 8,
-      background: "#0e0a1f",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      whiteSpace: "nowrap",
-      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
-    }
-  }, "Next Example \u2192")),
+  }, "\u201C", prompt, "...\u201D"), /*#__PURE__*/React.createElement(ActivityButton, { onClick: () => setPromptIdx((promptIdx + 1) % TEMP_PROMPTS.length), style: { padding: "8px 16px", fontSize: 13, whiteSpace: "nowrap", fontWeight: 600 } }, "Next Example \u2192")),
     /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 20
@@ -7378,10 +7349,7 @@ function HallucinationSection(props) {
             style: { fontFamily: "'Source Serif 4', Georgia, serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.55, color: lastSegment.isReal ? "#a36a17" : "#1f9d5f", maxWidth: "60ch" }
           }, lastSegment.isReal ? "Worth a check. " + lastSegment.note : "Good flag. " + lastSegment.note)) : null,
         !hallRevealed ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
-          /*#__PURE__*/React.createElement("button", {
-            onClick: function() { setHallRevealed(true); setLastClaimId(null); },
-            style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-          }, "See the breakdown \u2192")) : null,
+          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setHallRevealed(true); setLastClaimId(null); } }, "See the breakdown \u2192")) : null,
         hallRevealed ? /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px", textAlign: "center", marginTop: 18 }
         },
@@ -8362,10 +8330,7 @@ function PromptingSection(props) {
           ". ", pNotDo ? pNotDo.value : /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[what AI should not do]"),
           "\u201D"))),
     pAllFilled && !pRevealed ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 22 } },
-      /*#__PURE__*/React.createElement("button", {
-        onClick: function() { setPRevealed(true); },
-        style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-      }, "Compare to a strong example \u2192")) : null,
+      /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setPRevealed(true); } }, "Compare to a strong example \u2192")) : null,
     pRevealed ? /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginTop: 22, flexWrap: "wrap" } },
         /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 260px", background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 16 } },
@@ -8433,7 +8398,7 @@ function ThoughtPartnerSection(props) {
     setPhase("typing-user");
     setTpStep(tpStep + 1);
   };
-  var allDone = tpStep >= 5 && phase === "done";
+  var allDone = tpStep >= TP_EXCHANGES.length && phase === "done";
   var showButton = phase === "idle" || phase === "done";
   var cursor = /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
   return /*#__PURE__*/React.createElement("div", null,
@@ -8571,8 +8536,8 @@ function ThoughtPartnerSection(props) {
           ) : null
         );
       }),
-    showButton && !allDone && tpStep < 5 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
-        /*#__PURE__*/React.createElement("button", { onClick: advanceStep, style: { background: "#0e0a1f", color: "#fff", padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 700, border: "none", cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Continue \u2192")) : null,
+    showButton && !allDone && tpStep < TP_EXCHANGES.length ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: advanceStep }, "Continue \u2192")) : null,
     allDone ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "Notice what happened: the user started vague, then made every choice: tech over other fields, AI tools over coding, local businesses over remote work. AI helped explore the options and think through obstacles, but it never decided anything. That\u2019s what a good thought partner does.")) : null),
   /*#__PURE__*/React.createElement(LessonSubhead, null, "Five thought-partner prompts to copy"),
@@ -8959,10 +8924,7 @@ function EvaluatingSection(props) {
                 /*#__PURE__*/React.createElement("span", { style: { color: "var(--seeAccent)", fontWeight: 700, flexShrink: 0, marginTop: 2 } }, "\u2022"),
                 cp);
             }))),
-        !showExample ? /*#__PURE__*/React.createElement("button", {
-          onClick: function() { setShowExample(true); },
-          style: { padding: "10px 20px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, width: "100%", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-        }, "\uD83D\uDD0D Show example") : /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease", borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
+        !showExample ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setShowExample(true); }, style: { padding: "10px 20px", width: "100%" } }, "\uD83D\uDD0D Show example") : /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease", borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
           /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "Prompt"),
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, fontStyle: "italic" } }, "\u201C", c.example.prompt, "\u201D")),
@@ -9176,10 +9138,7 @@ function WhenAIActsSection(props) {
               })));
         }),
         /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid rgba(63, 107, 63, 0.18)", marginTop: 24, paddingTop: 24, textAlign: "center" } },
-          permAllFilled ? /*#__PURE__*/React.createElement("button", {
-            onClick: function() { setPermRevealed(true); },
-            style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }
-          }, "Compare to a recommended profile \u2192") :
+          permAllFilled ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setPermRevealed(true); } }, "Compare to a recommended profile \u2192") :
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 13, fontStyle: "italic" } }, "Set a permission for each action to compare."))
       ) : /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", {
@@ -11025,7 +10984,7 @@ function FullWorkflowSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid rgba(63, 107, 63, 0.18)", marginTop: 24, paddingTop: 24, textAlign: "center" } },
           wfAllPlaced ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, justifyContent: "center" } },
             /*#__PURE__*/React.createElement("button", { onClick: wfReset, style: { background: "transparent", border: "none", color: "var(--inkMuted)", fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "underline" } }, "Reset"),
-            /*#__PURE__*/React.createElement("button", { onClick: function() { setWfChecked(true); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Check my sequence \u2192")) :
+            /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setWfChecked(true); } }, "Check my sequence \u2192")) :
           wfPlacedIds.length > 0 ? /*#__PURE__*/React.createElement("button", { onClick: wfReset, style: { background: "transparent", border: "none", color: "var(--inkMuted)", fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "underline" } }, "Reset") :
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 13, fontStyle: "italic" } }, "Tap a step above to start placing your sequence."))
       ) : /*#__PURE__*/React.createElement("div", null,
@@ -12535,7 +12494,7 @@ function AIFutureSection(props) {
                     return /*#__PURE__*/React.createElement("button", { key: b.id, onClick: function() { setBucketPick(b.id); }, style: { padding: "10px 18px", borderRadius: 999, background: sel ? m.color : m.bg, color: sel ? "#fff" : m.color, border: "1px solid " + (sel ? m.color : m.border), cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, transition: "all 0.15s" } }, b.label);
                   }))) : null,
               bucketPick !== null ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 22 } },
-                /*#__PURE__*/React.createElement("button", { onClick: function() { setClaimRevealed(true); }, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "See the recommended evaluation \u2192")) : null);
+                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setClaimRevealed(true); } }, "See the recommended evaluation \u2192")) : null);
           }
           return /*#__PURE__*/React.createElement("div", null,
             /*#__PURE__*/React.createElement("div", { style: { marginBottom: 24 } },
@@ -12727,10 +12686,10 @@ const SECTION_COMPONENTS = {
   workchanges: WorkChangesSection,
   aifuture: AIFutureSection
 };
+const CHIP_LABELS = { inference: "Inference", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy" };
 function ChipNav(props) {
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
   var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
-  var CHIP_LABELS = { inference: "Inference", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy" };
   return /*#__PURE__*/React.createElement("div", {
     style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", gap: 8, marginBottom: 28 }
   }, props.sections.map(function(sid, ci) {
@@ -12807,12 +12766,14 @@ function LLMExplorer() {
     setProgress(prev => ({ ...prev, testYourselfQuiz: null }));
   };
   var _ph = useState(null), pillHover = _ph[0], setPillHover = _ph[1];
+  useEffect(function() {
+    if (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; })) {
+      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "whydeeper" }); });
+    }
+  }, [progress.activeSection]);
   const Component = SECTION_COMPONENTS[activeSection];
   const currentSection = SECTIONS.find(s => s.id === activeSection);
-  if (!Component || !currentSection) {
-    setProgress(prev => ({ ...prev, activeSection: "whydeeper" }));
-    return null;
-  }
+  if (!Component || !currentSection) return null;
   if (!hasName) {
     var submitName = function() {
       var n = nameInput.trim() || "Friend";
@@ -13041,6 +13002,13 @@ function validate() {
       if (sectionIds.indexOf(target) === -1) {
         errors.push("Component '" + key + "' navigates to unknown section id: '" + target + "'");
       }
+    }
+  });
+
+  // 6. Every CHIP_LABELS key has a SECTIONS entry (warning — dead lookup, non-fatal)
+  Object.keys(CHIP_LABELS).forEach(function(key) {
+    if (sectionIds.indexOf(key) === -1) {
+      warnings.push("CHIP_LABELS key '" + key + "' has no matching SECTIONS entry (dead chip label)");
     }
   });
 

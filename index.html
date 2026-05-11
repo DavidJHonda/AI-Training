@@ -816,7 +816,7 @@ const SECTION_GROUPS = [{
   sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating"]
 }, {
   label: "Real World",
-  sections: ["openerrealworld", "integrity", "privacy", "judged", "stakeholders", "synthetic", "workchanges", "aifuture"]
+  sections: ["openerrealworld", "integrity", "privacy", "judged", "stakeholders", "synthetic", "workchanges", "aifuture", "buildedge"]
 }, {
   label: "Finish",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -881,6 +881,7 @@ const SECTION_META = {
   synthetic: { kicker: "FAKE IS CHEAP NOW", label: "Seeing Isn\u2019t Proof", title: "Seeing Isn\u2019t Proof", icon: "\uD83D\uDC41\uFE0F" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
   aifuture: { kicker: "WHAT COMES NEXT", label: "AI & The Future", icon: "\uD83D\uDD2D" },
+  buildedge: { kicker: "YOUR MOVE NOW", label: "Build Your Edge", icon: "\uD83C\uDFAF" },
   whatyoulearned: { kicker: "THE BIG PICTURE", label: "What You Learned", icon: "\uD83D\uDCCB" },
   fullworkflow: { kicker: "THE FULL LOOP", label: "Full Workflow", icon: "\uD83D\uDDFA\uFE0F" },
   keyterms: { kicker: "SAY IT BACK", label: "Vocab Quiz", icon: "\uD83E\uDDE9" },
@@ -12954,7 +12955,220 @@ function AIFutureSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren\u2019t the ones who panic or worship."),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They\u2019re the ones who can judge."),
     claimIdx >= TRIBUNAL_CLAIMS.length ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Powerful doesn\u2019t mean perfectly explainable. {That\u2019s why your judgment matters}." }) : null,
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimIdx >= TRIBUNAL_CLAIMS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimIdx >= TRIBUNAL_CLAIMS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("buildedge"); }, label: "Next: Build Your Edge" }));
+}
+function BuildEdgeSection(props) {
+  var E = React.createElement;
+  const [scenarioAnswers, setScenarioAnswers] = useState({});
+
+  const LAYERS = [
+    {
+      icon: "\uD83E\uDE9C",
+      title: "The floor",
+      body: "Produces fluent output. Can\u2019t tell if it\u2019s right. Ships whatever AI hands back. Easy to replace by anyone who can do the same thing."
+    },
+    {
+      icon: "\u2699\uFE0F",
+      title: "The middle",
+      body: "Knows enough to use AI. Doesn\u2019t know enough to catch what\u2019s missing. Easy to outpace by anyone with depth."
+    },
+    {
+      icon: "\uD83C\uDFAF",
+      title: "The edge",
+      body: "Spots what AI gets wrong. Pushes past the first answer. Knows enough about something to direct AI instead of just borrowing from it. The leverage shows up here."
+    }
+  ];
+
+  const CATEGORIES = [
+    {
+      id: "communication",
+      icon: "\u270D\uFE0F",
+      title: "Communication",
+      body: "Writing, speaking, persuasion. Putting an idea into another person\u2019s head and making them care. AI can draft. It can\u2019t decide what\u2019s worth saying or read the room while you say it."
+    },
+    {
+      id: "judgment",
+      icon: "\u2696\uFE0F",
+      title: "Judgment",
+      body: "Philosophy, ethics, history. The disciplines that train you for hard calls and tradeoffs nobody can run a formula on. AI can list the options. It can\u2019t carry the decision."
+    },
+    {
+      id: "handson",
+      icon: "\uD83D\uDD27",
+      title: "Hands-on action",
+      body: "Trades, sports, craft, building things. Working with your body in the real world. AI doesn\u2019t have hands. The whole physical economy still runs on people who do."
+    },
+    {
+      id: "humansystems",
+      icon: "\uD83D\uDC65",
+      title: "Human systems",
+      body: "Psychology, leadership, relationships. Reading people, building trust, motivating a group. AI is a tool inside human systems. The systems themselves still belong to people."
+    },
+    {
+      id: "deepknowledge",
+      icon: "\uD83D\uDD2C",
+      title: "Deep knowledge in any field",
+      body: "Science, medicine, law, code, music, anything. Going far past the surface in one thing. AI knows a little about everything. People who know one thing deeply use AI as a power tool. Everyone else gets answers they can\u2019t verify."
+    }
+  ];
+
+  const CHIP_OPTIONS = [
+    { id: "communication", label: "Communication" },
+    { id: "judgment", label: "Judgment" },
+    { id: "handson", label: "Hands-on" },
+    { id: "humansystems", label: "Human systems" },
+    { id: "deepknowledge", label: "Deep knowledge" }
+  ];
+
+  const SCENARIOS = [
+    {
+      situation: "AI drafts the speech you\u2019re giving at your grandma\u2019s 80th birthday. It hits every beat: warmth, gratitude, a closing line. It also sounds like it could be any grandkid\u2019s speech for any grandmother.",
+      answer: "communication",
+      explain: "The structure is fine. What\u2019s missing is voice. The specific stories, the way you actually talk, the thing only you would say. AI can write a speech. Only you can give one that sounds like you."
+    },
+    {
+      situation: "AI confidently tells you that a famous CEO is either a genius or a fraud. The argument is clean, the links check out, and you almost buy it. Something feels off.",
+      answer: "judgment",
+      explain: "Reasonable people read the same evidence and reach opposite verdicts about people like this. AI picked one framing and packaged it as the answer. Judgment is knowing that one framing is a choice, and asking what the strongest version of the other side looks like before you decide."
+    },
+    {
+      situation: "You ask AI how to fix the squeaky brakes on your car. It walks you through a clean step-by-step. You watch a YouTube video on top of it and feel ready. The first bolt won\u2019t budge.",
+      answer: "handson",
+      explain: "Reading and watching aren\u2019t doing. The physical work doesn\u2019t get replaced by understanding it. Until you\u2019ve actually felt the wrench slip and the rotor catch, the explanation is half the story."
+    },
+    {
+      situation: "AI writes you a text to a friend who\u2019s been distant lately, telling them you\u2019ve noticed and you care. The wording is kind and clear. You send it almost word for word. They go quieter.",
+      answer: "humansystems",
+      explain: "The words were technically right. What was missing was knowing this specific friend, picking the moment, choosing whether a text was even the right move. None of that lives in a script. That\u2019s the part AI can\u2019t do for you."
+    },
+    {
+      situation: "AI gives you a confident answer about why your favorite team lost last night. It cites usage rates, defensive rating, late-game efficiency. The numbers sound right. You can\u2019t tell if any of it actually explains the game.",
+      answer: "deepknowledge",
+      explain: "Without your own grounding in how the game actually works, you can\u2019t catch whether AI is correct, confident-and-wrong, or making it up. The depth itself is what catches the bluff. This is why people who know one thing deeply get so much more out of AI than people who don\u2019t."
+    }
+  ];
+
+  const pickCategory = function(sIdx, catId) {
+    setScenarioAnswers(function(prev) { var next = Object.assign({}, prev); next[sIdx] = catId; return next; });
+  };
+
+  return E("div", null,
+    E(LessonHeader, {
+      sectionId: "buildedge",
+      subtitle: "AI rewards depth. Wherever you build it."
+    }),
+
+    E(BodyP, null,
+      "AI raised the floor. Anyone with a keyboard can produce a fluent paragraph, plausible code, a reasonable-sounding plan. The bar for looking competent just dropped through the floor."),
+    E(BodyP, null,
+      "AI also raised the ceiling. The fluent paragraph might be wrong. The plausible code might quietly break in production. The reasonable plan might be missing the thing that actually matters. The person who can catch that, push past the obvious answer, and know enough to direct AI instead of just borrow from it, is more valuable than they used to be, not less."),
+    E(BodyP, null,
+      "That squeezes the middle. The person who just types a prompt and ships whatever comes back is the easiest person in the room to replace. The person with real depth in something is the one AI makes louder."),
+    E(BodyP, { marginBottom: 28 },
+      E("strong", null, "This is the move the whole course has been pointing at. Now we name it.")),
+
+    E(ShowcaseBox, {
+      kicker: "THE EXPERT PARADOX",
+      headline: /*#__PURE__*/E("div", {
+        style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, fontWeight: 400, color: "var(--ink)", lineHeight: 1.2, letterSpacing: "-0.02em" }
+      },
+        "AI didn\u2019t change the value of depth. It made it ",
+        E("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, "louder.")),
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 14 } },
+        LAYERS.map(function(layer) {
+          return E("div", {
+            key: layer.title,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 10px 28px rgba(14, 10, 31, 0.06)" }
+          },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, layer.icon),
+              E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, layer.title)),
+            E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, layer.body));
+        }))),
+
+    E(BodyP, null,
+      "Read this the wrong way and it sounds like \u201cwait until you\u2019re an expert.\u201d That\u2019s the trap. The whole point of the expert paradox is that AI rewards anyone who keeps building depth, and the years you\u2019re in right now are the most valuable years of your life to be building."),
+    E(BodyP, null,
+      "Remember the four roles from the last lesson. Prompt Engineer, AI Trainer, Red Teamer, AI Educator. Every one of them is built on depth in something specific. So is every other job worth doing. Doctor, lawyer, plumber, teacher, founder, designer, electrician, engineer. AI makes you more valuable in any of them when you have something underneath."),
+    E(BodyP, { marginBottom: 28 },
+      "So the real question isn\u2019t \u201cwhat should I do about AI.\u201d It\u2019s ", E("strong", null, "what am I going to get good at, and what does that look like five years from now?")),
+
+    E(ShowcaseBox, {
+      kicker: "FIVE PLACES DEPTH STILL PAYS",
+      headline: "Here are the categories. Pick one that calls you.",
+      intro: "These aren\u2019t classes to take. They\u2019re categories of human work AI can\u2019t absorb. Wherever you\u2019re already drawn to, one of these is probably where you\u2019re headed.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 } },
+        CATEGORIES.map(function(c) {
+          return E("div", {
+            key: c.id,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" }
+          },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, c.icon),
+              E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, c.title)),
+            E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, c.body));
+        }))),
+
+    E(BodyP, null,
+      "Five moments where AI handed back something fluent. Pick the depth that catches what\u2019s missing."),
+
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Spot the Gap",
+      action: E("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(scenarioAnswers).length),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length))
+    },
+      SCENARIOS.map(function(s, sIdx) {
+        var picked = scenarioAnswers[sIdx];
+        var revealed = picked !== undefined;
+        var correct = picked === s.answer;
+        return E("div", { key: sIdx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: sIdx < SCENARIOS.length - 1 ? 12 : 0 } },
+          E("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Scenario " + (sIdx + 1)),
+          E("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 600, lineHeight: 1.55, marginBottom: 14 } }, s.situation),
+          E("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: revealed ? 12 : 0 } },
+            CHIP_OPTIONS.map(function(opt) {
+              var isPicked = picked === opt.id;
+              var isCorrect = opt.id === s.answer;
+              var showCorrect = revealed && isCorrect;
+              var showWrongPick = revealed && isPicked && !isCorrect;
+              var bg = !revealed ? "var(--bg)" : (showCorrect ? "#ecfdf5" : (showWrongPick ? "#fef2f2" : "var(--bg)"));
+              var border = !revealed ? "1px solid var(--rule)" : (showCorrect ? "2px solid #86efac" : (showWrongPick ? "2px solid #fca5a5" : "1px solid var(--rule)"));
+              var color = !revealed ? "var(--ink)" : (showCorrect ? "#16a34a" : (showWrongPick ? "#dc2626" : "var(--inkMuted)"));
+              return E("button", {
+                key: opt.id,
+                onClick: function() { if (!revealed) pickCategory(sIdx, opt.id); },
+                disabled: revealed,
+                style: { padding: "8px 14px", borderRadius: 8, background: bg, border: border, color: color, cursor: revealed ? "default" : "pointer", fontSize: 13, fontWeight: 700, transition: "all 0.2s", fontFamily: "inherit" }
+              }, opt.label, showCorrect ? " \u2713" : (showWrongPick ? " \u2717" : ""));
+            })),
+          revealed ? E("div", { style: { background: correct ? "#ecfdf5" : "#fffbeb", border: "1px solid " + (correct ? "#86efac" : "#fcd34d"), borderRadius: 8, padding: "12px 14px", fontSize: 13, color: correct ? "#14532d" : "#78350f", lineHeight: 1.6 } },
+            E("strong", null, correct ? "\u2705 " : "Best fit: "), s.explain
+          ) : null
+        );
+      })),
+
+    E(LessonSubhead, null, "Pick one, not five."),
+    E(BodyP, null,
+      "You don\u2019t have to plan a career. You have to be serious about something."),
+    E(BodyP, null,
+      "The kid who\u2019s serious about debate is building depth in communication and judgment. The kid working a summer construction job is building depth in hands-on. The kid running a club is building depth in human systems. The kid in love with one subject in school is building deep knowledge. None of those students is doing it wrong."),
+    E(BodyP, { marginBottom: 24 },
+      "You don\u2019t pick the category. You pick the thing you\u2019d keep doing anyway, and the category falls out of it. Then you treat the thing as the investment it actually is."),
+
+    E(KeyInsight, { lead: "AI rewards depth. The shape of yours is up to you." },
+      "These five aren\u2019t the only depth that pays. They\u2019re the ones AI can\u2019t absorb. Wherever you end up building, build deep."),
+
+    E(BottomLine, { thought: "Anyone can sound smart now. {Get good at something anyway}." }),
+
+    E(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }
 const SECTION_COMPONENTS = {
   openerfoundations: OpenerFoundationsSection,
@@ -13020,7 +13234,8 @@ const SECTION_COMPONENTS = {
   questionsvaluable: QuestionsValuableSection,
   humanedge: HumanEdgeSection,
   workchanges: WorkChangesSection,
-  aifuture: AIFutureSection
+  aifuture: AIFutureSection,
+  buildedge: BuildEdgeSection
 };
 const CHIP_LABELS = { inference: "Inference", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy" };
 function ChipNav(props) {

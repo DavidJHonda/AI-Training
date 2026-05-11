@@ -20,16 +20,19 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 ## Design system
 
 ### Tokens (CSS custom properties, defined in :root)
-- Colors: --bg #f6f5fb, --card #fff, --primary #6e51ff, --primaryDeep #4c2dff, --primaryFaint #f7f4ff, --ink #0e0a1f, --inkSoft #3a3550, --inkMuted #6e6986, --rule #e7e3f2, --green #1f9d5f, --red #d4334a
+- Colors (surfaces): --bg #f6f5fb, --card #fff, --primary #6e51ff, --primaryDeep #4c2dff, --primaryFaint #f7f4ff
+- Colors (text): --ink #0e0a1f, --inkSoft #3a3550, --inkMuted #6e6986, --inkFaint #b3aec8
+- Colors (lines): --rule #e7e3f2
+- Colors (semantic): --green #1f9d5f, --red #d4334a, --info #3b82f6, --info-bg #eff6ff
 - TRY IT colors (inlined, no named vars): mint surface #eef4eb / #ecf6e6, green accent #2f7d4f, mint hairline rgba(63, 107, 63, 0.18)
 - SEE IT colors (added during SEE IT Pattern A reference implementation): --seeBand #faf6ec (sand background for the SEE IT container band), --seeAccent #a36a17 (amber accent used for the SEE IT eyebrow, interior section eyebrows, and serif numerals), --seeRule rgba(163, 106, 23, 0.18) (amber hairline used as section divider inside the ivory cards). These three variables are the SEE IT counterparts to the TRY IT mint/green palette and live in the :root style block.
 - Section divider color: #e5e7eb (used directly, not as a token)
-- Typography: --sans (Plus Jakarta Sans), --serif (Instrument Serif). Activity feedback prose uses Source Serif 4 (loaded from Google Fonts alongside the other two). All three are referenced directly by font-family string rather than CSS variable.
+- Typography: --sans (Plus Jakarta Sans, loaded from Google Fonts), --serif (Instrument Serif, loaded from Google Fonts), --mono (system monospace stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; no font loaded). Activity feedback prose uses Source Serif 4, loaded from Google Fonts alongside the other two Google fonts but referenced directly by font-family string in feedback rendering.
 - Body paragraph standard: 17px / 1.65 line-height / var(--inkSoft)
 
 ### Design philosophy
-- Borders are rare; prefer fill + shadow
-- Borders only used on: lesson card, quiz container, lesson nav rule, section divider
+- Borders are rare in page-level chrome and narrative containers. ShowcaseBox, KeyInsight, CompareCard, and InteractiveBox (mint and sand surfaces) all use fill + shadow with no border.
+- Activity interiors may use --rule borders where the border carries meaning — separating choices, feedback, and interactive states. Current border usage: lesson card, quiz container, lesson nav rule, section divider, QuizBlock option pills, FeedbackPill default + answered-untouched states, activity feedback strips. SEE IT stage cards use --seeRule amber hairlines as internal section dividers.
 - Three shadow roles: subtle (chips/pills), elevated (lesson card), active glow (purple)
 - Active states are singular: one section pill, one chip, one primary button per page
 - Serif (Instrument Serif) reserved for narrative moments only — lesson title and BottomLine

@@ -40,7 +40,7 @@ An instructor-led AI education web app for high schoolers. Single HTML file with
 - Spacing comes from a defined scale
 
 ### Components (defined near top of file)
-- LessonHeader (~line 105): position eyebrow + serif title + optional subtitle. Eyebrow has split styling: "SECTION NN · GROUP · " in var(--inkMuted), "LESSON NN" in var(--primary).
+- LessonHeader (~line 121): position eyebrow + serif title + optional subtitle. Eyebrow has split styling: "SECTION NN · GROUP · " in var(--inkMuted), "LESSON NN" in var(--primary).
 - SectionKicker: page-level (size="large", 18px) or pre-content (size="small", 13px). Both purple, uppercase, weight 700. Use sparingly — only for genuinely multi-topic lessons or as the eyebrow for a ShowcaseBox. Default behavior is no kicker.
 - LessonSubhead: in-body section break within a lesson. Renders an h3 styled as Plus Jakarta Sans, 20px, weight 700, ink color, 1.3 line-height, 32px top margin, 12px bottom margin. Sentence case (caller supplies copy). Used for sub-section headers like "Don't Overcorrect," "When to Switch," "How to Cite AI" — moments inside a lesson that need a header but don't warrant SectionKicker's heavier purple-uppercase chrome. Sits between SectionKicker (multi-topic shifts, ShowcaseBox eyebrows) and inline bold body text in the visual hierarchy. Accepts only children.
 - BottomLine: italic eyebrow + 32px serif thought. Use {emphasis} braces for italic-purple emphasis spans.
@@ -105,7 +105,7 @@ Reference implementation: ThinkingMode "Match the Task to the Mode" (canonical P
 
 ### SEE IT Pattern A: Progressive Reveal, Sand Chrome
 
-Reference implementation: Verify "Verification Strategies" at L7131. Used for SEE IT activities where stages reveal one at a time and the student walks through them in sequence. Mirrors TRY IT Pattern 1 structurally; differs only in color, shell, and the absence of QuizBlock.
+Reference implementation: Verify "Verification Strategies" at L7438. Used for SEE IT activities where stages reveal one at a time and the student walks through them in sequence. Mirrors TRY IT Pattern 1 structurally; differs only in color, shell, and the absence of QuizBlock.
 
 Shell: InteractiveBox with variant: "see" and surface: "sand". The sand surface variant produces a sand-band wrapper (var(--seeBand) #faf6ec, no border, 24px border-radius, 32-36px padding). The SEE IT eyebrow ("◉ SEE IT") renders in var(--seeAccent) amber.
 
@@ -131,7 +131,7 @@ No-completion-card variant. Some Pattern A activities end naturally on the final
 
 ### SEE IT Pattern B: Parallel Reveal, Sand Chrome
 
-Used for SEE IT activities where comparison matters more than sequence and all stages render at once. Same sand band shell as Pattern A. Drops RevealSequence and the counter pill. All stages rendered as ivory cards stacked inside the sand band, separated by var(--seeRule) hairlines. Spec to be finalized when the first Pattern B candidate is migrated. Likely candidates from the SEE IT inventory: Generative "Stored Answers vs Built From Probability" (L2550), Customization "Same Prompt, Different Setup" (L6228), Prompting "Format Changes Everything" (L7637), AIHistory "Two Coins, Three Outcomes".
+Used for SEE IT activities where comparison matters more than sequence and all stages render at once. Same sand band shell as Pattern A. Drops RevealSequence and the counter pill. All stages rendered as ivory cards stacked inside the sand band, separated by var(--seeRule) hairlines. Spec to be finalized when the first Pattern B candidate is migrated. Likely candidates from the SEE IT inventory: Generative "Stored Answers vs Built From Probability" (L2543), Customization "Same Prompt, Different Setup" (L6231), Prompting "Format Changes Everything" (L8022), AIHistory "Toss Two Coins, Three Possible Outcomes" (L1195). All four currently use sand chrome with bespoke interiors (Bucket SEE-D), so the chrome migration is partial; the Pattern B stacked-card spec is what still needs a reference implementation.
 
 ## Workflow
 
@@ -220,9 +220,8 @@ When David asks for content changes, the right pattern is:
 - The twins haven't tested the app yet — recommendation is to ship and watch real students use it
 - Reduced-motion sweep pending: the `useReducedMotion` hook is in place and applied to ContextSection's typewriter. The other ~10 JS-driven animations across the file (HowWeGotHere Bayes ladder, AIvsCode, BlackBox, TrainingBias, BehindTheNumbers, Transform, Temperature, ThoughtPartner, etc.) follow the same pattern and are a one-line patch each. Roll out as twins flag specific lessons or as a single sweep when convenient.
 - Hardcoded-number brittleness: several lessons compare state variables against hardcoded numbers that should match an array length but don't reference it directly (Training "7", Hallucination "7" and "8", ThoughtPartner "5"). None currently crash; HowWeGotHere was the only mismatched case. Worth a hardening pass to replace each with `ARRAY.length` reference, but not blocking.
-- One leftover item identified during audit, intentionally not cleaned up: dead "capstone" entry in CHIP_LABELS. (The "llm-precheck-score" orphan was removed alongside the Pre-Check lesson.)
 - SEE IT chrome migration complete: all 19 in-scope SEE IT activities now use the sand surface with amber accent. Remaining polish is a visual pass on SEE interiors for spacing consistency, deferred until after twin testing surfaces specific issues. Pattern A has three documented sub-variants — standard (one stage swaps in at a time), ladder-mode (cumulative reveal with hairline-separated stages in one ivory card), and no-completion-card (activity ends naturally on the last stage) — covering the seven Pattern A migrations.
-- SEE IT Pattern B reference not yet established. The natural candidate is Generative "Stored Answers vs Built From Probability" (clean two-card comparison, no animation or scenarios). Other candidates: Customization "Same Prompt, Different Setup", Prompting "Format Changes Everything", AIHistory "Two Coins, Three Outcomes". Deferred until after twin testing.
+- SEE IT Pattern B reference not yet established. Four candidates already use sand chrome with bespoke interiors (Generative "Stored Answers vs Built From Probability", Customization "Same Prompt, Different Setup", Prompting "Format Changes Everything", AIHistory "Toss Two Coins, Three Possible Outcomes"). The Pattern B spec (stacked ivory cards with hairline dividers) still needs a first migration to lock in. Deferred until after twin testing.
 - TRY IT bespoke chrome normalization (13 legitimately bespoke TRY IT activities, Bucket E) deferred until after twin testing.
 - Component extractions queued for future waves once enough usages are catalogued: TipCard, StageCard, HighlightBox.
 - Tip pattern decision pending: demote casual 💡 lightbulb tips to plain bold body paragraphs (current lean) or formalize as a separate small Tip pattern.

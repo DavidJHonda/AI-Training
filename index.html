@@ -7430,6 +7430,8 @@ function VerifySection(props) {
     /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
       /*#__PURE__*/React.createElement("strong", null, "Anything that affects another person. "), "Slow down. Their reputation, their feelings, their decisions. Higher bar.")
   ),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Confidence is not consistency." },
+    "Two polished AI answers can disagree with each other, and both will sound certain. When you\u2019ve asked twice and gotten different answers, don\u2019t average them. The contradiction is the signal. Find the underlying claim and check it against something real."),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "The strategies below are tools. The judgment is which tool to use for which question."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -7746,9 +7748,9 @@ function CriticalThinkingSection(props) {
     icon: "\u270D\uFE0F",
     label: "Finding your voice",
     title: "Finding your voice",
-    desc: "AI can write clearly, but it can\u2019t write like you. Where your perspective matters, AI output will be polished but generic.",
+    desc: "AI writes clearly. It can\u2019t write like you. Where your perspective matters, polished is not personal.",
     scenario: "You're writing your college application essay. You prompt AI with your topic and experiences, then carefully rewrite its output in your own words.",
-    problem: "The structure, framing, and ideas originated with the model. Even rewritten, it reads like a well-edited version of everyone else's essay. Admissions readers have seen thousands of these. What stands out is genuine, unpolished thinking that could only come from you.",
+    problem: "The structure, framing, and ideas originated with the model. Even rewritten, it reads like a well-edited version of everyone else's essay. Admissions readers have seen thousands of these. What it doesn\u2019t have is a real scene, a real choice, a real voice, or a detail only you would know. That\u2019s the part that could only come from you.",
     instead: "Write your first draft without AI. Let it be messy. Then use AI to help you strengthen specific parts: \"is this paragraph clear?\" or \"what's a stronger way to end this?\" Start with your voice, not the model's."
   }, {
     icon: "\uD83C\uDFE5",
@@ -10251,6 +10253,7 @@ function PrivacySection(props) {
   const [revealed, setRevealed] = useState(false);
   const [lastInteractedIdx, setLastInteractedIdx] = useState(null);
   const [startedRedact, setStartedRedact] = useState(false);
+  const [photoRevealed, setPhotoRevealed] = useState(0);
   const REDACT_SCENARIOS = [{
     category: "Personal info",
     icon: "\uD83D\uDC64",
@@ -10297,6 +10300,80 @@ function PrivacySection(props) {
   const allRedacted = sensitiveIds.length > 0 && sensitiveIds.every(function(id) { return redactedIds.has(id); });
   const lastSegment = lastInteractedIdx !== null ? rs.segments[lastInteractedIdx] : null;
 
+  const PHOTO_ITEMS = [
+    { label: "Your name", note: "AI can read handwriting. Your name on the homework page is now in someone\u2019s logs.", pinX: 232, pinY: 150, color: "#dc2626" },
+    { label: "Your school", note: "Lincoln High at the top of the page tells AI exactly where you spend your weekdays.", pinX: 305, pinY: 95, color: "#ea580c" },
+    { label: "Your teacher and class period", note: "Specific enough to narrow down which classroom you sit in.", pinX: 370, pinY: 112, color: "#ca8a04" },
+    { label: "Your locker combination", note: "You wrote it in the planner so you wouldn\u2019t forget. The photo just published it.", pinX: 95, pinY: 260, color: "#7c3aed" },
+    { label: "A prescription medication", note: "Medical info is some of the most sensitive data there is. The bottle was just sitting on the desk.", pinX: 350, pinY: 343, color: "#0891b2" },
+    { label: "Your home street address", note: "You didn\u2019t mean to share this. The shipping label did.", pinX: 537, pinY: 318, color: "#be123c" }
+  ];
+
+  function renderPhoto(pinCount) {
+    return /*#__PURE__*/React.createElement("svg", {
+      viewBox: "0 0 600 400",
+      style: { width: "100%", height: "auto", display: "block", borderRadius: 10, background: "#d9c19a", maxWidth: 560, margin: "0 auto" }
+    },
+      /*#__PURE__*/React.createElement("text", { x: 22, y: 28, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 800, fill: "#6b4f2a", letterSpacing: "1.5" }, "\uD83D\uDCF7 PHOTO FROM YOUR CAMERA ROLL"),
+      /*#__PURE__*/React.createElement("rect", { x: 40, y: 210, width: 140, height: 170, fill: "#fef3c7", stroke: "#b89668", strokeWidth: 1.5 }),
+      /*#__PURE__*/React.createElement("rect", { x: 40, y: 210, width: 140, height: 22, fill: "#fef9e7", stroke: "#b89668", strokeWidth: 1.5 }),
+      /*#__PURE__*/React.createElement("text", { x: 50, y: 226, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: "#92400e", letterSpacing: "1" }, "TUE OCT 14"),
+      [248, 273, 298, 323, 348].map(function(y) { return /*#__PURE__*/React.createElement("line", { key: "p" + y, x1: 50, y1: y, x2: 170, y2: y, stroke: "#e8d5b7", strokeWidth: 0.5 }); }),
+      /*#__PURE__*/React.createElement("text", { x: 52, y: 263, fontFamily: "'Source Serif 4', serif", fontStyle: "italic", fontSize: 13, fontWeight: 700, fill: "#0e0a1f", transform: "rotate(-1.5 52 263)" }, "Locker: 12-24-08"),
+      /*#__PURE__*/React.createElement("text", { x: 52, y: 293, fontFamily: "'Source Serif 4', serif", fontStyle: "italic", fontSize: 11, fill: "#6e6986", transform: "rotate(-1 52 293)" }, "Quiz Friday"),
+      /*#__PURE__*/React.createElement("rect", { x: 470, y: 30, width: 78, height: 140, rx: 10, fill: "#1a1a25" }),
+      /*#__PURE__*/React.createElement("rect", { x: 475, y: 40, width: 68, height: 120, rx: 3, fill: "#2d3149" }),
+      /*#__PURE__*/React.createElement("text", { x: 509, y: 60, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, fill: "#e2e8f0", textAnchor: "middle" }, "9:47"),
+      /*#__PURE__*/React.createElement("rect", { x: 482, y: 76, width: 54, height: 32, rx: 4, fill: "#fff", opacity: 0.95 }),
+      /*#__PURE__*/React.createElement("text", { x: 487, y: 89, fontFamily: "var(--sans)", fontSize: 7, fontWeight: 800, fill: "#0e0a1f" }, "Mom"),
+      /*#__PURE__*/React.createElement("text", { x: 487, y: 101, fontFamily: "var(--sans)", fontSize: 7, fill: "#3a3550" }, "Be home by 6"),
+      /*#__PURE__*/React.createElement("rect", { x: 482, y: 270, width: 110, height: 120, fill: "#c4946a", stroke: "#7a5c3e", strokeWidth: 1.5 }),
+      /*#__PURE__*/React.createElement("line", { x1: 482, y1: 282, x2: 592, y2: 282, stroke: "#8b6f47", strokeWidth: 1, opacity: 0.6 }),
+      /*#__PURE__*/React.createElement("rect", { x: 495, y: 298, width: 85, height: 52, fill: "#fff", stroke: "#7a5c3e", strokeWidth: 1 }),
+      /*#__PURE__*/React.createElement("text", { x: 502, y: 311, fontFamily: "var(--sans)", fontSize: 8, fontWeight: 800, fill: "#0e0a1f" }, "Maya Chen"),
+      /*#__PURE__*/React.createElement("text", { x: 502, y: 326, fontFamily: "var(--sans)", fontSize: 8, fill: "#3a3550" }, "142 Oak St"),
+      /*#__PURE__*/React.createElement("text", { x: 502, y: 339, fontFamily: "var(--sans)", fontSize: 8, fill: "#3a3550" }, "Springfield, OH 45504"),
+      /*#__PURE__*/React.createElement("rect", { x: 322, y: 308, width: 56, height: 78, rx: 4, fill: "#f59e0b", stroke: "#92400e", strokeWidth: 1.5 }),
+      /*#__PURE__*/React.createElement("rect", { x: 327, y: 301, width: 46, height: 10, rx: 2, fill: "#7c2d12" }),
+      /*#__PURE__*/React.createElement("rect", { x: 322, y: 326, width: 56, height: 44, fill: "#fff", stroke: "#92400e", strokeWidth: 1 }),
+      /*#__PURE__*/React.createElement("text", { x: 350, y: 344, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, fill: "#7c2d12", textAnchor: "middle" }, "Rx"),
+      /*#__PURE__*/React.createElement("text", { x: 350, y: 358, fontFamily: "var(--sans)", fontSize: 7, fontWeight: 700, fill: "#7c2d12", textAnchor: "middle" }, "ADDERALL"),
+      /*#__PURE__*/React.createElement("text", { x: 350, y: 367, fontFamily: "var(--sans)", fontSize: 6, fill: "#7c2d12", textAnchor: "middle" }, "20mg"),
+      /*#__PURE__*/React.createElement("g", { transform: "rotate(-2 305 185)" },
+        /*#__PURE__*/React.createElement("rect", { x: 170, y: 70, width: 270, height: 230, fill: "#fff", stroke: "#bca78a", strokeWidth: 1.5 }),
+        /*#__PURE__*/React.createElement("text", { x: 305, y: 98, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 800, fill: "#0e0a1f", textAnchor: "middle", letterSpacing: "1" }, "LINCOLN HIGH SCHOOL"),
+        /*#__PURE__*/React.createElement("text", { x: 305, y: 115, fontFamily: "var(--sans)", fontSize: 10, fontWeight: 600, fill: "#3a3550", textAnchor: "middle" }, "Mr. Davis \u00B7 Algebra II \u00B7 Period 3"),
+        /*#__PURE__*/React.createElement("line", { x1: 180, y1: 128, x2: 430, y2: 128, stroke: "#e7e3f2", strokeWidth: 1 }),
+        /*#__PURE__*/React.createElement("text", { x: 180, y: 153, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 600, fill: "#6e6986" }, "Name:"),
+        /*#__PURE__*/React.createElement("text", { x: 224, y: 155, fontFamily: "'Source Serif 4', serif", fontStyle: "italic", fontSize: 15, fontWeight: 700, fill: "#0e0a1f" }, "Maya Chen"),
+        /*#__PURE__*/React.createElement("text", { x: 180, y: 188, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, fill: "#0e0a1f" }, "1)  3x + 5 = 17"),
+        /*#__PURE__*/React.createElement("text", { x: 180, y: 218, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, fill: "#0e0a1f" }, "2)  4(x \u2212 2) = 20"),
+        /*#__PURE__*/React.createElement("text", { x: 180, y: 248, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, fill: "#0e0a1f" }, "3)  Slope of (2,3), (5,9)"),
+        /*#__PURE__*/React.createElement("text", { x: 200, y: 278, fontFamily: "'Source Serif 4', serif", fontStyle: "italic", fontSize: 12, fill: "#3a3550" }, "x = 4")
+      ),
+      PHOTO_ITEMS.slice(0, pinCount).map(function(item, i) {
+        return /*#__PURE__*/React.createElement("g", { key: "pin" + i, style: { animation: i === pinCount - 1 ? "fadeIn 0.3s ease" : "none" } },
+          /*#__PURE__*/React.createElement("circle", { cx: item.pinX, cy: item.pinY, r: 17, fill: "#fff", stroke: item.color, strokeWidth: 3 }),
+          /*#__PURE__*/React.createElement("text", { x: item.pinX, y: item.pinY + 5, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, fill: item.color, textAnchor: "middle" }, String(i + 1)));
+      })
+    );
+  }
+
+  function renderPhotoLadder(count, animateLatest) {
+    return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+      PHOTO_ITEMS.slice(0, count).map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === count - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--seeRule)", animation: animateLatest && i === count - 1 ? "fadeIn 0.3s ease" : "none" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { background: item.color, color: "#fff", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, flexShrink: 0 } }, String(i + 1)),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, item.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, item.note)));
+      })
+    );
+  }
+
   const PLATFORM_FACTS = [{
     platform: "ChatGPT (OpenAI)",
     icon: "\uD83D\uDFE2",
@@ -10316,6 +10393,42 @@ function PrivacySection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "privacy" }), /*#__PURE__*/React.createElement(BodyP, null, "Treat AI like a group chat with a company, not a diary. You may be the only person on the screen, but the conversation isn\u2019t only yours. Depending on the tool and the settings, what you type can be stored, linked to your account, reviewed for safety, and kept in logs longer than you\u2019d expect. That doesn\u2019t mean panic. It means awareness."),
   /*#__PURE__*/React.createElement(BodyP, null, "And it isn\u2019t just text you send. Modern AI is ", /*#__PURE__*/React.createElement("strong", null, "multimodal"), " \u2014 it can read images, screenshots, PDFs, audio clips, and video. The word means \u201Cmore than one mode of input.\u201D A screenshot is still a prompt. So is a photo, a PDF, or a voice recording. It just looks different. Same context window, same storage rules, same questions about what should and shouldn\u2019t be in there."),
+  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Picture this. You snap a quick photo of your math homework so AI can help you with one of the problems. You meant to share the math. Watch what else came along for the ride."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "The Whole Photo",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(photoRevealed, PHOTO_ITEMS.length)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + PHOTO_ITEMS.length))
+  },
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "sand",
+      items: PHOTO_ITEMS,
+      currentIdx: photoRevealed > 0 ? photoRevealed - 1 : 0,
+      started: photoRevealed > 0,
+      onStart: function() { setPhotoRevealed(1); },
+      onNext: function() { setPhotoRevealed(function(c) { return c + 1; }); },
+      canAdvance: true,
+      isComplete: photoRevealed >= PHOTO_ITEMS.length,
+      startLabel: "Show me what AI sees \u2192",
+      nextLabel: "Reveal next \u2193",
+      finishLabel: "See the full inventory \u2193",
+      completionElement: /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: 18 } },
+          renderPhoto(PHOTO_ITEMS.length),
+          /*#__PURE__*/React.createElement("div", { style: { height: 1, background: "var(--seeRule)", margin: "18px 0" } }),
+          renderPhotoLadder(PHOTO_ITEMS.length, false)),
+        /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 14 } }, "What you actually shared"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "You meant to share the math. You also shared six other things you didn\u2019t think about. The photo was the prompt. Everything in it came with.")))
+    },
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        renderPhoto(photoRevealed),
+        photoRevealed > 0 ? /*#__PURE__*/React.createElement("div", { style: { height: 1, background: "var(--seeRule)", margin: "18px 0" } }) : null,
+        photoRevealed > 0 ? renderPhotoLadder(photoRevealed, true) : null))),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "WHAT HAPPENS TO YOUR DATA",
     marginBottom: 24

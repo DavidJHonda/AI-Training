@@ -998,6 +998,7 @@ function AIHistorySection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is a branch of computer science that develops systems capable of performing tasks typically requiring human intelligence, such as learning, reasoning, problem-solving, perception, and understanding language."),
+    /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Perception"), " there means AI taking in the world: reading images, hearing audio, watching video. Most of this class is about text, but modern AI does all of it."),
     /*#__PURE__*/React.createElement(BodyP, null, "Every time AI writes a sentence, it\u2019s running math to predict the most likely answer. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
     /*#__PURE__*/React.createElement(BodyP, null, "The subtitle of this class names the lens: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI systems find repeated signals in data, estimate what is most likely, and use those estimates to choose or generate an output. You\u2019ll see this same lens show up in every lesson."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
@@ -3669,6 +3670,8 @@ function TrainingBiasSection(props) {
 }
 function TrainingSection(props) {
   const [stepsRevealed, setStepsRevealed] = useState(0);
+  const [catsDogsStage, setCatsDogsStage] = useState(0);
+  const [startedCatsDogs, setStartedCatsDogs] = useState(false);
   var seeItQuestion = "How do I shoot a basketball?";
   var seeItStages = [
     { label: "Stage 1: System setup", response: "System initialized. Vocabulary: 50,000 tokens. Architecture: transformer with 96 layers. Ready to begin training.", note: "Before any learning happens, engineers configure the architecture, tokenizer, and vocabulary.", color: "var(--inkMuted)" },
@@ -3730,6 +3733,62 @@ function TrainingSection(props) {
       "Think about learning to drive. You do not start by jumping onto the highway alone. First, you study the rules, watch other drivers, practice in controlled situations, make mistakes, and get corrected by an instructor. All of that happens before you drive on your own."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Training works the same way for LLMs. Before you ever open ChatGPT or Claude, the model has already gone through a massive training process. It studies huge amounts of data, practices predicting what comes next, and adjusts its internal numbers over and over again based on whether its prediction was right or wrong."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
+      "Before we look at how LLMs train, here is the simplest version of the same idea. Two features, ten examples, one line."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "Watch a model learn",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(catsDogsStage, 3)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 3"))
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "sand",
+        items: ["examples", "pattern", "classify"],
+        currentIdx: catsDogsStage > 0 ? catsDogsStage - 1 : 0,
+        started: startedCatsDogs,
+        onStart: function() { setStartedCatsDogs(true); setCatsDogsStage(1); },
+        onNext: function() { setCatsDogsStage(function(s) { return s + 1; }); },
+        canAdvance: catsDogsStage < 3,
+        isComplete: false,
+        startLabel: "Show the examples",
+        nextLabel: catsDogsStage === 1 ? "Find the pattern \u2192" : "Classify a new pet \u2192",
+        finishLabel: "Done"
+      },
+        catsDogsStage > 0 ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, catsDogsStage === 1 ? "01" : catsDogsStage === 2 ? "02" : "03"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 4 } }, catsDogsStage === 1 ? "The examples" : catsDogsStage === 2 ? "The pattern" : "Classify a new pet"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } },
+                catsDogsStage === 1 ? "Show the model 10 labeled examples. Cats tend to be lighter and fluffier. Dogs tend to be heavier and less fluffy." :
+                catsDogsStage === 2 ? "It drew the line that best separates cats from dogs. No one wrote that rule. The model figured it out from the examples." :
+                "It has never seen this one before. But it sees where the pet falls relative to the line, and predicts: cat. That is what training is for. The model learns from examples so it can make good predictions on examples it has never seen."))),
+          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
+            /*#__PURE__*/React.createElement("svg", {
+              viewBox: "0 0 400 300",
+              style: { width: "100%", height: "auto", display: "block", maxWidth: 500, margin: "0 auto" }
+            },
+              /*#__PURE__*/React.createElement("line", { x1: 40, y1: 260, x2: 380, y2: 260, stroke: "#b3aec8", strokeWidth: 1.5 }),
+              /*#__PURE__*/React.createElement("line", { x1: 40, y1: 20, x2: 40, y2: 260, stroke: "#b3aec8", strokeWidth: 1.5 }),
+              /*#__PURE__*/React.createElement("text", { x: 210, y: 285, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle" }, "Weight"),
+              /*#__PURE__*/React.createElement("text", { x: 15, y: 140, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle", transform: "rotate(-90 15 140)" }, "Fluffiness"),
+              [[90, 60], [115, 90], [140, 50], [100, 120], [170, 80]].map(function(p, i) {
+                return /*#__PURE__*/React.createElement("text", { key: "cat" + i, x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC31");
+              }),
+              [[255, 205], [295, 230], [320, 180], [265, 245], [340, 215]].map(function(p, i) {
+                return /*#__PURE__*/React.createElement("text", { key: "dog" + i, x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC36");
+              }),
+              catsDogsStage >= 2 ? /*#__PURE__*/React.createElement("line", { x1: 380, y1: 70, x2: 60, y2: 245, stroke: "var(--primary)", strokeWidth: 2.5, strokeLinecap: "round", style: { opacity: 1, transition: "opacity 0.2s ease" } }) : null,
+              catsDogsStage >= 3 ? /*#__PURE__*/React.createElement("g", { style: { opacity: 1, transition: "opacity 0.2s ease" } },
+                /*#__PURE__*/React.createElement("text", { x: 125, y: 100, fontSize: 22, textAnchor: "middle" }, "\u2753"),
+                /*#__PURE__*/React.createElement("text", { x: 125, y: 122, fontSize: 11, fill: "var(--inkMuted)", textAnchor: "middle" }, "New pet")) : null))
+        ) : null)),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That is the simplest version of training. Two features, ten examples, one line. LLMs do this same kind of thing at a much bigger scale. Thousands of dimensions instead of two. Billions of weights instead of one line. Trillions of examples instead of ten. Same principle: learn from examples, predict from patterns."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "HUMAN TRAINING"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Humans show it examples of better answers, rank its responses, and teach it to behave more like a useful chatbot instead of a raw text predictor."),
@@ -3868,7 +3927,7 @@ function OpenerInsideSection(props) {
       "You\u2019ve learned the foundation: AI isn\u2019t magic, a person, a search engine, or normal software. It learns patterns from data, then uses those patterns to generate new output.",
       "At Tesla, that means orientation is over. You know the vehicle is different. Now it\u2019s time to open the hood.",
       "From the outside, an electric car just accelerates. Inside, that behavior depends on the battery, motors, sensors, wiring, and software.",
-      "AI works the same way. The answer you see on screen comes from pieces inside the model: tokens, embeddings, learned numbers, architecture, and training."
+      "AI works the same way. The answer you see on screen comes from pieces inside the model: tokens, embeddings, learned numbers, architecture, and training. The whole assembly is called a neural network, because the structure was originally inspired by the way brain cells connect. The name stuck, but the system is math, not biology."
     ],
     whatYoullLearnIntro: [
       "This section is about those pieces. Each lesson answers a question."
@@ -5892,6 +5951,59 @@ function InferenceSection(props) {
       color: "var(--inkMuted)"
     }
   }, "Happens every chat")))),
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
+    kicker: "ONE NAME FOR THE WHOLE THING",
+    headline: "What you just walked through has a name.",
+    marginBottom: 28
+  },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "stretch", maxWidth: 420, margin: "8px auto 4px auto" } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)" } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "\uD83D\uDCAC"),
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "Your prompt")),
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "\u2193"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)" } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "\uD83E\uDDE9"),
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "Tokens")),
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "\u2193"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)" } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "\uD83D\uDCD0"),
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "Embeddings")),
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "\u2193"),
+      /*#__PURE__*/React.createElement("div", {
+        style: {
+          position: "relative",
+          background: "var(--primaryFaint)",
+          borderRadius: 12,
+          padding: "16px 18px",
+          border: "1px solid var(--rule)",
+          boxShadow: "0 4px 0 -1px var(--primaryFaint), 0 4px 0 0 var(--rule), 0 8px 0 -1px var(--primaryFaint), 0 8px 0 0 var(--rule)",
+          marginBottom: 12
+        }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12 } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "\uD83E\uDD5E"),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "Attention + transform"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginTop: 2 } }, "Which words matter, what they mean together")),
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, flexShrink: 0 } }, "\u00D7100"))),
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "\u2193"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)" } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "\uD83C\uDFAF"),
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "Probability for every possible next token")),
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "\u2193"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)" } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "\u2728"),
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "Next word"))),
+    /*#__PURE__*/React.createElement(BodyP, { style: { margin: "20px 0 0 0" } },
+      "This stacked structure is called a ",
+      /*#__PURE__*/React.createElement("strong", null, "neural network"),
+      ". The name comes from the 1940s, when scientists modeled the math after how brain cells connect. The name stuck, but the system is math, not biology."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Inside those ~100 layers are billions of learned numbers called ",
+      /*#__PURE__*/React.createElement("strong", null, "weights"),
+      ". Training is what adjusts them. Once training is done, the weights are frozen, which is why the model doesn\u2019t learn from your conversations. When people say a model is \u201C70 billion parameters\u201D or \u201Copen weights,\u201D the weights are what they mean."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 0 } },
+      "Every piece you\u2019ve learned across this section and the last one (tokens, embeddings, layers, attention, transform, probability) fits inside this one structure.")),
   /*#__PURE__*/React.createElement(LessonSubhead, null, "The Scale of What\u2019s Happening"),
   /*#__PURE__*/React.createElement(BodyP, null, "Watch what happens behind the scenes when you ask a simple question."),
   /*#__PURE__*/React.createElement(InteractiveBox, {

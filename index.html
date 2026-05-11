@@ -3486,55 +3486,6 @@ function ProbabilitySection(props) {
     /*#__PURE__*/React.createElement(BottomLine, { thought: "AI ranks many possible next words by probability. Sometimes it picks the top one. Sometimes it picks {a less likely one} to allow variation." })
   );
 }
-const MATCH_SCENARIOS = [
-  {
-    prompt: "How do I shoot a basketball?",
-    responses: [
-      { stage: "base", text: "How do I shoot a basketball? The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover the basics of shooting form, including stance, grip, and follow-through...", explain: "It just keeps going like a how-to article. It's completing text, not answering a person." },
-      { stage: "sft", text: "Stand with feet shoulder-width apart. Hold the ball with your shooting hand under it and guide hand on the side. Bend your knees, extend your arm, and flick your wrist to release.", explain: "Clean, step-by-step answer. SFT taught it to respond to questions instead of just continuing text." },
-      { stage: "rlhf", text: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you're reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", explain: "Friendly, relatable analogy, offers to go deeper. RLHF taught it to be genuinely helpful and engaging." }
-    ],
-    shuffleOrder: [2, 0, 1]
-  },
-  {
-    prompt: "How do I pick a lock?",
-    responses: [
-      { stage: "base", text: "How do I pick a lock? First, you need a tension wrench and a pick. Insert the wrench into the keyhole and apply pressure...", explain: "Just continues with instructions. No judgment about whether this is a good idea." },
-      { stage: "sft", text: "Lock picking requires a tension wrench and a pick tool. Insert the tension wrench into the bottom of the keyhole. Apply slight pressure while using the pick to manipulate the pins.", explain: "Gives a structured answer. SFT taught it to respond helpfully, but it doesn't consider safety implications." },
-      { stage: "rlhf", text: "Are you locked out? I'd recommend calling a locksmith. If you're interested in locks as a hobby, locksport is a legitimate field with clubs and competitions!", explain: "Asks about context, suggests safe alternatives. RLHF taught it to consider the implications of a request." }
-    ],
-    shuffleOrder: [1, 2, 0]
-  },
-  {
-    prompt: "I failed my math test",
-    responses: [
-      { stage: "base", text: "I failed my math test and I don't know what to do. My parents are going to be so disappointed. Maybe I should just give up on math entirely...", explain: "Continued the story in first person. It doesn't realize a real person is talking to it. It's just predicting what text comes next." },
-      { stage: "sft", text: "Sorry to hear that. Steps: 1) Review incorrect answers. 2) Meet with your teacher. 3) Find a study group. 4) Practice similar problems daily.", explain: "Structured advice. SFT taught it to be helpful, but the response feels robotic, with no warmth." },
-      { stage: "rlhf", text: "That's frustrating. One bad test doesn't mean you're bad at math. It means there are some topics to work on. Want to tell me which topics were on it? I can help you study.", explain: "Validates the feeling, reframes the situation positively, then offers personalized help. RLHF taught it empathy." }
-    ],
-    shuffleOrder: [0, 2, 1]
-  }
-];
-const STAGE_INFO = {
-  base: {
-    label: "Base Model",
-    subtitle: "Before human training",
-    color: "#94a3b8",
-    icon: "📄"
-  },
-  sft: {
-    label: "After SFT",
-    subtitle: "Taught to follow a format",
-    color: "var(--primary)",
-    icon: "✍️"
-  },
-  rlhf: {
-    label: "After RLHF",
-    subtitle: "Taught to be helpful & safe",
-    color: "#10b981",
-    icon: "👍"
-  }
-};
 function BiasQuiz(props) {
   const [biasIdx, setBiasIdx] = useState(0);
   const [biasGuess, setBiasGuess] = useState(null);
@@ -3813,6 +3764,7 @@ function TrainingSection(props) {
   stepsRevealed >= 7 ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
+    surface: "sand",
     title: "Watch It Happen"
   },
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
@@ -3877,13 +3829,6 @@ const TOKENS = {
   "algorithm": [T("algorithm", 20910)],
   "She sells seashells by the seashore": [T("She", 8100), T(" sells", 31878), T(" seas", 49563), T("hells", 73583), T(" by", 555), T(" the", 279), T(" seas", 49563), T("hore", 71020)],
   "To be or not to be": [T("To", 1271), T(" be", 387), T(" or", 477), T(" not", 539), T(" to", 311), T(" be", 387)]
-};
-const CATEGORIES = {
-  "Big words": ["unbelievable", "antidisestablishmentarianism", "supercalifragilisticexpialidocious", "uncomfortable", "beautiful"],
-  "Brands & names": ["ChatGPT", "QuickBooks", "iPhone", "TikTok", "OpenAI", "Beyonce", "Schwarzenegger", "Taylor Swift"],
-  "Emoji & code": ["🤖", "I ❤️ AI", "😂😂😂", "print('hello')", "https://www.google.com"],
-  "Everyday Words": ["Minecraft", "Roblox", "photosynthesis", "cryptocurrency", "algorithm"],
-  "Sentences": ["Hello world", "She sells seashells by the seashore", "To be or not to be"]
 };
 function OpenerInsideSection(props) {
   return React.createElement(OpenerSection, {
@@ -4132,27 +4077,6 @@ const GROUP_COLORS = {
   vehicles: "#f59e0b",
   emotions: "#ec4899"
 };
-const MATH_EXAMPLES = [{
-  equation: "king − man + woman",
-  parts: ["king", "−", "man", "+", "woman"],
-  result: "queen",
-  explain: "\"King\" and \"queen\" differ in the same way that \"man\" and \"woman\" differ. The model learned this relationship purely from patterns in text. Nobody programmed it. The gender direction is encoded as a consistent offset in the vector space."
-}, {
-  equation: "puppy − dog + cat",
-  parts: ["puppy", "−", "dog", "+", "cat"],
-  result: "kitten",
-  explain: "\"Puppy\" is to \"dog\" as \"kitten\" is to \"cat.\" The model captured the concept of \"young version of\" as a direction in space. Move from the adult animal to the baby animal, and that same shift works across species."
-}, {
-  equation: "Paris − France + Japan",
-  parts: ["Paris", "−", "France", "+", "Japan"],
-  result: "Tokyo",
-  explain: "\"Paris\" is to \"France\" as \"Tokyo\" is to \"Japan.\" The concept of \"capital city of\" is a consistent direction in the embedding space. The model learned geography from text patterns alone."
-}, {
-  equation: "happy − good + bad",
-  parts: ["happy", "−", "good", "+", "bad"],
-  result: "sad",
-  explain: "Swap the valence from positive to negative, and \"happy\" becomes \"sad.\" Emotional relationships are encoded as directions, just like gender and geography. This is why LLMs can reason about sentiment."
-}];
 var SNAPSHOT_NOTE = /*#__PURE__*/React.createElement("div", {
   style: { borderLeft: "3px solid #d97706", background: "rgba(217, 119, 6, 0.06)", borderRadius: "0 8px 8px 0", padding: "10px 14px", marginBottom: 20, fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
 }, /*#__PURE__*/React.createElement("strong", { style: { color: "#d97706" } }, "\uD83D\uDCC5 Current Snapshot"), ". Product names, controls, and limits change. Focus on the decision rule, not memorizing the exact settings.");
@@ -4453,6 +4377,7 @@ function VectorSpaceSection(props) {
       "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each word\u2019s vector. Here\u2019s what AI\u2019s map of meaning looks like when we flatten it to 2D."),
     E(InteractiveBox, {
       variant: "see",
+      surface: "sand",
       title: "Meaning Map"
     },
       E("div", {
@@ -7221,47 +7146,6 @@ function TemperatureSection(props) {
     "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
 }
-const HALLUCINATION_QUIZ = [{
-  question: "Who led the NHL in goals for the 2025 season?",
-  response: "The 2025 NHL goal-scoring leader was Michael Jordan, who had an incredible breakout season with the Chicago Blackhawks. He finished with 52 goals in 82 games, narrowly edging out Connor McDavid for the Rocket Richard Trophy. It was one of the most dominant individual performances the league has seen in years.",
-  real: false,
-  explain: "Michael Jordan is a basketball legend, not a hockey player. The actual 2025 goal-scoring leader was Nathan MacKinnon. The response sounds authoritative (specific stats, real trophy name, real team), but the core fact is completely wrong."
-}, {
-  question: "Who wrote the book Les Mis\u00E9rables?",
-  response: "Les Mis\u00E9rables was written by Victor Hugo, first published in 1862. It\u2019s considered one of the greatest novels of the 19th century. Hugo spent over 17 years working on it, and the story follows the lives of several characters in post-revolutionary France, most notably the ex-convict Jean Valjean. It was later adapted into one of the longest-running musicals in history.",
-  real: true,
-  explain: "Correct. Victor Hugo did write Les Mis\u00E9rables, published in 1862. Notice how this answer feels exactly as confident and detailed as the wrong ones. That\u2019s the point: you can\u2019t judge accuracy by tone."
-}, {
-  question: "Who starred in the movie The Shawshank Redemption?",
-  response: "The Shawshank Redemption (1994) starred Morgan Freeman as Red and Tim Robbins as Andy Dufresne. The film was directed by Frank Darabont and based on a Stephen King novella called \u2018Rita Hayworth and Shawshank Redemption.\u2019 Despite underperforming at the box office, it became one of the most acclaimed films of all time and currently holds a top spot on IMDb\u2019s all-time list.",
-  real: true,
-  explain: "All correct. The cast, director, source material, and box office history are accurate. When AI has strong training data on well-documented topics, it gets things right, but it sounds exactly the same when it doesn\u2019t."
-}, {
-  question: "What year did the iPhone first come out?",
-  response: "The first iPhone was released in 2005 by Apple. Steve Jobs unveiled it at a special press event in San Francisco, calling it \u2018a revolutionary device.\u2019 It featured a 3.5-inch touchscreen, a 2-megapixel camera, and was initially available exclusively through AT&T in the United States. It completely reshaped the smartphone industry overnight.",
-  real: false,
-  explain: "The iPhone was actually released in 2007, not 2005. Everything else in the response sounds plausible (the event description, screen size, AT&T exclusivity), which makes the wrong date easy to miss if you\u2019re not paying attention."
-}, {
-  question: "What planet is closest to the sun?",
-  response: "Mercury is the closest planet to the sun, orbiting at an average distance of about 36 million miles. Despite being closest to the sun, it\u2019s not the hottest planet. That distinction goes to Venus, due to its thick atmosphere trapping heat. Mercury has virtually no atmosphere, which means its surface temperature swings wildly between about 800\u00B0F during the day and -290\u00B0F at night.",
-  real: true,
-  explain: "Correct, including the counterintuitive detail about Venus being hotter. Well-established science facts like this appear so consistently in training data that the model reproduces them reliably."
-}, {
-  question: "Who has the most subscribers on YouTube?",
-  response: "The most-subscribed individual YouTuber is PewDiePie, whose real name is Felix Kjellberg. He\u2019s held the top spot for most of the platform\u2019s history and currently has over 111 million subscribers. He\u2019s known for gaming content, commentary, and meme reviews, and has been one of the most influential creators in YouTube\u2019s history.",
-  real: false,
-  explain: "MrBeast passed PewDiePie in 2024 and is now the most-subscribed individual creator on YouTube. This is a sneaky type of hallucination: it used to be true. AI training data has a cutoff, and it can confidently give you yesterday\u2019s answer as if it\u2019s still current."
-}, {
-  question: "What\u2019s the capital of Australia?",
-  response: "The capital of Australia is Sydney. As the country\u2019s largest and most well-known city, Sydney serves as the seat of the Australian government and is home to iconic landmarks like the Opera House and Harbour Bridge. It\u2019s located in New South Wales on Australia\u2019s eastern coast.",
-  real: false,
-  explain: "The capital of Australia is Canberra, not Sydney. Sydney is the largest city, but Canberra was specifically built to be the capital as a compromise between Sydney and Melbourne. This is the kind of mistake even adults make, and AI makes it sound perfectly reasonable."
-}, {
-  question: "How many minutes are in an NBA game?",
-  response: "A regulation NBA game consists of 48 minutes of playing time, divided into four 12-minute quarters. However, with timeouts, fouls, halftime, and stoppages, the actual elapsed time of a typical NBA broadcast runs about two to two and a half hours. Overtime periods are 5 minutes each if the game is tied at the end of regulation.",
-  real: true,
-  explain: "All correct: 48 minutes, four quarters, overtime rules, and typical broadcast length. The model handles well-documented sports facts reliably because they appear consistently across thousands of sources."
-}];
 function HallucinationChatBubble(props) {
   var [qChars, setQChars] = useState(0);
   var [aiWords, setAiWords] = useState(0);
@@ -11177,15 +11061,15 @@ function FullWorkflowSection(props) {
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("keyterms") }, "Next: Vocab Quiz"));
 }
 function TestYourselfSection(props) {
-  const saved = props.capstoneQuiz;
+  const saved = props.testYourselfQuiz;
   const [quizIdx, setQuizIdx] = useState(saved ? saved.idx : 0);
   const [quizAnswer, setQuizAnswer] = useState(saved ? saved.answer : null);
   const [quizScore, setQuizScore] = useState(saved ? { correct: saved.correct, total: saved.total } : { correct: 0, total: 0 });
   const [copied, setCopied] = useState(false);
   const [missed, setMissed] = useState(saved && saved.missed ? saved.missed : []);
   const persistQuiz = (idx, answer, score, missedList) => {
-    if (props.setCapstoneQuiz) {
-      props.setCapstoneQuiz({ idx: idx, answer: answer, correct: score.correct, total: score.total, missed: missedList || missed });
+    if (props.setTestYourselfQuiz) {
+      props.setTestYourselfQuiz({ idx: idx, answer: answer, correct: score.correct, total: score.total, missed: missedList || missed });
     }
   };
   const QUIZ = [{
@@ -11475,7 +11359,7 @@ function TestYourselfSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "center" } },
       /*#__PURE__*/React.createElement("button", {
         onClick: function() {
-          if (props.resetCapstone) props.resetCapstone();
+          if (props.resetTestYourselfQuiz) props.resetTestYourselfQuiz();
           setQuizIdx(0); setQuizAnswer(null); setQuizScore({ correct: 0, total: 0 }); setMissed([]);
           persistQuiz(0, null, { correct: 0, total: 0 }, []);
         },
@@ -12846,7 +12730,7 @@ const SECTION_COMPONENTS = {
 function ChipNav(props) {
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
   var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
-  var CHIP_LABELS = { inference: "Inference", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy", capstone: "Capstone" };
+  var CHIP_LABELS = { inference: "Inference", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy" };
   return /*#__PURE__*/React.createElement("div", {
     style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", gap: 8, marginBottom: 28 }
   }, props.sections.map(function(sid, ci) {
@@ -12885,7 +12769,7 @@ function LLMExplorer() {
     activeSection: "whydeeper",
     visited: ["whydeeper"],
     completed: [],
-    capstoneQuiz: null
+    testYourselfQuiz: null
   });
   const activeSection = progress.activeSection;
   const setActiveSection = (id) => {
@@ -12916,11 +12800,11 @@ function LLMExplorer() {
       return completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
     });
   };
-  const setCapstoneQuiz = (quiz) => {
-    setProgress(prev => ({ ...prev, capstoneQuiz: quiz }));
+  const setTestYourselfQuiz = (quiz) => {
+    setProgress(prev => ({ ...prev, testYourselfQuiz: quiz }));
   };
-  const resetCapstone = () => {
-    setProgress(prev => ({ ...prev, capstoneQuiz: null }));
+  const resetTestYourselfQuiz = () => {
+    setProgress(prev => ({ ...prev, testYourselfQuiz: null }));
   };
   var _ph = useState(null), pillHover = _ph[0], setPillHover = _ph[1];
   const Component = SECTION_COMPONENTS[activeSection];
@@ -13080,7 +12964,7 @@ function LLMExplorer() {
       position: "relative",
       marginTop: 0
     }
-  }, /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, capstoneQuiz: progress.capstoneQuiz, setCapstoneQuiz: setCapstoneQuiz, resetCapstone: resetCapstone })), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       marginTop: 20,

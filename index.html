@@ -792,7 +792,7 @@ function RevealSequence(props) {
 }
 const SECTION_GROUPS = [{
   label: "Intro",
-  sections: ["whydeeper", "humanjob", "intro"]
+  sections: ["welcome", "whydeeper", "humanjob", "intro"]
 }, {
   label: "Foundations",
   sections: ["openerfoundations", "aihistory", "howwegothere", "aivscode", "blackbox", "generative", "data"]
@@ -822,6 +822,7 @@ const SECTION_GROUPS = [{
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
 }];
 const SECTION_META = {
+  welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
   whydeeper: { kicker: "THE EDGE", label: "Why Learn AI?", icon: "\uD83D\uDD27" },
   humanjob: { kicker: "WHERE YOUR EDGE MOVES", label: "The Human Part of the Job", icon: "\uD83D\uDCBC" },
   intro: { kicker: "WHAT YOU\u2019LL LEAVE WITH", label: "What You\u2019ll Build", icon: "\uD83D\uDCDA" },
@@ -1794,6 +1795,139 @@ function AIStrengthsSection(props) {
         /*#__PURE__*/React.createElement(BottomLine, { thought: "Use AI where {speed matters more than judgment}." })))),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("critical"); }, label: "Next: Critical Thinking & AI" }));
 }
+function WelcomeSection(props) {
+  var E = React.createElement;
+  const [answers, setAnswers] = useState({});
+  const QUESTIONS = [
+    "Do you know how AI writes a sentence like a person would?",
+    "Do you know how ChatGPT, Claude, and Gemini seem to know something about everything?",
+    "Do you know why every AI tells you to double-check its answer?",
+    "Do you know why asking AI the same thing twice gets you two different answers?",
+    "Do you know why AI changes its answer when you push back, even when it was right?",
+    "Do you know why even the people who built AI can't explain how it got its answer?"
+  ];
+  const PATTERNS = [
+    {
+      eyebrow: "\u270E TRY IT",
+      title: "You'll do something",
+      body: "Activities where you click, sort, pick, or answer. You just did one. That counts.",
+      bg: "#eef4eb",
+      accent: "#2f7d4f"
+    },
+    {
+      eyebrow: "\u25C9 SEE IT",
+      title: "You'll watch something unfold",
+      body: "Step-by-step reveals that show how AI actually works under the hood. Less reading, more watching.",
+      bg: "var(--seeBand)",
+      accent: "var(--seeAccent)"
+    },
+    {
+      eyebrow: "\uD83D\uDD11 KEY INSIGHT",
+      title: "The principle to remember",
+      body: "When you see this, slow down. It's the idea the lesson is built around.",
+      bg: "var(--info-bg)",
+      accent: "var(--info)"
+    }
+  ];
+  const answeredCount = Object.keys(answers).length;
+  const allAnswered = answeredCount >= QUESTIONS.length;
+  function setAnswer(i, val) {
+    setAnswers(function(prev) { var next = Object.assign({}, prev); next[i] = val; return next; });
+  }
+  function YesNoButton(value, current, onClick) {
+    var isSelected = current === value;
+    var hasAnswer = current !== undefined;
+    var isDimmed = hasAnswer && !isSelected;
+    return E("button", {
+      key: value,
+      onClick: onClick,
+      style: {
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        padding: "11px 28px", borderRadius: 999, minWidth: 96,
+        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+        fontSize: 14, fontWeight: 700,
+        background: isSelected ? "#2f7d4f" : "#fff",
+        border: isSelected ? "1.5px solid #2f7d4f" : "1.5px solid var(--rule)",
+        color: isSelected ? "#fff" : isDimmed ? "var(--inkFaint)" : "#0e0a1f",
+        cursor: "pointer",
+        transition: "all 0.15s"
+      }
+    }, value === "yes" ? "Yes" : "No");
+  }
+  return E("div", null,
+    E(LessonHeader, { sectionId: "welcome" }),
+    E(BodyP, null,
+      "Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not viral prompt hacks. The real machinery."),
+    E(BodyP, null,
+      "This isn't a slide deck. You'll click, sort, try, and answer your way through. You'll see how AI does what it does. And you'll walk out with the one thing nobody can sell you on TikTok: judgment."),
+    E(BodyP, null,
+      "To start, six honest questions. Yes or no. No score. No wrong answer."),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Do you know how AI does this?",
+      action: E("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, answeredCount),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + QUESTIONS.length))
+    },
+      E("div", null,
+        QUESTIONS.map(function(q, i) {
+          var current = answers[i];
+          var hasAnswer = current !== undefined;
+          var isFirst = i === 0;
+          return E("div", {
+            key: i,
+            style: {
+              padding: isFirst ? "0 4px 24px" : "24px 4px",
+              borderTop: isFirst ? "none" : "1px solid rgba(63, 107, 63, 0.18)"
+            }
+          },
+            E("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 16 } },
+              E("div", {
+                style: { fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "#2f7d4f", opacity: hasAnswer ? 1 : 0.6, flexShrink: 0 }
+              }, String(i + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1 } },
+                E("div", {
+                  style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, fontWeight: 600, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }
+                }, q))),
+            E("div", { style: { paddingLeft: 66 } },
+              E("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" } },
+                YesNoButton("yes", current, function() { setAnswer(i, "yes"); }),
+                YesNoButton("no", current, function() { setAnswer(i, "no"); })))
+          );
+        }),
+        allAnswered ? E("div", {
+          style: { padding: "20px 0", textAlign: "center", animation: "fadeIn 0.4s ease" }
+        },
+          E("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83C\uDFAF"),
+          E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Six honest answers."),
+          E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "By the end of this class, you'll know all of these. And a lot more.")) : null)),
+    E(SectionKicker, null, "HOW LESSONS WORK"),
+    E(BodyP, null,
+      "Three patterns repeat throughout the course. Spotting them tells you what each moment is asking of you."),
+    E("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, marginBottom: 8 }
+    },
+      PATTERNS.map(function(p, i) {
+        return E("div", {
+          key: i,
+          style: { background: p.bg, borderRadius: 16, padding: 18, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" }
+        },
+          E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.accent, marginBottom: 8 } }, p.eyebrow),
+          E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
+          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
+      })),
+    E(BottomLine, { thought: "Don't be the user who types fast and {thinks slow}." }),
+    E(NextLessonGate, {
+      ready: allAnswered,
+      lockedMessage: "Answer all six to continue",
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whydeeper"); },
+      label: "Next: Why Learn AI?"
+    }));
+}
+
 function WhyDeeperSection(props) {
   var E = React.createElement;
   // pStyle replaced by BodyP component
@@ -1824,8 +1958,8 @@ function WhyDeeperSection(props) {
     ]
   }];
   var SHIFT_CARDS = [
-    { eyebrow: "Before AI", title: "Answers were expensive", body: "Finding information, drafting, summarizing, coding, and rewriting all took time. A lot of work was just getting to a usable first answer." },
-    { eyebrow: "With AI", title: "Answers are cheap", body: "First drafts, explanations, summaries, ideas, outlines, and code help can appear in seconds. That changes what counts as valuable." },
+    { eyebrow: "Before AI", title: "Answers were expensive", body: "Researching, drafting, summarizing, coding, rewriting. These took hours, sometimes days. Whole jobs existed just to do them." },
+    { eyebrow: "With AI", title: "Answers are cheap", body: "Same work, seconds. Producing the answer stopped being the work. That changes what counts as valuable." },
     { eyebrow: "The new edge", title: "Judgment gets valuable", body: "The advantage moves to people who can ask better questions, spot weak answers, verify what matters, and decide what should happen next." }
   ];
   var EDGE_CARDS = [
@@ -1837,9 +1971,17 @@ function WhyDeeperSection(props) {
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/E(BodyP, null,
+      "Pretend you were alive in 1500. You work for the king as his scribe. All day you hand-copy his proclamations and send them out across the kingdom. Good work. Steady job. Then one morning you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them."),
+    /*#__PURE__*/E(BodyP, null,
+      "Two choices. Pretend it isn\u2019t happening and end up out of work. Or learn the press."),
+    /*#__PURE__*/E(BodyP, null,
+      "You\u2019re the scribe. AI is the press."),
+    /*#__PURE__*/E(BodyP, null,
       "You are going to graduate into a world where AI can produce a first draft of almost anything: an essay outline, a business idea, a study guide, a legal-sounding explanation, a line of code, a fake citation, a real insight, or complete nonsense wearing a tiny business suit."),
     /*#__PURE__*/E(BodyP, null,
-      "That does not make thinking less important. It makes weak thinking easier to expose. ", /*#__PURE__*/E("strong", null, "When everyone has access to fast answers, the advantage moves to the people who know what to do with them.")),
+      "AI looks easy. You type a question, ChatGPT answers. So why study it?"),
+    /*#__PURE__*/E(BodyP, null,
+      "Because everyone else is typing the same question. ", /*#__PURE__*/E("strong", null, "The edge isn\u2019t in the asking. It\u2019s in knowing what to do with what comes back."), " That changes what\u2019s worth being good at."),
     /*#__PURE__*/E(ShowcaseBox, {
       kicker: "THE REAL SHIFT",
       headline: /*#__PURE__*/E("div", {
@@ -1847,7 +1989,6 @@ function WhyDeeperSection(props) {
       },
         "Answers got cheap. What you do with them got ",
         /*#__PURE__*/E("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, "valuable.")),
-      intro: "That is why this class is not about memorizing AI trivia. It is about understanding the tool well enough to direct it, question it, and stay in charge of your own thinking.",
       marginBottom: 28
     },
       /*#__PURE__*/E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 14 } },
@@ -1860,6 +2001,8 @@ function WhyDeeperSection(props) {
             /*#__PURE__*/E("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--ink)", marginBottom: 7, lineHeight: 1.25 } }, card.title),
             /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
         }))),
+    /*#__PURE__*/E(BodyP, null,
+      "That is why this class is not about memorizing AI trivia. It is about building the judgment to direct it, question it, and stay in charge of your own thinking."),
     /*#__PURE__*/E(ShowcaseBox, {
       kicker: "FOUR THINGS AI CAN'T DO"
     },
@@ -13293,6 +13436,7 @@ function BuildEdgeSection(props) {
     E(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }
 const SECTION_COMPONENTS = {
+  welcome: WelcomeSection,
   openerfoundations: OpenerFoundationsSection,
   aihistory: AIHistorySection,
   howwegothere: HowWeGotHereSection,
@@ -13441,7 +13585,7 @@ function LLMExplorer() {
   var _ph = useState(null), pillHover = _ph[0], setPillHover = _ph[1];
   useEffect(function() {
     if (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; })) {
-      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "whydeeper" }); });
+      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "welcome" }); });
     }
   }, [progress.activeSection]);
   const Component = SECTION_COMPONENTS[activeSection];
@@ -13452,7 +13596,7 @@ function LLMExplorer() {
       var n = nameInput.trim() || "Friend";
       try { localStorage.setItem("llm-user-name", n); } catch(ex) {}
       setHasName(true);
-      setProgress(prev => ({ ...prev, activeSection: "whydeeper", visited: (prev.visited || []).includes("whydeeper") ? prev.visited : [...(prev.visited || []), "whydeeper"] }));
+      setProgress(prev => ({ ...prev, activeSection: "welcome", visited: (prev.visited || []).includes("welcome") ? prev.visited : [...(prev.visited || []), "welcome"] }));
     };
     return /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--ink)", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 28 }

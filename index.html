@@ -420,23 +420,17 @@ function ActivityButton(props) {
 
 function FeedbackPill(props) {
   // state: "default" | "picked-correct" | "picked-wrong" | "answered-untouched"
+  // All states render as button so students can change their answer and see each option's feedback.
   var basePill = {
     display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
     padding: "11px 22px", borderRadius: 999, minWidth: 96,
     fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
-    fontSize: 14, fontWeight: 700
+    fontSize: 14, fontWeight: 700,
+    cursor: "pointer", transition: "all 0.15s"
   };
-  if (props.state === "default") {
+  if (props.state === "picked-correct") {
     return React.createElement("button", {
       onClick: props.onClick,
-      style: Object.assign({}, basePill, {
-        background: "#fff", border: "1.5px solid var(--rule)",
-        cursor: "pointer", color: "#0e0a1f", transition: "all 0.15s"
-      })
-    }, props.label);
-  }
-  if (props.state === "picked-correct") {
-    return React.createElement("div", {
       style: Object.assign({}, basePill, {
         background: "#1f9d5f", border: "1.5px solid #1f9d5f", color: "#fff"
       })
@@ -445,7 +439,8 @@ function FeedbackPill(props) {
       React.createElement("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2713"));
   }
   if (props.state === "picked-wrong") {
-    return React.createElement("div", {
+    return React.createElement("button", {
+      onClick: props.onClick,
       style: Object.assign({}, basePill, {
         background: "#f1f0f3", border: "1.5px solid transparent", color: "#6e6986"
       })
@@ -453,8 +448,9 @@ function FeedbackPill(props) {
       props.label,
       React.createElement("span", { style: { color: "#d4334a", fontWeight: 800 } }, "\u2715"));
   }
-  // answered-untouched
-  return React.createElement("div", {
+  // default and answered-untouched share the same look
+  return React.createElement("button", {
+    onClick: props.onClick,
     style: Object.assign({}, basePill, {
       background: "#fff", border: "1.5px solid var(--rule)", color: "#0e0a1f"
     })
@@ -532,7 +528,6 @@ function QuizBlock(props) {
   var options = props.options || [];
   var pickedCorrect = hasPicked && options[picked] && options[picked].correct;
   var handlePick = function(idx) {
-    if (hasPicked) return;
     if (props.picked == null) setInternalPicked(idx);
     if (props.onAnswer) props.onAnswer(idx, options[idx] && options[idx].correct);
   };
@@ -558,32 +553,30 @@ function QuizBlock(props) {
       style: { display: "flex", flexDirection: "column", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
     },
       options.map(function(opt, i) {
-        var isHovered = !hasPicked && hoverIdx === i;
+        var isHovered = hoverIdx === i;
         var isCorrect = !!opt.correct;
         var isPicked = picked === i;
         var bgColor, borderColor, textColor, opacity;
-        if (!hasPicked) {
-          bgColor = isHovered ? "#eef4eb" : "#fff";
-          borderColor = isHovered ? "#2f7d4f" : "var(--rule)";
-          textColor = "#0e0a1f";
-          opacity = 1;
-        } else if (isPicked && isCorrect) {
+        if (isPicked && isCorrect) {
           bgColor = "#1f9d5f"; borderColor = "#1f9d5f"; textColor = "#fff"; opacity = 1;
         } else if (isPicked && !isCorrect) {
           bgColor = "#f1f0f3"; borderColor = "transparent"; textColor = "#6e6986"; opacity = 1;
         } else {
-          bgColor = "#fff"; borderColor = "var(--rule)"; textColor = "#0e0a1f"; opacity = 1;
+          // Unpicked option (whether the row is answered or not). Always hoverable.
+          bgColor = isHovered ? "#eef4eb" : "#fff";
+          borderColor = isHovered ? "#2f7d4f" : "var(--rule)";
+          textColor = "#0e0a1f";
+          opacity = 1;
         }
         return React.createElement("button", {
           key: i,
           onClick: function() { handlePick(i); },
-          onMouseEnter: function() { if (!hasPicked) setHoverIdx(i); },
+          onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
-          disabled: hasPicked,
           style: {
             display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
             background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
-            cursor: hasPicked ? "default" : "pointer", textAlign: "left",
+            cursor: "pointer", textAlign: "left",
             fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600,
             color: textColor, opacity: opacity, transition: "all 150ms ease", width: "100%"
           }
@@ -640,13 +633,13 @@ function QuizBlock(props) {
       style: { display: "grid", gridTemplateColumns: options.length <= 2 ? "1fr 1fr" : "1fr", gap: options.length <= 2 ? 24 : 12 }
     },
       options.map(function(opt, i) {
-        var isHovered = !hasPicked && hoverIdx === i;
+        var isHovered = hoverIdx === i;
         var isCorrect = !!opt.correct;
         var isPicked = picked === i;
         var bgColor = !hasPicked ? (isHovered ? "var(--primaryFaint)" : "var(--card)")
-          : isCorrect ? "#e8faf0" : isPicked ? "#fdecef" : "var(--card)";
+          : isCorrect ? "#e8faf0" : isPicked ? "#fdecef" : (isHovered ? "var(--primaryFaint)" : "var(--card)");
         var borderColor = !hasPicked ? (isHovered ? "var(--primary)" : "var(--rule)")
-          : isCorrect ? "var(--green)" : isPicked ? "var(--red)" : "var(--rule)";
+          : isCorrect ? "var(--green)" : isPicked ? "var(--red)" : (isHovered ? "var(--primary)" : "var(--rule)");
         var badgeBg = !hasPicked ? "var(--rule)"
           : isCorrect ? "var(--green)" : isPicked ? "var(--red)" : "var(--rule)";
         var badgeColor = !hasPicked ? "var(--inkSoft)"
@@ -654,12 +647,12 @@ function QuizBlock(props) {
         return React.createElement("button", {
           key: i,
           onClick: function() { handlePick(i); },
-          onMouseEnter: function() { if (!hasPicked) setHoverIdx(i); },
+          onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
           style: {
             display: "flex", alignItems: "center", gap: 12, padding: "16px 18px",
             background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
-            cursor: hasPicked ? "default" : "pointer", textAlign: "left",
+            cursor: "pointer", textAlign: "left",
             fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: "var(--ink)",
             transition: "all 150ms ease"
           }

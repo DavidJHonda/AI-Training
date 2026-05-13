@@ -3331,8 +3331,31 @@ function HowAIReadsSection(props) {
                 }, c.explanation)));
           })))),
 
+    E(SectionKicker, null, "ATTENTION IS ALL YOU NEED"),
+
     E(BodyP, null,
-      "Earlier AI systems often processed text more sequentially, one token after another. That made long-distance relationships harder. Important early words could become harder to carry forward, especially in longer text."
+      "In 2017, eight researchers at Google published a paper called ",
+      E("strong", null, "Attention Is All You Need"),
+      ". The idea was simple: instead of reading words one at a time, let every word look at every other word and figure out which ones matter. They called this mechanism ",
+      E("strong", null, "attention"),
+      ", and it solved all three challenges at once."
+    ),
+
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, marginBottom: 32 } },
+      CHALLENGES.map(function(c, i) {
+        var attentionExplanations = [
+          "\u201CLight\u201D looks at the surrounding words and picks the meaning that fits. \u201CTurn off the light\u201D points to illumination. \u201CThis bag is light\u201D points to weight.",
+          "\u201CHer\u201D looks across the sentence and finds \u201Cpassenger seat.\u201D That clue tells it Maria is the driver, so her keys are Maria\u2019s.",
+          "\u201CIt\u201D can look directly at \u201Ccat\u201D from twelve words away. Distance no longer weakens the connection."
+        ];
+        return E("div", {
+          key: i,
+          style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", border: "1px solid var(--rule)", borderTop: "3px solid " + c.color }
+        },
+          E("div", { style: { fontSize: 12, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 } }, c.label),
+          E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, attentionExplanations[i])
+        );
+      })
     ),
 
     E("div", {
@@ -3481,33 +3504,6 @@ function HowAIReadsSection(props) {
           })
         )
       )
-    ),
-
-    E(SectionKicker, null, "ATTENTION IS ALL YOU NEED"),
-
-    E(BodyP, null,
-      "In 2017, eight researchers at Google published a paper called ",
-      E("strong", null, "Attention Is All You Need"),
-      ". The idea was simple: instead of reading words one at a time, let every word look at every other word and figure out which ones matter. They called this mechanism ",
-      E("strong", null, "attention"),
-      ", and it solved all three challenges at once."
-    ),
-
-    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, marginBottom: 32 } },
-      CHALLENGES.map(function(c, i) {
-        var attentionExplanations = [
-          "\u201CLight\u201D looks at the surrounding words and picks the meaning that fits. \u201CTurn off the light\u201D points to illumination. \u201CThis bag is light\u201D points to weight.",
-          "\u201CHer\u201D looks across the sentence and finds \u201Cpassenger seat.\u201D That clue tells it Maria is the driver, so her keys are Maria\u2019s.",
-          "\u201CIt\u201D can look directly at \u201Ccat\u201D from twelve words away. Distance no longer weakens the connection."
-        ];
-        return E("div", {
-          key: i,
-          style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", border: "1px solid var(--rule)", borderTop: "3px solid " + c.color }
-        },
-          E("div", { style: { fontSize: 12, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 } }, c.label),
-          E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, attentionExplanations[i])
-        );
-      })
     ),
 
     E("div", {

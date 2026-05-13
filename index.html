@@ -879,7 +879,7 @@ const SECTION_META = {
   tokens: { kicker: "BEFORE THE MATH", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   vectorspace: { kicker: "WORDS HAVE NEIGHBORS", label: "Vector Space: Meaning by Similarity", title: "Vector Space", icon: "\uD83C\uDFD8\uFE0F" },
-  behindthenumbers: { kicker: "WHERE THE NUMBERS COME FROM", label: "Behind the Numbers", title: "Behind the Numbers", icon: "\uD83D\uDD0D" },
+  behindthenumbers: { kicker: "OPENING THE BLACK BOX", label: "Inside the Model", title: "Inside the Model", icon: "\uD83D\uDD0D" },
   howreads: { kicker: "ALL AT ONCE", label: "Transformer Architecture", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
@@ -4440,17 +4440,30 @@ function VectorSpaceSection(props) {
       })),
     E(BodyP, null,
       "Two tokens with similar vectors mean similar things. Two tokens with very different vectors mean very different things."),
+
+    E(BodyP, null,
+      "The model measures this with ",
+      E("strong", null, "distance"),
+      ". Coke and Pepsi differ in only one slot (sweetness), so they sit close together in vector space. Coke and Black Coffee differ in nearly every slot, so they sit far apart. Distance is what \u201Csimilar meaning\u201D actually means inside the model."),
+
+    E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", padding: "16px 20px", marginBottom: 24 } },
+      E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "How close are these vectors?"),
+      [
+        { pair: "Coke \u2194 Pepsi", label: "Very close", color: "var(--green)" },
+        { pair: "Coke \u2194 Black Coffee", label: "Far", color: "var(--inkMuted)" },
+        { pair: "Pepsi \u2194 Black Coffee", label: "Far", color: "var(--inkMuted)" }
+      ].map(function(row, i) {
+        return E("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+          E("span", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 600 } }, row.pair),
+          E("span", { style: { fontSize: 14, fontWeight: 700, color: row.color } }, row.label));
+      })),
+
     E(SectionKicker, null, "Why does similarity matter?"),
     E(BodyP, null,
-      "Similar tokens have similar vectors, so the model knows which tokens belong in the same neighborhood of meaning."),
+      "Vectors that sit close together belong to the same neighborhood of meaning."),
     E(BodyP, null,
       "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each token\u2019s vector. Here\u2019s what AI\u2019s map of meaning looks like when we flatten it to 2D."),
-    E(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Meaning Map"
-    },
-      E("div", {
+    E("div", {
         style: {
           background: "var(--bg)",
           borderRadius: 12,
@@ -4543,8 +4556,7 @@ function VectorSpaceSection(props) {
           color: "var(--inkMuted)",
           textTransform: "capitalize"
         }
-      }, group))))),
-    E(LessonSubhead, null, "So how does that help prediction?"),
+      }, group)))),
     E(BodyP, null,
       "Once the model sees the full context, it raises the probabilities of words from the right neighborhood and lowers the probabilities of words that don\u2019t fit. We\u2019ll see exactly how that works when we get to prediction."),
     E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"); }, label: "Next: Behind the Numbers" }));
@@ -4630,11 +4642,11 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "Training set those numbers, not a person. That\u2019s the ",
       E("strong", null, "Black Box"),
-      ": you can see what goes in and what comes out, but the numbers inside don\u2019t have names. There isn\u2019t a row you could point to and say \u201Cthis one is the Coke detector.\u201D There isn\u2019t one. Coke is a pattern smeared across millions of numbers at once, and that\u2019s true of every concept the model knows."),
+      ": you can see what goes in and what comes out, but the numbers inside don\u2019t have names. There isn\u2019t a slot you could point to and say \u201Cthis one stores sweetness\u201D or \u201Cthis one stores Coke-ness.\u201D The slots are unlabeled, and that\u2019s true for every concept the model knows."),
 
-    E(SectionKicker, null, "HOW DOES AI DO IT?"),
+    E(SectionKicker, null, "FIVE NAMED PIECES"),
     E(BodyP, null,
-      "This happens when the model trains, which you\u2019ll learn about later in this section. It\u2019s an involved process that takes months. But AI does it on its own."),
+      "Forget the taste test for a second. Here are the five pieces that actually live inside a real AI model, and the names for each one."),
 
     E(ShowcaseBox, { marginBottom: 28 },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
@@ -4658,8 +4670,8 @@ function BehindTheNumbersSection(props) {
     E(SectionKicker, null, "WHAT ARE PARAMETERS?"),
     E(BodyP, null,
       "When someone says a model has 70 billion parameters, they do not mean 70 billion dimensions. They mean 70 billion learned internal numbers. Some help store embedding vectors. Others help the later layers process context, attention, style, facts, and patterns."),
-    E(BodyP, null,
-      "Parameter count gets all the press, but bigger isn\u2019t automatically smarter. A smaller model with better training data, better fine-tuning, or a better fit for the task can beat a larger one. Companies advertise size because it\u2019s easy to compare. Capability comes from a lot more than that."),
+
+    E(BottomLine, { thought: "Five named pieces. Billions of {nameless numbers}." }),
 
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Transformer Architecture"));
 }

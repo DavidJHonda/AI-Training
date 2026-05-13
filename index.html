@@ -4556,32 +4556,27 @@ function BehindTheNumbersSection(props) {
     {
       step: "Create slots for comparison",
       term: "Dimension",
-      coke: "Sweetness, Bitterness, Fizziness, Heat, Caffeine, and Darkness were the slots you could rate.",
-      ai: "A dimension is one slot in the vector. Real models use thousands of slots, and humans usually cannot label them cleanly."
+      ai: "Real models use thousands of these slots, and humans usually cannot label them cleanly, which is one reason no person can read what\u2019s inside a real model."
     },
     {
       step: "Fill the slots with numbers",
       term: "Value",
-      coke: "Coke got Sweetness = 9, Bitterness = 1, Fizziness = 10, and so on.",
-      ai: "A value is the number inside one slot. During training, useful values are adjusted because they help the model predict better."
+      ai: "Training is what sets these numbers. It adjusts them across millions of examples until they help the model predict better."
     },
     {
       step: "Bundle the numbers together",
       term: "Embedding vector",
-      coke: "All six Coke scores together became [9, 1, 10, 2, 3, 8].",
-      ai: "An embedding vector is the full meaning profile for one token. It lets the model compare that token to other tokens."
+      ai: "This is the token\u2019s full number profile, the thing the model uses to compare it to every other token."
     },
     {
       step: "Store each profile in a table",
       term: "Embedding table",
-      coke: "Imagine one row for Coke, one row for Black Coffee, one row for Pepsi, one row for tea.",
       ai: "An embedding table is a lookup table. A token ID points to one row, and that row is the token\u2019s embedding vector."
     },
     {
       step: "Let training create the numbers",
       term: "Parameter",
-      coke: "In the Coke demo, the numbers were chosen by hand so the idea was easy to see.",
-      ai: "In real AI, training creates learned internal numbers. Embedding values are parameters, and the later layers have many more."
+      ai: "Training creates these learned internal numbers. Embedding values are parameters, and the later layers have many more."
     }
   ];
   return E("div", null,
@@ -4653,33 +4648,18 @@ function BehindTheNumbersSection(props) {
                   item.term),
                 E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.35 } }, item.step)),
 
-              E("div", { style: { background: "var(--bg)", borderRadius: 12, padding: 14 } },
-                E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Coke example"),
-                E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.coke)),
-
               E("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 14 } },
-                E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "What it means in AI"),
                 E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.ai))
             )
           );
         }))
     ),
 
+    E(SectionKicker, null, "WHAT ARE PARAMETERS?"),
     E(BodyP, null,
       "When someone says a model has 70 billion parameters, they do not mean 70 billion dimensions. They mean 70 billion learned internal numbers. Some help store embedding vectors. Others help the later layers process context, attention, style, facts, and patterns."),
     E(BodyP, null,
       "Parameter count gets all the press, but bigger isn\u2019t automatically smarter. A smaller model with better training data, better fine-tuning, or a better fit for the task can beat a larger one. Companies advertise size because it\u2019s easy to compare. Capability comes from a lot more than that."),
-    E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 24 } },
-      E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 } }, "Do not mix these up"),
-      E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.55 } },
-        E("strong", null, "Dimensions are slots. "),
-        "Values are the numbers in those slots. ",
-        E("strong", null, "Parameters are learned numbers inside the model. "),
-        "An embedding value can be a parameter, but a dimension is not a parameter.")),
-
-    E(SectionKicker, null, "WHERE THE PARAMETERS COME FROM"),
-    E(BodyP, null,
-      "Training is where parameters get set. At first, the model\u2019s internal numbers are not useful. During training, the model keeps predicting, checking how wrong it was, and adjusting its parameters. After huge numbers of tiny adjustments, the parameters start to capture patterns in language. Once training ends, those parameters are frozen. Your conversations use them, but ordinary chats do not rewrite them."),
 
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Transformer Architecture"));
 }

@@ -3237,32 +3237,7 @@ function HowAIReadsSection(props) {
 
   // pStyle replaced by BodyP component
 
-  var bridgeCards = [
-    {
-      eyebrow: "Math so far",
-      title: "Things become number profiles",
-      body: "Coke became [9, 1, 10, 2, 3, 8]. A token also becomes a row of numbers the model can work with.",
-      code: "token ID \u2192 embedding vector"
-    },
-    {
-      eyebrow: "Problem left",
-      title: "Words need context",
-      body: "A drink profile can mostly stand alone. A word cannot. The meaning depends on the words around it.",
-      code: "IT = cat? mat? rainstorm?"
-    },
-    {
-      eyebrow: "Transformer idea",
-      title: "Tokens compare across the input",
-      body: "A transformer lets each token compare with the other tokens, so the model can figure out which relationships matter.",
-      code: "every token \u2194 every token"
-    }
-  ];
-
   var changeBullets = [
-    {
-      title: "Long-distance meaning got more reliable.",
-      body: "The model could connect words that were far apart, like IT and cat, instead of only leaning on nearby words."
-    },
     {
       title: "Training could scale much bigger.",
       body: "Instead of handling text like one long hallway, transformers made it practical to work across many parts of the input at once."
@@ -3355,71 +3330,6 @@ function HowAIReadsSection(props) {
                   style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 14 }
                 }, c.explanation)));
           })))),
-
-    E(ShowcaseBox, {
-      kicker: "FROM NUMBER PROFILES TO CONTEXT",
-      marginBottom: 28
-    },
-      E("div", {
-        style: {
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
-          gap: 14
-        }
-      },
-        bridgeCards.map(function(card) {
-          return E("div", {
-            key: card.title,
-            style: {
-              background: "var(--card)",
-              border: "1px solid var(--rule)",
-              borderRadius: 15,
-              padding: "16px 18px"
-            }
-          },
-            E("div", {
-              style: {
-                fontSize: 11,
-                fontWeight: 800,
-                color: "var(--inkMuted)",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-                marginBottom: 7
-              }
-            }, card.eyebrow),
-            E("div", {
-              style: {
-                fontSize: 18,
-                fontWeight: 800,
-                color: "var(--ink)",
-                marginBottom: 7,
-                lineHeight: 1.25
-              }
-            }, card.title),
-            E("div", {
-              style: {
-                fontSize: 14,
-                color: "var(--inkSoft)",
-                lineHeight: 1.55,
-                marginBottom: 12
-              }
-            }, card.body),
-            E("div", {
-              style: {
-                display: "inline-flex",
-                fontFamily: "var(--mono)",
-                fontSize: 13,
-                fontWeight: 700,
-                color: "var(--primary)",
-                background: "var(--primaryFaint)",
-                borderRadius: 999,
-                padding: "6px 10px"
-              }
-            }, card.code)
-          );
-        })
-      )
-    ),
 
     E(BodyP, null,
       "Earlier AI systems often processed text more sequentially, one token after another. That made long-distance relationships harder. Important early words could become harder to carry forward, especially in longer text."
@@ -3573,10 +3483,31 @@ function HowAIReadsSection(props) {
       )
     ),
 
-    E(BodyP, { marginBottom: 24 },
-      "The 2017 paper ",
+    E(SectionKicker, null, "ATTENTION IS ALL YOU NEED"),
+
+    E(BodyP, null,
+      "In 2017, eight researchers at Google published a paper called ",
       E("strong", null, "Attention Is All You Need"),
-      " introduced the transformer design. The key idea was not that the model suddenly became human. The key idea was architectural: tokens could compare across the full input, which made context much easier to compute."
+      ". The idea was simple: instead of reading words one at a time, let every word look at every other word and figure out which ones matter. They called this mechanism ",
+      E("strong", null, "attention"),
+      ", and it solved all three challenges at once."
+    ),
+
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, marginBottom: 32 } },
+      CHALLENGES.map(function(c, i) {
+        var attentionExplanations = [
+          "\u201CLight\u201D looks at the surrounding words and picks the meaning that fits. \u201CTurn off the light\u201D points to illumination. \u201CThis bag is light\u201D points to weight.",
+          "\u201CHer\u201D looks across the sentence and finds \u201Cpassenger seat.\u201D That clue tells it Maria is the driver, so her keys are Maria\u2019s.",
+          "\u201CIt\u201D can look directly at \u201Ccat\u201D from twelve words away. Distance no longer weakens the connection."
+        ];
+        return E("div", {
+          key: i,
+          style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", border: "1px solid var(--rule)", borderTop: "3px solid " + c.color }
+        },
+          E("div", { style: { fontSize: 12, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 } }, c.label),
+          E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, attentionExplanations[i])
+        );
+      })
     ),
 
     E("div", {

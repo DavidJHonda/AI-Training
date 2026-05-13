@@ -3186,23 +3186,27 @@ function HowAIReadsSection(props) {
     {
       label: "Different meanings",
       examples: [
-        "\u201CTurn off the light.\u201D \u2192 illumination",
-        "\u201CThis bag is light.\u201D \u2192 weight",
-        "\u201CIt was a light meal.\u201D \u2192 small portion"
+        { before: "Turn off the ", highlight: "light", after: "." },
+        { before: "This bag is ", highlight: "light", after: "." },
+        { before: "It was a ", highlight: "light", after: " meal." }
       ],
       explanation: "One word, three meanings. The model needs the surrounding words to know which one fits.",
       color: "#10b981"
     },
     {
       label: "Pointing words",
-      examples: ["\u201CMaria handed Sarah her keys before getting in the passenger seat.\u201D"],
+      examples: [
+        { before: "Maria handed Sarah ", highlight: "her", after: " keys before getting in the passenger seat." }
+      ],
       explanation: "Whose keys? \u201CHer\u201D points to Maria, not Sarah. The clue is \u201Cpassenger seat\u201D: Maria is the driver, so the keys are hers.",
       color: "#8b5cf6"
     },
     {
       label: "Words far apart",
-      examples: ["\u201CThe cat sat on the mat during the May rainstorm because IT was tired.\u201D"],
-      explanation: "What does IT refer to? Cat. Twelve words back. The model has to reach across the whole sentence to make that connection.",
+      examples: [
+        { before: "The cat sat on the mat during the May rainstorm because ", highlight: "it", after: " was tired." }
+      ],
+      explanation: "What does \u201Cit\u201D refer to? Cat. Twelve words back. The model has to reach across the whole sentence to make that connection.",
       color: "#3b82f6"
     }
   ];
@@ -3336,19 +3340,19 @@ function HowAIReadsSection(props) {
               style: { flex: 1 }
             },
               E("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+                style: { background: "var(--card)", borderRadius: 10, padding: 20, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
               },
-                E("div", {
-                  style: { fontWeight: 700, fontSize: 14, color: c.color, marginBottom: 10 }
-                }, c.label),
                 c.examples.map(function(ex, j) {
                   return E("div", {
                     key: j,
-                    style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 }
-                  }, ex);
+                    style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 6 }
+                  },
+                    ex.before,
+                    E("strong", { style: { color: c.color, fontWeight: 800 } }, ex.highlight),
+                    ex.after);
                 }),
                 E("div", {
-                  style: { fontSize: 12, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, fontStyle: "italic" }
+                  style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 14 }
                 }, c.explanation)));
           })))),
 

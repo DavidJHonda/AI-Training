@@ -1036,6 +1036,10 @@ function LLMsSection(props) {
     { label: "Language", desc: "Built for human language: reading, writing, summarizing, translating, explaining. Words in, words out.", color: "#10b981" },
     { label: "Model", desc: "A mathematical system that takes input and predicts a likely output based on patterns it learned from data.", color: "#8b5cf6" }
   ];
+  var TWO_KINDS = [
+    { label: "Generative AI", desc: "Creates new content from scratch. Like ChatGPT (writes text) or Suno (makes music).", color: "#8b5cf6" },
+    { label: "Non-Generative AI", desc: "Predicts or classifies based on existing data. Like Google Maps (predicts traffic) or Face ID (matches your face).", color: "#3b82f6" }
+  ];
   var PRODUCTS = [
     { label: "ChatGPT", desc: "Made by OpenAI. Launched in 2022 and made AI mainstream. Often what people mean when they say AI.", color: "#10b981" },
     { label: "Claude", desc: "Made by Anthropic. Known for thoughtful writing and careful reasoning. This is the product behind this course.", color: "#8b5cf6" },
@@ -1094,6 +1098,30 @@ function LLMsSection(props) {
     window.addEventListener("resize", calc);
     return function() { window.removeEventListener("resize", calc); };
   }, []);
+  var twoKindsContainerRef = useRef(null);
+  var twoKindsTitleRefs = useRef([]);
+  var twoKindsCardRefs = useRef([]);
+  var _tps = useState(null), twoKindsPaths = _tps[0], setTwoKindsPaths = _tps[1];
+  var _trs = useState({}), twoKindsRevealed = _trs[0], setTwoKindsRevealed = _trs[1];
+  var revealTwoKind = function(i) { setTwoKindsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = twoKindsContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 2; i++) {
+        var t = twoKindsTitleRefs.current[i], d = twoKindsCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setTwoKindsPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
   var productsContainerRef = useRef(null);
   var productsTitleRefs = useRef([]);
   var productsCardRefs = useRef([]);
@@ -1144,124 +1172,65 @@ function LLMsSection(props) {
   }, []);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "You just saw AI as a broad category. Most of the AI you met there predicts or classifies. Spotify predicts what you\u2019ll like next. Maps predicts traffic. Face ID predicts whether a face matches yours. None of it creates anything new."),
-    /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a newer kind of AI that does something different. It writes the email, drafts the essay, makes the image, codes the website. It generates new content instead of just sorting through what already exists. This is called Generative AI."),
-    /*#__PURE__*/React.createElement(BodyP, null, "The tools you\u2019ll actually use in this course are all Generative AI: ChatGPT, Claude, Gemini. They look like chat windows, but underneath each one, something pretty wild is happening every time you press send."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Let\u2019s start with the most familiar name. ChatGPT. Click each color to see what those four letters actually mean."),
+    /*#__PURE__*/React.createElement(BodyP, null, "You just saw AI as a broad category. Most of the AI you met there predicts or classifies. Spotify predicts what you\u2019ll like next. Google Maps predicts traffic. Face ID predicts whether a face matches yours. None of it creates anything new."),
+    /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a newer kind of AI that does more. It generates new content instead of just sorting through what already exists. It writes the email, drafts the essay, makes the image, codes the website. This is called Generative AI."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they\u2019re thinking about generative AI. That\u2019s what they use, and that\u2019s what this course is about. Click each one to see how the two kinds differ."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
-      title: "ChatGPT, decoded"
+      title: "Two kinds of AI"
     },
       /*#__PURE__*/React.createElement("div", {
-        ref: containerRef,
+        ref: twoKindsContainerRef,
         style: { position: "relative" }
       },
         /*#__PURE__*/React.createElement("div", {
-          style: { textAlign: "center", fontSize: 40, fontWeight: 800, letterSpacing: 6, marginBottom: 0 }
+          style: { display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
         },
-          COLS.map(function(col, i) {
-            var letter = i === 0 ? "Chat" : i === 1 ? "G" : i === 2 ? "P" : "T";
-            var isRevealed = !!revealed[i];
+          TWO_KINDS.map(function(k, i) {
+            var isRevealed = !!twoKindsRevealed[i];
             return /*#__PURE__*/React.createElement("span", {
               key: i,
-              ref: function(el) { titleRefs.current[i] = el; },
-              onClick: function() { revealLetter(i); },
-              style: { color: col.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, letter);
+              ref: function(el) { twoKindsTitleRefs.current[i] = el; },
+              onClick: function() { revealTwoKind(i); },
+              style: { color: k.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, k.label);
           })
         ),
         /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        paths ? /*#__PURE__*/React.createElement("svg", {
+        twoKindsPaths ? /*#__PURE__*/React.createElement("svg", {
           style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
         },
-          paths.map(function(p, i) {
-            if (!revealed[i]) return null;
+          twoKindsPaths.map(function(p, i) {
+            if (!twoKindsRevealed[i]) return null;
             var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
             var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
             var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
             return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: COLS[i].color, strokeWidth: 2.5
+              key: i, d: d, fill: "none", stroke: TWO_KINDS[i].color, strokeWidth: 2.5
             });
           })
         ) : null,
         /*#__PURE__*/React.createElement("div", {
           style: { display: "flex", gap: 12 }
         },
-          COLS.map(function(col, i) {
-            var isRevealed = !!revealed[i];
+          TWO_KINDS.map(function(k, i) {
+            var isRevealed = !!twoKindsRevealed[i];
             return /*#__PURE__*/React.createElement("div", {
-              key: i, ref: function(el) { cardRefs.current[i] = el; },
+              key: i, ref: function(el) { twoKindsCardRefs.current[i] = el; },
               style: { flex: 1 }
             },
               /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + col.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + k.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
               },
                 /*#__PURE__*/React.createElement("div", {
-                  style: { fontWeight: 700, fontSize: 15, color: col.color, marginBottom: 6 }
-                }, col.label),
+                  style: { fontWeight: 700, fontSize: 15, color: k.color, marginBottom: 6 }
+                }, k.label),
                 /*#__PURE__*/React.createElement("div", {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                }, col.desc)));
+                }, k.desc)));
           })))),
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "ChatGPT is one product. Claude and Gemini are others. Here\u2019s what each one is best known for."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "The big three"
-    },
-      /*#__PURE__*/React.createElement("div", {
-        ref: productsContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
-        },
-          PRODUCTS.map(function(p, i) {
-            var isRevealed = !!productsRevealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { productsTitleRefs.current[i] = el; },
-              onClick: function() { revealProduct(i); },
-              style: { color: p.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, p.label);
-          })
-        ),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        productsPaths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          productsPaths.map(function(p, i) {
-            if (!productsRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: PRODUCTS[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          PRODUCTS.map(function(p, i) {
-            var isRevealed = !!productsRevealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i, ref: function(el) { productsCardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 6 }
-                }, p.label),
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                }, p.desc)));
-          })))),
-    /*#__PURE__*/React.createElement(BodyP, null, "You already use a tiny language model every day. Your phone\u2019s keyboard suggests the next word before you type it. Google\u2019s search bar finishes your sentence before you can. Both are language models \u2014 small ones, trained on what people commonly type, predicting what word likely comes next."),
-    /*#__PURE__*/React.createElement(BodyP, null, "All three of the big products are built on a much larger version of this, called an LLM. Three letters this time. Click each one to break it down."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Most of us use generative AI through an LLM. You\u2019ve actually used a tiny version of one already. Your phone\u2019s keyboard suggests the next word before you type it. That\u2019s a small language model, predicting what\u2019s likely to come next. LLMs are a much bigger version of the same idea. Click each letter to see what the three letters mean."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1318,7 +1287,63 @@ function LLMsSection(props) {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
                 }, col.desc)));
           })))),
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "One product can run more than one model. Here\u2019s Claude\u2019s lineup."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each car company builds their cars differently, and their cars have different characteristics. For this course, we\u2019re focusing on the three most popular. Click each name to see a brief description."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "The big three"
+    },
+      /*#__PURE__*/React.createElement("div", {
+        ref: productsContainerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+        },
+          PRODUCTS.map(function(p, i) {
+            var isRevealed = !!productsRevealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { productsTitleRefs.current[i] = el; },
+              onClick: function() { revealProduct(i); },
+              style: { color: p.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, p.label);
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        productsPaths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          productsPaths.map(function(p, i) {
+            if (!productsRevealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: PRODUCTS[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12 }
+        },
+          PRODUCTS.map(function(p, i) {
+            var isRevealed = !!productsRevealed[i];
+            return /*#__PURE__*/React.createElement("div", {
+              key: i, ref: function(el) { productsCardRefs.current[i] = el; },
+              style: { flex: 1 }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+              },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 6 }
+                }, p.label),
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                }, p.desc)));
+          })))),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "If you\u2019re buying a new car, you\u2019ll have the pick of all the models made by the company. The big three LLMs work the same way. They have different models to meet different user needs. Click each model to see what it\u2019s best for."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1374,8 +1399,65 @@ function LLMsSection(props) {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
                 }, m.desc)));
           })))),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "What\u2019s unique about the name ChatGPT is that it tells you a lot about how generative AI works. And it\u2019s all in the name. Click each color to see what those four letters actually mean."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "ChatGPT, decoded"
+    },
+      /*#__PURE__*/React.createElement("div", {
+        ref: containerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", fontSize: 40, fontWeight: 800, letterSpacing: 6, marginBottom: 0 }
+        },
+          COLS.map(function(col, i) {
+            var letter = i === 0 ? "Chat" : i === 1 ? "G" : i === 2 ? "P" : "T";
+            var isRevealed = !!revealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { titleRefs.current[i] = el; },
+              onClick: function() { revealLetter(i); },
+              style: { color: col.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, letter);
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        paths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          paths.map(function(p, i) {
+            if (!revealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: COLS[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12 }
+        },
+          COLS.map(function(col, i) {
+            var isRevealed = !!revealed[i];
+            return /*#__PURE__*/React.createElement("div", {
+              key: i, ref: function(el) { cardRefs.current[i] = el; },
+              style: { flex: 1 }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + col.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+              },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontWeight: 700, fontSize: 15, color: col.color, marginBottom: 6 }
+                }, col.label),
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                }, col.desc)));
+          })))),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "ChatGPT is the product. {The model underneath is an LLM}." }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: COLS.every(function(_, i) { return !!revealed[i]; }) && LLM_COLS.every(function(_, i) { return !!llmRevealed[i]; }) && PRODUCTS.every(function(_, i) { return !!productsRevealed[i]; }) && MODELS.every(function(_, i) { return !!modelsRevealed[i]; }), onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: TWO_KINDS.every(function(_, i) { return !!twoKindsRevealed[i]; }) && LLM_COLS.every(function(_, i) { return !!llmRevealed[i]; }) && PRODUCTS.every(function(_, i) { return !!productsRevealed[i]; }) && MODELS.every(function(_, i) { return !!modelsRevealed[i]; }) && COLS.every(function(_, i) { return !!revealed[i]; }), onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
   );
 }
 function HowWeGotHereSection(props) {

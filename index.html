@@ -3182,12 +3182,54 @@ function DataSection(props) {
 function HowAIReadsSection(props) {
   var E = React.createElement;
   var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "IT", "was", "tired"];
-  const [itGuess, setItGuess] = useState(null);
-  const IT_OPTIONS = [
-    { word: "cat", correct: true, note: "Right. Your brain caught it instantly. The model has to work for this. It scans every word in the sentence, looking for clues that match \u2018was tired.\u2019 Cats get tired. Mats and rainstorms don\u2019t. The model assigns the highest connection weight to \u2018cat,\u2019 and that\u2019s how it carries the right meaning forward into the next layer." },
-    { word: "mat", correct: false, note: "Mat is the closest noun to \u2018IT,\u2019 so a simple system that just looks at nearby words might guess this. But mats don\u2019t get tired. The model has to look further to find the word that actually fits the predicate \u2018was tired.\u2019" },
-    { word: "rainstorm", correct: false, note: "Rainstorm is right next to \u2018because,\u2019 so it\u2019s a tempting candidate by position. But rainstorms don\u2019t get tired. The model uses the predicate \u2018was tired\u2019 to rule this out and keep looking for an animate noun." }
+  var CHALLENGES = [
+    {
+      label: "Different meanings",
+      examples: [
+        "\u201CTurn off the light.\u201D \u2192 illumination",
+        "\u201CThis bag is light.\u201D \u2192 weight",
+        "\u201CIt was a light meal.\u201D \u2192 small portion"
+      ],
+      explanation: "One word, three meanings. The model needs the surrounding words to know which one fits.",
+      color: "#10b981"
+    },
+    {
+      label: "Pointing words",
+      examples: ["\u201CMaria handed Sarah her keys before getting in the passenger seat.\u201D"],
+      explanation: "Whose keys? \u201CHer\u201D points to Maria, not Sarah. The clue is \u201Cpassenger seat\u201D: Maria is the driver, so the keys are hers.",
+      color: "#8b5cf6"
+    },
+    {
+      label: "Words far apart",
+      examples: ["\u201CThe cat sat on the mat during the May rainstorm because IT was tired.\u201D"],
+      explanation: "What does IT refer to? Cat. Twelve words back. The model has to reach across the whole sentence to make that connection.",
+      color: "#3b82f6"
+    }
   ];
+  var challengesContainerRef = useRef(null);
+  var challengesTitleRefs = useRef([]);
+  var challengesCardRefs = useRef([]);
+  var _cps = useState(null), challengesPaths = _cps[0], setChallengesPaths = _cps[1];
+  var _crs = useState({}), challengesRevealed = _crs[0], setChallengesRevealed = _crs[1];
+  var revealChallenge = function(i) { setChallengesRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = challengesContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 3; i++) {
+        var t = challengesTitleRefs.current[i], d = challengesCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setChallengesPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
 
   // pStyle replaced by BodyP component
 
@@ -3231,12 +3273,84 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "howreads" }),
 
     E(BodyP, null,
-      "You now have the math pieces: tokens, embeddings, vectors, dimensions, and learned parameters. The Coke-Pepsi-Black Coffee example showed the basic move: turn something into a number profile so the model can compare it."
+      "You now understand how AI converts text to numbers, and how it uses a vector to associate the token to a meaning."
     ),
 
     E(BodyP, null,
-      "But that still leaves one huge problem: words are not like Pepsi. Pepsi means roughly the same thing sitting by itself. Words change meaning depending on the other words around them."
+      "But AI developers faced more challenges."
     ),
+
+    E("ol", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.7, paddingLeft: 32, marginBottom: 18 } },
+      E("li", { style: { marginBottom: 8 } }, "What if a word means different things? Which definition should it use?"),
+      E("li", { style: { marginBottom: 8 } }, "What if a word only makes sense after you figure out which other word it points to?"),
+      E("li", null, "What if a word\u2019s meaning comes from words the AI could no longer see?")
+    ),
+
+    E(BodyP, null,
+      "Here\u2019s one of each."
+    ),
+
+    E(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "The three challenges"
+    },
+      E("div", {
+        ref: challengesContainerRef,
+        style: { position: "relative" }
+      },
+        E("div", {
+          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 22, fontWeight: 800, marginBottom: 0 }
+        },
+          CHALLENGES.map(function(c, i) {
+            var isRevealed = !!challengesRevealed[i];
+            return E("span", {
+              key: i,
+              ref: function(el) { challengesTitleRefs.current[i] = el; },
+              onClick: function() { revealChallenge(i); },
+              style: { color: c.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, c.label);
+          })
+        ),
+        E("div", { style: { height: 40 } }),
+        challengesPaths ? E("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          challengesPaths.map(function(p, i) {
+            if (!challengesRevealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return E("path", {
+              key: i, d: d, fill: "none", stroke: CHALLENGES[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        E("div", {
+          style: { display: "flex", gap: 12 }
+        },
+          CHALLENGES.map(function(c, i) {
+            var isRevealed = !!challengesRevealed[i];
+            return E("div", {
+              key: i, ref: function(el) { challengesCardRefs.current[i] = el; },
+              style: { flex: 1 }
+            },
+              E("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+              },
+                E("div", {
+                  style: { fontWeight: 700, fontSize: 14, color: c.color, marginBottom: 10 }
+                }, c.label),
+                c.examples.map(function(ex, j) {
+                  return E("div", {
+                    key: j,
+                    style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 }
+                  }, ex);
+                }),
+                E("div", {
+                  style: { fontSize: 12, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, fontStyle: "italic" }
+                }, c.explanation)));
+          })))),
 
     E(ShowcaseBox, {
       kicker: "FROM NUMBER PROFILES TO CONTEXT",
@@ -3302,77 +3416,6 @@ function HowAIReadsSection(props) {
         })
       )
     ),
-
-    E(BodyP, null,
-      "For example, look at this sentence:"
-    ),
-
-    E(InteractiveBox, { variant: "see", surface: "sand", title: "Who Does \u201CIT\u201D Refer To?" },
-      E("div", {
-        style: {
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 7,
-          rowGap: 10,
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 18,
-          padding: "18px 12px",
-          background: "var(--card)",
-          borderRadius: 12,
-          border: "1px solid var(--rule)"
-        }
-      },
-        sentenceWords.map(function(w, i) {
-          var isClickable = (w === "cat" || w === "mat" || w === "rainstorm");
-          var isIT = w === "IT";
-          var isGuessed = itGuess && itGuess.word === w;
-          var bgColor, textColor;
-          if (isIT) { bgColor = "var(--primary)"; textColor = "#fff"; }
-          else if (isGuessed && itGuess.correct) { bgColor = "#10b981"; textColor = "#fff"; }
-          else if (isGuessed && !itGuess.correct) { bgColor = "#ef4444"; textColor = "#fff"; }
-          else if (isClickable && !itGuess) { bgColor = "var(--primaryFaint)"; textColor = "var(--primary)"; }
-          else { bgColor = "var(--bg)"; textColor = "var(--ink)"; }
-          return E("span", {
-            key: i,
-            onClick: isClickable && !itGuess ? function() { var opt = IT_OPTIONS.find(function(o) { return o.word === w; }); setItGuess(opt); } : null,
-            style: {
-              background: bgColor,
-              color: textColor,
-              borderRadius: 8,
-              padding: "8px 12px",
-              fontSize: 15,
-              fontFamily: "var(--mono)",
-              fontWeight: (isClickable || isIT) ? 800 : 600,
-              cursor: (isClickable && !itGuess) ? "pointer" : "default",
-              border: (isClickable && !itGuess) ? "2px dashed var(--primary)" : "2px solid transparent",
-              transition: "all 0.2s ease"
-            }
-          }, w);
-        })
-      ),
-      !itGuess ? E("p", {
-        style: { textAlign: "center", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, margin: 0, fontStyle: "italic" }
-      }, "Click the word IT refers to.") : E("div", {
-        style: {
-          background: itGuess.correct ? "#ecfdf5" : "#fef2f2",
-          border: "1px solid " + (itGuess.correct ? "#86efac" : "#fca5a5"),
-          borderRadius: 10,
-          padding: "14px 16px",
-          fontSize: 14,
-          color: "var(--ink)",
-          lineHeight: 1.6,
-          animation: "fadeIn 0.3s ease"
-        }
-      },
-        E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: itGuess.correct ? "#15803d" : "#dc2626", marginBottom: 6 } },
-          itGuess.correct ? "\u2705 Right" : "\u274C Not quite"),
-        itGuess.note,
-        !itGuess.correct ? E("div", { style: { marginTop: 10 } },
-          E("button", {
-            onClick: function() { setItGuess(null); },
-            style: { padding: "6px 14px", borderRadius: 6, background: "var(--card)", color: "var(--ink)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 13, fontWeight: 600 }
-          }, "Try Again")) : null)),
 
     E(BodyP, null,
       "Earlier AI systems often processed text more sequentially, one token after another. That made long-distance relationships harder. Important early words could become harder to carry forward, especially in longer text."

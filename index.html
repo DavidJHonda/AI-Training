@@ -3959,31 +3959,45 @@ function TrainingSection(props) {
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(catsDogsStage, 3)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 3"))
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(catsDogsStage, 5)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 5"))
     },
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "sand",
-        items: ["examples", "pattern", "classify"],
+        items: ["examples", "first-guess", "iterating", "near-optimal", "classify"],
         currentIdx: catsDogsStage > 0 ? catsDogsStage - 1 : 0,
         started: startedCatsDogs,
         onStart: function() { setStartedCatsDogs(true); setCatsDogsStage(1); },
         onNext: function() { setCatsDogsStage(function(s) { return s + 1; }); },
-        canAdvance: catsDogsStage < 3,
+        canAdvance: catsDogsStage < 5,
         isComplete: false,
         startLabel: "Show the examples",
-        nextLabel: catsDogsStage === 1 ? "Find the pattern \u2192" : "Classify a new pet \u2192",
+        nextLabel: catsDogsStage === 1 ? "Start with a guess \u2192" :
+                   catsDogsStage === 2 ? "Run 10 iterations \u2192" :
+                   catsDogsStage === 3 ? "Run 100 more iterations \u2192" :
+                   "Classify a new pet \u2192",
         finishLabel: "Done"
       },
         catsDogsStage > 0 ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, catsDogsStage === 1 ? "01" : catsDogsStage === 2 ? "02" : "03"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } },
+              catsDogsStage === 1 ? "01" :
+              catsDogsStage === 2 ? "02" :
+              catsDogsStage === 3 ? "03" :
+              catsDogsStage === 4 ? "04" : "05"),
             /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 4 } }, catsDogsStage === 1 ? "The examples" : catsDogsStage === 2 ? "The pattern" : "Classify a new pet"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 4 } },
+                catsDogsStage === 1 ? "The examples" :
+                catsDogsStage === 2 ? "First guess" :
+                catsDogsStage === 3 ? "After 10 iterations" :
+                catsDogsStage === 4 ? "After 100 more iterations" :
+                "Classify a new pet"),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } },
                 catsDogsStage === 1 ? "Show the model 10 labeled examples. Cats tend to be lighter and fluffier. Dogs tend to be heavier and less fluffy." :
-                catsDogsStage === 2 ? "It drew the line that best separates cats from dogs. No one wrote that rule. The model figured it out from the examples." :
-                "It has never seen this one before. But it sees where the pet falls relative to the line, and predicts: cat. That is what training is for. The model learns from examples so it can make good predictions on examples it has never seen."))),
+                catsDogsStage === 2 ? "The model starts with a random guess. Several examples end up on the wrong side. Now it adjusts." :
+                catsDogsStage === 3 ? "Each wrong example nudges the line a little. After ten passes through the data, the line is starting to find the pattern." :
+                catsDogsStage === 4 ? "After a hundred more passes, every example sits on the right side. The model has learned the pattern." :
+                "It has never seen this one before. It sees where the pet falls relative to the line, and predicts: cat. That is what training is for. The model learns from examples so it can make good predictions on examples it has never seen."))),
           /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
             /*#__PURE__*/React.createElement("svg", {
               viewBox: "0 0 400 300",
@@ -3994,13 +4008,24 @@ function TrainingSection(props) {
               /*#__PURE__*/React.createElement("text", { x: 210, y: 285, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle" }, "Weight"),
               /*#__PURE__*/React.createElement("text", { x: 15, y: 140, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle", transform: "rotate(-90 15 140)" }, "Fluffiness"),
               [[90, 60], [115, 90], [140, 50], [100, 120], [170, 80]].map(function(p, i) {
-                return /*#__PURE__*/React.createElement("text", { key: "cat" + i, x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC31");
+                var isErr = catsDogsStage === 2 && i === 3;
+                return /*#__PURE__*/React.createElement("g", { key: "cat" + i },
+                  /*#__PURE__*/React.createElement("circle", { cx: p[0], cy: p[1] - 7, r: 16, fill: "none", stroke: "#ef4444", strokeWidth: 2.5, style: { opacity: isErr ? 1 : 0, transition: "opacity 0.3s ease" } }),
+                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC31"));
               }),
               [[255, 205], [295, 230], [320, 180], [265, 245], [340, 215]].map(function(p, i) {
-                return /*#__PURE__*/React.createElement("text", { key: "dog" + i, x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC36");
+                var isErr = (catsDogsStage === 2 && (i === 2 || i === 4)) || (catsDogsStage === 3 && i === 2);
+                return /*#__PURE__*/React.createElement("g", { key: "dog" + i },
+                  /*#__PURE__*/React.createElement("circle", { cx: p[0], cy: p[1] - 7, r: 16, fill: "none", stroke: "#ef4444", strokeWidth: 2.5, style: { opacity: isErr ? 1 : 0, transition: "opacity 0.3s ease" } }),
+                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC36"));
               }),
-              catsDogsStage >= 2 ? /*#__PURE__*/React.createElement("line", { x1: 380, y1: 70, x2: 60, y2: 245, stroke: "var(--primary)", strokeWidth: 2.5, strokeLinecap: "round", style: { opacity: 1, transition: "opacity 0.2s ease" } }) : null,
-              catsDogsStage >= 3 ? /*#__PURE__*/React.createElement("g", { style: { opacity: 1, transition: "opacity 0.2s ease" } },
+              catsDogsStage >= 2 ? (function() {
+                var lc = catsDogsStage === 2 ? { x1: 40, y1: 110, x2: 380, y2: 230 } :
+                         catsDogsStage === 3 ? { x1: 60, y1: 200, x2: 380, y2: 90 } :
+                         { x1: 60, y1: 245, x2: 380, y2: 70 };
+                return /*#__PURE__*/React.createElement("line", { x1: lc.x1, y1: lc.y1, x2: lc.x2, y2: lc.y2, stroke: "var(--primary)", strokeWidth: 2.5, strokeLinecap: "round" });
+              })() : null,
+              catsDogsStage >= 5 ? /*#__PURE__*/React.createElement("g", null,
                 /*#__PURE__*/React.createElement("text", { x: 125, y: 100, fontSize: 22, textAnchor: "middle" }, "\u2753"),
                 /*#__PURE__*/React.createElement("text", { x: 125, y: 122, fontSize: 11, fill: "var(--inkMuted)", textAnchor: "middle" }, "New pet")) : null))
         ) : null)),

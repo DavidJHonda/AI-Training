@@ -3727,7 +3727,6 @@ function ProbabilitySection(props) {
 function BiasQuiz(props) {
   const [biasIdx, setBiasIdx] = useState(0);
   const [biasGuess, setBiasGuess] = useState(null);
-  const [biasScore, setBiasScore] = useState({ correct: 0, total: 0 });
   const [biasStarted, setBiasStarted] = useState(false);
   const biasScenarios = [
     {
@@ -3739,8 +3738,7 @@ function BiasQuiz(props) {
       choices: [
         { text: "The shape of the animals' ears and snout", explain: "That would be the right thing to look at, but the model found an easier shortcut in the data and never needed to learn the actual animal features." },
         { text: "The size difference between huskies and wolves", explain: "Size would be a reasonable feature, but photos don't always show scale. The model found something even simpler to latch onto." },
-        { text: "The background: snow = wolf, no snow = husky", explain: "Wolf photos in the training data almost always had snowy backgrounds, while husky photos were mostly indoors or on grass. The model learned \"snow = wolf\" instead of \"this animal = wolf.\" It relied on the background, not the animal." },
-        { text: "The color of the animals' fur", explain: "Wolves and huskies can have very similar fur colors. The model found a much easier shortcut than trying to distinguish fur patterns." }
+        { text: "The background: snow = wolf, no snow = husky", explain: "Wolf photos in the training data almost always had snowy backgrounds, while husky photos were mostly indoors or on grass. The model learned \"snow = wolf\" instead of \"this animal = wolf.\" It relied on the background, not the animal." }
       ]
     },
     {
@@ -3748,9 +3746,8 @@ function BiasQuiz(props) {
       title: "Cows on the Beach",
       scenario: "An image recognition model could identify cows in farm photos with high accuracy, but completely failed when shown photos of cows standing on a beach or walking down a city street.",
       question: "Why did the model fail to recognize cows in unusual locations?",
-      correct: 1,
+      correct: 0,
       choices: [
-        { text: "Cows look different when they're not on a farm: their posture changes", explain: "Cows look the same regardless of location. The model should be able to recognize the animal itself, not where it's standing." },
         { text: "The training data almost only showed cows on green grass, so the model associated grass with being a cow", explain: "The model took a shortcut: it learned \"green grass background = cow\" instead of learning what a cow actually looks like. No grass, no cow, as far as the model was concerned." },
         { text: "The model was only designed to work in farm settings", explain: "The model wasn't limited to any setting. It was supposed to recognize cows anywhere. The limitation came from the training data, not the design." },
         { text: "Beach and city photos have too much visual noise for AI to process", explain: "AI can process complex scenes just fine. The issue was that it never learned what a cow looks like without grass, not that the scenes were too complicated." }
@@ -3761,11 +3758,10 @@ function BiasQuiz(props) {
       title: "Self-Driving at Night",
       scenario: "Early autonomous vehicle models had significantly higher rates of failing to detect pedestrians at night and in rainy conditions, compared to daytime clear weather.",
       question: "Why did the self-driving AI struggle at night and in rain?",
-      correct: 3,
+      correct: 2,
       choices: [
         { text: "Cameras don't work well in the dark, so the AI couldn't see anything", explain: "While cameras do perform differently at night, the AI was also using infrared and lidar sensors. The issue wasn't hardware. It was what the model had learned from." },
         { text: "The AI was programmed to be more cautious at night, which caused detection errors", explain: "The AI wasn't programmed with different rules for different conditions. It used the same model regardless. The model just hadn't learned nighttime patterns well enough." },
-        { text: "Pedestrians behave differently at night, which confused the model", explain: "Pedestrians may dress differently, but they still look like people. The model should recognize a person regardless of when they're walking." },
         { text: "The training data was mostly daytime, clear-weather driving, so the model barely knew what people look like in headlights or rain", explain: "The training data wasn't representative of real-world conditions. When the model encountered scenarios it had rarely seen (people lit by headlights, blurred by rain), it failed. The bias was invisible until tested in the real world." }
       ]
     },
@@ -3778,8 +3774,7 @@ function BiasQuiz(props) {
       choices: [
         { text: "The training data was mostly lighter-skinned adult faces, so the model didn't learn enough variety", explain: "If your training data isn't representative of the real world, your model won't work equally well for everyone. The AI wasn't biased by design. It just hadn't seen enough diversity. This has led to real consequences including wrongful arrests." },
         { text: "The AI was intentionally designed to prioritize certain face types", explain: "No one designed the system to be biased. AI learns from data patterns: if the data is skewed, the results are skewed. The bias was unintentional but very real." },
-        { text: "Darker skin and younger faces are objectively harder for computers to analyze", explain: "This is a common misconception. With diverse training data, AI systems can recognize faces across all skin tones and ages with similar accuracy. The problem was the data, not the difficulty." },
-        { text: "The facial recognition algorithm has a known mathematical limitation with certain features", explain: "The algorithm itself works equally on all faces. The limitation was in what it had been trained on: not enough variety in the data to learn everyone's features equally well." }
+        { text: "Darker skin and younger faces are objectively harder for computers to analyze", explain: "This is a common misconception. With diverse training data, AI systems can recognize faces across all skin tones and ages with similar accuracy. The problem was the data, not the difficulty." }
       ]
     },
     {
@@ -3791,8 +3786,7 @@ function BiasQuiz(props) {
       choices: [
         { text: "The training data was ten years of past hires, who were mostly men, so the model learned that \"good engineer resumes\" looked like the male resumes that had already been hired", explain: "The model didn\u2019t have an opinion about gender. It learned what \"hired\" looked like, and \"hired\" meant \"mostly men\" for ten years. So it picked up on words and patterns that just happened to correlate with men\u2019s resumes, even when those features had nothing to do with engineering ability. The bias was inherited from the data, not designed in." },
         { text: "Someone at the company programmed the AI with rules that explicitly excluded women", explain: "No engineer wrote \"penalize women\" anywhere in the code. The bias came from the data, not the code. That\u2019s what makes training bias so sneaky: nobody intends it, and it can hide for a long time before anyone notices what the model is actually doing." },
-        { text: "Women applicants had less impressive qualifications than men in the dataset", explain: "The model wasn\u2019t evaluating qualifications. It was matching patterns. A strong woman\u2019s resume looked \"different\" to the model from a strong man\u2019s resume because the historical hires it learned from were mostly men. \"Different\" got read as \"worse,\" regardless of the actual qualifications." },
-        { text: "The training dataset was too small for the AI to learn enough about women", explain: "Size wasn\u2019t the problem. The dataset was huge: ten years of resumes. Size doesn\u2019t fix skew. A million resumes that are 95% men still teaches the model that \"engineer\" looks like \"man.\" Representativeness matters more than quantity." }
+        { text: "Women applicants had less impressive qualifications than men in the dataset", explain: "The model wasn\u2019t evaluating qualifications. It was matching patterns. A strong woman\u2019s resume looked \"different\" to the model from a strong man\u2019s resume because the historical hires it learned from were mostly men. \"Different\" got read as \"worse,\" regardless of the actual qualifications." }
       ]
     }
   ];
@@ -3802,9 +3796,6 @@ function BiasQuiz(props) {
     return /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Scenario");
   }
   return /*#__PURE__*/React.createElement("div", null,
-    biasScore.total > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "inline-block", background: "var(--bg)", borderRadius: 8, padding: "6px 14px", marginBottom: 12, fontSize: 13, color: "var(--inkMuted)", border: "1px solid var(--rule)" } },
-      "Score: ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, biasScore.correct + "/" + biasScore.total)
-    ),
     /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)", marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
@@ -3819,14 +3810,12 @@ function BiasQuiz(props) {
       picked: biasGuess != null ? biasGuess : undefined,
       onAnswer: function(idx) {
         setBiasGuess(idx);
-        setBiasScore(function(prev) { return { correct: prev.correct + (idx === bs.correct ? 1 : 0), total: prev.total + 1 }; });
         if (isLastBias && props && props.onComplete) props.onComplete();
       }
     }),
     biasGuess !== null && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10 } },
       !isLastBias && /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasIdx(function(i) { return i + 1; }); setBiasGuess(null); }, style: { fontWeight: 600 } }, "Next Scenario \u2192"),
       isLastBias && /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", flex: 1 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "#4338ca", marginBottom: 8 } }, "Final score: " + biasScore.correct + "/" + biasScore.total),
         /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 14, margin: 0 } },
           "Notice the pattern? Every case of AI bias traced back to the same root cause: ", /*#__PURE__*/React.createElement("strong", null, "the training data"), ". AI doesn't have opinions or prejudices. It reflects whatever patterns exist in the data it learned from, including the gaps, shortcuts, and imbalances."
         )
@@ -3837,10 +3826,10 @@ function BiasQuiz(props) {
 function TrainingBiasSection(props) {
   const [biasComplete, setBiasComplete] = useState(false);
   const MECHANISMS = [
-    { icon: "📈", label: "Too much", term: "Overrepresentation", line1: "Too much of one pattern.", line2: "The model starts treating it as normal." },
-    { icon: "📉", label: "Too little", term: "Underrepresentation", line1: "Too little of some cases.", line2: "The model performs worse when those cases appear." },
-    { icon: "🪤", label: "Wrong clue", term: "Shortcuts", line1: "The wrong clue works in training.", line2: "The model learns the clue instead of the real concept." },
-    { icon: "🕳️", label: "Missing slice", term: "Blind spots", line1: "Some cases are missing entirely.", line2: "The model cannot learn what it never sees." }
+    { icon: "📈", term: "Overrepresentation", line1: "Some cases appear too often in the data.", line2: "The model treats them as the default." },
+    { icon: "📉", term: "Underrepresentation", line1: "Some cases appear too rarely.", line2: "The model performs worse when those cases come up." },
+    { icon: "🪤", term: "Shortcuts", line1: "A wrong clue happens to work in training.", line2: "The model learns the clue instead of the real concept." },
+    { icon: "🕳️", term: "Blind spots", line1: "Some cases are missing entirely.", line2: "The model can't learn what it never sees." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
@@ -3862,10 +3851,9 @@ function TrainingBiasSection(props) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8 } },
               /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, m.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, m.label)),
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, m.term)),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line1),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line2),
-            m.term ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--inkMuted)", marginTop: 8 } }, m.term) : null);
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.line2));
         })
       )
     ),
@@ -3882,19 +3870,17 @@ function TrainingBiasSection(props) {
 }
 function TrainingSection(props) {
   const [stepsRevealed, setStepsRevealed] = useState(0);
-  const [catsDogsStage, setCatsDogsStage] = useState(0);
-  const [startedCatsDogs, setStartedCatsDogs] = useState(false);
   var seeItQuestion = "How do I shoot a basketball?";
   var seeItStages = [
-    { label: "Stage 1: System setup", response: "System initialized. Vocabulary: 50,000 tokens. Architecture: transformer with 96 layers. Ready to begin training.", note: "Before any learning happens, engineers configure the architecture, tokenizer, and vocabulary.", color: "var(--inkMuted)" },
+    { label: "Stage 1: System setup", response: "System initialized. Vocabulary: 50,000 tokens. Embedding dimensions: 12,288. Architecture: transformer with 96 layers. Ready to begin training.", note: /*#__PURE__*/React.createElement("span", null, "Before any learning happens, engineers set up how text breaks into ", /*#__PURE__*/React.createElement("strong", null, "tokens"), ", choose the embedding dimensions, and pick the architecture."), color: "var(--inkMuted)" },
     { label: "Stage 2: Gathering data", response: "basketball court dribble shot free throw NBA hoop backboard rim swish three-pointer rebound assist turnover...", note: "The model is absorbing raw text. It has no structure: just fragments of everything ever written about basketball.", color: "var(--ink)" },
-    { label: "Stage 3: Learning patterns", response: "shoot basketball... wrist elbow follow-through arc... feet shoulder width... bend knees extend arm...", note: "It\u2019s starting to notice which words appear near each other. Not sentences yet: just statistical clusters.", color: "var(--ink)" },
+    { label: "Stage 3: Learning patterns", response: "shoot basketball... wrist elbow follow-through arc... feet shoulder width... bend knees extend arm...", note: /*#__PURE__*/React.createElement("span", null, "It\u2019s starting to notice which ", /*#__PURE__*/React.createElement("strong", null, "tokens"), " appear near each other. Not sentences yet: just statistical clusters."), color: "var(--ink)" },
     { label: "Stage 4: Adjusting weights", response: "To shoot a basketball you need good form. The shooting hand should be under the ball. The elbow should be aligned. Follow through with the wrist.", note: "The parameters are tuning. It can form sentences, but it\u2019s mechanical, with no awareness of audience or context.", color: "#f59e0b" },
     { label: "Stage 5: Base model", response: "How do I shoot a basketball? The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover the basics of shooting form, including stance, grip, and follow-through...", note: "It can produce fluent text, but it doesn\u2019t know it\u2019s talking to a person. It just continues the sentence.", color: "#f59e0b" },
-    { label: "Stage 6: After SFT", response: "Stand with feet shoulder-width apart. Hold the ball with your shooting hand under it and guide hand on the side. Bend your knees, extend your arm, and flick your wrist to release.", note: "Supervised Fine-Tuning taught it to respond to questions instead of just continuing text. Clear, but robotic.", color: "#3b82f6" },
-    { label: "Stage 7: After RLHF", response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you\u2019re reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", note: "Human rankings taught it to be engaging, use analogies, and offer follow-up. This is what you experience today.", color: "#10b981" }
+    { label: "Stage 6: After humans teach conversations (SFT)", response: "Stand with feet shoulder-width apart. Hold the ball with your shooting hand under it and guide hand on the side. Bend your knees, extend your arm, and flick your wrist to release.", note: "Supervised Fine-Tuning taught it to respond to questions instead of just continuing text. Clear, but robotic.", color: "#3b82f6" },
+    { label: "Stage 7: After humans rank answers (RLHF)", response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you\u2019re reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", note: "Human rankings taught it to be engaging, use analogies, and offer follow-up. This is what you experience today.", color: "#10b981" }
   ];
-  var seeItBtnLabels = ["Stage 1: Set Up the System \u2192", "Stage 2: Gather the Data \u2192", "Stage 3: Learn the Patterns \u2192", "Stage 4: Adjust the Weights \u2192", "Stage 5: Base Model \u2192", "Stage 6: After SFT \u2192", "Stage 7: After RLHF \u2192"];
+  var seeItBtnLabels = ["Stage 1: Set Up the System \u2192", "Stage 2: Gather the Data \u2192", "Stage 3: Learn the Patterns \u2192", "Stage 4: Adjust the Weights \u2192", "Stage 5: Base Model \u2192", "Stage 6: Teach Conversations (SFT) \u2192", "Stage 7: Rank Answers (RLHF) \u2192"];
   var _svs = useState(0), visibleStages = _svs[0], setVisibleStages = _svs[1];
   var _stw = useState(0), seeItTypedWords = _stw[0], setSeeItTypedWords = _stw[1];
   var _stt = useState(false), seeItTypingDone = _stt[0], setSeeItTypingDone = _stt[1];
@@ -3917,16 +3903,29 @@ function TrainingSection(props) {
   var resetSeeIt = function() { setVisibleStages(0); setSeeItTypedWords(0); setSeeItTypingDone(false); };
   const steps = [{
     title: "Set up the system",
-    text: "Before the model can learn, engineers choose its architecture and set up how it will break language into pieces the system can work with."
+    text: /*#__PURE__*/React.createElement("span", null,
+      "Before the model can learn anything, engineers set up the basics: how to break language into ",
+      /*#__PURE__*/React.createElement("strong", null, "tokens"),
+      ", how many ",
+      /*#__PURE__*/React.createElement("strong", null, "dimensions"),
+      " of meaning to track, and what every token's starting ",
+      /*#__PURE__*/React.createElement("strong", null, "embedding"),
+      " looks like. None of these are learned yet. Training refines them.")
   }, {
     title: "Gather the data",
     text: "Gather billions of pages of text, images, audio, video, and code: books, websites, conversations, photos, podcasts, and more. Most of it is messy and unstructured. This is the model\u2019s curriculum."
   }, {
-    title: "Predict the next word",
-    text: "The model reads a sentence, hides the next word, and tries to guess it. Then it compares its guess to the real word. Every wrong guess creates a learning signal. That signal is what drives the adjustments in the next stage."
+    title: "Predict the next token",
+    text: /*#__PURE__*/React.createElement("span", null,
+      "The model reads a sentence, hides the next ",
+      /*#__PURE__*/React.createElement("strong", null, "token"),
+      ", and tries to predict it. Then it compares its prediction to the real one. Every wrong prediction creates a learning signal. That signal is what drives the adjustments in the next stage.")
   }, {
     title: "Adjust the parameters",
-    text: "Each wrong prediction tweaks tiny numbers inside the model. Like learning to shoot a basketball, every miss leads to a small adjustment: your elbow, your aim, your release. After thousands of shots, those adjustments add up. In AI, the model improves the same way: by making small changes to its parameters over and over again."
+    text: /*#__PURE__*/React.createElement("span", null,
+      "Each wrong prediction tweaks tiny numbers throughout the model, including the ",
+      /*#__PURE__*/React.createElement("strong", null, "embeddings"),
+      " that hold each token's meaning. Like learning to shoot a basketball, every miss leads to a small adjustment: your elbow, your aim, your release. After thousands of shots, those adjustments add up. In AI, the model improves the same way: by making small changes to its parameters over and over again.")
   }, {
     title: "Repeat that loop at massive scale",
     text: "This runs on huge computer clusters for weeks or months. The result is a base model: a player who\u2019s watched endless film and taken millions of practice shots. It knows the patterns of the game cold. But it\u2019s never played with a teammate. It can predict what comes next, but it doesn\u2019t know how to be helpful yet."
@@ -3945,122 +3944,6 @@ function TrainingSection(props) {
       "Think about learning to drive. You do not start by jumping onto the highway alone. First, you study the rules, watch other drivers, practice in controlled situations, make mistakes, and get corrected by an instructor. All of that happens before you drive on your own."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Training works the same way for LLMs. Before you ever open ChatGPT or Claude, the model has already gone through a massive training process. It studies huge amounts of data, practices predicting what comes next, and adjusts its internal numbers over and over again based on whether its prediction was right or wrong."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Before we look at how LLMs train, here is the simplest version of the same idea. Pretend we are building AI to tell the difference between dogs and cats. Watch how the model figures out what to pay attention to."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Watch a model learn",
-      action: /*#__PURE__*/React.createElement("div", {
-        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(catsDogsStage, 6)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 6"))
-    },
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "sand",
-        items: ["meet", "examples", "first-guess", "iterating", "near-optimal", "classify"],
-        currentIdx: catsDogsStage > 0 ? catsDogsStage - 1 : 0,
-        started: startedCatsDogs,
-        onStart: function() { setStartedCatsDogs(true); setCatsDogsStage(1); },
-        onNext: function() { setCatsDogsStage(function(s) { return s + 1; }); },
-        canAdvance: catsDogsStage < 6,
-        isComplete: false,
-        startLabel: "Meet the pets",
-        nextLabel: catsDogsStage === 1 ? "Pick the features \u2192" :
-                   catsDogsStage === 2 ? "Start with a guess \u2192" :
-                   catsDogsStage === 3 ? "Run 10 iterations \u2192" :
-                   catsDogsStage === 4 ? "Run 100 more iterations \u2192" :
-                   "Classify a new pet \u2192",
-        finishLabel: "Done"
-      },
-        catsDogsStage > 0 ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } },
-              catsDogsStage === 1 ? "01" :
-              catsDogsStage === 2 ? "02" :
-              catsDogsStage === 3 ? "03" :
-              catsDogsStage === 4 ? "04" :
-              catsDogsStage === 5 ? "05" : "06"),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 4 } },
-                catsDogsStage === 1 ? "Meet the pets" :
-                catsDogsStage === 2 ? "Pick the features" :
-                catsDogsStage === 3 ? "First guess" :
-                catsDogsStage === 4 ? "After 10 iterations" :
-                catsDogsStage === 5 ? "After 100 more iterations" :
-                "Classify a new pet"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } },
-                catsDogsStage === 1 ? "The model gets 10 examples: 5 cats, 5 dogs. Nobody tells it what to look at. Color? Size? Sound? It has to figure out which features actually separate these two groups." :
-                catsDogsStage === 2 ? "The model decides two features separate cats from dogs best: fluffiness and weight. From here, every pet is just two numbers to the model. We're plotting them on a graph so you can see what's happening." :
-                catsDogsStage === 3 ? "The model's goal: tell cats from dogs. For each example, it guesses a label, then checks against the truth. Its first guesses are basically random. The wrong ones are what it learns from." :
-                catsDogsStage === 4 ? "Each wrong guess nudges the model's predictions. After ten passes through the data, it is getting most examples right." :
-                catsDogsStage === 5 ? "After a hundred more passes, the model has the pattern locked in. But the poodle? It really IS lightweight and fluffy. The model learned a pattern, not a rule. Real data is messy, and patterns are never perfect." :
-                "It has never seen this one before. Based on the pattern it learned, it predicts: cat. That is what training is for. The model learns from examples so it can make good predictions on examples it has never seen."))),
-          catsDogsStage === 1 ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 18, display: "flex", flexDirection: "column", gap: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 20 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 13, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", minWidth: 48 } }, "Cats"),
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, fontSize: 32, lineHeight: 1 } },
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC31"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDE3A"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDE38"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDE3B"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC08"))),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 20 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 13, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", minWidth: 48 } }, "Dogs"),
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, fontSize: 32, lineHeight: 1 } },
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC36"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC15"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDAE"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC29"),
-                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC15\u200D\uD83E\uDDBA")))) : null,
-          catsDogsStage >= 2 ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
-            /*#__PURE__*/React.createElement("svg", {
-              viewBox: "0 0 400 300",
-              style: { width: "100%", height: "auto", display: "block", maxWidth: 500, margin: "0 auto" }
-            },
-              /*#__PURE__*/React.createElement("line", { x1: 40, y1: 260, x2: 380, y2: 260, stroke: "#b3aec8", strokeWidth: 1.5 }),
-              /*#__PURE__*/React.createElement("line", { x1: 40, y1: 20, x2: 40, y2: 260, stroke: "#b3aec8", strokeWidth: 1.5 }),
-              /*#__PURE__*/React.createElement("text", { x: 210, y: 285, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle" }, "Weight"),
-              /*#__PURE__*/React.createElement("text", { x: 15, y: 140, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle", transform: "rotate(-90 15 140)" }, "Fluffiness"),
-              [[90, 60, "\uD83D\uDC31"], [115, 90, "\uD83D\uDE3A"], [140, 50, "\uD83D\uDE38"], [100, 120, "\uD83D\uDE3B"], [170, 80, "\uD83D\uDC08"]].map(function(p, i) {
-                var pred = catsDogsStage < 3 ? null :
-                           (catsDogsStage === 3 && (i === 1 || i === 3)) ? "dog" : "cat";
-                var isErr = pred === "dog";
-                var chipColor = pred === "cat" ? "var(--primary)" : "#d97706";
-                var chipBg = pred === "cat" ? "#f7f4ff" : "#fef3c7";
-                return /*#__PURE__*/React.createElement("g", { key: "cat" + i },
-                  /*#__PURE__*/React.createElement("circle", { cx: p[0], cy: p[1] - 7, r: 16, fill: "none", stroke: "#ef4444", strokeWidth: 2.5, style: { opacity: isErr ? 1 : 0, transition: "opacity 0.3s ease" } }),
-                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, p[2]),
-                  pred ? /*#__PURE__*/React.createElement("g", null,
-                    /*#__PURE__*/React.createElement("rect", { x: p[0] - 14, y: p[1] + 14, width: 28, height: 14, rx: 7, fill: chipBg, stroke: chipColor, strokeWidth: 1.5 }),
-                    /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1] + 24, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: chipColor, textAnchor: "middle" }, pred)) : null);
-              }),
-              [[255, 205, "\uD83D\uDC36"], [295, 230, "\uD83D\uDC15"], [320, 180, "\uD83E\uDDAE"], [160, 110, "\uD83D\uDC29"], [340, 215, "\uD83D\uDC15\u200D\uD83E\uDDBA"]].map(function(p, i) {
-                var pred = catsDogsStage < 3 ? null :
-                           (catsDogsStage === 3 && (i === 0 || i === 2 || i === 3)) ? "cat" :
-                           (catsDogsStage === 4 && (i === 2 || i === 3)) ? "cat" :
-                           (catsDogsStage >= 5 && i === 3) ? "cat" : "dog";
-                var isErr = pred === "cat";
-                var chipColor = pred === "cat" ? "var(--primary)" : "#d97706";
-                var chipBg = pred === "cat" ? "#f7f4ff" : "#fef3c7";
-                return /*#__PURE__*/React.createElement("g", { key: "dog" + i },
-                  /*#__PURE__*/React.createElement("circle", { cx: p[0], cy: p[1] - 7, r: 16, fill: "none", stroke: "#ef4444", strokeWidth: 2.5, style: { opacity: isErr ? 1 : 0, transition: "opacity 0.3s ease" } }),
-                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, p[2]),
-                  pred ? /*#__PURE__*/React.createElement("g", null,
-                    /*#__PURE__*/React.createElement("rect", { x: p[0] - 14, y: p[1] + 14, width: 28, height: 14, rx: 7, fill: chipBg, stroke: chipColor, strokeWidth: 1.5 }),
-                    /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1] + 24, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: chipColor, textAnchor: "middle" }, pred)) : null);
-              }),
-              catsDogsStage >= 6 ? /*#__PURE__*/React.createElement("g", null,
-                /*#__PURE__*/React.createElement("circle", { cx: 125, cy: 93, r: 14, fill: "#f7f4ff", stroke: "var(--primary)", strokeWidth: 2.5 }),
-                /*#__PURE__*/React.createElement("text", { x: 125, y: 100, fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, fill: "var(--primary)", textAnchor: "middle" }, "?"),
-                /*#__PURE__*/React.createElement("text", { x: 125, y: 122, fontFamily: "var(--sans)", fontSize: 11, fill: "var(--inkMuted)", textAnchor: "middle" }, "New pet"),
-                /*#__PURE__*/React.createElement("rect", { x: 111, y: 130, width: 28, height: 14, rx: 7, fill: "#f7f4ff", stroke: "var(--primary)", strokeWidth: 1.5 }),
-                /*#__PURE__*/React.createElement("text", { x: 125, y: 140, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: "var(--primary)", textAnchor: "middle" }, "cat")) : null)) : null
-        ) : null)),
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
-      "That is the simplest version of training. Two features, ten examples, one line. LLMs do this same kind of thing at a much bigger scale. Thousands of dimensions instead of two. Billions of weights instead of one line. Trillions of examples instead of ten. Same principle: learn from examples, predict from patterns."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "REAL LLM TRAINING"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have knowledge cutoffs. Products can add live search, files, memory, or tools, but the core model is not relearning from scratch every time you chat."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -6298,25 +6181,17 @@ function OpenerAnswersSection(props) {
       "That process is called inference."
     ],
     featuredCard: React.createElement(ShowcaseBox, {
-      kicker: "TRAINING VS. INFERENCE",
-      headline: "Two different processes."
+      kicker: "TRAINING VS. INFERENCE"
     },
-      React.createElement("p", {
-        style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
-      },
-        React.createElement("strong", { style: { color: "var(--ink)" } }, "Training"),
-        " is when the model learns. It studies huge amounts of data, makes predictions, checks how wrong it was, and adjusts its internal numbers. This happens before you ever use the model."
-      ),
-      React.createElement("p", {
-        style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
-      },
-        React.createElement("strong", { style: { color: "var(--ink)" } }, "Inference"),
-        " is when the model answers. It takes your prompt, uses the patterns it already learned, and generates output one token at a time."
-      ),
-      React.createElement("p", {
-        style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 14px 0" }
-      },
-        "The model isn\u2019t rebuilding itself every time you chat. It\u2019s using the system that was already built."
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 } },
+        React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
+          React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 8 } }, "Training"),
+          React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.55 } }, "Training is when the model learns.")
+        ),
+        React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
+          React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 8 } }, "Inference"),
+          React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.55 } }, "Inference is when the model answers.")
+        )
       ),
       React.createElement("p", {
         style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65, margin: 0, fontWeight: 700 }
@@ -6390,13 +6265,41 @@ function ContextSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "context" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Now you have an understanding of the amazing math involved with building a LLM. In this section, you\u2019ll learn how that model generates answers."),
+      "Luke asks ChatGPT a question, \u201CWhat car should I buy after I graduate from College?\u201D AI answers, \u201CGreat question, Luke. I definitely recommend a Jeep Cherokee.\u201D"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The first important element is what the model \u201Cknows\u201D before answering the question. This is one of the primary reasons why it gives different answers to the same question. It\u2019s more about what it knows BEFORE you ask the question."),
+      "Nate asks ChatGPT the very same question. But he gets this answer, \u201CI\u2019m happy you asked this question, Nate. At this point in your life, I recommend the Ford Raptor.\u201D"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "This is called the context window. Think of this as the working memory the LLM uses. It\u2019s what the LLM knows before you even ask the question."),
+      "Wait a second. They received a different answer to the same question."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "In this exercise, you see how the exact same question gets a completely different response depending on the context window."),
+      "Some people think this is a reason not to trust AI. But it\u2019s not. It\u2019s actually demonstrating the power of ChatGPT. It gave the best answers for each."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Understanding why this happened is one of the keys to being smarter than the tool."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "When you use a specific model of ChatGPT, it\u2019s the same model everyone else starts with. That means it has the same pre-trained data."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "But ChatGPT knows more than the last question you typed. For example, earlier in his chat, Nate said he loves pickup trucks. When ChatGPT answers his question, it recognizes this and suggests the truck."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "What do you call everything the LLM knows when it answers your questions? The ",
+      /*#__PURE__*/React.createElement("strong", null, "context window."),
+      " Think of it almost like the working memory the LLM uses when it answers your question. And, it builds the working memory from several places."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "WHAT GOES IN THE CONTEXT WINDOW",
+      marginTop: 24,
+      marginBottom: 24
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
+        [
+          { icon: "\uD83D\uDCAC", label: "Your current prompt", desc: "The message you just typed" },
+          { icon: "\uD83D\uDCDD", label: "Conversation history", desc: "Earlier messages in this session" },
+          { icon: "\u2699\uFE0F", label: "System instructions", desc: "Persona, tone, or rules set by the product" },
+          { icon: "\uD83E\uDDE0", label: "Saved memory", desc: "Facts the product stores about you" }
+        ].map(function(item, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 14px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0 } }, item.icon),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--ink)" } }, item.label),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", lineHeight: 1.4 } }, item.desc)));
+        }))),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -6463,24 +6366,6 @@ function ContextSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, lineHeight: 1.6, color: "#3a3550" } },
                 /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700 } }, firstSentence), rest));
           })() : null))),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "WHAT GOES ON THE WHITEBOARD",
-      marginTop: 24,
-      marginBottom: 24
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
-        [
-          { icon: "\uD83D\uDCAC", label: "Your current prompt", desc: "The message you just typed" },
-          { icon: "\uD83D\uDCDD", label: "Conversation history", desc: "Earlier messages in this session" },
-          { icon: "\u2699\uFE0F", label: "System instructions", desc: "Persona, tone, or rules set by the product" },
-          { icon: "\uD83E\uDDE0", label: "Saved memory", desc: "Facts the product stores about you" }
-        ].map(function(item, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 14px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0 } }, item.icon),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--ink)" } }, item.label),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", lineHeight: 1.4 } }, item.desc)));
-        }))),
 
     /*#__PURE__*/React.createElement(BodyP, null,
       "The context window has a fixed size, measured in tokens:"),

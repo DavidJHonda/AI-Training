@@ -3946,7 +3946,7 @@ function TrainingSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Training works the same way for LLMs. Before you ever open ChatGPT or Claude, the model has already gone through a massive training process. It studies huge amounts of data, practices predicting what comes next, and adjusts its internal numbers over and over again based on whether its prediction was right or wrong."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Before we look at how LLMs train, here is the simplest version of the same idea. Pretend we are building AI to tell the difference between dogs and cats. And, we're only comparing them on two differences, Fluffiness and Weight."),
+      "Before we look at how LLMs train, here is the simplest version of the same idea. Pretend we are building AI to tell the difference between dogs and cats. Watch how the model figures out what to pay attention to."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -3954,22 +3954,23 @@ function TrainingSection(props) {
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(catsDogsStage, 5)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 5"))
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(catsDogsStage, 6)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 6"))
     },
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "sand",
-        items: ["examples", "first-guess", "iterating", "near-optimal", "classify"],
+        items: ["meet", "examples", "first-guess", "iterating", "near-optimal", "classify"],
         currentIdx: catsDogsStage > 0 ? catsDogsStage - 1 : 0,
         started: startedCatsDogs,
         onStart: function() { setStartedCatsDogs(true); setCatsDogsStage(1); },
         onNext: function() { setCatsDogsStage(function(s) { return s + 1; }); },
-        canAdvance: catsDogsStage < 5,
+        canAdvance: catsDogsStage < 6,
         isComplete: false,
-        startLabel: "Show the examples",
-        nextLabel: catsDogsStage === 1 ? "Start with a guess \u2192" :
-                   catsDogsStage === 2 ? "Run 10 iterations \u2192" :
-                   catsDogsStage === 3 ? "Run 100 more iterations \u2192" :
+        startLabel: "Meet the pets",
+        nextLabel: catsDogsStage === 1 ? "Pick the features \u2192" :
+                   catsDogsStage === 2 ? "Start with a guess \u2192" :
+                   catsDogsStage === 3 ? "Run 10 iterations \u2192" :
+                   catsDogsStage === 4 ? "Run 100 more iterations \u2192" :
                    "Classify a new pet \u2192",
         finishLabel: "Done"
       },
@@ -3979,21 +3980,41 @@ function TrainingSection(props) {
               catsDogsStage === 1 ? "01" :
               catsDogsStage === 2 ? "02" :
               catsDogsStage === 3 ? "03" :
-              catsDogsStage === 4 ? "04" : "05"),
+              catsDogsStage === 4 ? "04" :
+              catsDogsStage === 5 ? "05" : "06"),
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 4 } },
-                catsDogsStage === 1 ? "The examples" :
-                catsDogsStage === 2 ? "First guess" :
-                catsDogsStage === 3 ? "After 10 iterations" :
-                catsDogsStage === 4 ? "After 100 more iterations" :
+                catsDogsStage === 1 ? "Meet the pets" :
+                catsDogsStage === 2 ? "Pick the features" :
+                catsDogsStage === 3 ? "First guess" :
+                catsDogsStage === 4 ? "After 10 iterations" :
+                catsDogsStage === 5 ? "After 100 more iterations" :
                 "Classify a new pet"),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } },
-                catsDogsStage === 1 ? "Show the model 10 labeled examples. Cats tend to be lighter and fluffier. Dogs tend to be heavier and less fluffy." :
-                catsDogsStage === 2 ? "The model starts with a random guess. Several examples end up on the wrong side. Now it adjusts." :
-                catsDogsStage === 3 ? "Each wrong example nudges the line a little. After ten passes through the data, the line is starting to find the pattern." :
-                catsDogsStage === 4 ? "After a hundred more passes, every example sits on the right side. The model has learned the pattern." :
-                "It has never seen this one before. It sees where the pet falls relative to the line, and predicts: cat. That is what training is for. The model learns from examples so it can make good predictions on examples it has never seen."))),
-          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
+                catsDogsStage === 1 ? "The model gets 10 examples: 5 cats, 5 dogs. Nobody tells it what to look at. Color? Size? Sound? It has to figure out which features actually separate these two groups." :
+                catsDogsStage === 2 ? "The model decides two features separate cats from dogs best: fluffiness and weight. From here, every pet is just two numbers to the model. We're plotting them on a graph so you can see what's happening." :
+                catsDogsStage === 3 ? "The model's goal: tell cats from dogs. For each example, it guesses a label, then checks against the truth. Its first guesses are basically random. The wrong ones are what it learns from." :
+                catsDogsStage === 4 ? "Each wrong guess nudges the model's predictions. After ten passes through the data, it is getting most examples right." :
+                catsDogsStage === 5 ? "After a hundred more passes, the model has the pattern locked in. But the poodle? It really IS lightweight and fluffy. The model learned a pattern, not a rule. Real data is messy, and patterns are never perfect." :
+                "It has never seen this one before. Based on the pattern it learned, it predicts: cat. That is what training is for. The model learns from examples so it can make good predictions on examples it has never seen."))),
+          catsDogsStage === 1 ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 18, display: "flex", flexDirection: "column", gap: 16 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 20 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 13, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", minWidth: 48 } }, "Cats"),
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, fontSize: 32, lineHeight: 1 } },
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC31"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDE3A"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDE38"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDE3B"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC08"))),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 20 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 13, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", minWidth: 48 } }, "Dogs"),
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, fontSize: 32, lineHeight: 1 } },
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC36"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC15"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDAE"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC29"),
+                /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC15\u200D\uD83E\uDDBA")))) : null,
+          catsDogsStage >= 2 ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
             /*#__PURE__*/React.createElement("svg", {
               viewBox: "0 0 400 300",
               style: { width: "100%", height: "auto", display: "block", maxWidth: 500, margin: "0 auto" }
@@ -4002,33 +4023,44 @@ function TrainingSection(props) {
               /*#__PURE__*/React.createElement("line", { x1: 40, y1: 20, x2: 40, y2: 260, stroke: "#b3aec8", strokeWidth: 1.5 }),
               /*#__PURE__*/React.createElement("text", { x: 210, y: 285, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle" }, "Weight"),
               /*#__PURE__*/React.createElement("text", { x: 15, y: 140, fontFamily: "var(--sans)", fontSize: 13, fill: "var(--inkMuted)", textAnchor: "middle", transform: "rotate(-90 15 140)" }, "Fluffiness"),
-              [[90, 60], [115, 90], [140, 50], [100, 120], [170, 80]].map(function(p, i) {
-                var isErr = catsDogsStage === 2 && i === 3;
+              [[90, 60, "\uD83D\uDC31"], [115, 90, "\uD83D\uDE3A"], [140, 50, "\uD83D\uDE38"], [100, 120, "\uD83D\uDE3B"], [170, 80, "\uD83D\uDC08"]].map(function(p, i) {
+                var pred = catsDogsStage < 3 ? null :
+                           (catsDogsStage === 3 && (i === 1 || i === 3)) ? "dog" : "cat";
+                var isErr = pred === "dog";
+                var chipColor = pred === "cat" ? "var(--primary)" : "#d97706";
+                var chipBg = pred === "cat" ? "#f7f4ff" : "#fef3c7";
                 return /*#__PURE__*/React.createElement("g", { key: "cat" + i },
                   /*#__PURE__*/React.createElement("circle", { cx: p[0], cy: p[1] - 7, r: 16, fill: "none", stroke: "#ef4444", strokeWidth: 2.5, style: { opacity: isErr ? 1 : 0, transition: "opacity 0.3s ease" } }),
-                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC31"));
+                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, p[2]),
+                  pred ? /*#__PURE__*/React.createElement("g", null,
+                    /*#__PURE__*/React.createElement("rect", { x: p[0] - 14, y: p[1] + 14, width: 28, height: 14, rx: 7, fill: chipBg, stroke: chipColor, strokeWidth: 1.5 }),
+                    /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1] + 24, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: chipColor, textAnchor: "middle" }, pred)) : null);
               }),
-              [[255, 205], [295, 230], [320, 180], [265, 245], [340, 215]].map(function(p, i) {
-                var isErr = (catsDogsStage === 2 && (i === 2 || i === 4)) || (catsDogsStage === 3 && i === 2);
+              [[255, 205, "\uD83D\uDC36"], [295, 230, "\uD83D\uDC15"], [320, 180, "\uD83E\uDDAE"], [160, 110, "\uD83D\uDC29"], [340, 215, "\uD83D\uDC15\u200D\uD83E\uDDBA"]].map(function(p, i) {
+                var pred = catsDogsStage < 3 ? null :
+                           (catsDogsStage === 3 && (i === 0 || i === 2 || i === 3)) ? "cat" :
+                           (catsDogsStage === 4 && (i === 2 || i === 3)) ? "cat" :
+                           (catsDogsStage >= 5 && i === 3) ? "cat" : "dog";
+                var isErr = pred === "cat";
+                var chipColor = pred === "cat" ? "var(--primary)" : "#d97706";
+                var chipBg = pred === "cat" ? "#f7f4ff" : "#fef3c7";
                 return /*#__PURE__*/React.createElement("g", { key: "dog" + i },
                   /*#__PURE__*/React.createElement("circle", { cx: p[0], cy: p[1] - 7, r: 16, fill: "none", stroke: "#ef4444", strokeWidth: 2.5, style: { opacity: isErr ? 1 : 0, transition: "opacity 0.3s ease" } }),
-                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, "\uD83D\uDC36"));
+                  /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1], fontSize: 22, textAnchor: "middle" }, p[2]),
+                  pred ? /*#__PURE__*/React.createElement("g", null,
+                    /*#__PURE__*/React.createElement("rect", { x: p[0] - 14, y: p[1] + 14, width: 28, height: 14, rx: 7, fill: chipBg, stroke: chipColor, strokeWidth: 1.5 }),
+                    /*#__PURE__*/React.createElement("text", { x: p[0], y: p[1] + 24, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: chipColor, textAnchor: "middle" }, pred)) : null);
               }),
-              catsDogsStage >= 2 ? (function() {
-                var lc = catsDogsStage === 2 ? { x1: 40, y1: 110, x2: 380, y2: 230 } :
-                         catsDogsStage === 3 ? { x1: 60, y1: 200, x2: 380, y2: 90 } :
-                         { x1: 60, y1: 245, x2: 380, y2: 70 };
-                return /*#__PURE__*/React.createElement("line", { x1: lc.x1, y1: lc.y1, x2: lc.x2, y2: lc.y2, stroke: "var(--primary)", strokeWidth: 2.5, strokeLinecap: "round" });
-              })() : null,
-              catsDogsStage >= 5 ? /*#__PURE__*/React.createElement("g", null,
-                /*#__PURE__*/React.createElement("text", { x: 125, y: 100, fontSize: 22, textAnchor: "middle" }, "\u2753"),
-                /*#__PURE__*/React.createElement("text", { x: 125, y: 122, fontSize: 11, fill: "var(--inkMuted)", textAnchor: "middle" }, "New pet")) : null))
+              catsDogsStage >= 6 ? /*#__PURE__*/React.createElement("g", null,
+                /*#__PURE__*/React.createElement("circle", { cx: 125, cy: 93, r: 14, fill: "#f7f4ff", stroke: "var(--primary)", strokeWidth: 2.5 }),
+                /*#__PURE__*/React.createElement("text", { x: 125, y: 100, fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, fill: "var(--primary)", textAnchor: "middle" }, "?"),
+                /*#__PURE__*/React.createElement("text", { x: 125, y: 122, fontFamily: "var(--sans)", fontSize: 11, fill: "var(--inkMuted)", textAnchor: "middle" }, "New pet"),
+                /*#__PURE__*/React.createElement("rect", { x: 111, y: 130, width: 28, height: 14, rx: 7, fill: "#f7f4ff", stroke: "var(--primary)", strokeWidth: 1.5 }),
+                /*#__PURE__*/React.createElement("text", { x: 125, y: 140, fontFamily: "var(--sans)", fontSize: 9, fontWeight: 700, fill: "var(--primary)", textAnchor: "middle" }, "cat")) : null)) : null
         ) : null)),
-    /*#__PURE__*/React.createElement(BodyP, null,
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
       "That is the simplest version of training. Two features, ten examples, one line. LLMs do this same kind of thing at a much bigger scale. Thousands of dimensions instead of two. Billions of weights instead of one line. Trillions of examples instead of ten. Same principle: learn from examples, predict from patterns."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "HUMAN TRAINING"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Humans show it examples of better answers, rank its responses, and teach it to behave more like a useful chatbot instead of a raw text predictor."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "REAL LLM TRAINING"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have knowledge cutoffs. Products can add live search, files, memory, or tools, but the core model is not relearning from scratch every time you chat."),
   /*#__PURE__*/React.createElement(InteractiveBox, {

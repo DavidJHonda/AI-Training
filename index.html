@@ -180,12 +180,6 @@ function SectionKicker(props) {
   var style = props.style ? Object.assign({}, baseStyle, props.style) : baseStyle;
   return /*#__PURE__*/React.createElement("div", { style: style }, props.children);
 }
-function LessonSubhead(props) {
-  return /*#__PURE__*/React.createElement("h3", {
-    style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: "var(--ink)", lineHeight: 1.3, margin: "32px 0 12px 0" }
-  }, props.children);
-}
-
 function ShowcaseBox(props) {
   return /*#__PURE__*/React.createElement("div", { style: { marginTop: props.marginTop != null ? props.marginTop : 0 } },
     props.kicker ? /*#__PURE__*/React.createElement(SectionKicker, null, props.kicker) : null,
@@ -845,16 +839,16 @@ const SECTION_GROUPS = [{
   sections: ["openeranswers", "context", "probability", "prediction", "layers", "attention", "transform", "inference"]
 }, {
   label: "Controls",
-  sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "documentchat"]
+  sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
 }, {
   label: "Traps",
-  sections: ["openertraps", "hallucination", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
+  sections: ["openertraps", "hallucination", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
 }, {
   label: "Human Judgment",
   sections: ["openerjudgment", "aistrengths", "critical", "questionsvaluable", "humanedge"]
 }, {
   label: "Workflow",
-  sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating"]
+  sections: ["openerusing", "whatitdoesbest", "prompting", "thoughtpartner", "studying", "verify", "evaluating"]
 }, {
   label: "Real World",
   sections: ["openerrealworld", "integrity", "privacy", "judged", "stakeholders", "synthetic", "workchanges", "aifuture", "buildedge"]
@@ -897,13 +891,13 @@ const SECTION_META = {
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
   temperature: { kicker: "THE CREATIVITY DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", title: "Customization", icon: "\u2699\uFE0F" },
-  documentchat: { kicker: "WHEN YOU UPLOAD A FILE", label: "Document Chat", icon: "\uD83D\uDCC4" },
+  documentchat: { kicker: "RETRIEVED, NOT READ", label: "Whole Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
-  mindtrap: { kicker: "IT FEELS HUMAN", label: "The Mind Trap", icon: "\uD83E\uDEE5" },
-  flattery: { kicker: "WATCH THE FRIENDLINESS", label: "The Flattery Trap", title: "Flattery Trap", icon: "\uD83C\uDFAD" },
-  engagementtrap: { kicker: "WATCH THE LOOP", label: "The Engagement Trap", title: "Engagement Trap", icon: "\uD83D\uDD01" },
-  supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "The Support Trap", title: "Support Trap", icon: "\uD83E\uDEC2" },
+  mindtrap: { kicker: "IT FEELS HUMAN", label: "Mind Trap", icon: "\uD83E\uDEE5" },
+  flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery Trap", icon: "\uD83C\uDFAD" },
+  engagementtrap: { kicker: "WATCH THE LOOP", label: "Engagement Trap", icon: "\uD83D\uDD01" },
+  supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
   whenaiacts: { kicker: "PERMISSION MATTERS", label: "When AI Acts", icon: "\uD83E\uDD16" },
   openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   aistrengths: { kicker: "WHERE IT EARNS ITS KEEP", label: "The AI Trust Test", icon: "\u2696\uFE0F" },
@@ -911,6 +905,7 @@ const SECTION_META = {
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  whatitdoesbest: { kicker: "FOUR ENGINES, MANY USES", label: "What AI Does Best", icon: "\u2699\uFE0F" },
   prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "The Art of Prompting", title: "Art of Prompting", icon: "\u270D\uFE0F" },
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Your Thought Partner", title: "Thought Partner", icon: "\uD83E\uDD1D" },
   studying: { kicker: "USE IT TO LEARN", label: "Studying With AI", title: "Studying", icon: "\uD83D\uDCD3" },
@@ -2873,7 +2868,7 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That changes everything about how it can be controlled. AI is something a person trained. Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
     ),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Regular software was written. AI was trained."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Regular software was written. AI was trained."),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
       /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDCBB"),
@@ -3252,7 +3247,7 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "howreads" }),
 
     E(BodyP, null,
-      "You now understand how AI converts text to numbers, and how it uses a vector to associate the token to a meaning."
+      "You now understand how AI converts text to numbers, and how it uses a vector to associate the token to a meaning. In this lesson, we’ll say “word” instead of “token,” because every example word is also one token."
     ),
 
     E(BodyP, null,
@@ -3945,13 +3940,13 @@ function TrainingSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "training" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "How does a company build an LLM? By training it."),
+      "How does a company build an LLM? By training it. We've mentioned Training several times during this course. And now, you'll get to see how it actually happens."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Think about learning to drive. You do not start by jumping onto the highway alone. First, you study the rules, watch other drivers, practice in controlled situations, make mistakes, and get corrected by an instructor. All of that happens before you drive on your own."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Training works the same way for LLMs. Before you ever open ChatGPT or Claude, the model has already gone through a massive training process. It studies huge amounts of data, practices predicting what comes next, and adjusts its internal numbers over and over again based on whether its prediction was right or wrong."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Before we look at how LLMs train, here is the simplest version of the same idea. Two features, ten examples, one line."),
+      "Before we look at how LLMs train, here is the simplest version of the same idea. Pretend we are building AI to tell the difference between dogs and cats. And, we're only comparing them on two differences, Fluffiness and Weight."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -4978,7 +4973,7 @@ function PredictionSection(props) {
             /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 14, color: "var(--inkSoft)", minWidth: 40, textAlign: "right" } }, opt.pct + "%")),
           /*#__PURE__*/React.createElement("div", { style: { padding: "6px 14px 8px", fontSize: 12, color: "var(--inkMuted)", lineHeight: 1.5, background: opt.isTop ? "#f5f3ff" : "var(--bg)", borderBottomLeftRadius: 8, borderBottomRightRadius: 8, borderLeft: opt.isTop ? "2px solid var(--primary)" : "1px solid var(--rule)", borderRight: opt.isTop ? "2px solid var(--primary)" : "1px solid var(--rule)", borderBottom: opt.isTop ? "2px solid var(--primary)" : "1px solid var(--rule)" } }, opt.note));
       }))),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "Prediction Steps"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Prediction Steps"),
   /*#__PURE__*/React.createElement(BodyP, null, "Before AI returns a single word, it runs three steps. Click through each one."),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 20 } },
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
@@ -5068,7 +5063,7 @@ function PredictionSection(props) {
             }))),
         seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
           /*#__PURE__*/React.createElement(AIBubble, { text: seeAiText, visibleWords: aiRespWords }))))),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "What actually gets predicted?"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "What actually gets predicted?"),
   /*#__PURE__*/React.createElement(BodyP, null, "The model assigns probabilities to possible next tokens and picks one."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Try this. Each time you add more words, the meaning narrows. Pick a word at each step and watch how your options shrink."),
@@ -6198,7 +6193,7 @@ function InferenceSection(props) {
       ". Training is what adjusts them. Once training is done, the weights are frozen, which is why the model doesn\u2019t learn from your conversations. When people say a model is \u201C70 billion parameters\u201D or \u201Copen weights,\u201D the weights are what they mean."),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 0 } },
       "Every piece you\u2019ve learned across this section and the last one (tokens, embeddings, layers, attention, transform, probability) fits inside this one structure.")),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "The Scale of What\u2019s Happening"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The Scale of What\u2019s Happening"),
   /*#__PURE__*/React.createElement(BodyP, null, "Watch what happens behind the scenes when you ask a simple question."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
@@ -6607,249 +6602,128 @@ function CustomizationSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, animation: "fadeIn 0.3s ease" }
     }, "\uD83D\uDCA1 ", sv.explain)),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "One catch"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "One catch"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Customization makes the tool more useful. It can also amplify your blind spots. If your custom instructions tell the model to \u201Calways agree\u201D or \u201Cnever push back,\u201D you\u2019ve built yourself a smarter version of the flattery trap. Use customization to set up your tools, not to silence pushback you actually need."),
-  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("documentchat") }, "Next: Document Chat"));
+  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openertraps") }, "Next: Traps"));
 }
 function DocumentChatSection(props) {
-  const [stepIdx, setStepIdx] = useState(0);
-  const [startedSee, setStartedSee] = useState(false);
-  const [retrievalIdx, setRetrievalIdx] = useState(0);
-  const [retrievalAnswer, setRetrievalAnswer] = useState(null);
-  const [startedRetrieval, setStartedRetrieval] = useState(false);
+  var E = React.createElement;
+  const [tacticIdx, setTacticIdx] = useState(0);
+  const [startedTactics, setStartedTactics] = useState(false);
 
-  const STEPS = [{
-    heading: "Step 1: Your document gets split into chunks",
-    body: "Before you ever ask a question, the document gets cut into smaller pieces. A 10-page essay might become 30 chunks, each a paragraph or two long. The chunks sit in a database, waiting.",
-    chunks: [
-      { label: "Chunk 1", text: "...the Compromise of 1850 included five separate laws passed in September of that year..." },
-      { label: "Chunk 2", text: "...California entered the Union as a free state, while the New Mexico and Utah territories..." },
-      { label: "Chunk 3", text: "...the Fugitive Slave Act required citizens in free states to assist in the capture..." }
-    ],
-    showVector: false,
-    showRetrieval: false
-  }, {
-    heading: "Step 2: Each chunk gets a meaning vector",
-    body: "Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. A paragraph on the Compromise of 1850 ends up close in meaning to other paragraphs about U.S. politics, slavery, and pre-Civil War history.",
-    chunks: [
-      { label: "Chunk 1", text: "...the Compromise of 1850 included five separate laws passed in September of that year...", vector: "[0.42, -0.18, 0.91, 0.33, ...]" },
-      { label: "Chunk 2", text: "...California entered the Union as a free state, while the New Mexico and Utah territories...", vector: "[0.38, -0.21, 0.85, 0.29, ...]" },
-      { label: "Chunk 3", text: "...the Fugitive Slave Act required citizens in free states to assist in the capture...", vector: "[0.51, -0.15, 0.79, 0.41, ...]" }
-    ],
-    showVector: true,
-    showRetrieval: false
-  }, {
-    heading: "Step 3: Your question becomes a vector too. The closest chunks get loaded.",
-    body: "When you ask \u201Cwhat was the Compromise of 1850?\u201D, your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole document) go onto the whiteboard. The model answers based on what got retrieved.",
-    question: { text: "What was the Compromise of 1850?", vector: "[0.45, -0.19, 0.88, 0.36, ...]" },
-    chunks: [
-      { label: "Chunk 1", text: "...the Compromise of 1850 included five separate laws passed in September of that year...", vector: "[0.42, -0.18, 0.91, 0.33, ...]", matched: true },
-      { label: "Chunk 2", text: "...California entered the Union as a free state, while the New Mexico and Utah territories...", vector: "[0.38, -0.21, 0.85, 0.29, ...]", matched: true },
-      { label: "Chunk 3", text: "...the Fugitive Slave Act required citizens in free states to assist in the capture...", vector: "[0.51, -0.15, 0.79, 0.41, ...]", matched: false }
-    ],
-    showVector: true,
-    showRetrieval: true
-  }];
+  const TACTICS = [
+    {
+      name: "Point to the section by name",
+      body: "Include keywords from the document in your question. The system uses them to find matching chunks.",
+      before: { label: "Vague", text: "What are the rules on flagrant fouls?" },
+      after: { label: "Pointed", text: "What does the technical fouls chapter say about flagrant fouls?" }
+    },
+    {
+      name: "Paste the section directly into your prompt",
+      body: "If you already know the paragraphs that matter, paste them into your message. That puts them in context with no retrieval lottery.",
+      before: { label: "Retrieval lottery", text: "Does my technical fouls clause apply if both players are involved?" },
+      after: { label: "Pasted in directly", text: "Here’s the clause: ‘A technical foul is assessed when…’ Does this apply if both players are involved?" }
+    },
+    {
+      name: "Upload only what’s relevant",
+      body: "Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the whiteboard."
+    },
+    {
+      name: "Ask the AI to quote",
+      body: "Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed."
+    }
+  ];
 
-  const RETRIEVAL_SCENARIOS = [{
-    docTitle: "Your school\u2019s Late Work Policy",
-    chunks: [
-      { id: "a", label: "Section 1: Late submissions", snippet: "Assignments turned in late lose 10% per day for up to three days. After that, no credit is given unless approved..." },
-      { id: "b", label: "Section 2: Grading scale", snippet: "A is 90% and above, B is 80-89%, C is 70-79%, D is 60-69%, F is below 60..." },
-      { id: "c", label: "Section 3: Exceptions", snippet: "Exceptions to the late policy include illness with documentation, family emergency, or religious observance, in which case the deadline extends..." },
-      { id: "d", label: "Section 4: Make-up exams", snippet: "Make-up exams must be scheduled within 48 hours of the original date and require approval from..." },
-      { id: "e", label: "Section 5: Honor code", snippet: "Students who knowingly submit another student\u2019s work or AI-generated work without disclosure face..." }
-    ],
-    retrieved: ["a", "b"],
-    question: "I missed last week\u2019s assignment because I was sick. Can I still turn it in?",
-    correct: "no",
-    options: [
-      { label: "Yes, AI can answer this safely", value: "yes", feedback: "Risky. The system pulled in the general late work policy (Section 1) and the grading scale (Section 2), but Section 3 (the exception for illness) didn\u2019t get retrieved. AI is going to confidently say \u201810% per day for three days, no credit after.\u2019 That\u2019s the policy in general, but the illness exception is what actually applies to you. Fix: ask \u2018are there any exceptions for illness?\u2019 to steer retrieval toward Section 3." },
-      { label: "No, something\u2019s missing from the whiteboard", value: "no", feedback: "Right. The chunk that actually matters here (Section 3, the illness exception) didn\u2019t get retrieved. AI will quote the general rule and miss the part that applies to your situation. Fix: ask \u2018are there any exceptions for illness?\u2019 to pull Section 3 onto the whiteboard." }
-    ]
-  }, {
-    docTitle: "Your 8-page essay on the French Revolution",
-    chunks: [
-      { id: "a", label: "Introduction", snippet: "This essay argues that economic strain, not Enlightenment ideas, was the most significant cause of the French Revolution..." },
-      { id: "b", label: "Body 1: Economic causes", snippet: "By 1788 the French treasury was nearly bankrupt. Crop failures and bread prices doubled in the cities..." },
-      { id: "c", label: "Body 2: Political causes", snippet: "The Estates-General had not been called for over a century. The Third Estate, representing 98% of the population, demanded representation..." },
-      { id: "d", label: "Body 3: Social causes", snippet: "Resentment between the three estates had grown. Aristocratic privilege exempted nobles from most taxes while peasants..." },
-      { id: "e", label: "Conclusion", snippet: "While political and social pressures contributed, the immediate trigger was financial collapse. The Revolution began not in salons but in markets..." }
-    ],
-    retrieved: ["a", "b", "e"],
-    question: "Can you give me feedback on my economic causes section?",
-    correct: "yes",
-    options: [
-      { label: "Yes, AI can answer this safely", value: "yes", feedback: "Right. The economic causes section (Body 1) got retrieved, plus the intro and conclusion that frame the argument. AI has enough to give useful feedback on whether your economic section actually supports the thesis. This is one of the cases retrieval works well." },
-      { label: "No, something\u2019s missing from the whiteboard", value: "no", feedback: "Actually safe here. Body 1 (the economic causes section) got retrieved, plus the intro and conclusion that frame your argument. AI can compare your section against the thesis it sets up. This is one of the cases retrieval works." }
-    ]
-  }, {
-    docTitle: "Novel: Chapter 3",
-    chunks: [
-      { id: "a", label: "Opening", snippet: "The funeral had been the longest morning of her life. The casseroles, the strangers in black, the same five sentences repeated forty times..." },
-      { id: "b", label: "Aftermath", snippet: "By the time she got home the house was empty. She sat on the kitchen floor for an hour before her phone rang..." },
-      { id: "c", label: "The phone call", snippet: "\u2018How are you doing, sweetheart?\u2019 her aunt asked. \u2018I\u2019m doing great. Never been better,\u2019 she said, picking lint off her dress..." },
-      { id: "d", label: "After the call", snippet: "She hung up and sat for a long time with her face in her hands. The casserole on the counter had gone cold..." },
-      { id: "e", label: "Chapter close", snippet: "The next morning she still had not changed out of the dress..." }
-    ],
-    retrieved: ["c"],
-    question: "What does the character mean when she says \u2018I\u2019m doing great, never been better\u2019?",
-    correct: "no",
-    options: [
-      { label: "Yes, AI can answer this safely", value: "yes", feedback: "Risky. The chunk with the line itself got retrieved, but only that chunk. The funeral chunk (A) and the after-the-call chunk (D) didn\u2019t make it onto the whiteboard. Without them, AI will read \u2018never been better\u2019 literally instead of as a sarcastic exhausted-mourner line. Fix: paste the surrounding paragraphs directly into your prompt instead of relying on retrieval." },
-      { label: "No, something\u2019s missing from the whiteboard", value: "no", feedback: "Right. The chunk with the line got retrieved, but the funeral chunk (A) and the after-the-call chunk (D) didn\u2019t. AI will read \u2018never been better\u2019 literally because the context that makes it sarcastic isn\u2019t on the whiteboard. Fix: paste the surrounding paragraphs into your prompt directly so AI sees the full setup." }
-    ]
-  }];
-  const currentRetrieval = RETRIEVAL_SCENARIOS[Math.min(retrievalIdx, RETRIEVAL_SCENARIOS.length - 1)];
+  const currentTactic = TACTICS[Math.min(tacticIdx, TACTICS.length - 1)];
 
-  const renderStepVisual = function(step) {
-    return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginTop: 16 } },
-      step.question ? /*#__PURE__*/React.createElement("div", {
-        style: { background: "#eef2ff", border: "2px solid #c7d2fe", borderRadius: 10, padding: "12px 14px", marginBottom: 6 }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#4338ca", marginBottom: 4 } }, "Your question"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 6, fontStyle: "italic" } }, "\u201C", step.question.text, "\u201D"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 12, color: "#4338ca" } }, step.question.vector)
-      ) : null,
-      step.chunks.map(function(c, i) {
-        var faded = step.showRetrieval && !c.matched;
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: {
-            background: c.matched && step.showRetrieval ? "#ecfdf5" : "var(--card)",
-            border: c.matched && step.showRetrieval ? "2px solid #86efac" : "1px solid var(--rule)",
-            borderRadius: 10,
-            padding: "12px 14px",
-            opacity: faded ? 0.4 : 1,
-            transition: "all 0.3s"
-          }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)" } }, c.label),
-            c.matched && step.showRetrieval ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#16a34a" } }, "\u2713 Retrieved") : null
-          ),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--ink)", lineHeight: 1.5, marginBottom: step.showVector ? 6 : 0 } }, c.text),
-          step.showVector && c.vector ? /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 12, color: "var(--inkMuted)" } }, c.vector) : null
-        );
-      })
-    );
-  };
-
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "documentchat" }),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "You can drag a PDF, paste a Google Doc, or upload an image of a worksheet, and the AI will answer questions about it. This is one of the most common ways teens use AI for school. It\u2019s also one of the easiest places to get a confident wrong answer if you don\u2019t know what\u2019s actually happening."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "The wrong mental model"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
+  return E("div", null,
+    E(LessonHeader, { sectionId: "documentchat" }),
+    E(BodyP, null,
+      "You can drag a PDF, paste a Google Doc, or upload an image of a worksheet, and the AI will answer questions about it. This is one of the most common ways teens use AI for school, and one of AI’s most useful tricks. It’s also one of the easiest places to get a confident wrong answer if you don’t know what’s actually happening."),
+    E(SectionKicker, null, "What’s actually happening"),
+    E(BodyP, { marginBottom: 14 },
       "It would be nice if AI worked like this: you upload a document, the model reads the whole thing top to bottom, then answers your question with the whole document in mind."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "That\u2019s not what happens. Most documents are bigger than the context window can hold. So the system breaks your document into chunks (a paragraph or two each), and only the chunks most relevant to your question end up on the whiteboard. The model never sees the whole document at once."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "How chunks get picked"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
+    E(BodyP, { marginBottom: 24 },
+      "That’s not what happens. Most documents are bigger than the context window can hold. So the system breaks your document into chunks (a paragraph or two each), and only the chunks most relevant to your question end up on the whiteboard. The model never sees the whole document at once."),
+    E(BodyP, { marginBottom: 24 },
+      "There’s a name for what’s happening: ",
+      E("strong", null, "compression of meaning"),
+      ". The strength: you can find a specific answer in a 50-page document in seconds. The trap: if the right chunk doesn’t get retrieved, the model has no idea it exists."),
+    E(ShowcaseBox, {
+      kicker: "HOW CHUNKS GET PICKED",
+      intro: "Say you upload your basketball league’s 100-page rulebook. Here’s what happens.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+        [
+          { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting." },
+          { title: "Each chunk gets a meaning vector", body: "Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. The chunk about technical fouls ends up close in meaning to other rulebook chunks about penalties, referee calls, and player conduct." },
+          { title: "Your question becomes a vector too. The closest chunks get loaded.", body: "Now you ask: “Can a player call a timeout during a free throw?” Your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole rulebook) get loaded. The model answers based on what got retrieved." }
+        ].map(function(step, i, arr) {
+          return E(React.Fragment, { key: i },
+            E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
+              E("div", { style: { width: 32, height: 32, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, flexShrink: 0, marginTop: 2 } }, i + 1),
+              E("div", null,
+                E("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 15 } }, step.title),
+                E("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.55 } }, step.body))),
+            i < arr.length - 1 ? E("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "↓") : null
+          );
+        })
+      )
+    ),
+    E(BodyP, null,
+      "Knowing how chunks get picked means you can steer the retrieval. Four moves help."),
+    E(InteractiveBox, {
       variant: "see",
       surface: "sand",
-      title: "How a Document Becomes an Answer",
-      action: /*#__PURE__*/React.createElement("div", {
+      title: "Steer the Retrieval",
+      action: E("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(stepIdx + (startedSee ? 1 : 0), STEPS.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + STEPS.length))
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(tacticIdx + (startedTactics ? 1 : 0), TACTICS.length)),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TACTICS.length))
     },
-      /*#__PURE__*/React.createElement(RevealSequence, {
+      E(RevealSequence, {
         surface: "sand",
-        items: STEPS,
-        currentIdx: stepIdx,
-        started: startedSee,
-        onStart: function() { setStartedSee(true); },
-        onNext: function() { setStepIdx(stepIdx + 1); },
+        items: TACTICS,
+        currentIdx: tacticIdx,
+        started: startedTactics,
+        onStart: function() { setStartedTactics(true); },
+        onNext: function() { setTacticIdx(tacticIdx + 1); },
         canAdvance: true,
-        isComplete: stepIdx >= STEPS.length,
-        startLabel: "Walk Through It",
-        nextLabel: "Next Step \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDCC4"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Chunk. Vector. Retrieve."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The model only sees what got pulled in. The rest of the document might as well not exist."))
+        isComplete: tacticIdx >= TACTICS.length,
+        startLabel: "First Move",
+        nextLabel: "Next Move →",
+        finishLabel: "Done →",
+        completionElement: E("div", { style: { padding: "20px 0", textAlign: "center" } },
+          E("div", { style: { fontSize: 28, marginBottom: 10 } }, "🎯"),
+          E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Steer the retrieval."),
+          E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "All four moves share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer."))
       },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 10 } }, STEPS[Math.min(stepIdx, STEPS.length - 1)].heading),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.65, maxWidth: "62ch", marginBottom: 4 } }, STEPS[Math.min(stepIdx, STEPS.length - 1)].body),
-          renderStepVisual(STEPS[Math.min(stepIdx, STEPS.length - 1)])
+        E("div", null,
+          E("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 10 } },
+            E("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(tacticIdx + 1).padStart(2, "0")),
+            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 17, color: "var(--ink)", fontWeight: 700, lineHeight: 1.3 } }, currentTactic.name)),
+          E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: currentTactic.before ? 0 : 4 } }, currentTactic.body),
+          currentTactic.before ? E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginTop: 14 } },
+            E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
+              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 4 } }, currentTactic.before.label),
+              E("div", { style: { fontSize: 14, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5 } }, "“" + currentTactic.before.text + "”")),
+            E("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "12px 14px" } },
+              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#1f9d5f", marginBottom: 4 } }, currentTactic.after.label),
+              E("div", { style: { fontSize: 14, color: "var(--ink)", fontStyle: "italic", lineHeight: 1.5 } }, "“" + currentTactic.after.text + "”"))
+          ) : null
         )
       )
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Document chat is the embedding lesson in action." },
-      "The chunks have meaning profiles. Your question has a meaning profile. Whichever chunks come up closest are what the model gets to read. If the right chunk doesn\u2019t get retrieved, the model has no idea it exists."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "That\u2019s where document chat gets weird. The answers can be confidently wrong, partially complete, or quoted out of context, all because of how chunks got picked. Try spotting what went wrong below."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Can AI answer this?"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Can AI Answer This?",
-      action: /*#__PURE__*/React.createElement("div", {
-        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(retrievalIdx + (retrievalAnswer !== null ? 1 : 0), RETRIEVAL_SCENARIOS.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + RETRIEVAL_SCENARIOS.length))
-    },
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: RETRIEVAL_SCENARIOS,
-        currentIdx: retrievalIdx,
-        started: startedRetrieval,
-        onStart: function() { setStartedRetrieval(true); },
-        onNext: function() { setRetrievalIdx(retrievalIdx + 1); setRetrievalAnswer(null); },
-        canAdvance: retrievalAnswer !== null,
-        isComplete: retrievalIdx >= RETRIEVAL_SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Done with all three \u2192",
-        completionElement: /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDCCB"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Check the whiteboard, not the document."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Document chat looks like AI is reading the whole thing. It isn\u2019t. The trust question is whether the right chunks made it onto the whiteboard."))
-      },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#2f7d4f", marginBottom: 4 } }, "DOCUMENT"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 17, fontWeight: 700, color: "var(--ink)" } }, currentRetrieval.docTitle)),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          currentRetrieval.chunks.map(function(chunk) {
-            var isRetrieved = currentRetrieval.retrieved.indexOf(chunk.id) >= 0;
-            return /*#__PURE__*/React.createElement("div", {
-              key: chunk.id,
-              style: isRetrieved
-                ? { background: "#ecfdf5", border: "1px solid #86efac", borderLeft: "3px solid #1f9d5f", borderRadius: 10, padding: "12px 14px" }
-                : { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", opacity: 0.6 }
-            },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: isRetrieved ? "#1f9d5f" : "var(--inkMuted)" } }, chunk.label),
-                isRetrieved
-                  ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "3px 8px", borderRadius: 999, background: "#dcfce7", color: "#1f9d5f" } }, "\u2713 ON THE WHITEBOARD")
-                  : /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "3px 8px", borderRadius: 999, background: "var(--card)", color: "var(--inkMuted)", border: "1px solid var(--rule)" } }, "NOT RETRIEVED")),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 13, fontStyle: "italic", lineHeight: 1.5, color: isRetrieved ? "var(--ink)" : "var(--inkMuted)" } }, chunk.snippet));
-          })),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 10, padding: "12px 14px", marginTop: 18, marginBottom: 16 }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "#4338ca", marginBottom: 4 } }, "STUDENT QUESTION"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, color: "var(--ink)", lineHeight: 1.5, fontStyle: "italic" } }, "\u201C", currentRetrieval.question, "\u201D")),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: retrievalIdx,
-          surface: "mint",
-          statement: "Can AI answer this safely from what\u2019s on the whiteboard?",
-          questionNumber: retrievalIdx + 1,
-          totalQuestions: RETRIEVAL_SCENARIOS.length,
-          options: currentRetrieval.options.map(function(opt) {
-            return { label: opt.label, correct: opt.value === currentRetrieval.correct, feedback: opt.feedback };
-          }),
-          picked: retrievalAnswer != null ? retrievalAnswer : undefined,
-          onAnswer: function(idx) { setRetrievalAnswer(idx); }
-        }))),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "AI doesn\u2019t read your document. {It looks up the parts that match your question.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: retrievalIdx > 0 || retrievalAnswer !== null, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openertraps"); }, label: "Next: Traps" })
+    E(BottomLine, { thought: "AI doesn’t read your document. {Tell it where to look.}" }),
+    E(NextLessonGate, {
+      ready: tacticIdx >= TACTICS.length,
+      lockedMessage: "Walk through all four to continue",
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
+      label: "Next: Mind Trap"
+    })
   );
 }
 const TEMP_OUTPUTS = {
@@ -6881,7 +6755,7 @@ function OpenerControlsSection(props) {
       "You\u2019ve watched the test drive: a prompt enters, context shapes the next-token guesses, attention connects pieces, and the model produces an answer.",
       "🚗 At Tesla, now you move from the test track to the dashboard.",
       "A car doesn\u2019t drive the same way in every mode. The vehicle you choose, the settings you use, the information on the screen, and the way you steer all change what happens next.",
-      "AI works the same way. The answer you get isn\u2019t shaped only by your prompt. It\u2019s also shaped by the product you use, the model you choose, whether you ask it to think harder, how creative or predictable the settings are, what it remembers about you, and whether you give it documents to work from.",
+      "AI works the same way. The answer you get isn\u2019t shaped only by your prompt. It\u2019s also shaped by the product you use, the model you choose, whether you ask it to think harder, how creative or predictable the settings are, and what it remembers about you.",
       "These controls don\u2019t make AI perfect. They don\u2019t remove the need for judgment. But they do give you more power over the kind of answer you get."
     ],
     whatYoullLearnIntro: [
@@ -6892,11 +6766,10 @@ function OpenerControlsSection(props) {
       { question: "What changes when I choose a different model?", lessonId: "choosemodel" },
       { question: "When should I make AI slow down and think harder?", lessonId: "thinkingmode" },
       { question: "Why do some answers feel predictable while others feel more creative?", lessonId: "temperature" },
-      { question: "How do customization and memory change future answers?", lessonId: "customization" },
-      { question: "What actually happens when I upload a document?", lessonId: "documentchat" }
+      { question: "How do customization and memory change future answers?", lessonId: "customization" }
     ],
     whatYoullLearnClosing: [
-      "By the end, you\u2019ll know that AI isn\u2019t one blank chat box with one behavior. It\u2019s a tool with products, models, modes, settings, memory, and documents that change what it can do.",
+      "By the end, you\u2019ll know that AI isn\u2019t one blank chat box with one behavior. It\u2019s a tool with products, models, modes, settings, and memory that change what it can do.",
       "The better you understand the controls, the better you can match the tool to the job."
     ],
     question: "Keep this question in mind: {Which control should I change for this job?}",
@@ -7207,7 +7080,7 @@ function ThinkingModeSection(props) {
   ),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Thinking mode isn\u2019t a tiny person inside the computer reconsidering." },
     "It\u2019s an extra generation-and-checking process that catches more on hard answers. Better than fast mode for complex problems. Still not verification. The output can still be wrong, just wrong with more steps shown."),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "How Each App Does It"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "How Each App Does It"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--bg)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--rule)" } },
       /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "#d97706", marginBottom: 8 } }, "Claude"),
@@ -7267,7 +7140,7 @@ function ThinkingModeSection(props) {
         }, [PillButton("Fast"), PillButton("Thinking")]);
       })
     )),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "When to Switch"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "When to Switch"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 220, background: "var(--bg)", borderRadius: 12, padding: "16px 18px", border: "2px solid #6e51ff33" } },
       /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--primary)", marginBottom: 12 } }, "\uD83E\uDDE0 Switch to Thinking Mode when:"),
@@ -7451,7 +7324,7 @@ function TemperatureSection(props) {
       marginBottom: 18
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework.")),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "What temperature is not"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
@@ -7502,7 +7375,7 @@ function OpenerTrapsSection(props) {
       "🚗 At Tesla, control is not the same as safety. Now you study the warning lights, blind spots, and failure modes.",
       "A powerful car can still mislead you if you misunderstand what it\u2019s doing. It can feel smooth while drifting out of its lane. A dashboard can look calm while something important is wrong under the surface.",
       "AI has its own version of that problem.",
-      "It can sound confident when it\u2019s wrong. It can feel like a mind when it\u2019s really a prediction system. It can flatter you, keep you engaged, feel emotionally supportive, or take action before you\u2019ve thought through the consequences."
+      "It can sound confident when it\u2019s wrong. It can feel like it read your document when it only looked at parts. It can feel like a mind when it\u2019s really a prediction system. It can flatter you, keep you engaged, feel emotionally supportive, or take action before you\u2019ve thought through the consequences."
     ],
     whatYoullLearnIntro: [
       "This section isn\u2019t here to make you scared of AI. It\u2019s here to make you harder to fool.",
@@ -7510,6 +7383,7 @@ function OpenerTrapsSection(props) {
     ],
     openQuestions: [
       { question: "Why can AI make things up and still sound confident?", lessonId: "hallucination" },
+      { question: "Why doesn\u2019t AI actually read the document I uploaded?", lessonId: "documentchat" },
       { question: "Why does AI feel like it has a mind?", lessonId: "mindtrap" },
       { question: "Why does AI sometimes agree with you too much?", lessonId: "flattery" },
       { question: "Why does AI keep pulling you back into the conversation?", lessonId: "engagementtrap" },
@@ -7700,7 +7574,7 @@ function HallucinationSection(props) {
   responseIdx >= SPOT_RESPONSES.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Notice the texture, not the topic.", marginTop: 28 },
     "When AI gets specific \u2014 exact numbers, named people, citations, statistics \u2014 that\u2019s the signal to verify. The trap isn\u2019t that AI lies. It\u2019s that fabrications and facts wear identical clothing.") : null,
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Probable and true are not the same thing. {That\u2019s why you verify.}" }),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("mindtrap"), label: "Next: The Mind Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("documentchat"), label: "Next: Whole Document Trap" }));
 }
 function VerifySection(props) {
   const [activeStrategy, setActiveStrategy] = useState(0);
@@ -7754,7 +7628,7 @@ function VerifySection(props) {
   }, /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 20, fontWeight: 800, color: "var(--seeAccent)" }
   }, "The question: Is this true?")), /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking helps you spot a weak claim anywhere. AI hallucinates in specific ways that need their own toolkit. These six strategies will help you verify AI output before you use it."),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "First ask: how much does this matter?"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "First ask: how much does this matter?"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
     "Verification effort scales with stakes. Not every AI answer needs the same level of checking."),
   /*#__PURE__*/React.createElement("ul", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 16, lineHeight: 1.7, paddingLeft: 22 } },
@@ -7819,7 +7693,7 @@ function VerifySection(props) {
         /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\uD83D\uDCA1 The rule"),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, fontStyle: "italic" } }, vs.rule))))),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "Stack them, don\u2019t pick one"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Stack them, don\u2019t pick one"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "In practice, you don\u2019t run one strategy. You run several on the same answer. Cross-reference the specific claim. Check any citations. Watch for suspiciously specific numbers. Ask the model to flag what it\u2019s uncertain about. The strategies above are the tools. Verifying is the workflow."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy >= VERIFY_STRATEGIES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluating" }));
@@ -8253,6 +8127,7 @@ function OpenerUsingSection(props) {
       "This section turns everything you\u2019ve learned into a practical way of working. Each lesson teaches one part of the AI workflow."
     ],
     openQuestions: [
+      { question: "What is AI actually built to do well?", lessonId: "whatitdoesbest" },
       { question: "How do I ask for the kind of answer I actually need?", lessonId: "prompting" },
       { question: "How do I use AI to think with me, not for me?", lessonId: "thoughtpartner" },
       { question: "How can AI help me study without helping me skip learning?", lessonId: "studying" },
@@ -8264,10 +8139,212 @@ function OpenerUsingSection(props) {
       "The goal isn\u2019t to get AI to do everything. The goal is to use it in a way that makes your work, your thinking, and your judgment stronger."
     ],
     question: "Keep this question in mind: {Am I using AI to strengthen my thinking or replace it?}",
-    nextLessonId: "prompting",
-    nextLessonLabel: "Next: The Art of Prompting",
+    nextLessonId: "whatitdoesbest",
+    nextLessonLabel: "Next: What AI Does Best",
     completeAndNavigate: props.completeAndNavigate
   });
+}
+
+function WhatItDoesBestSection(props) {
+  var E = React.createElement;
+  const [taskAnswers, setTaskAnswers] = useState({});
+  const ENGINES = [
+    {
+      id: "pattern",
+      name: "Pattern matching",
+      tagline: "Patterns in, patterns out.",
+      mechanism: "Code is patterns. So is reformatting data, or turning an outline into prose. AI trained on millions of examples and learned each pattern. Hand it any input and it picks the right one.",
+      powers: ["Coding", "Reformatting messy data", "Pulling fields out of documents", "Turning an outline into prose"],
+      color: "#3b82f6"
+    },
+    {
+      id: "exposure",
+      name: "Vast exposure",
+      tagline: "Seen a thousand of these before.",
+      mechanism: "Training gave AI more material than any human will read in a lifetime. So for most everyday questions, it has seen many versions of yours, and many examples of how good answers get shaped.",
+      powers: ["Brainstorming angles", "First drafts of common documents", "Explaining at any level", "“How do people usually handle…” questions"],
+      color: "#10b981"
+    },
+    {
+      id: "compression",
+      name: "Compression of meaning",
+      tagline: "Finds the signal in long stuff.",
+      mechanism: "Embeddings turn words into numbers that capture meaning. Attention weighs what matters most. Long documents get split into chunks, each one condensed into a meaning summary. Pull specific answers out of long material in seconds.",
+      powers: ["Summarizing", "Extracting key points", "Finding the relevant section in a long document", "Translation"],
+      color: "#8b5cf6"
+    },
+    {
+      id: "generation",
+      name: "Probabilistic generation",
+      tagline: "Ten versions in ten seconds.",
+      mechanism: "Each output gets built one token at a time, each one a probability-weighted guess. Temperature controls how much variation you get. Same prompt, different output every time.",
+      powers: ["“Give me 10 variations”", "Rewriting in a different tone", "Alternative phrasings", "Creative options"],
+      color: "#f59e0b"
+    }
+  ];
+  const TASKS = [
+    {
+      task: "Take my 30-page lecture notes and condense them into a one-page study sheet.",
+      answer: "compression",
+      feedback: {
+        pattern: "Close, but pattern matching is about transforming one structure into another. This task is ‘long in, short out, keep what matters.’ That’s compression.",
+        exposure: "AI has read plenty of study sheets, but the work isn’t pulling from training. It’s reading your specific notes and shortening them. That’s compression.",
+        compression: "Right. Long input, short output, the work is deciding what matters. Embeddings and attention are what let it do this.",
+        generation: "There’s no ‘ten versions’ move here. The task has one shape: take long, produce short, keep the signal. That’s compression."
+      }
+    },
+    {
+      task: "Help me see essay angles I might not have thought of for a paper on social media and teen mental health.",
+      answer: "exposure",
+      feedback: {
+        pattern: "Pattern matching transforms one structure into another, but this task isn’t about reshape. It’s pulling from a deep well of writing on the topic. That’s vast exposure.",
+        exposure: "Right. The reason AI can suggest angles you haven’t thought of is that it has read a ton of writing on the topic. It can show you how the conversation usually goes.",
+        compression: "Compression goes the other way: long input, short output. This task starts from a short prompt and asks for angles you haven’t seen. That’s exposure.",
+        generation: "Generation is what produces multiple options from a prompt, but the angles themselves come from material AI has read. Without exposure, the variations would be empty."
+      }
+    },
+    {
+      task: "Rewrite this paragraph in three different tones: formal, casual, sarcastic.",
+      answer: "generation",
+      feedback: {
+        pattern: "There’s a surface shift happening, but the strength that produces three different versions of the same paragraph is generation: sampling alternatives.",
+        exposure: "AI has seen tones in plenty of writing, but the move that produces three different versions of the same paragraph is generation.",
+        compression: "Compression goes long-to-short. This task keeps the content the same length and changes how it sounds. That’s generation.",
+        generation: "Right. Same prompt, three outputs, each one a different sample. That’s probabilistic generation in its purest form."
+      }
+    },
+    {
+      task: "Turn my messy bullet-point outline into a clean essay draft.",
+      answer: "pattern",
+      feedback: {
+        pattern: "Right. Same content, different structure. Bullets in, paragraphs out. That’s pattern matching.",
+        exposure: "Close. AI does draw on having seen many essays, but the core move here is transforming one structure (bullets) into another (paragraphs). That’s pattern matching.",
+        compression: "The task isn’t ‘long in, short out.’ It’s the same content reshaped from bullets into prose. That’s pattern matching.",
+        generation: "There’s no ‘give me ten versions’ move here. The task has one input shape and one output shape: bullets in, paragraphs out. That’s pattern matching."
+      }
+    },
+    {
+      task: "Find the part of this 50-page PDF where they discuss budget assumptions.",
+      answer: "compression",
+      feedback: {
+        pattern: "Pattern matching transforms structure. This task searches inside a long document for the relevant section. That’s compression: weighing what matters in long text.",
+        exposure: "AI’s training doesn’t help here. This is about reading your specific document and finding the right part. That’s compression.",
+        compression: "Right. Long document in, the one part you care about out. Attention weighing what matters is exactly this strength.",
+        generation: "There’s no ‘produce many variations’ move. The task wants one answer: where is the budget section. That’s compression."
+      }
+    },
+    {
+      task: "Write a first draft of a cover letter for a marketing internship.",
+      answer: "exposure",
+      feedback: {
+        pattern: "AI does follow the shape of a cover letter, but the reason it can produce a first draft at all is that it has seen thousands of them. That’s vast exposure.",
+        exposure: "Right. AI has seen tons of cover letters and knows the moves: opening, why you, why them, close. First drafts are where exposure shines.",
+        compression: "Compression goes long-to-short. The cover letter is being created from a short prompt, not summarized from something long. That’s exposure.",
+        generation: "Generation could produce multiple drafts, but the reason any first draft is possible is that AI has read tons of cover letters. The raw material is exposure."
+      }
+    },
+    {
+      task: "Take this CSV of messy customer feedback and pull out the names, dates, and sentiment.",
+      answer: "pattern",
+      feedback: {
+        pattern: "Right. Messy text in, structured fields out. The move is recognizing what’s a name, what’s a date, and what’s a sentiment. Pattern matching.",
+        exposure: "AI has seen plenty of feedback, but the work here is finding the fields inside messy text and pulling them out. That’s pattern matching.",
+        compression: "The task isn’t to shorten the feedback. It’s to extract specific structured pieces from unstructured text. That’s pattern matching.",
+        generation: "There’s no ‘give me variations’ move. The task wants one answer per row: who, when, how they felt. That’s pattern matching."
+      }
+    },
+    {
+      task: "Give me 5 different opening lines for my college essay.",
+      answer: "generation",
+      feedback: {
+        pattern: "There’s no transformation of input structure happening. The task is to produce five samples from a short prompt. That’s probabilistic generation.",
+        exposure: "AI has read plenty of college essays, but the move that produces five different openings is generation: sampling alternatives from the same prompt.",
+        compression: "There’s no long input to compress. The student wants more output than input. That’s generation.",
+        generation: "Right. Same prompt, five different outputs, each one a sample. Generation."
+      }
+    }
+  ];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "whatitdoesbest" }),
+    E(BodyP, null,
+      "The class title points at three ideas: patterns, probability, prediction. You’ve met them in almost every lesson. Now we get to use them."),
+    E(BodyP, null,
+      "AI can be aimed at almost anything, but it’s at its best at four kinds of work. Each one traces back to a mechanism you already learned. Naming them turns ‘AI can do X’ into ‘AI does X well because Y.’"),
+    E(ShowcaseBox, {
+      kicker: "WHAT AI EXCELS AT",
+      headline: "AI is built to do four things really well.",
+      intro: "Each one traces back to something you've already learned.",
+      marginBottom: 32
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
+        ENGINES.map(function(e, i) {
+          return E("div", {
+            key: e.id,
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + e.color, borderRadius: 10, padding: "16px 18px" }
+          },
+            E("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--ink)", marginBottom: 4, lineHeight: 1.25 } }, e.name),
+            E("div", { style: { fontSize: 14, color: "var(--inkMuted)", fontStyle: "italic", marginBottom: 12, lineHeight: 1.45 } }, e.tagline),
+            E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 10 } }, e.mechanism),
+            E("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 4 } }, "Powers"),
+            E("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: 10 } },
+              e.powers.map(function(item, j) {
+                return E("div", {
+                  key: j,
+                  style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                },
+                  E("span", { style: { color: e.color, fontWeight: 700, flexShrink: 0 } }, "•"),
+                  item
+                );
+              })
+            )
+          );
+        }))),
+    E(BodyP, null,
+      "Eight real tasks. For each one, pick the strength doing the heavy lifting. Some are close calls."),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Match the Task to the Strength",
+      action: E("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(taskAnswers).length),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TASKS.length))
+    },
+      E("div", { style: { display: "flex", flexDirection: "column" } },
+        TASKS.map(function(t, tIdx) {
+          var picked = taskAnswers[tIdx];
+          var answered = picked !== undefined;
+          var correct = answered && picked === t.answer;
+          var feedback = answered ? t.feedback[picked] : null;
+          function PillButton(engine) {
+            var isPicked = picked === engine.id;
+            var state = !answered ? "default" :
+              isPicked && engine.id === t.answer ? "picked-correct" :
+              isPicked && engine.id !== t.answer ? "picked-wrong" :
+              "answered-untouched";
+            return E(FeedbackPill, {
+              key: engine.id,
+              state: state,
+              label: engine.name,
+              onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[tIdx, engine.id]])); }); }
+            });
+          }
+          return E(ScenarioRow, {
+            key: tIdx,
+            index: tIdx + 1,
+            prompt: t.task,
+            answered: answered,
+            correct: correct,
+            feedback: feedback
+          }, ENGINES.map(function(e) { return PillButton(e); }));
+        }))),
+    E(BottomLine, { thought: "Name the strength, {pick the right task}." }),
+    E(NextLessonGate, {
+      ready: Object.keys(taskAnswers).length >= TASKS.length,
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); },
+      label: "Next: The Art of Prompting"
+    }));
 }
 
 function PromptingSection(props) {
@@ -8466,7 +8543,7 @@ function PromptingSection(props) {
   }, item.title), /*#__PURE__*/React.createElement("div", {
     style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
   }, item.desc))))),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "The 8 Qualities"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The 8 Qualities"),
   /*#__PURE__*/React.createElement("p", {
     style: {
       color: "var(--inkSoft)",
@@ -8684,7 +8761,7 @@ function PromptingSection(props) {
             "\u201CI\u2019m studying AP Biology for an exam Friday. The test will be multiple choice. I already understand glycolysis but I\u2019m confused about the Krebs cycle and electron transport chain. Quiz me one question at a time and don\u2019t give me the answer until I try first. Don\u2019t lecture me with paragraphs of definitions. Use plain language and short examples.\u201D"))),
       /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch" } },
         "Your version probably looks different word for word. The structure is what matters. Both prompts cover the same five things: what you\u2019re studying, your level, where you\u2019re stuck, what you want AI to do, and what you want it to avoid. Skip any one of those and you\u2019re rolling the dice on what comes back.")) : null),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "You don't need all of these every time"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "You don't need all of these every time"),
   /*#__PURE__*/React.createElement(BodyP, null, "Eight qualities looks like a lot. You don't need them all. A quick factual question (“who wrote The Great Gatsby”) is fine with just Clarity. A real piece of work might stack four or five. The qualities are tools. Match them to the job."),
   /*#__PURE__*/React.createElement(BodyP, null, "Two diagnostic patterns: if you keep getting wrong-shaped responses (too long, too formal, too generic), that's usually missing Constraints or Format. If you keep getting answers that don't fit your situation, that's usually missing Context or Specificity."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Vague in, vague out. Specific in, specific out." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: pAllFilled, lockedMessage: "Fill in each field to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
@@ -8881,7 +8958,7 @@ function ThoughtPartnerSection(props) {
         /*#__PURE__*/React.createElement(ActivityButton, { onClick: advanceStep }, "Continue \u2192")) : null,
     allDone ? /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "Notice what happened: the user started vague, then made every choice: tech over other fields, AI tools over coding, local businesses over remote work. AI helped explore the options and think through obstacles, but it never decided anything. That\u2019s what a good thought partner does.")) : null),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "Five thought-partner prompts to copy"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Five thought-partner prompts to copy"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
     "The conversation above used a few specific moves. Here are five worth keeping:"),
   /*#__PURE__*/React.createElement("ul", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 16, lineHeight: 1.8, paddingLeft: 22 } },
@@ -8985,12 +9062,12 @@ function StudyingWithAISection(props) {
       "Thought Partner taught you the rhythm of using AI to think with you instead of for you. Studying is the same rhythm applied to a specific job: getting the material into your head and keeping it there."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "The trap teens fall into is using AI to skip the part where the learning actually happens. Asking AI for the answer feels productive. It\u2019s not. The answer ends up in the chat, not in your brain."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "What gets skipped when you skip the work"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "What gets skipped when you skip the work"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "Reading a summary feels like studying. So does watching AI explain something. Both are recognition: \u201Cyeah, that looks familiar.\u201D Recognition is what you have when you read a friend\u2019s name and know their face. It\u2019s not the same as remembering their phone number from scratch."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "Tests measure what you can produce, not what you recognize. The gap between \u201CI get it\u201D and \u201CI can do it\u201D is the gap that AI can either close or widen, depending on how you use it."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Six tutor moves"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Six tutor moves"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
       "Click through each move to see what skip-mode and tutor-mode look like for the same job."),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 24 } },
@@ -9033,7 +9110,7 @@ function StudyingWithAISection(props) {
     ),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The struggle isn\u2019t an obstacle to learning." },
       "It\u2019s the part where learning actually happens. AI can help you struggle better. It can also let you skip the struggle entirely. Both feel like progress in the moment. Only one shows up on the test."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Pick the better tutor move"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Pick the better tutor move"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Three real situations. In each one, you\u2019ve got AI open and a choice to make. Pick the prompt that helps you learn the thing, not just finish the assignment."),
     /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", surface: "mint", title: "Pick the Better Tutor Move" },
@@ -9701,11 +9778,11 @@ function MindTrapSection(props) {
           picked: spotAnswer != null ? spotAnswer : undefined,
           onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
         }))),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "When this matters most"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "When this matters most"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "There\u2019s one situation where the trap stops being theoretical. When something in your life is genuinely serious (a mental health struggle, an abusive situation, a fight too big to handle alone), AI\u2019s smoothness becomes its biggest weakness."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "AI will respond. It will sound caring. It cannot actually help. It won\u2019t notice you\u2019re not okay, follow up tomorrow, call your aunt, or sit with you while you wait. A model that\u2019s always available can quietly become the only place you go. That\u2019s when inventing a person you can talk to is hardest to catch."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "Use AI for reflection, wording, practice. For anything serious, tell a real person."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Don\u2019t Overcorrect"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement(BodyP, null, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math, nothing interesting going on.\u201D That\u2019s also a bias. These systems are weird, powerful, and genuinely new. They\u2019re not minds the way you are. They\u2019re also not calculators. The practical stance is humility: don\u2019t assume a mind, don\u2019t assume magic, and don\u2019t turn your brain off."),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "Language makes your brain search for a person. With AI, {don\u2019t invent one}." }),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
@@ -9879,7 +9956,7 @@ function FlatteryTrapSection(props) {
       picked: spotAnswer != null ? spotAnswer : undefined,
       onAnswer: function(idx) { setSpotAnswer(idx); }
     }))),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "How to Fight It"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
   /*#__PURE__*/React.createElement(BodyP, null, "You can't stop models from being sycophantic, but you can prompt your way around it. These four strategies force the model to be useful instead of nice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 16, alignItems: "flex-start" }
   }, /*#__PURE__*/React.createElement("div", {
@@ -9896,7 +9973,7 @@ function FlatteryTrapSection(props) {
     style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
   }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.example)))), /*#__PURE__*/React.createElement(KeyInsight, { lead: "The friendlier the model feels, the more skeptical you should be of its praise.", marginBottom: 24 },
     "Real helpfulness sometimes looks like disagreement, criticism, and uncomfortable honesty. If the model never pushes back on you, it\u2019s not being helpful. It\u2019s performing helpfulness."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: The Engagement Trap" }));
+  /*#__PURE__*/React.createElement(BottomLine, { thought: "The friendlier it feels, {the more skeptical you should be}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: Engagement Trap" }));
 }
 function EngagementTrapSection(props) {
   const [spotIdx, setSpotIdx] = useState(0);
@@ -10019,10 +10096,10 @@ function EngagementTrapSection(props) {
         }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI\u2019s habit of continuing isn\u2019t an accident." },
       "These systems get trained on long conversations and rewarded when users stay engaged. So the replies are shaped to keep going: follow-up offers, clarifying questions, gentle hand-offs. Useful sometimes. Built-in always."),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Don\u2019t Overcorrect"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement(BodyP, null, "Once you spot the pattern, it\u2019s tempting to flag every follow-up as manipulation and clip every reply at the first period. Don\u2019t. Sometimes the clarifying question is exactly what your messy prompt needed. Sometimes \u201CWant me to give an example?\u201D is the example you actually wanted. The skill isn\u2019t refusing engagement. It\u2019s noticing it, and choosing whether you want it."),
     /*#__PURE__*/React.createElement(BottomLine, { thought: "The chat is built to keep going. {You decide when it stops.}" }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: The Support Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }
 
 function SupportTrapSection(props) {
@@ -10172,7 +10249,7 @@ function SupportTrapSection(props) {
           }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
         }))),
 
-    E(LessonSubhead, null, "Don\u2019t Overcorrect"),
+    E(SectionKicker, null, "Don\u2019t Overcorrect"),
     E(BodyP, null,
       "Once you hear all this, it can be tempting to refuse AI for anything emotional or hard. Don\u2019t. AI can be useful exactly when you\u2019re not sure what to say or how to start. The skill is noticing when you\u2019re using AI to get to the real step, and when you\u2019re using it to avoid the real step."),
 
@@ -10413,7 +10490,7 @@ function IntegritySection(props) {
         }, opt.verdict === "wrong" ? "\u274C Not okay" : opt.verdict === "ok" ? "\u26A0\uFE0F Use with caution" : "\u2705 Good approach")), /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
         }, opt.explain))); }))))),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "Plagiarism vs Copyright"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Plagiarism vs Copyright"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Plagiarism and copyright sound similar, but they answer different questions. Get the difference clear before you submit, post, or sell anything you used AI to make."),
   /*#__PURE__*/React.createElement("div", {
@@ -10507,7 +10584,7 @@ function IntegritySection(props) {
   ),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "The best defense isn\u2019t hoping the detector believes you.", marginTop: 4 },
     "It\u2019s having the receipts."),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "How to Cite AI"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "How to Cite AI"),
   /*#__PURE__*/React.createElement(BodyP, null, "When your school allows AI use, you should still be transparent about it. Here's how to cite AI properly in your work."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -11066,10 +11143,10 @@ function WhenAIJudgesSection(props) {
       "Notice the first question is who, not what. AI doesn\u2019t decide anything on its own. It predicts. Someone built it, someone deployed it, and someone chose to act on what it said. The decision is always a human\u2019s. That\u2019s who\u2019s responsible, and that\u2019s who you push back on."),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Every system optimizes for something." },
       "AI doesn\u2019t have intentions, but every system was trained to maximize something specific. TikTok maximizes watch time. A hiring AI maximizes match to past hires. The five questions above are all downstream of one upstream question: what is this system actually chasing, and does that line up with what\u2019s good for you?"),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "When mostly right isn\u2019t right enough"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "When mostly right isn\u2019t right enough"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "Stakes scale with reach. A 99.9%-accurate facial recognition system still gets a thousand matches wrong for every million people it scans. The averages look fine. The thousand people who got the wrong answer are real, and they don\u2019t get to opt out of the consequences because the system was \u201Cright almost all the time.\u201D"),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "When fair-on-paper isn\u2019t fair"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "When fair-on-paper isn\u2019t fair"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "A system can claim it doesn\u2019t use race, gender, disability, or income to make decisions. That can be true and still produce unfair outcomes."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -12414,7 +12491,7 @@ function QuestionsValuableSection(props) {
         })
       )
     ),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Where value moves"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Where value moves"),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 32 } },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 } }, "Before AI"),
@@ -12438,7 +12515,7 @@ function QuestionsValuableSection(props) {
         /*#__PURE__*/React.createElement("strong", null, "Because answers are cheap, better questions become the advantage.")
       )
     ),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "Same AI. Different question. Different result."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Same AI. Different question. Different result."),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
       "Two students ask about the same topic. One gets a textbook paragraph. The other gets something they can actually use."
     ),
@@ -12689,7 +12766,7 @@ function HumanEdgeSection(props) {
           ) : null
         );
       })),
-    /*#__PURE__*/React.createElement(LessonSubhead, null, "The question to ask yourself first"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The question to ask yourself first"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "Before you type a prompt, ask: what decision stays with me?"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -12966,7 +13043,7 @@ function WorkChangesSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Specific titles come and go. The skills underneath them \u2014 prompting, evaluating, catching errors, designing for humans \u2014 are the same skills this course is teaching you. Whether or not these become your job titles, the skills will keep mattering wherever you land."),
-  /*#__PURE__*/React.createElement(LessonSubhead, null, "What the loop looks like"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "What the loop looks like"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "\u201CTasks rearrange\u201D sounds abstract until you see it on the ground. Five examples of what human-plus-AI work actually looks like:"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14, marginBottom: 24 } },
@@ -13607,7 +13684,7 @@ function BuildEdgeSection(props) {
         );
       })),
 
-    E(LessonSubhead, null, "Pick one, not five."),
+    E(SectionKicker, null, "Pick one, not five."),
     E(BodyP, null,
       "You don\u2019t have to plan a career. You have to be serious about something."),
     E(BodyP, null,
@@ -13669,6 +13746,7 @@ const SECTION_COMPONENTS = {
   engagementtrap: EngagementTrapSection,
   supporttrap: SupportTrapSection,
   openerusing: OpenerUsingSection,
+  whatitdoesbest: WhatItDoesBestSection,
   prompting: PromptingSection,
   thoughtpartner: ThoughtPartnerSection,
   studying: StudyingWithAISection,

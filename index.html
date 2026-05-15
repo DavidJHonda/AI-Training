@@ -390,7 +390,6 @@ function NextLessonGate(props) {
 
 function OpenerSection(props) {
   var E = React.createElement;
-  // pStyle replaced by BodyP component
   var renderParas = function(items) {
     if (!items) return null;
     if (typeof items === "string") items = [items];
@@ -425,16 +424,6 @@ function OpenerSection(props) {
     E(BottomLine, { thought: props.question }),
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); } }, props.nextLessonLabel)
   );
-}
-
-function SecondaryButton(props) {
-  var arrow = props.arrow === undefined ? "leading" : props.arrow;
-  var showLeading = arrow === "leading"; var showTrailing = arrow === "trailing";
-  var hov = useState(false); var isHover = hov[0]; var setHover = hov[1];
-  var dis = props.disabled || false;
-  var base = { display: "inline-block", padding: "10px 18px", borderRadius: 10, background: "transparent", border: "1px solid " + ((!dis && isHover) ? "var(--primary)" : "var(--rule)"), fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: !dis && isHover ? "var(--primary)" : "var(--inkSoft)", cursor: dis ? "not-allowed" : "pointer", opacity: dis ? 0.35 : 1, transition: "all 150ms ease" };
-  var merged = props.style ? Object.assign({}, base, props.style) : base;
-  return React.createElement("button", { onClick: dis ? undefined : props.onClick, disabled: dis, style: merged, onMouseEnter: function() { setHover(true); }, onMouseLeave: function() { setHover(false); } }, showLeading ? React.createElement("span", { style: { display: "inline-block", marginRight: 6 } }, "\u2190 ") : null, props.children, showTrailing ? React.createElement("span", { style: { display: "inline-block", marginLeft: 6 } }, " \u2192") : null);
 }
 
 function ActivityButton(props) {
@@ -2253,7 +2242,6 @@ function WelcomeSection(props) {
 
 function WhyDeeperSection(props) {
   var E = React.createElement;
-  // pStyle replaced by BodyP component
   var SHIFT_CARDS = [
     { eyebrow: "Before AI", title: "Answers were expensive", body: "Researching, drafting, summarizing, coding, rewriting. These took hours, sometimes days. Whole jobs existed just to do them." },
     { eyebrow: "With AI", title: "Answers are cheap", body: "Same work, seconds. Producing the answer stopped being the work. That changes what counts as valuable." },
@@ -2307,7 +2295,6 @@ function WhyDeeperSection(props) {
 }
 function HumanJobSection(props) {
   var E = React.createElement;
-  // pStyle replaced by BodyP component
   const [missingAnswers, setMissingAnswers] = useState({});
 
   const MISSING_SCENARIOS = [{
@@ -3261,8 +3248,6 @@ function HowAIReadsSection(props) {
     return function() { window.removeEventListener("resize", calc); };
   }, []);
 
-  // pStyle replaced by BodyP component
-
   var changeBullets = [
     {
       title: "Training could scale much bigger.",
@@ -4069,42 +4054,6 @@ function TrainingSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
-const T = (t, id) => ({
-  t,
-  id
-});
-const TOKENS = {
-  "Hello": [T("Hello", 9906)],
-  "Hello world": [T("Hello", 9906), T(" world", 1917)],
-  "the": [T("the", 1820)],
-  "unbelievable": [T("un", 359), T("believ", 81928), T("able", 481)],
-  "antidisestablishmentarianism": [T("anti", 9988), T("dis", 4171), T("establish", 67182), T("ment", 479), T("arian", 10946), T("ism", 2191)],
-  "supercalifragilisticexpialidocious": [T("super", 9712), T("cali", 66566), T("frag", 54763), T("il", 321), T("istic", 4885), T("exp", 2181), T("ial", 532), T("id", 307), T("ocious", 71755)],
-  "beautiful": [T("beautiful", 27753)],
-  "uncomfortable": [T("un", 359), T("comfort", 19975), T("able", 481)],
-  "ChatGPT": [T("Chat", 16047), T("G", 38), T("PT", 2898)],
-  "QuickBooks": [T("Quick", 28829), T("Books", 45765)],
-  "iPhone": [T("i", 72), T("Phone", 26261)],
-  "TikTok": [T("Tik", 51), T("Tok", 23469)],
-  "OpenAI": [T("Open", 5765), T("AI", 15592)],
-  "Beyonce": [T("Bey", 56751), T("once", 2994)],
-  "Schwarzenegger": [T("Sch", 54755), T("war", 7534), T("zen", 15040), T("egger", 68765)],
-  "Taylor Swift": [T("Taylor", 52721), T(" Swift", 24562)],
-  "123456789": [T("123", 4513), T("456", 10961), T("789", 16596)],
-  "$49.99": [T("$", 3), T("49", 2491), T(".", 13), T("99", 1484)],
-  "🤖": [T("🤖", 158378)],
-  "I ❤️ AI": [T("I", 40), T(" ❤️", 157644), T(" AI", 15592)],
-  "😂😂😂": [T("😂", 76460), T("😂", 76460), T("😂", 76460)],
-  "print('hello')": [T("print", 1374), T("('", 493), T("hello", 15339), T("')", 8011)],
-  "https://www.google.com": [T("https", 5765), T("://", 1358), T("www", 2185), T(".google", 32307), T(".com", 916)],
-  "Minecraft": [T("Min", 6349), T("ecraft", 68243)],
-  "Roblox": [T("Rob", 14804), T("lox", 55531)],
-  "photosynthesis": [T("photo", 13345), T("synthesis", 86976)],
-  "cryptocurrency": [T("crypto", 30024), T("currency", 27448)],
-  "algorithm": [T("algorithm", 20910)],
-  "She sells seashells by the seashore": [T("She", 8100), T(" sells", 31878), T(" seas", 49563), T("hells", 73583), T(" by", 555), T(" the", 279), T(" seas", 49563), T("hore", 71020)],
-  "To be or not to be": [T("To", 1271), T(" be", 387), T(" or", 477), T(" not", 539), T(" to", 311), T(" be", 387)]
-};
 function OpenerInsideSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openerinside",
@@ -4607,7 +4556,6 @@ function EmbeddingsSection(props) {
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
-  // pStyle replaced by BodyP component
   const [hoveredWord, setHoveredWord] = useState(null);
 
   return E("div", null,
@@ -7216,44 +7164,6 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
   /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
-}
-function HallucinationChatBubble(props) {
-  var [qChars, setQChars] = useState(0);
-  var [aiWords, setAiWords] = useState(0);
-  var [phase, setPhase] = useState("typing-q");
-  var words = props.response.split(" ");
-  useEffect(function() {
-    setQChars(0); setAiWords(0); setPhase("typing-q");
-  }, [props.question]);
-  useEffect(function() {
-    if (phase === "typing-q") {
-      if (qChars >= props.question.length) { setPhase("thinking"); return; }
-      var iv = setInterval(function() {
-        setQChars(function(c) { if (c >= props.question.length) { clearInterval(iv); return c; } return c + 1; });
-      }, 35);
-      return function() { clearInterval(iv); };
-    }
-    if (phase === "thinking") {
-      var t = setTimeout(function() { setPhase("typing-ai"); }, 2000);
-      return function() { clearTimeout(t); };
-    }
-    if (phase === "typing-ai") {
-      if (aiWords >= words.length) { setPhase("done"); return; }
-      var iv2 = setInterval(function() {
-        setAiWords(function(w) { if (w >= words.length) { clearInterval(iv2); return w; } return w + 1; });
-      }, 90);
-      return function() { clearInterval(iv2); };
-    }
-  }, [phase, qChars]);
-  useEffect(function() {
-    if (phase === "typing-ai" && aiWords >= words.length) setPhase("done");
-  }, [aiWords]);
-  var isDone = phase === "done";
-  if (props.onTypingDone && isDone) props.onTypingDone();
-  return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
-    /*#__PURE__*/React.createElement(UserBubble, { text: props.question, visibleChars: qChars }),
-    phase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
-    (phase === "typing-ai" || phase === "done") ? /*#__PURE__*/React.createElement(AIBubble, { text: props.response, visibleWords: aiWords }) : null);
 }
 function OpenerTrapsSection(props) {
   return React.createElement(OpenerSection, {
@@ -9994,7 +9904,6 @@ function EngagementTrapSection(props) {
 
 function SupportTrapSection(props) {
   var E = React.createElement;
-  // pStyle replaced by BodyP component
   const [supportAnswers, setSupportAnswers] = useState({});
 
   var COMPARE_CARDS = [

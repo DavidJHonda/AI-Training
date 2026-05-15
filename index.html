@@ -324,37 +324,6 @@ function LessonRule() {
     style: { borderTop: "1px solid var(--rule)", marginTop: 40 }
   });
 }
-function BottomLine(props) {
-  var thought = props.thought || "";
-  var pre = thought, em = "", post = "";
-  var braceMatch = thought.match(/^([\s\S]*?)\{([^}]+)\}([\s\S]*)$/);
-  if (braceMatch) {
-    pre = braceMatch[1];
-    em = braceMatch[2];
-    post = braceMatch[3];
-  } else if (props.emphasis && thought.indexOf(props.emphasis) !== -1) {
-    var idx = thought.indexOf(props.emphasis);
-    pre = thought.slice(0, idx);
-    em = props.emphasis;
-    post = thought.slice(idx + props.emphasis.length);
-  }
-  var emphasisStyle = { fontStyle: "italic", color: "var(--primary)", fontWeight: 500 };
-  return /*#__PURE__*/React.createElement("div", {
-    className: "bottom-line",
-    style: { borderTop: "1px solid var(--rule)", paddingTop: 28, marginTop: 40, textAlign: "center" }
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: 16, fontWeight: 400, fontStyle: "italic", color: "var(--primary)", marginBottom: 12 }
-    }, "The bottom line"),
-    /*#__PURE__*/React.createElement("p", {
-      style: { fontFamily: "var(--serif)", fontSize: 32, fontWeight: 400, lineHeight: 1.25, color: "var(--ink)", textWrap: "balance", maxWidth: 720, margin: "0 auto" }
-    },
-      pre,
-      em ? /*#__PURE__*/React.createElement("span", { style: emphasisStyle }, em) : null,
-      post
-    )
-  );
-}
 function PrimaryButton(props) {
   var arrow = props.arrow === undefined ? "trailing" : props.arrow;
   var showArrow = arrow === "trailing";
@@ -421,7 +390,7 @@ function OpenerSection(props) {
         }))),
     renderParas(props.whatYoullLearnClosing),
     props.mistake ? E(KeyInsight, { lead: "The common mistake:" }, props.mistake) : null,
-    E(BottomLine, { thought: props.question }),
+    E(KeyInsight, { lead: "Keep this question in mind:" }, props.question),
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); } }, props.nextLessonLabel)
   );
 }
@@ -940,7 +909,7 @@ function OpenerFoundationsSection(props) {
       { question: "Why does AI need billions of pages?", lessonId: "data" }
     ],
     whatYoullLearnClosing: [],
-    question: "Keep this question in mind: {What kind of tool am I dealing with, and what should I expect from it?}",
+    question: "What kind of tool am I dealing with, and what should I expect from it?",
     nextLessonId: "aihistory",
     nextLessonLabel: "Next: What Is AI?",
     completeAndNavigate: props.completeAndNavigate
@@ -1831,7 +1800,7 @@ function HowWeGotHereSection(props) {
     (revealedCount >= 1 && revealedCount < 6) ? /*#__PURE__*/React.createElement("div", { style: { margin: "32px auto", textAlign: "center" } },
       /*#__PURE__*/React.createElement(ActivityButton, { onClick: revealNext, style: { margin: 0, display: "inline-block" } }, "Next: " + TIMELINE[revealedCount].year + " →")
     ) : null,
-    revealedCount >= 6 ? /*#__PURE__*/React.createElement(BottomLine, { thought: "From Bayes to GPT, AI didn’t arrive. {It accumulated}." }) : null,
+    revealedCount >= 6 ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI didn’t arrive. It accumulated." }, "Every model you use today is sitting on top of two hundred years of math, decades of dead-end experiments, and one architecture breakthrough that finally made the rest worth scaling.") : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealedCount >= 6, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aivscode"); }, label: "Next: Rules vs Patterns" })
   );
 }
@@ -1859,7 +1828,7 @@ function OpenerJudgmentSection(props) {
       "By the end, you\u2019ll see that AI doesn\u2019t make human thinking less valuable. It changes where human thinking is most valuable.",
       "The edge moves to the person who can frame the problem, judge the answer, ask the next question, and decide what should happen next."
     ],
-    question: "Keep this question in mind: {What decision still belongs to me?}",
+    question: "What decision still belongs to me?",
     nextLessonId: "aistrengths",
     nextLessonLabel: "Next: The AI Trust Test",
     completeAndNavigate: props.completeAndNavigate
@@ -2231,7 +2200,7 @@ function WelcomeSection(props) {
           E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
           E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
       })),
-    E(BottomLine, { thought: "Don't be the user who types fast and {thinks slow}." }),
+    E(KeyInsight, { lead: "Don't be the user who types fast and thinks slow." }, "The students who get the most out of AI are the ones who slow down at the part that matters: reading the answer, checking it, deciding what to do with it."),
     E(NextLessonGate, {
       ready: allAnswered,
       lockedMessage: "Answer all six to continue",
@@ -2439,7 +2408,7 @@ function IntroSection(props) {
           );
         }))
     ),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "The goal isn\u2019t to use AI more. The goal is to {use it better}." }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The goal isn\u2019t to use AI more." }, "The goal is to use it better. More usage doesn\u2019t make you better at it. Sharper judgment does."),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); } }, "Next: Foundations"));
 }
 function KeyTermsSection(props) {
@@ -2710,7 +2679,7 @@ function AIvsCodeSection(props) {
           hasNext ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
             /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setVisibleRules(visibleRules + 1); }, style: { display: "block", margin: "0 auto" } }, "See Next Rule →")) : null) : null);
     })),
-    allDone ? /*#__PURE__*/React.createElement(BottomLine, { thought: "AI finds patterns {no one wrote down}." }) : null,
+    allDone ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI infers rules from examples. Same input, different machine, completely different ceiling.") : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("blackbox"), label: "Next: No One Wrote the Rules" })
   );
 }
@@ -2978,7 +2947,7 @@ function BlackBoxSection(props) {
           picked: scenarioAnswer != null ? scenarioAnswer : undefined,
           onAnswer: function(idx) { setScenarioAnswer(idx); }
         }))),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "AI is powerful because no one wrote every rule. It is {risky for the same reason}." }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI is powerful because no one wrote every rule." }, "It’s risky for the same reason. Nobody can hand you a manual of exactly what it knows and exactly where it fails. You have to find the edges yourself."),
     /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("generative"); } }, "Next: Generative"));
 }
 function DataSection(props) {
@@ -3188,7 +3157,7 @@ function DataSection(props) {
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI can transcribe the speech, infer the items, and map the casual sentence into order fields.")) : /*#__PURE__*/React.createElement("div", null)),
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
                 /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null))))),
-    dataComplete ? /*#__PURE__*/React.createElement(BottomLine, { thought: "AI learned from messy human data. That\u2019s why it can find {structure in the mess}." }) : null,
+    dataComplete ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI learned from messy human data." }, "That\u2019s why it can find structure in the mess. It\u2019s also why it inherits every weird pattern, every bias, every dumb argument that lived in that data.") : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerinside"), label: "Next: Under the Hood" })
   );
 }
@@ -4050,7 +4019,7 @@ function TrainingSection(props) {
     visibleStages === 0 ? /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[0]) : null,
     seeItTypingDone && visibleStages > 0 && visibleStages < seeItStages.length ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
       /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null)) : null,
-    stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(BottomLine, { thought: "Training is when the model learns patterns. Chatting is when it {uses them}." }) : null,
+    stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training is when the model learns. Chatting is when it uses what it learned." }, "Once training stops, the model is frozen. It doesn’t pick up new facts from your conversation. It’s running on what it already knows.") : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
@@ -4075,7 +4044,7 @@ function OpenerInsideSection(props) {
       { question: "What happens when the training data is incomplete, skewed, or unfair?", lessonId: "trainingbias" }
     ],
     whatYoullLearnClosing: [],
-    question: "Keep this question in mind: {What\u2019s actually happening inside the model when it answers me?}",
+    question: "What\u2019s actually happening inside the model when it answers me?",
     nextLessonId: "tokens",
     nextLessonLabel: "Next: Tokens",
     completeAndNavigate: props.completeAndNavigate
@@ -4820,7 +4789,7 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "When someone says a model has 70 billion parameters, they do not mean 70 billion dimensions. They mean 70 billion learned internal numbers. Some help store embedding vectors. Others help the later layers process context, attention, style, facts, and patterns."),
 
-    E(BottomLine, { thought: "Five named pieces. Billions of {nameless numbers}." }),
+    E(KeyInsight, { lead: "Five named pieces. Billions of nameless numbers." }, "The architecture is simple enough to draw on a napkin. The weights inside it are a different story. That’s why nobody, including the people who built the model, can fully explain why it said what it said."),
 
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Transformer Architecture"));
 }
@@ -5584,7 +5553,7 @@ function AttentionSectionModule(props) {
       marginBottom: 18
     }
   }, ex.explanation)))),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Attention doesn\u2019t care about distance. {It cares about meaning}." }),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Attention doesn\u2019t care about distance. It cares about meaning." }, "A word at the start of a sentence can outweigh the word right next to it, because attention is asking which words actually relate, not which ones happen to be close."),
   /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("transform") }, "Next: Update the Meaning"));
 }
 const TRANSFORM_EXAMPLES = [{
@@ -6047,7 +6016,7 @@ function InferenceSection(props) {
       })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI types one word at a time because each word is a full pass through the model." },
       "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Your question runs through {billions of calculations} in under a second." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your question runs through billions of calculations in under a second." }, "Every word the model writes is a fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",
@@ -6105,7 +6074,7 @@ function OpenerAnswersSection(props) {
       "By the end, you\u2019ll understand why context changes the answer, why AI writes one piece at a time, why the same prompt can produce different results, and why the answer can sound smooth even when it\u2019s wrong.",
       "You\u2019ve seen what is inside the model. Now you\u2019ll see how AI answers."
     ],
-    question: "Keep this question in mind: {What\u2019s happening between my prompt and the answer?}",
+    question: "What\u2019s happening between my prompt and the answer?",
     nextLessonId: "context",
     nextLessonLabel: "Next: Context Window",
     completeAndNavigate: props.completeAndNavigate
@@ -6307,7 +6276,7 @@ function ContextSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, f.words + " words — " + f.analogy))));
         }))),
 
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "Same question, different answer. {The window is the difference}." }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Same question, different answer. The window is the difference." }, "What the model can see when it answers is the whole game. Change what’s in the window and you change what comes out."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, lockedMessage: "Click each piece to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("probability"); }, label: "Next: Probability" }));
 }
 function CustomizationSection(props) {
@@ -6553,7 +6522,7 @@ function DocumentChatSection(props) {
         )
       )
     ),
-    E(BottomLine, { thought: "AI doesn’t read your document. {Tell it where to look.}" }),
+    E(KeyInsight, { lead: "AI doesn’t read your document the way you do." }, "It pulls in chunks that match your question and works from those. If your question is vague, it grabs the wrong chunks and confidently answers from them."),
     E(NextLessonGate, {
       ready: tacticIdx >= TACTICS.length,
       lockedMessage: "Walk through all four to continue",
@@ -6608,7 +6577,7 @@ function OpenerControlsSection(props) {
       "By the end, you\u2019ll know that AI isn\u2019t one blank chat box with one behavior. It\u2019s a tool with products, models, modes, settings, and memory that change what it can do.",
       "The better you understand the controls, the better you can match the tool to the job."
     ],
-    question: "Keep this question in mind: {Which control should I change for this job?}",
+    question: "Which control should I change for this job?",
     nextLessonId: "modelselection",
     nextLessonLabel: "Next: Choosing the Product",
     completeAndNavigate: props.completeAndNavigate
@@ -7163,7 +7132,7 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Turn it up for creativity. Turn it down for precision." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Turn it up for creativity. Turn it down for precision." }, "Temperature decides how often the model picks something other than its top guess. Higher means more variety and more risk. Lower means safer, more predictable, sometimes boring."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
 }
 function OpenerTrapsSection(props) {
   return React.createElement(OpenerSection, {
@@ -7192,7 +7161,7 @@ function OpenerTrapsSection(props) {
       "By the end, you\u2019ll be better at noticing when AI isn\u2019t just helping you, but shaping you: your confidence, your attention, your emotions, your decisions, and sometimes your actions.",
       "The goal isn\u2019t to avoid AI. The goal is to stay awake while using it."
     ],
-    question: "Keep this question in mind: {What trap could this be pulling me into?}",
+    question: "What trap could this be pulling me into?",
     nextLessonId: "hallucination",
     nextLessonLabel: "Next: Hallucination",
     completeAndNavigate: props.completeAndNavigate
@@ -7371,7 +7340,7 @@ function HallucinationSection(props) {
             "All the hallucinations slipped through. That\u2019s the danger of the pattern: confident specifics that sound just like real ones. Re-read the response with the breakdown above to see what to flag next time.")) : null)),
   responseIdx >= SPOT_RESPONSES.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Notice the texture, not the topic.", marginTop: 28 },
     "When AI gets specific \u2014 exact numbers, named people, citations, statistics \u2014 that\u2019s the signal to verify. The trap isn\u2019t that AI lies. It\u2019s that fabrications and facts wear identical clothing.") : null,
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "Probable and true are not the same thing. {That\u2019s why you verify.}" }),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Probable and true are not the same thing." }, "The model is trained to write what sounds right. Sounding right and being right are two different jobs. That\u2019s why you verify."),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("documentchat"), label: "Next: Whole Document Trap" }));
 }
 function VerifySection(props) {
@@ -7494,7 +7463,7 @@ function VerifySection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Stack them, don\u2019t pick one"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "In practice, you don\u2019t run one strategy. You run several on the same answer. Cross-reference the specific claim. Check any citations. Watch for suspiciously specific numbers. Ask the model to flag what it\u2019s uncertain about. The strategies above are the tools. Verifying is the workflow."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you can\u2019t find the source, {assume it doesn\u2019t exist}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy >= VERIFY_STRATEGIES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluating" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy >= VERIFY_STRATEGIES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluating" }));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -7835,7 +7804,7 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 } }, "Callback"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.7, fontSize: 14, margin: 0 } },
       "Models can also inherit bias from their training data. You saw earlier that AI reflects whatever patterns are in what it was trained on, including the gaps. Your critical thinking sits on top of that, but the mechanism starts inside the model.")),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "AI amplifies whatever you bring to it: {good thinking or bad}." }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitAnswer !== null || problemAnswer !== null, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 const PROMPT_QUALITIES = [{
@@ -7936,7 +7905,7 @@ function OpenerUsingSection(props) {
       "By the end, you\u2019ll have a repeatable way to work with AI: ask clearly, stay in charge, check what matters, and improve the result.",
       "The goal isn\u2019t to get AI to do everything. The goal is to use it in a way that makes your work, your thinking, and your judgment stronger."
     ],
-    question: "Keep this question in mind: {Am I using AI to strengthen my thinking or replace it?}",
+    question: "Am I using AI to strengthen my thinking or replace it?",
     nextLessonId: "whatitdoesbest",
     nextLessonLabel: "Next: What AI Does Best",
     completeAndNavigate: props.completeAndNavigate
@@ -8965,7 +8934,7 @@ function StudyingWithAISection(props) {
         /*#__PURE__*/React.createElement("li", { style: { marginBottom: 0 } },
           /*#__PURE__*/React.createElement("strong", null, "You can\u2019t actually do it. "), "Pull AI out of the workflow and the work doesn\u2019t get done."))
     ),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "Same model. Different prompt. {Different brain by test day.}" }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Same model. Different prompt. Different brain by test day." }, "The student who asks for the answer learns the answer. The student who asks to be quizzed, corrected, and pushed learns the material. The tool doesn’t decide which one you become. You do."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("verify"); }, label: "Next: How to Verify" })
   );
 }
@@ -9247,7 +9216,7 @@ function EvaluatingSection(props) {
         ) : /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1f9d5f", marginBottom: 8 } }, "\u2705 Final result"),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "True isn\u2019t enough. The question is: {would you actually use this?}" }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Real World" })));
 }
 function WhenAIActsSection(props) {
@@ -9415,7 +9384,7 @@ function WhenAIActsSection(props) {
         /*#__PURE__*/React.createElement("div", {
           style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", maxWidth: "60ch", marginTop: 22, padding: "0 4px" }
         }, "Real AI products will give you these dials. Knowing where you\u2019d set them before the moment of decision is the whole point. The Five-Word Rule does the heavy lifting: send, spend, submit, delete, post \u2014 those need your fresh okay every time."))),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "An agent mistake isn\u2019t a wrong answer. {It\u2019s a wrong action.}" }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "An agent mistake isn\u2019t a wrong answer. It\u2019s a wrong action." }, "When AI just writes, the worst case is a bad paragraph you delete. When AI clicks, sends, or buys, the worst case is something that\u2019s already happened."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAllFilled, lockedMessage: "Set a permission for each action to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerjudgment"), label: "Next: Human Judgment" }));
 }
 function MindTrapSection(props) {
@@ -9583,7 +9552,7 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "Use AI for reflection, wording, practice. For anything serious, tell a real person."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement(BodyP, null, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math, nothing interesting going on.\u201D That\u2019s also a bias. These systems are weird, powerful, and genuinely new. They\u2019re not minds the way you are. They\u2019re also not calculators. The practical stance is humility: don\u2019t assume a mind, don\u2019t assume magic, and don\u2019t turn your brain off."),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "Language makes your brain search for a person. With AI, {don\u2019t invent one}." }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Language makes your brain look for a person behind the words." }, "With humans, that instinct is useful. With AI, it\u2019s the trap. Nobody is behind the words. Don\u2019t invent one."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
@@ -9898,7 +9867,7 @@ function EngagementTrapSection(props) {
       "These systems get trained on long conversations and rewarded when users stay engaged. So the replies are shaped to keep going: follow-up offers, clarifying questions, gentle hand-offs. Useful sometimes. Built-in always."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement(BodyP, null, "Once you spot the pattern, it\u2019s tempting to flag every follow-up as manipulation and clip every reply at the first period. Don\u2019t. Sometimes the clarifying question is exactly what your messy prompt needed. Sometimes \u201CWant me to give an example?\u201D is the example you actually wanted. The skill isn\u2019t refusing engagement. It\u2019s noticing it, and choosing whether you want it."),
-    /*#__PURE__*/React.createElement(BottomLine, { thought: "The chat is built to keep going. {You decide when it stops.}" }),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The chat is built to keep going." }, "There’s always another follow-up, always another suggestion. The tool will never tell you it’s time to close the tab and do something else. That call is yours."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }
 
@@ -10052,7 +10021,7 @@ function SupportTrapSection(props) {
     E(BodyP, null,
       "Once you hear all this, it can be tempting to refuse AI for anything emotional or hard. Don\u2019t. AI can be useful exactly when you\u2019re not sure what to say or how to start. The skill is noticing when you\u2019re using AI to get to the real step, and when you\u2019re using it to avoid the real step."),
 
-    E(BottomLine, { thought: "AI can help you prepare for support. {It cannot be the support}." }),
+    E(KeyInsight, { lead: "AI can help you prepare for support. It cannot be the support." }, "Use it to rehearse a hard conversation, find the right person to talk to, or get your thoughts in order. Then go talk to a real person who can actually do something about it."),
     E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whenaiacts"); }, label: "Next: When AI Acts" }));
 }
 
@@ -10155,7 +10124,7 @@ function OpenerRealWorldSection(props) {
       "By the end, you\u2019ll be able to think beyond the prompt. You\u2019ll know how AI changes schoolwork, privacy, evidence, jobs, and future predictions.",
       "The goal is to become someone who can use AI skillfully without being careless about the world it affects."
     ],
-    question: "Keep this question in mind: {Who is affected, and what responsibility do I have?}",
+    question: "Who is affected, and what responsibility do I have?",
     nextLessonId: "integrity",
     nextLessonLabel: "Next: Academic Integrity",
     completeAndNavigate: props.completeAndNavigate
@@ -10480,7 +10449,7 @@ function IntegritySection(props) {
       }))),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "The goal isn\u2019t to avoid AI." },
     "It\u2019s to use it in a way that makes you smarter, not lazier. The students who use AI well will learn faster than those who don\u2019t use it at all, and far more than those who let it do the thinking for them."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "\u2018AI made it\u2019 doesn\u2019t mean \u2018I did it.\u2019 {And it doesn\u2019t mean \u2018I own it.\u2019}" }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "\u2018AI made it\u2019 doesn\u2019t mean \u2018I did it.\u2019" }, "And it doesn\u2019t mean \u2018I own it.\u2019 Cheating doesn\u2019t get reinvented just because the tool got better. The rules your teacher set still apply, and they\u2019ll outlast every detector arms race."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: selectedOption !== null || activeScenario > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy" }));
 }
 function PrivacySection(props) {
   const [redactIdx, setRedactIdx] = useState(0);
@@ -10839,7 +10808,7 @@ function PrivacySection(props) {
   ),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t just about what you type." },
     "When AI reads email, docs, or web pages on your behalf, hidden instructions in that content can hijack what AI does next. That\u2019s prompt injection (covered in When AI Acts). The data you carefully protected can still walk out the door if AI follows the wrong instructions."),
-  /*#__PURE__*/React.createElement(BottomLine, { thought: "If you wouldn\u2019t say it to a stranger, {don\u2019t type it to an AI}." }), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you wouldn\u2019t say it to a stranger, don\u2019t type it to an AI." }, "Once it\u2019s in the chat, it\u2019s out of your hands. You don\u2019t know who reads training logs, what gets stored, or where it ends up next."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
 }
 function WhenAIJudgesSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -13495,7 +13464,7 @@ function BuildEdgeSection(props) {
     E(KeyInsight, { lead: "AI rewards depth. The shape of yours is up to you." },
       "These five aren\u2019t the only depth that pays. They\u2019re the ones AI can\u2019t absorb. Wherever you end up building, build deep."),
 
-    E(BottomLine, { thought: "Anyone can sound smart now. {Get good at something anyway}." }),
+    E(KeyInsight, { lead: "Anyone can sound smart now." }, "Get good at something anyway. The advantage stopped going to whoever produces the most polished output. It goes to whoever can actually do the thing."),
 
     E(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }

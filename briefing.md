@@ -4,16 +4,16 @@
 A self-paced AI education web app for high schoolers. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Lesson map
-67 lessons across 10 section groups. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
+69 lessons across 10 section groups. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
 - Intro (4): Welcome (welcome), Why Learn AI? (whydeeper), What Only You Can Do (humanjob), The Roadmap (intro)
-- Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), Generative (generative), AI's Fuel (data)
+- Foundations (9): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), Generative (generative), AI's Fuel (data)
 - Under the Hood (8): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Transformer Architecture (howreads), Training (training), Training Bias (trainingbias)
 - AI Answers (8): Opener (openeranswers), Context Window (context), Probability (probability), Prediction (prediction), Layers (layers), Attention (attention), Update the Meaning (transform), Inference: From Prompt to Output (inference)
-- Controls (7): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization), Document Chat (documentchat)
-- Traps (7): Opener (openertraps), Hallucination (hallucination), The Mind Trap (mindtrap), The Flattery Trap (flattery), The Engagement Trap (engagementtrap), The Support Trap (supporttrap), When AI Acts (whenaiacts)
+- Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
+- Traps (8): Opener (openertraps), Hallucination (hallucination), Whole Document Trap (documentchat), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), When AI Acts (whenaiacts)
 - Human Judgment (5): Opener (openerjudgment), The AI Trust Test (aistrengths), Critical Thinking & AI (critical), Questions Matter (questionsvaluable), Skills That Matter (humanedge)
-- Workflow (6): Opener (openerusing), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), How to Verify (verify), Evaluating the Results (evaluating)
+- Workflow (7): Opener (openerusing), What AI Does Best (whatitdoesbest), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), How to Verify (verify), Evaluating the Results (evaluating)
 - Real World (9): Opener (openerrealworld), Academic Integrity (integrity), Privacy & Awareness (privacy), When AI Judges You (judged), Who Else Is Affected (stakeholders), Seeing Isn't Proof (synthetic), Work Changes (workchanges), AI & The Future (aifuture), Build Your Edge (buildedge)
 - Finish (5): What You Learned (whatyoulearned), Full Workflow (fullworkflow), Vocab Quiz (keyterms), Test Yourself (testyourself), Beat the Clock (headtohead)
 
@@ -35,7 +35,7 @@ A self-paced AI education web app for high schoolers. Single HTML file (index.ht
 - Activity interiors may use --rule borders where the border carries meaning, separating choices, feedback, and interactive states.
 - Three shadow roles: subtle (chips/pills), elevated (lesson card), active glow (purple).
 - Active states are singular: one section pill, one chip, one primary button per page.
-- Serif (Instrument Serif) reserved for narrative moments only: lesson title and BottomLine.
+- Serif (Instrument Serif) reserved for the lesson title only.
 - Page background never goes white.
 - Spacing comes from a defined scale.
 
@@ -47,11 +47,10 @@ A self-paced AI education web app for high schoolers. Single HTML file (index.ht
 - **KeyInsight**: structural takeaway callout. --info-bg fill (light blue), no border, borderRadius 14, 🔑 icon, inline layout. Props: lead (optional bold inline phrase), marginTop, marginBottom (default 24px each). Used for lesson-level zoom-out takeaways.
 - **KeyTerm**: vocab introduction card. Pink band (--termBand) with 📖 icon and bold magenta term (--termAccent). Props: term (required). Looks up the matching entry from the TERMS array, so vocab definitions in lessons cannot drift from the vocab quiz. Currently used in BlackBox for "Guardrail."
 - **InteractiveBox**: activity container. Variant "try" (✎) or "see" (◉). Surface "mint" (flat #eef4eb, no border, 16px radius) or "sand" (var(--seeBand), no border, 24px radius, 32-36px padding). Sand surface renders the eyebrow in var(--seeAccent) amber. Default surface uses --primaryFaint with dashed border. Optional title/hint/action/children.
-- **BottomLine**: italic eyebrow + 32px serif thought. Use {emphasis} braces for italic-purple emphasis spans.
 - **PrimaryButton**: purple fill, white text, hover lift. Auto-adds trailing arrow. The end-of-lesson Next button.
 - **ActivityButton**: dark-ink fill, white text. Used inside activities for RevealSequence start/next buttons and other in-activity actions. Quieter than PrimaryButton. Sizes: default and "large".
 - **NextLessonGate**: bottom-of-lesson Next button gated on a `ready` boolean. Renders the PrimaryButton when ready, otherwise a small `lockedMessage` string (default "Complete the exercises to continue"). Strong-gate lessons use the default; weak-gate lessons override with "Try one to continue."
-- **OpenerSection**: standardized opener-page wrapper. Slots: LessonHeader (with optional bigIdea subtitle), whyThisMatters paragraphs, optional featuredCard, whatYoullLearnIntro, ShowcaseBox-wrapped openQuestions grid, whatYoullLearnClosing, optional KeyInsight (lead "The common mistake:"), BottomLine, PrimaryButton. Each section group's opener is a thin wrapper passing content props, so format changes propagate to every opener.
+- **OpenerSection**: standardized opener-page wrapper. Slots: LessonHeader (with optional bigIdea subtitle), whyThisMatters paragraphs, optional featuredCard, whatYoullLearnIntro, ShowcaseBox-wrapped openQuestions grid, whatYoullLearnClosing, optional KeyInsight (lead "The common mistake:"), framing KeyInsight (lead "Keep this question in mind:" rendered from each opener's `question` prop), PrimaryButton. Each section group's opener is a thin wrapper passing content props, so format changes propagate to every opener.
 - **QuizBlock**: recessed --bg fill, --rule border. Statement is sans 22px/600/--ink. Per-option correctness via opt.correct.
 - **RevealSequence**: state-machine progressive-disclosure driver for SEE IT activities. Manages currentIdx, started, per-stage state. Drives Pattern A (one stage swaps in at a time) and the ladder-mode sub-variant (cumulative reveal). Accepts a surface prop matching InteractiveBox.
 - **CompareCard**: tinted comparison card chrome. No border, 16px radius, 20px padding, soft shadow (0 8px 22px rgba(14, 10, 31, 0.05)). Props: bg (required tint color), centered (optional), style (optional). Canonical inner-block treatment: any visible container inside a CompareCard is white with no border.

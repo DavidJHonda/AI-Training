@@ -794,7 +794,7 @@ const SECTION_GROUPS = [{
   sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "training", "trainingbias"]
 }, {
   label: "AI Answers",
-  sections: ["openeranswers", "context", "probability", "prediction", "layers", "attention", "transform", "inference"]
+  sections: ["openeranswers", "context", "probability", "prediction", "layers", "attention", "inference"]
 }, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
@@ -842,7 +842,6 @@ const SECTION_META = {
   prediction: { kicker: "THE GUESSING GAME", label: "Prediction", icon: "\uD83C\uDFAF" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   attention: { kicker: "WHAT MATTERS HERE", label: "Attention", icon: "\uD83C\uDFAF" },
-  transform: { kicker: "CONTEXT RESHAPES IT", label: "Update the Meaning", icon: "\uD83D\uDD04" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   openercontrols: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choosing the Product", icon: "\uD83C\uDF9B\uFE0F" },
@@ -4303,16 +4302,6 @@ function GoDeeper(props) {
       style: { marginTop: 8, marginBottom: 4, paddingLeft: 14, borderLeft: "3px solid var(--primary)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.65, animation: "fadeIn 0.25s ease" }
     }, props.children));
 }
-function TechnicalNote(props) {
-  const [dismissed, setDismissed] = useState(false);
-  if (dismissed) return null;
-  return /*#__PURE__*/React.createElement("div", {
-    style: { position: "relative", background: "rgba(110, 81, 255, 0.08)", border: "1px solid rgba(110, 81, 255, 0.25)", borderRadius: 10, padding: "14px 18px", paddingRight: 70, marginBottom: 20, fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-  }, "\u26A0\uFE0F Heads up. This is the most technical module in the course. If it feels dense, that\u2019s normal. You\u2019re looking inside the machine. Stick with it, or come back to it later. Either way, you won\u2019t lose the thread.", /*#__PURE__*/React.createElement("button", {
-    onClick: function() { setDismissed(true); },
-    style: { position: "absolute", top: 10, right: 12, background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", fontWeight: 600, padding: "4px 8px" }
-  }, "Got it \u2715"));
-}
 function NameThatDrinkTryIt(props) {
   var E = React.createElement;
   var _s = React.useState(false), started = _s[0], setStarted = _s[1];
@@ -4790,7 +4779,7 @@ function PredictionSection(props) {
     return function() { clearInterval(iv); };
   }, [seeStep, promptChars, promptDone]);
   useEffect(function() {
-    if (seeStep < 4 || aiRespDone) return;
+    if (seeStep < 5 || aiRespDone) return;
     var t = setTimeout(function() {
       var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= nateRespWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
     }, 500);
@@ -4811,20 +4800,20 @@ function PredictionSection(props) {
     action: /*#__PURE__*/React.createElement("div", {
       style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
     },
-      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(seeStep, 4)),
-      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 4"))
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(seeStep, 5)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 5"))
   },
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
-      items: [1, 2, 3, 4],
+      items: [1, 2, 3, 4, 5],
       currentIdx: seeStep > 0 ? seeStep - 1 : 0,
       started: seeStep > 0,
       onStart: function() { setSeeStep(1); },
       onNext: function() { setSeeStep(function(s) { return s + 1; }); },
-      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 4) || (seeStep === 4 && aiRespDone),
-      isComplete: seeStep >= 5,
+      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 5) || (seeStep === 5 && aiRespDone),
+      isComplete: seeStep >= 6,
       startLabel: "Start",
-      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Show the probabilities →" : seeStep === 3 ? "Watch the responses →" : "Next →",
+      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Pick the brand →" : seeStep === 3 ? "Pick the model →" : seeStep === 4 ? "Watch the responses →" : "Next →",
       finishLabel: "See the takeaway →",
       completionElement: /*#__PURE__*/React.createElement("div", {
         style: { padding: "20px 0", textAlign: "center" }
@@ -4855,7 +4844,11 @@ function PredictionSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
             /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Luke’s context window"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } }, "Just this question. No prior chat.")),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
+                "This question, ",
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
+                " an earlier message from Luke: ",
+                /*#__PURE__*/React.createElement("em", null, "“I want something all-terrain for camping and road trips.”"))),
             /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Nate’s context window"),
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
@@ -4867,11 +4860,15 @@ function PredictionSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
             /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different probabilities"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "When the model gets to the car-brand word, here’s what it considers for each user."))),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the brand"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "Same vocabulary, different probabilities."))),
           /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
             /*#__PURE__*/React.createElement("div", null,
-              [{ word: "Jeep", pct: 38 }, { word: "Honda", pct: 22 }, { word: "Toyota", pct: 18 }, { word: "Ford", pct: 14 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend a ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Jeep", pct: 44 }, { word: "Toyota", pct: 22 }, { word: "Honda", pct: 14 }, { word: "Ford", pct: 12 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
                 var isTop = i === 0;
                 return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
                   /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
@@ -4880,6 +4877,10 @@ function PredictionSection(props) {
                   /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
               })),
             /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend the ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
               [{ word: "Ford", pct: 53 }, { word: "Honda", pct: 15 }, { word: "Toyota", pct: 12 }, { word: "Chevy", pct: 12 }, { word: "Jeep", pct: 8 }].map(function(opt, i) {
                 var isTop = i === 0;
                 return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
@@ -4888,17 +4889,52 @@ function PredictionSection(props) {
                     /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
                   /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
               })))),
-        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "04"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the model"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "With the brand picked, the next word is its own fresh prediction. Each pick reshapes what comes next."))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend a ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "#1e40af", borderBottom: "2px solid #1e40af", paddingBottom: 2, fontWeight: 800 } }, "Jeep"),
+                " ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Cherokee", pct: 41 }, { word: "Wrangler", pct: 28 }, { word: "Wagoneer", pct: 13 }, { word: "Compass", pct: 11 }, { word: "Renegade", pct: 7 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend the ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "#5b21b6", borderBottom: "2px solid #5b21b6", paddingBottom: 2, fontWeight: 800 } }, "Ford"),
+                " ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Raptor", pct: 42 }, { word: "F-150", pct: 25 }, { word: "Bronco", pct: 14 }, { word: "Ranger", pct: 12 }, { word: "Maverick", pct: 7 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })))),
+        seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "05"),
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different responses")),
           /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "The SEE IT showed the shape, not the engine. The engine is about 100 layers, each running attention (which words matter to which) and transformation (what they mean together). That\u2019s what actually turns your context window into a probability distribution. Up next: Layers, Attention, and Update the Meaning."),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("layers"), label: "Next: Layers" }));
 }
@@ -4997,7 +5033,7 @@ function LayersSection(props) {
   const [activeLayer, setActiveLayer] = useState(0);
   const word = LAYER_WORDS[activeWord];
   const layer = word.layers[activeLayer];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }), /*#__PURE__*/React.createElement(TechnicalNote), /*#__PURE__*/React.createElement(BodyP, null, "Embeddings give each word a fixed meaning, but \"bank\" has the same numbers whether you\u2019re talking about a river or money. The model\u2019s ~100 layers are where it figures out what you actually mean.", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "Think of it like reading a sentence one pass at a time, understanding a little more each time. Each layer runs two steps: ", /*#__PURE__*/React.createElement("strong", null, "attention"), " (which words matter to each other?) then ", /*#__PURE__*/React.createElement("strong", null, "transformation"), " (what do they mean together?). By the end, \"bank\" means something completely different depending on the sentence."))), /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", surface: "sand", title: "Watch Meaning Build Layer by Layer" },
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }), /*#__PURE__*/React.createElement(BodyP, null, "Prediction showed Luke and Nate getting to \"Jeep\" and \"Ford,\" word by word. Every word was a fresh pick, shaped by every word before it. What we skipped over: how the model actually figures out what each word means in this conversation, so it can make the next pick."), /*#__PURE__*/React.createElement(BodyP, null, "That\u2019s layers. Embeddings give every word a fixed meaning, but \"bank\" has the same numbers whether you\u2019re talking about a river or money. The model\u2019s ~100 layers are where it figures out what you actually mean. Think of it as reading a sentence one pass at a time, understanding a little more each pass. Each layer runs two operations on every word: attention (which words matter to which?) and transformation (what do they mean together?). By the end, \"bank\" means something completely different depending on the sentence."), /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", surface: "sand", title: "Watch Meaning Build Layer by Layer" },
   /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--bg)",
@@ -5340,7 +5376,7 @@ function LayersSection(props) {
     style: {
       marginBottom: 10
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Understanding emerges gradually, through repeated cycles of attention and transformation.")), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Layers don\u2019t just build. They also lose." },
+  }, /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ", /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")), "\uD83D\uDCA1 No single layer \"understands\" the word. Each cycle, attention gathers the context and transformation interprets it. Understanding emerges gradually, layer after layer.")), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Layers don\u2019t just build. They also lose." },
       "You just watched a word resolve over five stages. The wrong meanings weren\u2019t deleted by a rule. They faded as the layers built representations that didn\u2019t include them. That\u2019s how every layer works: some details get amplified, some get dropped, some get distorted. Not a filing cabinet of facts. A stack of transformations, each one keeping what helps the next layer along."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeLayer > 0 || activeWord !== "bank", lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Attention" })));
@@ -5371,8 +5407,7 @@ function AttentionSectionModule(props) {
   const selectExample = i => { setExIdx(i); setShowResult(false); };
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "attention" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "Inside every layer, two things happen. First: the model figures out which words matter to each other. This is called attention. Picture reading a sentence with a highlighter. You don\u2019t mark every word equally. You mark the ones that matter most for the part you\u2019re focused on. Attention works the same way: for each word, the model gives more weight to the other words that help explain it."),
-  /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Attention"), " is how the model figures out which surrounding words matter to each other. Each word looks at every other word and assigns a weight.", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "A word like \"bank\" starts with one fixed vector, but its meaning depends on context. Attention asks of every other word: \"how much should you influence my meaning?\" The weights are percentages that add up to 100%. Higher weight means more influence on the final meaning."))), /*#__PURE__*/React.createElement(InteractiveBox, {
+  /*#__PURE__*/React.createElement(BodyP, null, "Layers introduced attention. Now let\u2019s see what it actually does. Picture reading a sentence with a highlighter. You don\u2019t mark every word equally. You mark the ones that matter most for what you\u2019re focused on. Attention works the same way for each word: it assigns weights to every other word, and those weights add up to 100%. Higher weight means more influence on what the word means in this context."), /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
     title: "What Each Word Pays Attention To"
@@ -5538,88 +5573,7 @@ function AttentionSectionModule(props) {
     }
   }, ex.explanation)))),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Attention doesn\u2019t care about distance. It cares about meaning." }, "A word at the start of a sentence can outweigh the word right next to it, because attention is asking which words actually relate, not which ones happen to be close."),
-  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("transform") }, "Next: Update the Meaning"));
-}
-const TRANSFORM_EXAMPLES = [{
-  sentence: "I walked along the river bank at sunset",
-  word: "bank",
-  attentionFound: "river, walked, along",
-  result: "Riverbank (land alongside water)",
-  detail: "Attention connected \"bank\" to \"river\" and \"walked along.\" Transform takes that context and interprets it: this is the edge-of-water meaning. The financial meaning gets suppressed. The vector for \"bank\" is now updated to point toward nature and geography.",
-  color: "#10b981"
-}, {
-  sentence: "I went to the bank to deposit money",
-  word: "bank",
-  attentionFound: "deposit, money, went",
-  result: "Financial institution",
-  detail: "Same word, completely different attention context. Transform now sees \"bank\" connected to \"deposit\" and \"money\" and interprets it as a financial institution. The nature meaning gets suppressed. Same transformation machinery, different input from attention, totally different output.",
-  color: "#3b82f6"
-}];
-function TransformSectionModule(props) {
-  var E = React.createElement;
-  const [activeTransform, setActiveTransform] = useState(0);
-  const [startedTransform, setStartedTransform] = useState(false);
-  var renderTransformStage = function(example, stageIdx) {
-    return E("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
-      E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 14 } },
-        E("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(stageIdx + 1).padStart(2, "0")),
-        E("div", { style: { flex: 1 } },
-          E("div", { style: { fontFamily: "var(--mono)", fontSize: 16, color: "var(--ink)", lineHeight: 1.8 } },
-            example.sentence.split(" ").map(function(w, j) {
-              return E("span", { key: j, style: {
-                fontWeight: w.toLowerCase() === example.word ? 800 : 400,
-                color: w.toLowerCase() === example.word ? example.color : "var(--ink)",
-                background: w.toLowerCase() === example.word ? example.color + "18" : "transparent",
-                padding: w.toLowerCase() === example.word ? "2px 6px" : 0,
-                borderRadius: 4
-              } }, w, " ");
-            })))),
-      E("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 14 } },
-        E("div", { style: { display: "flex", alignItems: "center", gap: 0, flexWrap: "wrap", justifyContent: "center" } },
-          E("div", { style: { textAlign: "center", padding: "8px 14px" } },
-            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDC41\uFE0F Attention found"),
-            E("div", { style: { fontSize: 13, color: "var(--primary)", fontWeight: 600, background: "#6e51ff15", borderRadius: 8, padding: "6px 12px", border: "1px solid #6e51ff44" } }, example.attentionFound)),
-          E("div", { style: { color: "var(--inkMuted)", fontSize: 18, padding: "0 8px" } }, "\u2192"),
-          E("div", { style: { textAlign: "center", padding: "8px 14px" } },
-            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: example.color, marginBottom: 6 } }, "\uD83D\uDD04 Transform output"),
-            E("div", { style: { fontSize: 15, color: example.color, fontWeight: 700, background: example.color + "15", borderRadius: 8, padding: "6px 14px", border: "1px solid " + example.color + "44" } }, example.result)))),
-      E("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14 } },
-        E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, example.detail)));
-  };
-  var currentEx = TRANSFORM_EXAMPLES[Math.min(activeTransform, TRANSFORM_EXAMPLES.length - 1)];
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "transform" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "Attention figured out which words matter. Now Transform interprets what they mean together."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s \"bank\" in two different sentences:", /*#__PURE__*/React.createElement("span", null, " ", /*#__PURE__*/React.createElement(GoDeeper, null, "Transform takes the word\u2019s vector plus everything attention gathered, runs it through the model\u2019s learned parameters, and outputs an updated vector with a more specific meaning. Same machinery, different attention input, completely different output."))), E(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Same Word, Two Meanings",
-    action: E("div", {
-      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
-    },
-      E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(activeTransform + (startedTransform ? 1 : 0), TRANSFORM_EXAMPLES.length)),
-      E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TRANSFORM_EXAMPLES.length))
-  },
-    E(RevealSequence, {
-      surface: "sand",
-      items: TRANSFORM_EXAMPLES,
-      currentIdx: activeTransform,
-      started: startedTransform,
-      onStart: function() { setStartedTransform(true); },
-      onNext: function() { setActiveTransform(activeTransform + 1); },
-      canAdvance: true,
-      isComplete: activeTransform >= TRANSFORM_EXAMPLES.length,
-      startLabel: "First sentence",
-      nextLabel: "Second sentence \u2192",
-      finishLabel: "See the takeaway \u2192",
-      completionElement: E("div", { style: { padding: "20px 0", textAlign: "center" } },
-        E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 14 } }, "Remember"),
-        E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 10 } }, "Attention gathers context. Transform interprets it."),
-        E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "They work as a team. Attention decides what context is relevant. Transform decides what that context means. Neither works alone. This two-step process repeats in every layer, refining the meaning a little further each time."))
-    },
-      renderTransformStage(currentEx, activeTransform))),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeTransform >= TRANSFORM_EXAMPLES.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
+  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference") }, "Next: Inference"));
 }
 function InferenceSection(props) {
   const [activeStep, setActiveStep] = useState(0);
@@ -6047,7 +6001,7 @@ function OpenerAnswersSection(props) {
       { question: "Why is answering really a repeated guessing process?", lessonId: "prediction" },
       { question: "How does the model build up meaning step by step?", lessonId: "layers" },
       { question: "How does the model figure out which words matter to each other?", lessonId: "attention" },
-      { question: "How does context change what a word means inside the model?", lessonId: "transform" },
+      { question: "How does context change what a word means inside the model?", lessonId: "attention" },
       { question: "What is the full journey from your prompt to the final answer?", lessonId: "inference" }
     ],
     whatYoullLearnClosing: [],
@@ -13476,7 +13430,6 @@ const SECTION_COMPONENTS = {
   prediction: PredictionSection,
   layers: LayersSection,
   attention: AttentionSectionModule,
-  transform: TransformSectionModule,
   inference: InferenceSection,
   openercontrols: OpenerControlsSection,
   modelselection: ModelSelectionSection,

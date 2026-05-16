@@ -4774,16 +4774,15 @@ function BehindTheNumbersSection(props) {
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Transformer Architecture"));
 }
 function PredictionSection(props) {
-  const [predStepsRevealed, setPredStepsRevealed] = useState(0);
   const [seeStep, setSeeStep] = useState(0);
   const [promptChars, setPromptChars] = useState(0);
   const [promptDone, setPromptDone] = useState(false);
   const [aiRespWords, setAiRespWords] = useState(0);
   const [aiRespDone, setAiRespDone] = useState(false);
-  var seePromptText = "I’m planning a trip to France in June. What’s the capital?";
-  var seeAiText = "The capital of France is Paris. June is a great time to visit: the weather is typically warm with long daylight hours, perfect for exploring the city on foot. A few highlights worth planning around: the Musée d’Orsay is less crowded than the Louvre and just as impressive, the Marais district has some of the best food in the city, and if you’re there on June 21st, the Fête de la Musique fills the streets with live performances. Would you like help building an itinerary?";
-  var seeAiWordsArr = seeAiText.split(" ");
-  var seeCursor = /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
+  var seePromptText = "What car should I buy after I graduate from College?";
+  var lukeRespText = "Great question, Luke. I definitely recommend a Jeep Cherokee.";
+  var nateRespText = "I’m happy you asked this question, Nate. At this point in your life, I recommend the Ford Raptor.";
+  var nateRespWordsArr = nateRespText.split(" ");
   useEffect(function() {
     if (seeStep < 1 || promptDone) return;
     if (promptChars >= seePromptText.length) { setPromptDone(true); return; }
@@ -4791,9 +4790,9 @@ function PredictionSection(props) {
     return function() { clearInterval(iv); };
   }, [seeStep, promptChars, promptDone]);
   useEffect(function() {
-    if (seeStep < 5 || aiRespDone) return;
+    if (seeStep < 4 || aiRespDone) return;
     var t = setTimeout(function() {
-      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= seeAiWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
+      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= nateRespWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
     }, 500);
     return function() { clearTimeout(t); };
   }, [seeStep]);
@@ -4802,101 +4801,106 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null,
     "You’ve seen the model pick a word. But a real response is dozens of words. Sometimes thousands. Every single one goes through that same pick, over and over."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "How does the model do this so well, every word, all the way through?"),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Prediction Steps"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Before AI returns a single word, it runs three steps. Click through each one."),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginBottom: 20 } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-      [{ title: "Similarity", text: "Gives the model a map. During training, words that appear in similar contexts end up with similar vectors: close together in vector space. This tells the model which words belong in the same neighborhood of meaning. When it sees the word ‘capital,’ it knows that Paris, London, Tokyo, and Berlin all live nearby." },
-       { title: "Context", text: "Reads the context window (everything in your conversation so far) and uses it to narrow the neighborhood to what matters right now. Similarity alone gives you every capital city in the world. Your conversation mentions France, so the model focuses on the French part: Paris, Lyon, Marseille." },
-       { title: "Probability", text: "Selects the next word. Given the similarity neighborhood and the context, the model assigns a probability to every candidate and picks one. Paris might get 91%, Lyon 4%, Marseille 3%. Every single word in every response goes through this process." }
-      ].slice(0, predStepsRevealed).map(function(step, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 16, alignItems: "flex-start", background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 12, animation: i === predStepsRevealed - 1 ? "fadeIn 0.3s ease" : "none" } },
-          /*#__PURE__*/React.createElement("div", { style: { width: 32, height: 32, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, flexShrink: 0, marginTop: 2 } }, i + 1),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 15 } }, step.title),
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.55 } }, step.text)));
-      })),
-    predStepsRevealed < 3 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 4 } },
-      /*#__PURE__*/React.createElement("button", {
-        onClick: function() { setPredStepsRevealed(function(s) { return s + 1; }); },
-        style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-      }, predStepsRevealed === 0 ? "See First Step" : predStepsRevealed === 1 ? "See Next Step →" : "See Final Step →")) : null),
-
+    "Remember Luke and Nate from Context Window? Same question about buying a car. Totally different answers. That wasn’t random. Every word was a separate prediction, shaped by what the model already knew about each of them."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Watch the three steps in action with one prompt. You'll see how the model goes from your question to a single best word."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
+    "Here’s what was happening, word by word."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
-    title: "Three Steps to an Answer",
+    title: "Same question, different prediction",
     action: /*#__PURE__*/React.createElement("div", {
       style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
     },
-      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(seeStep, 5)),
-      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 5"))
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(seeStep, 4)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 4"))
   },
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
-      items: [1, 2, 3, 4, 5],
+      items: [1, 2, 3, 4],
       currentIdx: seeStep > 0 ? seeStep - 1 : 0,
       started: seeStep > 0,
       onStart: function() { setSeeStep(1); },
       onNext: function() { setSeeStep(function(s) { return s + 1; }); },
-      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 5) || (seeStep === 5 && aiRespDone),
-      isComplete: seeStep >= 5 && aiRespDone,
+      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 4) || (seeStep === 4 && aiRespDone),
+      isComplete: seeStep >= 5,
       startLabel: "Start",
-      nextLabel: seeStep === 1 ? "See Similarity Step →" : seeStep === 2 ? "See Context Step →" : seeStep === 3 ? "See Probability Step →" : seeStep === 4 ? "See AI’s Response →" : "Next →",
+      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Show the probabilities →" : seeStep === 3 ? "Watch the responses →" : "Next →",
       finishLabel: "See the takeaway →",
       completionElement: /*#__PURE__*/React.createElement("div", {
         style: { padding: "20px 0", textAlign: "center" }
       },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "💫"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "This happened for every word in that response."),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "The model didn’t just look up ‘capital of France.’ It ran similarity, context, and probability for each word (‘The,’ ‘capital,’ ‘of,’ ‘France,’ ‘is,’ ‘Paris’), and kept going. Every single word is a prediction."))
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Same model. Different context. Every word changes."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Nothing about the model was different between Luke and Nate. Same training, same vocabulary, same architecture. The context window is what shifted. And that single difference rewrote every single word."))
     },
       /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars })),
-        seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "#3b82f6", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "#3b82f6", marginBottom: 4 } }, "Similarity"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 14, color: "#3a3550", lineHeight: 1.55 } }, "“Capital” activates a broad world cities / capital-city neighborhood"))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 0 } },
-            ["Paris", "London", "Tokyo", "Berlin", "Washington D.C.", "Ottawa", "Canberra"].map(function(city) {
-              return /*#__PURE__*/React.createElement("span", { key: city, style: { display: "inline-block", background: "#eff6ff", border: "1px solid #3b82f6", borderRadius: 20, padding: "5px 14px", fontSize: 13, fontWeight: 600, color: "#1e40af", margin: 4 } }, city);
-            }))),
-        seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "#8b5cf6", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "#8b5cf6", marginBottom: 4 } }, "Context"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 14, color: "#3a3550", lineHeight: 1.55 } }, "“France” narrows attention toward the France region"))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 0 } },
-            ["Paris", "Lyon", "Marseille", "Versailles"].map(function(city) {
-              return /*#__PURE__*/React.createElement("span", { key: city, style: { display: "inline-block", background: "#faf5ff", border: "1px solid #8b5cf6", borderRadius: 20, padding: "5px 14px", fontSize: 13, fontWeight: 600, color: "#5b21b6", margin: 4 } }, city);
-            }))),
-        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "#10b981", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "#10b981", marginBottom: 4 } }, "Probability"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 14, color: "#3a3550", lineHeight: 1.55 } }, "Within that narrowed context, Paris becomes overwhelmingly most likely."))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-            [{ word: "Paris", pct: 91 }, { word: "Lyon", pct: 4 }, { word: "Marseille", pct: 3 }, { word: "Versailles", pct: 2 }].map(function(item) {
-              return /*#__PURE__*/React.createElement("div", { key: item.word, style: { display: "flex", alignItems: "center", gap: 12, padding: "8px 14px", borderRadius: 8, background: item.pct > 50 ? "#ecfdf5" : "var(--card)", border: item.pct > 50 ? "2px solid #10b981" : "1px solid var(--rule)" } },
-                /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, minWidth: 90, color: "var(--ink)" } }, item.word),
-                /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 20, overflow: "hidden" } },
-                  /*#__PURE__*/React.createElement("div", { style: { width: item.pct + "%", height: "100%", background: item.pct > 50 ? "linear-gradient(90deg, #10b981, #059669)" : "#a7f3d0", borderRadius: 6, transition: "width 0.6s ease" } })),
-                /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 14, color: "var(--inkSoft)", minWidth: 40, textAlign: "right" } }, item.pct + "%"));
-            }))),
-        seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(AIBubble, { text: seeAiText, visibleWords: aiRespWords }))))),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Same question")),
+        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#e0f2fe", borderRadius: 12, padding: 14, border: "1px solid #bfdbfe" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👦🏻"),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#1e40af" } }, "Luke")),
+            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" })),
+          /*#__PURE__*/React.createElement("div", { style: { background: "#f3e8ff", borderRadius: 12, padding: 14, border: "1px solid #ddd6fe" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👱‍♂️"),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#5b21b6" } }, "Nate")),
+            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" }))),
+        seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different context")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Luke’s context window"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } }, "Just this question. No prior chat.")),
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Nate’s context window"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
+                "This question, ",
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
+                " an earlier message from Nate: ",
+                /*#__PURE__*/React.createElement("em", null, "“I love pickup trucks.”")))) ),
+        seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different probabilities"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "When the model gets to the car-brand word, here’s what it considers for each user."))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
+            /*#__PURE__*/React.createElement("div", null,
+              [{ word: "Jeep", pct: 38 }, { word: "Honda", pct: 22 }, { word: "Toyota", pct: 18 }, { word: "Ford", pct: 14 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })),
+            /*#__PURE__*/React.createElement("div", null,
+              [{ word: "Ford", pct: 53 }, { word: "Honda", pct: 15 }, { word: "Toyota", pct: 12 }, { word: "Chevy", pct: 12 }, { word: "Jeep", pct: 8 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })))),
+        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "04"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different responses")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "How does the model figure out which words matter to which other words? Vectors alone can’t do it. The architecture that makes it possible is up next."),
+    "The SEE IT showed the shape, not the engine. The engine is about 100 layers, each running attention (which words matter to which) and transformation (what they mean together). That\u2019s what actually turns your context window into a probability distribution. Up next: Layers, Attention, and Update the Meaning."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: predStepsRevealed > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("layers"), label: "Next: Layers" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("layers"), label: "Next: Layers" }));
 }
 const LAYER_WORDS = {
   "bank": {

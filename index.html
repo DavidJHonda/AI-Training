@@ -216,7 +216,7 @@ function KeyInsight(props) {
   );
 }
 var TERMS = [
-  { term: "Attention", definition: "How the model figures out which words relate to which other words. It\u2019s why \u2018bank\u2019 means different things in \u2018river bank\u2019 vs \u2018savings bank.\u2019 Each word weighs every other word.", source: "howreads" },
+  { term: "Attention", definition: "The step inside each layer that figures out which words relate to which other words. Each word weighs every other word. Paired with transformation, this is how the model reads meaning.", source: "howreads" },
   { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "context" },
   { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "context" },
   { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve \u2018king \u2212 man + woman = queen.\u2019", source: "embeddings" },
@@ -233,6 +233,7 @@ var TERMS = [
   { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "temperature" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
+  { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "howreads" },
   { term: "Unstructured Data", definition: "Information that doesn\u0027t fit neatly into rows and columns: conversations, images, audio, video, reviews, jokes. Traditional code can\u0027t make sense of it. AI was trained on it.", source: "data" }
 ];
 function KeyTerm(props) {
@@ -833,7 +834,7 @@ const SECTION_META = {
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   vectorspace: { kicker: "WORDS HAVE NEIGHBORS", label: "Vector Space: Meaning by Similarity", title: "Vector Space", icon: "\uD83C\uDFD8\uFE0F" },
   behindthenumbers: { kicker: "OPENING THE BLACK BOX", label: "Inside the Model", title: "Inside the Model", icon: "\uD83D\uDD0D" },
-  howreads: { kicker: "ALL AT ONCE", label: "Attention", icon: "\uD83D\uDCD6" },
+  howreads: { kicker: "ALL AT ONCE", label: "Attention & Transformation", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -3160,10 +3161,9 @@ function HowAIReadsSection(props) {
       label: "Different meanings",
       examples: [
         { before: "Turn off the ", highlight: "light", after: "." },
-        { before: "This bag is ", highlight: "light", after: "." },
-        { before: "It was a ", highlight: "light", after: " meal." }
+        { before: "This bag is ", highlight: "light", after: "." }
       ],
-      explanation: "One word, three meanings. The model needs the surrounding words to know which one fits.",
+      explanation: "One word, two meanings. The model needs the surrounding words to know which one fits.",
       color: "#10b981"
     },
     {
@@ -3171,7 +3171,7 @@ function HowAIReadsSection(props) {
       examples: [
         { before: "Maria handed Sarah ", highlight: "her", after: " keys before getting in the passenger seat." }
       ],
-      explanation: "Whose keys? \u201CHer\u201D points to Maria, not Sarah. The clue is \u201Cpassenger seat\u201D: Maria is the driver, so the keys are hers.",
+      explanation: "Whose keys? \u201CHer\u201D points to Maria, not Sarah. The clue is \u201Cpassenger seat\u201D: Maria\u2019s the passenger, so Sarah is driving Maria\u2019s car. The keys are Maria\u2019s.",
       color: "#8b5cf6"
     },
     {
@@ -3185,9 +3185,18 @@ function HowAIReadsSection(props) {
   ];
 
   var attentionExplanations = [
-    "\u201CLight\u201D looks at the surrounding words and picks the meaning that fits. \u201CTurn off the light\u201D points to illumination. \u201CThis bag is light\u201D points to weight.",
-    "\u201CHer\u201D looks across the sentence and finds \u201Cpassenger seat.\u201D That clue tells it Maria is the driver, so her keys are Maria\u2019s.",
-    "\u201CIt\u201D can look directly at \u201Ccat\u201D from twelve words away. Distance no longer weakens the connection."
+    {
+      attention: "In one sentence, \u201Clight\u201D connects to \u201Cturn off the.\u201D In the other, it connects to \u201Cbag is.\u201D",
+      transformation: "From those connections, transformation picks the meaning that fits. Illumination in the first case, weight in the second."
+    },
+    {
+      attention: "\u201CHer\u201D reaches across the sentence and connects to \u201Cpassenger seat.\u201D",
+      transformation: "From that clue, transformation works out that Maria\u2019s the passenger. Sarah is driving Maria\u2019s car. So \u201Cher\u201D means Maria."
+    },
+    {
+      attention: "\u201CIt\u201D looks directly at \u201Ccat\u201D from twelve words away. Distance doesn\u2019t weaken the connection anymore.",
+      transformation: "Then transformation uses that connection to update what \u201Cit\u201D means. The model now knows \u201Cit\u201D is the cat."
+    }
   ];
 
   var challengesContainerRef = useRef(null);
@@ -3259,11 +3268,11 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "howreads" }),
 
     E(BodyP, null,
-      "You now understand how AI converts text to numbers, and how it uses a vector to associate the token to a meaning. In this lesson, we’ll say “word” instead of “token.”"
+      "You now understand how AI converts text to numbers, and how it uses a vector to associate the token to a meaning. In this lesson, we’ll use words instead of tokens to make it more understandable."
     ),
 
     E(BodyP, null,
-      "First, AI used to read text in sequential order like this."
+      "There was a fundamental issue that AI engineers needed to solve before LLMs became possible: the way AI read text in sequential order."
     ),
 
     E("div", {
@@ -3342,7 +3351,23 @@ function HowAIReadsSection(props) {
     ),
 
     E(BodyP, null,
-      "Solve all three and the model can read. Miss any one and it can\u2019t. Click each label to see what was breaking down."
+      "At first glance, this doesn\u2019t seem like a problem. That\u2019s the way humans read, and, if it\u2019s good enough for us, it\u2019s certainly good enough for AI."
+    ),
+
+    E(BodyP, null,
+      "Our brains have an advantage over a machine. We know how the words in a sentence relate to each other. It\u2019s the way we\u2019re wired. Therefore, we intuitively know that ",
+      E("strong", null, "IT"),
+      " refers to ",
+      E("strong", null, "cat"),
+      " in that sentence. But a computer processing words in sequential order often forgets earlier words. It won\u2019t see which word IT relates to."
+    ),
+
+    E(BodyP, null,
+      "This is what the first language models struggled with, and honestly, it\u2019s what kept them from reading like we do."
+    ),
+
+    E(BodyP, null,
+      "To better understand this, click each of the labels below to see what AI couldn\u2019t do in the past."
     ),
 
     E(InteractiveBox, {
@@ -3414,7 +3439,7 @@ function HowAIReadsSection(props) {
       E("strong", null, "Attention Is All You Need"),
       ". The breakthrough was simple: read all the words at the same time, not one at a time. That let every word look at every other word and figure out which ones mattered. They called this mechanism ",
       E("strong", null, "attention"),
-      ", and it solved all three challenges at once."
+      ". The name comes from how we focus: locking onto what matters, letting the rest fade."
     ),
 
     E("div", {
@@ -3491,8 +3516,41 @@ function HowAIReadsSection(props) {
       )
     ),
 
+    E(SectionKicker, null, "BUT THAT\u2019S ONLY HALF"),
+
     E(BodyP, null,
-      "Click each label to see how this solved the problems you saw earlier in this lesson."
+      "Attention by itself only gets you the connections. It tells you that \u201Clight\u201D connects to \u201Cturn off the\u201D in one sentence and to \u201Cbag is\u201D in another. Knowing the connection isn\u2019t the same as knowing the meaning."
+    ),
+
+    E(BodyP, null,
+      "That\u2019s the second step. Each layer pairs attention with a partner called ",
+      E("strong", null, "transformation"),
+      ", which takes those connections and works out what each word actually means in context. Together, the two operations give AI the ability to read text. This made LLMs possible."
+    ),
+
+    E(ShowcaseBox, { marginBottom: 28 },
+      E("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }
+      },
+        E("div", {
+          style: { textAlign: "center", padding: "20px 16px", background: "#6e51ff22", borderRadius: 14, border: "2px solid var(--primary)" }
+        },
+          E("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDC41\uFE0F"),
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--primary)", marginBottom: 4 } }, "Attention"),
+          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Which words matter to which?")
+        ),
+        E("div", {
+          style: { textAlign: "center", padding: "20px 16px", background: "#f59e0b22", borderRadius: 14, border: "2px solid #f59e0b" }
+        },
+          E("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDD04"),
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b", marginBottom: 4 } }, "Transformation"),
+          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "What they mean together")
+        )
+      )
+    ),
+
+    E(BodyP, null,
+      "Click each label to see how attention and transformation work together to solve the problems you saw earlier."
     ),
 
     E(InteractiveBox, {
@@ -3552,7 +3610,16 @@ function HowAIReadsSection(props) {
                     E("strong", { style: { color: c.color, fontWeight: 800 } }, ex.highlight),
                     ex.after);
                 }),
-                E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 14 } }, attentionExplanations[i])
+                E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 14 } },
+                  E("div", { style: { marginBottom: 10 } },
+                    E("strong", { style: { color: "var(--primary)", fontWeight: 800 } }, "Attention: "),
+                    attentionExplanations[i].attention
+                  ),
+                  E("div", null,
+                    E("strong", { style: { color: "#f59e0b", fontWeight: 800 } }, "Transformation: "),
+                    attentionExplanations[i].transformation
+                  )
+                )
               )
             );
           })
@@ -11037,7 +11104,7 @@ function TestYourselfSection(props) {
     correct: 1,
     section: "Attention",
     review: "howreads",
-    explain: "Attention asks ‘which words matter to each other?’ across your entire input at once. It connects pronouns, resolves ambiguous words from context, and highlights the most relevant pieces for generating each next word.",
+    explain: "Attention asks ‘which words matter to each other?’ across your entire input at once. It connects pronouns and highlights the most relevant pieces, giving the model the context it needs for each next word.",
     pitfalls: {
       0: "Nothing gets deleted. Attention is about weighting, not removing.",
       2: "Spell-checking isn’t what attention does.",

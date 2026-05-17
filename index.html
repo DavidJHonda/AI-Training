@@ -792,10 +792,10 @@ const SECTION_GROUPS = [{
   sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "blackbox", "generative", "data"]
 }, {
   label: "Under the Hood",
-  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "training", "trainingbias"]
+  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers", "training", "trainingbias"]
 }, {
   label: "AI Answers",
-  sections: ["openeranswers", "context", "probability", "prediction", "layers", "inference"]
+  sections: ["openeranswers", "context", "probability", "prediction", "inference"]
 }, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
@@ -3694,7 +3694,7 @@ function HowAIReadsSection(props) {
 
 
     E(LessonRule, null),
-    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); } }, "Next: Training")
+    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); } }, "Next: Layers")
   );
 }
 function ProbabilitySection(props) {
@@ -5086,7 +5086,7 @@ function PredictionSection(props) {
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("layers"), label: "Next: Layers" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Inference" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -5120,8 +5120,7 @@ function LayersSection(props) {
   const bankLayer = bankLayers[activeLayer];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Prediction showed Luke and Nate getting to \"Jeep\" and \"Ford,\" word by word. Every word was a fresh pick, shaped by every word before it. And, we hope Nate and Luke enjoy their new cars after graduation!"),
-    /*#__PURE__*/React.createElement(BodyP, null, "To predict each word, AI first has to read what\u2019s been said. Earlier, you learned the two operations it uses: attention and transformation."),
+    /*#__PURE__*/React.createElement(BodyP, null, "You just learned the two operations AI uses to read: attention and transformation. Working as a pair, they\u2019re how meaning gets built."),
     /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }
@@ -5143,8 +5142,8 @@ function LayersSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Doing those two things isn\u2019t a one-step process. Think of it as reading a sentence one pass at a time, understanding a little more each pass. Those individual passes are called ",
-      /*#__PURE__*/React.createElement("strong", null, "layers"),
+      "But doing those two things once isn\u2019t enough. The model repeats them many times, like reading a sentence one pass at a time, understanding a little more each pass. Each pass is called a ",
+      /*#__PURE__*/React.createElement("strong", null, "layer"),
       "."
     ),
     /*#__PURE__*/React.createElement("div", {
@@ -5352,7 +5351,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Layers don\u2019t just build. They also lose." },
       "As layers stack, some details get amplified, some get dropped, some get distorted. Not a filing cabinet of facts. A stack of transformations, each one keeping what helps the next layer along."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Inference" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" })
   );
 }
 function InferenceSection(props) {
@@ -5416,7 +5415,7 @@ function InferenceSection(props) {
     color: "#10b981"
   }];
   const step = steps[activeStep];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned the individual pieces: context, probability, prediction, layers, attention, and transformation."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned the individual pieces: attention, transformation, layers, context, probability, and prediction."),
   /*#__PURE__*/React.createElement(BodyP, null, "Now we can name the full process."),
   /*#__PURE__*/React.createElement(BodyP, null, "Inference is what happens every time you hit send. The trained model takes your prompt, runs it through its layers, predicts the next token, adds that token to the response, and repeats until the answer is complete."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built."),
@@ -5635,7 +5634,7 @@ function OpenerAnswersSection(props) {
       "You\u2019ve opened the hood. You\u2019ve seen how text becomes tokens, how tokens become numbers, how those numbers carry meaning, and how training shapes the model before anyone ever uses it.",
       "🚗 At Tesla, the next step is the test drive.",
       "Knowing the parts isn\u2019t the same as knowing what happens when the car moves. When you press the accelerator, electricity flows, sensors update, software makes calculations, and the wheels respond. The car doesn\u2019t rebuild itself every time you drive. It uses the system that was already built.",
-      "AI works the same way. When you type a prompt and hit send, the model doesn\u2019t start training from scratch. It uses what it already learned. Your words move through the system: context, probability, prediction, layers, attention, and transformation. Then the model chooses the next token, adds it to the response, and does it again.",
+      "AI works the same way. When you type a prompt and hit send, the model doesn\u2019t start training from scratch. It uses what it already learned. Your words move through the system: attention, transformation, layers, context, probability, and prediction. Then the model chooses the next token, adds it to the response, and does it again.",
       "That process is called inference."
     ],
     featuredCard: React.createElement(ShowcaseBox, {

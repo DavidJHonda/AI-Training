@@ -3252,7 +3252,7 @@ function HowAIReadsSection(props) {
   var changeBullets = [
     {
       title: "Models could finally read.",
-      body: "This is what makes the \u201Clanguage\u201D in \u201Clanguage model\u201D real. Without attention, a model can produce text that looks fluent but can\u2019t track meaning across it. The three challenges you just saw are what reading actually requires."
+      body: "This is what makes the \u201Clanguage\u201D in \u201Clanguage model\u201D real. Without this combination, a model can produce text that looks fluent but can\u2019t track meaning across it. The three challenges you just saw are what reading actually requires."
     },
     {
       title: "Training could scale much bigger.",
@@ -3525,7 +3525,7 @@ function HowAIReadsSection(props) {
     E(BodyP, null,
       "That\u2019s the second step. Each layer pairs attention with a partner called ",
       E("strong", null, "transformation"),
-      ", which takes those connections and works out what each word actually means in context. Together, the two operations give AI the ability to read text. This made LLMs possible."
+      ", which takes those connections and works out what each word actually means in context. Together, the two operations give AI the ability to read text."
     ),
 
     E(ShowcaseBox, { marginBottom: 28 },
@@ -5115,10 +5115,38 @@ const LAYER_WORDS = {
   },
 };
 function LayersSection(props) {
+  const [activeLayer, setActiveLayer] = useState(0);
+  const bankLayers = LAYER_WORDS.bank.layers;
+  const bankLayer = bankLayers[activeLayer];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Prediction showed Luke and Nate getting to \"Jeep\" and \"Ford,\" word by word. Every word was a fresh pick, shaped by every word before it. What we skipped over: how the model actually figures out what each word means in this conversation, so it can make the next pick."),
-    /*#__PURE__*/React.createElement(BodyP, null, "That\u2019s layers. Embeddings give every word a fixed meaning, but \"bank\" has the same numbers whether you\u2019re talking about a river or money. The model\u2019s ~100 layers are where it figures out what you actually mean. Think of it as reading a sentence one pass at a time, understanding a little more each pass. Each layer runs two operations on every word: attention (which words matter to which?) and transformation (what do they mean together?). By the end, \"bank\" means something completely different depending on the sentence."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Prediction showed Luke and Nate getting to \"Jeep\" and \"Ford,\" word by word. Every word was a fresh pick, shaped by every word before it. And, we hope Nate and Luke enjoy their new cars after graduation!"),
+    /*#__PURE__*/React.createElement(BodyP, null, "To predict each word, AI first has to read what\u2019s been said. Earlier, you learned the two operations it uses: attention and transformation."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", padding: "20px 16px", background: "#6e51ff22", borderRadius: 14, border: "2px solid var(--primary)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDC41\uFE0F"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--primary)", marginBottom: 4 } }, "Attention"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Which words matter to which?")
+        ),
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", padding: "20px 16px", background: "#f59e0b22", borderRadius: 14, border: "2px solid #f59e0b" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDD04"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b", marginBottom: 4 } }, "Transformation"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "What they mean together")
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Doing those two things isn\u2019t a one-step process. Think of it as reading a sentence one pass at a time, understanding a little more each pass. Those individual passes are called ",
+      /*#__PURE__*/React.createElement("strong", null, "layers"),
+      "."
+    ),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 24, marginTop: 4 }
     },
@@ -5155,6 +5183,172 @@ function LayersSection(props) {
         style: { textAlign: "center", fontSize: 12, color: "var(--inkMuted)", marginTop: 8 }
       }, "This repeats 80-120 times, one layer feeding into the next")
     ),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 24 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 12, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--inkMuted)", marginBottom: 12, textAlign: "center" }
+      }, "How meaning builds across the layers"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 0, flexWrap: "wrap" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", padding: "10px 14px" } },
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkMuted)", background: "var(--card)", borderRadius: 8, padding: "6px 10px", border: "1px solid var(--rule)" }
+          }, "Raw tokens")),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", padding: "12px 14px", background: "#6e51ff10", borderRadius: 10, border: "1px solid var(--rule)", width: 130 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 } }, "Early layers"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", lineHeight: 1.4 } }, "What kind of words are these?")),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", padding: "12px 14px", background: "#6e51ff22", borderRadius: 10, border: "1px solid var(--rule)", width: 130 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 } }, "Middle layers"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", lineHeight: 1.4 } }, "What do nearby words mean together?")),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", padding: "12px 14px", background: "#6e51ff35", borderRadius: 10, border: "1px solid var(--rule)", width: 130 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 } }, "Later layers"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", lineHeight: 1.4 } }, "What does the full sentence mean?")),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
+        /*#__PURE__*/React.createElement("div", {
+          style: { textAlign: "center", padding: "12px 14px", background: "#6e51ff55", borderRadius: 10, border: "1px solid var(--rule)", width: 130 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 } }, "Final layers"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", lineHeight: 1.4 } }, "What should come next?")),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
+        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", padding: "10px 14px" } },
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkMuted)", background: "var(--card)", borderRadius: 8, padding: "6px 10px", border: "1px solid var(--rule)" }
+          }, "Ready to predict"))),
+      /*#__PURE__*/React.createElement("div", {
+        style: { textAlign: "center", fontSize: 12, color: "var(--inkMuted)", marginTop: 8 }
+      }, "The boundaries are blurry, but the direction is real.")
+    ),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "Watch Meaning Build Layer by Layer"
+    },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("p", {
+          style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.65, margin: "0 0 16px 0" }
+        }, "\"Bank\" has the same starting meaning whether you mean river or savings account. Layers figure out which one this sentence is talking about. Watch it resolve."),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--bg)", borderRadius: 10, padding: "12px 16px", marginBottom: 16, border: "1px solid var(--rule)" }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--inkMuted)", marginBottom: 4 }
+          }, "Sentence"),
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.5 }
+          },
+            LAYER_WORDS.bank.sentence.split("bank").map((part, i, arr) =>
+              /*#__PURE__*/React.createElement("span", { key: i }, part,
+                i < arr.length - 1 && /*#__PURE__*/React.createElement("span", {
+                  style: { background: "rgba(110, 81, 255, 0.15)", padding: "2px 6px", borderRadius: 4, fontWeight: 700, color: "var(--primary)" }
+                }, "bank")
+              )
+            )
+          )
+        ),
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 16, marginBottom: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", flexDirection: "column", gap: 6, minWidth: 130 }
+          },
+            bankLayers.map((l, i) => /*#__PURE__*/React.createElement("button", {
+              key: i,
+              onClick: () => setActiveLayer(i),
+              style: {
+                padding: "10px 14px",
+                borderRadius: 8,
+                textAlign: "left",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                background: i === activeLayer ? l.color + "20" : "var(--bg)",
+                border: i === activeLayer ? `2px solid ${l.color}` : "1px solid var(--rule)",
+                color: i === activeLayer ? l.color : "var(--inkMuted)"
+              }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 } }, l.label),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, marginTop: 2, color: i === activeLayer ? "var(--ink)" : "var(--inkMuted)" } }, l.understanding)
+            ))
+          ),
+          /*#__PURE__*/React.createElement("div", {
+            style: { flex: 1, background: "var(--bg)", borderRadius: 12, padding: 20, border: `2px solid ${bankLayer.color}`, animation: "fadeIn 0.25s ease" }
+          },
+            /*#__PURE__*/React.createElement("div", {
+              style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { width: 10, height: 10, borderRadius: "50%", background: bankLayer.color } }),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, bankLayer.label, ": \"bank\" \u2192 ", bankLayer.understanding)
+            ),
+            /*#__PURE__*/React.createElement("p", {
+              style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.65, margin: 0 }
+            }, bankLayer.detail),
+            /*#__PURE__*/React.createElement("div", {
+              style: { marginTop: 16, height: 6, background: "var(--card)", borderRadius: 3, overflow: "hidden" }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { height: "100%", width: `${(activeLayer + 1) / bankLayers.length * 100}%`, background: bankLayer.color, borderRadius: 3, transition: "width 0.4s ease" } })
+            ),
+            /*#__PURE__*/React.createElement("div", {
+              style: { display: "flex", justifyContent: "space-between", marginTop: 4, fontSize: 11, color: "var(--inkMuted)" }
+            },
+              /*#__PURE__*/React.createElement("span", null, "Raw token"),
+              /*#__PURE__*/React.createElement("span", null, "Full understanding")
+            )
+          )
+        ),
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "space-between", alignItems: "center" }
+        },
+          /*#__PURE__*/React.createElement("button", {
+            onClick: () => setActiveLayer(Math.max(0, activeLayer - 1)),
+            disabled: activeLayer === 0,
+            style: {
+              padding: "8px 18px",
+              borderRadius: 8,
+              background: activeLayer === 0 ? "var(--bg)" : "var(--card)",
+              color: activeLayer === 0 ? "var(--inkMuted)" : "var(--ink)",
+              border: "1px solid var(--rule)",
+              cursor: activeLayer === 0 ? "default" : "pointer",
+              fontSize: 13,
+              fontWeight: 600
+            }
+          }, "\u2190 Previous Layer"),
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, color: "var(--inkMuted)" } }, "Layer ", activeLayer + 1, " of ", bankLayers.length),
+          /*#__PURE__*/React.createElement("button", {
+            onClick: () => setActiveLayer(Math.min(bankLayers.length - 1, activeLayer + 1)),
+            disabled: activeLayer === bankLayers.length - 1,
+            style: {
+              padding: "8px 18px",
+              borderRadius: 8,
+              background: activeLayer === bankLayers.length - 1 ? "var(--bg)" : "var(--primary)",
+              color: activeLayer === bankLayers.length - 1 ? "var(--inkMuted)" : "#fff",
+              border: "1px solid var(--rule)",
+              cursor: activeLayer === bankLayers.length - 1 ? "default" : "pointer",
+              fontSize: 13,
+              fontWeight: 600
+            }
+          }, "Next Layer \u2192")
+        ),
+        activeLayer === bankLayers.length - 1 && /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
+            /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ",
+            /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")
+          ),
+          "\uD83D\uDCA1 No single layer \"understands\" the word. Each cycle, attention gathers the context and transformation interprets it. Understanding emerges gradually, layer after layer."
+        )
+      )
+    ),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Layers don\u2019t just build. They also lose." },
       "As layers stack, some details get amplified, some get dropped, some get distorted. Not a filing cabinet of facts. A stack of transformations, each one keeping what helps the next layer along."),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -5163,7 +5357,6 @@ function LayersSection(props) {
 }
 function InferenceSection(props) {
   const [activeStep, setActiveStep] = useState(0);
-  const [activeLayer, setActiveLayer] = useState(0);
   const [computePhase, setComputePhase] = useState("typing-q");
   const [computeQChars, setComputeQChars] = useState(0);
   const [computeAiWords, setComputeAiWords] = useState(0);
@@ -5223,8 +5416,6 @@ function InferenceSection(props) {
     color: "#10b981"
   }];
   const step = steps[activeStep];
-  const bankLayers = LAYER_WORDS.bank.layers;
-  const bankLayer = bankLayers[activeLayer];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned the individual pieces: context, probability, prediction, layers, attention, and transformation."),
   /*#__PURE__*/React.createElement(BodyP, null, "Now we can name the full process."),
   /*#__PURE__*/React.createElement(BodyP, null, "Inference is what happens every time you hit send. The trained model takes your prompt, runs it through its layers, predicts the next token, adds that token to the response, and repeats until the answer is complete."),
@@ -5346,126 +5537,6 @@ function InferenceSection(props) {
       color: "var(--inkMuted)"
     }
   }, /*#__PURE__*/React.createElement("span", null, "You hit send"), /*#__PURE__*/React.createElement("span", null, "Response streams in"))))),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Watch Meaning Build Layer by Layer"
-  },
-    /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement("p", {
-        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.65, margin: "0 0 16px 0" }
-      }, "\"Bank\" has the same starting meaning whether you mean river or savings account. Layers figure out which one this sentence is talking about. Watch it resolve."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", borderRadius: 10, padding: "12px 16px", marginBottom: 16, border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--inkMuted)", marginBottom: 4 }
-        }, "Sentence"),
-        /*#__PURE__*/React.createElement("div", {
-          style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.5 }
-        },
-          LAYER_WORDS.bank.sentence.split("bank").map((part, i, arr) =>
-            /*#__PURE__*/React.createElement("span", { key: i }, part,
-              i < arr.length - 1 && /*#__PURE__*/React.createElement("span", {
-                style: { background: "rgba(110, 81, 255, 0.15)", padding: "2px 6px", borderRadius: 4, fontWeight: 700, color: "var(--primary)" }
-              }, "bank")
-            )
-          )
-        )
-      ),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", gap: 16, marginBottom: 16 }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", flexDirection: "column", gap: 6, minWidth: 130 }
-        },
-          bankLayers.map((l, i) => /*#__PURE__*/React.createElement("button", {
-            key: i,
-            onClick: () => setActiveLayer(i),
-            style: {
-              padding: "10px 14px",
-              borderRadius: 8,
-              textAlign: "left",
-              cursor: "pointer",
-              transition: "all 0.2s",
-              background: i === activeLayer ? l.color + "20" : "var(--bg)",
-              border: i === activeLayer ? `2px solid ${l.color}` : "1px solid var(--rule)",
-              color: i === activeLayer ? l.color : "var(--inkMuted)"
-            }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 } }, l.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, marginTop: 2, color: i === activeLayer ? "var(--ink)" : "var(--inkMuted)" } }, l.understanding)
-          ))
-        ),
-        /*#__PURE__*/React.createElement("div", {
-          style: { flex: 1, background: "var(--bg)", borderRadius: 12, padding: 20, border: `2px solid ${bankLayer.color}`, animation: "fadeIn 0.25s ease" }
-        },
-          /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { width: 10, height: 10, borderRadius: "50%", background: bankLayer.color } }),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, bankLayer.label, ": \"bank\" \u2192 ", bankLayer.understanding)
-          ),
-          /*#__PURE__*/React.createElement("p", {
-            style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.65, margin: 0 }
-          }, bankLayer.detail),
-          /*#__PURE__*/React.createElement("div", {
-            style: { marginTop: 16, height: 6, background: "var(--card)", borderRadius: 3, overflow: "hidden" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { height: "100%", width: `${(activeLayer + 1) / bankLayers.length * 100}%`, background: bankLayer.color, borderRadius: 3, transition: "width 0.4s ease" } })
-          ),
-          /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", justifyContent: "space-between", marginTop: 4, fontSize: 11, color: "var(--inkMuted)" }
-          },
-            /*#__PURE__*/React.createElement("span", null, "Raw token"),
-            /*#__PURE__*/React.createElement("span", null, "Full understanding")
-          )
-        )
-      ),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", justifyContent: "space-between", alignItems: "center" }
-      },
-        /*#__PURE__*/React.createElement("button", {
-          onClick: () => setActiveLayer(Math.max(0, activeLayer - 1)),
-          disabled: activeLayer === 0,
-          style: {
-            padding: "8px 18px",
-            borderRadius: 8,
-            background: activeLayer === 0 ? "var(--bg)" : "var(--card)",
-            color: activeLayer === 0 ? "var(--inkMuted)" : "var(--ink)",
-            border: "1px solid var(--rule)",
-            cursor: activeLayer === 0 ? "default" : "pointer",
-            fontSize: 13,
-            fontWeight: 600
-          }
-        }, "\u2190 Previous Layer"),
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, color: "var(--inkMuted)" } }, "Layer ", activeLayer + 1, " of ", bankLayers.length),
-        /*#__PURE__*/React.createElement("button", {
-          onClick: () => setActiveLayer(Math.min(bankLayers.length - 1, activeLayer + 1)),
-          disabled: activeLayer === bankLayers.length - 1,
-          style: {
-            padding: "8px 18px",
-            borderRadius: 8,
-            background: activeLayer === bankLayers.length - 1 ? "var(--bg)" : "var(--primary)",
-            color: activeLayer === bankLayers.length - 1 ? "var(--inkMuted)" : "#fff",
-            border: "1px solid var(--rule)",
-            cursor: activeLayer === bankLayers.length - 1 ? "default" : "pointer",
-            fontSize: 13,
-            fontWeight: 600
-          }
-        }, "Next Layer \u2192")
-      ),
-      activeLayer === bankLayers.length - 1 && /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18 }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
-          /*#__PURE__*/React.createElement("strong", null, "\uD83D\uDCAC Remember:"), " ",
-          /*#__PURE__*/React.createElement("em", null, "Understanding isn't instant. It builds up, one layer at a time.")
-        ),
-        "\uD83D\uDCA1 No single layer \"understands\" the word. Each cycle, attention gathers the context and transformation interprets it. Understanding emerges gradually, layer after layer."
-      )
-    )
-  ),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "ONE NAME FOR THE WHOLE THING",
     headline: "What you just walked through has a name.",

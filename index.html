@@ -795,7 +795,7 @@ const SECTION_GROUPS = [{
   sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers"]
 }, {
   label: "Working with AI",
-  sections: ["openeranswers", "training", "prompt", "context", "inference", "probability", "prediction"]
+  sections: ["openeranswers", "training", "prompt", "context", "inference", "probability", "prediction", "patterns"]
 }, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
@@ -842,6 +842,7 @@ const SECTION_META = {
   context: { kicker: "WHAT IT CAN SEE", label: "Context Window", icon: "\uD83D\uDCCB" },
   probability: { kicker: "ONE WORD AT A TIME", label: "Probability", icon: "\uD83C\uDFB2" },
   prediction: { kicker: "THE GUESSING GAME", label: "Prediction", icon: "\uD83C\uDFAF" },
+  patterns: { kicker: "ONE IDEA EXPLAINS THE REST", label: "Patterns", icon: "\uD83E\uDDEC" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   openercontrols: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -5125,7 +5126,194 @@ function PredictionSection(props) {
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("patterns"), label: "Next: Patterns" }));
+}
+function PatternsSection(props) {
+  const [bridgePanel, setBridgePanel] = useState(0);
+  const [scenariosStarted, setScenariosStarted] = useState(false);
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [picks, setPicks] = useState({});
+
+  const SCENARIOS = [
+    {
+      situation: "Luke and Nate ask the same question. ChatGPT recommends a Jeep Cherokee to Luke and a Ford Raptor to Nate. Why?",
+      options: [
+        { label: "Different patterns activated based on each person’s context.", correct: true, feedback: "Right. The car patterns are the same for both. Nate’s earlier mention of pickup trucks activated truck patterns. Luke’s context activated different ones. Same patterns. Different inputs steering which one fires." },
+        { label: "ChatGPT has a rule: pickup trucks for Nate.", correct: false, feedback: "Rules look like IF-THEN. ChatGPT doesn’t have one of those. It has patterns weighted from training data, and the context decides which one activates." },
+        { label: "ChatGPT looked up Nate’s preferences in a database.", correct: false, feedback: "ChatGPT isn’t searching a database when it answers. It’s pattern matching against what’s in the context window. The “pickup trucks” mention is what shifted which patterns activated." }
+      ]
+    },
+    {
+      situation: "Ask AI about a treaty and it confidently invents “Dr. Marcus Holbrook, 2017 Journal of Diplomatic History.” Why does fake info sound real?",
+      options: [
+        { label: "The pattern of “how academic citations look” activated. The pattern doesn’t know whether the cited paper exists.", correct: true, feedback: "Right. Patterns are about how things look, not whether they’re true. The model has learned what plausible citations look like from thousands of examples and can produce one whether or not it exists." },
+        { label: "The model lied on purpose to keep the conversation going.", correct: false, feedback: "There’s no purpose involved. The model isn’t deciding to lie. It’s matching the pattern of “authoritative answer,” and the pattern doesn’t carry a check for whether the details are real." },
+        { label: "The training data was corrupted and the citation got scrambled.", correct: false, feedback: "Even with clean training data, this happens. The pattern of “plausible-looking citation” is real. Whether a specific paper exists is a fact that lives outside the pattern." }
+      ]
+    },
+    {
+      situation: "You ask “help with my essay” and get generic advice. You ask “help me strengthen the counterargument in paragraph 3 of my essay on climate policy” and get specific, useful feedback. Why?",
+      options: [
+        { label: "Specific prompts activate specific patterns. Vague prompts activate vague ones.", correct: true, feedback: "Right. Prompts steer which patterns fire. A vague prompt has nothing to lock onto, so the model defaults to the broadest, blandest pattern. A specific prompt activates patterns built from specific examples." },
+        { label: "AI tries harder when you write more.", correct: false, feedback: "There’s no “trying” happening. Same effort either way. The longer prompt activates better patterns because it gives the model more specific things to match against." },
+        { label: "Long prompts route to a smarter model.", correct: false, feedback: "Same model. The sharper answer comes from your prompt activating sharper patterns, not from the model swapping itself out." }
+      ]
+    }
+  ];
+
+  const pickOption = function(sIdx, oIdx) {
+    setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
+  };
+
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "patterns" }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Remember Luke and Nate. Same model. Same training. Same vocabulary. The only thing different was the context. The output came out totally different."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "What changed wasn’t a rule getting flipped. There’s no IF-Nate-THEN-Ford rule sitting inside the model. What changed was which pattern activated."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "This section has been about patterns the whole time. Now let’s name the thread."),
+
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Rule, Memory, or Pattern?"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "AI isn’t following rules. It isn’t looking things up in memory. It’s matching patterns. Those three behave very differently."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "💻"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1e40af", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Rule"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "Calculator: IF 2 + 2 THEN 4"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Hard. Breaks when reality doesn’t fit the IF.")),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "🔍"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "#5b21b6", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Memory"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "Search: type a phrase, get the stored match"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Exact. Needs the right key to retrieve.")),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--primary)" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "🧬"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Pattern"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "AI: “See you ___” → tomorrow"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Soft. Flexes with context. Sometimes too much."))),
+      /*#__PURE__*/React.createElement(BodyP, { style: { margin: "20px 0 0 0" } },
+        "Rules break when reality shifts. Memory needs an exact key. Patterns flex, which is what makes AI feel smart and what lets it hallucinate at the same time.")),
+
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Training Writes. Inference Reads."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Patterns are the bridge between the two halves of how AI works. Training writes patterns into the weights. Inference reads them back out. Watch the same pattern in both moments."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "The Same Pattern, Two Moments",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(bridgePanel, 3)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of 3"))
+    },
+      bridgePanel === 0 ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBridgePanel(1); }, style: { display: "block", margin: "0 auto", fontWeight: 600 } }, "Start") : null,
+      bridgePanel >= 1 ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: 14, animation: "fadeIn 0.3s ease" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 4 } }, "TRAINING"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "var(--ink)", fontWeight: 700 } }, "The pattern gets written"))),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 } },
+          ["“good morning to you”", "“good morning everyone”", "“good morning class”", "“good morning, sunshine”", "“good morning, friend”", "... millions more"].map(function(ex, i) {
+            return /*#__PURE__*/React.createElement("div", { key: i, style: { fontFamily: "var(--mono)", fontSize: 13, color: i === 5 ? "var(--inkMuted)" : "var(--inkSoft)", fontStyle: i === 5 ? "italic" : "normal" } }, ex);
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } },
+          "Every example nudges the model’s weights. After enough examples, the pattern is set: “good” + space tends toward “morning.”")) : null,
+      bridgePanel === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 8 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBridgePanel(2); }, style: { fontWeight: 600 } }, "See the pattern ↓")) : null,
+      bridgePanel >= 2 ? /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 14, padding: "18px 22px", border: "1px solid var(--primary)", marginBottom: 14, animation: "fadeIn 0.3s ease" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--primary)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 4 } }, "THE PATTERN"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "var(--ink)", fontWeight: 700 } }, "Stored as weights, not as sentences"))),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 10, padding: "14px 16px", marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, textAlign: "center", marginBottom: 12, fontWeight: 700, color: "var(--ink)" } }, "“good ___”"),
+          [{ word: "morning", pct: 65 }, { word: "luck", pct: 20 }, { word: "grief", pct: 8 }, { word: "boy", pct: 7 }].map(function(opt, i) {
+            var isTop = i === 0;
+            return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 70, color: isTop ? "var(--primary)" : "var(--ink)" } }, opt.word),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "var(--primary)" : "#c7d2fe", borderRadius: 6 } })),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: "var(--inkMuted)", minWidth: 32, textAlign: "right" } }, opt.pct + "%"));
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } },
+          "That’s the pattern. Not a stored sentence. A weighted association between words. Once training ends, the pattern is frozen.")) : null,
+      bridgePanel === 2 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 8 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBridgePanel(3); }, style: { fontWeight: 600 } }, "See it activate ↓")) : null,
+      bridgePanel >= 3 ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: 14, animation: "fadeIn 0.3s ease" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 4 } }, "INFERENCE"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "var(--ink)", fontWeight: 700 } }, "The pattern gets read"))),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px", marginBottom: 12, fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)" } },
+          "You: “Hey, friend! Good ",
+          /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, borderBottom: "2px solid var(--primary)" } }, "morning"),
+          "”"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } },
+          "The prompt arrives. The pattern activates. The model outputs “morning.” The pattern didn’t change between training and now. Only the input that triggered it did.")) : null,
+      bridgePanel >= 3 ? /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "🧬"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Same pattern. Different moments."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Training writes. Inference reads. Patterns are the thing flowing between them.")) : null
+    ),
+
+    /*#__PURE__*/React.createElement(SectionKicker, null, "One Concept, Three Behaviors"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Patterns explain almost everything you’ve seen in this section. Pick the pattern dynamic that explains each behavior."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "What Pattern Dynamic Is This?"
+    },
+      !scenariosStarted ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setScenariosStarted(true); }, style: { display: "block", margin: "0 auto", fontWeight: 600 } }, "First Scenario") : /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { display: "inline-block", background: "var(--bg)", borderRadius: 8, padding: "6px 14px", marginBottom: 16, fontSize: 13, color: "var(--inkMuted)", border: "1px solid var(--rule)" } },
+          "Scenario ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, (scenarioIdx + 1) + " of " + SCENARIOS.length)),
+        (function() {
+          var sc = SCENARIOS[scenarioIdx];
+          var pick = picks[scenarioIdx];
+          var picked = pick !== undefined;
+          return /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 12, padding: "18px 20px", border: "1px solid var(--rule)", marginBottom: 16, fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, sc.situation),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
+              sc.options.map(function(opt, oi) {
+                var isPicked = pick === oi;
+                var bg = "var(--card)";
+                var borderColor = "var(--rule)";
+                var color = "var(--ink)";
+                if (picked) {
+                  if (opt.correct) { bg = "#ecfdf5"; borderColor = "#10b981"; color = "#065f46"; }
+                  else if (isPicked) { bg = "#fef2f2"; borderColor = "#ef4444"; color = "#991b1b"; }
+                  else { color = "var(--inkMuted)"; }
+                }
+                return /*#__PURE__*/React.createElement("button", {
+                  key: oi,
+                  onClick: function() { if (!picked) pickOption(scenarioIdx, oi); },
+                  disabled: picked,
+                  style: { padding: "12px 16px", borderRadius: 10, fontSize: 14, fontWeight: 600, background: bg, color: color, border: "1.5px solid " + borderColor, cursor: picked ? "default" : "pointer", textAlign: "left", transition: "all 0.15s", fontFamily: "inherit", lineHeight: 1.5 }
+                }, opt.label);
+              })),
+            picked ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px", marginBottom: 14, animation: "fadeIn 0.3s ease" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, sc.options[pick].feedback)) : null,
+            (picked && scenarioIdx < SCENARIOS.length - 1) ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+              /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setScenarioIdx(scenarioIdx + 1); }, style: { fontWeight: 600 } }, "Next Scenario →")) : null);
+        })())
+    ),
+
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Patterns are what training writes and inference reads." },
+      "Everything else you’ve learned in this section (tokens, embeddings, layers, attention, probability, prediction) is the machinery for that one trade."),
+
+    /*#__PURE__*/React.createElement(NextLessonGate, {
+      ready: Object.keys(picks).length >= SCENARIOS.length,
+      lockedMessage: "Try all three to continue",
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openercontrols"); },
+      label: "Next: Controls"
+    }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -7019,7 +7207,6 @@ function OpenerTrapsSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openertraps",
     whyThisMatters: [
-      "You\u2019ve learned the dashboard: products, models, modes, temperature, memory, and documents all change what kind of answer you get.",
       "🚗 At Tesla, control is not the same as safety. Now you study the warning lights, blind spots, and failure modes.",
       "A powerful car can still mislead you if you misunderstand what it\u2019s doing. It can feel smooth while drifting out of its lane. A dashboard can look calm while something important is wrong under the surface.",
       "AI has its own version of that problem.",
@@ -7135,7 +7322,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That creates the problem: ", /*#__PURE__*/React.createElement("strong", null, "likely does not always mean true.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One specific version of that problem is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". It’s a strange word to use, because AI doesn’t literally see anything. But the idea is simple: AI generates a claim that sounds real, even though it is made up."),
+      "One specific version of that problem is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". It’s a strange word to use, because AI doesn’t have physical eyes, and doesn’t \"see\" anything. But the idea is simple: AI generates a claim that sounds real, even though it is made up."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHAT COUNTS AS A HALLUCINATION?",
       intro: "Not every wrong answer is a hallucination. A hallucination is a made-up detail presented like a fact.",
@@ -13378,6 +13565,7 @@ const SECTION_COMPONENTS = {
   vectorspace: VectorSpaceSection,
   behindthenumbers: BehindTheNumbersSection,
   prediction: PredictionSection,
+  patterns: PatternsSection,
   layers: LayersSection,
   inference: InferenceSection,
   openercontrols: OpenerControlsSection,

@@ -5433,7 +5433,34 @@ function LayersSection(props) {
   );
 }
 function InferenceSection(props) {
-  const [activeStep, setActiveStep] = useState(0);
+  const [stagesRevealed, setStagesRevealed] = useState(0);
+  var renderChip = function(chip) {
+    var tones = {
+      neutral: { bg: "rgba(15, 23, 42, 0.08)", color: "var(--inkMuted)" },
+      muted: { bg: "rgba(100, 116, 139, 0.12)", color: "#64748b" },
+      bright: { bg: "var(--primaryFaint)", color: "var(--primary)" }
+    };
+    var t = tones[chip.tone] || tones.neutral;
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "3px 10px",
+        borderRadius: 999,
+        background: t.bg,
+        color: t.color,
+        fontSize: 10,
+        fontWeight: 800,
+        letterSpacing: "0.10em",
+        textTransform: "uppercase",
+        marginBottom: 8
+      }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontSize: 13 } }, chip.icon),
+      chip.label
+    );
+  };
   const [computePhase, setComputePhase] = useState("typing-q");
   const [computeQChars, setComputeQChars] = useState(0);
   const [computeAiWords, setComputeAiWords] = useState(0);
@@ -5462,37 +5489,30 @@ function InferenceSection(props) {
     }
   }, [computePhase, computeQChars, computeAiWords]);
   const steps = [{
-    icon: "\uD83D\uDCAC",
+    chip: { icon: "👤", label: "YOU", tone: "neutral" },
     title: "You type a prompt",
-    module: null,
-    description: "You type a message and hit send. Everything that follows happens in milliseconds.",
-    color: "#94a3b8"
+    description: "You type a message and hit send. Everything that follows happens in milliseconds."
   }, {
-    icon: "\uD83E\uDDE9",
+    chip: { icon: "🧩", label: "TOKENS", tone: "muted" },
     title: "Tokenization",
-    module: "Tokenization",
-    description: "Your text gets broken into tokens: the chunks you explored earlier. Each chunk maps to a number. \"How are you?\" becomes [How][are][you][?]. The text is gone; from here on, the model works entirely with integers.",
-    color: "#60a5fa"
+    description: "Your text gets broken into tokens. Each chunk maps to a number. \"How are you?\" becomes [How][are][you][?]. The text is gone; from here on, the model works entirely with numbers."
   }, {
-    icon: "\uD83D\uDCD0",
+    chip: { icon: "📐", label: "EMBEDDINGS", tone: "muted" },
     title: "Starting meaning",
-    module: "Meaning",
-    description: "Each token ID is looked up in the embedding table, returning a vector (a list of hundreds of numbers) representing the word\u2019s starting meaning, before any sentence context. This is how the model goes from arbitrary numbers to something it can reason about. Similar words get similar vectors, so the model already has a rough sense of meaning before the layers even start.",
-    color: "#a78bfa"
+    description: "Each token ID is looked up in the embedding table, returning a vector (a list of hundreds of numbers) representing the word’s starting meaning. Similar words get similar vectors, so the model has a rough sense of meaning before the layers even start."
   }, {
-    icon: "\uD83E\uDDC5",
+    chip: { icon: "🧅", label: "LAYERS", tone: "muted" },
     title: "Flow through the layers",
-    module: "Layers",
-    description: "The vectors enter ~100 layers. Each layer runs attention (which words matter to which?) then transformation (what they mean together). By the final layer, every word\u2019s meaning is shaped by every other word in the sentence.",
-    color: "#818cf8"
+    description: "The vectors enter ~100 layers. Each layer runs attention (which words matter to which?) then transformation (what they mean together). By the final layer, every word’s meaning is shaped by every other word in the sentence."
   }, {
-    icon: "\uD83C\uDFAF",
+    chip: { icon: "🎲", label: "PROBABILITY", tone: "bright" },
+    title: "Score every possible next word",
+    description: "After all the layers, the model has a probability score for every possible next word. About 100,000 candidates. Each one gets a probability based on everything that came before."
+  }, {
+    chip: { icon: "🎯", label: "PREDICTION", tone: "bright" },
     title: "Pick the next word (and repeat)",
-    module: null,
-    description: "The model outputs a probability for every possible next token (~100,000 options), picks one, appends it to the sequence, and re-runs all layers, all attention, all transforms, just to produce one more word. This loops until the response is complete.",
-    color: "#10b981"
+    description: "The model picks one word from those probabilities, adds it to the response, and runs the whole journey again from stage 2. Every word is its own full pass."
   }];
-  const step = steps[activeStep];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned what gets sent to AI: your prompt, plus everything else in the context window."),
   /*#__PURE__*/React.createElement(BodyP, null, "Now let’s map what AI does with all of that. The whole journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Inference is what happens every time you hit send. The trained model takes your prompt, runs it through its layers, predicts the next token, adds that token to the response, and repeats until the answer is complete."),
@@ -5500,120 +5520,57 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
-    title: "The Complete Journey"
+    title: "The Complete Journey",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(stagesRevealed, steps.length)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + steps.length))
   },
-  /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 4,
-      minWidth: 140
-    }
-  }, steps.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => setActiveStep(i),
-    style: {
-      padding: "8px 12px",
-      borderRadius: 8,
-      textAlign: "left",
-      cursor: "pointer",
-      transition: "all 0.2s",
-      background: i === activeStep ? s.color + "18" : "var(--bg)",
-      border: i === activeStep ? `2px solid ${s.color}` : "1px solid var(--rule)",
-      display: "flex",
-      alignItems: "center",
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 16,
-      flexShrink: 0
-    }
-  }, s.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      fontWeight: 700,
-      color: i === activeStep ? s.color : "var(--inkMuted)",
-      lineHeight: 1.2
-    }
-  }, s.title), s.module && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "var(--inkMuted)"
-    }
-  }, s.module))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: 24,
-      border: `2px solid ${step.color}`,
-      animation: "fadeIn 0.25s ease",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 12,
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 32
-    }
-  }, step.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 16,
-      fontWeight: 800,
-      color: "var(--ink)"
-    }
-  }, "Step ", activeStep + 1, ": ", step.title), step.module && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: step.color,
-      fontWeight: 600
-    }
-  }, "\u21A9 ", step.module))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "var(--inkSoft)",
-      fontSize: 14,
-      lineHeight: 1.65,
-      margin: 0
-    }
-  }, step.description), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 20,
-      height: 6,
-      background: "var(--card)",
-      borderRadius: 3,
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      height: "100%",
-      width: `${(activeStep + 1) / steps.length * 100}%`,
-      background: step.color,
-      borderRadius: 3,
-      transition: "width 0.4s ease"
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      marginTop: 4,
-      fontSize: 11,
-      color: "var(--inkMuted)"
-    }
-  }, /*#__PURE__*/React.createElement("span", null, "You hit send"), /*#__PURE__*/React.createElement("span", null, "Response streams in"))))),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "sand",
+      items: steps,
+      currentIdx: stagesRevealed > 0 ? stagesRevealed - 1 : 0,
+      started: stagesRevealed > 0,
+      onStart: function() { setStagesRevealed(1); },
+      onNext: function() { setStagesRevealed(function(s) { return s + 1; }); },
+      canAdvance: true,
+      isComplete: stagesRevealed >= steps.length,
+      startLabel: "See Stage 1",
+      nextLabel: "Next Stage ↓",
+      finishLabel: "See the loop ↓",
+      completionElement: /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+            steps.map(function(step, i) {
+              return /*#__PURE__*/React.createElement("div", {
+                key: i,
+                style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === steps.length - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--seeRule)" }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+                /*#__PURE__*/React.createElement("div", null,
+                  renderChip(step.chip),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, step.title),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, step.description)));
+            }))),
+        /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "🔁"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Now repeat the entire journey."),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Every word in the response is its own full pass through the model. And again. And again.")))
+    },
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+          steps.slice(0, stagesRevealed).map(function(step, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === stagesRevealed - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--seeRule)", animation: i === stagesRevealed - 1 ? "fadeIn 0.3s ease" : "none" }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", null,
+                renderChip(step.chip),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, step.title),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, step.description)));
+          }))))),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "ONE NAME FOR THE WHOLE THING",
     headline: "What you just walked through has a name.",
@@ -5692,7 +5649,7 @@ function InferenceSection(props) {
       })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI types one word at a time because each word is a full pass through the model." },
       "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your question runs through billions of calculations in under a second." }, "Every word the model writes is a fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your question runs through billions of calculations in under a second." }, "Every word the model writes is a fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",

@@ -7629,7 +7629,7 @@ const CT_CONCEPTS = [{
   }
 }, {
   id: "unknowns",
-  label: "Know What You Don't Know",
+  label: "Know Your Limits",
   icon: "\uD83E\uDDD0",
   desc: "If you can\u2019t evaluate the answer, you\u2019re flying blind.",
   scenario: {
@@ -7645,7 +7645,7 @@ const CT_CONCEPTS = [{
   }
 }, {
   id: "automation",
-  label: "Resist Automation Bias",
+  label: "Don't Auto-Trust It",
   icon: "\uD83E\uDD16",
   desc: "The tendency to trust computer-generated output over your own judgment. AI makes it worse because the output sounds so human.",
   scenario: {
@@ -7661,7 +7661,7 @@ const CT_CONCEPTS = [{
   }
 }, {
   id: "tool",
-  label: "AI Is a Tool, Not a Thinker",
+  label: "Keep Ownership",
   icon: "\uD83D\uDD28",
   desc: "AI generates output. You decide what\u2019s worth using, what to change, and what to throw away.",
   scenario: {
@@ -7677,7 +7677,7 @@ const CT_CONCEPTS = [{
   }
 }, {
   id: "source",
-  label: "Source Awareness",
+  label: "Check Sources",
   icon: "\uD83D\uDCDA",
   desc: "LLMs don\u2019t cite sources by default, and when they do, they sometimes fabricate them.",
   scenario: {
@@ -7695,12 +7695,10 @@ const CT_CONCEPTS = [{
 function CriticalThinkingSection(props) {
   const [activeConcept, setActiveConcept] = useState(0);
   const [habitAnswer, setHabitAnswer] = useState(null);
-  const [activeStepback, setActiveStepback] = useState(0);
   const [active101, setActive101] = useState(0);
   const [problemAnswer, setProblemAnswer] = useState(null);
   const [started101, setStarted101] = useState(false);
   const [started5Habits, setStarted5Habits] = useState(false);
-  const [startedStepback, setStartedStepback] = useState(false);
   const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   const CT_101 = [{
     label: "Ice cream & drowning",
@@ -7830,11 +7828,31 @@ function CriticalThinkingSection(props) {
       nextLabel: "Next Habit \u2192",
       finishLabel: "All five locked in \u2192",
       completionElement: /*#__PURE__*/React.createElement("div", {
-        style: { padding: "20px 0", textAlign: "center" }
+        style: { padding: "20px 0" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83E\uDDE0"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Five habits, one job."),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Stay in the loop. Every prompt, every answer, every time."))
+        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 16 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "🧠"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700 } }, "Your five habits, every time you prompt.")),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#fff", borderRadius: 14, padding: "4px 20px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
+        },
+          CT_CONCEPTS.map(function(habit, i) {
+            var RECAP_LINES = {
+              question: "Your first instinct: is this actually right?",
+              unknowns: "If you can't evaluate it, you're flying blind.",
+              automation: "Confident isn't the same as correct.",
+              tool: "You decide what to keep, change, or toss.",
+              source: "AI invents citations. Always check."
+            };
+            return /*#__PURE__*/React.createElement("div", {
+              key: habit.id,
+              style: { display: "flex", alignItems: "flex-start", gap: 14, padding: "14px 0", borderBottom: i < CT_CONCEPTS.length - 1 ? "1px solid var(--rule)" : "none" }
+            },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1.2, flexShrink: 0 } }, habit.icon),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 3 } }, habit.label),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, RECAP_LINES[habit.id])));
+          })))
     },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
@@ -7854,98 +7872,6 @@ function CriticalThinkingSection(props) {
         picked: habitAnswer != null ? habitAnswer : undefined,
         onAnswer: function(idx) { setHabitAnswer(idx); }
       }))),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Critical thinking starts before you even open AI. For each situation, decide whether AI helps you learn, or whether it skips the part where the learning actually happens."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "How to Use It"
-  },
-    function() {
-  var STEPBACK = [{
-    icon: "\uD83E\uDDE0",
-    label: "Building a skill",
-    title: "Building a skill",
-    desc: "The struggle is the point. Skipping it with AI skips the thing that builds your ability.",
-    scenario: "You're working through calculus problems and keep getting stuck on derivatives. You ask AI to solve three problems so you can \"see the pattern.\"",
-    problem: "You saw the answers, but your brain didn\u2019t build the pattern recognition that comes from working through the friction yourself. Six months later, you can\u2019t do derivatives without AI, because you skipped the part where learning actually happens.",
-    instead: "Work the problem yourself first. Get it wrong. Try again. When you're genuinely stuck after real effort, ask AI to explain the concept or walk through one step, not solve the whole problem."
-  }, {
-    icon: "\u270D\uFE0F",
-    label: "Finding your voice",
-    title: "Finding your voice",
-    desc: "AI writes clearly. It can\u2019t write like you. Where your perspective matters, polished is not personal.",
-    scenario: "You're writing your college application essay. You prompt AI with your topic and experiences, then carefully rewrite its output in your own words.",
-    problem: "The structure, framing, and ideas originated with the model. Even rewritten, it reads like a well-edited version of everyone else's essay. Admissions readers have seen thousands of these. What it doesn\u2019t have is a real scene, a real choice, a real voice, or a detail only you would know. That\u2019s the part that could only come from you.",
-    instead: "Write your first draft without AI. Let it be messy. Then use AI to help you strengthen specific parts: \"is this paragraph clear?\" or \"what's a stronger way to end this?\" Start with your voice, not the model's."
-  }, {
-    icon: "\uD83C\uDFE5",
-    label: "High-stakes decisions",
-    title: "High-stakes decisions",
-    desc: "AI hallucinates, isn\u2019t accountable, and can\u2019t understand the full context of your situation.",
-    scenario: "You're worried about a medication interaction, so you ask AI whether it's safe to take two medications together. It gives a confident, detailed answer.",
-    problem: "The answer might be correct, or it might be a plausible-sounding hallucination about your specific combination. AI doesn't know your medical history, your dosages, or the latest safety data. And if it's wrong, there's no one to hold accountable.",
-    instead: "Use AI to help you prepare questions for the real expert. \"What should I ask my doctor about taking these two medications together?\" is a great prompt. Replacing the doctor entirely is not."
-  }, {
-    icon: "\uD83E\uDD1D",
-    label: "When the process is the point",
-    title: "When the process is the point",
-    desc: "Some activities are valuable because of the thinking involved, not the output.",
-    scenario: "Your group has a class debate coming up. Instead of brainstorming arguments together, someone suggests asking AI to generate the strongest arguments for your side.",
-    problem: "The debate prep (arguing, challenging each other's ideas, finding weaknesses in your own position) is where the learning happens. AI gives you a polished list, but nobody on the team actually thought through why those arguments work.",
-    instead: "Brainstorm as a group first. Debate each other. Build your arguments through conversation. Then, if you want, use AI as a stress-test: \"here's our argument: what's the strongest counterargument?\" Let it challenge your thinking, not replace it."
-  }];
-  var sb = STEPBACK[activeStepback] || STEPBACK[STEPBACK.length - 1];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(BodyP, null, "Using AI well also means knowing when ", /*#__PURE__*/React.createElement("strong", null, "not"), " to use it."), /*#__PURE__*/React.createElement(RevealSequence, {
-      items: STEPBACK,
-      currentIdx: activeStepback,
-      started: startedStepback,
-      onStart: function() { setStartedStepback(true); },
-      onNext: function() { setActiveStepback(activeStepback + 1); },
-      canAdvance: true,
-      isComplete: activeStepback >= STEPBACK.length,
-      startLabel: "First Situation",
-      nextLabel: "Next Situation \u2192",
-      finishLabel: "Done with all four \u2192",
-      completionElement: /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\u270B"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Knowing when to skip AI is the skill."),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "If the friction is the point, the AI shortcut isn't a shortcut. It's a detour around the learning."))
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }
-        }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, sb.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-          style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" }
-        }, sb.title), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-        }, sb.desc))),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#f59e0b10", border: "1px solid #f59e0b33", borderRadius: 10, padding: "14px 16px", marginTop: 14, marginBottom: 10 }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 }
-        }, "\uD83D\uDCCB The scenario"), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, sb.scenario)),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#ef444410", border: "1px solid #ef444433", borderRadius: 10, padding: "14px 16px", marginBottom: 10 }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 }
-        }, "\u274C The problem"), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, sb.problem)),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 }
-        }, "\u2705 Try this instead"), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, sb.instead)))));
-  }()),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 18px", marginTop: 28, marginBottom: 20, border: "1px solid var(--rule)" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 } }, "Callback"),
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.7, fontSize: 14, margin: 0 } },

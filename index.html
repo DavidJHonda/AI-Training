@@ -367,31 +367,50 @@ function OpenerSection(props) {
       return E(BodyP, { key: i }, p);
     });
   };
+  var renderCard = function(q) {
+    var lesson = SECTIONS.find(function(s) { return s.id === q.lessonId; });
+    return E("div", {
+      key: q.lessonId,
+      style: { background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)", display: "flex", flexDirection: "column", gap: 14, minHeight: 110 }
+    },
+      E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35 } }, q.question),
+      lesson ? E("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--inkMuted)", marginTop: "auto" } },
+        E("span", { style: { fontSize: 16 } }, lesson.icon),
+        E("span", { style: { fontWeight: 600 } }, lesson.label)
+      ) : null);
+  };
+  var renderCardGrid = function(questions) {
+    return E("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }
+    }, questions.map(renderCard));
+  };
+  var showcaseInner;
+  if (props.groups) {
+    showcaseInner = props.groups.map(function(group, gi) {
+      return E("div", {
+        key: gi,
+        style: { marginTop: gi === 0 ? 0 : 32 }
+      },
+        E(SectionKicker, { size: "small", style: { margin: "0 0 8px 0" } }, group.kicker),
+        E("div", {
+          style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: "var(--ink)", lineHeight: 1.45, marginBottom: 16 }
+        }, group.bridge),
+        renderCardGrid(group.questions)
+      );
+    });
+  } else {
+    showcaseInner = renderCardGrid(props.openQuestions || []);
+  }
   return E("div", null,
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
     renderParas(props.whyThisMatters),
     props.featuredCard || null,
-    E(SectionKicker, null, "WHAT YOU\u2019LL LEARN"),
+    E(SectionKicker, null, "WHAT YOU’LL LEARN"),
     renderParas(props.whatYoullLearnIntro),
-    E(ShowcaseBox, null,
-      E("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }
-      },
-        (props.openQuestions || []).map(function(q) {
-          var lesson = SECTIONS.find(function(s) { return s.id === q.lessonId; });
-          return E("div", {
-            key: q.lessonId,
-            style: { background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)", display: "flex", flexDirection: "column", gap: 14, minHeight: 110 }
-          },
-            E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35 } }, q.question),
-            lesson ? E("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--inkMuted)", marginTop: "auto" } },
-              E("span", { style: { fontSize: 16 } }, lesson.icon),
-              E("span", { style: { fontWeight: 600 } }, lesson.label)
-            ) : null);
-        }))),
+    E(ShowcaseBox, null, showcaseInner),
     renderParas(props.whatYoullLearnClosing),
     props.mistake ? E(KeyInsight, { lead: "The common mistake:" }, props.mistake) : null,
-    E(KeyInsight, { lead: "Keep this question in mind:" }, props.question),
+    E(KeyInsight, { lead: props.questionLead !== undefined ? props.questionLead : "Keep this question in mind:" }, props.question),
     E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); } }, props.nextLessonLabel)
   );
 }
@@ -794,7 +813,7 @@ const SECTION_GROUPS = [{
   label: "Inside the Engine",
   sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers"]
 }, {
-  label: "Working with AI",
+  label: "How AI Answers",
   sections: ["openeranswers", "training", "prompt", "context", "inference", "probability", "prediction", "patterns"]
 }, {
   label: "Controls",
@@ -807,13 +826,13 @@ const SECTION_GROUPS = [{
   sections: ["openerjudgment", "whatitdoesbest", "aistrengths", "critical", "questionsvaluable", "humanedge"]
 }, {
   label: "Workflow",
-  sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating"]
+  sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating", "fullworkflow"]
 }, {
   label: "Real World",
   sections: ["openerrealworld", "integrity", "privacy", "judged", "stakeholders", "synthetic", "workchanges", "aifuture", "buildedge"]
 }, {
   label: "Finish",
-  sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
+  sections: ["whatyoulearned", "keyterms", "testyourself", "headtohead"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -850,7 +869,7 @@ const SECTION_META = {
   choosemodel: { kicker: "MATCH MODEL TO JOB", label: "Choosing the Model", icon: "\u26A1" },
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
   temperature: { kicker: "THE CREATIVITY DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
-  customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", title: "Customization", icon: "\u2699\uFE0F" },
+  customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
   documentchat: { kicker: "RETRIEVED, NOT READ", label: "Whole Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
@@ -866,11 +885,11 @@ const SECTION_META = {
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatitdoesbest: { kicker: "FOUR ENGINES, MANY USES", label: "What AI Does Best", icon: "\u2699\uFE0F" },
-  prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "The Art of Prompting", title: "Art of Prompting", icon: "\u270D\uFE0F" },
-  thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Your Thought Partner", title: "Thought Partner", icon: "\uD83E\uDD1D" },
+  prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "The Art of Prompting", icon: "\u270D\uFE0F" },
+  thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Your Thought Partner", icon: "\uD83E\uDD1D" },
   studying: { kicker: "USE IT TO LEARN", label: "Studying With AI", title: "Studying", icon: "\uD83D\uDCD3" },
   verify: { kicker: "TRUST, THEN CHECK", label: "How to Verify", icon: "\uD83D\uDEE0\uFE0F" },
-  evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluating the Results", title: "Evaluating", icon: "\uD83D\uDD0D" },
+  evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluating the Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   integrity: { kicker: "USE IT, OWN IT", label: "Academic Integrity", title: "Integrity", icon: "\uD83C\uDF93" },
   privacy: { kicker: "WHAT YOU TYPE TRAVELS", label: "Privacy & Awareness", title: "Privacy", icon: "\uD83D\uDD12" },
@@ -2369,7 +2388,7 @@ function IntroSection(props) {
   var ROADMAP = [
     { question: "What is AI, really?", section: "Foundations", icon: "\uD83E\uDDF1" },
     { question: "What\u2019s happening inside AI?", section: "Inside the Engine", icon: "\uD83D\uDD2C" },
-    { question: "How does AI come up with an answer?", section: "Working with AI", icon: "\uD83D\uDCAC" },
+    { question: "How does AI come up with an answer?", section: "How AI Answers", icon: "\uD83D\uDCAC" },
     { question: "How do I get AI to do what I want?", section: "Controls", icon: "\uD83C\uDF9B\uFE0F" },
     { question: "Where does AI go wrong?", section: "Traps", icon: "\uD83E\uDEA4" },
     { question: "What can I do that AI can\u2019t?", section: "Human Judgment", icon: "\uD83E\uDDED" },
@@ -5618,7 +5637,7 @@ function LayersSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openeranswers"), label: "Next: Working with AI" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openeranswers"), label: "Next: How AI Answers" })
   );
 }
 function InferenceSection(props) {
@@ -6646,7 +6665,8 @@ function OpenerControlsSection(props) {
       "By the end, you\u2019ll know that AI isn\u2019t one blank chat box with one behavior. It\u2019s a tool with products, models, modes, settings, and memory that change what it can do.",
       "The better you understand the controls, the better you can match the tool to the job."
     ],
-    question: "Which control should I change for this job?",
+    question: "Controls change the answer. They do not guarantee the answer is true.",
+    questionLead: "",
     nextLessonId: "modelselection",
     nextLessonLabel: "Next: Choosing the Product",
     completeAndNavigate: props.completeAndNavigate
@@ -7201,34 +7221,52 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Turn it up for creativity. Turn it down for precision." }, "Temperature decides how often the model picks something other than its top guess. Higher means more variety and more risk. Lower means safer, more predictable, sometimes boring."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Turn it up for creativity. Turn it down for precision." }, "Temperature decides how often the model picks something other than its top guess. Higher means more variety and more risk. Lower means safer, more predictable, sometimes boring."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function OpenerTrapsSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openertraps",
     whyThisMatters: [
       "🚗 At Tesla, control is not the same as safety. Now you study the warning lights, blind spots, and failure modes.",
-      "A powerful car can still mislead you if you misunderstand what it\u2019s doing. It can feel smooth while drifting out of its lane. A dashboard can look calm while something important is wrong under the surface.",
+      "A powerful car can still mislead you if you misunderstand what it’s doing. It can feel smooth while drifting out of its lane. A dashboard can look calm while something important is wrong under the surface.",
       "AI has its own version of that problem.",
-      "It can sound confident when it\u2019s wrong. It can feel like it read your document when it only looked at parts. It can feel like a mind when it\u2019s really a prediction system. It can flatter you, keep you engaged, feel emotionally supportive, or take action before you\u2019ve thought through the consequences."
+      "It can sound confident when it’s wrong. It can feel like it read your document when it only looked at parts. It can feel like a mind when it’s really a prediction system. It can flatter you, keep you engaged, feel emotionally supportive, or take action before you’ve thought through the consequences."
     ],
     whatYoullLearnIntro: [
-      "This section isn\u2019t here to make you scared of AI. It\u2019s here to make you harder to fool.",
+      "This section isn’t here to make you scared of AI. It’s here to make you harder to fool.",
       "Each lesson teaches one trap. Each trap is a pattern that can pull you into trusting AI too much, thinking less clearly, or handing over more control than you meant to. Each one starts with a question."
     ],
-    openQuestions: [
-      { question: "Why can AI make things up and still sound confident?", lessonId: "hallucination" },
-      { question: "Why can AI feel biased even when no one made it that way?", lessonId: "trainingbias" },
-      { question: "Why doesn\u2019t AI actually read the document I uploaded?", lessonId: "documentchat" },
-      { question: "Why does AI feel like it has a mind?", lessonId: "mindtrap" },
-      { question: "Why does AI sometimes agree with you too much?", lessonId: "flattery" },
-      { question: "Why does AI keep pulling you back into the conversation?", lessonId: "engagementtrap" },
-      { question: "Why can AI feel like real support, and why is that risky?", lessonId: "supporttrap" },
-      { question: "What changes when AI can act instead of just answer?", lessonId: "whenaiacts" }
+    groups: [
+      {
+        kicker: "ACCURACY TRAPS",
+        bridge: "First, AI can be wrong about the world.",
+        questions: [
+          { question: "Why can AI make things up and still sound confident?", lessonId: "hallucination" },
+          { question: "Why can AI feel biased even when no one made it that way?", lessonId: "trainingbias" },
+          { question: "Why doesn’t AI actually read the document I uploaded?", lessonId: "documentchat" }
+        ]
+      },
+      {
+        kicker: "HUMAN-FEELING TRAPS",
+        bridge: "Then, AI can feel more human than it is.",
+        questions: [
+          { question: "Why does AI feel like it has a mind?", lessonId: "mindtrap" },
+          { question: "Why does AI sometimes agree with you too much?", lessonId: "flattery" },
+          { question: "Why does AI keep pulling you back into the conversation?", lessonId: "engagementtrap" },
+          { question: "Why can AI feel like real support, and why is that risky?", lessonId: "supporttrap" }
+        ]
+      },
+      {
+        kicker: "AGENCY TRAP",
+        bridge: "Finally, the stakes change when AI stops just answering and starts doing.",
+        questions: [
+          { question: "What changes when AI can act instead of just answer?", lessonId: "whenaiacts" }
+        ]
+      }
     ],
     whatYoullLearnClosing: [
-      "By the end, you\u2019ll be better at noticing when AI isn\u2019t just helping you, but shaping you: your confidence, your attention, your emotions, your decisions, and sometimes your actions.",
-      "The goal isn\u2019t to avoid AI. The goal is to stay awake while using it."
+      "By the end, you’ll be better at noticing when AI isn’t just helping you, but shaping you: your confidence, your attention, your emotions, your decisions, and sometimes your actions.",
+      "The goal isn’t to avoid AI. The goal is to stay awake while using it."
     ],
     question: "What trap could this be pulling me into?",
     nextLessonId: "hallucination",
@@ -7532,7 +7570,7 @@ function VerifySection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Stack them, don\u2019t pick one"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "In practice, you don\u2019t run one strategy. You run several on the same answer. Cross-reference the specific claim. Check any citations. Watch for suspiciously specific numbers. Ask the model to flag what it\u2019s uncertain about. The strategies above are the tools. Verifying is the workflow."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy >= VERIFY_STRATEGIES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluating" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStrategy >= VERIFY_STRATEGIES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluating the Results" }));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -8600,7 +8638,7 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Eight qualities looks like a lot. You don't need them all. A quick factual question (“who wrote The Great Gatsby”) is fine with just Clarity. A real piece of work might stack four or five. The qualities are tools. Match them to the job."),
   /*#__PURE__*/React.createElement(BodyP, null, "Two diagnostic patterns: if you keep getting wrong-shaped responses (too long, too formal, too generic), that's usually missing Constraints or Format. If you keep getting answers that don't fit your situation, that's usually missing Context or Specificity."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: pAllFilled, lockedMessage: "Fill in each field to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: pAllFilled, lockedMessage: "Fill in each field to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Your Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
   const [tpStep, setTpStep] = useState(0);
@@ -9285,7 +9323,7 @@ function EvaluatingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1f9d5f", marginBottom: 8 } }, "\u2705 Final result"),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Real World" })));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow"), label: "Next: Full Workflow" })));
 }
 function WhenAIActsSection(props) {
   const [permissions, setPermissions] = useState({});
@@ -10170,26 +10208,46 @@ function OpenerRealWorldSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openerrealworld",
     whyThisMatters: [
-      "You\u2019ve practiced the workflow: prompting clearly, using AI as a thought partner, studying without skipping learning, verifying claims, and evaluating output.",
+      "You’ve practiced the workflow: prompting clearly, using AI as a thought partner, studying without skipping learning, verifying claims, and evaluating output.",
       "🚗 At Tesla, that was the test track. Now the car leaves the private course and enters public roads.",
       "A car on a test track is one thing. A car on public roads is different. There are other people, rules, risks, blind spots, and consequences. What you do affects more than just you.",
       "AI is like that.",
-      "It isn\u2019t just a homework helper or a chatbot. It touches school policies, private data, hiring decisions, fake images, changing jobs, and big claims about the future."
+      "It isn’t just a homework helper or a chatbot. It touches school policies, private data, hiring decisions, fake images, changing jobs, and big claims about the future."
     ],
     whatYoullLearnIntro: [
-      "That means being good with AI isn\u2019t only about getting better answers. It\u2019s also about knowing what\u2019s fair, what\u2019s private, what\u2019s real, what\u2019s risky, and what kind of responsibility comes with using a powerful tool.",
+      "That means being good with AI isn’t only about getting better answers. It’s also about knowing what’s fair, what’s private, what’s real, what’s risky, and what kind of responsibility comes with using a powerful tool.",
       "This section is about what happens when AI moves into real life. Each lesson answers a question."
     ],
-    openQuestions: [
-      { question: "When is AI helping me learn, and when is it doing the work for me?", lessonId: "integrity" },
-      { question: "What happens to the information I type into AI?", lessonId: "privacy" },
-      { question: "What happens when AI is used to make decisions about people?", lessonId: "judged" },
-      { question: "How do I think clearly when seeing is no longer proof?", lessonId: "synthetic" },
-      { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
-      { question: "How should I judge big claims about the future of AI?", lessonId: "aifuture" }
+    groups: [
+      {
+        kicker: "PERSONAL STAKES",
+        bridge: "First, what changes for you.",
+        questions: [
+          { question: "When is AI helping me learn, and when is it doing the work for me?", lessonId: "integrity" },
+          { question: "What happens to the information I type into AI?", lessonId: "privacy" },
+          { question: "What happens when AI is used to make decisions about people?", lessonId: "judged" }
+        ]
+      },
+      {
+        kicker: "SOCIAL STAKES",
+        bridge: "Then, what changes for other people.",
+        questions: [
+          { question: "Beyond me, who else has a stake in what AI does?", lessonId: "stakeholders" },
+          { question: "How do I think clearly when seeing is no longer proof?", lessonId: "synthetic" }
+        ]
+      },
+      {
+        kicker: "FUTURE STAKES",
+        bridge: "Finally, what changes for your future.",
+        questions: [
+          { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
+          { question: "How should I judge big claims about the future of AI?", lessonId: "aifuture" },
+          { question: "What’s worth getting really good at when everyone has AI?", lessonId: "buildedge" }
+        ]
+      }
     ],
     whatYoullLearnClosing: [
-      "By the end, you\u2019ll be able to think beyond the prompt. You\u2019ll know how AI changes schoolwork, privacy, evidence, jobs, and future predictions.",
+      "By the end, you’ll be able to think beyond the prompt. You’ll know how AI changes schoolwork, privacy, evidence, jobs, and future predictions.",
       "The goal is to become someone who can use AI skillfully without being careless about the world it affects."
     ],
     question: "Who is affected, and what responsibility do I have?",
@@ -11418,7 +11476,7 @@ function WhatYouLearnedSection(props) {
     )
   ),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow") }, "Next: Full Workflow"));
+    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("keyterms") }, "Next: Vocab Quiz"));
 }
 function FullWorkflowSection(props) {
   const [wfSelection, setWfSelection] = useState(null);
@@ -11561,7 +11619,7 @@ function FullWorkflowSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch", marginTop: 22 } },
           "Same loop every time. Different assignment, different topic, same seven moves. The AI is the tool. The order is the skill."))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("keyterms") }, "Next: Vocab Quiz"));
+    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld") }, "Next: Real World"));
 }
 function TestYourselfSection(props) {
   const saved = props.testYourselfQuiz;
@@ -13607,7 +13665,7 @@ const SECTION_COMPONENTS = {
   aifuture: AIFutureSection,
   buildedge: BuildEdgeSection
 };
-const CHIP_LABELS = { inference: "Inference", embeddings: "Embeddings", vectorspace: "Vector Space", critical: "Critical Thinking", evaluating: "Evaluating", prompting: "Art of Prompting", thoughtpartner: "Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization", integrity: "Integrity", privacy: "Privacy" };
+const CHIP_LABELS = { inference: "Inference", embeddings: "Embeddings", vectorspace: "Vector Space", critical: "Critical Thinking", evaluating: "Evaluating the Results", prompting: "The Art of Prompting", thoughtpartner: "Your Thought Partner", flattery: "Flattery Trap", engagementtrap: "Engagement Trap", customization: "Customization & Memory", integrity: "Integrity", privacy: "Privacy" };
 function ChipNav(props) {
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
   var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";

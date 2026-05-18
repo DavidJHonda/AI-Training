@@ -791,17 +791,17 @@ const SECTION_GROUPS = [{
   label: "Foundations",
   sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "blackbox", "generative", "data"]
 }, {
-  label: "Under the Hood",
-  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers", "training", "trainingbias"]
+  label: "Inside the Engine",
+  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers"]
 }, {
-  label: "AI Answers",
-  sections: ["openeranswers", "context", "probability", "prediction", "inference"]
+  label: "Working with AI",
+  sections: ["openeranswers", "training", "prompt", "context", "probability", "prediction", "inference"]
 }, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
 }, {
   label: "Traps",
-  sections: ["openertraps", "hallucination", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
+  sections: ["openertraps", "hallucination", "trainingbias", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
 }, {
   label: "Human Judgment",
   sections: ["openerjudgment", "aistrengths", "critical", "questionsvaluable", "humanedge"]
@@ -838,6 +838,7 @@ const SECTION_META = {
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  prompt: { kicker: "YOUR HALF OF THE TURN", label: "Prompt", icon: "\u2709\uFE0F" },
   context: { kicker: "WHAT IT CAN SEE", label: "Context Window", icon: "\uD83D\uDCCB" },
   probability: { kicker: "ONE WORD AT A TIME", label: "Probability", icon: "\uD83C\uDFB2" },
   prediction: { kicker: "THE GUESSING GAME", label: "Prediction", icon: "\uD83C\uDFAF" },
@@ -2365,8 +2366,8 @@ function IntroSection(props) {
   var E = React.createElement;
   var ROADMAP = [
     { question: "What is AI, really?", section: "Foundations", icon: "\uD83E\uDDF1" },
-    { question: "What\u2019s happening inside AI?", section: "Under the Hood", icon: "\uD83D\uDD2C" },
-    { question: "How does AI come up with an answer?", section: "AI Answers", icon: "\uD83D\uDCAC" },
+    { question: "What\u2019s happening inside AI?", section: "Inside the Engine", icon: "\uD83D\uDD2C" },
+    { question: "How does AI come up with an answer?", section: "Working with AI", icon: "\uD83D\uDCAC" },
     { question: "How do I get AI to do what I want?", section: "Controls", icon: "\uD83C\uDF9B\uFE0F" },
     { question: "Where does AI go wrong?", section: "Traps", icon: "\uD83E\uDEA4" },
     { question: "What can I do that AI can\u2019t?", section: "Human Judgment", icon: "\uD83E\uDDED" },
@@ -3150,7 +3151,7 @@ function DataSection(props) {
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
                 /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null))))),
     dataComplete ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI learned from messy human data." }, "That\u2019s why it can find structure in the mess. It\u2019s also why it inherits every weird pattern, every bias, every dumb argument that lived in that data.") : null,
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerinside"), label: "Next: Under the Hood" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerinside"), label: "Next: Inside the Engine" })
   );
 }
 function HowAIReadsSection(props) {
@@ -3981,7 +3982,7 @@ function TrainingBiasSection(props) {
   },
     /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } })),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openeranswers"); }, label: "Next: AI Answers" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documentchat"); }, label: "Next: Whole Document Trap" })
   );
 }
 function TrainingSection(props) {
@@ -4188,7 +4189,7 @@ function TrainingSection(props) {
     seeItTypingDone && visibleStages > 0 && visibleStages < seeItStages.length ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
       /*#__PURE__*/React.createElement("button", { onClick: advanceSeeIt, style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 } }, seeItBtnLabels[visibleStages])) : null)),
     stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training is when the model learns. Chatting is when it uses what it learned." }, "Once training stops, the model is frozen. It doesn’t pick up new facts from your conversation. It’s running on what it already knows.") : null,
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Prompt" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 function OpenerInsideSection(props) {
@@ -4207,9 +4208,7 @@ function OpenerInsideSection(props) {
       { question: "How can numbers represent the meaning of words?", lessonId: "embeddings" },
       { question: "Why does similar meaning sit close together in the model?", lessonId: "vectorspace" },
       { question: "What are the learned values inside a model?", lessonId: "behindthenumbers" },
-      { question: "What kind of structure lets modern AI handle language so well?", lessonId: "howreads" },
-      { question: "How did the model learn the patterns it uses?", lessonId: "training" },
-      { question: "What happens when the training data is incomplete, skewed, or unfair?", lessonId: "trainingbias" }
+      { question: "What kind of structure lets modern AI handle language so well?", lessonId: "howreads" }
     ],
     whatYoullLearnClosing: [],
     question: "What\u2019s actually happening inside the model when it answers me?",
@@ -5430,7 +5429,7 @@ function LayersSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openeranswers"), label: "Next: Working with AI" })
   );
 }
 function InferenceSection(props) {
@@ -5707,46 +5706,322 @@ const CONTEXT_WINDOW_FACTS = [{
   analogy: "About the size of the first 6 Harry Potter novels"
 }];
 function OpenerAnswersSection(props) {
+  var LIFECYCLE = [
+    { label: "It Trains.", desc: "How the model learns, before anyone uses it. Engineers feed it billions of examples. It practices, gets corrected, and tunes itself over thousands of rounds.", color: "#3b82f6" },
+    { label: "It Infers.", desc: "How the model answers, every time you chat. You send a prompt, and the model uses what it learned to predict the next word, then the next, until the answer is done.", color: "#8b5cf6" }
+  ];
+  var lifecycleContainerRef = useRef(null);
+  var lifecycleTitleRefs = useRef([]);
+  var lifecycleCardRefs = useRef([]);
+  var _lps = useState(null), lifecyclePaths = _lps[0], setLifecyclePaths = _lps[1];
+  var _lrs = useState({}), lifecycleRevealed = _lrs[0], setLifecycleRevealed = _lrs[1];
+  var revealLifecycle = function(i) { setLifecycleRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = lifecycleContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 2; i++) {
+        var t = lifecycleTitleRefs.current[i], d = lifecycleCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setLifecyclePaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
+
+  var lifecycleInteractive = /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "What AI does"
+  },
+    /*#__PURE__*/React.createElement("div", {
+      ref: lifecycleContainerRef,
+      style: { position: "relative" }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+      },
+        LIFECYCLE.map(function(k, i) {
+          var isRevealed = !!lifecycleRevealed[i];
+          return /*#__PURE__*/React.createElement("span", {
+            key: i,
+            ref: function(el) { lifecycleTitleRefs.current[i] = el; },
+            onClick: function() { revealLifecycle(i); },
+            style: { color: k.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+          }, k.label);
+        })
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+      lifecyclePaths ? /*#__PURE__*/React.createElement("svg", {
+        style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+      },
+        lifecyclePaths.map(function(p, i) {
+          if (!lifecycleRevealed[i]) return null;
+          var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+          var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+          var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+          return /*#__PURE__*/React.createElement("path", {
+            key: i, d: d, fill: "none", stroke: LIFECYCLE[i].color, strokeWidth: 2.5
+          });
+        })
+      ) : null,
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", gap: 12 }
+      },
+        LIFECYCLE.map(function(k, i) {
+          var isRevealed = !!lifecycleRevealed[i];
+          return /*#__PURE__*/React.createElement("div", {
+            key: i, ref: function(el) { lifecycleCardRefs.current[i] = el; },
+            style: { flex: 1 }
+          },
+            /*#__PURE__*/React.createElement("div", {
+              style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + k.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontWeight: 700, fontSize: 15, color: k.color, marginBottom: 6 }
+              }, k.label),
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+              }, k.desc)
+            )
+          );
+        })
+      )
+    )
+  );
+
   return React.createElement(OpenerSection, {
     sectionId: "openeranswers",
     whyThisMatters: [
-      "You\u2019ve opened the hood. You\u2019ve seen how text becomes tokens, how tokens become numbers, how those numbers carry meaning, and how training shapes the model before anyone ever uses it.",
-      "🚗 At Tesla, the next step is the test drive.",
-      "Knowing the parts isn\u2019t the same as knowing what happens when the car moves. When you press the accelerator, electricity flows, sensors update, software makes calculations, and the wheels respond. The car doesn\u2019t rebuild itself every time you drive. It uses the system that was already built.",
-      "AI works the same way. When you type a prompt and hit send, the model doesn\u2019t start training from scratch. It uses what it already learned. Your words move through the system: attention, transformation, layers, context, probability, and prediction. Then the model chooses the next token, adds it to the response, and does it again.",
-      "That process is called inference."
+      "You’ve opened the hood. You’ve seen the parts that make AI possible: tokens, embeddings, vector space, layers.",
+      "🚗 At Tesla, the next step is two big things. Building the car. And driving it.",
+      "Those are different jobs. A car gets built once, then driven thousands of times. The car doesn’t rebuild itself every time you press the accelerator. It uses the system that was already built.",
+      "AI works the same way. It goes through two distinct phases: training (a massive one-time build) and inference (every answer, every time). Every lesson in this section is about one of those two phases.",
+      "Click each phase below to see how they differ."
     ],
-    featuredCard: React.createElement(ShowcaseBox, {
-      kicker: "TRAINING VS. INFERENCE"
-    },
-      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 } },
-        React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
-          React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 8 } }, "Training"),
-          React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.55 } }, "Training is what the model learns before you use it.")
-        ),
-        React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
-          React.createElement("div", { style: { fontWeight: 700, fontSize: 17, color: "var(--ink)", marginBottom: 8 } }, "Inference"),
-          React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.55 } }, "Inference is the process the LLM uses to answer you.")
-        )
-      ),
-      null
-    ),
+    featuredCard: lifecycleInteractive,
     whatYoullLearnIntro: [
-      "This section is about what happens in that tiny gap between your prompt and the answer on the screen. Each lesson answers a question."
+      "This section walks you through both phases. How the model gets built, and how it answers your prompts. Each lesson answers a question."
     ],
     openQuestions: [
+      { question: "How did the model learn to do this?", lessonId: "training" },
+      { question: "What’s actually in a prompt when you send it?", lessonId: "prompt" },
       { question: "What can the model see when it answers?", lessonId: "context" },
       { question: "How does the model decide what might come next?", lessonId: "probability" },
       { question: "Why is answering really a repeated guessing process?", lessonId: "prediction" },
-      { question: "How does the model build up meaning step by step?", lessonId: "layers" },
       { question: "What is the full journey from your prompt to the final answer?", lessonId: "inference" }
     ],
     whatYoullLearnClosing: [],
-    question: "What\u2019s happening between my prompt and the answer?",
-    nextLessonId: "context",
-    nextLessonLabel: "Next: Context Window",
+    question: "How does AI get built, and then how does it answer me?",
+    nextLessonId: "training",
+    nextLessonLabel: "Next: Training",
     completeAndNavigate: props.completeAndNavigate
   });
+}
+
+function PromptSection(props) {
+  var TURN_HALVES = [
+    { label: "Prompt", desc: "What you send. Could be a question, a request, an image, a document. Whatever you give AI to work with.", color: "#3b82f6" },
+    { label: "Inference", desc: "What AI does with your prompt. It uses what it learned to figure out a response, one word at a time.", color: "#8b5cf6" }
+  ];
+  var halvesContainerRef = useRef(null);
+  var halvesTitleRefs = useRef([]);
+  var halvesCardRefs = useRef([]);
+  var _hps = useState(null), halvesPaths = _hps[0], setHalvesPaths = _hps[1];
+  var _hrs = useState({}), halvesRevealed = _hrs[0], setHalvesRevealed = _hrs[1];
+  var revealHalf = function(i) { setHalvesRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = halvesContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 2; i++) {
+        var t = halvesTitleRefs.current[i], d = halvesCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setHalvesPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
+
+  var PROMPT_FORMS = [
+    { label: "Text", desc: "Words you type. Questions, requests, conversations. The most common form.", color: "#3b82f6" },
+    { label: "Image", desc: "Photos, screenshots, drawings. AI can see what’s in them and describe it.", color: "#10b981" },
+    { label: "Video", desc: "Recorded clips, short videos. AI can describe what happens and when.", color: "#f59e0b" },
+    { label: "Document", desc: "PDFs, spreadsheets, slides. AI reads what’s inside and works with it.", color: "#8b5cf6" }
+  ];
+  var formsContainerRef = useRef(null);
+  var formsTitleRefs = useRef([]);
+  var formsCardRefs = useRef([]);
+  var _fps = useState(null), formsPaths = _fps[0], setFormsPaths = _fps[1];
+  var _frs = useState({}), formsRevealed = _frs[0], setFormsRevealed = _frs[1];
+  var revealForm = function(i) { setFormsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = formsContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 4; i++) {
+        var t = formsTitleRefs.current[i], d = formsCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setFormsPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
+
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Every time you talk with AI, there’s a back-and-forth. You send something. AI processes it. AI sends back an answer."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Those are the two halves of a turn. Click each to see what they are."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "Two halves of a turn"
+    },
+      /*#__PURE__*/React.createElement("div", {
+        ref: halvesContainerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+        },
+          TURN_HALVES.map(function(k, i) {
+            var isRevealed = !!halvesRevealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { halvesTitleRefs.current[i] = el; },
+              onClick: function() { revealHalf(i); },
+              style: { color: k.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, k.label);
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        halvesPaths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          halvesPaths.map(function(p, i) {
+            if (!halvesRevealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: TURN_HALVES[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12 }
+        },
+          TURN_HALVES.map(function(k, i) {
+            var isRevealed = !!halvesRevealed[i];
+            return /*#__PURE__*/React.createElement("div", {
+              key: i, ref: function(el) { halvesCardRefs.current[i] = el; },
+              style: { flex: 1 }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + k.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+              },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontWeight: 700, fontSize: 15, color: k.color, marginBottom: 6 }
+                }, k.label),
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                }, k.desc)
+              )
+            );
+          })
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 16 } },
+      "We’ll cover inference later in this section. For now, let’s focus on the prompt."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT A PROMPT CAN BE"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Most prompts are text, but they don’t have to be. Today’s AI can work with several kinds of input. Click each format to see."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "What a prompt can include"
+    },
+      /*#__PURE__*/React.createElement("div", {
+        ref: formsContainerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "space-around", gap: 24, flexWrap: "wrap", fontSize: 22, fontWeight: 800, marginBottom: 0 }
+        },
+          PROMPT_FORMS.map(function(k, i) {
+            var isRevealed = !!formsRevealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { formsTitleRefs.current[i] = el; },
+              onClick: function() { revealForm(i); },
+              style: { color: k.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, k.label);
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        formsPaths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          formsPaths.map(function(p, i) {
+            if (!formsRevealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: PROMPT_FORMS[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12, alignItems: "stretch" }
+        },
+          PROMPT_FORMS.map(function(k, i) {
+            var isRevealed = !!formsRevealed[i];
+            return /*#__PURE__*/React.createElement("div", {
+              key: i, ref: function(el) { formsCardRefs.current[i] = el; },
+              style: { flex: "1 1 0", minWidth: 0, display: "flex" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + k.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease", flex: 1, width: "100%" }
+              },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontWeight: 700, fontSize: 15, color: k.color, marginBottom: 6 }
+                }, k.label),
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                }, k.desc)
+              )
+            );
+          })
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 16 } },
+      "A prompt is everything you give AI in one turn. Next lesson: what else the model can see when it processes your prompt."),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("context"), label: "Next: Context Window" })
+  );
 }
 
 function ContextSection(props) {
@@ -7009,7 +7284,7 @@ function HallucinationSection(props) {
   responseIdx >= SPOT_RESPONSES.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Notice the texture, not the topic.", marginTop: 28 },
     "When AI gets specific \u2014 exact numbers, named people, citations, statistics \u2014 that\u2019s the signal to verify. The trap isn\u2019t that AI lies. It\u2019s that fabrications and facts wear identical clothing.") : null,
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Probable and true are not the same thing." }, "The model is trained to write what sounds right. Sounding right and being right are two different jobs. That\u2019s why you verify."),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("documentchat"), label: "Next: Whole Document Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
 function VerifySection(props) {
   const [activeStrategy, setActiveStrategy] = useState(0);
@@ -13172,6 +13447,7 @@ const SECTION_COMPONENTS = {
   choosemodel: ChoosingModelSection,
   thinkingmode: ThinkingModeSection,
   openeranswers: OpenerAnswersSection,
+  prompt: PromptSection,
   context: ContextSection,
   temperature: TemperatureSection,
   customization: CustomizationSection,

@@ -795,7 +795,7 @@ const SECTION_GROUPS = [{
   sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers"]
 }, {
   label: "Working with AI",
-  sections: ["openeranswers", "training", "prompt", "context", "probability", "prediction", "inference"]
+  sections: ["openeranswers", "training", "prompt", "context", "inference", "probability", "prediction"]
 }, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
@@ -5124,7 +5124,7 @@ function PredictionSection(props) {
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Inference" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -5493,8 +5493,8 @@ function InferenceSection(props) {
     color: "#10b981"
   }];
   const step = steps[activeStep];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned the individual pieces: attention, transformation, layers, context, probability, and prediction."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now we can name the full process."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned what gets sent to AI: your prompt, plus everything else in the context window."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now let’s map what AI does with all of that. The whole journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Inference is what happens every time you hit send. The trained model takes your prompt, runs it through its layers, predicts the next token, adds that token to the response, and repeats until the answer is complete."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -5692,7 +5692,7 @@ function InferenceSection(props) {
       })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI types one word at a time because each word is a full pass through the model." },
       "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your question runs through billions of calculations in under a second." }, "Every word the model writes is a fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your question runs through billions of calculations in under a second." }, "Every word the model writes is a fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",
@@ -6220,7 +6220,7 @@ function ContextSection(props) {
         }))),
 
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Same question, different answer. The window is the difference." }, "What the model can see when it answers is the whole game. Change what’s in the window and you change what comes out."),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, lockedMessage: "Click each piece to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("probability"); }, label: "Next: Probability" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, lockedMessage: "Click each piece to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
 function CustomizationSection(props) {
   const [setupIdx, setSetupIdx] = useState(0);

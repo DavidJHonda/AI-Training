@@ -868,7 +868,7 @@ const SECTION_META = {
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choosing the Product", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "MATCH MODEL TO JOB", label: "Choosing the Model", icon: "\u26A1" },
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
-  temperature: { kicker: "THE CREATIVITY DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
+  temperature: { kicker: "THE VARIATION DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
   documentchat: { kicker: "RETRIEVED, NOT READ", label: "Whole Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -4525,9 +4525,6 @@ const GROUP_COLORS = {
   vehicles: "#f59e0b",
   emotions: "#ec4899"
 };
-var SNAPSHOT_NOTE = /*#__PURE__*/React.createElement("div", {
-  style: { borderLeft: "3px solid #d97706", background: "rgba(217, 119, 6, 0.06)", borderRadius: "0 8px 8px 0", padding: "10px 14px", marginBottom: 20, fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-}, /*#__PURE__*/React.createElement("strong", { style: { color: "#d97706" } }, "\uD83D\uDCC5 Current Snapshot"), ". Product names, controls, and limits change. Focus on the decision rule, not memorizing the exact settings.");
 function GoDeeper(props) {
   const [open, setOpen] = useState(false);
   return /*#__PURE__*/React.createElement("span", null,
@@ -6397,6 +6394,8 @@ function ContextSection(props) {
 }
 function CustomizationSection(props) {
   const [setupIdx, setSetupIdx] = useState(0);
+  const [sortIdx, setSortIdx] = useState(0);
+  const [sortSelected, setSortSelected] = useState(null);
   const SETUP_VERSIONS = [{
     label: "Default",
     sublabel: "No setup",
@@ -6404,78 +6403,134 @@ function CustomizationSection(props) {
     response: "Sure, here are some general study tips: review your notes, use active recall by quizzing yourself, take breaks every 25 to 30 minutes, get a good night\u2019s sleep, and try to study in a quiet space without distractions. Want me to elaborate on any of these?",
     explain: "The AI has no idea what test you have, what subject, or what you already know. It defaults to generic advice. Useful only if you really know nothing about studying. Useless for actually preparing."
   }, {
-    label: "+ Custom Instruction",
+    label: "+ Personalization",
     sublabel: "You set: 'Be direct'",
-    layers: ["Training", "Custom instruction"],
+    layers: ["Training", "Personalization"],
     response: "I can give you a focused plan, but I need to know what test it is. What subject? Multiple choice or essay? What units does it cover? Tell me that and we\u2019ll skip the warmup.",
-    explain: "Now the AI knows you want directness, so it skips generic tips. But it still has no clue what test you mean. The custom instruction shapes HOW it responds, not what it knows."
+    explain: "Now the AI knows you want directness, so it skips generic tips. But it still has no clue what test you mean. Personalization shapes HOW it responds, not what it knows."
+  }, {
+    label: "+ Project",
+    sublabel: "Inside your AP Bio project",
+    layers: ["Training", "Personalization", "Project"],
+    response: "Pulling from your AP Bio study guide. Tomorrow\u2019s exam covers Units 6\u20138 (cell communication, signaling, cellular respiration). Want to work through them in order, or start with whichever feels shakiest?",
+    explain: "The AI now has the AP Bio study guide, syllabus, and any other documents in this project. It knows the subject, the units, and what\u2019s tested. None of this follows you into other chats. Different class, different project, different context."
   }, {
     label: "+ Memory",
-    sublabel: "Stored: your test schedule",
-    layers: ["Training", "Custom instruction", "Memory"],
-    response: "Got it. For AP Bio tomorrow, you mentioned last week that cellular respiration was tripping you up. Want to start there? I\u2019ll give you a focused 2-hour plan covering glycolysis, the Krebs cycle, and the electron transport chain, with a quick concept check after each section.",
-    explain: "Memory loaded your test schedule and a past concern into the context window. The AI now \u2018remembers\u2019 you have AP Bio Tuesday and that cellular respiration was a struggle. None of this is new intelligence. It\u2019s just text the AI gets to read at the start of every conversation."
+    sublabel: "Stored: notes from past chats",
+    layers: ["Training", "Personalization", "Project", "Memory"],
+    response: "Last week you mentioned cellular respiration was tripping you up. Want to start there? I can pull the relevant pages from your study guide, then walk you through glycolysis, the Krebs cycle, and electron transport with a quick concept check after each section.",
+    explain: "Memory adds your past chat history on top of the project. The AI already had the AP Bio materials. Now it also knows you flagged cellular respiration as hard last week. None of this is new intelligence. It\u2019s just notes the AI reads at the start of every conversation."
   }, {
-    label: "+ This Conversation",
+    label: "+ Current Chat",
     sublabel: "Earlier you said: 'I'm freaking out'",
-    layers: ["Training", "Custom instruction", "Memory", "Current conversation"],
+    layers: ["Training", "Personalization", "Project", "Memory", "Current chat"],
     response: "Take a breath. Two hours is enough for cellular respiration if we focus. Forget glycolysis details for now; let\u2019s nail the big picture first: where ATP comes from, why oxygen matters, and the three stages in order. Once that clicks, the details follow. Ready to start with one question?",
-    explain: "Now everything in the current chat shapes the response too. The AI heard \u2018I\u2019m freaking out,\u2019 so it adjusts the tone, narrows the scope, and offers a starting point. Same prompt, four layers later, completely different help."
+    explain: "Now everything in the current chat shapes the response too. The AI heard \u2018I\u2019m freaking out,\u2019 so it adjusts the tone, narrows the scope, and offers a starting point. Same prompt, all five layers loaded, completely different help."
   }];
+  const SORT_ITEMS = [
+    {
+      text: "Call me David.",
+      correct: "all-chats",
+      explanation: "A stable preference about who you are. Set it once in your all-chat personalization and it follows you everywhere."
+    },
+    {
+      text: "Use my teacher\u2019s rubric for this Macbeth essay.",
+      correct: "project",
+      explanation: "Specific to one ongoing piece of work. Put it inside the project so it doesn\u2019t bleed into chats about other classes."
+    },
+    {
+      text: "I only have 30 minutes tonight.",
+      correct: "current-chat",
+      explanation: "Temporary, situational detail. True right now, not next week. Belongs in this chat only."
+    },
+    {
+      text: "You helped me finally understand the Krebs cycle last week.",
+      correct: "memory",
+      explanation: "Personal continuity across time. Saving this lets future biology chats pick up where you left off, without you re-explaining."
+    },
+    {
+      text: "Always tell me my work is great.",
+      correct: "nowhere",
+      explanation: "This is the flattery trap as a setting. Telling the AI to never push back makes it worse at being useful. Don\u2019t save this anywhere."
+    }
+  ];
+  const SORT_CATEGORIES = [
+    { id: "all-chats", label: "All chats", icon: "\uD83D\uDC64" },
+    { id: "project", label: "Project", icon: "\uD83D\uDCC1" },
+    { id: "memory", label: "Memory", icon: "\uD83E\uDDE0" },
+    { id: "current-chat", label: "Current chat", icon: "\uD83D\uDCAC" },
+    { id: "nowhere", label: "Nowhere", icon: "\uD83D\uDEAB" }
+  ];
   const sv = SETUP_VERSIONS[setupIdx];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }), /*#__PURE__*/React.createElement(BodyP, null, "Remember the whiteboard from Context? This lesson is about what goes on it on purpose. The same AI model can behave very differently depending on what\u2019s loaded into its context window and how it was trained. Here are the layers that shape what you see."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }), /*#__PURE__*/React.createElement(BodyP, null, "Remember the whiteboard from Context? It showed everything the model can see while answering you. But not everything has to come from the current chat."), /*#__PURE__*/React.createElement(BodyP, null, "Some context can follow you between chats. Some belongs inside a project. Some is saved as memory. The skill is knowing where each kind of information should live."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "THE LAYERS THAT SHAPE WHAT YOU SEE",
+    kicker: "WHERE SHOULD IT LIVE?",
+    headline: "Four scopes for persistent context.",
+    intro: "Some information should follow you everywhere. Some belongs in one project. Some is saved as memory. Some should stay temporary. Knowing the difference saves a lot of frustration.",
     marginBottom: 20
   },
     /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 10 }
-    }, "Set by the company"),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 } },
-      [{
-        icon: "\uD83C\uDFE2",
-        title: "Training & system behavior",
-        desc: "Companies like Anthropic shape the model\u2019s behavior during training: be helpful, be honest, don\u2019t assist with harmful requests. This is baked into the model itself, not loaded at runtime. It\u2019s why Claude feels different from ChatGPT or Gemini."
-      }, {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }
+    }, [
+      {
+        icon: "\uD83D\uDC64",
+        title: "All-chat personalization",
+        body: "Stable preferences that apply most of the time. Set once, used across chats.",
+        examples: ["Call me David.", "Be direct.", "Explain things like I\u2019m in high school."],
+        rule: "who you are and how you like to work."
+      },
+      {
+        icon: "\uD83D\uDCC1",
+        title: "Projects",
+        body: "Instructions, files, and context for one ongoing piece of work. Stay scoped to that project.",
+        examples: ["AP Bio study materials and rubric.", "Source documents for an essay.", "Notes from one specific class."],
+        rule: "what you\u2019re working on."
+      },
+      {
         icon: "\uD83E\uDDE0",
-        title: "Product-level memory",
-        desc: "Some products save details from past conversations: your name, preferences, past topics. This is not the model remembering. It\u2019s the product storing notes and loading them into the context window next time you chat. The model itself has no memory between sessions."
-      }].map(function(item, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0 } }, item.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: 14 } }, item.title),
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
-      })
-    ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 10 }
-    }, "Controlled by you"),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-      [{
-        icon: "\u2699\uFE0F",
-        title: "Custom instructions",
-        desc: "You can set persistent instructions that get loaded into the context window at the start of every conversation, like \u201Calways respond in Spanish,\u201D or \u201Cyou\u2019re a coding assistant.\u201D These don\u2019t change the model. They\u2019re just text the model sees every time."
-      }, {
+        title: "Memory",
+        body: "Information the product saves or retrieves from past chats. Can help, but can also be wrong or outdated.",
+        examples: ["You prefer short answers.", "You\u2019re studying for the SAT.", "You struggle with cellular respiration."],
+        rule: "personal continuity across time."
+      },
+      {
         icon: "\uD83D\uDCAC",
-        title: "Current conversation context",
-        desc: "Everything in your current chat, including your messages and the model\u2019s replies, stays in the context window until you start a new conversation. This is the only layer that updates in real time as you talk. Start a new chat, and it\u2019s gone."
-      }].map(function(item, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
+        title: "Current chat",
+        body: "Today\u2019s details. Gone when you start a new chat.",
+        examples: ["I only have 30 minutes.", "Use the notes I just pasted.", "Focus only on Chapter 7."],
+        rule: "temporary, situational details."
+      }
+    ].map(function(s, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", display: "flex", flexDirection: "column" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0 } }, item.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: 14 } }, item.title),
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
-      })
-    )
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, s.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, s.title)),
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12 }
+        }, s.body),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", marginBottom: 4 }
+          }, "Examples"),
+          s.examples.map(function(ex, j) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: j,
+              style: { fontSize: 12, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5, marginBottom: 2 }
+            }, "\u201C" + ex + "\u201D");
+          })),
+        /*#__PURE__*/React.createElement("div", {
+          style: { marginTop: "auto", paddingTop: 10, borderTop: "1px solid var(--rule)", fontSize: 12, color: "var(--inkSoft)", lineHeight: 1.5 }
+        },
+          /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Use it for: "),
+          s.rule));
+    })),
   ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training shapes the model itself." },
-    "Everything else (memory, custom instructions, your conversation) is text loaded into the context window. The model doesn\u2019t know which layer it came from. It\u2019s all just tokens."),
+    "Everything else (personalization, projects, memory, your current chat) is text loaded into the context window. The model doesn\u2019t know which scope it came from. It\u2019s all just tokens."),
   /*#__PURE__*/React.createElement(BodyP, null, "Watch how each layer changes the same prompt. The AI is identical. The setup is what shifts."),
   /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", surface: "sand", title: "Same Prompt, Different Setup" },
     /*#__PURE__*/React.createElement("div", {
@@ -6522,9 +6577,140 @@ function CustomizationSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, animation: "fadeIn 0.3s ease" }
     }, "\uD83D\uDCA1 ", sv.explain)),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "One catch"),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "Customization makes the tool more useful. It can also amplify your blind spots. If your custom instructions tell the model to \u201Calways agree\u201D or \u201Cnever push back,\u201D you\u2019ve built yourself a smarter version of the flattery trap. Use customization to set up your tools, not to silence pushback you actually need."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Now flip the question. Instead of watching layers change the answer, decide where each piece of information belongs."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Where should this go?",
+    action: sortIdx < SORT_ITEMS.length ? /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, sortIdx + 1),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SORT_ITEMS.length)
+    ) : null
+  },
+    sortIdx >= SORT_ITEMS.length ?
+      /*#__PURE__*/React.createElement("div", {
+        style: { textAlign: "center", padding: "20px 0" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, marginBottom: 12 } }, "\u2713"),
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 10 }
+        }, "Five down."),
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, maxWidth: "55ch", margin: "0 auto" }
+        }, "Stable preferences, ongoing projects, personal continuity, today\u2019s situation, or none of the above. When in doubt, ask yourself: \u201CShould this follow me into every chat I ever have, or just into this kind of work?\u201D"),
+        /*#__PURE__*/React.createElement("button", {
+          onClick: function() { setSortIdx(0); setSortSelected(null); },
+          style: { marginTop: 18, padding: "8px 18px", borderRadius: 999, background: "transparent", border: "1px solid var(--rule)", fontSize: 13, fontWeight: 600, color: "var(--inkSoft)", cursor: "pointer" }
+        }, "Try again")
+      )
+    :
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#fff", borderRadius: 14, padding: "20px 24px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: 16, display: "flex", alignItems: "center", gap: 16 }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "#0e0a1f", lineHeight: 1, fontWeight: 400, flexShrink: 0 }
+          }, String(sortIdx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "var(--ink)", fontStyle: "italic", lineHeight: 1.5 }
+          }, "\u201C" + SORT_ITEMS[sortIdx].text + "\u201D")
+        ),
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: 8, marginBottom: 14 }
+        },
+          SORT_CATEGORIES.map(function(cat) {
+            var correct = SORT_ITEMS[sortIdx].correct;
+            var isSelected = sortSelected === cat.id;
+            var showAsCorrect = sortSelected !== null && cat.id === correct;
+            var isWrong = isSelected && cat.id !== correct;
+            return /*#__PURE__*/React.createElement("button", {
+              key: cat.id,
+              onClick: function() { if (sortSelected === null) setSortSelected(cat.id); },
+              disabled: sortSelected !== null,
+              style: {
+                padding: "12px 8px",
+                borderRadius: 10,
+                background: isWrong ? "rgba(239, 68, 68, 0.08)" : (showAsCorrect ? "rgba(16, 185, 129, 0.10)" : "#fff"),
+                border: "2px solid " + (isWrong ? "#ef4444" : (showAsCorrect ? "#10b981" : "var(--rule)")),
+                cursor: sortSelected === null ? "pointer" : "default",
+                fontSize: 12,
+                fontWeight: 700,
+                textAlign: "center",
+                color: "var(--ink)",
+                transition: "all 0.2s ease"
+              }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, marginBottom: 4 } }, cat.icon),
+              /*#__PURE__*/React.createElement("div", null, cat.label));
+          })
+        ),
+        sortSelected !== null ? /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", {
+            style: {
+              background: sortSelected === SORT_ITEMS[sortIdx].correct ? "rgba(16, 185, 129, 0.08)" : "var(--info-bg)",
+              border: "1px solid " + (sortSelected === SORT_ITEMS[sortIdx].correct ? "#10b981" : "var(--info)"),
+              borderRadius: 10,
+              padding: "14px 16px",
+              marginBottom: 14,
+              fontSize: 14,
+              lineHeight: 1.6,
+              color: "var(--ink)"
+            }
+          },
+            /*#__PURE__*/React.createElement("strong", { style: { display: "block", marginBottom: 4 } },
+              sortSelected === SORT_ITEMS[sortIdx].correct
+                ? "\u2713 Right place."
+                : "Best fit: " + SORT_CATEGORIES.find(function(c) { return c.id === SORT_ITEMS[sortIdx].correct; }).label + "."
+            ),
+            SORT_ITEMS[sortIdx].explanation
+          ),
+          /*#__PURE__*/React.createElement("div", { style: { textAlign: "right" } },
+            /*#__PURE__*/React.createElement("button", {
+              onClick: function() { setSortIdx(sortIdx + 1); setSortSelected(null); },
+              style: { padding: "10px 22px", borderRadius: 999, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 700 }
+            }, sortIdx === SORT_ITEMS.length - 1 ? "Finish \u2192" : "Next \u2192")
+          )
+        ) : null
+      )
+  ),
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
+    kicker: "WATCH OUT FOR",
+    headline: "Three things that can go sideways.",
+    intro: "Persistent context makes the tool more useful. It can also make it worse if you\u2019re not paying attention.",
+    marginBottom: 20
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", gap: 10 }
+    },
+      [{
+        icon: "\uD83E\uDE9E",
+        title: "Bad personalization makes the tool worse.",
+        body: "Setting your instructions to \u2018always agree\u2019 or \u2018never push back\u2019 builds yourself a smarter version of the flattery trap. Good personalization makes the AI more useful. Bad personalization makes it more flattering, biased, or lazy."
+      }, {
+        icon: "\uD83D\uDCDD",
+        title: "A memory is a note, not a fact.",
+        body: "Saved memories can be outdated, incomplete, or wrong. Ask what the AI remembers about you, correct it when needed, and delete anything that shouldn\u2019t follow you forward."
+      }, {
+        icon: "\uD83D\uDC7B",
+        title: "Don\u2019t want it saved? Don\u2019t save it.",
+        body: "For sensitive, embarrassing, or one-off questions, use a temporary chat, turn memory off, or ask the app not to remember it. Some information should stay in the current chat and disappear when you close it."
+      }].map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, lineHeight: 1, flexShrink: 0 } }, item.icon),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 14 } }, item.title),
+            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.body)));
+      })
+    )
+  ),
+  /*#__PURE__*/React.createElement(KeyInsight, null,
+    "Use all-chat personalization for stable preferences. Use projects for ongoing work. Use memory for personal continuity. Use the current chat for today\u2019s details. Use temporary chat when you don\u2019t want something carried forward."),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openertraps") }, "Next: Traps"));
 }
@@ -7266,7 +7452,6 @@ function ThinkingModeSection(props) {
     answer: "Thinking", explain: "Multi-step math requires the model to work through each step sequentially and verify its logic. Thinking Mode dramatically reduces errors on problems like this."
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thinkingmode" }), /*#__PURE__*/React.createElement(BodyP, null, "You already chose the product. You already chose the model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
-  SNAPSHOT_NOTE,
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "THREE DECISIONS",
     headline: "Product, Model, Mode.",
@@ -7393,129 +7578,80 @@ function TemperatureSection(props) {
   const prompt = TEMP_PROMPTS[promptIdx];
   const tempKey = temp <= 0.2 ? 0 : temp <= 0.7 ? 0.5 : 1;
   const outputs = TEMP_OUTPUTS[prompt]?.[tempKey] || [];
-  var TEMP_DISTRIBUTIONS = [
-    {
-      label: "Low temperature",
-      tempValue: "0.0",
-      icon: "\u2744\uFE0F",
-      color: "var(--info)",
-      bars: [
-        { word: "tomorrow", pct: 100 },
-        { word: "later", pct: 0 },
-        { word: "soon", pct: 0 },
-        { word: "there", pct: 0 },
-        { word: "again", pct: 0 },
-        { word: "jump", pct: 0 }
-      ],
-      caption: "The top pick wins every time. Same answer, run after run."
-    },
-    {
-      label: "Default",
-      tempValue: "0.7",
-      icon: "\u2696\uFE0F",
-      color: "var(--primary)",
-      bars: [
-        { word: "tomorrow", pct: 42 },
-        { word: "later", pct: 31 },
-        { word: "soon", pct: 18 },
-        { word: "there", pct: 6 },
-        { word: "again", pct: 3 },
-        { word: "jump", pct: 0.0001 }
-      ],
-      caption: "The top pick still leads, but second and third get real shots. Same prompt, different answers each time."
-    },
-    {
-      label: "High temperature",
-      tempValue: "1.5",
-      icon: "\uD83D\uDD25",
-      color: "var(--red)",
-      bars: [
-        { word: "tomorrow", pct: 28 },
-        { word: "later", pct: 24 },
-        { word: "soon", pct: 20 },
-        { word: "there", pct: 14 },
-        { word: "again", pct: 12 },
-        { word: "jump", pct: 2 }
-      ],
-      caption: "The distribution flattens. Lower-probability words become real options. Sometimes you get \u201Cjump\u201D."
-    }
+  var WORD_DISTRIBUTIONS = [
+    { word: "tomorrow", low: 100, medium: 65, high: 40 },
+    { word: "later", low: 0, medium: 20, high: 28 },
+    { word: "soon", low: 0, medium: 10, high: 17 },
+    { word: "there", low: 0, medium: 3, high: 7 },
+    { word: "again", low: 0, medium: 1, high: 4 },
+    { word: "other words", low: 0, medium: 1, high: 4 }
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }), /*#__PURE__*/React.createElement(BodyP, null, "Temperature controls how much randomness the model uses when picking its next word. Turn it up for creativity and variation. Turn it down for precision and consistency."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 12,
-      marginBottom: 16,
-      flexWrap: "wrap"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 200,
-      background: "#6e51ff10",
-      border: "1px solid #6e51ff33",
-      borderRadius: 10,
-      padding: "14px 18px",
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 24, marginBottom: 6 }
-  }, "\u2744\uFE0F"), /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 4 }
-  }, "Low Temperature"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, "Predictable, consistent. Same input \u2192 nearly identical output.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 200,
-      background: "#f59e0b10",
-      border: "1px solid #f59e0b33",
-      borderRadius: 10,
-      padding: "14px 18px",
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 24, marginBottom: 6 }
-  }, "\uD83D\uDD25"), /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 4 }
-  }, "High Temperature"), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-  }, "Creative, surprising. Same input \u2192 different output each time."))),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "How temperature reshapes the picks"
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }), /*#__PURE__*/React.createElement(BodyP, null, "You picked the product. You picked the model. You picked the mode. Now there\u2019s one smaller control to understand: temperature."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
   },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: 18 }
-    }, "Same setup as the Probability lesson: \u201CSee you ___\u201D. Same six candidates the model is weighing. Watch what temperature does to the weights."),
-    TEMP_DISTRIBUTIONS.map(function(d, i) {
+    [
+      { label: "Low temperature", icon: "\u2744\uFE0F", bg: "#3b82f610", border: "#3b82f633", desc: "Repeatable, predictable, less varied." },
+      { label: "Medium temperature", icon: "\u2696\uFE0F", bg: "#6e51ff10", border: "#6e51ff33", desc: "Balanced, natural. Usually best for normal writing and brainstorming." },
+      { label: "High temperature", icon: "\uD83D\uDD25", bg: "#f59e0b10", border: "#f59e0b33", desc: "Surprising, unusual, sometimes weird or incoherent." }
+    ].map(function(card, i) {
       return /*#__PURE__*/React.createElement("div", {
         key: i,
-        style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: i < TEMP_DISTRIBUTIONS.length - 1 ? 14 : 0 }
+        style: { flex: 1, minWidth: 200, background: card.bg, border: "1px solid " + card.border, borderRadius: 10, padding: "14px 18px", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, card.icon),
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 4 } }, card.label),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, card.desc));
+    })),
+  /*#__PURE__*/React.createElement("div", {
+    style: { borderLeft: "3px solid var(--info)", background: "var(--info-bg)", borderRadius: "0 8px 8px 0", padding: "12px 16px", marginBottom: 16, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 }
+  },
+    /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "You probably won\u2019t see this slider. "),
+    "In regular ChatGPT, Claude, or Gemini, the product usually picks the temperature for you. But the idea still matters. It explains why the same prompt can produce different answers, why \u201Cregenerate\u201D gives you variation, and why asking for \u201Csafer\u201D or \u201Cwilder\u201D options changes how the response feels."),
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
+    headline: "How temperature reshapes the picks",
+    intro: "Same setup as the Probability lesson: \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "110px 1fr 1fr 1fr", gap: 50, paddingBottom: 12, borderBottom: "1px solid var(--rule)", marginBottom: 4 }
+      },
+        /*#__PURE__*/React.createElement("div", null),
+        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", fontSize: 13, fontWeight: 700, color: "#3b82f6" } }, "\u2744\uFE0F Low"),
+        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", fontSize: 13, fontWeight: 700, color: "var(--primary)" } }, "\u2696\uFE0F Medium"),
+        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "\uD83D\uDD25 High")
+      ),
+      WORD_DISTRIBUTIONS.map(function(w, i) {
+        var isTop = i === 0;
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { display: "grid", gridTemplateColumns: "110px 1fr 1fr 1fr", gap: 50, alignItems: "center", paddingTop: 10, paddingBottom: 10, borderTop: i === 0 ? "none" : "1px solid var(--rule)" }
         },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, d.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)", lineHeight: 1.2 } }, d.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: d.color, fontWeight: 700, marginTop: 2 } }, "Temperature " + d.tempValue))),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          d.bars.map(function(b, j) {
-            var isTop = j === 0;
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontWeight: isTop ? 700 : 500, fontSize: 14, color: isTop ? "var(--primary)" : "var(--ink)" }
+          }, w.word),
+          [
+            { pct: w.low, color: "#3b82f6" },
+            { pct: w.medium, color: "var(--primary)" },
+            { pct: w.high, color: "#f59e0b" }
+          ].map(function(cell, j) {
             return /*#__PURE__*/React.createElement("div", {
               key: j,
-              style: { display: "flex", alignItems: "center", gap: 12 }
+              style: { display: "flex", alignItems: "center", gap: 8 }
             },
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 14, minWidth: 80, color: isTop ? "var(--primary)" : "var(--ink)" } }, b.word),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 22, overflow: "hidden" } },
-                /*#__PURE__*/React.createElement("div", { style: { width: b.pct + "%", minWidth: b.pct > 0 ? 3 : 0, height: "100%", background: isTop ? "linear-gradient(90deg, var(--primary), #8b5cf6)" : "#c7d2fe", borderRadius: 6, transition: "width 0.6s ease" } })),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 13, color: isTop ? "var(--primary)" : "var(--inkMuted)", minWidth: 60, textAlign: "right" } }, b.pct + "%"));
-          })),
-        /*#__PURE__*/React.createElement("div", {
-          style: { marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--seeRule)", fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 14, color: "#3a3550", lineHeight: 1.6 }
-        }, d.caption));
-    })),
+              /*#__PURE__*/React.createElement("div", {
+                style: { flex: 1, background: "var(--rule)", height: 14, borderRadius: 7, overflow: "hidden" }
+              },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { width: cell.pct + "%", minWidth: cell.pct > 0 ? 2 : 0, height: "100%", background: cell.color, borderRadius: 7 }
+                })),
+              /*#__PURE__*/React.createElement("span", {
+                style: { fontSize: 12, fontWeight: 600, color: cell.pct === 0 ? "var(--inkMuted)" : "var(--ink)", minWidth: 32, textAlign: "right" }
+              }, cell.pct + "%"));
+          }));
+      })
+    )),
   /*#__PURE__*/React.createElement(BodyP, null,
     "See temperature in action. Move the slider and watch the same prompt produce wildly different answers."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -7541,7 +7677,7 @@ function TemperatureSection(props) {
       padding: "8px 14px",
       borderRadius: 8
     }
-  }, "\u201C", prompt, "...\u201D"), /*#__PURE__*/React.createElement(ActivityButton, { onClick: () => setPromptIdx((promptIdx + 1) % TEMP_PROMPTS.length), style: { padding: "8px 16px", fontSize: 13, whiteSpace: "nowrap", fontWeight: 600 } }, "Next Example \u2192")),
+  }, "\u201C", prompt, "...\u201D"), /*#__PURE__*/React.createElement(ActivityButton, { onClick: () => { setPromptIdx((promptIdx + 1) % TEMP_PROMPTS.length); setTemp(0); }, style: { padding: "8px 16px", fontSize: 13, whiteSpace: "nowrap", fontWeight: 600 } }, "Next Example \u2192")),
     /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 20
@@ -7585,7 +7721,7 @@ function TemperatureSection(props) {
       color: "var(--inkMuted)",
       marginTop: 4
     }
-  }, /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDCA Deterministic"), /*#__PURE__*/React.createElement("span", null, "Balanced"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD25 Creative"))),
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDCA Repeatable"), /*#__PURE__*/React.createElement("span", null, "Balanced"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD25 Surprising"))),
     /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -7638,10 +7774,41 @@ function TemperatureSection(props) {
       marginBottom: 18
     }
   }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework.")),
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 36 } },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "When you want repeatability vs variety")
+  ),
+  /*#__PURE__*/React.createElement(BodyP, null, "Most students won\u2019t touch a temperature slider directly. But you can ask for the effect through prompting."),
+  /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 18 } },
+    [
+      {
+        label: "When you want repeatability",
+        color: "#3b82f6",
+        icon: "\u2744\uFE0F",
+        body: "Ask for \u201Cthe standard answer,\u201D \u201Cthe most likely interpretation,\u201D or \u201Cyour best single answer.\u201D Good for formatting, extracting information, following a template, or getting a stable result you can rely on."
+      },
+      {
+        label: "When you want variety",
+        color: "#f59e0b",
+        icon: "\uD83D\uDD25",
+        body: "Ask for \u201Cten different options,\u201D \u201Csurprise me,\u201D or \u201Cgive me unusual angles.\u201D Good for naming, story ideas, jokes, alternate phrasings, or creative exploration. Regenerate also helps."
+      }
+    ].map(function(card, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { background: "var(--card)", borderRadius: 12, padding: 18, border: "1px solid var(--rule)", borderTop: "3px solid " + card.color }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, card.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: card.color } }, card.label)),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
+    })),
+  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+    /*#__PURE__*/React.createElement("strong", null, "Don\u2019t use high temperature to make a weak model smarter. "),
+    "Don\u2019t use low temperature to make a wrong answer true. Variation is not capability, and it\u2019s not truth."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "Low temperature doesn\u2019t mean correct. It means consistent. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Turn it up for creativity. Turn it down for precision." }, "Temperature decides how often the model picks something other than its top guess. Higher means more variety and more risk. Lower means safer, more predictable, sometimes boring."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
+    "Low temperature doesn\u2019t mean correct. It means repeatable. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
+  /*#__PURE__*/React.createElement(KeyInsight, null, "Model choice controls capability. Thinking Mode controls effort. Temperature controls variation. Verification controls truth."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: promptIdx > 0 || temp > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function OpenerTrapsSection(props) {
   return React.createElement(OpenerSection, {
@@ -7707,7 +7874,7 @@ function HallucinationSection(props) {
       { text: "The Treaty of Westphalia was signed in " },
       { text: "1648", id: "year", isReal: true, note: "Real. The treaty was signed in 1648 \u2014 well-documented across thousands of sources, so the model handles it reliably." },
       { text: " and ended the Thirty Years\u2019 War. It was negotiated in the cities of " },
-      { text: "M\u00FCnster and Osnabr\u00FCck", id: "cities", isReal: true, note: "Real. Both cities hosted parts of the negotiations. Specific place names tied to a well-documented event are usually safe." },
+      { text: "M\u00FCnster and Osnabr\u00FCck", id: "cities", isReal: true, note: "Real. Both cities hosted parts of the negotiations. Specific place names tied to a well-documented event are usually easy to verify, since many sources agree." },
       { text: ", involving " },
       { text: "109 delegations from across Europe", id: "delegations", isReal: false, note: "Made up. Suspiciously precise. The actual number of participating states is debated by historians, and AI tends to fabricate exact figures that make the claim sound rigorous." },
       { text: ". " },
@@ -7737,11 +7904,11 @@ function HallucinationSection(props) {
     question: "Who is PewDiePie?",
     segments: [
       { text: "PewDiePie, whose real name is " },
-      { text: "Felix Kjellberg", id: "name", isReal: true, note: "Real. His birth name is Felix Arvid Ulf Kjellberg. Public figures with this much documentation are usually safe \u2014 the model has thousands of consistent sources to draw from." },
+      { text: "Felix Kjellberg", id: "name", isReal: true, note: "Real. His birth name is Felix Arvid Ulf Kjellberg. Public figures with this much documentation are usually easy to verify, since the model has thousands of consistent sources to draw from." },
       { text: ", currently has " },
       { text: "111 million subscribers", id: "subs", isReal: true, note: "Close to real. His count hovers around 110 million. Live numbers drift, but the ballpark is right." },
       { text: " and is " },
-      { text: "the most-subscribed individual YouTuber", id: "rank", isReal: false, note: "Outdated. MrBeast passed PewDiePie for most-subscribed individual creator in 2024. This is the cutoff trap: the model confidently gives you what was true when it was trained, with no idea things have moved on. Anything about \u2018who\u2019s #1\u2019 or \u2018current record\u2019 deserves a check." },
+      { text: "the most-subscribed individual YouTuber", id: "rank", isReal: false, note: "Outdated. MrBeast passed PewDiePie for most-subscribed individual creator in late 2022. This is the cutoff trap: the model confidently gives you what was true when it was trained, with no idea things have moved on. Anything about \u2018who\u2019s #1\u2019 or \u2018current record\u2019 deserves a check." },
       { text: ". Born in " },
       { text: "Sweden in 1989", id: "birth", isReal: true, note: "Real. He was born in Gothenburg, Sweden, in October 1989. Common biographical facts for well-documented people are reliable." },
       { text: ", he started his channel in 2010 while studying " },
@@ -7763,10 +7930,10 @@ function HallucinationSection(props) {
     }
   }
   var hallucinationTypes = [
-    { title: "Fake source", body: "A study, article, author, quote, or citation that does not exist." },
-    { title: "Fake event", body: "A court case, news story, award, discovery, or historical event that never happened." },
-    { title: "Fake detail", body: "A real person, place, or concept with invented dates, stats, quotes, or specifics." },
-    { title: "Almost true", body: "A real idea mixed with a fake name, fake extension, or wrong detail." }
+    { title: "Fake source", body: "A study, article, author, quote, journal, or citation that does not exist." },
+    { title: "Fake detail", body: "A real person, place, event, or idea with invented dates, numbers, quotes, or specifics." },
+    { title: "Blended fact", body: "Real facts combined in a way that creates a conclusion that is false." },
+    { title: "Stale claim", body: "A claim that used to be true, or sounds current, but is now outdated." }
   ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -7780,10 +7947,12 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That creates the problem: ", /*#__PURE__*/React.createElement("strong", null, "likely does not always mean true.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One specific version of that problem is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". It’s a strange word to use, because AI doesn’t have physical eyes, and doesn’t \"see\" anything. But the idea is simple: AI generates a claim that sounds real, even though it is made up."),
+      "That mismatch is the first trap of this section. AI can give you a claim that is false, unsupported, or outdated while saying it in the same confident voice it uses for true facts. ", /*#__PURE__*/React.createElement("strong", null, "The trap is treating confidence like evidence.")),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". The word is strange, since AI doesn’t physically \"see\" anything. But the idea is simple: AI presents a false or unsupported claim as if it were true. Sometimes it invents something completely. Sometimes it blends real facts with fake details. Sometimes it delivers outdated information with total confidence."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHAT COUNTS AS A HALLUCINATION?",
-      intro: "Not every wrong answer is a hallucination. A hallucination is a made-up detail presented like a fact.",
+      intro: "Not every wrong answer is a hallucination. These are the four patterns to watch for.",
       marginBottom: 18
     },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
@@ -7793,9 +7962,10 @@ function HallucinationSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, item.body));
         }))
     ),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
+    /*#__PURE__*/React.createElement(BodyP, null,
       /*#__PURE__*/React.createElement("strong", null, "The dangerous part:"),
-      " hallucinations often look clean, confident, detailed, and specific."),
+      " hallucinations often look clean, confident, detailed, and specific. In real life, you can\u2019t tell from the sentence alone."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 }, "This activity trains your radar. Spotting tells you which claims to check. Verification tells you what is true."),
     /*#__PURE__*/React.createElement(BodyP, null, "Three AI answers. Each one mixes real facts with made-up ones. Tap any claim you\u2019d want to check before trusting. We\u2019ll show you what was real and what was invented."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -7865,9 +8035,8 @@ function HallucinationSection(props) {
             caughtCount === hallucinatedIds.length ? "Strong eye. The pattern recognition is the skill \u2014 specific names, exact dates, and named studies all need a quick check." :
             caughtCount > 0 ? "Mixed result. The misses (highlighted in red above) show how clean a hallucination can sound when it sits next to real facts." :
             "All the hallucinations slipped through. That\u2019s the danger of the pattern: confident specifics that sound just like real ones. Re-read the response with the breakdown above to see what to flag next time.")) : null)),
-  responseIdx >= SPOT_RESPONSES.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Notice the texture, not the topic.", marginTop: 28 },
-    "When AI gets specific \u2014 exact numbers, named people, citations, statistics \u2014 that\u2019s the signal to verify. The trap isn\u2019t that AI lies. It\u2019s that fabrications and facts wear identical clothing.") : null,
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Probable and true are not the same thing." }, "The model is trained to write what sounds right. Sounding right and being right are two different jobs. That\u2019s why you verify."),
+  /*#__PURE__*/React.createElement(KeyInsight, null,
+    "Probable is not the same as true. Confidence is not evidence. Verification is the skill."),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
 function VerifySection(props) {

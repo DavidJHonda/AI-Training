@@ -6717,6 +6717,28 @@ function ModelSelectionSection(props) {
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
   const [startedScenarios, setStartedScenarios] = useState(false);
+  var big3ContainerRef = useRef(null);
+  var big3TitleRefs = useRef([]);
+  var big3CardRefs = useRef([]);
+  var _big3ps = useState(null), big3Paths = _big3ps[0], setBig3Paths = _big3ps[1];
+  useEffect(function() {
+    function calc() {
+      var c = big3ContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 3; i++) {
+        var t = big3TitleRefs.current[i], d = big3CardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setBig3Paths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
   const FAILURE_STYLES = [{
     icon: "\uD83E\uDD17",
     name: "Too agreeable",
@@ -6799,9 +6821,62 @@ function ModelSelectionSection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "When you use AI, you\u2019re actually using two things. The ", /*#__PURE__*/React.createElement("strong", null, "model"), " is the trained AI itself: the thing that generates the text. The ", /*#__PURE__*/React.createElement("strong", null, "product"), " is what wraps the model and what you actually open and talk to. Claude, ChatGPT, and Gemini are products, each made by a different company."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Think of products like browsers. Chrome, Safari, Firefox all browse the web with different design choices. Same category, different experience."),
-  /*#__PURE__*/React.createElement(BodyP, null, "One big difference between products is what tools they hand the model: web search, file lookup, calculators, code runners. When you see a \u2018searching the web\u2019 animation pop up in ChatGPT, that\u2019s the product calling a tool, grabbing pages, and handing them to the model. The model still reads, summarizes, and explains. The fetch is real. The explaining is still generation. Both parts can fail their own way."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Earlier in this class, you learned a little about the three most popular products."),
+  (function() {
+    var BIG3 = [
+      { label: "ChatGPT", desc: "Made by OpenAI. Launched in 2022 and made AI mainstream. Often what people mean when they say AI.", color: "#10b981" },
+      { label: "Claude", desc: "Made by Anthropic. Known for thoughtful writing and careful reasoning. This is the product behind this course.", color: "#8b5cf6" },
+      { label: "Gemini", desc: "Made by Google. Built into Google\u2019s apps like Search, Docs, and Gmail. Strong on current information.", color: "#3b82f6" }
+    ];
+    return /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "The big three"
+    },
+      /*#__PURE__*/React.createElement("div", {
+        ref: big3ContainerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+        },
+          BIG3.map(function(p, i) {
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { big3TitleRefs.current[i] = el; },
+              style: { color: p.color }
+            }, p.label);
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        big3Paths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          big3Paths.map(function(p, i) {
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: BIG3[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12 }
+        },
+          BIG3.map(function(p, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              ref: function(el) { big3CardRefs.current[i] = el; },
+              style: { flex: 1 }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 6 } }, p.label),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, p.desc)));
+          }))));
+  }()),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Which Product Is Best?"),
   /*#__PURE__*/React.createElement(BodyP, null, "The best product is the one that fits the job. Most people just use whatever they opened last. Here\u2019s how to actually choose."),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" } },
     MODELS.map((m, i) => /*#__PURE__*/React.createElement("div", {
@@ -7616,6 +7691,8 @@ const CT_CONCEPTS = [{
   label: "Question the Output",
   icon: "\u2753",
   desc: "Your first instinct should always be: is this actually right?",
+  lead: "Your first instinct: is this actually right?",
+  detail: "AI sounds confident whether the answer is correct or not. Smooth writing isn\u2019t proof.",
   scenario: {
     prompt: "Who won the first ever NBA Slam Dunk Contest?",
     response: "The first NBA Slam Dunk Contest was won by Julius Erving (Dr. J) in 1976 at the ABA All-Star Game. The first official NBA Slam Dunk Contest was held in 1984 and won by Larry Nance.",
@@ -7632,6 +7709,8 @@ const CT_CONCEPTS = [{
   label: "Know Your Limits",
   icon: "\uD83E\uDDD0",
   desc: "If you can\u2019t evaluate the answer, you\u2019re flying blind.",
+  lead: "If you can\u2019t evaluate it, you\u2019re flying blind.",
+  detail: "The further the topic is from what you know, the more carefully you have to verify. That\u2019s exactly when AI feels most authoritative.",
   scenario: {
     prompt: "Explain the offsides rule in soccer.",
     response: "A player is offside if they are nearer to the opponent's goal line than both the ball and the second-to-last defender when the ball is played to them. The offside is judged at the moment the ball is passed, not when it's received.",
@@ -7648,6 +7727,8 @@ const CT_CONCEPTS = [{
   label: "Don't Auto-Trust It",
   icon: "\uD83E\uDD16",
   desc: "The tendency to trust computer-generated output over your own judgment. AI makes it worse because the output sounds so human.",
+  lead: "Confident isn\u2019t the same as correct.",
+  detail: "Polished output triggers a \u2018must be right\u2019 reflex. That\u2019s a bias, not a verdict.",
   scenario: {
     prompt: "Is it okay to eat food that's been left out overnight?",
     response: "Generally, perishable food left out at room temperature for more than 2 hours should be discarded according to food safety guidelines. This is known as the '2-hour rule' from the USDA.",
@@ -7664,6 +7745,8 @@ const CT_CONCEPTS = [{
   label: "Keep Ownership",
   icon: "\uD83D\uDD28",
   desc: "AI generates output. You decide what\u2019s worth using, what to change, and what to throw away.",
+  lead: "You decide what to keep, change, or toss.",
+  detail: "AI generates options. The thinking, the call, and the consequences are yours.",
   scenario: {
     prompt: "Write my college essay about what matters most to me.",
     response: "What matters most to me is making a positive impact on the world. From a young age, I've been passionate about helping others and making my community a better place...",
@@ -7680,6 +7763,8 @@ const CT_CONCEPTS = [{
   label: "Check Sources",
   icon: "\uD83D\uDCDA",
   desc: "LLMs don\u2019t cite sources by default, and when they do, they sometimes fabricate them.",
+  lead: "AI invents citations. Always check.",
+  detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don\u2019t know which without verifying.",
   scenario: {
     prompt: "What are the health benefits of cold showers?",
     response: "According to a 2016 study published in the Journal of Clinical Investigation, cold showers boost immune function by 29% and increase metabolic rate by up to 350%. Dr. Sarah Chen of Harvard Medical School recommends cold exposure for at least 3 minutes daily.",
@@ -7793,7 +7878,7 @@ function CriticalThinkingSection(props) {
   const ex101 = CT_101[active101] || CT_101[CT_101.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned how LLMs work, what shapes their output, and when they go wrong. Now here\u2019s the skill that ties it all together: ", /*#__PURE__*/React.createElement("strong", null, "critical thinking"), ". AI makes you faster at both good work and bad work. The difference is whether you think about the output or just accept it."),
   /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking is the habit of not taking information at face value. It is the process of actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
-  /*#__PURE__*/React.createElement(BodyP, null, "This isn\u2019t a new skill. You already use it every day. Use your critical thinking skills to see if you can spot the problem in each of these scenarios."),
+  /*#__PURE__*/React.createElement(BodyP, null, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -7821,7 +7906,7 @@ function CriticalThinkingSection(props) {
       },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\u2705"),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "All eight problems spotted."),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Same instinct works on AI output. The model sounds confident either way. Your job is to check what it\u2019s claiming."))
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "That\u2019s the instinct. AI\u2019s next."))
     },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
@@ -7902,11 +7987,11 @@ function CriticalThinkingSection(props) {
             })))));
   }()),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "See if you can spot the issue in each scenario before revealing the analysis."),
+    "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "The 5 Habits",
+    title: "Spot the AI Trap",
     action: /*#__PURE__*/React.createElement("div", {
       style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
     },
@@ -7922,41 +8007,22 @@ function CriticalThinkingSection(props) {
       onNext: function() { setActiveConcept(activeConcept + 1); setHabitAnswer(null); },
       canAdvance: habitAnswer !== null,
       isComplete: activeConcept >= CT_CONCEPTS.length,
-      startLabel: "First Habit",
-      nextLabel: "Next Habit \u2192",
-      finishLabel: "All five locked in \u2192",
+      startLabel: "First Trap \u2192",
+      nextLabel: "Next Trap \u2192",
+      finishLabel: "All five spotted \u2192",
       completionElement: /*#__PURE__*/React.createElement("div", {
-        style: { padding: "20px 0" }
+        style: { padding: "20px 0", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "🧠"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700 } }, "Your five habits, every time you prompt.")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#fff", borderRadius: 14, padding: "4px 20px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
-        },
-          CT_CONCEPTS.map(function(habit, i) {
-            var RECAP_LINES = {
-              question: "Your first instinct: is this actually right?",
-              unknowns: "If you can't evaluate it, you're flying blind.",
-              automation: "Confident isn't the same as correct.",
-              tool: "You decide what to keep, change, or toss.",
-              source: "AI invents citations. Always check."
-            };
-            return /*#__PURE__*/React.createElement("div", {
-              key: habit.id,
-              style: { display: "flex", alignItems: "flex-start", gap: 14, padding: "14px 0", borderBottom: i < CT_CONCEPTS.length - 1 ? "1px solid var(--rule)" : "none" }
-            },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1.2, flexShrink: 0 } }, habit.icon),
-              /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 3 } }, habit.label),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, RECAP_LINES[habit.id])));
-          })))
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83E\uDDE0"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "All five habits in the wild."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "You\u2019ve seen what each habit catches. That\u2019s the work."))
     },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
           /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, ct.label)),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, maxWidth: "56ch", marginBottom: 14 } }, ct.desc),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
           /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
           /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response }))),

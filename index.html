@@ -7699,6 +7699,7 @@ function CriticalThinkingSection(props) {
   const [problemAnswer, setProblemAnswer] = useState(null);
   const [started101, setStarted101] = useState(false);
   const [started5Habits, setStarted5Habits] = useState(false);
+  const [habitsRevealed, setHabitsRevealed] = useState(0);
   const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   const CT_101 = [{
     label: "Ice cream & drowning",
@@ -7723,16 +7724,16 @@ function CriticalThinkingSection(props) {
     reality: "Recommend it over what? Not brushing at all? A different brand? And what did the 10th dentist say? This stat has been used to sell everything from gum to mouthwash. The number sounds scientific but the context is missing.",
     lesson: "Statistics without context are meaningless. Always ask: compared to what? How was this measured? Who paid for the study?"
   }, {
-    label: "Wikipedia sources",
-    icon: "\uD83D\uDCDA",
-    claim: "Your teacher says \"don't use Wikipedia as a source.\" So Wikipedia is unreliable?",
+    label: "I saw it on TikTok",
+    icon: "\uD83D\uDCF1",
+    claim: "Your friend texts: \"Did you know Einstein failed math as a kid? Saw it on TikTok, it\u2019s wild.\" Should you take that as a solid fact?",
     options: [
-      { label: "Yes, anyone can edit it so nothing on Wikipedia can be trusted", correct: false, feedback: "Too strong. Plenty of Wikipedia is well-sourced and accurate. The reason it\u2019s not a source for an essay isn\u2019t that it\u2019s wrong, it\u2019s that it\u2019s not the original source. Follow the citations at the bottom to where the claim actually came from." },
-      { label: "Wikipedia is the source itself, so cite Wikipedia and you\u2019re fine", correct: false, feedback: "Wikipedia is a starting point, not an ending point. The articles compile information from other sources, and those original sources are linked at the bottom. The skill is following the trail to where the claim actually came from." },
-      { label: "Wikipedia points to original sources at the bottom of each article", correct: true, feedback: "Right. Wikipedia itself isn\u2019t the source, but it has citations that link to the actual sources. The skill isn\u2019t avoiding Wikipedia, it\u2019s learning to trace claims back to where they originated. That\u2019s the real source." }
+      { label: "A famous story like this is widely known, so it\u2019s probably true.", correct: false, feedback: "Famous and true aren\u2019t the same. The Einstein-failed-math story is one of the most repeated \u2018facts\u2019 on the internet, and it\u2019s a myth. He was actually strong at math from a young age. The reason you\u2019d know that isn\u2019t \u2018I\u2019ve heard it a lot,\u2019 it\u2019s tracing the claim back to where it actually came from." },
+      { label: "A TikTok creator isn\u2019t the source. They got it from somewhere. The real check is where they got it and whether that source is solid.", correct: true, feedback: "Right. \u2018I saw it on TikTok\u2019 is the start of a check, not the end. The creator got the claim from somewhere, and that\u2019s the source you actually need. In this case, the Einstein-failed-math story is a famous myth. He was a strong math student. The story spread because it sounds inspiring, not because it\u2019s true. Always ask: where did this originally come from?" },
+      { label: "TikTok is unreliable, so the claim is probably wrong.", correct: false, feedback: "Dismissing everything from TikTok isn\u2019t critical thinking either. Plenty of accurate stuff lives there. The skill isn\u2019t trusting or distrusting the platform, it\u2019s tracing the claim back to its original source so you can judge that." }
     ],
-    reality: "Wikipedia itself isn't the source, but it has citations at the bottom that link to the actual sources. The skill isn't avoiding Wikipedia; it's learning to trace claims back to where they originated.",
-    lesson: "Don't just accept or reject a source entirely. Learn to follow the trail: where did this claim originally come from? That's the real source."
+    reality: "Einstein didn\u2019t fail math. He was actually strong at it from a young age. The myth probably started when people misread his Swiss school grades (where 6 was the top score, not the bottom). It spread because it sounds like a great inspirational story.",
+    lesson: "Where the claim shows up isn\u2019t the source. Whoever you\u2019re hearing it from got it from somewhere. Trace it back to the original before you trust it."
   }, {
     label: "Stats out of context",
     icon: "\uD83D\uDCCA",
@@ -7755,10 +7756,44 @@ function CriticalThinkingSection(props) {
     ],
     reality: "The study had 15 participants, ran for two weeks, and was funded by a chocolate company. The headline is technically accurate but deeply misleading.",
     lesson: "Headlines are designed to get clicks, not to inform. Before sharing or believing, ask: how big was the study? Who funded it? What did they actually measure?"
+  }, {
+    label: "Phones in bed",
+    icon: "\uD83D\uDCF1",
+    claim: "Headline: \"Smartphones are destroying teen sleep!\" The study found that teens who use phones in bed report higher rates of insomnia and anxiety.",
+    options: [
+      { label: "The cause might run the other way: anxious teens who can\u2019t sleep grab their phones to cope.", correct: true, feedback: "Right. The study shows phone use and bad sleep happen together, but it doesn\u2019t tell you which one causes which. Teens who can\u2019t sleep are exactly the ones who reach for their phones at 2am. Same data, opposite story. Always ask: could the cause be running the other way?" },
+      { label: "The headline is right. Screen time keeps you awake, that\u2019s just biology.", correct: false, feedback: "There\u2019s real biology around blue light and sleep, but that\u2019s not what this data proves. The study only shows that phone use and bad sleep happen together. It doesn\u2019t show which one comes first. Anxious teens reaching for their phones at 2am explains the same numbers in reverse." },
+      { label: "Phones probably don\u2019t really affect sleep, so the study is wrong.", correct: false, feedback: "Throwing out the data isn\u2019t critical thinking either. The link is probably real: phone use and bad sleep do go together. The question isn\u2019t whether the connection exists, it\u2019s which way the cause runs. Phones causing bad sleep, or bad sleep causing phone use, same numbers either way." }
+    ],
+    reality: "The study shows phone use and bad sleep happen together. It doesn\u2019t show which one causes which. Teens who can\u2019t sleep are the most likely to reach for their phones at 2am, which means the cause could easily run the other direction.",
+    lesson: "When two things happen together, don\u2019t assume A causes B. It could be B causing A. Always ask: which direction is the cause running?"
+  }, {
+    label: "Lucky socks",
+    icon: "\uD83E\uDDE6",
+    claim: "A high school basketball player wears unwashed neon socks for one game and scores a career-high 30 points. He decides: \"These socks give me magic shooting powers.\"",
+    options: [
+      { label: "The socks may have boosted his confidence, which actually helped his shooting.", correct: false, feedback: "Confidence is real, but that\u2019s not the claim. He\u2019s not saying \u2018these socks made me feel calm.\u2019 He\u2019s saying they have magic powers. And from one game, you can\u2019t tell whether the socks did anything at all. Maybe he had a great night for ten other reasons. To know, you\u2019d need many games with and without." },
+      { label: "One great game isn\u2019t a pattern. Plenty of things went right that night, and the socks were just one of them.", correct: true, feedback: "Right. A single event proves nothing. He might have slept well, eaten right, played a weaker defender, and gotten lucky on a few shots. The socks were one of a hundred variables that night. Crowning any single one as \u2018the cause\u2019 just because the night went well is exactly the trap." },
+      { label: "His teammates probably played better too, so the socks didn\u2019t really matter.", correct: false, feedback: "Maybe, but that\u2019s not the real issue. Even if his teammates played the exact same and HE played great, one game still wouldn\u2019t prove the socks did anything. The problem is the sample size: one. You can\u2019t draw a conclusion from a single data point, lucky socks or not." }
+    ],
+    reality: "He had a career night. So did a lot of variables: sleep, food, the defender he was matched against, the shots that happened to fall. Calling the socks the cause is picking one variable out of many and crowning it. One game can\u2019t prove anything caused anything.",
+    lesson: "One event isn\u2019t a pattern. Before you call something \u2018the cause,\u2019 ask: how many times did this happen? What else changed? A single coincidence is just a coincidence."
+  }, {
+    label: "95% of members",
+    icon: "\uD83D\uDCAA",
+    claim: "A gym\u2019s ad: \"95% of our members are in peak physical condition. Join us and get fit!\"",
+    options: [
+      { label: "The 95% number is suspicious. Real studies don\u2019t get results that clean.", correct: false, feedback: "95% might be totally accurate. The deeper issue isn\u2019t whether the number is real, it\u2019s what the number actually means. Even if 95% of current members are fit, that doesn\u2019t mean the gym made them fit." },
+      { label: "Most gym members get fit eventually, so the percentage is probably accurate.", correct: false, feedback: "Even if the 95% is accurate, it doesn\u2019t prove the gym is what made anyone fit. People who aren\u2019t getting fit tend to quit. People who are already fit tend to stay. The 95% measures who\u2019s left, not who the gym transformed." },
+      { label: "Fit people are the ones who stay members. Joining doesn\u2019t make you fit, it\u2019s the other way around.", correct: true, feedback: "Right. This is selection bias. The gym counts its current members, not everyone who ever joined. People who fall off the wagon quit. People who are already fit keep paying. The 95% is real, but it measures who self-selected to stay, not who the gym transformed. Same trap shows up everywhere: Ivy League grads earn more (yeah, because Ivy League takes the kids who\u2019d earn more anyway)." }
+    ],
+    reality: "The 95% probably IS accurate. But the gym is measuring its current members, not everyone who ever joined. The people who weren\u2019t getting fit got frustrated and quit. The people who are fit kept paying. The number measures who self-selected to stay, not who got transformed.",
+    lesson: "Watch out for stats that only count who\u2019s left. The sample is filtered. Always ask: who got measured, and who got left out?"
   }];
   const ex101 = CT_101[active101] || CT_101[CT_101.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned how LLMs work, what shapes their output, and when they go wrong. Now here\u2019s the skill that ties it all together: ", /*#__PURE__*/React.createElement("strong", null, "critical thinking"), ". AI makes you faster at both good work and bad work. The difference is whether you think about the output or just accept it."),
-  /*#__PURE__*/React.createElement(BodyP, null, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these before revealing the answer."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking is the habit of not taking information at face value. It is the process of actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
+  /*#__PURE__*/React.createElement(BodyP, null, "This isn\u2019t a new skill. You already use it every day. Use your critical thinking skills to see if you can spot the problem in each of these scenarios."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -7785,7 +7820,7 @@ function CriticalThinkingSection(props) {
         style: { padding: "20px 0", textAlign: "center" }
       },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\u2705"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "All five problems spotted."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "All eight problems spotted."),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Same instinct works on AI output. The model sounds confident either way. Your job is to check what it\u2019s claiming."))
     },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
@@ -7803,8 +7838,71 @@ function CriticalThinkingSection(props) {
         picked: problemAnswer != null ? problemAnswer : undefined,
         onAnswer: function(idx) { setProblemAnswer(idx); }
       }))),
+  /*#__PURE__*/React.createElement("div", { style: { height: 10 } }),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "There are five habits that separate students who use AI well from students who let it use them. See if you can spot the issue in each scenario before revealing the analysis."),
+    "There are five habits you can build to sharpen your critical thinking with AI."),
+  (function() {
+    var HABITS_OVERVIEW = [
+      { id: "question", icon: "\u2753", label: "Question the Output", lead: "Your first instinct: is this actually right?", detail: "AI sounds confident whether the answer is correct or not. Smooth writing isn't proof." },
+      { id: "unknowns", icon: "\uD83E\uDDD0", label: "Know Your Limits", lead: "If you can't evaluate it, you're flying blind.", detail: "The further the topic is from what you know, the more carefully you have to verify. That's exactly when AI feels most authoritative." },
+      { id: "automation", icon: "\uD83E\uDD16", label: "Don't Auto-Trust It", lead: "Confident isn't the same as correct.", detail: "Polished output triggers a 'must be right' reflex. That's a bias, not a verdict." },
+      { id: "tool", icon: "\uD83D\uDD28", label: "Keep Ownership", lead: "You decide what to keep, change, or toss.", detail: "AI generates options. The thinking, the call, and the consequences are yours." },
+      { id: "source", icon: "\uD83D\uDCDA", label: "Check Sources", lead: "AI invents citations. Always check.", detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don't know which without verifying." }
+    ];
+    var renderHabitCard = function(habit, i, totalShown, animateLast) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: habit.id,
+        style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === totalShown - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--seeRule)", animation: animateLast && i === totalShown - 1 ? "fadeIn 0.3s ease" : "none" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, habit.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, habit.label)),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, habit.lead),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, habit.detail)));
+    };
+    return /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "The 5 Habits",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(habitsRevealed, HABITS_OVERVIEW.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + HABITS_OVERVIEW.length))
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "sand",
+        items: HABITS_OVERVIEW,
+        currentIdx: habitsRevealed > 0 ? habitsRevealed - 1 : 0,
+        started: habitsRevealed > 0,
+        onStart: function() { setHabitsRevealed(1); },
+        onNext: function() { setHabitsRevealed(function(s) { return s + 1; }); },
+        canAdvance: true,
+        isComplete: habitsRevealed >= HABITS_OVERVIEW.length,
+        startLabel: "See First Habit \u2193",
+        nextLabel: "Next Habit \u2193",
+        finishLabel: "All five habits \u2193",
+        completionElement: /*#__PURE__*/React.createElement("div", {
+          style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+            HABITS_OVERVIEW.map(function(habit, i) {
+              return renderHabitCard(habit, i, HABITS_OVERVIEW.length, false);
+            })))
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+            HABITS_OVERVIEW.slice(0, habitsRevealed).map(function(habit, i) {
+              return renderHabitCard(habit, i, habitsRevealed, true);
+            })))));
+  }()),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "See if you can spot the issue in each scenario before revealing the analysis."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -7872,10 +7970,6 @@ function CriticalThinkingSection(props) {
         picked: habitAnswer != null ? habitAnswer : undefined,
         onAnswer: function(idx) { setHabitAnswer(idx); }
       }))),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 18px", marginTop: 28, marginBottom: 20, border: "1px solid var(--rule)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 } }, "Callback"),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", lineHeight: 1.7, fontSize: 14, margin: 0 } },
-      "Models can also inherit bias from their training data. You saw earlier that AI reflects whatever patterns are in what it was trained on, including the gaps. Your critical thinking sits on top of that, but the mechanism starts inside the model.")),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitAnswer !== null || problemAnswer !== null, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }

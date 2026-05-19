@@ -6721,6 +6721,18 @@ function ModelSelectionSection(props) {
   var big3TitleRefs = useRef([]);
   var big3CardRefs = useRef([]);
   var _big3ps = useState(null), big3Paths = _big3ps[0], setBig3Paths = _big3ps[1];
+  var philContainerRef = useRef(null);
+  var philTitleRefs = useRef([]);
+  var philCardRefs = useRef([]);
+  var _philps = useState(null), philPaths = _philps[0], setPhilPaths = _philps[1];
+  var bestForContainerRef = useRef(null);
+  var bestForTitleRefs = useRef([]);
+  var bestForCardRefs = useRef([]);
+  var _bestForps = useState(null), bestForPaths = _bestForps[0], setBestForPaths = _bestForps[1];
+  var _philrs = useState({}), philRevealed = _philrs[0], setPhilRevealed = _philrs[1];
+  var revealPhil = function(i) { setPhilRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  var _bestForrs = useState({}), bestForRevealed = _bestForrs[0], setBestForRevealed = _bestForrs[1];
+  var revealBestFor = function(i) { setBestForRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
       var c = big3ContainerRef.current;
@@ -6739,43 +6751,42 @@ function ModelSelectionSection(props) {
     window.addEventListener("resize", calc);
     return function() { window.removeEventListener("resize", calc); };
   }, []);
-  const FAILURE_STYLES = [{
-    icon: "\uD83E\uDD17",
-    name: "Too agreeable",
-    desc: "Smooths over your weak idea and makes it sound better than it is. Drifts toward whatever you seem to want.",
-    watch: "Watch for this when you\u2019re hoping to be told you\u2019re right. Ask for the weak spots, not the verdict."
-  }, {
-    icon: "\u26A0\uFE0F",
-    name: "Too cautious",
-    desc: "Over-warns, over-qualifies, or refuses when help is actually possible. Hedges everything.",
-    watch: "Watch for this when the answer keeps adding caveats and won\u2019t commit. Ask for its best guess and what would change it."
-  }, {
-    icon: "\u27A1\uFE0F",
-    name: "Too direct",
-    desc: "Accepts your framing and runs with it without challenging the premise. Fast and confident, even when the question itself is flawed.",
-    watch: "Watch for this when your question has a wrong assumption baked in. Ask if the question itself is the right one."
-  }, {
-    icon: "\uD83D\uDD0D",
-    name: "Too search-dependent",
-    desc: "Repeats whatever the current web or search results emphasize. Inherits the bias of whatever\u2019s trending.",
-    watch: "Watch for this when the answer just summarizes what\u2019s popular online. Ask for sources and check the dates."
-  }];
-  const MODELS = [{
-    name: "Claude", maker: "Anthropic", color: "#d97706",
-    strength: "Best at long documents, careful reasoning, and nuanced writing. Most precise at following complex instructions. Honest about uncertainty.",
-    weakness: "Smaller third-party ecosystem than ChatGPT.",
-    bestFor: "Analysis, research, long-form writing, tasks where accuracy matters most."
-  }, {
-    name: "ChatGPT", maker: "OpenAI", color: "#10b981",
-    strength: "Most versatile, widest range of integrations, strong at creative tasks and coding. Largest ecosystem of third-party tools built around it.",
-    weakness: "Can be overconfident, quality varies by version.",
-    bestFor: "Brainstorming, coding, everyday varied tasks, anything needing third-party integrations."
-  }, {
-    name: "Gemini", maker: "Google", color: "#3b82f6",
-    strength: "Best real-time web access and Google Workspace integration. Strong at multimodal tasks combining images, documents, and search.",
-    weakness: "Reasoning depth generally trails Claude and ChatGPT on complex analysis.",
-    bestFor: "Current events, research requiring live data, anything in the Google ecosystem."
-  }];
+  useEffect(function() {
+    function calc() {
+      var c = philContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 3; i++) {
+        var t = philTitleRefs.current[i], d = philCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setPhilPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
+  useEffect(function() {
+    function calc() {
+      var c = bestForContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 3; i++) {
+        var t = bestForTitleRefs.current[i], d = bestForCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setBestForPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
   const SCENARIOS = [{
     prompt: "You need to summarize a 60-page research report and pull out the key arguments.",
     options: [
@@ -6876,26 +6887,185 @@ function ModelSelectionSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, p.desc)));
           }))));
   }()),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Which Product Is Best?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The best product is the one that fits the job. Most people just use whatever they opened last. Here\u2019s how to actually choose."),
-  /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" } },
-    MODELS.map((m, i) => /*#__PURE__*/React.createElement("div", {
-      key: i, style: { flex: 1, minWidth: 200, background: "var(--bg)", borderRadius: 12, padding: "18px 16px", border: "2px solid " + m.color + "33" }
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both make cheeseburgers. They taste different because the ingredients are different. Walking into each one feels different too."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The big three LLM products work the same way. They\u2019re all Generative AI, but the companies behind them use different ingredients and train them differently."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Those training choices shape everything: how the product feels to use, what it\u2019s good at, and what it gets wrong. Underneath, each one is built around a different core philosophy."),
+  (function() {
+    var PHILOSOPHIES = [
+      {
+        label: "ChatGPT",
+        tagline: "The Anything Box",
+        body: "Built as one AI app for everything, rather than separate tools for different tasks. Writing, coding, brainstorming, voice, images, all in one place.",
+        asks: "OpenAI asks: How do we put the most capable AI in everyone\u2019s hands?",
+        color: "#10b981"
+      },
+      {
+        label: "Claude",
+        tagline: "The Thinking Partner",
+        body: "Trained around an explicit set of principles about what to do and what not to do. Built to think problems through with you, not just hand you the fastest answer.",
+        asks: "Anthropic asks: How do we build powerful AI we can actually trust?",
+        color: "#8b5cf6"
+      },
+      {
+        label: "Gemini",
+        tagline: "Built Into Everything",
+        body: "Works across Search, Gmail, Docs, YouTube, and Android, with live access to today\u2019s web. Its edge is context: what you\u2019re working on, what\u2019s happening right now.",
+        asks: "Google asks: How do we put AI inside everything you already use?",
+        color: "#3b82f6"
+      }
+    ];
+    return /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "Three theories of AI"
     },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 18, color: m.color, marginBottom: 2 } }, m.name),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginBottom: 12 } }, m.maker),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--ink)", lineHeight: 1.5, marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("strong", null, "Strength: "), m.strength),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--ink)", lineHeight: 1.5, marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("strong", null, "Best for: "), m.bestFor),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--red)", lineHeight: 1.5 } },
-        /*#__PURE__*/React.createElement("strong", null, "Weakness: "), m.weakness)
-    ))
-  ),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18, marginBottom: 18 } },
-    "\uD83D\uDCA1 Each company releases new versions regularly: the names change, but the philosophies don\u2019t. These strengths reflect each company\u2019s priorities, not just their current version. Check their websites for current model names."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Match the right model to the job. Four scenarios. Pick which one fits each best."),
+      /*#__PURE__*/React.createElement("div", {
+        ref: philContainerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+        },
+          PHILOSOPHIES.map(function(p, i) {
+            var isRevealed = !!philRevealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { philTitleRefs.current[i] = el; },
+              onClick: function() { revealPhil(i); },
+              style: { color: p.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, p.label);
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        philPaths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          philPaths.map(function(p, i) {
+            if (!philRevealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: PHILOSOPHIES[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12, alignItems: "stretch" }
+        },
+          PHILOSOPHIES.map(function(p, i) {
+            var isRevealed = !!philRevealed[i];
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              ref: function(el) { philCardRefs.current[i] = el; },
+              style: { flex: 1, display: "flex" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 18, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, display: "flex", flexDirection: "column", flex: 1, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 4 } }, p.label),
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 } }, p.tagline),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12, flex: 1 } }, p.body),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5, paddingTop: 10, borderTop: "1px solid var(--rule)" } }, p.asks)
+              ));
+          }))));
+  }()),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Which product is best?"),
+  /*#__PURE__*/React.createElement(BodyP, null, "The best product is the one that fits the job. Most people just use whatever they opened last."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context. Here\u2019s what each one does best."),
+  (function() {
+    var BEST_FOR = [
+      {
+        label: "ChatGPT",
+        color: "#10b981",
+        items: ["Brainstorming", "Coding", "Everyday varied tasks", "Anything needing third-party integrations"],
+        weakness: "Can be overconfident, quality varies by version."
+      },
+      {
+        label: "Claude",
+        color: "#8b5cf6",
+        items: ["Analysis", "Research", "Long-form writing", "Tasks where accuracy matters most"],
+        weakness: "Smaller third-party ecosystem than ChatGPT."
+      },
+      {
+        label: "Gemini",
+        color: "#3b82f6",
+        items: ["Current events", "Research requiring live data", "Anything in the Google ecosystem"],
+        weakness: "Reasoning depth generally trails Claude and ChatGPT on complex analysis."
+      }
+    ];
+    return /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "What each one is built for"
+    },
+      /*#__PURE__*/React.createElement("div", {
+        ref: bestForContainerRef,
+        style: { position: "relative" }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+        },
+          BEST_FOR.map(function(p, i) {
+            var isRevealed = !!bestForRevealed[i];
+            return /*#__PURE__*/React.createElement("span", {
+              key: i,
+              ref: function(el) { bestForTitleRefs.current[i] = el; },
+              onClick: function() { revealBestFor(i); },
+              style: { color: p.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+            }, p.label);
+          })),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        bestForPaths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          bestForPaths.map(function(p, i) {
+            if (!bestForRevealed[i]) return null;
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: BEST_FOR[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 12, alignItems: "stretch" }
+        },
+          BEST_FOR.map(function(p, i) {
+            var isRevealed = !!bestForRevealed[i];
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              ref: function(el) { bestForCardRefs.current[i] = el; },
+              style: { flex: 1, display: "flex" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { background: "var(--card)", borderRadius: 10, padding: 18, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, display: "flex", flexDirection: "column", flex: 1, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 10 } }, p.label),
+                /*#__PURE__*/React.createElement("ul", {
+                  style: { listStyle: "none", padding: 0, margin: "0 0 12px 0", flex: 1 }
+                },
+                  p.items.map(function(item, j) {
+                    return /*#__PURE__*/React.createElement("li", {
+                      key: j,
+                      style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 6, paddingLeft: 18, position: "relative" }
+                    },
+                      /*#__PURE__*/React.createElement("span", {
+                        style: { position: "absolute", left: 0, top: 0, color: p.color, fontWeight: 700 }
+                      }, "\u2713"),
+                      item);
+                  })
+                ),
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontSize: 12, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5, paddingTop: 10, borderTop: "1px solid var(--rule)" }
+                }, p.weakness)
+              ));
+          }))));
+  }()),
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 24 } },
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Match the right model to the job. Four scenarios. Pick which one fits each best.")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -6938,30 +7108,13 @@ function ModelSelectionSection(props) {
         picked: scenarioAnswer != null ? scenarioAnswer : undefined,
         onAnswer: function(idx) { setScenarioAnswer(idx); }
       }))),
-  /*#__PURE__*/React.createElement("div", { style: { marginTop: 48 } },
-    /*#__PURE__*/React.createElement(SectionKicker, null, "HOW AI TENDS TO FAIL YOU")
+  /*#__PURE__*/React.createElement("div", { style: { marginTop: 24 } },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT SHOULD YOU DO?")
   ),
-  /*#__PURE__*/React.createElement(BodyP, null, "Different products aren\u2019t just better or worse at things. They\u2019re trained differently, so they fail differently. Knowing the failure shape matters more than knowing the rankings, because rankings shift every few months."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here are four shapes of failure. Each one is a way an AI can let you down even when it sounds confident."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }
-    }, FAILURE_STYLES.map(function(fs, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: 18 }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, fs.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)" } }, fs.name)),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } }, fs.desc),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 12px", fontSize: 13, color: "var(--ink)", lineHeight: 1.55, fontWeight: 600 } }, fs.watch));
-    }))
-  ),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Why no rankings?" },
-    "The model that\u2019s most agreeable today might get retrained tomorrow. The companies update these tools constantly. The failure shapes are durable. The leaderboard isn\u2019t."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Two things to keep in mind. First, all three products are improving fast. The one that ranks best today might not next year, or even next month. Companies update these tools constantly."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Second, they\u2019re all great. The strengths and weaknesses we talked about are real, but the gap is smaller than the marketing wants you to think. Any of these will handle most of what you ask of them."),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Pick one and get good at it." },
+    "Spend enough time with one product that you know how it answers, where it shines, and where it lets you down. You\u2019ll learn more from going deep with one than from skipping between three. Once you know one well, you can branch out when a specific job calls for it."),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("choosemodel"), label: "Next: Choosing the Model" }));
 }

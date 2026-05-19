@@ -7119,37 +7119,96 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("choosemodel"), label: "Next: Choosing the Model" }));
 }
 function ChoosingModelSection(props) {
+  const [tiersRevealed, setTiersRevealed] = useState(0);
   var TIERS = [{
     tier: "Flagship", examples: "e.g. Claude Opus, GPT-4o, Gemini Pro",
     capability: 100, speed: 40, cost: 100,
     desc: "Use when the task is hard: analyzing a research paper, debugging complex code, writing something that needs real nuance. Slowest and most expensive, but noticeably better on difficult problems."
   }, {
-    tier: "Mid-tier", examples: "e.g. Claude Sonnet, GPT-4o mini",
+    tier: "Workhorse", examples: "e.g. Claude Sonnet, GPT-4o mini",
     capability: 70, speed: 75, cost: 50,
     desc: "Your everyday default. Good enough for most schoolwork, drafting, summarizing, and explaining concepts. Best balance of quality, speed, and cost."
   }, {
-    tier: "Fast / Light", examples: "e.g. Claude Haiku, Gemini Flash",
+    tier: "Fast", examples: "e.g. Claude Haiku, Gemini Flash",
     capability: 40, speed: 100, cost: 15,
     desc: "Use for simple tasks: reformatting notes, quick lookups, translating a sentence, generating a list. Fast and cheap, but shallow on anything complex."
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You picked the product: Claude, ChatGPT, or Gemini. Now you need to pick the model. Each product offers multiple models that trade off capability, speed, and cost. Picking the right one for the task makes a real difference."),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 20 } },
-      TIERS.map(function(t, i) { return /*#__PURE__*/React.createElement("div", {
-        key: i, style: { background: "var(--bg)", borderRadius: 12, padding: "16px 18px", border: "1px solid var(--rule)" }
+      "You picked the product. Now you need to pick the model."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Each product isn\u2019t just one AI. It\u2019s a family of them. Same company, same philosophy, but different sizes built for different jobs."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Inside a family, the models aren\u2019t the same brain dialed up or down. They\u2019re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Bigger models think harder and write with more nuance, but they cost more and run slower. Smaller models answer fast and cheap, but they hit a ceiling on what they can figure out. You match the model to the job."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "Three tiers",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 2 } }, t.tier),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginBottom: 12 } }, t.examples),
-        [["Capability", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Cost", t.cost, "#f59e0b"]].map(function(arr) {
-          return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 70, flexShrink: 0 } }, arr[0]),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
-              /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
-            ));
-        }),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, marginTop: 8 } }, t.desc)); })),
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(tiersRevealed, TIERS.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TIERS.length))
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "sand",
+        items: TIERS,
+        currentIdx: tiersRevealed > 0 ? tiersRevealed - 1 : 0,
+        started: tiersRevealed > 0,
+        onStart: function() { setTiersRevealed(1); },
+        onNext: function() { setTiersRevealed(function(s) { return s + 1; }); },
+        canAdvance: true,
+        isComplete: tiersRevealed >= TIERS.length,
+        startLabel: "See Flagship",
+        nextLabel: "Next Tier \u2193",
+        finishLabel: "See the trade-off \u2193",
+        completionElement: /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+              TIERS.map(function(t, i) {
+                return /*#__PURE__*/React.createElement("div", {
+                  key: i,
+                  style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === TIERS.length - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--seeRule)" }
+                },
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", fontSize: 17, marginBottom: 2 } }, t.tier),
+                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginBottom: 12 } }, t.examples),
+                    [["Capability", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Cost", t.cost, "#f59e0b"]].map(function(arr) {
+                      return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                        /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 70, flexShrink: 0 } }, arr[0]),
+                        /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
+                          /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
+                        ));
+                    }),
+                    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginTop: 10 } }, t.desc)));
+              }))),
+          /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0 0", textAlign: "center" } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Three tiers, three trade-offs. The job is matching the right one to the task.")))
+      },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+            TIERS.slice(0, tiersRevealed).map(function(t, i) {
+              return /*#__PURE__*/React.createElement("div", {
+                key: i,
+                style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === tiersRevealed - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--seeRule)", animation: i === tiersRevealed - 1 ? "fadeIn 0.3s ease" : "none" }
+              },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+                /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", fontSize: 17, marginBottom: 2 } }, t.tier),
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginBottom: 12 } }, t.examples),
+                  [["Capability", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Cost", t.cost, "#f59e0b"]].map(function(arr) {
+                    return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                      /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 70, flexShrink: 0 } }, arr[0]),
+                      /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
+                        /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
+                      ));
+                  }),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginTop: 10 } }, t.desc)));
+            }))))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Most people never switch models." },
       "Same tier for a quick reformat and a complex essay \u2014 overpaying for simple tasks and underpowering hard ones. Start with the strongest model and dial back if it\u2019s too slow or expensive. The names change often. The tiers stay."),
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 48 } },

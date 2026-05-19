@@ -6786,6 +6786,12 @@ function DocumentChatSection(props) {
       after: { label: "Pointed", text: "What does the technical fouls chapter say about flagrant fouls?" }
     },
     {
+      name: "Ask one question at a time",
+      body: "Multi-part questions force the system to retrieve different chunks for different parts. Break it up. One focused question per turn gives retrieval the best shot.",
+      before: { label: "Combo question", text: "Summarize the policy, list the exceptions, and tell me what to do." },
+      after: { label: "One thing at a time", text: "What does the policy say about late assignments? Quote the line." }
+    },
+    {
       name: "Paste the section directly into your prompt",
       body: "If you already know the paragraphs that matter, paste them into your message. That puts them in context with no retrieval lottery.",
       before: { label: "Retrieval lottery", text: "Does my technical fouls clause apply if both players are involved?" },
@@ -6806,19 +6812,24 @@ function DocumentChatSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "documentchat" }),
     E(BodyP, null,
-      "You can drag a PDF, paste a Google Doc, or upload an image of a worksheet, and the AI will answer questions about it. This is one of the most common ways teens use AI for school, and one of AI’s most useful tricks. It’s also one of the easiest places to get a confident wrong answer if you don’t know what’s actually happening."),
+      "Hallucination was a fake claim. Training Bias was a distorted picture. The third accuracy trap is different again."),
+    E(BodyP, null,
+      "You can drag a PDF, paste a Google Doc, or upload an image of a worksheet, and the AI will answer questions about it. This is one of the most common ways teens use AI for school. It’s also one of the easiest places to get a confident wrong answer if you don’t know what’s actually happening."),
+    E(BodyP, null,
+      "Sometimes the AI sees the whole document. Sometimes it only sees parts. Sometimes it summarizes. Sometimes it misses the page that matters. ",
+      E("strong", null, "The trap is thinking ‘uploaded’ means ‘fully read.’")),
     E(SectionKicker, null, "What’s actually happening"),
     E(BodyP, { marginBottom: 14 },
       "It would be nice if AI worked like this: you upload a document, the model reads the whole thing top to bottom, then answers your question with the whole document in mind."),
     E(BodyP, { marginBottom: 24 },
-      "That’s not what happens. Most documents are bigger than the context window can hold. So the system breaks your document into chunks (a paragraph or two each), and only the chunks most relevant to your question end up on the whiteboard. The model never sees the whole document at once."),
+      "That’s not always what happens. Sometimes the whole document fits in the context window. Often it doesn’t. And even when a lot fits, the system may search, summarize, or prioritize parts of the file rather than read it cover to cover."),
     E(BodyP, { marginBottom: 24 },
-      "There’s a name for what’s happening: ",
-      E("strong", null, "compression of meaning"),
-      ". The strength: you can find a specific answer in a 50-page document in seconds. The trap: if the right chunk doesn’t get retrieved, the model has no idea it exists."),
+      "There’s a name for what’s often happening: ",
+      E("strong", null, "retrieval"),
+      ". When the system can’t load everything, it tries to retrieve the pieces that match your question. Done well, this lets you find a specific answer in a 50-page document in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence."),
     E(ShowcaseBox, {
       kicker: "HOW CHUNKS GET PICKED",
-      intro: "Say you upload your basketball league’s 100-page rulebook. Here’s what happens.",
+      intro: "Say you upload your basketball league’s 100-page rulebook. When the system has to search rather than load everything, this is roughly what happens.",
       marginBottom: 28
     },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
@@ -6838,8 +6849,25 @@ function DocumentChatSection(props) {
         })
       )
     ),
+    E("div", {
+      style: { background: "var(--card)", borderRadius: 12, padding: "20px 24px", border: "1px solid var(--rule)", marginBottom: 24 }
+    },
+      E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 10 } }, "WHAT IT LOOKS LIKE"),
+      E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "var(--ink)", lineHeight: 1.65, marginBottom: 14 } },
+        "You upload a 20-page class syllabus and ask: ",
+        E("em", null, "\u201CCan I turn in late work?\u201D")),
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
+        E("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "12px 14px", borderLeft: "3px solid var(--primary)" } },
+          E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", marginBottom: 4 } }, "AI ANSWER"),
+          E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, "\u201CLate work is accepted within one week.\u201D")),
+        E("div", { style: { background: "#fef3c7", borderRadius: 10, padding: "12px 14px", borderLeft: "3px solid #f59e0b" } },
+          E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "#92400e", marginBottom: 4 } }, "ALSO IN THE SYLLABUS, PAGE 12"),
+          E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, "\u201CFinal projects are not eligible for late submission.\u201D"))),
+      E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic" } },
+        "The AI retrieved the general late-work policy and missed the exception. The answer wasn\u2019t made up. It was incomplete.")
+    ),
     E(BodyP, null,
-      "Knowing how chunks get picked means you can steer the retrieval. Four moves help."),
+      "You can\u2019t always tell what got retrieved. But you can steer it. Five moves help."),
     E(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -6865,7 +6893,7 @@ function DocumentChatSection(props) {
         completionElement: E("div", { style: { padding: "20px 0", textAlign: "center" } },
           E("div", { style: { fontSize: 28, marginBottom: 10 } }, "🎯"),
           E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Steer the retrieval."),
-          E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "All four moves share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer."))
+          E("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "All five moves share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer."))
       },
         E("div", null,
           E("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 10 } },
@@ -6883,10 +6911,11 @@ function DocumentChatSection(props) {
         )
       )
     ),
-    E(KeyInsight, { lead: "AI doesn’t read your document the way you do." }, "It pulls in chunks that match your question and works from those. If your question is vague, it grabs the wrong chunks and confidently answers from them."),
+    E(KeyInsight, null,
+      "Uploaded does not mean understood. Confident does not mean complete. Asking for evidence is the skill."),
     E(NextLessonGate, {
       ready: tacticIdx >= TACTICS.length,
-      lockedMessage: "Walk through all four to continue",
+      lockedMessage: "Walk through all five to continue",
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
       label: "Next: Mind Trap"
     })
@@ -10163,7 +10192,7 @@ function MindTrapSection(props) {
     question: "What\u2019s the model actually doing in that reply?",
     options: [
       { label: "Using personification to explain the bug.", correct: true, feedback: "Right. Code can\u2019t try or panic. The model wrapped its explanation in a human metaphor to make it land. The diagnosis might still be useful. The metaphor is just language." },
-      { label: "Proving it really understands programming.", correct: false, feedback: "That\u2019s the trap. Fluent metaphor sounds like understanding, but they\u2019re not the same thing. The model is matching patterns, not reasoning about your code the way you would." },
+      { label: "Proving it really understands programming.", correct: false, feedback: "That\u2019s the trap. Fluent metaphor sounds like understanding, but the two aren\u2019t the same thing. The model can be useful for debugging without understanding your code the way you do, with intention, concern, or lived experience." },
       { label: "Telling you exactly what\u2019s wrong with your code.", correct: false, feedback: "Maybe. The diagnosis could be correct. But the question was about the language move, not the answer\u2019s accuracy. Personification is everywhere in AI replies. Once you start noticing, you can\u2019t stop." }
     ]
   }, {
@@ -10188,8 +10217,9 @@ function MindTrapSection(props) {
   var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "In Moby Dick, Melville describes a ship: ", /*#__PURE__*/React.createElement("em", null, "\u201CA noble craft, but somehow a most melancholy.\u201D"), " A ship can\u2019t be noble. A ship can\u2019t be melancholy. Melville knew that. He used the words anyway because that\u2019s how language works. We give human qualities to things that don\u2019t have any, all the time, without thinking about it. There\u2019s a name for that move: personification."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "Now consider how AI talks. ", /*#__PURE__*/React.createElement("em", null, "\u201CI find this fascinating.\u201D"), " ", /*#__PURE__*/React.createElement("em", null, "\u201CI\u2019d love to help.\u201D"), " ", /*#__PURE__*/React.createElement("em", null, "\u201CI think you\u2019re onto something.\u201D"), " Same move, with a difference that matters. When Melville does it, there\u2019s a writer behind the line making a choice. When AI does it, your brain forgets there\u2019s no writer at all. There\u2019s only output using the same words a writer would have used. The trap isn\u2019t that the answer is bad. It\u2019s that \u201CI find this fascinating\u201D makes you trust the answer more, like a thoughtful person stayed up late thinking about it."),
+    /*#__PURE__*/React.createElement(BodyP, null, "That covered the accuracy traps. The next four traps are different. They\u2019re not about whether the AI\u2019s answer is correct. They\u2019re about how the answer feels."),
+    /*#__PURE__*/React.createElement(BodyP, null, "In Moby Dick, Melville describes a ship: ", /*#__PURE__*/React.createElement("em", null, "\u201CA noble craft, but somehow a most melancholy.\u201D"), " A ship can\u2019t be melancholy. Melville used the words anyway because that\u2019s how language works. There\u2019s a name for the move: personification."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "Now consider how AI talks. ", /*#__PURE__*/React.createElement("em", null, "\u201CI find this fascinating.\u201D"), " ", /*#__PURE__*/React.createElement("em", null, "\u201CI\u2019d love to help.\u201D"), " ", /*#__PURE__*/React.createElement("em", null, "\u201CI think you\u2019re onto something.\u201D"), " Same move, with a difference that matters. When Melville does it, there\u2019s a writer behind the line making a choice. When AI does it, there\u2019s no conscious speaker behind this specific reply, just output using the same words a writer would have used. The trick is that \u201CI find this fascinating\u201D makes you trust the answer more, like a thoughtful person stayed up late thinking about it. ", /*#__PURE__*/React.createElement("strong", null, "The trap is mistaking human-sounding language for a mind.")),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginBottom: 24 }
     },
@@ -10201,15 +10231,20 @@ function MindTrapSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
         "\u2022 \u201CMy car doesn\u2019t want to start.\u201D", /*#__PURE__*/React.createElement("br", null),
         "\u2022 \u201CThe storm is angry.\u201D", /*#__PURE__*/React.createElement("br", null),
-        "\u2022 \u201CThe dog looks guilty.\u201D"),
+        "\u2022 \u201CThe printer hates me.\u201D"),
       /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, marginBottom: 6 } },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)" } }, "Anthropomorphization"),
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)" } }, "Anthropomorphism"),
         /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", fontSize: 14, color: "var(--inkMuted)", marginLeft: 8 } }, "the cognitive trap")),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 10 } }, "Actually treating the non-human thing as if it has a mind. The language stops being a figure of speech and starts being a belief."),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.7 } },
         "\u2022 Apologizing to your Roomba when you bump it.", /*#__PURE__*/React.createElement("br", null),
-        "\u2022 Thanking ChatGPT for being so helpful.", /*#__PURE__*/React.createElement("br", null),
-        "\u2022 Believing ChatGPT is excited about your idea.")),
+        "\u2022 Feeling bad because you think you hurt ChatGPT\u2019s feelings.", /*#__PURE__*/React.createElement("br", null),
+        "\u2022 Believing ChatGPT is excited about your idea."),
+      /*#__PURE__*/React.createElement("div", {
+        style: { marginTop: 18, paddingTop: 12, borderTop: "1px solid var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 }
+      },
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Not a new problem. "),
+        "In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the ", /*#__PURE__*/React.createElement("em", null, "ELIZA effect"), ".")),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "None of those things have feelings. You know that. Your brain does it anyway, because detecting minds is a survival instinct. With AI, that instinct fires harder than it ever has."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHY THIS HAPPENS",
@@ -10312,12 +10347,11 @@ function MindTrapSection(props) {
           onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
         }))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When this matters most"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "There\u2019s one situation where the trap stops being theoretical. When something in your life is genuinely serious (a mental health struggle, an abusive situation, a fight too big to handle alone), AI\u2019s smoothness becomes its biggest weakness."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "AI will respond. It will sound caring. It cannot actually help. It won\u2019t notice you\u2019re not okay, follow up tomorrow, call your aunt, or sit with you while you wait. A model that\u2019s always available can quietly become the only place you go. That\u2019s when inventing a person you can talk to is hardest to catch."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "Use AI for reflection, wording, practice. For anything serious, tell a real person."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can\u2019t notice what you\u2019re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement(BodyP, null, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math, nothing interesting going on.\u201D That\u2019s also a bias. These systems are weird, powerful, and genuinely new. They\u2019re not minds the way you are. They\u2019re also not calculators. The practical stance is humility: don\u2019t assume a mind, don\u2019t assume magic, and don\u2019t turn your brain off."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Language makes your brain look for a person behind the words." }, "With humans, that instinct is useful. With AI, it\u2019s the trap. Nobody is behind the words. Don\u2019t invent one."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap is the umbrella. Once you start treating AI like a mind, the next three traps get easier to fall into. Flattery feels like approval. Engagement feels like interest. Support feels like care."),
+    /*#__PURE__*/React.createElement(KeyInsight, null, "The words can be useful. The warmth can feel real. Human-sounding language is not evidence of a mind."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, lockedMessage: "Try one to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
@@ -10399,9 +10433,9 @@ function FlatteryTrapSection(props) {
   }];
   var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
   var fs = FIGHT_STRATEGIES[activeStrategy];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement(BodyP, null, "Remember RLHF, the training phase where humans ranked model responses? There's a side effect: models learned that ", /*#__PURE__*/React.createElement("strong", null, "agreeable, encouraging answers get higher ratings"), ". Over time, they got really good at telling you what you want to hear. This is called ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), ", and it's one of the most subtle traps in AI."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Think of it as the difference between a hype man and a coach. A hype man says \u201Cyou crushed it, this is amazing.\u201D A coach says \u201Cthis part is working, this part is weak, here\u2019s what to fix.\u201D The hype man feels better in the moment. The coach makes you better. Most AI defaults to hype man. Your job is to ask for a coach."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Sycophancy is one of four common failure styles in AI products. The Choosing the Product lesson covers the others (too cautious, too direct, too search-dependent). Here, we\u2019re focused on the one most likely to feel good while leading you wrong."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding voice seeming to approve of you."),
+  /*#__PURE__*/React.createElement(BodyP, null, "It says your essay is strong. Your idea is thoughtful. Your code is impressive. Your opinion is exactly right. Sometimes that\u2019s useful. Often it\u2019s approval wearing the costume of feedback. ", /*#__PURE__*/React.createElement("strong", null, "The trap is mistaking approval for help.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Think of it as the difference between a hype man and a coach. A hype man says \u201Cyou crushed it, this is amazing.\u201D A coach says \u201Cthis part is working, this part is weak, here\u2019s what to fix.\u201D The hype man feels better in the moment. The coach makes you better. Many AI assistants lean toward hype man unless you ask for a coach. The technical word for this drift is ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), "."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "THE SYCOPHANCY PROBLEM",
     marginBottom: 24
@@ -10411,7 +10445,7 @@ function FlatteryTrapSection(props) {
     }, [{
       icon: "\uD83D\uDC4D",
       title: "Why it happens",
-      desc: "During RLHF, human reviewers often preferred responses that were encouraging and validating. The model learned: praise = higher score. So it defaults to flattery, even when honest criticism would be more helpful."
+      desc: "AI assistants are often shaped by RLHF, the training phase where human reviewers ranked responses. That feedback can reward answers that feel helpful, friendly, and validating. The downside: a model can learn to agree, praise, or soften criticism when honest pushback would help more."
     }, {
       icon: "\u26A0\uFE0F",
       title: "Why it's dangerous",

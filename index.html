@@ -3923,7 +3923,7 @@ function BiasQuiz(props) {
     {
       icon: "\uD83D\uDE97",
       title: "Self-Driving at Night",
-      scenario: "Early autonomous vehicle models had significantly higher rates of failing to detect pedestrians at night and in rainy conditions, compared to daytime clear weather.",
+      scenario: "Early pedestrian detection systems often performed worse in conditions that were underrepresented in their training data: low light, rain, and unusual angles. The same systems handled bright, daytime driving well.",
       question: "Why did the self-driving AI struggle at night and in rain?",
       correct: 2,
       choices: [
@@ -3935,7 +3935,7 @@ function BiasQuiz(props) {
     {
       icon: "\uD83D\uDC64",
       title: "Face Recognition Failures",
-      scenario: "Studies found that facial recognition systems had significantly higher error rates on people with darker skin tones and on children, compared to lighter-skinned adults.",
+      scenario: "Studies of facial recognition systems have found that some perform significantly worse on people with darker skin tones and on children, compared to lighter-skinned adults.",
       question: "Why did the face recognition AI perform worse on certain groups?",
       correct: 0,
       choices: [
@@ -3947,13 +3947,25 @@ function BiasQuiz(props) {
     {
       icon: "\uD83D\uDCC4",
       title: "The Resume Screener",
-      scenario: "A major tech company trained an AI to screen engineering resumes, using ten years of their past hires as training data. After launch, the company found the model was systematically downgrading women applicants: it penalized resumes that mentioned things like \"women\u2019s chess club\" or graduates of all-women colleges.",
+      scenario: "A major tech company tested an experimental AI tool to help screen engineering resumes, using ten years of their past hires as training data. During testing, they found the model was systematically downgrading women applicants. It penalized resumes that mentioned things like \"women\u2019s chess club\" or graduates of all-women colleges. The company scrapped the project.",
       question: "Why did the resume AI learn to penalize women applicants?",
       correct: 0,
       choices: [
-        { text: "The training data was ten years of past hires, who were mostly men, so the model learned that \"good engineer resumes\" looked like the male resumes that had already been hired", explain: "The model didn\u2019t have an opinion about gender. It learned what \"hired\" looked like, and \"hired\" meant \"mostly men\" for ten years. So it picked up on words and patterns that just happened to correlate with men\u2019s resumes, even when those features had nothing to do with engineering ability. The bias was inherited from the data, not designed in." },
+        { text: "The training data was ten years of past hires, who were mostly men, so the model learned that \"good engineer resumes\" looked like the male resumes that had already been hired", explain: "The model didn\u2019t have an opinion about gender. It learned what \"hired\" looked like, and \"hired\" meant \"mostly men\" for ten years. The model picked up on words that correlated with men\u2019s resumes, even when those features had nothing to do with engineering ability. This is biased labels in action: the historical hiring decisions were the training labels, so years of bias became the model\u2019s definition of a \"good resume.\"" },
         { text: "Someone at the company programmed the AI with rules that explicitly excluded women", explain: "No engineer wrote \"penalize women\" anywhere in the code. The bias came from the data, not the code. That\u2019s what makes training bias so sneaky: nobody intends it, and it can hide for a long time before anyone notices what the model is actually doing." },
         { text: "Women applicants had less impressive qualifications than men in the dataset", explain: "The model wasn\u2019t evaluating qualifications. It was matching patterns. A strong woman\u2019s resume looked \"different\" to the model from a strong man\u2019s resume because the historical hires it learned from were mostly men. \"Different\" got read as \"worse,\" regardless of the actual qualifications." }
+      ]
+    },
+    {
+      icon: "\uD83D\uDCAC",
+      title: "The List of Entrepreneurs",
+      scenario: "You ask an AI chatbot, \"Give me examples of successful entrepreneurs.\" It returns a list of ten names. Every single one is a man, eight are American tech founders, and the other two are billionaires from European tech and finance.",
+      question: "Why did the AI return such a narrow list?",
+      correct: 1,
+      choices: [
+        { text: "The AI was programmed to favor male tech founders", explain: "Nobody coded a rule like that. Bias in chatbot output rarely comes from explicit instructions. It comes from what was overrepresented in the training data and the human feedback that shaped responses." },
+        { text: "Articles about male tech founders dominate the data the model saw, so they became the default when the model thinks \"successful entrepreneur\"", explain: "The internet has more articles, profiles, and lists about Silicon Valley tech founders than about entrepreneurs in other industries, regions, or demographics. The model treats whatever appears most often as the typical example. Common doesn\u2019t mean complete, but the model doesn\u2019t know the difference." },
+        { text: "Female and non-Western entrepreneurs aren\u2019t as successful", explain: "This is the bias the model can pass on if you don\u2019t push back. Plenty of women and non-Western entrepreneurs run massive successful companies. The model gives you what\u2019s most documented in its training, not what\u2019s most accurate about the world." }
       ]
     }
   ];
@@ -3984,7 +3996,7 @@ function BiasQuiz(props) {
       !isLastBias && /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasIdx(function(i) { return i + 1; }); setBiasGuess(null); }, style: { fontWeight: 600 } }, "Next Scenario \u2192"),
       isLastBias && /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", flex: 1 } },
         /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 14, margin: 0 } },
-          "Notice the pattern? Every case of AI bias traced back to the same root cause: ", /*#__PURE__*/React.createElement("strong", null, "the training data"), ". AI doesn't have opinions or prejudices. It reflects whatever patterns exist in the data it learned from, including the gaps, shortcuts, and imbalances."
+          "Notice the pattern? In each case, the model didn't have opinions or prejudices. It learned patterns from data. If the data overrepresents some cases, misses others, or carries biased labels, the model can repeat those patterns. The model isn't asking, ", /*#__PURE__*/React.createElement("strong", null, "\"is this fair?\""), " It's asking, ", /*#__PURE__*/React.createElement("strong", null, "\"what pattern fits?\""), " That's why your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture."
         )
       )
     )
@@ -3996,21 +4008,22 @@ function TrainingBiasSection(props) {
     { icon: "📈", term: "Overrepresentation", line1: "Some cases appear too often in the data.", line2: "The model treats them as the default." },
     { icon: "📉", term: "Underrepresentation", line1: "Some cases appear too rarely.", line2: "The model performs worse when those cases come up." },
     { icon: "🪤", term: "Shortcuts", line1: "A wrong clue happens to work in training.", line2: "The model learns the clue instead of the real concept." },
-    { icon: "🕳️", term: "Blind spots", line1: "Some cases are missing entirely.", line2: "The model can't learn what it never sees." }
+    { icon: "🏷️", term: "Biased labels", line1: "The labels come from past human decisions.", line2: "If those decisions were biased, the model learns the bias." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Training bias happens when the data gives the model a distorted version of reality. The model learns the patterns in front of it. If the data is skewed, incomplete, or full of shortcuts, the model can inherit those problems."),
+      "That was the first accuracy trap. The second one is different. Sometimes AI doesn\u2019t invent anything. Every fact in the answer is real, but the picture is still distorted."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” the model might tell you to drive 180 miles per hour on a closed track."),
+      "That\u2019s training bias. The model learns whatever patterns are in the data it saw. If the data is uneven, incomplete, or full of shortcuts, the model can treat a narrow slice of reality as the default."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That answer would not come from evil intent. It would come from bad training data. The model learned one slice of driving and treated it like the whole thing."),
+      "Imagine the only driving advice online came from professional race car drivers. If you asked, \u201CWhat\u2019s the best way to drive?\u201D the model might tell you to drive 180 miles per hour on a closed track."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "That’s training bias."),
+      "That answer wouldn\u2019t come from evil intent. It would come from a narrow slice of data treated like the whole picture. ",
+      /*#__PURE__*/React.createElement("strong", null, "The trap is treating common as neutral.")),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "HOW BIAS GETS IN",
-      intro: "Not one mechanism. Four overlapping ones, all traceable to the data the model saw.",
+      intro: "Not one mechanism. Four overlapping ones, all rooted in the data the model saw.",
       marginBottom: 32
     },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
@@ -4025,13 +4038,59 @@ function TrainingBiasSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "In this exercise, you’ll see some true examples of the Training Bias Trap. See if you can guess the mistake made by the model."),
+      "Some of these are real cases. Some are simplified versions of a real pattern. In each one, the question is the same: what did the model actually learn?"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "What Did the Model Actually Learn?"
   },
     /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } })),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "FIGHT THE TRAP",
+      headline: "Four moves when the answer feels too clean.",
+      intro: "Spotting the trap is half the work. Pushing back is the other half. When an AI answer feels suspiciously default, here are the moves to try.",
+      marginBottom: 20
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", flexDirection: "column", gap: 10 }
+      },
+        [{
+          icon: "\uD83D\uDD0D",
+          title: "Ask who\u2019s missing.",
+          body: "The AI gives you what\u2019s most documented. Push it to surface what isn\u2019t.",
+          prompt: "Whose perspective isn\u2019t in this answer?"
+        }, {
+          icon: "\uD83D\uDD00",
+          title: "Ask for variation.",
+          body: "The default is rarely the full range. Asking for variety forces the model past the top of the distribution.",
+          prompt: "Give me examples from different backgrounds, regions, and time periods."
+        }, {
+          icon: "\uD83C\uDFAF",
+          title: "Question the default.",
+          body: "\u201CTypical\u201D often means \u201Cmost common in the data,\u201D which isn\u2019t the same as \u201Cnormal in the world.\u201D",
+          prompt: "When you say \u201Ctypical,\u201D what assumptions are you making?"
+        }, {
+          icon: "\u26A0\uFE0F",
+          title: "Slow down for decisions about people.",
+          body: "Hiring, grading, discipline, medical, legal. AI is a starting point, not the final word. Humans review.",
+          prompt: null
+        }].map(function(item, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, lineHeight: 1, flexShrink: 0 } }, item.icon),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 14 } }, item.title),
+              /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.body),
+              item.prompt ? /*#__PURE__*/React.createElement("div", {
+                style: { marginTop: 8, background: "var(--bg)", borderRadius: 6, padding: "8px 12px", fontFamily: "var(--mono)", fontSize: 12, color: "var(--ink)", borderLeft: "3px solid var(--primary)" }
+              }, "Try: \u201C" + item.prompt + "\u201D") : null));
+        })
+      )
+    ),
+    /*#__PURE__*/React.createElement(KeyInsight, null,
+      "Common is not neutral. Frequent is not fair. Questioning the default is the skill."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documentchat"); }, label: "Next: Whole Document Trap" })
   );

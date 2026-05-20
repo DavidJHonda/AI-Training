@@ -2750,7 +2750,7 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("blackbox"), label: "Next: No One Wrote the Rules" })
   );
 }
-function TypingAICard() {
+function TypingAICard(props) {
   var responses = [
     "Marvel’s Spider-Man 2 is a great pick. The open-world web-swinging across New York City feels incredible on the PS5, and you can switch between Peter Parker and Miles Morales mid-mission. It’s polished, fun, and easy to jump into.",
     "NHL 26 is a solid pick. The skating physics feel sharper than last year, the goalies actually put up a fight on one-on-one breakaways, and franchise mode goes deep if you want to build a dynasty over a decade of seasons. Online play is fast and competitive.",
@@ -2759,7 +2759,7 @@ function TypingAICard() {
   var _ri = useState(0), responseIdx = _ri[0], setResponseIdx = _ri[1];
   var _tw = useState(""), typedWords = _tw[0], setTypedWords = _tw[1];
   var _td = useState(false), typingDone = _td[0], setTypingDone = _td[1];
-  var _aa = useState(0), askCount = _aa[0], setAskCount = _aa[1];
+  var askCount = props.askCount;
   var wordsRef = useRef([]);
   var indexRef = useRef(0);
   function startTyping(idx) {
@@ -2785,7 +2785,7 @@ function TypingAICard() {
   function handleAskAgain() {
     var next = (responseIdx + 1) % responses.length;
     setResponseIdx(next);
-    setAskCount(askCount + 1);
+    props.onAskAgain && props.onAskAgain();
     startTyping(next);
   }
   return /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
@@ -2805,13 +2805,14 @@ function TypingAICard() {
 }
 function GenerativeSection(props) {
   var _rs = useState(0), revealStep = _rs[0], setRevealStep = _rs[1];
+  var _aa = useState(0), askCount = _aa[0], setAskCount = _aa[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "generative" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "You have probably noticed two strange things about AI. First, it types its answer one word at a time. Second, if you ask the same question again, the answer may come out differently."
+      "You have probably noticed two strange things about chatbots. First, they type their answer one word at a time. Second, if you ask the same question again, the answer may come out differently."
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Both happen because AI is ",
+      "Both happen because chatbots are ",
       /*#__PURE__*/React.createElement("strong", null, "generative"),
       ". The core model ",
       /*#__PURE__*/React.createElement("strong", null, "builds the response as it goes"),
@@ -2842,7 +2843,7 @@ function GenerativeSection(props) {
               "ERROR: No matching answer in database."),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
               "Ask again → same error, every time.")),
-          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, null) :
+          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() { setAskCount(askCount + 1); } }) :
           /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
             /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ Generative results..."))),
         revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
@@ -2870,8 +2871,9 @@ function GenerativeSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, step.body));
         }))
     ),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Built, not retrieved." }, "Generative AI creates an answer piece by piece from learned patterns. It’s not pulling a finished one off a shelf."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealStep >= 2, onClick: () => props.completeAndNavigate && props.completeAndNavigate("data"), label: "Next: AI’s Fuel" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealStep >= 2 && askCount >= 1, onClick: () => props.completeAndNavigate && props.completeAndNavigate("data"), label: "Next: AI’s Fuel" }));
 }
 function BlackBoxSection(props) {
   const [scenarioIdx, setScenarioIdx] = useState(0);
@@ -2920,7 +2922,7 @@ function BlackBoxSection(props) {
       "Here is the strange truth at the center of how AI works: no one wrote a rule for every behavior. Not the engineers who built it, not the researchers who study it, not even the company that ships it."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That changes everything about how it can be controlled. ", /*#__PURE__*/React.createElement("strong", null, "AI is something a person trained."), " Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
+      "That changes everything about how it can be controlled. ", /*#__PURE__*/React.createElement("strong", null, "AI is something people trained."), " Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
     ),
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
       /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
@@ -3146,8 +3148,8 @@ function DataSection(props) {
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "What it can infer"),
                   /*#__PURE__*/React.createElement("div", { style: { background: "#ede9fe", border: "1px solid #c4b5fd", borderRadius: 8, overflow: "hidden" } },
                     /*#__PURE__*/React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 13 } },
-                      /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, ["Subject", "Score", "Sentiment"].map(function(h, i) { return /*#__PURE__*/React.createElement("th", { key: i, style: { padding: "8px 10px", background: "#ede9fe", color: "#5b21b6", fontWeight: 700, textAlign: "left", borderBottom: "1px solid #c4b5fd", fontSize: 12 } }, h); }))),
-                      /*#__PURE__*/React.createElement("tbody", null, [["Math", "~82 (B-)", "Struggled"], ["English", "~91 (A-)", "Confident"], ["Science", "~78 (C+)", "Neutral"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
+                      /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, ["Subject", "Grade signal", "Sentiment"].map(function(h, i) { return /*#__PURE__*/React.createElement("th", { key: i, style: { padding: "8px 10px", background: "#ede9fe", color: "#5b21b6", fontWeight: 700, textAlign: "left", borderBottom: "1px solid #c4b5fd", fontSize: 12 } }, h); }))),
+                      /*#__PURE__*/React.createElement("tbody", null, [["Math", "B-", "Struggled"], ["English", "Likely strong", "Confident"], ["Science", "Likely average", "Neutral"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI inferred that \u2018rough\u2019 signals struggle, \u2018best score\u2019 signals high performance, and \u2018not great not terrible\u2019 signals average.")) : /*#__PURE__*/React.createElement("div", null)),
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
                 /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null),
@@ -3223,7 +3225,8 @@ function DataSection(props) {
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI can transcribe the speech, infer the items, and map the casual sentence into order fields.")) : /*#__PURE__*/React.createElement("div", null)),
               dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
                 /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null))))),
-    dataComplete ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI learned from messy human data." }, "That\u2019s why it can find structure in the mess. It\u2019s also why it inherits every weird pattern, every bias, every dumb argument that lived in that data.") : null,
+    dataComplete ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI learned from messy human data." }, "That\u2019s why it can find structure in the mess. It\u2019s also why it can pick up weird patterns, biases, and dumb arguments from the data it learned from.") : null,
+    dataComplete ? /*#__PURE__*/React.createElement(BodyP, null, "Quick recap of Foundations. AI is pattern-based prediction software. LLMs are one flexible kind. The math is probability. The behavior is learned from examples, not hand-written. The fuel is data. Next, we open the hood and see how all that messy human stuff becomes numbers inside the model.") : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerinside"), label: "Next: Inside AI" })
   );
 }
@@ -14832,8 +14835,8 @@ function LLMExplorer() {
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
   const [nameInput, setNameInput] = useState("");
   const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
-    activeSection: "whydeeper",
-    visited: ["whydeeper"],
+    activeSection: "welcome",
+    visited: ["welcome"],
     completed: [],
     testYourselfQuiz: null
   });

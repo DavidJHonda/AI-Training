@@ -220,7 +220,7 @@ var TERMS = [
   { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "context" },
   { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "context" },
   { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve \u2018king \u2212 man + woman = queen.\u2019", source: "embeddings" },
-  { term: "Guardrail", definition: "A safety layer the AI company adds on top of the trained model to block specific behaviors like medical dosage advice or harmful content. Unlike the model itself, guardrails are written, not trained, which is why they catch some things and miss others.", source: "blackbox" },
+  { term: "Guardrail", definition: "A safety layer the AI company adds around an AI model to block, redirect, or limit specific behaviors like medical dosage advice or harmful content. Guardrails can be written rules, filters, classifiers, or safety-tuned behaviors, which is why they catch some things and miss others.", source: "blackbox" },
   { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn\u2019t know what\u2019s true, only what sounds right.", source: "hallucination" },
   { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
   { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
@@ -920,23 +920,31 @@ function OpenerFoundationsSection(props) {
       "By now, you’ve seen the roadmap: this course is not about collecting AI tips. It’s about learning how the machine works so you can use it with judgment.",
       "🚗 Let’s use an analogy. You’ve just graduated from the University of Michigan with honors. Congrats. And, you were just hired by Tesla to design their new electric cars.",
       "A Tesla is not just a gas car with a battery attached. It works differently, so you have to think about it differently.",
-      "AI is like that: not magic, not a person, not a search engine, and not normal software."
+      "AI is like that: not magic, not a person, not just a search engine, and not normal software."
     ],
-    whatYoullLearnIntro: [],
+    whatYoullLearnIntro: [
+      "Here’s the path: what AI is, where modern AI came from, why it doesn’t act like normal software, and why data is the fuel."
+    ],
     groups: [
       {
-        kicker: "WHAT IT IS AND WHERE IT CAME FROM",
-        bridge: "First, what AI is and where it came from.",
+        kicker: "WHAT AI IS",
+        bridge: "First, what AI is, and what kind of AI powers tools like ChatGPT.",
         questions: [
           { question: "Is AI really intelligence?", lessonId: "aihistory" },
-          { question: "What’s actually inside ChatGPT?", lessonId: "llms" },
+          { question: "What kind of AI sits inside tools like ChatGPT?", lessonId: "llms" }
+        ]
+      },
+      {
+        kicker: "WHY MODERN AI BECAME POSSIBLE",
+        bridge: "Then, the math ideas and history that made today’s AI possible.",
+        questions: [
           { question: "What kind of math actually powers AI?", lessonId: "aiismath" },
           { question: "How did centuries of math turn into ChatGPT?", lessonId: "howwegothere" }
         ]
       },
       {
         kicker: "HOW IT BREAKS THE RULES OF SOFTWARE",
-        bridge: "Then, why it doesn’t work like normal software.",
+        bridge: "Next, why it doesn’t work like normal software.",
         questions: [
           { question: "Why doesn’t AI work like other software?", lessonId: "aivscode" },
           { question: "How can no one have written AI’s rules?", lessonId: "blackbox" },
@@ -947,7 +955,7 @@ function OpenerFoundationsSection(props) {
         kicker: "WHAT FUELS IT",
         bridge: "Finally, what fuels all of this.",
         questions: [
-          { question: "Why does AI need billions of pages?", lessonId: "data" }
+          { question: "Why does AI need so much data?", lessonId: "data" }
         ]
       }
     ],
@@ -975,8 +983,8 @@ function AIHistorySection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, working through problems, seeing, hearing, and using language."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Every time AI writes a sentence, it\u2019s running math to predict the most likely answer. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
-    /*#__PURE__*/React.createElement(BodyP, null, "The subtitle of this class names the lens: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI finds repeated signals in data, estimate what is most likely, and use those estimates to choose or generate an output. You\u2019ll see this same lens show up in every lesson."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When generative AI writes a sentence, it\u2019s running math to predict likely next words. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
+    /*#__PURE__*/React.createElement(BodyP, null, "The subtitle of this class names the lens: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI finds repeated signals in data, estimates what is most likely, and uses those estimates to choose or generate an output. You\u2019ll see this same lens show up in every lesson."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "YOU ALREADY USE AI",
       headline: "AI is hiding in apps you use every day.",
@@ -1229,7 +1237,7 @@ function LLMsSection(props) {
                 }, k.desc)));
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "LLM"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM. Even if you\u2019ve never used ChatGPT, Claude, or Gemini, you\u2019re using a small version of an LLM every day. Your phone\u2019s keyboard suggests the next word before you type it. That\u2019s a small language model, predicting what\u2019s likely to come next. LLMs are a much bigger version of the same idea. Click each letter to see what the three letters mean."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM. Even if you\u2019ve never used ChatGPT, Claude, or Gemini, you\u2019ve seen the basic idea before. Your phone\u2019s keyboard suggests the next word before you type it. That\u2019s next-word prediction at a small scale. LLMs do the same thing at a much bigger scale, and they handle many more kinds of language tasks. Click each letter to see what the three letters mean."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1287,7 +1295,7 @@ function LLMsSection(props) {
                 }, col.desc)));
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "PRODUCT"),
-    /*#__PURE__*/React.createElement(BodyP, null, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each company builds their cars differently, and their cars have different characteristics. For this course, we\u2019re focusing on the three most popular. Click each name to see a brief description."),
+    /*#__PURE__*/React.createElement(BodyP, null, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each company builds their cars differently, and their cars have different characteristics. For this course, we\u2019ll focus on three you\u2019ve probably heard of. Click each name to see a brief description."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1345,7 +1353,7 @@ function LLMsSection(props) {
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "MODEL"),
     /*#__PURE__*/React.createElement(BodyP, null, "You decide to buy a Ford. Now you have to choose the right model: an F-150, Explorer, Bronco, or another. Each one is different, but they\u2019re all Fords."),
-    /*#__PURE__*/React.createElement(BodyP, null, "The big three LLMs work the same way. They have different models for different needs. Unlike with cars, you can switch between models any time. Below are Claude\u2019s models. Click each one to see what it\u2019s best for."),
+    /*#__PURE__*/React.createElement(BodyP, null, "The big three work the same way. They have different models for different needs. Unlike with cars, you can switch between models any time. Below are Claude\u2019s models. Click each one to see what it\u2019s best for."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1459,6 +1467,8 @@ function LLMsSection(props) {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
                 }, col.desc)));
           })))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Product, model, LLM \u2014 not the same thing." },
+      "Product is what you open. Model is what does the work inside. LLM is the kind of model powering chatbots like ChatGPT, Claude, and Gemini."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: TWO_KINDS.every(function(_, i) { return !!twoKindsRevealed[i]; }) && LLM_COLS.every(function(_, i) { return !!llmRevealed[i]; }) && PRODUCTS.every(function(_, i) { return !!productsRevealed[i]; }) && MODELS.every(function(_, i) { return !!modelsRevealed[i]; }) && COLS.every(function(_, i) { return !!revealed[i]; }), onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aiismath"); }, label: "Next: AI is Math" })
   );
@@ -1475,7 +1485,7 @@ function AIIsMathSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 }, "The math is how AI does what it does. In this lesson, you’ll see a few big ideas that made AI possible."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHERE PROBABILITY MATH BEGAN"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Two French mathematicians exchanged letters that gave us the first formal theory of probability. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one. Useful, but only when you can see everything."),
+    /*#__PURE__*/React.createElement(BodyP, null, "In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where modern probability math is usually dated from. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one. Useful, but only when you can see everything."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "Toss Two Coins, Three Possible Outcomes"
     },
@@ -1537,7 +1547,7 @@ function AIIsMathSection(props) {
       )
     )
     ,
-    /*#__PURE__*/React.createElement(BodyP, { style: { fontFamily: "var(--sans)", margin: "32px 0", textWrap: "pretty" } }, "But what if you can’t see everything? What if the bag is closed, the dice are hidden, the future hasn’t happened yet? Probability math couldn’t help — until Thomas Bayes."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { fontFamily: "var(--sans)", margin: "32px 0", textWrap: "pretty" } }, "But what if you can’t see everything? What if the bag is closed, the dice are hidden, the future hasn’t happened yet? Probability math couldn’t update what you believed as new evidence came in — until Thomas Bayes."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "CONDITIONAL PROBABILITY"),
     /*#__PURE__*/React.createElement(BodyP, null, "Thomas Bayes was a minister, mathematician, and philosopher. Before him, math could count what you could see, like the coins in our last example. Bayes figured out the math for when you can’t."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -1756,7 +1766,7 @@ function AIIsMathSection(props) {
       ) : null
     )
     ,
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 32 } }, "Bayes’ Theorem updates one belief based on evidence. But AI doesn’t just update beliefs. It writes. Every word AI produces is a fresh prediction, shaped by every word that came before it. That takes a different math idea, built on top of conditional probability."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 32 } }, "Bayes’ Theorem updates one belief based on evidence. But AI doesn’t just update beliefs. It writes. Every word AI produces is a fresh prediction, shaped by every word that came before it. That takes a different math idea, called autoregressive generation."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AUTOREGRESSIVE GENERATION"),
     /*#__PURE__*/React.createElement(BodyP, null, "Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. That’s how single-word guesses turn into full paragraphs, essays, and explanations."),
     /*#__PURE__*/React.createElement(BodyP, null, "Here’s how the two ideas differ in plain English."),
@@ -1785,17 +1795,17 @@ function AIIsMathSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past these three ideas. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But these three concepts are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
     /*#__PURE__*/React.createElement(BodyP, null, "And honestly, the rest of this course isn’t about math. It’s about what AI does well, where it slips, and how to think clearly when using it."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: visibleBayesSteps >= 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
   );
 }
 
 function HowWeGotHereSection(props) {
   var TIMELINE = [
-    { year: "1654", title: "Probability Math Begins", desc: /*#__PURE__*/React.createElement("span", null, "Blaise Pascal and Pierre de Fermat traded letters about games of chance and gave the world its first formal theory of ", /*#__PURE__*/React.createElement("strong", null, "probability"), "."), tag: "→ Probability" },
-    { year: "1763", title: "Bayes’ Theorem", desc: /*#__PURE__*/React.createElement("span", null, "Thomas Bayes’ work was published two years after his death. It gave us ", /*#__PURE__*/React.createElement("strong", null, "conditional probability"), "."), tag: "→ Probability" },
-    { year: "1927", title: "Autoregressive Modeling", desc: /*#__PURE__*/React.createElement("span", null, "British statistician George Udny Yule proposed an idea he called the ", /*#__PURE__*/React.createElement("strong", null, "autoregressive model"), ". It’s the first math for a sequence that predicts itself."), tag: "→ Prediction" },
+    { year: "1654", title: "Probability Math Begins", desc: /*#__PURE__*/React.createElement("span", null, "Blaise Pascal and Pierre de Fermat traded letters about games of chance. Modern ", /*#__PURE__*/React.createElement("strong", null, "probability"), " math is usually dated from that correspondence."), tag: "→ Probability" },
+    { year: "1763", title: "Bayes’ Theorem", desc: /*#__PURE__*/React.createElement("span", null, "Thomas Bayes’ work was published two years after his death. It gave us a formal way to ", /*#__PURE__*/React.createElement("strong", null, "update probabilities"), " when new evidence comes in."), tag: "→ Probability" },
+    { year: "1927", title: "Autoregressive Modeling", desc: /*#__PURE__*/React.createElement("span", null, "British statistician George Udny Yule proposed an idea he called the ", /*#__PURE__*/React.createElement("strong", null, "autoregressive model"), ": a way to predict each step in a sequence from the steps before it."), tag: "→ Prediction" },
     { year: "1943", title: "Math Modeled After the Brain", desc: /*#__PURE__*/React.createElement("span", null, "Scientists modeled math after how brain cells fire. This was the first concept of a ", /*#__PURE__*/React.createElement("strong", null, "neural network"), "."), tag: "→ Layers" },
-    { year: "1948", title: "Generating English", desc: /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, "Claude"), " Shannon applied the autoregressive idea to language. He generated English-looking text by picking each word based on the probability of the one before it: the first ", /*#__PURE__*/React.createElement("strong", null, "language model"), "."), tag: "→ Prediction" },
+    { year: "1948", title: "Generating English", desc: /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, "Claude"), " Shannon applied the autoregressive idea to language. He generated English-looking text by picking each word based on the probability of the one before it: an early ", /*#__PURE__*/React.createElement("strong", null, "language model"), "."), tag: "→ Prediction" },
     { year: "1957", title: "The Perceptron", desc: /*#__PURE__*/React.createElement("span", null, "The first machine that could learn from examples. It was primitive, but it proved the concept: ", /*#__PURE__*/React.createElement("strong", null, "machines can learn"), ", not just follow instructions."), tag: "→ Training" },
     { year: "1986", title: "Backpropagation", desc: /*#__PURE__*/React.createElement("span", null, "The method that lets a ", /*#__PURE__*/React.createElement("strong", null, "machine"), " ", /*#__PURE__*/React.createElement("strong", null, "learn from its mistakes"), ". Each wrong answer makes the next one slightly better, over billions of attempts."), tag: "→ Training" },
     { year: "2017", title: "Attention Is All You Need", desc: /*#__PURE__*/React.createElement("span", null, "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The ", /*#__PURE__*/React.createElement("strong", null, "transformer"), " was born."), tag: "→ Transformers" },
@@ -2634,7 +2644,7 @@ function AIvsCodeSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Open the calculator on your phone. A programmer wrote every rule it follows. Open ChatGPT. No one wrote rules for what it should say. Both are software. Why are they built so differently?"
+      "Open the calculator on your phone. A programmer wrote every rule it follows. Open ChatGPT. No one wrote a rule for every answer it might give. Both are software. Why are they built so differently?"
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That\u2019s because their answers come from completely different places. The calculator follows the rules a human wrote. ChatGPT learned from millions of examples and is making its best guess."
@@ -2661,9 +2671,12 @@ function AIvsCodeSection(props) {
           "Show it 10,000 failed recipes ✓",
           /*#__PURE__*/React.createElement("div", { style: { height: 14 } }),
           "It figures out the patterns itself", /*#__PURE__*/React.createElement("br", null),
-          "Handles situations it was never shown"
+          "Often handles situations it was never shown"
         )
       )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Rules are excellent when the situation is exact. The problem is when reality has variables the rule did not include."
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "Here’s why rules sometimes don’t work: ",
@@ -2691,7 +2704,7 @@ function AIvsCodeSection(props) {
       }
 
       return /*#__PURE__*/React.createElement("div", { key: i, style: { marginTop: i > 0 ? 16 : 0 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--primary)", marginBottom: 8 } }, "Rule " + (i + 1)),
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "var(--primary)", marginBottom: 8 } }, "Rule " + (i + 1) + " of " + scenarios.length),
         /*#__PURE__*/React.createElement("div", { style: { background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "16px 20px", marginBottom: 16 } },
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.8, color: "#1e3a5f" } },
             /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "IF"), " ", s.ruleIf, /*#__PURE__*/React.createElement("br", null),
@@ -2733,7 +2746,7 @@ function AIvsCodeSection(props) {
           hasNext ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
             /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setVisibleRules(visibleRules + 1); }, style: { display: "block", margin: "0 auto" } }, "See Next Rule →")) : null) : null);
     })),
-    allDone ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI infers rules from examples. Same input, different machine, completely different ceiling.") : null,
+    allDone ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI uses patterns learned from examples. Same input, different machine — and harder edges to predict.") : null,
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("blackbox"), label: "Next: No One Wrote the Rules" })
   );
 }
@@ -2865,7 +2878,7 @@ function BlackBoxSection(props) {
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
   const [startedRulePattern, setStartedRulePattern] = useState(false);
   const RULE_PATTERN_SCENARIOS = [{
-    setup: "A 12-year-old creates an account on a social platform with an 18+ policy.",
+    setup: "A signup form accepts a birthdate showing the user is 12 on a platform with an 18+ policy.",
     options: [
       { label: "Rule", correct: true, feedback: "Right. A fixed age check at signup would have caught this every time. The system asks for date of birth, compares it to the requirement, and blocks or allows. Same input, same output, no learning needed." },
       { label: "Pattern", correct: false, feedback: "A pattern-based system could learn to spot fake underage accounts after seeing many examples, but the first underage user would still slip through. A simple written age check stops every signup at the door." },
@@ -2893,7 +2906,7 @@ function BlackBoxSection(props) {
       { label: "Guardrail", correct: false, feedback: "Guardrails block unsafe AI outputs. Card validation has nothing to do with AI behavior. It\u2019s a pure math rule running on the card number itself." }
     ]
   }, {
-    setup: "Someone uses an AI image tool to generate a fake photo of a classmate.",
+    setup: "Someone uses an AI image tool to generate a harmful fake image of a classmate.",
     options: [
       { label: "Rule", correct: false, feedback: "There\u2019s no fixed rule like \u2018never generate any explicit content.\u2019 The model can generate plenty of images. The block needed here is targeted at this specific kind of misuse, which is exactly what a guardrail does." },
       { label: "Pattern", correct: false, feedback: "The pattern is what the model learned from training data: how faces work, how bodies work, how scenes look. That\u2019s the problem, not the fix. The fix is a safety layer the company puts around what the model is allowed to actually output." },
@@ -2904,7 +2917,7 @@ function BlackBoxSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "blackbox" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here is the strange truth at the center of how AI works: no one wrote it line by line. Not the engineers who built it, not the researchers who study it, not even the company that ships it."
+      "Here is the strange truth at the center of how AI works: no one wrote a rule for every behavior. Not the engineers who built it, not the researchers who study it, not even the company that ships it."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That changes everything about how it can be controlled. ", /*#__PURE__*/React.createElement("strong", null, "AI is something a person trained."), " Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
@@ -2930,7 +2943,7 @@ function BlackBoxSection(props) {
             /*#__PURE__*/React.createElement("li", null, "Grown from data, not authored"),
             /*#__PURE__*/React.createElement("li", null, "Behavior emerges, sometimes surprising the creators"),
             /*#__PURE__*/React.createElement("li", null, "Hard to inspect"),
-            /*#__PURE__*/React.createElement("li", null, "Same input can vary by wording and context")))
+            /*#__PURE__*/React.createElement("li", null, "Small changes in wording can change the output")))
       )
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "YOU\u2019LL SEE IT IN THE NEWS"),
@@ -2993,7 +3006,7 @@ function BlackBoxSection(props) {
         /*#__PURE__*/React.createElement(QuizBlock, {
           key: scenarioIdx,
           surface: "mint",
-          statement: "What would have prevented this?",
+          statement: "Which is the best fit?",
           questionNumber: scenarioIdx + 1,
           totalQuestions: RULE_PATTERN_SCENARIOS.length,
           options: sc.options,
@@ -3001,7 +3014,7 @@ function BlackBoxSection(props) {
           onAnswer: function(idx) { setScenarioAnswer(idx); }
         }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI is powerful because no one wrote every rule." }, "It’s risky for the same reason. Nobody can hand you a manual of exactly what it knows and exactly where it fails. You have to find the edges yourself."),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("generative"); } }, "Next: Generative"));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("generative"); }, label: "Next: Generative" }));
 }
 function DataSection(props) {
   var SCENE_KEYS = ["text", "image", "speech"];
@@ -3216,7 +3229,7 @@ function DataSection(props) {
 }
 function HowAIReadsSection(props) {
   var E = React.createElement;
-  var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "IT", "was", "tired"];
+  var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"];
   var CHALLENGES = [
     {
       label: "Different meanings",
@@ -3230,7 +3243,7 @@ function HowAIReadsSection(props) {
     {
       label: "Pointing words",
       examples: [
-        { before: "Maria handed Sarah ", highlight: "her", after: " keys before getting in the passenger seat." }
+        { before: "Maria handed Sarah ", highlight: "her", after: " keys before Maria got into the passenger seat." }
       ],
       explanation: "Whose keys? \u201CHer\u201D points to Maria, not Sarah. The clue is \u201Cpassenger seat\u201D: Maria\u2019s the passenger, so Sarah is driving Maria\u2019s car. The keys are Maria\u2019s.",
       color: "#8b5cf6"
@@ -3240,7 +3253,7 @@ function HowAIReadsSection(props) {
       examples: [
         { before: "The cat sat on the mat during the May rainstorm because ", highlight: "it", after: " was tired." }
       ],
-      explanation: "What does \u201Cit\u201D refer to? Cat. Twelve words back. The model has to reach across the whole sentence to make that connection.",
+      explanation: "What does \u201Cit\u201D refer to? Cat. Ten words back. The model has to reach across the whole sentence to make that connection.",
       color: "#3b82f6"
     }
   ];
@@ -3255,7 +3268,7 @@ function HowAIReadsSection(props) {
       transformation: "From that clue, transformation works out that Maria\u2019s the passenger. Sarah is driving Maria\u2019s car. So \u201Cher\u201D means Maria."
     },
     {
-      attention: "\u201CIt\u201D looks directly at \u201Ccat\u201D from twelve words away. Distance doesn\u2019t weaken the connection anymore.",
+      attention: "\u201CIt\u201D looks directly at \u201Ccat\u201D from ten words away. Distance doesn\u2019t weaken the connection anymore.",
       transformation: "Then transformation uses that connection to update what \u201Cit\u201D means. The model now knows \u201Cit\u201D is the cat."
     }
   ];
@@ -3312,16 +3325,16 @@ function HowAIReadsSection(props) {
 
   var changeBullets = [
     {
-      title: "Models could finally read.",
-      body: "This is what makes the \u201Clanguage\u201D in \u201Clanguage model\u201D real. Without this combination, a model can produce text that looks fluent but can\u2019t track meaning across it. The three challenges you just saw are what reading actually requires."
+      title: "Models could track context at scale.",
+      body: "This is what makes the \u201Clanguage\u201D in \u201Clanguage model\u201D real. Without this kind of context mixing, long-distance meaning is much harder to track. The three challenges you just saw are what reading actually requires."
     },
     {
       title: "Training could scale much bigger.",
-      body: "Reading all the words at once also meant training could run on many machines at the same time. That\u2019s how today\u2019s huge models became possible to build."
+      body: "Because token comparisons can be computed in parallel, Transformer-style models became much easier to train on large datasets and large hardware systems. That\u2019s how today\u2019s huge models became possible to build."
     },
     {
       title: "It worked for more than text.",
-      body: "The same architecture now powers AI for images, audio, and code. What started as a way to read language became the foundation for AI across nearly every domain."
+      body: "Transformer-style architectures are now used in many systems for text, code, images, audio, and video. What started as a way to read language became the foundation for AI across many domains."
     }
   ];
 
@@ -3329,11 +3342,13 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "howreads" }),
 
     E(BodyP, null,
-      "You now understand how AI converts text to numbers, and how it uses a vector to associate the token to a meaning. In this lesson, we’ll use words instead of tokens to make it more understandable."
+      "You’ve seen text become tokens, token IDs point to embedding vectors, and vectors sit near related meanings. But a token’s starting vector isn’t enough. The word ",
+      E("strong", null, "light"),
+      " means something different in “turn off the light” than in “this bag is light.” This lesson is about how the model updates a token’s vector using the other tokens around it. (Real models do this with tokens; we’ll use words in the visuals so the idea is easier to follow.)"
     ),
 
     E(BodyP, null,
-      "There was a fundamental issue that AI engineers needed to solve before LLMs became possible: the way AI read text in sequential order."
+      "Before that update became possible, AI engineers had to solve a fundamental issue: the way AI read text in sequential order."
     ),
 
     E("div", {
@@ -3370,7 +3385,7 @@ function HowAIReadsSection(props) {
           lineHeight: 1.6,
           marginBottom: 14
         }
-      }, "AI read one word at a time, in order. Early words faded as the model moved down the line."),
+      }, "AI read one word at a time, in order. Information from early words had to travel down the chain, getting harder to hold onto with distance."),
       E("div", {
         style: {
           display: "flex",
@@ -3417,10 +3432,14 @@ function HowAIReadsSection(props) {
 
     E(BodyP, null,
       "Our brains have an advantage over a machine. We know how the words in a sentence relate to each other. It\u2019s the way we\u2019re wired. Therefore, we intuitively know that ",
-      E("strong", null, "IT"),
+      E("strong", null, "it"),
       " refers to ",
       E("strong", null, "cat"),
-      " in that sentence. But a computer processing words in sequential order often forgets earlier words. It won\u2019t see which word IT relates to."
+      " in that sentence. But a computer processing words in sequential order has trouble holding onto early connections. By the time it reaches ",
+      E("strong", null, "it"),
+      ", the link back to ",
+      E("strong", null, "cat"),
+      " has weakened."
     ),
 
     E(BodyP, null,
@@ -3428,7 +3447,7 @@ function HowAIReadsSection(props) {
     ),
 
     E(BodyP, null,
-      "To better understand this, click each of the labels below to see what AI couldn\u2019t do in the past."
+      "To better understand this, click each of the labels below to see three context problems a model has to solve."
     ),
 
     E(InteractiveBox, {
@@ -3498,9 +3517,11 @@ function HowAIReadsSection(props) {
     E(BodyP, null,
       "In 2017, eight researchers at Google published a paper called ",
       E("strong", null, "Attention Is All You Need"),
-      ". The breakthrough was simple: read all the words at the same time, not one at a time. That let every word look at every other word and figure out which ones mattered. They called this mechanism ",
+      ". They introduced the ",
+      E("strong", null, "Transformer"),
+      ", a new architecture built around ",
       E("strong", null, "attention"),
-      ". The name comes from how we focus: locking onto what matters, letting the rest fade."
+      ". The shift: instead of passing information down a line one word at a time, each token could compare directly with the other tokens around it. That made far-apart connections possible and made training much easier to parallelize. The name attention comes from how we focus: locking onto what matters, letting the rest fade."
     ),
 
     E("div", {
@@ -3559,7 +3580,7 @@ function HowAIReadsSection(props) {
           }
         },
           sentenceWords.map(function(w, i) {
-            var highlight = w === "cat" || w === "IT" || w === "tired";
+            var highlight = w === "cat" || w === "it" || w === "tired";
             return E("span", {
               key: i,
               style: {
@@ -3586,7 +3607,9 @@ function HowAIReadsSection(props) {
     E(BodyP, null,
       "That\u2019s the second step. Each layer pairs attention with a partner called ",
       E("strong", null, "transformation"),
-      ", which takes those connections and works out what each word actually means in context. Together, the two operations give AI the ability to read text."
+      ". Attention finds the connections. Transformation updates each token\u2019s vector based on those connections. The short version: ",
+      E("strong", null, "attention connects, transformation updates"),
+      "."
     ),
 
     E(ShowcaseBox, { marginBottom: 28 },
@@ -3605,7 +3628,7 @@ function HowAIReadsSection(props) {
         },
           E("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDD04"),
           E("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b", marginBottom: 4 } }, "Transformation"),
-          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "What they mean together")
+          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Updates each word based on context")
         )
       )
     ),
@@ -3662,16 +3685,7 @@ function HowAIReadsSection(props) {
               E("div", {
                 style: { background: "var(--card)", borderRadius: 10, padding: 20, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
               },
-                c.examples.map(function(ex, j) {
-                  return E("div", {
-                    key: j,
-                    style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 6 }
-                  },
-                    ex.before,
-                    E("strong", { style: { color: c.color, fontWeight: 800 } }, ex.highlight),
-                    ex.after);
-                }),
-                E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 14 } },
+                E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
                   E("div", { style: { marginBottom: 10 } },
                     E("strong", { style: { color: "var(--primary)", fontWeight: 800 } }, "Attention: "),
                     attentionExplanations[i].attention
@@ -3754,8 +3768,15 @@ function HowAIReadsSection(props) {
     ),
 
 
+    E(KeyInsight, { lead: "Attention connects. Transformation updates." },
+      "Attention finds which token vectors matter to each other. Transformation updates those vectors based on what\u2019s connected. The next lesson shows what happens when the model repeats those two moves through many layers."),
     E(LessonRule, null),
-    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); } }, "Next: Layers")
+    E(NextLessonGate, {
+      ready: [0,1,2].every(function(i) { return challengesRevealed[i]; }) && [0,1,2].every(function(i) { return solutionsRevealed[i]; }),
+      lockedMessage: "Reveal all three challenges and all three solutions to continue",
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); },
+      label: "Next: Layers"
+    })
   );
 }
 function ProbabilitySection(props) {
@@ -5069,8 +5090,84 @@ function VectorSpaceSection(props) {
     E(NextLessonGate, { ready: hasInteracted, lockedMessage: "Hover or tap a word in the map to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"); }, label: "Next: Behind the Numbers" }));
 }
 
+function MatchTermsTryIt(props) {
+  var E = React.createElement;
+  var TERMS = ["Dimension", "Value", "Embedding vector", "Embedding table", "Parameter"];
+  var QUESTIONS = [
+    { def: "The lookup table that maps token IDs to starting vectors.", correct: "Embedding table" },
+    { def: "One slot in a vector.", correct: "Dimension" },
+    { def: "A stored learned number adjusted during training.", correct: "Parameter" },
+    { def: "The number inside one slot.", correct: "Value" },
+    { def: "The full number profile for a token.", correct: "Embedding vector" }
+  ];
+  var _s = useState(false), started = _s[0], setStarted = _s[1];
+  var _q = useState(0), qIdx = _q[0], setQIdx = _q[1];
+  var _a = useState(null), answer = _a[0], setAnswer = _a[1];
+  var _r = useState([]), results = _r[0], setResults = _r[1];
+  var _t = useState([]), tried = _t[0], setTried = _t[1];
+  useEffect(function() { if (qIdx >= QUESTIONS.length && props && props.onComplete) props.onComplete(); }, [qIdx]);
+  var done = qIdx >= QUESTIONS.length;
+  var q = QUESTIONS[Math.min(qIdx, QUESTIONS.length - 1)];
+  var handleAnswer = function(choice) {
+    if (answer === choice) return;
+    if (choice !== q.correct && tried.indexOf(choice) >= 0) return;
+    setAnswer(choice);
+    setTried(tried.concat([choice]));
+    if (choice === q.correct) { setResults(results.concat([tried.length === 0])); }
+  };
+  var advance = function() {
+    setQIdx(qIdx + 1); setAnswer(null); setTried([]);
+  };
+  var termBtn = function(label) {
+    var isThis = answer === label;
+    var isCorrect = label === q.correct;
+    var wasTried = tried.indexOf(label) >= 0;
+    var gotCorrect = answer === q.correct;
+    var bg = "var(--card)";
+    var border = "2px solid var(--rule)";
+    if (isThis && isCorrect) { bg = "#dcfce7"; border = "2px solid #86efac"; }
+    if (wasTried && !isCorrect) { bg = "#fef2f2"; border = "2px solid #fca5a5"; }
+    var locked = gotCorrect || (wasTried && !isThis);
+    return E("button", {
+      key: label,
+      onClick: function() { handleAnswer(label); },
+      style: { padding: "10px 14px", borderRadius: 8, border: border, background: bg, fontSize: 14, fontWeight: 600, cursor: locked ? "default" : "pointer", color: "var(--ink)" }
+    }, label);
+  };
+  var content;
+  if (!started) {
+    content = E("div", { style: { textAlign: "center" } },
+      E(ActivityButton, { onClick: function() { setStarted(true); }, style: { margin: "0 auto" } }, "Start matching"));
+  } else if (done) {
+    var numCorrect = results.filter(function(r) { return r; }).length;
+    content = E("div", null,
+      E("div", { style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 16 } }, "You matched " + numCorrect + " of " + QUESTIONS.length + " on the first try."),
+      E(KeyInsight, { lead: "These names are the model\u2019s number machinery." },
+        "Dimensions hold values. Vectors bundle values. Tables store vectors. Parameters are the stored learned numbers across the whole model."));
+  } else {
+    var gotCorrect = answer === q.correct;
+    var feedback = answer !== null ? E("div", null,
+      E("div", { style: { padding: "12px 16px", borderRadius: 8, marginTop: 14, background: gotCorrect ? "#dcfce7" : "#fef2f2", border: "1px solid " + (gotCorrect ? "#86efac" : "#fca5a5"), fontSize: 14, color: "var(--ink)" } },
+        gotCorrect ? "\u2705 Correct!" : "\u274C Try again."),
+      gotCorrect ? E("div", { style: { textAlign: "center" } },
+        E(ActivityButton, { onClick: advance, style: { padding: "10px 20px", marginTop: 12 } }, qIdx < QUESTIONS.length - 1 ? "Next \u2192" : "Finish \u2192"))
+        : null) : null;
+    content = E("div", null,
+      E("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 8 } }, "Question " + (qIdx + 1) + " of " + QUESTIONS.length),
+      E("div", { style: { fontSize: 16, color: "var(--ink)", marginBottom: 16, lineHeight: 1.5, padding: "14px 18px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } }, "\u201C" + q.def + "\u201D"),
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 } }, TERMS.map(termBtn)),
+      feedback);
+  }
+  return E(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Match the Names",
+    hint: "Match each definition to one of the five terms."
+  }, content);
+}
 function BehindTheNumbersSection(props) {
   var E = React.createElement;
+  const [matchComplete, setMatchComplete] = useState(false);
   var NAMING_STEPS = [
     {
       step: "Create slots for comparison",
@@ -5102,18 +5199,15 @@ function BehindTheNumbersSection(props) {
     E(LessonHeader, { sectionId: "behindthenumbers" }),
 
     E(BodyP, null,
-      "There is a term used by software engineers to describe AI; it\u2019s a ",
+      "There is a term software engineers use for AI: a ",
       E("strong", null, "Black Box"),
-      "."),
+      ". With a regular calculator, if you type 2+2 and it says 5, a programmer can open the code, find the broken line, and fix it. The path from input to output is traceable."),
 
     E(BodyP, null,
-      "With a regular calculator, if you type 2+2 and it says 5, a programmer can open the code, find the line that\u2019s broken, and fix it. The path from input to output is traceable. You saw some of this in Rules vs Patterns."),
+      "AI is different. When you give ChatGPT a prompt and it writes you a poem, nobody (not even the people who built it) can point to a specific spot inside the model and say \u201Cthat\u2019s where the rhyme came from.\u201D You can study its behavior from outside, but you can\u2019t crack it open and read the logic like normal software."),
 
     E(BodyP, null,
-      "But it goes further than that. When you give ChatGPT a prompt and it writes you a poem, nobody (not even the people who built it) can point to a specific spot inside the model and say \u201Cthat\u2019s where the rhyme came from.\u201D That\u2019s because the answer comes from billions of tiny numbers firing together, not from any one line of code."),
-
-    E(BodyP, null,
-      "You can study its behavior from the outside (poke it with prompts, see what it does) but you can\u2019t crack it open and read the logic the way you can with normal software."),
+      "So what IS inside? Learned numbers. Billions of them, adjusted during training until they helped the model predict better. This page names them."),
 
     E(SectionKicker, null, "HOW BIG THIS GETS IN A REAL MODEL"),
     E(BodyP, null,
@@ -5144,7 +5238,7 @@ function BehindTheNumbersSection(props) {
           E("div", null, "Trained on massive collections of text")))),
 
     E(BodyP, null,
-      "You just gave six drinks a number profile by hand. You chose the dimensions. You entered the values. Now picture thousands of dimensions and billions of values, with no one creating the dimensions and no one entering the values."),
+      "You just gave six drinks a number profile by hand. You chose the dimensions. You entered the values. In a real model, engineers choose the architecture: how many dimensions, how many layers, and how the parts connect. But training learns the actual values. And the dimensions usually don\u2019t end up with clean labels like sweetness or caffeine."),
 
     E(BodyP, null,
       "Those numbers came out of training, not from a person. That\u2019s the ",
@@ -5176,11 +5270,35 @@ function BehindTheNumbersSection(props) {
 
     E(SectionKicker, null, "WHAT ARE PARAMETERS?"),
     E(BodyP, null,
-      "When someone says a model has 70 billion parameters, they do not mean 70 billion dimensions. They mean 70 billion learned internal numbers. Some help store embedding vectors. Others help the later layers process context, attention, style, facts, and patterns."),
+      "When someone says a model has something like 70 billion parameters, they don\u2019t mean 70 billion facts or 70 billion dimensions. They mean 70 billion stored learned numbers. Some are in the embedding table. Many more are in the attention and transformation layers. Together, those numbers shape how the model handles grammar, style, facts, context, and patterns."),
 
-    E(KeyInsight, { lead: "Five named pieces. Billions of nameless numbers." }, "The architecture is simple enough to draw on a napkin. The weights inside it are a different story. That’s why nobody, including the people who built the model, can fully explain why it said what it said."),
+    E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16, marginBottom: 14 } },
+      E(CompareCard, { bg: "#ecfdf5" },
+        E("div", { style: { fontSize: 12, fontWeight: 800, color: "#047857", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "Stored numbers"),
+        E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 10 } }, "Parameters"),
+        E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.7 } },
+          E("div", { style: { marginBottom: 6 } }, "\u2022 Learned during training"),
+          E("div", { style: { marginBottom: 6 } }, "\u2022 Stay in the model after the chat ends"),
+          E("div", null, "\u2022 Embedding table values and layer weights"))),
+      E(CompareCard, { bg: "#fef3c7" },
+        E("div", { style: { fontSize: 12, fontWeight: 800, color: "#92400e", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "Temporary numbers"),
+        E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 10 } }, "Activations"),
+        E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.7 } },
+          E("div", { style: { marginBottom: 6 } }, "\u2022 Created while processing one prompt"),
+          E("div", { style: { marginBottom: 6 } }, "\u2022 Change as the model reads context"),
+          E("div", null, "\u2022 Disappear after the answer is generated")))),
 
-    E(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); } }, "Next: Attention"));
+    E(BodyP, null,
+      "Parameters are stored. They stay in the model after training. ",
+      E("strong", null, "Activations"),
+      " are temporary: working numbers the model creates while processing one prompt. The next lesson, Attention & Transformation, is about how those temporary numbers get updated."),
+
+    E(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
+
+    E(KeyInsight, { lead: "The model is learned numbers, not written rules." },
+      "Humans design the structure. Training learns the values. And each prompt creates temporary working numbers that move through the layers. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),
+
+    E(NextLessonGate, { ready: matchComplete, lockedMessage: "Match all five terms to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); }, label: "Next: Attention & Transformation" }));
 }
 function PredictionSection(props) {
   const [seeStep, setSeeStep] = useState(0);
@@ -5578,8 +5696,12 @@ const LAYER_WORDS = {
 };
 function LayersSection(props) {
   const [activeLayer, setActiveLayer] = useState(0);
+  const [reachedFinal, setReachedFinal] = useState(false);
   const bankLayers = LAYER_WORDS.bank.layers;
   const bankLayer = bankLayers[activeLayer];
+  useEffect(function() {
+    if (activeLayer === bankLayers.length - 1) setReachedFinal(true);
+  }, [activeLayer]);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
     /*#__PURE__*/React.createElement(BodyP, null, "You just learned the two operations AI uses to read: attention and transformation. Working as a pair, they\u2019re how meaning gets built."),
@@ -5599,7 +5721,7 @@ function LayersSection(props) {
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDD04"),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b", marginBottom: 4 } }, "Transformation"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "What they mean together")
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Updates each word based on context")
         )
       )
     ),
@@ -5649,7 +5771,7 @@ function LayersSection(props) {
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What do different layers do?"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The AI companies create the layers and their strategy when they set up the model. And, they don’t share specific information about each layer. Generally, we know that each layer has a specific purpose. And remember, during each layer, the model does the Attention and Transform functions."
+      "Engineers choose the architecture before training: how many layers, how wide each layer is, and how they connect. Training then learns the numbers inside those layers. Different layers often become useful for different kinds of patterns, but they aren’t cleanly labeled jobs like “grammar layer” or “reasoning layer.” In every layer, the same basic cycle repeats: attention gathers context, transformation updates the vectors."
     ),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 24 }
@@ -5663,7 +5785,7 @@ function LayersSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
           /*#__PURE__*/React.createElement("div", {
             style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 6 }
-          }, "Raw Tokens"),
+          }, "Starting vectors"),
           /*#__PURE__*/React.createElement("div", {
             style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkMuted)", background: "var(--card)", borderRadius: 8, padding: "6px 10px", border: "1px solid var(--rule)" }
           }, "[0.12, -0.48, 1.03, ...]")),
@@ -5695,7 +5817,7 @@ function LayersSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
           /*#__PURE__*/React.createElement("div", {
             style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 6 }
-          }, "Ready to Predict"),
+          }, "Final representation"),
           /*#__PURE__*/React.createElement("div", {
             style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkMuted)", background: "var(--card)", borderRadius: 8, padding: "6px 10px", border: "1px solid var(--rule)" }
           }, "[0.61, 0.34, 1.78, ...]"))
@@ -5823,15 +5945,17 @@ function LayersSection(props) {
     ),
     /*#__PURE__*/React.createElement(SectionKicker, { style: { marginTop: 48 } }, "How many layers are there?"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The AI companies don’t share this number because it’s fundamental to how their LLMs work. It’s almost like a blueprint. If other companies knew the layers and what they do, they could essentially copy their process."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "A recent AI Innovation"),
+      "Layer count varies by model. Open-source models like Llama and Mistral publish their architecture, including the number of layers. Closed commercial labs often keep many details private: architecture, training data, training compute, and training methods. But layer count alone isn’t enough to copy a model. The trained parameters, the data, the training recipe, and the engineering all matter much more."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Selective compute: a newer way to save"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "With thousands of numbers running through all these layers, it almost impossible to visualize the number of calculations taking place. This is one reason why AI needs so much power to run. The physical infrastructure required is intense."),
+      "With huge vectors moving through many layers, the amount of computation adds up fast. That’s one reason powerful AI systems need so much hardware."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Some of the newest models alleviate some of this by using more selective layers. Hypothetically, if some layers handle deep reasoning, and AI determines those aren’t needed, it will skip those layers."),
+      "Some newer architectures use selective computation to reduce cost. For example, ",
+      /*#__PURE__*/React.createElement("strong", null, "mixture-of-experts"),
+      " models split each layer into many expert sub-networks. For every token, a router picks just a few experts to use instead of running all of them. The model is still following a designed computation path. It just isn’t activating every part of the network for every token."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "Same Layers, Two Jobs",
-      intro: "Here’s why the compute adds up so fast. The layers run once to read your message, then again for every word the model writes."
+      intro: "Here’s why the compute adds up so fast. The same stack of layers runs while the model reads your prompt, then again for every new token the model writes."
     },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }
@@ -5841,19 +5965,21 @@ function LayersSection(props) {
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "📖"),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--primary)", marginBottom: 4 } }, "Reading"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Your message runs through the layers once.")
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Your prompt tokens pass through the layers so the model can build a context-aware representation.")
         ),
         /*#__PURE__*/React.createElement("div", {
           style: { textAlign: "center", padding: "20px 16px", background: "#f59e0b22", borderRadius: 14, border: "2px solid #f59e0b" }
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "✍️"),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b", marginBottom: 4 } }, "Writing"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Each word the model writes runs through the layers again.")
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Each new output token requires another round of layer processing. Systems use caching and other speedups, but generation still adds up.")
         )
       )
     ),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Layers turn starting vectors into context-aware vectors." },
+      "By the final layer, the model hasn’t found “truth.” It has built the representation it will use to score what could come next. The next section, AI Answers, shows how that representation becomes a response."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openeranswers"), label: "Next: AI Answers" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: reachedFinal, lockedMessage: "Reach the final layer in the bank activity to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openeranswers"), label: "Next: AI Answers" })
   );
 }
 function InferenceSection(props) {

@@ -880,7 +880,7 @@ const SECTION_META = {
   whenaiacts: { kicker: "PERMISSION MATTERS", label: "When AI Acts", icon: "\uD83E\uDD16" },
   openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   aistrengths: { kicker: "WHERE IT EARNS ITS KEEP", label: "The AI Trust Test", icon: "\u2696\uFE0F" },
-  critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking & AI", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
+  critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking & AI", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -8290,6 +8290,24 @@ const CT_CONCEPTS = [{
     analysis: "If you don't play or watch soccer, this sounds perfectly reasonable, and it is correct. But that's the point: you had no way to know that without checking. When AI gives you an answer about something outside your expertise, that's when you need to cross-reference. The less you know about a topic, the more carefully you should verify."
   }
 }, {
+  id: "missing",
+  label: "What's Missing?",
+  icon: "\uD83E\uDDE9",
+  desc: "AI tells you what it knows, not what it left out.",
+  lead: "AI tells you what it knows. Not what it left out.",
+  detail: "Look for context, exceptions, perspectives, and counterarguments the answer skipped.",
+  scenario: {
+    prompt: "Did Edison invent the lightbulb?",
+    response: "Yes. Thomas Edison invented the lightbulb in 1879. After testing thousands of materials, he developed a carbon filament that could burn for over 13 hours, which led to the commercial electric lighting that transformed the world.",
+    question: "What's missing from this answer?",
+    options: [
+      { label: "Nothing major. Edison is the inventor, and the answer covers the basics.", correct: false, feedback: "The answer is technically correct, but it tells the clean version. Joseph Swan demonstrated a working bulb in England the year before. Several inventors built bulbs before Edison. Lewis Latimer later improved the filament so it lasted much longer. Edison's real contribution was making the bulb commercially practical and building the electrical system to power it, not inventing the bulb from scratch." },
+      { label: "Other inventors built working bulbs before Edison; his real contribution was making one practical at scale.", correct: true, feedback: "Right. Joseph Swan demonstrated a working bulb in England the year before. Lewis Latimer later improved the filament. Several inventors built bulbs before either of them. The answer is correct as far as it goes, but it tells the simple story. AI hands you the clean version unless you ask what got left out." },
+      { label: "The date is wrong; the lightbulb existed long before 1879.", correct: false, feedback: "1879 is the right year for Edison's demonstration. The trap here isn't a wrong date, it's a clean story that skips the other inventors and earlier bulbs. The answer is correct as far as it goes, but it leaves out the context that would change what \"invented\" actually means." }
+    ],
+    analysis: "Joseph Swan demonstrated a working bulb in England the year before Edison. Several inventors built bulbs before either of them. Lewis Latimer later improved the filament so the bulb lasted longer. The answer is correct, but it tells the clean version. AI gives you the simple story unless you ask what got left out."
+  }
+}, {
   id: "automation",
   label: "Don't Auto-Trust It",
   icon: "\uD83E\uDD16",
@@ -8334,14 +8352,14 @@ const CT_CONCEPTS = [{
   detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don\u2019t know which without verifying.",
   scenario: {
     prompt: "What are the health benefits of cold showers?",
-    response: "According to a 2016 study published in the Journal of Clinical Investigation, cold showers boost immune function by 29% and increase metabolic rate by up to 350%. Dr. Sarah Chen of Harvard Medical School recommends cold exposure for at least 3 minutes daily.",
+    response: "According to a 2016 study published in the Journal of Clinical Investigation, cold showers boost immune function by 29% and increase metabolic rate by up to 350%. Dr. Mara Lentz of Northbridge Medical School recommends cold exposure for at least 3 minutes daily.",
     question: "Do these sources check out?",
     options: [
-      { label: "Yes, the journal and the Harvard doctor are real references", correct: false, feedback: "The journal name is real. That specific 2016 study, the exact statistics, and \u2018Dr. Sarah Chen\u2019 are all fabricated. The model generated plausible-sounding citations because that\u2019s what it\u2019s trained to do: produce text that looks right. Specific sources are exactly the part that needs verifying." },
-      { label: "No, AI-generated citations need to be verified before you use them", correct: true, feedback: "Right. The journal is real, but that specific study, that exact statistic, and \u2018Dr. Sarah Chen\u2019 are all fabricated. The model generated plausible-sounding citations because that\u2019s what it\u2019s trained to do: produce text that looks right. Never trust AI-generated citations without verifying them yourself." },
+      { label: "Yes, the journal and the doctor are real references", correct: false, feedback: "The journal name is real. That specific 2016 study, the exact statistics, and \u2018Dr. Mara Lentz of Northbridge Medical School\u2019 are all fabricated. The model generated plausible-sounding citations because that\u2019s what it\u2019s trained to do: produce text that looks right. Specific sources are exactly the part that needs verifying." },
+      { label: "No, AI-generated citations need to be verified before you use them", correct: true, feedback: "Right. The journal is real, but that specific study, that exact statistic, and \u2018Dr. Mara Lentz of Northbridge Medical School\u2019 are all fabricated. The model generated plausible-sounding citations because that\u2019s what it\u2019s trained to do: produce text that looks right. Never trust AI-generated citations without verifying them yourself." },
       { label: "Probably, since the numbers are very specific", correct: false, feedback: "Specificity is part of the trick. Real-sounding numbers (29%, 350%, \u20183 minutes daily\u2019) make the citation feel authoritative. They\u2019re also exactly what the model is good at generating from patterns. Specific does not mean verified." }
     ],
-    analysis: "They don't. The journal is real, but that specific study, that exact statistic, and \"Dr. Sarah Chen\" are all fabricated. The model generated plausible-sounding citations because that's what it's trained to do: produce text that looks right. Never trust AI-generated citations without verifying them yourself."
+    analysis: "They don't. The journal is real, but that specific study, that exact statistic, and \"Dr. Mara Lentz of Northbridge Medical School\" are all fabricated. The model generated plausible-sounding citations because that's what it's trained to do: produce text that looks right. Never trust AI-generated citations without verifying them yourself."
   }
 }];
 function CriticalThinkingSection(props) {
@@ -8443,8 +8461,9 @@ function CriticalThinkingSection(props) {
     lesson: "Watch out for stats that only count who\u2019s left. The sample is filtered. Always ask: who got measured, and who got left out?"
   }];
   const ex101 = CT_101[active101] || CT_101[CT_101.length - 1];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned how LLMs work, what shapes their output, and when they go wrong. Now here\u2019s the skill that ties it all together: ", /*#__PURE__*/React.createElement("strong", null, "critical thinking"), ". AI makes you faster at both good work and bad work. The difference is whether you think about the output or just accept it."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "The AI Trust Test told you how much follow-up an answer needs. ", /*#__PURE__*/React.createElement("strong", null, "Critical thinking"), " is what you do during that follow-up. AI makes you faster at both good work and bad work, and the difference is whether you question the output before you use it."),
   /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking is the habit of not taking information at face value. It is the process of actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
+  /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t \u201Cdon\u2019t trust anything,\u201D either. It\u2019s the habit of asking what would have to be true for a claim to hold up."),
   /*#__PURE__*/React.createElement(BodyP, null, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -8493,14 +8512,15 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { height: 10 } }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "There are five habits you can build to sharpen your critical thinking with AI."),
+    "There are six habits you can build to sharpen your critical thinking with AI."),
   (function() {
     var HABITS_OVERVIEW = [
       { id: "question", icon: "\u2753", label: "Question the Output", lead: "Your first instinct: is this actually right?", detail: "AI sounds confident whether the answer is correct or not. Smooth writing isn't proof." },
       { id: "unknowns", icon: "\uD83E\uDDD0", label: "Know Your Limits", lead: "If you can't evaluate it, you're flying blind.", detail: "The further the topic is from what you know, the more carefully you have to verify. That's exactly when AI feels most authoritative." },
+      { id: "missing", icon: "\uD83E\uDDE9", label: "What's Missing?", lead: "AI tells you what it knows. Not what it left out.", detail: "Look for context, exceptions, perspectives, and counterarguments the answer skipped." },
       { id: "automation", icon: "\uD83E\uDD16", label: "Don't Auto-Trust It", lead: "Confident isn't the same as correct.", detail: "Polished output triggers a 'must be right' reflex. That's a bias, not a verdict." },
       { id: "tool", icon: "\uD83D\uDD28", label: "Keep Ownership", lead: "You decide what to keep, change, or toss.", detail: "AI generates options. The thinking, the call, and the consequences are yours." },
-      { id: "source", icon: "\uD83D\uDCDA", label: "Check Sources", lead: "AI invents citations. Always check.", detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don't know which without verifying." }
+      { id: "source", icon: "\uD83D\uDCDA", label: "Check Sources", lead: "AI can invent citations. Check before you cite.", detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don't know which without verifying." }
     ];
     var renderHabitCard = function(habit, i, totalShown, animateLast) {
       return /*#__PURE__*/React.createElement("div", {
@@ -8518,7 +8538,7 @@ function CriticalThinkingSection(props) {
     return /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
-      title: "The 5 Habits",
+      title: "The 6 Habits",
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
@@ -8536,7 +8556,7 @@ function CriticalThinkingSection(props) {
         isComplete: habitsRevealed >= HABITS_OVERVIEW.length,
         startLabel: "See First Habit \u2193",
         nextLabel: "Next Habit \u2193",
-        finishLabel: "All five habits \u2193",
+        finishLabel: "All six habits \u2193",
         completionElement: /*#__PURE__*/React.createElement("div", {
           style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
         },
@@ -8558,7 +8578,7 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Spot the AI Trap",
+    title: "Interrogate the Output",
     action: /*#__PURE__*/React.createElement("div", {
       style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
     },
@@ -8576,12 +8596,12 @@ function CriticalThinkingSection(props) {
       isComplete: activeConcept >= CT_CONCEPTS.length,
       startLabel: "First Trap \u2192",
       nextLabel: "Next Trap \u2192",
-      finishLabel: "All five spotted \u2192",
+      finishLabel: "All six spotted \u2192",
       completionElement: /*#__PURE__*/React.createElement("div", {
         style: { padding: "20px 0", textAlign: "center" }
       },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83E\uDDE0"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "All five habits in the wild."),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "All six habits in the wild."),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "You\u2019ve seen what each habit catches. That\u2019s the work."))
     },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
@@ -8604,7 +8624,8 @@ function CriticalThinkingSection(props) {
         onAnswer: function(idx) { setHabitAnswer(idx); }
       }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitAnswer !== null || problemAnswer !== null, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
+    /*#__PURE__*/React.createElement(BodyP, null, "Next, you\u2019ll see why the question you ask matters as much as the answer you check."),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitsRevealed >= 6 && habitAnswer !== null, lockedMessage: "See all habits and try one scenario to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -13135,7 +13156,7 @@ function QuestionsValuableSection(props) {
     weak: "Give me ideas.",
     options: [
       { label: "Give me 10 creative ideas. Mix them up and make them interesting and different from each other.", correct: false, feedback: "Adding \u2018creative\u2019 and \u201810\u2019 doesn\u2019t fix the core problem. Ideas for what? The AI will generate 10 random things that have nothing to do with what you actually need." },
-      { label: "I'm planning my 16th birthday and have a $200 budget. 8 friends will come, mostly girls, and we live in Dallas. Give me 5 ideas that are something other than a movie or restaurant. For each one, estimate the cost.", correct: true, feedback: "Right. Specifies the situation (16th birthday), the budget, the group size and makeup, the location, what to avoid, the count, and an extra ask (cost estimate). Now the AI can actually be useful." },
+      { label: "I'm planning my 16th birthday and have a $200 budget. 8 friends will come and we live in Dallas. Give me 5 ideas that are something other than a movie or restaurant. For each one, estimate the cost.", correct: true, feedback: "Right. Specifies the situation (16th birthday), the budget, the group size, the location, what to avoid, the count, and an extra ask (cost estimate). Now the AI can actually be useful." },
       { label: "Give me ideas for fun things to do that aren't boring.", correct: false, feedback: "More words, no more information. \u2018Fun\u2019 and \u2018boring\u2019 are still subjective and the AI has no idea who you are or what your situation is." }
     ]
   }, {
@@ -13188,24 +13209,24 @@ function QuestionsValuableSection(props) {
       bg: "#ecfdf5",
       border: "#a7f3d0",
       items: [
-        "Judgment",
-        "Problem framing",
-        "Taste and prioritization",
-        "Verification",
-        "The next question"
+        "Framing the problem",
+        "Setting constraints",
+        "Defining what good looks like",
+        "Asking the next question"
       ]
     }
   ];
   var VALUABLE = [
-    { icon: "\uD83C\uDFAF", title: "Framing the real problem", desc: "Most bad AI output starts with a fuzzy question. Naming what actually needs to be solved is half the work." },
-    { icon: "\uD83D\uDCCF", title: "Setting constraints", desc: "\u201CDo it well\u201D isn\u2019t a spec. Deciding the audience, the format, the limits, and what to leave out shapes everything that comes back." },
-    { icon: "\uD83C\uDFC1", title: "Defining success", desc: "Before you ask, know what a good answer looks like. Without that, you can\u2019t tell whether the output is useful or just fluent." },
-    { icon: "\u2705", title: "Judging the answer", desc: "Fluent isn\u2019t the same as right. Spotting where the reasoning wobbles is a skill AI can\u2019t do for you." },
-    { icon: "\uD83D\uDD0D", title: "Verifying what matters", desc: "Not every line needs a fact-check, but the parts that do, need one. Deciding which is which is the job." },
-    { icon: "\u27A1\uFE0F", title: "Asking the next better question", desc: "The real value of AI is in the second, third, and fourth question. That\u2019s where thinking happens." }
+    { icon: "\uD83C\uDFAF", title: "Frames the problem", desc: "Most bad AI output starts with a fuzzy question. Naming what actually needs to be solved is half the work." },
+    { icon: "\uD83D\uDCCF", title: "Sets constraints", desc: "\u201CDo it well\u201D isn\u2019t a spec. Deciding the audience, the format, the limits, and what to leave out shapes everything that comes back." },
+    { icon: "\uD83C\uDFC1", title: "Defines success", desc: "Before you ask, know what a good answer looks like. Without that, you can\u2019t tell whether the output is useful or just fluent." },
+    { icon: "\u27A1\uFE0F", title: "Creates the next move", desc: "A good question asks for something you can use, test, revise, or decide from. Not just something fluent to read." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Critical thinking helps you judge the answer after it appears. But judgment starts earlier than that, with the question you ask."
+    ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI makes answers cheap. That does not make humans less valuable. It changes ",
       /*#__PURE__*/React.createElement("em", null, "where"),
@@ -13283,6 +13304,8 @@ function QuestionsValuableSection(props) {
       "The second person gets more value not because the AI is smarter, but because the human asked a better question. Purpose, role, format, and a real judgment call, all packed into one prompt."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
+      "A better question doesn\u2019t make the answer automatically true. It just makes the answer more focused, more useful, and easier to check."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "Your turn. Each scenario starts with a weak prompt. Pick the version that actually upgrades it. Watch out for the ones that just add more words."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -13327,8 +13350,8 @@ function QuestionsValuableSection(props) {
           onAnswer: function(idx) { setUpgradeAnswer(idx); }
         }))),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "WHAT\u2019S VALUABLE NOW",
-      intro: "Not prompt tricks. Real thinking skills, surfaced by a tool that can finally handle the easy part.",
+      kicker: "WHAT A BETTER QUESTION DOES",
+      intro: "Not prompt tricks. Four things a well-framed question gives the AI to work with.",
       marginTop: 32,
       marginBottom: 32
     },
@@ -13347,10 +13370,12 @@ function QuestionsValuableSection(props) {
         })
       )
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The advantage no longer goes to the person who can produce the fastest first answer." },
-      "It goes to the person who can ask the question that leads somewhere useful."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The advantage no longer goes to whoever produces the fastest first answer." },
+      "It goes to the person who frames the problem, sets the standard, and asks the next better question."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Asking better questions is one piece of the human edge. Next, the rest of it: judgment, verification, taste, and ownership."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("humanedge"); } }, "Next: Skills That Matter")
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: upgradeIdx >= UPGRADE_SCENARIOS.length, lockedMessage: "Finish all five scenarios to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("humanedge"); }, label: "Next: Skills That Matter" })
   );
 }
 function HumanEdgeSection(props) {

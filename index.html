@@ -355,7 +355,12 @@ function useReducedMotion() {
   return reduced;
 }
 function NextLessonGate(props) {
-  return React.createElement(PrimaryButton, { onClick: props.onClick }, props.label);
+  var isReady = props.ready === undefined ? true : !!props.ready;
+  return React.createElement("div", null,
+    React.createElement(PrimaryButton, { onClick: props.onClick, disabled: !isReady }, props.label),
+    !isReady && props.lockedMessage ? React.createElement("div", {
+      style: { textAlign: "center", marginTop: 10, fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic" }
+    }, props.lockedMessage) : null);
 }
 
 function OpenerSection(props) {
@@ -3780,7 +3785,7 @@ function ProbabilitySection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "probability" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You just saw Inference. Stage 5 was where the model scores every possible next word and picks one."
+      "You just saw Inference. Stage 5 was where the model scores every possible next token and picks one."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That step has its own name: probability. And it’s worth slowing down because it’s the single move AI repeats for every word in every response you’ve ever seen."
@@ -4173,7 +4178,7 @@ function TrainingSection(props) {
   }, {
     actor: "humans",
     title: "Gather the data",
-    text: "Teams at the AI company collect billions of pages of text, images, audio, video, and code: books, websites, conversations, photos, podcasts, and more. Most of it is messy and unstructured. This becomes the model\u2019s curriculum."
+    text: "Teams at the AI company collect huge amounts of training data: books, websites, conversations, and code, plus images, audio, or video for models that handle those. Most of it is messy and unstructured. This becomes the model\u2019s curriculum."
   }, {
     actor: "model",
     title: "Predict the next token (practice)",
@@ -4199,18 +4204,27 @@ function TrainingSection(props) {
   }, {
     actor: "humans",
     title: "Rank AI\u2019s answers (RLHF)",
-    text: "The model writes multiple answers and human reviewers rank which are best. It\u2019s like a coaching staff reviewing film after every game: \u2018that play was the right call, but that one needs work.\u2019 Over thousands of rankings, it learns to be helpful, honest, and safe. This is why Claude, ChatGPT, and Gemini all feel different: they each had different coaches with different priorities."
+    text: "The model writes multiple answers and human reviewers rank which are best. It\u2019s like a coaching staff reviewing film after every game: \u2018that play was the right call, but that one needs work.\u2019 Over thousands of rankings, the model gets nudged toward more helpful, honest, and safe answers. RLHF (Reinforcement Learning from Human Feedback) is one common version of this kind of tuning. It\u2019s part of why Claude, ChatGPT, and Gemini can feel different. Training data, safety choices, tools, and product design also shape the experience."
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "training" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "How does a company build an LLM? By training it. We've mentioned Training several times during this course. And now, you'll get to see how it actually happens."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Think about learning to drive. You do not start by jumping onto the highway alone. First, you study the rules, watch other drivers, practice in controlled situations, make mistakes, and get corrected by an instructor. All of that happens before you drive on your own."),
+      "Think about learning to shoot a basketball. You don't become good from a single shot. You practice, miss, adjust your form, get feedback, and repeat until the motion starts to work."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Training works the same way for LLMs. Before you ever open ChatGPT or Claude, the model has already gone through a massive training process. It studies huge amounts of data, practices predicting what comes next, and adjusts its internal numbers over and over again based on whether its prediction was right or wrong."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have knowledge cutoffs. Products can add live search, files, memory, or tools, but the core model is not relearning from scratch every time you chat."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "THREE PHASES, SEVEN STAGES"),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "The seven stages below fall into three phases. ",
+    /*#__PURE__*/React.createElement("strong", null, "Pretraining"),
+    " teaches the model broad patterns from massive data. ",
+    /*#__PURE__*/React.createElement("strong", null, "Instruction tuning"),
+    " teaches it to respond like an assistant. ",
+    /*#__PURE__*/React.createElement("strong", null, "Preference tuning"),
+    " nudges it toward better answers."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
@@ -5802,15 +5816,15 @@ function InferenceSection(props) {
   }, {
     chip: { icon: "🧅", label: "LAYERS", tone: "muted" },
     title: "Flow through the layers",
-    description: "The vectors enter ~100 layers. Each layer runs attention (which words matter to which?) then transformation (what they mean together). By the final layer, every word’s meaning is shaped by every other word in the sentence."
+    description: "The vectors enter ~100 layers. Each layer runs attention (which tokens matter to which?) then transformation (what they mean together). By the final layer, every token’s meaning is shaped by every other token in the sentence."
   }, {
     chip: { icon: "🎲", label: "PROBABILITY", tone: "bright" },
-    title: "Score every possible next word",
-    description: "After all the layers, the model has a probability score for every possible next word. About 100,000 candidates. Each one gets a probability based on everything that came before."
+    title: "Score every possible next token",
+    description: "After all the layers, the model has a probability score for every possible next token. About 100,000 candidates. Each one gets a probability based on everything that came before."
   }, {
     chip: { icon: "🎯", label: "PREDICTION", tone: "bright" },
-    title: "Pick the next word (and repeat)",
-    description: "The model picks one word from those probabilities, adds it to the response, and runs the whole journey again from stage 2. Every word is its own full pass."
+    title: "Pick the next token (and repeat)",
+    description: "The model picks one token from those probabilities, adds it to the response, and runs the whole journey again from stage 2. Every token is its own full pass."
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned what gets sent to AI: your prompt, plus everything else in the context window."),
   /*#__PURE__*/React.createElement(BodyP, null, "Now let’s map what AI does with all of that. The whole journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
@@ -5855,7 +5869,7 @@ function InferenceSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { padding: "20px 0", textAlign: "center" } },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "🔁"),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Now repeat the entire journey."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Every word in the response is its own full pass through the model. And again. And again.")))
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Every token in the response is its own full pass through the model. And again. And again.")))
     },
       /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
@@ -5888,7 +5902,7 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
-    title: "Behind a Single Question"
+    title: "Why it feels instant"
   },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
     /*#__PURE__*/React.createElement(UserBubble, { text: computeQuestion, visibleChars: computeQChars }),
@@ -5908,7 +5922,7 @@ function InferenceSection(props) {
       }))) : null),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Billions of calculations, all for one word." }, "Every word the model writes is its own fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Next we’ll zoom into stage 5: how the model scores every possible next word."),
+    "Next we’ll zoom into stage 5: how the model scores every possible next token."),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
@@ -5917,7 +5931,7 @@ const CONTEXT_WINDOW_FACTS = [{
   words: "~3,000",
   analogy: "About 6 pages"
 }, {
-  label: "Claude models (as of May, 2026)",
+  label: "Latest Claude models (as of May, 2026)",
   tokens: "1 Million",
   words: "~750,000",
   analogy: "About the size of the first 6 Harry Potter novels"
@@ -6107,7 +6121,7 @@ function PromptSection(props) {
       "Every time you talk with AI, there’s a back-and-forth: you send a prompt, AI runs inference, and an answer comes back. This lesson zooms in on your half: the prompt."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT A PROMPT CAN BE"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Most prompts are text, but they don’t have to be. Today’s AI can work with several kinds of input. Click each format to see."),
+      "Most prompts are text, but they don’t have to be. Many AI products can work with several kinds of input, depending on the product. Click each format to see."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -6169,7 +6183,7 @@ function PromptSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your prompt is what you send. Period." },
-      "Text, images, video, documents: all of it counts. What else the model can see when it answers is the next lesson."),
+      "Text, images, video, documents: all of it counts. The model often sees more than just your prompt when it answers. That bigger picture is the next lesson."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(formsRevealed).length === 4, lockedMessage: "Click all four formats to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("context"), label: "Next: Context Window" })
   );
 }
@@ -6253,13 +6267,13 @@ function ContextSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       /*#__PURE__*/React.createElement("strong", null, "Understanding why this happened is one of the keys to being smarter than the tool.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "When you use a specific model of ChatGPT, it’s the same model everyone else starts with. That means it has the same pre-trained data."),
+      "When you use a specific model of ChatGPT, it’s the same model everyone else starts with. That means it has the same core model and weights."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "But ChatGPT knows more than the last question you typed. For example, earlier in his chat, Nate said he loves pickup trucks. When ChatGPT answers his question, it recognizes this and suggests the truck."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "What do you call everything the LLM knows when it answers your questions? The ",
+      "What do you call everything the model can see when it answers your question? The ",
       /*#__PURE__*/React.createElement("strong", null, "context window."),
-      " Think of it almost like the working memory the LLM uses when it answers your question. And, it builds the working memory from several places."),
+      " Think of it almost like the working memory the model uses to answer. And it builds that working memory from several places."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Click each to see what they are."),
     /*#__PURE__*/React.createElement(InteractiveBox, {

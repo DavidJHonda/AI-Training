@@ -4682,7 +4682,7 @@ const EMBEDDING_WORDS = [{
 }];
 const GROUP_COLORS = {
   royalty: "#8b5cf6",
-  people: "var(--primary)",
+  people: "#6e51ff",
   animals: "#10b981",
   vehicles: "#f59e0b",
   emotions: "#ec4899"
@@ -4879,14 +4879,23 @@ function EmbeddingsSection(props) {
 function VectorSpaceSection(props) {
   var E = React.createElement;
   const [hoveredWord, setHoveredWord] = useState(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [lastGroup, setLastGroup] = useState(null);
+  const GROUP_FEEDBACK = {
+    royalty: "Royalty: king, queen, prince, and princess sit close because they share related roles.",
+    people: "People: man, woman, boy, and girl sit close because they share a category.",
+    animals: "Animals: dog, cat, puppy, and kitten sit close because they share a category.",
+    vehicles: "Vehicles: car, truck, and bicycle sit close because they share a category.",
+    emotions: "Emotions: happy, sad, angry, and joyful sit close as emotion words, even though some are opposites."
+  };
 
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
       "Embeddings turn each token into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
     E(BodyP, null,
-      "The table below has a new column, Pepsi. Notice that the vectors for Coke and Pepsi are identical, except for sweetness. Based on the vectors, Coke and Pepsi have more similar meaning than either token does with Black Coffee."),
-    E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", maxWidth: "calc(100% - 48px)", margin: "0 auto 20px" } },
+      "The table below uses the same toy vectors from the last lesson, plus a new column for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for sweetness. Based on these toy vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
+    E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", width: "100%", maxWidth: 860, margin: "0 auto 20px" } },
       E("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--rule)", alignItems: "center" } },
         E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px" } }, "Dimension"),
         E("div", { style: { textAlign: "center" } },
@@ -4909,12 +4918,15 @@ function VectorSpaceSection(props) {
           cellStyle(row[3], "#8b5cf6", "#f3e8ff"));
       })),
     E(BodyP, null,
-      "Two tokens with similar vectors mean similar things. Two tokens with very different vectors mean very different things."),
+      "Two vectors that are close usually mean related things. Two vectors that are far apart usually mean less related things."),
 
     E(BodyP, null,
       "The model measures this with ",
       E("strong", null, "distance"),
-      ". Coke and Pepsi differ in only one slot (sweetness), so they sit close together in vector space. Coke and Black Coffee differ in nearly every slot, so they sit far apart. Distance is what \u201Csimilar meaning\u201D actually means inside the model."),
+      ". Coke and Pepsi differ in only one slot (sweetness), so they sit close together in vector space. Coke and Black Coffee differ in nearly every slot, so they sit far apart."),
+
+    E(BodyP, null,
+      "Close doesn\u2019t always mean identical. It often means same category, related role, or used in similar contexts."),
 
     E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", padding: "16px 20px", marginBottom: 24 } },
       E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "How close are these vectors?"),
@@ -4932,9 +4944,15 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Vectors that sit close together belong to the same neighborhood of meaning."),
     E(BodyP, null,
-      "Once the model sees the full context, it raises the probabilities of words from the right neighborhood and lowers the probabilities of words that don\u2019t fit. We\u2019ll see exactly how that works when we get to prediction."),
+      "This matters later because prediction depends on which meanings fit the current context. Vector space is one reason the model can handle related words and ideas together."),
     E(BodyP, null,
-      "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each token\u2019s vector. Here\u2019s what AI\u2019s map of meaning looks like when we flatten it to 2D."),
+      "It\u2019s also why AI search can find related ideas, not just exact keyword matches. A search for \u201Ccar\u201D might surface \u201Ctruck\u201D or \u201Cvehicle\u201D because those ideas sit nearby in vector space."),
+    E(BodyP, null,
+      "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each token\u2019s vector."),
+    E(BodyP, null,
+      "Real vector spaces have hundreds or thousands of dimensions, so the picture below is flattened to 2D for human eyes. It\u2019s a cartoon of the pattern, not an exact map."),
+    E("div", { style: { fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic", marginBottom: 10, textAlign: "center" } },
+      "Hover or tap a word to light up its neighborhood."),
     E("div", {
         style: {
           background: "var(--bg)",
@@ -4948,7 +4966,7 @@ function VectorSpaceSection(props) {
         }
       },
         [{ label: "Royalty", color: "#8b5cf6", left: "62%", top: "5%", width: "26%", height: "30%" },
-         { label: "People", color: "var(--primary)", left: "30%", top: "20%", width: "28%", height: "32%" },
+         { label: "People", color: "#6e51ff", left: "30%", top: "20%", width: "28%", height: "32%" },
          { label: "Animals", color: "#10b981", left: "8%", top: "55%", width: "28%", height: "34%" },
          { label: "Vehicles", color: "#f59e0b", left: "62%", top: "60%", width: "28%", height: "30%" },
          { label: "Emotions", color: "#ec4899", left: "24%", top: "72%", width: "46%", height: "26%" }].map(function(zone, i) {
@@ -4979,7 +4997,7 @@ function VectorSpaceSection(props) {
           const dimmed = hoveredWord && hoveredWord !== w.group;
           return E("div", {
             key: i,
-            onMouseEnter: () => setHoveredWord(w.group),
+            onMouseEnter: () => { setHoveredWord(w.group); setHasInteracted(true); setLastGroup(w.group); },
             onMouseLeave: () => setHoveredWord(null),
             style: {
               position: "absolute",
@@ -5001,6 +5019,22 @@ function VectorSpaceSection(props) {
             }
           }, w.word);
         })),
+      E("div", {
+        style: {
+          minHeight: 44,
+          padding: "10px 14px",
+          marginBottom: 14,
+          background: lastGroup ? GROUP_COLORS[lastGroup] + "10" : "transparent",
+          border: lastGroup ? "1px solid " + GROUP_COLORS[lastGroup] + "30" : "1px dashed var(--rule)",
+          borderRadius: 8,
+          fontSize: 14,
+          lineHeight: 1.5,
+          color: lastGroup ? "var(--ink)" : "var(--inkMuted)",
+          fontStyle: lastGroup ? "normal" : "italic",
+          textAlign: "center",
+          transition: "all 0.2s"
+        }
+      }, lastGroup ? GROUP_FEEDBACK[lastGroup] : "Pick a word above."),
       E("div", {
         style: {
           display: "flex",
@@ -5029,8 +5063,10 @@ function VectorSpaceSection(props) {
           textTransform: "capitalize"
         }
       }, group)))),
+    E(KeyInsight, { lead: "Vector space turns meaning into something the model can compare." },
+      "Nearby usually means related. Farther away usually means less related. That\u2019s the comparison move the model uses inside its layers."),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"); }, label: "Next: Behind the Numbers" }));
+    E(NextLessonGate, { ready: hasInteracted, lockedMessage: "Hover or tap a word in the map to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"); }, label: "Next: Behind the Numbers" }));
 }
 
 function BehindTheNumbersSection(props) {

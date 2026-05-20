@@ -4319,23 +4319,144 @@ function TrainingSection(props) {
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 function OpenerInsideSection(props) {
+  var LIFECYCLE = [
+    { label: "Text Becomes Tokens.", desc: "Words break into chunks. Each chunk gets a number ID the model can store and look up.", color: "#3b82f6" },
+    { label: "Tokens Become Meaning.", desc: "Each token ID points to a long list of numbers. That list is the token’s starting meaning, and similar meanings sit close together.", color: "#10b981" },
+    { label: "Tokens Read Each Other.", desc: "Every token looks at the others in the sentence and updates its own meaning based on what’s around it.", color: "#8b5cf6" },
+    { label: "And It Repeats.", desc: "That read-and-update happens layer after layer, building a richer picture until the model is ready to predict what comes next.", color: "#f59e0b" }
+  ];
+  var lifecycleContainerRef = useRef(null);
+  var lifecycleTitleRefs = useRef([]);
+  var lifecycleCardRefs = useRef([]);
+  var _lps = useState(null), lifecyclePaths = _lps[0], setLifecyclePaths = _lps[1];
+  var _lrs = useState({}), lifecycleRevealed = _lrs[0], setLifecycleRevealed = _lrs[1];
+  var revealLifecycle = function(i) { setLifecycleRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = lifecycleContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 4; i++) {
+        var t = lifecycleTitleRefs.current[i], d = lifecycleCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setLifecyclePaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
+
+  var lifecycleInteractive = React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "From text to prediction"
+  },
+    React.createElement("div", {
+      ref: lifecycleContainerRef,
+      style: { position: "relative" }
+    },
+      React.createElement("div", {
+        style: { display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 20, fontWeight: 800, marginBottom: 0 }
+      },
+        LIFECYCLE.map(function(k, i) {
+          var isRevealed = !!lifecycleRevealed[i];
+          return React.createElement("span", {
+            key: i,
+            ref: function(el) { lifecycleTitleRefs.current[i] = el; },
+            onClick: function() { revealLifecycle(i); },
+            style: { color: k.color, cursor: isRevealed ? "default" : "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+          }, k.label);
+        })
+      ),
+      React.createElement("div", { style: { height: 40 } }),
+      lifecyclePaths ? React.createElement("svg", {
+        style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+      },
+        lifecyclePaths.map(function(p, i) {
+          if (!lifecycleRevealed[i]) return null;
+          var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+          var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+          var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+          return React.createElement("path", {
+            key: i, d: d, fill: "none", stroke: LIFECYCLE[i].color, strokeWidth: 2.5
+          });
+        })
+      ) : null,
+      React.createElement("div", {
+        style: { display: "flex", gap: 12 }
+      },
+        LIFECYCLE.map(function(k, i) {
+          var isRevealed = !!lifecycleRevealed[i];
+          return React.createElement("div", {
+            key: i, ref: function(el) { lifecycleCardRefs.current[i] = el; },
+            style: { flex: 1 }
+          },
+            React.createElement("div", {
+              style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + k.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+            },
+              React.createElement("div", {
+                style: { fontWeight: 700, fontSize: 15, color: k.color, marginBottom: 6 }
+              }, k.label),
+              React.createElement("div", {
+                style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+              }, k.desc)
+            )
+          );
+        })
+      )
+    )
+  );
+
   return React.createElement(OpenerSection, {
     sectionId: "openerinside",
     whyThisMatters: [
       "You’ve learned what kind of machine AI is. Now it is time to open the hood.",
       "🚗 From the outside, an electric car just moves. Inside, that movement depends on batteries, motors, sensors, wiring, and software.",
-      "AI works the same way. The answer on screen comes from parts inside the model: tokens, embeddings, learned numbers, layers, and training. Understanding the inside helps explain the weird behavior outside."
+      "AI works the same way. The answer on screen comes from parts inside the model: tokens, embeddings, learned numbers, attention, transformation, and layers. Understanding the inside helps explain the weird behavior outside.",
+      "Click each step below to see how text flows through the model."
     ],
-    whatYoullLearnIntro: [],
-    openQuestions: [
-      { question: "How does AI turn text into something a computer can process?", lessonId: "tokens" },
-      { question: "How can numbers represent the meaning of words?", lessonId: "embeddings" },
-      { question: "Why does similar meaning sit close together in the model?", lessonId: "vectorspace" },
-      { question: "What are the learned values inside a model?", lessonId: "behindthenumbers" },
-      { question: "What kind of structure lets modern AI handle language so well?", lessonId: "howreads" }
+    featuredCard: lifecycleInteractive,
+    whatYoullLearnIntro: [
+      "Each lesson answers a question. The questions cluster into four moves."
+    ],
+    groups: [
+      {
+        kicker: "TURN TEXT INTO NUMBERS",
+        bridge: "First, language has to become something the model can do math on.",
+        questions: [
+          { question: "How does AI turn text into something a computer can process?", lessonId: "tokens" },
+          { question: "How can numbers represent the meaning of words?", lessonId: "embeddings" },
+          { question: "Why does similar meaning sit close together in the model?", lessonId: "vectorspace" }
+        ]
+      },
+      {
+        kicker: "WHAT’S INSIDE",
+        bridge: "Then, the model itself is also made of numbers.",
+        questions: [
+          { question: "What are the learned values inside a model?", lessonId: "behindthenumbers" }
+        ]
+      },
+      {
+        kicker: "READ IN CONTEXT",
+        bridge: "Now the model reads, and every token updates every other.",
+        questions: [
+          { question: "What kind of structure lets modern AI handle language so well?", lessonId: "howreads" }
+        ]
+      },
+      {
+        kicker: "REPEAT AND REFINE",
+        bridge: "And it repeats that update layer after layer, getting richer each pass.",
+        questions: [
+          { question: "How does meaning build across repeated layers?", lessonId: "layers" }
+        ]
+      }
     ],
     whatYoullLearnClosing: [],
-    question: "What\u2019s actually happening inside the model when it answers me?",
+    question: "What’s actually happening inside the model when it answers me?",
     nextLessonId: "tokens",
     nextLessonLabel: "Next: Tokens",
     completeAndNavigate: props.completeAndNavigate

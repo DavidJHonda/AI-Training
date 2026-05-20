@@ -3755,9 +3755,7 @@ function HowAIReadsSection(props) {
 }
 function ProbabilitySection(props) {
   const phrases = [
-    { start: "Good", shuffled: ["boy", "morning", "grief", "luck"], explanation: "\"Morning\" dominates because \"good morning\" appears millions of times in training data. The model learned that \"morning\" follows \"good\" more than any other word, not from experiencing mornings, but from absorbing patterns.", options: [{ word: "morning", pct: 65, note: "" }, { word: "luck", pct: 20, note: "" }, { word: "grief", pct: 8, note: "" }, { word: "boy", pct: 7, note: "" }] },
-    { start: "Happy birth", shuffled: ["right", "day", "place", "mark"], explanation: "This is a case where one answer dominates almost completely. The model has seen \"happy birthday\" so many times that it gets 97% of the probability. This shows how cultural patterns get baked into the statistics.", options: [{ word: "day", pct: 96, note: "" }, { word: "place", pct: 2, note: "" }, { word: "mark", pct: 1, note: "" }, { word: "right", pct: 1, note: "" }] },
-    { start: "Once upon a", shuffled: ["hill", "dream", "time", "day"], explanation: "Like \"happy birthday,\" this is a culturally dominant phrase. \"Once upon a time\" appears in thousands of fairy tales. The model absorbed that pattern from sheer repetition in its training data.", options: [{ word: "time", pct: 94, note: "The classic fairy tale opening: appears thousands of times in training data" }, { word: "hill", pct: 3, note: "Plausible but rare: could start a story, just not the famous phrase" }, { word: "day", pct: 2, note: "Natural alternative (\"once upon a day\") but the pattern is overwhelmingly \"time\"" }, { word: "dream", pct: 1, note: "Poetic but uncommon: the model assigns very low probability" }] },
+    { start: "Once upon a", shuffled: ["hill", "dream", "time", "day"], explanation: "This is a culturally dominant phrase. \"Once upon a time\" appears in thousands of fairy tales. The model absorbed that pattern from sheer repetition in its training data.", options: [{ word: "time", pct: 94, note: "The classic fairy tale opening: appears thousands of times in training data" }, { word: "hill", pct: 3, note: "Plausible but rare: could start a story, just not the famous phrase" }, { word: "day", pct: 2, note: "Natural alternative (\"once upon a day\") but the pattern is overwhelmingly \"time\"" }, { word: "dream", pct: 1, note: "Poetic but uncommon: the model assigns very low probability" }] },
     { start: "She opened her laptop and started", shuffled: ["browsing", "typing", "coding", "working"], explanation: "Notice how the probabilities are much more spread out here. There's no single dominant answer because this sentence could naturally end many ways. Your own pick probably reflects YOUR world. If you code, you might lean toward \"coding.\" The model's predictions work the same way, shaped entirely by what it was trained on.", options: [{ word: "typing", pct: 35, note: "The most concrete physical action associated with laptops" }, { word: "working", pct: 30, note: "Very common and generic enough to fit many contexts" }, { word: "browsing", pct: 20, note: "Natural and common, especially in casual or narrative writing" }, { word: "coding", pct: 15, note: "More niche: common in tech writing but not general text" }] },
     { start: "I went to the store to buy some", shuffled: ["time", "groceries", "shoes", "milk"], explanation: "\"Time\" is the interesting one here: it's grammatically correct (\"buy some time\") but semantically odd with \"store.\" The model picks up on that weirdness and assigns low probability. It learned from patterns that \"buy some time\" rarely follows \"went to the store,\" a kind of statistical meaning, even if it\u2019s not understanding the way you do.", options: [{ word: "groceries", pct: 38, note: "The general-purpose answer: slightly more common because it covers everything" }, { word: "milk", pct: 30, note: "The classic errand: extremely common in everyday writing" }, { word: "shoes", pct: 22, note: "Less typical for \"the store\" but perfectly reasonable" }, { word: "time", pct: 10, note: "Grammatically fine but semantically weird with \"store\": model assigns low probability" }] }
   ];
@@ -3892,6 +3890,10 @@ function ProbabilitySection(props) {
         }); })
       )
     ))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "High probability isn't truth." },
+      "The model is scoring how well a word fits the pattern. Whether the answer is true is a separate question, one you'll meet in Traps."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Later, in Controls, you'll meet temperature, the setting that decides whether the model always picks the top probability or sometimes goes with a lower one."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: isLastPhrase && revealed, lockedMessage: "Complete all phrases to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: Prediction" })
   );
 }
@@ -4132,15 +4134,11 @@ function TrainingSection(props) {
   };
   var seeItQuestion = "How do I shoot a basketball?";
   var seeItStages = [
-    { actor: "engineers", label: "Stage 1: System setup", response: "System initialized. Vocabulary: 50,000 tokens. Embedding dimensions: 12,288. Architecture: transformer with 96 layers. Ready to begin training.", note: /*#__PURE__*/React.createElement("span", null, "Before any learning happens, engineers set up how text breaks into ", /*#__PURE__*/React.createElement("strong", null, "tokens"), ", choose the embedding dimensions, and pick the architecture."), color: "var(--inkMuted)" },
-    { actor: "humans", label: "Stage 2: Gathering data", response: "basketball court dribble shot free throw NBA hoop backboard rim swish three-pointer rebound assist turnover...", note: "The model is absorbing raw text. It has no structure: just fragments of everything ever written about basketball.", color: "var(--ink)" },
-    { actor: "model", label: "Stage 3: Learning patterns", response: "shoot basketball... wrist elbow follow-through arc... feet shoulder width... bend knees extend arm...", note: /*#__PURE__*/React.createElement("span", null, "It\u2019s starting to notice which ", /*#__PURE__*/React.createElement("strong", null, "tokens"), " appear near each other. Not sentences yet: just statistical clusters."), color: "var(--ink)" },
-    { actor: "model", label: "Stage 4: Adjusting weights", response: "To shoot a basketball you need good form. The shooting hand should be under the ball. The elbow should be aligned. Follow through with the wrist.", note: "The parameters are tuning. It can form sentences, but it\u2019s mechanical, with no awareness of audience or context.", color: "#f59e0b" },
-    { actor: "model", label: "Stage 5: Base model", response: "How do I shoot a basketball? The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover the basics of shooting form, including stance, grip, and follow-through...", note: "It can produce fluent text, but it doesn\u2019t know it\u2019s talking to a person. It just continues the sentence.", color: "#f59e0b" },
-    { actor: "humans", label: "Stage 6: After teaching conversations (SFT)", response: "Stand with feet shoulder-width apart. Hold the ball with your shooting hand under it and guide hand on the side. Bend your knees, extend your arm, and flick your wrist to release.", note: "Supervised Fine-Tuning taught it to respond to questions instead of just continuing text. Clear, but robotic.", color: "#3b82f6" },
-    { actor: "humans", label: "Stage 7: After ranking answers (RLHF)", response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you\u2019re reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", note: "Human rankings taught it to be engaging, use analogies, and offer follow-up. This is what you experience today.", color: "#10b981" }
+    { actor: "humans", label: "Raw data", response: "basketball court dribble shot free throw NBA hoop backboard rim swish three-pointer rebound assist turnover...", note: "The model is absorbing raw text. It has no structure: just fragments of everything ever written about basketball.", color: "var(--ink)" },
+    { actor: "model", label: "Base model", response: "How do I shoot a basketball? The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover the basics of shooting form, including stance, grip, and follow-through...", note: "It can produce fluent text, but it doesn\u2019t know it\u2019s talking to a person. It just continues the sentence.", color: "#f59e0b" },
+    { actor: "humans", label: "After RLHF", response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you\u2019re reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", note: "Human rankings taught it to be engaging, use analogies, and offer follow-up. This is what you experience today.", color: "#10b981" }
   ];
-  var seeItBtnLabels = ["Stage 1: Set Up the System \u2192", "Stage 2: Gather the Data \u2192", "Stage 3: Learn the Patterns \u2192", "Stage 4: Adjust the Weights \u2192", "Stage 5: Base Model \u2192", "Stage 6: Teach Conversations (SFT) \u2192", "Stage 7: Rank Answers (RLHF) \u2192"];
+  var seeItBtnLabels = ["First Snapshot: Raw Data \u2192", "Next Snapshot: Base Model \u2192", "Last Snapshot: After RLHF \u2192"];
   var _svs = useState(0), visibleStages = _svs[0], setVisibleStages = _svs[1];
   var _stw = useState(0), seeItTypedWords = _stw[0], setSeeItTypedWords = _stw[1];
   var _stt = useState(false), seeItTypingDone = _stt[0], setSeeItTypingDone = _stt[1];
@@ -4279,7 +4277,7 @@ function TrainingSection(props) {
     title: "Watch It Happen"
   },
     /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
-      "Here’s one basketball question moving through the training process. Watch how the model changes from raw pattern learner to useful chatbot."
+      "Three snapshots of the same question at three points in training. Watch how the model’s answer transforms."
     ),
     /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--ink)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" } }, "You"),
@@ -5232,7 +5230,8 @@ function PredictionSection(props) {
               /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
             /*#__PURE__*/React.createElement("div", null,
               /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
-  /*#__PURE__*/React.createElement(LessonRule, null),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "One answer. Many picks. Each one shapes what comes next." },
+    "Pick the brand and the model options change. Pick the model and the next word changes. Every word along the way is its own fresh prediction, shaped by every pick before it."),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep >= 6, lockedMessage: "Walk through all five steps to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("patterns"), label: "Next: Patterns" }));
 }
 function PatternsSection(props) {
@@ -5280,29 +5279,6 @@ function PatternsSection(props) {
       "What changed wasn’t a rule getting flipped. There’s no IF-Nate-THEN-Ford rule sitting inside the model. What changed was which pattern activated."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "This section has been about patterns the whole time. Now let’s name the thread."),
-
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Rule, Memory, or Pattern?"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "AI isn’t following rules. It isn’t looking things up in memory. It’s matching patterns. Those three behave very differently."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "💻"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1e40af", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Rule"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "Calculator: IF 2 + 2 THEN 4"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Hard. Breaks when reality doesn’t fit the IF.")),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "🔍"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "#5b21b6", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Memory"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "Search: type a phrase, get the stored match"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Exact. Needs the right key to retrieve.")),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--primary)" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "🧬"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Pattern"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "AI: “See you ___” → tomorrow"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Soft. Flexes with context. Sometimes too much."))),
-      /*#__PURE__*/React.createElement(BodyP, { style: { margin: "20px 0 0 0" } },
-        "Rules break when reality shifts. Memory needs an exact key. Patterns flex, which is what makes AI feel smart and what lets it hallucinate at the same time.")),
 
     /*#__PURE__*/React.createElement(SectionKicker, null, "Training Writes. Inference Reads."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -5373,6 +5349,29 @@ function PatternsSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "var(--ink)", fontWeight: 700, marginBottom: 8 } }, "Same pattern. Different moments."),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "Training writes. Inference reads. Patterns are the thing flowing between them.")) : null
     ),
+
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Rule, Memory, or Pattern?"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "AI isn’t following rules. It isn’t looking things up in memory. It’s matching patterns. Those three behave very differently."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "💻"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1e40af", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Rule"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "Calculator: IF 2 + 2 THEN 4"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Hard. Breaks when reality doesn’t fit the IF.")),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "🔍"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "#5b21b6", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Memory"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "Search: type a phrase, get the stored match"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Exact. Needs the right key to retrieve.")),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: "18px 18px", border: "1px solid var(--primary)" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, "🧬"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 6, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" } }, "Pattern"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", marginBottom: 10, lineHeight: 1.5, fontFamily: "var(--mono)" } }, "AI: “See you ___” → tomorrow"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Soft. Flexes with context. Sometimes too much."))),
+      /*#__PURE__*/React.createElement(BodyP, { style: { margin: "20px 0 0 0" } },
+        "Rules break when reality shifts. Memory needs an exact key. Patterns flex, which is what makes AI feel smart and what lets it hallucinate at the same time.")),
 
     /*#__PURE__*/React.createElement(SectionKicker, null, "One Concept, Three Behaviors"),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -5873,37 +5872,17 @@ function InferenceSection(props) {
           }))))),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "NEURAL NETWORK",
-    headline: "It’s called a neural network. Here’s why.",
+    headline: "What you just saw is called a neural network.",
     marginBottom: 28
   },
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 18 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, background: "var(--card)", borderRadius: 12, padding: "12px 16px", border: "1px solid var(--rule)" } },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "🧠"),
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "The brain")),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, background: "var(--card)", borderRadius: 12, padding: "12px 16px", border: "1px solid var(--rule)" } },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, "🤖"),
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)" } }, "The model"))),
-    [
-      { label: "RECEIVING", brain: "Each neuron receives chemical signals through branches called dendrites.", model: "Each node receives numbers from the layer before it." },
-      { label: "FIRING", brain: "The signals aggregate in the cell body. If they cross a threshold, the neuron fires a signal down its axon to neighbors.", model: "The node multiplies each input by an adjustable weight, adds them up, and passes the total forward only if it clears a math rule." },
-      { label: "LEARNING", brain: "Brains learn by strengthening or weakening the gaps between neurons (synapses) as you repeat something.", model: "AI learns by adjusting the weights until information flows along the right paths." }
-    ].map(function(row, i) {
-      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginBottom: 14 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8, textAlign: "center" } }, row.label),
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "14px 16px", border: "1px solid var(--rule)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, row.brain),
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "14px 16px", border: "1px solid var(--rule)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, row.model)));
-    }),
-    /*#__PURE__*/React.createElement(BodyP, { style: { margin: "20px 0 0 0" } },
-      "That’s a ",
-      /*#__PURE__*/React.createElement("strong", null, "neural network"),
-      ". Math borrowed from biology, but it’s math. Not actual brain cells. Not actually thinking."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The numbers being adjusted are called ",
+    /*#__PURE__*/React.createElement(BodyP, { style: { margin: "0 0 14px 0" } },
+      "Math borrowed from biology: nodes that take in numbers, do math on them, and pass results to the next layer. Not actual brain cells. Not actually thinking."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 14 } },
+      "The adjustable numbers inside are called ",
       /*#__PURE__*/React.createElement("strong", null, "weights"),
-      ". In a model with ~100 layers, there are billions of them. Training is what tunes them. Once training is done, the weights are frozen, which is why the model doesn’t learn from your conversations. When people say a model is “70 billion parameters” or “open weights,” the weights are what they mean."),
+      ". Billions of them, tuned by training, frozen once it’s done. When you hear “open weights” or “70 billion parameters” in the news, weights are what they mean."),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 0 } },
-      "Every piece you’ve learned across this section and the last one (tokens, embeddings, layers, attention, transform, probability) lives inside this one structure.")),
+      "Every piece you’ve learned across this section and the last (tokens, embeddings, layers, attention, transform, probability) lives inside this one structure.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The Scale of What\u2019s Happening"),
   /*#__PURE__*/React.createElement(BodyP, null, "Watch what happens behind the scenes when you ask a simple question."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -5926,10 +5905,11 @@ function InferenceSection(props) {
         return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)", fontSize: 14 } }, row[0]),
           /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--mono)", fontWeight: 700, color: "var(--primary)", fontSize: 14 } }, row[1]));
-      })),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI types one word at a time because each word is a full pass through the model." },
-      "Every token\u2019s vector gets processed through every layer, checking its relationship to every other token before the next word can begin.")) : null),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your question runs through billions of calculations in under a second." }, "Every word the model writes is a fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
+      }))) : null),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Billions of calculations, all for one word." }, "Every word the model writes is its own fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Next we’ll zoom into stage 5: how the model scores every possible next word."),
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",
@@ -6124,7 +6104,7 @@ function PromptSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Every time you talk with AI, there’s a back-and-forth: you send a prompt, AI runs inference, and an answer comes back. The opener walked through both halves. This lesson zooms in on your half: the prompt."),
+      "Every time you talk with AI, there’s a back-and-forth: you send a prompt, AI runs inference, and an answer comes back. This lesson zooms in on your half: the prompt."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT A PROMPT CAN BE"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Most prompts are text, but they don’t have to be. Today’s AI can work with several kinds of input. Click each format to see."),
@@ -6188,9 +6168,8 @@ function PromptSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 16 } },
-      "A prompt is everything you give AI in one turn. Next lesson: what else the model can see when it processes your prompt."),
-    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Your prompt is what you send. Period." },
+      "Text, images, video, documents: all of it counts. What else the model can see when it answers is the next lesson."),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(formsRevealed).length === 4, lockedMessage: "Click all four formats to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("context"), label: "Next: Context Window" })
   );
 }

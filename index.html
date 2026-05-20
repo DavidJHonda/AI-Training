@@ -9562,7 +9562,7 @@ function ThoughtPartnerSection(props) {
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Different problems take different moves. The pattern is the same: you stay in the work, AI helps you see what you\u2019re not seeing."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpStep > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("studying"), label: "Next: Studying With AI" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, lockedMessage: "Finish the conversation to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("studying"), label: "Next: Studying With AI" }));
 }
 function StudyingWithAISection(props) {
   const [activeMove, setActiveMove] = useState(0);
@@ -11088,10 +11088,11 @@ function OpenerRealWorldSection(props) {
     sectionId: "openerrealworld",
     whyThisMatters: [
       "You’ve practiced the workflow: prompting clearly, using AI as a thought partner, studying without skipping learning, verifying claims, and evaluating output.",
-      "🚗 At Tesla, that was the test track. Now the car leaves the private course and enters public roads.",
+      "🚗 In a Tesla, that was the test track. Now the car leaves the private course and enters public roads.",
       "A car on a test track is one thing. A car on public roads is different. There are other people, rules, risks, blind spots, and consequences. What you do affects more than just you.",
       "AI is like that.",
-      "It isn’t just a homework helper or a chatbot. It touches school policies, private data, hiring decisions, fake images, changing jobs, and big claims about the future."
+      "It isn’t just a homework helper or a chatbot. It touches school policies, private data, hiring decisions, fake images, changing jobs, and big claims about the future.",
+      "This section isn’t about being scared of AI. It’s about being less careless with it."
     ],
     whatYoullLearnIntro: [
       "That means being good with AI isn’t only about getting better answers. It’s also about knowing what’s fair, what’s private, what’s real, what’s risky, and what kind of responsibility comes with using a powerful tool.",
@@ -11127,9 +11128,9 @@ function OpenerRealWorldSection(props) {
     ],
     whatYoullLearnClosing: [
       "By the end, you’ll be able to think beyond the prompt. You’ll know how AI changes schoolwork, privacy, evidence, jobs, and future predictions.",
-      "The goal is to become someone who can use AI skillfully without being careless about the world it affects."
+      "Good AI use isn't just getting a better answer. It's understanding the people, data, rules, and consequences around the answer."
     ],
-    question: "Who is affected, and what responsibility do I have?",
+    question: "Who is affected, what can go wrong, and what responsibility do I have?",
     nextLessonId: "integrity",
     nextLessonLabel: "Next: Academic Integrity",
     completeAndNavigate: props.completeAndNavigate
@@ -11682,8 +11683,8 @@ function PrivacySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: item.color, marginBottom: 2, fontSize: 14 } }, item.title),
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
     }))
-  ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "The golden rule:" },
-    "Never type anything into an AI tool that you wouldn\u2019t be comfortable seeing on a public billboard with your name on it."),
+  ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Share the task, not the identity." },
+    "The AI usually needs the problem. It usually doesn\u2019t need your name, address, password, school login, exact location, private messages, or someone else\u2019s sensitive information."),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 24 } }, "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we\u2019ll tell you if you\u2019re right. Redact everything sensitive to reveal a safer rewrite."),
   /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", surface: "mint", title: "Redact the Prompt" },
     /*#__PURE__*/React.createElement(RevealSequence, {
@@ -11757,8 +11758,29 @@ function PrivacySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--ink)", fontSize: 14, lineHeight: 1.6, fontStyle: "italic" } },
             "\u201C", rs.safe, "\u201D"))) : null)),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
+    kicker: "BEFORE YOU SHARE",
+    intro: "Run a prompt through these five questions before hitting send.",
+    marginBottom: 24
+  },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+      [
+        "What does the AI actually need to help?",
+        "Can I remove names?",
+        "Can I replace exact details with categories?",
+        "Am I sharing someone else\u2019s private information?",
+        "Would I be okay if this appeared in a log?"
+      ].map(function(q, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--rule)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--primary)", color: "#fff", borderRadius: "50%", width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 800, flexShrink: 0 } }, String(i + 1)),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5, paddingTop: 3 } }, q));
+      }))
+  ),
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "WHAT EACH PLATFORM DOES",
-    intro: "Different AI platforms handle your data differently. Here's what to know about the ones you're most likely to use.",
+    intro: "Different AI platforms handle your data differently, and the specifics change as policies update. Treat what\u2019s below as a snapshot. The durable skill is knowing where to look: privacy settings, data controls, activity history, temporary chat, and whether your chats can be used for training.",
     marginTop: 48,
     marginBottom: 20
   },
@@ -11811,9 +11833,9 @@ function PrivacySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
     }))
   ),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t just about what you type." },
-    "When AI reads email, docs, or web pages on your behalf, hidden instructions in that content can hijack what AI does next. That\u2019s prompt injection (covered in When AI Acts). The data you carefully protected can still walk out the door if AI follows the wrong instructions."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you wouldn\u2019t say it to a stranger, don\u2019t type it to an AI." }, "Once it\u2019s in the chat, it\u2019s out of your hands. You don\u2019t know who reads training logs, what gets stored, or where it ends up next."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy risk grows the more AI can see." },
+    "The moment AI can read more than your message \u2014 files, email, photos, calendars, documents, web pages \u2014 the surface area expands. The hijack risks specifically (prompt injection) live in the When AI Acts lesson."),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t secrecy." }, "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."), /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx > 0 || redactedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
 }
 function WhenAIJudgesSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -11833,7 +11855,7 @@ function WhenAIJudgesSection(props) {
     options: [
       { label: "Stuff your application with buzzwords the AI probably likes. \u2018Leadership,\u2019 \u2018growth,\u2019 \u2018initiative.\u2019", correct: false, feedback: "You\u2019re guessing what the AI wants. You don\u2019t know what data was used to train it, what it weighs, or even whether it\u2019s reading for keywords or something else entirely. Writing for a system you can\u2019t see is a losing move." },
       { label: "Write the strongest application you can for a human reader. Ask the school in writing what their AI-assist actually does and how decisions can be appealed.", correct: true, feedback: "Right. You can\u2019t out-think a black box, but you can ask \u2018who is responsible\u2019 and \u2018can you push back.\u2019 Schools that won\u2019t answer those questions in writing are telling you something by refusing to." },
-      { label: "Skip the school. AI in admissions is a deal-breaker.", correct: false, feedback: "Maybe, but this is happening at most schools now. Refusing all of them isn\u2019t a strategy. The skill is going in informed and asking the right questions, not refusing the field." }
+      { label: "Skip the school. AI in admissions is a deal-breaker.", correct: false, feedback: "Maybe, but this is happening at a growing number of schools. Refusing every school that uses AI-assisted review shrinks your options for thin reasons. The skill is going in informed and asking the right questions, not refusing the field." }
     ]
   }, {
     icon: "\uD83D\uDCF1",
@@ -11868,7 +11890,7 @@ function WhenAIJudgesSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Maybe a system already decided which posts you saw on TikTok this morning. Maybe a flagging tool ran on your last essay before your teacher did. Maybe an algorithm scored your college application before any human looked at it. These systems don\u2019t ask permission. They don\u2019t announce themselves. They make decisions about you based on data you may not know they had."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The skill for the rest of your life isn\u2019t just operating AI well. It\u2019s knowing what to do when AI is operating on you."),
+      "Sometimes you\u2019re the user of AI. Sometimes you\u2019re the subject of AI. The skill for the rest of your life isn\u2019t just operating AI well. It\u2019s knowing what to do when AI is operating on you."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "THREE MODES TO RECOGNIZE",
       marginBottom: 28
@@ -11913,12 +11935,14 @@ function WhenAIJudgesSection(props) {
         /*#__PURE__*/React.createElement("li", null, "What happens if it\u2019s wrong?"),
         /*#__PURE__*/React.createElement("li", null, "Who is this helping, and who is it hurting?"))),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Notice the first question is who, not what. AI doesn\u2019t decide anything on its own. It predicts. Someone built it, someone deployed it, and someone chose to act on what it said. The decision is always a human\u2019s. That\u2019s who\u2019s responsible, and that\u2019s who you push back on."),
+      "Notice the first question is who, not what. AI systems score, rank, flag, recommend. But a person or an institution chose to deploy that system and chose to act on what it said. The decision is always a human\u2019s. That\u2019s who\u2019s responsible, and that\u2019s who you push back on."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "If AI affects a decision about you, ask for the policy, the evidence, and the appeal path in writing. A school or company that won\u2019t put it in writing is telling you something."),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Every system optimizes for something." },
       "AI doesn\u2019t have intentions, but every system was trained to maximize something specific. TikTok maximizes watch time. A hiring AI maximizes match to past hires. The five questions above are all downstream of one upstream question: what is this system actually chasing, and does that line up with what\u2019s good for you?"),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When mostly right isn\u2019t right enough"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Stakes scale with reach. A 99.9%-accurate facial recognition system still gets a thousand matches wrong for every million people it scans. The averages look fine. The thousand people who got the wrong answer are real, and they don\u2019t get to opt out of the consequences because the system was \u201Cright almost all the time.\u201D"),
+      "Stakes scale with reach. A 99.9%-accurate system still gets a thousand wrong for every million people it scans. Doesn\u2019t matter if it\u2019s facial recognition, fraud detection, content moderation, or hiring screens. The averages look fine. The thousand people who got the wrong answer are real, and they don\u2019t get to opt out of the consequences because the system was \u201Cright almost all the time.\u201D"),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When fair-on-paper isn\u2019t fair"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "A system can claim it doesn\u2019t use race, gender, disability, or income to make decisions. That can be true and still produce unfair outcomes."),
@@ -11972,6 +11996,8 @@ function WhenAIJudgesSection(props) {
           picked: permAnswer != null ? permAnswer : undefined,
           onAnswer: function(idx) { setPermAnswer(idx); }
         }))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "When AI judges you, don\u2019t argue with the machine." },
+      "Find the human, ask what data was used, and learn how to appeal."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("stakeholders"), label: "Next: Who Else Is Affected" }));
 }
@@ -11991,7 +12017,7 @@ function StakeholdersSection(props) {
     icon: "\uD83C\uDFA8",
     setup: "Image-generation tools like Midjourney and DALL-E let anyone make pictures by typing a description. The tools learned what art looks like by training on millions of images scraped from the internet, including work by living artists who were never asked. Now a small business owner can generate a logo in ten seconds for free.",
     options: [
-      { label: "Artists whose work was used to train the model. The tools work because of their labor, and they were never asked, paid, or credited.", correct: true, feedback: "Right. The system creates real value for users. The cost of creating that value falls on a group that wasn\u2019t part of the design conversation: working artists whose images were used to teach the model what art looks like. They weren\u2019t asked, paid, or credited. The trade-off is convenience for users against compensation for creators whose work made the tool possible. A version of this debate is currently in court." },
+      { label: "Artists whose work was used to train the model. The tools work because of their labor, and they were never asked, paid, or credited.", correct: true, feedback: "Right. The system creates real value for users. Working artists argue that the cost of creating that value falls on them: their images were used to teach the model what art looks like, with no consent, no payment, no credit. Companies dispute parts of that claim, and the debate is in court. Either way, the trade-off is convenience for users against the people whose work made the tool possible." },
       { label: "The small business owner, who now has the burden of picking the right image from many generated options.", correct: false, feedback: "Picking the right image from ten generated ones is a small task, not a real cost. The user is the one the system was designed to benefit, and they got most of what was promised. The hidden cost is on a group the design didn\u2019t account for." },
       { label: "The companies running the tools, who face lawsuits and reputation risk from using scraped data.", correct: false, feedback: "The companies face legal risk, that\u2019s true. But they made the design choice. Bearing risk for your own decision is different from bearing a cost you didn\u2019t agree to. The group bearing the latter is the one to focus on." }
     ]
@@ -12008,7 +12034,7 @@ function StakeholdersSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "stakeholders" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The last lesson was about AI making decisions about you. Real. Important. Now widen the lens. Every system that affects you is also affecting other people, and those people don\u2019t have the same stake in it that you do."),
+      "Last lesson, you were the subject. This lesson asks what happens when you\u2019re not the only person in the picture. Every system that affects you is also affecting other people, and those people don\u2019t have the same stake in it that you do."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Same system, different sides. Spotting all of them is a separate skill from spotting the side you\u2019re on. This lesson teaches you the move."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
@@ -12025,7 +12051,7 @@ function StakeholdersSection(props) {
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#6e51ff", marginBottom: 6 } }, "Role 1 \u00B7 User"),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The person using the tool"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Usually got what the deployment was designed to deliver. Faster work, easier access, a quicker decision. Most of the benefit is theirs. Most public discussion of AI is about them.")),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Usually got what the deployment was designed to deliver. Faster work, easier access, a quicker decision. Most of the benefit is theirs. A lot of public discussion of AI focuses on them.")),
         /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
         },
@@ -12037,7 +12063,7 @@ function StakeholdersSection(props) {
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#3b82f6", marginBottom: 6 } }, "Role 3 \u00B7 Operator"),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The company or institution running it"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Made the design choices. Bears the legal and reputation risk. Their incentives are not neutral. Knowing what they were optimizing for tells you most of the story.")),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Could be a tech company, a school district, an employer, a hospital, or a platform. Made the design choices. Bears the legal and reputation risk. Their incentives are not neutral. Knowing what they were optimizing for tells you most of the story.")),
         /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
         },
@@ -12046,7 +12072,7 @@ function StakeholdersSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Wasn\u2019t part of the design, wasn\u2019t asked, often doesn\u2019t know the system exists. Easiest group to forget. Often where the deepest costs land."))
       )
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Most public conversation about AI is about how users feel." },
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "A lot of AI conversation is about how users feel." },
       "Most of the cost is felt by everyone else. That gap is why stakeholder thinking matters, and why most AI debates get loud before they get useful."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Once you can name who\u2019s in the picture, the next move is naming what the system is trading. AI deployments work by exchanging one thing for another. The exchange determines who wins and who pays."),
@@ -12119,6 +12145,8 @@ function StakeholdersSection(props) {
           picked: permAnswer != null ? permAnswer : undefined,
           onAnswer: function(idx) { setPermAnswer(idx); }
         }))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The question isn\u2019t only \u201CDoes this AI work?\u201D" },
+      "It\u2019s \u201CWho does it work for, and who carries the cost?\u201D Sometimes that cost is hidden. Sometimes everyone sees it, and the system runs on it anyway."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
 }
@@ -12130,7 +12158,7 @@ function SyntheticMediaSection(props) {
     icon: "\uD83D\uDCDE",
     setup: "You get a voicemail that sounds exactly like your mom. She says she\u2019s locked out at work and needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
     options: [
-      { label: "It sounds exactly like her. Text her the login so she\u2019s not stuck.", correct: false, feedback: "Voice is no longer proof. AI can clone a voice from about 30 seconds of audio, and that audio can come from anywhere your mom has been recorded \u2014 a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
+      { label: "It sounds exactly like her. Text her the login so she\u2019s not stuck.", correct: false, feedback: "Voice is no longer proof. AI voice tools can clone or imitate a voice from a surprisingly small amount of audio, and that audio can come from anywhere your mom has been recorded \u2014 a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
       { label: "Don\u2019t send anything. Call her actual number first to confirm.", correct: true, feedback: "Right. Calling back on a number you already trust is the cheapest fraud check that exists. If the real her picks up, you ask if she left a voicemail. If she didn\u2019t, you just caught a scam in ten seconds. Verify on a different channel from the message." },
       { label: "Reply to the voicemail asking \u2018Is this really you?\u2019 to verify.", correct: false, feedback: "Whoever set up the scam can keep the conversation going. They control the channel. Verification has to happen somewhere they don\u2019t control. \u2018Is this really you?\u2019 is a question every scammer is ready to answer convincingly." }
     ]
@@ -12147,7 +12175,7 @@ function SyntheticMediaSection(props) {
     setup: "A 12-second clip is blowing up on TikTok showing your school principal saying something racist on what looks like a Zoom call. Voice and face look like him. Comments are at 8K. Two of your friends already reposted it.",
     options: [
       { label: "Repost with \u2018wtf is this real??\u2019 so people can decide.", correct: false, feedback: "A question mark doesn\u2019t make you neutral. The repost spreads it either way. If it\u2019s fake, you helped a lie reach more people. If it\u2019s real, journalists are already on it without your help. Either way, your repost did something you didn\u2019t intend." },
-      { label: "Don\u2019t repost. Search for the clip on actual news sites. If it\u2019s real, news will cover it. If only TikTok has it, treat it as fake until something more solid shows up.", correct: true, feedback: "Right. Corroboration is the test. Real news travels through more than one channel \u2014 a school district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it\u2019s breaking. Sometimes it means it\u2019s fabricated. Waiting an hour costs nothing and tells you which." },
+      { label: "Don\u2019t repost. Search for the clip on actual news sites. If it\u2019s real, news will cover it. If only TikTok has it, treat it as unverified until something more solid shows up.", correct: true, feedback: "Right. Corroboration is the test. Real news travels through more than one channel \u2014 a school district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it\u2019s breaking. Sometimes it means it\u2019s fabricated. Waiting an hour costs nothing and tells you which." },
       { label: "Comment \u2018this is fake\u2019 on the post.", correct: false, feedback: "You don\u2019t actually know yet. Calling something fake without checking is just as wrong as resharing it as true. Both are confident claims with no evidence behind them. Skip the comment until you\u2019ve looked." }
     ]
   }, {
@@ -12210,6 +12238,8 @@ function SyntheticMediaSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#b8adff", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 } }, "The new question"),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, lineHeight: 1.3, marginBottom: 10 } }, "Not \u2018does this look real?\u2019 anymore."),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "rgba(255,255,255,0.82)", lineHeight: 1.6 } }, "Ask where it came from. Look at what surrounds it. Check if anyone else has the same thing. Three questions, every time, before you react.")),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Verify on a different channel from the message." },
+      "If a voicemail asks for something urgent, call back on a number you already trust. If a DM does, switch to phone or face-to-face. Verification has to happen somewhere the sender doesn\u2019t control."),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "A detector is not a truth machine." },
       "Once your eyes stop working, the next move people reach for is a tool. A detector is another AI making another prediction, with its own blind spots. And since the generation tools keep improving, detection is always playing catch-up. Treat a detector as one clue, never the final word."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -12258,6 +12288,8 @@ function SyntheticMediaSection(props) {
           picked: permAnswer != null ? permAnswer : undefined,
           onAnswer: function(idx) { setPermAnswer(idx); }
         }))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t overclaim in either direction." },
+      "Calling something fake without checking is just as wrong as believing it without checking. Both are confident answers without evidence. \u201CUnverified\u201D is the honest position until corroboration shows up."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAnswer !== null || permIdx > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("workchanges"), label: "Next: Work Changes" }));
 }
@@ -12496,9 +12528,21 @@ function FullWorkflowSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginTop: 8 } }, "From: " + card.section));
         }),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch", marginTop: 22 } },
-          "Same loop every time. Different assignment, different topic, same seven moves. The AI is the tool. The order is the skill."))),
+          "Same loop every time. Different assignment, different topic, same seven moves. The AI is the tool. The order is the default. The skill is knowing when to slow down, verify, revise, or take the work back yourself."),
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "18px 22px", marginTop: 24 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 } }, "Not every task takes all seven"),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+            [
+              { label: "Quick task", desc: "Prompt, read, lightly edit." },
+              { label: "School or work", desc: "Prompt, read, verify, evaluate, revise, own." },
+              { label: "High stakes", desc: "Involve outside sources or people before the work goes anywhere." }
+            ].map(function(item, i) {
+              return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 12, fontSize: 14, lineHeight: 1.55 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", minWidth: 110, flexShrink: 0 } }, item.label),
+                /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)" } }, item.desc));
+            }))))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld") }, "Next: Real World"));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: wfChecked, lockedMessage: "Check your sequence to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Real World" }));
 }
 function TestYourselfSection(props) {
   const saved = props.testYourselfQuiz;
@@ -13578,8 +13622,8 @@ function WorkChangesSection(props) {
   const [splitAnswers, setSplitAnswers] = useState({});
   const FRAMEWORK = [
     {
-      label: "More exposed to AI",
-      sub: "Easier to absorb",
+      label: "Easier to automate or absorb",
+      sub: "More exposed to AI",
       color: "#d97706",
       bg: "#fef3c7",
       border: "#fcd34d",
@@ -13594,8 +13638,8 @@ function WorkChangesSection(props) {
       ]
     },
     {
-      label: "Less exposed to AI",
-      sub: "Harder to absorb",
+      label: "Harder to automate or absorb",
+      sub: "Less exposed to AI",
       color: "#4338ca",
       bg: "#e0e7ff",
       border: "#c7d2fe",
@@ -13616,7 +13660,7 @@ function WorkChangesSection(props) {
     { title: "Customer support", exposed: "First-line answers to common questions.", protected_: "High-stakes complaints, angry customers, anything that needs authority to make an exception." },
     { title: "Radiology", exposed: "Pattern recognition in clean, well-known scans.", protected_: "Ambiguous cases, talking to patients, taking responsibility for the final call." },
     { title: "Teaching", exposed: "Explaining concepts, generating practice problems, grading objective work.", protected_: "Classroom management, motivation, mentoring, knowing why this specific student is stuck." },
-    { title: "Plumbing", exposed: "Almost nothing.", protected_: "Physical, on-site, high-stakes if wrong, and no two houses are the same." },
+    { title: "Plumbing", exposed: "Admin, scheduling, quoting, documentation, and customer communication.", protected_: "The on-site physical repair. High-stakes if wrong, and no two houses are the same." },
     { title: "Law", exposed: "Research, contract review, summarizing case law.", protected_: "Courtroom strategy, client trust, judgment about risk, anything that requires a license." },
     { title: "Design", exposed: "Generating options, mockups, asset variations.", protected_: "Knowing what\u2019s actually good, what fits the brand, taste, the call to ship or not." },
     { title: "Project management", exposed: "Status updates, scheduling, meeting summaries.", protected_: "Getting humans to do things, navigating politics, deciding what to cut." }
@@ -13728,7 +13772,7 @@ function WorkChangesSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "In news and business writing, you\u2019ll hear the same split called automation (AI does the whole task) and augmentation (AI does part, a human owns the outcome)."),
+      "In news and business writing, you\u2019ll hear the same split called automation (AI does the whole task) and augmentation (AI does part, a human owns the outcome). The same task can move between the two depending on stakes, quality requirements, and who\u2019s responsible."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "MOST JOBS ARE MIXED",
       intro: "Almost no job sits fully on one side. The roles below aren\u2019t predictions. They\u2019re examples of how the same job can have very exposed parts and very protected parts.",
@@ -13742,11 +13786,11 @@ function WorkChangesSection(props) {
           },
             /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 10 } }, j.title),
             /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "More exposed"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "Easier to absorb"),
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, j.exposed)
             ),
             /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "Less exposed"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "Harder to absorb"),
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, j.protected_)
             )
           );
@@ -13834,6 +13878,8 @@ function WorkChangesSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Specific titles come and go. The skills underneath them \u2014 prompting, evaluating, catching errors, designing for humans \u2014 are the same skills this course is teaching you. Whether or not these become your job titles, the skills will keep mattering wherever you land."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "One wrinkle that matters for you. AI absorbs the easiest tasks first, and those are often the beginner tasks juniors used to do to learn a job. Drafting basic memos. First-pass research. Starter code. When AI does those, the rungs that used to teach the job get shorter."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "What the loop looks like"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "\u201CTasks rearrange\u201D sounds abstract until you see it on the ground. Five examples of what human-plus-AI work actually looks like:"),
@@ -13931,10 +13977,10 @@ function WorkChangesSection(props) {
           }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
         }))),
 
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Knowing which parts of any job are exposed (and which aren\u2019t) is more useful than guessing which jobs are \u201Csafe.\u201D" },
-      "Most work changes long before most jobs disappear."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t ask only whether a job is safe." },
+      "Ask which tasks are exposed, which tasks require judgment, and how the role will be redesigned around that split."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: AI & The Future" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(splitAnswers).length >= SPLIT_TASKS.length, lockedMessage: "Finish both activities to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: AI & The Future" })
   );
 }
 function AIFutureSection(props) {
@@ -14328,7 +14374,7 @@ function BuildEdgeSection(props) {
       id: "deepknowledge",
       icon: "\uD83D\uDD2C",
       title: "Deep knowledge in any field",
-      body: "Science, medicine, law, code, music, anything. Going far past the surface in one thing. AI knows a little about everything. People who know one thing deeply use AI as a power tool. Everyone else gets answers they can\u2019t verify."
+      body: "Science, medicine, law, code, music, anything. Going far past the surface in one thing. AI sounds knowledgeable about almost anything. People with real depth catch when it\u2019s shallow, wrong, or missing the point, and use AI as a power tool because of it. Everyone else gets answers they can\u2019t verify."
     }
   ];
 
@@ -14379,7 +14425,7 @@ function BuildEdgeSection(props) {
     }),
 
     E(BodyP, null,
-      "AI raised the floor. Anyone with a keyboard can produce a fluent paragraph, plausible code, a reasonable-sounding plan. The bar for looking competent just dropped through the floor."),
+      "AI raised the floor. Anyone with a keyboard can produce a fluent paragraph, plausible code, a reasonable-sounding plan. The bar for producing competent-looking work just dropped through the floor."),
     E(BodyP, null,
       "AI also raised the ceiling. The fluent paragraph might be wrong. The plausible code might quietly break in production. The reasonable plan might be missing the thing that actually matters. The person who can catch that, push past the obvious answer, and know enough to direct AI instead of just borrow from it, is more valuable than they used to be, not less."),
     E(BodyP, null,
@@ -14418,7 +14464,7 @@ function BuildEdgeSection(props) {
     E(ShowcaseBox, {
       kicker: "FIVE PLACES DEPTH STILL PAYS",
       headline: "Here are the categories. Pick one that calls you.",
-      intro: "These aren\u2019t classes to take. They\u2019re categories of human work AI can\u2019t absorb. Wherever you\u2019re already drawn to, one of these is probably where you\u2019re headed.",
+      intro: "These aren\u2019t classes to take. They\u2019re categories where AI can help, but where humans still own the standard, the context, the action, and the responsibility. Wherever you\u2019re already drawn to, one of these is probably where you\u2019re headed.",
       marginBottom: 28
     },
       E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 } },
@@ -14483,10 +14529,34 @@ function BuildEdgeSection(props) {
     E(BodyP, { marginBottom: 24 },
       "You don\u2019t pick the category. You pick the thing you\u2019d keep doing anyway, and the category falls out of it. Then you treat the thing as the investment it actually is."),
 
-    E(KeyInsight, { lead: "AI rewards depth. The shape of yours is up to you." },
-      "These five aren\u2019t the only depth that pays. They\u2019re the ones AI can\u2019t absorb. Wherever you end up building, build deep."),
+    E(ShowcaseBox, {
+      kicker: "HOW TO BUILD DEPTH",
+      headline: "Picking the thing is the easy part.",
+      intro: "These five moves work in any category. They turn an interest into the kind of depth that catches what AI gets wrong.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 } },
+        [
+          { icon: "\uD83C\uDF31", title: "Pick one real interest", body: "Not five. One. The thing you\u2019d come back to even if no one was watching." },
+          { icon: "\uD83D\uDEE0\uFE0F", title: "Make things, not just prompts", body: "Drafts, builds, reps, attempts. You doing the thing is the depth itself." },
+          { icon: "\uD83D\uDD0D", title: "Learn to catch the mistakes", body: "Read past what AI hands back. Notice what\u2019s missing. The catch is the skill." },
+          { icon: "\uD83D\uDDE3\uFE0F", title: "Get feedback from people", body: "AI agrees with you too easily. People who know the field will tell you what\u2019s actually weak." },
+          { icon: "\uD83D\uDCD2", title: "Keep proof of work", body: "Notebooks, GitHub, sketches, drafts. The evidence that you\u2019re someone who does the thing." }
+        ].map(function(m, i) {
+          return E("div", { key: i, style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, m.icon),
+              E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, m.title)),
+            E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, m.body));
+        }))),
 
-    E(KeyInsight, { lead: "Anyone can sound smart now." }, "Get good at something anyway. The advantage stopped going to whoever produces the most polished output. It goes to whoever can actually do the thing."),
+    E(BodyP, { marginBottom: 28 },
+      "Your edge isn\u2019t avoiding AI. It\u2019s using the workflow while building real skill underneath it."),
+
+    E(KeyInsight, { lead: "AI rewards depth. The shape of yours is up to you." },
+      "These five aren\u2019t the only depth that pays. They\u2019re the places where AI can help but the call still belongs to people. Wherever you end up building, build deep."),
+
+    E(KeyInsight, { lead: "Anyone can sound smart now." }, "Get good at something anyway. The advantage stopped going to whoever produces the most polished output. It goes to whoever can actually do the thing, judge the output, and own the result."),
 
     E(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }

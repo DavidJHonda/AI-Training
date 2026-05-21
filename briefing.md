@@ -4,12 +4,12 @@
 A self-paced AI education web app for high schoolers. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Lesson map
-69 lessons across 10 section groups. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
+70 lessons across 10 section groups. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
-- Intro (4): Welcome (welcome), Why Learn AI? (whydeeper), What Only You Can Do (humanjob), The Roadmap (intro)
+- Intro (5): Welcome (welcome), Why Learn AI? (whydeeper), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
 - Foundations (9): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), Generative (generative), AI's Fuel (data)
-- Inside the Engine (7): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers)
-- How AI Answers (8): Opener (openeranswers), Training (training), Prompt (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
+- Inside AI (7): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers)
+- AI Answers (8): Opener (openeranswers), Training (training), Prompt (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
 - Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
 - Traps (9): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documentchat), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), When AI Acts (whenaiacts)
 - Human Judgment (6): Opener (openerjudgment), What AI Does Best (whatitdoesbest), The AI Trust Test (aistrengths), Critical Thinking & AI (critical), Questions Matter (questionsvaluable), Skills That Matter (humanedge)

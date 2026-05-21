@@ -1117,7 +1117,7 @@ function LLMsSection(props) {
   var titleRefs = useRef([]);
   var cardRefs = useRef([]);
   var _ps = useState(null), paths = _ps[0], setPaths = _ps[1];
-  var _rs = useState({}), revealed = _rs[0], setRevealed = _rs[1];
+  var _rs = useLocalStorage("seeit-llms-cons", {}), revealed = _rs[0], setRevealed = _rs[1];
   var revealLetter = function(i) { setRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -1141,7 +1141,7 @@ function LLMsSection(props) {
   var llmTitleRefs = useRef([]);
   var llmCardRefs = useRef([]);
   var _lps = useState(null), llmPaths = _lps[0], setLlmPaths = _lps[1];
-  var _lrs = useState({}), llmRevealed = _lrs[0], setLlmRevealed = _lrs[1];
+  var _lrs = useLocalStorage("seeit-llms-llmCons", {}), llmRevealed = _lrs[0], setLlmRevealed = _lrs[1];
   var revealLlmLetter = function(i) { setLlmRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -1165,7 +1165,7 @@ function LLMsSection(props) {
   var twoKindsTitleRefs = useRef([]);
   var twoKindsCardRefs = useRef([]);
   var _tps = useState(null), twoKindsPaths = _tps[0], setTwoKindsPaths = _tps[1];
-  var _trs = useState({}), twoKindsRevealed = _trs[0], setTwoKindsRevealed = _trs[1];
+  var _trs = useLocalStorage("seeit-llms-twoKinds", {}), twoKindsRevealed = _trs[0], setTwoKindsRevealed = _trs[1];
   var revealTwoKind = function(i) { setTwoKindsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -1189,7 +1189,7 @@ function LLMsSection(props) {
   var productsTitleRefs = useRef([]);
   var productsCardRefs = useRef([]);
   var _pps = useState(null), productsPaths = _pps[0], setProductsPaths = _pps[1];
-  var _prs = useState({}), productsRevealed = _prs[0], setProductsRevealed = _prs[1];
+  var _prs = useLocalStorage("seeit-llms-products", {}), productsRevealed = _prs[0], setProductsRevealed = _prs[1];
   var revealProduct = function(i) { setProductsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -1213,7 +1213,7 @@ function LLMsSection(props) {
   var modelsTitleRefs = useRef([]);
   var modelsCardRefs = useRef([]);
   var _mps = useState(null), modelsPaths = _mps[0], setModelsPaths = _mps[1];
-  var _mrs = useState({}), modelsRevealed = _mrs[0], setModelsRevealed = _mrs[1];
+  var _mrs = useLocalStorage("seeit-llms-models", {}), modelsRevealed = _mrs[0], setModelsRevealed = _mrs[1];
   var revealModel = function(i) { setModelsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -1532,7 +1532,7 @@ function LLMsSection(props) {
   );
 }
 function AIIsMathSection(props) {
-  var _vbs = useState(0), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
+  var _vbs = useLocalStorage("seeit-aiismath-bayesStep", 0), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
   var BAYES_CONTINUE_LABELS = ["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aiismath" }),
@@ -1977,8 +1977,8 @@ function AIStrengthsSection(props) {
   var _cat = useState({}), catAnswers = _cat[0], setCatAnswers = _cat[1];
   var _done = useState(false), allDone = _done[0], setAllDone = _done[1];
   var _tc = useState(0), typedChars = _tc[0], setTypedChars = _tc[1];
-  var _yc = useState(false), yesClicked = _yc[0], setYesClicked = _yc[1];
-  var _nc = useState(false), noClicked = _nc[0], setNoClicked = _nc[1];
+  var _yc = useLocalStorage("seeit-aistrengths-yesClicked", false), yesClicked = _yc[0], setYesClicked = _yc[1];
+  var _nc = useLocalStorage("seeit-aistrengths-noClicked", false), noClicked = _nc[0], setNoClicked = _nc[1];
   var s = SCENARIOS[sIdx];
   var pickedCat = catAnswers[sIdx];
   var pickedJudgment = answers[sIdx];
@@ -3024,8 +3024,8 @@ function TypingAICard(props) {
         "Same question. Different games. Because the core model generates rather than retrieves.") : null) : null);
 }
 function GenerativeSection(props) {
-  var _rs = useState(0), revealStep = _rs[0], setRevealStep = _rs[1];
-  var _aa = useState(0), askCount = _aa[0], setAskCount = _aa[1];
+  var _rs = useLocalStorage("seeit-generative-revealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
+  var _aa = useLocalStorage("seeit-generative-askCount", 0), askCount = _aa[0], setAskCount = _aa[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "generative" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -3241,10 +3241,10 @@ function BlackBoxSection(props) {
 function DataSection(props) {
   var SCENE_KEYS = ["text", "image", "speech"];
   var SCENE_LABELS = ["📱 Text to your friend about your grades", "📷 Picture of your grocery list", "🎤 Recording of your order at In-N-Out Burger"];
-  var _ss = useState(false), seeItStarted = _ss[0], setSeeItStarted = _ss[1];
-  var _sci = useState(0), scenarioIdx = _sci[0], setScenarioIdx = _sci[1];
+  var _ss = useLocalStorage("seeit-data-started", false), seeItStarted = _ss[0], setSeeItStarted = _ss[1];
+  var _sci = useLocalStorage("seeit-data-scenarioIdx", 0), scenarioIdx = _sci[0], setScenarioIdx = _sci[1];
   const [isPlaying, setIsPlaying] = useState(false);
-  const [dataReveal, setDataReveal] = useState(0);
+  const [dataReveal, setDataReveal] = useLocalStorage("seeit-data-dataReveal", 0);
   var _tt = useState(0), textTyped = _tt[0], setTextTyped = _tt[1];
   var dataComplete = scenarioIdx >= SCENE_KEYS.length;
   var view = SCENE_KEYS[scenarioIdx];
@@ -3500,7 +3500,7 @@ function HowAIReadsSection(props) {
   var challengesTitleRefs = useRef([]);
   var challengesCardRefs = useRef([]);
   var _cps = useState(null), challengesPaths = _cps[0], setChallengesPaths = _cps[1];
-  var _crs = useState({}), challengesRevealed = _crs[0], setChallengesRevealed = _crs[1];
+  var _crs = useLocalStorage("seeit-howaireads-challenges", {}), challengesRevealed = _crs[0], setChallengesRevealed = _crs[1];
   var revealChallenge = function(i) { setChallengesRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -3525,7 +3525,7 @@ function HowAIReadsSection(props) {
   var solutionsTitleRefs = useRef([]);
   var solutionsCardRefs = useRef([]);
   var _sps = useState(null), solutionsPaths = _sps[0], setSolutionsPaths = _sps[1];
-  var _srs = useState({}), solutionsRevealed = _srs[0], setSolutionsRevealed = _srs[1];
+  var _srs = useLocalStorage("seeit-howaireads-solutions", {}), solutionsRevealed = _srs[0], setSolutionsRevealed = _srs[1];
   var revealSolution = function(i) { setSolutionsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -4351,7 +4351,7 @@ function TrainingBiasSection(props) {
   );
 }
 function TrainingSection(props) {
-  const [stepsRevealed, setStepsRevealed] = useState(0);
+  const [stepsRevealed, setStepsRevealed] = useLocalStorage("seeit-training-stepsRevealed", 0);
   const ACTORS = {
     engineers: { icon: "👷", label: "Engineers", role: "humans" },
     humans: { icon: "👤", label: "Humans", role: "humans" },
@@ -4388,7 +4388,7 @@ function TrainingSection(props) {
     { actor: "humans", label: "After RLHF", response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you\u2019re reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", note: "Human rankings taught it to be engaging, use analogies, and offer follow-up. This is what you experience today.", color: "#10b981" }
   ];
   var seeItBtnLabels = ["First Snapshot: Raw Data \u2192", "Next Snapshot: Base Model \u2192", "Last Snapshot: After RLHF \u2192"];
-  var _svs = useState(0), visibleStages = _svs[0], setVisibleStages = _svs[1];
+  var _svs = useLocalStorage("seeit-training-visibleStages", 0), visibleStages = _svs[0], setVisibleStages = _svs[1];
   var _stw = useState(0), seeItTypedWords = _stw[0], setSeeItTypedWords = _stw[1];
   var _stt = useState(false), seeItTypingDone = _stt[0], setSeeItTypingDone = _stt[1];
   useEffect(function() {
@@ -4573,7 +4573,7 @@ function OpenerInsideSection(props) {
   var lifecycleTitleRefs = useRef([]);
   var lifecycleCardRefs = useRef([]);
   var _lps = useState(null), lifecyclePaths = _lps[0], setLifecyclePaths = _lps[1];
-  var _lrs = useState({}), lifecycleRevealed = _lrs[0], setLifecycleRevealed = _lrs[1];
+  var _lrs = useLocalStorage("seeit-openerinside-lifecycle", {}), lifecycleRevealed = _lrs[0], setLifecycleRevealed = _lrs[1];
   var revealLifecycle = function(i) { setLifecycleRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -4716,7 +4716,7 @@ function TokenSection(props) {
     { word: "https://www.quickbookstraining.com", tokens: [{t: "https", id: 5765}, {t: "://", id: 1358}, {t: "www", id: 2185}, {t: ".quick", id: 23489}, {t: "books", id: 12483}, {t: "training", id: 6573}, {t: ".com", id: 916}], note: "7 tokens (URLs split into known pieces)" }
   ];
   var E = React.createElement;
-  const [tokensRevealed, setTokensRevealed] = useState(0);
+  const [tokensRevealed, setTokensRevealed] = useLocalStorage("seeit-token-tokensRevealed", 0);
   var renderTokenRow = function(ex, i, isLast) {
     return E("div", {
       key: i,
@@ -5524,7 +5524,7 @@ function BehindTheNumbersSection(props) {
     E(NextLessonGate, { ready: matchComplete, lockedMessage: "Match all five terms to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); }, label: "Next: Attention & Transformation" }));
 }
 function PredictionSection(props) {
-  const [seeStep, setSeeStep] = useState(0);
+  const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
   const [promptChars, setPromptChars] = useState(0);
   const [promptDone, setPromptDone] = useState(false);
   const [aiRespWords, setAiRespWords] = useState(0);
@@ -5701,7 +5701,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep >= 6, lockedMessage: "Walk through all five steps to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("patterns"), label: "Next: Patterns" }));
 }
 function PatternsSection(props) {
-  const [bridgePanel, setBridgePanel] = useState(0);
+  const [bridgePanel, setBridgePanel] = useLocalStorage("seeit-patterns-bridgePanel", 0);
   const [scenariosStarted, setScenariosStarted] = useState(false);
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [picks, setPicks] = useState({});
@@ -5918,8 +5918,8 @@ const LAYER_WORDS = {
   },
 };
 function LayersSection(props) {
-  const [activeLayer, setActiveLayer] = useState(0);
-  const [reachedFinal, setReachedFinal] = useState(false);
+  const [activeLayer, setActiveLayer] = useLocalStorage("seeit-layers-activeLayer", 0);
+  const [reachedFinal, setReachedFinal] = useLocalStorage("seeit-layers-reachedFinal", false);
   const bankLayers = LAYER_WORDS.bank.layers;
   const bankLayer = bankLayers[activeLayer];
   useEffect(function() {
@@ -6206,7 +6206,7 @@ function LayersSection(props) {
   );
 }
 function InferenceSection(props) {
-  const [stagesRevealed, setStagesRevealed] = useState(0);
+  const [stagesRevealed, setStagesRevealed] = useLocalStorage("seeit-inference-stagesRevealed", 0);
   var renderChip = function(chip) {
     var tones = {
       neutral: { bg: "rgba(15, 23, 42, 0.08)", color: "var(--inkMuted)" },
@@ -6407,7 +6407,7 @@ function OpenerAnswersSection(props) {
   var lifecycleTitleRefs = useRef([]);
   var lifecycleCardRefs = useRef([]);
   var _lps = useState(null), lifecyclePaths = _lps[0], setLifecyclePaths = _lps[1];
-  var _lrs = useState({}), lifecycleRevealed = _lrs[0], setLifecycleRevealed = _lrs[1];
+  var _lrs = useLocalStorage("seeit-openeranswers-lifecycle", {}), lifecycleRevealed = _lrs[0], setLifecycleRevealed = _lrs[1];
   var revealLifecycle = function(i) { setLifecycleRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -6554,7 +6554,7 @@ function PromptSection(props) {
   var formsTitleRefs = useRef([]);
   var formsCardRefs = useRef([]);
   var _fps = useState(null), formsPaths = _fps[0], setFormsPaths = _fps[1];
-  var _frs = useState({}), formsRevealed = _frs[0], setFormsRevealed = _frs[1];
+  var _frs = useLocalStorage("seeit-prompt-formsRevealed", {}), formsRevealed = _frs[0], setFormsRevealed = _frs[1];
   var revealForm = function(i) { setFormsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -6672,7 +6672,7 @@ function ContextSection(props) {
   var cwTitleRefs = useRef([]);
   var cwCardRefs = useRef([]);
   var _cwp = useState(null), cwPaths = _cwp[0], setCwPaths = _cwp[1];
-  var _cwr = useState({}), cwRevealed = _cwr[0], setCwRevealed = _cwr[1];
+  var _cwr = useLocalStorage("seeit-context-cwRevealed", {}), cwRevealed = _cwr[0], setCwRevealed = _cwr[1];
   var revealCw = function(i) { setCwRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -6847,7 +6847,7 @@ function ContextSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, lockedMessage: "Click each piece to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
 function CustomizationSection(props) {
-  const [setupIdx, setSetupIdx] = useState(0);
+  const [setupIdx, setSetupIdx] = useLocalStorage("seeit-customization-setupIdx", 0);
   const [sortIdx, setSortIdx] = useState(0);
   const [sortSelected, setSortSelected] = useState(null);
   const SETUP_VERSIONS = [{
@@ -7170,8 +7170,8 @@ function CustomizationSection(props) {
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
-  const [tacticIdx, setTacticIdx] = useState(0);
-  const [startedTactics, setStartedTactics] = useState(false);
+  const [tacticIdx, setTacticIdx] = useLocalStorage("seeit-documentchat-tacticIdx", 0);
+  const [startedTactics, setStartedTactics] = useLocalStorage("seeit-documentchat-started", false);
 
   const TACTICS = [
     {
@@ -7382,7 +7382,7 @@ function OpenerControlsSection(props) {
 }
 
 function ModelSelectionSection(props) {
-  const [view, setView] = useState("players");
+  const [view, setView] = useLocalStorage("seeit-modelselection-view", "players");
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
   const [startedScenarios, setStartedScenarios] = useState(false);
@@ -7398,9 +7398,9 @@ function ModelSelectionSection(props) {
   var bestForTitleRefs = useRef([]);
   var bestForCardRefs = useRef([]);
   var _bestForps = useState(null), bestForPaths = _bestForps[0], setBestForPaths = _bestForps[1];
-  var _philrs = useState({}), philRevealed = _philrs[0], setPhilRevealed = _philrs[1];
+  var _philrs = useLocalStorage("seeit-modelselection-philRevealed", {}), philRevealed = _philrs[0], setPhilRevealed = _philrs[1];
   var revealPhil = function(i) { setPhilRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
-  var _bestForrs = useState({}), bestForRevealed = _bestForrs[0], setBestForRevealed = _bestForrs[1];
+  var _bestForrs = useLocalStorage("seeit-modelselection-bestForRevealed", {}), bestForRevealed = _bestForrs[0], setBestForRevealed = _bestForrs[1];
   var revealBestFor = function(i) { setBestForRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = true; return next; }); };
   useEffect(function() {
     function calc() {
@@ -7788,7 +7788,7 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= SCENARIOS.length - 1 && scenarioAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("choosemodel"), label: "Next: Choosing the Model" }));
 }
 function ChoosingModelSection(props) {
-  const [tiersRevealed, setTiersRevealed] = useState(0);
+  const [tiersRevealed, setTiersRevealed] = useLocalStorage("seeit-choosingmodel-tiersRevealed", 0);
   var TIERS = [{
     tier: "Most capable", examples: "ChatGPT Thinking/Pro, Claude Opus, Gemini Pro",
     capability: 100, speed: 40, limits: 100,
@@ -8523,8 +8523,8 @@ function HallucinationSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
 function VerifySection(props) {
-  const [activeStrategy, setActiveStrategy] = useState(0);
-  const [startedVerify, setStartedVerify] = useState(false);
+  const [activeStrategy, setActiveStrategy] = useLocalStorage("seeit-verify-activeStrategy", 0);
+  const [startedVerify, setStartedVerify] = useLocalStorage("seeit-verify-started", false);
   const VERIFY_STRATEGIES = [{
     icon: "\uD83D\uDD0D",
     label: "Cross-reference the claim",
@@ -8754,13 +8754,13 @@ const CT_CONCEPTS = [{
   }
 }];
 function CriticalThinkingSection(props) {
-  const [activeConcept, setActiveConcept] = useState(0);
+  const [activeConcept, setActiveConcept] = useLocalStorage("seeit-critical-activeConcept", 0);
   const [habitAnswer, setHabitAnswer] = useState(null);
   const [active101, setActive101] = useState(0);
   const [problemAnswer, setProblemAnswer] = useState(null);
   const [started101, setStarted101] = useState(false);
-  const [started5Habits, setStarted5Habits] = useState(false);
-  const [habitsRevealed, setHabitsRevealed] = useState(0);
+  const [started5Habits, setStarted5Habits] = useLocalStorage("seeit-critical-started5Habits", false);
+  const [habitsRevealed, setHabitsRevealed] = useLocalStorage("seeit-critical-habitsRevealed", 0);
   const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   const CT_101 = [{
     label: "Ice cream & drowning",
@@ -9327,8 +9327,8 @@ function WhatItDoesBestSection(props) {
 }
 
 function PromptingSection(props) {
-  const [activeQuality, setActiveQuality] = useState(0);
-  const [showGood, setShowGood] = useState(false);
+  const [activeQuality, setActiveQuality] = useLocalStorage("seeit-prompting-activeQuality", 0);
+  const [showGood, setShowGood] = useLocalStorage("seeit-prompting-showGood", false);
   const [pSubject, setPSubject] = useState(null);
   const [pFormat, setPFormat] = useState(null);
   const [pUnderstand, setPUnderstand] = useState("");
@@ -9336,7 +9336,7 @@ function PromptingSection(props) {
   const [pHowHelp, setPHowHelp] = useState(null);
   const [pNotDo, setPNotDo] = useState(null);
   const [pRevealed, setPRevealed] = useState(false);
-  const [promptDemo, setPromptDemo] = useState("kid");
+  const [promptDemo, setPromptDemo] = useLocalStorage("seeit-prompting-promptDemo", "kid");
   const STUDY_FIELDS = {
     subjects: ["AP Biology", "US History", "AP Calc", "English Lit", "Spanish", "Chemistry"],
     formats: [
@@ -9747,8 +9747,8 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: pAllFilled, lockedMessage: "Fill in each field to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Your Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
-  const [tpStep, setTpStep] = useState(0);
-  const [phase, setPhase] = useState("idle");
+  const [tpStep, setTpStep] = useLocalStorage("seeit-thoughtpartner-tpStep", 0);
+  const [phase, setPhase] = useLocalStorage("seeit-thoughtpartner-phase", "idle");
   const [userCharIdx, setUserCharIdx] = useState(0);
   const [aiWordIdx, setAiWordIdx] = useState(0);
   const TP_EXCHANGES = [
@@ -10232,11 +10232,11 @@ const EVAL_CRITERIA = [{
   }
 }];
 function EvaluatingSection(props) {
-  const [activeCriterion, setActiveCriterion] = useState(0);
-  const [showExample, setShowExample] = useState(false);
-  const [iterationStep, setIterationStep] = useState(0);
-  const [startedCriteria, setStartedCriteria] = useState(false);
-  const [startedRefine, setStartedRefine] = useState(false);
+  const [activeCriterion, setActiveCriterion] = useLocalStorage("seeit-evaluating-activeCriterion", 0);
+  const [showExample, setShowExample] = useLocalStorage("seeit-evaluating-showExample", false);
+  const [iterationStep, setIterationStep] = useLocalStorage("seeit-evaluating-iterationStep", 0);
+  const [startedCriteria, setStartedCriteria] = useLocalStorage("seeit-evaluating-startedCriteria", false);
+  const [startedRefine, setStartedRefine] = useLocalStorage("seeit-evaluating-startedRefine", false);
   const c = EVAL_CRITERIA[activeCriterion] || EVAL_CRITERIA[EVAL_CRITERIA.length - 1];
   const ITERATION_STEPS = [{
     step: 1,
@@ -11835,7 +11835,7 @@ function PrivacySection(props) {
   const [revealed, setRevealed] = useState(false);
   const [lastInteractedIdx, setLastInteractedIdx] = useState(null);
   const [startedRedact, setStartedRedact] = useState(false);
-  const [photoRevealed, setPhotoRevealed] = useState(0);
+  const [photoRevealed, setPhotoRevealed] = useLocalStorage("seeit-privacy-photoRevealed", 0);
   const REDACT_SCENARIOS = [{
     category: "Personal info",
     icon: "\uD83D\uDC64",

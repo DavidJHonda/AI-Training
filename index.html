@@ -7036,7 +7036,6 @@ function ContextSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, lockedMessage: "Click each piece to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
 function CustomizationSection(props) {
-  const [setupIdx, setSetupIdx] = useLocalStorage("seeit-customization-setupIdx", 0);
   const [sortIdx, setSortIdx] = useState(0);
   const [sortSelected, setSortSelected] = useState(null);
   const CONTEXT_GROUPS_RECAP = [
@@ -7057,37 +7056,6 @@ function CustomizationSection(props) {
       ]
     }
   ];
-  const SETUP_VERSIONS = [{
-    label: "Default",
-    sublabel: "No setup",
-    layers: ["Training only"],
-    response: "Sure, here are some general study tips: review your notes, use active recall by quizzing yourself, take breaks every 25 to 30 minutes, get a good night\u2019s sleep, and try to study in a quiet space without distractions. Want me to elaborate on any of these?",
-    explain: "The AI has no idea what test you have, what subject, or what you already know. It defaults to generic advice. Useful only if you really know nothing about studying. Useless for actually preparing."
-  }, {
-    label: "+ Personalization",
-    sublabel: "You set: 'Be direct'",
-    layers: ["Training", "Personalization"],
-    response: "I can give you a focused plan, but I need to know what test it is. What subject? Multiple choice or essay? What units does it cover? Tell me that and we\u2019ll skip the warmup.",
-    explain: "Now the AI knows you want directness, so it skips generic tips. But it still has no clue what test you mean. Personalization shapes HOW it responds, not what it knows."
-  }, {
-    label: "+ Project",
-    sublabel: "Inside your AP Bio project",
-    layers: ["Training", "Personalization", "Project"],
-    response: "Pulling from your AP Bio study guide. Tomorrow\u2019s exam covers Units 6\u20138 (cell communication, signaling, cellular respiration). Want to work through them in order, or start with whichever feels shakiest?",
-    explain: "The AI now has the AP Bio study guide, syllabus, and any other documents in this project. It knows the subject, the units, and what\u2019s tested. None of this follows you into other chats. Different class, different project, different context."
-  }, {
-    label: "+ Memory",
-    sublabel: "Stored: notes from past chats",
-    layers: ["Training", "Personalization", "Project", "Memory"],
-    response: "Last week you mentioned cellular respiration was tripping you up. Want to start there? I can pull the relevant pages from your study guide, then walk you through glycolysis, the Krebs cycle, and electron transport with a quick concept check after each section.",
-    explain: "Memory adds your past chat history on top of the project. The AI already had the AP Bio materials. Now it also knows you flagged cellular respiration as hard last week. None of this is new intelligence. It\u2019s just notes the AI reads at the start of every conversation."
-  }, {
-    label: "+ Current Chat",
-    sublabel: "Earlier you said: 'I'm freaking out'",
-    layers: ["Training", "Personalization", "Project", "Memory", "Current chat"],
-    response: "Take a breath. Two hours is enough for cellular respiration if we focus. Forget glycolysis details for now; let\u2019s nail the big picture first: where ATP comes from, why oxygen matters, and the three stages in order. Once that clicks, the details follow. Ready to start with one question?",
-    explain: "Now everything in the current chat shapes the response too. The AI heard \u2018I\u2019m freaking out,\u2019 so it adjusts the tone, narrows the scope, and offers a starting point. Same prompt, all five layers loaded, completely different help."
-  }];
   const SORT_ITEMS = [
     {
       text: "Call me David.",
@@ -7122,7 +7090,6 @@ function CustomizationSection(props) {
     { id: "current-chat", label: "Current chat", icon: "\uD83D\uDCAC" },
     { id: "nowhere", label: "Nowhere", icon: "\uD83D\uDEAB" }
   ];
-  const sv = SETUP_VERSIONS[setupIdx];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Remember the lesson on Context Window? You saw this SEE IT, which is like the working memory the model has to answer your prompt."),
@@ -7187,7 +7154,6 @@ function CustomizationSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Now, you learn what the model uses to answer BEYOND THIS CHAT."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "BEYOND THIS CHAT",
     headline: "You set some. The model picks up the rest.",
     intro: "Two kinds of persistent context shape every answer, even before you type your prompt. One is what you tell the model. The other is what the model picks up from working with you.",
     marginBottom: 20
@@ -7290,54 +7256,89 @@ function CustomizationSection(props) {
     )
   ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training shapes the model itself." },
     "Everything else (personalization, projects, memory, your current chat) is text loaded into the context window. The model doesn\u2019t know which scope it came from. It\u2019s all just tokens."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Watch how each layer changes the same prompt. The AI is identical. The setup is what shifts."),
-  /*#__PURE__*/React.createElement(InteractiveBox, { variant: "see", surface: "sand", title: "Same Prompt, Different Setup" },
+  /*#__PURE__*/React.createElement(BodyP, null, "A real example. My name is Nate, and I\u2019m writing this course with my twin brother Luke and my dad. I\u2019ll show you my prompt, asked two ways. First without any setup, then with my setup loaded."),
+  /*#__PURE__*/React.createElement("div", { style: { marginBottom: 20 } },
     /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 18 }
+      style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 12 }
+    }, "Without my setup"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
     },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "\u201CHelp me study for tomorrow.\u201D")),
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "\u201CWhat should we cover next?\u201D")),
     /*#__PURE__*/React.createElement("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 6, marginBottom: 18 }
-    }, SETUP_VERSIONS.map(function(v, i) {
-      return /*#__PURE__*/React.createElement("button", {
-        key: i,
-        onClick: function() { setSetupIdx(i); },
-        style: {
-          padding: "10px 8px",
-          borderRadius: 8,
-          background: i === setupIdx ? "var(--primary)" : "var(--bg)",
-          color: i === setupIdx ? "#fff" : "var(--inkMuted)",
-          border: "2px solid " + (i === setupIdx ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"),
-          boxShadow: i === setupIdx ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-          cursor: "pointer",
-          fontSize: 12,
-          fontWeight: 700,
-          textAlign: "center",
-          lineHeight: 1.3
-        }
-      },
-        /*#__PURE__*/React.createElement("div", null, v.label),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 500, opacity: 0.85, marginTop: 3 } }, v.sublabel));
-    })),
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }
-    }, sv.layers.map(function(layer, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { background: "var(--primaryFaint)", color: "var(--primary)", borderRadius: 999, padding: "4px 10px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }
-      }, layer);
-    })),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)", marginBottom: 14, animation: "fadeIn 0.3s ease" }
+      style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
     },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 The response"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, sv.response)),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Happy to help. What course are you teaching, and what have you covered so far? Once I know the subject and audience, I can suggest what fits next."))
+  ),
+  /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WITH MY SETUP", marginBottom: 20 },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
+      [
+        {
+          icon: "\uD83D\uDC64",
+          label: "Personalization",
+          subtitle: "Set once, every chat",
+          items: [
+            "I\u2019m a high school junior.",
+            "Be direct. Skip the warmup.",
+            "Pick one recommendation and explain why, not three options."
+          ]
+        },
+        {
+          icon: "\uD83D\uDCC1",
+          label: "Project \u2014 \u201CBe Smarter Than the Tool\u201D",
+          subtitle: "This project only",
+          items: [
+            "Course audience: high school students",
+            "Tone: McDonald\u2019s-humor friendly, plain copy, no em-dashes",
+            "Currently writing: Controls section",
+            "Sections done: Intro, Foundations, Inside AI, AI Answers",
+            "Co-authors: my twin brother Luke and my dad"
+          ]
+        },
+        {
+          icon: "\uD83E\uDDE0",
+          label: "Memory",
+          subtitle: "Picked up over time",
+          items: [
+            "Flags when explanations feel too academic",
+            "Pushed back last week on a lesson that felt repetitive",
+            "Prefers interactive activities over heavy reading",
+            "Will be co-leading an AI Club at school next year with brother Luke"
+          ]
+        }
+      ].map(function(s, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { background: "var(--card)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--rule)" }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8, flexWrap: "wrap" }
+          },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, s.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--ink)" } }, s.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", fontStyle: "italic" } }, s.subtitle)),
+          /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 20, fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 } },
+            s.items.map(function(item, j) {
+              return /*#__PURE__*/React.createElement("li", { key: j, style: { marginBottom: 3 } }, item);
+            })));
+      })
+    ),
     /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: "12px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, animation: "fadeIn 0.3s ease" }
-    }, "\uD83D\uDCA1 ", sv.explain)),
+      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Same prompt"),
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "\u201CWhat should we cover next?\u201D")),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 The response"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Controls is wrapped, so Traps is next. Hallucination\u2019s the most important one. You flagged last time that lessons were getting heavy on reading, so open Hallucination with an interactive: paste a real-looking academic citation, ask ChatGPT if the paper exists, watch it invent details. One demo, one insight: confident \u2260 correct. Want me to write the activity copy?"))
+  ),
+  /*#__PURE__*/React.createElement(KeyInsight, null, "Same prompt. Different setup. Completely different help."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Now flip the question. Instead of watching layers change the answer, decide where each piece of information belongs."),
+    "Your turn. For each piece of information below, decide where it should live."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",

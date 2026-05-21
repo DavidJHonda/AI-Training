@@ -7039,6 +7039,24 @@ function CustomizationSection(props) {
   const [setupIdx, setSetupIdx] = useLocalStorage("seeit-customization-setupIdx", 0);
   const [sortIdx, setSortIdx] = useState(0);
   const [sortSelected, setSortSelected] = useState(null);
+  const CONTEXT_GROUPS_RECAP = [
+    {
+      header: "From this chat",
+      color: "#1e40af",
+      parts: [
+        { label: "Your current prompt", labelLines: ["Your current", "prompt"], desc: "Everything you sent this turn: what you typed, plus any image, video, or document attached." },
+        { label: "Earlier in this chat", labelLines: ["Earlier in", "this chat"], desc: "Everything you and the AI said before now." }
+      ]
+    },
+    {
+      header: "Beyond this chat",
+      color: "#8b5cf6",
+      parts: [
+        { label: "Your custom instructions", labelLines: ["Your custom", "instructions"], desc: "Settings you set once that apply to every chat. More on this in Controls." },
+        { label: "Saved memory", labelLines: ["Saved", "memory"], desc: "Things the product chose to remember from past chats." }
+      ]
+    }
+  ];
   const SETUP_VERSIONS = [{
     label: "Default",
     sublabel: "No setup",
@@ -7105,73 +7123,171 @@ function CustomizationSection(props) {
     { id: "nowhere", label: "Nowhere", icon: "\uD83D\uDEAB" }
   ];
   const sv = SETUP_VERSIONS[setupIdx];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }), /*#__PURE__*/React.createElement(BodyP, null, "Remember the whiteboard from Context? It showed everything the model can see while answering you. But not everything has to come from the current chat."), /*#__PURE__*/React.createElement(BodyP, null, "Some context can follow you between chats. Some belongs inside a project. Some is saved as memory. The skill is knowing where each kind of information should live."),
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }),
+    /*#__PURE__*/React.createElement(BodyP, null, "Remember the lesson on Context Window? You saw this SEE IT, which is like the working memory the model has to answer your prompt."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "What goes in the context window"
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, marginBottom: 16 } },
+        CONTEXT_GROUPS_RECAP.map(function(g, gi) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: gi,
+            style: { flex: 1, textAlign: "center", fontSize: 12, fontWeight: 700, color: g.color, textTransform: "uppercase", letterSpacing: "0.10em", paddingBottom: 8, borderBottom: "2px solid " + g.color }
+          }, g.header);
+        })
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, alignItems: "flex-start", marginBottom: 28 } },
+        CONTEXT_GROUPS_RECAP.map(function(g, gi) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: gi,
+            style: { flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", gap: 60, flexWrap: "wrap", fontSize: 20, fontWeight: 800 }
+          },
+            g.parts.map(function(p, pi) {
+              return /*#__PURE__*/React.createElement("span", {
+                key: pi,
+                style: { color: g.color, textAlign: "center", display: "inline-block", lineHeight: 1.15 }
+              },
+                p.labelLines[0],
+                /*#__PURE__*/React.createElement("br", null),
+                p.labelLines[1]
+              );
+            })
+          );
+        })
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60 } },
+        CONTEXT_GROUPS_RECAP.map(function(g, gi) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: gi,
+            style: { flex: 1, display: "flex", gap: 20 }
+          },
+            g.parts.map(function(p, pi) {
+              return /*#__PURE__*/React.createElement("div", {
+                key: pi,
+                style: { flex: 1 }
+              },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + g.color }
+                },
+                  /*#__PURE__*/React.createElement("div", {
+                    style: { fontWeight: 700, fontSize: 15, color: g.color, marginBottom: 6 }
+                  }, p.label),
+                  /*#__PURE__*/React.createElement("div", {
+                    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                  }, p.desc)
+                )
+              );
+            })
+          );
+        })
+      )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Now, you learn what the model uses to answer BEYOND THIS CHAT."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHERE SHOULD IT LIVE?",
-    headline: "Four scopes for persistent context.",
-    intro: "Some information should follow you everywhere. Some belongs in one project. Some is saved as memory. Some should stay temporary. Knowing the difference saves a lot of frustration.",
+    kicker: "BEYOND THIS CHAT",
+    headline: "You set some. The model picks up the rest.",
+    intro: "Two kinds of persistent context shape every answer, even before you type your prompt. One is what you tell the model. The other is what the model picks up from working with you.",
     marginBottom: 20
   },
     /*#__PURE__*/React.createElement("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }
-    }, [
-      {
-        icon: "\uD83D\uDC64",
-        title: "All-chat personalization",
-        body: "Stable preferences that apply most of the time. Set once, used across chats.",
-        examples: ["Call me David.", "Be direct.", "Explain things like I\u2019m in high school."],
-        rule: "who you are and how you like to work."
-      },
-      {
-        icon: "\uD83D\uDCC1",
-        title: "Projects",
-        body: "Instructions, files, and context for one ongoing piece of work. Stay scoped to that project.",
-        examples: ["AP Bio study materials and rubric.", "Source documents for an essay.", "Notes from one specific class."],
-        rule: "what you\u2019re working on."
-      },
-      {
-        icon: "\uD83E\uDDE0",
-        title: "Memory",
-        body: "Information the product saves or retrieves from past chats. Can help, but can also be wrong or outdated.",
-        examples: ["You prefer short answers.", "You\u2019re studying for the SAT.", "You struggle with cellular respiration."],
-        rule: "personal continuity across time."
-      },
-      {
-        icon: "\uD83D\uDCAC",
-        title: "Current chat",
-        body: "Today\u2019s details. Gone when you start a new chat.",
-        examples: ["I only have 30 minutes.", "Use the notes I just pasted.", "Focus only on Chapter 7."],
-        rule: "temporary, situational details."
-      }
-    ].map(function(s, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", display: "flex", flexDirection: "column" }
-      },
+      style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, alignItems: "start" }
+    },
+      /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }
-        },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, s.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, s.title)),
+          style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 4 }
+        }, "Custom Instructions"),
         /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12 }
-        }, s.body),
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", marginBottom: 4 }
-          }, "Examples"),
-          s.examples.map(function(ex, j) {
+          style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 12 }
+        }, "What you set."),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+          [
+            {
+              icon: "\uD83D\uDC64",
+              title: "All-chat personalization",
+              body: "Tell it once. Applies to every chat.",
+              examples: ["Call me David.", "Be direct.", "Explain things like I\u2019m in high school."],
+              rule: "who you are and how you like to work."
+            },
+            {
+              icon: "\uD83D\uDCC1",
+              title: "Projects",
+              body: "Instructions and files scoped to one piece of work.",
+              examples: ["AP Bio study guide and rubric.", "Source documents for an essay.", "Notes for one specific class."],
+              rule: "what you\u2019re working on right now."
+            }
+          ].map(function(s, i) {
             return /*#__PURE__*/React.createElement("div", {
-              key: j,
-              style: { fontSize: 12, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5, marginBottom: 2 }
-            }, "\u201C" + ex + "\u201D");
-          })),
+              key: i,
+              style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", display: "flex", flexDirection: "column" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }
+              },
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, s.icon),
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, s.title)),
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12 }
+              }, s.body),
+              /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
+                /*#__PURE__*/React.createElement("div", {
+                  style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", marginBottom: 4 }
+                }, "Examples"),
+                s.examples.map(function(ex, j) {
+                  return /*#__PURE__*/React.createElement("div", {
+                    key: j,
+                    style: { fontSize: 12, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5, marginBottom: 2 }
+                  }, "\u201C" + ex + "\u201D");
+                })),
+              /*#__PURE__*/React.createElement("div", {
+                style: { marginTop: "auto", paddingTop: 10, borderTop: "1px solid var(--rule)", fontSize: 12, color: "var(--inkSoft)", lineHeight: 1.5 }
+              },
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Use it for: "),
+                s.rule));
+          })
+        )
+      ),
+      /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", {
-          style: { marginTop: "auto", paddingTop: 10, borderTop: "1px solid var(--rule)", fontSize: 12, color: "var(--inkSoft)", lineHeight: 1.5 }
+          style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 4 }
+        }, "Memory"),
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 12 }
+        }, "What the model picks up."),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", display: "flex", flexDirection: "column" }
         },
-          /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Use it for: "),
-          s.rule));
-    })),
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }
+          },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "\uD83E\uDDE0"),
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, "Memory")),
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12 }
+          }, "What the model picks up about you as you work with it. In Claude and ChatGPT, you can see and edit your memory in Settings."),
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", {
+              style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", marginBottom: 4 }
+            }, "Examples"),
+            ["You prefer short answers.", "You\u2019re studying for the SAT.", "You struggle with cellular respiration."].map(function(ex, j) {
+              return /*#__PURE__*/React.createElement("div", {
+                key: j,
+                style: { fontSize: 12, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5, marginBottom: 2 }
+              }, "\u201C" + ex + "\u201D");
+            })),
+          /*#__PURE__*/React.createElement("div", {
+            style: { paddingTop: 10, borderTop: "1px solid var(--rule)", fontSize: 12, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 12 }
+          },
+            /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Use it for: "),
+            "personal continuity across time."),
+          /*#__PURE__*/React.createElement("div", {
+            style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 8, padding: "10px 12px", fontSize: 12, color: "var(--inkSoft)", lineHeight: 1.5 }
+          }, "\u26A0\uFE0F Some products keep memory you can\u2019t see or edit. Check your settings.")
+        )
+      )
+    )
   ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training shapes the model itself." },
     "Everything else (personalization, projects, memory, your current chat) is text loaded into the context window. The model doesn\u2019t know which scope it came from. It\u2019s all just tokens."),
   /*#__PURE__*/React.createElement(BodyP, null, "Watch how each layer changes the same prompt. The AI is identical. The setup is what shifts."),
@@ -8588,7 +8704,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That mismatch is the first trap of this section. AI can give you a claim that is false, unsupported, or outdated while saying it in the same confident voice it uses for true facts. ", /*#__PURE__*/React.createElement("strong", null, "The trap is treating confidence like evidence.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". The word is strange, since AI doesn’t physically \"see\" anything. But the idea is simple: AI presents a false or unsupported claim as if it were true. Sometimes it invents something completely. Sometimes it blends real facts with fake details. Sometimes it delivers outdated information with total confidence."),
+      "That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". The word is strange, because AI doesn’t have physical eyes and can’t \"see\" anything. But the idea is simple: AI presents a false or unsupported claim as if it were true. Sometimes it invents something completely. Sometimes it blends real facts with fake details. Sometimes it delivers outdated information with total confidence."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHAT COUNTS AS A HALLUCINATION?",
       intro: "Not every wrong answer is a hallucination. These are the four patterns to watch for.",

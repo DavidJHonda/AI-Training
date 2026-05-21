@@ -7036,8 +7036,7 @@ function ContextSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, lockedMessage: "Click each piece to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
 function CustomizationSection(props) {
-  const [sortIdx, setSortIdx] = useState(0);
-  const [sortSelected, setSortSelected] = useState(null);
+  const [sortAnswers, setSortAnswers] = useState({});
   const CONTEXT_GROUPS_RECAP = [
     {
       header: "From this chat",
@@ -7056,6 +7055,29 @@ function CustomizationSection(props) {
       ]
     }
   ];
+  const recapContainerRef = useRef(null);
+  const recapTitleRefs = useRef([]);
+  const recapCardRefs = useRef([]);
+  const [recapPaths, setRecapPaths] = useState(null);
+  const RECAP_PARTS = CONTEXT_GROUPS_RECAP.reduce(function(acc, g) { return acc.concat(g.parts.map(function(p) { return Object.assign({}, p, { color: g.color }); })); }, []);
+  useEffect(function() {
+    function calc() {
+      var c = recapContainerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 4; i++) {
+        var t = recapTitleRefs.current[i], d = recapCardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setRecapPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
   const SORT_ITEMS = [
     {
       text: "Call me David.",
@@ -7073,9 +7095,9 @@ function CustomizationSection(props) {
       explanation: "Temporary, situational detail. True right now, not next week. Belongs in this chat only."
     },
     {
-      text: "You helped me finally understand the Krebs cycle last week.",
+      text: "Cellular respiration kept tripping me up all semester before it finally clicked last week.",
       correct: "memory",
-      explanation: "Personal continuity across time. Saving this lets future biology chats pick up where you left off, without you re-explaining."
+      explanation: "Personal continuity across time. Saving this lets future biology chats build on what you\u2019ve already figured out, instead of you re-explaining."
     },
     {
       text: "Always tell me my work is great.",
@@ -7084,8 +7106,8 @@ function CustomizationSection(props) {
     }
   ];
   const SORT_CATEGORIES = [
-    { id: "all-chats", label: "All chats", icon: "\uD83D\uDC64" },
-    { id: "project", label: "Project", icon: "\uD83D\uDCC1" },
+    { id: "all-chats", label: "Personalization", icon: "\uD83D\uDC64" },
+    { id: "project", label: "Projects", icon: "\uD83D\uDCC1" },
     { id: "memory", label: "Memory", icon: "\uD83E\uDDE0" },
     { id: "current-chat", label: "Current chat", icon: "\uD83D\uDCAC" },
     { id: "nowhere", label: "Nowhere", icon: "\uD83D\uDEAB" }
@@ -7098,58 +7120,77 @@ function CustomizationSection(props) {
       surface: "sand",
       title: "What goes in the context window"
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, marginBottom: 16 } },
-        CONTEXT_GROUPS_RECAP.map(function(g, gi) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: gi,
-            style: { flex: 1, textAlign: "center", fontSize: 12, fontWeight: 700, color: g.color, textTransform: "uppercase", letterSpacing: "0.10em", paddingBottom: 8, borderBottom: "2px solid " + g.color }
-          }, g.header);
-        })
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, alignItems: "flex-start", marginBottom: 28 } },
-        CONTEXT_GROUPS_RECAP.map(function(g, gi) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: gi,
-            style: { flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", gap: 60, flexWrap: "wrap", fontSize: 20, fontWeight: 800 }
-          },
-            g.parts.map(function(p, pi) {
-              return /*#__PURE__*/React.createElement("span", {
-                key: pi,
-                style: { color: g.color, textAlign: "center", display: "inline-block", lineHeight: 1.15 }
-              },
-                p.labelLines[0],
-                /*#__PURE__*/React.createElement("br", null),
-                p.labelLines[1]
-              );
-            })
-          );
-        })
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60 } },
-        CONTEXT_GROUPS_RECAP.map(function(g, gi) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: gi,
-            style: { flex: 1, display: "flex", gap: 20 }
-          },
-            g.parts.map(function(p, pi) {
-              return /*#__PURE__*/React.createElement("div", {
-                key: pi,
-                style: { flex: 1 }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + g.color }
+      /*#__PURE__*/React.createElement("div", { ref: recapContainerRef, style: { position: "relative" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, marginBottom: 16 } },
+          CONTEXT_GROUPS_RECAP.map(function(g, gi) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: gi,
+              style: { flex: 1, textAlign: "center", fontSize: 12, fontWeight: 700, color: g.color, textTransform: "uppercase", letterSpacing: "0.10em", paddingBottom: 8, borderBottom: "2px solid " + g.color }
+            }, g.header);
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, alignItems: "flex-start" } },
+          CONTEXT_GROUPS_RECAP.map(function(g, gi) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: gi,
+              style: { flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start", gap: 60, flexWrap: "wrap", fontSize: 20, fontWeight: 800 }
+            },
+              g.parts.map(function(p, pi) {
+                var i = gi * 2 + pi;
+                return /*#__PURE__*/React.createElement("span", {
+                  key: pi,
+                  ref: function(el) { recapTitleRefs.current[i] = el; },
+                  style: { color: g.color, textAlign: "center", display: "inline-block", lineHeight: 1.15 }
+                },
+                  p.labelLines[0],
+                  /*#__PURE__*/React.createElement("br", null),
+                  p.labelLines[1]
+                );
+              })
+            );
+          })
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+        recapPaths ? /*#__PURE__*/React.createElement("svg", {
+          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+        },
+          recapPaths.map(function(p, i) {
+            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+            return /*#__PURE__*/React.createElement("path", {
+              key: i, d: d, fill: "none", stroke: RECAP_PARTS[i].color, strokeWidth: 2.5
+            });
+          })
+        ) : null,
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60 } },
+          CONTEXT_GROUPS_RECAP.map(function(g, gi) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: gi,
+              style: { flex: 1, display: "flex", gap: 20 }
+            },
+              g.parts.map(function(p, pi) {
+                var i = gi * 2 + pi;
+                return /*#__PURE__*/React.createElement("div", {
+                  key: pi,
+                  ref: function(el) { recapCardRefs.current[i] = el; },
+                  style: { flex: 1 }
                 },
                   /*#__PURE__*/React.createElement("div", {
-                    style: { fontWeight: 700, fontSize: 15, color: g.color, marginBottom: 6 }
-                  }, p.label),
-                  /*#__PURE__*/React.createElement("div", {
-                    style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                  }, p.desc)
-                )
-              );
-            })
-          );
-        })
+                    style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + g.color }
+                  },
+                    /*#__PURE__*/React.createElement("div", {
+                      style: { fontWeight: 700, fontSize: 15, color: g.color, marginBottom: 6 }
+                    }, p.label),
+                    /*#__PURE__*/React.createElement("div", {
+                      style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+                    }, p.desc)
+                  )
+                );
+              })
+            );
+          })
+        )
       )
     ),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Now, you learn what the model uses to answer BEYOND THIS CHAT."),
@@ -7164,15 +7205,12 @@ function CustomizationSection(props) {
       /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 4 }
-        }, "Custom Instructions"),
-        /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 12 }
-        }, "What you set."),
+        }, "Custom Instructions You Set"),
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
           [
             {
               icon: "\uD83D\uDC64",
-              title: "All-chat personalization",
+              title: "Personalization",
               body: "Tell it once. Applies to every chat.",
               examples: ["Call me David.", "Be direct.", "Explain things like I\u2019m in high school."],
               rule: "who you are and how you like to work."
@@ -7218,10 +7256,7 @@ function CustomizationSection(props) {
       /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 4 }
-        }, "Memory"),
-        /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 12 }
-        }, "What the model picks up."),
+        }, "What the Model Picks Up"),
         /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", display: "flex", flexDirection: "column" }
         },
@@ -7254,13 +7289,9 @@ function CustomizationSection(props) {
         )
       )
     )
-  ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training shapes the model itself." },
-    "Everything else (personalization, projects, memory, your current chat) is text loaded into the context window. The model doesn\u2019t know which scope it came from. It\u2019s all just tokens."),
+  ),
   /*#__PURE__*/React.createElement(BodyP, null, "A real example. My name is Nate, and I\u2019m writing this course with my twin brother Luke and my dad. I\u2019ll show you my prompt, asked two ways. First without any setup, then with my setup loaded."),
-  /*#__PURE__*/React.createElement("div", { style: { marginBottom: 20 } },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 12 }
-    }, "Without my setup"),
+  /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WITHOUT MY SETUP", marginBottom: 20 },
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
     },
@@ -7269,7 +7300,7 @@ function CustomizationSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
     },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 The response"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 AI response"),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Happy to help. What course are you teaching, and what have you covered so far? Once I know the subject and audience, I can suggest what fits next."))
   ),
   /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WITH MY SETUP", marginBottom: 20 },
@@ -7333,144 +7364,106 @@ function CustomizationSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
     },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 The response"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Controls is wrapped, so Traps is next. Hallucination\u2019s the most important one. You flagged last time that lessons were getting heavy on reading, so open Hallucination with an interactive: paste a real-looking academic citation, ask ChatGPT if the paper exists, watch it invent details. One demo, one insight: confident \u2260 correct. Want me to write the activity copy?"))
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 AI response"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Controls is wrapped, so Traps is next. Hallucination\u2019s the most important one. You flagged last time that lessons were getting heavy on reading, so open Hallucination with an interactive: paste a real-looking academic citation, ask ChatGPT if the paper exists, watch it invent details. One demo, one insight: confident \u2260 correct. Want me to write a first draft?"))
   ),
-  /*#__PURE__*/React.createElement(KeyInsight, null, "Same prompt. Different setup. Completely different help."),
+  /*#__PURE__*/React.createElement(KeyInsight, null, "Same prompt. Different setup. Completely different response."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Your turn. For each piece of information below, decide where it should live."),
+    "Your turn. For each piece of information below, decide where it should live. Not everything belongs in persistent setup. Some things just need to live in this chat. Some shouldn\u2019t be saved at all."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Where should this go?",
-    action: sortIdx < SORT_ITEMS.length ? /*#__PURE__*/React.createElement("div", {
+    action: /*#__PURE__*/React.createElement("div", {
       style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
     },
-      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, sortIdx + 1),
-      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SORT_ITEMS.length)
-    ) : null
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(sortAnswers).length),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SORT_ITEMS.length))
   },
-    sortIdx >= SORT_ITEMS.length ?
-      /*#__PURE__*/React.createElement("div", {
-        style: { textAlign: "center", padding: "20px 0" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, marginBottom: 12 } }, "\u2713"),
-        /*#__PURE__*/React.createElement("div", {
-          style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 10 }
-        }, "Five down."),
-        /*#__PURE__*/React.createElement("div", {
-          style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, maxWidth: "55ch", margin: "0 auto" }
-        }, "Stable preferences, ongoing projects, personal continuity, today\u2019s situation, or none of the above. When in doubt, ask yourself: \u201CShould this follow me into every chat I ever have, or just into this kind of work?\u201D"),
-        /*#__PURE__*/React.createElement("button", {
-          onClick: function() { setSortIdx(0); setSortSelected(null); },
-          style: { marginTop: 18, padding: "8px 18px", borderRadius: 999, background: "transparent", border: "1px solid var(--rule)", fontSize: 13, fontWeight: 600, color: "var(--inkSoft)", cursor: "pointer" }
-        }, "Try again")
-      )
-    :
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#fff", borderRadius: 14, padding: "20px 24px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", marginBottom: 16, display: "flex", alignItems: "center", gap: 16 }
-        },
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "#0e0a1f", lineHeight: 1, fontWeight: 400, flexShrink: 0 }
-          }, String(sortIdx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "var(--ink)", fontStyle: "italic", lineHeight: 1.5 }
-          }, "\u201C" + SORT_ITEMS[sortIdx].text + "\u201D")
-        ),
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: 8, marginBottom: 14 }
-        },
-          SORT_CATEGORIES.map(function(cat) {
-            var correct = SORT_ITEMS[sortIdx].correct;
-            var isSelected = sortSelected === cat.id;
-            var showAsCorrect = sortSelected !== null && cat.id === correct;
-            var isWrong = isSelected && cat.id !== correct;
-            return /*#__PURE__*/React.createElement("button", {
-              key: cat.id,
-              onClick: function() { if (sortSelected === null) setSortSelected(cat.id); },
-              disabled: sortSelected !== null,
-              style: {
-                padding: "12px 8px",
-                borderRadius: 10,
-                background: isWrong ? "rgba(239, 68, 68, 0.08)" : (showAsCorrect ? "rgba(16, 185, 129, 0.10)" : "#fff"),
-                border: "2px solid " + (isWrong ? "#ef4444" : (showAsCorrect ? "#10b981" : "var(--rule)")),
-                cursor: sortSelected === null ? "pointer" : "default",
-                fontSize: 12,
-                fontWeight: 700,
-                textAlign: "center",
-                color: "var(--ink)",
-                transition: "all 0.2s ease"
-              }
-            },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, marginBottom: 4 } }, cat.icon),
-              /*#__PURE__*/React.createElement("div", null, cat.label));
-          })
-        ),
-        sortSelected !== null ? /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", {
-            style: {
-              background: sortSelected === SORT_ITEMS[sortIdx].correct ? "rgba(16, 185, 129, 0.08)" : "var(--info-bg)",
-              border: "1px solid " + (sortSelected === SORT_ITEMS[sortIdx].correct ? "#10b981" : "var(--info)"),
-              borderRadius: 10,
-              padding: "14px 16px",
-              marginBottom: 14,
-              fontSize: 14,
-              lineHeight: 1.6,
-              color: "var(--ink)"
-            }
-          },
-            /*#__PURE__*/React.createElement("strong", { style: { display: "block", marginBottom: 4 } },
-              sortSelected === SORT_ITEMS[sortIdx].correct
-                ? "\u2713 Right place."
-                : "Best fit: " + SORT_CATEGORIES.find(function(c) { return c.id === SORT_ITEMS[sortIdx].correct; }).label + "."
-            ),
-            SORT_ITEMS[sortIdx].explanation
-          ),
-          /*#__PURE__*/React.createElement("div", { style: { textAlign: "right" } },
-            /*#__PURE__*/React.createElement("button", {
-              onClick: function() { setSortIdx(sortIdx + 1); setSortSelected(null); },
-              style: { padding: "10px 22px", borderRadius: 999, background: "var(--primary)", color: "#fff", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 700 }
-            }, sortIdx === SORT_ITEMS.length - 1 ? "Finish \u2192" : "Next \u2192")
-          )
-        ) : null
-      )
-  ),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WATCH OUT FOR",
-    headline: "Three things that can go sideways.",
-    intro: "Persistent context makes the tool more useful. It can also make it worse if you\u2019re not paying attention.",
-    marginBottom: 20
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 10 }
-    },
-      [{
-        icon: "\uD83E\uDE9E",
-        title: "Bad personalization makes the tool worse.",
-        body: "Setting your instructions to \u2018always agree\u2019 or \u2018never push back\u2019 builds yourself a smarter version of the flattery trap. Good personalization makes the AI more useful. Bad personalization makes it more flattering, biased, or lazy."
-      }, {
-        icon: "\uD83D\uDCDD",
-        title: "A memory is a note, not a fact.",
-        body: "Saved memories can be outdated, incomplete, or wrong. Ask what the AI remembers about you, correct it when needed, and delete anything that shouldn\u2019t follow you forward."
-      }, {
-        icon: "\uD83D\uDC7B",
-        title: "Don\u2019t want it saved? Don\u2019t save it.",
-        body: "For sensitive, embarrassing, or one-off questions, use a temporary chat, turn memory off, or ask the app not to remember it. Some information should stay in the current chat and disappear when you close it."
-      }].map(function(item, i) {
+    /*#__PURE__*/React.createElement("div", null,
+      SORT_ITEMS.map(function(s, i) {
+        var current = sortAnswers[i];
+        var hasAnswer = current !== undefined;
+        var isCorrect = hasAnswer && current === s.correct;
+        var isFirst = i === 0;
         return /*#__PURE__*/React.createElement("div", {
           key: i,
-          style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
+          style: {
+            padding: isFirst ? "0 4px 24px" : "24px 4px",
+            borderTop: isFirst ? "none" : "1px solid rgba(63, 107, 63, 0.18)"
+          }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, lineHeight: 1, flexShrink: 0 } }, item.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 14 } }, item.title),
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.body)));
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 16 }
+          },
+            /*#__PURE__*/React.createElement("div", {
+              style: { fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "#2f7d4f", opacity: hasAnswer ? 1 : 0.6, flexShrink: 0 }
+            }, String(i + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "var(--ink)", fontStyle: "italic", lineHeight: 1.5 }
+              }, "\u201C" + s.text + "\u201D"))
+          ),
+          /*#__PURE__*/React.createElement("div", { style: { paddingLeft: 66 } },
+            /*#__PURE__*/React.createElement("div", {
+              style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: 8 }
+            },
+              SORT_CATEGORIES.map(function(cat) {
+                var isPicked = current === cat.id;
+                var showAsCorrect = hasAnswer && cat.id === s.correct;
+                var isWrong = isPicked && cat.id !== s.correct;
+                return /*#__PURE__*/React.createElement("button", {
+                  key: cat.id,
+                  onClick: function() {
+                    if (!hasAnswer) {
+                      setSortAnswers(function(prev) { var next = Object.assign({}, prev); next[i] = cat.id; return next; });
+                    }
+                  },
+                  disabled: hasAnswer,
+                  style: {
+                    padding: "12px 8px",
+                    borderRadius: 10,
+                    background: isWrong ? "rgba(239, 68, 68, 0.08)" : (showAsCorrect ? "rgba(16, 185, 129, 0.10)" : "#fff"),
+                    border: "2px solid " + (isWrong ? "#ef4444" : (showAsCorrect ? "#10b981" : "var(--rule)")),
+                    cursor: hasAnswer ? "default" : "pointer",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    textAlign: "center",
+                    color: "var(--ink)",
+                    transition: "all 0.2s ease",
+                    fontFamily: "inherit"
+                  }
+                },
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, marginBottom: 4 } }, cat.icon),
+                  /*#__PURE__*/React.createElement("div", null, cat.label));
+              })
+            ),
+            hasAnswer ? /*#__PURE__*/React.createElement("div", {
+              style: {
+                background: isCorrect ? "rgba(16, 185, 129, 0.08)" : "var(--info-bg)",
+                border: "1px solid " + (isCorrect ? "#10b981" : "var(--info)"),
+                borderRadius: 10,
+                padding: "12px 14px",
+                marginTop: 12,
+                fontSize: 13,
+                lineHeight: 1.55,
+                color: "var(--ink)"
+              }
+            },
+              /*#__PURE__*/React.createElement("strong", { style: { display: "block", marginBottom: 4 } },
+                isCorrect
+                  ? "\u2713 Right place."
+                  : "Best fit: " + SORT_CATEGORIES.find(function(c) { return c.id === s.correct; }).label + "."
+              ),
+              s.explanation
+            ) : null
+          )
+        );
       })
     )
   ),
-  /*#__PURE__*/React.createElement(KeyInsight, null,
-    "Use all-chat personalization for stable preferences. Use projects for ongoing work. Use memory for personal continuity. Use the current chat for today\u2019s details. Use temporary chat when you don\u2019t want something carried forward."),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Three things can go sideways." },
+    "Bad personalization builds a smarter flattery trap. Memory is a note, not a fact, so check what\u2019s saved and correct or delete what shouldn\u2019t follow you forward. And for sensitive or one-off questions, use a temporary chat, turn memory off, or just ask the app not to remember it."),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openertraps") }, "Next: Traps"));
 }

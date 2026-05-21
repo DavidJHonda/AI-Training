@@ -8614,7 +8614,6 @@ function OpenerTrapsSection(props) {
 function HallucinationSection(props) {
   const [responseIdx, setResponseIdx] = useState(0);
   const [flaggedIds, setFlaggedIds] = useState(new Set());
-  const [hallRevealed, setHallRevealed] = useState(false);
   const [lastClaimId, setLastClaimId] = useState(null);
   const [startedSpot, setStartedSpot] = useState(false);
   const SPOT_RESPONSES = [{
@@ -8638,9 +8637,7 @@ function HallucinationSection(props) {
   }];
   const currentResponse = SPOT_RESPONSES[Math.min(responseIdx, SPOT_RESPONSES.length - 1)];
   const claimIds = currentResponse.segments.filter(function(s) { return s.id; }).map(function(s) { return s.id; });
-  const hallucinatedIds = currentResponse.segments.filter(function(s) { return s.id && s.isReal === false; }).map(function(s) { return s.id; });
   const lastSegment = lastClaimId ? currentResponse.segments.find(function(s) { return s.id === lastClaimId; }) : null;
-  const caughtCount = hallucinatedIds.filter(function(id) { return flaggedIds.has(id); }).length;
   function flagClaim(seg) {
     setLastClaimId(seg.id);
     if (!flaggedIds.has(seg.id)) {
@@ -8680,15 +8677,25 @@ function HallucinationSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, item.body));
         }))
     ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      /*#__PURE__*/React.createElement("strong", null, "The dangerous part:"),
-      " hallucinations often look clean, confident, detailed, and specific. In real life, you can\u2019t tell from the sentence alone."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 }, "This activity trains your radar. Spotting tells you which claims to check. Verification tells you what is true."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Two AI answers. Three sentences each, one fact per sentence. Click on each sentence to learn whether it\u2019s a hallucination."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "HOW THE INDUSTRY COUNTERACTS IT",
+      marginBottom: 18
+    },
+      /*#__PURE__*/React.createElement("p", {
+        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
+      },
+        "Hallucinations come from how the model works. It picks likely-sounding words one at a time, and likely isn\u2019t always true. That can\u2019t be patched with a quick fix. So the industry built a workaround called ",
+        /*#__PURE__*/React.createElement("strong", null, "RAG"),
+        " (Retrieval-Augmented Generation). For factual questions, modern chatbots search the web first, pull real documents, and write the answer using only what those documents say."),
+      /*#__PURE__*/React.createElement("p", {
+        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0" }
+      },
+        "This is why hallucinations are rarer than they used to be. But the underlying issue is still there, not every tool uses RAG, and even RAG sometimes pulls weak sources. When one slips through, it looks just like everything else the model says.")),
+    /*#__PURE__*/React.createElement(BodyP, null, "Two AI answers, three sentences each. Click each sentence to see if it\u2019s real or made up."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Spot the Hallucinations",
+      title: "What\u2019s Real, What\u2019s Made Up?",
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
@@ -8701,18 +8708,18 @@ function HallucinationSection(props) {
         currentIdx: responseIdx,
         started: startedSpot,
         onStart: function() { setStartedSpot(true); },
-        onNext: function() { setResponseIdx(responseIdx + 1); setFlaggedIds(new Set()); setHallRevealed(false); setLastClaimId(null); },
-        canAdvance: hallRevealed,
+        onNext: function() { setResponseIdx(responseIdx + 1); setFlaggedIds(new Set()); setLastClaimId(null); },
+        canAdvance: claimIds.every(function(id) { return flaggedIds.has(id); }),
         isComplete: responseIdx >= SPOT_RESPONSES.length,
-        startLabel: "First Response",
-        nextLabel: "Next Response \u2192",
-        finishLabel: "Done with both \u2192",
+        startLabel: "First AI Answer",
+        nextLabel: "Next AI Answer \u2192",
+        finishLabel: "Done \u2192",
         completionElement: /*#__PURE__*/React.createElement("div", {
           style: { padding: "20px 0", textAlign: "center" }
         },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 10 } }, "\uD83D\uDD0E"),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 18, color: "#0e0a1f", fontWeight: 700, marginBottom: 8 } }, "Verification is the skill."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "You can\u2019t tell from reading which sentences are true. AI sounds equally confident on the made-up parts and the real ones. When you don\u2019t know, check. Flagging a true sentence isn\u2019t a mistake. It\u2019s the habit."))
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', 'Instrument Serif', serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "You can\u2019t tell from reading which sentences are true. AI sounds equally confident on the made-up parts and the real ones. When you don\u2019t know, check."))
       },
         /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--bg)", borderRadius: 12, padding: "12px 16px", marginBottom: 12, border: "1px solid var(--rule)", maxWidth: "85%" }
@@ -8725,34 +8732,23 @@ function HallucinationSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#2f7d4f", marginBottom: 8 } }, "AI RESPONSE"),
           currentResponse.segments.map(function(seg, si) {
             if (!seg.id) return /*#__PURE__*/React.createElement("span", { key: si }, seg.text);
-            if (hallRevealed) {
-              if (!seg.isReal && flaggedIds.has(seg.id)) return /*#__PURE__*/React.createElement("span", { key: si, style: { background: "#dcfce7", color: "#1f9d5f", padding: "1px 4px", borderRadius: 3, fontWeight: 600 } }, seg.text);
-              if (!seg.isReal && !flaggedIds.has(seg.id)) return /*#__PURE__*/React.createElement("span", { key: si, style: { background: "#fee2e2", color: "#d4334a", padding: "1px 4px", borderRadius: 3, fontWeight: 600, textDecoration: "line-through" } }, seg.text);
-              if (seg.isReal && flaggedIds.has(seg.id)) return /*#__PURE__*/React.createElement("span", { key: si, style: { background: "#fef3c7", color: "#92400e", padding: "1px 4px", borderRadius: 3 } }, seg.text);
-              return /*#__PURE__*/React.createElement("span", { key: si }, seg.text);
+            if (flaggedIds.has(seg.id)) {
+              var revealedStyle = seg.isReal
+                ? { background: "#dcfce7", color: "#1f9d5f", padding: "1px 4px", borderRadius: 3 }
+                : { background: "#fee2e2", color: "#d4334a", padding: "1px 4px", borderRadius: 3 };
+              return /*#__PURE__*/React.createElement("span", { key: si, style: revealedStyle }, seg.text);
             }
-            if (flaggedIds.has(seg.id)) return /*#__PURE__*/React.createElement("span", { key: si, role: "button", tabIndex: 0, onClick: function() { flagClaim(seg); }, onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flagClaim(seg); } }, style: { background: "#fef3c7", color: "#92400e", padding: "1px 4px", borderRadius: 3, cursor: "pointer" } }, seg.text);
             return /*#__PURE__*/React.createElement("span", { key: si, className: "redact-chunk", role: "button", tabIndex: 0, onClick: function() { flagClaim(seg); }, onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flagClaim(seg); } } }, seg.text);
           })),
-        lastSegment && !hallRevealed ? /*#__PURE__*/React.createElement("div", {
+        lastSegment ? /*#__PURE__*/React.createElement("div", {
           style: { marginTop: 12, display: "flex", gap: 10, alignItems: "flex-start" }
         },
           /*#__PURE__*/React.createElement("span", {
-            style: { background: lastSegment.isReal ? "#a36a17" : "#1f9d5f", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, flexShrink: 0 }
-          }, lastSegment.isReal ? "i" : "\u2713"),
+            style: { background: lastSegment.isReal ? "#1f9d5f" : "#d4334a", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, fontWeight: 700, flexShrink: 0 }
+          }, lastSegment.isReal ? "\u2713" : "\u2715"),
           /*#__PURE__*/React.createElement("span", {
-            style: { fontFamily: "'Source Serif 4', Georgia, serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.55, color: lastSegment.isReal ? "#a36a17" : "#1f9d5f", maxWidth: "60ch" }
-          }, lastSegment.isReal ? "Worth a check. " + lastSegment.note : "Good flag. " + lastSegment.note)) : null,
-        !hallRevealed ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
-          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setHallRevealed(true); setLastClaimId(null); } }, "See the breakdown \u2192")) : null,
-        hallRevealed ? /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px", textAlign: "center", marginTop: 18 }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)" } }, "You caught " + caughtCount + " of " + hallucinatedIds.length + " hallucinations."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Source Serif 4', Georgia, serif", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 6 } },
-            caughtCount === hallucinatedIds.length ? "Strong instinct. The skill isn\u2019t knowing the answer. It\u2019s knowing what to check." :
-            caughtCount > 0 ? "Mixed. The misses (in red above) sounded as confident as the ones you caught. That\u2019s the warning." :
-            "All slipped through. Confidence reads the same whether AI is right or wrong. Flagging anything you can\u2019t verify yourself is the habit.")) : null)),
+            style: { fontFamily: "'Source Serif 4', Georgia, serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.55, color: lastSegment.isReal ? "#1f9d5f" : "#d4334a", maxWidth: "60ch" }
+          }, lastSegment.note)) : null)),
   /*#__PURE__*/React.createElement(KeyInsight, null,
     "Probable is not the same as true. Confidence is not evidence. Verification is the skill."),
   /*#__PURE__*/React.createElement(LessonRule, null),

@@ -368,32 +368,151 @@ function getPreviousSectionId(currentId) {
   return allSections[idx - 1];
 }
 
-function PreviousButton(props) {
+function PreviousCard(props) {
   var hov = useState(false); var isHover = hov[0]; var setHover = hov[1];
   return React.createElement("button", {
     onClick: props.onClick,
     onMouseEnter: function() { setHover(true); },
     onMouseLeave: function() { setHover(false); },
     style: {
-      padding: "12px 22px",
-      borderRadius: 10,
-      background: isHover ? "var(--bg)" : "transparent",
-      color: "var(--inkSoft)",
-      border: "1px solid var(--rule)",
-      cursor: "pointer",
-      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
-      fontSize: 14,
-      fontWeight: 700,
-      letterSpacing: "-0.005em",
-      transition: "all 0.15s",
-      display: "inline-flex",
+      flex: "0 1 340px",
+      background: "var(--card)",
+      borderRadius: 16,
+      padding: "14px 22px",
+      display: "flex",
       alignItems: "center",
-      gap: 8,
-      whiteSpace: "nowrap"
+      gap: 16,
+      cursor: "pointer",
+      border: "1px solid var(--rule)",
+      boxShadow: isHover ? "0 8px 22px rgba(14, 10, 31, 0.08)" : "0 4px 12px rgba(14, 10, 31, 0.04)",
+      transition: "all 0.15s",
+      transform: isHover ? "translateY(-1px)" : "translateY(0)",
+      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+      textAlign: "left"
     }
   },
-    React.createElement("span", { "aria-hidden": "true" }, "\u2190"),
-    props.label
+    React.createElement("div", {
+      style: {
+        width: 40, height: 40, borderRadius: "50%",
+        background: "var(--bg)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        flexShrink: 0,
+        fontSize: 18, color: "var(--ink)", fontWeight: 700
+      }
+    }, "\u2190"),
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 } },
+      React.createElement("div", {
+        style: {
+          fontSize: 11, fontWeight: 700, color: "var(--inkMuted)",
+          textTransform: "uppercase", letterSpacing: "0.10em"
+        }
+      }, "Previous Lesson"),
+      React.createElement("div", {
+        style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 }
+      }, props.label)
+    )
+  );
+}
+
+function NextCardUnlocked(props) {
+  var hov = useState(false); var isHover = hov[0]; var setHover = hov[1];
+  return React.createElement("button", {
+    onClick: props.onClick,
+    onMouseEnter: function() { setHover(true); },
+    onMouseLeave: function() { setHover(false); },
+    style: {
+      flex: "0 1 340px",
+      background: "var(--card)",
+      borderRadius: 16,
+      padding: "14px 22px",
+      display: "flex",
+      alignItems: "center",
+      gap: 16,
+      cursor: "pointer",
+      border: "1px solid var(--rule)",
+      boxShadow: isHover ? "0 8px 22px rgba(14, 10, 31, 0.08)" : "0 4px 12px rgba(14, 10, 31, 0.04)",
+      transition: "all 0.15s",
+      transform: isHover ? "translateY(-1px)" : "translateY(0)",
+      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+      textAlign: "left"
+    }
+  },
+    React.createElement("div", {
+      style: { flex: 1, display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }
+    },
+      React.createElement("div", {
+        style: {
+          fontSize: 11, fontWeight: 700, color: "var(--primary)",
+          textTransform: "uppercase", letterSpacing: "0.10em"
+        }
+      }, "Next Lesson"),
+      React.createElement("div", {
+        style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 }
+      }, props.label)
+    ),
+    React.createElement("div", {
+      style: {
+        width: 40, height: 40, borderRadius: "50%",
+        background: "var(--primary)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        flexShrink: 0,
+        fontSize: 18, color: "#fff", fontWeight: 700,
+        boxShadow: "0 4px 14px rgba(110, 81, 255, 0.35)"
+      }
+    }, "\u2192")
+  );
+}
+
+function NextCardLocked(props) {
+  var hov = useState(false); var isHover = hov[0]; var setHover = hov[1];
+  var info = props.activityInfo;
+  var activityTypeLabel = info && info.variant === "see" ? "See It" : "Try It";
+  var activityTitle = info && info.title ? info.title : "";
+  return React.createElement("button", {
+    onClick: props.onClick,
+    onMouseEnter: function() { setHover(true); },
+    onMouseLeave: function() { setHover(false); },
+    style: {
+      flex: "0 1 340px",
+      background: "var(--card)",
+      borderRadius: 16,
+      padding: "14px 24px 14px 22px",
+      display: "flex",
+      alignItems: "center",
+      gap: 16,
+      cursor: "pointer",
+      border: "1px solid var(--rule)",
+      borderLeft: "3px solid var(--primary)",
+      boxShadow: isHover ? "0 8px 22px rgba(14, 10, 31, 0.08)" : "0 4px 12px rgba(14, 10, 31, 0.04)",
+      transition: "all 0.15s",
+      transform: isHover ? "translateY(-1px)" : "translateY(0)",
+      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+      textAlign: "left"
+    }
+  },
+    React.createElement("div", {
+      style: { flex: 1, display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }
+    },
+      React.createElement("div", {
+        style: {
+          fontSize: 11, fontWeight: 700, color: "var(--primary)",
+          textTransform: "uppercase", letterSpacing: "0.10em"
+        }
+      }, "Finish Activity First"),
+      React.createElement("div", {
+        style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 }
+      }, "Jump back to " + activityTypeLabel)
+    ),
+    React.createElement("div", {
+      style: {
+        width: 40, height: 40, borderRadius: "50%",
+        background: "var(--card)",
+        border: "1px solid rgba(110, 81, 255, 0.20)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        flexShrink: 0,
+        fontSize: 18, color: "var(--primary)", fontWeight: 700
+      }
+    }, "\u2191")
   );
 }
 
@@ -402,22 +521,52 @@ function NextLessonGate(props) {
   var activeSection = ctx.activeSection;
   var onNavigate = ctx.onNavigate;
   var isReady = props.ready === undefined ? true : !!props.ready;
+
+  var _ai = useState(null);
+  var activityInfo = _ai[0];
+  var setActivityInfo = _ai[1];
+
+  useEffect(function() {
+    if (isReady) { setActivityInfo(null); return; }
+    var boxes = document.querySelectorAll(".interactive-box--try, .interactive-box--see");
+    if (boxes.length === 0) { setActivityInfo(null); return; }
+    var lastBox = boxes[boxes.length - 1];
+    var variant = lastBox.classList.contains("interactive-box--try") ? "try" : "see";
+    var titleEl = lastBox.querySelector("h3");
+    var title = titleEl ? titleEl.textContent : "";
+    setActivityInfo({ variant: variant, title: title, element: lastBox });
+  }, [isReady, activeSection]);
+
   var prevId = activeSection ? getPreviousSectionId(activeSection) : null;
   var prevMeta = prevId && typeof SECTION_META !== "undefined" ? SECTION_META[prevId] : null;
-  var prevLabel = prevMeta ? "Previous: " + prevMeta.label : null;
-  return React.createElement("div", null,
-    React.createElement("div", {
-      style: { display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center", alignItems: "center" }
-    },
-      prevId && prevLabel && onNavigate ? React.createElement(PreviousButton, {
-        onClick: function() { onNavigate(prevId); },
-        label: prevLabel
-      }) : null,
-      React.createElement(PrimaryButton, { onClick: props.onClick, disabled: !isReady }, props.label)
-    ),
-    !isReady && props.lockedMessage ? React.createElement("div", {
-      style: { textAlign: "center", marginTop: 10, fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic" }
-    }, props.lockedMessage) : null);
+
+  var nextLabel = props.label || "";
+  if (nextLabel.indexOf("Next:") === 0) {
+    nextLabel = nextLabel.substring(5).trim();
+  } else if (nextLabel.indexOf("Next ") === 0) {
+    nextLabel = nextLabel.substring(5).trim();
+  }
+
+  function jumpToActivity() {
+    if (activityInfo && activityInfo.element) {
+      activityInfo.element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  var prevCard = prevId && prevMeta && onNavigate
+    ? React.createElement(PreviousCard, {
+        label: prevMeta.title || prevMeta.label,
+        onClick: function() { onNavigate(prevId); }
+      })
+    : React.createElement("div", { style: { flex: "0 1 340px" } });
+
+  var nextCard = isReady
+    ? React.createElement(NextCardUnlocked, { label: nextLabel, onClick: props.onClick })
+    : React.createElement(NextCardLocked, { activityInfo: activityInfo, onClick: jumpToActivity });
+
+  return React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 16, alignItems: "stretch", marginTop: 8 }
+  }, prevCard, nextCard);
 }
 
 function OpenerSection(props) {

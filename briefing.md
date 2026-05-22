@@ -27,7 +27,7 @@ A self-paced AI education web app for high schoolers. Single HTML file (index.ht
 - SEE IT band: --seeBand #faf6ec (sand surface), --seeAccent #a36a17 (amber accent), --seeRule rgba(163, 106, 23, 0.18) (amber hairline)
 - KEY TERM band: --termBand #fdf2f8 (light pink surface), --termAccent #be185d (magenta accent)
 - TRY IT colors (inlined, no named vars): mint surface #eef4eb, green accent #2f7d4f, mint hairline rgba(63, 107, 63, 0.18)
-- Typography: --sans (Plus Jakarta Sans, Google Fonts), --serif (Instrument Serif, Google Fonts), --mono (system monospace stack). Activity feedback prose uses Source Serif 4 (also from Google Fonts) referenced directly by font-family string.
+- Typography: --sans (Plus Jakarta Sans, Google Fonts) for all reading text, --serif (Instrument Serif, Google Fonts) for display only (lesson title and activity numerals), --mono (system monospace stack). Source Serif 4 is no longer used; it was retired when all explanatory and feedback prose moved to sans.
 - Body paragraph standard: 17px / 1.65 line-height / var(--inkSoft)
 
 ### Design philosophy
@@ -35,7 +35,7 @@ A self-paced AI education web app for high schoolers. Single HTML file (index.ht
 - Activity interiors may use --rule borders where the border carries meaning, separating choices, feedback, and interactive states.
 - Three shadow roles: subtle (chips/pills), elevated (lesson card), active glow (purple).
 - Active states are singular: one section pill, one chip, one primary button per page.
-- Serif (Instrument Serif) reserved for the lesson title only.
+- Serif (Instrument Serif) is display only: the lesson title and the activity numerals (SEE IT and TRY IT). Every other piece of text, including all explanatory prose and activity feedback, is sans (Plus Jakarta Sans). The old reading serif (Source Serif 4) has been retired.
 - Page background never goes white.
 - Spacing comes from a defined scale.
 
@@ -53,6 +53,7 @@ A self-paced AI education web app for high schoolers. Single HTML file (index.ht
 - **OpenerSection**: standardized opener-page wrapper. Slots: LessonHeader (with optional bigIdea subtitle), whyThisMatters paragraphs, optional featuredCard, "BIG QUESTIONS WE'LL ANSWER" SectionKicker, whatYoullLearnIntro, ShowcaseBox containing the lesson-question cards (either a flat grid via `openQuestions` or a clustered display via `groups` where each group has a kicker label, a bridge subhead, and its own card grid), whatYoullLearnClosing, optional KeyInsight (lead "The common mistake:"), framing KeyInsight (lead "Keep this question in mind:" rendered from each opener's `question` prop), PrimaryButton. Each section group's opener is a thin wrapper passing content props, so format changes propagate to every opener.
 - **QuizBlock**: recessed --bg fill, --rule border. Statement is sans 22px/600/--ink. Per-option correctness via opt.correct.
 - **RevealSequence**: state-machine progressive-disclosure driver for SEE IT activities. Manages currentIdx, started, per-stage state. Drives Pattern A (one stage swaps in at a time) and the ladder-mode sub-variant (cumulative reveal). Accepts a surface prop matching InteractiveBox.
+- **Takeaway**: standard activity-completion takeaway, replacing the old centered emoji cards. Two-column grid (1fr / 2fr, 36px gap): left is an uppercase 11px eyebrow (default "The takeaway") above a 24px/600 sans headline; right is the 16px sans explanation. Props: headline, body, eyebrow, accent, merged. accent defaults to var(--seeAccent) amber for SEE IT; TRY IT completions pass #2f7d4f green. Standalone mode renders a white card (14px radius, soft shadow, 24px 28px padding); merged mode renders just a dashed-accent top divider plus the grid, for dropping inside an existing content card where rows or a table sit above (Tokens, Inference, Choosing the Model).
 - **CompareCard**: tinted comparison card chrome. No border, 16px radius, 20px padding, soft shadow (0 8px 22px rgba(14, 10, 31, 0.05)). Props: bg (required tint color), centered (optional), style (optional). Canonical inner-block treatment: any visible container inside a CompareCard is white with no border.
 - **ScenarioRow**: wraps Pattern 2 row chrome. Serif numeral, optional kicker, prompt text, indented pill row, feedback strip. Props: index (1-based), kicker, prompt, answered, correct, feedback, children.
 - **FeedbackPill**: pill button for Pattern 2 sort activities. Props: state ("default" | "picked-correct" | "picked-wrong" | "answered-untouched"), label, onClick.
@@ -73,7 +74,7 @@ TRY IT and SEE IT activities share a visual language and follow one of two inter
 - Question numerals: Instrument Serif 400, 44px, line-height 1, color #2f7d4f. Opacity 0.6 when locked, 1.0 when active or answered.
 - Question prompts: Plus Jakarta Sans 600, 18px, line-height 1.4, color #0e0a1f, max-width 56ch.
 - Answer pills: Plus Jakarta Sans 700, 14px, padding 11px 22px, min-width 96px, borderRadius 999. Default state: white fill, --rule border, --ink text. Correct selection: filled #1f9d5f, white text, ✓ inside. Wrong selection: #f1f0f3 fill, transparent border, #6e6986 text, red ✕ inside (#d4334a).
-- Feedback prose: Source Serif 4 (italic optional), 16px, line-height 1.55, max-width 60ch. Color #1f9d5f for correct, #d4334a for wrong. Prefixed by a 20px circular ✓ or ✕ icon in matching color.
+- Feedback prose: Plus Jakarta Sans (italic optional), 16px, line-height 1.55, max-width 60ch. Color #1f9d5f for correct, #d4334a for wrong. Prefixed by a 20px circular ✓ or ✕ icon in matching color.
 - Counter pill (top-right of activity): white fill, soft shadow, "N OF M" (bold count, uppercase letterspaced "of M").
 
 #### TRY IT Pattern 1: Progressive Disclosure
@@ -82,7 +83,7 @@ Each scenario is its own moment with setup + question + per-question feedback. U
 - RevealSequence drives advancement: state for currentIdx, started, answer-per-scenario.
 - Inside RevealSequence children: scenario card (mint subtle), optional chat bubbles, then QuizBlock.
 - QuizBlock vertical-stack option buttons styled to match the shared visual language.
-- Completion element: centered card, soft icon, bold one-line takeaway, soft body text.
+- Completion element: the Takeaway component with accent "#2f7d4f" (green) so it matches the mint shell.
 
 #### TRY IT Pattern 2: Parallel Sort/Match
 All items visible at once, sorted independently. Best for sorting/categorization tasks. Per-item feedback reveals as each item is answered.
@@ -98,12 +99,13 @@ Stages reveal one at a time. Mirrors TRY IT Pattern 1 structurally; differs in c
 - Shell: InteractiveBox with variant "see" and surface "sand". Sand band wrapper (var(--seeBand), no border, 24px radius, 32-36px padding). Eyebrow "◉ SEE IT" in var(--seeAccent) amber.
 - Counter pill: identical to TRY IT visually.
 - Engine: RevealSequence with surface "sand". Uses ActivityButton for start/next/finish buttons (dark ink, shared with mint surface).
-- Stage interior: ivory inner card (white, 14px radius, soft shadow at 0 4px 12px rgba(14,10,31,0.05), 18-22px padding). Header row: serif amber numeral (Instrument Serif 32px, zero-padded "01" through "0N"), icon + Plus Jakarta Sans bold label (17px), Source Serif 4 description (15px, color #3a3550). Subsequent sections separated by var(--seeRule) hairlines, each introduced by an amber 11px eyebrow with emoji prefix.
-- Completion card: centered, emoji + Plus Jakarta Sans bold heading + Source Serif 4 body, 60ch max-width.
+- Stage interior: ivory inner card (white, 14px radius, soft shadow at 0 4px 12px rgba(14,10,31,0.05), 18-22px padding). Header row: serif amber numeral (Instrument Serif 32px, zero-padded "01" through "0N"), icon + Plus Jakarta Sans bold label (17px), Plus Jakarta Sans description (15px, color #3a3550). Subsequent sections separated by var(--seeRule) hairlines, each introduced by an amber 11px eyebrow with emoji prefix.
+- Completion takeaway: the Takeaway component (default amber accent). Standalone when the completion is only the takeaway; merged (a dashed-divider footer inside the content card) when rows or a table precede it (Tokens, Inference, Choosing the Model).
 - NextLessonGate: gates on full completion (activeIdx >= items.length).
 - Ladder-mode sub-variant: stages stay visible cumulatively in one ivory card with var(--seeRule) hairlines between them. Most recent reveal animates in; earlier stages render statically. Used when stages build on each other (How LLMs Train, Three Steps to an Answer).
 - No-completion-card variant: set isComplete: false on RevealSequence and gate canAdvance on `... && currentIdx < items.length - 1` so the activity ends on the last stage's content (Context "Same Prompt, Different Context").
 - Pedagogical color preservation: SEE IT migrations recolor chrome to amber. They do NOT recolor interior content where color carries lesson meaning (Messy In's blue/red/purple Computer/Failure/AI palette, Context's role colors, Prediction's blue/purple/green steps).
+- Decorative color order: for non-semantic card arrays (maps where color only distinguishes cards and carries no meaning), use the canonical palette in order, taking the first N: blue #3b82f6, green #10b981, amber #f59e0b, purple #8b5cf6. Colors that carry lesson meaning are exempt and follow the rule above.
 
 #### SEE IT Pattern B: Parallel Reveal, Sand Chrome
 Comparison matters more than sequence. All stages render at once as ivory cards stacked inside the sand band, separated by var(--seeRule) hairlines. No RevealSequence, no counter pill.

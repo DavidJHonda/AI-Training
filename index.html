@@ -4460,10 +4460,19 @@ function BiasQuiz(props) {
   ];
   var bs = biasScenarios[biasIdx];
   var isLastBias = biasIdx === biasScenarios.length - 1;
-  if (!biasStarted) {
-    return /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Scenario");
-  }
-  return /*#__PURE__*/React.createElement("div", null,
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "What Did the Model Actually Learn?",
+    action: biasStarted ? /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(biasIdx + 1, biasScenarios.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + biasScenarios.length)) : null
+  },
+    !biasStarted
+      ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Scenario")
+      : /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)", marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
@@ -4489,7 +4498,7 @@ function BiasQuiz(props) {
         )
       )
     )
-  );
+  ));
 }
 function TrainingBiasSection(props) {
   const [biasComplete, setBiasComplete] = useState(false);
@@ -4528,12 +4537,7 @@ function TrainingBiasSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Some of these are real cases. Some are simplified versions of a real pattern. In each one, the question is the same: what did the model actually learn?"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "What Did the Model Actually Learn?"
-  },
-    /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } })),
+    /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } }),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "FIGHT THE TRAP",
       headline: "Four moves when the answer feels too clean.",
@@ -5248,7 +5252,7 @@ function NameThatDrinkTryIt(props) {
           : null));
     }
     content = E("div", null,
-      E("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 12, animation: q.title === "Trick Question" ? "trickFlash 1s ease-in-out infinite" : undefined } }, (q.title || "Question " + (qIdx + 1) + " of 3")),
+      q.title ? E("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 12, animation: q.title === "Trick Question" ? "trickFlash 1s ease-in-out infinite" : undefined } }, q.title) : null,
       E("div", { style: { marginBottom: 16 } }, q.dims.map(function(d, i) { return dimBar(d[0], d[1]); })),
       E("div", { style: { display: "flex", gap: 12, justifyContent: "center" } }, q.choices.map(function(c) { return answerBtn(c[0], c[1]); })),
       feedback);
@@ -5257,7 +5261,12 @@ function NameThatDrinkTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
-    hint: "You just saw 6 dimensions. Can you identify a drink from only 2?"
+    hint: "You just saw 6 dimensions. Can you identify a drink from only 2?",
+    action: started ? /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(qIdx + 1, questions.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + questions.length)) : null
   },
     content);
 }
@@ -7316,7 +7325,7 @@ function CustomizationSection(props) {
       /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(sortAnswers).length),
       /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SORT_ITEMS.length))
   },
-    /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
       SORT_ITEMS.map(function(s, i) {
         var current = sortAnswers[i];
         var hasAnswer = current !== undefined;
@@ -10113,7 +10122,16 @@ function StudyingWithAISection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "Pick the better tutor move"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Three real situations. In each one, you\u2019ve got AI open and a choice to make. Pick the prompt that helps you learn the thing, not just finish the assignment."),
-    /*#__PURE__*/React.createElement(InteractiveBox, { variant: "try", surface: "mint", title: "Pick the Better Tutor Move" },
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Pick the Better Tutor Move",
+      action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(picks).length),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length))
+    },
       SCENARIOS.map(function(sc, sIdx) {
         var picked = picks[sIdx];
         var revealed = picked !== undefined;
@@ -13979,7 +13997,12 @@ function HumanEdgeSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Spot the Stronger Use of AI"
+    title: "Spot the Stronger Use of AI",
+    action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(picks).length),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length))
   },
     SCENARIOS.map(function(sc, sIdx) {
         var picked = picks[sIdx];
@@ -14191,7 +14214,12 @@ function WorkChangesSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Sort the Tasks by Exposure"
+    title: "Sort the Tasks by Exposure",
+    action: /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(taskAnswers).length),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TASKS.length))
   },
     TASKS.map(function(t, tIdx) {
         var picked = taskAnswers[tIdx];

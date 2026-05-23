@@ -935,11 +935,16 @@ function UserBubble(props) {
   var visibleChars = (typeof props.visibleChars === "number") ? props.visibleChars : text.length;
   var showCursor = visibleChars < text.length;
   var maxWidth = props.maxWidth || "min(82%, 620px)";
+  var align = props.align || "right";
+  var alignLeft = align === "left";
+  var label = props.label || "You";
   var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
-  return React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", animation: "fadeIn 0.3s ease" } },
+  return React.createElement("div", { style: { display: "flex", justifyContent: alignLeft ? "flex-start" : "flex-end", animation: "fadeIn 0.3s ease" } },
     React.createElement("div", { style: { maxWidth: maxWidth } },
-      React.createElement("div", { style: { color: "var(--primary)", fontSize: 12, fontWeight: 800, marginBottom: 5, textAlign: "right" } }, "You"),
-      React.createElement("div", { style: { background: "#fff", borderRadius: "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.05)" } },
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
+        React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--primary)", display: "inline-block", flexShrink: 0 } }),
+        React.createElement("span", { style: { color: "var(--primary)", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
+      React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
         text.slice(0, visibleChars),
         showCursor ? cursor : null)));
 }
@@ -949,11 +954,16 @@ function AIBubble(props) {
   var visibleWords = (typeof props.visibleWords === "number") ? props.visibleWords : words.length;
   var showCursor = visibleWords < words.length;
   var maxWidth = props.maxWidth || "min(88%, 700px)";
+  var align = props.align || "left";
+  var alignLeft = align !== "right";
+  var label = props.label || "AI";
   var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
-  return React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
+  return React.createElement("div", { style: { display: "flex", justifyContent: alignLeft ? "flex-start" : "flex-end", animation: "fadeIn 0.3s ease" } },
     React.createElement("div", { style: { maxWidth: maxWidth } },
-      React.createElement("div", { style: { color: "#10b981", fontSize: 12, fontWeight: 800, marginBottom: 5 } }, "AI"),
-      React.createElement("div", { style: { background: "var(--card)", borderRadius: "16px 16px 16px 4px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)" } },
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
+        React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "#2f7d4f", display: "inline-block", flexShrink: 0 } }),
+        React.createElement("span", { style: { color: "#2f7d4f", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
+      React.createElement("div", { style: { background: "#eef4eb", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48 } },
         words.slice(0, visibleWords).join(" "),
         showCursor ? cursor : null)));
 }

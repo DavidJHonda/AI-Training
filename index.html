@@ -7508,11 +7508,11 @@ function DocumentChatSection(props) {
             E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 17, color: "var(--ink)", fontWeight: 700, lineHeight: 1.3 } }, currentTactic.name)),
           E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: currentTactic.before ? 0 : 4 } }, currentTactic.body),
           currentTactic.before ? E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginTop: 14 } },
-            E("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
-              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 4 } }, currentTactic.before.label),
+            E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
+              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--red)", marginBottom: 4 } }, currentTactic.before.label),
               E("div", { style: { fontSize: 14, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5 } }, "“" + currentTactic.before.text + "”")),
-            E("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "12px 14px" } },
-              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#1f9d5f", marginBottom: 4 } }, currentTactic.after.label),
+            E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
+              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--green)", marginBottom: 4 } }, currentTactic.after.label),
               E("div", { style: { fontSize: 14, color: "var(--ink)", fontStyle: "italic", lineHeight: 1.5 } }, "“" + currentTactic.after.text + "”"))
           ) : null
         )
@@ -9489,12 +9489,14 @@ function PromptingSection(props) {
   const pFilledCount = [pSubject, pFormat, pUnderstand.trim() ? pUnderstand : null, pConfused.trim() ? pConfused : null, pHowHelp, pNotDo].filter(function(v) { return v !== null && v !== ""; }).length;
   const q = PROMPT_QUALITIES[activeQuality];
   const BEFORE_AFTER = [{
+    label: "Academic",
     bad: "Help me study history.",
     good: "I have an AP US History exam Friday. Quiz me on the political, economic, and social causes of the Civil War. Give me five questions, then check my answers and explain what I missed.",
     badOut: "Sure! Here are some general tips for studying history: make a timeline, use flashcards, review your notes, and practice with past exams. Good luck!",
     goodOut: "Here are 5 questions on the causes of the Civil War:\n1. What was the Missouri Compromise and why did it fail?\n2. How did the economy of the South depend on slavery compared to the industrial North?\n3. What role did the Dred Scott decision play in escalating tensions?\n4. How did John Brown\u2019s raid on Harpers Ferry affect Southern fears?\n5. What was the significance of Lincoln\u2019s election in 1860?\nAnswer when ready and I\u2019ll check your work.",
     callout: "Same subject. Completely different result. Specificity is everything."
   }, {
+    label: "Career",
     bad: "Help me write a cover letter.",
     good: "I\u2019m 17 applying for a summer internship at a local marketing agency. I have no work experience but I\u2019ve run my school\u2019s Instagram account for two years and grown it from 200 to 1,400 followers. Write me a cover letter that leads with that as my main qualification and keeps it under 200 words.",
     badOut: "Dear Hiring Manager, I am writing to express my interest in the internship position at your company. I am a hardworking student who is eager to learn and contribute to your team. I have good communication skills and work well with others. Thank you for your consideration.",
@@ -9502,117 +9504,57 @@ function PromptingSection(props) {
     callout: "Same task. One gets a template. The other gets a letter that could actually land the job."
   }];
   const [baIdx, setBaIdx] = useState(0);
-  const ba = BEFORE_AFTER[baIdx];
+  const [baStarted, setBaStarted] = useState(false);
+  const [baRevealed, setBaRevealed] = useState(false);
+  const ba = BEFORE_AFTER[Math.min(baIdx, BEFORE_AFTER.length - 1)];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "Questions Matter taught you how to frame the problem. Prompting is how you turn that frame into instructions the model can actually use."), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned how LLMs work: how they process tokens, use context, and generate responses word by word. Now here\u2019s the practical payoff: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
-    title: "Bad Prompt, Better Prompt"
+    title: "Bad Prompt, Better Prompt",
+    action: /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+    },
+      /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(baIdx + (baStarted ? 1 : 0), BEFORE_AFTER.length)),
+      /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + BEFORE_AFTER.length))
   },
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "sand",
+      items: BEFORE_AFTER,
+      currentIdx: baIdx,
+      started: baStarted,
+      onStart: function() { setBaStarted(true); },
+      onNext: function() { setBaIdx(baIdx + 1); setBaRevealed(false); },
+      canAdvance: baRevealed,
+      isComplete: baIdx >= BEFORE_AFTER.length,
+      startLabel: "First Example",
+      nextLabel: "Next Example \u2192",
+      finishLabel: "Wrap it up \u2192",
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Same ask. Different prompt. Different answer.", body: "The model can only answer with what you give it. A specific prompt with your real situation gets a real answer. A vague one gets a template." })
+    },
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(Math.min(baIdx, BEFORE_AFTER.length - 1) + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, ba.label))),
+        /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 16 } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "rgba(239, 68, 68, 0.06)", border: "1px solid rgba(239, 68, 68, 0.25)", borderRadius: 10, padding: "12px 14px", marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#ef4444", marginBottom: 6 } }, "\u2717 Bad Prompt"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, ba.bad)),
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", marginBottom: 16 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "AI Output"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ba.badOut)),
+          !baRevealed ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+            /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBaRevealed(true); }, size: "large" }, "See the stronger prompt \u2192")) :
+          /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "rgba(16, 185, 129, 0.06)", border: "1px solid rgba(16, 185, 129, 0.25)", borderRadius: 10, padding: "12px 14px", marginBottom: 12 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#10b981", marginBottom: 6 } }, "\u2713 Better Prompt"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, ba.good)),
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "AI Output"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ba.goodOut)))))),
+  /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WHY GOOD PROMPTS WORK", marginBottom: 28 },
   /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 8, marginBottom: 16 }
-  }, BEFORE_AFTER.map(function(_, i) { return /*#__PURE__*/React.createElement("button", {
-    key: i, onClick: function() { setBaIdx(i); },
-    style: { padding: "8px 18px", borderRadius: 8, background: i === baIdx ? "var(--primary)" : "var(--bg)", color: i === baIdx ? "#fff" : "var(--inkMuted)", border: "1px solid var(--rule)", cursor: "pointer", fontSize: 13, fontWeight: 600 }
-  }, i === 0 ? "Academic" : "Career"); })),
-  /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 12, marginBottom: 12 }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, background: "rgba(239, 68, 68, 0.06)", border: "1px solid rgba(239, 68, 68, 0.25)", borderRadius: 10, padding: "12px 14px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#ef4444", marginBottom: 6 } }, "\u2717 Bad Prompt"),
-  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, ba.bad)),
-  /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, background: "rgba(16, 185, 129, 0.06)", border: "1px solid rgba(16, 185, 129, 0.25)", borderRadius: 10, padding: "12px 14px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#10b981", marginBottom: 6 } }, "\u2713 Better Prompt"),
-  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, ba.good))),
-  /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 12, marginBottom: 12 }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "AI Output"),
-  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ba.badOut)),
-  /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "AI Output"),
-  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ba.goodOut))),
-  /*#__PURE__*/React.createElement("div", {
-    style: { background: "var(--bg)", border: "2px solid var(--primary)", borderRadius: 8, padding: "10px 16px", marginBottom: 24, textAlign: "center" }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 700, fontSize: 13 } }, ba.callout))),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Same prompt, four formats, four completely different answers. Switch between them to see how a single instruction reshapes the whole output."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Format Changes Everything",
-    hint: "Same prompt. Four completely different outputs. The format instruction is everything."
-  },
-    /*#__PURE__*/React.createElement("div", { style: { background: "rgba(110,81,255,0.09)", borderRadius: 8, padding: "12px 16px", marginBottom: 16, fontSize: 15, fontWeight: 600, color: "var(--ink)", textAlign: "center" } }, "\uD83D\uDCAC \u201CExplain photosynthesis.\u201D"),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 16 } },
-      [["kid", "\uD83D\uDC76 For a 10-year-old"], ["bio", "\uD83D\uDD2C For a biology student"], ["tweet", "\uD83D\uDC26 As a tweet"], ["guide", "\uD83D\uDCCB As a study guide"]].map(function(b) { return /*#__PURE__*/React.createElement("button", {
-        key: b[0],
-        onClick: function() { setPromptDemo(b[0]); },
-        style: { padding: 10, borderRadius: 8, border: promptDemo === b[0] ? "2px solid var(--primary)" : "2px solid var(--rule)", background: promptDemo === b[0] ? "var(--primary)" : "var(--card)", color: promptDemo === b[0] ? "#fff" : "var(--inkMuted)", cursor: "pointer", fontSize: 13, fontWeight: 600, transition: "all 0.2s" }
-      }, b[1]); })
-    ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 10, padding: 20, border: "1px solid var(--rule)", minHeight: 120, animation: "fadeIn 0.3s ease" }, key: promptDemo },
-      promptDemo === "kid" && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "var(--primary)", marginBottom: 8 } }, "\uD83D\uDC76 For a 10-year-old"),
-        /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, lineHeight: 1.7, color: "var(--ink)" } }, "You know how you need food to have energy to run around? Plants do the same thing, but instead of eating a sandwich, they eat sunlight. They take in sunshine and water, mix it together like a recipe, and turn it into their own food. Pretty cool, right?")),
-      promptDemo === "bio" && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "var(--primary)", marginBottom: 8 } }, "\uD83D\uDD2C For a biology student"),
-        /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, lineHeight: 1.7, color: "var(--ink)" } }, "Photosynthesis is the process by which chloroplasts convert light energy into chemical energy stored as glucose. In the light-dependent reactions, water molecules are split and ATP is produced. In the Calvin cycle, CO\u2082 is fixed into G3P using that ATP. Net equation: 6CO\u2082 + 6H\u2082O + light \u2192 C\u2086H\u2081\u2082O\u2086 + 6O\u2082.")),
-      promptDemo === "tweet" && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "var(--primary)", marginBottom: 8 } }, "\uD83D\uDC26 As a tweet"),
-        /*#__PURE__*/React.createElement("p", { style: { fontSize: 15, lineHeight: 1.7, color: "var(--ink)", fontFamily: "var(--mono)" } }, "Plants figured out how to eat sunlight millions of years before humans invented the microwave. We\u2019re still catching up. \uD83C\uDF31"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginTop: 6 } }, "112 characters")),
-      promptDemo === "guide" && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "var(--primary)", marginBottom: 8 } }, "\uD83D\uDCCB As a study guide"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, lineHeight: 1.8, color: "var(--ink)" } },
-          "\uD83D\uDD11 Key Terms: Chlorophyll, Chloroplast, Glucose, ATP", /*#__PURE__*/React.createElement("br", null),
-          "\uD83D\uDCCD Where it happens: Chloroplasts in plant cells", /*#__PURE__*/React.createElement("br", null),
-          "\u26A1 What goes in: Sunlight + Water + CO\u2082", /*#__PURE__*/React.createElement("br", null),
-          "\uD83C\uDF6C What comes out: Glucose + Oxygen", /*#__PURE__*/React.createElement("br", null),
-          "\uD83D\uDCA1 Why it matters: Foundation of almost all food chains on Earth"))
-    ),
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 12, fontStyle: "italic", textAlign: "center" } }, "Same prompt. Four completely different outputs. This is what good prompting unlocks, and it starts with telling the model who it\u2019s talking to."),
-/*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 16,
-      marginBottom: 24,
-      flexWrap: "wrap"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 240,
-      background: "#fef2f2",
-      border: "1px solid #fca5a5",
-      borderRadius: 12,
-      padding: "18px 20px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 8 }
-  }, "\u274C Weak prompt"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "var(--mono)", fontSize: 14, color: "#991b1b", lineHeight: 1.6, marginBottom: 12 }
-  }, "\"Help me with my project.\""), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "#7f1d1d", lineHeight: 1.5, fontStyle: "italic" }
-  }, "The model has almost nothing to work with. It doesn't know what project, what kind of help, or what your goals are.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 240,
-      background: "#ecfdf5",
-      border: "1px solid #86efac",
-      borderRadius: 12,
-      padding: "18px 20px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 8 }
-  }, "\u2705 Strong prompt"), /*#__PURE__*/React.createElement("div", {
-    style: { fontFamily: "var(--mono)", fontSize: 14, color: "#14532d", lineHeight: 1.6, marginBottom: 12 }
-  }, "\"I'm building a Python script that scrapes product prices from three competitor websites. Help me design the architecture: what libraries should I use and how should I structure the code for maintainability?\""), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "#14532d", lineHeight: 1.5, fontStyle: "italic" }
-  }, "Now the model knows the language, the task, the scope, and what kind of help you need. It can give a focused, useful answer."))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -9653,8 +9595,7 @@ function PromptingSection(props) {
     variant: "see",
     surface: "sand",
     title: "The 8 Qualities",
-    hint: "Great prompts share these qualities. Click through each one to see the difference it makes.",
-    marginTop: -36
+    hint: "Great prompts share these qualities. Click through each one to see the difference it makes."
   },
     /*#__PURE__*/React.createElement("div", {
     style: {

@@ -73,17 +73,20 @@ TRY IT and SEE IT activities share a visual language and follow one of two inter
 - Title: Plus Jakarta Sans 700, 22px, --ink.
 - Question numerals: Instrument Serif 400, 44px, line-height 1, color #2f7d4f. Opacity 0.6 when locked, 1.0 when active or answered.
 - Question prompts: Plus Jakarta Sans 600, 18px, line-height 1.4, color #0e0a1f, max-width 56ch.
-- Answer pills: Plus Jakarta Sans 700, 14px, padding 11px 22px, min-width 96px, borderRadius 999. Default state: white fill, --rule border, --ink text. Correct selection: filled #1f9d5f, white text, ✓ inside. Wrong selection: #f1f0f3 fill, transparent border, #6e6986 text, red ✕ inside (#d4334a).
-- Feedback prose: Plus Jakarta Sans (italic optional), 16px, line-height 1.55, max-width 60ch. Color #1f9d5f for correct, #d4334a for wrong. Prefixed by a 20px circular ✓ or ✕ icon in matching color.
+- Answer pills: Plus Jakarta Sans 600, 15px, padding 14px 18px, borderRadius 12, 1.5px border. Untouched: white fill, --rule border, --ink text; hover #eef4eb fill + #2f7d4f border. Pills key off whether they are the one currently being viewed (dim-in-place): exactly one pill is fully saturated at a time, the one whose feedback is showing. Correct pick viewing: #1f9d5f fill, white text, white ✓. Correct pick dimmed: #e7f6ee fill, #b6e3cd border, #1f9d5f text and ✓. Wrong pick viewing: #d4334a fill, white text, white ✕. Wrong pick dimmed: #fbe9ec fill, #f0b8c1 border, #d4334a text and ✕. transition all 150ms.
+- Feedback (mint QuizBlock): a two-column block below a dashed divider (1px dashed rgba(63, 107, 63, 0.18), marginTop and paddingTop 18), mirroring the SEE IT Takeaway. Grid 1fr/2fr, gap 24. Left column is a colored dot plus an uppercase 11px eyebrow, then a 22px/700 headline, both in the accent color. Right column is the 16px/400 body in neutral ink #0e0a1f. Accent #1f9d5f for correct, #d4334a for wrong. All sans; the only serif in the activity is the numeral.
 - Counter pill (top-right of activity): white fill, soft shadow, "N OF M" (bold count, uppercase letterspaced "of M").
 
 #### TRY IT Pattern 1: Progressive Disclosure
 Each scenario is its own moment with setup + question + per-question feedback. Use when sequential pacing builds the lesson.
 - InteractiveBox variant "try", surface "mint", title and counter action.
 - RevealSequence drives advancement: state for currentIdx, started, answer-per-scenario.
-- Inside RevealSequence children: scenario card (mint subtle), optional chat bubbles, then QuizBlock.
-- QuizBlock vertical-stack option buttons styled to match the shared visual language.
-- Completion element: the Takeaway component with accent "#2f7d4f" (green) so it matches the mint shell.
+- Inside RevealSequence children: a single white card (#fff, borderRadius 14, boxShadow 0 4px 12px rgba(14, 10, 31, 0.05), padding 22px 26px) wrapping the scenario intro (THE EVENT eyebrow plus setup, plus any chat bubbles or essay text) and the QuizBlock together. The TRY IT eyebrow, title, and counter stay on the mint above the card.
+- QuizBlock (mint) is retry-until-correct. Wrong picks lock as red and never advance, and the correct answer is never revealed. onAnswer fires only on the correct pick, so parent gating (canAdvance, counter) needs no per-activity change.
+- After solving, every option stays clickable for exploration ("see why this one is wrong"). Clicking any option shows its feedback and makes it the single loud pill (dim-in-place); all other results dim to a pale tint.
+- Two-phase wrong content: while unsolved, a wrong pick shows a withholding hint that must not name the answer (the `hint` field; default generic). After solving, clicking a wrong option shows its full `feedback`, since the answer is already out.
+- Option data: { label, correct, feedback, headline?, eyebrow?, hint? }. feedback is the right-column body; headline defaults to "Right." or "Not the best fit."; eyebrow defaults to "Correct" or "Not quite"; hint is the during-attempt nudge.
+- Completion element: the Takeaway component with accent #2f7d4f (green) so it matches the mint shell.
 
 #### TRY IT Pattern 2: Parallel Sort/Match
 All items visible at once, sorted independently. Best for sorting/categorization tasks. Per-item feedback reveals as each item is answered.

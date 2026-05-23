@@ -945,8 +945,8 @@ function UserBubble(props) {
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--primary)", display: "inline-block", flexShrink: 0 } }),
         React.createElement("span", { style: { color: "var(--primary)", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
       React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
-        text.slice(0, visibleChars),
-        showCursor ? cursor : null)));
+        props.children != null ? props.children : text.slice(0, visibleChars),
+        props.children == null && showCursor ? cursor : null)));
 }
 function AIBubble(props) {
   var text = props.text || "";
@@ -964,8 +964,8 @@ function AIBubble(props) {
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "#2f7d4f", display: "inline-block", flexShrink: 0 } }),
         React.createElement("span", { style: { color: "#2f7d4f", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
       React.createElement("div", { style: { background: "#eef4eb", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48 } },
-        words.slice(0, visibleWords).join(" "),
-        showCursor ? cursor : null)));
+        props.children != null ? props.children : words.slice(0, visibleWords).join(" "),
+        props.children == null && showCursor ? cursor : null)));
 }
 function ThinkingBubble() {
   return React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
@@ -8634,15 +8634,9 @@ function HallucinationSection(props) {
         finishLabel: "Done \u2192",
         completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "Verification is the skill.", body: "You can\u2019t tell from reading which sentences are true. AI sounds equally confident on the made-up parts and the real ones. When you don\u2019t know, check." })
       },
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--bg)", borderRadius: 12, padding: "12px 16px", marginBottom: 12, border: "1px solid var(--rule)", maxWidth: "85%" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 6 } }, "YOU ASKED"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, currentResponse.question)),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "#fff", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)", marginBottom: 14, fontSize: 15, color: "var(--ink)", lineHeight: 1.7 }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#2f7d4f", marginBottom: 8 } }, "AI RESPONSE"),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+          /*#__PURE__*/React.createElement(UserBubble, { text: currentResponse.question, align: "right", label: "You" }),
+          /*#__PURE__*/React.createElement(AIBubble, { align: "left", label: "AI" },
           currentResponse.segments.map(function(seg, si) {
             if (!seg.id) return /*#__PURE__*/React.createElement("span", { key: si }, seg.text);
             if (flaggedIds.has(seg.id)) {
@@ -8652,7 +8646,7 @@ function HallucinationSection(props) {
               return /*#__PURE__*/React.createElement("span", { key: si, style: revealedStyle }, seg.text);
             }
             return /*#__PURE__*/React.createElement("span", { key: si, className: "redact-chunk", role: "button", tabIndex: 0, onClick: function() { flagClaim(seg); }, onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flagClaim(seg); } } }, seg.text);
-          })),
+          }))),
         lastSegment ? /*#__PURE__*/React.createElement("div", {
           style: { marginTop: 12, display: "flex", gap: 10, alignItems: "flex-start" }
         },

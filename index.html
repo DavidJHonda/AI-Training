@@ -968,6 +968,7 @@ function RevealSequence(props) {
   var primaryHoverColor = isMint || isSand ? "#22253a" : "var(--primary)";
   var disabledBg = isMint || isSand ? "#d8d6e0" : "var(--rule)";
   var btnFontFamily = isMint || isSand ? "'Plus Jakarta Sans', system-ui, sans-serif" : "inherit";
+  var stripArrow = function(s) { return (s || "").replace(/[\s\u2190-\u21FF]+$/, ""); };
   if (!props.started) {
     return React.createElement("div", { style: { textAlign: "center", padding: "12px 0" } },
       React.createElement("button", {
@@ -977,13 +978,13 @@ function RevealSequence(props) {
           background: primaryColor, color: "#fff", border: "none", cursor: "pointer",
           fontSize: 14, fontWeight: 700, fontFamily: btnFontFamily
         }
-      }, props.startLabel || "Start"));
+      }, stripArrow(props.startLabel) || "Start"));
   }
   if (props.isComplete) {
     return props.completionElement || null;
   }
   var isLast = props.currentIdx === props.items.length - 1;
-  var label = isLast ? (props.finishLabel || "Finish") : (props.nextLabel || "Next \u2192");
+  var label = isLast ? (stripArrow(props.finishLabel) || "Finish") : (stripArrow(props.nextLabel) || "Next");
   var canAdvance = props.canAdvance !== false;
   return React.createElement("div", null,
     isMint || isSand ? null : React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 } },
@@ -7391,8 +7392,8 @@ function CustomizationSection(props) {
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
-  const [tacticIdx, setTacticIdx] = useLocalStorage("seeit-documentchat-tacticIdx", 0);
-  const [startedTactics, setStartedTactics] = useLocalStorage("seeit-documentchat-started", false);
+  const [tacticIdx, setTacticIdx] = useState(0);
+  const [startedTactics, setStartedTactics] = useState(false);
 
   const TACTICS = [
     {
@@ -8669,8 +8670,8 @@ function HallucinationSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: responseIdx > 0 || flaggedIds.size > 0, lockedMessage: "Try one to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
 function VerifySection(props) {
-  const [activeStrategy, setActiveStrategy] = useLocalStorage("seeit-verify-activeStrategy", 0);
-  const [startedVerify, setStartedVerify] = useLocalStorage("seeit-verify-started", false);
+  const [activeStrategy, setActiveStrategy] = useState(0);
+  const [startedVerify, setStartedVerify] = useState(false);
   const VERIFY_STRATEGIES = [{
     icon: "\uD83D\uDD0D",
     label: "Cross-reference the claim",
@@ -8897,12 +8898,12 @@ const CT_CONCEPTS = [{
   }
 }];
 function CriticalThinkingSection(props) {
-  const [activeConcept, setActiveConcept] = useLocalStorage("seeit-critical-activeConcept", 0);
+  const [activeConcept, setActiveConcept] = useState(0);
   const [habitAnswer, setHabitAnswer] = useState(null);
   const [active101, setActive101] = useState(0);
   const [problemAnswer, setProblemAnswer] = useState(null);
   const [started101, setStarted101] = useState(false);
-  const [started5Habits, setStarted5Habits] = useLocalStorage("seeit-critical-started5Habits", false);
+  const [started5Habits, setStarted5Habits] = useState(false);
   const [habitsRevealed, setHabitsRevealed] = useLocalStorage("seeit-critical-habitsRevealed", 0);
   const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   const CT_101 = [{
@@ -10241,11 +10242,11 @@ const EVAL_CRITERIA = [{
   }
 }];
 function EvaluatingSection(props) {
-  const [activeCriterion, setActiveCriterion] = useLocalStorage("seeit-evaluating-activeCriterion", 0);
+  const [activeCriterion, setActiveCriterion] = useState(0);
   const [showExample, setShowExample] = useLocalStorage("seeit-evaluating-showExample", false);
-  const [iterationStep, setIterationStep] = useLocalStorage("seeit-evaluating-iterationStep", 0);
-  const [startedCriteria, setStartedCriteria] = useLocalStorage("seeit-evaluating-startedCriteria", false);
-  const [startedRefine, setStartedRefine] = useLocalStorage("seeit-evaluating-startedRefine", false);
+  const [iterationStep, setIterationStep] = useState(0);
+  const [startedCriteria, setStartedCriteria] = useState(false);
+  const [startedRefine, setStartedRefine] = useState(false);
   const c = EVAL_CRITERIA[activeCriterion] || EVAL_CRITERIA[EVAL_CRITERIA.length - 1];
   const ITERATION_STEPS = [{
     step: 1,

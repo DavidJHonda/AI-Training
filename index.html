@@ -667,7 +667,7 @@ function ScenarioRow(props) {
   return React.createElement("div", {
     style: {
       padding: isFirst ? "0 4px 24px" : "24px 4px",
-      borderTop: isFirst ? "none" : "1px solid rgba(63, 107, 63, 0.18)"
+      borderTop: isFirst ? "none" : "1px solid var(--rule)"
     }
   },
     React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 16 } },
@@ -2787,7 +2787,8 @@ function ControlSection(props) {
         E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(answers).length),
         E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + ITEMS.length))
     },
-      E("div", { style: { display: "flex", flexDirection: "column" } },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, decide whether it\u2019s in your hands or not. We\u2019ll explain why as you go."),
+      E("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
         ITEMS.map(function(item, i) {
           var answered = answers[i] !== undefined;
           var picked = answers[i];
@@ -2903,7 +2904,8 @@ function HumanJobSection(props) {
         E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(missingAnswers).length),
         E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + MISSING_SCENARIOS.length))
     },
-      E("div", { style: { display: "flex", flexDirection: "column" } },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Each one shows AI giving a believable answer. Pick the human move that was missing. We\u2019ll explain why as you go."),
+      E("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
         MISSING_SCENARIOS.map(function(s, i) {
           var answered = missingAnswers[i] !== undefined;
           var pickedIdx = missingAnswers[i];
@@ -7225,16 +7227,9 @@ function CustomizationSection(props) {
   ),
   /*#__PURE__*/React.createElement(BodyP, null, "A real example. My name is Nate, and I\u2019m writing this course with my twin brother Luke and my dad. I\u2019ll show you my prompt, asked two ways. First without any setup, then with my setup loaded."),
   /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WITHOUT MY SETUP", marginBottom: 20 },
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD The prompt"),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "\u201CWhat should we cover next?\u201D")),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 AI response"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Happy to help. What course are you teaching, and what have you covered so far? Once I know the subject and audience, I can suggest what fits next."))
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+      /*#__PURE__*/React.createElement(UserBubble, { text: "What should we cover next?" }),
+      /*#__PURE__*/React.createElement(AIBubble, { text: "Happy to help. What course are you teaching, and what have you covered so far? Once I know the subject and audience, I can suggest what fits next." }))
   ),
   /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WITH MY SETUP", marginBottom: 20 },
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
@@ -7289,16 +7284,9 @@ function CustomizationSection(props) {
             })));
       })
     ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Same prompt"),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "\u201CWhat should we cover next?\u201D")),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 8 } }, "\uD83E\uDD16 AI response"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.65 } }, "Controls is wrapped, so Traps is next. Hallucination\u2019s the most important one. You flagged last time that lessons were getting heavy on reading, so open Hallucination with an interactive: paste a real-looking academic citation, ask ChatGPT if the paper exists, watch it invent details. One demo, one insight: confident \u2260 correct. Want me to write a first draft?"))
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+      /*#__PURE__*/React.createElement(UserBubble, { text: "What should we cover next?" }),
+      /*#__PURE__*/React.createElement(AIBubble, { text: "Controls is wrapped, so Traps is next. Hallucination\u2019s the most important one. You flagged last time that lessons were getting heavy on reading, so open Hallucination with an interactive: paste a real-looking academic citation, ask ChatGPT if the paper exists, watch it invent details. One demo, one insight: confident \u2260 correct. Want me to write a first draft?" }))
   ),
   /*#__PURE__*/React.createElement(KeyInsight, null, "Same prompt. Different setup. Completely different response."),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -8229,7 +8217,7 @@ function ThinkingModeSection(props) {
       /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TASKS.length))
   },
     /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick Direct or Thinking for each task. We\u2019ll explain why as you go."),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column" } },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
       TASKS.map(function(t, i) {
         var answered = taskAnswers[i] !== undefined;
         var picked = taskAnswers[i];
@@ -8257,7 +8245,7 @@ function ThinkingModeSection(props) {
         }, [PillButton("Direct"), PillButton("Thinking")]);
       })
     )),
-  /*#__PURE__*/React.createElement(KeyInsight, null, "Use Direct Mode for speed. Use Thinking Mode for reasoning. Use verification for truth."),
+  Object.keys(taskAnswers).length >= TASKS.length ? /*#__PURE__*/React.createElement(KeyInsight, null, "Use Direct Mode for speed. Use Thinking Mode for reasoning. Use verification for truth.") : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("temperature"), label: "Next: Temperature" }));
 }
@@ -9439,7 +9427,8 @@ function WhatItDoesBestSection(props) {
         E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(taskAnswers).length),
         E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TASKS.length))
     },
-      E("div", { style: { display: "flex", flexDirection: "column" } },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Match each task to the strength it plays to. We\u2019ll explain why as you go."),
+      E("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
         TASKS.map(function(t, tIdx) {
           var picked = taskAnswers[tIdx];
           var answered = picked !== undefined;
@@ -9467,7 +9456,7 @@ function WhatItDoesBestSection(props) {
             feedback: feedback
           }, ENGINES.map(function(e) { return PillButton(e); }));
         }))),
-    E(KeyInsight, { lead: "AI produces candidates." }, "You choose, check, and own the result. Matching a strength to the task is where AI fits. Deciding whether the output is good enough is still your call."),
+    Object.keys(taskAnswers).length >= TASKS.length ? E(KeyInsight, { lead: "AI produces candidates." }, "You choose, check, and own the result. Matching a strength to the task is where AI fits. Deciding whether the output is good enough is still your call.") : null,
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: Object.keys(taskAnswers).length >= TASKS.length,
@@ -11313,7 +11302,8 @@ function SupportTrapSection(props) {
         E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(supportAnswers).length),
         E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SUPPORT_TASKS.length))
     },
-      E("div", { style: { display: "flex", flexDirection: "column" } },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, decide whether AI gets you to the real step or helps you avoid it. We\u2019ll explain why as you go."),
+      E("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
         SUPPORT_TASKS.map(function(s, i) {
           var answered = supportAnswers[i] !== undefined;
           var pickedIdx = supportAnswers[i];
@@ -14317,7 +14307,8 @@ function WorkChangesSection(props) {
         E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(splitAnswers).length),
         E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SPLIT_TASKS.length))
     },
-      E("div", { style: { display: "flex", flexDirection: "column" } },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Each task belongs to a real job. Decide whether AI can help with it or it needs a human. We\u2019ll explain why as you go."),
+      E("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
         SPLIT_TASKS.map(function(s, i) {
           var answered = splitAnswers[i] !== undefined;
           var pickedIdx = splitAnswers[i];
@@ -14347,8 +14338,8 @@ function WorkChangesSection(props) {
           }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
         }))),
 
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t ask only whether a job is safe." },
-      "Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split."),
+    Object.keys(splitAnswers).length >= SPLIT_TASKS.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t ask only whether a job is safe." },
+      "Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(splitAnswers).length >= SPLIT_TASKS.length, lockedMessage: "Finish both activities to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: AI & The Future" })
   );

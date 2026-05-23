@@ -738,6 +738,7 @@ function QuizBlock(props) {
   var hoveredOpt = useState(null); var hoverIdx = hoveredOpt[0]; var setHoverIdx = hoveredOpt[1];
   var _mAtt = useState([]); var mAttempts = _mAtt[0]; var setMAttempts = _mAtt[1];
   var _mRes = useState(null); var mResolved = _mRes[0]; var setMResolved = _mRes[1];
+  var _mVw = useState(null); var mViewing = _mVw[0]; var setMViewing = _mVw[1];
   var minimal = !!props.minimal;
   var surface = props.surface === "mint" ? "mint" : "default";
   var feedbackText = hasPicked && options[picked] ? options[picked].feedback : null;
@@ -748,14 +749,16 @@ function QuizBlock(props) {
     var resolvedIdx = mResolved != null ? mResolved : controlledResolved;
     var isResolved = resolvedIdx != null;
     var numeralOpacity = isResolved ? 1 : 0.6;
+    var viewing = mViewing != null ? mViewing : (isResolved ? resolvedIdx : null);
 
     var pickMint = function(idx) {
-      if (isResolved) return;
-      if (mAttempts.indexOf(idx) !== -1) return;
+      setMViewing(idx);
       if (options[idx] && options[idx].correct) {
-        setMResolved(idx);
-        if (props.onAnswer) props.onAnswer(idx, true);
-      } else {
+        if (mResolved == null) {
+          setMResolved(idx);
+          if (props.onAnswer) props.onAnswer(idx, true);
+        }
+      } else if (mAttempts.indexOf(idx) === -1) {
         setMAttempts(mAttempts.concat([idx]));
       }
     };
@@ -776,58 +779,58 @@ function QuizBlock(props) {
       options.map(function(opt, i) {
         var isHovered = hoverIdx === i;
         var isResolvedPick = isResolved && resolvedIdx === i;
-        var isWrongLocked = mAttempts.indexOf(i) !== -1;
-        var clickable = !isResolved && !isWrongLocked;
-        var bgColor, borderColor, textColor;
+        var isWrong = mAttempts.indexOf(i) !== -1;
+        var isViewing = viewing === i;
+        var bgColor, borderColor, textColor, iconColor;
         if (isResolvedPick) {
-          bgColor = "#1f9d5f"; borderColor = "#1f9d5f"; textColor = "#fff";
-        } else if (isWrongLocked) {
-          bgColor = "#d4334a"; borderColor = "#d4334a"; textColor = "#fff";
+          if (isViewing) { bgColor = "#1f9d5f"; borderColor = "#1f9d5f"; textColor = "#fff"; iconColor = "#fff"; }
+          else { bgColor = "#e7f6ee"; borderColor = "#b6e3cd"; textColor = "#1f9d5f"; iconColor = "#1f9d5f"; }
+        } else if (isWrong) {
+          if (isViewing) { bgColor = "#d4334a"; borderColor = "#d4334a"; textColor = "#fff"; iconColor = "#fff"; }
+          else { bgColor = "#fbe9ec"; borderColor = "#f0b8c1"; textColor = "#d4334a"; iconColor = "#d4334a"; }
         } else {
-          bgColor = (clickable && isHovered) ? "#eef4eb" : "#fff";
-          borderColor = (clickable && isHovered) ? "#2f7d4f" : "var(--rule)";
-          textColor = "#0e0a1f";
+          bgColor = isHovered ? "#eef4eb" : "#fff";
+          borderColor = isHovered ? "#2f7d4f" : "var(--rule)";
+          textColor = "#0e0a1f"; iconColor = "#0e0a1f";
         }
         return React.createElement("button", {
           key: i,
           onClick: function() { pickMint(i); },
           onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
-          disabled: !clickable,
           style: {
             display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
             background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
-            cursor: clickable ? "pointer" : "default", textAlign: "left",
+            cursor: "pointer", textAlign: "left",
             fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600,
             color: textColor, transition: "all 150ms ease", width: "100%"
           }
         },
           React.createElement("div", { style: { flex: 1 } }, opt.label),
-          isResolvedPick ? React.createElement("span", { style: { color: "#fff", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
-          isWrongLocked ? React.createElement("span", { style: { color: "#fff", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
+          isResolvedPick ? React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
+          isWrong ? React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
         );
       })
     );
 
     var feedbackZone = null;
-    if (isResolved) {
-      var rOpt = options[resolvedIdx] || {};
+    if (viewing != null && options[viewing]) {
+      var vOpt = options[viewing];
+      var vCorrect = !!vOpt.correct;
+      var accent = vCorrect ? "#1f9d5f" : "#d4334a";
+      var eyebrowText = vOpt.eyebrow || (vCorrect ? "Correct" : "Not quite");
+      var headlineText = vOpt.headline || (vCorrect ? "Right." : "Not the best fit.");
+      var bodyText = vCorrect
+        ? (vOpt.feedback || "")
+        : (isResolved ? (vOpt.feedback || "") : (vOpt.hint || "Look again at what this option actually does, then try another."));
       feedbackZone = React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
         React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
           React.createElement("div", null,
-            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#1f9d5f", marginBottom: 8 } },
-              React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: "#1f9d5f", display: "inline-block" } }),
-              rOpt.eyebrow || "Correct"),
-            React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: "#1f9d5f", lineHeight: 1.2 } }, rOpt.headline || "Right.")),
-          React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, rOpt.feedback || "")));
-    } else if (mAttempts.length > 0) {
-      var wOpt = options[mAttempts[mAttempts.length - 1]] || {};
-      feedbackZone = React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
-        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#d4334a", marginBottom: 8 } },
-          React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: "#d4334a", display: "inline-block" } }),
-          "Not quite"),
-        React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#3a3550", maxWidth: "62ch" } },
-          wOpt.hint || "Look again at what each option actually does, then try another."));
+            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
+              React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
+              eyebrowText),
+            React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: accent, lineHeight: 1.2 } }, headlineText)),
+          React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, bodyText)));
     }
 
     return React.createElement("div", { style: { padding: 0 } }, titleRow, optionsList, feedbackZone);
@@ -3421,19 +3424,20 @@ function BlackBoxSection(props) {
         finishLabel: "Wrap it up \u2192",
         completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "Three different things, one product.", body: "When you use an AI tool, you\u2019re using all three at once. Knowing which is which changes how you trust the output." })
       },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD The event"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup)),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: scenarioIdx,
-          surface: "mint",
-          statement: "Which is the best fit?",
-          questionNumber: scenarioIdx + 1,
-          totalQuestions: RULE_PATTERN_SCENARIOS.length,
-          options: sc.options,
-          picked: scenarioAnswer != null ? scenarioAnswer : undefined,
-          onAnswer: function(idx) { setScenarioAnswer(idx); }
-        }))),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83D\uDCDD The event"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup)),
+          /*#__PURE__*/React.createElement(QuizBlock, {
+            key: scenarioIdx,
+            surface: "mint",
+            statement: "Which is the best fit?",
+            questionNumber: scenarioIdx + 1,
+            totalQuestions: RULE_PATTERN_SCENARIOS.length,
+            options: sc.options,
+            picked: scenarioAnswer != null ? scenarioAnswer : undefined,
+            onAnswer: function(idx) { setScenarioAnswer(idx); }
+          })))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI is powerful because no one wrote every rule." }, "It’s risky for the same reason. Nobody can hand you a manual of exactly what it knows and exactly where it fails. You have to find the edges yourself."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("data"); }, label: "Next: AI\u2019s Fuel" }));

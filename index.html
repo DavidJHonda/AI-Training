@@ -736,13 +736,30 @@ function QuizBlock(props) {
     if (props.onAnswer) props.onAnswer(idx, options[idx] && options[idx].correct);
   };
   var hoveredOpt = useState(null); var hoverIdx = hoveredOpt[0]; var setHoverIdx = hoveredOpt[1];
+  var _mAtt = useState([]); var mAttempts = _mAtt[0]; var setMAttempts = _mAtt[1];
+  var _mRes = useState(null); var mResolved = _mRes[0]; var setMResolved = _mRes[1];
   var minimal = !!props.minimal;
   var surface = props.surface === "mint" ? "mint" : "default";
   var feedbackText = hasPicked && options[picked] ? options[picked].feedback : null;
 
   if (surface === "mint") {
     var hasNumeral = props.questionNumber != null;
-    var numeralOpacity = hasPicked ? 1 : 0.6;
+    var controlledResolved = (props.picked != null && options[props.picked] && options[props.picked].correct) ? props.picked : null;
+    var resolvedIdx = mResolved != null ? mResolved : controlledResolved;
+    var isResolved = resolvedIdx != null;
+    var numeralOpacity = isResolved ? 1 : 0.6;
+
+    var pickMint = function(idx) {
+      if (isResolved) return;
+      if (mAttempts.indexOf(idx) !== -1) return;
+      if (options[idx] && options[idx].correct) {
+        setMResolved(idx);
+        if (props.onAnswer) props.onAnswer(idx, true);
+      } else {
+        setMAttempts(mAttempts.concat([idx]));
+      }
+    };
+
     var titleRow = React.createElement("div", {
       style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 }
     },
@@ -758,62 +775,62 @@ function QuizBlock(props) {
     },
       options.map(function(opt, i) {
         var isHovered = hoverIdx === i;
-        var isCorrect = !!opt.correct;
-        var isPicked = picked === i;
-        var bgColor, borderColor, textColor, opacity;
-        if (isPicked && isCorrect) {
-          bgColor = "#1f9d5f"; borderColor = "#1f9d5f"; textColor = "#fff"; opacity = 1;
-        } else if (isPicked && !isCorrect) {
-          bgColor = "#f1f0f3"; borderColor = "transparent"; textColor = "#6e6986"; opacity = 1;
+        var isResolvedPick = isResolved && resolvedIdx === i;
+        var isWrongLocked = mAttempts.indexOf(i) !== -1;
+        var clickable = !isResolved && !isWrongLocked;
+        var bgColor, borderColor, textColor;
+        if (isResolvedPick) {
+          bgColor = "#1f9d5f"; borderColor = "#1f9d5f"; textColor = "#fff";
+        } else if (isWrongLocked) {
+          bgColor = "#d4334a"; borderColor = "#d4334a"; textColor = "#fff";
         } else {
-          // Unpicked option (whether the row is answered or not). Always hoverable.
-          bgColor = isHovered ? "#eef4eb" : "#fff";
-          borderColor = isHovered ? "#2f7d4f" : "var(--rule)";
+          bgColor = (clickable && isHovered) ? "#eef4eb" : "#fff";
+          borderColor = (clickable && isHovered) ? "#2f7d4f" : "var(--rule)";
           textColor = "#0e0a1f";
-          opacity = 1;
         }
         return React.createElement("button", {
           key: i,
-          onClick: function() { handlePick(i); },
+          onClick: function() { pickMint(i); },
           onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
+          disabled: !clickable,
           style: {
             display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
             background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
-            cursor: "pointer", textAlign: "left",
+            cursor: clickable ? "pointer" : "default", textAlign: "left",
             fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600,
-            color: textColor, opacity: opacity, transition: "all 150ms ease", width: "100%"
+            color: textColor, transition: "all 150ms ease", width: "100%"
           }
         },
           React.createElement("div", { style: { flex: 1 } }, opt.label),
-          (isPicked && isCorrect) ? React.createElement("span", { style: { color: "#fff", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
-          (isPicked && !isCorrect) ? React.createElement("span", { style: { color: "#d4334a", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
+          isResolvedPick ? React.createElement("span", { style: { color: "#fff", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
+          isWrongLocked ? React.createElement("span", { style: { color: "#fff", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
         );
       })
     );
 
-    var feedbackBlock = feedbackText ? React.createElement("div", {
-      style: {
-        display: "flex", gap: 10, alignItems: "flex-start",
-        marginTop: 16, paddingLeft: hasNumeral ? 66 : 0,
-        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
-        fontWeight: 400, fontSize: 16, lineHeight: 1.55,
-        maxWidth: "calc(60ch + " + (hasNumeral ? 66 : 0) + "px)",
-        color: pickedCorrect ? "#1f9d5f" : "#d4334a",
-        animation: "fadeIn 0.3s ease"
-      }
-    },
-      React.createElement("span", { style: {
-        display: "inline-flex", alignItems: "center", justifyContent: "center",
-        width: 20, height: 20, borderRadius: 999,
-        background: pickedCorrect ? "#1f9d5f" : "#d4334a", color: "#fff",
-        fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 3,
-        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
-      } }, pickedCorrect ? "\u2713" : "\u2715"),
-      React.createElement("div", null, feedbackText)
-    ) : null;
+    var feedbackZone = null;
+    if (isResolved) {
+      var rOpt = options[resolvedIdx] || {};
+      feedbackZone = React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+        React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
+          React.createElement("div", null,
+            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#1f9d5f", marginBottom: 8 } },
+              React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: "#1f9d5f", display: "inline-block" } }),
+              rOpt.eyebrow || "Correct"),
+            React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: "#1f9d5f", lineHeight: 1.2 } }, rOpt.headline || "Right.")),
+          React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, rOpt.feedback || "")));
+    } else if (mAttempts.length > 0) {
+      var wOpt = options[mAttempts[mAttempts.length - 1]] || {};
+      feedbackZone = React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#d4334a", marginBottom: 8 } },
+          React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: "#d4334a", display: "inline-block" } }),
+          "Not quite"),
+        React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#3a3550", maxWidth: "62ch" } },
+          wOpt.hint || "Look again at what each option actually does, then try another."));
+    }
 
-    return React.createElement("div", { style: { padding: 0 } }, titleRow, optionsList, feedbackBlock);
+    return React.createElement("div", { style: { padding: 0 } }, titleRow, optionsList, feedbackZone);
   }
 
   // Default surface (unchanged from previous behavior)
@@ -1097,9 +1114,7 @@ function OpenerFoundationsSection(props) {
     sectionId: "openerfoundations",
     whyThisMatters: [
       "By now, you’ve seen the roadmap: this course is not about collecting AI tips. It’s about learning how the machine works so you can use it with judgment.",
-      "🚗 Let’s use an analogy. You’ve just graduated from the University of Michigan with honors. Congrats. And, you were just hired by Tesla to design their new electric cars.",
-      "A Tesla is not just a gas car with a battery attached. It works differently, so you have to think about it differently.",
-      "AI is like that: not magic, not a person, not just a search engine, and not normal software."
+      "AI is its own kind of thing: not magic, not a person, not just a search engine, and not normal software."
     ],
     whatYoullLearnIntro: [
       "Here’s the path: what AI is, where modern AI came from, why it doesn’t act like normal software, and why data is the fuel."
@@ -2178,10 +2193,7 @@ function OpenerJudgmentSection(props) {
     whyThisMatters: [
       "You’ve learned the warning signs: AI can hallucinate, feel like a mind, flatter you, pull you back into conversation, offer emotional support, or act before you’ve thought it through.",
       "That doesn’t mean the answer is don’t trust AI. The point is to know what kind of work AI is good at, what kind needs checking, and what decisions still belong to you.",
-      "🚗 In a Tesla, that’s the moment you stop asking only what the car can do and start asking what the driver is responsible for.",
-      "Even the smartest car doesn’t decide where you should go, what risks are worth taking, or what kind of driver you want to be. It can assist. It can warn. It can calculate. But the judgment still belongs to the person using it.",
-      "AI is the same way.",
-      "It can brainstorm, summarize, explain, draft, compare, and organize. But it can’t decide what matters to you. It can’t be accountable for what happens next. It can’t own your reputation. It can’t replace your values."
+      "AI can brainstorm, summarize, explain, draft, compare, and organize. But it can’t decide what matters to you. It can’t be accountable for what happens next. It can’t own your reputation. It can’t replace your values."
     ],
     whatYoullLearnIntro: [
       "That means the most important AI skill isn’t just prompting. It’s knowing when to trust, when to question, when to verify, and when to make the call yourself.",
@@ -4845,8 +4857,7 @@ function OpenerInsideSection(props) {
     sectionId: "openerinside",
     whyThisMatters: [
       "You’ve learned what kind of machine AI is. Now it is time to open the hood.",
-      "🚗 From the outside, an electric car just moves. Inside, power flows through batteries, motors, sensors, wiring, and software in a specific order.",
-      "AI works the same way. The answer on screen comes from parts inside the model: tokens, embeddings, learned numbers, attention, transformation, and layers. Understanding the inside helps explain the weird behavior outside.",
+      "The answer on screen comes from parts inside the model: tokens, embeddings, learned numbers, attention, transformation, and layers. Understanding the inside helps explain the weird behavior outside.",
       "Click each step below to see how text flows through the model."
     ],
     featuredCard: lifecycleInteractive,
@@ -6588,9 +6599,8 @@ function OpenerAnswersSection(props) {
     sectionId: "openeranswers",
     whyThisMatters: [
       "You’ve opened the hood. You’ve seen the parts that make AI possible: tokens, embeddings, vector space, layers.",
-      "🚗 At Tesla, the next step is two big things. Building the car. And driving it.",
-      "Those are different jobs. A car gets built once, then driven thousands of times. The car doesn’t rebuild itself every time you press the accelerator. It uses the system that was already built.",
-      "AI works the same way. Training is the massive one-time build. Inference is every answer, every time. This section walks both: how the model gets built, what gets packaged each turn, how the model runs that into an answer, and the one idea that ties everything together.",
+      "Now comes a split that runs through everything: a model gets built once, then runs thousands of times. It doesn’t rebuild itself every time you ask a question. It uses the system that was already built.",
+      "That split has names. Training is the massive one-time build. Inference is every answer, every time. This section walks both: how the model gets built, what gets packaged each turn, how the model runs that into an answer, and the one idea that ties everything together.",
       "Click each card below to see what each move does."
     ],
     featuredCard: lifecycleInteractive,
@@ -7566,10 +7576,8 @@ function OpenerControlsSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openercontrols",
     whyThisMatters: [
-      "You’ve watched the test drive: a prompt enters, context shapes the next-token guesses, attention connects pieces, and the model produces an answer.",
-      "🚗 At Tesla, now you move from the test track to the dashboard.",
-      "A car doesn’t drive the same way in every mode. The vehicle you choose, the settings you use, the information on the screen, and the way you steer all change what happens next.",
-      "AI works the same way. The answer you get isn’t shaped only by your prompt. It’s also shaped by the product you use, the model you choose, whether you ask it to think harder, how creative or predictable the settings are, and what it remembers about you."
+      "You’ve seen how an answer gets made: a prompt enters, context shapes the next-token guesses, attention connects pieces, and the model produces an answer.",
+      "The answer you get isn’t shaped only by your prompt. It’s also shaped by the product you use, the model you choose, whether you ask it to think harder, how creative or predictable the settings are, and what it remembers about you."
     ],
     featuredCard: threeDecisions,
     whatYoullLearnIntro: [
@@ -8470,9 +8478,8 @@ function OpenerTrapsSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openertraps",
     whyThisMatters: [
-      "🚗 At Tesla, control is not the same as safety. Now you study the warning lights, blind spots, and failure modes.",
-      "A powerful car can still mislead you if you misunderstand what it’s doing. It can feel smooth while drifting out of its lane. A dashboard can look calm while something important is wrong under the surface.",
-      "AI has its own version of that problem.",
+      "You’ve learned what you can adjust. But control is not the same as safety.",
+      "AI has its own ways of misleading you.",
       "It can sound confident when it’s wrong. It can feel like it read your document when it only looked at parts. It can feel like a mind when it’s really a prediction system. It can flatter you, keep you engaged, feel emotionally supportive, or take action before you’ve thought through the consequences."
     ],
     whatYoullLearnIntro: [
@@ -9223,9 +9230,7 @@ function OpenerUsingSection(props) {
     sectionId: "openerusing",
     whyThisMatters: [
       "You\u2019ve learned where judgment belongs. AI can help, but it cannot choose your values, own your reputation, or decide what risks are worth taking.",
-      "🚗 In a Tesla, now you move into coached driving practice.",
-      "Good driving isn\u2019t just pressing the accelerator. You steer, check mirrors, adjust speed, read the road, respond to what happens, and keep control of the destination.",
-      "Good AI use works the same way.",
+      "Good AI use is a skill, not a reflex.",
       "You don\u2019t just type a question and accept whatever comes back. You frame the task, give useful context, use AI as a thought partner, protect the parts of learning that need to stay yours, verify important claims, and evaluate whether the result is actually good enough."
     ],
     whatYoullLearnIntro: [
@@ -9965,7 +9970,6 @@ function ThoughtPartnerSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, lockedMessage: "Finish the conversation to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("studying"), label: "Next: Studying With AI" }));
 }
 function StudyingWithAISection(props) {
-  const [activeMove, setActiveMove] = useState(0);
   const [picks, setPicks] = useState({});
 
   const TUTOR_MOVES = [{
@@ -10041,7 +10045,7 @@ function StudyingWithAISection(props) {
     ]
   }];
 
-  const tm = TUTOR_MOVES[activeMove];
+
 
   const pickOption = function(sIdx, oIdx) {
     setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
@@ -10058,45 +10062,33 @@ function StudyingWithAISection(props) {
       "Reading a summary feels like studying. So does watching AI explain something. Both are recognition: \u201Cyeah, that looks familiar.\u201D Recognition is what you have when you read a friend\u2019s name and know their face. It\u2019s not the same as remembering their phone number from scratch."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "Tests measure what you can produce, not what you recognize. The gap between \u201CI get it\u201D and \u201CI can do it\u201D is the gap that AI can either close or widen, depending on how you use it."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Six tutor moves"),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
-      "Click through each move to see what skip-mode and tutor-mode look like for the same job."),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 24 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, minWidth: 220, flexShrink: 0 } },
-        TUTOR_MOVES.map(function(m, i) {
-          return /*#__PURE__*/React.createElement("button", {
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "SIX TUTOR MOVES",
+      headline: "Six ways to make AI tutor you, not do it for you.",
+      intro: "Each one turns a skip-mode prompt into a tutor-mode one. Steal the ones you need.",
+      marginBottom: 24
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        TUTOR_MOVES.map(function(m) {
+          return /*#__PURE__*/React.createElement("div", {
             key: m.id,
-            onClick: function() { setActiveMove(i); },
-            style: {
-              padding: "10px 14px",
-              borderRadius: 8,
-              background: i === activeMove ? "var(--primary)" : "var(--bg)",
-              color: i === activeMove ? "#fff" : "var(--inkMuted)",
-              border: "2px solid " + (i === activeMove ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"),
-              boxShadow: i === activeMove ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)",
-              cursor: "pointer",
-              fontSize: 13,
-              fontWeight: 600,
-              transition: "all 0.2s",
-              textAlign: "left"
-            }
-          }, m.icon, " ", m.label);
+            style: { background: "var(--card)", borderRadius: 12, padding: 18, boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 12 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, flexShrink: 0 } }, m.icon),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", lineHeight: 1.4 } }, m.label),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, m.desc))),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderRadius: 10, padding: "10px 12px", marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 4 } }, "\u274C Skip mode"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#991b1b", lineHeight: 1.55 } }, m.skipPrompt)),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", borderRadius: 10, padding: "10px 12px", marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 4 } }, "\u2705 Tutor mode"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#14532d", lineHeight: 1.55 } }, m.tutorPrompt)),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 } },
+              "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Why: "), m.why)
+          );
         })
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, tm.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, tm.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, tm.desc))),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "12px 14px", marginBottom: 10 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 } }, "\u274C Skip mode"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#991b1b", lineHeight: 1.55 } }, tm.skipPrompt)),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "12px 14px", marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 } }, "\u2705 Tutor mode"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#14532d", lineHeight: 1.55 } }, tm.tutorPrompt)),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 10, padding: 14, fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
-          "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Why it works for learning: "), tm.why)
       )
     ),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The struggle isn\u2019t an obstacle to learning." },
@@ -11469,10 +11461,8 @@ function OpenerRealWorldSection(props) {
     sectionId: "openerrealworld",
     whyThisMatters: [
       "You’ve practiced the workflow: prompting clearly, using AI as a thought partner, studying without skipping learning, verifying claims, and evaluating output.",
-      "🚗 In a Tesla, that was the test track. Now the car leaves the private course and enters public roads.",
-      "A car on a test track is one thing. A car on public roads is different. There are other people, rules, risks, blind spots, and consequences. What you do affects more than just you.",
-      "AI is like that.",
-      "It isn’t just a homework helper or a chatbot. It touches school policies, private data, systems that judge people, fakes that look real, changing work, and big claims about the future.",
+      "So far this has been about you and the tool. Now it widens out. What you do with AI affects other people, and other people’s AI use affects you.",
+      "AI isn’t just a homework helper or a chatbot. It touches school policies, private data, systems that judge people, fakes that look real, changing work, and big claims about the future.",
       "This section isn’t about being scared of AI. It’s about being less careless with it."
     ],
     whatYoullLearnIntro: [

@@ -685,6 +685,9 @@ function FeedbackPill(props) {
 function ScenarioRow(props) {
   var isFirst = props.index === 1;
   var numeralOpacity = props.answered ? 1 : 0.6;
+  var fbAccent = props.correct ? "#1f9d5f" : "#d4334a";
+  var fbEyebrow = props.eyebrow || (props.correct ? "Correct" : "Not quite");
+  var fbHeadline = props.headline || (props.correct ? "Right." : "Not quite.");
   return React.createElement("div", {
     style: {
       padding: isFirst ? "0 4px 24px" : "24px 4px",
@@ -704,26 +707,14 @@ function ScenarioRow(props) {
         }, props.prompt))),
     React.createElement("div", { style: { paddingLeft: 66 } },
       React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" } }, props.children),
-      props.answered ? React.createElement("div", {
-        style: {
-          display: "flex", gap: 10, alignItems: "flex-start",
-          marginTop: 14,
-          fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
-          fontWeight: 400, fontSize: 16, lineHeight: 1.55,
-          maxWidth: "60ch",
-          color: props.correct ? "#1f9d5f" : "#d4334a"
-        }
-      },
-        React.createElement("span", {
-          style: {
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            width: 20, height: 20, borderRadius: 999,
-            background: props.correct ? "#1f9d5f" : "#d4334a", color: "#fff",
-            fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 3,
-            fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif"
-          }
-        }, props.correct ? "\u2713" : "\u2715"),
-        React.createElement("div", null, props.feedback)) : null));
+      props.answered ? React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+        React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
+          React.createElement("div", null,
+            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: fbAccent, marginBottom: 8 } },
+              React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: fbAccent, display: "inline-block" } }),
+              fbEyebrow),
+            React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: fbAccent, lineHeight: 1.2 } }, fbHeadline)),
+          React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, props.feedback))) : null));
 }
 
 function CompareCard(props) {

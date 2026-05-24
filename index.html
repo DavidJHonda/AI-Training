@@ -1052,6 +1052,9 @@ const SECTION_GROUPS = [{
   label: "AI Answers",
   sections: ["openeranswers", "training", "prompt", "context", "inference", "probability", "prediction", "patterns"]
 }, {
+  label: "Workflow",
+  sections: ["openerusing", "prompting", "thoughtpartner", "studying", "integrity", "privacy"]
+}, {
   label: "Controls",
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
 }, {
@@ -1059,16 +1062,13 @@ const SECTION_GROUPS = [{
   sections: ["openertraps", "hallucination", "trainingbias", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
 }, {
   label: "Human Judgment",
-  sections: ["openerjudgment", "whatitdoesbest", "aistrengths", "questionsvaluable", "critical", "habits", "humanedge"]
-}, {
-  label: "Workflow",
-  sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating", "fullworkflow"]
+  sections: ["openerjudgment", "whatitdoesbest", "aistrengths", "questionsvaluable", "critical", "habits", "verify", "evaluating", "humanedge"]
 }, {
   label: "Real World",
-  sections: ["openerrealworld", "integrity", "privacy", "judged", "stakeholders", "synthetic", "workchanges", "aifuture", "buildedge"]
+  sections: ["openerrealworld", "judged", "stakeholders", "synthetic", "workchanges", "aifuture", "buildedge"]
 }, {
   label: "Finish",
-  sections: ["whatyoulearned", "keyterms", "testyourself", "headtohead"]
+  sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -6183,8 +6183,8 @@ function PatternsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, {
       ready: bridgePanel >= 3 && Object.keys(picks).length >= SCENARIOS.length,
       lockedMessage: "Complete both activities to continue",
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openercontrols"); },
-      label: "Next: Controls"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerusing"); },
+      label: "Next: Workflow"
     }));
 }
 const LAYER_WORDS = {
@@ -9324,7 +9324,7 @@ function HabitsSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
     /*#__PURE__*/React.createElement(BodyP, null, "Next, step back for the bigger picture: the durable human skills that AI makes more valuable, not less."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitsRevealed >= 5 && habitAnswer !== null, lockedMessage: "See all five habits and try one scenario to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitsRevealed >= 5 && habitAnswer !== null, lockedMessage: "See all five habits and try one scenario to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("verify"), label: "Next: How to Verify" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -10294,7 +10294,7 @@ function StudyingWithAISection(props) {
     E(KeyInsight, { lead: "Pick the tool, then run the moves." },
       "Point source-grounded AI at your own notes and slides, or point a general AI at a topic from scratch. Either way, the moves above keep you producing instead of watching. That is the whole difference between feeling ready and being ready."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("verify"); }, label: "Next: How to Verify" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" })
   );
 }
 const EVAL_CRITERIA = [{
@@ -10567,7 +10567,7 @@ function EvaluatingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow"), label: "Next: Full Workflow" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;
@@ -12330,7 +12330,7 @@ function PrivacySection(props) {
     "The moment AI can read more than your message \u2014 files, email, photos, calendars, documents, web pages \u2014 the surface area expands. The hijack risks specifically (prompt injection) live in the When AI Acts lesson."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t secrecy." }, "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: photoRevealed >= PHOTO_ITEMS.length && redactIdx >= REDACT_SCENARIOS.length, lockedMessage: "Finish both activities to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: photoRevealed >= PHOTO_ITEMS.length && redactIdx >= REDACT_SCENARIOS.length, lockedMessage: "Finish both activities to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
 }
 function WhenAIJudgesSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -12905,7 +12905,7 @@ function WhatYouLearnedSection(props) {
   ),
     /*#__PURE__*/React.createElement(BodyP, null, "One last lap: vocab first, then concepts, then judgment on the clock."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("keyterms") }, "Next: Vocab Quiz"));
+    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow") }, "Next: The Full Loop"));
 }
 function FullWorkflowSection(props) {
   const [wfSelection, setWfSelection] = useState(null);
@@ -13060,7 +13060,7 @@ function FullWorkflowSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)" } }, item.desc));
             }))))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: wfChecked, lockedMessage: "Check your sequence to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Real World" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: wfChecked, lockedMessage: "Check your sequence to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("keyterms"), label: "Next: Vocab Quiz" }));
 }
 function TestYourselfSection(props) {
   const saved = props.testYourselfQuiz;
@@ -14132,7 +14132,7 @@ function HumanEdgeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "These skills aren\u2019t abstract. The next section turns them into a workflow: how to prompt, think with AI, study with it, verify what matters, and decide whether the result is good enough."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerusing"); }, label: "Next: Workflow" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerrealworld"); }, label: "Next: Real World" })
   );
 }
 function WorkChangesSection(props) {

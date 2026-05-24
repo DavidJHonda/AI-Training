@@ -7492,6 +7492,8 @@ function DocumentChatSection(props) {
   var E = React.createElement;
   const [tacticIdx, setTacticIdx] = useState(0);
   const [startedTactics, setStartedTactics] = useState(false);
+  const [chunkIdx, setChunkIdx] = useState(0);
+  const [startedChunks, setStartedChunks] = useState(false);
 
   const TACTICS = [
     {
@@ -7528,6 +7530,27 @@ function DocumentChatSection(props) {
 
   const currentTactic = TACTICS[Math.min(tacticIdx, TACTICS.length - 1)];
 
+  const CHUNK_STEPS = [
+    { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting." },
+    { title: "Each chunk gets a meaning vector", body: "Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. The chunk about technical fouls ends up close in meaning to other rulebook chunks about penalties, referee calls, and player conduct." },
+    { title: "Your question becomes a vector too. The closest chunks get loaded.", body: "Now you ask: \u201CCan a player call a timeout during a free throw?\u201D Your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole rulebook) get loaded. The model answers based on what got retrieved." }
+  ];
+
+  function renderChunkLadder(count, animateLatest) {
+    return E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+      CHUNK_STEPS.slice(0, count).map(function(step, i) {
+        return E("div", {
+          key: i,
+          style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === count - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--seeRule)", animation: animateLatest && i === count - 1 ? "fadeIn 0.3s ease" : "none" }
+        },
+          E("div", { style: { background: "var(--seeAccent)", color: "#fff", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, flexShrink: 0 } }, String(i + 1)),
+          E("div", null,
+            E("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, step.title),
+            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, step.body)));
+      })
+    );
+  }
+
   return E("div", null,
     E(LessonHeader, { sectionId: "documentchat" }),
     E(BodyP, null,
@@ -7558,27 +7581,41 @@ function DocumentChatSection(props) {
       "There’s a name for what’s often happening: ",
       E("strong", null, "retrieval"),
       ". When the system can’t load everything, it tries to retrieve the pieces that match your question. Done well, this lets you find a specific answer in a 50-page document in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence."),
-    E(ShowcaseBox, {
-      kicker: "HOW CHUNKS GET PICKED",
-      intro: "Say you upload your basketball league’s 100-page rulebook. When the system has to search rather than load everything, this is roughly what happens.",
-      marginBottom: 28
+    E(BodyP, null,
+      "Say you upload your basketball league\u2019s 100-page rulebook and ask one question. The system can\u2019t always load the whole thing, so it searches for the pieces that match. Here\u2019s what happens between your question and the answer."),
+    E(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "How Chunks Get Picked",
+      action: E("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(chunkIdx + (startedChunks ? 1 : 0), CHUNK_STEPS.length)),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + CHUNK_STEPS.length))
     },
-      E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-        [
-          { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting." },
-          { title: "Each chunk gets a meaning vector", body: "Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. The chunk about technical fouls ends up close in meaning to other rulebook chunks about penalties, referee calls, and player conduct." },
-          { title: "Your question becomes a vector too. The closest chunks get loaded.", body: "Now you ask: “Can a player call a timeout during a free throw?” Your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole rulebook) get loaded. The model answers based on what got retrieved." }
-        ].map(function(step, i, arr) {
-          return E(React.Fragment, { key: i },
-            E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" } },
-              E("div", { style: { width: 32, height: 32, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, flexShrink: 0, marginTop: 2 } }, i + 1),
-              E("div", null,
-                E("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 15 } }, step.title),
-                E("div", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.55 } }, step.body))),
-            i < arr.length - 1 ? E("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "↓") : null
-          );
-        })
-      )
+      E(RevealSequence, {
+        surface: "sand",
+        items: CHUNK_STEPS,
+        currentIdx: chunkIdx,
+        started: startedChunks,
+        onStart: function() { setStartedChunks(true); },
+        onNext: function() { setChunkIdx(chunkIdx + 1); },
+        canAdvance: true,
+        isComplete: chunkIdx >= CHUNK_STEPS.length,
+        startLabel: "Show me how \u2192",
+        nextLabel: "Next step \u2193",
+        finishLabel: "See the takeaway \u2193",
+        completionElement: E("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          renderChunkLadder(CHUNK_STEPS.length, false),
+          E(Takeaway, {
+            merged: true,
+            eyebrow: "What got loaded",
+            headline: "The model never saw the whole rulebook.",
+            body: "It answered from only the chunks that matched your question. If the chunk that mattered didn\u2019t get pulled, the answer still sounds confident. It is just missing what it never loaded."
+          }))
+      },
+        E("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          renderChunkLadder(chunkIdx + 1, true)))
     ),
     E(BodyP, null,
       "You can\u2019t always tell what got retrieved. But you can steer it. Five moves help."),

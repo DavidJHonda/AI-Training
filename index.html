@@ -3159,54 +3159,36 @@ function AIvsCodeSection(props) {
   const [startedRules, setStartedRules] = useState(false);
   const scenarios = [
     {
-      rule: "IF oven temp is 350° THEN bake for 30 minutes",
       ruleIf: "oven temp is 350°",
       ruleThen: "bake for 30 minutes",
-      ruleShort: "350° = 30 min",
-      catchScenario: "Standard chocolate chip cookies at sea level",
-      breakScenario: "Same cookies at high altitude (Denver, Colorado)",
       missingQuestion: "What could break this rule?",
       missingOptions: [
         { label: "Same recipe at sea level", correct: false, hint: "Sea level is exactly what the rule was written for, so nothing trips it up. Look for the option that changes the conditions." },
         { label: "Same recipe at high altitude", correct: true, headline: "Altitude breaks it.", feedback: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently." },
         { label: "Same oven, same kitchen", correct: false, hint: "Nothing has changed here, so the rule still fits. Look for the option where the surroundings shift." }
       ],
-      missingVariable: "Altitude",
-      missingExplain: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently.",
       patternView: "AI has seen recipes baked at sea level, at altitude, in dry kitchens and humid ones. It learned that the right time and temperature depend on conditions, not on one fixed instruction. So it can adjust the answer to your kitchen instead of repeating a single rule."
     },
     {
-      rule: "IF meat is brown THEN it’s cooked",
       ruleIf: "meat is brown",
       ruleThen: "it’s cooked",
-      ruleShort: "Brown = cooked",
-      catchScenario: "Beef burger on a hot grill",
-      breakScenario: "Chicken breast in a pan",
       missingQuestion: "What could break this rule?",
       missingOptions: [
         { label: "Beef burger on a hot grill", correct: false, hint: "Beef can be safe once it is brown, so the color rule mostly holds. Look for the food where brown outside does not mean done inside." },
         { label: "Chicken breast in a pan", correct: true, headline: "Chicken breaks it.", feedback: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside." },
         { label: "Steak with a browned outside", correct: false, hint: "A browned steak can still be safe, so color is not the trap. Find the food where brown can hide a raw center that matters." }
       ],
-      missingVariable: "Food type and internal temperature",
-      missingExplain: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside.",
       patternView: "AI has seen cooking guides for beef, chicken, pork, and fish. It learned that “cooked” means different things for each one. Chicken needs an internal temperature, fish flakes apart, beef can be brown and still rare. So AI adapts its answer to what you’re actually cooking instead of applying one color rule where that rule is dangerous."
     },
     {
-      rule: "IF it smells done THEN take it out",
       ruleIf: "it smells done",
       ruleThen: "take it out",
-      ruleShort: "Smells done = done",
-      catchScenario: "Garlic bread under the broiler",
-      breakScenario: "Banana bread in a closed oven",
       missingQuestion: "What could break this rule?",
       missingOptions: [
         { label: "Garlic bread under the broiler", correct: false, hint: "Broiled food cooks fast and in plain view, so smell tracks doneness fine. Look for the dense food that smells done early." },
         { label: "Banana bread in a closed oven", correct: true, headline: "Dense bread breaks it.", feedback: "The rule only notices smell. Dense foods can smell finished long before the center is cooked." },
         { label: "Toast you are watching closely", correct: false, hint: "You are watching it, so you are not trusting smell alone. Find the case where smell is the only signal and it lies." }
       ],
-      missingVariable: "What is happening inside",
-      missingExplain: "The rule only notices smell. Dense foods can smell finished long before the center is cooked.",
       patternView: "AI has seen pastries, dense breads, custards, and broiled foods. It learned that smell only signals doneness for some of them. Dense batters need time and a center check, custards need temperature, broiler items need eyes on them. So AI matches the right doneness check to the dish instead of trusting one signal across foods that don’t fit it."
     }
   ];

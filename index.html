@@ -3154,16 +3154,9 @@ function KeyTermsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { if (props.completeAndNavigate) props.completeAndNavigate("testyourself"); }, label: "Next: Test Yourself" }));
 }
 function AIvsCodeSection(props) {
-  const [visibleRules, setVisibleRules] = useState(0);
-  const [missingPicks, setMissingPicks] = useState({});
-  function pickMissingVariable(idx, optionIdx) {
-    if (missingPicks[idx] !== undefined) return;
-    setMissingPicks(function(prev) {
-      var next = Object.assign({}, prev);
-      next[idx] = optionIdx;
-      return next;
-    });
-  }
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [scenarioAnswer, setScenarioAnswer] = useState(null);
+  const [startedRules, setStartedRules] = useState(false);
   const scenarios = [
     {
       rule: "IF oven temp is 350° THEN bake for 30 minutes",
@@ -3174,9 +3167,9 @@ function AIvsCodeSection(props) {
       breakScenario: "Same cookies at high altitude (Denver, Colorado)",
       missingQuestion: "What could break this rule?",
       missingOptions: [
-        { label: "Same recipe at sea level", correct: false },
-        { label: "Same recipe at high altitude", correct: true },
-        { label: "Same oven, same kitchen", correct: false }
+        { label: "Same recipe at sea level", correct: false, hint: "Sea level is exactly what the rule was written for, so nothing trips it up. Look for the option that changes the conditions." },
+        { label: "Same recipe at high altitude", correct: true, headline: "Altitude breaks it.", feedback: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently." },
+        { label: "Same oven, same kitchen", correct: false, hint: "Nothing has changed here, so the rule still fits. Look for the option where the surroundings shift." }
       ],
       missingVariable: "Altitude",
       missingExplain: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently.",
@@ -3191,9 +3184,9 @@ function AIvsCodeSection(props) {
       breakScenario: "Chicken breast in a pan",
       missingQuestion: "What could break this rule?",
       missingOptions: [
-        { label: "Beef burger on a hot grill", correct: false },
-        { label: "Chicken breast in a pan", correct: true },
-        { label: "Steak with a browned outside", correct: false }
+        { label: "Beef burger on a hot grill", correct: false, hint: "Beef can be safe once it is brown, so the color rule mostly holds. Look for the food where brown outside does not mean done inside." },
+        { label: "Chicken breast in a pan", correct: true, headline: "Chicken breaks it.", feedback: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside." },
+        { label: "Steak with a browned outside", correct: false, hint: "A browned steak can still be safe, so color is not the trap. Find the food where brown can hide a raw center that matters." }
       ],
       missingVariable: "Food type and internal temperature",
       missingExplain: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside.",
@@ -3208,16 +3201,17 @@ function AIvsCodeSection(props) {
       breakScenario: "Banana bread in a closed oven",
       missingQuestion: "What could break this rule?",
       missingOptions: [
-        { label: "Garlic bread under the broiler", correct: false },
-        { label: "Banana bread in a closed oven", correct: true },
-        { label: "Toast you are watching closely", correct: false }
+        { label: "Garlic bread under the broiler", correct: false, hint: "Broiled food cooks fast and in plain view, so smell tracks doneness fine. Look for the dense food that smells done early." },
+        { label: "Banana bread in a closed oven", correct: true, headline: "Dense bread breaks it.", feedback: "The rule only notices smell. Dense foods can smell finished long before the center is cooked." },
+        { label: "Toast you are watching closely", correct: false, hint: "You are watching it, so you are not trusting smell alone. Find the case where smell is the only signal and it lies." }
       ],
       missingVariable: "What is happening inside",
       missingExplain: "The rule only notices smell. Dense foods can smell finished long before the center is cooked.",
       patternView: "AI has seen pastries, dense breads, custards, and broiled foods. It learned that smell only signals doneness for some of them. Dense batters need time and a center check, custards need temperature, broiler items need eyes on them. So AI matches the right doneness check to the dish instead of trusting one signal across foods that don’t fit it."
     }
   ];
-  var allDone = visibleRules >= 3 && missingPicks[2] !== undefined;
+  var allDone = scenarioIdx >= scenarios.length;
+  var sc = scenarios[Math.min(scenarioIdx, scenarios.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -3264,69 +3258,47 @@ function AIvsCodeSection(props) {
       "In this exercise, you\u2019ll learn how a rule can break. After you read the rule, select WHEN the rule could break."
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "When the Rule Breaks",
-    action: visibleRules > 0 ? /*#__PURE__*/React.createElement("div", {
+      variant: "try",
+      surface: "mint",
+      title: "When the Rule Breaks",
+      action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(visibleRules, scenarios.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + scenarios.length)) : null
-  },
-    visibleRules === 0 ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setVisibleRules(1); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Rule →") : null,
-    scenarios.slice(0, visibleRules).map(function(s, i) {
-      var pick = missingPicks[i];
-      var picked = pick !== undefined;
-      var pickedCorrect = picked && s.missingOptions[pick].correct;
-      var isActive = i === visibleRules - 1;
-      var hasNext = i < scenarios.length - 1;
-
-      if (!isActive) {
-        return null;
-      }
-
-      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginTop: i > 0 ? 16 : 0 } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "16px 20px", marginBottom: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.8, color: "#1e3a5f" } },
-            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "IF"), " ", s.ruleIf, /*#__PURE__*/React.createElement("br", null),
-            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "THEN"), " ", s.ruleThen)),
-
-        /*#__PURE__*/React.createElement("div", { style: { background: "#fefce8", border: "1px solid #fde68a", borderRadius: 10, padding: "16px 20px", marginBottom: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 12 } }, s.missingQuestion),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-            s.missingOptions.map(function(opt, oi) {
-              var isPicked = pick === oi;
-              var bg = "var(--card)";
-              var borderColor = "var(--rule)";
-              var color = "var(--ink)";
-              var weight = 600;
-              if (picked) {
-                if (opt.correct) { bg = "#ecfdf5"; borderColor = "#10b981"; color = "#065f46"; weight = 700; }
-                else if (isPicked) { bg = "#fef2f2"; borderColor = "#ef4444"; color = "#991b1b"; }
-                else { color = "var(--inkMuted)"; }
-              }
-              return /*#__PURE__*/React.createElement("button", {
-                key: oi,
-                onClick: function() { pickMissingVariable(i, oi); },
-                disabled: picked,
-                style: { padding: "10px 14px", borderRadius: 8, fontSize: 14, fontWeight: weight, background: bg, color: color, border: "1px solid " + borderColor, cursor: picked ? "default" : "pointer", textAlign: "left", transition: "all 0.15s", fontFamily: "inherit" }
-              }, opt.label);
-            }))),
-
-        picked ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #ddd6fe", borderRadius: 12, padding: "16px 20px", marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: pickedCorrect ? "#059669" : "#b45309", marginBottom: 12 } },
-              pickedCorrect ? "✅ Correct — that’s where the rule breaks." : "Not quite — the rule breaks when the situation changes in this way."),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 } }, "The rule missed"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.missingExplain)),
-
-          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #e9d5ff", borderRadius: 10, padding: "12px 16px", marginBottom: 16 } },
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(scenarioIdx + (scenarioAnswer !== null ? 1 : 0), scenarios.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + scenarios.length))
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "mint",
+        items: scenarios,
+        currentIdx: scenarioIdx,
+        started: startedRules,
+        onStart: function() { setStartedRules(true); },
+        onNext: function() { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
+        canAdvance: scenarioAnswer !== null,
+        isComplete: scenarioIdx >= scenarios.length,
+        startLabel: "See First Rule",
+        nextLabel: "Next Rule \u2192",
+        finishLabel: "Wrap it up \u2192",
+        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "A rule fits one situation. Patterns fit many.", body: "Each rule worked until reality added a variable it never knew about. AI leans on patterns from countless examples, so it can bend where a fixed rule snaps." })
+      },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "16px 20px", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.8, color: "#1e3a5f" } },
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "IF"), " ", sc.ruleIf, /*#__PURE__*/React.createElement("br", null),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "THEN"), " ", sc.ruleThen)),
+          /*#__PURE__*/React.createElement(QuizBlock, {
+            key: scenarioIdx,
+            surface: "mint",
+            statement: sc.missingQuestion,
+            questionNumber: scenarioIdx + 1,
+            totalQuestions: scenarios.length,
+            options: sc.missingOptions,
+            picked: scenarioAnswer != null ? scenarioAnswer : undefined,
+            onAnswer: function(idx) { setScenarioAnswer(idx); }
+          }),
+          scenarioAnswer !== null ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #e9d5ff", borderRadius: 10, padding: "12px 16px", marginTop: 16, animation: "fadeIn 0.3s ease" } },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "AI view based on patterns"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, s.patternView)),
-
-          hasNext ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-            /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setVisibleRules(visibleRules + 1); }, style: { display: "block", margin: "0 auto" } }, "See Next Rule →")) : null) : null);
-    })),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, sc.patternView)) : null))),
     allDone ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI uses patterns learned from examples. Same input, different machine — and harder edges to predict.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("blackbox"), label: "Next: No One Wrote the Rules" })

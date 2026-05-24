@@ -10164,40 +10164,22 @@ function StudyingWithAISection(props) {
   const [picks, setPicks] = useState({});
 
   const STUDY_MOVES = [
-    { id: "questions", label: "Ask me questions one at a time", icon: "\u2753", tag: "either",
-      prompt: "I have a test on WWI causes tomorrow. Ask me one question at a time and wait for me to answer. Start with the alliance system.",
-      why: "Recognition feels like learning. Retrieval is learning. Being asked, with nothing to look at, builds the memory you\u2019ll have on test day. NotebookLM pulls the questions from your notes; a general AI pulls them from the topic." },
-    { id: "hints", label: "Give me hints, not the answer", icon: "\uD83E\uDDED", tag: "new",
+    { id: "test", label: "Test yourself, don\u2019t reread", icon: "\uD83C\uDFAF",
+      prompt: "Quiz me on the Cold War. Five questions. After each, tell me what I missed and ask harder questions on those topics.",
+      why: "Pulling an answer out of memory is what builds it. Rereading and summaries just feel like progress." },
+    { id: "hint", label: "Take a hint, not the answer", icon: "\uD83E\uDDED",
       prompt: "I\u2019m stuck on problem 7. Don\u2019t give me the answer. Give me a hint that points to the next step.",
-      why: "The moment your brain solves the problem is the moment the connection forms. A hint keeps you in that moment. The answer skips it." },
-    { id: "reasoning", label: "Check my reasoning before telling me", icon: "\uD83E\uDDE0", tag: "new",
-      prompt: "Here\u2019s my answer and my reasoning. Don\u2019t tell me if it\u2019s right yet. Walk through my logic step by step and show me where it might break down.",
-      why: "Spotting your own error is harder than reading the right answer, and the harder version is the one that builds the skill." },
-    { id: "mistake", label: "Explain where I made the mistake", icon: "\uD83D\uDC1B", tag: "new",
-      prompt: "I got this wrong. Here\u2019s what I did. Explain specifically where my reasoning went off, not what the right answer is.",
-      why: "Knowing the right answer doesn\u2019t fix the broken thinking that produced the wrong one. The mistake is the data." },
-    { id: "practice", label: "Practice problems at my level", icon: "\uD83C\uDFCB\uFE0F", tag: "new",
-      prompt: "Generate three quadratic equations: one easy, one medium, one hard. Don\u2019t solve them. Wait for my answers.",
-      why: "Too easy doesn\u2019t build skill. Too hard kills motivation. The right level is where most teens never land without help." },
-    { id: "quiz", label: "Quiz me, then adapt", icon: "\uD83C\uDFAF", tag: "either",
-      prompt: "Quiz me on the Cold War. Five questions. After each, tell me if I\u2019m right. If I miss something, ask harder questions on that topic until I get it.",
-      why: "Adaptive quizzing is the gold standard of studying. Point it at your notes in NotebookLM, or at a whole topic in a general AI." },
-    { id: "spacing", label: "Space it out over days", icon: "\uD83D\uDCC5", tag: "grounded",
-      prompt: "Quiz me on these notes today. Then give me five questions to redo in two days and five more in a week, weighted toward what I miss.",
-      why: "You forget on a curve. Coming back right before you\u2019d forget is what moves it from \u2018I saw it once\u2019 to \u2018I know it.\u2019" },
-    { id: "teachback", label: "Let me teach it back", icon: "\uD83D\uDDE3\uFE0F", tag: "either",
-      prompt: "I\u2019m going to explain photosynthesis in my own words. Listen, then tell me what I got wrong, what I left out, and what I faked.",
-      why: "If you can\u2019t say it without notes, you don\u2019t have it yet. Explaining out loud exposes the gaps that rereading hides." },
-    { id: "anchor", label: "Anchor it to my sources", icon: "\uD83D\uDCCC", tag: "grounded",
-      prompt: "Using only my uploaded notes and the chapter, what do they say about X? Quote the exact lines.",
-      why: "A general AI blends your material with everything else it knows and can drift toward a polished answer your teacher never taught. Locking it to your sources keeps you aligned with the class, and asking it to quote is the same retrieval check from the Whole Document Trap." }
+      why: "The moment your brain works it out is the moment it sticks. A hint keeps you in that moment instead of skipping it." },
+    { id: "teachback", label: "Teach it back", icon: "\uD83D\uDDE3\uFE0F",
+      prompt: "I\u2019m going to explain photosynthesis in my own words. Tell me what I got wrong, what I left out, and what I faked.",
+      why: "If you can\u2019t say it without notes, you don\u2019t have it yet. Explaining out loud exposes the gaps rereading hides." },
+    { id: "spacing", label: "Come back over days", icon: "\uD83D\uDCC5",
+      prompt: "Quiz me on this today. Then give me the ones I miss again in two days, and again in a week.",
+      why: "You forget on a curve. Returning right before you\u2019d forget is what moves it into long-term memory." },
+    { id: "mistake", label: "Learn the mistake, not the answer", icon: "\uD83D\uDC1B",
+      prompt: "I got this wrong. Here\u2019s what I did. Show me where my thinking went off, not just the right answer.",
+      why: "Knowing the right answer doesn\u2019t fix the broken thinking that produced the wrong one. The mistake is the data." }
   ];
-
-  var TAG_META = {
-    "new": { label: "Make something new", glyph: "\u2728", color: "var(--primary)", bg: "var(--primaryFaint)" },
-    grounded: { label: "From your materials", glyph: "\uD83D\uDCD2", color: "#15803d", bg: "#ecfdf5" },
-    either: { label: "Either tool", glyph: "\u2194\uFE0F", color: "var(--inkSoft)", bg: "var(--bg)" }
-  };
 
   const SCENARIOS = [{
     situation: "You have a calculus problem you can\u2019t solve. The homework is due in 30 minutes. Pick the better prompt.",
@@ -10255,24 +10237,17 @@ function StudyingWithAISection(props) {
     E(BodyP, null,
       "Your brain remembers what it has to produce, not what it just recognizes. Reading a summary is recognition: \u201Cyeah, that looks familiar.\u201D Getting quizzed with nothing in front of you is retrieval: \u201Cwait, I actually know this.\u201D Every move below is built to make you produce, which is the part that sticks."),
     E(ShowcaseBox, {
-      kicker: "NINE STUDY MOVES",
-      headline: "Nine ways to make AI tutor you.",
-      intro: "Steal the ones that fit what you\u2019re studying. The tag on each shows which tool it\u2019s built for.",
+      kicker: "FIVE STUDY MOVES",
+      headline: "Five ways to make AI tutor you.",
+      intro: "Once you\u2019ve picked the tool, these are how you use it. They work in either one, and they all share one idea: make you produce, not just watch.",
       marginBottom: 24
     },
-      E("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 } },
-        ["new", "grounded", "either"].map(function(k) {
-          var t = TAG_META[k];
-          return E("span", { key: k, style: { display: "inline-flex", alignItems: "center", gap: 5, background: t.bg, color: t.color, borderRadius: 999, padding: "4px 10px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 } }, t.glyph + " " + t.label);
-        })),
       E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
         STUDY_MOVES.map(function(m) {
-          var t = TAG_META[m.tag];
           return E("div", { key: m.id, style: { background: "var(--card)", borderRadius: 12, padding: 18, boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)" } },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
               E("span", { style: { fontSize: 22, flexShrink: 0 } }, m.icon),
-              E("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", lineHeight: 1.4, flex: 1 } }, m.label),
-              E("span", { style: { display: "inline-flex", alignItems: "center", gap: 5, background: t.bg, color: t.color, borderRadius: 999, padding: "3px 9px", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, flexShrink: 0 } }, t.glyph + " " + t.label)),
+              E("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", lineHeight: 1.4 } }, m.label)),
             E("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "10px 12px", marginBottom: 10 } },
               E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 4 } }, "Try this"),
               E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.55 } }, m.prompt)),

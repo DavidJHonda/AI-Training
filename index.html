@@ -7490,8 +7490,9 @@ function CustomizationSection(props) {
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
-  const [tacticIdx, setTacticIdx] = useState(0);
-  const [startedTactics, setStartedTactics] = useState(false);
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [scenarioAnswer, setScenarioAnswer] = useState(null);
+  const [startedScenarios, setStartedScenarios] = useState(false);
   const [chunkIdx, setChunkIdx] = useState(0);
   const [startedChunks, setStartedChunks] = useState(false);
 
@@ -7528,7 +7529,33 @@ function DocumentChatSection(props) {
     }
   ];
 
-  const currentTactic = TACTICS[Math.min(tacticIdx, TACTICS.length - 1)];
+  const SCENARIOS = [
+    {
+      prompt: "You uploaded the 100-page rulebook and want the rule on flagrant fouls.",
+      statement: "Which prompt is more likely to pull the right chunk?",
+      options: [
+        { label: "What are the rules on flagrant fouls?", correct: false, hint: "Which one tells the search where to look?", feedback: "Not wrong, just unaimed. With no section to match, the search can grab loosely related chunks and skip the exact rule." },
+        { label: "What does the technical fouls chapter say about flagrant fouls?", correct: true, eyebrow: "Aimed", headline: "That points the search right at it.", feedback: "Naming the chapter hands retrieval real keywords to match, so the chunks from that section are the ones that get loaded." }
+      ]
+    },
+    {
+      prompt: "You only care about the fouls rules, but the full 80-page handbook is what you have.",
+      statement: "Which move gives retrieval the best shot?",
+      options: [
+        { label: "Upload only the 3-page fouls chapter, then ask what it says about flagrant fouls.", correct: true, eyebrow: "Smart", headline: "Fewer chunks, better odds.", feedback: "With only the fouls chapter loaded, the right chunks are not competing with 77 other pages for the few retrieval slots." },
+        { label: "Upload the entire 80-page handbook, then ask what it says about flagrant fouls.", correct: false, hint: "More pages means more chunks fighting for the same few slots.", feedback: "The whole handbook splits into a lot of chunks. The fouls chunks now compete with everything else, and the right one may not make the cut." }
+      ]
+    },
+    {
+      prompt: "The AI answers your fouls question, but you are not sure it actually came from the rulebook.",
+      statement: "Which prompt lets you check that retrieval worked?",
+      options: [
+        { label: "What does the rulebook say about flagrant fouls?", correct: false, hint: "This gets an answer, but how would you know it came from the document?", feedback: "You get a confident answer with no way to check it. Adding a request for the exact quote turns a claim into something you can verify." },
+        { label: "What does the rulebook say about flagrant fouls? Quote the exact line you are basing it on.", correct: true, eyebrow: "Receipts", headline: "Now you can verify it.", feedback: "If the quote is missing or does not match the document, retrieval probably failed. The quote is your proof the answer came from the file." }
+      ]
+    }
+  ];
+  var sc = SCENARIOS[Math.min(scenarioIdx, SCENARIOS.length - 1)];
 
   const CHUNK_STEPS = [
     { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting." },
@@ -7619,56 +7646,70 @@ function DocumentChatSection(props) {
     ),
     E(BodyP, null,
       "You can\u2019t always tell what got retrieved. But you can steer it. Five moves help."),
+    E(ShowcaseBox, { kicker: "THE FIVE MOVES", marginBottom: 24 },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+        TACTICS.map(function(t, i) {
+          return E("div", {
+            key: i,
+            style: { display: "flex", gap: 14, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === TACTICS.length - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--rule)" }
+          },
+            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 800, color: "#fff", background: "var(--primary)", borderRadius: "50%", width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 } }, String(i + 1)),
+            E("div", null,
+              E("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 3, lineHeight: 1.3 } }, t.name),
+              E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, t.body)));
+        })
+      ),
+      E("div", { style: { marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--rule)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } },
+        E("strong", { style: { color: "var(--ink)" } }, "All five share one idea: "),
+        "make the right chunks easy to find. The more specific your question, the more reliable the answer.")
+    ),
+    E(BodyP, null,
+      "Your turn. Three uploads, three questions. Pick the prompt that gives retrieval the best shot."),
     E(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Steer the Retrieval",
+      variant: "try",
+      surface: "mint",
+      title: "Pick the Better Prompt",
       action: E("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(tacticIdx + (startedTactics ? 1 : 0), TACTICS.length)),
-        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + TACTICS.length))
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(scenarioIdx + (scenarioAnswer !== null ? 1 : 0), SCENARIOS.length)),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length))
     },
       E(RevealSequence, {
-        surface: "sand",
-        items: TACTICS,
-        currentIdx: tacticIdx,
-        started: startedTactics,
-        onStart: function() { setStartedTactics(true); },
-        onNext: function() { setTacticIdx(tacticIdx + 1); },
-        canAdvance: true,
-        isComplete: tacticIdx >= TACTICS.length,
-        startLabel: "First Move",
-        nextLabel: "Next Move →",
-        finishLabel: "Done →",
-        completionElement: E("div", { style: { background: "#fff", borderRadius: 14, padding: "24px 28px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "grid", gridTemplateColumns: "1fr 2fr", gap: 36, alignItems: "start" } },
-          E("div", null,
-            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--seeAccent)", marginBottom: 10 } }, "The pattern"),
-            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 24, color: "var(--ink)", fontWeight: 600, letterSpacing: "-0.015em", lineHeight: 1.15 } }, "Steer the retrieval.")),
-          E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#3a3550", lineHeight: 1.6 } }, "All five moves share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer."))
+        surface: "mint",
+        items: SCENARIOS,
+        currentIdx: scenarioIdx,
+        started: startedScenarios,
+        onStart: function() { setStartedScenarios(true); },
+        onNext: function() { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
+        canAdvance: scenarioAnswer !== null,
+        isComplete: scenarioIdx >= SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "Wrap it up \u2192",
+        completionElement: E(Takeaway, { accent: "#2f7d4f", headline: "Three prompts, aimed.", body: "The rulebook will change. The habit won\u2019t: aim the question, trim the upload, and ask for the quote. Make the right chunk easy to find and you stop getting confident, incomplete answers." })
       },
-        E("div", null,
-          E("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 10 } },
-            E("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(tacticIdx + 1).padStart(2, "0")),
-            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 17, color: "var(--ink)", fontWeight: 700, lineHeight: 1.3 } }, currentTactic.name)),
-          E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: currentTactic.before ? 0 : 4 } }, currentTactic.body),
-          currentTactic.before ? E("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginTop: 14 } },
-            E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
-              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--red)", marginBottom: 4 } }, currentTactic.before.label),
-              E("div", { style: { fontSize: 14, color: "var(--inkSoft)", fontStyle: "italic", lineHeight: 1.5 } }, "“" + currentTactic.before.text + "”")),
-            E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
-              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--green)", marginBottom: 4 } }, currentTactic.after.label),
-              E("div", { style: { fontSize: 14, color: "var(--ink)", fontStyle: "italic", lineHeight: 1.5 } }, "“" + currentTactic.after.text + "”"))
-          ) : null
-        )
-      )
+        E("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          E("div", { style: { marginBottom: 18 } },
+            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 8 } }, "\uD83C\uDFAF The setup"),
+            E("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt)),
+          E(QuizBlock, {
+            key: scenarioIdx,
+            surface: "mint",
+            statement: sc.statement,
+            questionNumber: scenarioIdx + 1,
+            totalQuestions: SCENARIOS.length,
+            options: sc.options,
+            picked: scenarioAnswer != null ? scenarioAnswer : undefined,
+            onAnswer: function(idx) { setScenarioAnswer(idx); }
+          })))
     ),
     E(KeyInsight, null,
       "Uploaded does not mean understood. Confident does not mean complete. Asking for evidence is the skill."),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: tacticIdx >= TACTICS.length,
-      lockedMessage: "Walk through all five to continue",
+      ready: scenarioIdx >= SCENARIOS.length - 1 && scenarioAnswer !== null,
+      lockedMessage: "Answer all three to continue",
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
       label: "Next: Mind Trap"
     })

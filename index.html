@@ -1060,7 +1060,7 @@ const SECTION_GROUPS = [{
   sections: ["openertraps", "hallucination", "trainingbias", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whenaiacts"]
 }, {
   label: "Human Judgment",
-  sections: ["openerjudgment", "whatitdoesbest", "aistrengths", "questionsvaluable", "critical", "humanedge"]
+  sections: ["openerjudgment", "whatitdoesbest", "aistrengths", "questionsvaluable", "critical", "habits", "humanedge"]
 }, {
   label: "Workflow",
   sections: ["openerusing", "prompting", "thoughtpartner", "studying", "verify", "evaluating", "fullworkflow"]
@@ -1117,7 +1117,8 @@ const SECTION_META = {
   whenaiacts: { kicker: "PERMISSION MATTERS", label: "When AI Acts", icon: "\uD83E\uDD16" },
   openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   aistrengths: { kicker: "MATCH THE CHECK TO THE TASK", label: "How Much to Check", icon: "\u2696\uFE0F" },
-  critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking & AI", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
+  critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
+  habits: { kicker: "QUESTION EVERY ANSWER", label: "The 5 Habits", title: "The 5 Habits", icon: "\uD83D\uDD01" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -2282,7 +2283,8 @@ function OpenerJudgmentSection(props) {
         bridge: "Then, what only you can bring.",
         questions: [
           { question: "Why do better questions matter more when answers are cheap?", lessonId: "questionsvaluable" },
-          { question: "How do I bring critical thinking to AI output?", lessonId: "critical" },
+          { question: "How do I spot weak reasoning, even from AI?", lessonId: "critical" },
+          { question: "Which habits do I run on every AI answer?", lessonId: "habits" },
           { question: "What human skills still matter in an AI world?", lessonId: "humanedge" }
         ]
       }
@@ -8986,34 +8988,11 @@ const CT_CONCEPTS = [{
     ],
     analysis: "This is generic, safe, and could be written by anyone. A college essay needs to be yours: your specific experiences, your real voice, your actual perspective. AI can help you brainstorm, outline, or polish, but if you let it do the thinking, you get a forgettable essay that sounds like everyone else's."
   }
-}, {
-  id: "source",
-  label: "Check Sources",
-  icon: "\uD83D\uDCDA",
-  desc: "LLMs don\u2019t cite sources by default, and when they do, they sometimes fabricate them.",
-  lead: "AI invents citations. Always check.",
-  detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don\u2019t know which without verifying.",
-  scenario: {
-    prompt: "What are the health benefits of cold showers?",
-    response: "According to a 2016 study published in the Journal of Clinical Investigation, cold showers boost immune function by 29% and increase metabolic rate by up to 350%. Dr. Mara Lentz of Northbridge Medical School recommends cold exposure for at least 3 minutes daily.",
-    question: "Do these sources check out?",
-    options: [
-      { label: "Yes, the journal and the doctor are real references", correct: false, headline: "Looks real, isn't checked.", hint: "The journal name happens to be real, which is what makes this convincing. But a real-sounding name isn't the same as a verified source. How would you actually know the study and the doctor exist?", feedback: "The journal name is real. That specific 2016 study, the exact statistics, and \u2018Dr. Mara Lentz of Northbridge Medical School\u2019 are all fabricated. The model generated plausible-sounding citations because that\u2019s what it\u2019s trained to do: produce text that looks right. Specific sources are exactly the part that needs verifying." },
-      { label: "No, AI-generated citations need to be verified before you use them", correct: true, headline: "Verify before you trust.", feedback: "The journal is real, but that specific study, that exact statistic, and \u2018Dr. Mara Lentz of Northbridge Medical School\u2019 are all fabricated. The model generated plausible-sounding citations because that\u2019s what it\u2019s trained to do: produce text that looks right. Never trust AI-generated citations without verifying them yourself." },
-      { label: "Probably, since the numbers are very specific", correct: false, headline: "Specific isn't verified.", hint: "Specific numbers feel authoritative, but precise figures are exactly the kind of thing the model generates whether or not they're real. Does '29%' being specific actually prove anything?", feedback: "Specificity is part of the trick. Real-sounding numbers (29%, 350%, \u20183 minutes daily\u2019) make the citation feel authoritative. They\u2019re also exactly what the model is good at generating from patterns. Specific does not mean verified." }
-    ],
-    analysis: "They don't. The journal is real, but that specific study, that exact statistic, and \"Dr. Mara Lentz of Northbridge Medical School\" are all fabricated. The model generated plausible-sounding citations because that's what it's trained to do: produce text that looks right. Never trust AI-generated citations without verifying them yourself."
-  }
 }];
 function CriticalThinkingSection(props) {
-  const [activeConcept, setActiveConcept] = useState(0);
-  const [habitAnswer, setHabitAnswer] = useState(null);
   const [active101, setActive101] = useState(0);
   const [problemAnswer, setProblemAnswer] = useState(null);
   const [started101, setStarted101] = useState(false);
-  const [started5Habits, setStarted5Habits] = useState(false);
-  const [habitsRevealed, setHabitsRevealed] = useLocalStorage("seeit-critical-habitsRevealed", 0);
-  const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   const CT_101 = [{
     label: "Ice cream & drowning",
     icon: "\uD83C\uDF66",
@@ -9148,36 +9127,46 @@ function CriticalThinkingSection(props) {
         picked: problemAnswer != null ? problemAnswer : undefined,
         onAnswer: function(idx) { setProblemAnswer(idx); }
       })))),
-  /*#__PURE__*/React.createElement("div", { style: { height: 10 } }),
+  /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: active101 >= CT_101.length - 1 && problemAnswer !== null, lockedMessage: "Spot the problem in each scenario to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("habits"), label: "Next: The 5 Habits" }));
+}
+function HabitsSection(props) {
+  const [activeConcept, setActiveConcept] = useState(0);
+  const [habitAnswer, setHabitAnswer] = useState(null);
+  const [started5Habits, setStarted5Habits] = useState(false);
+  const [habitsRevealed, setHabitsRevealed] = useLocalStorage("seeit-critical-habitsRevealed", 0);
+  const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "habits" }),
+    /*#__PURE__*/React.createElement(BodyP, null, "You just practiced spotting weak reasoning in any claim. These five habits are how you run that instinct on AI output, every time, before you trust it."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "There are six habits you can build to sharpen your critical thinking with AI."),
+    "There are five habits you can build to sharpen your critical thinking with AI."),
   (function() {
     var HABITS_OVERVIEW = [
-      { id: "question", icon: "\u2753", label: "Question the Output", lead: "Your first instinct: is this actually right?", detail: "AI sounds confident whether the answer is correct or not. Smooth writing isn't proof." },
-      { id: "unknowns", icon: "\uD83E\uDDD0", label: "Know Your Limits", lead: "If you can't evaluate it, you're flying blind.", detail: "The further the topic is from what you know, the more carefully you have to verify. That's exactly when AI feels most authoritative." },
-      { id: "missing", icon: "\uD83E\uDDE9", label: "What's Missing?", lead: "AI tells you what it knows. Not what it left out.", detail: "Look for context, exceptions, perspectives, and counterarguments the answer skipped." },
-      { id: "automation", icon: "\uD83E\uDD16", label: "Don't Auto-Trust It", lead: "Confident isn't the same as correct.", detail: "Polished output triggers a 'must be right' reflex. That's a bias, not a verdict." },
-      { id: "tool", icon: "\uD83D\uDD28", label: "Keep Ownership", lead: "You decide what to keep, change, or toss.", detail: "AI generates options. The thinking, the call, and the consequences are yours." },
-      { id: "source", icon: "\uD83D\uDCDA", label: "Check Sources", lead: "AI can invent citations. Check before you cite.", detail: "Specific-sounding numbers, real-looking journals, plausible author names. Some are real. You don't know which without verifying." }
+      { id: "question", icon: "\u2753", label: "Question the Output", lead: "Your first instinct: is this actually right?", detail: "AI sounds confident whether the answer is correct or not. Smooth writing isn’t proof." },
+      { id: "unknowns", icon: "\uD83E\uDDD0", label: "Know Your Limits", lead: "If you can’t evaluate it, you’re flying blind.", detail: "The further the topic is from what you know, the more carefully you have to verify. That’s exactly when AI feels most authoritative." },
+      { id: "missing", icon: "\uD83E\uDDE9", label: "What’s Missing?", lead: "AI tells you what it knows. Not what it left out.", detail: "Look for context, exceptions, perspectives, and counterarguments the answer skipped." },
+      { id: "automation", icon: "\uD83E\uDD16", label: "Don’t Auto-Trust It", lead: "Confident isn’t the same as correct.", detail: "Polished output triggers a ‘must be right’ reflex. That’s a bias, not a verdict." },
+      { id: "tool", icon: "\uD83D\uDD28", label: "Keep Ownership", lead: "You decide what to keep, change, or toss.", detail: "AI generates options. The thinking, the call, and the consequences are yours." }
     ];
     var renderHabitCard = function(habit, i, totalShown, animateLast) {
       return /*#__PURE__*/React.createElement("div", {
         key: habit.id,
         style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === totalShown - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--seeRule)", animation: animateLast && i === totalShown - 1 ? "fadeIn 0.3s ease" : "none" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Instrument Serif’, serif", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
         /*#__PURE__*/React.createElement("div", null,
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
             /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, habit.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, habit.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, habit.lead),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, habit.detail)));
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, habit.label)),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, habit.lead),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, habit.detail)));
     };
     return /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
-      title: "The 6 Habits",
+      title: "The 5 Habits",
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
@@ -9195,7 +9184,7 @@ function CriticalThinkingSection(props) {
         isComplete: habitsRevealed >= HABITS_OVERVIEW.length,
         startLabel: "See First Habit \u2193",
         nextLabel: "Next Habit \u2193",
-        finishLabel: "All six habits \u2193",
+        finishLabel: "All five habits \u2193",
         completionElement: /*#__PURE__*/React.createElement("div", {
           style: { background: "#fff", borderRadius: 14, padding: "18px 22px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
         },
@@ -9235,16 +9224,16 @@ function CriticalThinkingSection(props) {
       isComplete: activeConcept >= CT_CONCEPTS.length,
       startLabel: "First Trap \u2192",
       nextLabel: "Next Trap \u2192",
-      finishLabel: "All six spotted \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "All six habits in the wild.", body: "You\u2019ve seen what each habit catches. That\u2019s the work." })
+      finishLabel: "All five spotted \u2192",
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "All five habits in the wild.", body: "You\u2019ve seen what each habit catches. That\u2019s the work." })
     },
       /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
       /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
           /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, ct.label)),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, ct.label)),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
           /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
           /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response }))),
@@ -9261,7 +9250,7 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
     /*#__PURE__*/React.createElement(BodyP, null, "Next, step back for the bigger picture: the durable human skills that AI makes more valuable, not less."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitsRevealed >= 6 && habitAnswer !== null, lockedMessage: "See all habits and try one scenario to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitsRevealed >= 5 && habitAnswer !== null, lockedMessage: "See all five habits and try one scenario to continue", onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -14993,6 +14982,7 @@ const SECTION_COMPONENTS = {
   customization: CustomizationSection,
   documentchat: DocumentChatSection,
   critical: CriticalThinkingSection,
+  habits: HabitsSection,
   mindtrap: MindTrapSection,
   flattery: FlatteryTrapSection,
   engagementtrap: EngagementTrapSection,

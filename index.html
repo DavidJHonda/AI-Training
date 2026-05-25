@@ -13727,7 +13727,9 @@ function QuestionsValuableSection(props) {
   );
 }
 function HumanEdgeSection(props) {
-  const [picks, setPicks] = useState({});
+  const [skillIdx, setSkillIdx] = useState(0);
+  const [skillStarted, setSkillStarted] = useState(false);
+  const [skillSolved, setSkillSolved] = useState({});
   const COMPARE = [
     {
       label: "What AI does fast",
@@ -13774,39 +13776,33 @@ function HumanEdgeSection(props) {
     {
       situation: "You have to write an essay about a novel you didn\u2019t fully read.",
       options: [
-        { label: "Approach A", text: "Ask AI to write the essay. Submit it.", weak: true },
-        { label: "Approach B", text: "Ask AI for a chapter map and likely themes, then read the key passages yourself, choose your argument, draft it, and use AI to critique the reasoning.", weak: false }
-      ],
-      explain: "Approach A skips the work of forming a view: the AI\u2019s argument becomes yours by default. Approach B uses AI as a thinking partner. Direction, judgment, and ownership stay with you."
+        { label: "Ask AI to write the essay. Submit it.", correct: false, hint: "You\u2019d hand in a finished essay, but the argument inside it wouldn\u2019t be yours. What was the assignment actually for?", feedback: "This skips the work of forming a view. The AI\u2019s argument becomes yours by default." },
+        { label: "Ask AI for a chapter map and likely themes, then read the key passages yourself, choose your argument, draft it, and use AI to critique the reasoning.", correct: true, feedback: "This uses AI as a thinking partner. Direction, judgment, and ownership stay with you." }
+      ]
     },
     {
       situation: "You\u2019re trying to decide whether to take a gap year.",
       options: [
-        { label: "Approach A", text: "Ask AI \u201Cshould I take a gap year?\u201D and go with whatever it suggests.", weak: true },
-        { label: "Approach B", text: "Ask AI for the strongest case for and against, then ask it to find the weakest part of each argument and pressure-test both against your situation.", weak: false }
-      ],
-      explain: "Approach A outsources your decision. Approach B uses AI to widen and stress-test your thinking. The call still belongs to you, but it\u2019s now a much better-informed one."
+        { label: "Ask AI \u201Cshould I take a gap year?\u201D and go with whatever it suggests.", correct: false, hint: "Whatever it answers, you\u2019d just go along with it. Should a model you asked once make this call for you?", feedback: "This outsources your decision." },
+        { label: "Ask AI for the strongest case for and against, then ask it to find the weakest part of each argument and pressure-test both against your situation.", correct: true, feedback: "This uses AI to widen and stress-test your thinking. The call still belongs to you, but it\u2019s now a much better-informed one." }
+      ]
     },
     {
       situation: "You\u2019re using AI to fix code you don\u2019t really understand.",
       options: [
-        { label: "Approach A", text: "Paste the error, paste in whatever AI gives you, run it. If it works, move on.", weak: true },
-        { label: "Approach B", text: "Paste the error, ask AI to explain why it\u2019s happening, ask what the fix actually does, then test it and check that the explanation matches what you see.", weak: false }
-      ],
-      explain: "Approach A treats AI like a slot machine. Approach B builds the understanding you need to recognize the next problem yourself, and to catch a wrong answer when one shows up."
+        { label: "Paste the error, paste in whatever AI gives you, run it. If it works, move on.", correct: false, hint: "It might work this time. But you\u2019d learn nothing, and you couldn\u2019t tell whether the fix was actually right.", feedback: "This treats AI like a slot machine." },
+        { label: "Paste the error, ask AI to explain why it\u2019s happening, ask what the fix actually does, then test it and check that the explanation matches what you see.", correct: true, feedback: "This builds the understanding you need to recognize the next problem yourself, and to catch a wrong answer when one shows up." }
+      ]
     },
     {
       situation: "You need to design a poster for a club event.",
       options: [
-        { label: "Approach A", text: "Ask AI for ten poster ideas and pick the flashiest one.", weak: true },
-        { label: "Approach B", text: "Ask AI for ten concepts, then choose based on your audience, the event goal, school rules, readability, and what\u2019ll actually get students to show up.", weak: false }
-      ],
-      explain: "Approach A trusts AI\u2019s notion of \"cool.\" Approach B uses AI to widen your options, then applies your taste, your knowledge of the audience, and the actual goal. Taste isn\u2019t picking what looks coolest. It\u2019s picking what fits the purpose."
+        { label: "Ask AI for ten poster ideas and pick the flashiest one.", correct: false, hint: "Flashiest isn\u2019t the same as right for your audience and your goal. Who decides what fits?", feedback: "This trusts AI\u2019s notion of \u201Ccool.\u201D" },
+        { label: "Ask AI for ten concepts, then choose based on your audience, the event goal, school rules, readability, and what\u2019ll actually get students to show up.", correct: true, feedback: "This uses AI to widen your options, then applies your taste, your knowledge of the audience, and the actual goal. Taste isn\u2019t picking what looks coolest. It\u2019s picking what fits the purpose." }
+      ]
     }
   ];
-  const pickOption = function(sIdx, oIdx) {
-    setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
-  };
+  const sk = SCENARIOS[Math.min(skillIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "humanedge" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -13869,57 +13865,47 @@ function HumanEdgeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Spot the Stronger Use of AI",
-    action: /*#__PURE__*/React.createElement("div", {
+      variant: "try",
+      surface: "mint",
+      title: "Spot the Stronger Use of AI",
+      action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(picks).length),
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(skillSolved).length),
         /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length))
-  },
-    SCENARIOS.map(function(sc, sIdx) {
-        var picked = picks[sIdx];
-        var revealed = picked !== undefined;
-        return /*#__PURE__*/React.createElement("div", { key: sIdx, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: sIdx < SCENARIOS.length - 1 ? 12 : 0 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Scenario " + (sIdx + 1)),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 600, lineHeight: 1.5, marginBottom: 14 } }, sc.situation),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: revealed ? 12 : 0 } },
-            sc.options.map(function(opt, oIdx) {
-              var isPicked = picked === oIdx;
-              var isCorrect = !opt.weak;
-              var bg = !revealed
-                ? "var(--bg)"
-                : isCorrect ? "#ecfdf5" : (isPicked ? "#fef2f2" : "var(--bg)");
-              var border = !revealed
-                ? "1px solid var(--rule)"
-                : isCorrect ? "2px solid #86efac" : (isPicked ? "2px solid #fca5a5" : "1px solid var(--rule)");
-              return /*#__PURE__*/React.createElement("button", {
-                key: oIdx,
-                onClick: function() { if (!revealed) pickOption(sIdx, oIdx); },
-                disabled: revealed,
-                style: { textAlign: "left", padding: "12px 14px", borderRadius: 10, background: bg, border: border, cursor: revealed ? "default" : "pointer", transition: "all 0.2s", width: "100%", fontFamily: "inherit" }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1 } }, opt.label),
-                  revealed && isCorrect ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "#16a34a" } }, "\u2713 Stronger") : null,
-                  revealed && !isCorrect && isPicked ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "#dc2626" } }, "\u2717 Weaker") : null
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, opt.text)
-              );
-            })
-          ),
-          revealed ? /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: 8, padding: "12px 14px", fontSize: 13, color: "#4338ca", lineHeight: 1.6 } },
-            /*#__PURE__*/React.createElement("strong", null, "Why: "), sc.explain
-          ) : null
-        );
-      })),
+    },
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "mint",
+        items: SCENARIOS,
+        currentIdx: skillIdx,
+        started: skillStarted,
+        onStart: function() { setSkillStarted(true); },
+        onNext: function() { setSkillIdx(skillIdx + 1); },
+        canAdvance: !!skillSolved[skillIdx],
+        isComplete: skillIdx >= SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario \u2192",
+        finishLabel: "Wrap it up \u2192",
+        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "Direction beats production.", body: "Every option here used AI. The stronger one each time kept the thinking, the judgment, and the final call with you. That\u2019s the part AI doesn\u2019t replace." })
+      },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+          /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }),
+          /*#__PURE__*/React.createElement("div", { style: { marginTop: 16 } },
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: skillIdx,
+              surface: "mint",
+              statement: "Which is the stronger use of AI?",
+              questionNumber: skillIdx + 1,
+              totalQuestions: SCENARIOS.length,
+              options: sk.options,
+              onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[skillIdx] = true; return next; }); }
+            }))))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI makes production cheaper." },
       "That makes direction, judgment, and ownership more valuable. The skills above don\u2019t replace AI. They\u2019re what makes AI worth using."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "These skills aren\u2019t abstract. The next section turns them into a workflow: how to prompt, think with AI, study with it, verify what matters, and decide whether the result is good enough."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerrealworld"); }, label: "Next: Real World" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: skillIdx >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerrealworld"); }, label: "Next: Real World" })
   );
 }
 function WorkChangesSection(props) {

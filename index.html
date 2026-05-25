@@ -667,11 +667,11 @@ function FeedbackPill(props) {
     return React.createElement("button", {
       onClick: props.onClick,
       style: Object.assign({}, basePill, {
-        background: "#f1f0f3", border: "1.5px solid transparent", color: "#6e6986"
+        background: "#d4334a", border: "1.5px solid #d4334a", color: "#fff"
       })
     },
       props.label,
-      React.createElement("span", { style: { color: "#d4334a", fontWeight: 800 } }, "\u2715"));
+      React.createElement("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2715"));
   }
   // default and answered-untouched share the same look
   return React.createElement("button", {
@@ -2293,32 +2293,26 @@ function OpenerJudgmentSection(props) {
 
 function AIStrengthsSection(props) {
   var SCENARIOS = [
-    { prompt: "Find three credible sources on ocean acidification and format them in APA for my research paper.", correct: "careful", explain: "AI frequently invents citations that look perfectly formatted but point to articles, authors, or journals that don\u2019t exist. You can\u2019t evaluate whether a source is real without checking it yourself.", tag: "Citations" },
-    { prompt: "Give me 10 possible essay angles on climate policy for a school paper.", correct: "good", explain: "Brainstorming is one of AI\u2019s strongest uses. It generates volume and variety fast. You evaluate the ideas and pick the best one. AI just gets you unstuck.", tag: "Brainstorming" },
-    { prompt: "I\u2019m taking ibuprofen and amoxicillin. Is it safe to take them together?", correct: "careful", explain: "AI can sound confident on medication questions, but it can\u2019t account for your dosage, medical history, allergies, age, or other medications you take. For a real answer, ask a pharmacist, doctor, parent or guardian, or school nurse.", tag: "Medical advice" },
-    { prompt: "Here are my messy lecture notes from today. Organize them into a clean structured outline.", correct: "good", explain: "Reformatting is one of AI\u2019s most reliable uses. The information is already yours. AI just restructures it. You can easily verify whether the output matches your notes.", tag: "Reformatting" },
-    { prompt: "Here\u2019s my essay. Rewrite it so it sounds more like me.", correct: "careful", explain: "AI can\u2019t reliably capture your voice. It will produce something fluent but generic. It can help with grammar or structure, but your voice and perspective are things only you can judge and add.", tag: "Your Original Voice" },
-    { prompt: "Write a first draft of a cover letter for a summer internship at a marketing agency.", correct: "good", explain: "First drafts are where AI saves the most time. It gets structure on the page fast. You still need to rewrite it in your own voice, but starting from something is easier than starting from nothing.", tag: "First drafts" },
-    { prompt: "What happened in the news today?", correct: "careful", explain: "Even when the product has live search, current information can be wrong, partial, or stale. Check the source, the date, and whether multiple reliable outlets agree before you treat it as fact.", tag: "Current events" },
-    { prompt: "Explain the chain rule in calculus step by step with examples. I\u2019m stuck.", correct: "good", explain: "Explaining concepts is a strong fit. AI can rephrase, give analogies, and walk through steps at your level. You can cross-check the math, which means you can evaluate the output.", tag: "Explaining concepts" },
-    { prompt: "My friend is going through a really hard time. What should I say to them?", correct: "careful", explain: "AI isn\u2019t equipped to weigh the emotional context, your relationship, or what your friend actually needs to hear. This is a judgment call that depends on empathy and values, things only you can bring.", tag: "Judgment calls" },
-    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", explain: "Summarizing is a strong fit. AI compresses information quickly, and you already know the material well enough to spot if it dropped something important.", tag: "Summarizing" }
+    { prompt: "Find three credible sources on ocean acidification and format them in APA for my research paper.", correct: "careful", tag: "Citations", explain: "This is a citations task, and citations need follow-up. AI frequently invents sources that look perfectly formatted but point to articles, authors, or journals that don\u2019t exist. You can\u2019t tell which are real without checking each one yourself." },
+    { prompt: "Give me 10 possible essay angles on climate policy for a school paper.", correct: "good", tag: "Brainstorming", explain: "This is a brainstorming task, one of AI\u2019s strongest fits. It generates volume and variety fast, and you stay in control because you pick the best idea. AI just gets you unstuck." },
+    { prompt: "I\u2019m taking ibuprofen and amoxicillin. Is it safe to take them together?", correct: "careful", tag: "Medical advice", explain: "This is a medical-advice task, and it needs a real expert. AI can sound confident here, but it can\u2019t account for your dosage, history, allergies, age, or other medications. For a real answer, ask a pharmacist, doctor, parent or guardian, or school nurse." },
+    { prompt: "Explain the chain rule in calculus step by step with examples. I\u2019m stuck.", correct: "good", tag: "Explaining concepts", explain: "This is an explaining-concepts task, a strong fit. AI can rephrase, give analogies, and walk through steps at your level, and you can cross-check the math, which means you can judge whether the answer holds up." },
+    { prompt: "My friend is going through a really hard time. What should I say to them?", correct: "careful", tag: "Judgment calls", explain: "This is a judgment call, and it needs you. AI can\u2019t weigh the emotional context, your relationship, or what your friend actually needs to hear. That depends on empathy and values, things only you can bring." },
+    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task, a strong fit. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." }
   ];
   var COLORS = { good: "#10b981", careful: "#f59e0b" };
   var LABELS = { good: "Good Fit", careful: "Needs Follow-Up" };
-  var ALL_TAGS = ["Brainstorming", "Summarizing", "First drafts", "Explaining concepts", "Reformatting", "Citations", "Current events", "Medical advice", "Your Original Voice", "Judgment calls"];
   var _qs = useState(false), quizStarted = _qs[0], setQuizStarted = _qs[1];
   var _si = useState(0), sIdx = _si[0], setSIdx = _si[1];
   var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
-  var _cat = useState({}), catAnswers = _cat[0], setCatAnswers = _cat[1];
+  var _jv = useState(null), judgeView = _jv[0], setJudgeView = _jv[1];
+  var _js = useState([]), judgeSeen = _js[0], setJudgeSeen = _js[1];
   var _done = useState(false), allDone = _done[0], setAllDone = _done[1];
   var _tc = useState(0), typedChars = _tc[0], setTypedChars = _tc[1];
   var _yc = useLocalStorage("seeit-aistrengths-yesClicked", false), yesClicked = _yc[0], setYesClicked = _yc[1];
   var _nc = useLocalStorage("seeit-aistrengths-noClicked", false), noClicked = _nc[0], setNoClicked = _nc[1];
   var s = SCENARIOS[sIdx];
-  var pickedCat = catAnswers[sIdx];
   var pickedJudgment = answers[sIdx];
-  var catChosen = pickedCat !== undefined;
   var revealed = pickedJudgment !== undefined;
   var typingDone = typedChars >= (s ? s.prompt.length : 0);
   useEffect(function() {
@@ -2331,56 +2325,48 @@ function AIStrengthsSection(props) {
     }, speed);
     return function() { clearInterval(interval); };
   }, [sIdx, quizStarted]);
-  var handleCatPick = function(tag) {
-    if (catChosen) return;
-    setCatAnswers(function(prev) { var u = Object.assign({}, prev); u[sIdx] = tag; return u; });
-  };
   var handlePick = function(choice) {
     if (revealed) return;
     setAnswers(function(prev) { var u = Object.assign({}, prev); u[sIdx] = choice; return u; });
+    setJudgeView(choice);
+    setJudgeSeen([choice]);
   };
   var completedCount = Object.keys(answers).length;
   var correctCount = 0;
-  var catCorrectCount = 0;
-  SCENARIOS.forEach(function(sc, i) { if (answers[i] === sc.correct) correctCount++; if (catAnswers[i] === sc.tag) catCorrectCount++; });
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aistrengths" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "AI can help with almost any task. The real skill is knowing how much to check what it gives you. Some answers need a hard look. Others barely need one."),
-    /*#__PURE__*/React.createElement(BodyP, null, "That\u2019s what trust really comes down to here. Not believing the output automatically, but knowing what kind of follow-up it needs before you use it."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Start by naming the ", /*#__PURE__*/React.createElement("strong", null, "type of task"), " you are asking AI to do. Some task types are easy to judge on your own and need little follow-up. Other task types almost always need follow-up because the answer has to be true, current, safe, sourced, or genuinely yours."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Click ", /*#__PURE__*/React.createElement("strong", null, "Yes"), " and ", /*#__PURE__*/React.createElement("strong", null, "No"), " below to see which task types are a ", /*#__PURE__*/React.createElement("strong", null, "Good Fit"), " and which ones ", /*#__PURE__*/React.createElement("strong", null, "Need Follow-Up"), "."),
-
-    /*#__PURE__*/React.createElement(InteractiveBox, {
+  SCENARIOS.forEach(function(sc, i) { if (answers[i] === sc.correct) correctCount++; });
+  return React.createElement("div", null,
+    React.createElement(LessonHeader, { sectionId: "aistrengths" }),
+    React.createElement(BodyP, null, "AI can help with almost any task. The real skill is knowing how much to check what it gives you. Some answers need a hard look. Others barely need one."),
+    React.createElement(BodyP, null, "That\u2019s what trust really comes down to here. Not believing the output automatically, but knowing what kind of follow-up it needs before you use it."),
+    React.createElement(BodyP, null, "Start by naming the ", React.createElement("strong", null, "type of task"), " you are asking AI to do. Some task types are easy to judge on your own and need little follow-up. Other task types almost always need follow-up because the answer has to be true, current, safe, sourced, or genuinely yours."),
+    React.createElement(BodyP, null, "Click ", React.createElement("strong", null, "Yes"), " and ", React.createElement("strong", null, "No"), " below to see which task types are a ", React.createElement("strong", null, "Good Fit"), " and which ones ", React.createElement("strong", null, "Need Follow-Up"), "."),
+    React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "How Much to Check"
     },
-
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 0 } },
-        /*#__PURE__*/React.createElement("div", {
+      React.createElement("div", { style: { textAlign: "center", marginBottom: 0 } },
+        React.createElement("div", {
           style: { display: "inline-block", padding: "20px 32px", borderRadius: 14, background: "var(--card)", border: "2px solid var(--primary)", boxShadow: "0 2px 12px rgba(110, 81, 255, 0.12)" }
         },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, "Can you judge the result yourself?"))),
-
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", position: "relative", height: 128 } },
-        /*#__PURE__*/React.createElement("svg", { style: { width: "100%", height: "128", position: "absolute", top: 0, left: 0, overflow: "visible" }, viewBox: "0 0 800 128", preserveAspectRatio: "xMidYMid meet" },
-          /*#__PURE__*/React.createElement("defs", null,
-            /*#__PURE__*/React.createElement("marker", { id: "arrowhead", markerWidth: "10", markerHeight: "7", refX: "10", refY: "3.5", orient: "auto" },
-              /*#__PURE__*/React.createElement("polygon", { points: "0 0, 10 3.5, 0 7", fill: "var(--primary)" }))),
-          /*#__PURE__*/React.createElement("line", { x1: "400", y1: "0", x2: "200", y2: "120", stroke: "var(--primary)", strokeWidth: "2", markerEnd: "url(#arrowhead)" }),
-          /*#__PURE__*/React.createElement("line", { x1: "400", y1: "0", x2: "600", y2: "120", stroke: "var(--primary)", strokeWidth: "2", markerEnd: "url(#arrowhead)" }))),
-
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 } },
-
-        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-          /*#__PURE__*/React.createElement("button", { onClick: function() { setYesClicked(true); }, disabled: yesClicked, style: { display: "inline-block", padding: "8px 22px", borderRadius: 10, background: "#ecfdf5", color: "#059669", fontSize: 16, fontWeight: 700, marginBottom: 8, letterSpacing: "0.3px", border: "2px solid #10b981", boxShadow: "0 2px 8px rgba(16, 185, 129, 0.12)", cursor: yesClicked ? "default" : "pointer", pointerEvents: yesClicked ? "none" : "auto", transition: "transform 0.2s ease", animation: yesClicked ? "none" : "softPulse 2s ease-in-out infinite", fontFamily: "inherit" } }, "Yes"),
-          /*#__PURE__*/React.createElement("div", {
+          React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, "Can you judge the result yourself?"))),
+      React.createElement("div", { style: { display: "flex", justifyContent: "center", position: "relative", height: 128 } },
+        React.createElement("svg", { style: { width: "100%", height: "128", position: "absolute", top: 0, left: 0, overflow: "visible" }, viewBox: "0 0 800 128", preserveAspectRatio: "xMidYMid meet" },
+          React.createElement("defs", null,
+            React.createElement("marker", { id: "arrowhead", markerWidth: "10", markerHeight: "7", refX: "10", refY: "3.5", orient: "auto" },
+              React.createElement("polygon", { points: "0 0, 10 3.5, 0 7", fill: "var(--primary)" }))),
+          React.createElement("line", { x1: "400", y1: "0", x2: "200", y2: "120", stroke: "var(--primary)", strokeWidth: "2", markerEnd: "url(#arrowhead)" }),
+          React.createElement("line", { x1: "400", y1: "0", x2: "600", y2: "120", stroke: "var(--primary)", strokeWidth: "2", markerEnd: "url(#arrowhead)" }))),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 } },
+        React.createElement("div", { style: { textAlign: "center" } },
+          React.createElement("button", { onClick: function() { setYesClicked(true); }, disabled: yesClicked, style: { display: "inline-block", padding: "8px 22px", borderRadius: 10, background: "#ecfdf5", color: "#059669", fontSize: 16, fontWeight: 700, marginBottom: 8, letterSpacing: "0.3px", border: "2px solid #10b981", boxShadow: "0 2px 8px rgba(16, 185, 129, 0.12)", cursor: yesClicked ? "default" : "pointer", pointerEvents: yesClicked ? "none" : "auto", transition: "transform 0.2s ease", animation: yesClicked ? "none" : "softPulse 2s ease-in-out infinite", fontFamily: "inherit" } }, "Yes"),
+          React.createElement("div", {
             style: { border: "2px solid #10b981", borderRadius: 14, background: "var(--card)", boxShadow: "0 2px 8px rgba(16, 185, 129, 0.12)", overflow: "hidden", visibility: yesClicked ? "visible" : "hidden", animation: yesClicked ? "fadeIn 0.4s ease" : "none" }
           },
-            /*#__PURE__*/React.createElement("div", { style: { background: "#f0fdf4", borderBottom: "1px solid #d1fae5", padding: "16px 20px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#059669" } }, "\u2705 Good Fit")),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px" } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            React.createElement("div", { style: { background: "#f0fdf4", borderBottom: "1px solid #d1fae5", padding: "16px 20px" } },
+              React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#059669" } }, "\u2705 Good Fit")),
+            React.createElement("div", { style: { padding: "14px 18px" } },
+              React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
                 [
                   { name: "Brainstorming", desc: "Generate options fast. You choose the best." },
                   { name: "Summarizing", desc: "Compress material you can check." },
@@ -2388,23 +2374,22 @@ function AIStrengthsSection(props) {
                   { name: "Explaining concepts", desc: "Ask for a walkthrough at your level." },
                   { name: "Reformatting", desc: "Change the structure, not the meaning." }
                 ].map(function(item, i) {
-                  return /*#__PURE__*/React.createElement("div", { key: "gf" + i, style: { padding: "10px 14px", borderRadius: 12, background: "#ecfdf5", border: "1px solid #d1fae5", textAlign: "left" } },
-                    /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#065f46" } },
-                      /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 } }),
+                  return React.createElement("div", { key: "gf" + i, style: { padding: "10px 14px", borderRadius: 12, background: "#ecfdf5", border: "1px solid #d1fae5", textAlign: "left" } },
+                    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#065f46" } },
+                      React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 } }),
                       item.name),
-                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#065f46", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
+                    React.createElement("div", { style: { fontSize: 12, color: "#065f46", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
                 }))),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Best when you can judge whether the result makes sense."))),
-
-        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-          /*#__PURE__*/React.createElement("button", { onClick: function() { setNoClicked(true); }, disabled: noClicked, style: { display: "inline-block", padding: "8px 22px", borderRadius: 10, background: "#fef9ec", color: "#b45309", fontSize: 16, fontWeight: 700, marginBottom: 8, letterSpacing: "0.3px", border: "2px solid #f59e0b", boxShadow: "0 2px 8px rgba(245, 158, 11, 0.12)", cursor: noClicked ? "default" : "pointer", pointerEvents: noClicked ? "none" : "auto", transition: "transform 0.2s ease", animation: noClicked ? "none" : "softPulse 2s ease-in-out infinite", fontFamily: "inherit" } }, "No"),
-          /*#__PURE__*/React.createElement("div", {
+            React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Best when you can judge whether the result makes sense."))),
+        React.createElement("div", { style: { textAlign: "center" } },
+          React.createElement("button", { onClick: function() { setNoClicked(true); }, disabled: noClicked, style: { display: "inline-block", padding: "8px 22px", borderRadius: 10, background: "#fef9ec", color: "#b45309", fontSize: 16, fontWeight: 700, marginBottom: 8, letterSpacing: "0.3px", border: "2px solid #f59e0b", boxShadow: "0 2px 8px rgba(245, 158, 11, 0.12)", cursor: noClicked ? "default" : "pointer", pointerEvents: noClicked ? "none" : "auto", transition: "transform 0.2s ease", animation: noClicked ? "none" : "softPulse 2s ease-in-out infinite", fontFamily: "inherit" } }, "No"),
+          React.createElement("div", {
             style: { border: "2px solid #f59e0b", borderRadius: 14, background: "var(--card)", boxShadow: "0 2px 8px rgba(245, 158, 11, 0.12)", overflow: "hidden", visibility: noClicked ? "visible" : "hidden", animation: noClicked ? "fadeIn 0.4s ease" : "none" }
           },
-            /*#__PURE__*/React.createElement("div", { style: { background: "#fffef5", borderBottom: "1px solid #fde68a", padding: "16px 20px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#d97706" } }, "\uD83D\uDD0D Needs Follow-Up")),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px" } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            React.createElement("div", { style: { background: "#fffef5", borderBottom: "1px solid #fde68a", padding: "16px 20px" } },
+              React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#d97706" } }, "\uD83D\uDD0D Needs Follow-Up")),
+            React.createElement("div", { style: { padding: "14px 18px" } },
+              React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
                 [
                   { name: "Citations", desc: "AI can invent sources that look real." },
                   { name: "Current events", desc: "Facts may have changed. Check a live source." },
@@ -2412,118 +2397,67 @@ function AIStrengthsSection(props) {
                   { name: "Your Original Voice", desc: "AI can polish. You have to own it." },
                   { name: "Judgment calls", desc: "People, values, and consequences need you." }
                 ].map(function(item, i) {
-                  return /*#__PURE__*/React.createElement("div", { key: "lu" + i, style: { padding: "10px 14px", borderRadius: 12, background: "#fef9ec", border: "1px solid #fde68a", textAlign: "left" } },
-                    /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#78350f" } },
-                      /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#f59e0b", flexShrink: 0 } }),
+                  return React.createElement("div", { key: "lu" + i, style: { padding: "10px 14px", borderRadius: 12, background: "#fef9ec", border: "1px solid #fde68a", textAlign: "left" } },
+                    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#78350f" } },
+                      React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#f59e0b", flexShrink: 0 } }),
                       item.name),
-                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#78350f", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
+                    React.createElement("div", { style: { fontSize: 12, color: "#78350f", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
                 }))),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Answer needs truth, safety, sources, or your judgment."))))),
-    (yesClicked && noClicked) && /*#__PURE__*/React.createElement(BodyP, null, "Good Fit doesn\u2019t mean ready to use. It means the task matches AI\u2019s strengths and you can judge the result. The final call is still yours."),
-    (yesClicked && noClicked) && /*#__PURE__*/React.createElement(BodyP, null, "In this exercise, you’ll see a prompt that you might type. First, select what kind of task it is, and then select whether it’s a Good Fit or Needs Follow-Up."),
-    (yesClicked && noClicked) && /*#__PURE__*/React.createElement(InteractiveBox, {
+            React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Answer needs truth, safety, sources, or your judgment."))))),
+    (yesClicked && noClicked) && React.createElement(BodyP, null, "Good Fit doesn\u2019t mean ready to use. It means the task matches AI\u2019s strengths and you can judge the result. The final call is still yours."),
+    (yesClicked && noClicked) && React.createElement(BodyP, null, "Now your turn. You\u2019ll see a prompt you might type. Make the call: is it a Good Fit, or does it Need Follow-Up?"),
+    (yesClicked && noClicked) && React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Name the Task, Make the Call",
-      action: quizStarted ? /*#__PURE__*/React.createElement("div", {
-        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(sIdx + 1, SCENARIOS.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length)) : null
-    }, !quizStarted ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setQuizStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "First Scenario") : /*#__PURE__*/React.createElement("div", null,
-      completedCount > 0 && /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: allDone ? 0 : 16 } },
+      title: "Make the Call",
+      action: quizStarted ? React.createElement("div", { style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 } },
+        React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(sIdx + 1, SCENARIOS.length)),
+        React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + SCENARIOS.length)) : null
+    }, !quizStarted ? React.createElement(ActivityButton, { onClick: function() { setQuizStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "First Scenario") : React.createElement("div", null,
+      completedCount > 0 && React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: allDone ? 0 : 16 } },
         SCENARIOS.slice(0, allDone ? SCENARIOS.length : sIdx).map(function(sc, i) {
-          var catRight = catAnswers[i] === sc.tag;
-          var judgRight = answers[i] === sc.correct;
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, borderLeft: "3px solid " + COLORS[sc.correct], animation: i === sIdx - 1 && !allDone ? "fadeIn 0.3s ease" : "none" }
-          },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, color: catRight && judgRight ? "#10b981" : !catRight && !judgRight ? "#ef4444" : "#f59e0b", fontWeight: 700, flexShrink: 0 } }, catRight && judgRight ? "\u2713" : !catRight && !judgRight ? "\u2717" : "\u00BD"),
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, color: "var(--ink)", fontWeight: 600, flex: 1 } }, sc.tag),
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, fontWeight: 600, color: COLORS[sc.correct], flexShrink: 0 } }, LABELS[sc.correct]));
+          var right = answers[i] === sc.correct;
+          return React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, borderLeft: "3px solid " + (right ? "#1f9d5f" : "#d4334a"), animation: i === sIdx - 1 && !allDone ? "fadeIn 0.3s ease" : "none" } },
+            React.createElement("span", { style: { fontSize: 14, color: right ? "#1f9d5f" : "#d4334a", fontWeight: 700, flexShrink: 0 } }, right ? "\u2713" : "\u2717"),
+            React.createElement("span", { style: { fontSize: 13, color: "var(--ink)", fontWeight: 600, flex: 1 } }, sc.tag),
+            React.createElement("span", { style: { fontSize: 12, fontWeight: 600, color: COLORS[sc.correct], flexShrink: 0 } }, LABELS[sc.correct]));
         })),
-      !allDone && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 20 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: s.prompt, visibleChars: typedChars, align: "left", label: "You" })),
-
-        typingDone && !catChosen && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 1: What kind of task is this?"),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-            ALL_TAGS.map(function(tag) {
-              return /*#__PURE__*/React.createElement("button", {
-                key: tag,
-                onClick: function() { handleCatPick(tag); },
-                style: { padding: "7px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600, background: "var(--card)", color: "var(--ink)", border: "1px solid var(--rule)", cursor: "pointer", transition: "all 0.15s" }
-              }, tag);
-            }))),
-
-        catChosen && /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16, animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 1: What kind of task is this?"),
-          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-              /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: pickedCat === s.tag ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
-                  /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: pickedCat === s.tag ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
-                  pickedCat === s.tag ? "Correct" : "Not quite"),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: pickedCat === s.tag ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, pickedCat === s.tag ? "You named it." : "It\u2019s " + s.tag + ".")),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, pickedCat === s.tag ? ("This is a " + s.tag + " task.") : ("You picked " + pickedCat + "."))))),
-
-        catChosen && !revealed && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 2: Good Fit or Needs Follow-Up?"),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12 } },
+      !allDone && React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        React.createElement("div", { style: { marginBottom: 20 } },
+          React.createElement(UserBubble, { text: s.prompt, visibleChars: typedChars, align: "left", label: "You" })),
+        typingDone && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
+          React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Good Fit or Needs Follow-Up?"),
+          React.createElement("div", { style: { display: "flex", gap: 12 } },
             ["good", "careful"].map(function(choice) {
-              return /*#__PURE__*/React.createElement("button", {
-                key: choice,
-                onClick: function() { handlePick(choice); },
-                style: {
-                  flex: 1, padding: "14px 12px", borderRadius: 10, fontSize: 15, fontWeight: 700,
-                  background: "var(--card)", color: "var(--ink)",
-                  border: "2px solid var(--rule)",
-                  cursor: "pointer", transition: "all 0.15s"
-                }
-              }, LABELS[choice]);
-            }))),
-
-        catChosen && revealed && /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Step 2: Good Fit or Needs Follow-Up?"),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16 } },
-            ["good", "careful"].map(function(choice) {
-              var isActive = pickedJudgment === choice;
-              return /*#__PURE__*/React.createElement("button", {
-                key: choice,
-                style: {
-                  flex: 1, padding: "14px 12px", borderRadius: 10, fontSize: 15, fontWeight: 700,
-                  background: isActive ? COLORS[choice] : "var(--card)",
-                  color: isActive ? "#fff" : "var(--inkMuted)",
-                  border: "2px solid " + (isActive ? COLORS[choice] : "var(--rule)"),
-                  cursor: "default", transition: "all 0.2s",
-                  opacity: isActive ? 1 : 0.5
-                }
-              }, LABELS[choice]);
+              var isCorrect = choice === s.correct;
+              var isViewing = choice === judgeView;
+              var isSeen = judgeSeen.indexOf(choice) !== -1;
+              var bg, border, txt, icon, iconColor;
+              if (!revealed) { icon = null; bg = "var(--card)"; border = "var(--rule)"; txt = "var(--ink)"; iconColor = null; }
+              else if (isCorrect) { icon = "\u2713"; if (isViewing) { bg = "#1f9d5f"; border = "#1f9d5f"; txt = "#fff"; iconColor = "#fff"; } else { bg = "#e7f6ee"; border = "#b6e3cd"; txt = "#1f9d5f"; iconColor = "#1f9d5f"; } }
+              else if (choice === pickedJudgment || isSeen) { icon = "\u2715"; if (isViewing) { bg = "#d4334a"; border = "#d4334a"; txt = "#fff"; iconColor = "#fff"; } else { bg = "#fbe9ec"; border = "#f0b8c1"; txt = "#d4334a"; iconColor = "#d4334a"; } }
+              else { icon = null; bg = "var(--card)"; border = "var(--rule)"; txt = "var(--inkMuted)"; iconColor = null; }
+              return React.createElement("button", { key: choice, onClick: function() { if (!revealed) { handlePick(choice); } else { setJudgeView(choice); setJudgeSeen(function(prev) { return prev.indexOf(choice) === -1 ? prev.concat([choice]) : prev; }); } }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "14px 12px", borderRadius: 10, fontSize: 15, fontWeight: 700, background: bg, color: txt, border: "2px solid " + border, cursor: "pointer", transition: "all 150ms ease" } }, LABELS[choice], icon ? React.createElement("span", { style: { color: iconColor, fontWeight: 800 } }, icon) : null);
             })),
-
-          /*#__PURE__*/React.createElement("div", { style: { marginTop: 4, marginBottom: 20, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-              /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
-                  /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
+          revealed && React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+            React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
+              React.createElement("div", null,
+                React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
+                  React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
                   pickedJudgment === s.correct ? "Correct" : "Not quite"),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, pickedJudgment === s.correct ? "Right." : "It\u2019s " + LABELS[s.correct] + ".")),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, s.explain))),
-
-          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { if (sIdx < SCENARIOS.length - 1) { setSIdx(sIdx + 1); } else { setAllDone(true); } }, size: "large", style: { display: "block", margin: "0 auto", animation: "fadeIn 0.3s ease" } }, sIdx < SCENARIOS.length - 1 ? "Next scenario \u2192" : "Finish \u2192"))),
-
-      allDone && /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", marginBottom: 4 } }, "Categories: ", catCorrectCount, " of ", SCENARIOS.length, " correct"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", marginBottom: 12 } }, "Judgments: ", correctCount, " of ", SCENARIOS.length, " correct"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4, marginBottom: 20 } },
-          correctCount >= 8 && catCorrectCount >= 8 ? "Strong instincts. You can identify the task type and judge whether AI is the right tool for it." :
-          correctCount >= 5 ? "Decent judgment, but naming the task type is what sharpens it. The category tells you whether you can judge the result, and that\u2019s the whole test." :
-          "A lot of these surprised you, and that\u2019s the point. Once you learn to name the task, the judgment follows.")))),
-    allDone && /*#__PURE__*/React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"); }, label: "Next: Questions Matter" }));
+                React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, pickedJudgment === s.correct ? "Right." : (s.correct === "good" ? "It\u2019s a Good Fit." : "It needs follow-up."))),
+              React.createElement("div", { style: { fontFamily: "’Plus Jakarta Sans’, system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, s.explain))),
+          revealed && React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
+            React.createElement(ActivityButton, { onClick: function() { setJudgeView(null); setJudgeSeen([]); if (sIdx < SCENARIOS.length - 1) { setSIdx(sIdx + 1); } else { setAllDone(true); } }, size: "large", style: { display: "block", margin: "0 auto", animation: "fadeIn 0.3s ease" } }, sIdx < SCENARIOS.length - 1 ? "Next scenario \u2192" : "Finish \u2192")))),
+      allDone && React.createElement("div", { style: { marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
+        React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", marginBottom: 12 } }, "You judged ", correctCount, " of ", SCENARIOS.length, " correctly."),
+        React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } },
+          correctCount >= 5 ? "Strong instincts. You can feel which tasks you can trust and which ones need a second look." :
+          correctCount >= 3 ? "Good start. The pattern is the reason: an answer needs follow-up when it has to be true, current, safe, sourced, or genuinely yours." :
+          "Worth a re-read. The fit comes down to one question: can you judge the result yourself, or does it need outside backup?")))),
+    allDone && React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
+    React.createElement(LessonRule, null),
+    React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"); }, label: "Next: Questions Matter" }));
 }
 function WelcomeSection(props) {
   var E = React.createElement;

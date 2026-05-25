@@ -5209,95 +5209,81 @@ function NameThatDrinkTryIt(props) {
   var E = React.createElement;
   var _s = React.useState(false), started = _s[0], setStarted = _s[1];
   var _q = React.useState(0), qIdx = _q[0], setQIdx = _q[1];
-  var _a = React.useState(null), answer = _a[0], setAnswer = _a[1];
-  var _r = React.useState([]), results = _r[0], setResults = _r[1];
+  var _rv = React.useState(false), resolved = _rv[0], setResolved = _rv[1];
   React.useEffect(function() { if (qIdx >= 3 && props && props.onComplete) props.onComplete(); }, [qIdx]);
   var questions = [
-    { dims: [["Sweetness", 9], ["Fizziness", 10]], correct: "Coke", choices: [["Coke", "\uD83E\uDD64"], ["Black Coffee", "\u2615"]] },
-    { dims: [["Bitterness", 9], ["Heat Level", 9]], correct: "Black Coffee", choices: [["Coke", "\uD83E\uDD64"], ["Black Coffee", "\u2615"]] },
-    { dims: [["Sweetness", 9], ["Fizziness", 10]], correct: "Not Enough Info", title: "Trick Question", choices: [["Coke", "\uD83E\uDD64"], ["Pepsi", "\uD83E\uDD64"], ["Not Enough Info", "\uD83E\uDD37"]] }
+    {
+      dims: [["Sweetness", 9], ["Fizziness", 10]],
+      options: [
+        { label: "\uD83E\uDD64 Coke", correct: true, headline: "Right.", feedback: "High sweetness and high fizz point straight at Coke." },
+        { label: "\u2615 Black Coffee", correct: false, headline: "Not this one.", hint: "Coffee is not sweet, and it is not fizzy. Look at those two bars again.", feedback: "Coffee is not sweet or fizzy. Those two bars are screaming soda." }
+      ]
+    },
+    {
+      dims: [["Bitterness", 9], ["Heat Level", 9]],
+      options: [
+        { label: "\uD83E\uDD64 Coke", correct: false, headline: "Not this one.", hint: "Coke is not bitter, and it is served cold. These bars say something hot and bitter.", feedback: "Coke is cold and sweet, not hot and bitter. The bars point elsewhere." },
+        { label: "\u2615 Black Coffee", correct: true, headline: "Right.", feedback: "High bitterness and high heat is black coffee." }
+      ]
+    },
+    {
+      title: "Trick Question",
+      dims: [["Sweetness", 9], ["Fizziness", 10]],
+      options: [
+        { label: "\uD83E\uDD64 Coke", correct: false, headline: "Look closer.", hint: "Maybe. But check Pepsi. On just these two numbers, can you actually tell them apart?", feedback: "Coke fits, but so does Pepsi. Two numbers cannot separate them." },
+        { label: "\uD83E\uDD64 Pepsi", correct: false, headline: "Look closer.", hint: "Maybe. But Coke has the exact same two numbers. Two dimensions cannot tell them apart.", feedback: "Pepsi fits, but so does Coke. Two numbers cannot separate them." },
+        { label: "\uD83E\uDD37 Not Enough Info", correct: true, headline: "Exactly.", feedback: "Coke and Pepsi share these two numbers. Two dimensions cannot tell them apart. You need more." }
+      ]
+    }
   ];
-  var done = qIdx >= 3;
   var q = questions[Math.min(qIdx, 2)];
   var dimBar = function(label, val) {
-    return E("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr", alignItems: "center", padding: "10px 16px", background: "var(--card)", borderRadius: 8, marginBottom: 6 } },
+    return E("div", { key: label, style: { display: "grid", gridTemplateColumns: "140px 1fr", alignItems: "center", padding: "10px 16px", background: "var(--bg)", borderRadius: 8, marginBottom: 6 } },
       E("div", { style: { fontSize: 15, fontWeight: 600, color: "var(--inkSoft)" } }, label),
       E("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
         E("div", { style: { width: 80, height: 8, background: "#e0e7ff", borderRadius: 4, overflow: "hidden", flexShrink: 0 } },
           E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: "var(--primary)", borderRadius: 4 } })),
         E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--ink)", minWidth: 20, textAlign: "right" } }, val)));
   };
-  var _t = React.useState([]), tried = _t[0], setTried = _t[1];
-  var handleAnswer = function(choice) {
-    if (answer === choice) return;
-    var isQ3 = qIdx === 2;
-    if (!isQ3 && answer !== null) return;
-    if (isQ3 && choice !== q.correct && tried.indexOf(choice) >= 0) return;
-    setAnswer(choice);
-    if (isQ3) { setTried(tried.concat([choice])); }
-    if (choice === q.correct) { setResults(results.concat([tried.length === 0])); }
-    else if (!isQ3) { setResults(results.concat([false])); }
-  };
-  var handleNext = function() {
-    setQIdx(qIdx + 1); setAnswer(null); setTried([]);
-  };
-  var answerBtn = function(label, emoji) {
-    var chosen = answer !== null;
-    var isThis = answer === label;
-    var isCorrect = label === q.correct;
-    var wasTried = tried.indexOf(label) >= 0;
-    var isQ3 = qIdx === 2;
-    var gotCorrect = answer === q.correct;
-    var bg = "var(--card)";
-    var border = "2px solid var(--rule)";
-    if (chosen && isThis && isCorrect) { bg = "#dcfce7"; border = "2px solid #86efac"; }
-    if (wasTried && !isCorrect) { bg = "#fef2f2"; border = "2px solid #fca5a5"; }
-    if (chosen && isThis && !isCorrect) { bg = "#fef2f2"; border = "2px solid #fca5a5"; }
-    if (!isQ3 && chosen && !isThis && isCorrect) { bg = "#dcfce7"; border = "2px solid #86efac"; }
-    var locked = (!isQ3 && chosen) || (isQ3 && gotCorrect) || (isQ3 && wasTried && !isThis);
-    return E("button", { onClick: function() { handleAnswer(label); }, style: { flex: 1, padding: "14px 16px", borderRadius: 10, border: border, background: bg, fontSize: 16, fontWeight: 600, cursor: locked ? "default" : "pointer", opacity: !isQ3 && chosen && !isThis && !isCorrect ? 0.5 : 1, color: "var(--ink)" } }, emoji + " " + label);
-  };
-  var content;
-  if (!started) {
-    content = E("div", { style: { textAlign: "center" } },
-      React.createElement(ActivityButton, { onClick: function() { setStarted(true); }, style: { margin: "0 auto" } }, "First Question"));
-  } else if (done) {
-    var numCorrect = results.filter(function(r) { return r; }).length;
-    content = E("div", null,
-      E("div", { style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 16 } }, "You got " + numCorrect + " out of 3 correct."),
-      E(KeyInsight, { lead: "More dimensions make closer comparisons possible." },
-        "Two dimensions could spot Coke vs. black coffee. They couldn\u2019t separate Coke from Pepsi. Real models use many more dimensions, so similar concepts can still have different profiles."));
-  } else {
-    var feedback = null;
-    if (answer !== null) {
-      var wasCorrect = answer === q.correct;
-      var isQ3 = qIdx === 2;
-      var wrongMsg = isQ3 ? "\u274C Impossible to tell from only 2 dimensions." : "\u274C Not quite. The answer is " + q.correct + ".";
-      feedback = E("div", null,
-        E("div", { style: { padding: "12px 16px", borderRadius: 8, marginTop: 12, background: wasCorrect ? "#dcfce7" : "#fef2f2", border: "1px solid " + (wasCorrect ? "#86efac" : "#fca5a5"), fontSize: 14, color: "var(--ink)" } },
-          wasCorrect ? (isQ3 ? "\u2705 Correct! Two dimensions are not enough to tell Coke from Pepsi." : "\u2705 Correct!") : wrongMsg),
-        ((!isQ3 || wasCorrect) ? E("div", { style: { textAlign: "center" } },
-          E(ActivityButton, { onClick: isQ3 ? function() { setQIdx(3); } : handleNext, style: { padding: "10px 20px", marginTop: 12 } }, isQ3 ? "Finish \u2192" : "Next Question \u2192"))
-          : null));
-    }
-    content = E("div", null,
-      q.title ? E("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 12, animation: q.title === "Trick Question" ? "trickFlash 1s ease-in-out infinite" : undefined } }, q.title) : null,
-      E("div", { style: { marginBottom: 16 } }, q.dims.map(function(d, i) { return dimBar(d[0], d[1]); })),
-      E("div", { style: { display: "flex", gap: 12, justifyContent: "center" } }, q.choices.map(function(c) { return answerBtn(c[0], c[1]); })),
-      feedback);
-  }
   return React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
     hint: "You just saw 6 dimensions. Can you identify a drink from only 2?",
-    action: started ? /*#__PURE__*/React.createElement("div", {
+    action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(qIdx + 1, questions.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + questions.length)) : null
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(qIdx + (resolved ? 1 : 0), questions.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + questions.length))
   },
-    content);
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "mint",
+      items: questions,
+      currentIdx: qIdx,
+      started: started,
+      onStart: function() { setStarted(true); },
+      onNext: function() { setQIdx(qIdx + 1); setResolved(false); },
+      canAdvance: resolved,
+      isComplete: qIdx >= questions.length,
+      startLabel: "First Question",
+      nextLabel: "Next Question \u2192",
+      finishLabel: "Finish \u2192",
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "Two numbers were not enough.", body: "Two dimensions could tell Coke from black coffee, but they could not separate Coke from Pepsi. Real models use hundreds or thousands of dimensions, so even similar concepts get their own distinct profile." })
+    },
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f", marginBottom: 10 } }, "\uD83D\uDCD0 The flavor profile"),
+          q.title ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 10, color: "var(--inkMuted)", animation: "trickFlash 1s ease-in-out infinite" } }, q.title) : null,
+          q.dims.map(function(d, i) { return dimBar(d[0], d[1]); })),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: qIdx,
+          surface: "mint",
+          statement: "Which drink has this profile?",
+          questionNumber: qIdx + 1,
+          totalQuestions: questions.length,
+          options: q.options,
+          onAnswer: function(idx, correct) { if (correct) setResolved(true); }
+        }))));
 }
 function EmbeddingsSection(props) {
   var E = React.createElement;

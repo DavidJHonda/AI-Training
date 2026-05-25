@@ -4456,6 +4456,14 @@ function BiasQuiz(props) {
       ]
     }
   ];
+  const biasHeadlines = [
+    ["Not the shortcut it took.", "Simpler than size.", "It learned the snow, not the wolf."],
+    ["It learned the grass, not the cow.", "Not a design limit.", "AI handles complex scenes fine."],
+    ["Not a hardware problem.", "No special night rules.", "It barely saw the dark."],
+    ["The data wasn\u2019t representative.", "Nobody designed it that way.", "Not harder, just unseen."],
+    ["Biased labels became the rule.", "No one wrote that rule.", "Pattern fit, not merit."],
+    ["Not a coded rule.", "Most documented became default.", "That\u2019s the bias talking."]
+  ];
   var bs = biasScenarios[biasIdx];
   var isLastBias = biasIdx === biasScenarios.length - 1;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -4480,7 +4488,8 @@ function BiasQuiz(props) {
       key: biasIdx,
       statement: bs.question,
       options: bs.choices.map(function(choice, i) {
-        return { label: choice.text, correct: i === bs.correct, feedback: choice.explain };
+        var isCorrect = i === bs.correct;
+        return { label: choice.text, correct: isCorrect, headline: biasHeadlines[biasIdx][i], feedback: choice.explain, hint: isCorrect ? undefined : choice.explain };
       }),
       picked: biasGuess != null ? biasGuess : undefined,
       onAnswer: function(idx) {

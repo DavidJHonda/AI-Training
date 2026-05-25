@@ -1,21 +1,21 @@
 # Be Smarter Than the Tool — Project Briefing
 
 ## What this is
-A self-paced AI education web app for high schoolers. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
+An instructor-led AI education web app for high schoolers, built to be taught live but easily repurposed for self-paced use. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Lesson map
-69 lessons across 10 section groups. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
+70 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
 - Intro (5): Welcome (welcome), Why Learn AI? (whydeeper), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
 - Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), AI's Fuel (data)
 - Inside AI (7): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers)
-- AI Answers (8): Opener (openeranswers), Training (training), Prompt (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
+- AI Answers (8): Opener (openeranswers), Training (training), Your Input (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
+- Workflow (6): Opener (openerusing), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), Academic Integrity (integrity), Privacy & Awareness (privacy)
 - Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
 - Traps (9): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documentchat), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), When AI Acts (whenaiacts)
-- Human Judgment (6): Opener (openerjudgment), What AI Does Best (whatitdoesbest), The AI Trust Test (aistrengths), Critical Thinking & AI (critical), Questions Matter (questionsvaluable), Skills That Matter (humanedge)
-- Workflow (7): Opener (openerusing), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), How to Verify (verify), Evaluating the Results (evaluating), Full Workflow (fullworkflow)
-- Real World (9): Opener (openerrealworld), Academic Integrity (integrity), Privacy & Awareness (privacy), When AI Judges You (judged), Who Else Is Affected (stakeholders), Seeing Isn't Proof (synthetic), Work Changes (workchanges), AI & The Future (aifuture), Build Your Edge (buildedge)
-- Finish (4): What You Learned (whatyoulearned), Vocab Quiz (keyterms), Test Yourself (testyourself), Beat the Clock (headtohead)
+- Human Judgment (9): Opener (openerjudgment), What AI Does Best (whatitdoesbest), How Much to Check (aistrengths), Questions Matter (questionsvaluable), Critical Thinking (critical), The 5 Habits (habits), How to Verify (verify), Evaluating the Results (evaluating), Skills That Matter (humanedge)
+- Real World (7): Opener (openerrealworld), When AI Judges You (judged), Who Else Is Affected (stakeholders), Seeing Isn't Proof (synthetic), Work Changes (workchanges), AI & The Future (aifuture), Build Your Edge (buildedge)
+- Finish (5): What You Learned (whatyoulearned), The Full Loop (fullworkflow), Vocab Quiz (keyterms), Test Yourself (testyourself), Beat the Clock (headtohead)
 
 ## Design system
 
@@ -62,7 +62,7 @@ A self-paced AI education web app for high schoolers. Single HTML file (index.ht
 - **useReducedMotion**: hook reading prefers-reduced-motion via matchMedia, updates mid-session. Returns boolean. Gates JS-driven typewriter and reveal animations so they tick at 1ms when reduced motion is requested.
 
 ### TERMS array
-Source of truth for vocabulary. Defined near the top of the file as a flat array of `{ term, definition, source }` entries. The KeyTerm component looks up definitions here, and the Vocab Quiz lesson uses the same array (currently slicing the first 16 entries across two rounds of 8). Adding a new term in two places (the array and the quiz round count, if growing past 16) keeps lesson copy and quiz definitions aligned.
+Source of truth for vocabulary. Defined near the top of the file as a flat array of `{ term, definition, source }` entries. The KeyTerm component looks up definitions here, and the Vocab Quiz lesson uses the same array. The array currently holds 18 entries, but the quiz slices only the first 16 across two rounds of 8, so the last two entries (Transformation, Unstructured Data) are defined for KeyTerm lookups but not quizzed. Adding a new term in two places (the array and the quiz round count, if growing past 16) keeps lesson copy and quiz definitions aligned.
 
 ### Activity Patterns
 TRY IT and SEE IT activities share a visual language and follow one of two interaction patterns each. Bespoke activities (text entry, redaction, builders, sliders) sit outside both patterns and stay one-off.

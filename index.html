@@ -11529,38 +11529,35 @@ function IntegritySection(props) {
         style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" }
       },
         /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }
-          }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon), /*#__PURE__*/React.createElement("span", {
-            style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" }
-          }, sc.title)),
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" }
-          }, sc.situation)),
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", flexDirection: "column", gap: 8 }
-        }, sc.options.map(function(opt, i) { return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          onClick: function() { setSelectedOption(i); },
-          style: {
-            padding: "14px 16px",
-            borderRadius: 10,
-            border: selectedOption === i ? "2px solid " + (opt.verdict === "wrong" ? "#ef4444" : opt.verdict === "ok" ? "#f59e0b" : "#10b981") : "1px solid var(--rule)",
-            background: selectedOption === i ? (opt.verdict === "wrong" ? "#fef2f2" : opt.verdict === "ok" ? "#fffbeb" : "#ecfdf5") : "var(--card)",
-            cursor: "pointer",
-            transition: "all 0.2s"
-          }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: selectedOption === i ? 8 : 0 }
-        }, opt.label), selectedOption === i && /*#__PURE__*/React.createElement("div", {
-          style: { animation: "fadeIn 0.3s ease" }
-        }, /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }
-        }, /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 14, fontWeight: 700, color: opt.verdict === "wrong" ? "#ef4444" : opt.verdict === "ok" ? "#f59e0b" : "#10b981" }
-        }, opt.verdict === "wrong" ? "\u274C Not okay" : opt.verdict === "ok" ? "\u26A0\uFE0F Check the policy" : "\u2705 Good approach")), /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-        }, opt.explain))); }))))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon),
+            /*#__PURE__*/React.createElement("span", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#2f7d4f" } }, sc.title)),
+          /*#__PURE__*/React.createElement(UserBubble, { text: sc.situation, align: "left" })),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          sc.options.map(function(opt, i) {
+            var sel = selectedOption === i;
+            var vColor = opt.verdict === "wrong" ? "#d4334a" : opt.verdict === "ok" ? "#d97706" : "#1f9d5f";
+            var vBg = opt.verdict === "wrong" ? "#fbe9ec" : opt.verdict === "ok" ? "#fef3c7" : "#e7f6ee";
+            return /*#__PURE__*/React.createElement("button", {
+              key: i,
+              onClick: function() { setSelectedOption(i); },
+              style: { display: "block", width: "100%", textAlign: "left", padding: "14px 18px", borderRadius: 12, border: "1.5px solid " + (sel ? vColor : "var(--rule)"), background: sel ? vBg : "#fff", color: "#0e0a1f", cursor: "pointer", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, lineHeight: 1.4, transition: "all 150ms ease" }
+            }, opt.label);
+          })),
+        selectedOption !== null ? (function() {
+          var opt = sc.options[selectedOption];
+          var accent = opt.verdict === "wrong" ? "#d4334a" : opt.verdict === "ok" ? "#d97706" : "#1f9d5f";
+          var eyebrow = opt.verdict === "wrong" ? "Not okay" : opt.verdict === "ok" ? "Check the policy" : "Good approach";
+          var headline = opt.verdict === "wrong" ? "Not okay." : opt.verdict === "ok" ? "Check the policy first." : "Good approach.";
+          return /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed rgba(63, 107, 63, 0.18)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
+                  /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
+                  eyebrow),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 22, fontWeight: 700, color: accent, lineHeight: 1.2 } }, headline)),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, opt.explain)));
+        })() : null))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Plagiarism vs Copyright"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Plagiarism and copyright sound similar, but they answer different questions. Get the difference clear before you submit, post, or sell anything you used AI to make."),

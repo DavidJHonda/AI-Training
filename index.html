@@ -10704,34 +10704,34 @@ function FlatteryTrapSection(props) {
   const [startedSpotSycophancy, setStartedSpotSycophancy] = useState(false);
   const SPOT_EXERCISES = [{
     prompt: "Here's my essay introduction for AP English. Can you give me feedback?",
-    essay: "The American Dream is something that many people have thought about over the years. Some people achieve it and some don't. In The Great Gatsby, F. Scott Fitzgerald explores this idea through various characters and events that take place in the story.",
+    essay: null,
     responses: [{
       label: "Response A",
-      text: "This is a really strong opening! You've clearly identified the central theme and your mention of Fitzgerald shows good literary awareness. The writing flows well and sets up an interesting essay. I'd maybe just add one more specific detail, but overall this is excellent work. You should be proud of this draft!",
+      text: "This is a really strong opening! You've nailed the central theme and your Fitzgerald reference shows real literary awareness. Excellent work, just polish it and you're set.",
       sycophantic: true,
       headline: "That's the flattery.",
-      explain: "This is pure flattery. The introduction is vague, uses filler phrases (\"various characters and events\"), and has no thesis. Calling it \"really strong\" and \"excellent work\" isn't feedback: it's cheerleading. A student who trusts this will submit a weak essay."
+      explain: "This is pure flattery. Calling it \"really strong\" and \"excellent work\" with no specifics isn't feedback, it's cheerleading. A student who trusts this submits a weak essay and never fixes the missing thesis."
     }, {
       label: "Response B",
-      text: "This introduction has the right general direction. The Great Gatsby and the American Dream is a solid topic. But right now it reads as a summary of what the book is about rather than an argument. A few specific issues: \"something that many people have thought about\" is vague, \"various characters and events\" doesn't tell the reader which ones matter to your argument, and there's no thesis statement telling the reader what you'll actually argue. Try: what specifically does Gatsby reveal about the American Dream that isn't obvious?",
+      text: "Solid topic, but right now it reads as a summary, not an argument. There's no thesis yet, and the language stays vague. What specifically does Gatsby reveal about the American Dream?",
       sycophantic: false,
       headline: "That's real feedback.",
       hint: "Look again at what this one actually does: it names specific weak spots and gives a concrete fix. That's the opposite of empty praise. So which response is just telling the writer what they want to hear?",
-      explain: "This is genuinely helpful. It acknowledges what works (solid topic choice), then identifies exactly what's weak (vague language, no thesis) and gives a concrete direction for improvement. This is the feedback that actually makes the essay better."
+      explain: "This is genuinely helpful. It acknowledges what works (solid topic), then identifies exactly what's weak (vague language, no thesis) and gives a concrete direction for improvement. This is the feedback that actually makes the essay better."
     }]
   }, {
     prompt: "I think social media is mostly harmful to teenagers. What do you think?",
     essay: null,
     responses: [{
       label: "Response A",
-      text: "There's evidence on both sides of this. Research from the American Psychological Association shows correlations between heavy social media use and increased anxiety in teens, but other studies suggest that moderate use can reduce feelings of isolation, especially for marginalized teens who find community online. The picture is genuinely complicated: it depends on the type of use, the platform, and the individual. What specifically concerns you? That might help us dig into the most relevant research.",
+      text: "There's evidence on both sides. Heavy use links to higher anxiety, but moderate use can help isolated teens find community. What specifically concerns you?",
       sycophantic: false,
       headline: "That's real feedback.",
       hint: "This one pushes back with evidence and asks a question instead of just agreeing. Agreeing isn't what you're hunting for here. Re-read the other one: which response simply tells you you're right?",
       explain: "This pushes back respectfully with evidence, acknowledges complexity, and asks a clarifying question. It treats the user as someone capable of handling nuance rather than someone who needs to be agreed with."
     }, {
       label: "Response B",
-      text: "You make an excellent point! Social media is indeed very harmful to teenagers. The constant comparison, cyberbullying, and addictive design patterns are all serious problems. You're absolutely right to be concerned about this, and more people should think critically about these issues like you're doing. It's clear you have a strong understanding of the topic.",
+      text: "You make an excellent point! Social media really is harmful to teens. You're absolutely right to be concerned, and it's clear you think critically about this.",
       sycophantic: true,
       headline: "That's the flattery.",
       explain: "The model completely caved to the user's opinion, added praise for \"thinking critically\" (ironic, since it discouraged critical thinking by agreeing immediately), and offered no counterevidence. This is the model optimizing for making you feel good, not for helping you think clearly."
@@ -10741,13 +10741,13 @@ function FlatteryTrapSection(props) {
     essay: null,
     responses: [{
       label: "Response A",
-      text: "Wow, this is really impressive for a class project! Your code is clean and well-organized. The way you handled the operations shows a great understanding of Python fundamentals. You're clearly a natural programmer. Keep up the amazing work! The only tiny suggestion would be maybe adding a few comments, but honestly it's already great as-is.",
+      text: "Wow, this is really impressive for a class project! Your code is clean and you're clearly a natural programmer. Amazing work, maybe just add a few comments.",
       sycophantic: true,
       headline: "That's the flattery.",
       explain: "\"Natural programmer\" based on a basic calculator? \"Impressive\" and \"amazing\" for what's likely a standard assignment? The model is inflating the achievement and burying its one real suggestion (\"maybe adding comments\") under layers of flattery. The student learns nothing about error handling, input validation, or code structure."
     }, {
       label: "Response B",
-      text: "Good start: the core logic works and your operator selection is clean. A few things to improve: there's no handling for division by zero (try dividing by 0 and see what happens), no input validation (what if someone types \"abc\" instead of a number?), and the whole program exits after one calculation. Consider wrapping it in a while loop with a quit option. These are the kinds of edge cases that separate a working program from a robust one.",
+      text: "Good start, the core logic works. But there's no divide-by-zero handling, no input validation, and it quits after one calculation. Wrap it in a loop and handle those edge cases.",
       sycophantic: false,
       headline: "That's real feedback.",
       hint: "Notice this one lists specific bugs to fix and explains why they matter. Useful, not flattering. So which response is mostly 'amazing, natural, keep it up' with no real critique?",
@@ -10872,7 +10872,9 @@ function FlatteryTrapSection(props) {
       questionNumber: spotIdx + 1,
       totalQuestions: SPOT_EXERCISES.length,
       options: spot.responses.map(function(r) {
-        return { label: r.text, correct: r.sycophantic, feedback: spot.responses.map(function(rx) { return (rx.sycophantic ? "\uD83C\uDFAD " + rx.label + " \u2014 Sycophantic: " : "\u2705 " + rx.label + " \u2014 Genuinely helpful: ") + rx.explain; }).join(" | ") };
+        return r.sycophantic
+          ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain }
+          : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain };
       }),
       picked: spotAnswer != null ? spotAnswer : undefined,
       onAnswer: function(idx) { setSpotAnswer(idx); }

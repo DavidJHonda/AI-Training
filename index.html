@@ -644,8 +644,18 @@ function ActivityButton(props) {
 }
 
 function FeedbackPill(props) {
-  // state: "default" | "picked-correct" | "picked-wrong" | "answered-untouched"
-  // All states render as button so students can change their answer and see each option's feedback.
+  // Appearance can be driven two ways:
+  //   - new API: pass answered + isCorrect + isPicked booleans (lets the correct pill reveal green)
+  //   - legacy API: pass a precomputed state string
+  // Derived state: "default" | "picked-correct" | "picked-wrong" | "answered-untouched"
+  // All states render as a button so students can change their answer and see each option's feedback.
+  var state = props.state;
+  if (state == null) {
+    if (!props.answered) state = "default";
+    else if (props.isCorrect) state = "picked-correct";
+    else if (props.isPicked) state = "picked-wrong";
+    else state = "answered-untouched";
+  }
   var basePill = {
     display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
     padding: "11px 22px", borderRadius: 999, minWidth: 96,
@@ -653,7 +663,7 @@ function FeedbackPill(props) {
     fontSize: 14, fontWeight: 700,
     cursor: "pointer", transition: "all 0.15s"
   };
-  if (props.state === "picked-correct") {
+  if (state === "picked-correct") {
     return React.createElement("button", {
       onClick: props.onClick,
       style: Object.assign({}, basePill, {
@@ -663,7 +673,7 @@ function FeedbackPill(props) {
       props.label,
       React.createElement("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2713"));
   }
-  if (props.state === "picked-wrong") {
+  if (state === "picked-wrong") {
     return React.createElement("button", {
       onClick: props.onClick,
       style: Object.assign({}, basePill, {

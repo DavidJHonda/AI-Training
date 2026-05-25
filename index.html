@@ -5571,76 +5571,56 @@ function MatchTermsTryIt(props) {
   var E = React.createElement;
   var TERMS = ["Dimension", "Value", "Embedding vector", "Embedding table", "Parameter"];
   var QUESTIONS = [
-    { def: "The lookup table that maps token IDs to starting vectors.", correct: "Embedding table" },
-    { def: "One slot in a vector.", correct: "Dimension" },
-    { def: "A stored learned number adjusted during training.", correct: "Parameter" },
-    { def: "The number inside one slot.", correct: "Value" },
-    { def: "The full number profile for a token.", correct: "Embedding vector" }
+    { def: "The lookup table that maps token IDs to starting vectors.", correct: "Embedding table", headline: "It\u2019s the embedding table.", feedback: "Token IDs go in, starting vectors come out. That lookup table is the embedding table." },
+    { def: "One slot in a vector.", correct: "Dimension", headline: "It\u2019s a dimension.", feedback: "Each slot in a vector is one dimension. A vector with 300 slots has 300 dimensions." },
+    { def: "A stored learned number adjusted during training.", correct: "Parameter", headline: "It\u2019s a parameter.", feedback: "Parameters are the learned numbers training adjusts. A model\u2019s size is counted in parameters." },
+    { def: "The number inside one slot.", correct: "Value", headline: "It\u2019s a value.", feedback: "The slot is the dimension. The number sitting in it is the value." },
+    { def: "The full number profile for a token.", correct: "Embedding vector", headline: "It\u2019s the embedding vector.", feedback: "All the values together, the token\u2019s full number profile, make up its embedding vector." }
   ];
-  var _s = useState(false), started = _s[0], setStarted = _s[1];
-  var _q = useState(0), qIdx = _q[0], setQIdx = _q[1];
-  var _a = useState(null), answer = _a[0], setAnswer = _a[1];
-  var _r = useState([]), results = _r[0], setResults = _r[1];
-  var _t = useState([]), tried = _t[0], setTried = _t[1];
-  useEffect(function() { if (qIdx >= QUESTIONS.length && props && props.onComplete) props.onComplete(); }, [qIdx]);
-  var done = qIdx >= QUESTIONS.length;
-  var q = QUESTIONS[Math.min(qIdx, QUESTIONS.length - 1)];
-  var handleAnswer = function(choice) {
-    if (answer === choice) return;
-    if (choice !== q.correct && tried.indexOf(choice) >= 0) return;
-    setAnswer(choice);
-    setTried(tried.concat([choice]));
-    if (choice === q.correct) { setResults(results.concat([tried.length === 0])); }
-  };
-  var advance = function() {
-    setQIdx(qIdx + 1); setAnswer(null); setTried([]);
-  };
-  var termBtn = function(label) {
-    var isThis = answer === label;
-    var isCorrect = label === q.correct;
-    var wasTried = tried.indexOf(label) >= 0;
-    var gotCorrect = answer === q.correct;
-    var bg = "var(--card)";
-    var border = "2px solid var(--rule)";
-    if (isThis && isCorrect) { bg = "#dcfce7"; border = "2px solid #86efac"; }
-    if (wasTried && !isCorrect) { bg = "#fef2f2"; border = "2px solid #fca5a5"; }
-    var locked = gotCorrect || (wasTried && !isThis);
-    return E("button", {
-      key: label,
-      onClick: function() { handleAnswer(label); },
-      style: { padding: "10px 14px", borderRadius: 8, border: border, background: bg, fontSize: 14, fontWeight: 600, cursor: locked ? "default" : "pointer", color: "var(--ink)" }
-    }, label);
-  };
-  var content;
-  if (!started) {
-    content = E("div", { style: { textAlign: "center" } },
-      E(ActivityButton, { onClick: function() { setStarted(true); }, style: { margin: "0 auto" } }, "Start matching"));
-  } else if (done) {
-    var numCorrect = results.filter(function(r) { return r; }).length;
-    content = E("div", null,
-      E("div", { style: { fontSize: 14, color: "var(--inkSoft)", marginBottom: 16 } }, "You matched " + numCorrect + " of " + QUESTIONS.length + " on the first try."),
-      E(KeyInsight, { lead: "These names are the model\u2019s number machinery." },
-        "Dimensions hold values. Vectors bundle values. Tables store vectors. Parameters are the stored learned numbers across the whole model."));
-  } else {
-    var gotCorrect = answer === q.correct;
-    var feedback = answer !== null ? E("div", null,
-      E("div", { style: { padding: "12px 16px", borderRadius: 8, marginTop: 14, background: gotCorrect ? "#dcfce7" : "#fef2f2", border: "1px solid " + (gotCorrect ? "#86efac" : "#fca5a5"), fontSize: 14, color: "var(--ink)" } },
-        gotCorrect ? "\u2705 Correct!" : "\u274C Try again."),
-      gotCorrect ? E("div", { style: { textAlign: "center" } },
-        E(ActivityButton, { onClick: advance, style: { padding: "10px 20px", marginTop: 12 } }, qIdx < QUESTIONS.length - 1 ? "Next \u2192" : "Finish \u2192"))
-        : null) : null;
-    content = E("div", null,
-      E("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)", marginBottom: 8 } }, "Question " + (qIdx + 1) + " of " + QUESTIONS.length),
-      E("div", { style: { fontSize: 16, color: "var(--ink)", marginBottom: 16, lineHeight: 1.5, padding: "14px 18px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } }, "\u201C" + q.def + "\u201D"),
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8 } }, TERMS.map(termBtn)),
-      feedback);
-  }
+  var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
+  var allAnswered = Object.keys(answers).length >= QUESTIONS.length;
+  useEffect(function() { if (allAnswered && props && props.onComplete) props.onComplete(); }, [allAnswered]);
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Match the Names",
-    hint: "Match each definition to one of the five terms."
-  }, content);
+    action: E("div", {
+        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
+      },
+        E("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Object.keys(answers).length),
+        E("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + QUESTIONS.length))
+  },
+    E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Match each definition to one of the five terms. We\u2019ll explain each as you go."),
+    E("div", { style: { display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+      QUESTIONS.map(function(item, i) {
+        var answered = answers[i] !== undefined;
+        var picked = answers[i];
+        var correct = answered && picked === item.correct;
+        function TermPill(term) {
+          var isPicked = picked === term;
+          var state = !answered ? "default" :
+            isPicked && term === item.correct ? "picked-correct" :
+            isPicked && term !== item.correct ? "picked-wrong" :
+            "answered-untouched";
+          return E(FeedbackPill, {
+            key: term,
+            state: state,
+            label: term,
+            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, term]])); }); }
+          });
+        }
+        return E(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: "\u201C" + item.def + "\u201D",
+          answered: answered,
+          correct: correct,
+          headline: item.headline,
+          feedback: answered ? item.feedback : null
+        }, TERMS.map(TermPill));
+      })),
+    allAnswered ? E(KeyInsight, { lead: "These names are the model\u2019s number machinery." },
+      "Dimensions hold values. Vectors bundle values. Tables store vectors. Parameters are the stored learned numbers across the whole model.") : null);
 }
 function BehindTheNumbersSection(props) {
   var E = React.createElement;

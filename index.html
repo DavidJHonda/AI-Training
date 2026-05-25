@@ -4464,48 +4464,56 @@ function BiasQuiz(props) {
     ["Biased labels became the rule.", "No one wrote that rule.", "Pattern fit, not merit."],
     ["Not a coded rule.", "Most documented became default.", "That\u2019s the bias talking."]
   ];
-  var bs = biasScenarios[biasIdx];
+  var bs = biasScenarios[Math.min(biasIdx, biasScenarios.length - 1)];
+  var bsHeadlines = biasHeadlines[Math.min(biasIdx, biasScenarios.length - 1)];
   var isLastBias = biasIdx === biasScenarios.length - 1;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "What Did the Model Actually Learn?",
-    action: biasStarted ? /*#__PURE__*/React.createElement("div", {
+    action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(biasIdx + 1, biasScenarios.length)),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + biasScenarios.length)) : null
+        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, Math.min(biasIdx + (biasGuess !== null ? 1 : 0), biasScenarios.length)),
+        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + biasScenarios.length))
   },
-    !biasStarted
-      ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "See First Scenario")
-      : /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)", marginBottom: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: 0 } }, bs.scenario)),
-    /*#__PURE__*/React.createElement(QuizBlock, {
-      key: biasIdx,
-      statement: bs.question,
-      options: bs.choices.map(function(choice, i) {
-        var isCorrect = i === bs.correct;
-        return { label: choice.text, correct: isCorrect, headline: biasHeadlines[biasIdx][i], feedback: choice.explain, hint: isCorrect ? undefined : choice.explain };
-      }),
-      picked: biasGuess != null ? biasGuess : undefined,
-      onAnswer: function(idx) {
-        setBiasGuess(idx);
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "mint",
+      items: biasScenarios,
+      currentIdx: biasIdx,
+      started: biasStarted,
+      onStart: function() { setBiasStarted(true); },
+      onNext: function() {
         if (isLastBias && props && props.onComplete) props.onComplete();
-      }
-    }),
-    biasGuess !== null && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10 } },
-      !isLastBias && /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBiasIdx(function(i) { return i + 1; }); setBiasGuess(null); }, style: { fontWeight: 600 } }, "Next Scenario \u2192"),
-      isLastBias && /*#__PURE__*/React.createElement("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center", flex: 1 } },
-        /*#__PURE__*/React.createElement("p", { style: { color: "#3730a3", lineHeight: 1.7, fontSize: 14, margin: 0 } },
-          "Notice the pattern? In each case, the model didn't have opinions or prejudices. It learned patterns from data. If the data overrepresents some cases, misses others, or carries biased labels, the model can repeat those patterns. The model isn't asking, ", /*#__PURE__*/React.createElement("strong", null, "\"is this fair?\""), " It's asking, ", /*#__PURE__*/React.createElement("strong", null, "\"what pattern fits?\""), " That's why your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture."
-        )
-      )
-    )
-  ));
+        setBiasIdx(function(i) { return i + 1; });
+        setBiasGuess(null);
+      },
+      canAdvance: biasGuess !== null,
+      isComplete: biasIdx >= biasScenarios.length,
+      startLabel: "See First Scenario",
+      nextLabel: "Next Scenario \u2192",
+      finishLabel: "Wrap it up \u2192",
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "#2f7d4f", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or carries biased labels, the model repeats those patterns. It isn\u2019t asking \u201Cis this fair?\u201D It\u2019s asking \u201Cwhat pattern fits?\u201D So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })
+    },
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "22px 26px", boxShadow: "0 4px 12px rgba(14, 10, 31, 0.05)" } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
+            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
+          /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: 0 } }, bs.scenario)),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: biasIdx,
+          surface: "mint",
+          statement: bs.question,
+          questionNumber: biasIdx + 1,
+          totalQuestions: biasScenarios.length,
+          options: bs.choices.map(function(choice, i) {
+            var isCorrect = i === bs.correct;
+            return { label: choice.text, correct: isCorrect, headline: bsHeadlines[i], feedback: choice.explain, hint: isCorrect ? undefined : choice.explain };
+          }),
+          picked: biasGuess != null ? biasGuess : undefined,
+          onAnswer: function(idx) { setBiasGuess(idx); }
+        }))));
 }
 function TrainingBiasSection(props) {
   const [biasComplete, setBiasComplete] = useState(false);

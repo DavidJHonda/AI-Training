@@ -644,52 +644,52 @@ function ActivityButton(props) {
 }
 
 function FeedbackPill(props) {
-  // Appearance can be driven two ways:
-  //   - new API: pass answered + isCorrect + isPicked booleans (lets the correct pill reveal green)
-  //   - legacy API: pass a precomputed state string
-  // Derived state: "default" | "picked-correct" | "picked-wrong" | "answered-untouched"
-  // All states render as a button so students can change their answer and see each option's feedback.
-  var state = props.state;
-  if (state == null) {
-    if (!props.answered) state = "default";
-    else if (props.isCorrect) state = "picked-correct";
-    else if (props.isPicked) state = "picked-wrong";
-    else state = "answered-untouched";
+  // Appearance comes from either the boolean API (answered + isCorrect + isPicked)
+  // or the legacy precomputed `state` string. Each pill latches its own memory:
+  // once it has been the current wrong pick, it stays marked (wrong-dim) even after
+  // the student switches to the right answer.
+  var _ew = useState(false), everWrong = _ew[0], setEverWrong = _ew[1];
+  useEffect(function() {
+    if (props.answered && props.isPicked && !props.isCorrect) setEverWrong(true);
+  }, [props.answered, props.isPicked, props.isCorrect]);
+
+  var look;
+  if (props.state != null) {
+    look = props.state === "picked-correct" ? "correct"
+      : props.state === "picked-wrong" ? "wrong-loud"
+      : "neutral";
+  } else if (!props.answered) {
+    look = "neutral";
+  } else if (props.isCorrect) {
+    look = "correct";
+  } else if (props.isPicked) {
+    look = "wrong-loud";
+  } else if (props.wasWrong || everWrong) {
+    look = "wrong-dim";
+  } else {
+    look = "neutral";
   }
-  var basePill = {
-    display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
-    padding: "11px 22px", borderRadius: 999, minWidth: 96,
-    fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
-    fontSize: 14, fontWeight: 700,
-    cursor: "pointer", transition: "all 0.15s"
+
+  var LOOKS = {
+    correct: { bg: "#1f9d5f", border: "#1f9d5f", color: "#fff", icon: "\u2713", iconColor: "#fff" },
+    "wrong-loud": { bg: "#d4334a", border: "#d4334a", color: "#fff", icon: "\u2715", iconColor: "#fff" },
+    "wrong-dim": { bg: "#fbe9ec", border: "#f0b8c1", color: "#d4334a", icon: "\u2715", iconColor: "#d4334a" },
+    neutral: { bg: "#fff", border: "var(--rule)", color: "#0e0a1f", icon: null, iconColor: null }
   };
-  if (state === "picked-correct") {
-    return React.createElement("button", {
-      onClick: props.onClick,
-      style: Object.assign({}, basePill, {
-        background: "#1f9d5f", border: "1.5px solid #1f9d5f", color: "#fff"
-      })
-    },
-      props.label,
-      React.createElement("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2713"));
-  }
-  if (state === "picked-wrong") {
-    return React.createElement("button", {
-      onClick: props.onClick,
-      style: Object.assign({}, basePill, {
-        background: "#d4334a", border: "1.5px solid #d4334a", color: "#fff"
-      })
-    },
-      props.label,
-      React.createElement("span", { style: { color: "#fff", fontWeight: 800 } }, "\u2715"));
-  }
-  // default and answered-untouched share the same look
+  var L = LOOKS[look];
   return React.createElement("button", {
     onClick: props.onClick,
-    style: Object.assign({}, basePill, {
-      background: "#fff", border: "1.5px solid var(--rule)", color: "#0e0a1f"
-    })
-  }, props.label);
+    style: {
+      display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
+      padding: "11px 22px", borderRadius: 999, minWidth: 96,
+      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+      fontSize: 14, fontWeight: 700,
+      cursor: "pointer", transition: "all 0.15s",
+      background: L.bg, border: "1.5px solid " + L.border, color: L.color
+    }
+  },
+    props.label,
+    L.icon ? React.createElement("span", { style: { color: L.iconColor, fontWeight: 800 } }, L.icon) : null);
 }
 
 function ScenarioRow(props) {
@@ -5557,13 +5557,11 @@ function MatchTermsTryIt(props) {
         var correct = answered && picked === item.correct;
         function TermPill(term) {
           var isPicked = picked === term;
-          var state = !answered ? "default" :
-            isPicked && term === item.correct ? "picked-correct" :
-            isPicked && term !== item.correct ? "picked-wrong" :
-            "answered-untouched";
           return E(FeedbackPill, {
             key: term,
-            state: state,
+            answered: answered,
+            isCorrect: term === item.correct,
+            isPicked: isPicked,
             label: term,
             onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, term]])); }); }
           });
@@ -7296,13 +7294,11 @@ function CustomizationSection(props) {
         var HEAD = { "all-chats": "This is personalization.", "project": "This belongs in the project.", "memory": "This is worth remembering.", "current-chat": "This is just for this chat.", "nowhere": "Don\u2019t save this anywhere." };
         function CatPill(cat) {
           var isPicked = current === cat.id;
-          var state = !hasAnswer ? "default" :
-            isPicked && cat.id === s.correct ? "picked-correct" :
-            isPicked && cat.id !== s.correct ? "picked-wrong" :
-            "answered-untouched";
           return /*#__PURE__*/React.createElement(FeedbackPill, {
             key: cat.id,
-            state: state,
+            answered: hasAnswer,
+            isCorrect: cat.id === s.correct,
+            isPicked: isPicked,
             label: cat.label,
             onClick: function() { setSortAnswers(function(prev) { var next = Object.assign({}, prev); next[i] = cat.id; return next; }); }
           });
@@ -9374,13 +9370,11 @@ function WhatItDoesBestSection(props) {
           var feedback = answered ? t.feedback[picked] : null;
           function PillButton(engine) {
             var isPicked = picked === engine.id;
-            var state = !answered ? "default" :
-              isPicked && engine.id === t.answer ? "picked-correct" :
-              isPicked && engine.id !== t.answer ? "picked-wrong" :
-              "answered-untouched";
             return E(FeedbackPill, {
               key: engine.id,
-              state: state,
+              answered: answered,
+              isCorrect: engine.id === t.answer,
+              isPicked: isPicked,
               label: engine.name,
               onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[tIdx, engine.id]])); }); }
             });
@@ -14038,13 +14032,11 @@ function WorkChangesSection(props) {
           var correct = answered && picked === t.answer;
           function PillButton(b) {
             var isPicked = picked === b.id;
-            var state = !answered ? "default" :
-              isPicked && b.id === t.answer ? "picked-correct" :
-              isPicked && b.id !== t.answer ? "picked-wrong" :
-              "answered-untouched";
             return /*#__PURE__*/React.createElement(FeedbackPill, {
               key: b.id,
-              state: state,
+              answered: answered,
+              isCorrect: b.id === t.answer,
+              isPicked: isPicked,
               label: b.label,
               onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[tIdx, b.id]])); }); }
             });
@@ -14559,13 +14551,11 @@ function BuildEdgeSection(props) {
           var correct = answered && picked === s.answer;
           function PillButton(opt) {
             var isPicked = picked === opt.id;
-            var state = !answered ? "default" :
-              isPicked && opt.id === s.answer ? "picked-correct" :
-              isPicked && opt.id !== s.answer ? "picked-wrong" :
-              "answered-untouched";
             return E(FeedbackPill, {
               key: opt.id,
-              state: state,
+              answered: answered,
+              isCorrect: opt.id === s.answer,
+              isPicked: isPicked,
               label: opt.label,
               onClick: function() { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[sIdx, opt.id]])); }); }
             });

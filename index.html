@@ -770,6 +770,26 @@ function CompareCard(props) {
   return React.createElement("div", { style: style }, props.children);
 }
 
+function CompareHead(props) {
+  return /*#__PURE__*/React.createElement("div", { style: { paddingLeft: 4, marginBottom: 10 } },
+    /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 6 } },
+      props.emoji ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, lineHeight: 1, transform: "translateY(-0.5px)" } }, props.emoji) : null,
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: props.accent, textTransform: "uppercase", letterSpacing: "0.18em" } }, props.eyebrow)),
+    /*#__PURE__*/React.createElement("h4", { style: { margin: 0, fontWeight: 700, color: props.accent, fontSize: 24, lineHeight: 1.15, letterSpacing: "-0.018em" } }, props.title));
+}
+
+function ComparePanel(props) {
+  return /*#__PURE__*/React.createElement(CompareCard, { bg: props.bg, style: Object.assign({ borderRadius: 18, padding: 22 }, props.style || {}) },
+    /*#__PURE__*/React.createElement(CompareHead, { emoji: props.emoji, eyebrow: props.eyebrow, title: props.title, accent: props.accent }),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { flex: 1, borderRadius: 12, padding: "18px 22px 20px" } }, props.children));
+}
+
+function CompareBox(props) {
+  return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: props.marginBottom != null ? props.marginBottom : 32 } },
+    props.kicker ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 13.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--primary)", marginBottom: 18 } }, props.kicker) : null,
+    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: props.gap != null ? props.gap : 18 } }, props.children));
+}
+
 function QuizBlock(props) {
   var _ps = useState(props.picked != null ? props.picked : null);
   var internalPicked = _ps[0]; var setInternalPicked = _ps[1];
@@ -2858,31 +2878,16 @@ function DoesAIThinkSection(props) {
     E(BodyP, null,
       "That\u2019s AI. It arranges symbols brilliantly and understands not one of them. It hands you a perfect-looking answer with nobody inside who actually gets it."),
 
-    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 32 } },
-      E("div", { style: { fontSize: 13.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--primary)", marginBottom: 18 } }, "WHEN YOU THINK VS. WHAT AI DOES"),
-      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 } },
-        COLUMNS.map(function(c, i) {
-          return E(CompareCard, {
-            key: i,
-            bg: c.bg,
-            style: { borderRadius: 18, padding: 22 }
-          },
-            E("div", { style: { paddingLeft: 4, marginBottom: 10 } },
-              E("div", { style: { display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 6 } },
-                E("span", { style: { fontSize: 15, lineHeight: 1, transform: "translateY(-0.5px)" } }, c.emoji),
-                E("div", { style: { fontSize: 11, fontWeight: 700, color: c.color, textTransform: "uppercase", letterSpacing: "0.18em" } }, c.sub)),
-              E("h4", { style: { margin: 0, fontWeight: 700, color: c.color, fontSize: 20, lineHeight: 1.15, letterSpacing: "-0.018em" } }, c.label)),
-            E(InnerCard, { style: { flex: 1, borderRadius: 12, padding: "18px 22px 20px" } },
-              E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-                c.items.map(function(item, j) {
-                  return E("div", {
-                    key: j,
-                    style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" }
-                  },
-                    E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-                    E("span", null, item));
-                }))));
-        }))),
+    E(CompareBox, { kicker: "WHEN YOU THINK VS. WHAT AI DOES", marginBottom: 32 },
+      COLUMNS.map(function(c, i) {
+        return E(ComparePanel, { key: i, bg: c.bg, accent: c.color, emoji: c.emoji, eyebrow: c.sub, title: c.label },
+          E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            c.items.map(function(item, j) {
+              return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+                E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+                E("span", null, item));
+            })));
+      })),
 
     E(BodyP, null,
       "None of this means AI is dumb or useless. A pattern machine this good is genuinely powerful. It just means the thing it\u2019s doing is not thinking. Once you see that, its weird moments start to make sense. Try sorting these. Some are what AI really does. Some just sound that way."),
@@ -3529,12 +3534,9 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That\u2019s because their answers come from completely different places. The calculator follows the rules a human wrote. ChatGPT learned from millions of examples and is making its best guess."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "💻"),
-        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 28 } }, "Regular Software"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Follows Rules a Human Wrote"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontFamily: "var(--mono)", fontSize: 13, lineHeight: 1.6, color: "#1e3a5f" } },
+    /*#__PURE__*/React.createElement(CompareBox, { kicker: "TWO WAYS TO BUILD SOFTWARE", marginBottom: 32 },
+      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "💻", eyebrow: "Regular Software", title: "Follows the rules a human wrote" },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, lineHeight: 1.6, color: "var(--ink)" } },
           "IF temp is 350° AND time is 30min", /*#__PURE__*/React.createElement("br", null),
           "  THEN cookies are done",
           /*#__PURE__*/React.createElement("div", { style: { height: 14 } }),
@@ -3542,11 +3544,8 @@ function AIvsCodeSection(props) {
           "  THEN meat is cooked"
         )
       ),
-      /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff" },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "🧠"),
-        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 28 } }, "AI"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Learned Patterns from Examples"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 13, lineHeight: 1.6, color: "#3b1f6e" } },
+      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "🤖", eyebrow: "AI", title: "Learned its patterns from examples" },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
           "Show it 10,000 successful recipes ✓", /*#__PURE__*/React.createElement("br", null),
           "Show it 10,000 failed recipes ✓",
           /*#__PURE__*/React.createElement("div", { style: { height: 14 } }),
@@ -5660,24 +5659,16 @@ function EmbeddingsSection(props) {
     ". An embedding vector is the model\u2019s ",
     E("strong", null, "starting"),
     " meaning profile for a token. Later layers will update it based on the words around it."),
-  E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 24, marginBottom: 24 } },
-    E(CompareCard, { bg: "#e0f2fe", centered: true },
-      E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12, alignSelf: "flex-start" } },
-        E("span", { style: { fontSize: 28 } }, "\uD83E\uDDD1"),
-        E("div", { style: { textAlign: "left" } },
-          E("div", { style: { fontSize: 16, fontWeight: 700, color: "#1e40af" } }, "What You See"),
-          E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "The concept"))),
-      E("div", { style: { fontSize: 48, marginTop: 16 } }, "\uD83E\uDD64"),
-      E("div", { style: { fontSize: 28, fontWeight: 700, color: "var(--ink)", marginTop: 8 } }, "Coke")),
-    E(CompareCard, { bg: "#f3e8ff", centered: true },
-      E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12, alignSelf: "flex-start" } },
-        E("span", { style: { fontSize: 28 } }, "\uD83E\uDDE0"),
-        E("div", { style: { textAlign: "left" } },
-          E("div", { style: { fontSize: 16, fontWeight: 700, color: "#5b21b6" } }, "What AI Sees"),
-          E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "The numbers"))),
-      E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--primary)", marginTop: 12 } }, "Example token ID: 4873"),
-      E("div", { style: { fontFamily: "var(--mono)", fontSize: 18, fontWeight: 700, color: "#8b5cf6", marginTop: 8 } }, "Embedding vector: [9, 1, 10, 2, 3, 8]"),
-      E("div", { style: { fontSize: 11, color: "var(--inkMuted)", marginTop: 6 } }, "Sweetness \u00B7 Bitterness \u00B7 Fizziness \u00B7 Heat \u00B7 Caffeine \u00B7 Darkness"))),
+  E(CompareBox, { kicker: "WHAT YOU SEE VS. WHAT AI SEES", marginBottom: 24 },
+    E(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", eyebrow: "The concept", title: "What You See" },
+      E("div", { style: { textAlign: "center" } },
+        E("div", { style: { fontSize: 48 } }, "\uD83E\uDD64"),
+        E("div", { style: { fontSize: 28, fontWeight: 700, color: "var(--ink)", marginTop: 8 } }, "Coke"))),
+    E(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", eyebrow: "The numbers", title: "What AI Sees" },
+      E("div", { style: { textAlign: "center" } },
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--primary)" } }, "Example token ID: 4873"),
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 18, fontWeight: 700, color: "#8b5cf6", marginTop: 8 } }, "Embedding vector: [9, 1, 10, 2, 3, 8]"),
+        E("div", { style: { fontSize: 11, color: "var(--inkMuted)", marginTop: 6 } }, "Sweetness \u00B7 Bitterness \u00B7 Fizziness \u00B7 Heat \u00B7 Caffeine \u00B7 Darkness")))),
   E(BodyP, null, "Let’s test our Coke and Black Coffee vectors. You’ll see two dimensions for a drink. Try and guess which is the right answer."),
   E(NameThatDrinkTryIt, { onComplete: function() { setMeaningComplete(true); } }),
   E(SectionKicker, null, "REAL MODELS USE MANY MORE DIMENSIONS"),
@@ -5983,29 +5974,23 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "Your taste test used 6 named dimensions. A real model uses thousands of dimensions and billions of learned numbers."),
 
-    E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16, marginBottom: 18 } },
-      E(CompareCard, { bg: "#e0f2fe" },
-        E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
-          E("span", { style: { fontSize: 28 } }, "\uD83E\uDDD1"),
-          E("div", { style: { textAlign: "left" } },
-            E("div", { style: { fontSize: 16, fontWeight: 700, color: "#1e40af" } }, "Your Taste Test"),
-            E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "What you did"))),
-        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#1e40af", fontWeight: 700, marginBottom: 12 } }, "Coke \u2192 [9, 1, 10, 2, 3, 8]"),
-        E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } },
-          E("div", { style: { marginBottom: 6 } }, "6 dimensions per drink"),
-          E("div", { style: { marginBottom: 6 } }, "1 taster"),
-          E("div", null, "Took a few seconds"))),
-      E(CompareCard, { bg: "#f3e8ff" },
-        E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
-          E("span", { style: { fontSize: 28 } }, "\uD83E\uDDE0"),
-          E("div", { style: { textAlign: "left" } },
-            E("div", { style: { fontSize: 16, fontWeight: 700, color: "#5b21b6" } }, "Real AI Model"),
-            E("div", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkMuted)" } }, "What AI does"))),
-        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#5b21b6", fontWeight: 700, marginBottom: 12 } }, "Token ID 4873 \u2192 vector w/thousands of numbers"),
-        E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.7 } },
-          E("div", { style: { marginBottom: 6 } }, "Thousands of dimensions per token"),
-          E("div", { style: { marginBottom: 6 } }, "Billions of learned parameters across the model"),
-          E("div", null, "Trained on massive collections of text")))),
+    E(CompareBox, { kicker: "YOUR TASTE TEST VS. REAL AI MODEL", marginBottom: 28 },
+      E(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\uD83E\uDDD1", eyebrow: "What you did", title: "Your Taste Test" },
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#2f4cb8", fontWeight: 700, marginBottom: 12 } }, "Coke \u2192 [9, 1, 10, 2, 3, 8]"),
+        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          ["6 dimensions per drink", "1 taster", "Took a few seconds"].map(function(item, j) {
+            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+              E("span", null, item));
+          }))),
+      E(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\uD83E\uDD16", eyebrow: "What AI does", title: "Real AI Model" },
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#5a3aa6", fontWeight: 700, marginBottom: 12 } }, "Token ID 4873 \u2192 vector w/thousands of numbers"),
+        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          ["Thousands of dimensions per token", "Billions of learned parameters across the model", "Trained on massive collections of text"].map(function(item, j) {
+            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+              E("span", null, item));
+          })))),
 
     E(BodyP, null,
       "You just gave six drinks a number profile by hand. You chose the dimensions. You entered the values. In a real model, engineers choose the architecture: how many dimensions, how many layers, and how the parts connect. But training learns the actual values. And the dimensions usually don\u2019t end up with clean labels like sweetness or caffeine."),
@@ -6042,21 +6027,21 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "When someone says a model has something like 70 billion parameters, they don\u2019t mean 70 billion facts or 70 billion dimensions. They mean 70 billion stored learned numbers. Some are in the embedding table. Many more are in the attention and transformation layers. Together, those numbers shape how the model handles grammar, style, facts, context, and patterns."),
 
-    E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16, marginBottom: 14 } },
-      E(CompareCard, { bg: "#ecfdf5" },
-        E("div", { style: { fontSize: 12, fontWeight: 800, color: "#047857", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "Stored numbers"),
-        E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 10 } }, "Parameters"),
-        E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.7 } },
-          E("div", { style: { marginBottom: 6 } }, "\u2022 Learned during training"),
-          E("div", { style: { marginBottom: 6 } }, "\u2022 Stay in the model after the chat ends"),
-          E("div", null, "\u2022 Embedding table values and layer weights"))),
-      E(CompareCard, { bg: "#fef3c7" },
-        E("div", { style: { fontSize: 12, fontWeight: 800, color: "#92400e", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "Temporary numbers"),
-        E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 10 } }, "Activations"),
-        E("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.7 } },
-          E("div", { style: { marginBottom: 6 } }, "\u2022 Created while processing one prompt"),
-          E("div", { style: { marginBottom: 6 } }, "\u2022 Change as the model reads context"),
-          E("div", null, "\u2022 Disappear after the answer is generated")))),
+    E(CompareBox, { kicker: "PARAMETERS VS. ACTIVATIONS", marginBottom: 16 },
+      E(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\uD83D\uDCBE", eyebrow: "Stored numbers", title: "Parameters" },
+        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          ["Learned during training", "Stay in the model after the chat ends", "Embedding table values and layer weights"].map(function(item, j) {
+            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+              E("span", null, item));
+          }))),
+      E(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\u26A1", eyebrow: "Temporary numbers", title: "Activations" },
+        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          ["Created while processing one prompt", "Change as the model reads context", "Disappear after the answer is generated"].map(function(item, j) {
+            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+              E("span", null, item));
+          })))),
 
     E(BodyP, null,
       "Parameters are stored. They stay in the model after training. ",

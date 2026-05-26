@@ -2949,37 +2949,37 @@ function DoesAIThinkSection(props) {
 }
 function WhyBotherSection(props) {
   var E = React.createElement;
-  const [slopAnswers, setSlopAnswers] = useState({});
+  const [workerAnswers, setWorkerAnswers] = useState({});
 
   var CONTRAST = [
     { label: "Know less than the tool", color: "var(--red)", body: "You take whatever it gives you, slop and all. You can\u2019t tell solid from slop, so you end up trusting all of it." },
     { label: "Know more than the tool", color: "var(--green)", body: "You catch the slop, push back, and steer. The tool works for you instead of the other way around." }
   ];
 
-  var SLOP_SCENARIOS = [{
-    setup: "You need a quote about perseverance for an essay. You ask AI, and it gives you a polished, stirring line and credits it to Abraham Lincoln, 1862. It sounds exactly like something he\u2019d say.",
+  var WORKER_SCENARIOS = [{
+    setup: "Future you writes code for a living. You ask AI to build a new feature, and it generates code that runs perfectly on your first test. It looks finished.",
     options: [
-      { label: "Use it, it sounds like him", correct: false, feedback: "That\u2019s exactly the trap. Sounding like Lincoln is why it\u2019s dangerous, not why it\u2019s safe. AI invents real-sounding quotes and citations constantly. Sounding right is the easy part for a pattern machine." },
-      { label: "Search the quote first", correct: true, feedback: "Ten seconds of searching tells you whether Lincoln actually said it. Fabricated quotes are one of the most common kinds of slop, and they\u2019re built to sound perfect." },
-      { label: "Reword it a little", correct: false, feedback: "That just hides a made-up quote behind your own words. The problem isn\u2019t the wording, it\u2019s that the quote may not exist." }
+      { label: "Ship it, it runs", correct: false, feedback: "It passed one test, so it looks done. But \u201Cruns on my screen\u201D and \u201Cholds up when a million people hit it at once\u201D are different planets. If you never learned how systems behave under load, that\u2019s your ceiling. You ship whatever runs and find out the hard way." },
+      { label: "Rebuild the part that won\u2019t hold", correct: true, feedback: "Because you actually studied how big systems scale, you can see this design falls apart the moment real traffic shows up. You fix the piece that matters before it ever ships. The years you spent learning this are the only reason you caught what the tool couldn\u2019t." },
+      { label: "Ask AI if the code is good", correct: false, feedback: "It\u2019ll happily tell you it\u2019s great. The tool that wrote the flaw is not the one that\u2019s going to flag it. Knowing the answer yourself is the whole point." }
     ]
   }, {
-    setup: "You\u2019re checking the numbers on a fundraiser. You paste a column of amounts and ask AI for the total. It fires back a clean, confident sum in half a second.",
+    setup: "Future you runs a kitchen. AI crunches your costs and says you\u2019ll save a fortune switching to a cheaper cut of beef shipped in from overseas. The math checks out.",
     options: [
-      { label: "Trust it, computers are great at math", correct: false, feedback: "Feels true, but you just learned it isn\u2019t. AI predicts the most likely-looking total, it doesn\u2019t calculate one. Confident and correct are different things." },
-      { label: "Total it yourself", correct: true, feedback: "It predicted the sum, it didn\u2019t add it up. A calculator or your own addition is the catch. This is the kind of error that sails right past you if you assume it computed." },
-      { label: "Ask it again and compare", correct: false, feedback: "It can hand you the same confident wrong answer twice. Repeating slop doesn\u2019t turn it into solid." }
+      { label: "Switch, the savings are real", correct: false, feedback: "The spreadsheet is right about the money and clueless about everything else. It doesn\u2019t know how that cut cooks or what your regulars expect. Take the numbers at face value and the \u201Csavings\u201D walk out the door with the customers you lost." },
+      { label: "Trust what you trained to know", correct: true, feedback: "Because you trained as a cook, you know that cut turns tough on your menu, and because you\u2019ve fed these regulars for years, you know they\u2019ll taste the drop in one bite. The knowledge in your hands is the part the calculator will never have." },
+      { label: "Ask AI for more ways to cut costs", correct: false, feedback: "Now you\u2019ve got ten more shortcuts you still have to judge, and the tool can\u2019t judge any of them for you. More options isn\u2019t more knowledge. You\u2019re still the one who has to know what actually works." }
     ]
   }, {
-    setup: "There\u2019s a topic on tomorrow\u2019s test you never quite got. You ask AI to explain it. The answer is clear, confident, and nicely organized. It feels like it finally clicked.",
+    setup: "Future you owns the business. AI looks at last month\u2019s sales and tells you to hire five people to keep up with the rush. Reasonable on paper.",
     options: [
-      { label: "Great, it\u2019s clear, you\u2019ve got it", correct: false, feedback: "Clear isn\u2019t the same as correct. A pattern machine is brilliant at sounding organized and sure. If you don\u2019t know the topic, you can\u2019t tell a clean explanation from a clean wrong one." },
-      { label: "Check it against your notes or textbook", correct: true, feedback: "Fluent and confident is the easy part. The only way to know it\u2019s accurate is to check it against something you trust, or to already know enough to catch the error." },
-      { label: "It\u2019s well-organized, so it\u2019s probably right", correct: false, feedback: "Organization is a pattern, not proof. AI can lay out a flawless-looking structure around completely wrong content." }
+      { label: "Hire five, the numbers say so", correct: false, feedback: "The numbers say so because the numbers only saw last month. AI is reading one snapshot like it\u2019s the whole movie. Hire for the snapshot and you\u2019re paying five salaries when the work dries up." },
+      { label: "Use what you\u2019ve learned running it", correct: true, feedback: "You\u2019ve lived this business long enough to know the rush is always followed by a dead three-month stretch. So you staff for the whole year, not the spike. That pattern isn\u2019t in the data AI saw. It\u2019s in what you learned by doing the thing." },
+      { label: "Ask AI what the slow season looks like", correct: false, feedback: "It\u2019ll guess from patterns, not from your store. The thing that saves you here is knowing your own business, and that\u2019s knowledge you bring to the tool, not the other way around." }
     ]
   }];
 
-  const allAnswered = Object.keys(slopAnswers).length >= SLOP_SCENARIOS.length;
+  const allAnswered = Object.keys(workerAnswers).length >= WORKER_SCENARIOS.length;
 
   return E("div", null,
     E(LessonHeader, { sectionId: "whybother" }),
@@ -3018,22 +3018,19 @@ function WhyBotherSection(props) {
         }))),
 
     E(BodyP, null,
-      "Here\u2019s the part that\u2019s easy to miss. The knowledge that catches slop isn\u2019t something you can download in the five seconds you need it. You build it ahead of time, by learning. The people who stop because \u201CAI can do it now\u201D slowly lose the ability to notice when it can\u2019t."),
-
-    E(BodyP, null,
-      "Try it. Each one is an AI answer that looks completely fine. See if you can pick the move that actually protects you."),
+      "Fast forward a few years. You\u2019ve landed the job, and AI sits right next to you all day, cranking out drafts, code, and plans. So does the coworker at the next desk. Same tool, exact same AI, for both of you. So what makes you worth more than them? It\u2019s what you know. The one who actually learned the field gets more out of the tool every single time."),
 
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Spot the Slop",
-      action: E(ActivityCounter, { count: Object.keys(slopAnswers).length, total: SLOP_SCENARIOS.length })
+      title: "Same AI. Different Worker.",
+      action: E(ActivityCounter, { count: Object.keys(workerAnswers).length, total: WORKER_SCENARIOS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick the move that catches the problem. We\u2019ll explain as you go."),
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Same AI for everyone here. Pick the move only the worker who learned the field can pull off."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SLOP_SCENARIOS.map(function(s, i) {
-          var answered = slopAnswers[i] !== undefined;
-          var pickedIdx = slopAnswers[i];
+        WORKER_SCENARIOS.map(function(s, i) {
+          var answered = workerAnswers[i] !== undefined;
+          var pickedIdx = workerAnswers[i];
           var pickedOpt = answered ? s.options[pickedIdx] : null;
           var correct = answered && pickedOpt.correct;
           function PillButton(opt, optIdx) {
@@ -3044,7 +3041,7 @@ function WhyBotherSection(props) {
               isCorrect: opt.correct,
               isPicked: isPicked,
               label: opt.label,
-              onClick: function() { setSlopAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
+              onClick: function() { setWorkerAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
             });
           }
           return E(ScenarioRow, {
@@ -3057,8 +3054,8 @@ function WhyBotherSection(props) {
           }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
         }))),
 
-    allAnswered ? E(KeyInsight, { lead: "You only caught the slop because you knew something." },
-      "That\u2019s the whole game. Learning is what turns you from someone who accepts answers into someone who can judge them. That\u2019s what being smarter than the tool actually means.") : null,
+    allAnswered ? E(KeyInsight, { lead: "Same AI for everyone. The difference was you." },
+      "That\u2019s the real answer to the question this lesson opened with. AI can draft, calculate, and suggest for anyone who types. What it can\u2019t do is know more than you do. The most useful tool in the world is still only as good as the hands holding it, and you build those hands by learning. Useful tools are most powerful in skilled hands.") : null,
 
     allAnswered ? E(BodyP, null,
       "So AI is everywhere, it doesn\u2019t really think, and plenty of what it makes is slop. That can feel like a lot is stacked against you. So what\u2019s actually in your hands? That\u2019s next.") : null,

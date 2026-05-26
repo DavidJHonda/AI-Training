@@ -6,7 +6,7 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 ## Lesson map
 73 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
-- Intro (7): Welcome (welcome), Why Learn AI? (whydeeper), Does AI Think? (doesaithink), Why Bother? (whybother), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
+- Intro (7): Welcome (welcome), Why Learn AI? (whydeeper), Does AI Think? (doesaithink), Is School Needed? (whybother), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
 - Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), AI's Fuel (data)
 - Inside AI (8): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers), Training (training)
 - AI Answers (7): Opener (openeranswers), Your Input (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)

@@ -8,13 +8,13 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 
 - Intro (5): Welcome (welcome), Why Learn AI? (whydeeper), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
 - Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), AI's Fuel (data)
-- Inside AI (7): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers)
-- AI Answers (8): Opener (openeranswers), Training (training), Your Input (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
+- Inside AI (8): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers), Training (training)
+- AI Answers (7): Opener (openeranswers), Your Input (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
 - Workflow (8): Opener (openerusing), What AI Does Best (whatitdoesbest), Questions Matter (questionsvaluable), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), Academic Integrity (integrity), Privacy & Awareness (privacy)
 - Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
-- Traps (9): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documentchat), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), When AI Acts (whenaiacts)
+- Traps (8): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documentchat), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap)
 - Human Judgment (8): Opener (openerjudgment), When Not to Use AI (whennot), How Much to Check (aistrengths), Critical Thinking (critical), The 5 Habits (habits), How to Verify (verify), Evaluating the Results (evaluating), Skills That Matter (humanedge)
-- Real World (7): Opener (openerrealworld), When AI Judges You (judged), Who Else Is Affected (stakeholders), Seeing Isn't Proof (synthetic), Work Changes (workchanges), AI & The Future (aifuture), Build Your Edge (buildedge)
+- Real World (8): Opener (openerrealworld), Work Changes (workchanges), The Rise of Agents (whenaiacts), When AI Judges You (judged), Who Else Is Affected (stakeholders), Seeing Isn't Proof (synthetic), AI & The Future (aifuture), Build Your Edge (buildedge)
 - Finish (5): What You Learned (whatyoulearned), The Full Loop (fullworkflow), Vocab Quiz (keyterms), Test Yourself (testyourself), Beat the Clock (headtohead)
 
 ## Design system

@@ -10,10 +10,10 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 - Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), AI's Fuel (data)
 - Inside AI (7): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers)
 - AI Answers (8): Opener (openeranswers), Training (training), Your Input (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
-- Workflow (6): Opener (openerusing), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), Academic Integrity (integrity), Privacy & Awareness (privacy)
+- Workflow (8): Opener (openerusing), What AI Does Best (whatitdoesbest), Questions Matter (questionsvaluable), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Studying With AI (studying), Academic Integrity (integrity), Privacy & Awareness (privacy)
 - Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
 - Traps (9): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documentchat), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), When AI Acts (whenaiacts)
-- Human Judgment (9): Opener (openerjudgment), What AI Does Best (whatitdoesbest), How Much to Check (aistrengths), Questions Matter (questionsvaluable), Critical Thinking (critical), The 5 Habits (habits), How to Verify (verify), Evaluating the Results (evaluating), Skills That Matter (humanedge)
+- Human Judgment (8): Opener (openerjudgment), When Not to Use AI (whennot), How Much to Check (aistrengths), Critical Thinking (critical), The 5 Habits (habits), How to Verify (verify), Evaluating the Results (evaluating), Skills That Matter (humanedge)
 - Real World (7): Opener (openerrealworld), When AI Judges You (judged), Who Else Is Affected (stakeholders), Seeing Isn't Proof (synthetic), Work Changes (workchanges), AI & The Future (aifuture), Build Your Edge (buildedge)
 - Finish (5): What You Learned (whatyoulearned), The Full Loop (fullworkflow), Vocab Quiz (keyterms), Test Yourself (testyourself), Beat the Clock (headtohead)
 
@@ -26,20 +26,20 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 - Colors (semantic): --green #1f9d5f, --red #d4334a, --info #3b82f6, --info-bg #eff6ff
 - SEE IT band: --seeBand #faf6ec (sand surface), --seeAccent #a36a17 (amber accent), --seeRule rgba(163, 106, 23, 0.35) (amber separator, commonly used as a 2px rule)
 - KEY TERM band: --termBand #e9ecf0 (slate surface), --termAccent #475569 (slate accent)
-- TRY IT band: green accent --tryAccent #2f7d4f (named token; mint InteractiveBox eyebrows and TRY IT Takeaway completions). Mint surface #eef4eb and mint hairline rgba(63, 107, 63, 0.18) remain inlined.
+- TRY IT band: --tryBand #eef4eb (mint activity surface), --tryRule rgba(63, 107, 63, 0.18) (mint hairline divider), --tryAccent #2f7d4f (green accent; mint InteractiveBox eyebrows and TRY IT Takeaway completions). The AIBubble reuses the same mint as its fill, documented under UserBubble/AIBubble.
 - ILLUSTRATION band: --illoBand #f5e1d4 (warm sand surface), --illoAccent #b5532f (terracotta accent). Opener-support display band; see Illustration component.
 - Typography: --sans (Plus Jakarta Sans, Google Fonts) for all reading text, --serif (Instrument Serif, Google Fonts) for display moments only (lesson titles, activity numerals, and opener/Illustration display phrases), never explanatory prose or feedback. --mono (system monospace stack). Source Serif 4 is no longer used; it was retired when all explanatory and feedback prose moved to sans.
-- Shadows: --shadowSoft (0 4px 12px rgba(14, 10, 31, 0.05)) for inner cards, pills, and counters; --shadowElevated (0 8px 22px rgba(14, 10, 31, 0.05)) for support cards. Purple active-glow shadows remain inlined per-use.
+- Shadows: --shadowSoft (0 4px 12px rgba(14, 10, 31, 0.05)) for inner cards, pills, and counters; --shadowElevated (0 8px 22px rgba(14, 10, 31, 0.05)) for support cards. Active-glow and a few one-off elevated/inset shadows remain inlined per-use, mostly on assessment and diagram surfaces.
 - Body paragraph standard: 17px / 1.65 line-height / var(--inkSoft)
 
 ### Design philosophy
 - Borders are rare in page-level chrome and narrative containers. ShowcaseBox, KeyInsight, KeyTerm, CompareCard, and InteractiveBox (mint and sand surfaces) all use fill + shadow with no border.
 - Activity interiors may use --rule borders where the border carries meaning, separating choices, feedback, and interactive states.
-- Two shadow tokens: --shadowSoft (inner cards, pills, counters) and --shadowElevated (support cards). Purple active-glow shadows are inlined per-use.
+- Two shadow tokens: --shadowSoft (inner cards, pills, counters) and --shadowElevated (support cards). Active-glow and one-off elevated/inset shadows are inlined per-use on assessment and diagram surfaces.
 - Active states are singular: one section pill, one chip, one primary button per page.
 - Serif (Instrument Serif) is for display moments only: lesson titles, activity numerals (SEE IT and TRY IT), and editorial display phrases inside opener Illustrations and late synthesis headings. Every other piece of text, including all explanatory prose and activity feedback, is sans (Plus Jakarta Sans). The old reading serif (Source Serif 4) has been retired.
 - Page background never goes white.
-- Spacing comes from a defined scale.
+- Vertical rhythm: card-level blocks (InteractiveBox, ShowcaseBox, KeyInsight) carry a default bottom margin of var(--blockGap) (24px); body paragraphs use 18px. Blocks render in normal flow, so adjacent margins collapse to the larger value and never stack. Pass marginBottom/marginTop to override. Spacing inside components and diagrams is still inline per-context; there is no global numeric scale beyond --blockGap.
 
 ### Components (defined near top of file)
 - **BodyP**: standard body paragraph (17px / 1.65 / var(--inkSoft)). Props: marginBottom (default 18), style (additional overrides like maxWidth). Used for all lesson prose. Inline `<p>` is reserved for non-standard sizes (captions, card body text).
@@ -48,7 +48,7 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 - **ShowcaseBox**: framed callout for introducing or illustrating a concept, typically containing supporting cards. --primaryFaint fill, no border, borderRadius 20, padding 24. Props: kicker, headline, intro, marginBottom (default 24px), children.
 - **KeyInsight**: structural takeaway callout. --info-bg fill (light blue), no border, borderRadius 14, 🔑 icon, inline layout. Props: lead (optional bold inline phrase), marginTop, marginBottom (default 24px each). Used for lesson-level zoom-out takeaways.
 - **KeyTerm**: vocab introduction card. Slate band (--termBand) with 📖 icon and bold slate term (--termAccent). Props: term (required). Looks up the matching entry from the TERMS array, so vocab definitions in lessons cannot drift from the vocab quiz. Currently used in BlackBox for "Guardrail."
-- **InteractiveBox**: activity container. Variant "try" (✎) or "see" (◉). Surface "mint" (flat #eef4eb, no border, 16px radius) or "sand" (var(--seeBand), no border, 24px radius, 32-36px padding). Sand surface renders the eyebrow in var(--seeAccent) amber. Default surface uses --primaryFaint with dashed border. Optional title/hint/action/children.
+- **InteractiveBox**: activity container. Variant "try" (✎) or "see" (◉). Surface "mint" (flat var(--tryBand), no border, 16px radius) or "sand" (var(--seeBand), no border, 24px radius, 32-36px padding). Sand surface renders the eyebrow in var(--seeAccent) amber. Default surface uses --primaryFaint with dashed border. Optional title/hint/action/children.
 - **InnerCard**: standard white inner card used inside activities. White fill, 14px radius, --shadowSoft, default padding 22px 26px. Pass pad="snug" for the SEE IT stage size (18px 22px). Accepts a style prop for other overrides (display flex, marginBottom, custom padding) and children. Use instead of hand-building white cards inside InteractiveBox or RevealSequence.
 - **ActivityCounter**: the "X of N" progress pill for an activity's InteractiveBox action slot. White pill, 999 radius, --shadowSoft, bold count plus uppercase "of N". Props: count, total. Convention: reveal-sequence activities pass the visible card position, count = Math.min(currentIdx + 1, total) gated by the start latch so it reads 0 before starting and never jumps when an answer is picked. Parallel activities pass the number answered. Use instead of hand-building counter pills.
 - **PrimaryButton**: purple fill, white text, hover lift. Auto-adds trailing arrow. Used for the opener advance button. Lesson-to-lesson navigation uses the card-based NextLessonGate.
@@ -73,12 +73,12 @@ Source of truth for vocabulary. Defined near the top of the file as a flat array
 TRY IT and SEE IT activities share a visual language and follow one of two interaction patterns each. Bespoke activities (text entry, redaction, builders, sliders) sit outside both patterns and stay one-off.
 
 #### Shared visual language (TRY IT, both patterns)
-- Container: InteractiveBox with `surface: "mint"`. Flat #eef4eb fill, no border, borderRadius 16, padding 26px 28px.
+- Container: InteractiveBox with `surface: "mint"`. Flat var(--tryBand) fill, no border, borderRadius 16, padding 26px 28px.
 - Eyebrow: "✎ TRY IT" in Plus Jakarta Sans 700, 11px, letter-spacing 0.14em, uppercase, mint accent #2f7d4f.
 - Title: Plus Jakarta Sans 700, 22px, --ink.
 - Question numerals: Instrument Serif 400, 44px, line-height 1, color #2f7d4f. Opacity 0.6 when locked, 1.0 when active or answered.
 - Question prompts: Plus Jakarta Sans 600, 18px, line-height 1.4, color #0e0a1f, max-width 56ch.
-- Answer pills: Plus Jakarta Sans 600, 15px, padding 14px 18px, borderRadius 12, 1.5px border. Untouched: white fill, --rule border, --ink text; hover #eef4eb fill + #2f7d4f border. Pills key off whether they are the one currently being viewed (dim-in-place): exactly one pill is fully saturated at a time, the one whose feedback is showing. Correct pick viewing: #1f9d5f fill, white text, white ✓. Correct pick dimmed: #e7f6ee fill, #b6e3cd border, #1f9d5f text and ✓. Wrong pick viewing: #d4334a fill, white text, white ✕. Wrong pick dimmed: #fbe9ec fill, #f0b8c1 border, #d4334a text and ✕. transition all 150ms.
+- Answer pills: Plus Jakarta Sans 600, 15px, padding 14px 18px, borderRadius 12, 1.5px border. Untouched: white fill, --rule border, --ink text; hover var(--tryBand) fill + var(--tryAccent) border. Pills key off whether they are the one currently being viewed (dim-in-place): exactly one pill is fully saturated at a time, the one whose feedback is showing. Correct pick viewing: #1f9d5f fill, white text, white ✓. Correct pick dimmed: #e7f6ee fill, #b6e3cd border, #1f9d5f text and ✓. Wrong pick viewing: #d4334a fill, white text, white ✕. Wrong pick dimmed: #fbe9ec fill, #f0b8c1 border, #d4334a text and ✕. transition all 150ms.
 - Feedback (mint QuizBlock): a two-column block below a dashed divider (1px dashed rgba(63, 107, 63, 0.18), marginTop and paddingTop 18), mirroring the SEE IT Takeaway. Grid 1fr/2fr, gap 24. Left column is a colored dot plus an uppercase 11px eyebrow, then a 22px/700 headline, both in the accent color. Right column is the 16px/400 body in neutral ink #0e0a1f. Accent #1f9d5f for correct, #d4334a for wrong. All sans; the only serif in the activity is the numeral.
 - Counter pill (top-right of activity): white fill, soft shadow, "N OF M" (bold count, uppercase letterspaced "of M").
 
@@ -96,7 +96,7 @@ Each scenario is its own moment with setup + question + per-question feedback. U
 #### TRY IT Pattern 2: Parallel Sort/Match
 All items visible at once, sorted independently. Best for sorting/categorization tasks. Per-item feedback reveals as each item is answered.
 - InteractiveBox variant "try", surface "mint", title and counter action.
-- All items render in vertical sequence with hairline dividers between rows: 1px solid rgba(63, 107, 63, 0.18), padding 24 above/below per row, no divider above first row.
+- All items render in vertical sequence with hairline dividers between rows: 1px solid var(--tryRule), padding 24 above/below per row, no divider above first row.
 - Each row uses ScenarioRow: numeral on the left, content stack on the right, vertically centered.
 - Pills indent to align under the prompt (paddingLeft equal to numeral width + gap, typically 66px).
 - Per-item feedback reveals immediately after answer. Pills never lock: the student can re-pick freely. A correct pick fills green, a wrong pick fills solid red and stays remembered as pale red even after the student switches, and the correct answer is never auto-revealed (a pill turns green only when picked).
@@ -140,3 +140,22 @@ Collaborative content design. Propose options, ask for confirmation, then draft 
 
 ### When David returns with twin-testing feedback
 Name the lesson, describe what felt off, read the relevant section in index.html before proposing options. Twin feedback might be a copy fix, an interaction fix, or a sign the lesson itself needs rethinking. Figure out which before drafting any prompt.
+
+- Pre-ship governance: run `bash design-check.sh` from the repo root before shipping a new lesson. It flags hand-built counter pills, raw fonts, literal shadows, non-token mint dividers/surfaces, and em-dashes against known baselines. A deliberate diagram or assessment exception is fine; bump that check's expected count so the baseline stays honest.
+
+### Assessment and diagram exceptions
+Some late-course lessons intentionally step outside the standard component rhythm. These are exceptions, not patterns. Do not copy their chrome into ordinary lessons.
+
+Known exception zones:
+- Beat the Clock (headtohead): a timed assessment with custom game states (intro, playing, done), its own timer, score display, and stateful buttons.
+- Late Real World and Finish lessons: bespoke diagrams, flowcharts, score cards, and assessment panels where the visual itself carries the instructional meaning.
+- RevealSequence start/next/finish buttons: hand-built rather than ActivityButton. Known, slated for a later cleanup.
+- Custom shadows: active glows and a few elevated/inset shadows live inline on these surfaces. var(--shadowSoft) and var(--shadowElevated) remain the default everywhere else.
+
+Boundaries when building an exception, so it still reads as part of the course:
+- Use the course color tokens. Do not introduce a new raw palette.
+- Use the standard type: var(--sans) and var(--serif). Do not add a new font.
+- Reuse InnerCard, ActivityButton, and ActivityCounter wherever they fit.
+- Include a standard or compact LessonHeader where feasible so the lesson stays in the course frame.
+
+An exception is never a reason to skip tokens or standard type. If you deliberately add a new custom shadow or other flagged pattern, bump its expected count in design-check.sh so the pre-ship check stays meaningful.

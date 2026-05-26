@@ -2764,7 +2764,7 @@ function WelcomeSection(props) {
           E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
           E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
       })),
-    E(KeyInsight, { lead: "Typing fast is easy. Thinking after the answer is the skill." }, "The students who get the most out of AI are the ones who slow down at the part that matters: reading the answer, checking it, deciding what to do with it."),
+    E(KeyInsight, { lead: "Typing a question to ChatGPT is easy. Thinking after the answer is the skill." }, "The students who get the most out of AI are the ones who slow down at the part that matters: reading the answer, checking it, deciding what to do with it."),
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
@@ -3068,8 +3068,8 @@ function ControlSection(props) {
     {
       label: "You don\u2019t control these",
       sub: "Out of your hands",
-      color: "#d97706",
-      bg: "#fef3c7",
+      color: "#2f4cb8",
+      bg: "#d6e2f4",
       items: [
         "Companies adopting AI",
         "Which jobs change first",
@@ -3081,8 +3081,8 @@ function ControlSection(props) {
     {
       label: "You do control these",
       sub: "In your hands",
-      color: "#4338ca",
-      bg: "#e0e7ff",
+      color: "#5a3aa6",
+      bg: "#ddd0ef",
       items: [
         "What you actually learn",
         "How well you use AI",
@@ -3157,28 +3157,16 @@ function ControlSection(props) {
     E(BodyP, null,
       "That feels heavy because part of it is true. But the headline misses the only question worth asking right now: what\u2019s in your hands and what isn\u2019t?"),
 
-    E(ShowcaseBox, {
-      kicker: "TWO COLUMNS",
-      marginBottom: 32
-    },
-      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
-        COLUMNS.map(function(c, i) {
-          return E(CompareCard, {
-            key: i,
-            bg: c.bg
-          },
-            E("div", { style: { fontSize: 12, fontWeight: 700, color: c.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 } }, c.sub),
-            E("h4", { style: { fontWeight: 800, color: c.color, marginBottom: 12, fontSize: 20 } }, c.label),
-            E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-              c.items.map(function(item, j) {
-                return E("div", {
-                  key: j,
-                  style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 }
-                },
-                  E("span", { style: { color: c.color, fontWeight: 700, flexShrink: 0 } }, "\u2022"),
-                  item);
-              })));
-        }))),
+    E(CompareBox, { kicker: "OUT OF YOUR HANDS VS. IN YOUR HANDS", marginBottom: 32 },
+      COLUMNS.map(function(c, i) {
+        return E(ComparePanel, { key: i, bg: c.bg, accent: c.color, eyebrow: c.sub, title: c.label },
+          E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            c.items.map(function(item, j) {
+              return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+                E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+                E("span", null, item));
+            })));
+      })),
 
     E(BodyP, null,
       "Most of the noise around AI is the left column. Most of the leverage in your life is the right column. Try a few and see which is which."),
@@ -3709,30 +3697,21 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That changes everything about how it can be controlled. ", /*#__PURE__*/React.createElement("strong", null, "AI is something people trained."), " Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83D\uDCBB"),
-        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 28 } }, "Regular software"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Written, Line by Line"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, lineHeight: 1.6, color: "#1e3a5f" } },
-          /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 18 } },
-            /*#__PURE__*/React.createElement("li", null, "Authored by humans, line by line"),
-            /*#__PURE__*/React.createElement("li", null, "Every behavior is intended (or a known bug)"),
-            /*#__PURE__*/React.createElement("li", null, "Easy to inspect"),
-            /*#__PURE__*/React.createElement("li", null, "Same input, same output")))
-      ),
-      /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff" },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83E\uDDE0"),
-        /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 28 } }, "AI"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Trained, Not Written"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, lineHeight: 1.6, color: "#3b1f6e" } },
-          /*#__PURE__*/React.createElement("ul", { style: { margin: 0, paddingLeft: 18 } },
-            /*#__PURE__*/React.createElement("li", null, "Grown from data, not authored"),
-            /*#__PURE__*/React.createElement("li", null, "Behavior emerges, sometimes surprising the creators"),
-            /*#__PURE__*/React.createElement("li", null, "Hard to inspect"),
-            /*#__PURE__*/React.createElement("li", null, "Small changes in wording can change the output")))
-      )
-    ),
+    /*#__PURE__*/React.createElement(CompareBox, { kicker: "WRITTEN VS. TRAINED", marginBottom: 28 },
+      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\uD83D\uDCBB", eyebrow: "Regular software", title: "Written line by line" },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          ["Authored by humans, line by line", "Every behavior is intended (or a known bug)", "Easy to inspect", "Same input, same output"].map(function(item, j) {
+            return /*#__PURE__*/React.createElement("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+              /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+              /*#__PURE__*/React.createElement("span", null, item));
+          }))),
+      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\uD83E\uDD16", eyebrow: "AI", title: "Trained, not written" },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+          ["Grown from data, not authored", "Behavior emerges, sometimes surprising the creators", "Hard to inspect", "Small changes in wording can change the output"].map(function(item, j) {
+            return /*#__PURE__*/React.createElement("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+              /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
+              /*#__PURE__*/React.createElement("span", null, item));
+          })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "YOU\u2019LL SEE IT IN THE NEWS"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "These failures do not happen because AI wants to break rules. They happen because no one wrote a rule for every situation, and the trained behavior keeps producing surprises."
@@ -8469,7 +8448,7 @@ function ThinkingModeSection(props) {
   ),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Thinking Mode isn\u2019t a tiny person inside the computer reconsidering." },
     "It\u2019s an extra generation-and-checking process that catches more on hard answers. Better than Direct Mode for complex problems. But it\u2019s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking harder won\u2019t fix that. For truth, you still need evaluate the results."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "HOW EAXCH PRODUCT DOES IT"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "HOW EACH PRODUCT DOES IT"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--bg)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--rule)" } },
       /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "#8b5cf6", marginBottom: 8 } }, "Claude"),

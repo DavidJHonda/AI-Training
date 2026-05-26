@@ -4,9 +4,9 @@
 An instructor-led AI education web app for high schoolers, built to be taught live but easily repurposed for self-paced use. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Lesson map
-70 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
+73 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
-- Intro (5): Welcome (welcome), Why Learn AI? (whydeeper), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
+- Intro (7): Welcome (welcome), Why Learn AI? (whydeeper), Does AI Think? (doesaithink), Why Bother? (whybother), What You Can Control (control), What Only You Can Do (humanjob), The Roadmap (intro)
 - Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (blackbox), AI's Fuel (data)
 - Inside AI (8): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (behindthenumbers), Attention & Transformation (howreads), Layers (layers), Training (training)
 - AI Answers (7): Opener (openeranswers), Your Input (prompt), Context Window (context), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns)
@@ -127,7 +127,7 @@ Designs prompts in chat with Claude (this Project). Pastes prompts into Claude C
 - Plain copy, McDonald's-humor friendly tone for the student audience (16-year-olds).
 - Implementation-ready prompts referencing exact line numbers, existing patterns, and variable names.
 - No file downloads, always copyable code blocks.
-- David avoids em-dashes in his own writing. Course content uses them freely.
+- David avoids em-dashes, and new course content avoids them too. The 7 existing uses in the file are the design-check.sh baseline; new copy stays at zero.
 
 ### Default mode
 Collaborative content design. Propose options, ask for confirmation, then draft prompts. When David has clearly decided something, skip straight to the prompt. When something is ambiguous, ask before drafting.

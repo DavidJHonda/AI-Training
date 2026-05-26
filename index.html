@@ -1066,7 +1066,7 @@ function RevealSequence(props) {
 }
 const SECTION_GROUPS = [{
   label: "Intro",
-  sections: ["welcome", "whydeeper", "control", "humanjob", "intro"]
+  sections: ["welcome", "whydeeper", "doesaithink", "whybother", "control", "humanjob", "intro"]
 }, {
   label: "Foundations",
   sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "blackbox", "data"]
@@ -1098,6 +1098,8 @@ const SECTION_GROUPS = [{
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
   whydeeper: { kicker: "THE EDGE", label: "Why Learn AI?", icon: "\uD83D\uDD27" },
+  doesaithink: { kicker: "PATTERN, NOT THOUGHT", label: "Does AI Think?", icon: "\uD83E\uDD16" },
+  whybother: { kicker: "KNOW MORE THAN THE TOOL", label: "Why Bother?", icon: "\uD83D\uDCDA" },
   control: { kicker: "STAKES AND AGENCY", label: "What You Can Control", icon: "\uD83C\uDFAF" },
   humanjob: { kicker: "FOUR MOVES ONLY YOU CAN MAKE", label: "What Only You Can Do", icon: "\uD83D\uDCBC" },
   intro: { kicker: "THE ROUTE", label: "The Roadmap", icon: "\uD83D\uDDFA\uFE0F" },
@@ -2680,6 +2682,11 @@ function WelcomeSection(props) {
     E(LessonHeader, { sectionId: "welcome" }),
     E(BodyP, null,
       "Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not viral prompt hacks. The real machinery."),
+    E(SectionKicker, null, "WHY WE BUILT THIS"),
+    E(BodyP, null,
+      "Quick note on where this came from. We\u2019re Luke and Nate, and yeah, we\u2019re still in high school. This started at our kitchen table. We wanted to understand AI well enough to actually trust it, and our dad wanted that for us. We went looking for something good to learn from, and most of it was shallow, all about tools, or already out of date. So the three of us built our own."),
+    E(BodyP, null,
+      "Building it is what showed us the bigger point. You don\u2019t just need to know how to use AI. You need to know what it is, why it gets things wrong, how to check what it says, how to protect your own thinking, and how to stay in charge when a tool sounds sure of itself and isn\u2019t. That\u2019s what this is. You\u2019ll even catch us in a few of the examples later, usually disagreeing about what car to buy."),
     E(BodyP, null,
       "This isn't a slide deck. You'll click, sort, try, and answer your way through. You'll see how AI does what it does. And, you'll learn more about the most important AI skill of all: ",
       E("strong", null, "human judgment"),
@@ -2787,7 +2794,254 @@ function WhyDeeperSection(props) {
     /*#__PURE__*/E(BodyP, null,
       "So AI is everywhere, it\u2019s growing, and it\u2019ll touch whatever you do. That\u2019s the world you\u2019re walking into. The next question is the one you actually have power over: what\u2019s in your hands?"),
     /*#__PURE__*/E(LessonRule, null),
-    /*#__PURE__*/E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); }, label: "Next: What You Can Control" }));
+    /*#__PURE__*/E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" }));
+}
+function DoesAIThinkSection(props) {
+  var E = React.createElement;
+  const [answers, setAnswers] = useState({});
+
+  var COLUMNS = [
+    {
+      label: "When you think",
+      sub: "A human mind",
+      color: "#4338ca",
+      bg: "#e0e7ff",
+      items: [
+        "You understand what things actually mean",
+        "You draw on real experience and senses",
+        "You actually care whether you\u2019re right",
+        "You know when you\u2019re unsure"
+      ]
+    },
+    {
+      label: "What AI does instead",
+      sub: "A pattern machine",
+      color: "#475569",
+      bg: "#e9ecf0",
+      items: [
+        "It matches patterns across a mountain of text",
+        "It predicts the next likely word",
+        "It has no stake in being right or wrong",
+        "It can\u2019t tell when it\u2019s making things up"
+      ]
+    }
+  ];
+
+  var ITEMS = [
+    { text: "AI understands what your words actually mean.", answer: "illusion", headline: "That just sounds true.", feedback: "The big one almost everyone believes. AI doesn\u2019t understand meaning, it works out which words tend to go together and predicts from there. It can use the word \u201Cgrief\u201D perfectly with nothing behind it." },
+    { text: "AI is guessing which words should come next, one at a time.", answer: "real", headline: "That\u2019s real.", feedback: "Yes. Predict the next likely word, then the next, then the next. String enough together and it reads like thought. It isn\u2019t." },
+    { text: "AI feels bad when it gives you a wrong answer.", answer: "illusion", headline: "That just sounds true.", feedback: "No feelings in there. It writes \u201CI\u2019m so sorry\u201D because apologies are a pattern it has seen a million times, not because anything is bothered. Nobody\u2019s home to feel bad." },
+    { text: "AI builds its answers by matching patterns from a huge pile of text.", answer: "real", headline: "That\u2019s real.", feedback: "Right. It learned from a mountain of human writing and got very good at copying the patterns in it. That\u2019s the pattern-machine part, and you\u2019ll see exactly how in Foundations." },
+    { text: "AI knows when it doesn\u2019t know something.", answer: "illusion", headline: "That just sounds true.", feedback: "It doesn\u2019t. When it has no good answer it doesn\u2019t go quiet, it predicts confident-sounding words anyway. That\u2019s how it can invent a fact and never flinch." },
+    { text: "AI can sound completely sure and be completely wrong.", answer: "real", headline: "That\u2019s real.", feedback: "True, and it\u2019s most of why this course exists. Sounding sure and being right are different things. Telling them apart is your job, not the tool\u2019s." }
+  ];
+
+  const allAnswered = Object.keys(answers).length >= ITEMS.length;
+
+  return E("div", null,
+    E(LessonHeader, { sectionId: "doesaithink" }),
+    E(BodyP, null,
+      "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the honest question, and it\u2019s the one this whole course stands on: does AI actually think?"),
+    E(BodyP, null,
+      "Is it alive? Is it smart? Does it feel anything? Short answer: no, not the way you do. Here\u2019s why that matters, and why it isn\u2019t a knock on AI."),
+
+    E(SectionKicker, null, "IT\u2019S IN THE NAME"),
+    E(BodyP, null,
+      "We call it Artificial Intelligence. Not Artificial Thinking. That word was picked on purpose. A thing can act intelligent, finish your sentence, pass a test, explain a poem, without thinking the way a human does. Intelligence is about the output. Thinking is about what\u2019s happening inside. AI nails the first and skips the second."),
+
+    E(ShowcaseBox, {
+      kicker: "WHEN YOU THINK VS. WHAT AI DOES",
+      marginBottom: 32
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
+        COLUMNS.map(function(c, i) {
+          return E(CompareCard, {
+            key: i,
+            bg: c.bg
+          },
+            E("div", { style: { fontSize: 12, fontWeight: 700, color: c.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 } }, c.sub),
+            E("h4", { style: { fontWeight: 800, color: c.color, marginBottom: 12, fontSize: 20 } }, c.label),
+            E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+              c.items.map(function(item, j) {
+                return E("div", {
+                  key: j,
+                  style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 }
+                },
+                  E("span", { style: { color: c.color, fontWeight: 700, flexShrink: 0 } }, "\u2022"),
+                  item);
+              })));
+        }))),
+
+    E(BodyP, null,
+      "None of this means AI is dumb or useless. A pattern machine this good is genuinely powerful. It just means the thing it\u2019s doing is not thinking. Once you see that, its weird moments start to make sense. Try sorting these. Some are what AI really does. Some just sound that way."),
+
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Thinking, or Just Sounds Like It?",
+      action: E(ActivityCounter, { count: Object.keys(answers).length, total: ITEMS.length })
+    },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, decide whether it\u2019s what AI really does or whether it just sounds that way. We\u2019ll explain as you go."),
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        ITEMS.map(function(item, i) {
+          var answered = answers[i] !== undefined;
+          var picked = answers[i];
+          var correct = answered && picked === item.answer;
+          function PillButton(value, label) {
+            var isPicked = picked === value;
+            return E(FeedbackPill, {
+              key: value,
+              answered: answered,
+              isCorrect: value === item.answer,
+              isPicked: isPicked,
+              label: label,
+              onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
+            });
+          }
+          return E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: item.text,
+            answered: answered,
+            correct: correct,
+            headline: item.headline,
+            feedback: answered ? item.feedback : null
+          },
+            PillButton("real", "Real"),
+            PillButton("illusion", "Just sounds like it"));
+        }))),
+
+    allAnswered ? E(KeyInsight, { lead: "AI doesn\u2019t think. It predicts." },
+      "At its core it\u2019s a pattern machine on steroids, and the thing running underneath is plain math. That\u2019s not an insult to AI. It\u2019s the single most useful fact you can carry into the rest of this course.") : null,
+
+    allAnswered ? E(BodyP, null,
+      "So AI can sound completely sure and be completely wrong, because it\u2019s predicting words, not checking truth. Which raises a fair question: if it\u2019ll answer anything you ask, why bother learning the stuff yourself? That\u2019s next.") : null,
+
+    E(LessonRule, null),
+    E(NextLessonGate, {
+      ready: allAnswered,
+      lockedMessage: "Sort all six to continue",
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); },
+      label: "Next: Why Bother?"
+    }));
+}
+function WhyBotherSection(props) {
+  var E = React.createElement;
+  const [slopAnswers, setSlopAnswers] = useState({});
+
+  var CONTRAST = [
+    { label: "Know less than the tool", color: "var(--red)", body: "You take whatever it gives you, slop and all. You can\u2019t tell solid from slop, so you end up trusting all of it." },
+    { label: "Know more than the tool", color: "var(--green)", body: "You catch the slop, push back, and steer. The tool works for you instead of the other way around." }
+  ];
+
+  var SLOP_SCENARIOS = [{
+    setup: "You need a quote about perseverance for an essay. You ask AI, and it gives you a polished, stirring line and credits it to Abraham Lincoln, 1862. It sounds exactly like something he\u2019d say.",
+    options: [
+      { label: "Use it, it sounds like him", correct: false, feedback: "That\u2019s exactly the trap. Sounding like Lincoln is why it\u2019s dangerous, not why it\u2019s safe. AI invents real-sounding quotes and citations constantly. Sounding right is the easy part for a pattern machine." },
+      { label: "Search the quote first", correct: true, feedback: "Ten seconds of searching tells you whether Lincoln actually said it. Fabricated quotes are one of the most common kinds of slop, and they\u2019re built to sound perfect." },
+      { label: "Reword it a little", correct: false, feedback: "That just hides a made-up quote behind your own words. The problem isn\u2019t the wording, it\u2019s that the quote may not exist." }
+    ]
+  }, {
+    setup: "You\u2019re checking the numbers on a fundraiser. You paste a column of amounts and ask AI for the total. It fires back a clean, confident sum in half a second.",
+    options: [
+      { label: "Trust it, computers are great at math", correct: false, feedback: "Feels true, but you just learned it isn\u2019t. AI predicts the most likely-looking total, it doesn\u2019t calculate one. Confident and correct are different things." },
+      { label: "Total it yourself", correct: true, feedback: "It predicted the sum, it didn\u2019t add it up. A calculator or your own addition is the catch. This is the kind of error that sails right past you if you assume it computed." },
+      { label: "Ask it again and compare", correct: false, feedback: "It can hand you the same confident wrong answer twice. Repeating slop doesn\u2019t turn it into solid." }
+    ]
+  }, {
+    setup: "There\u2019s a topic on tomorrow\u2019s test you never quite got. You ask AI to explain it. The answer is clear, confident, and nicely organized. It feels like it finally clicked.",
+    options: [
+      { label: "Great, it\u2019s clear, you\u2019ve got it", correct: false, feedback: "Clear isn\u2019t the same as correct. A pattern machine is brilliant at sounding organized and sure. If you don\u2019t know the topic, you can\u2019t tell a clean explanation from a clean wrong one." },
+      { label: "Check it against your notes or textbook", correct: true, feedback: "Fluent and confident is the easy part. The only way to know it\u2019s accurate is to check it against something you trust, or to already know enough to catch the error." },
+      { label: "It\u2019s well-organized, so it\u2019s probably right", correct: false, feedback: "Organization is a pattern, not proof. AI can lay out a flawless-looking structure around completely wrong content." }
+    ]
+  }];
+
+  const allAnswered = Object.keys(slopAnswers).length >= SLOP_SCENARIOS.length;
+
+  return E("div", null,
+    E(LessonHeader, { sectionId: "whybother" }),
+    E(BodyP, null,
+      "Fair question. If AI will answer anything you ask, instantly, why grind through learning any of it yourself? Just ask the tool when you need it, right?"),
+    E(BodyP, null,
+      "Here\u2019s the catch. AI will hand you something for every request, fast and sure of itself. But you just saw that sure and correct aren\u2019t the same thing. A lot of what comes back looks right and isn\u2019t. There\u2019s a name for it."),
+
+    E(SectionKicker, null, "MEET AI SLOP"),
+    E(BodyP, null,
+      "AI slop is output that looks solid but isn\u2019t: a made-up quote, a confident wrong total, a clean explanation with a buried mistake. It\u2019s not that AI is broken. It\u2019s that a pattern machine is built to produce something plausible every time, whether or not it actually has the goods. The polish is free. The truth is not guaranteed."),
+
+    E(ShowcaseBox, {
+      kicker: "WHAT THE COURSE NAME MEANS",
+      headline: E("div", {
+        style: { fontFamily: "var(--serif)", fontSize: 38, fontWeight: 400, color: "var(--ink)", lineHeight: 1.18, letterSpacing: "-0.02em" }
+      },
+        "The only way to be smarter than the tool is to ",
+        E("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, "learn.")),
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+        CONTRAST.map(function(card) {
+          return E("div", {
+            key: card.label,
+            style: { background: "var(--card)", borderRadius: 15, padding: "16px 18px", boxShadow: "var(--shadowElevated)" }
+          },
+            E("div", { style: { fontSize: 16, fontWeight: 800, color: card.color, marginBottom: 7, lineHeight: 1.25 } }, card.label),
+            E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
+        }))),
+
+    E(BodyP, null,
+      "Here\u2019s the part that\u2019s easy to miss. The knowledge that catches slop isn\u2019t something you can download in the five seconds you need it. You build it ahead of time, by learning. The people who stop because \u201CAI can do it now\u201D slowly lose the ability to notice when it can\u2019t."),
+
+    E(BodyP, null,
+      "Try it. Each one is an AI answer that looks completely fine. See if you can pick the move that actually protects you."),
+
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Spot the Slop",
+      action: E(ActivityCounter, { count: Object.keys(slopAnswers).length, total: SLOP_SCENARIOS.length })
+    },
+      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick the move that catches the problem. We\u2019ll explain as you go."),
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SLOP_SCENARIOS.map(function(s, i) {
+          var answered = slopAnswers[i] !== undefined;
+          var pickedIdx = slopAnswers[i];
+          var pickedOpt = answered ? s.options[pickedIdx] : null;
+          var correct = answered && pickedOpt.correct;
+          function PillButton(opt, optIdx) {
+            var isPicked = pickedIdx === optIdx;
+            return E(FeedbackPill, {
+              key: optIdx,
+              answered: answered,
+              isCorrect: opt.correct,
+              isPicked: isPicked,
+              label: opt.label,
+              onClick: function() { setSlopAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
+            });
+          }
+          return E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: s.setup,
+            answered: answered,
+            correct: correct,
+            feedback: pickedOpt ? pickedOpt.feedback : null
+          }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
+        }))),
+
+    allAnswered ? E(KeyInsight, { lead: "You only caught the slop because you knew something." },
+      "That\u2019s the whole game. Learning is what turns you from someone who accepts answers into someone who can judge them. That\u2019s what being smarter than the tool actually means.") : null,
+
+    allAnswered ? E(BodyP, null,
+      "So AI is everywhere, it doesn\u2019t really think, and plenty of what it makes is slop. That can feel like a lot is stacked against you. So what\u2019s actually in your hands? That\u2019s next.") : null,
+
+    E(LessonRule, null),
+    E(NextLessonGate, {
+      ready: allAnswered,
+      lockedMessage: "Answer all three to continue",
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); },
+      label: "Next: What You Can Control"
+    }));
 }
 function ControlSection(props) {
   var E = React.createElement;
@@ -2879,6 +3133,10 @@ function ControlSection(props) {
     E(LessonHeader, { sectionId: "control" }),
     E(BodyP, null,
       "You\u2019re hearing it constantly: AI is taking jobs. That headline used to be a prediction. Now it\u2019s news. Companies are replacing parts of entry-level work with AI agents that draft, summarize, code, and respond around the clock. Some of those were going to be your first jobs."),
+    E(BodyP, null,
+      "Here\u2019s what the headline skips. AI doesn\u2019t do whole jobs, it does tasks. It drafts the email, it doesn\u2019t run the department. Jobs change shape as the tasks inside them get automated, and that part is real. It\u2019s just not the same as the whole job disappearing."),
+    E(BodyP, null,
+      "And that big scary number of lost jobs? Some experts predict AI wipes out millions. Others say it creates so many new roles the losses barely show. The honest answer is that nobody knows yet, including the people making the predictions."),
     E(BodyP, null,
       "That feels heavy because part of it is true. But the headline misses the only question worth asking right now: what\u2019s in your hands and what isn\u2019t?"),
 
@@ -3080,7 +3338,7 @@ function IntroSection(props) {
       subtitle: "Ten stops, one route."
     }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "Four lessons in, you\u2019ve got the why and what\u2019s in your hands. The rest of the course is each section, one more thing you take control of."
+      "Six lessons in, you\u2019ve got the why and what\u2019s in your hands. The rest of the course is each section, one more thing you take control of."
     ),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "HOW WE\u2019LL GET THERE",
@@ -14558,6 +14816,8 @@ const SECTION_COMPONENTS = {
   whennot: WhenNotSection,
   aistrengths: AIStrengthsSection,
   whydeeper: WhyDeeperSection,
+  doesaithink: DoesAIThinkSection,
+  whybother: WhyBotherSection,
   control: ControlSection,
   humanjob: HumanJobSection,
   intro: IntroSection,

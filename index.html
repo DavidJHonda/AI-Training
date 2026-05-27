@@ -10557,16 +10557,13 @@ function CreativeThinkingSection(props) {
       kicker: "FIVE MOVES YOU CAN PRACTICE",
       marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column" } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
         METHOD.map(function(q, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === METHOD.length - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "1px solid var(--rule)" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--primary)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, q.title),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, q.body)));
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16 } },
+            /*#__PURE__*/React.createElement("div", { style: { marginBottom: 6 } },
+              /*#__PURE__*/React.createElement("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700, display: "inline-block" } }, String(i + 1))),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, q.title),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, q.body));
         }))),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Now watch the moves in action. Two business owners face the same problem. Spot which one is doing the creative thinking before AI ever comes into the picture."),
@@ -14982,6 +14979,46 @@ function LLMExplorer() {
       setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "welcome" }); });
     }
   }, [progress.activeSection]);
+  var isPrintMode = false;
+  try {
+    isPrintMode = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all";
+  } catch (ex) {}
+  if (isPrintMode) {
+    return /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--bg)", padding: "32px 40px", fontFamily: "var(--sans)" }
+    },
+      SECTIONS.map(function(section, idx) {
+        var SectionComponent = SECTION_COMPONENTS[section.id];
+        if (!SectionComponent) return null;
+        var isLast = idx === SECTIONS.length - 1;
+        return /*#__PURE__*/React.createElement("div", {
+          key: section.id,
+          style: {
+            background: "var(--card)",
+            borderRadius: 18,
+            padding: "44px 56px",
+            border: "1px solid var(--rule)",
+            marginBottom: isLast ? 0 : 24,
+            pageBreakAfter: isLast ? "auto" : "always",
+            breakAfter: isLast ? "auto" : "page"
+          }
+        },
+          /*#__PURE__*/React.createElement(LessonContext.Provider, {
+            value: { activeSection: section.id, onNavigate: function() {} }
+          },
+            /*#__PURE__*/React.createElement(SectionComponent, {
+              onNavigate: function() {},
+              completeAndNavigate: function() {},
+              markComplete: function() {},
+              testYourselfQuiz: null,
+              setTestYourselfQuiz: function() {},
+              resetTestYourselfQuiz: function() {}
+            })
+          )
+        );
+      })
+    );
+  }
   const Component = SECTION_COMPONENTS[activeSection];
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
@@ -15155,8 +15192,12 @@ function LLMExplorer() {
         window.location.reload();
       }
     },
-    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit" }
-  }, "\u21BA Reset Progress")));
+    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
+  }, "\u21BA Reset Progress"),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: function() { window.location.search = "?print=all"; },
+    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "8px auto 0" }
+  }, "\u2399 Print Course PDF")));
 }
 
 

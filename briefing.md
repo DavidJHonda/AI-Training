@@ -122,6 +122,18 @@ Stages reveal one at a time. Mirrors TRY IT Pattern 1 structurally; differs in c
 #### SEE IT Pattern B: Parallel Reveal, Sand Chrome
 Comparison matters more than sequence. All stages render at once as ivory cards stacked inside the sand band, separated by var(--seeRule) hairlines. No RevealSequence, no counter pill.
 
+## Lesson structure
+
+### End-of-lesson transitions
+A lesson ends on its landing beat (Key Insight, Takeaway, or completed activity). It does not end on a forward-pointing paragraph. The NextLessonGate button is the structural pivot; a "...next lesson, we'll..." sentence dilutes the insight and adds reading load.
+
+If a transition is genuinely needed for orientation, it goes at the top of the next lesson, not at the bottom of the current one. Each lesson reads as a standalone unit; the next lesson sets up its own question.
+
+Practical rules:
+- The last component before LessonRule should be a Key Insight, Takeaway, or activity-completion beat. Not a BodyP that pivots forward.
+- Key Insight bodies should not trail off with "...next we'll..." or "...that's the idea behind X." Trim those sentences.
+- Forward references inside mid-lesson copy are fine. The rule applies to the lesson's final beat.
+
 ## Working agreements
 
 ### David's setup

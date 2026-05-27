@@ -236,6 +236,9 @@ function InnerCard(props) {
   }, props.children);
 }
 function ActivityCounter(props) {
+  try {
+    if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all") return null;
+  } catch (ex) {}
   return /*#__PURE__*/React.createElement("div", {
     style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "var(--shadowSoft)", display: "inline-flex", alignItems: "baseline", gap: 4 }
   },
@@ -632,8 +635,8 @@ function OpenerSection(props) {
   }
   return E("div", null,
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
-    renderParas(props.whyThisMatters),
     props.featuredCard || null,
+    renderParas(props.whyThisMatters),
     E(SectionKicker, null, "BIG QUESTIONS WE’LL ANSWER"),
     renderParas(props.whatYoullLearnIntro),
     E(ShowcaseBox, null, showcaseInner),
@@ -812,6 +815,49 @@ function QuizBlock(props) {
 
   if (surface === "mint") {
     var hasNumeral = props.questionNumber != null;
+    var isPrintMode = false;
+    try { isPrintMode = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all"; } catch (ex) {}
+    if (isPrintMode) {
+      return React.createElement("div", { style: { padding: 0 } },
+        React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 } },
+          hasNumeral ? React.createElement("div", {
+            style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 }
+          }, String(props.questionNumber).padStart(2, "0")) : null,
+          React.createElement("div", {
+            style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }
+          }, props.statement)),
+        React.createElement("div", {
+          style: { display: "flex", flexDirection: "column", gap: 18, paddingLeft: hasNumeral ? 66 : 0 }
+        },
+          options.map(function(opt, i) {
+            var isCorrect = !!opt.correct;
+            var accent = isCorrect ? "#1f9d5f" : "#d4334a";
+            var bgColor = isCorrect ? "#e7f6ee" : "#fbe9ec";
+            var borderColor = isCorrect ? "#b6e3cd" : "#f0b8c1";
+            var eyebrowText = opt.eyebrow || (isCorrect ? "Correct" : "Not quite");
+            var headlineText = opt.headline || (isCorrect ? "Right." : "Not the best fit.");
+            return React.createElement("div", { key: i },
+              React.createElement("div", {
+                style: {
+                  display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
+                  background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
+                  fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: accent,
+                  marginBottom: 10
+                }
+              },
+                React.createElement("div", { style: { flex: 1 } }, opt.label),
+                React.createElement("span", { style: { color: accent, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, isCorrect ? "✓" : "✕")),
+              React.createElement("div", { style: { paddingLeft: 4 } },
+                React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 6 } },
+                  React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
+                  eyebrowText),
+                React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: accent, lineHeight: 1.2, marginBottom: 6 } }, headlineText),
+                React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, opt.feedback || ""))
+            );
+          })
+        )
+      );
+    }
     var controlledResolved = (props.picked != null && options[props.picked] && options[props.picked].correct) ? props.picked : null;
     var resolvedIdx = mResolved != null ? mResolved : controlledResolved;
     var isResolved = resolvedIdx != null;
@@ -1046,6 +1092,13 @@ function RevealSequence(props) {
   var disabledBg = isMint || isSand ? "#d8d6e0" : "var(--rule)";
   var btnFontFamily = isMint || isSand ? "'Plus Jakarta Sans', system-ui, sans-serif" : "inherit";
   var stripArrow = function(s) { return (s || "").replace(/[\s\u2190-\u21FF]+$/, ""); };
+  var isPrintMode = false;
+  try { isPrintMode = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all"; } catch (ex) {}
+  if (isPrintMode) {
+    return React.createElement("div", null,
+      props.children,
+      props.completionElement ? React.createElement("div", { style: { marginTop: 18 } }, props.completionElement) : null);
+  }
   if (!props.started) {
     return React.createElement("div", { style: { textAlign: "center", padding: "12px 0" } },
       React.createElement("button", {
@@ -1120,7 +1173,7 @@ const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
   whydeeper: { kicker: "THE EDGE", label: "Why Learn AI?", icon: "\uD83D\uDD27" },
   doesaithink: { kicker: "PATTERN, NOT THOUGHT", label: "Does AI Think?", icon: "\uD83E\uDD16" },
-  whybother: { kicker: "KNOW MORE THAN THE TOOL", label: "Is School Needed?", icon: "\uD83D\uDCDA" },
+  whybother: { kicker: "KNOW MORE THAN THE TOOL", label: "Why Bother Learning?", icon: "\uD83D\uDCDA" },
   control: { kicker: "STAKES AND AGENCY", label: "What You Can Control", icon: "\uD83C\uDFAF" },
   humanjob: { kicker: "FOUR MOVES ONLY YOU CAN MAKE", label: "What Only You Can Do", icon: "\uD83D\uDCBC" },
   intro: { kicker: "THE ROUTE", label: "The Roadmap", icon: "\uD83D\uDDFA\uFE0F" },
@@ -10501,14 +10554,14 @@ function EvaluatingSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("creativethinking"), label: "Next: Creative Thinking" }));
 }
 function CreativeThinkingSection(props) {
-  const [storeAnswer, setStoreAnswer] = useState(null);
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [scenariosStarted, setScenariosStarted] = useState(false);
+  const [scenarioAnswer, setScenarioAnswer] = useState(null);
   const ROLES = [
     { icon: "⚖️", label: "Creative lawyer", body: "Finds a strategy nobody else read in the same case file. Same laws, same facts, different play." },
     { icon: "🚀", label: "Creative entrepreneur", body: "Spots a gap in the market everyone else walked past. The product isn’t new. The angle on it is." },
-    { icon: "📚", label: "Creative teacher", body: "Explains a tough concept in a way that finally clicks. Same material, fresh frame." },
     { icon: "⚙️", label: "Creative engineer", body: "Solves a problem the standard textbook approach can’t crack. The fix wasn’t in any manual." },
-    { icon: "🩺", label: "Creative doctor", body: "Catches a diagnosis everyone else missed. Same symptoms, different read." },
-    { icon: "🏆", label: "Creative coach", body: "Spots the matchup advantage nobody else saw. Same roster, different scheme." }
+    { icon: "🩺", label: "Creative doctor", body: "Catches a diagnosis everyone else missed. Same symptoms, different read." }
   ];
   const METHOD = [
     { title: "See the obvious.", body: "Name the play everyone else is going to land on before you try to leave it." },
@@ -10517,10 +10570,33 @@ function CreativeThinkingSection(props) {
     { title: "Push past the first decent idea.", body: "Average ideas come first. Interesting ones come fourth or fifth." },
     { title: "Pick the angle and own it.", body: "Creative thinking ends in a choice. Commit to one and back it." }
   ];
-  const OWNER_OPTIONS = [
-    { label: "Owner A. They have a clear plan and AI can flesh it out.", correct: false, headline: "It’s a plan everyone else also has.", hint: "Owner A’s plan isn’t bad. The catch is what’s in it. Look at where their thinking started, and notice how every store owner who started the same way ended up at the same four tactics. Where would a different starting point have taken them?", feedback: "Owner A isn’t wrong. The four tactics work. The catch is that every other store owner who started with ‘I need to sell more’ got pulled toward the same four tactics. AI will fill them in, but the result looks like everyone else’s plan. The creative move happens earlier than the prompt." },
-    { label: "Owner B. They changed how they saw the problem before AI got involved.", correct: true, headline: "The reframing was the move.", feedback: "Owner B did the creative thinking before AI ever got involved. By changing ‘how do I sell more’ to ‘when are people already wanting what I sell, and where am I in the way,’ they changed the search itself. AI still does the task, but it’s now hunting for something specific to Owner B’s business instead of running the universal playbook." }
+  const SCENARIOS = [
+    {
+      setup: "An AP World History teacher’s students keep glazing over when she teaches the alliance system that led to World War I. The unit test is in three weeks.",
+      personALabel: "TEACHER A",
+      personAThinking: "Re-read the chapter slower. Add a timeline activity. Hand out a study guide with the key alliances. The material is in the textbook. If they keep seeing it, eventually they’ll lock in.",
+      personBLabel: "TEACHER B",
+      personBThinking: "Hold on. These kids live inside group chats. The whole alliance system is basically one massive group chat where everyone’s tagged in everyone else’s drama. Austria DMs Serbia, four other countries get pinged because of side-deals, and suddenly the whole class is in the fight. I’ll teach it as a group chat war.",
+      statement: "Which one is the creative thinking move?",
+      options: [
+        { label: "Teacher A. The textbook is the source. Going through it more carefully should get students there.", correct: false, headline: "It’s the standard play.", hint: "Teacher A’s plan isn’t wrong. The catch is it’s the same move every other teacher would make. Look at what Teacher B did before they touched the lesson plan. They searched for a domain the students already live in. That’s the creative move.", feedback: "Teacher A’s plan isn’t bad. The issue is it’s the standard play every other teacher would run. Students who already glaze over will keep glazing over. Teacher B did the creative work first: they searched for a domain the students already navigate fluently, then mapped the lesson onto it. The textbook isn’t the move. The metaphor is." },
+        { label: "Teacher B. They borrowed from a domain the students already live in.", correct: true, headline: "They borrowed from somewhere else.", feedback: "Teacher B found the metaphor before they touched the lesson plan. Group chats are a domain students already navigate fluently, so mapping WWI alliances onto group chat dynamics turns an unfamiliar topic into a familiar shape. That’s ‘Connect the unconnected’ in action: steal from somewhere else." }
+      ]
+    },
+    {
+      setup: "Your basketball team is down by 12 going into the fourth quarter. You call a timeout. The next two minutes decide the game.",
+      personALabel: "COACH A",
+      personAThinking: "We’re getting beat on shooting. Call more set plays, push the tempo, tell the guys to be more aggressive on defense. Stick to the playbook and execute harder.",
+      personBLabel: "COACH B",
+      personBThinking: "Wait. Their star is on his fourth foul. One more and he’s out for the game. Switch to a lineup that drives straight at him every possession. Forget the offense we practiced. The whole game just became about getting him to commit one more foul.",
+      statement: "Which one is the creative thinking move?",
+      options: [
+        { label: "Coach A. Stick to the system and execute harder.", correct: false, headline: "It’s the standard adjustment.", hint: "Coach A’s plan isn’t wrong. Pushing harder is the default move for any team that’s down. Look at what Coach B noticed that A didn’t. The whole game just changed shape, and Coach B saw the specific thing in front of them.", feedback: "Coach A is running the standard down-by-12 playbook. Push harder, execute better. It’s what every other coach would do in the timeout. Coach B saw a specific feature of this exact game (the fouls on the star) and built a plan around it. The creative move was naming the situation in front of them, not running the general script." },
+        { label: "Coach B. They saw a specific feature of this exact game.", correct: true, headline: "They saw what this game actually is.", feedback: "Coach B looked at THIS game, not ‘a game where we’re down by 12.’ The fouls on the star are the specific feature of this matchup. Every other coach’s playbook would say ‘push harder.’ Coach B saw the obvious thing nobody else was building around. That’s ‘See the obvious’ in action: name what’s actually in front of you before you reach for the standard play." }
+      ]
+    }
   ];
+  const sc = SCENARIOS[Math.min(scenarioIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "creativethinking", subtitle: "Same AI. Better angle." }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -10566,41 +10642,56 @@ function CreativeThinkingSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, q.body));
         }))),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Now watch the moves in action. Two business owners face the same problem. Spot which one is doing the creative thinking before AI ever comes into the picture."),
+      "Now watch the moves in action. Two scenarios coming up. In each one, spot the thinker doing the creative move before AI ever comes into the picture."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Same Problem, Different Thinking"
+      title: "Same Problem, Different Thinking",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(scenarioIdx + (scenariosStarted ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 } },
-          "Your small clothing business is down 10% this quarter. Before you open AI, you sit down to think. Here’s how two different owners go about that thinking."),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "OWNER A: THE STANDARD FRAME"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } },
-            "Sales are down, so I need to drive sales up. The usual moves: run a promotion, post more on social, run ads to past customers, ask buyers what they want next. I’ll have AI brainstorm tactics across each of those.")),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 20 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "OWNER B: THE REFRAMED ANGLE"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } },
-            "Hold on. What if the question isn’t ‘how do I sell more,’ but ‘when do people already want what I sell, and where is my store in their way?’ Last-minute outfit needs for events. Fit-anxiety for online buyers. Gift-buying windows. I’ll have AI help me test one of those specifically.")),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          surface: "mint",
-          statement: "Which one is the creative thinking move?",
-          options: OWNER_OPTIONS,
-          picked: storeAnswer != null ? storeAnswer : undefined,
-          onAnswer: function(idx) { setStoreAnswer(idx); }
-        })),
-      storeAnswer !== null ? /*#__PURE__*/React.createElement(Takeaway, {
-        accent: "var(--tryAccent)",
-        headline: "The creative work happens before the prompt.",
-        body: "Both owners use AI. The one who stands apart is the one who reframed the problem in their own head first. AI does the task. The angle is on the human."
-      }) : null),
+      /*#__PURE__*/React.createElement(RevealSequence, {
+        surface: "mint",
+        items: SCENARIOS,
+        currentIdx: scenarioIdx,
+        started: scenariosStarted,
+        onStart: function() { setScenariosStarted(true); },
+        onNext: function() { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
+        canAdvance: scenarioAnswer !== null,
+        isComplete: scenarioIdx >= SCENARIOS.length,
+        startLabel: "First Scenario",
+        nextLabel: "Next Scenario →",
+        finishLabel: "Wrap it up →",
+        completionElement: /*#__PURE__*/React.createElement(Takeaway, {
+          accent: "var(--tryAccent)",
+          headline: "Reframe first. Tool second.",
+          body: "Both creative moves happened before AI ever got involved. The teacher chose the metaphor. The coach chose the matchup. AI does the task. The angle is on the human."
+        })
+      },
+        /*#__PURE__*/React.createElement(InnerCard, null,
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 } }, sc.setup),
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personALabel),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personAThinking)),
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 20 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personBLabel),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personBThinking)),
+          /*#__PURE__*/React.createElement(QuizBlock, {
+            key: scenarioIdx,
+            surface: "mint",
+            statement: sc.statement,
+            questionNumber: scenarioIdx + 1,
+            totalQuestions: SCENARIOS.length,
+            options: sc.options,
+            picked: scenarioAnswer != null ? scenarioAnswer : undefined,
+            onAnswer: function(idx) { setScenarioAnswer(idx); }
+          }))
+      )),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI does the task." },
       "You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Critical Thinking, the five habits, verification, evaluation, and now the creative angle. Next we step back and name the human skills these all add up to."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: storeAnswer !== null, lockedMessage: "Try the scenario to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("humanedge"); }, label: "Next: Skills That Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= SCENARIOS.length - 1 && scenarioAnswer !== null, lockedMessage: "Try both scenarios to continue", onClick: function() { props.completeAndNavigate && props.completeAndNavigate("humanedge"); }, label: "Next: Skills That Matter" }));
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;

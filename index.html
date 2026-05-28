@@ -625,9 +625,9 @@ function OpenerSection(props) {
       },
         E(SectionKicker, { size: "small", style: { margin: "0 0 8px 0" } }, group.kicker),
         E("div", {
-          style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: "var(--ink)", lineHeight: 1.45, marginBottom: 16 }
+          style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: "var(--ink)", lineHeight: 1.45, marginBottom: (group.questions && group.questions.length) ? 16 : 0 }
         }, group.bridge),
-        renderCardGrid(group.questions)
+        (group.questions && group.questions.length) ? renderCardGrid(group.questions) : null
       );
     });
   } else {
@@ -637,7 +637,7 @@ function OpenerSection(props) {
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
     props.featuredCard || null,
     renderParas(props.whyThisMatters),
-    E(SectionKicker, null, "BIG QUESTIONS WE’LL ANSWER"),
+    E(SectionKicker, null, props.bigQuestionsLabel !== undefined ? props.bigQuestionsLabel : "BIG QUESTIONS WE’LL ANSWER"),
     renderParas(props.whatYoullLearnIntro),
     E(ShowcaseBox, null, showcaseInner),
     renderParas(props.whatYoullLearnClosing),
@@ -1272,37 +1272,23 @@ function OpenerFoundationsSection(props) {
     whatYoullLearnIntro: [
       "Here’s the path: what AI is, where modern AI came from, why it doesn’t act like normal software, and why data is the fuel."
     ],
+    bigQuestionsLabel: "WHAT THIS SECTION COVERS",
     groups: [
       {
         kicker: "WHAT AI IS",
-        bridge: "First, what AI is, and what kind of AI powers tools like ChatGPT.",
-        questions: [
-          { question: "Is AI really intelligence?", lessonId: "aihistory" },
-          { question: "What kind of AI sits inside tools like ChatGPT?", lessonId: "llms" }
-        ]
+        bridge: "First, what AI actually is, and what kind of AI sits inside tools like ChatGPT."
       },
       {
         kicker: "WHY MODERN AI BECAME POSSIBLE",
-        bridge: "Then, the math ideas and history that made today’s AI possible.",
-        questions: [
-          { question: "What kind of math actually powers AI?", lessonId: "aiismath" },
-          { question: "How did centuries of math turn into ChatGPT?", lessonId: "howwegothere" }
-        ]
+        bridge: "Then, the kind of math that actually powers AI, and how centuries of it turned into ChatGPT."
       },
       {
         kicker: "HOW IT BREAKS THE RULES OF SOFTWARE",
-        bridge: "Next, why it doesn’t work like normal software.",
-        questions: [
-          { question: "Why doesn’t AI work like other software?", lessonId: "aivscode" },
-          { question: "How can no one have written AI’s rules?", lessonId: "blackbox" }
-        ]
+        bridge: "Next, why it doesn’t work like normal software, and how it runs on rules nobody actually wrote."
       },
       {
         kicker: "WHAT FUELS IT",
-        bridge: "Finally, what fuels all of this.",
-        questions: [
-          { question: "Why does AI need so much data?", lessonId: "data" }
-        ]
+        bridge: "Finally, why all of this runs on enormous amounts of data."
       }
     ],
     whatYoullLearnClosing: [],
@@ -2381,7 +2367,7 @@ function WhenNotSection(props) {
   const sc = WHENNOT_SCENARIOS[wnIdx] || WHENNOT_SCENARIOS[WHENNOT_SCENARIOS.length - 1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whennot" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "This whole course is about using AI well. Part of using it well is knowing when not to. Sometimes the sharpest move is to leave the tool closed and handle something yourself, or hand it to a real person. Knowing where that line is keeps you in charge of the tool instead of the other way around."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Every other lesson in this course assumes you’ve already decided to use AI, then teaches you to do it well: protect your privacy, keep your work honest, check what it hands back, hold on to your own voice. This lesson asks the question that comes first. Before any of that, should you open the tool at all? Sometimes the sharpest move is to leave it closed and handle something yourself, or hand it to a real person. That call is its own skill, and it’s the one that keeps you in charge of the tool instead of the other way around."),
     /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "DON\u2019T REACH FOR IT WHEN" },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
         [
@@ -2837,6 +2823,15 @@ function WhyDeeperSection(props) {
     { icon: "\uD83D\uDCCA", title: "Business", body: "Summarizing the meeting, writing the email, and building the spreadsheet." },
     { icon: "\uD83D\uDD2C", title: "Science", body: "Proposing experiments and chewing through data faster than a lab could by hand." }
   ];
+  var COURSE_QUESTIONS = [
+    "If AI doesn\u2019t really think, how does it write like it does?",
+    "Why does it sound so sure when it\u2019s flat-out wrong?",
+    "How do I get answers worth using instead of generic mush?",
+    "Can I actually use this for school, or is that just cheating myself?",
+    "It feels like it gets me. Is it playing me?",
+    "Two people, same AI. Why does one get way more out of it?",
+    "If AI can do all this, what\u2019s actually left that only I can do?"
+  ];
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/E(BodyP, null,
@@ -2865,7 +2860,21 @@ function WhyDeeperSection(props) {
               /*#__PURE__*/E("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, card.title)),
             /*#__PURE__*/E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
         }))),
-    /*#__PURE__*/E(KeyInsight, { lead: "This is the time to learn the fundamentals." }, "Learn those now and they hold up no matter how fast the tools change."),
+    /*#__PURE__*/E(ShowcaseBox, {
+      kicker: "WHAT YOU\u2019LL BE ABLE TO ANSWER",
+      headline: "The questions this course answers.",
+      intro: "Some of these might feel fuzzy right now. By the last lesson, you\u2019ll have a real answer to every one."
+    },
+      /*#__PURE__*/E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        COURSE_QUESTIONS.map(function(q, i) {
+          return /*#__PURE__*/E("div", {
+            key: i,
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, display: "flex", alignItems: "flex-start", gap: 12 }
+          },
+            /*#__PURE__*/E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700, display: "inline-block", flexShrink: 0 } }, String(i + 1)),
+            /*#__PURE__*/E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, q));
+        }))),
+    /*#__PURE__*/E(KeyInsight, { lead: "This is the time to learn the fundamentals." }, "Learn those now and they hold up no matter how fast AI changes."),
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" }));
 }
@@ -2928,7 +2937,9 @@ function DoesAIThinkSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "doesaithink" }),
     E(BodyP, null,
-      "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the honest question, the one this whole course stands on: does AI actually think? Is it alive? Is it smart? Does it feel anything?"),
+      "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the honest question, the one this whole course stands on: ",
+      E("strong", null, "Does AI actually think?"),
+      " Is it alive? Is it smart? Does it feel anything?"),
     E(BodyP, null,
       "Short answer: no, not the way you do."),
 
@@ -2938,10 +2949,11 @@ function DoesAIThinkSection(props) {
       " That was picked on purpose. Something can act intelligent, finish your sentence, explain a poem, without understanding a single thing it just said."),
     E(BodyP, null,
       "There\u2019s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn\u2019t know a word of Chinese. People outside slide notes, written in Chinese, under the door. Inside, the person can\u2019t read any of it. What they do have is a giant chart of every Chinese symbol and which symbol tends to follow which."),
-    E(BodyP, null,
-      "They find the symbol on the chart, write down the one most likely to come next, and slide that back under the door."),
-    E(BodyP, null,
-      "To anyone outside, the person in the room speaks fluent Chinese. But that\u2019s not what\u2019s happening. They\u2019re just matching symbols that fit."),
+    E("img", {
+      src: "illustrations/chinese-room-optimized.jpg",
+      alt: "A person sealed inside a room matching Chinese symbols against a rulebook, sliding answers under the door",
+      style: { display: "block", width: "100%", maxWidth: 560, margin: "20px auto", borderRadius: 12 }
+    }),
     E(BodyP, null,
       "That\u2019s AI. It arranges symbols brilliantly and understands none of them. You get a perfect-looking answer with no real understanding behind it."),
 
@@ -3010,21 +3022,21 @@ function WhyBotherSection(props) {
   const [workerAnswers, setWorkerAnswers] = useState({});
 
   var WORKER_SCENARIOS = [{
-    setup: "You write code for a living. You ask AI to build a new feature, and it generates code that runs perfectly on your first test. It looks finished.",
+    setup: "You’re a software engineer and write code for a living. You ask AI to build a new feature, and it generates code that runs perfectly on your first test. It looks finished.",
     options: [
       { label: "Ship it, it runs", correct: false, feedback: "It passed one test, so it looks done. But \u201Cruns on my screen\u201D and \u201Cholds up when a million people hit it at once\u201D are different planets. If you never learned how systems behave under load, that\u2019s your ceiling. You ship whatever runs and find out the hard way." },
       { label: "Ask AI if the code is good", correct: false, feedback: "It\u2019ll happily tell you it\u2019s great. The tool that wrote the flaw is not the one that\u2019s going to flag it. Knowing the answer yourself is the whole point." },
       { label: "Rebuild the part that won\u2019t hold", correct: true, feedback: "Because you actually studied how big systems scale, you can see this design falls apart the moment real traffic shows up. You fix the piece that matters before it ever ships. The years you spent learning this are the only reason you caught what the tool couldn\u2019t." }
     ]
   }, {
-    setup: "You run a kitchen. AI crunches your costs and says you\u2019ll save a fortune switching to a cheaper cut of beef shipped in from overseas. The math checks out.",
+    setup: "You’re a world-famous chef and run a restaurant. AI crunches your costs and says you\u2019ll save a fortune switching to a cheaper cut of beef shipped in from overseas. The math checks out.",
     options: [
       { label: "Switch and save big $", correct: false, feedback: "The spreadsheet is right about the money and clueless about everything else. It doesn\u2019t know how that cut cooks or what your regulars expect. Take the numbers at face value and the \u201Csavings\u201D walk out the door with the customers you lost." },
       { label: "Ask AI for more ways to cut costs", correct: false, feedback: "Now you\u2019ve got ten more shortcuts you still have to judge, and the tool can\u2019t judge any of them for you. More options isn\u2019t more knowledge. You\u2019re still the one who has to know what actually works." },
       { label: "Trust your knowledge", correct: true, feedback: "Because you trained as a cook, you know that cut turns tough on your menu, and because you\u2019ve fed these regulars for years, you know they\u2019ll taste the drop in one bite. The knowledge in your hands is the part the calculator will never have." }
     ]
   }, {
-    setup: "You own the business. AI looks at last month\u2019s sales and tells you to hire five people to keep up with the rush. Reasonable on paper.",
+    setup: "You’re an entrepreneur and own the business. AI looks at last month\u2019s sales and tells you to hire five people to keep up with the rush. Reasonable on paper.",
     options: [
       { label: "Hire five people", correct: false, feedback: "The numbers say so because the numbers only saw last month. AI is reading one snapshot like it\u2019s the whole movie. Hire for the snapshot and you\u2019re paying five salaries when the work dries up." },
       { label: "Ask AI to try again", correct: false, feedback: "It\u2019ll guess from patterns, not from your store. The thing that saves you here is knowing your own business, and that\u2019s knowledge you bring to the tool, not the other way around." },
@@ -3100,6 +3112,11 @@ function WhyBotherSection(props) {
       "Here\u2019s the most important thing you\u2019ll learn in this course. AI will always handle step 1. It\u2019s the ultimate answer machine. Ask anything, and you\u2019ll get an answer. But, it\u2019s not good at steps 2 to 5. It never understands what it gives you. So, how can it evaluate, refine, and make it better, when it doesn\u2019t even understand what it says?"),
     E(BodyP, null,
       "But for steps 2 to 5, that\u2019s your domain. It\u2019s our shared Middle Earth (thank you Mr. Tolkien). This is where you need to live. And it starts today, not when you work at Google. Start learning today. Double-down on building your knowledge and skills. And, one day you\u2019ll be the CEO at Google."),
+    E("img", {
+      src: "illustrations/luke-ceo.jpg",
+      alt: "Luke as the CEO at Google",
+      style: { display: "block", width: "100%", maxWidth: 560, margin: "20px auto", borderRadius: 12 }
+    }),
 
     E(SectionKicker, null, "THE TRUTH ABOUT AI"),
     E(BodyP, null,
@@ -3250,14 +3267,13 @@ function ControlSection(props) {
     E(BodyP, null,
       "You\u2019re hearing it constantly: AI is taking jobs. That headline used to be a prediction. Now it\u2019s news."),
     E(BodyP, null,
-      "Here\u2019s what the headline skips. AI doesn\u2019t do whole jobs, it does tasks. It drafts the email, but it doesn\u2019t run the department. Jobs change as AI automates the tasks within them, and that\u2019s real. But, it\u2019s just not the same as the whole job disappearing."),
+      "Here\u2019s what the headline skips. AI doesn\u2019t do whole jobs, it does tasks. It drafts the email, brainstorms ideas for the next website, but it doesn\u2019t run the company. Jobs change as AI automates the tasks within them, and that\u2019s real. But, it\u2019s just not the same as the whole job disappearing."),
     E(BodyP, null,
       "This is happening mostly through AI agents, which you\u2019ll learn about later. Companies automate tasks with AI agents like summarizing numbers, writing code, and doing customer service. And, unlike people, AI agents work 24-7 and never take breaks."),
     E(SectionKicker, null, "WHAT IS GOING TO HAPPEN?"),
     E(BodyP, null,
       "Some experts predict AI wipes out millions of jobs. Others say it creates so many new roles the losses barely show. ",
-      E("strong", null, "The honest answer is that nobody knows yet"),
-      ", including the people making the predictions."),
+      E("strong", null, "The honest answer is that nobody knows yet, including the people making the predictions.")),
     E(BodyP, null,
       "That feels heavy because part of it is true. But the headline misses the only question worth asking right now: what\u2019s in your hands and what isn\u2019t?"),
 
@@ -9570,7 +9586,7 @@ function WhatItDoesBestSection(props) {
             feedback: feedback
           }, ENGINES.map(function(e) { return PillButton(e); }));
         }))),
-    Object.keys(taskAnswers).length >= TASKS.length ? E(KeyInsight, { lead: "Four engines. A thousand uses." }, "Almost everything AI is good at is one of those four strengths pointed at the right task. The skill isn\u2019t memorizing a hundred clever prompts. It\u2019s spotting which strength a job needs, and noticing when a job needs none of them.") : null,
+    Object.keys(taskAnswers).length >= TASKS.length ? E(KeyInsight, { lead: "Four engines. A thousand uses." }, "Almost everything AI is good at is one of those four strengths pointed at the right task. The skill isn\u2019t memorizing a hundred clever prompts. It\u2019s spotting which strength a job needs, noticing when none of them fit, and knowing when one fits but you still shouldn\u2019t reach for it. That last call gets its own lesson later: When Not to Use AI.") : null,
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: Object.keys(taskAnswers).length >= TASKS.length,
@@ -15031,7 +15047,6 @@ function LLMExplorer() {
       activeSection: id,
       visited: (prev.visited || []).includes(id) ? prev.visited : [...(prev.visited || []), id]
     }));
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const completeAndNavigate = (id) => {
     setProgress(prev => {
@@ -15045,7 +15060,6 @@ function LLMExplorer() {
         completed: completed.includes(currentId) ? completed : [...completed, currentId]
       };
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const markComplete = (id) => {
     setProgress(prev => {
@@ -15064,6 +15078,9 @@ function LLMExplorer() {
     if (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; })) {
       setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "welcome" }); });
     }
+  }, [progress.activeSection]);
+  useEffect(function() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [progress.activeSection]);
   var isPrintMode = false;
   try {

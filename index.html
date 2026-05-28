@@ -633,14 +633,37 @@ function OpenerSection(props) {
   } else {
     showcaseInner = renderCardGrid(props.openQuestions || []);
   }
+  var renderOverview = function(ov) {
+    var rows = (props.groups || []).map(function(group, gi) {
+      return E("div", {
+        key: gi,
+        style: { display: "flex", alignItems: "flex-start", gap: 16, background: "#ffffff", borderRadius: 14, padding: "16px 20px", marginTop: gi === 0 ? 0 : 12 }
+      },
+        E("div", { style: { flexShrink: 0, width: 34, height: 34, borderRadius: 11, background: "#5a47c9", color: "#ffffff", fontWeight: 800, fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" } }, String(gi + 1)),
+        E("div", null,
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "1.8px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 6 } }, group.kicker),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, color: "#2a251a", lineHeight: 1.5 } }, group.bridge)));
+    });
+    return E("div", { style: { background: "#f3f1fa", borderRadius: 24, padding: 32, marginBottom: "var(--blockGap)" } },
+      E("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 24 } },
+        E("div", null,
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "2.4px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 10 } }, ov.eyebrow || "In this section"),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 29, fontWeight: 700, letterSpacing: "-0.58px", color: "#14110b", lineHeight: 1.12, marginBottom: 8 } }, ov.title),
+          ov.subtitle ? E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, color: "#6e6757", lineHeight: 1.5 } }, ov.subtitle) : null),
+        ov.badge ? E("div", { style: { flexShrink: 0, background: "#ffffff", borderRadius: 999, padding: "6px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: "0.78px", color: "#5a47c9", whiteSpace: "nowrap" } }, ov.badge) : null),
+      rows);
+  };
   return E("div", null,
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
     props.featuredCard || null,
     renderParas(props.whyThisMatters),
-    E(SectionKicker, null, props.bigQuestionsLabel !== undefined ? props.bigQuestionsLabel : "BIG QUESTIONS WE’LL ANSWER"),
-    renderParas(props.whatYoullLearnIntro),
-    E(ShowcaseBox, null, showcaseInner),
-    renderParas(props.whatYoullLearnClosing),
+    props.sectionOverview
+      ? renderOverview(props.sectionOverview)
+      : E(React.Fragment, null,
+          E(SectionKicker, null, props.bigQuestionsLabel !== undefined ? props.bigQuestionsLabel : "BIG QUESTIONS WE’LL ANSWER"),
+          renderParas(props.whatYoullLearnIntro),
+          E(ShowcaseBox, null, showcaseInner),
+          renderParas(props.whatYoullLearnClosing)),
     props.mistake ? E(KeyInsight, { lead: "The common mistake:" }, props.mistake) : null,
     E(KeyInsight, { lead: props.questionLead !== undefined ? props.questionLead : "Keep this question in mind:" }, props.question),
     E(LessonRule, null),
@@ -1161,7 +1184,7 @@ const SECTION_GROUPS = [{
   sections: ["openertraps", "hallucination", "trainingbias", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap"]
 }, {
   label: "Human Judgment",
-  sections: ["openerjudgment", "whennot", "aistrengths", "critical", "habits", "verify", "evaluating", "creativethinking", "humanedge"]
+  sections: ["openerjudgment", "whennot", "aistrengths", "critical", "verify", "evaluating", "creativethinking", "humanedge"]
 }, {
   label: "Real World",
   sections: ["openerrealworld", "workchanges", "whenaiacts", "judged", "stakeholders", "synthetic", "aifuture", "buildedge"]
@@ -1218,7 +1241,6 @@ const SECTION_META = {
   whennot: { kicker: "SOMETIMES THE ANSWER IS NO", label: "When Not to Use AI", icon: "\u270B" },
   aistrengths: { kicker: "MATCH THE CHECK TO THE TASK", label: "How Much to Check", icon: "\u2696\uFE0F" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
-  habits: { kicker: "QUESTION EVERY ANSWER", label: "The 5 Habits", title: "The 5 Habits", icon: "\uD83D\uDD01" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   creativethinking: { kicker: "FIND THE BETTER ANGLE", label: "Creative Thinking", title: "Creative Thinking", icon: "\uD83D\uDCA1" },
@@ -1272,7 +1294,12 @@ function OpenerFoundationsSection(props) {
     whatYoullLearnIntro: [
       "Here’s the path: what AI is, where modern AI came from, why it doesn’t act like normal software, and why data is the fuel."
     ],
-    bigQuestionsLabel: "WHAT THIS SECTION COVERS",
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "How AI Really Works",
+      subtitle: "Four ideas that build on each other. Here’s the path we’ll take.",
+      badge: "02 / 10"
+    },
     groups: [
       {
         kicker: "WHAT AI IS",
@@ -2474,6 +2501,12 @@ function OpenerJudgmentSection(props) {
       "That means the most important AI skill isn’t just prompting. It’s knowing when to trust, when to question, when to verify, and when to make the call yourself.",
       "This section is about the thinking you bring to AI. Each lesson starts with a question."
     ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "The Judgment You Bring",
+      subtitle: "Two moves only you can make.",
+      badge: "08 / 10"
+    },
     groups: [
       {
         kicker: "WHERE AI FITS",
@@ -2488,7 +2521,6 @@ function OpenerJudgmentSection(props) {
         bridge: "Then, what only you can bring.",
         questions: [
           { question: "How do I spot weak reasoning, even from AI?", lessonId: "critical" },
-          { question: "Which habits do I run on every AI answer?", lessonId: "habits" },
           { question: "How do I check whether important claims are true?", lessonId: "verify" },
           { question: "How do I decide whether the output is good enough to use?", lessonId: "evaluating" },
           { question: "How do I do work that doesn’t sound like everyone else’s?", lessonId: "creativethinking" },
@@ -5215,6 +5247,12 @@ function OpenerInsideSection(props) {
     whatYoullLearnIntro: [
       "Each lesson answers a question. The questions cluster into four moves."
     ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "Inside the Model",
+      subtitle: "Five steps, each building on the last.",
+      badge: "03 / 10"
+    },
     groups: [
       {
         kicker: "TURN TEXT INTO NUMBERS",
@@ -5582,25 +5620,27 @@ function EmbeddingsSection(props) {
     ". Real models don\u2019t use hand-labeled dimensions like the ones below: real dimensions are learned during training. We\u2019re labeling these so you can see how a list of numbers can describe meaning."),
   E(BodyP, null,
     "Picture a bottle of Coke and a cup of black coffee. We can rate each one on a few dimensions."),
-  E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", width: "100%", maxWidth: 760, margin: "0 auto 16px" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--rule)", alignItems: "center" } },
-        E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px" } }, "Dimension"),
-        E("div", { style: { textAlign: "center" } },
-          E("span", { style: { background: "#fee2e2", color: "#991b1b", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Coke")),
-        E("div", { style: { textAlign: "center" } },
-          E("span", { style: { background: "#f3e8ff", color: "#5b21b6", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\u2615 Black Coffee"))),
+  E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 16px", background: "#f3f1fa", borderRadius: 20, padding: "28px 32px" } },
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, letterSpacing: "2.43px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 18 } }, "Taste Profile \u00B7 Coke vs. Black Coffee"),
+    E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflow: "hidden" } },
+      E("div", { style: { display: "grid", gridTemplateColumns: "minmax(170px, 220px) 1fr 1fr", columnGap: 40, padding: "18px 28px", borderBottom: "1px solid #ece4f1", alignItems: "center" } },
+        E("div", { style: { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "2.2px" } }, "Dimension"),
+        E("div", { style: { transform: "translateX(-48px)" } },
+          E("span", { style: { background: "#fbdfe2", color: "#e6394d", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\uD83E\uDD64", "Coke")),
+        E("div", null,
+          E("span", { style: { background: "#e7dcf4", color: "#7b3aa6", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\u2615", "Black Coffee"))),
       [["Sweetness", 9, 1], ["Bitterness", 1, 9], ["Fizziness", 10, 0], ["Heat Level", 2, 9], ["Caffeine", 3, 8], ["Color darkness", 8, 10]].map(function(row, i) {
-        var cellStyle = function(val, barColor, bgColor) {
-          return E("div", { style: { display: "flex", alignItems: "center", gap: 8, justifyContent: "center" } },
-            E("div", { style: { width: 80, height: 8, background: bgColor, borderRadius: 4, overflow: "hidden", flexShrink: 0 } },
-              E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: barColor, borderRadius: 4, transition: "width 0.3s" } })),
-            E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--ink)", minWidth: 20, textAlign: "right" } }, val));
+        var bar = function(val, fill, track, shift) {
+          return E("div", { style: { display: "flex", alignItems: "center", gap: 14, transform: shift ? "translateX(-48px)" : undefined } },
+            E("div", { style: { flex: 1, height: 10, background: track, borderRadius: 999, overflow: "hidden" } },
+              E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: fill, borderRadius: 999, transition: "width 0.3s" } })),
+            E("span", { style: { fontSize: 15, fontWeight: 800, color: "#14110b", minWidth: 24, textAlign: "right" } }, val));
         };
-        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr", padding: "12px 20px", borderBottom: i < 5 ? "1px solid var(--rule)" : "none", alignItems: "center", background: i % 2 === 0 ? "transparent" : "rgba(0,0,0,0.015)" } },
-          E("div", { style: { fontSize: 15, color: "var(--inkSoft)", fontWeight: 600 } }, row[0]),
-          cellStyle(row[1], "#ef4444", "#fee2e2"),
-          cellStyle(row[2], "#8b5cf6", "#f3e8ff"));
-      })),
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "minmax(170px, 220px) 1fr 1fr", columnGap: 40, padding: "15px 28px", borderBottom: i < 5 ? "1px solid #ece6cf" : "none", alignItems: "center" } },
+          E("div", { style: { fontSize: 15, color: "#14110b", fontWeight: 500 } }, row[0]),
+          bar(row[1], "#e6394d", "#fbe7ea", true),
+          bar(row[2], "#7b3aa6", "#f3eaf8"));
+      }))),
   E(BodyP, { style: { marginTop: 18 } },
     "Now you can see how numbers can describe something. In this toy version, Coke\u2019s vector is ",
     E("strong", null, "[9, 1, 10, 2, 3, 8]"),
@@ -5663,28 +5703,30 @@ function VectorSpaceSection(props) {
       "Embeddings turn each token into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
     E(BodyP, null,
       "The table below uses the same toy vectors from the last lesson, plus a new column for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for sweetness. Based on these toy vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
-    E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", overflow: "hidden", width: "100%", maxWidth: 860, margin: "0 auto 20px" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "14px 20px", borderBottom: "2px solid var(--rule)", alignItems: "center" } },
-        E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px" } }, "Dimension"),
-        E("div", { style: { textAlign: "center" } },
-          E("span", { style: { background: "#fee2e2", color: "#991b1b", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Coke")),
-        E("div", { style: { textAlign: "center" } },
-          E("span", { style: { background: "#dbeafe", color: "#1e40af", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\uD83E\uDD64 Pepsi")),
-        E("div", { style: { textAlign: "center" } },
-          E("span", { style: { background: "#f3e8ff", color: "#5b21b6", fontWeight: 700, fontSize: 15, padding: "5px 14px", borderRadius: 20, display: "inline-block" } }, "\u2615 Black Coffee"))),
-      [["Sweetness", 9, 10, 1], ["Bitterness", 1, 1, 9], ["Fizziness", 10, 10, 0], ["Heat Level", 2, 2, 9], ["Caffeine", 3, 3, 8], ["Color darkness", 8, 8, 10]].map(function(row, i) {
-        var cellStyle = function(val, barColor, bgColor) {
-          return E("div", { style: { display: "flex", alignItems: "center", gap: 8, justifyContent: "center" } },
-            E("div", { style: { width: 80, height: 8, background: bgColor, borderRadius: 4, overflow: "hidden", flexShrink: 0 } },
-              E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: barColor, borderRadius: 4 } })),
-            E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--ink)", minWidth: 20, textAlign: "right" } }, val));
-        };
-        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "140px 1fr 1fr 1fr", padding: "12px 20px", borderBottom: i < 5 ? "1px solid var(--rule)" : "none", alignItems: "center", background: i % 2 === 0 ? "transparent" : "rgba(0,0,0,0.015)" } },
-          E("div", { style: { fontSize: 15, color: "var(--inkSoft)", fontWeight: 600 } }, row[0]),
-          cellStyle(row[1], "#ef4444", "#fee2e2"),
-          cellStyle(row[2], "#3b82f6", "#dbeafe"),
-          cellStyle(row[3], "#8b5cf6", "#f3e8ff"));
-      })),
+    E("div", { style: { width: "100%", maxWidth: 940, margin: "0 auto 20px", background: "#f3f1fa", borderRadius: 20, padding: "28px 32px" } },
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, letterSpacing: "2.43px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 18 } }, "Taste Profile \u00B7 Coke vs. Pepsi vs. Black Coffee"),
+      E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflow: "hidden" } },
+        E("div", { style: { display: "grid", gridTemplateColumns: "minmax(160px, 200px) 1fr 1fr 1fr", columnGap: 32, padding: "18px 28px", borderBottom: "1px solid #ece4f1", alignItems: "center" } },
+          E("div", { style: { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "2.2px" } }, "Dimension"),
+          E("div", { style: { transform: "translateX(-48px)" } },
+            E("span", { style: { background: "#fbdfe2", color: "#e6394d", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\uD83E\uDD64", "Coke")),
+          E("div", { style: { transform: "translateX(-24px)" } },
+            E("span", { style: { background: "#dbe6fb", color: "#2f6fd6", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\uD83E\uDD64", "Pepsi")),
+          E("div", null,
+            E("span", { style: { background: "#e7dcf4", color: "#7b3aa6", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\u2615", "Black Coffee"))),
+        [["Sweetness", 9, 10, 1], ["Bitterness", 1, 1, 9], ["Fizziness", 10, 10, 0], ["Heat Level", 2, 2, 9], ["Caffeine", 3, 3, 8], ["Color darkness", 8, 8, 10]].map(function(row, i) {
+          var bar = function(val, fill, track, shift) {
+            return E("div", { style: { display: "flex", alignItems: "center", gap: 14, transform: shift ? "translateX(" + shift + "px)" : undefined } },
+              E("div", { style: { flex: 1, height: 10, background: track, borderRadius: 999, overflow: "hidden" } },
+                E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: fill, borderRadius: 999, transition: "width 0.3s" } })),
+              E("span", { style: { fontSize: 15, fontWeight: 800, color: "#14110b", minWidth: 24, textAlign: "right" } }, val));
+          };
+          return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "minmax(160px, 200px) 1fr 1fr 1fr", columnGap: 32, padding: "15px 28px", borderBottom: i < 5 ? "1px solid #ece6cf" : "none", alignItems: "center" } },
+            E("div", { style: { fontSize: 15, color: "#14110b", fontWeight: 500 } }, row[0]),
+            bar(row[1], "#e6394d", "#fbe7ea", -48),
+            bar(row[2], "#2f6fd6", "#dbe6fb", -24),
+            bar(row[3], "#7b3aa6", "#f3eaf8"));
+        }))),
     E(BodyP, null,
       "Two vectors that are close usually mean related things. Two vectors that are far apart usually mean less related things."),
 
@@ -6885,6 +6927,12 @@ function OpenerAnswersSection(props) {
     whatYoullLearnIntro: [
       "Each lesson answers a question. The questions cluster into four moves."
     ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "How AI Builds an Answer",
+      subtitle: "Three moves, from your input to the reply.",
+      badge: "04 / 10"
+    },
     groups: [
       {
         kicker: "PACKAGE THE INPUT",
@@ -7853,6 +7901,12 @@ function OpenerControlsSection(props) {
     whatYoullLearnIntro: [
       "This section is about the parts of the AI experience you can adjust before you blame the tool, rewrite the prompt, or accept a weak answer. Each lesson answers a question."
     ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "What You Can Steer",
+      subtitle: "Two dials you control before you blame the tool.",
+      badge: "06 / 10"
+    },
     groups: [
       {
         kicker: "WHAT TO USE",
@@ -8005,60 +8059,11 @@ function ModelSelectionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "Earlier in this class, you learned a little about the three most popular products."),
-  (function() {
-    var BIG3 = [
-      { label: "ChatGPT", desc: "Made by OpenAI. Launched in 2022 and made AI mainstream. Often what people mean when they say AI.", color: "#10b981" },
-      { label: "Claude", desc: "Made by Anthropic. Known for thoughtful writing and careful reasoning. This is the product behind this course.", color: "#8b5cf6" },
-      { label: "Gemini", desc: "Made by Google. Built into Google\u2019s apps like Search, Docs, and Gmail. Strong on current information.", color: "#3b82f6" }
-    ];
-    return /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "The big three"
-    },
-      /*#__PURE__*/React.createElement("div", {
-        ref: big3ContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
-        },
-          BIG3.map(function(p, i) {
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { big3TitleRefs.current[i] = el; },
-              style: { color: p.color }
-            }, p.label);
-          })),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        big3Paths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          big3Paths.map(function(p, i) {
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: BIG3[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          BIG3.map(function(p, i) {
-            return /*#__PURE__*/React.createElement("div", {
-              key: i,
-              ref: function(el) { big3CardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 6 } }, p.label),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, p.desc)));
-          }))));
-  }()),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/nate-silicon-valley.jpg",
+    alt: "The big three AI companies of Silicon Valley: ChatGPT, Claude, and Gemini",
+    style: { display: "block", width: "100%", maxWidth: 560, margin: "20px auto", borderRadius: 12 }
+  }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both make cheeseburgers. They taste different because the ingredients are different. Walking into each one feels different too."),
   /*#__PURE__*/React.createElement(BodyP, null, "The big three LLM products work the same way. They\u2019re all Generative AI, but the companies behind them use different ingredients and train them differently."),
@@ -8677,6 +8682,12 @@ function OpenerTrapsSection(props) {
       "This section isn’t here to make you scared of AI. It’s here to make you harder to fool.",
       "Each lesson teaches one trap. Each trap is a pattern that can pull you into trusting AI too much, thinking less clearly, or handing over more control than you meant to. Each one starts with a question."
     ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "Where It Goes Wrong",
+      subtitle: "Two kinds of traps, each pulling a little harder.",
+      badge: "07 / 10"
+    },
     groups: [
       {
         kicker: "ACCURACY TRAPS",
@@ -9126,6 +9137,11 @@ function CriticalThinkingSection(props) {
     lesson: "Watch out for stats that only count who\u2019s left. The sample is filtered. Always ask: who got measured, and who got left out?"
   }];
   const ex101 = CT_101[active101] || CT_101[CT_101.length - 1];
+  const [activeConcept, setActiveConcept] = useState(0);
+  const [habitAnswer, setHabitAnswer] = useState(null);
+  const [started5Habits, setStarted5Habits] = useState(false);
+  const [habitsRevealed, setHabitsRevealed] = useLocalStorage("seeit-critical-habitsRevealed", 0);
+  const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "A sharper question gets you a better answer, but not a guaranteed one. ", /*#__PURE__*/React.createElement("strong", null, "Critical thinking"), " is what you do with the answer that comes back: not taking it at face value. AI makes you faster at both good work and bad work, and the difference is whether you question the output before you use it."),
   /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking is the habit of not taking information at face value. It is the process of actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t \u201Cdon\u2019t trust anything,\u201D either. It\u2019s the habit of asking what would have to be true for a claim to hold up."),
@@ -9166,17 +9182,6 @@ function CriticalThinkingSection(props) {
         picked: problemAnswer != null ? problemAnswer : undefined,
         onAnswer: function(idx) { setProblemAnswer(idx); }
       })))),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: active101 >= CT_101.length - 1 && problemAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("habits"), label: "Next: The 5 Habits" }));
-}
-function HabitsSection(props) {
-  const [activeConcept, setActiveConcept] = useState(0);
-  const [habitAnswer, setHabitAnswer] = useState(null);
-  const [started5Habits, setStarted5Habits] = useState(false);
-  const [habitsRevealed, setHabitsRevealed] = useLocalStorage("seeit-critical-habitsRevealed", 0);
-  const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "habits" }),
     /*#__PURE__*/React.createElement(BodyP, null, "You just practiced spotting weak reasoning in any claim. These five habits are how you run that instinct on AI output, every time, before you trust it."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -9275,8 +9280,8 @@ function HabitsSection(props) {
         onAnswer: function(idx) { setHabitAnswer(idx); }
       })))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: habitsRevealed >= 5 && habitAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("verify"), label: "Next: How to Verify" }));
+  /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: active101 >= CT_101.length - 1 && problemAnswer !== null && habitsRevealed >= 5 && habitAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("verify"), label: "Next: How to Verify" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -9377,14 +9382,29 @@ function OpenerUsingSection(props) {
     whatYoullLearnIntro: [
       "This section is your starter kit for using AI well. Each lesson is one skill you can use the next time you open a chat."
     ],
-    openQuestions: [
-      { question: "What is AI actually built to do well?", lessonId: "whatitdoesbest" },
-      { question: "Why do better questions matter more when answers are cheap?", lessonId: "questionsvaluable" },
-      { question: "How do I ask for the kind of answer I actually need?", lessonId: "prompting" },
-      { question: "How do I use AI to think with me, not for me?", lessonId: "thoughtpartner" },
-      { question: "How can AI help me study without helping me skip learning?", lessonId: "studying" },
-      { question: "When is AI helping me learn, and when is it doing the work for me?", lessonId: "integrity" },
-      { question: "What happens to the information I type into AI?", lessonId: "privacy" }
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "Using AI Well",
+      subtitle: "Four habits for working with AI, not just typing at it.",
+      badge: "05 / 10"
+    },
+    groups: [
+      {
+        kicker: "PLAY TO ITS STRENGTHS",
+        bridge: "First, what AI is built to do well, and why sharper questions matter when answers are cheap."
+      },
+      {
+        kicker: "ASK FOR WHAT YOU NEED",
+        bridge: "Then, how to ask for the answer you actually want, and think with AI instead of handing it the work."
+      },
+      {
+        kicker: "LEARN WITHOUT SKIPPING THE LEARNING",
+        bridge: "How to use AI to study without letting it do the studying for you."
+      },
+      {
+        kicker: "KNOW WHAT YOU’RE HANDING OVER",
+        bridge: "Finally, what happens to the information you type in."
+      }
     ],
     whatYoullLearnClosing: [
       "By the end, you\u2019ll have a solid way to work with AI: ask clearly, stay in charge of your own thinking and learning, and protect your honesty and your privacy while you do it.",
@@ -11627,6 +11647,12 @@ function OpenerRealWorldSection(props) {
       "That means being good with AI isn\u2019t only about getting better answers. It\u2019s also about knowing what\u2019s real, who else is affected, what\u2019s risky, and what kind of responsibility comes with using a powerful tool.",
       "This section is about what happens when AI moves into real life. Each lesson answers a question."
     ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "AI Meets the Real World",
+      subtitle: "Three angles on how this plays out.",
+      badge: "09 / 10"
+    },
     groups: [
       {
         kicker: "THE BIG SHIFTS",
@@ -14966,7 +14992,6 @@ const SECTION_COMPONENTS = {
   customization: CustomizationSection,
   documentchat: DocumentChatSection,
   critical: CriticalThinkingSection,
-  habits: HabitsSection,
   mindtrap: MindTrapSection,
   flattery: FlatteryTrapSection,
   engagementtrap: EngagementTrapSection,

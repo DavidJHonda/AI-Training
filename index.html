@@ -6123,8 +6123,23 @@ function LayersSection(props) {
           }, "Richer Vectors"),
           /*#__PURE__*/React.createElement("div", {
             style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkMuted)", background: "var(--card)", borderRadius: 8, padding: "6px 10px", border: "1px solid var(--rule)" }
-          }, "[0.18, -0.31, 1.21, ...]")))
+          }, "[0.18, -0.31, 1.21, ...]"))),
+      /*#__PURE__*/React.createElement("div", {
+        style: { marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--rule)", textAlign: "center", fontSize: 13.5, color: "var(--inkSoft)", lineHeight: 1.55 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 800, marginRight: 4 } }, "↻"),
+        "The ",
+        /*#__PURE__*/React.createElement("strong", null, "Richer Vectors"),
+        " become the next layer’s ",
+        /*#__PURE__*/React.createElement("strong", null, "Vectors In"),
+        ", repeated through dozens of layers.")
     ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "The part that makes depth matter: those richer vectors are the next layer’s ",
+      /*#__PURE__*/React.createElement("strong", null, "Vectors In"),
+      ". The model never starts over. Each pass begins from a smarter version than the last, which is why stacking layers ",
+      /*#__PURE__*/React.createElement("strong", null, "builds"),
+      " understanding instead of just repeating it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What do different layers do?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Engineers choose the architecture before training: how many layers, how wide each layer is, and how they connect. Training then learns the numbers inside those layers. Different layers often become useful for different kinds of patterns, but they aren’t cleanly labeled jobs like “grammar layer” or “reasoning layer.” In every layer, the same basic cycle repeats: attention gathers context, transformation updates the vectors."
@@ -6202,20 +6217,21 @@ function LayersSection(props) {
           )
         ),
         reachedFinal && /*#__PURE__*/React.createElement("div", { style: { marginTop: 4, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(Takeaway, { headline: "No single layer understands the word.", body: "Understanding isn\u2019t instant. Each cycle, attention gathers the context and transformation interprets it, and the meaning emerges gradually, layer after layer." })
+          /*#__PURE__*/React.createElement(Takeaway, { headline: "No single layer understands the word.", body: "Early layers settle the simple, local things, like grammar and the words right next door. Because each deeper layer starts from that richer input, it can build toward the abstract, whole-sentence meaning. Understanding gets assembled simple to complex, layer by layer." })
         )
       )
     ),
+    /*#__PURE__*/React.createElement(SectionKicker, { style: { marginTop: 48 } }, "Why so many layers?"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "If each layer adds one step of interpretation, the answer follows: some meaning is many steps deep. “River bank” resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a problem takes many more, each layer building on the last. A few layers can only reach shallow meaning. Stacking dozens leaves room to build the deep kind."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "There’s no perfect number, though. More depth adds capacity up to a point, and labs trade that against the cost of running it."),
     /*#__PURE__*/React.createElement(SectionKicker, { style: { marginTop: 48 } }, "How many layers are there?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Layer count varies by model. Open-source models like Llama and Mistral publish their architecture, including the number of layers. Closed commercial labs often keep many details private: architecture, training data, training compute, and training methods. But layer count alone isn’t enough to copy a model. The trained parameters, the data, the training recipe, and the engineering all matter much more."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Selective compute: a newer way to save"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Why it needs so much hardware"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "With huge vectors moving through many layers, the amount of computation adds up fast. That’s one reason powerful AI systems need so much hardware."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Some newer architectures use selective computation to reduce cost. For example, ",
-      /*#__PURE__*/React.createElement("strong", null, "mixture-of-experts"),
-      " models split each layer into many expert sub-networks. For every token, a router picks just a few experts to use instead of running all of them. The model is still following a designed computation path. It just isn’t activating every part of the network for every token."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "Same Layers, Two Jobs",
       intro: "Here’s why the compute adds up so fast. The same stack of layers runs while the model reads your prompt, then again for every new token the model writes."

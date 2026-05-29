@@ -12056,7 +12056,9 @@ function PrivacySection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: photoRevealed >= PHOTO_ITEMS.length && redactIdx >= REDACT_SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
 }
 function WhenAIJudgesSection(props) {
-  const [permAnswers, setPermAnswers] = useState({});
+  const [permIdx, setPermIdx] = useState(0);
+  const [permAnswer, setPermAnswer] = useState(null);
+  const [startedPerms, setStartedPerms] = useState(true);
   const SCENARIOS = [{
     icon: "\uD83D\uDEA8",
     setup: "Your English teacher emails you that your essay got flagged by an AI detector with a 73% score. You wrote every word yourself. She wants to talk after class tomorrow.",
@@ -12098,7 +12100,7 @@ function WhenAIJudgesSection(props) {
       { label: "Put white-text keywords in your resume to game the AI.", correct: false, headline: "That's a known disqualifier.", hint: "Hidden-keyword tricks are well known, and modern screens often catch them, which can get you tossed outright. Gaming a system you can't see is risky. What's the move that doesn't hand them a reason to pass?", feedback: "This is a known trick. It\u2019s also a known disqualifier when caught, and modern screens often catch it. Same goes for AI-generated cover letters that ramble in giveaway ways. Don\u2019t hand the system a reason to pass on you." }
     ]
   }];
-  const permsAllAnswered = Object.keys(permAnswers).length >= SCENARIOS.length;
+  const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "judged" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -12230,9 +12232,7 @@ function WhenAIJudgesSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("stakeholders"), label: "Next: Who Else Is Affected" }));
 }
 function StakeholdersSection(props) {
-  const [permIdx, setPermIdx] = useState(0);
-  const [permAnswer, setPermAnswer] = useState(null);
-  const [startedPerms, setStartedPerms] = useState(true);
+  const [permAnswers, setPermAnswers] = useState({});
   const SCENARIOS = [{
     icon: "\uD83D\uDCC4",
     setup: "Your school district just rolled out AI plagiarism detection on every essay submitted across grades 6 through 12. The system flags essays with a \u2018likely AI-generated\u2019 score. Teachers say it saves them hours each week. Some students have been flagged for essays they wrote themselves.",
@@ -12258,7 +12258,7 @@ function StakeholdersSection(props) {
       { label: "Students at real risk, who get help sooner because of the early flag.", correct: false, headline: "That's the design working.", hint: "Getting help to students at real risk is the whole point of the system, so that's the design succeeding, not a hidden cost. Who pays a price the system never meant to create?", feedback: "Helping students at real risk is what the system was built to do. That\u2019s the design working, not a hidden cost. The hidden cost is the one borne by the students the system mis-reads." }
     ]
   }];
-  const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
+  const permsAllAnswered = Object.keys(permAnswers).length >= SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "stakeholders" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -14716,6 +14716,28 @@ function ChipNav(props) {
       /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 600, letterSpacing: "-0.005em", lineHeight: 1.3, textAlign: "center", whiteSpace: "normal", wordBreak: "break-word", maxWidth: "100%", color: labelColor } }, chipLabel));
   }));
 }
+class LessonErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { error: null }; }
+  static getDerivedStateFromError(error) { return { error: error }; }
+  componentDidCatch(error, info) { try { console.error("Lesson render error:", error, info); } catch (e) {} }
+  render() {
+    if (this.state.error) {
+      return /*#__PURE__*/React.createElement("div", {
+        role: "alert",
+        style: { padding: "32px 8px", textAlign: "center", fontFamily: "var(--sans)" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 40, marginBottom: 12 } }, "⚠️"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "This lesson hit a snag."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "44ch", margin: "0 auto 20px" } }, "Something went wrong loading this lesson. The rest of the course still works. Pick another lesson above, or head back to the start."),
+        this.props.onHome ? /*#__PURE__*/React.createElement("button", {
+          onClick: this.props.onHome,
+          style: { padding: "11px 22px", borderRadius: 999, border: "none", background: "var(--primary)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", boxShadow: "0 6px 18px rgba(110, 81, 255, 0.28)" }
+        }, "Back to the start") : null
+      );
+    }
+    return this.props.children;
+  }
+}
 function LLMExplorer() {
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
   const [nameInput, setNameInput] = useState("");
@@ -14963,8 +14985,10 @@ function LLMExplorer() {
       marginTop: 0
     }
   }, /*#__PURE__*/React.createElement(LessonContext.Provider, { value: { activeSection: activeSection, onNavigate: setActiveSection } },
-    /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
-  )), /*#__PURE__*/React.createElement("div", {
+    /*#__PURE__*/React.createElement(LessonErrorBoundary, { key: activeSection, onHome: function() { setActiveSection("welcome"); } },
+      /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
+    )
+  )),/*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       marginTop: 20,

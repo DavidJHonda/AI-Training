@@ -5393,94 +5393,6 @@ function TokenSection(props) {
     E(LessonRule, null),
     navButton);
 }
-const EMBEDDING_WORDS = [{
-  word: "Coke",
-  x: 16,
-  y: 42,
-  group: "sodas"
-}, {
-  word: "Pepsi",
-  x: 30,
-  y: 40,
-  group: "sodas"
-}, {
-  word: "Sprite",
-  x: 14,
-  y: 53,
-  group: "sodas"
-}, {
-  word: "root beer",
-  x: 29,
-  y: 54,
-  group: "sodas"
-}, {
-  word: "black coffee",
-  x: 18,
-  y: 74,
-  group: "coffees"
-}, {
-  word: "espresso",
-  x: 33,
-  y: 73,
-  group: "coffees"
-}, {
-  word: "cappuccino",
-  x: 19,
-  y: 86,
-  group: "coffees"
-}, {
-  word: "latte",
-  x: 33,
-  y: 86,
-  group: "coffees"
-}, {
-  word: "dog",
-  x: 71,
-  y: 20,
-  group: "animals"
-}, {
-  word: "cat",
-  x: 85,
-  y: 20,
-  group: "animals"
-}, {
-  word: "puppy",
-  x: 72,
-  y: 31,
-  group: "animals"
-}, {
-  word: "kitten",
-  x: 86,
-  y: 31,
-  group: "animals"
-}, {
-  word: "car",
-  x: 72,
-  y: 68,
-  group: "vehicles"
-}, {
-  word: "truck",
-  x: 86,
-  y: 68,
-  group: "vehicles"
-}, {
-  word: "bicycle",
-  x: 73,
-  y: 80,
-  group: "vehicles"
-}];
-const GROUP_COLORS = {
-  sodas: "#6e51ff",
-  coffees: "#f59e0b",
-  animals: "#10b981",
-  vehicles: "#ec4899"
-};
-const GROUP_TEXT = {
-  sodas: "#4c2dff",
-  coffees: "#8a4d00",
-  animals: "#066f53",
-  vehicles: "#b01e63"
-};
 function GoDeeper(props) {
   const [open, setOpen] = useState(false);
   return /*#__PURE__*/React.createElement("span", null,
@@ -5564,7 +5476,7 @@ function EmbeddingsSection(props) {
     ". The token ID points to a learned list of numbers, and that list is the token\u2019s starting meaning profile."),
   E(BodyP, null,
     "To see how this works, we\u2019ll build a ",
-    E("strong", null, "toy version by hand"),
+    E("strong", null, "simple example by hand"),
     ". Real models don\u2019t use hand-labeled dimensions like the ones below: real dimensions are learned during training. We\u2019re labeling these so you can see how a list of numbers can describe meaning."),
   E(BodyP, null,
     "Picture a bottle of Coke and a cup of black coffee. We can rate each one on a few dimensions."),
@@ -5590,7 +5502,7 @@ function EmbeddingsSection(props) {
           bar(row[2], "#7b3aa6", "#f3eaf8"));
       }))),
   E(BodyP, { style: { marginTop: 18 } },
-    "Now you can see how numbers can describe something. In this toy version, Coke\u2019s vector is ",
+    "Now you can see how numbers can describe something. In this example, Coke\u2019s vector is ",
     E("strong", null, "[9, 1, 10, 2, 3, 8]"),
     ". The order matters: sweetness, bitterness, fizziness, heat, caffeine, darkness."),
   E(BodyP, null,
@@ -5639,7 +5551,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Embeddings turn each token into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
     E(BodyP, null,
-      "The table below uses the same toy vectors from the last lesson, plus a new column for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for sweetness. Based on these toy vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
+      "The table below uses the same example vectors from the last lesson, plus a new column for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for sweetness. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
     E("div", { style: { width: "100%", maxWidth: 940, margin: "0 auto 20px", background: "#f3f1fa", borderRadius: 20, padding: "28px 32px" } },
       E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, letterSpacing: "2.43px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 18 } }, "Taste Profile \u00B7 Coke vs. Pepsi vs. Black Coffee"),
       E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflow: "hidden" } },
@@ -5675,18 +5587,6 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Close doesn\u2019t always mean identical. It often means same category, related role, or used in similar contexts."),
 
-    E("div", { style: { background: "var(--bg)", borderRadius: 12, border: "1px solid var(--rule)", padding: "16px 20px", marginBottom: 24 } },
-      E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 } }, "How close are these vectors?"),
-      [
-        { pair: "Coke \u2194 Pepsi", label: "Very close", color: "var(--green)" },
-        { pair: "Coke \u2194 Black Coffee", label: "Far", color: "var(--inkMuted)" },
-        { pair: "Pepsi \u2194 Black Coffee", label: "Far", color: "var(--inkMuted)" }
-      ].map(function(row, i) {
-        return E("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
-          E("span", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 600 } }, row.pair),
-          E("span", { style: { fontSize: 14, fontWeight: 700, color: row.color } }, row.label));
-      })),
-
     E(SectionKicker, null, "Why does similarity matter?"),
     E(BodyP, null,
       "Vectors that sit close together belong to the same neighborhood of meaning."),
@@ -5698,96 +5598,11 @@ function VectorSpaceSection(props) {
       "Think of vector space like a city map. Things that are related are in the same neighborhood. The \u2018coordinates\u2019 on this map are the thousands of numbers in each token\u2019s vector."),
     E(BodyP, null,
       "Real vector spaces have hundreds or thousands of dimensions, so the picture below is flattened to 2D for human eyes. It\u2019s a cartoon of the pattern, not an exact map."),
-    E("div", { style: { fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic", marginBottom: 10, textAlign: "center" } },
-      "Similar words sit in the same neighborhood. Unrelated words sit far apart."),
-    E("div", {
-        style: {
-          background: "var(--primaryFaint)",
-          borderRadius: 20,
-          padding: 22,
-          border: "none",
-          marginBottom: 16,
-          position: "relative",
-          height: 380,
-          overflow: "hidden"
-        }
-      },
-        [{ label: "Sodas", color: "#6e51ff", left: "6%", top: "30%", width: "32%", height: "28%" },
-         { label: "Coffees", color: "#f59e0b", left: "6%", top: "62%", width: "32%", height: "28%" },
-         { label: "Animals", color: "#10b981", left: "60%", top: "8%", width: "34%", height: "30%" },
-         { label: "Vehicles", color: "#ec4899", left: "60%", top: "54%", width: "32%", height: "32%" }].map(function(zone, i) {
-          return E("div", { key: "zone-" + i, style: {
-            position: "absolute",
-            left: zone.left,
-            top: zone.top,
-            width: zone.width,
-            height: zone.height,
-            background: "var(--card)",
-            border: "2px dotted " + zone.color + "66",
-            borderRadius: 20,
-            boxShadow: "var(--shadowSoft)",
-            pointerEvents: "none"
-          } },
-            E("div", { style: {
-              position: "absolute",
-              top: 14,
-              left: 16,
-              fontSize: 12,
-              fontWeight: 800,
-              color: zone.color,
-              textTransform: "uppercase",
-              letterSpacing: 2
-            } }, zone.label));
-        }),
-        EMBEDDING_WORDS.map((w, i) => {
-          return E("div", {
-            key: i,
-            style: {
-              position: "absolute",
-              left: `${w.x}%`,
-              top: `${w.y}%`,
-              transform: "translate(-50%, -50%)",
-              padding: "7px 14px",
-              borderRadius: 10,
-              background: GROUP_COLORS[w.group] + "22",
-              border: `1.5px solid ${GROUP_COLORS[w.group]}`,
-              boxShadow: "var(--shadowSoft)",
-              fontFamily: "var(--sans)",
-              fontSize: 15,
-              fontWeight: 700,
-              color: GROUP_TEXT[w.group],
-              whiteSpace: "nowrap"
-            }
-          }, w.word);
-        })),
-      E("div", {
-        style: {
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 10,
-          justifyContent: "center"
-        }
-      }, Object.entries(GROUP_COLORS).map(([group, color]) => E("div", {
-        key: group,
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 4
-        }
-      }, E("div", {
-        style: {
-          width: 10,
-          height: 10,
-          borderRadius: "50%",
-          background: color
-        }
-      }), E("span", {
-        style: {
-          fontSize: 12,
-          color: "var(--inkMuted)",
-          textTransform: "capitalize"
-        }
-      }, group)))),
+    E("img", {
+      src: "illustrations/vector-space.jpg",
+      alt: "Four labeled neighborhoods (Sodas, Coffees, Animals, Vehicles) with similar words clustered close together and unrelated words far apart",
+      style: { display: "block", width: "100%", maxWidth: 820, margin: "8px auto 24px", borderRadius: 16 }
+    }),
     E(KeyInsight, { lead: "Vector space turns meaning into something the model can compare." },
       "Nearby usually means related. Farther away usually means less related. That\u2019s the comparison move the model uses inside its layers."),
     E(LessonRule, null),

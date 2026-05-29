@@ -4,12 +4,12 @@
 An instructor-led AI education web app for high schoolers, built to be taught live but easily repurposed for self-paced use. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Lesson map
-71 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
+70 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
 - Intro (6): Welcome (welcome), Why Learn AI? (whydeeper), Does AI Think? (doesaithink), Why Bother Learning? (whybother), What You Can Control (control), The Roadmap (intro)
 - Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (norules), AI's Fuel (data)
 - Inside AI (8): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (insidethemodel), Attention & Transformation (attention), Layers (layers), Training (training)
-- AI Answers (7): Opener (openeranswers), Your Input & the Context Window (prompt), Inference: From Prompt to Output (inference), Probability (probability), Prediction (prediction), Patterns (patterns), What AI Does Best (whatitdoesbest)
+- AI Answers (6): Opener (openeranswers), Your Input & the Context Window (prompt), Patterns (patterns), Probability (probability), Inference: From Prompt to Output (inference), What AI Does Best (whatitdoesbest)
 - Workflow (8): Opener (openerusing), Creative Thinking (creativethinking), Questions Matter (questionsvaluable), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Critical Thinking (critical), How to Verify (verify), Evaluating the Results (evaluating)
 - Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
 - Traps (8): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documenttrap), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap)

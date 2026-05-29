@@ -4202,23 +4202,15 @@ function HowAIReadsSection(props) {
     ),
 
     E(BodyP, null,
-      "At first glance, this doesn\u2019t seem like a problem. That\u2019s the way humans read, and, if it\u2019s good enough for us, it\u2019s certainly good enough for AI."
-    ),
-
-    E(BodyP, null,
-      "Our brains have an advantage over a machine. We know how the words in a sentence relate to each other. It\u2019s the way we\u2019re wired. Therefore, we intuitively know that ",
+      "At first glance that seems fine. It\u2019s how humans read too. But we have an advantage: we intuitively know how words relate, so we catch that ",
       E("strong", null, "it"),
-      " refers to ",
+      " means ",
       E("strong", null, "cat"),
-      " in that sentence. But a computer processing words in sequential order has trouble holding onto early connections. By the time it reaches ",
+      " without effort. A computer reading strictly in order doesn\u2019t. By the time it reaches ",
       E("strong", null, "it"),
       ", the link back to ",
       E("strong", null, "cat"),
-      " has weakened."
-    ),
-
-    E(BodyP, null,
-      "This is what the first language models struggled with, and honestly, it\u2019s what kept them from reading like we do."
+      " has faded. That\u2019s what kept the first language models from reading like we do."
     ),
 
     E(InteractiveBox, {
@@ -4382,11 +4374,25 @@ function HowAIReadsSection(props) {
       "."
     ),
 
-    E(CompareBox, { kicker: "ATTENTION CONNECTS, TRANSFORMATION UPDATES", marginBottom: 28 },
-      E(ComparePanel, { bg: "#6e51ff22", accent: "var(--primary)", emoji: "\uD83D\uDC41\uFE0F", eyebrow: "Step 1", title: "Attention" },
-        E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, "Which words connect to which. \u201CLight\u201D links to \u201Cturn off the\u201D in one sentence, and to \u201Cbag is\u201D in another.")),
-      E(ComparePanel, { bg: "#f59e0b22", accent: "#f59e0b", emoji: "\uD83D\uDD04", eyebrow: "Step 2", title: "Transformation" },
-        E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, "Updates each word based on those connections. That is the step that turns a connection into meaning."))),
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "24px 28px", marginBottom: 28 } },
+      E("div", { style: { fontSize: 13.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--primary)", marginBottom: 18 } }, "Attention connects, transformation updates"),
+      E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 16 } }, "Same word, same two moves, two different results. The connection is what decides which meaning the word lands on."),
+      [
+        { before: "Turn off the ", after: ".", link: "\u201Cturn off the\u201D", meaning: "\uD83D\uDCA1 brightness" },
+        { before: "This bag is ", after: ".", link: "\u201Cbag is\u201D", meaning: "\uD83E\uDEB6 not heavy" }
+      ].map(function(row, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)", marginBottom: i === 0 ? 14 : 0 } },
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--inkSoft)", marginBottom: 14 } },
+            row.before,
+            E("span", { style: { background: "var(--primaryFaint)", color: "var(--primary)", fontWeight: 800, borderRadius: 6, padding: "2px 8px" } }, "light"),
+            row.after),
+          E("div", { style: { display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 } },
+            E("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--primary)", background: "#6e51ff22", borderRadius: 999, padding: "3px 10px", marginTop: 1 } }, "1 Attention"),
+            E("span", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, "\u201Clight\u201D links to ", E("strong", { style: { color: "var(--primary)" } }, row.link))),
+          E("div", { style: { display: "flex", alignItems: "flex-start", gap: 10 } },
+            E("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "#f59e0b", background: "#f59e0b22", borderRadius: 999, padding: "3px 10px", marginTop: 1 } }, "2 Transform"),
+            E("span", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, "its vector updates to mean ", E("strong", { style: { color: "#f59e0b" } }, row.meaning))));
+      })),
 
     E(InteractiveBox, {
       variant: "see",
@@ -5659,33 +5665,6 @@ function MatchTermsTryIt(props) {
 function BehindTheNumbersSection(props) {
   var E = React.createElement;
   const [matchComplete, setMatchComplete] = useState(false);
-  var NAMING_STEPS = [
-    {
-      step: "Create slots for comparison",
-      term: "Dimension",
-      ai: "Real models use thousands of these slots, and humans usually cannot label them cleanly, which is one reason no person can read what\u2019s inside a real model."
-    },
-    {
-      step: "Fill the slots with numbers",
-      term: "Value",
-      ai: "Training is what sets these numbers. It adjusts them across millions of examples until they help the model predict better."
-    },
-    {
-      step: "Bundle the numbers together",
-      term: "Embedding vector",
-      ai: "This is the token\u2019s full number profile, the thing the model uses to compare it to every other token."
-    },
-    {
-      step: "Store each profile in a table",
-      term: "Embedding table",
-      ai: "An embedding table is a lookup table. A token ID points to one row, and that row is the token\u2019s embedding vector."
-    },
-    {
-      step: "Let training create the numbers",
-      term: "Parameter",
-      ai: "Training creates these learned internal numbers. Embedding values are parameters, and the later layers have many more."
-    }
-  ];
   return E("div", null,
     E(LessonHeader, { sectionId: "insidethemodel" }),
 
@@ -5710,79 +5689,32 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "Your taste test used 6 named dimensions. A real model uses thousands of dimensions and billions of learned numbers."),
 
-    E(CompareBox, { kicker: "YOUR TASTE TEST VS. REAL AI MODEL", marginBottom: 28 },
-      E(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\uD83E\uDDD1", eyebrow: "What you did", title: "Your Taste Test" },
-        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#2f4cb8", fontWeight: 700, marginBottom: 12 } }, "Coke \u2192 [9, 1, 10, 2, 3, 8]"),
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          ["6 dimensions per drink", "1 taster", "Took a few seconds"].map(function(item, j) {
-            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-              E("span", null, item));
-          }))),
-      E(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\uD83E\uDD16", eyebrow: "What AI does", title: "Real AI Model" },
-        E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "#5a3aa6", fontWeight: 700, marginBottom: 12 } }, "Token ID 4873 \u2192 vector w/thousands of numbers"),
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          ["Thousands of dimensions per token", "Billions of learned parameters across the model", "Trained on massive collections of text"].map(function(item, j) {
-            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-              E("span", null, item));
-          })))),
-
     E(BodyP, null,
       "You just gave six drinks a number profile by hand. You chose the dimensions. You entered the values. In a real model, engineers choose the architecture: how many dimensions, how many layers, and how the parts connect. But training learns the actual values. And the dimensions usually don\u2019t end up with clean labels like sweetness or caffeine."),
 
-    E(BodyP, null,
-      "Those numbers came out of training, not from a person. That\u2019s the ",
-      E("strong", null, "Black Box"),
-      ": you can see what goes in and what comes out, but the numbers inside don\u2019t have names. There isn\u2019t a slot you could point to and say \u201Cthis one stores sweetness\u201D or \u201Cthis one stores Coke-ness.\u201D The slots are unlabeled, and that\u2019s true for every concept the model knows."),
-
     E(SectionKicker, null, "FIVE NAMED PIECES"),
     E(BodyP, null,
-      "Forget the taste test for a second. Here are the five pieces that actually live inside a real AI model, and the names for each one."),
+      "Those same five pieces fit together inside a real model. Follow one token through it: a word becomes an ID, the ID looks up a row in the embedding table, and that row is the token’s vector of values across thousands of dimensions."),
 
-    E(ShowcaseBox, { marginBottom: 28 },
-      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-        NAMING_STEPS.map(function(item, i) {
-          return E("div", { key: item.term, style: { background: "var(--card)", borderRadius: 16, padding: 16, boxShadow: "0 8px 24px rgba(14, 10, 31, 0.06)" } },
-            E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(185px, 1fr))", gap: 12, alignItems: "stretch" } },
-
-              E("div", null,
-                E("div", { style: { display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primaryFaint)", borderRadius: 999, padding: "6px 10px", fontSize: 12, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: 10 } },
-                  E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, width: 22, height: 22, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800 } }, i + 1),
-                  item.term),
-                E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.35 } }, item.step)),
-
-              E("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 14 } },
-                E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.ai))
-            )
-          );
-        }))
-    ),
+    E("img", {
+      src: "illustrations/inside-the-model-2.jpg",
+      alt: "Inside a real AI model: the token “cat” becomes ID 9246, which looks up a row in the embedding table; that row is its embedding vector of values across dimensions, and parameters are these learned numbers plus many more in the later layers",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
+    }),
 
     E(SectionKicker, null, "WHAT ARE PARAMETERS?"),
     E(BodyP, null,
-      "When someone says a model has something like 70 billion parameters, they don\u2019t mean 70 billion facts or 70 billion dimensions. They mean 70 billion stored learned numbers. Some are in the embedding table. Many more are in the attention and transformation layers. Together, those numbers shape how the model handles grammar, style, facts, context, and patterns."),
-
-    E(CompareBox, { kicker: "PARAMETERS VS. ACTIVATIONS", marginBottom: 16 },
-      E(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\uD83D\uDCBE", eyebrow: "Stored numbers", title: "Parameters" },
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          ["Learned during training", "Stay in the model after the chat ends", "Embedding table values and layer weights"].map(function(item, j) {
-            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-              E("span", null, item));
-          }))),
-      E(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\u26A1", eyebrow: "Temporary numbers", title: "Activations" },
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          ["Created while processing one prompt", "Change as the model reads context", "Disappear after the answer is generated"].map(function(item, j) {
-            return E("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-              E("span", null, item));
-          })))),
+      "When a model has something like 70 billion parameters, that means 70 billion stored learned numbers, not 70 billion facts. Some sit in the embedding table; many more are in the later layers. They are what training leaves behind, and they shape how the model handles grammar, style, facts, context, and patterns."),
 
     E(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
 
+    E(BodyP, null,
+      "Those numbers came out of training, not from a person. That’s the ",
+      E("strong", null, "Black Box"),
+      ": you can see what goes in and what comes out, but the numbers inside don’t have names. There isn’t a slot you could point to and say “this one stores sweetness” or “this one stores Coke-ness.” The slots are unlabeled, and that’s true for every concept the model knows."),
+
     E(KeyInsight, { lead: "The model is learned numbers, not written rules." },
-      "Humans design the structure. Training learns the values. And each prompt creates temporary working numbers that move through the layers. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),
+      "Humans design the structure. Training learns the values. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),
 
     E(LessonRule, null),
     E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("attention"); }, label: "Next: Attention & Transformation" }));
@@ -6143,27 +6075,12 @@ function LayersSection(props) {
   }, [activeLayer]);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "You just learned the two operations AI uses to read: attention and transformation. Working as a pair, they\u2019re how meaning gets built."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { textAlign: "center", padding: "20px 16px", background: "#6e51ff22", borderRadius: 14, border: "2px solid var(--primary)" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDC41\uFE0F"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--primary)", marginBottom: 4 } }, "Attention"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Which words matter to which?")
-        ),
-        /*#__PURE__*/React.createElement("div", {
-          style: { textAlign: "center", padding: "20px 16px", background: "#f59e0b22", borderRadius: 14, border: "2px solid #f59e0b" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83D\uDD04"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b", marginBottom: 4 } }, "Transformation"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, "Updates each word based on context")
-        )
-      )
-    ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "You just learned the two operations AI uses to read: ",
+      /*#__PURE__*/React.createElement("strong", null, "attention"),
+      " (which words matter to which) and ",
+      /*#__PURE__*/React.createElement("strong", null, "transformation"),
+      " (updates each word based on context). Working as a pair, they\u2019re how meaning gets built."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "But doing those two things once isn\u2019t enough. The model repeats them many times, like reading a sentence one pass at a time, understanding a little more each pass. Each pass is called a ",
       /*#__PURE__*/React.createElement("strong", null, "layer"),

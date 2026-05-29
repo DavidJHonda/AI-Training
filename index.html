@@ -5504,10 +5504,8 @@ function GoDeeper(props) {
 }
 function NameThatDrinkTryIt(props) {
   var E = React.createElement;
-  var _s = React.useState(true), started = _s[0], setStarted = _s[1];
-  var _q = React.useState(0), qIdx = _q[0], setQIdx = _q[1];
-  var _rv = React.useState(false), resolved = _rv[0], setResolved = _rv[1];
-  React.useEffect(function() { if (qIdx >= 3 && props && props.onComplete) props.onComplete(); }, [qIdx]);
+  var _da = React.useState({}), drinkAnswers = _da[0], setDrinkAnswers = _da[1];
+  React.useEffect(function() { if (Object.keys(drinkAnswers).length >= questions.length && props && props.onComplete) props.onComplete(); }, [drinkAnswers]);
   var questions = [
     {
       dims: [["Sweetness", 9], ["Fizziness", 10]],
@@ -5533,7 +5531,7 @@ function NameThatDrinkTryIt(props) {
       ]
     }
   ];
-  var q = questions[Math.min(qIdx, 2)];
+  var drinkAllAnswered = Object.keys(drinkAnswers).length >= questions.length;
   var dimBar = function(label, val) {
     return E("div", { key: label, style: { display: "grid", gridTemplateColumns: "140px 1fr", alignItems: "center", padding: "10px 16px", background: "var(--bg)", borderRadius: 8, marginBottom: 6 } },
       E("div", { style: { fontSize: 15, fontWeight: 600, color: "var(--inkSoft)" } }, label),
@@ -5542,42 +5540,25 @@ function NameThatDrinkTryIt(props) {
           E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: "var(--primary)", borderRadius: 4 } })),
         E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--ink)", minWidth: 20, textAlign: "right" } }, val)));
   };
-  return React.createElement(InteractiveBox, {
+  return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
     hint: "You just saw 6 dimensions. Can you identify a drink from only 2?",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(qIdx + (started ? 1 : 0), questions.length), total: questions.length })
+    action: E(ActivityCounter, { count: Object.keys(drinkAnswers).length, total: questions.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "You’ll see two dimensions for a drink. Pick which one it is. We’ll explain as you go."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "mint",
-      items: questions,
-      currentIdx: qIdx,
-      started: started,
-      onStart: function() { setStarted(true); },
-      onNext: function() { setQIdx(qIdx + 1); setResolved(false); },
-      canAdvance: resolved,
-      isComplete: qIdx >= questions.length,
-      startLabel: "First Question",
-      nextLabel: "Next Question \u2192",
-      finishLabel: "Finish \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Two numbers were not enough.", body: "Two dimensions could tell Coke from black coffee, but they could not separate Coke from Pepsi. Real models use hundreds or thousands of dimensions, so even similar concepts get their own distinct profile." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "\uD83D\uDCD0 The flavor profile"),
-          q.title ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 10, color: "var(--inkMuted)", animation: "trickFlash 1s ease-in-out infinite" } }, q.title) : null,
-          q.dims.map(function(d, i) { return dimBar(d[0], d[1]); })),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: qIdx,
-          surface: "mint",
-          statement: "Which drink has this profile?",
-          questionNumber: qIdx + 1,
-          totalQuestions: questions.length,
-          options: q.options,
-          onAnswer: function(idx, correct) { if (correct) setResolved(true); }
-        }))));
+    E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "You’ll see two dimensions for a drink. Pick which one it is. We’ll explain as you go."),
+    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      questions.map(function(q, si) {
+        var picked = drinkAnswers[si];
+        return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          E("div", { style: { marginBottom: 18 } },
+            E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "📐 The flavor profile"),
+            q.title ? E("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 10, color: "var(--inkMuted)" } }, q.title) : null,
+            q.dims.map(function(d, di) { return dimBar(d[0], d[1]); })),
+          E(QuizBlock, { key: si, surface: "mint", statement: "Which drink has this profile?", questionNumber: si + 1, totalQuestions: questions.length, options: q.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setDrinkAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+      }),
+      drinkAllAnswered ? E(Takeaway, { accent: "var(--tryAccent)", headline: "Two numbers were not enough.", body: "Two dimensions could tell Coke from black coffee, but they could not separate Coke from Pepsi. Real models use hundreds or thousands of dimensions, so even similar concepts get their own distinct profile." }) : null));
 }
 function EmbeddingsSection(props) {
   var E = React.createElement;

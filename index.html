@@ -265,11 +265,11 @@ function KeyInsight(props) {
   );
 }
 var TERMS = [
-  { term: "Attention", definition: "The step inside each layer that figures out which words relate to which other words. Each word weighs every other word. Paired with transformation, this is how the model reads meaning.", source: "howreads" },
+  { term: "Attention", definition: "The step inside each layer that figures out which words relate to which other words. Each word weighs every other word. Paired with transformation, this is how the model reads meaning.", source: "attention" },
   { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "prompt" },
   { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "prompt" },
   { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve \u2018king \u2212 man + woman = queen.\u2019", source: "embeddings" },
-  { term: "Guardrail", definition: "A safety layer the AI company adds around an AI model to block, redirect, or limit specific behaviors like medical dosage advice or harmful content. Guardrails can be written rules, filters, classifiers, or safety-tuned behaviors, which is why they catch some things and miss others.", source: "blackbox" },
+  { term: "Guardrail", definition: "A safety layer the AI company adds around an AI model to block, redirect, or limit specific behaviors like medical dosage advice or harmful content. Guardrails can be written rules, filters, classifiers, or safety-tuned behaviors, which is why they catch some things and miss others.", source: "norules" },
   { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn\u2019t know what\u2019s true, only what sounds right.", source: "hallucination" },
   { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
   { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
@@ -282,7 +282,7 @@ var TERMS = [
   { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "temperature" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
-  { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "howreads" },
+  { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
   { term: "Unstructured Data", definition: "Information that doesn\u0027t fit neatly into rows and columns: conversations, images, audio, video, reviews, jokes. Traditional code can\u0027t make sense of it. AI was trained on it.", source: "data" }
 ];
 function KeyTerm(props) {
@@ -370,6 +370,11 @@ function InteractiveBox(props) {
       style: { marginTop: hasTextStack || hasAction ? 18 : 0 }
     }, props.children) : null
   );
+}
+function ActivityInstruction(props) {
+  return /*#__PURE__*/React.createElement("p", {
+    style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 }
+  }, props.children);
 }
 function LessonRule() {
   return React.createElement("div", {
@@ -1166,10 +1171,10 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "doesaithink", "whybother", "control", "intro"]
 }, {
   label: "Foundations",
-  sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "blackbox", "data"]
+  sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "norules", "data"]
 }, {
   label: "Inside AI",
-  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "behindthenumbers", "howreads", "layers", "training"]
+  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training"]
 }, {
   label: "AI Answers",
   sections: ["openeranswers", "prompt", "inference", "probability", "prediction", "patterns", "whatitdoesbest"]
@@ -1181,13 +1186,13 @@ const SECTION_GROUPS = [{
   sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
 }, {
   label: "Traps",
-  sections: ["openertraps", "hallucination", "trainingbias", "documentchat", "mindtrap", "flattery", "engagementtrap", "supporttrap"]
+  sections: ["openertraps", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap"]
 }, {
   label: "Human Judgment",
-  sections: ["openerjudgment", "whennot", "aistrengths", "humanedge", "studying", "integrity", "privacy"]
+  sections: ["openerjudgment", "whennot", "howmuchtocheck", "humanedge", "studying", "integrity", "privacy"]
 }, {
   label: "Real World",
-  sections: ["openerrealworld", "workchanges", "whenaiacts", "judged", "stakeholders", "synthetic", "aifuture", "buildedge"]
+  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "seeingisntproof", "aifuture", "buildedge"]
 }, {
   label: "Finish",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -1205,14 +1210,14 @@ const SECTION_META = {
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "THE LONG ROAD", label: "How We Got Here", icon: "\uD83D\uDCDC" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "Rules vs Patterns", icon: "\u26A1" },
-  blackbox: { kicker: "NOBODY PROGRAMMED THIS", label: "No One Wrote the Rules", icon: "\uD83D\uDCE6" },
+  norules: { kicker: "NOBODY PROGRAMMED THIS", label: "No One Wrote the Rules", icon: "\uD83D\uDCE6" },
   data: { kicker: "IT NEEDS DATA TO LEARN", label: "AI's Fuel", icon: "\u26FD" },
   openerinside: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   tokens: { kicker: "BEFORE THE MATH", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   vectorspace: { kicker: "WORDS HAVE NEIGHBORS", label: "Vector Space: Meaning by Similarity", title: "Vector Space", icon: "\uD83C\uDFD8\uFE0F" },
-  behindthenumbers: { kicker: "OPENING THE BLACK BOX", label: "Inside the Model", title: "Inside the Model", icon: "\uD83D\uDD0D" },
-  howreads: { kicker: "ALL AT ONCE", label: "Attention & Transformation", icon: "\uD83D\uDCD6" },
+  insidethemodel: { kicker: "OPENING THE BLACK BOX", label: "Inside the Model", title: "Inside the Model", icon: "\uD83D\uDD0D" },
+  attention: { kicker: "ALL AT ONCE", label: "Attention & Transformation", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -1228,17 +1233,17 @@ const SECTION_META = {
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
   temperature: { kicker: "THE VARIATION DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
-  documentchat: { kicker: "RETRIEVED, NOT READ", label: "Whole Document Trap", icon: "\uD83D\uDCC4" },
+  documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Whole Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "IT FEELS HUMAN", label: "Mind Trap", icon: "\uD83E\uDEE5" },
   flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery Trap", icon: "\uD83C\uDFAD" },
   engagementtrap: { kicker: "WATCH THE LOOP", label: "Engagement Trap", icon: "\uD83D\uDD01" },
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
-  whenaiacts: { kicker: "PERMISSION MATTERS", label: "The Rise of Agents", icon: "\uD83E\uDD16" },
+  agents: { kicker: "PERMISSION MATTERS", label: "The Rise of Agents", icon: "\uD83E\uDD16" },
   openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whennot: { kicker: "SOMETIMES THE ANSWER IS NO", label: "When Not to Use AI", icon: "\u270B" },
-  aistrengths: { kicker: "MATCH THE CHECK TO THE TASK", label: "How Much to Check", icon: "\u2696\uFE0F" },
+  howmuchtocheck: { kicker: "MATCH THE CHECK TO THE TASK", label: "How Much to Check", icon: "\u2696\uFE0F" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
@@ -1253,9 +1258,9 @@ const SECTION_META = {
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   integrity: { kicker: "USE IT, OWN IT", label: "Academic Integrity", icon: "\uD83C\uDF93" },
   privacy: { kicker: "WHAT YOU TYPE TRAVELS", label: "Privacy & Awareness", icon: "\uD83D\uDD12" },
-  judged: { kicker: "DECISIONS ABOUT YOU", label: "When AI Judges You", title: "When AI Judges You", icon: "\u2696\uFE0F" },
+  aijudges: { kicker: "DECISIONS ABOUT YOU", label: "When AI Judges You", title: "When AI Judges You", icon: "\u2696\uFE0F" },
   stakeholders: { kicker: "MORE THAN YOU", label: "Who Else Is Affected", title: "Who Else Is Affected", icon: "\uD83D\uDC65" },
-  synthetic: { kicker: "FAKE IS CHEAP NOW", label: "Seeing Isn\u2019t Proof", title: "Seeing Isn\u2019t Proof", icon: "\uD83D\uDC41\uFE0F" },
+  seeingisntproof: { kicker: "FAKE IS CHEAP NOW", label: "Seeing Isn\u2019t Proof", title: "Seeing Isn\u2019t Proof", icon: "\uD83D\uDC41\uFE0F" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
   aifuture: { kicker: "WHAT COMES NEXT", label: "AI & The Future", icon: "\uD83D\uDD2D" },
   buildedge: { kicker: "YOUR MOVE NOW", label: "Build Your Edge", icon: "\uD83C\uDFAF" },
@@ -1422,12 +1427,13 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "GENERATIVE AI"),
     /*#__PURE__*/React.createElement(BodyP, null, "Most of the AI you just met predicts or classifies. Spotify predicts what you\u2019ll like next. Google Maps predicts traffic. Face ID predicts whether a face matches yours. None of it creates anything new."),
     /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a newer kind of AI that does more. It generates new content instead of just sorting through what already exists. It writes the email, drafts the essay, makes the image, codes the website. This is called ", /*#__PURE__*/React.createElement("strong", null, "Generative AI"), "."),
-    /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they\u2019re thinking about generative AI. That\u2019s what they use, and that\u2019s what this course is about. Click each one to see how the two kinds differ."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they\u2019re thinking about generative AI. That\u2019s what they use, and that\u2019s what this course is about."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "Two kinds of AI"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see how the two kinds differ."),
       /*#__PURE__*/React.createElement("div", {
         ref: twoKindsContainerRef,
         style: { position: "relative" }
@@ -1478,15 +1484,13 @@ function AIHistorySection(props) {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
                 }, k.desc)));
           })))),
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Here\u2019s what that difference looks like in action. Same question, two completely different systems."),
+    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Here\u2019s what that difference looks like in action."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "Stored Answers vs. Built From Probability"
     },
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: 14 } },
-        "Same question, two completely different systems. Watch what happens inside each one."
-      ),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Same question, two completely different systems. Watch what happens inside each one."),
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201CWhat\u2019s the best game for my new PS5?\u201D")),
@@ -1632,12 +1636,13 @@ function LLMsSection(props) {
   }, []);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM. ChatGPT, Claude, and Gemini are all LLMs, and using them well is most of what this course is about, because they\u2019re what most people use. You\u2019ve already seen the basic idea. Your phone\u2019s keyboard suggests the next word before you type it. That\u2019s next-word prediction at a small scale. LLMs do the same thing at a much bigger scale, and they handle many more kinds of language tasks. Click each letter to see what the three letters mean."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM. ChatGPT, Claude, and Gemini are all LLMs, and using them well is most of what this course is about, because they\u2019re what most people use. You\u2019ve already seen the basic idea. Your phone\u2019s keyboard suggests the next word before you type it. That\u2019s next-word prediction at a small scale. LLMs do the same thing at a much bigger scale, and they handle many more kinds of language tasks."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "LLM, decoded"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each letter to see what the three letters mean."),
       /*#__PURE__*/React.createElement("div", {
         ref: llmContainerRef,
         style: { position: "relative" }
@@ -1690,12 +1695,13 @@ function LLMsSection(props) {
                 }, col.desc)));
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "PRODUCT"),
-    /*#__PURE__*/React.createElement(BodyP, null, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each company builds their cars differently, and their cars have different characteristics. For this course, we\u2019ll focus on three you\u2019ve probably heard of. Click each name to see a brief description."),
+    /*#__PURE__*/React.createElement(BodyP, null, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each company builds their cars differently, and their cars have different characteristics. For this course, we\u2019ll focus on three you\u2019ve probably heard of."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "The big three"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each name to see a brief description."),
       /*#__PURE__*/React.createElement("div", {
         ref: productsContainerRef,
         style: { position: "relative" }
@@ -1748,12 +1754,13 @@ function LLMsSection(props) {
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "MODEL"),
     /*#__PURE__*/React.createElement(BodyP, null, "You decide to buy a Ford. Now you have to choose the right model: an F-150, Explorer, Bronco, or another. Each one is different, but they\u2019re all Fords."),
-    /*#__PURE__*/React.createElement(BodyP, null, "The big three work the same way. They have different models for different needs. Unlike with cars, you can switch between models any time. Below are Claude\u2019s models. Click each one to see what it\u2019s best for."),
+    /*#__PURE__*/React.createElement(BodyP, null, "The big three work the same way. They have different models for different needs. Unlike with cars, you can switch between models any time. Below are Claude\u2019s models."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "Claude\u2019s lineup"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see what it\u2019s best for."),
       /*#__PURE__*/React.createElement("div", {
         ref: modelsContainerRef,
         style: { position: "relative" }
@@ -1805,12 +1812,13 @@ function LLMsSection(props) {
                 }, m.desc)));
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "CHATGPT"),
-    /*#__PURE__*/React.createElement(BodyP, null, "What\u2019s unique about the name ChatGPT is that it tells you a lot about how an LLM works. And it\u2019s all in the name. Click each color to see what those four letters actually mean."),
+    /*#__PURE__*/React.createElement(BodyP, null, "What\u2019s unique about the name ChatGPT is that it tells you a lot about how an LLM works. And it\u2019s all in the name."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "ChatGPT, decoded"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each color to see what those four letters actually mean."),
       /*#__PURE__*/React.createElement("div", {
         ref: containerRef,
         style: { position: "relative" }
@@ -1990,9 +1998,9 @@ function AIIsMathSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
-      title: "Bayes’ Theorem in Action",
-      hint: "Here’s the genius behind Bayes’ Theorem. Watch it in action."
+      title: "Bayes’ Theorem in Action"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Here’s the genius behind Bayes’ Theorem. Watch it in action."),
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column" } },
         [
           {
@@ -2425,7 +2433,7 @@ function WhenNotSection(props) {
       title: "Stop or Go?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(wnAnswers).length, total: WHENNOT_SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Four quick calls. For each one, decide whether it’s a moment to use AI or a moment to put it down."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Four quick calls. For each one, decide whether it’s a moment to use AI or a moment to put it down."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         WHENNOT_SCENARIOS.map(function(sc, si) {
           var sel = wnAnswers[si];
@@ -2466,7 +2474,7 @@ function WhenNotSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Using AI well includes knowing the moments to leave it closed.")) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "One test catches most of these." }, "If you\u2019d be embarrassed to say out loud how you used AI, that\u2019s your answer."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: wnAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aistrengths"), label: "Next: How Much to Check" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: wnAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("howmuchtocheck"), label: "Next: How Much to Check" }));
 }
 
 function OpenerJudgmentSection(props) {
@@ -2509,7 +2517,7 @@ function OpenerJudgmentSection(props) {
         bridge: "First, whether AI fits the job and how much to check what it gives back.",
         questions: [
           { question: "Is AI even the right tool for this?", lessonId: "whennot" },
-          { question: "When is AI a good fit, and when does it need follow-up?", lessonId: "aistrengths" }
+          { question: "When is AI a good fit, and when does it need follow-up?", lessonId: "howmuchtocheck" }
         ]
       },
       {
@@ -2578,16 +2586,16 @@ function AIStrengthsSection(props) {
   var correctCount = 0;
   SCENARIOS.forEach(function(sc, i) { if (answers[i] === sc.correct) correctCount++; });
   return React.createElement("div", null,
-    React.createElement(LessonHeader, { sectionId: "aistrengths" }),
+    React.createElement(LessonHeader, { sectionId: "howmuchtocheck" }),
     React.createElement(BodyP, null, "AI can help with almost any task. The real skill is knowing how much to check what it gives you. Some answers need a hard look. Others barely need one."),
     React.createElement(BodyP, null, "That\u2019s what trust really comes down to here. Not believing the output automatically, but knowing what kind of follow-up it needs before you use it."),
     React.createElement(BodyP, null, "Start by naming the ", React.createElement("strong", null, "type of task"), " you are asking AI to do. Some task types are easy to judge on your own and need little follow-up. Other task types almost always need follow-up because the answer has to be true, current, safe, sourced, or genuinely yours."),
-    React.createElement(BodyP, null, "Click ", React.createElement("strong", null, "Yes"), " and ", React.createElement("strong", null, "No"), " below to see which task types are a ", React.createElement("strong", null, "Good Fit"), " and which ones ", React.createElement("strong", null, "Need Follow-Up"), "."),
     React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "How Much to Check"
     },
+      React.createElement(ActivityInstruction, null, "Click Yes and No below to see which task types are a good fit and which need follow-up."),
       React.createElement("div", { style: { textAlign: "center", marginBottom: 0 } },
         React.createElement("div", {
           style: { display: "inline-block", padding: "20px 32px", borderRadius: 14, background: "var(--card)", border: "2px solid var(--primary)", boxShadow: "0 2px 12px rgba(110, 81, 255, 0.12)" }
@@ -3009,7 +3017,7 @@ function DoesAIThinkSection(props) {
       title: "Thinking, or Just Sounds Like It?",
       action: E(ActivityCounter, { count: Object.keys(answers).length, total: ITEMS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, decide whether it\u2019s what AI really does or whether it just sounds that way. We\u2019ll explain as you go."),
+      E(ActivityInstruction, null, "For each one, decide whether it\u2019s what AI really does or whether it just sounds that way. We\u2019ll explain as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         ITEMS.map(function(item, i) {
           var answered = answers[i] !== undefined;
@@ -3162,7 +3170,7 @@ function WhyBotherSection(props) {
       title: "More Knowledge. Better Results.",
       action: E(ActivityCounter, { count: Object.keys(workerAnswers).length, total: WORKER_SCENARIOS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Explore the following scenarios. Click each answer to see the power of knowledge."),
+      E(ActivityInstruction, null, "Explore the following scenarios. Click each answer to see the power of knowledge."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         WORKER_SCENARIOS.map(function(s, i) {
           var answered = workerAnswers[i] !== undefined;
@@ -3329,7 +3337,7 @@ function ControlSection(props) {
       title: "In Your Hands or Not?",
       action: E(ActivityCounter, { count: Object.keys(answers).length, total: ITEMS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, decide whether it\u2019s in your hands or not. We\u2019ll explain why as you go."),
+      E(ActivityInstruction, null, "For each one, decide whether it\u2019s in your hands or not. We\u2019ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         ITEMS.map(function(item, i) {
           var answered = answers[i] !== undefined;
@@ -3590,7 +3598,7 @@ function AIvsCodeSection(props) {
       title: "When the Rule Breaks",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(rulesAnswers).length, total: scenarios.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each rule, then pick WHEN it could break. We’ll show how AI’s patterns handle it."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each rule, then pick WHEN it could break. We’ll show how AI’s patterns handle it."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         scenarios.map(function(sc, si) {
           var picked = rulesAnswers[si];
@@ -3617,7 +3625,7 @@ function AIvsCodeSection(props) {
       rulesAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "A rule fits one situation. Patterns fit many.", body: "Each rule worked until reality added a variable it never knew about. AI leans on patterns from countless examples, so it can bend where a fixed rule snaps." }) : null),
     rulesAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI uses patterns learned from examples. Same input, different machine — and harder edges to predict.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: rulesAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("blackbox"), label: "Next: No One Wrote the Rules" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: rulesAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: No One Wrote the Rules" })
   );
 }
 function TypingAICard(props) {
@@ -3714,7 +3722,7 @@ function BlackBoxSection(props) {
   }];
   const sc = RULE_PATTERN_SCENARIOS[Math.min(scenarioIdx, RULE_PATTERN_SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "blackbox" }),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "norules" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here is the strange truth at the center of how AI works: no one wrote a rule for every behavior. Not the engineers who built it, not the researchers who study it, not even the company that ships it."
     ),
@@ -3767,7 +3775,7 @@ function BlackBoxSection(props) {
       title: "Rule, Pattern, or Guardrail?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(scenarioIdx + (startedRulePattern ? 1 : 0), RULE_PATTERN_SCENARIOS.length), total: RULE_PATTERN_SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Now, you understand the concepts of Rules, Patterns, and Guardrails. In this exercise, you\u2019ll see a negative event. Your challenge is to identify which concept would have prevented the event."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Now, you understand the concepts of Rules, Patterns, and Guardrails. In this exercise, you\u2019ll see a negative event. Your challenge is to identify which concept would have prevented the event."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: RULE_PATTERN_SCENARIOS,
@@ -3862,15 +3870,13 @@ function DataSection(props) {
             i < arr.length - 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 22, lineHeight: 1, padding: "6px 0", fontWeight: 700 } }, "↓") : null);
         }))
     ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "In this exercise, you’ll see how AI turns unstructured inputs and messy data into something meaningful. And, you’ll see how regular software handles the messy input."
-    ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "Messy In, Structured Out",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(scenarioIdx + (seeItStarted ? 1 : 0), SCENE_KEYS.length), total: SCENE_KEYS.length })
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "In this exercise, you’ll see how AI turns unstructured inputs and messy data into something meaningful. And, you’ll see how regular software handles the messy input."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "sand",
         items: SCENE_KEYS,
@@ -4108,7 +4114,7 @@ function HowAIReadsSection(props) {
   ];
 
   return E("div", null,
-    E(LessonHeader, { sectionId: "howreads" }),
+    E(LessonHeader, { sectionId: "attention" }),
 
     E(BodyP, null,
       "You’ve seen text become tokens, token IDs point to embedding vectors, and vectors sit near related meanings. But a token’s starting vector isn’t enough. The word ",
@@ -4215,15 +4221,12 @@ function HowAIReadsSection(props) {
       "This is what the first language models struggled with, and honestly, it\u2019s what kept them from reading like we do."
     ),
 
-    E(BodyP, null,
-      "To better understand this, click each of the labels below to see three context problems a model has to solve."
-    ),
-
     E(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "The three challenges"
     },
+      E(ActivityInstruction, null, "Click each label below to see three context problems a model has to solve."),
       E("div", {
         ref: challengesContainerRef,
         style: { position: "relative" }
@@ -4385,15 +4388,12 @@ function HowAIReadsSection(props) {
       E(ComparePanel, { bg: "#f59e0b22", accent: "#f59e0b", emoji: "\uD83D\uDD04", eyebrow: "Step 2", title: "Transformation" },
         E("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, "Updates each word based on those connections. That is the step that turns a connection into meaning."))),
 
-    E(BodyP, null,
-      "Click each label to see how attention and transformation work together to solve the problems you saw earlier."
-    ),
-
     E(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "The three solutions"
     },
+      E(ActivityInstruction, null, "Click each label to see how attention and transformation work together to solve the problems you saw earlier."),
       E("div", {
         ref: solutionsContainerRef,
         style: { position: "relative" }
@@ -4778,7 +4778,7 @@ function BiasQuiz(props) {
     title: "What Did the Model Actually Learn?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(biasIdx + (biasStarted ? 1 : 0), biasScenarios.length), total: biasScenarios.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each case, pick what actually shaped the model. We’ll explain as you go."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each case, pick what actually shaped the model. We’ll explain as you go."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: biasScenarios,
@@ -4902,7 +4902,7 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, null,
       "Common is not neutral. Frequent is not fair. Questioning the default is the skill."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documentchat"); }, label: "Next: Whole Document Trap" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Whole Document Trap" })
   );
 }
 function TrainingSection(props) {
@@ -5030,6 +5030,7 @@ function TrainingSection(props) {
     title: "How LLMs Train",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(stepsRevealed, steps.length), total: steps.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each stage to see how a model gets built."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: steps,
@@ -5077,9 +5078,7 @@ function TrainingSection(props) {
     surface: "sand",
     title: "Watch It Happen"
   },
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, fontSize: 14, lineHeight: 1.6 } },
-      "Three snapshots of the same question at three points in training. Watch how the model’s answer transforms."
-    ),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Three snapshots of the same question at three points in training. Watch how the model’s answer transforms."),
     /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--ink)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" } }, "You"),
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "4px 12px 12px 12px", padding: "14px 18px", fontSize: 15, fontWeight: 500, color: "var(--ink)", lineHeight: 1.6, maxWidth: 360 } }, seeItQuestion)),
@@ -5146,6 +5145,7 @@ function OpenerInsideSection(props) {
     surface: "sand",
     title: "From text to prediction"
   },
+    React.createElement(ActivityInstruction, null, "Click each step to follow text as it turns into a prediction."),
     React.createElement("div", {
       ref: lifecycleContainerRef,
       style: { position: "relative" }
@@ -5248,14 +5248,14 @@ function OpenerInsideSection(props) {
         kicker: "WHAT’S INSIDE",
         bridge: "Then, the model itself is also made of numbers.",
         questions: [
-          { question: "What learned numbers does the model store?", lessonId: "behindthenumbers" }
+          { question: "What learned numbers does the model store?", lessonId: "insidethemodel" }
         ]
       },
       {
         kicker: "READ IN CONTEXT",
         bridge: "Now the model reads, and every token updates every other.",
         questions: [
-          { question: "How do tokens use context to update meaning?", lessonId: "howreads" }
+          { question: "How do tokens use context to update meaning?", lessonId: "attention" }
         ]
       },
       {
@@ -5314,6 +5314,7 @@ function TokenSection(props) {
     title: "Tokenize It",
     action: E(ActivityCounter, { count: Math.min(tokensRevealed, staticExamples.length), total: staticExamples.length })
   },
+    E(ActivityInstruction, null, "Step through each example to see how the same text splits into tokens."),
     E("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginBottom: 16, fontStyle: "italic", lineHeight: 1.5 } }, "Example tokenizer: different models split text differently and assign different IDs. The ␠ symbol marks a space at the start of a token."),
     E(RevealSequence, {
       surface: "sand",
@@ -5393,107 +5394,92 @@ function TokenSection(props) {
     navButton);
 }
 const EMBEDDING_WORDS = [{
-  word: "king",
-  x: 72,
-  y: 15,
-  group: "royalty"
+  word: "Coke",
+  x: 16,
+  y: 42,
+  group: "sodas"
 }, {
-  word: "queen",
-  x: 78,
-  y: 18,
-  group: "royalty"
+  word: "Pepsi",
+  x: 30,
+  y: 40,
+  group: "sodas"
 }, {
-  word: "prince",
-  x: 68,
-  y: 22,
-  group: "royalty"
+  word: "Sprite",
+  x: 14,
+  y: 53,
+  group: "sodas"
 }, {
-  word: "princess",
-  x: 74,
-  y: 25,
-  group: "royalty"
+  word: "root beer",
+  x: 29,
+  y: 54,
+  group: "sodas"
 }, {
-  word: "man",
-  x: 42,
-  y: 30,
-  group: "people"
+  word: "black coffee",
+  x: 18,
+  y: 74,
+  group: "coffees"
 }, {
-  word: "woman",
-  x: 48,
-  y: 33,
-  group: "people"
+  word: "espresso",
+  x: 33,
+  y: 73,
+  group: "coffees"
 }, {
-  word: "boy",
-  x: 38,
-  y: 38,
-  group: "people"
+  word: "cappuccino",
+  x: 19,
+  y: 86,
+  group: "coffees"
 }, {
-  word: "girl",
-  x: 44,
-  y: 41,
-  group: "people"
+  word: "latte",
+  x: 33,
+  y: 86,
+  group: "coffees"
 }, {
   word: "dog",
-  x: 20,
-  y: 65,
+  x: 71,
+  y: 20,
   group: "animals"
 }, {
   word: "cat",
-  x: 25,
-  y: 70,
+  x: 85,
+  y: 20,
   group: "animals"
 }, {
   word: "puppy",
-  x: 17,
-  y: 72,
+  x: 72,
+  y: 31,
   group: "animals"
 }, {
   word: "kitten",
-  x: 22,
-  y: 77,
+  x: 86,
+  y: 31,
   group: "animals"
 }, {
   word: "car",
-  x: 75,
-  y: 70,
+  x: 72,
+  y: 68,
   group: "vehicles"
 }, {
   word: "truck",
-  x: 80,
-  y: 75,
+  x: 86,
+  y: 68,
   group: "vehicles"
 }, {
   word: "bicycle",
-  x: 70,
-  y: 78,
+  x: 73,
+  y: 80,
   group: "vehicles"
-}, {
-  word: "happy",
-  x: 35,
-  y: 85,
-  group: "emotions"
-}, {
-  word: "sad",
-  x: 55,
-  y: 88,
-  group: "emotions"
-}, {
-  word: "angry",
-  x: 60,
-  y: 82,
-  group: "emotions"
-}, {
-  word: "joyful",
-  x: 33,
-  y: 82,
-  group: "emotions"
 }];
 const GROUP_COLORS = {
-  royalty: "#8b5cf6",
-  people: "#6e51ff",
+  sodas: "#6e51ff",
+  coffees: "#f59e0b",
   animals: "#10b981",
-  vehicles: "#f59e0b",
-  emotions: "#ec4899"
+  vehicles: "#ec4899"
+};
+const GROUP_TEXT = {
+  sodas: "#4c2dff",
+  coffees: "#8a4d00",
+  animals: "#066f53",
+  vehicles: "#b01e63"
 };
 function GoDeeper(props) {
   const [open, setOpen] = useState(false);
@@ -5548,10 +5534,9 @@ function NameThatDrinkTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
-    hint: "You just saw 6 dimensions. Can you identify a drink from only 2?",
     action: E(ActivityCounter, { count: Object.keys(drinkAnswers).length, total: questions.length })
   },
-    E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "You’ll see two dimensions for a drink. Pick which one it is. We’ll explain as you go."),
+    E(ActivityInstruction, null, "You’ll see two dimensions for a drink. Pick which one it is. We’ll explain as you go."),
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       questions.map(function(q, si) {
         var picked = drinkAnswers[si];
@@ -5649,17 +5634,6 @@ function EmbeddingsSection(props) {
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
-  const [hoveredWord, setHoveredWord] = useState(null);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [lastGroup, setLastGroup] = useState(null);
-  const GROUP_FEEDBACK = {
-    royalty: "Royalty: king, queen, prince, and princess sit close because they share related roles.",
-    people: "People: man, woman, boy, and girl sit close because they share a category.",
-    animals: "Animals: dog, cat, puppy, and kitten sit close because they share a category.",
-    vehicles: "Vehicles: car, truck, and bicycle sit close because they share a category.",
-    emotions: "Emotions: happy, sad, angry, and joyful sit close as emotion words, even though some are opposites."
-  };
-
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
@@ -5725,89 +5699,67 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Real vector spaces have hundreds or thousands of dimensions, so the picture below is flattened to 2D for human eyes. It\u2019s a cartoon of the pattern, not an exact map."),
     E("div", { style: { fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic", marginBottom: 10, textAlign: "center" } },
-      "Hover or tap a word to light up its neighborhood."),
+      "Similar words sit in the same neighborhood. Unrelated words sit far apart."),
     E("div", {
         style: {
-          background: "var(--bg)",
-          borderRadius: 12,
-          padding: 16,
-          border: "1px solid var(--rule)",
+          background: "var(--primaryFaint)",
+          borderRadius: 20,
+          padding: 22,
+          border: "none",
           marginBottom: 16,
           position: "relative",
-          height: 340,
+          height: 380,
           overflow: "hidden"
         }
       },
-        [{ label: "Royalty", color: "#8b5cf6", left: "62%", top: "5%", width: "26%", height: "30%" },
-         { label: "People", color: "#6e51ff", left: "30%", top: "20%", width: "28%", height: "32%" },
-         { label: "Animals", color: "#10b981", left: "8%", top: "55%", width: "28%", height: "34%" },
-         { label: "Vehicles", color: "#f59e0b", left: "62%", top: "60%", width: "28%", height: "30%" },
-         { label: "Emotions", color: "#ec4899", left: "24%", top: "72%", width: "46%", height: "26%" }].map(function(zone, i) {
+        [{ label: "Sodas", color: "#6e51ff", left: "6%", top: "30%", width: "32%", height: "28%" },
+         { label: "Coffees", color: "#f59e0b", left: "6%", top: "62%", width: "32%", height: "28%" },
+         { label: "Animals", color: "#10b981", left: "60%", top: "8%", width: "34%", height: "30%" },
+         { label: "Vehicles", color: "#ec4899", left: "60%", top: "54%", width: "32%", height: "32%" }].map(function(zone, i) {
           return E("div", { key: "zone-" + i, style: {
             position: "absolute",
             left: zone.left,
             top: zone.top,
             width: zone.width,
             height: zone.height,
-            background: zone.color + "08",
-            border: "1.5px dashed " + zone.color + "25",
-            borderRadius: 16,
+            background: "var(--card)",
+            border: "2px dotted " + zone.color + "66",
+            borderRadius: 20,
+            boxShadow: "var(--shadowSoft)",
             pointerEvents: "none"
           } },
             E("div", { style: {
               position: "absolute",
-              top: 4,
-              left: 8,
-              fontSize: 10,
-              fontWeight: 700,
-              color: zone.color + "60",
+              top: 14,
+              left: 16,
+              fontSize: 12,
+              fontWeight: 800,
+              color: zone.color,
               textTransform: "uppercase",
-              letterSpacing: 1
+              letterSpacing: 2
             } }, zone.label));
         }),
         EMBEDDING_WORDS.map((w, i) => {
-          const isHovered = hoveredWord === w.group;
-          const dimmed = hoveredWord && hoveredWord !== w.group;
           return E("div", {
             key: i,
-            onMouseEnter: () => { setHoveredWord(w.group); setHasInteracted(true); setLastGroup(w.group); },
-            onMouseLeave: () => setHoveredWord(null),
             style: {
               position: "absolute",
               left: `${w.x}%`,
               top: `${w.y}%`,
               transform: "translate(-50%, -50%)",
-              padding: "4px 10px",
-              borderRadius: 6,
-              background: GROUP_COLORS[w.group] + (isHovered ? "30" : "15"),
-              border: `1.5px solid ${GROUP_COLORS[w.group]}${dimmed ? "33" : ""}`,
-              fontFamily: "var(--mono)",
-              fontSize: 13,
-              fontWeight: 600,
-              color: dimmed ? "var(--inkMuted)" : GROUP_COLORS[w.group],
-              cursor: "pointer",
-              transition: "all 0.2s",
-              opacity: dimmed ? 0.35 : 1,
+              padding: "7px 14px",
+              borderRadius: 10,
+              background: GROUP_COLORS[w.group] + "22",
+              border: `1.5px solid ${GROUP_COLORS[w.group]}`,
+              boxShadow: "var(--shadowSoft)",
+              fontFamily: "var(--sans)",
+              fontSize: 15,
+              fontWeight: 700,
+              color: GROUP_TEXT[w.group],
               whiteSpace: "nowrap"
             }
           }, w.word);
         })),
-      E("div", {
-        style: {
-          minHeight: 44,
-          padding: "10px 14px",
-          marginBottom: 14,
-          background: lastGroup ? GROUP_COLORS[lastGroup] + "10" : "transparent",
-          border: lastGroup ? "1px solid " + GROUP_COLORS[lastGroup] + "30" : "1px dashed var(--rule)",
-          borderRadius: 8,
-          fontSize: 14,
-          lineHeight: 1.5,
-          color: lastGroup ? "var(--ink)" : "var(--inkMuted)",
-          fontStyle: lastGroup ? "normal" : "italic",
-          textAlign: "center",
-          transition: "all 0.2s"
-        }
-      }, lastGroup ? GROUP_FEEDBACK[lastGroup] : "Pick a word above."),
       E("div", {
         style: {
           display: "flex",
@@ -5839,7 +5791,7 @@ function VectorSpaceSection(props) {
     E(KeyInsight, { lead: "Vector space turns meaning into something the model can compare." },
       "Nearby usually means related. Farther away usually means less related. That\u2019s the comparison move the model uses inside its layers."),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: hasInteracted, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("behindthenumbers"); }, label: "Next: Inside the Model" }));
+    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("insidethemodel"); }, label: "Next: Inside the Model" }));
 }
 
 function MatchTermsTryIt(props) {
@@ -5861,7 +5813,7 @@ function MatchTermsTryIt(props) {
     title: "Match the Names",
     action: E(ActivityCounter, { count: Object.keys(answers).length, total: QUESTIONS.length })
   },
-    E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Match each definition to one of the five terms. We\u2019ll explain each as you go."),
+    E(ActivityInstruction, null, "Match each definition to one of the five terms. We\u2019ll explain each as you go."),
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       QUESTIONS.map(function(item, i) {
         var answered = answers[i] !== undefined;
@@ -5920,7 +5872,7 @@ function BehindTheNumbersSection(props) {
     }
   ];
   return E("div", null,
-    E(LessonHeader, { sectionId: "behindthenumbers" }),
+    E(LessonHeader, { sectionId: "insidethemodel" }),
 
     E(BodyP, null,
       "There is a term software engineers use for AI: a ",
@@ -6018,7 +5970,7 @@ function BehindTheNumbersSection(props) {
       "Humans design the structure. Training learns the values. And each prompt creates temporary working numbers that move through the layers. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),
 
     E(LessonRule, null),
-    E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howreads"); }, label: "Next: Attention & Transformation" }));
+    E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("attention"); }, label: "Next: Attention & Transformation" }));
 }
 function PredictionSection(props) {
   const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
@@ -6049,14 +6001,13 @@ function PredictionSection(props) {
     "Last lesson, probability was the score: how likely each possible next token is. Prediction is the action: the model actually picks one, then runs the whole scoring again for the next token, and the next. One answer is dozens of those picks. Sometimes thousands."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Remember Luke and Nate from Context Window? Same question about buying a car. Totally different answers. That wasn’t random. Every token was a separate prediction, shaped by what was visible in each person’s context window."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Here’s what was happening, token by token."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
     title: "Same question, different prediction",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(seeStep, 5), total: 5 })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Here’s what was happening, token by token."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: [1, 2, 3, 4, 5],
@@ -6227,13 +6178,14 @@ function PatternsSection(props) {
 
     /*#__PURE__*/React.createElement(SectionKicker, null, "Training Writes. Inference Reads."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Patterns are the bridge between the two halves of how AI works. Training writes patterns into the weights. Inference reads them back out. Watch the same pattern in both moments."),
+      "Patterns are the bridge between the two halves of how AI works. Training writes patterns into the weights. Inference reads them back out."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "The Same Pattern, Two Moments",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(bridgePanel, 3), total: 3 })
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the same pattern in both moments."),
       bridgePanel === 0 ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setBridgePanel(1); }, style: { display: "block", margin: "0 auto", fontWeight: 600 } }, "Start") : null,
       bridgePanel >= 1 ? /*#__PURE__*/React.createElement(InnerCard, { pad: "snug", style: { marginBottom: 14, animation: "fadeIn 0.3s ease" } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
@@ -6319,7 +6271,7 @@ function PatternsSection(props) {
       title: "What Pattern Dynamic Is This?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(picks).length, total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Patterns explain almost everything you’ve seen in this section. Pick the pattern dynamic that explains each behavior."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Patterns explain almost everything you’ve seen in this section. Pick the pattern dynamic that explains each behavior."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
@@ -6452,9 +6404,7 @@ function LayersSection(props) {
       title: "Watch Meaning Build Layer by Layer"
     },
       /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("p", {
-          style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.6, margin: "0 0 16px 0" }
-        }, "Click each layer on the left, top to bottom, to follow the meaning as it builds."),
+        /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each layer on the left, top to bottom, to follow the meaning as it builds."),
         /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--card)", borderRadius: 10, padding: "12px 16px", marginBottom: 16, border: "1px solid var(--rule)" }
         },
@@ -6654,6 +6604,7 @@ function InferenceSection(props) {
     title: "The Complete Journey",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(stagesRevealed, steps.length), total: steps.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each stage to follow your prompt all the way to an answer."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: steps,
@@ -6709,12 +6660,12 @@ function InferenceSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 0 } },
       "Every piece you’ve learned across this section and the last (tokens, embeddings, layers, attention, transform, probability) lives inside this one structure.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The Scale of What\u2019s Happening"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Watch what happens behind the scenes when you ask a simple question."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
     title: "Why it feels instant"
   },
+  /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch what happens behind the scenes when you ask a simple question."),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
     /*#__PURE__*/React.createElement(UserBubble, { text: computeQuestion, visibleChars: computeQChars }),
     computePhase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
@@ -6788,6 +6739,7 @@ function OpenerAnswersSection(props) {
     surface: "sand",
     title: "From build to answer"
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each step to see the model’s full path, from build to answer."),
     /*#__PURE__*/React.createElement("div", {
       ref: lifecycleContainerRef,
       style: { position: "relative" }
@@ -6994,13 +6946,12 @@ function PromptSection(props) {
       "What do you call everything the model can see when it answers your question? The ",
       /*#__PURE__*/React.createElement("strong", null, "context window."),
       " Think of it almost like the working memory the model uses to answer. And it builds that working memory from several places."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Click each to see what they are."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "What goes in the context window"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see what they are."),
       /*#__PURE__*/React.createElement("div", {
         ref: cwContainerRef,
         style: { position: "relative", marginTop: 36 }
@@ -7192,6 +7143,7 @@ function CustomizationSection(props) {
       surface: "sand",
       title: "What goes in the context window"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one again to see what the model can see when it answers."),
       /*#__PURE__*/React.createElement("div", { ref: recapContainerRef, style: { position: "relative" } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 60, marginBottom: 16 } },
           CONTEXT_GROUPS_RECAP.map(function(g, gi) {
@@ -7434,7 +7386,7 @@ function CustomizationSection(props) {
     title: "Where should this go?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(sortAnswers).length, total: SORT_ITEMS.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Place each item where it should live. We’ll explain why as you go."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Place each item where it should live. We’ll explain why as you go."),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SORT_ITEMS.map(function(s, i) {
         var current = sortAnswers[i];
@@ -7558,7 +7510,7 @@ function DocumentChatSection(props) {
   }
 
   return E("div", null,
-    E(LessonHeader, { sectionId: "documentchat" }),
+    E(LessonHeader, { sectionId: "documenttrap" }),
     E(BodyP, null,
       "Hallucination was a fake claim. Training Bias was a distorted picture. The third accuracy trap is different again."),
     E(BodyP, null,
@@ -7588,13 +7540,14 @@ function DocumentChatSection(props) {
       E("strong", null, "retrieval"),
       ". When the system can’t load everything, it tries to retrieve the pieces that match your question. Done well, this lets you find a specific answer in a 50-page document in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence."),
     E(BodyP, null,
-      "Say you upload your basketball league\u2019s 100-page rulebook and ask one question. The system can\u2019t always load the whole thing, so it searches for the pieces that match. Here\u2019s what happens between your question and the answer."),
+      "Say you upload your basketball league\u2019s 100-page rulebook and ask one question. The system can\u2019t always load the whole thing, so it searches for the pieces that match."),
     E(InteractiveBox, {
       variant: "see",
       surface: "sand",
       title: "How Chunks Get Picked",
       action: E(ActivityCounter, { count: Math.min(chunkIdx + (startedChunks ? 1 : 0), CHUNK_STEPS.length), total: CHUNK_STEPS.length })
     },
+      E(ActivityInstruction, null, "Here\u2019s what happens between your question and the answer."),
       E(RevealSequence, {
         surface: "sand",
         items: CHUNK_STEPS,
@@ -7646,7 +7599,7 @@ function DocumentChatSection(props) {
       title: "Pick the Better Prompt",
       action: E(ActivityCounter, { count: Object.keys(scenarioAnswers).length, total: SCENARIOS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Your turn. Three uploads, three questions. Pick the prompt that gives retrieval the best shot."),
+      E(ActivityInstruction, null, "Your turn. Three uploads, three questions. Pick the prompt that gives retrieval the best shot."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
@@ -7920,6 +7873,7 @@ function ModelSelectionSection(props) {
       surface: "sand",
       title: "Three theories of AI"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each name to see the philosophy behind it."),
       /*#__PURE__*/React.createElement("div", {
         ref: philContainerRef,
         style: { position: "relative" }
@@ -7999,6 +7953,7 @@ function ModelSelectionSection(props) {
       surface: "sand",
       title: "What each one is built for"
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each name to see what it’s built for."),
       /*#__PURE__*/React.createElement("div", {
         ref: bestForContainerRef,
         style: { position: "relative" }
@@ -8069,7 +8024,7 @@ function ModelSelectionSection(props) {
     title: "Pick the Right Tool",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(scenarioAnswers).length, total: SCENARIOS.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Match the right model to the job. Four scenarios. Pick which one fits each best."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Match the right model to the job. Four scenarios. Pick which one fits each best."),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SCENARIOS.map(function(sc, si) {
         var picked = scenarioAnswers[si];
@@ -8121,6 +8076,7 @@ function ChoosingModelSection(props) {
       title: "The model family",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(tiersRevealed, TIERS.length), total: TIERS.length })
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each model size to see what it’s built for."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "sand",
         items: TIERS,
@@ -8279,7 +8235,7 @@ function ThinkingModeSection(props) {
     title: "Match the Task to the Mode",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(taskAnswers).length, total: TASKS.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick Direct or Thinking for each task. We\u2019ll explain why as you go."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Pick Direct or Thinking for each task. We\u2019ll explain why as you go."),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       TASKS.map(function(t, i) {
         var answered = taskAnswers[i] !== undefined;
@@ -8498,7 +8454,7 @@ function OpenerTrapsSection(props) {
         questions: [
           { question: "Why can AI make things up and still sound confident?", lessonId: "hallucination" },
           { question: "Why can AI feel biased even when no one made it that way?", lessonId: "trainingbias" },
-          { question: "Why doesn’t AI actually read the document I uploaded?", lessonId: "documentchat" }
+          { question: "Why doesn’t AI actually read the document I uploaded?", lessonId: "documenttrap" }
         ]
       },
       {
@@ -8609,7 +8565,7 @@ function HallucinationSection(props) {
       title: "What\u2019s Real, What\u2019s Made Up?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(responseIdx + 1, SPOT_RESPONSES.length), total: SPOT_RESPONSES.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Two AI answers, three sentences each. Click each sentence to see if it\u2019s real or made up."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Two AI answers, three sentences each. Click each sentence to see if it\u2019s real or made up."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: SPOT_RESPONSES,
@@ -8717,6 +8673,7 @@ function VerifySection(props) {
     title: "Verification Strategies",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeStrategy + (startedVerify ? 1 : 0), VERIFY_STRATEGIES.length), total: VERIFY_STRATEGIES.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each strategy to see how to check AI output."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: VERIFY_STRATEGIES,
@@ -8954,7 +8911,7 @@ function CriticalThinkingSection(props) {
     title: "Spot the Problem",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(active101 + (started101 ? 1 : 0), CT_101.length), total: CT_101.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: CT_101,
@@ -9016,6 +8973,7 @@ function CriticalThinkingSection(props) {
       title: "The 5 Habits",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(habitsRevealed, HABITS_OVERVIEW.length), total: HABITS_OVERVIEW.length })
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Reveal each habit to sharpen how you question AI."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "sand",
         items: HABITS_OVERVIEW,
@@ -9046,7 +9004,7 @@ function CriticalThinkingSection(props) {
     title: "Interrogate the Output",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeConcept + (started5Habits ? 1 : 0), CT_CONCEPTS.length), total: CT_CONCEPTS.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: CT_CONCEPTS,
@@ -9377,7 +9335,7 @@ function WhatItDoesBestSection(props) {
       title: "Match the Task to the Strength",
       action: E(ActivityCounter, { count: Object.keys(taskAnswers).length, total: TASKS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Match each task to the strength it plays to. We\u2019ll explain why as you go."),
+      E(ActivityInstruction, null, "Match each task to the strength it plays to. We\u2019ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         TASKS.map(function(t, tIdx) {
           var picked = taskAnswers[tIdx];
@@ -9472,6 +9430,7 @@ function PromptingSection(props) {
     title: "Bad Prompt, Better Prompt",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(baIdx + (baStarted ? 1 : 0), BEFORE_AFTER.length), total: BEFORE_AFTER.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each example to watch a weak prompt become a strong one."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: BEFORE_AFTER,
@@ -9575,6 +9534,7 @@ function PromptingSection(props) {
       title: "The 8 Qualities",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(qualitiesRevealed, QUALITIES_OVERVIEW.length), total: QUALITIES_OVERVIEW.length })
     },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each quality that makes a prompt work."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "sand",
         items: QUALITIES_OVERVIEW,
@@ -9765,9 +9725,9 @@ function ThoughtPartnerSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
-    title: "Thinking Together",
-    hint: "Watch the rhythm: the user brings the next thought, AI helps explore and narrow, but every decision stays with the user."
+    title: "Thinking Together"
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the rhythm: the user brings the next thought, AI helps explore and narrow, but every decision stays with the user."),
     TP_EXCHANGES.slice(0, tpStep).map(function(ex, i) {
         var isLatest = i === tpStep - 1;
         var isTypingUser = isLatest && phase === "typing-user";
@@ -10009,7 +9969,7 @@ function StudyingWithAISection(props) {
       title: "Pick the Stronger Prompt",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(picks).length, total: SCENARIOS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick the stronger prompt in each one. We’ll explain why as you go."),
+      E(ActivityInstruction, null, "Pick the stronger prompt in each one. We’ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, sIdx) {
           var picked = picks[sIdx];
@@ -10187,13 +10147,14 @@ function EvaluatingSection(props) {
     }))
   ),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Use these six criteria as a checklist every time you evaluate AI output. Click each one to see what to look for."),
+    "Use these six criteria as a checklist every time you evaluate AI output."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
     title: "The Good Enough Checklist",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeCriterion + (startedCriteria ? 1 : 0), EVAL_CRITERIA.length), total: EVAL_CRITERIA.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see what to look for."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: EVAL_CRITERIA,
@@ -10269,14 +10230,13 @@ function EvaluatingSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
     }))
   ),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Watch the loop in action. Each round shows the prompt, the response, and what's still missing. By round three, the answer is what you actually wanted."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
     title: "Prompt \u2192 Evaluate \u2192 Refine",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(iterationStep + (startedRefine ? 1 : 0), ITERATION_STEPS.length), total: ITERATION_STEPS.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the loop in action. Each round shows the prompt, the response, and what\u2019s still missing. By round three, the answer is what you actually wanted."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: ITERATION_STEPS,
@@ -10403,7 +10363,7 @@ function CreativeThinkingSection(props) {
       title: "Same Problem, Different Thinking",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(scenarioAnswers).length, total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Watch the moves in action. In each scenario, spot the thinker doing the creative move before AI ever comes into the picture."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the moves in action. In each scenario, spot the thinker doing the creative move before AI ever comes into the picture."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
@@ -10494,7 +10454,7 @@ function WhenAIActsSection(props) {
   ];
   const permAllAnswered = Object.keys(permAnswers).length >= PERM_ITEMS.length;
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whenaiacts" }),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "You just saw which parts of work AI takes over first. Underneath that is a bigger shift: AI is moving from answering your questions to taking actions for you."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -10544,7 +10504,7 @@ function WhenAIActsSection(props) {
       title: "Set Your Permissions",
       action: E(ActivityCounter, { count: Object.keys(permAnswers).length, total: PERM_ITEMS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Pick the permission you\u2019d actually grant for each one. We\u2019ll tell you how it lines up as you go."),
+      E(ActivityInstruction, null, "Pick the permission you\u2019d actually grant for each one. We\u2019ll tell you how it lines up as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         PERM_ITEMS.map(function(item, i) {
           var answered = permAnswers[i] !== undefined;
@@ -10575,7 +10535,7 @@ function WhenAIActsSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, null,
       "When AI answers, check the answer. When AI acts, check the permission."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aijudges"), label: "Next: When AI Judges You" }));
 }
 function MindTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
@@ -10700,7 +10660,7 @@ function MindTrapSection(props) {
       title: "What did your brain add?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(spotAnswers).length, total: SPOT_EXERCISES.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each AI reply. Watch what your brain does, and answer honestly."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each AI reply. Watch what your brain does, and answer honestly."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -10861,7 +10821,7 @@ function FlatteryTrapSection(props) {
     title: "Spot the Sycophancy",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(spotAnswers).length, total: SPOT_EXERCISES.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SPOT_EXERCISES.map(function(sc, si) {
         var picked = spotAnswers[si];
@@ -10983,7 +10943,7 @@ function EngagementTrapSection(props) {
       title: "Notice the Loop",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(spotAnswers).length, total: SPOT_EXERCISES.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each AI reply. Decide what’s actually being asked of you, and answer honestly."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each AI reply. Decide what’s actually being asked of you, and answer honestly."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -11155,7 +11115,7 @@ function SupportTrapSection(props) {
       title: "Support or Substitute?",
       action: E(ActivityCounter, { count: Object.keys(supportAnswers).length, total: SUPPORT_TASKS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, decide whether AI gets you to the real step or helps you avoid it. We\u2019ll explain why as you go."),
+      E(ActivityInstruction, null, "For each one, decide whether AI gets you to the real step or helps you avoid it. We\u2019ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SUPPORT_TASKS.map(function(s, i) {
           var answered = supportAnswers[i] !== undefined;
@@ -11365,16 +11325,16 @@ function OpenerRealWorldSection(props) {
         bridge: "First, the changes already underway.",
         questions: [
           { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
-          { question: "What happens when AI stops answering and starts doing things?", lessonId: "whenaiacts" }
+          { question: "What happens when AI stops answering and starts doing things?", lessonId: "agents" }
         ]
       },
       {
         kicker: "THE STAKES",
         bridge: "Then, who gets affected, and how.",
         questions: [
-          { question: "What do I do when AI is used to judge me?", lessonId: "judged" },
+          { question: "What do I do when AI is used to judge me?", lessonId: "aijudges" },
           { question: "Beyond me, who else has a stake in what AI does?", lessonId: "stakeholders" },
-          { question: "How do I think clearly when seeing is no longer proof?", lessonId: "synthetic" }
+          { question: "How do I think clearly when seeing is no longer proof?", lessonId: "seeingisntproof" }
         ]
       },
       {
@@ -11470,7 +11430,7 @@ function IntegritySection(props) {
     title: "Real Scenarios",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(integrityAnswers).length, total: INTEGRITY_SCENARIOS.length })
   },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       INTEGRITY_SCENARIOS.map(function(sc, si) {
         var sel = integrityAnswers[si];
@@ -11823,13 +11783,14 @@ function PrivacySection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "privacy" }), /*#__PURE__*/React.createElement(BodyP, null, "Treat AI like a group chat with a company, not a diary. You may be the only person on the screen, but the conversation isn\u2019t only yours. Depending on the tool and the settings, what you type can be stored, linked to your account, reviewed for safety, and kept in logs longer than you\u2019d expect. That doesn\u2019t mean panic. It means awareness."),
   /*#__PURE__*/React.createElement(BodyP, null, "And it isn\u2019t just text you send. Modern AI is ", /*#__PURE__*/React.createElement("strong", null, "multimodal"), " \u2014 it can read images, screenshots, PDFs, audio clips, and video. The word means \u201Cmore than one mode of input.\u201D A screenshot is still a prompt. So is a photo, a PDF, or a voice recording. It just looks different. Same context window, same storage rules, same questions about what should and shouldn\u2019t be in there."),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Picture this. You snap a quick photo of your math homework so AI can help you with one of the problems. You meant to share the math. Watch what else came along for the ride."),
+  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Picture this. You snap a quick photo of your math homework so AI can help you with one of the problems. You meant to share the math."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
     title: "The Whole Photo",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(photoRevealed, PHOTO_ITEMS.length), total: PHOTO_ITEMS.length })
   },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch what else came along for the ride."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "sand",
       items: PHOTO_ITEMS,
@@ -11907,7 +11868,7 @@ function PrivacySection(props) {
       title: "Redact the Prompt",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(redactIdx + 1, REDACT_SCENARIOS.length), total: REDACT_SCENARIOS.length })
     },
-    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we\u2019ll tell you if you\u2019re right. Redact everything sensitive to reveal a safer rewrite."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we\u2019ll tell you if you\u2019re right. Redact everything sensitive to reveal a safer rewrite."),
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: REDACT_SCENARIOS,
@@ -12104,7 +12065,7 @@ function WhenAIJudgesSection(props) {
   }];
   const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "judged" }),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aijudges" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "This whole course has been about you using AI well. But there\u2019s a side of AI you don\u2019t open and don\u2019t control. AI is also being used on you. Right now, today, this week."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -12197,7 +12158,7 @@ function WhenAIJudgesSection(props) {
       title: "What\u2019s Your Move?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(permIdx + (startedPerms ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: SCENARIOS,
@@ -12343,7 +12304,7 @@ function StakeholdersSection(props) {
       title: "Spot the Cost",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(permAnswers).length, total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Time to practice. Three scenarios, each with a deployment already running somewhere. For each one, find the group that carries the cost the design didn’t account for."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Time to practice. Three scenarios, each with a deployment already running somewhere. For each one, find the group that carries the cost the design didn’t account for."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
@@ -12359,7 +12320,7 @@ function StakeholdersSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The question isn\u2019t only \u201CDoes this AI work?\u201D" },
       "It\u2019s \u201CWho does it work for, and who carries the cost?\u201D Sometimes that cost is hidden. Sometimes everyone sees it, and the system runs on it anyway."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permsAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("synthetic"), label: "Next: Seeing Isn\u2019t Proof" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permsAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("seeingisntproof"), label: "Next: Seeing Isn\u2019t Proof" }));
 }
 function SyntheticMediaSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -12408,7 +12369,7 @@ function SyntheticMediaSection(props) {
   }];
   const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "synthetic" }),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "seeingisntproof" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI now makes fake text cheap. Fake images cheap. Fake voices cheap. Fake video is real now, especially in short clips, bad lighting, or anything you scroll past in three seconds. The price of generating something convincing has collapsed, and it\u2019s only going one direction."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -12468,7 +12429,7 @@ function SyntheticMediaSection(props) {
       title: "What\u2019s Your Move?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(permIdx + (startedPerms ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Time to practice. Each scenario shows something that looks convincing. Pick the move you\u2019d actually make."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Time to practice. Each scenario shows something that looks convincing. Pick the move you\u2019d actually make."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: SCENARIOS,
@@ -12849,7 +12810,7 @@ function TestYourselfSection(props) {
     options: ["Which words to delete from your input", "Which words are relevant to each other, like connecting ‘it’ back to ‘the cat’", "How to spell-check your input", "Which language you’re writing in"],
     correct: 1,
     section: "Attention",
-    review: "howreads",
+    review: "attention",
     explain: "Attention asks ‘which words matter to each other?’ across your entire input at once. It connects pronouns and highlights the most relevant pieces, giving the model the context it needs for each next word.",
     pitfalls: {
       0: "Nothing gets deleted. Attention is about weighting, not removing.",
@@ -12873,7 +12834,7 @@ function TestYourselfSection(props) {
     options: ["The number of facts it has memorized", "Tiny internal numbers that were adjusted during training; they store the patterns the model learned", "The number of words in its training data", "Settings engineers manually configured"],
     correct: 1,
     section: "No One Wrote the Rules",
-    review: "blackbox",
+    review: "norules",
     explain: "Parameters are billions of internal numbers nudged during training. Each wrong prediction tweaked them slightly. After trillions of tweaks, the numbers encode grammar, facts, style, and tone. No human wrote any of them.",
     pitfalls: {
       0: "The model doesn’t store discrete facts. It stores weights that happen to produce fact-like outputs.",
@@ -13574,7 +13535,7 @@ function QuestionsValuableSection(props) {
       title: "Upgrade the Question",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(upgradeIdx + (startedUpgrade ? 1 : 0), UPGRADE_SCENARIOS.length), total: UPGRADE_SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Your turn. Each one starts with a weak question. Pick the version that actually helps. Some just pile on words. Others are sharp but aimed at the wrong thing. Only one frames the real problem."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Your turn. Each one starts with a weak question. Pick the version that actually helps. Some just pile on words. Others are sharp but aimed at the wrong thing. Only one frames the real problem."),
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: UPGRADE_SCENARIOS,
@@ -13811,7 +13772,7 @@ function HumanEdgeSection(props) {
       title: "Which Move Was Missing?",
       action: E(ActivityCounter, { count: Object.keys(missingAnswers).length, total: MISSING_SCENARIOS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Each one shows AI giving a believable answer. Pick the human move that was missing. We\u2019ll explain why as you go."),
+      E(ActivityInstruction, null, "Each one shows AI giving a believable answer. Pick the human move that was missing. We\u2019ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         MISSING_SCENARIOS.map(function(s, i) {
           var answered = missingAnswers[i] !== undefined;
@@ -13845,7 +13806,7 @@ function HumanEdgeSection(props) {
       title: "Spot the Stronger Use of AI",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(skillSolved).length, total: SCENARIOS.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sk, si) {
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
@@ -14014,7 +13975,7 @@ function WorkChangesSection(props) {
     title: "Sort the Tasks by Exposure",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(taskAnswers).length, total: TASKS.length })
   },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Drop each task in the bucket that fits. We’ll explain why as you go."),
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Drop each task in the bucket that fits. We’ll explain why as you go."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         TASKS.map(function(t, tIdx) {
           var picked = taskAnswers[tIdx];
@@ -14118,7 +14079,7 @@ function WorkChangesSection(props) {
       title: "Split the Job",
       action: E(ActivityCounter, { count: Object.keys(splitAnswers).length, total: SPLIT_TASKS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Each task belongs to a real job. Decide whether AI can help with it or it needs a human. We\u2019ll explain why as you go."),
+      E(ActivityInstruction, null, "Each task belongs to a real job. Decide whether AI can help with it or it needs a human. We\u2019ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPLIT_TASKS.map(function(s, i) {
           var answered = splitAnswers[i] !== undefined;
@@ -14150,7 +14111,7 @@ function WorkChangesSection(props) {
     Object.keys(splitAnswers).length >= SPLIT_TASKS.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t ask only whether a job is safe." },
       "Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(splitAnswers).length >= SPLIT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whenaiacts"); }, label: "Next: The Rise of Agents" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(splitAnswers).length >= SPLIT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" })
   );
 }
 function AIFutureSection(props) {
@@ -14202,7 +14163,7 @@ function AIFutureSection(props) {
         title: "Why Smart Predictions Fail",
         action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(predIdx + (startedPred ? 1 : 0), ALL_CARDS.length), total: ALL_CARDS.length })
       },
-        /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Each one was a confident prediction that missed. Reveal what it underestimated, then go to the next."),
+        /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each one was a confident prediction that missed. Reveal what it underestimated, then go to the next."),
         /*#__PURE__*/React.createElement(RevealSequence, {
           surface: "sand",
           items: ALL_CARDS,
@@ -14528,7 +14489,7 @@ function BuildEdgeSection(props) {
       title: "Spot the Gap",
       action: E(ActivityCounter, { count: Object.keys(scenarioAnswers).length, total: SCENARIOS.length })
     },
-      E("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "For each one, pick the move that catches what’s missing. We’ll explain why as you go."),
+      E(ActivityInstruction, null, "For each one, pick the move that catches what’s missing. We’ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(s, sIdx) {
           var picked = scenarioAnswers[sIdx];
@@ -14619,7 +14580,7 @@ const SECTION_COMPONENTS = {
   howwegothere: HowWeGotHereSection,
   openerjudgment: OpenerJudgmentSection,
   whennot: WhenNotSection,
-  aistrengths: AIStrengthsSection,
+  howmuchtocheck: AIStrengthsSection,
   whydeeper: WhyDeeperSection,
   doesaithink: DoesAIThinkSection,
   whybother: WhyBotherSection,
@@ -14627,10 +14588,10 @@ const SECTION_COMPONENTS = {
   intro: IntroSection,
   keyterms: KeyTermsSection,
   aivscode: AIvsCodeSection,
-  blackbox: BlackBoxSection,
+  norules: BlackBoxSection,
   data: DataSection,
   openerinside: OpenerInsideSection,
-  howreads: HowAIReadsSection,
+  attention: HowAIReadsSection,
   probability: ProbabilitySection,
   openertraps: OpenerTrapsSection,
   hallucination: HallucinationSection,
@@ -14639,7 +14600,7 @@ const SECTION_COMPONENTS = {
   tokens: TokenSection,
   embeddings: EmbeddingsSection,
   vectorspace: VectorSpaceSection,
-  behindthenumbers: BehindTheNumbersSection,
+  insidethemodel: BehindTheNumbersSection,
   prediction: PredictionSection,
   patterns: PatternsSection,
   layers: LayersSection,
@@ -14652,7 +14613,7 @@ const SECTION_COMPONENTS = {
   prompt: PromptSection,
   temperature: TemperatureSection,
   customization: CustomizationSection,
-  documentchat: DocumentChatSection,
+  documenttrap: DocumentChatSection,
   critical: CriticalThinkingSection,
   mindtrap: MindTrapSection,
   flattery: FlatteryTrapSection,
@@ -14665,13 +14626,13 @@ const SECTION_COMPONENTS = {
   studying: StudyingWithAISection,
   verify: VerifySection,
   evaluating: EvaluatingSection,
-  whenaiacts: WhenAIActsSection,
+  agents: WhenAIActsSection,
   openerrealworld: OpenerRealWorldSection,
   integrity: IntegritySection,
   privacy: PrivacySection,
-  judged: WhenAIJudgesSection,
+  aijudges: WhenAIJudgesSection,
   stakeholders: StakeholdersSection,
-  synthetic: SyntheticMediaSection,
+  seeingisntproof: SyntheticMediaSection,
   whatyoulearned: WhatYouLearnedSection,
   fullworkflow: FullWorkflowSection,
   testyourself: TestYourselfSection,

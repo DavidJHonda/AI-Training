@@ -1177,7 +1177,7 @@ const SECTION_GROUPS = [{
   sections: ["openerinside", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training"]
 }, {
   label: "AI Answers",
-  sections: ["openeranswers", "prompt", "inference", "probability", "prediction", "patterns", "whatitdoesbest"]
+  sections: ["openeranswers", "prompt", "patterns", "probability", "inference", "whatitdoesbest"]
 }, {
   label: "Workflow",
   sections: ["openerusing", "creativethinking", "questionsvaluable", "prompting", "thoughtpartner", "critical", "verify", "evaluating"]
@@ -1223,7 +1223,6 @@ const SECTION_META = {
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Your Input & the Context Window", icon: "\u2709\uFE0F" },
   probability: { kicker: "ONE WORD AT A TIME", label: "Probability", icon: "\uD83C\uDFB2" },
-  prediction: { kicker: "THE GUESSING GAME", label: "Prediction", icon: "\uD83C\uDFAF" },
   patterns: { kicker: "ONE IDEA EXPLAINS THE REST", label: "Patterns", icon: "\uD83E\uDDEC" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
@@ -4569,7 +4568,7 @@ function ProbabilitySection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "probability" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You just saw Inference. Stage 5 was where the model scores every possible next token and picks one."
+      "You just saw what training leaves behind: patterns, stored as connection strengths between words. Now watch one get read. When the model needs the next token, it turns those strengths into scores."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That step has its own name: probability. And it’s worth slowing down because it’s the single move AI repeats for every word in every response you’ve ever seen."
@@ -4685,8 +4684,10 @@ function ProbabilitySection(props) {
     ))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "High probability isn't truth." },
       "The model is scoring how well a word fits the pattern. Whether the answer is true is a separate question, one you'll meet in Traps."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That’s one token’s score. But an answer is hundreds of tokens. Next: how one score becomes a whole answer."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: isLastPhrase && revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: Prediction" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: isLastPhrase && revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" })
   );
 }
 function BiasQuiz(props) {
@@ -5708,174 +5709,6 @@ function BehindTheNumbersSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("attention"); }, label: "Next: Attention & Transformation" }));
 }
-function PredictionSection(props) {
-  const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
-  const [promptChars, setPromptChars] = useState(0);
-  const [promptDone, setPromptDone] = useState(false);
-  const [aiRespWords, setAiRespWords] = useState(0);
-  const [aiRespDone, setAiRespDone] = useState(false);
-  var seePromptText = "What car should I buy after I graduate from college?";
-  var lukeRespText = "Great question, Luke. I definitely recommend a Jeep Cherokee.";
-  var nateRespText = "I’m happy you asked this question, Nate. At this point in your life, I recommend the Ford Raptor.";
-  var nateRespWordsArr = nateRespText.split(" ");
-  useEffect(function() {
-    if (seeStep < 1 || promptDone) return;
-    if (promptChars >= seePromptText.length) { setPromptDone(true); return; }
-    var iv = setInterval(function() { setPromptChars(function(c) { if (c >= seePromptText.length) { clearInterval(iv); return c; } return c + 1; }); }, 35);
-    return function() { clearInterval(iv); };
-  }, [seeStep, promptChars, promptDone]);
-  useEffect(function() {
-    if (seeStep < 5 || aiRespDone) return;
-    var t = setTimeout(function() {
-      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= nateRespWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
-    }, 500);
-    return function() { clearTimeout(t); };
-  }, [seeStep]);
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Last lesson, probability was the score: how likely each possible next token is. Prediction is the action: the model actually picks one, then runs the whole scoring again for the next token, and the next. One answer is dozens of those picks. Sometimes thousands."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Remember Luke and Nate from Context Window? Same question about buying a car. Totally different answers. That wasn’t random. Every token was a separate prediction, shaped by what was visible in each person’s context window."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Same question, different prediction",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(seeStep, 5), total: 5 })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Here’s what was happening, token by token."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "sand",
-      items: [1, 2, 3, 4, 5],
-      currentIdx: seeStep > 0 ? seeStep - 1 : 0,
-      started: seeStep > 0,
-      onStart: function() { setSeeStep(1); },
-      onNext: function() { setSeeStep(function(s) { return s + 1; }); },
-      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 5) || (seeStep === 5 && aiRespDone),
-      isComplete: seeStep >= 6,
-      startLabel: "Start",
-      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Pick the brand →" : seeStep === 3 ? "Pick the model →" : seeStep === 4 ? "Watch the responses →" : "Next →",
-      finishLabel: "See the takeaway →",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Same model. Different context. Every token changes.", body: "Nothing about the model was different between Luke and Nate. Same training, same vocabulary, same architecture. The context window is what shifted. And that single difference rewrote every single token." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Same question")),
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "#e0f2fe", borderRadius: 12, padding: 14, border: "1px solid #bfdbfe" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👦🏻"),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#1e40af" } }, "Luke")),
-            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" })),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#f3e8ff", borderRadius: 12, padding: 14, border: "1px solid #ddd6fe" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👱‍♂️"),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#5b21b6" } }, "Nate")),
-            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" }))),
-        seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different context")),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Luke’s context window"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
-                "This question, ",
-                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
-                " an earlier message from Luke: ",
-                /*#__PURE__*/React.createElement("em", null, "“I want something all-terrain for camping and road trips.”"))),
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Nate’s context window"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
-                "This question, ",
-                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
-                " an earlier message from Nate: ",
-                /*#__PURE__*/React.createElement("em", null, "“I love pickup trucks.”")))) ),
-        seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the brand"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "Same vocabulary, different probabilities."))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend a ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Jeep", pct: 44 }, { word: "Toyota", pct: 22 }, { word: "Honda", pct: 14 }, { word: "Ford", pct: 12 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend the ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Ford", pct: 53 }, { word: "Honda", pct: 15 }, { word: "Toyota", pct: 12 }, { word: "Chevy", pct: 12 }, { word: "Jeep", pct: 8 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })))),
-        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "04"),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the model"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "With the brand picked, the next token is its own fresh prediction. Each pick reshapes what comes next."))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend a ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "#1e40af", borderBottom: "2px solid #1e40af", paddingBottom: 2, fontWeight: 800 } }, "Jeep"),
-                " ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Cherokee", pct: 41 }, { word: "Wrangler", pct: 28 }, { word: "Wagoneer", pct: 13 }, { word: "Compass", pct: 11 }, { word: "Renegade", pct: 7 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend the ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "#5b21b6", borderBottom: "2px solid #5b21b6", paddingBottom: 2, fontWeight: 800 } }, "Ford"),
-                " ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Raptor", pct: 42 }, { word: "F-150", pct: 25 }, { word: "Bronco", pct: 14 }, { word: "Ranger", pct: 12 }, { word: "Maverick", pct: 7 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })))),
-        seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "05"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different responses")),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "One answer. Many picks. Each one shapes what comes next." },
-    "Pick the brand and the model options change. Pick the model and the next token changes. Every token along the way is its own fresh prediction, shaped by every pick before it."),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("patterns"), label: "Next: Patterns" }));
-}
 function PatternsSection(props) {
   const [bridgePanel, setBridgePanel] = useLocalStorage("seeit-patterns-bridgePanel", 0);
   const [picks, setPicks] = useState({});
@@ -5910,7 +5743,7 @@ function PatternsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "What changed wasn’t a rule getting flipped. There’s no IF-Nate-THEN-Ford rule sitting inside the model. What changed was which pattern activated."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "This section has been about patterns the whole time. Now let’s name the thread. A pattern is a learned tendency: when this kind of input shows up in this kind of context, this kind of output tends to fit."),
+      "Everything after this is one idea in motion: the scoring, the picking, the whole answer. Let’s name it first. A pattern is a learned tendency: when this kind of input shows up in this kind of context, this kind of output tends to fit."),
 
     /*#__PURE__*/React.createElement(SectionKicker, null, "Training Writes. Inference Reads."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -6018,14 +5851,14 @@ function PatternsSection(props) {
         }),
         Object.keys(picks).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "One mechanism, very different results.", body: "A specific prompt activates sharper patterns. A confident-looking citation activates the citation pattern whether or not the source is real. The pattern is about how things look, not whether they are true." }) : null)),
 
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Probability is the score. Prediction is the action. Patterns are the source." },
-      "Probability scores each next token. Prediction acts on those scores, one token after another. Patterns are where the scores come from, the learned tendencies that training writes and inference reads."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Patterns are the source." },
+      "They’re where every score comes from: the learned tendencies that training writes and inference reads. Next you’ll watch them get read out: first as a score for one token, then chained into a whole answer."),
 
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, {
       ready: bridgePanel >= 3 && Object.keys(picks).length >= SCENARIOS.length,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); },
-      label: "Next: What AI Does Best"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("probability"); },
+      label: "Next: Probability"
     }));
 }
 const LAYER_WORDS = {
@@ -6238,6 +6071,28 @@ function LayersSection(props) {
 }
 function InferenceSection(props) {
   const [stagesRevealed, setStagesRevealed] = useLocalStorage("seeit-inference-stagesRevealed", 0);
+  const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
+  const [promptChars, setPromptChars] = useState(0);
+  const [promptDone, setPromptDone] = useState(false);
+  const [aiRespWords, setAiRespWords] = useState(0);
+  const [aiRespDone, setAiRespDone] = useState(false);
+  var seePromptText = "What car should I buy after I graduate from college?";
+  var lukeRespText = "Great question, Luke. I definitely recommend a Jeep Cherokee.";
+  var nateRespText = "I’m happy you asked this question, Nate. At this point in your life, I recommend the Ford Raptor.";
+  var nateRespWordsArr = nateRespText.split(" ");
+  useEffect(function() {
+    if (seeStep < 1 || promptDone) return;
+    if (promptChars >= seePromptText.length) { setPromptDone(true); return; }
+    var iv = setInterval(function() { setPromptChars(function(c) { if (c >= seePromptText.length) { clearInterval(iv); return c; } return c + 1; }); }, 35);
+    return function() { clearInterval(iv); };
+  }, [seeStep, promptChars, promptDone]);
+  useEffect(function() {
+    if (seeStep < 5 || aiRespDone) return;
+    var t = setTimeout(function() {
+      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= nateRespWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
+    }, 500);
+    return function() { clearTimeout(t); };
+  }, [seeStep]);
   var renderChip = function(chip) {
     var tones = {
       neutral: { bg: "rgba(15, 23, 42, 0.08)", color: "var(--inkMuted)" },
@@ -6265,33 +6120,6 @@ function InferenceSection(props) {
       chip.label
     );
   };
-  const [computePhase, setComputePhase] = useState("typing-q");
-  const [computeQChars, setComputeQChars] = useState(0);
-  const [computeAiWords, setComputeAiWords] = useState(0);
-  const [computeReveal, setComputeReveal] = useState(false);
-  const computeQuestion = "How many times did Michael Jordan win the MVP in the NBA?";
-  const computeAnswer = "Michael Jordan won the NBA Most Valuable Player award five times: 1988, 1991, 1992, 1996, and 1998. All five were with the Chicago Bulls.";
-  const computeAnswerWords = computeAnswer.split(" ");
-  useEffect(function() {
-    if (computePhase === "typing-q") {
-      if (computeQChars >= computeQuestion.length) { setComputePhase("thinking"); return; }
-      var iv = setInterval(function() {
-        setComputeQChars(function(c) { if (c >= computeQuestion.length) { clearInterval(iv); return c; } return c + 1; });
-      }, 35);
-      return function() { clearInterval(iv); };
-    }
-    if (computePhase === "thinking") {
-      var t = setTimeout(function() { setComputePhase("typing-ai"); }, 2000);
-      return function() { clearTimeout(t); };
-    }
-    if (computePhase === "typing-ai") {
-      if (computeAiWords >= computeAnswerWords.length) { setComputePhase("done"); return; }
-      var iv2 = setInterval(function() {
-        setComputeAiWords(function(w) { if (w >= computeAnswerWords.length) { clearInterval(iv2); return w; } return w + 1; });
-      }, 90);
-      return function() { clearInterval(iv2); };
-    }
-  }, [computePhase, computeQChars, computeAiWords]);
   const steps = [{
     chip: { icon: "👤", label: "YOU", tone: "neutral" },
     title: "You type a prompt",
@@ -6317,10 +6145,9 @@ function InferenceSection(props) {
     title: "Pick the next token (and repeat)",
     description: "The model picks one token from those probabilities, adds it to the response, and runs the whole journey again from stage 2. Every token is its own full pass."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned what gets sent to AI: your prompt, plus everything else in the context window."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now let’s map what AI does with all of that. The whole journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Inference is what happens every time you hit send. The trained model takes your prompt, runs it through its layers, predicts the next token, adds that token to the response, and repeats until the answer is complete."),
-  /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met the source (patterns) and one score (probability). Now chain it together."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The model picks a token, adds it to the response, and scores the next one, over and over until the answer is complete. The whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
+  /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
@@ -6382,37 +6209,144 @@ function InferenceSection(props) {
       ". Billions of them, tuned by training, frozen once it’s done. When you hear “open weights” or “70 billion parameters” in the news, weights are what they mean."),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 0 } },
       "Every piece you’ve learned across this section and the last (tokens, embeddings, layers, attention, transform, probability) lives inside this one structure.")),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The Scale of What\u2019s Happening"),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
+    /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "see",
     surface: "sand",
-    title: "Why it feels instant"
+    title: "Same question, different prediction",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(seeStep, 5), total: 5 })
   },
-  /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch what happens behind the scenes when you ask a simple question."),
-  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
-    /*#__PURE__*/React.createElement(UserBubble, { text: computeQuestion, visibleChars: computeQChars }),
-    computePhase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
-    (computePhase === "typing-ai" || computePhase === "done") ? /*#__PURE__*/React.createElement(AIBubble, { text: computeAnswer, visibleWords: computeAiWords }) : null),
-  computePhase === "done" && !computeReveal ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 8 } },
-    /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setComputeReveal(true); },
-      style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-    }, "See What AI Calculated \u2193")) : null,
-  computeReveal ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 } },
-      [["Tokens in your question:", "~14"], ["Dimensions per token:", "thousands"], ["Layers processed:", "~100"], ["At each layer:", "every token checks its relationship to every other token"]].map(function(row, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)", fontSize: 14 } }, row[0]),
-          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--mono)", fontWeight: 700, color: "var(--primary)", fontSize: 14 } }, row[1]));
-      })),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 4, paddingTop: 18, borderTop: "1px solid var(--rule)" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 8 } }, "Add it all up"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 28, fontWeight: 800, color: "var(--primary)", lineHeight: 1.15 } }, "\u2248 100,000,000,000+"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--ink)", marginTop: 2, marginBottom: 12 } }, "calculations"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, maxWidth: "46ch", margin: "0 auto" } }, "Counting one per second, you\u2019d be at it for over 3,000 years. The model did it in about one."))) : null),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Billions of calculations, all for one word." }, "Every word the model writes is its own fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."),
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Here’s what was happening, token by token."),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "sand",
+      items: [1, 2, 3, 4, 5],
+      currentIdx: seeStep > 0 ? seeStep - 1 : 0,
+      started: seeStep > 0,
+      onStart: function() { setSeeStep(1); },
+      onNext: function() { setSeeStep(function(s) { return s + 1; }); },
+      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 5) || (seeStep === 5 && aiRespDone),
+      isComplete: seeStep >= 6,
+      startLabel: "Start",
+      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Pick the brand →" : seeStep === 3 ? "Pick the model →" : seeStep === 4 ? "Watch the responses →" : "Next →",
+      finishLabel: "See the takeaway →",
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Same model. Different context. Every token changes.", body: "Nothing about the model was different between Luke and Nate. Same training, same vocabulary, same architecture. The context window is what shifted. And that single difference rewrote every single token." })
+    },
+      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Same question")),
+        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#e0f2fe", borderRadius: 12, padding: 14, border: "1px solid #bfdbfe" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👦🏻"),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#1e40af" } }, "Luke")),
+            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" })),
+          /*#__PURE__*/React.createElement("div", { style: { background: "#f3e8ff", borderRadius: 12, padding: 14, border: "1px solid #ddd6fe" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👱‍♂️"),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#5b21b6" } }, "Nate")),
+            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" }))),
+        seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different context")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Luke’s context window"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
+                "This question, ",
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
+                " an earlier message from Luke: ",
+                /*#__PURE__*/React.createElement("em", null, "“I want something all-terrain for camping and road trips.”"))),
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Nate’s context window"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
+                "This question, ",
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
+                " an earlier message from Nate: ",
+                /*#__PURE__*/React.createElement("em", null, "“I love pickup trucks.”")))) ),
+        seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the brand"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "Same vocabulary, different probabilities."))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend a ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Jeep", pct: 44 }, { word: "Toyota", pct: 22 }, { word: "Honda", pct: 14 }, { word: "Ford", pct: 12 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend the ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Ford", pct: 53 }, { word: "Honda", pct: 15 }, { word: "Toyota", pct: 12 }, { word: "Chevy", pct: 12 }, { word: "Jeep", pct: 8 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })))),
+        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "04"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the model"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "With the brand picked, the next token is its own fresh prediction. Each pick reshapes what comes next."))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend a ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "#1e40af", borderBottom: "2px solid #1e40af", paddingBottom: 2, fontWeight: 800 } }, "Jeep"),
+                " ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Cherokee", pct: 41 }, { word: "Wrangler", pct: 28 }, { word: "Wagoneer", pct: 13 }, { word: "Compass", pct: 11 }, { word: "Renegade", pct: 7 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend the ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "#5b21b6", borderBottom: "2px solid #5b21b6", paddingBottom: 2, fontWeight: 800 } }, "Ford"),
+                " ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Raptor", pct: 42 }, { word: "F-150", pct: 25 }, { word: "Bronco", pct: 14 }, { word: "Ranger", pct: 12 }, { word: "Maverick", pct: 7 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })))),
+        seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "05"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different responses")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "One answer. Many picks. Each one shapes what comes next." },
+    "Pick the brand and the model options change. Pick the model and the next token changes. Every token along the way is its own fresh prediction, shaped by every pick before it."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length && seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"), label: "Next: What AI Does Best" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",
@@ -6540,7 +6474,7 @@ function OpenerAnswersSection(props) {
       answersIllustration,
       /*#__PURE__*/React.createElement(BodyP, null, "You’ve opened the hood. You’ve seen the parts that make AI possible: tokens, embeddings, vector space, layers."),
       /*#__PURE__*/React.createElement(BodyP, null, "Now comes a split that runs through everything: a model gets built once, then runs thousands of times. It doesn’t rebuild itself every time you ask a question. It uses the system that was already built."),
-      /*#__PURE__*/React.createElement(BodyP, null, "That split has names. Training is the massive one-time build, and you just walked through it. Inference is the other half: what happens every single time you ask. This section is inference, end to end. You’ll see what gets packaged each turn, how the model runs it into an answer, the one idea that ties it all together, and what all of that makes AI genuinely good at."),
+      /*#__PURE__*/React.createElement(BodyP, null, "That split has names. Training is the massive one-time build, and you just walked through it. Inference is the other half: what happens every single time you ask. This section is inference, end to end. You’ll see what gets packaged each turn, the patterns training left inside the model, how it reads them into an answer token by token, and what all of that makes AI genuinely good at."),
       /*#__PURE__*/React.createElement(BodyP, null, "Click through each card to see what each move does."),
       lifecycleInteractive),
     whatYoullLearnIntro: [
@@ -6561,24 +6495,23 @@ function OpenerAnswersSection(props) {
         ]
       },
       {
-        kicker: "RUN THE MODEL",
-        bridge: "Next, the model runs that input into an answer.",
+        kicker: "WHAT TRAINING LEFT BEHIND",
+        bridge: "Inside the model sits one thing training wrote: patterns.",
         questions: [
-          { question: "What is the full journey from your prompt to the final answer?", lessonId: "inference" },
-          { question: "How does the model decide what might come next?", lessonId: "probability" },
-          { question: "Why is answering really a repeated guessing process?", lessonId: "prediction" }
+          { question: "What one idea is the model actually built from?", lessonId: "patterns" }
         ]
       },
       {
-        kicker: "TIE IT TOGETHER",
-        bridge: "One idea explains all of it.",
+        kicker: "READ IT INTO AN ANSWER",
+        bridge: "The model reads those patterns out, token by token, into a full answer.",
         questions: [
-          { question: "What one idea ties all of this together?", lessonId: "patterns" }
+          { question: "How does the model decide what might come next?", lessonId: "probability" },
+          { question: "How do those picks chain into a whole answer?", lessonId: "inference" }
         ]
       },
       {
         kicker: "PUT IT TO WORK",
-        bridge: "Finally, what all of that machinery makes AI genuinely good at.",
+        bridge: "Finally, what all that machinery makes AI genuinely good at.",
         questions: [
           { question: "What is AI actually good at, and why?", lessonId: "whatitdoesbest" }
         ]
@@ -6778,8 +6711,10 @@ function PromptSection(props) {
         }))),
 
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Same question, different answer. The window is the difference." }, "What the model can see when it answers is the whole game. Change what’s in the window and you change what comes out."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "You’ve seen what the model can see. Next: the one thing inside the model that turns all of it into an answer."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(cwRevealed).length === 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("patterns"); }, label: "Next: Patterns" }));
 }
 function CustomizationSection(props) {
   const [sortAnswers, setSortAnswers] = useState({});
@@ -14324,7 +14259,6 @@ const SECTION_COMPONENTS = {
   embeddings: EmbeddingsSection,
   vectorspace: VectorSpaceSection,
   insidethemodel: BehindTheNumbersSection,
-  prediction: PredictionSection,
   patterns: PatternsSection,
   layers: LayersSection,
   inference: InferenceSection,

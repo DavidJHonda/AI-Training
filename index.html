@@ -6265,33 +6265,6 @@ function InferenceSection(props) {
       chip.label
     );
   };
-  const [computePhase, setComputePhase] = useState("typing-q");
-  const [computeQChars, setComputeQChars] = useState(0);
-  const [computeAiWords, setComputeAiWords] = useState(0);
-  const [computeReveal, setComputeReveal] = useState(false);
-  const computeQuestion = "How many times did Michael Jordan win the MVP in the NBA?";
-  const computeAnswer = "Michael Jordan won the NBA Most Valuable Player award five times: 1988, 1991, 1992, 1996, and 1998. All five were with the Chicago Bulls.";
-  const computeAnswerWords = computeAnswer.split(" ");
-  useEffect(function() {
-    if (computePhase === "typing-q") {
-      if (computeQChars >= computeQuestion.length) { setComputePhase("thinking"); return; }
-      var iv = setInterval(function() {
-        setComputeQChars(function(c) { if (c >= computeQuestion.length) { clearInterval(iv); return c; } return c + 1; });
-      }, 35);
-      return function() { clearInterval(iv); };
-    }
-    if (computePhase === "thinking") {
-      var t = setTimeout(function() { setComputePhase("typing-ai"); }, 2000);
-      return function() { clearTimeout(t); };
-    }
-    if (computePhase === "typing-ai") {
-      if (computeAiWords >= computeAnswerWords.length) { setComputePhase("done"); return; }
-      var iv2 = setInterval(function() {
-        setComputeAiWords(function(w) { if (w >= computeAnswerWords.length) { clearInterval(iv2); return w; } return w + 1; });
-      }, 90);
-      return function() { clearInterval(iv2); };
-    }
-  }, [computePhase, computeQChars, computeAiWords]);
   const steps = [{
     chip: { icon: "👤", label: "YOU", tone: "neutral" },
     title: "You type a prompt",
@@ -6382,35 +6355,6 @@ function InferenceSection(props) {
       ". Billions of them, tuned by training, frozen once it’s done. When you hear “open weights” or “70 billion parameters” in the news, weights are what they mean."),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginBottom: 0 } },
       "Every piece you’ve learned across this section and the last (tokens, embeddings, layers, attention, transform, probability) lives inside this one structure.")),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The Scale of What\u2019s Happening"),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Why it feels instant"
-  },
-  /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch what happens behind the scenes when you ask a simple question."),
-  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 } },
-    /*#__PURE__*/React.createElement(UserBubble, { text: computeQuestion, visibleChars: computeQChars }),
-    computePhase === "thinking" ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
-    (computePhase === "typing-ai" || computePhase === "done") ? /*#__PURE__*/React.createElement(AIBubble, { text: computeAnswer, visibleWords: computeAiWords }) : null),
-  computePhase === "done" && !computeReveal ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 8 } },
-    /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setComputeReveal(true); },
-      style: { padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-    }, "See What AI Calculated \u2193")) : null,
-  computeReveal ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 } },
-      [["Tokens in your question:", "~14"], ["Dimensions per token:", "thousands"], ["Layers processed:", "~100"], ["At each layer:", "every token checks its relationship to every other token"]].map(function(row, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "var(--card)", borderRadius: 8, border: "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)", fontSize: 14 } }, row[0]),
-          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--mono)", fontWeight: 700, color: "var(--primary)", fontSize: 14 } }, row[1]));
-      })),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 4, paddingTop: 18, borderTop: "1px solid var(--rule)" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 8 } }, "Add it all up"),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 28, fontWeight: 800, color: "var(--primary)", lineHeight: 1.15 } }, "\u2248 100,000,000,000+"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--ink)", marginTop: 2, marginBottom: 12 } }, "calculations"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, maxWidth: "46ch", margin: "0 auto" } }, "Counting one per second, you\u2019d be at it for over 3,000 years. The model did it in about one."))) : null),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Billions of calculations, all for one word." }, "Every word the model writes is its own fresh pass through the whole network. The speed is the magic trick. The math underneath is the real machine."),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("probability"), label: "Next: Probability" }));
 }

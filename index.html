@@ -11404,10 +11404,8 @@ function OpenerRealWorldSection(props) {
 }
 
 function IntegritySection(props) {
-  const [activeScenario, setActiveScenario] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [startedRealScenarios, setStartedRealScenarios] = useState(true);
-  const sc = INTEGRITY_SCENARIOS[activeScenario] || INTEGRITY_SCENARIOS[INTEGRITY_SCENARIOS.length - 1];
+  const [integrityAnswers, setIntegrityAnswers] = useState({});
+  const integrityAllAnswered = Object.keys(integrityAnswers).length >= INTEGRITY_SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "integrity" }), /*#__PURE__*/React.createElement(BodyP, null, "AI is an incredibly powerful tool for learning. But there's a difference between ", /*#__PURE__*/React.createElement("strong", null, "using AI to learn"), " and ", /*#__PURE__*/React.createElement("strong", null, "using AI to skip learning"), ". The line isn't always obvious, so let's make it clear."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "WHERE THE LINE IS",
@@ -11476,59 +11474,45 @@ function IntegritySection(props) {
     variant: "try",
     surface: "mint",
     title: "Real Scenarios",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeScenario + (startedRealScenarios ? 1 : 0), INTEGRITY_SCENARIOS.length), total: INTEGRITY_SCENARIOS.length })
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(integrityAnswers).length, total: INTEGRITY_SCENARIOS.length })
   },
     /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "mint",
-      items: INTEGRITY_SCENARIOS,
-      currentIdx: activeScenario,
-      started: startedRealScenarios,
-      onStart: function() { setStartedRealScenarios(true); },
-      onNext: function() { setActiveScenario(activeScenario + 1); setSelectedOption(null); },
-      canAdvance: selectedOption !== null,
-      isComplete: activeScenario >= INTEGRITY_SCENARIOS.length,
-      startLabel: "First Scenario",
-      nextLabel: "Next Scenario \u2192",
-      finishLabel: "All scenarios reviewed \u2192",
-      completionElement: /*#__PURE__*/React.createElement("div", {
-        style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "\uD83C\uDF93"),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      INTEGRITY_SCENARIOS.map(function(sc, si) {
+        var sel = integrityAnswers[si];
+        var answered = sel !== undefined;
+        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, sc.title)),
+            /*#__PURE__*/React.createElement(UserBubble, { text: sc.situation, align: "left" })),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            sc.options.map(function(opt, oi) {
+              var isSel = sel === oi;
+              var vColor = opt.verdict === "wrong" ? "#d4334a" : opt.verdict === "ok" ? "#d97706" : "#1f9d5f";
+              var vBg = opt.verdict === "wrong" ? "#fbe9ec" : opt.verdict === "ok" ? "#fef3c7" : "#e7f6ee";
+              return /*#__PURE__*/React.createElement("button", { key: oi, onClick: function() { setIntegrityAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); }); }, style: { display: "block", width: "100%", textAlign: "left", padding: "14px 18px", borderRadius: 12, border: "1.5px solid " + (isSel ? vColor : "var(--rule)"), background: isSel ? vBg : "#fff", color: "#0e0a1f", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, lineHeight: 1.4, transition: "all 150ms ease" } }, opt.label);
+            })),
+          answered ? (function() {
+            var opt = sc.options[sel];
+            var accent = opt.verdict === "wrong" ? "#d4334a" : opt.verdict === "ok" ? "#d97706" : "#1f9d5f";
+            var eyebrow = opt.verdict === "wrong" ? "Not okay" : opt.verdict === "ok" ? "Check the policy" : "Good approach";
+            var headline = opt.verdict === "wrong" ? "Not okay." : opt.verdict === "ok" ? "Check the policy first." : "Good approach.";
+            return /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
+                /*#__PURE__*/React.createElement("div", null,
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
+                    /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
+                    eyebrow),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: accent, lineHeight: 1.2 } }, headline)),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, opt.explain)));
+          })() : null);
+      }),
+      integrityAllAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 20, textAlign: "center" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 8 } }, "🎓"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "You've thought through the gray areas."),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Most integrity calls aren't between right and wrong. They're between using AI to learn and using AI to skip the learning."))
-    },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon),
-            /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, sc.title)),
-          /*#__PURE__*/React.createElement(UserBubble, { text: sc.situation, align: "left" })),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          sc.options.map(function(opt, i) {
-            var sel = selectedOption === i;
-            var vColor = opt.verdict === "wrong" ? "#d4334a" : opt.verdict === "ok" ? "#d97706" : "#1f9d5f";
-            var vBg = opt.verdict === "wrong" ? "#fbe9ec" : opt.verdict === "ok" ? "#fef3c7" : "#e7f6ee";
-            return /*#__PURE__*/React.createElement("button", {
-              key: i,
-              onClick: function() { setSelectedOption(i); },
-              style: { display: "block", width: "100%", textAlign: "left", padding: "14px 18px", borderRadius: 12, border: "1.5px solid " + (sel ? vColor : "var(--rule)"), background: sel ? vBg : "#fff", color: "#0e0a1f", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, lineHeight: 1.4, transition: "all 150ms ease" }
-            }, opt.label);
-          })),
-        selectedOption !== null ? (function() {
-          var opt = sc.options[selectedOption];
-          var accent = opt.verdict === "wrong" ? "#d4334a" : opt.verdict === "ok" ? "#d97706" : "#1f9d5f";
-          var eyebrow = opt.verdict === "wrong" ? "Not okay" : opt.verdict === "ok" ? "Check the policy" : "Good approach";
-          var headline = opt.verdict === "wrong" ? "Not okay." : opt.verdict === "ok" ? "Check the policy first." : "Good approach.";
-          return /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-              /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
-                  /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
-                  eyebrow),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: accent, lineHeight: 1.2 } }, headline)),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, opt.explain)));
-        })() : null))),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Most integrity calls aren't between right and wrong. They're between using AI to learn and using AI to skip the learning.")) : null)),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Plagiarism vs Copyright"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Plagiarism and copyright sound similar, but they answer different questions. Get the difference clear before you submit, post, or sell anything you used AI to make."),
@@ -11698,7 +11682,7 @@ function IntegritySection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "In group work, agree on AI use before anyone uses it. If one person silently AI-drafts a section, the others can\u2019t review it the way they would human work, can\u2019t catch mistakes, and didn\u2019t get to weigh in on whether to use AI at all. Hidden AI use changes the work for everyone."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI can help you learn, draft, debug, and revise." }, "But your name goes on the work only when you understand it, can defend it, and followed the rules."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: activeScenario >= INTEGRITY_SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy & Awareness" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: integrityAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy & Awareness" }));
 }
 function PrivacySection(props) {
   const [redactIdx, setRedactIdx] = useState(0);
@@ -13652,8 +13636,7 @@ function QuestionsValuableSection(props) {
   );
 }
 function HumanEdgeSection(props) {
-  const [skillIdx, setSkillIdx] = useState(0);
-  const [skillStarted, setSkillStarted] = useState(true);
+
   const [skillSolved, setSkillSolved] = useState({});
   const [missingAnswers, setMissingAnswers] = useState({});
   var E = React.createElement;
@@ -13760,7 +13743,7 @@ function HumanEdgeSection(props) {
     { icon: "\uD83D\uDD0D", title: "Check what matters", body: "AI can sound confident when it is wrong. The better it sounds, the more important it becomes to know what needs verification." },
     { icon: "\uD83E\uDDED", title: "Make the human call", body: "AI can generate options. It cannot own your judgment, your values, your reputation, or the consequences of what you choose." }
   ];
-  const sk = SCENARIOS[Math.min(skillIdx, SCENARIOS.length - 1)];
+  const skillAllSolved = Object.keys(skillSolved).length >= SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "humanedge" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -13869,36 +13852,18 @@ function HumanEdgeSection(props) {
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(skillSolved).length, total: SCENARIOS.length })
     },
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."),
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: SCENARIOS,
-        currentIdx: skillIdx,
-        started: skillStarted,
-        onStart: function() { setSkillStarted(true); },
-        onNext: function() { setSkillIdx(skillIdx + 1); },
-        canAdvance: !!skillSolved[skillIdx],
-        isComplete: skillIdx >= SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Direction beats production.", body: "Every option here used AI. The stronger one each time kept the thinking, the judgment, and the final call with you. That\u2019s the part AI doesn\u2019t replace." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-          /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }),
-          /*#__PURE__*/React.createElement("div", { style: { marginTop: 16 } },
-            /*#__PURE__*/React.createElement(QuizBlock, {
-              key: skillIdx,
-              surface: "mint",
-              statement: "Which is the stronger use of AI?",
-              questionNumber: skillIdx + 1,
-              totalQuestions: SCENARIOS.length,
-              options: sk.options,
-              onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[skillIdx] = true; return next; }); }
-            }))))),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SCENARIOS.map(function(sk, si) {
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }),
+            /*#__PURE__*/React.createElement("div", { style: { marginTop: 16 } },
+              /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which is the stronger use of AI?", questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: sk.options, onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[si] = true; return next; }); } })));
+        }),
+        skillAllSolved ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Direction beats production.", body: "Every option here used AI. The stronger one each time kept the thinking, the judgment, and the final call with you. That’s the part AI doesn’t replace." }) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI makes production cheaper." },
       "That makes direction, judgment, and ownership more valuable. The skills above don\u2019t replace AI. They\u2019re what makes AI worth using."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: skillIdx >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerrealworld"); }, label: "Next: Real World" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: skillAllSolved, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerrealworld"); }, label: "Next: Real World" })
   );
 }
 function WorkChangesSection(props) {

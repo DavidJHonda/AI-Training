@@ -10674,10 +10674,8 @@ function WhenAIActsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("judged"), label: "Next: When AI Judges You" }));
 }
 function MindTrapSection(props) {
-  const [spotIdx, setSpotIdx] = useState(0);
-  const [spotAnswer, setSpotAnswer] = useState(null);
+  const [spotAnswers, setSpotAnswers] = useState({});
   const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
-  const [startedSpotTrigger, setStartedSpotTrigger] = useState(true);
   const SPOT_EXERCISES = [{
     prompt: "Why does my code keep crashing?",
     reply: "Your code is trying to do too much at once. It\u2019s basically panicking.",
@@ -10706,7 +10704,7 @@ function MindTrapSection(props) {
       { label: "It produced supportive language that may still help me study.", correct: true, headline: "Supportive words, still useful.", feedback: "The support can be useful. Just don\u2019t confuse supportive wording with actual care or responsibility." }
     ]
   }];
-  var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
+  var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
     /*#__PURE__*/React.createElement(BodyP, null, "That covered the accuracy traps. The next four traps are different. They\u2019re not about whether the AI\u2019s answer is correct. They\u2019re about how the answer feels."),
@@ -10796,37 +10794,19 @@ function MindTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "What did your brain add?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(spotIdx + (startedSpotTrigger ? 1 : 0), SPOT_EXERCISES.length), total: SPOT_EXERCISES.length })
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(spotAnswers).length, total: SPOT_EXERCISES.length })
     },
       /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each AI reply. Watch what your brain does, and answer honestly."),
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: SPOT_EXERCISES,
-        currentIdx: spotIdx,
-        started: startedSpotTrigger,
-        onStart: function() { setStartedSpotTrigger(true); },
-        onNext: function() { setSpotIdx(spotIdx + 1); setSpotAnswer(null); },
-        canAdvance: spotAnswer !== null,
-        isComplete: spotIdx >= SPOT_EXERCISES.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three triggers caught.", body: "The warmth in the words is your brain. The information after might still be useful. Treat them as different things." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 18 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: spot.prompt, align: "right" }),
-          /*#__PURE__*/React.createElement(AIBubble, { text: spot.reply, align: "left" })),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: spotIdx,
-          surface: "mint",
-          statement: spot.question,
-          questionNumber: spotIdx + 1,
-          totalQuestions: SPOT_EXERCISES.length,
-          options: spot.options,
-          picked: spotAnswer != null ? spotAnswer : undefined,
-          onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
-        })))),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SPOT_EXERCISES.map(function(sc, si) {
+          var picked = spotAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 18 } },
+              /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
+              /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" })),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, questionNumber: si + 1, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
+        }),
+        spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three triggers caught.", body: "The warmth in the words is your brain. The information after might still be useful. Treat them as different things." }) : null)),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When this matters most"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can\u2019t notice what you\u2019re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
@@ -10836,10 +10816,8 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
-  const [spotIdx, setSpotIdx] = useState(0);
-  const [spotAnswer, setSpotAnswer] = useState(null);
+  const [spotAnswers, setSpotAnswers] = useState({});
   const [activeStrategy, setActiveStrategy] = useState(0);
-  const [startedSpotSycophancy, setStartedSpotSycophancy] = useState(true);
   const SPOT_EXERCISES = [{
     prompt: "Here's my essay introduction for AP English. Can you give me feedback?",
     essay: null,
@@ -10928,7 +10906,7 @@ function FlatteryTrapSection(props) {
     prompt: "Run the same prompt through a second model. Compare the responses. Where they disagree is where you should investigate further.",
     example: "Model A says your argument is \"compelling and well-structured.\" Model B says \"the logic in paragraph 2 doesn't follow.\" Model B just saved your grade."
   }];
-  var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
+  var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
   var fs = FIGHT_STRATEGIES[activeStrategy];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding voice seeming to approve of you."),
   /*#__PURE__*/React.createElement(BodyP, null, "It says your essay is strong. Your idea is thoughtful. Your code is impressive. Your opinion is exactly right. Sometimes that\u2019s useful. Often it\u2019s approval wearing the costume of feedback. ", /*#__PURE__*/React.createElement("strong", null, "The trap is mistaking approval for help.")),
@@ -10977,42 +10955,20 @@ function FlatteryTrapSection(props) {
     variant: "try",
     surface: "mint",
     title: "Spot the Sycophancy",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(spotIdx + (startedSpotSycophancy ? 1 : 0), SPOT_EXERCISES.length), total: SPOT_EXERCISES.length })
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(spotAnswers).length, total: SPOT_EXERCISES.length })
   },
-  /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."),
-  /*#__PURE__*/React.createElement(RevealSequence, {
-    surface: "mint",
-    items: SPOT_EXERCISES,
-    currentIdx: spotIdx,
-    started: startedSpotSycophancy,
-    onStart: function() { setStartedSpotSycophancy(true); },
-    onNext: function() { setSpotIdx(spotIdx + 1); setSpotAnswer(null); },
-    canAdvance: spotAnswer !== null,
-    isComplete: spotIdx >= SPOT_EXERCISES.length,
-    startLabel: "First Scenario",
-    nextLabel: "Next Scenario \u2192",
-    finishLabel: "Wrap it up \u2192",
-    completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three sycophants spotted.", body: "Friendliness is a tone, not a check on accuracy. The flattering answer might be wrong." })
-  },
-    /*#__PURE__*/React.createElement(InnerCard, null,
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-      /*#__PURE__*/React.createElement(UserBubble, { text: spot.prompt, align: "left" }),
-      spot.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, spot.essay)),
-    /*#__PURE__*/React.createElement(QuizBlock, {
-      key: spotIdx,
-      surface: "mint",
-      statement: "Which response is sycophantic?",
-      questionNumber: spotIdx + 1,
-      totalQuestions: SPOT_EXERCISES.length,
-      options: spot.responses.map(function(r) {
-        return r.sycophantic
-          ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain }
-          : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain };
+    /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      SPOT_EXERCISES.map(function(sc, si) {
+        var picked = spotAnswers[si];
+        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
+            /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "left" }),
+            sc.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, sc.essay)),
+          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", questionNumber: si + 1, totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }),
-      picked: spotAnswer != null ? spotAnswer : undefined,
-      onAnswer: function(idx) { setSpotAnswer(idx); }
-    })))),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
+      spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three sycophants spotted.", body: "Friendliness is a tone, not a check on accuracy. The flattering answer might be wrong." }) : null)),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
   /*#__PURE__*/React.createElement(BodyP, null, "You can't stop models from being sycophantic, but you can prompt your way around it. These five strategies force the model to be useful instead of nice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 16, alignItems: "flex-start" }
   }, /*#__PURE__*/React.createElement("div", {
@@ -11044,13 +11000,11 @@ function FlatteryTrapSection(props) {
   /*#__PURE__*/React.createElement(KeyInsight, null,
     "Approval is not help. Praise is not feedback. Agreement is not evidence."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotAnswer !== null || activeStrategy > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: Engagement Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(spotAnswers).length > 0 || activeStrategy > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: Engagement Trap" }));
 }
 function EngagementTrapSection(props) {
-  const [spotIdx, setSpotIdx] = useState(0);
-  const [spotAnswer, setSpotAnswer] = useState(null);
+  const [spotAnswers, setSpotAnswers] = useState({});
   const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
-  const [startedSpot, setStartedSpot] = useState(true);
   const SPOT_EXERCISES = [{
     prompt: "Can you give me a quick pesto recipe?",
     reply: "Here you go: blend basil, garlic, pine nuts, parmesan, and olive oil until smooth. Want me to suggest variations, adjust it for allergies, or scale it for a crowd?",
@@ -11079,7 +11033,7 @@ function EngagementTrapSection(props) {
       { label: "Manipulation. Distrust anything AI offers proactively.", correct: false, headline: "Not a trick, just a default.", hint: "Calling it manipulation overshoots. Sometimes the offered next step really is what you wanted. The skill isn't flinching at every offer, it's deciding. So what's actually on the table here?", feedback: "Overcorrection. Sometimes the offered next step is actually what you wanted next. The point is choosing, not flinching." }
     ]
   }];
-  var spot = SPOT_EXERCISES[spotIdx] || SPOT_EXERCISES[SPOT_EXERCISES.length - 1];
+  var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "engagementtrap" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Flattery Trap was approval feeling like help. Engagement Trap is the conversation never quite ending."),
@@ -11123,37 +11077,19 @@ function EngagementTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "Notice the Loop",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(spotIdx + (startedSpot ? 1 : 0), SPOT_EXERCISES.length), total: SPOT_EXERCISES.length })
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(spotAnswers).length, total: SPOT_EXERCISES.length })
     },
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each AI reply. Decide what\u2019s actually being asked of you, and answer honestly."),
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: SPOT_EXERCISES,
-        currentIdx: spotIdx,
-        started: startedSpot,
-        onStart: function() { setStartedSpot(true); },
-        onNext: function() { setSpotIdx(spotIdx + 1); setSpotAnswer(null); },
-        canAdvance: spotAnswer !== null,
-        isComplete: spotIdx >= SPOT_EXERCISES.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three loops noticed.", body: "Once you see the moves, you can choose whether to take them." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 18 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: spot.prompt, align: "right" }),
-          /*#__PURE__*/React.createElement(AIBubble, { text: spot.reply, align: "left" })),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: spotIdx,
-          surface: "mint",
-          statement: spot.question,
-          questionNumber: spotIdx + 1,
-          totalQuestions: SPOT_EXERCISES.length,
-          options: spot.options,
-          picked: spotAnswer != null ? spotAnswer : undefined,
-          onAnswer: function(idx) { setSpotAnswer(idx); setHasAnsweredAny(true); }
-        })))),
+      /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 } }, "Read each AI reply. Decide what’s actually being asked of you, and answer honestly."),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SPOT_EXERCISES.map(function(sc, si) {
+          var picked = spotAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 18 } },
+              /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
+              /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" })),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, questionNumber: si + 1, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
+        }),
+        spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three loops noticed.", body: "Once you see the moves, you can choose whether to take them." }) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI\u2019s habit of continuing isn\u2019t an accident." },
       "Assistants are trained and tuned to be helpful in conversation. They learn patterns like clarifying questions, offered next steps, and leaving the door open. Those patterns can help. They can also make a finished task feel unfinished."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),

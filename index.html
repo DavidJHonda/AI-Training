@@ -6043,17 +6043,17 @@ const LAYER_WORDS = {
   "bank": {
     sentence: "I walked along the river bank at sunset",
     layers: [{
-      label: "Layer 1-2",
+      label: "Early layers",
       understanding: "It's a noun",
       detail: "Early layers figure out basic grammar. \"Bank\" is a noun in this sentence, not a verb (like \"bank the plane\"). The model also notices it comes after \"river,\" which is important.",
       color: "#60a5fa"
     }, {
-      label: "Layer 3-5",
+      label: "Middle layers",
       understanding: "A physical place",
       detail: "Attention connects \"bank\" to \"river\" and \"walked along.\" The transformation step then interprets that context: this is the \"edge of water\" meaning, not the financial meaning.",
       color: "#818cf8"
     }, {
-      label: "Layer 6-8",
+      label: "Deeper layers",
       understanding: "An outdoor scene",
       detail: "Deeper layers integrate \"sunset\" and \"walked\" to build a richer picture. Attention gathers these distant words, then the transformation builds something closer to meaning: an outdoor scene with a person.",
       color: "#a78bfa"
@@ -6144,7 +6144,18 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Engineers choose the architecture before training: how many layers, how wide each layer is, and how they connect. Training then learns the numbers inside those layers. Different layers often become useful for different kinds of patterns, but they aren’t cleanly labeled jobs like “grammar layer” or “reasoning layer.” In every layer, the same basic cycle repeats: attention gathers context, transformation updates the vectors."
     ),
-    /*#__PURE__*/React.createElement(BodyP, null, "\"Bank\" has the same starting meaning whether you mean river or savings account. Layers figure out which one this sentence is talking about. Watch it resolve."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Take the word ",
+      /*#__PURE__*/React.createElement("strong", null, "bank"),
+      ". On its own it could be a lot of things: the bank of a river, the bank where you keep your money, a bank of vending machines, the blood bank where you donate. So how does the model know which one you meant? It runs the sentence through layer after layer of attention and transformation, and each pass brings it closer to the right one."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Think of it like a detective. Hearing ",
+      /*#__PURE__*/React.createElement("strong", null, "bank"),
+      " on its own, any of those could be it. But the words around it are clues. ",
+      /*#__PURE__*/React.createElement("strong", null, "Attention"),
+      " is the model spotting which clues matter (“river,” “walked along,” “sunset”); ",
+      /*#__PURE__*/React.createElement("strong", null, "transformation"),
+      " is it updating its best guess from those clues. One pass narrows it a little. Many passes, and only one meaning is left standing."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -6152,6 +6163,8 @@ function LayersSection(props) {
     },
       /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each layer on the left, top to bottom, to follow the meaning as it builds."),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic", lineHeight: 1.5, marginBottom: 16 } },
+          "Simplified for clarity: real layers don’t split into neat labeled steps like this, but representations really do grow more abstract with depth."),
         /*#__PURE__*/React.createElement("div", {
           style: { background: "var(--card)", borderRadius: 10, padding: "12px 16px", marginBottom: 16, border: "1px solid var(--rule)" }
         },

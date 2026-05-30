@@ -83,7 +83,7 @@ const SECTION_GROUPS = [{
 
 > NOTE: `openerworkwith`/`openercheck`/`openerprotect` are referenced here but created in Tasks 2–3. Until then the in-app `validate()` (check 2) will report these three as errors and the app won't fully render those parts. That is expected mid-Task-1. To keep Step 1 independently runnable, **do Step 1.2 (the three placeholder components) and Step 1.5 (registry) in this same task before verifying.**
 
-- [ ] **Step 1.2: Add three minimal placeholder opener components.** Insert after the `OpenerUsingSection` function (immediately after its closing `}` at ~line 8842). Copy is PLACEHOLDER — final copy is David-approved in Task 5. No `badge` key (badges are derived in Step 1.4):
+- [ ] **Step 1.2: Add three minimal placeholder opener components.** Insert after the `OpenerUsingSection` function (immediately after its closing `}` at ~line 8842). Copy is PLACEHOLDER: final copy is David-approved in Task 5. No `badge` key (badges are derived in Step 1.4):
 
 ```js
 function OpenerWorkWithSection(props) {
@@ -92,10 +92,10 @@ function OpenerWorkWithSection(props) {
     whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: pick the right tool, then use it well."],
     sectionOverview: { eyebrow: "In this section", title: "Work With AI", subtitle: "Pick the right tool, then use it well." },
     groups: [
-      { kicker: "PICK THE TOOL", bridge: "PLACEHOLDER — choose product, model, mode, and settings before blaming the tool." },
-      { kicker: "USE IT WELL", bridge: "PLACEHOLDER — ask sharp questions, write clear prompts, think with it." }
+      { kicker: "PICK THE TOOL", bridge: "PLACEHOLDER: choose product, model, mode, and settings before blaming the tool." },
+      { kicker: "USE IT WELL", bridge: "PLACEHOLDER: ask sharp questions, write clear prompts, think with it." }
     ],
-    question: "PLACEHOLDER — keep-this-question prompt.",
+    question: "PLACEHOLDER: keep-this-question prompt.",
     nextLessonId: "modelselection",
     nextLessonLabel: "Next: Choosing the Product",
     completeAndNavigate: props.completeAndNavigate
@@ -104,13 +104,13 @@ function OpenerWorkWithSection(props) {
 function OpenerCheckSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openercheck",
-    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: AI's answer is a draft, not a verdict — check it before you trust it."],
+    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: AI's answer is a draft, not a verdict, so check it before you trust it."],
     sectionOverview: { eyebrow: "In this section", title: "Check the Output", subtitle: "Is what AI handed you true and good enough?" },
     groups: [
-      { kicker: "QUESTION THE ANSWER", bridge: "PLACEHOLDER — think critically, verify claims, judge if it's good enough." },
-      { kicker: "KNOW THE FAILURE MODES", bridge: "PLACEHOLDER — hallucination, training bias, the whole-document trap." }
+      { kicker: "QUESTION THE ANSWER", bridge: "PLACEHOLDER: think critically, verify claims, judge if it's good enough." },
+      { kicker: "KNOW THE FAILURE MODES", bridge: "PLACEHOLDER: hallucination, training bias, the whole-document trap." }
     ],
-    question: "PLACEHOLDER — keep-this-question prompt.",
+    question: "PLACEHOLDER: keep-this-question prompt.",
     nextLessonId: "critical",
     nextLessonLabel: "Next: Critical Thinking",
     completeAndNavigate: props.completeAndNavigate
@@ -119,13 +119,13 @@ function OpenerCheckSection(props) {
 function OpenerProtectSection(props) {
   return React.createElement(OpenerSection, {
     sectionId: "openerprotect",
-    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: the tool can work on you, not just for you — and some calls stay yours."],
+    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: the tool can work on you, not just for you, and some calls stay yours."],
     sectionOverview: { eyebrow: "In this section", title: "Protect Yourself", subtitle: "The tool acts on you; the judgment stays yours." },
     groups: [
-      { kicker: "WHEN THE TOOL WORKS ON YOU", bridge: "PLACEHOLDER — the mind, flattery, engagement, and support traps." },
-      { kicker: "THE CALLS THAT STAY YOURS", bridge: "PLACEHOLDER — when not to use AI, how much to check, studying, integrity, privacy, and doubting what you see." }
+      { kicker: "WHEN THE TOOL WORKS ON YOU", bridge: "PLACEHOLDER: the mind, flattery, engagement, and support traps." },
+      { kicker: "THE CALLS THAT STAY YOURS", bridge: "PLACEHOLDER: when not to use AI, how much to check, studying, integrity, privacy, and doubting what you see." }
     ],
-    question: "PLACEHOLDER — keep-this-question prompt.",
+    question: "PLACEHOLDER: keep-this-question prompt.",
     nextLessonId: "mindtrap",
     nextLessonLabel: "Next: Mind Trap",
     completeAndNavigate: props.completeAndNavigate

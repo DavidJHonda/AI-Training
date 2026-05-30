@@ -4,18 +4,20 @@
 An instructor-led AI education web app for high schoolers, built to be taught live but easily repurposed for self-paced use. Single HTML file (index.html) with inline React. Deployed via Vercel from GitHub repo "AI-Training". Owner: David. Audience: his twins and other 16-year-old students.
 
 ## Lesson map
-70 lessons across 10 section groups, listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
+69 lessons across 7 section groups (a five-part content spine plus Intro and Finish), listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
 - Intro (6): Welcome (welcome), Why Learn AI? (whydeeper), Does AI Think? (doesaithink), Why Bother Learning? (whybother), What You Can Control (control), The Roadmap (intro)
-- Foundations (8): Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (norules), AI's Fuel (data)
-- Inside AI (8): Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (insidethemodel), Attention & Transformation (attention), Layers (layers), Training (training)
-- AI Answers (6): Opener (openeranswers), Your Input & the Context Window (prompt), Patterns (patterns), Probability (probability), Inference: From Prompt to Output (inference), What AI Does Best (whatitdoesbest)
-- Workflow (8): Opener (openerusing), Creative Thinking (creativethinking), Questions Matter (questionsvaluable), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner), Critical Thinking (critical), How to Verify (verify), Evaluating the Results (evaluating)
-- Controls (6): Opener (openercontrols), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization)
-- Traps (8): Opener (openertraps), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documenttrap), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap)
-- Human Judgment (7): Opener (openerjudgment), When Not to Use AI (whennot), How Much to Check (howmuchtocheck), Skills That Matter (humanedge), Studying With AI (studying), Academic Integrity (integrity), Privacy & Awareness (privacy). Note: Studying/Integrity/Privacy are temporarily parked here from Workflow pending a dedicated responsible-use section.
-- Real World (8): Opener (openerrealworld), Work Changes (workchanges), The Rise of Agents (agents), When AI Judges You (aijudges), Who Else Is Affected (stakeholders), Seeing Isn't Proof (seeingisntproof), AI & The Future (aifuture), Build Your Edge (buildedge)
+- Understand AI (22): one section group spanning three movements (former Foundations, Inside AI, AI Answers; internal order unchanged):
+  - Foundations movement: Opener (openerfoundations), What Is AI? (aihistory), What's an LLM? (llms), AI is Math (aiismath), How We Got Here (howwegothere), Rules vs Patterns (aivscode), No One Wrote the Rules (norules), AI's Fuel (data)
+  - Inside AI movement: Opener (openerinside), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), Inside the Model (insidethemodel), Attention & Transformation (attention), Layers (layers), Training (training)
+  - AI Answers movement: Opener (openeranswers), Your Input & the Context Window (prompt), Patterns (patterns), Probability (probability), Inference: From Prompt to Output (inference), What AI Does Best (whatitdoesbest)
+- Work With AI (9): Opener (openerworkwith), Choosing the Product (modelselection), Choosing the Model (choosemodel), Thinking Mode (thinkingmode), Temperature (temperature), Customization & Memory (customization), Questions Matter (questionsvaluable), The Art of Prompting (prompting), Your Thought Partner (thoughtpartner)
+- Judgment I: Check the Output (7): Opener (openercheck), Critical Thinking (critical), How to Verify (verify), Evaluating the Results (evaluating), Hallucination (hallucination), Training Bias Trap (trainingbias), Whole Document Trap (documenttrap)
+- Judgment II: Protect Yourself (11): Opener (openerprotect), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), When Not to Use AI (whennot), How Much to Check (howmuchtocheck), Studying With AI (studying), Academic Integrity (integrity), Privacy & Awareness (privacy), Seeing Isn't Proof (seeingisntproof)
+- Build Your Advantage (9): Opener (openerrealworld), Work Changes (workchanges), The Rise of Agents (agents), When AI Judges You (aijudges), Who Else Is Affected (stakeholders), AI & The Future (aifuture), Skills That Matter (humanedge), Creative Thinking (creativethinking), Build Your Edge (buildedge)
 - Finish (5): What You Learned (whatyoulearned), The Full Loop (fullworkflow), Vocab Quiz (keyterms), Test Yourself (testyourself), Beat the Clock (headtohead)
+
+Structure notes (after the May 2026 restructure): the spine is Intro → Understand AI → Work With AI → Judgment I: Check the Output → Judgment II: Protect Yourself → Build Your Advantage → Finish. Part badges read "NN / 7" and are derived from `SECTION_GROUPS` via `partBadge()`, not hand-typed; Intro and Finish carry no badge, and within Understand AI only openerfoundations carries the part badge while openerinside/openeranswers show a quiet "Understand AI · N of 3" movement label. The four former section openers (openerusing, openercontrols, openertraps, openerjudgment) are retired: still defined in the file as dead components, but removed from `SECTION_GROUPS` and `SECTION_COMPONENTS`. The Build Your Advantage opener keeps the component id `openerrealworld` (displayed title "Build Your Advantage"). Studying/Integrity/Privacy now live in Judgment II (the responsible-use home), no longer "parked."
 
 ## Design system
 
@@ -169,7 +171,7 @@ Some late-course lessons intentionally step outside the standard component rhyth
 
 Known exception zones:
 - Beat the Clock (headtohead): a timed assessment with custom game states (intro, playing, done), its own timer, score display, and stateful buttons.
-- Late Real World and Finish lessons: bespoke diagrams, flowcharts, score cards, and assessment panels where the visual itself carries the instructional meaning.
+- Late Build Your Advantage and Finish lessons: bespoke diagrams, flowcharts, score cards, and assessment panels where the visual itself carries the instructional meaning.
 - RevealSequence start/next/finish buttons: hand-built rather than ActivityButton. Known, slated for a later cleanup.
 - Custom shadows: active glows and a few elevated/inset shadows live inline on these surfaces. var(--shadowSoft) and var(--shadowElevated) remain the default everywhere else.
 

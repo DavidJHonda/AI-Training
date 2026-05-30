@@ -655,7 +655,7 @@ function OpenerSection(props) {
           E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "2.4px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 10 } }, ov.eyebrow || "In this section"),
           E("div", { style: { fontFamily: "var(--sans)", fontSize: 29, fontWeight: 700, letterSpacing: "-0.58px", color: "#14110b", lineHeight: 1.12, marginBottom: 8 } }, ov.title),
           ov.subtitle ? E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, color: "#6e6757", lineHeight: 1.5 } }, ov.subtitle) : null),
-        ov.badge ? E("div", { style: { flexShrink: 0, background: "#ffffff", borderRadius: 999, padding: "6px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: "0.78px", color: "#5a47c9", whiteSpace: "nowrap" } }, ov.badge) : null),
+        partBadge(props.sectionId) ? E("div", { style: { flexShrink: 0, background: "#ffffff", borderRadius: 999, padding: "6px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: "0.78px", color: "#5a47c9", whiteSpace: "nowrap" } }, partBadge(props.sectionId)) : null),
       rows);
   };
   return E("div", null,
@@ -1170,29 +1170,20 @@ const SECTION_GROUPS = [{
   label: "Intro",
   sections: ["welcome", "whydeeper", "doesaithink", "whybother", "control", "intro"]
 }, {
-  label: "Foundations",
-  sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "norules", "data"]
+  label: "Understand AI",
+  sections: ["openerfoundations", "aihistory", "llms", "aiismath", "howwegothere", "aivscode", "norules", "data", "openerinside", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "openeranswers", "prompt", "patterns", "probability", "inference", "whatitdoesbest"]
 }, {
-  label: "Inside AI",
-  sections: ["openerinside", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training"]
+  label: "Work With AI",
+  sections: ["openerworkwith", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
-  label: "AI Answers",
-  sections: ["openeranswers", "prompt", "patterns", "probability", "inference", "whatitdoesbest"]
+  label: "Judgment I: Check the Output",
+  sections: ["openercheck", "critical", "verify", "evaluating", "hallucination", "trainingbias", "documenttrap"]
 }, {
-  label: "Workflow",
-  sections: ["openerusing", "creativethinking", "questionsvaluable", "prompting", "thoughtpartner", "critical", "verify", "evaluating"]
+  label: "Judgment II: Protect Yourself",
+  sections: ["openerprotect", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whennot", "howmuchtocheck", "studying", "integrity", "privacy", "seeingisntproof"]
 }, {
-  label: "Controls",
-  sections: ["openercontrols", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization"]
-}, {
-  label: "Traps",
-  sections: ["openertraps", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap"]
-}, {
-  label: "Human Judgment",
-  sections: ["openerjudgment", "whennot", "howmuchtocheck", "humanedge", "studying", "integrity", "privacy"]
-}, {
-  label: "Real World",
-  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "seeingisntproof", "aifuture", "buildedge"]
+  label: "Build Your Advantage",
+  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "aifuture", "humanedge", "creativethinking", "buildedge"]
 }, {
   label: "Finish",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -1248,6 +1239,9 @@ const SECTION_META = {
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   creativethinking: { kicker: "FIND THE BETTER ANGLE", label: "Creative Thinking", title: "Creative Thinking", icon: "\uD83D\uDCA1" },
   openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  openerworkwith: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  openercheck: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  openerprotect: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatitdoesbest: { kicker: "FOUR ENGINES, MANY USES", label: "What AI Does Best", icon: "\u2699\uFE0F" },
   prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "The Art of Prompting", icon: "\u270D\uFE0F" },
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Your Thought Partner", icon: "\uD83E\uDD1D" },
@@ -1272,6 +1266,12 @@ const SECTION_META = {
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
   .map(function(id) { return Object.assign({ id: id }, SECTION_META[id]); });
+function partBadge(sectionId) {
+  var gi = SECTION_GROUPS.findIndex(function(g) { return g.sections && g.sections[0] === sectionId; });
+  if (gi <= 0) return null;                          // not a lead opener, or Intro (index 0): no pill
+  if (gi >= SECTION_GROUPS.length - 1) return null;  // Finish (last group): no pill
+  return ("0" + (gi + 1)).slice(-2) + " / " + SECTION_GROUPS.length;
+}
 function OpenerFoundationsSection(props) {
   var foundationsIllustration = /*#__PURE__*/React.createElement(Illustration, {
     eyebrow: "WHAT KIND OF THING IS AI?"
@@ -1300,8 +1300,7 @@ function OpenerFoundationsSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "How AI Really Works",
-      subtitle: "Four ideas that build on each other. Here’s the path we’ll take.",
-      badge: "02 / 10"
+      subtitle: "Four ideas that build on each other. Here’s the path we’ll take."
     },
     groups: [
       {
@@ -2507,8 +2506,7 @@ function OpenerJudgmentSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "The Judgment You Bring",
-      subtitle: "The calls and responsibilities that stay yours.",
-      badge: "08 / 10"
+      subtitle: "The calls and responsibilities that stay yours."
     },
     groups: [
       {
@@ -5227,8 +5225,7 @@ function OpenerInsideSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "Inside the Model",
-      subtitle: "Five steps, each building on the last.",
-      badge: "03 / 10"
+      subtitle: "Five steps, each building on the last."
     },
     groups: [
       {
@@ -6493,8 +6490,7 @@ function OpenerAnswersSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "How AI Builds an Answer",
-      subtitle: "Four moves, from your input to what AI does best.",
-      badge: "04 / 10"
+      subtitle: "Four moves, from your input to what AI does best."
     },
     groups: [
       {
@@ -7087,7 +7083,7 @@ function CustomizationSection(props) {
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Three things can go sideways." },
     "Bad personalization builds a smarter flattery trap. Memory is a note, not a fact, so check what\u2019s saved and correct or delete what shouldn\u2019t follow you forward. And for sensitive or one-off questions, use a temporary chat, turn memory off, or just ask the app not to remember it."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openertraps") }, "Next: Traps"));
+  /*#__PURE__*/React.createElement(PrimaryButton, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable") }, "Next: Questions Matter"));
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
@@ -7350,8 +7346,7 @@ function OpenerControlsSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "What You Can Steer",
-      subtitle: "Two dials you control before you blame the tool.",
-      badge: "06 / 10"
+      subtitle: "Two dials you control before you blame the tool."
     },
     groups: [
       {
@@ -8112,8 +8107,7 @@ function OpenerTrapsSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "Where It Goes Wrong",
-      subtitle: "Two kinds of traps, each pulling a little harder.",
-      badge: "07 / 10"
+      subtitle: "Two kinds of traps, each pulling a little harder."
     },
     groups: [
       {
@@ -8813,8 +8807,7 @@ function OpenerUsingSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "Using AI Well",
-      subtitle: "The full loop of working with AI, not just typing at it.",
-      badge: "05 / 10"
+      subtitle: "The full loop of working with AI, not just typing at it."
     },
     groups: [
       {
@@ -8837,6 +8830,51 @@ function OpenerUsingSection(props) {
     question: "Am I using AI to strengthen my thinking or replace it?",
     nextLessonId: "creativethinking",
     nextLessonLabel: "Next: Creative Thinking",
+    completeAndNavigate: props.completeAndNavigate
+  });
+}
+function OpenerWorkWithSection(props) {
+  return React.createElement(OpenerSection, {
+    sectionId: "openerworkwith",
+    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: pick the right tool, then use it well."],
+    sectionOverview: { eyebrow: "In this section", title: "Work With AI", subtitle: "Pick the right tool, then use it well." },
+    groups: [
+      { kicker: "PICK THE TOOL", bridge: "PLACEHOLDER: choose product, model, mode, and settings before blaming the tool." },
+      { kicker: "USE IT WELL", bridge: "PLACEHOLDER: ask sharp questions, write clear prompts, think with it." }
+    ],
+    question: "PLACEHOLDER keep-this-question prompt.",
+    nextLessonId: "modelselection",
+    nextLessonLabel: "Next: Choosing the Product",
+    completeAndNavigate: props.completeAndNavigate
+  });
+}
+function OpenerCheckSection(props) {
+  return React.createElement(OpenerSection, {
+    sectionId: "openercheck",
+    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: AI's answer is a draft, not a verdict, so check it before you trust it."],
+    sectionOverview: { eyebrow: "In this section", title: "Check the Output", subtitle: "Is what AI handed you true and good enough?" },
+    groups: [
+      { kicker: "QUESTION THE ANSWER", bridge: "PLACEHOLDER: think critically, verify claims, judge if it's good enough." },
+      { kicker: "KNOW THE FAILURE MODES", bridge: "PLACEHOLDER: hallucination, training bias, the whole-document trap." }
+    ],
+    question: "PLACEHOLDER keep-this-question prompt.",
+    nextLessonId: "critical",
+    nextLessonLabel: "Next: Critical Thinking",
+    completeAndNavigate: props.completeAndNavigate
+  });
+}
+function OpenerProtectSection(props) {
+  return React.createElement(OpenerSection, {
+    sectionId: "openerprotect",
+    whyThisMatters: ["PLACEHOLDER (David copy pass). Frame: the tool can work on you, not just for you, and some calls stay yours."],
+    sectionOverview: { eyebrow: "In this section", title: "Protect Yourself", subtitle: "The tool acts on you; the judgment stays yours." },
+    groups: [
+      { kicker: "WHEN THE TOOL WORKS ON YOU", bridge: "PLACEHOLDER: the mind, flattery, engagement, and support traps." },
+      { kicker: "THE CALLS THAT STAY YOURS", bridge: "PLACEHOLDER: when not to use AI, how much to check, studying, integrity, privacy, and doubting what you see." }
+    ],
+    question: "PLACEHOLDER keep-this-question prompt.",
+    nextLessonId: "mindtrap",
+    nextLessonLabel: "Next: Mind Trap",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -9034,8 +9072,8 @@ function WhatItDoesBestSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: Object.keys(taskAnswers).length >= TASKS.length,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerusing"); },
-      label: "Next: Workflow"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); },
+      label: "Next: Work With AI"
     }));
 }
 
@@ -9937,7 +9975,7 @@ function EvaluatingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercontrols"), label: "Next: Controls" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("hallucination"), label: "Next: Hallucination" }));
 }
 function CreativeThinkingSection(props) {
   const [scenarioAnswers, setScenarioAnswers] = useState({});
@@ -10876,7 +10914,7 @@ function SupportTrapSection(props) {
     E(KeyInsight, null,
       "Relief is not resolution. AI can help you prepare. Real support comes from people who can notice, follow up, and act."),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerjudgment"); }, label: "Next: Human Judgment" }));
+    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whennot"); }, label: "Next: When Not to Use AI" }));
 }
 
 const INTEGRITY_SCENARIOS = [{
@@ -10984,8 +11022,7 @@ function OpenerRealWorldSection(props) {
     sectionOverview: {
       eyebrow: "In this section",
       title: "AI Meets the Real World",
-      subtitle: "Three angles on how this plays out.",
-      badge: "09 / 10"
+      subtitle: "Three angles on how this plays out."
     },
     groups: [
       {
@@ -14246,7 +14283,6 @@ const SECTION_COMPONENTS = {
   llms: LLMsSection,
   aiismath: AIIsMathSection,
   howwegothere: HowWeGotHereSection,
-  openerjudgment: OpenerJudgmentSection,
   whennot: WhenNotSection,
   howmuchtocheck: AIStrengthsSection,
   whydeeper: WhyDeeperSection,
@@ -14261,7 +14297,6 @@ const SECTION_COMPONENTS = {
   openerinside: OpenerInsideSection,
   attention: HowAIReadsSection,
   probability: ProbabilitySection,
-  openertraps: OpenerTrapsSection,
   hallucination: HallucinationSection,
   training: TrainingSection,
   trainingbias: TrainingBiasSection,
@@ -14272,7 +14307,6 @@ const SECTION_COMPONENTS = {
   patterns: PatternsSection,
   layers: LayersSection,
   inference: InferenceSection,
-  openercontrols: OpenerControlsSection,
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,
   thinkingmode: ThinkingModeSection,
@@ -14286,7 +14320,9 @@ const SECTION_COMPONENTS = {
   flattery: FlatteryTrapSection,
   engagementtrap: EngagementTrapSection,
   supporttrap: SupportTrapSection,
-  openerusing: OpenerUsingSection,
+  openerworkwith: OpenerWorkWithSection,
+  openercheck: OpenerCheckSection,
+  openerprotect: OpenerProtectSection,
   whatitdoesbest: WhatItDoesBestSection,
   prompting: PromptingSection,
   thoughtpartner: ThoughtPartnerSection,

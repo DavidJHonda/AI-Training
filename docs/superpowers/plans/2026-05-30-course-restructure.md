@@ -10,6 +10,21 @@
 
 ---
 
+## PLAN AMENDMENT (discovered during execution, 2026-05-30)
+
+Step 1's original premise — "no nav changes; handoffs untouched" — was **wrong**. Unregistering the 4 retired openers (1.6) orphans the 4 seams that point *at* them, so `validate()` cannot pass at the end of Task 1 unless those 4 are re-pointed. They are therefore **forced into Task 1** and pointed at their FINAL targets:
+
+- whatitdoesbest → `openerworkwith` (was seam #1)
+- customization → `questionsvaluable` (was seam #2)
+- evaluating → `hallucination` (was seam #4)
+- supporttrap → `whennot` (was seam #6)
+
+Consequence for the remaining tasks:
+- **Task 2 is fully absorbed into Task 1** (both its seams, #1 and #2, are done). Skip Task 2.
+- **Task 3 drops seams #4 and #6**, keeping 5: thoughtpartner→openercheck (#3), documenttrap→openerprotect (#5), howmuchtocheck→studying (#7), privacy→seeingisntproof (#8), seeingisntproof→openerrealworld (#9).
+- **Task 4 unchanged** (seams #10–#13).
+- Line numbers in the tables below are PRE-edit and have shifted; locate each seam by its current target id + label (the controller re-extracts exact strings before dispatching each task). `validate()` auto-runs on page load.
+
 ## Reference: verified seam map (source of truth)
 
 Every handoff was mapped to its **owning lesson** by nearest-preceding `sectionId` anchor. "CHANGE" rows are the only nav edits; everything else stays.

@@ -321,15 +321,26 @@ not alter the spec above; they record what was checked and two small corrections
   This is why the SYSTEM 1 collapse makes all 22 Understand AI lesson eyebrows read
   "Understand AI" — confirmed mechanism.
 
-**Corrections to line references in the spec above:**
-- **Move 6 / `privacy → seeingisntproof` seam:** confirmed *already live*, but at **line ~11991**
-  (the `privacy` lesson's `permsAllAnswered` gate → `completeAndNavigate("seeingisntproof")`,
-  "Next: Seeing Isn't Proof"), **not** ~11307. Line ~11307 is **`integrity → privacy`**
-  ("Next: Privacy & Awareness"). So `privacy → seeingisntproof` needs no change; the seam is clean.
-
-**Seam SYSTEM 4 does not explicitly name (add to the rethread list):**
-- **`seeingisntproof` exit.** As the new last lesson of Judgment II, `seeingisntproof` must hand
-  off to **`openerrealworld`** (the Build Your Advantage opener). Confirm its current target and
-  re-point during Step 3/4. Also confirm nothing else still points *into* `openerrealworld` from
-  the old Human-Judgment/Real-World boundary (the current Real World chain may already diverge
-  from `SECTION_GROUPS` order — full Intro→Finish click-through will catch any orphan).
+**Corrections to line references / claims in the spec above** (verified against live code; the
+implementation plan carries the full verified seam table):
+- **Move 6 / `privacy → seeingisntproof` is NOT pre-wired.** The spec's parenthetical (privacy
+  already exits to seeingisntproof, ~line 11307) is incorrect. Verified current handoffs:
+  `integrity → privacy` (11307), **`privacy → openerrealworld` (11687)**, and
+  **`stakeholders → seeingisntproof` (11991)**. So in the new Judgment II,
+  `privacy → seeingisntproof` is a **genuine new handoff** (re-point 11687), and
+  `seeingisntproof`'s own exit (currently `→ aifuture`, 12134) must be re-pointed to
+  **`openerrealworld`** (the Build Your Advantage opener).
+- **`customization` exit is at line 7090** (`completeAndNavigate("openertraps")`, "Next: Traps"),
+  **not** ~9940. Line **9940 is `evaluating → openercontrols`** ("Next: Controls"). Both re-point:
+  `customization → questionsvaluable`, and `evaluating → hallucination`.
+- **A fourth opener retires: `openertraps`.** SYSTEM 5 named three retirees (openerusing,
+  openercontrols, openerjudgment), but the Traps section dissolves entirely (its lessons split
+  across Judgment I and II), so `openertraps` is orphaned too. All four stay defined in the file
+  but are removed from `SECTION_GROUPS` and `SECTION_COMPONENTS` (dead-component warnings are
+  non-fatal per the invariant checker, but unregistering them keeps the checker output clean).
+- **Three fresh opener ids** to add to `SECTION_COMPONENTS` + `SECTION_GROUPS`: `openerworkwith`
+  (Work With AI), `openercheck` (Judgment I), `openerprotect` (Judgment II).
+- **Badge derivation** uses the render at line **658** (`ov.badge` inside `OpenerSection`'s
+  `renderOverview`, which has `props.sectionId` in scope) — replace with a `partBadge(sectionId)`
+  helper keyed on `group.sections[0]`, so only each part's lead opener shows a pill and
+  interior Understand AI openers (`openerinside`, `openeranswers`) get none automatically.

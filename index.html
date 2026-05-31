@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap">
 <style>
   :root {
     /* surfaces */
@@ -1061,15 +1062,14 @@ function ProgressBar(props) {
     React.createElement("div", {
       "aria-live": "polite",
       "aria-atomic": "true",
-      style: { display: "flex", alignItems: "baseline", marginBottom: 7, fontSize: 12, fontFamily: "var(--sans)", lineHeight: 1.4, whiteSpace: "nowrap" }
+      style: { display: "flex", alignItems: "baseline", gap: 5, marginBottom: 9, fontSize: 13, fontFamily: "var(--sans)", lineHeight: 1.4, whiteSpace: "nowrap" }
     },
-      React.createElement("span", { style: { fontWeight: 500, color: "var(--inkMuted)" } },
-        React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)", fontVariantNumeric: "tabular-nums" } }, completed),
-        " of " + total + " lessons"),
-      React.createElement("span", { style: { marginLeft: "auto", fontWeight: 800, color: "#6e51ff", fontVariantNumeric: "tabular-nums" } }, pct + "%")
+      React.createElement("b", { style: { fontWeight: 800, color: "#fff", fontVariantNumeric: "tabular-nums" } }, completed),
+      React.createElement("span", { style: { fontWeight: 500, color: "rgba(255,255,255,.64)" } }, "of " + total + " lessons"),
+      React.createElement("span", { style: { marginLeft: "auto", fontWeight: 800, color: "#fff", fontVariantNumeric: "tabular-nums" } }, pct + "%")
     ),
-    React.createElement("div", { style: { width: "100%", height: 6, borderRadius: 999, background: "#ece8f7", boxShadow: "inset 0 0 0 1px #e7e3f2" } },
-      React.createElement("div", { style: { width: pct + "%", height: "100%", borderRadius: 999, background: "linear-gradient(90deg,#4c2dff,#6e51ff 60%,#a98dff)", transition: "width 400ms cubic-bezier(.4,0,.2,1)" } })
+    React.createElement("div", { style: { width: "100%", height: 6, borderRadius: 999, overflow: "hidden", background: "rgba(255,255,255,.20)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,.14)" } },
+      React.createElement("div", { style: { width: pct + "%", height: "100%", borderRadius: 999, background: "linear-gradient(90deg,#fff,#cfe0ff)", transition: "width 400ms cubic-bezier(.4,0,.2,1)" } })
     )
   );
 }
@@ -14583,7 +14583,6 @@ function LLMExplorer() {
   const resetTestYourselfQuiz = () => {
     setProgress(prev => ({ ...prev, testYourselfQuiz: null }));
   };
-  var _ph = useState(null), pillHover = _ph[0], setPillHover = _ph[1];
   useEffect(function() {
     if (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; })) {
       setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "welcome" }); });
@@ -14685,28 +14684,41 @@ function LLMExplorer() {
         .course-section-pill:focus-visible { outline: 2px solid #6e51ff; outline-offset: 2px; }
         .course-path-node:focus { outline: none; }
         .course-path-node:focus-visible .dot { box-shadow: 0 0 0 4px rgba(110,81,255,.22) !important; }
+        .course-header {
+          background: #0f2e7a;
+          border-radius: 22px;
+          padding: 30px 34px 26px;
+          box-shadow: 0 22px 48px -26px rgba(15,32,90,0.65);
+        }
         .course-topbar {
           display: flex;
           justify-content: space-between;
-          align-items: center;
-          gap: 28px;
-          margin-bottom: 36px;
+          align-items: flex-start;
+          gap: 20px;
+          margin-bottom: 22px;
         }
         .course-title-lockup { min-width: 0; }
         .course-title-main {
-          font-family: var(--sans);
+          font-family: "Plus Jakarta Sans", system-ui, sans-serif;
           font-size: 34px;
           font-weight: 800;
-          color: var(--ink);
-          line-height: 1.12;
+          color: #fff;
+          line-height: 1.18;
           letter-spacing: -0.035em;
           margin: 0;
         }
+        .title-em {
+          font-family: "Libre Baskerville", Georgia, serif;
+          font-style: italic;
+          font-weight: 500;
+          font-size: 1em;
+          color: #fff;
+        }
         .course-title-subtitle {
-          font-family: var(--sans);
+          font-family: "Plus Jakarta Sans", system-ui, sans-serif;
           font-size: 17px;
           font-weight: 500;
-          color: var(--inkSoft);
+          color: #ffe08a;
           line-height: 1.45;
           margin-top: 8px;
         }
@@ -14720,15 +14732,49 @@ function LLMExplorer() {
           font-family: var(--sans);
           font-size: 13px;
           font-weight: 800;
-          color: var(--ink);
-          margin-bottom: 6px;
+          letter-spacing: -0.01em;
+          color: rgba(255,255,255,.82);
+          margin-bottom: 8px;
         }
+        .arc {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 8px;
+        }
+        .pill {
+          padding: 11px 16px;
+          border-radius: 999px;
+          cursor: pointer;
+          white-space: nowrap;
+          font-family: "Plus Jakarta Sans", sans-serif;
+          font-size: 13.5px;
+          font-weight: 600;
+          letter-spacing: -0.005em;
+          background: rgba(255,255,255,.13);
+          border: 1px solid rgba(255,255,255,.24);
+          color: #fff;
+          transition: background .16s, border-color .16s, transform .16s;
+        }
+        .pill:hover {
+          background: rgba(255,255,255,.22);
+          border-color: rgba(255,255,255,.38);
+          transform: translateY(-1px);
+        }
+        .pill.is-active {
+          background: #fff;
+          color: #173a9e;
+          border-color: #fff;
+          box-shadow: 0 6px 16px rgba(0,0,0,.20);
+        }
+        .pill:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
         @media (max-width: 760px) {
+          .course-header { padding: 24px 20px 22px; border-radius: 18px; }
           .course-topbar {
             flex-direction: column;
             align-items: flex-start;
             gap: 18px;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
           }
           .course-title-main { font-size: 28px; }
           .course-title-subtitle { font-size: 16px; }
@@ -14738,54 +14784,39 @@ function LLMExplorer() {
             align-items: flex-start;
           }
         }
-      `), /*#__PURE__*/React.createElement("div", { className: "course-topbar" },
-    /*#__PURE__*/React.createElement("div", { className: "course-title-lockup" },
-      /*#__PURE__*/React.createElement("h1", { className: "course-title-main" }, COURSE_TITLE),
-      /*#__PURE__*/React.createElement("div", { className: "course-title-subtitle" }, COURSE_SUBTITLE)
-    ),
-    /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
-      /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
-      /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.completed || []).length })
-    )
-  ), function() {
+      `), function() {
     var activeGroupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.includes(activeSection); });
     if (activeGroupIdx < 0) activeGroupIdx = 0;
     var activeGroup = SECTION_GROUPS[activeGroupIdx];
-    return /*#__PURE__*/React.createElement("nav", { "aria-label": "Course navigation" },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", justifyContent: "center", flexWrap: "nowrap", gap: 7, marginTop: 24, marginBottom: 14 }
-      }, SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
-        var isActiveGroup = group === activeGroup;
-        var groupComplete = !isActiveGroup && group.sections.every(function(sid) { return (progress.completed || []).includes(sid); });
-        var isHoveredPill = pillHover === gi && !isActiveGroup;
-        var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
-        return /*#__PURE__*/React.createElement("button", {
-          key: gi,
-          className: "course-section-pill",
-          onClick: function() { setActiveSection(group.sections[0]); },
-          onMouseEnter: function() { setPillHover(gi); },
-          onMouseLeave: function() { setPillHover(null); },
-          "aria-current": isActiveGroup ? "true" : undefined,
-          "aria-label": group.label + (isActiveGroup ? ", current section" : groupComplete ? ", section complete" : ""),
-          style: {
-            padding: groupComplete ? "11px 16px 11px 32px" : "11px 16px", borderRadius: 999,
-            background: isActiveGroup ? "var(--primary)" : "var(--card)",
-            color: isActiveGroup ? "#fff" : isHoveredPill ? "var(--primary)" : "var(--ink)",
-            border: "none",
-            boxShadow: isActiveGroup ? "0 6px 18px rgba(110, 81, 255, 0.28)" : subtleShadow,
-            cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, letterSpacing: "-0.005em",
-            transition: "box-shadow 160ms ease, transform 160ms ease, background 160ms ease, color 160ms ease",
-            transform: isHoveredPill ? "translateY(-1px)" : "none", whiteSpace: "nowrap", position: "relative"
-          }
-        },
-          groupComplete ? /*#__PURE__*/React.createElement("span", {
-            "aria-hidden": "true",
-            style: { position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 16, height: 16, borderRadius: "50%", background: "var(--green)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff", fontWeight: 700 }
-          }, "\u2713") : null,
-          group.label);
-      })),
-      /*#__PURE__*/React.createElement("div", { style: { height: 1, background: "#e7e3f2", margin: "22px 0 34px" } }),
-      /*#__PURE__*/React.createElement(ChipNav, { sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection }));
+    return /*#__PURE__*/React.createElement(React.Fragment, null,
+      /*#__PURE__*/React.createElement("header", { className: "course-header" },
+        /*#__PURE__*/React.createElement("div", { className: "course-topbar" },
+          /*#__PURE__*/React.createElement("div", { className: "course-title-lockup" },
+            /*#__PURE__*/React.createElement("h1", { className: "course-title-main" }, "Be Smarter ", /*#__PURE__*/React.createElement("span", { className: "title-em" }, "Than the Tool")),
+            /*#__PURE__*/React.createElement("div", { className: "course-title-subtitle" }, COURSE_SUBTITLE)
+          ),
+          /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
+            /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
+            /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.completed || []).length })
+          )
+        ),
+        /*#__PURE__*/React.createElement("nav", { className: "arc", "aria-label": "Course sections" },
+          SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
+            var isActiveGroup = group === activeGroup;
+            var groupComplete = !isActiveGroup && group.sections.every(function(sid) { return (progress.completed || []).includes(sid); });
+            return /*#__PURE__*/React.createElement("button", {
+              key: gi,
+              className: "pill" + (isActiveGroup ? " is-active" : ""),
+              onClick: function() { setActiveSection(group.sections[0]); },
+              "aria-current": isActiveGroup ? "true" : undefined,
+              "aria-label": group.label + (isActiveGroup ? ", current section" : groupComplete ? ", section complete" : "")
+            }, group.label);
+          })
+        )
+      ),
+      /*#__PURE__*/React.createElement("nav", { "aria-label": "Lesson navigation", style: { marginTop: 34 } },
+        /*#__PURE__*/React.createElement(ChipNav, { sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection }))
+    );
   }(), /*#__PURE__*/React.createElement("main", {
     id: "main-content",
     style: {

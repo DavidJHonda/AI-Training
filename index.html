@@ -1056,18 +1056,20 @@ function ProgressBar(props) {
     "aria-valuemin": 0,
     "aria-valuemax": total,
     "aria-label": "Course progress: " + completed + " of " + total + " lessons completed",
-    style: { width: "min(220px, 100%)" }
+    style: { width: "min(248px, 100%)" }
   },
     React.createElement("div", {
       "aria-live": "polite",
       "aria-atomic": "true",
-      style: { textAlign: "right", marginBottom: 6, fontSize: 12, fontFamily: "var(--sans)", lineHeight: 1.4 }
+      style: { display: "flex", alignItems: "baseline", marginBottom: 7, fontSize: 12, fontFamily: "var(--sans)", lineHeight: 1.4, whiteSpace: "nowrap" }
     },
-      React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)" } }, completed),
-      React.createElement("span", { style: { fontWeight: 500, color: "var(--inkMuted)" } }, " of " + total + " lessons")
+      React.createElement("span", { style: { fontWeight: 500, color: "var(--inkMuted)" } },
+        React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)", fontVariantNumeric: "tabular-nums" } }, completed),
+        " of " + total + " lessons"),
+      React.createElement("span", { style: { marginLeft: "auto", fontWeight: 800, color: "#6e51ff", fontVariantNumeric: "tabular-nums" } }, pct + "%")
     ),
-    React.createElement("div", { style: { width: "100%", height: 4, borderRadius: 2, background: "#ffffff", boxShadow: "inset 0 0 0 1px var(--rule)" } },
-      React.createElement("div", { style: { width: pct + "%", height: "100%", borderRadius: 2, background: "linear-gradient(90deg, var(--primary), #b08eff)", transition: "width 300ms ease" } })
+    React.createElement("div", { style: { width: "100%", height: 6, borderRadius: 999, background: "#ece8f7", boxShadow: "inset 0 0 0 1px #e7e3f2" } },
+      React.createElement("div", { style: { width: pct + "%", height: "100%", borderRadius: 999, background: "linear-gradient(90deg,#4c2dff,#6e51ff 60%,#a98dff)", transition: "width 400ms cubic-bezier(.4,0,.2,1)" } })
     )
   );
 }
@@ -14474,7 +14476,7 @@ function ChipNav(props) {
   var PER_ROW = 9;
   var completed = props.completed || [];
   return E("div", {
-    style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", columnGap: 0, rowGap: 18, marginBottom: 28, alignItems: "start" }
+    style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", columnGap: 0, rowGap: 30, marginBottom: 28, alignItems: "start" }
   }, props.sections.map(function(sid, ci) {
     var s = SECTIONS.find(function(sec) { return sec.id === sid; });
     var isActive = s.id === props.activeSection;
@@ -14484,36 +14486,36 @@ function ChipNav(props) {
     var canHover = !isActive;
     var firstInRow = (ci % PER_ROW) === 0;
     var prevDone = ci > 0 && completed.includes(props.sections[ci - 1]);
-    var ring = isActive ? "var(--primary)" : isDone ? "var(--green)" : "var(--rule)";
-    var circleBg = isActive ? "var(--primary)" : "var(--card)";
-    var iconOpacity = isActive ? 1 : isDone ? 1 : 0.5;
-    var labelColor = isActive ? "var(--primary)" : "var(--inkMuted)";
-    var circleShadow = isActive
-      ? "0 0 0 6px var(--primaryFaint), 0 8px 20px rgba(110, 81, 255, 0.35)"
-      : (canHover && isHovered) ? "0 6px 16px rgba(110, 81, 255, 0.18)" : "var(--shadowSoft)";
+    var subtleNodeShadow = "0 1px 2px rgba(14,10,31,.04), 0 6px 16px -12px rgba(14,10,31,.22)";
+    var dotBg = isActive ? "#6e51ff" : isDone ? "#f2fbf6" : "#fff";
+    var dotBorder = "2px solid " + (isActive ? "#6e51ff" : isDone ? "#1f9d5f" : "#e7e3f2");
+    var iconOpacity = isActive ? 1 : isDone ? 0.95 : 0.5;
+    var labelColor = isActive ? "#6e51ff" : isDone ? "var(--inkMuted)" : "#3a3550";
     return E("button", {
       key: s.id,
+      className: "course-path-node",
       onClick: function() { props.onNavigate(s.id); },
       onMouseEnter: function() { setChipHover(ci); },
       onMouseLeave: function() { setChipHover(null); },
       "aria-current": isActive ? "page" : undefined,
       "aria-label": chipLabel + (isActive ? ", current lesson" : isDone ? ", completed" : ""),
-      style: { position: "relative", border: "none", background: "transparent", padding: "0 2px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, transition: "transform 0.2s", transform: (canHover && isHovered) ? "translateY(-2px)" : "none" }
+      style: { position: "relative", border: "none", background: "transparent", padding: "0 2px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 11 }
     },
       firstInRow ? null : E("span", {
         "aria-hidden": "true",
-        style: { position: "absolute", top: 24, left: "-50%", width: "100%", height: 2, background: prevDone ? "var(--green)" : "var(--rule)", zIndex: 0 }
+        style: { position: "absolute", top: 27, left: "-50%", width: "100%", height: 2, borderRadius: 999, background: prevDone ? "rgba(31,157,95,0.9)" : "#e7e3f2", zIndex: 0 }
       }),
       E("span", {
+        className: "dot",
         "aria-hidden": "true",
-        style: { position: "relative", zIndex: 1, width: 50, height: 50, borderRadius: "50%", background: circleBg, border: "2px solid " + ring, boxShadow: circleShadow, display: "flex", alignItems: "center", justifyContent: "center", transition: "box-shadow 0.2s" }
+        style: { position: "relative", zIndex: 1, width: 56, height: 56, borderRadius: "50%", background: dotBg, border: dotBorder, boxShadow: isActive ? "none" : subtleNodeShadow, animation: isActive ? "haloPulse 2.4s ease-out infinite" : "none", transform: (canHover && isHovered) ? "translateY(-3px)" : "none", display: "flex", alignItems: "center", justifyContent: "center", transition: "transform 160ms ease, box-shadow 160ms ease" }
       },
         E("span", { style: { fontSize: 21, lineHeight: 1, opacity: iconOpacity } }, s.icon),
         isDone ? E("span", {
-          style: { position: "absolute", right: -2, bottom: -2, width: 17, height: 17, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 10, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--card)" }
+          style: { position: "absolute", right: -2, bottom: -2, width: 19, height: 19, borderRadius: "50%", background: "#1f9d5f", color: "#fff", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", border: "2.5px solid #fff", boxShadow: "0 2px 6px rgba(31,157,95,0.35)" }
         }, "✓") : null),
       E("span", {
-        style: { position: "relative", zIndex: 1, fontSize: 11.5, fontWeight: isActive ? 700 : 600, lineHeight: 1.25, textAlign: "center", color: labelColor, maxWidth: "100%", wordBreak: "break-word" }
+        style: { position: "relative", zIndex: 1, fontSize: 12, fontWeight: isActive ? 700 : 600, lineHeight: 1.3, textAlign: "center", color: labelColor, maxWidth: 104, minHeight: 31, textWrap: "balance" }
       }, chipLabel));
   }));
 }
@@ -14675,6 +14677,14 @@ function LLMExplorer() {
   }, /*#__PURE__*/React.createElement("style", null, `
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes haloPulse {
+          0% { box-shadow: 0 0 0 0 rgba(110,81,255,.30), 0 8px 22px rgba(110,81,255,.40); }
+          70% { box-shadow: 0 0 0 10px rgba(110,81,255,0), 0 8px 22px rgba(110,81,255,.40); }
+          100% { box-shadow: 0 0 0 0 rgba(110,81,255,0), 0 8px 22px rgba(110,81,255,.40); }
+        }
+        .course-section-pill:focus-visible { outline: 2px solid #6e51ff; outline-offset: 2px; }
+        .course-path-node:focus { outline: none; }
+        .course-path-node:focus-visible .dot { box-shadow: 0 0 0 4px rgba(110,81,255,.22) !important; }
         .course-topbar {
           display: flex;
           justify-content: space-between;
@@ -14701,7 +14711,7 @@ function LLMExplorer() {
           margin-top: 8px;
         }
         .course-user-progress {
-          flex: 0 0 220px;
+          flex: 0 0 248px;
           display: flex;
           flex-direction: column;
           align-items: flex-end;
@@ -14743,7 +14753,7 @@ function LLMExplorer() {
     var activeGroup = SECTION_GROUPS[activeGroupIdx];
     return /*#__PURE__*/React.createElement("nav", { "aria-label": "Course navigation" },
       /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", justifyContent: "center", flexWrap: "nowrap", gap: 6, marginTop: 24, marginBottom: 14 }
+        style: { display: "flex", justifyContent: "center", flexWrap: "nowrap", gap: 7, marginTop: 24, marginBottom: 14 }
       }, SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
         var isActiveGroup = group === activeGroup;
         var groupComplete = !isActiveGroup && group.sections.every(function(sid) { return (progress.completed || []).includes(sid); });
@@ -14751,19 +14761,21 @@ function LLMExplorer() {
         var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
         return /*#__PURE__*/React.createElement("button", {
           key: gi,
+          className: "course-section-pill",
           onClick: function() { setActiveSection(group.sections[0]); },
           onMouseEnter: function() { setPillHover(gi); },
           onMouseLeave: function() { setPillHover(null); },
           "aria-current": isActiveGroup ? "true" : undefined,
           "aria-label": group.label + (isActiveGroup ? ", current section" : groupComplete ? ", section complete" : ""),
           style: {
-            padding: groupComplete ? "11px 15px 11px 32px" : "11px 15px", borderRadius: 999,
+            padding: groupComplete ? "11px 16px 11px 32px" : "11px 16px", borderRadius: 999,
             background: isActiveGroup ? "var(--primary)" : "var(--card)",
             color: isActiveGroup ? "#fff" : isHoveredPill ? "var(--primary)" : "var(--ink)",
             border: "none",
             boxShadow: isActiveGroup ? "0 6px 18px rgba(110, 81, 255, 0.28)" : subtleShadow,
             cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, letterSpacing: "-0.005em",
-            transition: "all 150ms ease", whiteSpace: "nowrap", position: "relative"
+            transition: "box-shadow 160ms ease, transform 160ms ease, background 160ms ease, color 160ms ease",
+            transform: isHoveredPill ? "translateY(-1px)" : "none", whiteSpace: "nowrap", position: "relative"
           }
         },
           groupComplete ? /*#__PURE__*/React.createElement("span", {
@@ -14772,7 +14784,7 @@ function LLMExplorer() {
           }, "\u2713") : null,
           group.label);
       })),
-      /*#__PURE__*/React.createElement("div", { style: { height: 1, background: "#e5e7eb", margin: "24px 0" } }),
+      /*#__PURE__*/React.createElement("div", { style: { height: 1, background: "#e7e3f2", margin: "22px 0 34px" } }),
       /*#__PURE__*/React.createElement(ChipNav, { sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection }));
   }(), /*#__PURE__*/React.createElement("main", {
     id: "main-content",

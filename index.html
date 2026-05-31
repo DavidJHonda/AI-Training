@@ -1171,7 +1171,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control", "intro"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "aiismath", "howwegothere", "aivscode", "norules", "data", "openerinside", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "openeranswers", "prompt", "patterns", "probability", "inference", "whatitdoesbest"]
+  sections: ["openerfoundations", "aiismath", "howwegothere", "aivscode", "norules", "data", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "patterns", "probability", "inference", "whatitdoesbest"]
 }, {
   label: "Work With AI",
   sections: ["openerworkwith", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
@@ -4026,7 +4026,7 @@ function DataSection(props) {
                 /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null))))),
     dataComplete ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI learned from messy human data." }, "That\u2019s why it can find structure in the mess. It\u2019s also why it can pick up weird patterns, biases, and dumb arguments from the data it learned from.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerinside"), label: "Next: Inside AI" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("tokens"), label: "Next: Tokens" })
   );
 }
 function HowAIReadsSection(props) {
@@ -5128,8 +5128,9 @@ function TrainingSection(props) {
       visibleStages >= seeItStages.length && seeItTypingDone ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 4, animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement(Takeaway, { headline: "Fluent came first. Helpful was taught.", body: "By the base-model stage, the model could already produce fluent text about basketball. It took human examples and rankings to turn a sentence-completer into something that answers you: engaging, useful, and ready with a follow-up." })) : null)),
     stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training is when the model learns. Chatting is when it uses what it learned." }, "Once training stops, the model is frozen. It doesn’t pick up new facts from your conversation. It’s running on what it already knows.") : null,
+    /*#__PURE__*/React.createElement(BodyP, null, "That build happens once. Training, everything you just walked through, is a one-time job. But the model it produces runs every time you ask, and it never looks the answer up. It predicts it, one word at a time. That running half has a name, inference, and it’s what the rest of this section is about."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openeranswers"), label: "Next: AI Answers" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Your Input" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 function OpenerInsideSection(props) {
@@ -5397,6 +5398,8 @@ function TokenSection(props) {
   var navButton = E(NextLessonGate, { ready: tokensRevealed >= staticExamples.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
   return E("div", null,
     E(LessonHeader, { sectionId: "tokens" }),
+    E(BodyP, null,
+      "You\u2019ve seen what kind of machine AI is. Now we open the hood, and underneath it\u2019s math all the way down. What looks like words on screen is numbers, and more numbers under those. It starts here."),
     E(BodyP, null,
       "Here is a fact about computers. They work exclusively with numbers. They don\u2019t read text."),
     E(BodyP, null,
@@ -14421,7 +14424,6 @@ const SECTION_COMPONENTS = {
   aivscode: AIvsCodeSection,
   norules: BlackBoxSection,
   data: DataSection,
-  openerinside: OpenerInsideSection,
   attention: HowAIReadsSection,
   probability: ProbabilitySection,
   hallucination: HallucinationSection,
@@ -14437,7 +14439,6 @@ const SECTION_COMPONENTS = {
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,
   thinkingmode: ThinkingModeSection,
-  openeranswers: OpenerAnswersSection,
   prompt: PromptSection,
   temperature: TemperatureSection,
   customization: CustomizationSection,

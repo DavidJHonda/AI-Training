@@ -3756,21 +3756,6 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That changes everything about how it can be controlled. ", /*#__PURE__*/React.createElement("strong", null, "AI is something people trained."), " Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
     ),
-    /*#__PURE__*/React.createElement(CompareBox, { kicker: "WRITTEN VS. TRAINED", marginBottom: 28 },
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\uD83D\uDCBB", eyebrow: "Regular software", title: "Written line by line" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          ["Authored by humans, line by line", "Every behavior is intended (or a known bug)", "Easy to inspect", "Same input, same output"].map(function(item, j) {
-            return /*#__PURE__*/React.createElement("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-              /*#__PURE__*/React.createElement("span", null, item));
-          }))),
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\uD83E\uDD16", eyebrow: "AI", title: "Trained, not written" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          ["Grown from data, not authored", "Behavior emerges, sometimes surprising the creators", "Hard to inspect", "Small changes in wording can change the output"].map(function(item, j) {
-            return /*#__PURE__*/React.createElement("div", { key: j, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-              /*#__PURE__*/React.createElement("span", null, item));
-          })))),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/no-one-wrote-the-rules.jpg",
       alt: "A split illustration: WRITTEN, a programmer coding every step by hand, versus TRAINED, a gardener growing plants they can\u2019t fully control",
@@ -14484,37 +14469,52 @@ const SECTION_COMPONENTS = {
 };
 const CHIP_LABELS = { inference: "Inference", embeddings: "Embeddings", vectorspace: "Vector Space", critical: "Critical Thinking" };
 function ChipNav(props) {
+  var E = React.createElement;
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
-  var subtleShadow = "0 1px 0 rgba(14,10,31,0.02), 0 6px 18px -14px rgba(14,10,31,0.18)";
-  return /*#__PURE__*/React.createElement("div", {
-    style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", gap: 8, marginBottom: 28 }
+  var PER_ROW = 9;
+  var completed = props.completed || [];
+  return E("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", columnGap: 0, rowGap: 18, marginBottom: 28, alignItems: "start" }
   }, props.sections.map(function(sid, ci) {
     var s = SECTIONS.find(function(sec) { return sec.id === sid; });
     var isActive = s.id === props.activeSection;
-    var isDone = !isActive && (props.completed || []).includes(s.id);
-    var isUpcoming = !isActive && !isDone;
+    var isDone = !isActive && completed.includes(s.id);
     var chipLabel = CHIP_LABELS[s.id] || s.label;
     var isHovered = chipHover === ci;
-    var canHover = !isActive && !isDone;
-    var bg = isActive ? "var(--primary)" : "var(--card)";
-    var labelColor = isActive ? "#fff" : isDone ? "var(--inkMuted)" : "var(--primary)";
-    var iconOpacity = isActive ? 1 : isDone ? 0.85 : isUpcoming ? 0.55 : 1;
-    var shadow = isActive ? "0 8px 22px rgba(110, 81, 255, 0.40)" : (canHover && isHovered) ? "0 6px 16px rgba(110, 81, 255, 0.18)" : subtleShadow;
-    var transform = (canHover && isHovered) ? "translateY(-1px)" : "none";
-    return /*#__PURE__*/React.createElement("button", {
+    var canHover = !isActive;
+    var firstInRow = (ci % PER_ROW) === 0;
+    var prevDone = ci > 0 && completed.includes(props.sections[ci - 1]);
+    var ring = isActive ? "var(--primary)" : isDone ? "var(--green)" : "var(--rule)";
+    var circleBg = isActive ? "var(--primary)" : "var(--card)";
+    var iconOpacity = isActive ? 1 : isDone ? 1 : 0.5;
+    var labelColor = isActive ? "var(--primary)" : "var(--inkMuted)";
+    var circleShadow = isActive
+      ? "0 0 0 6px var(--primaryFaint), 0 8px 20px rgba(110, 81, 255, 0.35)"
+      : (canHover && isHovered) ? "0 6px 16px rgba(110, 81, 255, 0.18)" : "var(--shadowSoft)";
+    return E("button", {
       key: s.id,
       onClick: function() { props.onNavigate(s.id); },
       onMouseEnter: function() { setChipHover(ci); },
       onMouseLeave: function() { setChipHover(null); },
       "aria-current": isActive ? "page" : undefined,
       "aria-label": chipLabel + (isActive ? ", current lesson" : isDone ? ", completed" : ""),
-      style: { height: 78, padding: "6px 4px", borderRadius: 12, background: bg, border: "none", boxShadow: shadow, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, transition: "all 0.2s", position: "relative", overflow: "hidden", transform: transform }
+      style: { position: "relative", border: "none", background: "transparent", padding: "0 2px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, transition: "transform 0.2s", transform: (canHover && isHovered) ? "translateY(-2px)" : "none" }
     },
-      isDone ? /*#__PURE__*/React.createElement("span", {
-        style: { position: "absolute", top: 4, left: 5, fontSize: 8, fontWeight: 800, letterSpacing: "0.1em", color: "var(--green)", lineHeight: 1 }
-      }, "DONE") : null,
-      /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { fontSize: 22, lineHeight: 1, opacity: iconOpacity } }, s.icon),
-      /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 600, letterSpacing: "-0.005em", lineHeight: 1.3, textAlign: "center", whiteSpace: "normal", wordBreak: "break-word", maxWidth: "100%", color: labelColor } }, chipLabel));
+      firstInRow ? null : E("span", {
+        "aria-hidden": "true",
+        style: { position: "absolute", top: 24, left: "-50%", width: "100%", height: 2, background: prevDone ? "var(--green)" : "var(--rule)", zIndex: 0 }
+      }),
+      E("span", {
+        "aria-hidden": "true",
+        style: { position: "relative", zIndex: 1, width: 50, height: 50, borderRadius: "50%", background: circleBg, border: "2px solid " + ring, boxShadow: circleShadow, display: "flex", alignItems: "center", justifyContent: "center", transition: "box-shadow 0.2s" }
+      },
+        E("span", { style: { fontSize: 21, lineHeight: 1, opacity: iconOpacity } }, s.icon),
+        isDone ? E("span", {
+          style: { position: "absolute", right: -2, bottom: -2, width: 17, height: 17, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 10, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--card)" }
+        }, "✓") : null),
+      E("span", {
+        style: { position: "relative", zIndex: 1, fontSize: 11.5, fontWeight: isActive ? 700 : 600, lineHeight: 1.25, textAlign: "center", color: labelColor, maxWidth: "100%", wordBreak: "break-word" }
+      }, chipLabel));
   }));
 }
 class LessonErrorBoundary extends React.Component {

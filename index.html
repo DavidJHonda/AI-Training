@@ -1355,34 +1355,6 @@ function OpenerFoundationsSection(props) {
 }
 
 function AIHistorySection(props) {
-  var TWO_KINDS = [
-    { label: "Generative AI", desc: "Creates new content from scratch. Like ChatGPT (writes text) or Suno (makes music).", color: "#3b82f6" },
-    { label: "Non-Generative AI", desc: "Predicts or classifies based on existing data. Like Google Maps (predicts traffic) or Face ID (matches your face).", color: "#10b981" }
-  ];
-  var twoKindsContainerRef = useRef(null);
-  var twoKindsTitleRefs = useRef([]);
-  var twoKindsCardRefs = useRef([]);
-  var _tps = useState(null), twoKindsPaths = _tps[0], setTwoKindsPaths = _tps[1];
-  var _trs = useLocalStorage("seeit-aihistory-twoKinds", {}), twoKindsRevealed = _trs[0], setTwoKindsRevealed = _trs[1];
-  var revealTwoKind = function(i) { setTwoKindsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  useEffect(function() {
-    function calc() {
-      var c = twoKindsContainerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 2; i++) {
-        var t = twoKindsTitleRefs.current[i], d = twoKindsCardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setTwoKindsPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
   var _rs = useLocalStorage("seeit-aihistory-twoSystemsRevealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
   var _aa = useLocalStorage("seeit-aihistory-twoSystemsAskCount", 0), askCount = _aa[0], setAskCount = _aa[1];
   var _sc = useState(false), seeComplete = _sc[0], setSeeComplete = _sc[1];
@@ -1400,14 +1372,15 @@ function AIHistorySection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, working through problems, seeing, hearing, and using language."),
-    /*#__PURE__*/React.createElement(BodyP, null, "When generative AI writes a sentence, it\u2019s running math to predict likely next words. It doesn\u2019t think or understand in the way humans do. It calculates probabilities based on patterns it learned from data."),
-    /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s one lens behind most of what AI does: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI finds repeated signals in data, estimates what is most likely, and uses those estimates to choose or generate an output. You\u2019ll see this same lens show up in every lesson."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, spotting patterns, seeing, hearing, and using language."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they\u2019re running math to predict the likely next words. They don\u2019t understand what your words mean, or even the meaning of the words they type."),
+    /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? There\u2019s one lens behind most of what AI does: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI finds repeated patterns in the data it\u2019s seen and predicts what\u2019s most likely. You\u2019ll see this same lens in every lesson."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/what-is-ai.jpg",
       alt: "AI shown as a machine that turns inputs like maps, music, and photos into outputs like routes, recommendations, and answers through patterns, probability, and prediction, labeled not magic, not a person, not a search engine",
       style: { display: "block", width: "100%", maxWidth: 560, margin: "20px auto", borderRadius: 12 }
     }),
+    /*#__PURE__*/React.createElement(BodyP, null, "That clears up three big myths. AI isn’t ", /*#__PURE__*/React.createElement("strong", null, "magic"), " (it’s math finding patterns), it isn’t ", /*#__PURE__*/React.createElement("strong", null, "a person"), " (no thoughts, no understanding, even when it sounds like it has both), and it isn’t ", /*#__PURE__*/React.createElement("strong", null, "a search engine"), " (it doesn’t pull up a stored answer, it builds a new one each time). Keep those three straight and most of the confusion falls away."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "YOU ALREADY USE AI",
       headline: "AI is hiding in apps you use every day.",
@@ -1447,68 +1420,11 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "That\u2019s the attitude we want with tools like ChatGPT: useful, impressive, and sometimes wrong. The goal isn\u2019t to reject the tool. It\u2019s to understand what kind of prediction machine you\u2019re using."),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Most AI is not ChatGPT." },
       "Most AI does one specific job: detect spam, recommend videos, route traffic, recognize faces. Tools like ChatGPT are unusual. One model handling many tasks is what makes them feel general-purpose."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most products are mixes. Take Google Maps again. It uses regular code for the directions, a database for the map, sensors for your location, and AI to predict traffic. The useful question is which parts are AI, not whether the whole thing is."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Most products are mixes. Google Maps alone uses regular code, a database, sensors, and AI for the traffic prediction. The useful question is which parts are AI, not whether the whole thing is."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "GENERATIVE AI"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most of the AI you just met predicts or classifies. Spotify predicts what you\u2019ll like next. Google Maps predicts traffic. Face ID predicts whether a face matches yours. None of it creates anything new."),
-    /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a newer kind of AI that does more. It generates new content instead of just sorting through what already exists. It writes the email, drafts the essay, makes the image, codes the website. This is called ", /*#__PURE__*/React.createElement("strong", null, "Generative AI"), "."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Everything you just met predicts or classifies. None of it creates anything new. There\u2019s a newer kind that does more: instead of sorting through what already exists, it generates new content. It writes the email, drafts the essay, makes the image, codes the website. This is called ", /*#__PURE__*/React.createElement("strong", null, "Generative AI"), "."),
     /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they\u2019re thinking about generative AI. That\u2019s what they use, and that\u2019s what this course is about."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Two kinds of AI"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see how the two kinds differ."),
-      /*#__PURE__*/React.createElement("div", {
-        ref: twoKindsContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
-        },
-          TWO_KINDS.map(function(k, i) {
-            var isRevealed = !!twoKindsRevealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { twoKindsTitleRefs.current[i] = el; },
-              onClick: function() { revealTwoKind(i); },
-              style: { color: k.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, k.label);
-          })
-        ),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        twoKindsPaths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          twoKindsPaths.map(function(p, i) {
-            if (!twoKindsRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: TWO_KINDS[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          TWO_KINDS.map(function(k, i) {
-            var isRevealed = !!twoKindsRevealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i, ref: function(el) { twoKindsCardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + k.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontWeight: 700, fontSize: 15, color: k.color, marginBottom: 6 }
-                }, k.label),
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                }, k.desc)));
-          })))),
-    /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Here\u2019s what that difference looks like in action."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s what that difference looks like in action."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1561,6 +1477,11 @@ function LLMsSection(props) {
     { label: "Opus", desc: "The biggest brain. Slower and pricier. Best for hard problems and long reasoning.", color: "#8b5cf6" },
     { label: "Sonnet", desc: "The everyday workhorse. Fast and capable. Most tasks land here.", color: "#3b82f6" },
     { label: "Haiku", desc: "The lightweight one. Quickest replies and cheapest to run.", color: "#f59e0b" }
+  ];
+  var PHONE_LENS = [
+    { icon: "🧩", label: "Patterns", desc: "Your keyboard has seen huge amounts of text, so it has learned which words tend to follow which." },
+    { icon: "📊", label: "Probability", desc: "Type “Running late, see you” and it weighs the likely next words: “soon,” “there,” “tomorrow.”" },
+    { icon: "⌨️", label: "Prediction", desc: "It puts its top guesses right above the keys, ready for you to tap." }
   ];
   var containerRef = useRef(null);
   var titleRefs = useRef([]);
@@ -1660,7 +1581,23 @@ function LLMsSection(props) {
   }, []);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM. ChatGPT, Claude, and Gemini are all LLMs, and using them well is most of what this course is about, because they\u2019re what most people use. You\u2019ve already seen the basic idea. Your phone\u2019s keyboard suggests the next word before you type it. That\u2019s next-word prediction at a small scale. LLMs do the same thing at a much bigger scale, and they handle many more kinds of language tasks."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM, like ChatGPT, Claude, or Gemini."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Even if you\u2019ve never opened any of those, you\u2019ve still seen their core principle when you send a text on your phone."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      headline: "It\u2019s patterns, probability, and prediction.",
+      intro: "Type a few words and your phone guesses what comes next. That little guess runs on the same three steps you\u2019ve been seeing."
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 } },
+        PHONE_LENS.map(function(item, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, item.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+        }))),
+    /*#__PURE__*/React.createElement(BodyP, null, "LLMs do this at a much bigger scale and handle many more tasks. But it\u2019s the same core idea."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",

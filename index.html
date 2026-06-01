@@ -14507,6 +14507,11 @@ function ChipNav(props) {
   var _fm = useState(false), showFull = _fm[0], setShowFull = _fm[1];
   var PER_ROW = 9;
   var WINDOW = 5;
+  var DOT = 56;            // node circle diameter
+  var COL = 118;           // node column width, tuned so the track + "more" pill reach the Finish pill's right edge
+  var CONN_INSET = 7;      // clearance between a connector end and a circle
+  var connW = COL - DOT - 2 * CONN_INSET;  // visible connector segment length
+  var FIRST_ANCHOR = 96;   // keep the first lesson at the spot it sat when columns were 96px wide
   var completed = props.completed || [];
   var sections = props.sections;
   var total = sections.length;
@@ -14528,7 +14533,8 @@ function ChipNav(props) {
   // A connector segment sitting behind a node, drawn from the previous center.
   function connector(kind) {
     if (!kind) return null;
-    var base = { position: "absolute", top: 27, left: "-50%", width: "100%", zIndex: 0 };
+    // Center a short segment in the gap between adjacent dots, leaving CONN_INSET clearance each side.
+    var base = { position: "absolute", top: 27, left: -(connW / 2), width: connW, zIndex: 0 };
     if (kind === "dotted") {
       return E("span", { "aria-hidden": "true", style: Object.assign({}, base, { height: 0, borderTop: "2px dotted #c4bed6" }) });
     }
@@ -14597,7 +14603,7 @@ function ChipNav(props) {
       return s ? s.icon : null;
     }).filter(Boolean);
     var isHovered = chipHover === "__more__";
-    return E("div", { key: "more-pill", style: { flex: "0 0 auto", display: "flex", alignItems: "center", marginTop: 6, marginLeft: -10 } },
+    return E("div", { key: "more-pill", style: { flex: "0 0 auto", display: "flex", alignItems: "center", marginTop: 6, marginLeft: -((COL - DOT) / 2 - CONN_INSET) } },
       E("span", { "aria-hidden": "true", style: { width: 42, height: 0, borderTop: "2px dotted #c4bed6", marginRight: 8 } }),
       E("button", {
         onClick: function() { setShowFull(true); },
@@ -14631,7 +14637,7 @@ function ChipNav(props) {
     if (earlierCount > 0) items.push({ type: "stub", count: earlierCount, label: "EARLIER" });
     sections.slice(start, end).forEach(function(sid) { items.push({ type: "lesson", sid: sid }); });
     var grid = E("div", {
-      style: { flex: "0 0 auto", display: "grid", gridTemplateColumns: "repeat(" + items.length + ", 88px)", columnGap: 0, alignItems: "start" }
+      style: { flex: "0 0 auto", display: "grid", gridTemplateColumns: "repeat(" + items.length + ", " + COL + "px)", columnGap: 0, alignItems: "start", marginLeft: (FIRST_ANCHOR - COL) / 2 }
     }, items.map(function(it, idx) {
       var prev = items[idx - 1];
       var connEl = null;
@@ -14657,17 +14663,17 @@ function ChipNav(props) {
       E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: "var(--inkMuted)", marginTop: 3 } },
         E("b", { style: { fontWeight: 800, color: "#e11d2a" } }, completedCount),
         " of " + total,
-        (windowed && !showFull) ? " · showing " + (end - start) : null)),
-    E("div", { style: { flex: "1 1 auto", minWidth: 0 } }, body),
-    windowed ? E("button", {
-      onClick: function() { setShowFull(!showFull); },
-      "aria-pressed": showFull ? "true" : "false",
-      style: { flex: "0 0 auto", marginTop: 9, display: "inline-flex", alignItems: "center", gap: 7, padding: "8px 15px", borderRadius: 999, border: "1px solid var(--rule)", background: "#fff", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: "-0.005em", cursor: "pointer", boxShadow: subtleNodeShadow, whiteSpace: "nowrap" }
-    },
-      E("svg", { width: 13, height: 13, viewBox: "0 0 24 24", "aria-hidden": "true", style: { display: "block" } },
-        E("path", { d: "M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinejoin: "round" }),
-        E("circle", { cx: 12, cy: 12, r: 2.4, fill: "currentColor" })),
-      showFull ? "Show path" : "Full map") : null);
+        (windowed && !showFull) ? " · showing " + (end - start) : null),
+      windowed ? E("button", {
+        onClick: function() { setShowFull(!showFull); },
+        "aria-pressed": showFull ? "true" : "false",
+        style: { marginTop: 12, display: "inline-flex", alignItems: "center", gap: 7, padding: "8px 15px", borderRadius: 999, border: "1px solid var(--rule)", background: "#fff", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: "-0.005em", cursor: "pointer", boxShadow: subtleNodeShadow, whiteSpace: "nowrap" }
+      },
+        E("svg", { width: 13, height: 13, viewBox: "0 0 24 24", "aria-hidden": "true", style: { display: "block" } },
+          E("path", { d: "M12 2l8.66 5v10L12 22l-8.66-5V7L12 2z", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinejoin: "round" }),
+          E("circle", { cx: 12, cy: 12, r: 2.4, fill: "currentColor" })),
+        showFull ? "Your path" : ("Show all " + total)) : null),
+    E("div", { style: { flex: "1 1 auto", minWidth: 0 } }, body));
 }
 class LessonErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { error: null }; }

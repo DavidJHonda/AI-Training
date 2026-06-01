@@ -14823,7 +14823,7 @@ function LLMExplorer() {
         .course-topbar {
           display: flex;
           justify-content: space-between;
-          align-items: flex-start;
+          align-items: center;
           gap: 20px;
           margin-bottom: 0;
         }
@@ -14846,7 +14846,13 @@ function LLMExplorer() {
           margin-top: 8px;
         }
         .course-user-progress {
-          flex: 0 0 248px;
+          flex: 0 0 auto;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 22px;
+        }
+        .course-progress-block {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
@@ -14914,8 +14920,10 @@ function LLMExplorer() {
           .course-user-progress {
             width: 100%;
             flex: none;
-            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
           }
+          .course-progress-block { align-items: flex-start; }
           .section-map { justify-content: flex-start; gap: 5px; padding: 9px 10px; }
           .map-pill { font-size: 12.5px; padding: 7px 12px; }
         }
@@ -14946,8 +14954,10 @@ function LLMExplorer() {
             /*#__PURE__*/React.createElement("div", { className: "course-title-subtitle" }, COURSE_SUBTITLE)
           ),
           /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
-            /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
-            /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.completed || []).length }),
+            /*#__PURE__*/React.createElement("div", { className: "course-progress-block" },
+              /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
+              /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.completed || []).length })
+            ),
             /*#__PURE__*/React.createElement("button", {
               className: "course-cta",
               onClick: function() {
@@ -14959,7 +14969,7 @@ function LLMExplorer() {
                 }
               },
               "aria-label": ctaAria,
-              style: { flexDirection: "column", gap: 2, padding: "9px 22px", lineHeight: 1.2 }
+              style: { flexDirection: "column", gap: 2, padding: "9px 22px", lineHeight: 1.2, marginTop: 0 }
             },
               /*#__PURE__*/React.createElement("span", { style: { display: "flex", alignItems: "center", gap: 7 } },
                 ctaLabel, /*#__PURE__*/React.createElement("span", { className: "course-cta-arrow", "aria-hidden": "true" }, "→")),
@@ -14971,13 +14981,19 @@ function LLMExplorer() {
         SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
           var isActiveGroup = group === activeGroup;
           var groupComplete = !isActiveGroup && group.sections.every(function(sid) { return (progress.completed || []).includes(sid); });
+          // Bold the leading "move" word (Understand/Work/Check/Protect/Build) to echo the five-moves arc.
+          var leadWord = group.label.split(" ")[0];
+          var boldLead = { Understand: 1, Work: 1, Check: 1, Protect: 1, Build: 1 }[leadWord];
+          var labelContent = boldLead
+            ? [/*#__PURE__*/React.createElement("b", { key: "lead", style: { fontWeight: 800 } }, leadWord), group.label.slice(leadWord.length)]
+            : group.label;
           return /*#__PURE__*/React.createElement("button", {
             key: gi,
             className: "map-pill" + (isActiveGroup ? " is-active" : groupComplete ? " is-complete" : ""),
             onClick: function() { setActiveSection(group.sections[0]); },
             "aria-current": isActiveGroup ? "true" : undefined,
             "aria-label": group.label + (isActiveGroup ? ", current section" : groupComplete ? ", section complete" : "")
-          }, group.label);
+          }, labelContent);
         })
       ),
       /*#__PURE__*/React.createElement("nav", { "aria-label": "Lesson navigation", style: { marginTop: 18 } },

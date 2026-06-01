@@ -146,6 +146,11 @@ Designs prompts in chat with Claude (this Project). Pastes prompts into Claude C
 ### Course PDF export
 A print-mode view is available via the URL parameter `?print=all`, with a "Print Course PDF" link beneath Reset Progress in the LLMExplorer footer. Renders every lesson in sequence with a page break between lessons, bypasses the name gate, and uses no-op nav callbacks. Component-level overrides expand activities into static, fully-answered form so the printable output is self-contained: ActivityCounter renders null, RevealSequence renders all children plus its completionElement and skips the start/next/finish buttons, and mint-surface QuizBlock renders the title row plus each option in answered state with full feedback below. Not yet expanded for non-mint QuizBlock surface, custom interactive widgets, or multi-scenario activities (those show only the first scenario in print mode). Full multi-scenario expansion would require per-lesson refactoring.
 
+### Illustrations
+Stored in `illustrations/` and referenced as `<img src="illustrations/<name>.jpg">`. House format is JPEG at 1200x800 (~250-350 KB). Display size is set per-image via the img's `maxWidth` (most are 560; the info-dense "What's an LLM?" is 880). Use URL-safe filenames: lowercase, hyphens, no spaces, apostrophes, or `?`. New illustrations usually arrive as large PNGs; optimize before use with macOS `sips`, then delete the source PNG and point `src` at the `.jpg`:
+
+`sips -s format jpeg -s formatOptions 80 --resampleWidth 1200 illustrations/<source>.png --out illustrations/<name>.jpg`
+
 ### Preferences
 - Plain copy, McDonald's-humor friendly tone for the student audience (16-year-olds).
 - Implementation-ready prompts referencing exact line numbers, existing patterns, and variable names.

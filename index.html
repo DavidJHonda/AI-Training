@@ -178,11 +178,8 @@ function LessonHeader(props) {
   var groupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.indexOf(sectionId) !== -1; });
   if (groupIdx < 0) return null;
   var group = SECTION_GROUPS[groupIdx];
-  var lessonIdx = group.sections.indexOf(sectionId);
   var sec = SECTIONS.find(function(s) { return s.id === sectionId; });
   if (!sec) return null;
-  var sectionNumber = String(groupIdx + 1).padStart(2, "0");
-  var lessonNumber = String(lessonIdx + 1).padStart(2, "0");
   var groupName = group.label.toUpperCase();
   var resolvedTitle = props.titleOverride !== undefined ? props.titleOverride : (sec.title || sec.label);
   var body, punct;
@@ -205,11 +202,8 @@ function LessonHeader(props) {
     },
       /*#__PURE__*/React.createElement("div", { style: { width: 22, height: 1.5, background: "var(--inkMuted)" } }),
       /*#__PURE__*/React.createElement("span", {
-        style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)" }
-      }, "SECTION " + sectionNumber + " · " + groupName + " · "),
-      /*#__PURE__*/React.createElement("span", {
-        style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)" }
-      }, "LESSON " + lessonNumber)
+        style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--inkMuted)" }
+      }, groupName)
     ),
     /*#__PURE__*/React.createElement("h1", {
       style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: "0 0 18px 0" }
@@ -1221,7 +1215,7 @@ const SECTION_GROUPS = [{
   label: "Build Your Advantage",
   sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "aifuture", "humanedge", "creativethinking", "buildedge"]
 }, {
-  label: "Finish",
+  label: "Finish Smarter",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
 }];
 const SECTION_META = {
@@ -14933,7 +14927,7 @@ function LLMExplorer() {
           background: #0f2e7a;
           border-radius: 22px;
           padding: 30px 34px;
-          box-shadow: 0 22px 48px -26px rgba(15,32,90,0.65);
+          box-shadow: 0 22px 48px -26px rgba(14,10,31,0.5);
         }
         .course-topbar {
           display: flex;
@@ -15003,6 +14997,7 @@ function LLMExplorer() {
           cursor: pointer;
           white-space: nowrap;
           font-family: "Plus Jakarta Sans", sans-serif;
+          transition: background .18s ease, box-shadow .18s ease;
         }
         .section-tab-label {
           display: flex;
@@ -15016,6 +15011,16 @@ function LLMExplorer() {
           transition: color .16s;
         }
         .section-tab .lead { font-weight: 800; color: var(--ink); transition: color .16s; }
+        .section-tab.is-active {
+          position: relative;
+          z-index: 1;
+          background: var(--primaryFaint);
+          border-radius: 10px;
+          box-shadow: 0 6px 18px -8px rgba(15,46,122,.32);
+          padding: 10px 12px 6px;
+          margin: -10px -12px -6px;
+        }
+        .section-tab.is-active .section-tab-label { color: #0f2e7a; }
         .section-tab.is-active .lead { color: #0f2e7a; }
         .section-tab:hover .lead { color: #0f2e7a; }
         .section-tab-underline {

@@ -1496,54 +1496,6 @@ function LLMsSection(props) {
     window.addEventListener("resize", calc);
     return function() { window.removeEventListener("resize", calc); };
   }, []);
-  var productsContainerRef = useRef(null);
-  var productsTitleRefs = useRef([]);
-  var productsCardRefs = useRef([]);
-  var _pps = useState(null), productsPaths = _pps[0], setProductsPaths = _pps[1];
-  var _prs = useLocalStorage("seeit-llms-products", {}), productsRevealed = _prs[0], setProductsRevealed = _prs[1];
-  var revealProduct = function(i) { setProductsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  useEffect(function() {
-    function calc() {
-      var c = productsContainerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 3; i++) {
-        var t = productsTitleRefs.current[i], d = productsCardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setProductsPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
-  var modelsContainerRef = useRef(null);
-  var modelsTitleRefs = useRef([]);
-  var modelsCardRefs = useRef([]);
-  var _mps = useState(null), modelsPaths = _mps[0], setModelsPaths = _mps[1];
-  var _mrs = useLocalStorage("seeit-llms-models", {}), modelsRevealed = _mrs[0], setModelsRevealed = _mrs[1];
-  var revealModel = function(i) { setModelsRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  useEffect(function() {
-    function calc() {
-      var c = modelsContainerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 3; i++) {
-        var t = modelsTitleRefs.current[i], d = modelsCardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setModelsPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM, like ChatGPT, Claude, or Gemini."),
@@ -1553,6 +1505,7 @@ function LLMsSection(props) {
       alt: "A phone with a text being typed. Its autocomplete is broken into patterns (the keyboard has learned which words follow which), probability (it weighs likely next words like soon, there, tomorrow), and prediction (it surfaces top guesses above the keys). LLMs work the same way at a much bigger scale.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "LLM"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1612,125 +1565,36 @@ function LLMsSection(props) {
           })))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "PRODUCT"),
     /*#__PURE__*/React.createElement(BodyP, null, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each company builds their cars differently, and their cars have different characteristics. For this course, we\u2019ll focus on three you\u2019ve probably heard of."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "The big three"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each name to see a brief description."),
-      /*#__PURE__*/React.createElement("div", {
-        ref: productsContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
+    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, margin: "4px 0 24px" } },
+      PRODUCTS.map(function(p, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, boxShadow: "var(--shadowElevated)" }
         },
-          PRODUCTS.map(function(p, i) {
-            var isRevealed = !!productsRevealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { productsTitleRefs.current[i] = el; },
-              onClick: function() { revealProduct(i); },
-              style: { color: p.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, p.label);
-          })
-        ),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        productsPaths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          productsPaths.map(function(p, i) {
-            if (!productsRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: PRODUCTS[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          PRODUCTS.map(function(p, i) {
-            var isRevealed = !!productsRevealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i, ref: function(el) { productsCardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 6 }
-                }, p.label),
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                }, p.desc)));
-          })))),
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: p.color, marginBottom: 6 } }, p.label),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.desc));
+      })),
     /*#__PURE__*/React.createElement(SectionKicker, null, "MODEL"),
     /*#__PURE__*/React.createElement(BodyP, null, "You decide to buy a Ford. Now you have to choose the right model: an F-150, Explorer, Bronco, or another. Each one is different, but they\u2019re all Fords."),
     /*#__PURE__*/React.createElement(BodyP, null, "The big three work the same way. They have different models for different needs. Unlike with cars, you can switch between models any time. Below are Claude\u2019s models."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Claude\u2019s lineup"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see what it\u2019s best for."),
-      /*#__PURE__*/React.createElement("div", {
-        ref: modelsContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
-        },
-          MODELS.map(function(m, i) {
-            var isRevealed = !!modelsRevealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { modelsTitleRefs.current[i] = el; },
-              onClick: function() { revealModel(i); },
-              style: { color: m.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, m.label);
-          })
-        ),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        modelsPaths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          modelsPaths.map(function(p, i) {
-            if (!modelsRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: MODELS[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          MODELS.map(function(m, i) {
-            var isRevealed = !!modelsRevealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i, ref: function(el) { modelsCardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + m.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontWeight: 700, fontSize: 15, color: m.color, marginBottom: 6 }
-                }, m.label),
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                }, m.desc)));
-          })))),
+    /*#__PURE__*/React.createElement("div", { style: { margin: "4px 0 24px" } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 8 } },
+        /*#__PURE__*/React.createElement("span", null, "Faster \u00b7 cheaper"),
+        /*#__PURE__*/React.createElement("span", null, "More powerful \u00b7 slower")),
+      /*#__PURE__*/React.createElement("div", { "aria-hidden": "true", style: { height: 6, borderRadius: 999, background: "linear-gradient(90deg, #f59e0b, #3b82f6, #8b5cf6)", marginBottom: 16 } }),
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 } },
+        MODELS.slice().reverse().map(function(m, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + m.color, boxShadow: "var(--shadowElevated)" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: m.color, marginBottom: 6 } }, m.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13.5, color: "var(--inkSoft)", lineHeight: 1.5 } }, m.desc));
+        }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Product, model, LLM. Not the same thing." },
       "Product is what you open. Model is what does the work inside. LLM is the kind of model powering chatbots like ChatGPT, Claude, and Gemini."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(llmRevealed).length >= LLM_COLS.length && Object.keys(productsRevealed).length >= PRODUCTS.length && Object.keys(modelsRevealed).length >= MODELS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(llmRevealed).length >= LLM_COLS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
 }
 function AIIsMathSection(props) {

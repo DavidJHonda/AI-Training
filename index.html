@@ -95,6 +95,9 @@
   .course-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .course-cta-arrow { transition: transform .16s; }
   .course-cta:hover .course-cta-arrow { transform: translateX(3px); }
+  @media (max-width: 760px) {
+    .sticky-sub, .sticky-navtext { display: none !important; }
+  }
   *:focus { outline: none; }
   *:focus-visible {
     outline: 2px solid var(--primary);
@@ -14675,6 +14678,81 @@ function ChipNav(props) {
         showFull ? "Your path" : ("Show all " + total)) : null),
     E("div", { style: { flex: "1 1 auto", minWidth: 0 } }, body));
 }
+// Condensed context bar that slides in once the full header has scrolled away.
+// Keeps the current section/lesson + progress visible, with Prev/Next and a
+// "Lessons" dropdown that reveals the full ChipNav.
+function StickyLessonBar(props) {
+  var E = React.createElement;
+  var _v = useState(false), visible = _v[0], setVisible = _v[1];
+  var _m = useState(false), menuOpen = _m[0], setMenuOpen = _m[1];
+  useEffect(function() {
+    var onScroll = function() {
+      var el = document.getElementById("main-content");
+      if (el) setVisible(el.getBoundingClientRect().top < 8);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return function() { window.removeEventListener("scroll", onScroll); };
+  }, []);
+  useEffect(function() { if (!visible) setMenuOpen(false); }, [visible]);
+
+  var activeIdx = SECTIONS.findIndex(function(s) { return s.id === props.activeSection; });
+  var section = SECTIONS[activeIdx];
+  if (!section) return null;
+  var group = SECTION_GROUPS.find(function(g) { return g.sections && g.sections.includes(props.activeSection); });
+  var groupLabel = group ? (group.label || "") : "";
+  var posInGroup = group ? group.sections.indexOf(props.activeSection) + 1 : 1;
+  var groupLen = group ? group.sections.length : 1;
+  var lessonTitle = section.title || section.label || "";
+  var prevId = activeIdx > 0 ? SECTIONS[activeIdx - 1].id : null;
+  var nextId = activeIdx < SECTIONS.length - 1 ? SECTIONS[activeIdx + 1].id : null;
+  var completed = (props.progress && props.progress.completed) || [];
+  var visited = (props.progress && props.progress.visited) || [];
+
+  var go = function(id) {
+    if (!id) return;
+    props.onNavigate(id);
+    setMenuOpen(false);
+    var el = document.getElementById("main-content");
+    if (el) {
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var y = el.getBoundingClientRect().top + window.scrollY - 60;
+      window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
+    }
+  };
+
+  var navBtn = function(id, isNext) {
+    var disabled = !id;
+    var word = E("span", { key: "w", className: "sticky-navtext" }, isNext ? "Next" : "Prev");
+    var arrow = E("span", { key: "a", "aria-hidden": "true", style: { fontSize: 14 } }, isNext ? "›" : "‹");
+    return E("button", {
+      onClick: function() { go(id); },
+      disabled: disabled,
+      "aria-label": isNext ? "Next lesson" : "Previous lesson",
+      style: { display: "inline-flex", alignItems: "center", gap: 5, padding: "7px 12px", borderRadius: 999, border: "1px solid var(--rule)", background: "#fff", color: disabled ? "var(--inkFaint)" : "var(--ink)", fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 700, cursor: disabled ? "default" : "pointer", opacity: disabled ? 0.5 : 1, whiteSpace: "nowrap" }
+    }, isNext ? [word, arrow] : [arrow, word]);
+  };
+
+  return E("div", {
+    style: { position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "#fff", borderBottom: "1px solid var(--rule)", boxShadow: visible ? "0 4px 16px -8px rgba(14,10,31,.22)" : "none", transform: visible ? "translateY(0)" : "translateY(-100%)", transition: "transform 220ms ease", pointerEvents: visible ? "auto" : "none" }
+  },
+    E("div", { style: { maxWidth: 1080, margin: "0 auto", padding: "8px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 } },
+      E("div", { style: { display: "flex", alignItems: "center", gap: 11, minWidth: 0 } },
+        E("span", { "aria-hidden": "true", style: { fontSize: 22, lineHeight: 1, flex: "0 0 auto" } }, section.icon),
+        E("div", { style: { minWidth: 0 } },
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, lessonTitle),
+          E("div", { className: "sticky-sub", style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: "var(--inkMuted)", lineHeight: 1.3, whiteSpace: "nowrap" } }, groupLabel + " · " + posInGroup + " of " + groupLen))),
+      E("div", { style: { display: "flex", alignItems: "center", gap: 8, flex: "0 0 auto" } },
+        navBtn(prevId, false),
+        E("button", {
+          onClick: function() { setMenuOpen(!menuOpen); },
+          "aria-expanded": menuOpen ? "true" : "false",
+          style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 999, border: "1px solid var(--rule)", background: menuOpen ? "var(--primaryFaint)" : "#fff", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }
+        }, "Lessons", E("span", { "aria-hidden": "true", style: { fontSize: 10 } }, menuOpen ? "▴" : "▾")),
+        navBtn(nextId, true))),
+    menuOpen ? E("div", { style: { maxWidth: 1080, margin: "0 auto", padding: "16px 24px 22px", borderTop: "1px solid var(--rule)", background: "var(--bg)", overflowX: "auto" } },
+      E(ChipNav, { groupLabel: groupLabel, sections: group ? group.sections : [props.activeSection], activeSection: props.activeSection, visited: visited, completed: completed, onNavigate: go })) : null);
+}
 class LessonErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { error: null }; }
   static getDerivedStateFromError(error) { return { error: error }; }
@@ -14963,7 +15041,7 @@ function LLMExplorer() {
           .section-map { justify-content: flex-start; gap: 5px; padding: 9px 10px; }
           .map-pill { font-size: 12.5px; padding: 7px 12px; }
         }
-      `), function() {
+      `), /*#__PURE__*/React.createElement(StickyLessonBar, { activeSection: activeSection, onNavigate: setActiveSection, progress: progress }), function() {
     var activeGroupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.includes(activeSection); });
     if (activeGroupIdx < 0) activeGroupIdx = 0;
     var activeGroup = SECTION_GROUPS[activeGroupIdx];

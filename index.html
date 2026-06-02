@@ -2525,8 +2525,8 @@ function WelcomeSection(props) {
                 YesNoButton("yes", current, function() { setAnswer(i, "yes"); }),
                 YesNoButton("no", current, function() { setAnswer(i, "no"); })))
           );
-        }),
-        allAnswered ? E(Takeaway, { merged: true, accent: "var(--tryAccent)", headline: "Six honest answers.", body: "These are the mysteries the course is built to solve: how AI works, why it fails, and what humans still have to own." }) : null)),
+        }))),
+    E(KeyInsight, { lead: "These are the mysteries the course is built to solve." }, "How AI works, why it fails, and what humans still have to own."),
     E(SectionKicker, null, "HOW LESSONS WORK"),
     E(BodyP, null,
       "Four patterns repeat throughout the course. Spotting them tells you what each moment is asking of you. And, you’ll need to complete the TRY ITs and SEE ITs to complete the lesson."),
@@ -3275,8 +3275,7 @@ function AIvsCodeSection(props) {
                     vCorrect ? "Correct" : "Not quite"),
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, v.headline)),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, v.feedback))) : null);
-        })),
-      fitAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It depends on the job.", body: "Neither one wins everything. Exact, must-be-right-every-time work goes to traditional software. Messy, open-ended, never-seen-it-before work goes to AI. Knowing which is which is the whole skill." }) : null),
+        }))),
     fitAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Traditional software runs the rules you gave it. AI uses patterns learned from examples. Same input, very different machine.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: fitAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Harder to Control" })
@@ -3339,18 +3338,18 @@ function BlackBoxSection(props) {
   const [scenarioAnswer, setScenarioAnswer] = useState(null);
   const [startedRulePattern, setStartedRulePattern] = useState(true);
   const RULE_PATTERN_SCENARIOS = [{
-    setup: "A signup form accepts a birthdate showing the user is 12 on a platform with an 18+ policy.",
+    setup: "A signup form accepts a birthdate showing the user is 12 years old on a platform with an 18+ policy.",
     options: [
       { label: "Rule", correct: true, headline: "It's a rule.", feedback: "A fixed age check at signup would have caught this every time. The system asks for date of birth, compares it to the requirement, and blocks or allows. Same input, same output, no learning needed." },
       { label: "Pattern", correct: false, headline: "Patterns learn too slowly here.", hint: "A pattern only gets sharp after it has seen lots of examples, so the very first underage signup still slips through. What kind of check would catch it on day one, before anything has been learned?", feedback: "A pattern-based system could learn to spot fake underage accounts after seeing many examples, but the first underage user would still slip through. A simple written age check stops every signup at the door." },
       { label: "Guardrail", correct: false, headline: "Guardrails are for outputs.", hint: "Guardrails sit on top of an AI to block what it generates. Is this really about something an AI produced, or about who gets let in the door?", feedback: "Guardrails block unsafe AI outputs. The underage signup problem isn\u2019t about what AI generates. It\u2019s about who\u2019s allowed in. A written rule handles that." }
     ]
   }, {
-    setup: "An AI chatbot gives a 15-year-old specific Tylenol dosage information.",
+    setup: "An AI chatbot gives a student step-by-step instructions for building a dangerous weapon.",
     options: [
-      { label: "Rule", correct: false, headline: "Too many to write down.", hint: "Try to picture the actual written check. Would someone really list every drug and every dose the AI must refuse? When the risk is in what the AI says back, a fixed list falls apart fast.", feedback: "It would feel like a rule, but no one writes a fixed list of every drug or dose AI can\u2019t discuss. The prevention would be a safety layer trained to recognize the shape of the question and redirect. That\u2019s a guardrail." },
-      { label: "Pattern", correct: false, headline: "The pattern is the problem.", hint: "The model's pattern matching is exactly what produced that dosage answer, so here the pattern is the cause, not the cure. If the model can give that answer on its own, what would a company add to stop it?", feedback: "The model can pattern-match its way to a dosage answer using its training data, which is exactly the problem here. The pattern doesn\u2019t stop the bad answer. A guardrail the company adds on top does." },
-      { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer on top of the model would catch medical dosage questions and redirect them. The model itself was trained on enough medical text to attempt an answer. The guardrail is the company saying \u2018not from this product.\u2019" }
+      { label: "Rule", correct: false, headline: "Too many to write down.", hint: "Picture the actual written check. Would someone really list every dangerous thing the AI must refuse to explain? When the risk is in what the AI says back, a fixed list can\u2019t cover it.", feedback: "It would feel like a rule, but no one can write a fixed list of every dangerous request. The fix is a safety layer trained to recognize the shape of a harmful how-to and shut it down. That\u2019s a guardrail." },
+      { label: "Pattern", correct: false, headline: "The pattern is the problem.", hint: "The model's pattern matching is exactly what assembled those instructions, so here the pattern is the cause, not the cure. If the model can produce that on its own, what would a company add to stop it?", feedback: "The model can pattern-match its way to dangerous instructions from its training data, which is exactly the problem here. The pattern doesn\u2019t stop the harmful answer. A guardrail the company adds on top does." },
+      { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer on top of the model recognizes requests for dangerous how-to instructions and refuses them. The model was trained on enough text to attempt an answer. The guardrail is the company saying it won\u2019t help with this." }
     ]
   }, {
     setup: "A malicious email impersonating your school\u2019s tech support slips into students\u2019 inboxes for hours before being caught.",
@@ -3389,12 +3388,13 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(ShowcaseBox, null,
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 } },
         [
-          { icon: "💸", text: "Scams and cybercrime scale faster because AI can generate code, messages, and fake identities quickly." },
-          { icon: "🎭", text: "Fake images and videos can humiliate real people, including students." },
-          { icon: "🩺", text: "Medical or safety advice can sound confident while still being wrong." }
+          { icon: "💸", title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds, so fraud spreads faster and wider." },
+          { icon: "🎭", title: "Deepfakes of real people", text: "Convincing fakes can target and humiliate anyone, including students, and the damage is hard to undo." },
+          { icon: "🩺", title: "Confident but wrong", text: "Medical or safety answers can sound fluent and sure even when they are flat wrong, which makes them easy to trust." }
         ].map(function(item, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)" } },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, item.title),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.text));
         }))
     ),
@@ -5105,8 +5105,7 @@ function NameThatDrinkTryIt(props) {
               q.title ? E("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 10, color: "var(--inkMuted)" } }, q.title) : null,
               q.dims.map(function(d, di) { return dimBar(d[0], d[1]); }))),
           E(QuizBlock, { key: si, surface: "mint", statement: "Which drink has this profile?", totalQuestions: questions.length, options: q.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setDrinkAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-      }),
-      drinkAllAnswered ? E(Takeaway, { accent: "var(--tryAccent)", headline: "Two numbers were not enough.", body: "Two dimensions could tell Coke from black coffee, but they could not separate Coke from Pepsi. Real models use hundreds or thousands of dimensions, so even similar concepts get their own distinct profile." }) : null));
+      })));
 }
 function EmbeddingsSection(props) {
   var E = React.createElement;
@@ -5501,8 +5500,7 @@ function PatternsSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "🧬 The behavior"),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.situation))),
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which pattern dynamic explains it?", totalQuestions: SCENARIOS.length, options: sc.options.map(function(opt) { return opt.correct ? { label: opt.label, correct: true, feedback: opt.feedback } : { label: opt.label, correct: false, hint: opt.feedback, feedback: opt.feedback }; }), picked: picks[si] != null ? picks[si] : undefined, onAnswer: function(oi) { setPicks(function(prev) { var next = Object.assign({}, prev); next[si] = oi; return next; }); } }));
-        }),
-        Object.keys(picks).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "One mechanism, very different results.", body: "A specific prompt activates sharper patterns. A confident-looking citation activates the citation pattern whether or not the source is real. The pattern is about how things look, not whether they are true." }) : null)),
+        }))),
 
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Patterns are the source." },
       "They’re where every score comes from: the learned tendencies that training writes and inference reads. Next you’ll watch them get read out: first as a score for one token, then chained into a whole answer."),
@@ -6931,8 +6929,7 @@ function DocumentChatSection(props) {
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The setup"),
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
             E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-        }),
-        scenariosAllAnswered ? E(Takeaway, { accent: "var(--tryAccent)", headline: "Three prompts, aimed.", body: "The rulebook will change. The habit won’t: aim the question, trim the upload, and ask for the quote. Make the right chunk easy to find and you stop getting confident, incomplete answers." }) : null)),
+        }))),
     E(KeyInsight, null,
       "Uploaded does not mean understood. Confident does not mean complete. Asking for evidence is the skill."),
     E(LessonRule, null),
@@ -7446,8 +7443,7 @@ function ModelSelectionSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The scenario"),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
           /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which model fits best?", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-      }),
-      scenariosAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Four jobs matched.", body: "The model names will change. The principle won’t: pick the tool whose strengths match what the task actually needs." }) : null)),
+      }))),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 24 } },
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT SHOULD YOU DO?")
   ),
@@ -8336,7 +8332,7 @@ function CriticalThinkingSection(props) {
       startLabel: "First Problem",
       nextLabel: "Next Problem \u2192",
       finishLabel: "See the Wrap-up \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "All eight problems spotted.", body: "That\u2019s the instinct." })
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught eight shaky claims on instinct. The hard part is using that same instinct when AI\u2019s answer sounds confident and clean." })
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
@@ -8430,7 +8426,7 @@ function CriticalThinkingSection(props) {
       startLabel: "First Trap \u2192",
       nextLabel: "Next Trap \u2192",
       finishLabel: "All five spotted \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "All five habits in the wild.", body: "You\u2019ve seen what each habit catches. That\u2019s the work." })
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "In real life, the trap isn\u2019t labeled.", body: "Each scenario hid one weak spot. AI won\u2019t tell you which habit a given answer needs, so running the checks is on you." })
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
@@ -9988,8 +9984,7 @@ function CreativeThinkingSection(props) {
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personBLabel),
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personBThinking)))),
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-        }),
-        scenariosAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Reframe first. Tool second.", body: "Both creative moves happened before AI ever got involved. The teacher chose the metaphor. The coach chose the matchup. AI does the task. The angle is on the human." }) : null)),
+        }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI does the task." },
       "You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up."),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -10283,8 +10278,7 @@ function MindTrapSection(props) {
                 /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
-        }),
-        spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three triggers caught.", body: "The warmth in the words is your brain. The information after might still be useful. Treat them as different things." }) : null)),
+        }))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When this matters most"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can\u2019t notice what you\u2019re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
@@ -10446,8 +10440,7 @@ function FlatteryTrapSection(props) {
               /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "left" }),
               sc.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, sc.essay))),
           /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-      }),
-      spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three sycophants spotted.", body: "Friendliness is a tone, not a check on accuracy. The flattering answer might be wrong." }) : null)),
+      }))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
   /*#__PURE__*/React.createElement(BodyP, null, "You can't stop models from being sycophantic, but you can prompt your way around it. These five strategies force the model to be useful instead of nice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 16, alignItems: "flex-start" }
@@ -10570,8 +10563,7 @@ function EngagementTrapSection(props) {
                 /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
-        }),
-        spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three loops noticed.", body: "Once you see the moves, you can choose whether to take them." }) : null)),
+        }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI\u2019s habit of continuing isn\u2019t an accident." },
       "Assistants are trained and tuned to be helpful in conversation. They learn patterns like clarifying questions, offered next steps, and leaving the door open. Those patterns can help. They can also make a finished task feel unfinished."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
@@ -11934,8 +11926,7 @@ function StakeholdersSection(props) {
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Who carries the cost the design overlooked?", totalQuestions: SCENARIOS.length, options: ps.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-        }),
-        permsAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "User. Subject. Operator. Bystander.", body: "Stakeholder thinking turns ‘is this AI good or bad?’ into ‘who is it good for, and who carries the cost?’ That second question is the one most AI debates skip." }) : null)),
+        }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The question isn\u2019t only \u201CDoes this AI work?\u201D" },
       "It\u2019s \u201CWho does it work for, and who carries the cost?\u201D Sometimes that cost is hidden. Sometimes everyone sees it, and the system runs on it anyway."),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -13437,8 +13428,7 @@ function HumanEdgeSection(props) {
                 /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }))),
             /*#__PURE__*/React.createElement("div", { style: { marginTop: 16 } },
               /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which is the stronger use of AI?", totalQuestions: SCENARIOS.length, options: sk.options, onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[si] = true; return next; }); } })));
-        }),
-        skillAllSolved ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Direction beats production.", body: "Every option here used AI. The stronger one each time kept the thinking, the judgment, and the final call with you. That’s the part AI doesn’t replace." }) : null)),
+        }))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI makes production cheaper." },
       "That makes direction, judgment, and ownership more valuable. The skills above don\u2019t replace AI. They\u2019re what makes AI worth using."),
     /*#__PURE__*/React.createElement(LessonRule, null),

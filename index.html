@@ -3407,14 +3407,15 @@ function BlackBoxSection(props) {
         completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three different things, one product.", body: "When you use an AI tool, you\u2019re using all three at once. Knowing which is which changes how you trust the output." })
       },
         /*#__PURE__*/React.createElement(InnerCard, null,
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "\uD83D\uDCDD The event"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup)),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(scenarioIdx + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "\uD83D\uDCDD The event"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup))),
           /*#__PURE__*/React.createElement(QuizBlock, {
             key: scenarioIdx,
             surface: "mint",
             statement: "Which is the best fit?",
-            questionNumber: scenarioIdx + 1,
             totalQuestions: RULE_PATTERN_SCENARIOS.length,
             options: sc.options,
             picked: scenarioAnswer != null ? scenarioAnswer : undefined,
@@ -4422,16 +4423,17 @@ function BiasQuiz(props) {
       completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or carries biased labels, the model repeats those patterns. It isn\u2019t asking \u201Cis this fair?\u201D It\u2019s asking \u201Cwhat pattern fits?\u201D So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
-            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
-          /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: 0 } }, bs.scenario)),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(biasIdx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
+            /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: 0 } }, bs.scenario))),
         /*#__PURE__*/React.createElement(QuizBlock, {
           key: biasIdx,
           surface: "mint",
           statement: bs.question,
-          questionNumber: biasIdx + 1,
           totalQuestions: biasScenarios.length,
           options: bs.choices.map(function(choice, i) {
             var isCorrect = i === bs.correct;
@@ -5069,11 +5071,13 @@ function NameThatDrinkTryIt(props) {
       questions.map(function(q, si) {
         var picked = drinkAnswers[si];
         return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          E("div", { style: { marginBottom: 18 } },
-            E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "📐 The flavor profile"),
-            q.title ? E("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 10, color: "var(--inkMuted)" } }, q.title) : null,
-            q.dims.map(function(d, di) { return dimBar(d[0], d[1]); })),
-          E(QuizBlock, { key: si, surface: "mint", statement: "Which drink has this profile?", questionNumber: si + 1, totalQuestions: questions.length, options: q.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setDrinkAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+          E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            E("div", { style: { flex: 1 } },
+              E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "📐 The flavor profile"),
+              q.title ? E("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 10, color: "var(--inkMuted)" } }, q.title) : null,
+              q.dims.map(function(d, di) { return dimBar(d[0], d[1]); }))),
+          E(QuizBlock, { key: si, surface: "mint", statement: "Which drink has this profile?", totalQuestions: questions.length, options: q.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setDrinkAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }),
       drinkAllAnswered ? E(Takeaway, { accent: "var(--tryAccent)", headline: "Two numbers were not enough.", body: "Two dimensions could tell Coke from black coffee, but they could not separate Coke from Pepsi. Real models use hundreds or thousands of dimensions, so even similar concepts get their own distinct profile." }) : null));
 }
@@ -5464,10 +5468,12 @@ function PatternsSection(props) {
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "🧬 The behavior"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.situation)),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which pattern dynamic explains it?", questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: sc.options.map(function(opt) { return opt.correct ? { label: opt.label, correct: true, feedback: opt.feedback } : { label: opt.label, correct: false, hint: opt.feedback, feedback: opt.feedback }; }), picked: picks[si] != null ? picks[si] : undefined, onAnswer: function(oi) { setPicks(function(prev) { var next = Object.assign({}, prev); next[si] = oi; return next; }); } }));
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "🧬 The behavior"),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.situation))),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which pattern dynamic explains it?", totalQuestions: SCENARIOS.length, options: sc.options.map(function(opt) { return opt.correct ? { label: opt.label, correct: true, feedback: opt.feedback } : { label: opt.label, correct: false, hint: opt.feedback, feedback: opt.feedback }; }), picked: picks[si] != null ? picks[si] : undefined, onAnswer: function(oi) { setPicks(function(prev) { var next = Object.assign({}, prev); next[si] = oi; return next; }); } }));
         }),
         Object.keys(picks).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "One mechanism, very different results.", body: "A specific prompt activates sharper patterns. A confident-looking citation activates the citation pattern whether or not the source is real. The pattern is about how things look, not whether they are true." }) : null)),
 
@@ -6892,10 +6898,12 @@ function DocumentChatSection(props) {
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
           return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            E("div", { style: { marginBottom: 18 } },
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The setup"),
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt)),
-            E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+            E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1 } },
+                E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The setup"),
+                E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
+            E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }),
         scenariosAllAnswered ? E(Takeaway, { accent: "var(--tryAccent)", headline: "Three prompts, aimed.", body: "The rulebook will change. The habit won’t: aim the question, trim the upload, and ask for the quote. Make the right chunk easy to find and you stop getting confident, incomplete answers." }) : null)),
     E(KeyInsight, null,
@@ -7405,10 +7413,12 @@ function ModelSelectionSection(props) {
       SCENARIOS.map(function(sc, si) {
         var picked = scenarioAnswers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The scenario"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt)),
-          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which model fits best?", questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The scenario"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
+          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which model fits best?", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }),
       scenariosAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Four jobs matched.", body: "The model names will change. The principle won’t: pick the tool whose strengths match what the task actually needs." }) : null)),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 24 } },
@@ -8302,16 +8312,17 @@ function CriticalThinkingSection(props) {
       completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "All eight problems spotted.", body: "That\u2019s the instinct." })
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
-      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ex101.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ex101.label)),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ex101.claim)),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(active101 + 1).padStart(2, "0")),
+        /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ex101.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ex101.label)),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ex101.claim))),
       /*#__PURE__*/React.createElement(QuizBlock, {
         key: active101,
         surface: "mint",
         statement: "What\u2019s the problem with this claim?",
-        questionNumber: active101 + 1,
         totalQuestions: CT_101.length,
         options: ex101.options,
         picked: problemAnswer != null ? problemAnswer : undefined,
@@ -8395,20 +8406,21 @@ function CriticalThinkingSection(props) {
       completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "All five habits in the wild.", body: "You\u2019ve seen what each habit catches. That\u2019s the work." })
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
-      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ct.label)),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
-          /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response }))),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(activeConcept + 1).padStart(2, "0")),
+        /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ct.label)),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
+            /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
+            /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response })))),
       /*#__PURE__*/React.createElement(QuizBlock, {
         key: activeConcept,
         surface: "mint",
         statement: ct.scenario.question,
-        questionNumber: activeConcept + 1,
         totalQuestions: CT_CONCEPTS.length,
         options: ct.scenario.options,
         picked: habitAnswer != null ? habitAnswer : undefined,
@@ -9938,14 +9950,17 @@ function CreativeThinkingSection(props) {
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 } }, sc.setup),
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 14 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personALabel),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personAThinking)),
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 20 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personBLabel),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personBThinking)),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.statement, questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 20 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 } }, sc.setup),
+                /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 14 } },
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personALabel),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personAThinking)),
+                /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px" } },
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, sc.personBLabel),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.65 } }, sc.personBThinking)))),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }),
         scenariosAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Reframe first. Tool second.", body: "Both creative moves happened before AI ever got involved. The teacher chose the metaphor. The coach chose the matchup. AI does the task. The angle is on the human." }) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI does the task." },
@@ -10235,10 +10250,12 @@ function MindTrapSection(props) {
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 18 } },
-              /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
-              /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" })),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, questionNumber: si + 1, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
+                /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
+                /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
         }),
         spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three triggers caught.", body: "The warmth in the words is your brain. The information after might still be useful. Treat them as different things." }) : null)),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When this matters most"),
@@ -10396,10 +10413,12 @@ function FlatteryTrapSection(props) {
       SPOT_EXERCISES.map(function(sc, si) {
         var picked = spotAnswers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-            /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "left" }),
-            sc.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, sc.essay)),
-          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", questionNumber: si + 1, totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "left" }),
+              sc.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, sc.essay))),
+          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }),
       spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three sycophants spotted.", body: "Friendliness is a tone, not a check on accuracy. The flattering answer might be wrong." }) : null)),
     /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
@@ -10518,10 +10537,12 @@ function EngagementTrapSection(props) {
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 18 } },
-              /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
-              /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" })),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, questionNumber: si + 1, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
+                /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
+                /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
         }),
         spotAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Three loops noticed.", body: "Once you see the moves, you can choose whether to take them." }) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI\u2019s habit of continuing isn\u2019t an accident." },
@@ -11742,16 +11763,17 @@ function WhenAIJudgesSection(props) {
         completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Five questions. Every system. Every time.", body: "You won\u2019t always get clear answers. The questions still work. A system that won\u2019t tell you who\u2019s responsible is telling you something." })
       },
         /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup)),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(permIdx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
         /*#__PURE__*/React.createElement(QuizBlock, {
           key: permIdx,
           surface: "mint",
           statement: "What\u2019s your move?",
-          questionNumber: permIdx + 1,
           totalQuestions: SCENARIOS.length,
           options: ps.options,
           picked: permAnswer != null ? permAnswer : undefined,
@@ -11877,12 +11899,14 @@ function StakeholdersSection(props) {
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup)),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Who carries the cost the design overlooked?", questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: ps.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Who carries the cost the design overlooked?", totalQuestions: SCENARIOS.length, options: ps.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }),
         permsAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "User. Subject. Operator. Bystander.", body: "Stakeholder thinking turns ‘is this AI good or bad?’ into ‘who is it good for, and who carries the cost?’ That second question is the one most AI debates skip." }) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The question isn\u2019t only \u201CDoes this AI work?\u201D" },
@@ -12013,16 +12037,17 @@ function SyntheticMediaSection(props) {
         completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Source. Context. Corroboration.", body: "Run anything you\u2019re about to react to through the three checks. Slowing down by a minute is almost always the right call." })
       },
         /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup)),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(permIdx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
         /*#__PURE__*/React.createElement(QuizBlock, {
           key: permIdx,
           surface: "mint",
           statement: "What\u2019s your move?",
-          questionNumber: permIdx + 1,
           totalQuestions: SCENARIOS.length,
           options: ps.options,
           picked: permAnswer != null ? permAnswer : undefined,
@@ -13119,13 +13144,14 @@ function QuestionsValuableSection(props) {
         completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Specific isn't the same as right.", body: "The strongest questions frame the real problem and define what a good answer looks like. That's the part AI can't do for you." })
       },
         /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: us.weak, align: "left", label: "Weak prompt" })),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(upgradeIdx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement(UserBubble, { text: us.weak, align: "left", label: "Weak prompt" }))),
         /*#__PURE__*/React.createElement(QuizBlock, {
           key: upgradeIdx,
           surface: "mint",
           statement: "Which version asks the right question?",
-          questionNumber: upgradeIdx + 1,
           totalQuestions: UPGRADE_SCENARIOS.length,
           options: us.options,
           picked: upgradeAnswer != null ? upgradeAnswer : undefined,
@@ -13378,9 +13404,12 @@ function HumanEdgeSection(props) {
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sk, si) {
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }))),
             /*#__PURE__*/React.createElement("div", { style: { marginTop: 16 } },
-              /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which is the stronger use of AI?", questionNumber: si + 1, totalQuestions: SCENARIOS.length, options: sk.options, onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[si] = true; return next; }); } })));
+              /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which is the stronger use of AI?", totalQuestions: SCENARIOS.length, options: sk.options, onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[si] = true; return next; }); } })));
         }),
         skillAllSolved ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Direction beats production.", body: "Every option here used AI. The stronger one each time kept the thinking, the judgment, and the final call with you. That’s the part AI doesn’t replace." }) : null)),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI makes production cheaper." },

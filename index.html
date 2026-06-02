@@ -1901,28 +1901,37 @@ function AIIsMathSection(props) {
     )
     ,
     /*#__PURE__*/React.createElement(SectionKicker, null, "AUTOREGRESSIVE GENERATION"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Bayes’ Theorem updates one belief based on evidence. But AI doesn’t just update beliefs. It writes. Every word AI produces is a fresh prediction, shaped by every word that came before it."),
     /*#__PURE__*/React.createElement(BodyP, null, "Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. That’s how single-word guesses turn into full paragraphs, essays, and explanations."),
-    /*#__PURE__*/React.createElement(BodyP, null, "What is the probability of rain at 2:00 pm? Here’s how the three ideas answer differently."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "TYING THE MATH TOGETHER"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Here’s an example that brings together the three math ideas from this page. The question: what’s the probability of rain at 2:00 pm today, May 21st? Here’s how each one answers it differently."),
     /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 28 },
       /*#__PURE__*/React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }
+        style: { display: "flex", flexDirection: "column", gap: 14 }
       },
         [
           {
             title: "Standard Probability",
-            evidence: ["It rains 40% of the time on May 21st."],
-            pct: "40%"
+            pct: "40%",
+            evidence: [
+              { text: "Over the last 100 years, it’s rained 40 times on May 21st." }
+            ]
           },
           {
             title: "Conditional Probability",
-            evidence: ["It rains 40% of the time on May 21st.", "There is 90% humidity today."],
-            pct: "80%"
+            pct: "80%",
+            evidence: [
+              { text: "Over the last 100 years, it’s rained 40 times on May 21st.", carried: true },
+              { text: "Humidity is 90% right now.", tag: true }
+            ]
           },
           {
             title: "Autoregressive Generation",
-            evidence: ["It’s raining at 1:59 pm."],
-            pct: "99%"
+            pct: "99%",
+            evidence: [
+              { text: "Over the last 100 years, it’s rained 40 times on May 21st.", carried: true },
+              { text: "Humidity is 90% right now.", carried: true },
+              { text: "It rained at 1:57, 1:58, and 1:59 pm.", tag: true }
+            ]
           }
         ].map(function(s, i) {
           return /*#__PURE__*/React.createElement("div", {
@@ -1931,64 +1940,37 @@ function AIIsMathSection(props) {
               background: "var(--card)",
               border: "1px solid var(--rule)",
               borderRadius: 10,
-              padding: 18,
+              padding: "16px 18px",
               display: "flex",
-              flexDirection: "column"
+              alignItems: "center",
+              gap: 20
             }
           },
-            /*#__PURE__*/React.createElement("div", {
-              style: {
-                fontSize: 15,
-                fontWeight: 800,
-                color: "var(--ink)",
-                textAlign: "center",
-                marginBottom: 14,
-                lineHeight: 1.3
-              }
-            }, s.title),
-            /*#__PURE__*/React.createElement("div", {
-              style: {
-                fontSize: 10,
-                fontWeight: 700,
-                color: "var(--inkMuted)",
-                textTransform: "uppercase",
-                letterSpacing: "0.10em",
-                marginBottom: 8,
-                textAlign: "center"
-              }
-            }, "Evidence"),
-            /*#__PURE__*/React.createElement("div", {
-              style: {
-                fontSize: 13,
-                color: "var(--inkSoft)",
-                lineHeight: 1.5,
-                marginBottom: 16,
-                textAlign: "center",
-                flex: 1
-              }
-            },
-              s.evidence.map(function(item, j) {
-                return /*#__PURE__*/React.createElement("div", {
-                  key: j,
-                  style: { marginBottom: j < s.evidence.length - 1 ? 6 : 0 }
-                }, item);
-              })
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2 } }, s.title),
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontSize: 10, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.10em", margin: "12px 0 8px" }
+              }, "Evidence"),
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                s.evidence.map(function(item, j) {
+                  return /*#__PURE__*/React.createElement("div", {
+                    key: j,
+                    style: { display: "flex", alignItems: "baseline", gap: 8, fontSize: 14, lineHeight: 1.5, color: item.carried ? "var(--inkMuted)" : "var(--ink)" }
+                  },
+                    item.tag ? /*#__PURE__*/React.createElement("span", {
+                      style: { flexShrink: 0, fontSize: 9, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#fff", background: "var(--primary)", borderRadius: 4, padding: "2px 6px", position: "relative", top: -1 }
+                    }, "New Evidence") : null,
+                    /*#__PURE__*/React.createElement("span", null, item.text)
+                  );
+                })
+              )
             ),
-            /*#__PURE__*/React.createElement("div", {
-              style: {
-                fontSize: 34,
-                fontWeight: 800,
-                color: "var(--primary)",
-                lineHeight: 1,
-                textAlign: "center"
-              }
-            }, s.pct)
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 30, fontWeight: 800, color: "var(--primary)", lineHeight: 1, flexShrink: 0 } }, s.pct)
           );
         })
       )
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past these three ideas. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But these three concepts are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
-    /*#__PURE__*/React.createElement(BodyP, null, "And honestly, the rest of this course isn’t about math. It’s about what AI does well, where it slips, and how to think clearly when using it."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: visibleBayesSteps >= 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
   );

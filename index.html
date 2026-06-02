@@ -1201,7 +1201,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "aiismath", "howwegothere", "aivscode", "norules", "data", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "patterns", "probability", "inference"]
+  sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "patterns", "probability", "inference"]
 }, {
   label: "Work With AI",
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
@@ -1241,7 +1241,7 @@ const SECTION_META = {
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
-  prompt: { kicker: "WHAT THE MODEL SEES", label: "The Context Window", icon: "\u2709\uFE0F" },
+  prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
   probability: { kicker: "ONE WORD AT A TIME", label: "Probability", icon: "\uD83C\uDFB2" },
   patterns: { kicker: "ONE IDEA EXPLAINS THE REST", label: "Patterns Are Weights", icon: "\uD83E\uDDEC" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
@@ -1335,16 +1335,16 @@ function OpenerFoundationsSection(props) {
     },
     groups: [
       {
-        kicker: "WHAT AI ACTUALLY IS",
-        bridge: "Start with the truth under the hype: AI is math, and it got here after a very long road."
+        kicker: "WHERE AI CAME FROM",
+        bridge: "A long road of ideas, and the one breakthrough that finally turned them into the AI you use today."
       },
       {
         kicker: "WHY IT’S NOT NORMAL SOFTWARE",
         bridge: "It doesn’t follow rules someone wrote. It learns patterns from data, which is why it behaves nothing like the apps you know."
       },
       {
-        kicker: "HOW WORDS BECOME NUMBERS",
-        bridge: "Before any thinking happens, your words get broken into pieces and turned into coordinates the machine can work with."
+        kicker: "IT ALL RUNS ON MATH",
+        bridge: "See the handful of math ideas underneath it, then watch your words get turned into numbers the machine can work with."
       },
       {
         kicker: "WHAT HAPPENS INSIDE",
@@ -1356,8 +1356,8 @@ function OpenerFoundationsSection(props) {
       }
     ],
     whatYoullLearnClosing: [],
-    nextLessonId: "aiismath",
-    nextLessonLabel: "Next: AI is Math",
+    nextLessonId: "howwegothere",
+    nextLessonLabel: "Next: How We Got Here",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -1972,7 +1972,7 @@ function AIIsMathSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past these three ideas. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But these three concepts are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: visibleBayesSteps >= 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: visibleBayesSteps >= 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
   );
 }
 
@@ -3453,27 +3453,8 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("data"); }, label: "Next: From Mess to Meaning" }));
 }
 function DataSection(props) {
-  var SCENE_KEYS = ["text", "image", "speech"];
-  var SCENE_LABELS = ["📱 Text to your friend about your grades", "📷 Picture of your grocery list", "🎤 Recording of your order at In-N-Out Burger"];
-  var _ss = useLocalStorage("seeit-data-started", false), seeItStarted = _ss[0], setSeeItStarted = _ss[1];
-  var _sci = useLocalStorage("seeit-data-scenarioIdx", 0), scenarioIdx = _sci[0], setScenarioIdx = _sci[1];
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [dataReveal, setDataReveal] = useLocalStorage("seeit-data-dataReveal", 0);
-  var _tt = useState(0), textTyped = _tt[0], setTextTyped = _tt[1];
-  var dataComplete = scenarioIdx >= SCENE_KEYS.length;
-  var view = SCENE_KEYS[scenarioIdx];
-  var TEXT_INPUT = "\"Honestly math was rough, I think I got like a B minus? English went really well though, probably my best score this semester. Science was okay I guess, not great not terrible.\"";
-  var textTypingDone = textTyped >= TEXT_INPUT.length;
-  useEffect(function() { window.speechSynthesis.cancel(); setIsPlaying(false); setDataReveal(0); setTextTyped(0); }, [scenarioIdx]);
-  useEffect(function() {
-    if (!seeItStarted || scenarioIdx !== 0) return;
-    setTextTyped(0);
-    var len = TEXT_INPUT.length;
-    var interval = setInterval(function() {
-      setTextTyped(function(c) { if (c >= len) { clearInterval(interval); return c; } return c + 1; });
-    }, 30);
-    return function() { clearInterval(interval); };
-  }, [seeItStarted]);
+  const [fuelAnswers, setFuelAnswers] = useState({});
+  var fuelAllAnswered = Object.keys(fuelAnswers).length >= 3;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "data" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -3515,135 +3496,66 @@ function DataSection(props) {
         }))
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Messy In, Structured Out",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(scenarioIdx + (seeItStarted ? 1 : 0), SCENE_KEYS.length), total: SCENE_KEYS.length })
+      variant: "try",
+      surface: "mint",
+      title: "What Could AI Pull Out?",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(fuelAnswers).length, total: 3 })
     },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "In this exercise, you’ll see how AI turns messy inputs into something meaningful. And, you’ll see how traditional software handles the messy input."),
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "sand",
-        items: SCENE_KEYS,
-        currentIdx: scenarioIdx,
-        started: seeItStarted,
-        onStart: function() { setSeeItStarted(true); },
-        onNext: function() { setScenarioIdx(scenarioIdx + 1); setDataReveal(0); },
-        canAdvance: dataReveal >= 2,
-        isComplete: scenarioIdx >= SCENE_KEYS.length,
-        startLabel: "First Example",
-        nextLabel: "Next Example \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Three messes, three structures.", body: "Once AI can find structure in messy input, it can return that structure in whatever format you ask for: table, summary, checklist, email, code, plan, or order form. Messy input does not have to stay messy." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(Math.min(scenarioIdx, SCENE_KEYS.length - 1) + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, SCENE_LABELS[Math.min(scenarioIdx, SCENE_KEYS.length - 1)]))),
-          /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 16 } },
-            view === "text" && /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", borderRadius: 8, border: "1px solid #c4b5fd", padding: 14, fontSize: 14, color: "#3b1f6e", lineHeight: 1.7, fontStyle: "italic", textAlign: "center", marginBottom: 16 } },
-                TEXT_INPUT.slice(0, textTyped),
-                textTyped < TEXT_INPUT.length ? /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: "1em", background: "var(--seeAccent)", marginLeft: 1, verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" } }) : null),
-              dataReveal === 0 ? (textTypingDone ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", animation: "fadeIn 0.3s ease" } },
-                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(1); }, size: "large" }, "See Traditional Software Result \u2192")) : null) :
-              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
-                /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe", style: { animation: dataReveal === 1 ? "fadeIn 0.4s ease" : "none" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
-                  /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Traditional Software"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "What it expects"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderRadius: 8, border: "1px solid #fca5a5", padding: 14, fontSize: 14, color: "#991b1b" } }, "ERROR: Cannot parse unstructured text.\nExpected: subject, score, grade.\nReceived: casual sentence."),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "Traditional software needs the fields already separated. It does not know which parts are subjects, grades, or feelings unless someone built that parsing logic.")),
-                dataReveal >= 2 ? /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
-                  /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "What it can infer"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #c4b5fd", borderRadius: 8, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 13 } },
-                      /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, ["Subject", "Grade signal", "Sentiment"].map(function(h, i) { return /*#__PURE__*/React.createElement("th", { key: i, style: { padding: "8px 10px", background: "#ede9fe", color: "#5b21b6", fontWeight: 700, textAlign: "left", borderBottom: "1px solid #c4b5fd", fontSize: 12 } }, h); }))),
-                      /*#__PURE__*/React.createElement("tbody", null, [["Math", "B-", "Struggled"], ["English", "Likely strong", "Confident"], ["Science", "Likely average", "Neutral"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI inferred that \u2018rough\u2019 signals struggle, \u2018best score\u2019 signals high performance, and \u2018not great not terrible\u2019 signals average.")) : /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ AI results..."))),
-              dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null),
-            view === "image" && /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 10, border: "1px solid var(--rule)", padding: 16, marginBottom: 20, textAlign: "center" } },
-                /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 240 160", style: { width: "100%", maxWidth: 400, height: 160, borderRadius: 8, border: "1px solid #d4c5a0", display: "block", margin: "0 auto" } },
-                  /*#__PURE__*/React.createElement("rect", { x: 0, y: 0, width: 240, height: 160, fill: "#fffef0" }),
-                  /*#__PURE__*/React.createElement("path", { d: "M0,4 Q10,0 20,3 Q30,5 40,2 Q50,0 60,4 Q70,6 80,2 Q90,0 100,3 Q110,5 120,2 Q130,0 140,4 Q150,5 160,2 Q170,0 180,3 Q190,5 200,2 Q210,0 220,4 Q230,5 240,2 L240,0 L0,0 Z", fill: "#f5f0e0" }),
-                  [36, 68, 100, 132].map(function(y, i) { return /*#__PURE__*/React.createElement("line", { key: "l" + i, x1: 10, y1: y + 10, x2: 230, y2: y + 10, stroke: "#e0d5b0", strokeWidth: 1 }); }),
-                  [36, 68, 100, 132].map(function(y, i) { return /*#__PURE__*/React.createElement("rect", { key: "c" + i, x: 12, y: y - 4, width: 12, height: 12, rx: 2, fill: "none", stroke: "#888", strokeWidth: 1.5 }); }),
-                  /*#__PURE__*/React.createElement("text", { x: 30, y: 44, fontFamily: "Segoe UI, sans-serif", fontSize: 14, fill: "#2d2d2d", transform: "rotate(-0.5, 30, 44)" }, "Milk x2 (whole)"),
-                  /*#__PURE__*/React.createElement("text", { x: 30, y: 76, fontFamily: "Segoe UI, sans-serif", fontSize: 14, fill: "#2d2d2d", transform: "rotate(0.8, 30, 76)" }, "Eggs - 1 dozen lg"),
-                  /*#__PURE__*/React.createElement("text", { x: 30, y: 108, fontFamily: "Segoe UI, sans-serif", fontSize: 14, fill: "#2d2d2d", transform: "rotate(-1, 30, 108)" }, "Sourdough bread"),
-                  /*#__PURE__*/React.createElement("text", { x: 30, y: 140, fontFamily: "Segoe UI, sans-serif", fontSize: 14, fill: "#2d2d2d", transform: "rotate(0.5, 30, 140)" }, "Bananas (ripe) x6"))),
-              dataReveal === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(1); }, size: "large" }, "See Traditional Software Result \u2192")) :
-              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
-                /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe", style: { animation: dataReveal === 1 ? "fadeIn 0.4s ease" : "none" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
-                  /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Traditional Software"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "What it expects"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderRadius: 8, border: "1px solid #fca5a5", padding: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 } },
-                    /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, "\uD83D\uDEAB"),
-                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#991b1b", textAlign: "center", lineHeight: 1.6 } }, "Cannot process image content.\nPixels detected: 4,320,000\nMeaning extracted: 0")),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "Traditional software expects typed fields. A photo is just pixels unless someone built image-reading logic for that exact job.")),
-                dataReveal >= 2 ? /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
-                  /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "What it can infer"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #c4b5fd", borderRadius: 8, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 13 } },
-                      /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, ["Item", "Quantity", "Notes"].map(function(h, i) { return /*#__PURE__*/React.createElement("th", { key: i, style: { padding: "8px 10px", background: "#ede9fe", color: "#5b21b6", fontWeight: 700, textAlign: "left", borderBottom: "1px solid #c4b5fd", fontSize: 12 } }, h); }))),
-                      /*#__PURE__*/React.createElement("tbody", null, [["Milk", "2", "Whole milk"], ["Eggs", "1 dozen", "Large"], ["Bread", "1 loaf", "Sourdough"], ["Bananas", "6", "Ripe"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI can infer the structure from the image: items, quantities, and notes. The messy photo becomes a clean table. Behind the scenes, every pixel turns into a number, and AI does what it always does: find patterns in numbers.")) : /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ AI results..."))),
-              dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null),
-            view === "speech" && /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 10, border: "1px solid var(--rule)", padding: 16, marginBottom: 20, textAlign: "center" } },
-                /*#__PURE__*/React.createElement("div", { style: { display: "inline-block" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--seeAccent)", fontWeight: 600, marginBottom: 8 } }, "\uD83D\uDD0A Click to hear the order"),
-                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 12 } },
-                    /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() {
-                        if (isPlaying) { window.speechSynthesis.cancel(); setIsPlaying(false); return; }
-                        var u = new SpeechSynthesisUtterance("Yeah can I get a double burger but no onions, large fries with extra salt, and like two medium Cokes");
-                        u.rate = 1.0; u.pitch = 1.0;
-                        u.onend = function() { setIsPlaying(false); };
-                        u.onerror = function() { setIsPlaying(false); };
-                        window.speechSynthesis.cancel();
-                        window.speechSynthesis.speak(u);
-                        setIsPlaying(true);
-                      }, style: { fontSize: 18, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, borderRadius: "50%" } }, isPlaying ? "\u23F8" : "\u25B6"),
-                    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 3, alignItems: "center", height: 40 } },
-                      [8,16,24,32,20,36,28,40,24,32,16,28,20,12,8].map(function(h, i) {
-                        return /*#__PURE__*/React.createElement("div", { key: i, style: { width: 4, height: h, borderRadius: 2, background: "#93c5fd", transformOrigin: "center", animation: isPlaying ? "waveBar " + (0.4 + i % 5 * 0.1) + "s ease-in-out infinite alternate" : "none" } });
-                      }))),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 12, color: "#1e3a5f", marginTop: 8 } }, "audio_clip.mp3 (0:08)"))),
-              dataReveal === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
-                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(1); }, size: "large" }, "See Traditional Software Result \u2192")) :
-              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
-                /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe", style: { animation: dataReveal === 1 ? "fadeIn 0.4s ease" : "none" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
-                  /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Traditional Software"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "What it expects"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", borderRadius: 8, border: "1px solid #fca5a5", padding: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 } },
-                    /*#__PURE__*/React.createElement("span", { style: { fontSize: 28 } }, "\uD83D\uDEAB"),
-                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#991b1b", textAlign: "center", lineHeight: 1.6 } }, "Cannot process audio input.\nExpected: structured form submission.\nReceived: audio waveform.")),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "Traditional software expects typed fields. Speech has to be transcribed and parsed before it can become an order.")),
-                dataReveal >= 2 ? /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
-                  /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "What it can infer"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", borderRadius: 8, border: "1px solid #c4b5fd", padding: 12, fontSize: 13, color: "#3b1f6e", fontStyle: "italic", lineHeight: 1.7, marginBottom: 10 } }, "\u201CYeah can I get a double burger but no onions, large fries with extra salt, and like two medium Cokes\u201D"),
-                  /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #c4b5fd", borderRadius: 8, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 13 } },
-                      /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, ["Item", "Size", "Qty", "Special"].map(function(h, i) { return /*#__PURE__*/React.createElement("th", { key: i, style: { padding: "8px 10px", background: "#ede9fe", color: "#5b21b6", fontWeight: 700, textAlign: "left", borderBottom: "1px solid #c4b5fd", fontSize: 12 } }, h); }))),
-                      /*#__PURE__*/React.createElement("tbody", null, [["Burger", "Double", "1", "No onions"], ["Fries", "Large", "1", "Extra salt"], ["Coke", "Medium", "2", "\u2014"]].map(function(row, i) { return /*#__PURE__*/React.createElement("tr", { key: i, style: { background: "var(--card)" } }, row.map(function(cell, j) { return /*#__PURE__*/React.createElement("td", { key: j, style: { padding: "7px 10px", borderBottom: "1px solid var(--rule)", color: "var(--ink)", fontSize: 12 } }, cell); })); })))),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", marginTop: 8 } }, "AI can transcribe the speech, infer the items, and map the casual sentence into order fields.")) : /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ AI results..."))),
-              dataReveal === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 12 } },
-                /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setDataReveal(2); } }, "See AI Result \u2192")) : null))))),
-    dataComplete ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI can read the mess humans make." }, "It learned from that mess, which is why it can find structure in new mess. It\u2019s also why it can pick up weird patterns, biases, and dumb arguments from the data it learned from.") : null,
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Three real messes: a text, a photo, a spoken order. For each, pick what AI could actually pull out of it."),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        [
+          { eyebrow: "📱 A text to a friend about grades", kind: "text", input: "“Honestly math was rough, I think I got like a B minus? English went really well though, probably my best score this semester. Science was okay I guess, not great not terrible.”", correct: 1, options: [
+            { label: "Your exact percentage scores", headline: "It can’t invent what isn’t there.", feedback: "The text never gives real numbers, so AI can’t produce them. It can read a signal like “around a B minus,” but it won’t make up an exact score." },
+            { label: "The subjects, a grade signal for each, and how you felt about them", headline: "Right.", feedback: "AI matches the casual words to what it learned: “rough” reads as a struggle, “best score” as strong, “not great not terrible” as average. Out comes subject, signal, and feeling." },
+            { label: "Nothing usable, it’s too messy", headline: "Messy is the whole point.", feedback: "A casual sentence is exactly the kind of mess AI is built to read. Traditional software would choke on it; AI finds the structure inside." }
+          ] },
+          { eyebrow: "📷 A photo of a handwritten grocery list", kind: "image", items: ["Milk x2 (whole)", "Eggs - 1 dozen lg", "Sourdough bread", "Bananas (ripe) x6"], correct: 0, options: [
+            { label: "Each item with its quantity and notes, as a clean checklist", headline: "Right.", feedback: "AI reads the handwriting and the shorthand: “x2” is a quantity, “(whole)” is a note. The photo becomes an organized list." },
+            { label: "Nothing, a photo is just pixels to AI", headline: "AI turns pixels into meaning.", feedback: "Not so. AI learned from countless images, so it reads the pixels the same way it reads messy text, and pulls the list right out." },
+            { label: "The store name and the prices", headline: "It can only pull what’s there.", feedback: "The photo shows items and quantities, not a store or prices, so AI has nothing to pull those from." }
+          ] },
+          { eyebrow: "🎤 A spoken drive-thru order", kind: "speech", input: "“Yeah can I get a double burger but no onions, large fries with extra salt, and like two medium Cokes”", correct: 2, options: [
+            { label: "Nothing until someone types it into a form", headline: "AI handles the speech directly.", feedback: "Traditional software needs typed fields. AI takes the spoken words and structures them itself." },
+            { label: "The customer’s name and payment", headline: "It can only pull what’s in the audio.", feedback: "The clip is just the order. AI won’t invent a name or payment that was never said." },
+            { label: "A clean order: each item, its size, and the special requests", headline: "Right.", feedback: "AI transcribes the speech and maps the casual sentence into fields: a double burger with no onions, large fries with extra salt, two medium Cokes." }
+          ] }
+        ].map(function(sc, si) {
+          var viewing = fuelAnswers[si];
+          var answered = viewing !== undefined;
+          var v = answered ? sc.options[viewing] : null;
+          var vCorrect = answered && viewing === sc.correct;
+          var accent = vCorrect ? "#1f9d5f" : "#d4334a";
+          var stimulus = sc.kind === "image"
+            ? /*#__PURE__*/React.createElement("div", { style: { background: "#fffef0", border: "1px solid #d4c5a0", borderRadius: 8, padding: "10px 16px" } }, sc.items.map(function(it, k) { return /*#__PURE__*/React.createElement("div", { key: k, style: { fontFamily: "var(--mono)", fontSize: 14, color: "#2d2d2d", lineHeight: 1.9 } }, it); }))
+            : /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", border: "1px solid #c4b5fd", borderRadius: 8, padding: "12px 16px", fontSize: 15, color: "#3b1f6e", lineHeight: 1.6, fontStyle: "italic" } }, sc.input);
+          var renderOpt = function(opt, oi) {
+            var isViewing = viewing === oi;
+            var isCorrectOpt = sc.correct === oi;
+            var dotBorder = "var(--rule)", dotFill = "transparent", txtColor = "#0e0a1f", rowBg = "#fff", rowBorder = "var(--rule)";
+            if (isViewing && isCorrectOpt) { dotBorder = "#1f9d5f"; dotFill = "#1f9d5f"; txtColor = "#1f9d5f"; rowBorder = "#1f9d5f"; rowBg = "#e7f6ee"; }
+            else if (isViewing) { dotBorder = "#d4334a"; dotFill = "#d4334a"; txtColor = "#d4334a"; rowBorder = "#d4334a"; rowBg = "#fbe9ec"; }
+            return /*#__PURE__*/React.createElement("button", { key: oi, onClick: function() { setFuelAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); }); }, style: { display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderRadius: 12, border: "1.5px solid " + rowBorder, background: rowBg, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: txtColor, width: "100%" } },
+              /*#__PURE__*/React.createElement("span", { style: { width: 16, height: 16, borderRadius: 999, border: "2px solid " + dotBorder, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: dotFill } })),
+              /*#__PURE__*/React.createElement("span", { style: { flex: 1 } }, opt.label));
+          };
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, sc.eyebrow),
+                stimulus)),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 600, color: "#0e0a1f", marginBottom: 12 } }, "What could AI pull out of this?"),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } }, sc.options.map(renderOpt)),
+            answered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
+                /*#__PURE__*/React.createElement("div", null,
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } }, /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }), vCorrect ? "Correct" : "Not quite"),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, v.headline)),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, v.feedback))) : null);
+        }))),
+    fuelAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "The same mess is where its flaws come from." }, "AI learned from messy human data, so it also picks up the weird patterns, biases, and bad arguments baked into it.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: dataComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("tokens"), label: "Next: Tokens" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: fuelAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: AI is Math" })
   );
 }
 function HowAIReadsSection(props) {
@@ -4748,7 +4660,7 @@ function TrainingSection(props) {
     stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training is when the model learns. Chatting is when it uses what it learned." }, "Once training stops, the model is frozen. It doesn’t pick up new facts from your conversation. It’s running on what it already knows.") : null,
     /*#__PURE__*/React.createElement(BodyP, null, "That build happens once. Training, everything you just walked through, is a one-time job. But the model it produces runs every time you ask, and it never looks the answer up. It predicts it, one word at a time. That running half has a name, inference, and it’s what the rest of this section is about."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: The Context Window" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 function OpenerInsideSection(props) {
@@ -6181,7 +6093,7 @@ function OpenerAnswersSection(props) {
     whatYoullLearnClosing: [],
     question: "Once the model is built, how does it turn my prompt into an answer?",
     nextLessonId: "prompt",
-    nextLessonLabel: "Next: The Context Window",
+    nextLessonLabel: "Next: Context Window",
     completeAndNavigate: props.completeAndNavigate
   });
 }

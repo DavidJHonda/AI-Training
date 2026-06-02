@@ -1230,7 +1230,7 @@ const SECTION_META = {
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "THE LONG ROAD", label: "How We Got Here", icon: "\uD83D\uDCDC" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "Rules vs Patterns", icon: "\u26A1" },
-  norules: { kicker: "NOBODY PROGRAMMED THIS", label: "Why AI Is Hard to Control", icon: "\uD83D\uDCE6" },
+  norules: { kicker: "NOBODY PROGRAMMED THIS", label: "Hard to Control", icon: "\uD83D\uDCE6" },
   data: { kicker: "IT NEEDS DATA TO LEARN", label: "AI's Fuel", icon: "\u26FD" },
   openerinside: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   tokens: { kicker: "BEFORE THE MATH", label: "Tokens", icon: "\uD83E\uDDE9" },
@@ -1241,7 +1241,7 @@ const SECTION_META = {
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
-  prompt: { kicker: "WHAT THE MODEL SEES", label: "Your Input & the Context Window", icon: "\u2709\uFE0F" },
+  prompt: { kicker: "WHAT THE MODEL SEES", label: "The Context Window", icon: "\u2709\uFE0F" },
   probability: { kicker: "ONE WORD AT A TIME", label: "Probability", icon: "\uD83C\uDFB2" },
   patterns: { kicker: "ONE IDEA EXPLAINS THE REST", label: "Patterns Are Weights", icon: "\uD83E\uDDEC" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
@@ -1252,7 +1252,7 @@ const SECTION_META = {
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
   temperature: { kicker: "THE VARIATION DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
-  documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Whole Document Trap", icon: "\uD83D\uDCC4" },
+  documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "IT FEELS HUMAN", label: "Mind Trap", icon: "\uD83E\uDEE5" },
@@ -3167,7 +3167,7 @@ function AIvsCodeSection(props) {
       missingOptions: [
         { label: "Same recipe at sea level", correct: false, hint: "Sea level is exactly what the rule was written for, so nothing trips it up. Look for the option that changes the conditions." },
         { label: "Same recipe at high altitude", correct: true, headline: "Altitude breaks it.", feedback: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently." },
-        { label: "Same oven, same kitchen", correct: false, hint: "Nothing has changed here, so the rule still fits. Look for the option where the surroundings shift." }
+        { label: "Doubling the batch in the same oven", correct: false, hint: "A bigger batch is a real change, but each tray still bakes at 350° for 30 minutes. The amount doesn’t change what the rule depends on; the conditions do." }
       ],
       patternView: "AI has seen recipes baked at sea level, at altitude, in dry kitchens and humid ones. It learned that the right time and temperature depend on conditions, not on one fixed instruction. So it can adjust the answer to your kitchen instead of repeating a single rule."
     },
@@ -3243,15 +3243,16 @@ function AIvsCodeSection(props) {
           var picked = rulesAnswers[si];
           var answered = picked !== undefined;
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "16px 20px", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.8, color: "#1e3a5f" } },
-                /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "IF"), " ", sc.ruleIf, /*#__PURE__*/React.createElement("br", null),
-                /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "THEN"), " ", sc.ruleThen)),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "16px 20px" } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.8, color: "#1e3a5f" } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "IF"), " ", sc.ruleIf, /*#__PURE__*/React.createElement("br", null),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#1e40af" } }, "THEN"), " ", sc.ruleThen))),
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",
               statement: sc.missingQuestion,
-              questionNumber: si + 1,
               totalQuestions: scenarios.length,
               options: sc.missingOptions,
               picked: picked != null ? picked : undefined,
@@ -3262,9 +3263,9 @@ function AIvsCodeSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, sc.patternView)) : null);
         })),
       rulesAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "A rule fits one situation. Patterns fit many.", body: "Each rule worked until reality added a variable it never knew about. AI leans on patterns from countless examples, so it can bend where a fixed rule snaps." }) : null),
-    rulesAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI uses patterns learned from examples. Same input, different machine — and harder edges to predict.") : null,
+    rulesAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI uses patterns learned from examples. Same input, very different machine.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: rulesAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Why AI Is Hard to Control" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: rulesAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Hard to Control" })
   );
 }
 function TypingAICard(props) {
@@ -3363,10 +3364,7 @@ function BlackBoxSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "norules" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here is the strange truth at the center of how AI works: no one wrote a rule for every behavior. Not the engineers who built it, not the researchers who study it, not even the company that ships it."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "That changes everything about how it can be controlled. ", /*#__PURE__*/React.createElement("strong", null, "AI is something people trained."), " Trained behavior is harder to predict, harder to inspect, and harder to lock down than written code. And sometimes, it\u2019s much harder to control."
+      "You just saw the shift: AI runs on patterns it learned, not rules someone wrote. That\u2019s exactly what makes it hard to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written code."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
     ),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/no-one-wrote-the-rules.jpg",
@@ -4534,7 +4532,7 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, null,
       "Common is not neutral. Frequent is not fair. Questioning the default is the skill."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Whole Document Trap" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Document Trap" })
   );
 }
 function TrainingSection(props) {
@@ -4727,7 +4725,7 @@ function TrainingSection(props) {
     stepsRevealed >= steps.length ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Training is when the model learns. Chatting is when it uses what it learned." }, "Once training stops, the model is frozen. It doesn’t pick up new facts from your conversation. It’s running on what it already knows.") : null,
     /*#__PURE__*/React.createElement(BodyP, null, "That build happens once. Training, everything you just walked through, is a one-time job. But the model it produces runs every time you ask, and it never looks the answer up. It predicts it, one word at a time. That running half has a name, inference, and it’s what the rest of this section is about."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Your Input" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: stepsRevealed >= steps.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: The Context Window" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 function OpenerInsideSection(props) {
@@ -6158,7 +6156,7 @@ function OpenerAnswersSection(props) {
     whatYoullLearnClosing: [],
     question: "Once the model is built, how does it turn my prompt into an answer?",
     nextLessonId: "prompt",
-    nextLessonLabel: "Next: Your Input",
+    nextLessonLabel: "Next: The Context Window",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -12409,7 +12407,7 @@ function TestYourselfSection(props) {
     question: "A model has 70 billion parameters. What are those parameters?",
     options: ["The number of facts it has memorized", "Tiny internal numbers that were adjusted during training; they store the patterns the model learned", "The number of words in its training data", "Settings engineers manually configured"],
     correct: 1,
-    section: "Why AI Is Hard to Control",
+    section: "Hard to Control",
     review: "norules",
     explain: "Parameters are billions of internal numbers nudged during training. Each wrong prediction tweaked them slightly. After trillions of tweaks, the numbers encode grammar, facts, style, and tone. No human wrote any of them.",
     pitfalls: {

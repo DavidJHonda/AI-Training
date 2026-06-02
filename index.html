@@ -3166,10 +3166,9 @@ function AIvsCodeSection(props) {
       missingQuestion: "What could break this rule?",
       missingOptions: [
         { label: "Same recipe at sea level", correct: false, hint: "Sea level is exactly what the rule was written for, so nothing trips it up. Look for the option that changes the conditions." },
-        { label: "Same recipe at high altitude", correct: true, headline: "Altitude breaks it.", feedback: "The rule knows temperature and time. It does not know where the kitchen is. High altitude changes air pressure and moisture, so the same recipe can behave differently." },
+        { label: "Same recipe at high altitude", correct: true, headline: "Altitude breaks it.", feedback: "The rule knows temperature and time, not where the kitchen is, so high altitude changes the air pressure and moisture and the rule misses it. A pattern catches what the rule can’t: AI has seen recipes baked at sea level, at altitude, in dry kitchens and humid ones, so it learned the right time and temperature depend on conditions, not one fixed instruction. It adjusts to your kitchen instead of repeating a single rule." },
         { label: "Doubling the batch in the same oven", correct: false, hint: "A bigger batch is a real change, but each tray still bakes at 350° for 30 minutes. The amount doesn’t change what the rule depends on; the conditions do." }
-      ],
-      patternView: "AI has seen recipes baked at sea level, at altitude, in dry kitchens and humid ones. It learned that the right time and temperature depend on conditions, not on one fixed instruction. So it can adjust the answer to your kitchen instead of repeating a single rule."
+      ]
     },
     {
       ruleIf: "meat is brown",
@@ -3177,10 +3176,9 @@ function AIvsCodeSection(props) {
       missingQuestion: "What could break this rule?",
       missingOptions: [
         { label: "Beef burger on a hot grill", correct: false, hint: "Beef can be safe once it is brown, so the color rule mostly holds. Look for the food where brown outside does not mean done inside." },
-        { label: "Chicken breast in a pan", correct: true, headline: "Chicken breaks it.", feedback: "The rule only checks color. That might work for some beef, but chicken can look brown outside and still be unsafe inside." },
+        { label: "Chicken breast in a pan", correct: true, headline: "Chicken breaks it.", feedback: "The rule only checks color. That works for some beef, but chicken can look brown outside and still be unsafe inside, so the rule misses it. A pattern catches what the rule can’t: AI has seen cooking guides for beef, chicken, pork, and fish, so it learned that “cooked” means something different for each one. Chicken needs an internal temperature, fish flakes apart, beef can be brown and still rare. It adapts to what you’re actually cooking instead of trusting one color rule where it’s dangerous." },
         { label: "Steak with a browned outside", correct: false, hint: "A browned steak can still be safe, so color is not the trap. Find the food where brown can hide a raw center that matters." }
-      ],
-      patternView: "AI has seen cooking guides for beef, chicken, pork, and fish. It learned that “cooked” means different things for each one. Chicken needs an internal temperature, fish flakes apart, beef can be brown and still rare. So AI adapts its answer to what you’re actually cooking instead of applying one color rule where that rule is dangerous."
+      ]
     },
     {
       ruleIf: "it smells done",
@@ -3188,10 +3186,9 @@ function AIvsCodeSection(props) {
       missingQuestion: "What could break this rule?",
       missingOptions: [
         { label: "Garlic bread under the broiler", correct: false, hint: "Broiled food cooks fast and in plain view, so smell tracks doneness fine. Look for the dense food that smells done early." },
-        { label: "Banana bread in a closed oven", correct: true, headline: "Dense bread breaks it.", feedback: "The rule only notices smell. Dense foods can smell finished long before the center is cooked." },
+        { label: "Banana bread in a closed oven", correct: true, headline: "Dense bread breaks it.", feedback: "The rule only notices smell, and dense foods can smell finished long before the center is cooked, so the rule misses it. A pattern catches what the rule can’t: AI has seen pastries, dense breads, custards, and broiled foods, so it learned that smell only signals doneness for some of them. Dense batters need a center check, custards need temperature, broiler items need eyes on them. It matches the right doneness check to the dish instead of trusting one signal everywhere." },
         { label: "Toast you are watching closely", correct: false, hint: "You are watching it, so you are not trusting smell alone. Find the case where smell is the only signal and it lies." }
-      ],
-      patternView: "AI has seen pastries, dense breads, custards, and broiled foods. It learned that smell only signals doneness for some of them. Dense batters need time and a center check, custards need temperature, broiler items need eyes on them. So AI matches the right doneness check to the dish instead of trusting one signal across foods that don’t fit it."
+      ]
     }
   ];
   var rulesAllAnswered = Object.keys(rulesAnswers).length >= scenarios.length;
@@ -3257,10 +3254,7 @@ function AIvsCodeSection(props) {
               options: sc.missingOptions,
               picked: picked != null ? picked : undefined,
               onAnswer: function(idx) { setRulesAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
-            }),
-            answered ? /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid #e9d5ff", borderRadius: 10, padding: "12px 16px", marginTop: 16, animation: "fadeIn 0.3s ease" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 } }, "AI view based on patterns"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, sc.patternView)) : null);
+            }));
         })),
       rulesAllAnswered ? /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "A rule fits one situation. Patterns fit many.", body: "Each rule worked until reality added a variable it never knew about. AI leans on patterns from countless examples, so it can bend where a fixed rule snaps." }) : null),
     rulesAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI finds patterns no one wrote down." }, "That’s the whole shift. Classic software runs the rules you gave it. AI uses patterns learned from examples. Same input, very different machine.") : null,

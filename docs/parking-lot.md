@@ -13,6 +13,18 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "Patterns Are Weights" — the whole lesson (`PatternsSection`)
+
+- **Origin:** Understand AI part, sat between Context Window and Probability (`PatternsSection`, route id `patterns`), removed 2026-06-03. It was one of the first three lessons developed; once the surrounding lessons (Rules vs Patterns, Training, Attention, Layers) became robust, most of it was redundant. Its one unique idea — *training **writes** patterns into the weights, inference **reads** them back out* — was folded into the opening of the Probability lesson instead. The term "weights" now debuts in Training (its natural home), so this lesson no longer had to carry it.
+- **Possible destination:** individual pieces are reusable if a dedicated "what a pattern is" beat is ever wanted again. The strongest reusable units, in priority order:
+  - **"What Pattern Dynamic Is This?" TRY IT quiz** — two scenarios (a fabricated-citation hallucination → "the pattern of how citations look activated, it doesn't know if the paper exists"; vague vs. specific essay prompt → "specific prompts activate specific patterns"). Good fit for the Traps chapter (hallucination) or the prompting lessons.
+  - **Rule / Memory / Pattern showcase** — three tinted cards contrasting a calculator rule, a search lookup, and a soft AI pattern ("flexes with context, sometimes too much"). Overlaps the Black Box lesson's Rule/Pattern/Guardrail quiz, so only restore if that framing is wanted in a different spot.
+  - **"The Same Pattern, Two Moments" SEE IT** — a 3-step reveal (good→morning written into weights during training; stored as connection strengths; read back at inference). The training-writes/inference-reads idea it teaches now lives in the Probability intro, so this is the most redundant piece.
+- **Supporting state it needs if restored:** `bridgePanel` (useLocalStorage key `seeit-patterns-bridgePanel`) for the three-step reveal, and `picks` (useState) for the scenario quiz. Both are self-contained to the function.
+- **Full source:** in git history at the commit before this one, the full `PatternsSection` function (search anchor: `function PatternsSection`). The lesson also had a meta entry (`patterns: { kicker: "ONE IDEA EXPLAINS THE REST", label: "Patterns Are Weights" }`), a `sections` array slot, a component-map entry (`patterns: PatternsSection`), and an overview group ("WHAT TRAINING LEFT BEHIND") in `OpenerAnswersSection` — all removed in the same commit.
+
+---
+
 ## "What goes in the context window" — click-to-reveal SEE IT
 
 - **Origin:** Context Window lesson (`PromptSection`), removed 2026-06-03 and replaced by the `illustrations/context-window.jpg` illustration, which makes the same four-component point plus the context-window → model → answer flow and the "outside the window is out of reach" idea.

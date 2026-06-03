@@ -5016,6 +5016,27 @@ function NameThatDrinkTryIt(props) {
 function EmbeddingsSection(props) {
   var E = React.createElement;
   var _mc = useState(false), meaningComplete = _mc[0], setMeaningComplete = _mc[1];
+  var tpDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark"];
+  var tpDrinks = [
+    { emoji: "🥤", name: "Coke", vals: [9, 1, 10, 2, 3, 8], pillBg: "#fbdfe2", pillFg: "#e6394d" },
+    { emoji: "☕", name: "Black Coffee", vals: [1, 9, 0, 9, 8, 10], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
+  ];
+  var tpCols = "minmax(116px, 150px) repeat(6, minmax(50px, 1fr))";
+  var tpHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "1.5px" };
+  var tasteProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 16px", background: "#f3f1fa", borderRadius: 20, padding: "28px 32px" } },
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, letterSpacing: "2.43px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 18 } }, "Taste Profile · Coke vs. Black Coffee"),
+    E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflowX: "auto" } },
+      E("div", { style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "center", gap: 8, padding: "16px 24px", borderBottom: "1px solid #ece4f1", minWidth: 470 } },
+        E("div", { style: tpHead }, "Dimension"),
+        tpDims.map(function(d, i) { return E("div", { key: i, style: { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" } }, d); })),
+      tpDrinks.map(function(dr, di) {
+        return E("div", { key: di, style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "center", gap: 8, padding: "14px 24px", borderTop: di === 0 ? "none" : "1px solid #f0ecf6", minWidth: 470 } },
+          E("div", null,
+            E("span", { style: { background: dr.pillBg, color: dr.pillFg, fontWeight: 700, fontSize: 14, padding: "6px 12px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap" } }, dr.emoji, dr.name)),
+          dr.vals.map(function(v, vi) {
+            return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: "#14110b" } }, v);
+          }));
+      })));
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
@@ -5024,7 +5045,7 @@ function EmbeddingsSection(props) {
     "It\u2019s the same as your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
   E("img", {
     src: "illustrations/embeddings.jpg",
-    alt: "Four high-school students in shirts and ties at a cafeteria table; one standing student sneaks a fry from a friend\u2019s tray",
+    alt: "Four high-school students in shirts and ties at a cafeteria table; one standing student is comically loaded with handfuls of fries",
     style: { display: "block", width: "100%", maxWidth: 820, margin: "8px auto 24px", borderRadius: 16 }
   }),
   E(BodyP, null,
@@ -5036,32 +5057,12 @@ function EmbeddingsSection(props) {
     E("strong", null, "simple example by hand"),
     ", labeling each dimension ourselves so you can see how a list of numbers can describe meaning."),
   E(BodyP, null,
-    "Picture a bottle of Coke and a cup of black coffee. We can rate each one on a few dimensions."),
-  E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 16px", background: "#f3f1fa", borderRadius: 20, padding: "28px 32px" } },
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, letterSpacing: "2.43px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 18 } }, "Taste Profile \u00B7 Coke vs. Black Coffee"),
-    E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflow: "hidden" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: "minmax(170px, 220px) 1fr 1fr", columnGap: 40, padding: "18px 28px", borderBottom: "1px solid #ece4f1", alignItems: "center" } },
-        E("div", { style: { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "2.2px" } }, "Dimension"),
-        E("div", { style: { transform: "translateX(-48px)" } },
-          E("span", { style: { background: "#fbdfe2", color: "#e6394d", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\uD83E\uDD64", "Coke")),
-        E("div", null,
-          E("span", { style: { background: "#e7dcf4", color: "#7b3aa6", fontWeight: 700, fontSize: 15, padding: "7px 14px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 8 } }, "\u2615", "Black Coffee"))),
-      [["Sweetness", 9, 1], ["Bitterness", 1, 9], ["Fizziness", 10, 0], ["Heat Level", 2, 9], ["Caffeine", 3, 8], ["Color darkness", 8, 10]].map(function(row, i) {
-        var bar = function(val, fill, track, shift) {
-          return E("div", { style: { display: "flex", alignItems: "center", gap: 14, transform: shift ? "translateX(-48px)" : undefined } },
-            E("div", { style: { flex: 1, height: 10, background: track, borderRadius: 999, overflow: "hidden" } },
-              E("div", { style: { width: (val / 10 * 100) + "%", height: "100%", background: fill, borderRadius: 999, transition: "width 0.3s" } })),
-            E("span", { style: { fontSize: 15, fontWeight: 800, color: "#14110b", minWidth: 24, textAlign: "right" } }, val));
-        };
-        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "minmax(170px, 220px) 1fr 1fr", columnGap: 40, padding: "15px 28px", borderBottom: i < 5 ? "1px solid #ece6cf" : "none", alignItems: "center" } },
-          E("div", { style: { fontSize: 15, color: "#14110b", fontWeight: 500 } }, row[0]),
-          bar(row[1], "#e6394d", "#fbe7ea", true),
-          bar(row[2], "#7b3aa6", "#f3eaf8"));
-      }))),
+    "You and your friends decide to rate Coke and a cup of black coffee based on six dimensions. Here are your results."),
+  tasteProfile,
   E(BodyP, { style: { marginTop: 18 } },
-    "Now you can see how numbers can describe something. In this example, Coke\u2019s vector is ",
+    "This is how numbers can describe meaning. Coke\u2019s numbers are ",
     E("strong", null, "[9, 1, 10, 2, 3, 8]"),
-    ". The order matters: sweetness, bitterness, fizziness, heat, caffeine, darkness."),
+    ". The order matters because they describe a specific dimension: sweetness, bitterness, fizziness, heat, caffeine, darkness."),
   E(BodyP, null,
     "A row of numbers in a specific order is called a ",
     E("strong", null, "vector"),

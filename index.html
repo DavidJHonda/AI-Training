@@ -5130,13 +5130,13 @@ function VectorSpaceSection(props) {
       ". Coke and Pepsi differ in only one slot (sweet), so they sit close together in vector space. Coke and Black Coffee differ in nearly every slot, so they sit far apart."),
 
     E(BodyP, null,
-      "Close doesn\u2019t always mean identical. It often means same category, related role, or used in similar contexts."),
+      "Close doesn\u2019t always mean identical."),
 
     E(SectionKicker, null, "Why does similarity matter?"),
     E(BodyP, null,
-      "Think of vector space like a city map. Things that are related are in the same neighborhood. A real model\u2019s map is far more complicated, but the idea holds: the \u2018coordinates\u2019 on it are the thousands of numbers in each token\u2019s vector. The more similar those values are, the closer the tokens sit in the model\u2019s map."),
+      "Think of vector space like a city map. Things that are related are in the same neighborhood. A real model\u2019s map is far more complicated, but the idea holds: the \u201ccoordinates\u201d on it are the thousands of numbers in each token\u2019s vector. The more similar those values are, the closer the tokens sit in the model\u2019s map."),
     E(BodyP, null,
-      "But there\u2019s more. As you\u2019ve seen, a tool like ChatGPT types its response word by word. This concept is called \u201Cprediction,\u201D and where a token sits in vector space is a key part of that process."),
+      "But there\u2019s more. As you\u2019ve seen, a tool like ChatGPT types its response word by word. This concept is called ", E("strong", null, "prediction"), ", and where a token sits in vector space is a key part of that process. You\u2019ll learn about this soon."),
     E(BodyP, null,
       "Real vector spaces have hundreds or thousands of dimensions, so the picture below is flattened to 2D for human eyes. It\u2019s a simple illustration of vector space, not an exact map."),
     E("img", {
@@ -5144,6 +5144,8 @@ function VectorSpaceSection(props) {
       alt: "Four labeled neighborhoods (Sodas, Coffees, Animals, Vehicles) with similar words clustered close together and unrelated words far apart",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
+    E(BodyP, null,
+      "Note how the distance between similar words, soda and coffee, is only 0.52. But the difference between the two and vehicles is much higher."),
     E(LessonRule, null),
     E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("insidethemodel"); }, label: "Next: The Black Box" }));
 }
@@ -5199,8 +5201,17 @@ function MatchTermsTryIt(props) {
   },
     E(ActivityInstruction, null, "Match each term to its definition."),
     E(InnerCard, null,
-      done ? E("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center" } },
-        E("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "All five matched.")) :
+      done ? E("div", null,
+        E("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "14px 20px", textAlign: "center", marginBottom: 16 } },
+          E("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.6, fontWeight: 600 } }, "All five matched.")),
+        E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+          PAIRS.map(function(p) {
+            return E("div", { key: p.term, style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 8, padding: "12px 14px" } },
+              E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } },
+                E("span", { style: { color: "#10b981", fontSize: 14, flexShrink: 0 } }, "✓"),
+                E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, p.term)),
+              E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, paddingLeft: 22 } }, p.definition));
+          }))) :
       E("div", null,
         E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 } },
           E("div", null,
@@ -5226,7 +5237,7 @@ function BehindTheNumbersSection(props) {
       "AI is different. When you give ChatGPT a prompt and it writes you a poem, nobody (not even the people who built it) can point to a specific spot inside the model and say \u201Cthat\u2019s where the rhyme came from.\u201D You can study its behavior from outside, but you can\u2019t crack it open and read the logic like normal software."),
 
     E(BodyP, null,
-      "So what IS inside? Learned numbers. Billions of them, adjusted during training until they helped the model predict better. This page names them."),
+      "So what IS inside? Learned numbers. Billions of them, adjusted during training until they helped the model predict better."),
 
     E("img", {
       src: "illustrations/black-box-1.jpg",
@@ -5240,7 +5251,7 @@ function BehindTheNumbersSection(props) {
 
     E(SectionKicker, null, "THE PIECES, INSIDE ONE BOX"),
     E(BodyP, null,
-      "You’ve already met almost everything in here. Four of the five pieces come straight from the taste test: dimensions, values, the embedding vector, and the embedding table. They were never separate topics; they were the first stops inside this one model."),
+      "You’ve already met almost everything in here. Four of the five pieces come straight from the taste test: dimensions, values, the embedding vector, and the embedding table. This picture shows a summary of the different pieces. One thing to notice. The Dimensions aren’t named, which is why it’s called the Black Box. We don’t know what the model is tracking with each dimension."),
 
     E("img", {
       src: "illustrations/black-box-2.jpg",
@@ -5252,12 +5263,10 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "The fifth piece is new. When a model has 70 billion parameters, that means 70 billion stored learned numbers, not 70 billion facts. A few sit in the embedding table; most are in the later layers. They are what training leaves behind, and they shape how the model handles grammar, style, facts, context, and patterns."),
 
-    E(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
-
     E(BodyP, null,
-      "Those numbers came out of training, not from a person. That’s the ",
-      E("strong", null, "Black Box"),
-      ": you can see what goes in and what comes out, but the numbers inside don’t have names. There isn’t a slot you could point to and say “this one stores sweetness” or “this one stores Coke-ness.” The slots are unlabeled, and that’s true for every concept the model knows."),
+      "These definitions are important as we dive into deeper topics. So, here’s a quick quiz to verify your understanding."),
+
+    E(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
 
     E(KeyInsight, { lead: "The model is learned numbers, not written rules." },
       "Humans design the structure. Training learns the values. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),

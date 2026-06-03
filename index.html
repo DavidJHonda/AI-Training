@@ -5145,50 +5145,66 @@ function VectorSpaceSection(props) {
 
 function MatchTermsTryIt(props) {
   var E = React.createElement;
-  var TERMS = ["Dimension", "Value", "Embedding vector", "Embedding table", "Parameter"];
-  var QUESTIONS = [
-    { def: "The lookup table that maps token IDs to starting vectors.", correct: "Embedding table", headline: "It\u2019s the embedding table.", feedback: "Token IDs go in, starting vectors come out. That lookup table is the embedding table." },
-    { def: "One slot in a vector.", correct: "Dimension", headline: "It\u2019s a dimension.", feedback: "Each slot in a vector is one dimension. A vector with 300 slots has 300 dimensions." },
-    { def: "A stored learned number adjusted during training.", correct: "Parameter", headline: "It\u2019s a parameter.", feedback: "Parameters are the learned numbers training adjusts. A model\u2019s size is counted in parameters." },
-    { def: "The number inside one slot.", correct: "Value", headline: "It\u2019s a value.", feedback: "The slot is the dimension. The number sitting in it is the value." },
-    { def: "The full number profile for a token.", correct: "Embedding vector", headline: "It\u2019s the embedding vector.", feedback: "All the values together, the token\u2019s full number profile, make up its embedding vector." }
+  var PAIRS = [
+    { term: "Embedding table", definition: "The lookup table that maps token IDs to starting vectors." },
+    { term: "Dimension", definition: "One slot in a vector." },
+    { term: "Parameter", definition: "A stored learned number adjusted during training." },
+    { term: "Value", definition: "The number inside one slot." },
+    { term: "Embedding vector", definition: "The full number profile for a token." }
   ];
-  var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
-  var allAnswered = Object.keys(answers).length >= QUESTIONS.length;
-  useEffect(function() { if (allAnswered && props && props.onComplete) props.onComplete(); }, [allAnswered]);
+  function shuffle(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = a[i]; a[i] = a[j]; a[j] = tmp; } return a; }
+  var shuffledRef = useRef({ terms: shuffle(PAIRS), defs: shuffle(PAIRS) });
+  var _sel = useState(null), selected = _sel[0], setSelected = _sel[1];
+  var _m = useState([]), matched = _m[0], setMatched = _m[1];
+  var _w = useState(false), wrong = _w[0], setWrong = _w[1];
+  var done = matched.length === PAIRS.length;
+  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
+  var handlePick = function(term, side) {
+    if (matched.includes(term)) return;
+    setWrong(false);
+    if (!selected) { setSelected({ term: term, side: side }); return; }
+    if (selected.side === side) { setSelected(selected.term === term ? null : { term: term, side: side }); return; }
+    if (selected.term === term) {
+      setMatched(function(prev) { return prev.concat([term]); });
+      setSelected(null);
+    } else {
+      setWrong(true);
+      setSelected(null);
+    }
+  };
+  var colHead = { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--inkMuted)", marginBottom: 8 };
+  var renderBtn = function(item, side) {
+    var term = item.term;
+    var isMatched = matched.includes(term);
+    var isSelected = selected && selected.side === side && selected.term === term;
+    var bg = isMatched ? "#ecfdf5" : isSelected ? "#eef2ff" : "var(--card)";
+    var border = isMatched ? "1px solid #86efac" : isSelected ? "2px solid var(--primary)" : "1px solid var(--rule)";
+    return E("button", {
+      key: term,
+      onClick: function() { handlePick(term, side); },
+      disabled: isMatched,
+      style: { background: bg, border: border, borderRadius: 8, padding: "10px 14px", fontSize: side === "term" ? 14 : 13, fontWeight: side === "term" ? 700 : 400, color: side === "term" ? "var(--ink)" : "var(--inkSoft)", cursor: isMatched ? "default" : "pointer", width: "100%", textAlign: "left", marginBottom: 6, lineHeight: 1.5, transition: "all 0.2s", display: "flex", alignItems: "center", gap: 8 }
+    }, isMatched ? E("span", { style: { color: "#10b981", fontSize: 14, flexShrink: 0 } }, "\u2713") : null, side === "term" ? term : item.definition);
+  };
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Match the Names",
-    action: E(ActivityCounter, { count: Object.keys(answers).length, total: QUESTIONS.length })
+    action: E(ActivityCounter, { count: matched.length, total: PAIRS.length })
   },
-    E(ActivityInstruction, null, "Match each definition to one of the five terms. We\u2019ll explain each as you go."),
-    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      QUESTIONS.map(function(item, i) {
-        var answered = answers[i] !== undefined;
-        var picked = answers[i];
-        var correct = answered && picked === item.correct;
-        function TermPill(term) {
-          var isPicked = picked === term;
-          return E(FeedbackPill, {
-            key: term,
-            answered: answered,
-            isCorrect: term === item.correct,
-            isPicked: isPicked,
-            label: term,
-            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, term]])); }); }
-          });
-        }
-        return E(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          prompt: "\u201C" + item.def + "\u201D",
-          answered: answered,
-          correct: correct,
-          headline: item.headline,
-          feedback: answered ? item.feedback : null
-        }, TERMS.map(TermPill));
-      })));
+    E(ActivityInstruction, null, "Match each term to its definition."),
+    E(InnerCard, null,
+      done ? E("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: 20, textAlign: "center" } },
+        E("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.7, fontWeight: 600 } }, "All five matched.")) :
+      E("div", null,
+        E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 } },
+          E("div", null,
+            E("div", { style: colHead }, "Terms"),
+            shuffledRef.current.terms.map(function(item) { return renderBtn(item, "term"); })),
+          E("div", null,
+            E("div", { style: colHead }, "Definitions"),
+            shuffledRef.current.defs.map(function(item) { return renderBtn(item, "def"); }))),
+        wrong ? E("div", { style: { marginTop: 14, padding: "10px 14px", background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 8, fontSize: 13, fontWeight: 600, color: "#dc2626", display: "flex", alignItems: "center", gap: 8 } }, E("span", null, "\u26a0"), "Not a match. Try again.") : null)));
 }
 function BehindTheNumbersSection(props) {
   var E = React.createElement;
@@ -5210,7 +5226,7 @@ function BehindTheNumbersSection(props) {
     E("img", {
       src: "illustrations/black-box-1.jpg",
       alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules",
-      style: { display: "block", width: "100%", maxWidth: 560, margin: "20px auto", borderRadius: 12 }
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 }
     }),
 
     E(SectionKicker, null, "HOW BIG THIS GETS IN A REAL MODEL"),

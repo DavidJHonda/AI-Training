@@ -3627,31 +3627,6 @@ function HowAIReadsSection(props) {
     }
   ];
 
-  var challengesContainerRef = useRef(null);
-  var challengesTitleRefs = useRef([]);
-  var challengesCardRefs = useRef([]);
-  var _cps = useState(null), challengesPaths = _cps[0], setChallengesPaths = _cps[1];
-  var _crs = useLocalStorage("seeit-howaireads-challenges", {}), challengesRevealed = _crs[0], setChallengesRevealed = _crs[1];
-  var revealChallenge = function(i) { setChallengesRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  useEffect(function() {
-    function calc() {
-      var c = challengesContainerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 3; i++) {
-        var t = challengesTitleRefs.current[i], d = challengesCardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setChallengesPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
-
   var solutionsContainerRef = useRef(null);
   var solutionsTitleRefs = useRef([]);
   var solutionsCardRefs = useRef([]);
@@ -3696,13 +3671,48 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "attention" }),
 
     E(BodyP, null,
-      "You’ve seen text become tokens, token IDs point to embedding vectors, and vectors sit near related meanings. But a token’s starting vector isn’t enough. The word ",
-      E("strong", null, "light"),
-      " means something different in “turn off the light” than in “this bag is light.” This lesson is about how the model updates a token’s vector using the other tokens around it. (Real models do this with tokens; we’ll use words in the visuals so the idea is easier to follow.)"
+      "You’ve learned how text becomes tokens and how the vectors, with their dimensions and values, establish meaning. But a token’s starting vector isn’t enough to establish meaning."
     ),
 
     E(BodyP, null,
-      "Before that update became possible, AI engineers had to solve a fundamental issue: the way AI read text in sequential order."
+      "Meaning depends on the words around a token. Here are three situations where a starting vector, on its own, falls short."
+    ),
+
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 16, marginBottom: 28 } },
+      E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderTop: "3px solid #3b82f6", borderRadius: 12, padding: 20 } },
+        E("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 12 } },
+          E("div", { style: { width: 28, height: 28, borderRadius: "50%", background: "#3b82f6", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, flexShrink: 0 } }, "1"),
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "#3b82f6" } }, "Different Meanings")),
+        E("div", { style: { marginBottom: 12 } },
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.85 } },
+            "Please turn on the ", E("strong", { style: { color: "#3b82f6", fontWeight: 800 } }, "light"), " so I can find my keys in the dark."),
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.85 } },
+            "I packed only a few things so my bag would stay ", E("strong", { style: { color: "#3b82f6", fontWeight: 800 } }, "light"), " for the hike.")),
+        E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } },
+          "Light has different meanings based on the words around it. If the starting vector represents the weight, the other sentence has the wrong meaning.")),
+      E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderTop: "3px solid #10b981", borderRadius: 12, padding: 20 } },
+        E("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 12 } },
+          E("div", { style: { width: 28, height: 28, borderRadius: "50%", background: "#10b981", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, flexShrink: 0 } }, "2"),
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "#10b981" } }, "Pointing Words")),
+        E("div", { style: { marginBottom: 12 } },
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.85 } },
+            "The trophy didn’t fit into the suitcase because ", E("strong", { style: { color: "#10b981", fontWeight: 800 } }, "it"), " was too ", E("strong", { style: { color: "#10b981", fontWeight: 800 } }, "large"), "."),
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.85 } },
+            "The trophy didn’t fit into the suitcase because ", E("strong", { style: { color: "#10b981", fontWeight: 800 } }, "it"), " was too ", E("strong", { style: { color: "#10b981", fontWeight: 800 } }, "small"), ".")),
+        E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } },
+          "Do you see how the sentence changes meaning, and we only changed the last word? In one case, “it” means trophy. In the other, it means suitcase.")),
+      E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderTop: "3px solid #f59e0b", borderRadius: 12, padding: 20 } },
+        E("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 12 } },
+          E("div", { style: { width: 28, height: 28, borderRadius: "50%", background: "#f59e0b", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, flexShrink: 0 } }, "3"),
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "#f59e0b" } }, "Words Far Apart")),
+        E("div", { style: { marginBottom: 12 } },
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.85 } },
+            "The cat sat on the mat during the May rainstorm because ", E("strong", { style: { color: "#f59e0b", fontWeight: 800 } }, "it"), " was tired.")),
+        E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } },
+          "What does the word “it” refer to: cat, mat, May, or rainstorm?"))),
+
+    E(BodyP, null,
+      "These problems share one root: how early AI read. It took text one word at a time, in sequential order."
     ),
 
     E("div", {
@@ -3781,79 +3791,16 @@ function HowAIReadsSection(props) {
     ),
 
     E(BodyP, null,
-      "At first glance that seems fine. It\u2019s how humans read too. But we have an advantage: we intuitively know how words relate, so we catch that ",
+      "At first glance that seems fine. It\u2019s how humans read too. But we read with an advantage: in the cat sentence above, we instantly know ",
       E("strong", null, "it"),
-      " means ",
+      " points back to ",
       E("strong", null, "cat"),
-      " without effort. A computer reading strictly in order doesn\u2019t. By the time it reaches ",
+      ", even ten words later. A computer reading strictly in order doesn\u2019t. By the time it reaches ",
       E("strong", null, "it"),
       ", the link back to ",
       E("strong", null, "cat"),
       " has faded. That\u2019s what kept the first language models from reading like we do."
     ),
-
-    E(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "The three challenges"
-    },
-      E(ActivityInstruction, null, "Click each label below to see three context problems a model has to solve."),
-      E("div", {
-        ref: challengesContainerRef,
-        style: { position: "relative" }
-      },
-        E("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 22, fontWeight: 800, marginBottom: 0 }
-        },
-          CHALLENGES.map(function(c, i) {
-            var isRevealed = !!challengesRevealed[i];
-            return E("span", {
-              key: i,
-              ref: function(el) { challengesTitleRefs.current[i] = el; },
-              onClick: function() { revealChallenge(i); },
-              style: { color: c.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, c.label);
-          })
-        ),
-        E("div", { style: { height: 40 } }),
-        challengesPaths ? E("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          challengesPaths.map(function(p, i) {
-            if (!challengesRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return E("path", {
-              key: i, d: d, fill: "none", stroke: CHALLENGES[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        E("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          CHALLENGES.map(function(c, i) {
-            var isRevealed = !!challengesRevealed[i];
-            return E("div", {
-              key: i, ref: function(el) { challengesCardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              E("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 20, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                c.examples.map(function(ex, j) {
-                  return E("div", {
-                    key: j,
-                    style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 6 }
-                  },
-                    ex.before,
-                    E("strong", { style: { color: c.color, fontWeight: 800 } }, ex.highlight),
-                    ex.after);
-                }),
-                E("div", {
-                  style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 14 }
-                }, c.explanation)));
-          })))),
 
     E(SectionKicker, null, "THE BREAKTHROUGH"),
 
@@ -4109,7 +4056,7 @@ function HowAIReadsSection(props) {
       "Attention finds which token vectors matter to each other. Transformation updates those vectors based on what\u2019s connected."),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: Object.keys(challengesRevealed).length >= 3 && Object.keys(solutionsRevealed).length >= 3,
+      ready: Object.keys(solutionsRevealed).length >= 3,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); },
       label: "Next: Layers"
     })

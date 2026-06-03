@@ -4966,22 +4966,22 @@ function NameThatDrinkTryIt(props) {
   React.useEffect(function() { if (Object.keys(drinkAnswers).length >= questions.length && props && props.onComplete) props.onComplete(); }, [drinkAnswers]);
   var questions = [
     {
-      dims: [["Sweetness", 9], ["Fizziness", 10]],
+      dims: [["Sweet", 9], ["Fizz", 10]],
       options: [
-        { label: "\uD83E\uDD64 Coke", correct: true, headline: "Right.", feedback: "High sweetness and high fizz point straight at Coke." },
+        { label: "\uD83E\uDD64 Coke", correct: true, headline: "Right.", feedback: "High sweet and high fizz point straight at Coke." },
         { label: "\u2615 Black Coffee", correct: false, headline: "Not this one.", hint: "Coffee is not sweet, and it is not fizzy. Look at those two numbers again.", feedback: "Coffee is not sweet or fizzy. Those two numbers are screaming soda." }
       ]
     },
     {
-      dims: [["Bitterness", 9], ["Heat Level", 9]],
+      dims: [["Bitter", 9], ["Heat", 9]],
       options: [
         { label: "\uD83E\uDD64 Coke", correct: false, headline: "Not this one.", hint: "Coke is not bitter, and it is served cold. These numbers say something hot and bitter.", feedback: "Coke is cold and sweet, not hot and bitter. The numbers point elsewhere." },
-        { label: "\u2615 Black Coffee", correct: true, headline: "Right.", feedback: "High bitterness and high heat is black coffee." }
+        { label: "\u2615 Black Coffee", correct: true, headline: "Right.", feedback: "High bitter and high heat is black coffee." }
       ]
     },
     {
       title: "Trick Question",
-      dims: [["Caffeine", 3], ["Fizziness", 10]],
+      dims: [["Caffeine", 3], ["Fizz", 10]],
       options: [
         { label: "\uD83E\uDD64 Coke", correct: false, headline: "Look closer.", hint: "Maybe. But check Pepsi. On just these two numbers, can you actually tell them apart?", feedback: "Coke fits, but so does Pepsi. Two numbers cannot separate them." },
         { label: "\uD83E\uDD64 Pepsi", correct: false, headline: "Look closer.", hint: "Maybe. But Coke has the exact same two numbers. Two dimensions cannot tell them apart.", feedback: "Pepsi fits, but so does Coke. Two numbers cannot separate them." },
@@ -5054,11 +5054,11 @@ function EmbeddingsSection(props) {
   E(BodyP, { style: { marginTop: 18 } },
     "This is how an AI model gives meanings to tokens. In your taste test, Coke\u2019s row of numbers is ",
     E("strong", null, "[9, 1, 10, 2, 3, 8]"),
-    ". The order matters: sweetness, bitterness, fizziness, heat, caffeine, darkness."),
+    ". The order matters: sweet, bitter, fizz, heat, caffeine, and darkness."),
   E(BodyP, null,
     "A row of numbers in a specific order like this is called a ",
     E("strong", null, "vector"),
-    ". Each slot (Sweetness, Bitterness, etc.) is a ",
+    ". Each slot (Sweet, Bitter, etc.) is a ",
     E("strong", null, "dimension"),
     ". And each number is a ",
     E("strong", null, "value"),
@@ -5071,7 +5071,7 @@ function EmbeddingsSection(props) {
     " meaning for a token."),
   E(NameThatDrinkTryIt, { onComplete: function() { setMeaningComplete(true); } }),
   E(SectionKicker, null, "DO WE NEED MORE DIMENSIONS?"),
-  E(BodyP, null, "Six dimensions were enough to tell Coke from black coffee. But they weren\u2019t enough to tell Coke from Pepsi."),
+  E(BodyP, null, "Six dimensions were enough to tell Coke from black coffee. But in the last question, they weren\u2019t enough to tell Coke from Pepsi."),
   E(BodyP, null,
     "Taste-wise they ",
     E("em", null, "do"),
@@ -5083,7 +5083,7 @@ function EmbeddingsSection(props) {
   E(BodyP, null, "Every token uses those same dimensions. Only the values change."),
   E("div", { style: { background: "var(--primaryFaint)", borderRadius: 16, padding: 24, marginTop: 16, marginBottom: 24 } },
     E("div", { style: { fontSize: 12, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700, marginBottom: 10 } }, "Real model version"),
-    E("div", { style: { fontFamily: "var(--mono)", fontSize: BOX_TEXT, fontWeight: 700, color: "#8b5cf6", lineHeight: 1.6, wordBreak: "break-all", marginBottom: 10 } }, "[0.12, -0.48, 1.03, 0.07, -0.91, 0.44, 0.18, ... thousands more]"),
+    E("div", { style: { fontFamily: "var(--mono)", fontSize: BOX_TEXT, fontWeight: 700, color: "#8b5cf6", lineHeight: 1.6, wordBreak: "break-all", marginBottom: 10 } }, "[0.12, -0.48, 1.03, 0.07, -0.91, 0.44, 0.18, -0.36, 0.81, -0.05, 0.59, -1.27, 0.33, 0.92, -0.14, 0.67, -0.72, 0.21, ... thousands more]"),
     E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, "The slots are learned during training. They don\u2019t come with clean human-readable labels.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own embedding vector?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own embedding vector with thousands of values. The model does not start with the meaning of the full word. It builds meaning from the pieces."),

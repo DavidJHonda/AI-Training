@@ -32,7 +32,7 @@ chk "literal --shadowSoft value" 1 \
   "$(grep -oF '0 4px 12px rgba(14, 10, 31, 0.05)' "$F" | wc -l | tr -d ' ')"
 chk "literal --shadowElevated value" 1 \
   "$(grep -oF '0 8px 22px rgba(14, 10, 31, 0.05)' "$F" | wc -l | tr -d ' ')"
-chk "em-dashes in copy" 7 \
+chk "em-dashes in copy" 4 \
   "$(grep -oF '—' "$F" | wc -l | tr -d ' ')"
 
 echo "----------------------------------------------------"

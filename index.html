@@ -1205,7 +1205,7 @@ function RevealSequence(props) {
 }
 const SECTION_GROUPS = [{
   label: "Start Smarter",
-  sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control"]
+  sections: ["welcome", "whydeeper", "aihistory", "youalreadyuse", "llms", "doesaithink", "whybother", "control"]
 }, {
   label: "Understand AI",
   sections: ["openerfoundations", "primer", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "inference"]
@@ -1234,6 +1234,7 @@ const SECTION_META = {
   openerfoundations: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   primer: { kicker: "THE WHOLE PICTURE", label: "AI Primer", icon: "\uD83D\uDD2E" },
   aihistory: { kicker: "THE AI LANDSCAPE", label: "What Is AI?", icon: "\uD83E\uDDEC" },
+  youalreadyuse: { kicker: "AI IS EVERYWHERE", label: "You Already Use AI", icon: "\uD83D\uDCF1" },
   llms: { kicker: "THE TECH BEHIND CHATBOTS", label: "What\u2019s an LLM?", icon: "\uD83E\uDD16" },
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "THE LONG ROAD", label: "How We Got Here", icon: "\uD83D\uDCDC" },
@@ -1468,6 +1469,66 @@ function AIHistorySection(props) {
           /*#__PURE__*/React.createElement(Takeaway, { headline: "Same question. Different games.", body: "Three asks gave three different games, while traditional software threw the same error every time. One system builds each answer, the other just retrieves." })) : null)),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealStep >= 2 && askCount >= 1, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What\u2019s an LLM?" })
+  );
+}
+function YouAlreadyUseSection(props) {
+  var MAPS_LENS = [
+    { icon: "\ud83d\udee3\ufe0f", label: "Patterns", desc: "Road speed, traffic, time of day, accidents, and your past trips." },
+    { icon: "\ud83d\udcca", label: "Probability", desc: "Which route is most likely to be fastest right now?" },
+    { icon: "\u23f1\ufe0f", label: "Prediction", desc: "Your route and estimated arrival time." }
+  ];
+  var EVERYDAY_AI_USES = [
+    { icon: "\ud83c\udfa7", label: "Recommendations", prediction: "Predicts what you might like next.", examples: "Spotify, Netflix, TikTok" },
+    { icon: "\ud83d\uddfa\ufe0f", label: "Navigation", prediction: "Predicts traffic and arrival time.", examples: "Google Maps, Waze" },
+    { icon: "\ud83d\udd13", label: "Face recognition", prediction: "Predicts whether a face matches you.", examples: "Phone unlock, photo tagging" },
+    { icon: "\ud83d\uddbc\ufe0f", label: "Photo search", prediction: "Predicts what is inside your pictures.", examples: "Search \u201cbeach\u201d or \u201cdog\u201d" },
+    { icon: "\ud83d\udde3\ufe0f", label: "Voice assistants", prediction: "Predicts what you said and meant.", examples: "Siri, Alexa, Hey Google" }
+  ];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "youalreadyuse" }),
+    /*#__PURE__*/React.createElement(BodyP, null, "You do not have to open ChatGPT to use AI. It is already running quietly inside apps you touch every day, usually doing one specific job: predicting what you might tap, watch, say, or need next."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "YOU ALREADY USE AI",
+      headline: "AI is hiding in apps you use every day.",
+      intro: "Most of the time, it is doing one thing: predicting what you might tap, say, watch, search for, or need next.",
+      marginBottom: 30
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }
+      },
+        EVERYDAY_AI_USES.map(function(item, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 14, padding: 14, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)", border: "1px solid rgba(231, 227, 242, 0.65)", width: 145, flexShrink: 0 }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, item.icon),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)", marginBottom: 3 } }, item.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.45, marginBottom: 4 } }, item.prediction),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)" } }, item.examples));
+        }))),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "EXAMPLE: GOOGLE MAPS",
+      headline: "How does it give you directions?",
+      intro: "Google Maps isn\u2019t magically seeing the future. It\u2019s making a prediction using the same lens you just saw, even though it\u2019s not the same kind of AI as ChatGPT."
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }
+      }, MAPS_LENS.map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, item.label),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+      }))),
+    /*#__PURE__*/React.createElement(BodyP, null, "And sometimes it misses. A route takes longer than expected. A shortcut turns slower. The arrival time changes while you\u2019re driving. Usually we forgive it because it\u2019s still useful, and we may not even know what the better route would have been."),
+    /*#__PURE__*/React.createElement(BodyP, null, "That\u2019s the attitude we want with tools like ChatGPT: useful, impressive, and sometimes wrong. The goal isn\u2019t to reject the tool. It\u2019s to understand what kind of prediction machine you\u2019re using."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Most AI is not ChatGPT." },
+      "Most AI does one specific job: detect spam, recommend videos, route traffic, recognize faces. Tools like ChatGPT are unusual. One model handling many tasks is what makes them feel general-purpose."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Most products are mixes. Google Maps alone uses regular code, a database, sensors, and AI for the traffic prediction. The useful question is which parts are AI, not whether the whole thing is."),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What\u2019s an LLM?" })
   );
 }
 function LLMsSection(props) {
@@ -13699,6 +13760,7 @@ const SECTION_COMPONENTS = {
   openerfoundations: OpenerFoundationsSection,
   primer: PrimerSection,
   aihistory: AIHistorySection,
+  youalreadyuse: YouAlreadyUseSection,
   llms: LLMsSection,
   aiismath: AIIsMathSection,
   howwegothere: HowWeGotHereSection,

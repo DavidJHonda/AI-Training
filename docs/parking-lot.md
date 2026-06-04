@@ -31,3 +31,15 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 - **Possible destination:** back into the Context Window lesson if an interactive beat is wanted again, or any lesson that needs to itemize what the model can see. Note the Controls lesson (`CustomizationSection`) still has a near-identical recap built on `CONTEXT_GROUPS_RECAP` — restore from that if you want the live version, rather than rebuilding.
 - **Supporting state it needs if restored:** the `CONTEXT_GROUPS` data array (two groups: "From this chat" #1e40af with Your current prompt / Earlier in this chat; "Beyond this chat" #8b5cf6 with Your custom instructions / Saved memory) and its derived `CONTEXT_PARTS`; plus `cwContainerRef`, `cwTitleRefs`, `cwCardRefs` (useRef), `cwPaths` (useState), `cwRevealed` (useLocalStorage key `seeit-context-cwRevealed`), the `revealCw` toggle, and the `useEffect` that measures title/card positions to draw the connecting SVG paths. The lesson's `NextLessonGate` was also gated on `Object.keys(cwRevealed).length === 4`; it is now `ready: true`, so restoring the gate means re-adding that condition.
 - **Full source:** in git history at the commit before this one, inside the `PromptSection` function. The state/data sits at the top of the component (declared right after `function PromptSection(props) {`), and the JSX is the `InteractiveBox` titled "What goes in the context window" (anchor string for search), holding the group headers, click-to-reveal title row, the SVG connector layer, and the reveal-on-click description cards.
+
+---
+
+## Probability lesson intro (folded into AI Primer, 2026-06-04)
+
+The standalone Probability lesson was removed and folded into the new AI Primer. Its SEE IT (the "See you ___" bar chart) and TRY IT ("Guess the Most Probable Word") moved to the Primer. Its unique intro prose, which framed the loop in terms of "weights" (a term the Primer deliberately avoids since it predates the Tokens/Training lessons), is preserved here for possible reuse in the Training lesson:
+
+> In Training, the model tuned billions of **weights** until they captured the patterns in its data: which words tend to follow which. Training **wrote** those patterns into the weights. Answering **reads** them back out.
+>
+> Here's the first thing it reads out. When the model needs the next token, it turns those weights into a score for every word it could pick. That step has a name: **probability**. It's worth slowing down on, because it's the single move AI repeats for every word in every response you've ever seen.
+>
+> The SEE IT below zooms in on one short phrase so you can see what those scores actually look like.

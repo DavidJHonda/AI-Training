@@ -1208,7 +1208,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "primer", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "probability", "inference"]
+  sections: ["openerfoundations", "primer", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Work With AI",
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
@@ -1250,7 +1250,6 @@ const SECTION_META = {
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
-  probability: { kicker: "ONE WORD AT A TIME", label: "Probability", icon: "\uD83C\uDFB2" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   openercontrols: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -4040,169 +4039,6 @@ function PrimerSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: isLastPhrase && revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("howwegothere"); }, label: "Next: How We Got Here" })
   );
 }
-function ProbabilitySection(props) {
-  const phrases = [
-    { start: "Once upon a", shuffled: ["hill", "dream", "time", "day"], explanation: "This is a culturally dominant phrase. \"Once upon a time\" appears in thousands of fairy tales. The model absorbed that pattern from sheer repetition in its training data.", options: [{ word: "time", pct: 94, note: "The classic fairy tale opening: appears thousands of times in training data" }, { word: "hill", pct: 3, note: "Plausible but rare: could start a story, just not the famous phrase" }, { word: "day", pct: 2, note: "Natural alternative (\"once upon a day\") but the pattern is overwhelmingly \"time\"" }, { word: "dream", pct: 1, note: "Poetic but uncommon: the model assigns very low probability" }] },
-    { start: "She opened her laptop and started", shuffled: ["browsing", "typing", "coding", "working"], explanation: "Notice how the probabilities are much more spread out here. There's no single dominant answer because this sentence could naturally end many ways. Your own pick probably reflects YOUR world. If you code, you might lean toward \"coding.\" The model's predictions work the same way, shaped entirely by what it was trained on.", options: [{ word: "typing", pct: 35, note: "The most concrete physical action associated with laptops" }, { word: "working", pct: 30, note: "Very common and generic enough to fit many contexts" }, { word: "browsing", pct: 20, note: "Natural and common, especially in casual or narrative writing" }, { word: "coding", pct: 15, note: "More niche: common in tech writing but not general text" }] },
-    { start: "I went to the store to buy some", shuffled: ["time", "groceries", "shoes", "milk"], explanation: "\"Time\" is the interesting one here: it's grammatically correct (\"buy some time\") but semantically odd with \"store.\" The model picks up on that weirdness and assigns low probability. It learned from patterns that \"buy some time\" rarely follows \"went to the store,\" a kind of statistical meaning, even if it\u2019s not understanding the way you do.", options: [{ word: "groceries", pct: 38, note: "The general-purpose answer: slightly more common because it covers everything" }, { word: "milk", pct: 30, note: "The classic errand: extremely common in everyday writing" }, { word: "shoes", pct: 22, note: "Less typical for \"the store\" but perfectly reasonable" }, { word: "time", pct: 10, note: "Grammatically fine but semantically weird with \"store\": model assigns low probability" }] }
-  ];
-  var _pqs = useState(true), probQuizStarted = _pqs[0], setProbQuizStarted = _pqs[1];
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const [guess, setGuess] = useState(null);
-  const [revealed, setRevealed] = useState(false);
-  const [viewWord, setViewWord] = useState(null);
-  const [seenWords, setSeenWords] = useState([]);
-  const phrase = phrases[phraseIdx];
-  var topWord = phrase.options[0].word;
-  var guessedCorrectly = guess === topWord;
-  const handleGuess = function(word) {
-    if (revealed) return;
-    setGuess(word);
-    setRevealed(true);
-    setViewWord(word);
-    setSeenWords([word]);
-  };
-  var isLastPhrase = phraseIdx === phrases.length - 1;
-  const nextPhrase = function() {
-    setPhraseIdx(function(i) { return i + 1; });
-    setGuess(null);
-    setRevealed(false);
-    setViewWord(null);
-    setSeenWords([]);
-  };
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "probability" }),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "In Training, the model tuned billions of ",
-      /*#__PURE__*/React.createElement("strong", null, "weights"),
-      " until they captured the patterns in its data: which words tend to follow which. Training ",
-      /*#__PURE__*/React.createElement("strong", null, "wrote"),
-      " those patterns into the weights. Answering ",
-      /*#__PURE__*/React.createElement("strong", null, "reads"),
-      " them back out."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s the first thing it reads out. When the model needs the next token, it turns those weights into a score for every word it could pick. That step has a name: ",
-      /*#__PURE__*/React.createElement("strong", null, "probability"),
-      ". It’s worth slowing down on, because it’s the single move AI repeats for every word in every response you’ve ever seen."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The SEE IT below zooms in on one short phrase so you can see what those scores actually look like."
-    ),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "How the model picks a token",
-      intro: "Given the text \u201CSee you,\u201D the model calculates probabilities for thousands of possible next tokens. Here are the top candidates:"
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 700, color: "var(--ink)", textAlign: "center", fontFamily: "var(--mono)" } },
-            "\u201CSee you ",
-            /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", borderBottom: "2px solid var(--primary)", paddingBottom: 2, fontWeight: 800 } }, "tomorrow"),
-            "\u201D")),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-            [{ word: "tomorrow", pct: 40 }, { word: "later", pct: 28 }, { word: "soon", pct: 15 }, { word: "there", pct: 6 }, { word: "again", pct: 3 }].map(function(opt, i) {
-              var isTop = i === 0;
-              return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 12 } },
-                /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: BOX_TEXT, minWidth: 80, color: isTop ? "var(--primary)" : "var(--ink)" } }, opt.word),
-                /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 22, overflow: "hidden" } },
-                  /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, var(--primary), #8b5cf6)" : "#c7d2fe", borderRadius: 6 } })),
-                /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 13, color: isTop ? "var(--primary)" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-            })),
-          /*#__PURE__*/React.createElement("div", { style: { marginTop: 12, paddingTop: 10, borderTop: "1px dashed var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: BOX_TEXT, minWidth: 80, color: "var(--inkMuted)" } }, "jump"),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 22, overflow: "hidden" } },
-                /*#__PURE__*/React.createElement("div", { style: { width: "0.0001%", minWidth: 3, height: "100%", background: "#c7d2fe", borderRadius: 6 } })),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 13, color: "var(--inkMuted)", minWidth: 60, textAlign: "right" } }, "0.0001%")),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", fontStyle: "italic", paddingLeft: 92 } },
-              "+ ~99,995 other tokens get tiny slices like this"))),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginTop: 14, display: "flex", gap: 12, alignItems: "flex-start" } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0, lineHeight: 1, color: "var(--seeAccent)" } }, "\u2192"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "#3a3550", lineHeight: 1.6, fontFamily: "var(--sans)" } },
-            "The model picks ",
-            /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "tomorrow"),
-            " because it has the highest probability. Then it repeats the entire process for the next token, and the next, and the next, until the response is complete.")))),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Which word is the AI most likely to pick next? Take your best guess, then see the example probabilities."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Guess the Most Probable Word",
-    action: probQuizStarted ? /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(phraseIdx + 1, phrases.length), total: phrases.length }) : null
-  },
-    !probQuizStarted ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setProbQuizStarted(true); }, style: { display: "block", margin: "0 auto", fontWeight: 600 } }, "First Phrase") : /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: 24, border: "1px solid var(--rule)", marginBottom: 20 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: "var(--ink)", marginBottom: 20, textAlign: "center" } },
-        "\"", phrase.start, " ", /*#__PURE__*/React.createElement("span", { style: { color: revealed ? "var(--primary)" : "var(--inkMuted)", borderBottom: revealed ? "2px solid var(--primary)" : "2px dashed var(--rule)", paddingBottom: 2, fontWeight: revealed ? 800 : 700 } }, revealed ? topWord : "___"), "\""
-      ),
-      !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: phrase.shuffled.length <= 3 ? "1fr 1fr 1fr" : "1fr 1fr", gap: 10 } },
-        phrase.shuffled.map(function(word, i) { return /*#__PURE__*/React.createElement("button", {
-          key: i,
-          onClick: function() { handleGuess(word); },
-          style: { padding: "14px 16px", borderRadius: 10, border: "2px solid var(--rule)", background: "var(--card)", cursor: "pointer", fontSize: 16, fontWeight: 600, color: "var(--ink)", transition: "all 0.2s" }
-        }, word); })
-      ),
-      revealed && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          phrase.options.map(function(opt, i) {
-            var isGuess = opt.word === guess;
-            var isTop = i === 0;
-            var isViewing = opt.word === viewWord;
-            var greenFamily = isTop;
-            var redFamily = !isTop && (isGuess || seenWords.indexOf(opt.word) !== -1);
-            var bg, border, txt, barTrack, barFill, pctColor, iconColor, icon;
-            if (greenFamily) {
-              icon = "\u2713";
-              if (isViewing) { bg = "#1f9d5f"; border = "#1f9d5f"; txt = "#fff"; barTrack = "rgba(255,255,255,0.3)"; barFill = "#fff"; pctColor = "#fff"; iconColor = "#fff"; }
-              else { bg = "#e7f6ee"; border = "#b6e3cd"; txt = "#1f9d5f"; barTrack = "rgba(31,157,95,0.15)"; barFill = "#1f9d5f"; pctColor = "#1f9d5f"; iconColor = "#1f9d5f"; }
-            } else if (redFamily) {
-              icon = "\u2715";
-              if (isViewing) { bg = "#d4334a"; border = "#d4334a"; txt = "#fff"; barTrack = "rgba(255,255,255,0.3)"; barFill = "#fff"; pctColor = "#fff"; iconColor = "#fff"; }
-              else { bg = "#fbe9ec"; border = "#f0b8c1"; txt = "#d4334a"; barTrack = "rgba(212,51,74,0.12)"; barFill = "#d4334a"; pctColor = "#d4334a"; iconColor = "#d4334a"; }
-            } else {
-              icon = null;
-              bg = "#fff"; border = "var(--rule)"; txt = "var(--ink)"; barTrack = "var(--rule)"; barFill = "linear-gradient(90deg, #a5b4fc, #c4b5fd)"; pctColor = "var(--inkSoft)"; iconColor = null;
-            }
-            return /*#__PURE__*/React.createElement("button", {
-              key: i,
-              onClick: function() { setViewWord(opt.word); setSeenWords(function(prev) { return prev.indexOf(opt.word) === -1 ? prev.concat([opt.word]) : prev; }); },
-              style: { display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 8, width: "100%", textAlign: "left", cursor: "pointer", font: "inherit", background: bg, border: "2px solid " + border, transition: "all 150ms ease" } },
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, minWidth: 90, color: txt } }, opt.word, isGuess ? " \u2190" : ""),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: barTrack, borderRadius: 6, height: 20, overflow: "hidden" } },
-                /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: barFill, borderRadius: 6, transition: "width 0.6s ease" } })
-              ),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 14, color: pctColor, minWidth: 40, textAlign: "right" } }, opt.pct + "%"),
-              icon ? /*#__PURE__*/React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 14, flexShrink: 0, width: 14, textAlign: "center" } }, icon) : /*#__PURE__*/React.createElement("span", { style: { width: 14, flexShrink: 0 } })
-            );
-          })
-        ),
-        phrase.explanation && /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, borderTop: "1px dashed var(--tryRule)", paddingTop: 16, animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: guessedCorrectly ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
-                /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: guessedCorrectly ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
-                guessedCorrectly ? "Correct" : "Not quite"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: guessedCorrectly ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, guessedCorrectly ? "You called it." : "\u201C" + topWord + "\u201D was most likely.")),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, phrase.explanation))),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10, marginTop: 16 } },
-          !isLastPhrase && /*#__PURE__*/React.createElement(ActivityButton, { onClick: nextPhrase, style: { fontWeight: 600 } }, "Next Phrase \u2192"))
-      ),
-      !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
-        phrases.map(function(_, i) { return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { width: 8, height: 8, borderRadius: "50%", background: i === phraseIdx ? "var(--primary)" : i < phraseIdx ? "#a5b4fc" : "var(--rule)" }
-        }); })
-      )
-    ))),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "High probability isn't truth." },
-      "The model is scoring how well a word fits the pattern. Whether the answer is true is a separate question, one you'll meet in Traps."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "That’s one token’s score. But an answer is hundreds of tokens. Next: how one score becomes a whole answer."),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: isLastPhrase && revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" })
-  );
-}
 function BiasQuiz(props) {
   const [biasIdx, setBiasIdx] = useState(0);
   const [biasGuess, setBiasGuess] = useState(null);
@@ -5875,7 +5711,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "You’ve seen what the model can see. Next: how it turns all of it into an answer, one word at a time."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("probability"); }, label: "Next: Probability" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
 function CustomizationSection(props) {
   const [sortAnswers, setSortAnswers] = useState({});
@@ -13704,7 +13540,6 @@ const SECTION_COMPONENTS = {
   norules: BlackBoxSection,
   data: DataSection,
   attention: HowAIReadsSection,
-  probability: ProbabilitySection,
   hallucination: HallucinationSection,
   training: TrainingSection,
   trainingbias: TrainingBiasSection,

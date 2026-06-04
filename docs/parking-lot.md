@@ -34,6 +34,32 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## Start Smarter restructure — AI Primer dissolved and What Is AI? split (2026-06-04)
+
+The 2026-06-04 Start Smarter restructure involved two coordinated moves:
+
+1. **AI Primer (primer) dissolved.** The standalone AI Primer lesson — added to Understand AI Foundations on 2026-06-04, then removed the same day — was dissolved into existing lessons: its conceptual loop (patterns → training → probability → prediction) relocated to What Is AI? (aihistory) as prose; its prediction pieces (bar chart SEE IT + "Guess the Most Probable Word" TRY IT) moved to What's an LLM? (llms); the generative-AI intro and "Stored Answers vs Built From Probability" SEE IT also moved to What's an LLM?.
+
+2. **What Is AI? (aihistory) split.** The everyday-AI breadth content (Spotify/Netflix/Maps showcase, Google Maps example, "Most AI is not ChatGPT" framing) was moved out of What Is AI? into the new You Already Use AI lesson (youalreadyuse), which was inserted between What Is AI? and What's an LLM? in Start Smarter.
+
+Unique copy cut entirely (not carried into any active lesson):
+
+**Primer framing intro** (the "whole machine in one short page" orientation, from the opening of `PrimerSection`):
+
+> This section is long, and it goes deep. Before any of the detail, here is the whole machine in one short page. If the later lessons ever feel like a lot, this is the shape to come back to.
+
+> Almost everything AI does runs on one simple loop: it learns patterns, weighs what is likely, and predicts the next piece. Four words carry it. Here they are, in plain language.
+
+**Primer closing KeyInsight** (the "You have the shape now" beat, from the `KeyInsight` at the end of `PrimerSection`):
+
+> AI learned patterns from huge amounts of text, and it uses them to weigh what is probable and predict the next word, one word at a time. Everything else in this section is a closer look at one part of that loop. You have the shape now. The rest opens up each piece.
+
+*(The lead was: "That is the whole loop:")*
+
+**Possible destination:** the framing intro could anchor a returning-orientation callout inside the Understand AI opener or a mid-section recap in What Is AI?. The closing KeyInsight's "You have the shape now. The rest opens up each piece." phrasing is reusable at any lesson that serves as a conceptual overview before diving into detail.
+
+---
+
 ## Probability lesson intro (folded into AI Primer, 2026-06-04)
 
 The standalone Probability lesson was removed and folded into the new AI Primer. Its SEE IT (the "See you ___" bar chart) and TRY IT ("Guess the Most Probable Word") moved to the Primer. Its unique intro prose, which framed the loop in terms of "weights" (a term the Primer deliberately avoids since it predates the Tokens/Training lessons), is preserved here for possible reuse in the Training lesson:

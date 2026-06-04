@@ -1370,105 +1370,29 @@ function OpenerFoundationsSection(props) {
 }
 
 function AIHistorySection(props) {
-  var _rs = useLocalStorage("seeit-aihistory-twoSystemsRevealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
-  var _aa = useLocalStorage("seeit-aihistory-twoSystemsAskCount", 0), askCount = _aa[0], setAskCount = _aa[1];
-  var _sc = useState(false), seeComplete = _sc[0], setSeeComplete = _sc[1];
-  var MAPS_LENS = [
-    { icon: "\uD83D\uDEE3\uFE0F", label: "Patterns", desc: "Road speed, traffic, time of day, accidents, and your past trips." },
-    { icon: "\uD83D\uDCCA", label: "Probability", desc: "Which route is most likely to be fastest right now?" },
-    { icon: "\u23F1\uFE0F", label: "Prediction", desc: "Your route and estimated arrival time." }
-  ];
-  var EVERYDAY_AI_USES = [
-    { icon: "\uD83C\uDFA7", label: "Recommendations", prediction: "Predicts what you might like next.", examples: "Spotify, Netflix, TikTok" },
-    { icon: "\uD83D\uDDFA\uFE0F", label: "Navigation", prediction: "Predicts traffic and arrival time.", examples: "Google Maps, Waze" },
-    { icon: "\uD83D\uDD13", label: "Face recognition", prediction: "Predicts whether a face matches you.", examples: "Phone unlock, photo tagging" },
-    { icon: "\uD83D\uDDBC\uFE0F", label: "Photo search", prediction: "Predicts what is inside your pictures.", examples: "Search \u201Cbeach\u201D or \u201Cdog\u201D" },
-    { icon: "\uD83D\uDDE3\uFE0F", label: "Voice assistants", prediction: "Predicts what you said and meant.", examples: "Siri, Alexa, Hey Google" }
-  ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, spotting patterns, seeing, hearing, and using language."),
-    /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they\u2019re running math to predict the likely next words. They don\u2019t understand what your words mean, or even the meaning of the words they type."),
-    /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? There\u2019s one lens behind most of what AI does: ", /*#__PURE__*/React.createElement("strong", null, "patterns, probability, and prediction"), ". AI finds repeated patterns in the data it\u2019s seen and predicts what\u2019s most likely. You\u2019ll see this same lens in every lesson."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they're running math to predict the likely next words. They don't understand what your words mean, or even the meaning of the words they type."),
+    /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? Almost everything AI does runs on one simple loop: it learns patterns, weighs what is likely, and predicts the next word. Four words carry it, and you will see this same loop in every lesson."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "PATTERNS"),
+    /*#__PURE__*/React.createElement(BodyP, null, "AI works by finding patterns. Read enough writing and the regularities start to show: which words tend to follow which, how a question is usually answered, what a polite reply sounds like. AI does this at a scale no person could, across more text than you could read in a thousand lifetimes. It does not memorize that text. It picks up the patterns running through it."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "TRAINING"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Those patterns have to come from somewhere. Training is where AI learns them. It reads enormous amounts of text and slowly adjusts itself until it is good at one task: given some words, guess what comes next. That happens once, up front, before you ever type anything. A later lesson opens up exactly how. For now: training is how the patterns get in."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "PROBABILITY"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Once it is trained, here is what AI actually does when you talk to it. It looks at the words so far and scores how likely each possible next word is. Not one guess: a ranked list, with a number on every option. \"See you ___\" might score \"tomorrow\" high, \"later\" a little lower, \"giraffe\" near zero. That scoring step has a name worth knowing, because it is the single move AI repeats for every word in every answer you have ever seen: probability."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "PREDICTION"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Picking that next word is the prediction. Then AI does the one thing that turns a single guess into a whole answer: it adds the word it picked, looks at everything again, and predicts the next word. Then again, and again. A paragraph is just this loop run a few hundred times. One likely word after another, fast enough to look like thought."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/what-is-ai.jpg",
       alt: "AI shown as a machine that turns inputs like maps, music, and photos into outputs like routes, recommendations, and answers through patterns, probability, and prediction, labeled not magic, not a person, not a search engine",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "That clears up three big myths. AI isn’t ", /*#__PURE__*/React.createElement("strong", null, "magic"), " (it’s math finding patterns), it isn’t ", /*#__PURE__*/React.createElement("strong", null, "a person"), " (no thoughts, no understanding, even when it sounds like it has both), and it isn’t ", /*#__PURE__*/React.createElement("strong", null, "a search engine"), " (it doesn’t pull up a stored answer, it builds a new one each time). Keep those three straight and most of the confusion falls away."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "YOU ALREADY USE AI",
-      headline: "AI is hiding in apps you use every day.",
-      intro: "Most of the time, it is doing one thing: predicting what you might tap, say, watch, search for, or need next.",
-      marginBottom: 30
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }
-      },
-        EVERYDAY_AI_USES.map(function(item, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 14, padding: 14, boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)", border: "1px solid rgba(231, 227, 242, 0.65)", width: 145, flexShrink: 0 }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, item.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)", marginBottom: 3 } }, item.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.45, marginBottom: 4 } }, item.prediction),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)" } }, item.examples));
-        }))),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "EXAMPLE: GOOGLE MAPS",
-      headline: "How does it give you directions?",
-      intro: "Google Maps isn\u2019t magically seeing the future. It\u2019s making a prediction using the same lens you just saw, even though it\u2019s not the same kind of AI as ChatGPT."
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }
-      }, MAPS_LENS.map(function(item, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, item.label),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
-      }))),
-    /*#__PURE__*/React.createElement(BodyP, null, "And sometimes it misses. A route takes longer than expected. A shortcut turns slower. The arrival time changes while you\u2019re driving. Usually we forgive it because it\u2019s still useful, and we may not even know what the better route would have been."),
-    /*#__PURE__*/React.createElement(BodyP, null, "That\u2019s the attitude we want with tools like ChatGPT: useful, impressive, and sometimes wrong. The goal isn\u2019t to reject the tool. It\u2019s to understand what kind of prediction machine you\u2019re using."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Most AI is not ChatGPT." },
-      "Most AI does one specific job: detect spam, recommend videos, route traffic, recognize faces. Tools like ChatGPT are unusual. One model handling many tasks is what makes them feel general-purpose."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most products are mixes. Google Maps alone uses regular code, a database, sensors, and AI for the traffic prediction. The useful question is which parts are AI, not whether the whole thing is."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "GENERATIVE AI"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Everything you just met predicts or classifies. None of it creates anything new. There\u2019s a newer kind that does more: instead of sorting through what already exists, it generates new content. It writes the email, drafts the essay, makes the image, codes the website. This is called ", /*#__PURE__*/React.createElement("strong", null, "Generative AI"), "."),
-    /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they\u2019re thinking about generative AI. That\u2019s what they use, and that\u2019s what this course is about."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s what that difference looks like in action."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Stored Answers vs. Built From Probability"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Same question, two completely different systems. Watch what happens inside each one."),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201CWhat\u2019s the best game for my new PS5?\u201D")),
-      revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(1); }, size: "large" }, "See Traditional Software Results \u2192")) : /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "\uD83D\uDCBB"),
-            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Traditional Software"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Stored Answers"),
-            /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#1e3a5f", lineHeight: 1.6, marginBottom: 12 } },
-              "ERROR: No matching answer in database."),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
-              "Ask again \u2192 same error, every time.")),
-          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() { setAskCount(askCount + 1); }, onComplete: function() { setSeeComplete(true); } }) :
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "\u2728 Generative results..."))),
-        revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(2); }, size: "large" }, "See AI Results \u2192")) : null,
-        seeComplete ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(Takeaway, { headline: "Same question. Different games.", body: "Three asks gave three different games, while traditional software threw the same error every time. One system builds each answer, the other just retrieves." })) : null)),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "That is the whole loop:" },
+      "AI learns patterns from huge amounts of text, then uses them to weigh what is probable and predict the next word, one word at a time. Keep this loop in mind. The rest of the course is really just a closer look at one part of it or another."),
+    /*#__PURE__*/React.createElement(BodyP, null, "That clears up three big myths. AI isn't ", /*#__PURE__*/React.createElement("strong", null, "magic"), " (it's math finding patterns), it isn't ", /*#__PURE__*/React.createElement("strong", null, "a person"), " (no thoughts, no understanding, even when it sounds like it has both), and it isn't ", /*#__PURE__*/React.createElement("strong", null, "a search engine"), " (it doesn't pull up a stored answer, it builds a new one each time). Keep those three straight and most of the confusion falls away."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: revealStep >= 2 && askCount >= 1, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What\u2019s an LLM?" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("youalreadyuse"); }, label: "Next: You Already Use AI" })
   );
 }
 function YouAlreadyUseSection(props) {

@@ -4,6 +4,14 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "See you ___" — original next-word bar-chart example
+
+- **Origin:** the "How the model picks the next word" ShowcaseBox. Retired 2026-06-04 when What Is AI? adopted a single peanut-butter throughline and the bar chart was re-themed to "I went to the store to buy peanut butter and ___" (top word "jelly"). The chart structure lives on in `AIHistorySection`; only this example's wording/data was replaced.
+- **Possible destination:** an alternative or second next-word example anywhere the prediction idea recurs.
+- **Verbatim data:** header "See you tomorrow"; bars `tomorrow 40%, later 28%, soon 15%, there 6%, again 3%`; outlier `jump 0.0001%`; caption "The model picks tomorrow because it has the highest probability. Then it repeats the entire process for the next word, and the next, and the next, until the answer is complete."
+
+---
+
 ## "The Scale of What's Happening" — billions-of-calculations SEE IT
 
 - **Origin:** AI Answers → Inference lesson (`InferenceSection`), removed 2026-05-29 during the source-first reorder to keep the merged Inference lesson from getting dense.

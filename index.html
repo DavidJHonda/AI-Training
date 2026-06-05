@@ -1236,7 +1236,7 @@ const SECTION_META = {
   control: { kicker: "STAKES AND AGENCY", label: "What You Can Control", icon: "\uD83C\uDFAF" },
   openerfoundations: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   aihistory: { kicker: "THE AI LANDSCAPE", label: "What Is AI?", icon: "\uD83E\uDDEC" },
-  llms: { kicker: "THE TECH BEHIND CHATBOTS", label: "What\u2019s an LLM?", icon: "\uD83E\uDD16" },
+  llms: { kicker: "WHAT YOU\u2019RE ACTUALLY USING", label: "Meet the Tool", icon: "\uD83E\uDD16" },
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "THE LONG ROAD", label: "How We Got Here", icon: "\uD83D\uDCDC" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "Rules vs Patterns", icon: "\u26A1" },
@@ -1450,7 +1450,7 @@ function AIHistorySection(props) {
       "AI learns its patterns once, up front. Then it predicts your answer one word at a time, on repeat. Everything else in this course is a closer look at one part of that."),
     /*#__PURE__*/React.createElement(BodyP, null, "That clears up three big myths. AI isn't ", /*#__PURE__*/React.createElement("strong", null, "magic"), " (it's math finding patterns), it isn't ", /*#__PURE__*/React.createElement("strong", null, "a person"), " (no thoughts, no understanding, even when it sounds like it has both), and it isn't ", /*#__PURE__*/React.createElement("strong", null, "a search engine"), " (it doesn't pull up a stored answer, it builds a new one each time). Keep those three straight and most of the confusion falls away."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What\u2019s an LLM?" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: Meet the Tool" })
   );
 }
 function YouAlreadyUseSection(props) {
@@ -1483,7 +1483,7 @@ function YouAlreadyUseSection(props) {
       "Most AI does one specific job: detect spam, recommend videos, route traffic, recognize faces. Tools like ChatGPT are unusual. One model handling many tasks is what makes them feel general-purpose."),
     /*#__PURE__*/React.createElement(BodyP, null, "Most products are mixes. Google Maps alone uses regular code, a database, sensors, and AI for the traffic prediction. The useful question is which parts are AI, not whether the whole thing is."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What\u2019s an LLM?" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: Meet the Tool" })
   );
 }
 function LLMsSection(props) {
@@ -1492,50 +1492,12 @@ function LLMsSection(props) {
     { label: "Language", desc: "Built for human language: reading, writing, summarizing, translating, explaining. Words in, words out.", color: "#10b981" },
     { label: "Model", desc: "The trained AI itself. It takes input and predicts a likely output based on patterns it learned from data.", color: "#f59e0b" }
   ];
-  var PRODUCTS = [
-    { label: "ChatGPT", desc: "Made by OpenAI. Launched in 2022 and made AI mainstream. Often what people mean when they say AI.", color: "#10b981" },
-    { label: "Claude", desc: "Made by Anthropic. Known for thoughtful writing and careful reasoning. This is the product behind this course.", color: "#8b5cf6" },
-    { label: "Gemini", desc: "Made by Google. Built into Google\u2019s apps like Search, Docs, and Gmail. Strong on current information.", color: "#3b82f6" }
-  ];
-  var MODELS = [
-    { label: "Opus", desc: "The biggest brain. Slower and pricier. Best for hard problems and long reasoning.", color: "#8b5cf6" },
-    { label: "Sonnet", desc: "The everyday workhorse. Fast and capable. Most tasks land here.", color: "#3b82f6" },
-    { label: "Haiku", desc: "The lightweight one. Quickest replies and cheapest to run.", color: "#f59e0b" }
-  ];
   var llmContainerRef = useRef(null);
   var llmTitleRefs = useRef([]);
   var llmCardRefs = useRef([]);
   var _lps = useState(null), llmPaths = _lps[0], setLlmPaths = _lps[1];
   var _lrs = useLocalStorage("seeit-llms-llmCons", {}), llmRevealed = _lrs[0], setLlmRevealed = _lrs[1];
   var revealLlmLetter = function(i) { setLlmRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  const phrases = [
-    { start: "Once upon a", shuffled: ["hill", "dream", "time", "day"], explanation: "This is a culturally dominant phrase. \"Once upon a time\" appears in thousands of fairy tales. The model absorbed that pattern from sheer repetition in its training data.", options: [{ word: "time", pct: 94, note: "The classic fairy tale opening: appears thousands of times in training data" }, { word: "hill", pct: 3, note: "Plausible but rare: could start a story, just not the famous phrase" }, { word: "day", pct: 2, note: "Natural alternative (\"once upon a day\") but the pattern is overwhelmingly \"time\"" }, { word: "dream", pct: 1, note: "Poetic but uncommon: the model assigns very low probability" }] },
-    { start: "She opened her laptop and started", shuffled: ["browsing", "typing", "coding", "working"], explanation: "Notice how the probabilities are much more spread out here. There's no single dominant answer because this sentence could naturally end many ways. Your own pick probably reflects YOUR world. If you code, you might lean toward \"coding.\" The model's predictions work the same way, shaped entirely by what it learned from.", options: [{ word: "typing", pct: 35, note: "The most concrete physical action associated with laptops" }, { word: "working", pct: 30, note: "Very common and generic enough to fit many contexts" }, { word: "browsing", pct: 20, note: "Natural and common, especially in casual or narrative writing" }, { word: "coding", pct: 15, note: "More niche: common in tech writing but not general text" }] },
-    { start: "I went to the store to buy some", shuffled: ["time", "groceries", "shoes", "milk"], explanation: "\"Time\" is the interesting one here: it's grammatically correct (\"buy some time\") but odd with \"store.\" The model picks up on that and assigns low probability. It learned from patterns that \"buy some time\" rarely follows \"went to the store,\" a kind of statistical meaning, even if it is not understanding the way you do.", options: [{ word: "groceries", pct: 38, note: "The general-purpose answer: slightly more common because it covers everything" }, { word: "milk", pct: 30, note: "The classic errand: extremely common in everyday writing" }, { word: "shoes", pct: 22, note: "Less typical for \"the store\" but perfectly reasonable" }, { word: "time", pct: 10, note: "Grammatically fine but odd with \"store\": model assigns low probability" }] }
-  ];
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const [guess, setGuess] = useState(null);
-  const [revealed, setRevealed] = useState(false);
-  const [viewWord, setViewWord] = useState(null);
-  const [seenWords, setSeenWords] = useState([]);
-  const phrase = phrases[phraseIdx];
-  var topWord = phrase.options[0].word;
-  var guessedCorrectly = guess === topWord;
-  const handleGuess = function(word) {
-    if (revealed) return;
-    setGuess(word);
-    setRevealed(true);
-    setViewWord(word);
-    setSeenWords([word]);
-  };
-  var isLastPhrase = phraseIdx === phrases.length - 1;
-  const nextPhrase = function() {
-    setPhraseIdx(function(i) { return i + 1; });
-    setGuess(null);
-    setRevealed(false);
-    setViewWord(null);
-    setSeenWords([]);
-  };
   var _rs = useLocalStorage("seeit-llms-twoSystemsRevealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
   var _aa = useLocalStorage("seeit-llms-twoSystemsAskCount", 0), askCount = _aa[0], setAskCount = _aa[1];
   var _sc = useState(false), seeComplete = _sc[0], setSeeComplete = _sc[1];
@@ -1558,15 +1520,45 @@ function LLMsSection(props) {
     return function() { window.removeEventListener("resize", calc); };
   }, []);
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Most of us use generative AI through an LLM, like ChatGPT, Claude, or Gemini."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Even if you\u2019ve never opened any of those, you\u2019ve still seen their core principle when you send a text on your phone."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/whats-an-llm.jpg",
-      alt: "A phone with a text being typed. Its autocomplete is broken into patterns (the keyboard has learned which words follow which), probability (it weighs likely next words like soon, there, tomorrow), and prediction (it surfaces top guesses above the keys). LLMs work the same way at a much bigger scale.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "LLM"),
+    /*#__PURE__*/React.createElement(BodyP, null, "You’ve seen how AI works: it learns patterns, then predicts an answer one word at a time. Now let’s name the thing you’re actually using when you open ChatGPT, Claude, or Gemini."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "TWO KINDS OF AI"),
+    /*#__PURE__*/React.createElement(BodyP, null, "There are really two kinds of AI, and you already use both."),
+    /*#__PURE__*/React.createElement(BodyP, null, "One kind sorts and recommends. It picks the next show on Netflix, the next song on Spotify, and the fastest route on Maps. It never makes anything new. It just chooses from what already exists. You already use it every day."),
+    /*#__PURE__*/React.createElement(BodyP, null, "The other kind does more. Instead of sorting through what already exists, it generates new content. It writes the email, drafts the essay, makes the image, and codes the website. This is called ", /*#__PURE__*/React.createElement("strong", null, "Generative AI"), "."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they’re thinking about generative AI. That’s what they use, and that’s what this course is about."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like in action."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "see",
+      surface: "sand",
+      title: "Stored Answers vs. Built From Probability"
+    },
+      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Same question, two completely different systems. Watch what happens inside each one."),
+      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201cWhat\u2019s the best game for my new PS5?\u201d")),
+      revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(1); }, size: "large" }, "See Traditional Software Results \u2192")) : /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "\ud83d\udcbb"),
+            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Traditional Software"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Stored Answers"),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#1e3a5f", lineHeight: 1.6, marginBottom: 12 } },
+              "ERROR: No matching answer in database."),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
+              "Ask again \u2192 same error, every time.")),
+          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() { setAskCount(askCount + 1); }, onComplete: function() { setSeeComplete(true); } }) :
+          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
+            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "\u2728 Generative results..."))),
+        revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
+          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(2); }, size: "large" }, "See AI Results \u2192")) : null,
+        seeComplete ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement(Takeaway, { headline: "Same question. Different games.", body: "Three asks gave three different games, while traditional software threw the same error every time. One system builds each answer, the other just retrieves." })) : null)),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "THE NAME GAME"),
+    /*#__PURE__*/React.createElement(BodyP, null, "You’ll hear a pile of names: AI, generative AI, ChatGPT, LLM. Don’t let the terminology trip you up. For the rest of this course, we’ll just say ", /*#__PURE__*/React.createElement("strong", null, "AI"), ", and we mean the generative kind."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Behind that AI is an engine called a ", /*#__PURE__*/React.createElement("strong", null, "Large Language Model"), ", or ", /*#__PURE__*/React.createElement("strong", null, "LLM"), ". Think of a car: the app you type into is the car you drive, and the LLM is the engine under the hood. You say “I’m driving,” not “I’m running a two-liter engine.” Same here. We’ll say AI; the engine doing the work is an LLM."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT’S AN LLM?"),
+    /*#__PURE__*/React.createElement(BodyP, null, "So what is that engine? The three letters spell out exactly what it is. Click each one."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -1624,145 +1616,8 @@ function LLMsSection(props) {
                   style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
                 }, col.desc)));
           })))),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "PREDICTING THE NEXT WORD"),
-    /*#__PURE__*/React.createElement(BodyP, null, "You met this idea in What is AI?: an LLM builds its answer one word at a time, each one the most probable next word given everything so far."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Try the prediction step yourself, on three short phrases. Pick the word you think is most likely, then see the scores."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Guess the Most Probable Word",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(phraseIdx + 1, phrases.length), total: phrases.length })
-  },
-    /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: 24, border: "1px solid var(--rule)", marginBottom: 20 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: "var(--ink)", marginBottom: 20, textAlign: "center" } },
-        "\"", phrase.start, " ", /*#__PURE__*/React.createElement("span", { style: { color: revealed ? "var(--primary)" : "var(--inkMuted)", borderBottom: revealed ? "2px solid var(--primary)" : "2px dashed var(--rule)", paddingBottom: 2, fontWeight: revealed ? 800 : 700 } }, revealed ? topWord : "___"), "\""
-      ),
-      !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: phrase.shuffled.length <= 3 ? "1fr 1fr 1fr" : "1fr 1fr", gap: 10 } },
-        phrase.shuffled.map(function(word, i) { return /*#__PURE__*/React.createElement("button", {
-          key: i,
-          onClick: function() { handleGuess(word); },
-          style: { padding: "14px 16px", borderRadius: 10, border: "2px solid var(--rule)", background: "var(--card)", cursor: "pointer", fontSize: 16, fontWeight: 600, color: "var(--ink)", transition: "all 0.2s" }
-        }, word); })
-      ),
-      revealed && /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-          phrase.options.map(function(opt, i) {
-            var isGuess = opt.word === guess;
-            var isTop = i === 0;
-            var isViewing = opt.word === viewWord;
-            var greenFamily = isTop;
-            var redFamily = !isTop && (isGuess || seenWords.indexOf(opt.word) !== -1);
-            var bg, border, txt, barTrack, barFill, pctColor, iconColor, icon;
-            if (greenFamily) {
-              icon = "\u2713";
-              if (isViewing) { bg = "#1f9d5f"; border = "#1f9d5f"; txt = "#fff"; barTrack = "rgba(255,255,255,0.3)"; barFill = "#fff"; pctColor = "#fff"; iconColor = "#fff"; }
-              else { bg = "#e7f6ee"; border = "#b6e3cd"; txt = "#1f9d5f"; barTrack = "rgba(31,157,95,0.15)"; barFill = "#1f9d5f"; pctColor = "#1f9d5f"; iconColor = "#1f9d5f"; }
-            } else if (redFamily) {
-              icon = "\u2715";
-              if (isViewing) { bg = "#d4334a"; border = "#d4334a"; txt = "#fff"; barTrack = "rgba(255,255,255,0.3)"; barFill = "#fff"; pctColor = "#fff"; iconColor = "#fff"; }
-              else { bg = "#fbe9ec"; border = "#f0b8c1"; txt = "#d4334a"; barTrack = "rgba(212,51,74,0.12)"; barFill = "#d4334a"; pctColor = "#d4334a"; iconColor = "#d4334a"; }
-            } else {
-              icon = null;
-              bg = "#fff"; border = "var(--rule)"; txt = "var(--ink)"; barTrack = "var(--rule)"; barFill = "linear-gradient(90deg, #a5b4fc, #c4b5fd)"; pctColor = "var(--inkSoft)"; iconColor = null;
-            }
-            return /*#__PURE__*/React.createElement("button", {
-              key: i,
-              onClick: function() { setViewWord(opt.word); setSeenWords(function(prev) { return prev.indexOf(opt.word) === -1 ? prev.concat([opt.word]) : prev; }); },
-              style: { display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 8, width: "100%", textAlign: "left", cursor: "pointer", font: "inherit", background: bg, border: "2px solid " + border, transition: "all 150ms ease" } },
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, minWidth: 90, color: txt } }, opt.word, isGuess ? " \u2190" : ""),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: barTrack, borderRadius: 6, height: 20, overflow: "hidden" } },
-                /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: barFill, borderRadius: 6, transition: "width 0.6s ease" } })
-              ),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 14, color: pctColor, minWidth: 40, textAlign: "right" } }, opt.pct + "%"),
-              icon ? /*#__PURE__*/React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 14, flexShrink: 0, width: 14, textAlign: "center" } }, icon) : /*#__PURE__*/React.createElement("span", { style: { width: 14, flexShrink: 0 } })
-            );
-          })
-        ),
-        phrase.explanation && /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, borderTop: "1px dashed var(--tryRule)", paddingTop: 16, animation: "fadeIn 0.3s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: guessedCorrectly ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
-                /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: guessedCorrectly ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
-                guessedCorrectly ? "Correct" : "Not quite"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: guessedCorrectly ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, guessedCorrectly ? "You called it." : "\u201c" + topWord + "\u201d was most likely.")),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, phrase.explanation))),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 10, marginTop: 16 } },
-          !isLastPhrase && /*#__PURE__*/React.createElement(ActivityButton, { onClick: nextPhrase, style: { fontWeight: 600 } }, "Next Phrase \u2192"))
-      ),
-      !revealed && /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 16 } },
-        phrases.map(function(_, i) { return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { width: 8, height: 8, borderRadius: "50%", background: i === phraseIdx ? "var(--primary)" : i < phraseIdx ? "#a5b4fc" : "var(--rule)" }
-        }); })
-      )
-    ))),
-    /*#__PURE__*/React.createElement(BodyP, null, "Predicting the next word is powerful for one reason: chained together, those predictions do not just finish your sentence, they build something new."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "GENERATIVE AI"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Everything you just met predicts or classifies. None of it creates anything new. There\u2019s a newer kind that does more: instead of sorting through what already exists, it generates new content. It writes the email, drafts the essay, makes the image, codes the website. This is called ", /*#__PURE__*/React.createElement("strong", null, "Generative AI"), "."),
-    /*#__PURE__*/React.createElement(BodyP, null, "When most people think of AI, they\u2019re thinking about generative AI. That\u2019s what they use, and that\u2019s what this course is about."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s what that difference looks like in action."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Stored Answers vs. Built From Probability"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Same question, two completely different systems. Watch what happens inside each one."),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "\u201cWhat\u2019s the best game for my new PS5?\u201d")),
-      revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(1); }, size: "large" }, "See Traditional Software Results \u2192")) : /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "\ud83d\udcbb"),
-            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Traditional Software"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Stored Answers"),
-            /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#1e3a5f", lineHeight: 1.6, marginBottom: 12 } },
-              "ERROR: No matching answer in database."),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
-              "Ask again \u2192 same error, every time.")),
-          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() { setAskCount(askCount + 1); }, onComplete: function() { setSeeComplete(true); } }) :
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "\u2728 Generative results..."))),
-        revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(2); }, size: "large" }, "See AI Results \u2192")) : null,
-        seeComplete ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(Takeaway, { headline: "Same question. Different games.", body: "Three asks gave three different games, while traditional software threw the same error every time. One system builds each answer, the other just retrieves." })) : null)),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "THE LANDSCAPE"),
-    /*#__PURE__*/React.createElement(BodyP, null, "You have seen what an LLM is and how it works. Now meet the ones you will actually use."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "PRODUCT"),
-    /*#__PURE__*/React.createElement(BodyP, null, "ChatGPT isn\u2019t the only generative AI tool out there. There are many built by different companies. If you were buying a new car, think of Ford vs Toyota vs Honda. Each company builds their cars differently, and their cars have different characteristics. For this course, we\u2019ll focus on three you\u2019ve probably heard of."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 } },
-        PRODUCTS.map(function(p, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, boxShadow: "var(--shadowElevated)" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: BOX_CARD_TITLE, color: p.color, marginBottom: 6 } }, p.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.desc));
-        }))),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "MODEL"),
-    /*#__PURE__*/React.createElement(BodyP, null, "You decide to buy a Ford. Now you have to choose the right model: an F-150, Explorer, Bronco, or another. Each one is different, but they\u2019re all Fords."),
-    /*#__PURE__*/React.createElement(BodyP, null, "The big three work the same way. They have different models for different needs. Unlike with cars, you can switch between models any time. Below are Claude\u2019s models."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 8 } },
-        /*#__PURE__*/React.createElement("span", null, "Faster \u00b7 cheaper"),
-        /*#__PURE__*/React.createElement("span", null, "More powerful \u00b7 slower")),
-      /*#__PURE__*/React.createElement("div", { "aria-hidden": "true", style: { height: 6, borderRadius: 999, background: "linear-gradient(90deg, #f59e0b, #3b82f6, #8b5cf6)", marginBottom: 16 } }),
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 } },
-        MODELS.slice().reverse().map(function(m, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 12, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + m.color, boxShadow: "var(--shadowElevated)" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: BOX_CARD_TITLE, color: m.color, marginBottom: 6 } }, m.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, m.desc));
-        }))),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(llmRevealed).length >= LLM_COLS.length && isLastPhrase && revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The tool, named:" }, "The AI you’ll use all course is generative AI, powered by a Large Language Model. Everything ahead is about getting more out of it."),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(llmRevealed).length >= LLM_COLS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
 }
 function AIIsMathSection(props) {

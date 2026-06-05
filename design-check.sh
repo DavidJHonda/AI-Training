@@ -17,8 +17,9 @@ chk() {  # label  expected  actual
 echo "Design consistency check on $F"
 echo "----------------------------------------------------"
 
-# baseline 3: 2 counter pills + 1 section-overview "NN / 10" badge (shared renderOverview)
-chk "hand-built counter pills" 3 \
+# baseline 4: 2 counter pills + 1 section-overview "NN / 10" badge (shared renderOverview)
+#   + 1 evidence pill in AIIsMath "Tying the math together" box (deliberate, not a counter)
+chk "hand-built counter pills" 4 \
   "$(grep -oF 'borderRadius: 999, padding: "6px 14px"' "$F" | wc -l | tr -d ' ')"
 chk "Source Serif reintroduced" 0 \
   "$(grep -oE 'Source.Serif' "$F" | wc -l | tr -d ' ')"

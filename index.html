@@ -693,7 +693,7 @@ function OpenerSection(props) {
           E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "2.4px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 10 } }, ov.eyebrow || "In this section"),
           E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.58px", color: "#14110b", lineHeight: 1.12, marginBottom: 8 } }, ov.title),
           ov.subtitle ? E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, fontWeight: 400, color: "#6e6757", lineHeight: 1.5 } }, ov.subtitle) : null),
-        partBadge(props.sectionId) ? E("div", { style: { flexShrink: 0, background: "#ffffff", borderRadius: 999, padding: "6px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: "0.78px", color: "#5a47c9", whiteSpace: "nowrap" } }, partBadge(props.sectionId)) : (ov.movementLabel ? E("div", { style: { flexShrink: 0, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "1.4px", textTransform: "uppercase", color: "var(--inkMuted)", whiteSpace: "nowrap" } }, ov.movementLabel) : null)),
+        ov.movementLabel ? E("div", { style: { flexShrink: 0, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "1.4px", textTransform: "uppercase", color: "var(--inkMuted)", whiteSpace: "nowrap" } }, ov.movementLabel) : null),
       rows);
   };
   return E("div", null,
@@ -1303,12 +1303,6 @@ const SECTION_META = {
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
   .map(function(id) { return Object.assign({ id: id }, SECTION_META[id]); });
-function partBadge(sectionId) {
-  var gi = SECTION_GROUPS.findIndex(function(g) { return g.sections && g.sections[0] === sectionId; });
-  if (gi <= 0) return null;                          // not a lead opener, or Intro (index 0): no pill
-  if (gi >= SECTION_GROUPS.length - 1) return null;  // Finish (last group): no pill
-  return ("0" + (gi + 1)).slice(-2) + " / " + SECTION_GROUPS.length;
-}
 function OpenerFoundationsSection(props) {
   var foundationsIllustration = /*#__PURE__*/React.createElement(Illustration, {
     eyebrow: "WHAT KIND OF THING IS AI?"
@@ -1330,8 +1324,7 @@ function OpenerFoundationsSection(props) {
     whyThisMatters: [
       "This is where AI stops being magic. Once you see how the machine actually works, the hype, the fear, the weird mistakes all start to make sense. You can’t use a tool with real judgment until you understand what it is.",
       "Think about your first basketball team. The coach didn’t start you on fast breaks and dunks. You practiced dribbling, passing, and pivots first, because nothing else works without them. Fundamentals aren’t the boring part you rush through. They’re the part that lets you go anywhere later.",
-      "That’s what this section is. It’s the longest one in the course, and because AI works unlike anything you’ve used before, parts of it will feel complicated. That’s normal. Take it a piece at a time. Each one builds on the last, and by the end, the machine won’t feel like magic anymore.",
-      "You already met the core loop back in What is AI?: AI learns patterns, weighs probability, and predicts the next word. This section opens up each part of that loop, one piece at a time."
+      "That’s what this section is. It’s the longest one in the course, and because AI works unlike anything you’ve used before, parts will feel complicated. That’s normal. Take it a piece at a time. Each one builds on the last, and by the end, the machine won’t feel like magic anymore."
     ],
     featuredCard: foundationsIllustration,
     whatYoullLearnIntro: [
@@ -1357,7 +1350,7 @@ function OpenerFoundationsSection(props) {
       },
       {
         kicker: "INSIDE THE BLACK BOX",
-        bridge: "Everyone calls it a black box. You’re about to open it and find there’s real, understandable machinery where the mystery used to be."
+        bridge: "AI gets called a “black box.” You’re about to open it and find real, understandable machinery inside, even if parts stay genuinely hard to explain."
       },
       {
         kicker: "WHERE IT ALL COMES TOGETHER",
@@ -1371,28 +1364,31 @@ function OpenerFoundationsSection(props) {
   });
 }
 
+function CoreLoopBox() {
+  return /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 14, alignItems: "stretch", marginBottom: 28 } },
+    /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 230px", background: "#ece8fd", border: "2px solid var(--primary)", borderRadius: 18, padding: "18px 20px" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--primary)", marginBottom: 12 } }, "Learn once"),
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "📚 Training"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "var(--primary)", margin: "4px 0" } }, "↓"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "🧩 Patterns"))),
+    /*#__PURE__*/React.createElement("div", { style: { flex: "0 1 110px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px 0" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: "var(--primary)" } }, "→"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--ink)", textAlign: "center", lineHeight: 1.3, marginTop: 4 } }, "patterns power every answer")),
+    /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 230px", background: "#fbedd3", border: "2px solid #f59e0b", borderRadius: 18, padding: "18px 20px" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#d97706", marginBottom: 12, display: "flex", alignItems: "center", gap: 8 } }, "Answer", /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#b45309" } }, "· every word")),
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "🎲 Probability"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "#d97706", margin: "4px 0" } }, "↓"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "✍️ Prediction"))));
+}
 function AIHistorySection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, spotting patterns, seeing, hearing, and using language."),
     /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they're running math to predict the likely next words. They don't understand what your words mean, or even the meaning of the words they type."),
     /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? In two phases. First the model learns, once, by soaking up patterns from mountains of text. Then, every time you chat, it uses those patterns to build your answer one word at a time. Four ideas carry it, and we'll follow one example, peanut butter, through all of them."),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 14, alignItems: "stretch", marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 230px", background: "#ece8fd", border: "2px solid var(--primary)", borderRadius: 18, padding: "18px 20px" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--primary)", marginBottom: 12 } }, "Learn once"),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "📚 Training"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "var(--primary)", margin: "4px 0" } }, "↓"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "🧩 Patterns"))),
-      /*#__PURE__*/React.createElement("div", { style: { flex: "0 1 110px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4px 0" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: "var(--primary)" } }, "→"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--ink)", textAlign: "center", lineHeight: 1.3, marginTop: 4 } }, "patterns power every answer")),
-      /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 230px", background: "#fbedd3", border: "2px solid #f59e0b", borderRadius: 18, padding: "18px 20px" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#d97706", marginBottom: 12, display: "flex", alignItems: "center", gap: 8 } }, "Answer", /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#b45309" } }, "· every word")),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "🎲 Probability"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "#d97706", margin: "4px 0" } }, "↓"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "✍️ Prediction")))),
+    /*#__PURE__*/React.createElement(CoreLoopBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "TRAINING"),
     /*#__PURE__*/React.createElement(BodyP, null, "The model learns ", /*#__PURE__*/React.createElement("strong", null, "once"), ", by reading mountains of text, then teaching itself: guess the next word, check, and nudge its numbers when it's wrong."),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 } },
@@ -2077,15 +2073,21 @@ function AIIsMathSection(props) {
 }
 
 function HowWeGotHereSection(props) {
+  var IDEA = {
+    training: { icon: "📚", label: "Training", color: "var(--primary)", bg: "#ece8fd" },
+    patterns: { icon: "🧩", label: "Patterns", color: "var(--primary)", bg: "#ece8fd" },
+    probability: { icon: "🎲", label: "Probability", color: "#b45309", bg: "#fbedd3" },
+    prediction: { icon: "✍️", label: "Prediction", color: "#b45309", bg: "#fbedd3" }
+  };
   var TIMELINE = [
-    { year: "1654", title: "Standard Probability", desc: /*#__PURE__*/React.createElement("span", null, "Blaise Pascal and Pierre de Fermat traded letters about games of chance, the start of modern ", /*#__PURE__*/React.createElement("strong", null, "probability"), " math.") },
-    { year: "1763", title: "Conditional Probability", desc: /*#__PURE__*/React.createElement("span", null, "Thomas Bayes found a formal way to ", /*#__PURE__*/React.createElement("strong", null, "update probabilities"), " as new evidence comes in.") },
-    { year: "1927", title: "Autoregressive Generation", desc: /*#__PURE__*/React.createElement("span", null, "George Udny Yule proposed the ", /*#__PURE__*/React.createElement("strong", null, "autoregressive model"), ": predict each step in a sequence from the ones before it.") },
+    { year: "1654", title: "Standard Probability", idea: "probability", desc: /*#__PURE__*/React.createElement("span", null, "Blaise Pascal and Pierre de Fermat traded letters about games of chance, the start of modern ", /*#__PURE__*/React.createElement("strong", null, "probability"), " math.") },
+    { year: "1763", title: "Conditional Probability", idea: "probability", desc: /*#__PURE__*/React.createElement("span", null, "Thomas Bayes found a formal way to ", /*#__PURE__*/React.createElement("strong", null, "update probabilities"), " as new evidence comes in.") },
+    { year: "1927", title: "Autoregressive Generation", idea: "prediction", desc: /*#__PURE__*/React.createElement("span", null, "George Udny Yule proposed the ", /*#__PURE__*/React.createElement("strong", null, "autoregressive model"), ": predict each step in a sequence from the ones before it.") },
     { year: "1943", title: "Math Modeled After the Brain", desc: /*#__PURE__*/React.createElement("span", null, "Scientists modeled math on how brain cells fire: the first ", /*#__PURE__*/React.createElement("strong", null, "neural network"), ".") },
-    { year: "1948", title: "Generating English", desc: /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, "Claude"), " Shannon applied the autoregressive idea to language, picking each word from the probability of the one before it: an early ", /*#__PURE__*/React.createElement("strong", null, "language model"), ".") },
-    { year: "1957", title: "The Perceptron", desc: /*#__PURE__*/React.createElement("span", null, "The first machine that could learn from examples. It was primitive, but it proved the concept: ", /*#__PURE__*/React.createElement("strong", null, "machines can learn"), ", not just follow instructions.") },
-    { year: "1986", title: "Backpropagation", desc: /*#__PURE__*/React.createElement("span", null, "How a ", /*#__PURE__*/React.createElement("strong", null, "machine"), " ", /*#__PURE__*/React.createElement("strong", null, "learns from its mistakes"), ": each wrong answer makes the next one better, over billions of tries.") },
-    { year: "2017", title: "Attention Is All You Need", highlight: true, desc: /*#__PURE__*/React.createElement("span", null, "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The ", /*#__PURE__*/React.createElement("strong", null, "transformer"), " was born.") },
+    { year: "1948", title: "Generating English", idea: "prediction", desc: /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, "Claude"), " Shannon applied the autoregressive idea to language, picking each word from the probability of the one before it: an early ", /*#__PURE__*/React.createElement("strong", null, "language model"), ".") },
+    { year: "1957", title: "The Perceptron", idea: "training", desc: /*#__PURE__*/React.createElement("span", null, "The first machine that could learn from examples. It was primitive, but it proved the concept: ", /*#__PURE__*/React.createElement("strong", null, "machines can learn"), ", not just follow instructions.") },
+    { year: "1986", title: "Backpropagation", idea: "training", desc: /*#__PURE__*/React.createElement("span", null, "How a ", /*#__PURE__*/React.createElement("strong", null, "machine"), " ", /*#__PURE__*/React.createElement("strong", null, "learns from its mistakes"), ": each wrong answer makes the next one better, over billions of tries.") },
+    { year: "2017", title: "Attention Is All You Need", idea: "patterns", highlight: true, desc: /*#__PURE__*/React.createElement("span", null, "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The ", /*#__PURE__*/React.createElement("strong", null, "transformer"), " was born.") },
     { year: "2018 to 2021", title: "Scaling Up", desc: /*#__PURE__*/React.createElement("span", null, "Researchers fed transformers more of the internet and more computing power. The ", /*#__PURE__*/React.createElement("strong", null, "bigger they got, the more capable they got"), ", turning a research idea into something powerful.") },
     { year: "2022", title: "ChatGPT Launches", desc: "The public finally saw what large language models could do. AI started feeling like a tool anyone could use." }
   ];
@@ -2093,7 +2095,9 @@ function HowWeGotHereSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
     /*#__PURE__*/React.createElement(BodyP, null, "The ideas behind AI are decades, even centuries, old. In this lesson, you’ll walk a timeline of the key moments."),
     /*#__PURE__*/React.createElement(BodyP, null, "For something hundreds of years in the making, why did AI’s power show up only in the last few years? Spoiler: it took one research paper, from a team at Google, to unlock it."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 }, "Some of these concepts will be new to you. Don’t worry, you’ll understand each one before the course is over."),
+    /*#__PURE__*/React.createElement(BodyP, null, "First, a quick reminder. In What Is AI?, you met the four ideas that work together to make AI run:"),
+    /*#__PURE__*/React.createElement(CoreLoopBox, null),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 }, "None of them arrived at once. Each was figured out by a different person, decades apart, and the chip on each moment below shows which idea it brought to life. Some of the other names will be new, but you’ll meet each one before the course is over."),
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24, marginTop: 32, marginBottom: 32, maxWidth: "66%", marginLeft: "auto", marginRight: "auto" }
     },
@@ -2120,10 +2124,13 @@ function HowWeGotHereSection(props) {
                 ? { flex: 1, background: "var(--card)", border: "2px solid var(--primary)", borderRadius: 10, padding: 16, boxShadow: "0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent)" }
                 : { flex: 1, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16 }
             },
-              /*#__PURE__*/React.createElement("div", { style: { marginBottom: 6 } },
+              /*#__PURE__*/React.createElement("div", { style: { marginBottom: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } },
                 /*#__PURE__*/React.createElement("span", {
                   style: { background: "var(--primary)", color: "#fff", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700, display: "inline-block" }
-                }, entry.year)),
+                }, entry.year),
+                entry.idea ? /*#__PURE__*/React.createElement("span", {
+                  style: { background: IDEA[entry.idea].bg, color: IDEA[entry.idea].color, borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 700, display: "inline-block" }
+                }, IDEA[entry.idea].icon + " " + IDEA[entry.idea].label) : null),
               /*#__PURE__*/React.createElement("div", {
                 style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 4 }
               }, entry.title),
@@ -2131,7 +2138,7 @@ function HowWeGotHereSection(props) {
                 style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 }
               }, entry.desc)));
         }))),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "No one was building AI." }, "Pascal wanted better odds at dice. Shannon was studying messages. Each person solved their own small problem, decades apart, with no idea where it led. AI is what happened when those unrelated answers finally lined up."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Patterns were the last piece." }, "No one set out to build AI. Probability, prediction, and training were each figured out for their own reasons, last century. The fourth idea, patterns, reading how all the words relate at once, only clicked into place in 2017. That’s the year all four lined up, and the year AI took off."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aivscode"); }, label: "Next: Rules vs Patterns" })
   );

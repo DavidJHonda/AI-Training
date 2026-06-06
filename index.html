@@ -1247,7 +1247,7 @@ const SECTION_META = {
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   vectorspace: { kicker: "WORDS HAVE NEIGHBORS", label: "Vector Space: Meaning by Similarity", title: "Vector Space", icon: "\uD83C\uDFD8\uFE0F" },
   insidethemodel: { kicker: "WHAT’S ACTUALLY INSIDE", label: "The Black Box", title: "The Black Box", icon: "\uD83D\uDD0D" },
-  attention: { kicker: "ALL AT ONCE", label: "Attention & Transformation", icon: "\uD83D\uDCD6" },
+  attention: { kicker: "ALL AT ONCE", label: "Attention", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -3730,11 +3730,27 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "attention" }),
 
     E(BodyP, null,
-      "You’ve learned how text becomes tokens and how the vectors, with their dimensions and values, establish meaning. But a token’s starting vector isn’t enough to establish meaning."
+      "You’ve learned how AI turns text into tokens, and how each token’s vector carries meaning. If only it were that easy."
     ),
 
     E(BodyP, null,
-      "Meaning depends on the words around a token. Here are three situations where a starting vector, on its own, falls short."
+      "Often a word’s meaning isn’t clear until you read the words around it. Take ",
+      E("strong", null, "run"),
+      ". It could be how fast you ",
+      E("strong", null, "run"),
+      " a race, water you let ",
+      E("strong", null, "run"),
+      " in the sink, a TV show that ",
+      E("strong", null, "runs"),
+      " long, or ice cream that ",
+      E("strong", null, "runs"),
+      " down your hand. Same token, four different meanings."
+    ),
+
+    E(BodyP, null,
+      "So what meaning should the token ",
+      E("strong", null, "run"),
+      " get? This was a major challenge for AI: the meaning can’t be pinned down until the model takes in the surrounding context. Here are three situations where a starting vector, on its own, falls short."
     ),
 
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 20, marginBottom: 28 } },
@@ -3777,7 +3793,7 @@ function HowAIReadsSection(props) {
     E(SectionKicker, null, "WHAT CAUSED THIS?"),
 
     E(BodyP, null,
-      "In each example above, the meaning of the word is only clear when you see the words around it. We know the meaning of ", E("strong", { style: { color: "#2f4cb8", fontWeight: 800 } }, "light"), " in the sentence “please turn on the ", E("strong", { style: { color: "#2f4cb8", fontWeight: 800 } }, "light"), "” because of the words “turn on.” This was a foundational problem for AI, because it read text sequentially, one word at a time. Consider the sentence below. When AI read the word ", E("strong", { style: { color: "#a96a07", fontWeight: 800 } }, "IT"), ", the earlier words in the sentence began to fade."
+      "In each example above, the meaning of the word is only clear when you see the words around it. We know the meaning of ", E("strong", { style: { color: "#2f4cb8", fontWeight: 800 } }, "light"), " in the sentence “please turn on the ", E("strong", { style: { color: "#2f4cb8", fontWeight: 800 } }, "light"), "” because of the words “turn on.” This was a foundational problem for AI, because it read text sequentially, one word at a time. Consider the sentence below. When AI read the word ", E("strong", { style: { color: "#1e40af", fontWeight: 800 } }, "IT"), ", the earlier words in the sentence began to fade."
     ),
 
     E("div", {
@@ -3853,7 +3869,7 @@ function HowAIReadsSection(props) {
       E("strong", { style: { color: "#1e40af" } }, "IT"),
       " points back to ",
       E("strong", { style: { color: "#1e40af" } }, "CAT"),
-      ", even ten words later. A computer reading strictly in order doesn\u2019t, and that\u2019s what kept the first language models from reading like we do."
+      ", even ten words later. A computer reading strictly in order doesn\u2019t, and that\u2019s what kept old AI from reading like we do."
     ),
 
     E(SectionKicker, null, "THE BREAKTHROUGH"),
@@ -5036,7 +5052,7 @@ function BehindTheNumbersSection(props) {
       "Humans design the structure. Training learns the values. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),
 
     E(LessonRule, null),
-    E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("attention"); }, label: "Next: Attention & Transformation" }));
+    E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("attention"); }, label: "Next: Attention" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -5077,16 +5093,16 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Read the following sentence."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      /*#__PURE__*/React.createElement("strong", null, "The horse raced past the barn fell.")),
+      /*#__PURE__*/React.createElement("strong", { style: { fontSize: 20 } }, "The horse raced past the barn fell.")),
     /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0", paddingLeft: 22 } },
       /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        /*#__PURE__*/React.createElement("strong", null, "First read:"), " it feels broken. Did someone forget a word?"),
+        /*#__PURE__*/React.createElement("strong", null, "First read:"), " it doesn’t make sense. Did someone forget a word?"),
       /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        /*#__PURE__*/React.createElement("strong", null, "Second read:"), " wait, did a ", /*#__PURE__*/React.createElement("em", null, "barn"), " fall? That’s strange."),
+        /*#__PURE__*/React.createElement("strong", null, "Read it again:"), " wait, did a barn fall? Did the horse race past the barn afterward?"),
       /*#__PURE__*/React.createElement("li", null,
-        /*#__PURE__*/React.createElement("strong", null, "Third read:"), " got it. The horse that was raced past the barn is the one that fell.")),
+        /*#__PURE__*/React.createElement("strong", null, "Read it a third time:"), " I think I got it now. There was a horse that ran past a barn. And, after running past the barn, the horse fell.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Each pass, your mind updates the meaning, until it clicks."),
+      "Each pass, your mind updates the meaning until it clicks."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI does the same thing. One pass isn\u2019t enough, so it reads your words many times, understanding a little more each time. Each pass is called a ",
       /*#__PURE__*/React.createElement("strong", null, "layer"),
@@ -5096,7 +5112,15 @@ function LayersSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "transformation"),
       " (update the meaning)."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "In the illustration below, follow one token through the layers: it arrives with the starting meaning from its embedding, and each layer updates that meaning as the model understands more."),
+      "Here’s the secret to how AI does it. Because the meaning is represented by numbers, the model changes the numbers to establish the right meaning. This is how the numbers for ",
+      /*#__PURE__*/React.createElement("strong", null, "IT"),
+      " become the meaning for ",
+      /*#__PURE__*/React.createElement("strong", null, "CAT"),
+      "."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "It starts with the original vector (the numbers) for the token, and as it passes through the layers, the numbers change into something AI establishes as ",
+      /*#__PURE__*/React.createElement("strong", null, "CAT"),
+      ". It’s doing the same thing you did when you read the sentence above, but it’s doing it with math."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/layers-1.jpg",
       alt: "Inside one layer: vectors go in, attention finds which words matter, transformation updates the meaning, and richer vectors come out, then feed into the next layer",

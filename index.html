@@ -1541,10 +1541,12 @@ function TypeOut(props) {
 function WatchTonightSeeIt() {
   var _st = useLocalStorage("seeit-llms-watchStep", 0), step = _st[0], setStep = _st[1];
   var _gd = useState(false), genDone = _gd[0], setGenDone = _gd[1];
+  var _ud = useState(false), userDone = _ud[0], setUserDone = _ud[1];
   var _ad = useState(false), adaptDone = _ad[0], setAdaptDone = _ad[1];
   var PRED = ["Midnight Harbor", "Echoes of the Tide", "The Glass Orchard", "Northern Lights"];
   var topIdx = step >= 3 ? 1 : 0;
   var firstText = "How about Midnight Harbor? It’s the slow-burn thriller most people rate highest right now, rainy and tense the whole way through.";
+  var userText = "🛋️ I already saw that at a friend’s.";
   var adaptText = "Ah, then skip it. Try Paper Cranes instead, it keeps that same rainy, tense mood but it’s a quiet little mystery you’ve almost certainly missed. Want something lighter?";
   var predCard = /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "📺"),
@@ -1566,19 +1568,19 @@ function WatchTonightSeeIt() {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5a3aa6", fontStyle: "italic", marginBottom: 8 } }, "Writes a reply, in a conversation"),
     /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, marginBottom: 10, minHeight: 44 } },
       step >= 3 ? firstText : /*#__PURE__*/React.createElement(TypeOut, { text: firstText, onDone: function() { setGenDone(true); } })),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#5a3aa6", fontWeight: 600, fontStyle: "italic", marginBottom: step >= 3 ? 12 : 0 } }, "Composes a reply, and you can talk back."),
     step >= 3 ? /*#__PURE__*/React.createElement(React.Fragment, null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ddd6f3", borderRadius: 8, padding: "8px 12px", fontSize: 13, color: "#3b2a63", maxWidth: "85%", fontWeight: 600 } }, "🛋️ Actually, I saw that at a friend’s last week.")),
-      /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, marginBottom: 12, minHeight: 44 } },
-        /*#__PURE__*/React.createElement(TypeOut, { text: adaptText, onDone: function() { setAdaptDone(true); } }))) : null,
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#5a3aa6", fontWeight: 600, fontStyle: "italic" } },
-      step >= 3 ? "You told it something new, and it reasoned to a fresh pick." : "Composes a reply, and you can talk back."));
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: step >= 4 ? 10 : 0 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#ddd6f3", borderRadius: 8, padding: "8px 12px", fontSize: 13, color: "#3b2a63", maxWidth: "85%", fontWeight: 600 } },
+          step >= 4 ? userText : /*#__PURE__*/React.createElement(TypeOut, { text: userText, onDone: function() { setUserDone(true); } }))),
+      step >= 4 ? /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, minHeight: 44 } },
+        /*#__PURE__*/React.createElement(TypeOut, { text: adaptText, onDone: function() { setAdaptDone(true); } })) : null) : null);
   var genPlaceholder = /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
     /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ Generative AI..."));
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE TASK"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What should I watch tonight?”")),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What movie should I watch tonight?”")),
     step === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
       /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(1); }, size: "large" }, "See what Netflix recommends →")) :
     /*#__PURE__*/React.createElement("div", null,
@@ -1588,8 +1590,10 @@ function WatchTonightSeeIt() {
       step === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
         /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(2); }, size: "large" }, "See what Generative AI does →")) : null,
       step === 2 && genDone ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(3); }, size: "large" }, "🛋️ I already saw that at a friend’s")) : null,
-      step >= 3 && adaptDone ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginTop: 16 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(3); }, size: "large" }, "See your response →")) : null,
+      step === 3 && userDone ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
+        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(4); }, size: "large" }, "See AI response →")) : null,
+      step >= 4 && adaptDone ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginTop: 16 } },
         /*#__PURE__*/React.createElement(Takeaway, { headline: "Same movie. Then everything changes.", body: "Predictive AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and reasoned its way to something new. And it’s still in the conversation." })) : null));
 }
 function LLMsSection(props) {
@@ -1667,7 +1671,6 @@ function LLMsSection(props) {
       surface: "sand",
       title: "Two kinds of AI, one task"
     },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Same task for both. Reveal each kind of AI, then tell the generative one something new and watch it adapt."),
       /*#__PURE__*/React.createElement(WatchTonightSeeIt, null)),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE NAME GAME"),
     /*#__PURE__*/React.createElement(BodyP, null, "You’ll hear a pile of names: AI, generative AI, ChatGPT, LLM. Don’t let the terminology trip you up. For the rest of this course, we’ll usually say AI, and we mean the generative kind that you experience with ChatGPT, Claude, and Gemini."),
@@ -2713,7 +2716,7 @@ function WhyDeeperSection(props) {
         }))),
     /*#__PURE__*/E(SectionKicker, null, "AND IT CUTS BOTH WAYS"),
     /*#__PURE__*/E(BodyP, null,
-      "There\u2019s a flip side. The same tool that hands some people an edge quietly works against anyone who doesn\u2019t understand it. It sounds sure when it\u2019s wrong, slips in answers you never asked for, and shapes what you read without ever saying so. If you can\u2019t tell when it\u2019s off, the tool is using you. Learning how it works is how you stay in charge: ",
+      "There\u2019s a flip side. The same tool that hands some people an edge quietly works against anyone who doesn\u2019t understand it. AI sounds sure when it\u2019s wrong, slips in answers you never asked for, and shapes what you read without ever saying so. If you can\u2019t tell when it\u2019s off, the tool is using you. Learning how it works is how you stay in charge: ",
       /*#__PURE__*/E("strong", null, "smarter than the tool, not fooled by it.")),
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: What Is AI?" }));
@@ -2777,7 +2780,7 @@ function DoesAIThinkSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "doesaithink" }),
     E(BodyP, null,
-      "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the honest question, the one this whole course stands on: ",
+      "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the big question: ",
       E("strong", null, "Does AI actually think?"),
       " Is it alive? Is it smart? Does it feel anything?"),
     E(BodyP, null,
@@ -2788,7 +2791,7 @@ function DoesAIThinkSection(props) {
       E("strong", null, "We call it Artificial Intelligence, not Artificial Thinking."),
       " That was picked on purpose. Something can act intelligent, finish your sentence, explain a poem, without understanding a single thing it just said."),
     E(BodyP, null,
-      "There\u2019s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn\u2019t know a word of Chinese. People outside slide notes, written in Chinese, under the door. Inside, the person can\u2019t read any of it. What they do have is a giant chart of every Chinese symbol and which symbol tends to follow which."),
+      "There\u2019s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn\u2019t know a word of Chinese. Notes in Chinese come in under the door. The person can\u2019t read any of it, but they have a giant chart of which symbol tends to follow which. So they match symbols and slide back an answer that looks perfect to the people outside."),
     E("img", {
       src: "illustrations/does-ai-think.jpg",
       alt: "A person sealed inside a room matching Chinese symbols against a rulebook, sliding answers under the door",
@@ -2814,7 +2817,7 @@ function DoesAIThinkSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Thinking, or Just Sounds Like It?",
+      title: "True, or Just Sounds True?",
       action: E(ActivityCounter, { count: Object.keys(answers).length, total: ITEMS.length })
     },
       E(ActivityInstruction, null, "For each one, decide whether it\u2019s what AI really does or whether it just sounds that way. We\u2019ll explain as you go."),
@@ -2843,8 +2846,8 @@ function DoesAIThinkSection(props) {
             headline: item.headline,
             feedback: answered ? (picked === "real" ? item.realFeedback : item.illusionFeedback) : null
           },
-            PillButton("real", "Real"),
-            PillButton("illusion", "Sounds that way"));
+            PillButton("real", "True"),
+            PillButton("illusion", "Just sounds true"));
         }))),
 
     allAnswered ? E(KeyInsight, { lead: "AI doesn\u2019t think. It predicts." },
@@ -2906,7 +2909,7 @@ function WhyBotherSection(props) {
       "Here\u2019s what it will look like. Unless you do manual labor, every job will have AI as your partner. So, for your dream job at Google, here\u2019s how you\u2019ll work with AI."),
     E(ShowcaseBox, {
       headline: "AI does step 1. You do the rest.",
-      intro: "And steps 2 through 5 only happen if you know enough to do them.",
+      intro: "Steps 2 through 5 are skills. And every one of them runs on what you already know.",
       marginBottom: 28
     },
       E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12 } },
@@ -2958,7 +2961,9 @@ function WhyBotherSection(props) {
 
     E(SectionKicker, null, "THE TRUTH ABOUT AI"),
     E(BodyP, null,
-      "AI is programmed to give you answers. And, as you gain knowledge and experience with AI, you\u2019ll see that it\u2019s not very good sometimes. For example, we used AI to help write the text for this class. If we gave it a grade, it would be a D. Barely passing. Much of our time was spent in the last 3 steps; Evaluate, Refine, and Make it better."),
+      "AI is programmed to give you answers. And, as you gain AI experience, you\u2019ll see that sometimes it\u2019s amazing. But other times, it\u2019s not."),
+    E(BodyP, null,
+      "For example, we used AI to help develop this class. It coded every page and every piece of interactivity you\u2019ll see. For coding, it deserves an ", E("strong", null, "A+++"), ". It also wrote the first draft for much of the text. It was average, at best. It didn\u2019t always make points in the right order, explain things in the way we wanted, or give us the learning flow we wanted. For writing, we give it a ", E("strong", null, "C-"), ". Much of our time was spent in the last 3 steps: Evaluate, Refine, and Make it better."),
     E(BodyP, null,
       "It\u2019s not that AI is broken. It\u2019s that we humans are much better at understanding, evaluating, refining, and making things better."),
 

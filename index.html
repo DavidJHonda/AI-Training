@@ -2066,6 +2066,7 @@ function AIIsMathSection(props) {
         })
       )
     ),
+    /*#__PURE__*/React.createElement(BodyP, null, "One thing to hold onto: the model isn’t handed these probabilities. It learns them from patterns in mountains of data, and stores what it learns as numbers, millions of them. Those learned numbers are what’s actually inside the model."),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past these three ideas. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But these three concepts are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: visibleBayesSteps >= 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
@@ -3562,7 +3563,7 @@ function BlackBoxSection(props) {
         }))
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "When you hear stories like these, remember the mechanism: AI is being steered, not authored. There is no master rulebook to point at and fix."
+      "When you hear stories like these, remember the mechanism: AI is being steered, not authored. There is no master rulebook to point at and fix. What’s inside isn’t rules, or even readable patterns; it’s millions of learned numbers, which is exactly why you can’t open it up and read it."
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE INDUSTRY’S ANSWER: GUARDRAILS"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -4669,11 +4670,10 @@ function TokenSection(props) {
     E(BodyP, null,
       "Here is a fact about computers. They work exclusively with numbers, and don\u2019t read text."),
     E(BodyP, null,
-      E("strong", null, "Before an LLM can process text, it has to convert the text into numbers."),
-      " That process is called ",
+      "Before AI can process text, it has to break the text into chunks and turn each chunk into a number. Those chunks are called ",
+      E("strong", null, "tokens"),
+      ", and the process is called ",
       E("strong", null, "tokenization"), "."),
-    E(BodyP, null,
-      "Tokenization isn\u2019t new. Search engines, spell-checkers, and programming tools have been converting text into numbers for decades. What\u2019s different about an LLM is that nobody handed it a dictionary. Its chunks were discovered by studying mountains of real text."),
     E(BodyP, null,
       "A token might be a whole word, part of a word, punctuation, emoji, code, or even a space before a word. Each token gets a number called a ",
       E("strong", null, "token ID"), "."),
@@ -4787,7 +4787,7 @@ function EmbeddingsSection(props) {
     "You and your friends decide to rate Coke and a cup of black coffee based on six dimensions. Here are your results."),
   tasteProfile,
   E(BodyP, { style: { marginTop: 18 } },
-    "This is how an AI model gives meanings to tokens. In your taste test, Coke\u2019s row of numbers is ",
+    "This is how an AI gives meanings to tokens. In your taste test, Coke\u2019s row of numbers is ",
     E("strong", null, "[9, 1, 10, 2, 3, 8]"),
     ". The order matters: sweet, bitter, fizz, heat, caffeine, and darkness."),
   E(BodyP, null,
@@ -4808,9 +4808,7 @@ function EmbeddingsSection(props) {
   E(SectionKicker, null, "DO WE NEED MORE DIMENSIONS?"),
   E(BodyP, null, "Six dimensions were enough to tell Coke from black coffee. But in the last question, they weren\u2019t enough to tell Coke from Pepsi."),
   E(BodyP, null,
-    "Taste-wise they ",
-    E("em", null, "do"),
-    " differ: Coke is more \u201cvanilla-raisin smooth,\u201d Pepsi more \u201ca citrus burst.\u201d Add one dimension for Citrus and the problem is solved: Pepsi scores a 10, Coke close to 0."),
+    "They differ in subtler ways, too. You could add one more dimension, say, \u201cCitrus,\u201d and Pepsi scores a 10 while Coke sits near 0."),
   E(BodyP, null,
     "But an AI can\u2019t hand-pick a neat \u201cCitrus\u201d slot for every distinction in language. There are far too many words to tell apart. So instead of a handful of labeled dimensions, real models give each token ",
     E("strong", null, "thousands of dimensions"),
@@ -4839,13 +4837,13 @@ function EmbeddingsSection(props) {
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
-  var vsDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark"];
+  var vsDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark", "Citrus"];
   var vsDrinks = [
-    { emoji: "🥤", name: "Coke", vals: [9, 1, 10, 2, 3, 8], pillBg: "#fbdfe2", pillFg: "#e6394d" },
-    { emoji: "🥤", name: "Pepsi", vals: [10, 1, 10, 2, 3, 8], pillBg: "#dbe6fb", pillFg: "#2f6fd6" },
-    { emoji: "☕", name: "Black Coffee", vals: [1, 9, 0, 9, 8, 10], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
+    { emoji: "🥤", name: "Coke", vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
+    { emoji: "🥤", name: "Pepsi", vals: [9, 1, 10, 2, 3, 8, 10], pillBg: "#dbe6fb", pillFg: "#2f6fd6" },
+    { emoji: "☕", name: "Black Coffee", vals: [1, 9, 0, 9, 8, 10, 0], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
   ];
-  var vsCols = "minmax(116px, 150px) repeat(6, minmax(50px, 1fr))";
+  var vsCols = "minmax(116px, 150px) repeat(7, minmax(44px, 1fr))";
   var vsHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "1.5px" };
   var vsTasteProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 20px", background: "#f3f1fa", borderRadius: 20, padding: "28px 32px" } },
     E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi vs. Black Coffee"),
@@ -4866,7 +4864,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Embeddings turn each token into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
     E(BodyP, null,
-      "The table below uses the same example vectors from your taste test, plus a new row for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for sweetness. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
+      "The table below uses the same example vectors from your taste test, plus a new row for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for citrus. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
     vsTasteProfile,
     E(BodyP, null,
       "Two vectors that are close usually mean related things. Two vectors that are far apart usually mean less related things."),
@@ -4874,7 +4872,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "The model measures this with ",
       E("strong", null, "distance"),
-      ". Coke and Pepsi differ in only one slot (sweet), so they sit close together in vector space. Coke and Black Coffee differ in nearly every slot, so they sit far apart."),
+      ". Coke and Pepsi differ in only one slot (citrus), so they sit close together in vector space. Coke and Black Coffee differ in nearly every slot, so they sit far apart."),
 
     E(BodyP, null,
       "Close doesn\u2019t always mean identical."),
@@ -4899,75 +4897,50 @@ function VectorSpaceSection(props) {
 
 function MatchTermsTryIt(props) {
   var E = React.createElement;
-  var PAIRS = [
-    { term: "Embedding table", definition: "The lookup table that maps token IDs to starting vectors." },
-    { term: "Dimension", definition: "One slot in a vector." },
-    { term: "Parameter", definition: "A stored learned number adjusted during training." },
-    { term: "Value", definition: "The number inside one slot." },
-    { term: "Embedding vector", definition: "The full number profile for a token." }
+  var QUESTIONS = [
+    { prompt: "A chunk of text the model reads, like a word, part of a word, or emoji.", answer: "Token", choices: ["Token", "Token ID", "Value"], feedback: "A token is the chunk of text itself: a word, part of a word, punctuation, or emoji." },
+    { prompt: "The number assigned to a token.", answer: "Token ID", choices: ["Value", "Token ID", "Token"], feedback: "Every token is turned into a number, and that number is its token ID." },
+    { prompt: "A row of numbers in a specific order.", answer: "Vector", choices: ["Vector", "Embedding vector", "Dimension"], feedback: "A vector is simply a row of numbers in a fixed order." },
+    { prompt: "One slot in a vector.", answer: "Dimension", choices: ["Dimension", "Value", "Embedding vector"], feedback: "Each slot in that row of numbers is a dimension." },
+    { prompt: "The number inside one slot.", answer: "Value", choices: ["Dimension", "Token ID", "Value"], feedback: "The number that sits inside one slot is its value." },
+    { prompt: "The full number profile for a token.", answer: "Embedding vector", choices: ["Embedding table", "Embedding vector", "Vector"], feedback: "When a vector stands for one token’s meaning, we call it the embedding vector." },
+    { prompt: "The lookup table that maps token IDs to starting vectors.", answer: "Embedding table", choices: ["Embedding vector", "Parameter", "Embedding table"], feedback: "The embedding table is the lookup that maps each token ID to its starting vector." },
+    { prompt: "A stored learned number adjusted during training.", answer: "Parameter", choices: ["Value", "Parameter", "Embedding table"], feedback: "A parameter is one of the model’s learned numbers, set during training." }
   ];
-  function shuffle(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = a[i]; a[i] = a[j]; a[j] = tmp; } return a; }
-  var shuffledRef = useRef({ terms: shuffle(PAIRS), defs: shuffle(PAIRS) });
-  var _sel = useState(null), selected = _sel[0], setSelected = _sel[1];
-  var _m = useState([]), matched = _m[0], setMatched = _m[1];
-  var _w = useState(false), wrong = _w[0], setWrong = _w[1];
-  var done = matched.length === PAIRS.length;
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  var done = answeredCount >= QUESTIONS.length;
   useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
-  var handlePick = function(term, side) {
-    if (matched.includes(term)) return;
-    setWrong(false);
-    if (!selected) { setSelected({ term: term, side: side }); return; }
-    if (selected.side === side) { setSelected(selected.term === term ? null : { term: term, side: side }); return; }
-    if (selected.term === term) {
-      setMatched(function(prev) { return prev.concat([term]); });
-      setSelected(null);
-    } else {
-      setWrong(true);
-      setSelected(null);
-    }
-  };
-  var colHead = { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--inkMuted)", marginBottom: 8 };
-  var renderBtn = function(item, side) {
-    var term = item.term;
-    var isMatched = matched.includes(term);
-    var isSelected = selected && selected.side === side && selected.term === term;
-    var bg = isMatched ? "#ecfdf5" : isSelected ? "#eef2ff" : "var(--card)";
-    var border = isMatched ? "1px solid #86efac" : isSelected ? "2px solid var(--primary)" : "1px solid var(--rule)";
-    return E("button", {
-      key: term,
-      onClick: function() { handlePick(term, side); },
-      disabled: isMatched,
-      style: { background: bg, border: border, borderRadius: 8, padding: "10px 14px", fontSize: side === "term" ? 14 : 13, fontWeight: side === "term" ? 700 : 400, color: side === "term" ? "var(--ink)" : "var(--inkSoft)", cursor: isMatched ? "default" : "pointer", width: "100%", textAlign: "left", marginBottom: 6, lineHeight: 1.5, transition: "all 0.2s", display: "flex", alignItems: "center", gap: 8 }
-    }, isMatched ? E("span", { style: { color: "#10b981", fontSize: 14, flexShrink: 0 } }, "\u2713") : null, side === "term" ? term : item.definition);
-  };
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Match the Names",
-    action: E(ActivityCounter, { count: matched.length, total: PAIRS.length })
+    title: "Name the Piece",
+    action: E(ActivityCounter, { count: answeredCount, total: QUESTIONS.length })
   },
-    E(ActivityInstruction, null, "Match each term to its definition."),
-    E(InnerCard, null,
-      done ? E("div", null,
-        E("div", { style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "14px 20px", textAlign: "center", marginBottom: 16 } },
-          E("div", { style: { fontSize: 15, color: "#4338ca", lineHeight: 1.6, fontWeight: 600 } }, "All five matched.")),
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-          PAIRS.map(function(p) {
-            return E("div", { key: p.term, style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 8, padding: "12px 14px" } },
-              E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } },
-                E("span", { style: { color: "#10b981", fontSize: 14, flexShrink: 0 } }, "✓"),
-                E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, p.term)),
-              E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, paddingLeft: 22 } }, p.definition));
-          }))) :
-      E("div", null,
-        E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 } },
-          E("div", null,
-            E("div", { style: colHead }, "Terms"),
-            shuffledRef.current.terms.map(function(item) { return renderBtn(item, "term"); })),
-          E("div", null,
-            E("div", { style: colHead }, "Definitions"),
-            shuffledRef.current.defs.map(function(item) { return renderBtn(item, "def"); }))),
-        wrong ? E("div", { style: { marginTop: 14, padding: "10px 14px", background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 8, fontSize: 13, fontWeight: 600, color: "#dc2626", display: "flex", alignItems: "center", gap: 8 } }, E("span", null, "\u26a0"), "Not a match. Try again.") : null)));
+    E(ActivityInstruction, null, "Read each definition and pick the term it describes. We’ll explain as you go."),
+    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      QUESTIONS.map(function(q, i) {
+        var picked = answers[i];
+        var answered = picked !== undefined;
+        var correct = answered && picked === q.answer;
+        return E(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: q.prompt,
+          answered: answered,
+          correct: correct,
+          feedback: answered ? q.feedback : null
+        }, q.choices.map(function(c) {
+          return E(FeedbackPill, {
+            key: c,
+            answered: answered,
+            isCorrect: c === q.answer,
+            isPicked: picked === c,
+            label: c,
+            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, c]])); }); }
+          });
+        }));
+      })));
 }
 function BehindTheNumbersSection(props) {
   var E = React.createElement;
@@ -4976,8 +4949,8 @@ function BehindTheNumbersSection(props) {
     E(LessonHeader, { sectionId: "insidethemodel" }),
 
     E(BodyP, null,
-      "There is a term software engineers use for AI: a ",
-      E("strong", null, "Black Box"),
+      "There is a term software engineers use for AI: ",
+      E("strong", null, "The Black Box"),
       ". With a regular calculator, if you type 2+2 and it says 5, a programmer can open the code, find the broken line, and fix it. The path from input to output is traceable."),
 
     E(BodyP, null,

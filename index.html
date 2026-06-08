@@ -309,7 +309,7 @@ var TERMS = [
   { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
   { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
   { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "aihistory" },
-  { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "choosemodel" },
+  { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "modelselection" },
   { term: "Prompt", definition: "What you type and send to the model: your question, instruction, or request.", source: "prompting" },
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
@@ -1213,19 +1213,19 @@ function RevealSequence(props) {
 }
 const SECTION_GROUPS = [{
   label: "Start Smarter",
-  sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control"]
+  sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "studying", "control"]
 }, {
   label: "Understand AI",
   sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Work With AI",
-  sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
+  sections: ["openerworkwith", "whatitdoesbest", "modelselection", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Check the Output",
   sections: ["openercheck", "critical", "verify", "evaluating", "hallucination", "trainingbias", "documenttrap"]
 }, {
   label: "Protect Yourself",
-  sections: ["openerprotect", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whennot", "howmuchtocheck", "studying", "integrity", "privacy", "seeingisntproof"]
+  sections: ["openerprotect", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whennot", "howmuchtocheck", "integrity", "privacy", "seeingisntproof"]
 }, {
   label: "Build Your Advantage",
   sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "aifuture", "humanedge", "creativethinking", "buildedge"]
@@ -1260,8 +1260,7 @@ const SECTION_META = {
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   openercontrols: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
-  modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choosing the Product", icon: "\uD83C\uDF9B\uFE0F" },
-  choosemodel: { kicker: "MATCH MODEL TO JOB", label: "Choosing the Model", icon: "\u26A1" },
+  modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choose the App", icon: "\uD83C\uDF9B\uFE0F" },
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
   temperature: { kicker: "THE VARIATION DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
@@ -1287,7 +1286,7 @@ const SECTION_META = {
   whatitdoesbest: { kicker: "FOUR ENGINES, MANY USES", label: "What AI Does Best", icon: "\u2699\uFE0F" },
   prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "The Art of Prompting", icon: "\u270D\uFE0F" },
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Your Thought Partner", icon: "\uD83E\uDD1D" },
-  studying: { kicker: "USE IT TO LEARN", label: "Studying With AI", icon: "\uD83D\uDCD3" },
+  studying: { kicker: "USE IT TO LEARN", label: "Study with AI", icon: "\uD83D\uDCD3" },
   verify: { kicker: "TRUST, THEN CHECK", label: "How to Verify", icon: "\uD83D\uDEE0\uFE0F" },
   evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluating the Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -2504,7 +2503,7 @@ function AIStrengthsSection(props) {
           "Worth a re-read. The fit comes down to one question: can you judge the result yourself, or does it need outside backup?")))),
     allDone && React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
     React.createElement(LessonRule, null),
-    React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); }, label: "Next: Studying With AI" }));
+    React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" }));
 }
 function WelcomeSection(props) {
   var E = React.createElement;
@@ -3046,8 +3045,8 @@ function WhyBotherSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); },
-      label: "Next: What You Can Control"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
+      label: "Next: Study with AI"
     }));
 }
 function ControlSection(props) {
@@ -3623,7 +3622,7 @@ function BlackBoxSection(props) {
         startLabel: "First Scenario",
         nextLabel: "Next Event \u2192",
         finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Guardrails are bolted on, not built in.", body: "A real AI product runs on all three at once, but only the guardrail is an attempt to control the model, and it sits on top because no one can reach inside the trained behavior and fix it directly. That\u2019s why control stays partial: a bolted-on layer catches some things and misses others." })
+        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Guardrails are bolted on, not built in.", body: "A real AI app runs on all three at once, but only the guardrail is an attempt to control the model, and it sits on top because no one can reach inside the trained behavior and fix it directly. That\u2019s why control stays partial: a bolted-on layer catches some things and misses others." })
       },
         /*#__PURE__*/React.createElement(InnerCard, null,
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
@@ -5761,7 +5760,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "The whole window is measured in tokens, the same chunks you met in the Tokens lesson. Pile up enough of them and you hit the context window’s limit."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Before that limit, the model sees everything in the chat. After it, it doesn’t. Some products summarize the older parts. Others just forget."),
+      "Before that limit, the model sees everything in the chat. After it, it doesn’t. Some apps summarize the older parts. Others just forget."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "And that limit is growing fast."),
     /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 20 },
@@ -5799,7 +5798,7 @@ function CustomizationSection(props) {
       color: "#8b5cf6",
       parts: [
         { label: "Your custom instructions", labelLines: ["Your custom", "instructions"], desc: "Settings you set once that apply to every chat. More on this in Controls." },
-        { label: "Saved memory", labelLines: ["Saved", "memory"], desc: "Things the product chose to remember from past chats." }
+        { label: "Saved memory", labelLines: ["Saved", "memory"], desc: "Things the app chose to remember from past chats." }
       ]
     }
   ];
@@ -6034,7 +6033,7 @@ function CustomizationSection(props) {
             "personal continuity across time."),
           /*#__PURE__*/React.createElement("div", {
             style: { background: "var(--info-bg)", border: "1px solid var(--info)", borderRadius: 8, padding: "10px 12px", fontSize: 12, color: "var(--inkSoft)", lineHeight: 1.5 }
-          }, "\u26A0\uFE0F Some products keep memory you can\u2019t see or edit. Check your settings.")
+          }, "\u26A0\uFE0F Some apps keep memory you can\u2019t see or edit. Check your settings.")
         )
       )
     )
@@ -6356,13 +6355,13 @@ const TEMP_OUTPUTS = {
 function OpenerControlsSection(props) {
   var threeDecisions = /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "THREE DECISIONS",
-    headline: "Product, Model, Mode.",
+    headline: "App, Model, Mode.",
     intro: "Three separate choices for how you use AI. They’re not interchangeable."
   },
     /*#__PURE__*/React.createElement("div", {
       style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, marginBottom: 18 }
     }, [
-      { label: "Product", question: "Where should I work?", examples: "ChatGPT, Claude, or Gemini." },
+      { label: "App", question: "Where should I work?", examples: "ChatGPT, Claude, or Gemini." },
       { label: "Model", question: "How powerful does the model need to be?", examples: "Most capable, Everyday, or Fast & light." },
       { label: "Mode", question: "How much effort should this answer get?", examples: "Direct or Thinking." }
     ].map(function(d, i) {
@@ -6378,7 +6377,7 @@ function OpenerControlsSection(props) {
       style: { paddingTop: 14, borderTop: "1px solid var(--rule)", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 }
     },
       /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "A bad answer doesn’t always mean “try harder.” "),
-      "Sometimes you picked the wrong product. Sometimes you picked too small a model. Sometimes the model just needs more reasoning time. Knowing the three decisions helps you fix the right one."));
+      "Sometimes you picked the wrong app. Sometimes you picked too small a model. Sometimes the model just needs more reasoning time. Knowing the three decisions helps you fix the right one."));
 
   var controlsIllustration = /*#__PURE__*/React.createElement(Illustration, {
     eyebrow: "WHAT ELSE SHAPES THE ANSWER?"
@@ -6400,7 +6399,7 @@ function OpenerControlsSection(props) {
     featuredCard: /*#__PURE__*/React.createElement(React.Fragment, null,
       controlsIllustration,
       /*#__PURE__*/React.createElement(BodyP, null, "You’ve seen how an answer gets made: a prompt enters, context shapes the next-token guesses, attention connects the pieces, and the model produces an answer. That context, everything in the window, was your first real lever on the output. It won’t be the last."),
-      /*#__PURE__*/React.createElement(BodyP, null, "When the answer comes back, it can feel like the AI just decided. It didn’t. The answer is shaped by the product you use, the model you choose, whether you ask it to think harder, how creative or predictable the settings are, and what it remembers about you."),
+      /*#__PURE__*/React.createElement(BodyP, null, "When the answer comes back, it can feel like the AI just decided. It didn’t. The answer is shaped by the app you use, the model you choose, whether you ask it to think harder, how creative or predictable the settings are, and what it remembers about you."),
       threeDecisions),
     whatYoullLearnIntro: [
       "This section is about the parts of the AI experience you can adjust before you blame the tool, rewrite the prompt, or accept a weak answer. Each lesson answers a question."
@@ -6415,8 +6414,8 @@ function OpenerControlsSection(props) {
         kicker: "WHAT TO USE",
         bridge: "First, choose the right tool.",
         questions: [
-          { question: "How do I choose the right AI product for the job?", lessonId: "modelselection" },
-          { question: "What changes when I choose a different model?", lessonId: "choosemodel" }
+          { question: "How do I choose the right AI app for the job?", lessonId: "modelselection" },
+          { question: "What changes when I choose a different model?", lessonId: "modelselection" }
         ]
       },
       {
@@ -6430,13 +6429,13 @@ function OpenerControlsSection(props) {
       }
     ],
     whatYoullLearnClosing: [
-      "By the end, AI should feel less like a single mind that just decides and more like what it is: a tool with products, models, modes, settings, and memory, each one changing what it can do.",
+      "By the end, AI should feel less like a single mind that just decides and more like what it is: a tool with apps, models, modes, settings, and memory, each one changing what it can do.",
       "The better you understand the controls, the better you can match the tool to the job."
     ],
     question: "Controls change the answer. They do not guarantee the answer is true.",
     questionLead: "",
     nextLessonId: "modelselection",
-    nextLessonLabel: "Next: Choosing the Product",
+    nextLessonLabel: "Next: Choose the App",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -6563,7 +6562,7 @@ function ModelSelectionSection(props) {
     options: [
       { label: "Claude", correct: false, headline: "Strong on what you give it.", hint: "Claude is built to analyze what you hand it, not to go pull this week's headlines. This task lives or dies on fresh web access. Which tool was built around that from the start?", feedback: "Claude has web search too, but its strength is careful analysis of what you give it, not pulling fresh news. Google built Gemini around web grounding as a core feature. For \u2018what happened this week,\u2019 Gemini is the cleaner fit." },
       { label: "ChatGPT", correct: false, headline: "Search bolted on later.", hint: "ChatGPT can search the web, but it was added on rather than built in. This task is all about fresh, current information. Which tool treats live web access as a core feature, not an add-on?", feedback: "ChatGPT can search the web, but Google built Gemini with web-grounded answers as a core feature, not an add-on. For news this week specifically, Gemini is the cleaner fit." },
-      { label: "Gemini", correct: true, headline: "Gemini's the fit.", feedback: "Google built it around real-time web access as a core feature, not an add-on. The others can search the web too, but it was bolted onto their products later." }
+      { label: "Gemini", correct: true, headline: "Gemini's the fit.", feedback: "Google built it around real-time web access as a core feature, not an add-on. The others can search the web too, but it was bolted onto their apps later." }
     ]
   }, {
     prompt: "You\u2019re writing a persuasive essay and want detailed feedback on your argument structure.",
@@ -6574,22 +6573,9 @@ function ModelSelectionSection(props) {
     ]
   }];
   const scenariosAllAnswered = Object.keys(scenarioAnswers).length >= SCENARIOS.length;
-  const TIERS = [{
-    tier: "Flagship", examples: "The most capable model each company offers",
-    capability: 100, speed: 40, cost: 100,
-    desc: "Maximum reasoning depth. Use for complex analysis, nuanced writing, and multi-step problems."
-  }, {
-    tier: "Mid-tier", examples: "Strong balance of quality and speed",
-    capability: 70, speed: 75, cost: 50,
-    desc: "Good default for most tasks. Often the best value."
-  }, {
-    tier: "Fast / Light", examples: "Quick and cheap",
-    capability: 40, speed: 100, cost: 15,
-    desc: "Best for simple lookups, formatting, and high-volume tasks."
-  }];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "Earlier in this class, you learned a little about the three most popular products."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Earlier in this class, you learned a little about the three most popular apps."),
   /*#__PURE__*/React.createElement("img", {
     src: "illustrations/choosing-the-product.jpg",
     alt: "A presenter at a podium showing a slide titled Choosing the Product, comparing ChatGPT, Claude, and Gemini",
@@ -6597,8 +6583,8 @@ function ModelSelectionSection(props) {
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both make cheeseburgers. They taste different because the ingredients are different. Walking into each one feels different too."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The big three LLM products work the same way. They\u2019re all Generative AI, but the companies behind them use different ingredients and train them differently."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Those training choices shape everything: how the product feels to use, what it\u2019s good at, and what it gets wrong. Underneath, each one is built around a different core philosophy."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The big three LLM apps work the same way. They\u2019re all Generative AI, but the companies behind them use different ingredients and train them differently."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Those training choices shape everything: how the app feels to use, what it\u2019s good at, and what it gets wrong. Underneath, each one is built around a different core philosophy."),
   (function() {
     var PHILOSOPHIES = [
       {
@@ -6679,8 +6665,8 @@ function ModelSelectionSection(props) {
               ));
           }))));
   }()),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Which product is best?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The best product is the one that fits the job. Most people just use whatever they opened last."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Which app is best?"),
+  /*#__PURE__*/React.createElement(BodyP, null, "The best app is the one that fits the job. Most people just use whatever they opened last."),
   /*#__PURE__*/React.createElement(BodyP, null, "Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context. Here\u2019s what each one does best."),
   (function() {
     var BEST_FOR = [
@@ -6853,15 +6839,19 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 24 } },
     /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT SHOULD YOU DO?")
   ),
-  /*#__PURE__*/React.createElement(BodyP, null, "Two things to keep in mind. First, all three products are improving fast. The one that ranks best today might not next year, or even next month. Companies update these tools constantly."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Two things to keep in mind. First, all three apps are improving fast. The one that ranks best today might not next year, or even next month. Companies update these tools constantly."),
   /*#__PURE__*/React.createElement(BodyP, null, "Second, they\u2019re all great. The strengths and weaknesses we talked about are real, but the gap is smaller than the marketing wants you to think. Any of these will handle most of what you ask of them."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Pick one and get good at it." },
-    "Spend enough time with one product that you know how it answers, where it shines, and where it lets you down. You\u2019ll learn more from going deep with one than from skipping between three. Once you know one well, you can branch out when a specific job calls for it."),
+    "Spend enough time with one app that you know how it answers, where it shines, and where it lets you down. You\u2019ll learn more from going deep with one than from skipping between three. Once you know one well, you can branch out when a specific job calls for it."),
+  /*#__PURE__*/React.createElement(ChoosingModelSection, { embedded: true }),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("choosemodel"), label: "Next: Choosing the Model" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("thinkingmode"), label: "Next: Thinking Mode" }));
 }
 function ChoosingModelSection(props) {
   const [tiersRevealed, setTiersRevealed] = useLocalStorage("seeit-choosingmodel-tiersRevealed", 0);
+  // Rendered standalone or embedded as the second half of "Choose the App".
+  // When embedded, the parent supplies the header and the Next button.
+  var embedded = props && props.embedded;
   var TIERS = [{
     tier: "Most capable", examples: "ChatGPT Thinking/Pro, Claude Opus, Gemini Pro",
     capability: 100, speed: 40, limits: 100,
@@ -6876,11 +6866,11 @@ function ChoosingModelSection(props) {
     desc: "Use for simple, low-stakes tasks: reformatting notes, generating a list, translating a sentence, or trying quick variations. Fast and cheap, but not the place for complex judgment."
   }];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
+    embedded ? null : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You picked the product. Now you need to pick the model."),
+      "You picked the app. Now you need to pick the model."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Each product isn\u2019t just one AI. It\u2019s a family of them. Same company, same philosophy, but different sizes built for different jobs."),
+      "Each app isn\u2019t just one AI. It\u2019s a family of them. Same company, same philosophy, but different sizes built for different jobs."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Inside a family, the models aren\u2019t the same brain dialed up or down. They\u2019re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -6985,8 +6975,8 @@ function ChoosingModelSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--rule)" } },
         /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Quick tip: "),
         "Start fresh chats when you can. Long conversations with lots of pasted text burn through your limit faster than short ones.")),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("thinkingmode"); } }, "Next: Thinking Mode"));
+    embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
+    embedded ? null : /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("thinkingmode"); } }, "Next: Thinking Mode"));
 }
 function ThinkingModeSection(props) {
   const [taskAnswers, setTaskAnswers] = useState({});
@@ -7003,7 +6993,7 @@ function ThinkingModeSection(props) {
     task: "Solve this multi-step calculus problem",
     answer: "Thinking", explain: "Multi-step math requires the model to work through each step sequentially and verify its logic. Thinking Mode dramatically reduces errors on problems like this."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thinkingmode" }), /*#__PURE__*/React.createElement(BodyP, null, "You already chose the product. You already chose the model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thinkingmode" }), /*#__PURE__*/React.createElement(BodyP, null, "You already chose the app. You already chose the model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Every major AI has a Direct Mode and a Thinking Mode. Direct Mode goes straight to the answer using what the model already knows. Thinking Mode reasons through the problem step by step before committing to a response."),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 220, background: "var(--bg)", borderRadius: 12, padding: "18px 16px", border: "2px solid #10b98133" } },
@@ -7023,7 +7013,7 @@ function ThinkingModeSection(props) {
   ),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Thinking Mode isn\u2019t a tiny person inside the computer reconsidering." },
     "It\u2019s an extra generation-and-checking process that catches more on hard answers. Better than Direct Mode for complex problems. But it\u2019s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking harder won\u2019t fix that. For truth, you still need evaluate the results."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "HOW EACH PRODUCT DOES IT"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "HOW EACH APP DOES IT"),
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 200, background: "var(--bg)", borderRadius: 12, padding: "16px 14px", border: "1px solid var(--rule)" } },
       /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "#8b5cf6", marginBottom: 8 } }, "Claude"),
@@ -7093,7 +7083,7 @@ function TemperatureSection(props) {
     { word: "again", low: 0, medium: 1, high: 4 },
     { word: "other words", low: 0, medium: 1, high: 4 }
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }), /*#__PURE__*/React.createElement(BodyP, null, "You picked the product. You picked the model. You picked the mode. Now there\u2019s one smaller control to understand: temperature."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }), /*#__PURE__*/React.createElement(BodyP, null, "You picked the app. You picked the model. You picked the mode. Now there\u2019s one smaller control to understand: temperature."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
   },
     [
@@ -7189,7 +7179,7 @@ function TemperatureSection(props) {
         style: { background: "#e7f6ee", border: "1px solid #b6e3cd", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18 }
       }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework."))),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
-    "You probably won\u2019t see this slider in regular ChatGPT, Claude, or Gemini. The product usually picks the temperature for you. But the idea still matters."),
+    "You probably won\u2019t see this slider in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "When you want repeatability vs variety",
     intro: "Most students won\u2019t touch a temperature slider directly. But you can ask for the effect through prompting.",
@@ -7443,7 +7433,7 @@ function VerifySection(props) {
   }, {
     icon: "\uD83D\uDD17",
     label: "Don't trust the source link",
-    desc: "More AI products now show their work: a footnote, a citation, a clickable link. That\u2019s a step up, but a link is where verification starts, not where it ends. The source can be weak, outdated, misread by the AI, or only half relevant to your question.",
+    desc: "More AI apps now show their work: a footnote, a citation, a clickable link. That\u2019s a step up, but a link is where verification starts, not where it ends. The source can be weak, outdated, misread by the AI, or only half relevant to your question.",
     aiSays: "According to a 2017 study in the Journal of Adolescent Research [link], teenagers who use social media more than 3 hours a day score 18% lower on reading comprehension tests.",
     doThis: "Click through. Check three things. Does the source actually say that, or did the AI summarize wrong? Is the source itself solid (the journal article, not a blog quoting it)? Is it still current \u2014 a 2017 social media study may describe a totally different app landscape than today.",
     rule: "A sourced answer is better than an unsourced one, but a link doesn\u2019t make a claim true."
@@ -8008,7 +7998,7 @@ function OpenerWorkWithSection(props) {
     featuredCard: workIllustration,
     whyThisMatters: [
       "You know how AI builds an answer. Now the question gets practical: how do you actually work with it?",
-      "Before you type a single word, you have already made choices: which product, which model, how hard it should think, how predictable it should be, and what it remembers about you. Those choices shape the answer as much as your words do.",
+      "Before you type a single word, you have already made choices: which app, which model, how hard it should think, how predictable it should be, and what it remembers about you. Those choices shape the answer as much as your words do.",
       "Good AI use is a skill, not a reflex. This part is that skill, in two halves: pick the right tool for the job, then ask for what you need in a way that gets it."
     ],
     whatYoullLearnIntro: [
@@ -8031,8 +8021,8 @@ function OpenerWorkWithSection(props) {
         kicker: "PICK THE TOOL",
         bridge: "Then, the choices you make before you type.",
         questions: [
-          { question: "How do I choose the right AI product for the job?", lessonId: "modelselection" },
-          { question: "What changes when I pick a different model?", lessonId: "choosemodel" },
+          { question: "How do I choose the right AI app for the job?", lessonId: "modelselection" },
+          { question: "What changes when I pick a different model?", lessonId: "modelselection" },
           { question: "When should I make it slow down and think harder?", lessonId: "thinkingmode" },
           { question: "Why do some answers feel predictable and others more creative?", lessonId: "temperature" },
           { question: "How do customization and memory change future answers?", lessonId: "customization" }
@@ -8378,7 +8368,7 @@ function WhatItDoesBestSection(props) {
     E(NextLessonGate, {
       ready: Object.keys(taskAnswers).length >= TASKS.length,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("modelselection"); },
-      label: "Next: Choosing the Product"
+      label: "Next: Choose the App"
     }));
 }
 
@@ -8932,7 +8922,7 @@ function StudyingWithAISection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "studying" }),
     E(BodyP, { marginBottom: 14 },
-      "Thought Partner taught you the rhythm of using AI to think with you, not for you. Studying is that rhythm aimed at one job: getting material into your head and keeping it there."),
+      "AI works best when it thinks with you, not for you. Studying is that idea aimed at one job: getting material into your head and keeping it there."),
     E(BodyP, { marginBottom: 24 },
       "Used well, AI is the most patient tutor you\u2019ll ever have. It will quiz you at 1am, never sighs when you ask again, and meets you exactly where you\u2019re stuck. The first move is choosing which kind of AI to point at the work."),
     E(ShowcaseBox, { kicker: "WHICH AI FOR THE JOB", marginBottom: 24 },
@@ -9015,7 +9005,7 @@ function StudyingWithAISection(props) {
     E(KeyInsight, { lead: "Pick the tool, then run the moves." },
       "Point source-grounded AI at your own notes and slides, or point a general AI at a topic from scratch. Either way, the moves above keep you producing instead of watching. That is the whole difference between feeling ready and being ready."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); }, label: "Next: What You Can Control" })
   );
 }
 const EVAL_CRITERIA = [{
@@ -10511,7 +10501,7 @@ function IntegritySection(props) {
     }, [{
       icon: "\uD83D\uDCDD",
       title: "\u2018AI made it\u2019 doesn\u2019t automatically mean \u2018I own it.\u2019",
-      desc: "Different products have different terms. Some grant you commercial rights to your outputs, some restrict them. Check before you sell, post, or submit anything that\u2019s going to make money or live somewhere public."
+      desc: "Different apps have different terms. Some grant you commercial rights to your outputs, some restrict them. Check before you sell, post, or submit anything that\u2019s going to make money or live somewhere public."
     }, {
       icon: "\u270D\uFE0F",
       title: "Do the real work yourself and it\u2019s yours.",
@@ -10853,7 +10843,7 @@ function PrivacySection(props) {
     }, {
       icon: "\uD83E\uDDE0",
       title: "They might train on your data",
-      desc: "Some products use your conversations to improve future models. That means your words could influence how the model responds to other people.",
+      desc: "Some apps use your conversations to improve future models. That means your words could influence how the model responds to other people.",
       color: "#f59e0b",
       bg: "#fffbeb",
       border: "#fcd34d"
@@ -10998,7 +10988,7 @@ function PrivacySection(props) {
     }, {
       icon: "\uD83E\uDEE5",
       title: "Use temporary chat for one-offs",
-      desc: "Most products have a temporary or incognito mode that doesn't save to history or memory. Use it for sensitive topics or one-off questions you don't want sitting in your account."
+      desc: "Most apps have a temporary or incognito mode that doesn't save to history or memory. Use it for sensitive topics or one-off questions you don't want sitting in your account."
     }, {
       icon: "\u2702\uFE0F",
       title: "Crop before you upload",
@@ -11782,7 +11772,7 @@ function TestYourselfSection(props) {
     review: "llms",
     explain: "The model doesn’t look up answers. Every response is generated word by word from a probability distribution. Temperature controls how much that distribution is sampled vs. locked to the top choice, which is why runs diverge.",
     pitfalls: {
-      0: "The core model isn’t searching. (Some products add a search tool on top. The model itself generates.)",
+      0: "The core model isn’t searching. (Some apps add a search tool on top. The model itself generates.)",
       1: "The base model doesn’t learn between chats. Weights are frozen after training.",
       3: "It’s by design, not a glitch."
     }
@@ -11818,7 +11808,7 @@ function TestYourselfSection(props) {
     review: "hallucination",
     explain: "Without a live tool, a model has no way to know about events after its training cutoff. A confident, detailed answer about today is a textbook hallucination signature: fluent, specific, and made up.",
     pitfalls: {
-      0: "Some products add search tools; the model itself has no built-in live internet.",
+      0: "Some apps add search tools; the model itself has no built-in live internet.",
       2: "Thinking mode reasons longer; it does not create real-time knowledge.",
       3: "Prompting doesn’t conjure information the model doesn’t have."
     }
@@ -12108,7 +12098,7 @@ function HeadToHeadSection(props) {
         { text: "Dates, statistics, and numbers match the real articles", correct: true, explain: "AI invents plausible numbers routinely. Spot-check before you lean on them." },
         { text: "The voice reads like yours, not like the AI’s default", correct: true, explain: "If it doesn’t sound like you, it won’t read like you, and you won’t be able to defend it." },
         { text: "Sources are credible, not just “exists somewhere on the internet”", correct: true, explain: "Existing isn’t the same as trustworthy. Peer-reviewed or authoritative beats “a blog post.”" },
-        { text: "That AI used the latest, most expensive model", explain: "Model version is a product concern, not a verification concern. The content in front of you is what matters." }
+        { text: "That AI used the latest, most expensive model", explain: "Model version is an app concern, not a verification concern. The content in front of you is what matters." }
       ]
     }
   ];
@@ -12707,7 +12697,7 @@ function HumanEdgeSection(props) {
     setup: "Snapchat\u2019s \u201CMy AI\u201D tells you Luka Don\u010di\u0107 plays for the Dallas Mavericks. You get tears in your eyes, wishing that was true.",
     options: [
       { label: "Make sense of weird behavior", correct: false, feedback: "The move here is the verification itself. Specific facts about specific people are exactly what you check." },
-      { label: "Check what matters", correct: true, feedback: "Right. Snapchat\u2019s \u201CMy AI\u201D might be working from stale training data, weak retrieval, or another product limit. Five seconds of search confirms or kills the claim." }
+      { label: "Check what matters", correct: true, feedback: "Right. Snapchat\u2019s \u201CMy AI\u201D might be working from stale training data, weak retrieval, or another app limit. Five seconds of search confirms or kills the claim." }
     ]
   }];
   const EDGE_CARDS = [
@@ -13619,7 +13609,6 @@ const SECTION_COMPONENTS = {
   layers: LayersSection,
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
-  choosemodel: ChoosingModelSection,
   thinkingmode: ThinkingModeSection,
   prompt: PromptSection,
   temperature: TemperatureSection,
@@ -13678,7 +13667,9 @@ function ChipNav(props) {
   var subtleNodeShadow = "0 1px 2px rgba(14,10,31,.04), 0 6px 16px -12px rgba(14,10,31,.22)";
 
   // Focus window: clamp a fixed slice to keep the current lesson near center.
-  var windowed = total > WINDOW;
+  // Only Understand AI is long enough to warrant the windowed "Your path";
+  // every other part shows all its lessons at once (the full grid below).
+  var windowed = (props.groupLabel === "Understand AI") && total > WINDOW;
   var start = 0, end = total;
   if (windowed && !showFull) {
     start = Math.max(0, Math.min(activeIdx - 2, total - WINDOW));
@@ -13779,9 +13770,9 @@ function ChipNav(props) {
         E("span", { style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 800, color: "var(--ink)" } }, count + " more")));
   }
 
-  // Body: full grid (toggle) or the focus-window row.
+  // Body: full grid (toggle, or any non-windowed part) or the focus-window row.
   var body;
-  if (showFull) {
+  if (showFull || !windowed) {
     body = E("div", {
       style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", columnGap: 0, rowGap: 30, marginBottom: 28, alignItems: "start" }
     }, sections.map(function(sid, ci) {
@@ -13834,12 +13825,11 @@ function ChipNav(props) {
     E("div", { style: { flex: "1 1 auto", minWidth: 0 } }, body));
 }
 // Condensed context bar that slides in once the full header has scrolled away.
-// Keeps the current section/lesson + progress visible, with Prev/Next and a
-// "Lessons" dropdown that reveals the full ChipNav.
+// Keeps the current lesson + position visible on the left, with Prev/Next
+// stepping through the lessons in order. Same for every section.
 function StickyLessonBar(props) {
   var E = React.createElement;
   var _v = useState(false), visible = _v[0], setVisible = _v[1];
-  var _m = useState(false), menuOpen = _m[0], setMenuOpen = _m[1];
   useEffect(function() {
     var onScroll = function() {
       var el = document.getElementById("main-content");
@@ -13849,7 +13839,6 @@ function StickyLessonBar(props) {
     onScroll();
     return function() { window.removeEventListener("scroll", onScroll); };
   }, []);
-  useEffect(function() { if (!visible) setMenuOpen(false); }, [visible]);
 
   var activeIdx = SECTIONS.findIndex(function(s) { return s.id === props.activeSection; });
   var section = SECTIONS[activeIdx];
@@ -13861,13 +13850,10 @@ function StickyLessonBar(props) {
   var lessonTitle = section.title || section.label || "";
   var prevId = activeIdx > 0 ? SECTIONS[activeIdx - 1].id : null;
   var nextId = activeIdx < SECTIONS.length - 1 ? SECTIONS[activeIdx + 1].id : null;
-  var completed = (props.progress && props.progress.completed) || [];
-  var visited = (props.progress && props.progress.visited) || [];
 
   var go = function(id) {
     if (!id) return;
     props.onNavigate(id);
-    setMenuOpen(false);
     var el = document.getElementById("main-content");
     if (el) {
       var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -13899,14 +13885,7 @@ function StickyLessonBar(props) {
           E("div", { className: "sticky-sub", style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: "var(--inkMuted)", lineHeight: 1.3, whiteSpace: "nowrap" } }, groupLabel + " · " + posInGroup + " of " + groupLen))),
       E("div", { style: { display: "flex", alignItems: "center", gap: 8, flex: "0 0 auto" } },
         navBtn(prevId, false),
-        E("button", {
-          onClick: function() { setMenuOpen(!menuOpen); },
-          "aria-expanded": menuOpen ? "true" : "false",
-          style: { display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 999, border: "1px solid var(--rule)", background: menuOpen ? "var(--primaryFaint)" : "#fff", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }
-        }, "Lessons", E("span", { "aria-hidden": "true", style: { fontSize: 10 } }, menuOpen ? "▴" : "▾")),
-        navBtn(nextId, true))),
-    menuOpen ? E("div", { style: { maxWidth: 1080, margin: "0 auto", padding: "16px 24px 22px", borderTop: "1px solid var(--rule)", background: "var(--bg)", overflowX: "auto" } },
-      E(ChipNav, { groupLabel: groupLabel, sections: group ? group.sections : [props.activeSection], activeSection: props.activeSection, visited: visited, completed: completed, onNavigate: go })) : null);
+        navBtn(nextId, true))));
 }
 class LessonErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { error: null }; }

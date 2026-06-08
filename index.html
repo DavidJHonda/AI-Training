@@ -314,7 +314,7 @@ var TERMS = [
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
   { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "customization" },
-  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "temperature" },
+  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "inference" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
   { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
@@ -1219,7 +1219,7 @@ const SECTION_GROUPS = [{
   sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Work With AI",
-  sections: ["openerworkwith", "whatitdoesbest", "modelselection", "thinkingmode", "temperature", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
+  sections: ["openerworkwith", "whatitdoesbest", "modelselection", "thinkingmode", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Check the Output",
   sections: ["openercheck", "critical", "verify", "evaluating", "hallucination", "trainingbias", "documenttrap"]
@@ -1262,7 +1262,6 @@ const SECTION_META = {
   openercontrols: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choose the App", icon: "\uD83C\uDF9B\uFE0F" },
   thinkingmode: { kicker: "SPEED VS DEPTH", label: "Thinking Mode", icon: "\uD83E\uDDE0" },
-  temperature: { kicker: "THE VARIATION DIAL", label: "Temperature", icon: "\uD83C\uDF21\uFE0F" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -5537,6 +5536,7 @@ function InferenceSection(props) {
   }),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "One answer. Many picks. Each one shapes what comes next." },
     "Pick the brand and the model options change. Pick the model and the next token changes. Every token along the way is its own fresh prediction, shaped by every pick before it. Each one is a full pass through the same model, and that repeating pass is inference."),
+  /*#__PURE__*/React.createElement(TemperatureSection, { embedded: true }),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length && seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerworkwith"), label: "Next: Work With AI" }));
 }
@@ -6423,7 +6423,7 @@ function OpenerControlsSection(props) {
         bridge: "Then, tune it for the job.",
         questions: [
           { question: "When should I make AI slow down and think harder?", lessonId: "thinkingmode" },
-          { question: "Why do some answers feel predictable while others feel more creative?", lessonId: "temperature" },
+          { question: "Why do some answers feel predictable while others feel more creative?", lessonId: "inference" },
           { question: "How do customization and memory change future answers?", lessonId: "customization" }
         ]
       }
@@ -6577,7 +6577,7 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "Earlier in this class, you learned a little about the three most popular apps."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/choosing-the-product.jpg",
+    src: "illustrations/choose-the-app.jpg",
     alt: "A presenter at a podium showing a slide titled Choosing the Product, comparing ChatGPT, Claude, and Gemini",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
   }),
@@ -7068,9 +7068,12 @@ function ThinkingModeSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("temperature"), label: "Next: Temperature" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function TemperatureSection(props) {
+  // Folded into Inference as a closing beat (passed embedded:true), which swaps
+  // the Work-With-AI framing for a prediction-anchored one and drops the header/Next.
+  var embedded = props && props.embedded;
   const [temp, setTemp] = useState(0);
   const prompt = "The secret to a great pizza is";
   const tempKey = temp <= 0.2 ? 0 : temp <= 0.7 ? 0.5 : 1;
@@ -7083,7 +7086,12 @@ function TemperatureSection(props) {
     { word: "again", low: 0, medium: 1, high: 4 },
     { word: "other words", low: 0, medium: 1, high: 4 }
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }), /*#__PURE__*/React.createElement(BodyP, null, "You picked the app. You picked the model. You picked the mode. Now there\u2019s one smaller control to understand: temperature."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null,
+  embedded ? /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on that pick: temperature") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }),
+  embedded
+    ? /*#__PURE__*/React.createElement(BodyP, null, "You just watched the model score every possible next word and pick from those probabilities. There\u2019s a dial on how boldly it commits to the most likely one: temperature.")
+    : /*#__PURE__*/React.createElement(BodyP, null, "You picked the app. You picked the model. You picked the mode. Now there\u2019s one smaller control to understand: temperature."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
   },
     [
@@ -7101,7 +7109,7 @@ function TemperatureSection(props) {
     })),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     headline: "How temperature reshapes the picks",
-    intro: "Same setup as the Probability lesson: \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."
+    intro: "Same next-word prediction you just watched, now for \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."
   },
     /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
       /*#__PURE__*/React.createElement("div", {
@@ -7180,7 +7188,7 @@ function TemperatureSection(props) {
       }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework."))),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
     "You probably won\u2019t see this slider in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
+  embedded ? null : /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "When you want repeatability vs variety",
     intro: "Most students won\u2019t touch a temperature slider directly. But you can ask for the effect through prompting.",
     marginTop: 36
@@ -7214,9 +7222,11 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means repeatable. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  /*#__PURE__*/React.createElement(KeyInsight, null, "Model choice controls capability. Thinking Mode controls effort. Temperature controls variation. Verification controls truth."),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
+  embedded
+    ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Temperature changes the variation, never the truth." }, "It tunes how boldly the model commits to its most likely next word: down for repeatable answers, up for surprising ones. It never makes an answer more correct, only more or less varied.")
+    : /*#__PURE__*/React.createElement(KeyInsight, null, "Model choice controls capability. Thinking Mode controls effort. Temperature controls variation. Verification controls truth."),
+  embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
+  embedded ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function OpenerTrapsSection(props) {
   var trapsIllustration = /*#__PURE__*/React.createElement(Illustration, {
@@ -8024,7 +8034,7 @@ function OpenerWorkWithSection(props) {
           { question: "How do I choose the right AI app for the job?", lessonId: "modelselection" },
           { question: "What changes when I pick a different model?", lessonId: "modelselection" },
           { question: "When should I make it slow down and think harder?", lessonId: "thinkingmode" },
-          { question: "Why do some answers feel predictable and others more creative?", lessonId: "temperature" },
+          { question: "Why do some answers feel predictable and others more creative?", lessonId: "inference" },
           { question: "How do customization and memory change future answers?", lessonId: "customization" }
         ]
       },
@@ -13611,7 +13621,6 @@ const SECTION_COMPONENTS = {
   modelselection: ModelSelectionSection,
   thinkingmode: ThinkingModeSection,
   prompt: PromptSection,
-  temperature: TemperatureSection,
   customization: CustomizationSection,
   documenttrap: DocumentChatSection,
   critical: CriticalThinkingSection,

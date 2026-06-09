@@ -8977,12 +8977,20 @@ function StudyingWithAISection(props) {
       "should this answer come from my materials, or do I want AI to make something new? Your two options:"),
     E(CompareBox, { headline: "Which AI for the job?", marginBottom: 24 },
       [
-        { title: "General AI", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", model: "A flexible tutor that makes things from scratch.", use: "Reach for it when you want AI to make something new: explain this another way, quiz me on a topic, give me practice problems, be my Socratic partner. Works whether or not you have your materials." },
-        { title: "Source-grounded AI", eyebrow: "NotebookLM", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", model: "A tutor locked inside your binder.", use: "Reach for it when the answer should come from your stuff: quiz me on these notes, what do my slides say about a topic, summarize this reading. It can do the same moves, but only from the sources you give it." }
+        { title: "General Tutor", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", model: "A flexible tutor that makes things from scratch.", use: "Reach for it when you want AI to make something new: explain this another way, quiz me on a topic, give me practice problems, be my Socratic partner. Works whether or not you have your materials.", catch: "Because it pulls from everywhere, it can occasionally hallucinate (make things up), or explain a concept with different terminology than your specific teacher expects on the exam." },
+        { title: "Source-grounded Tutor", eyebrow: "NotebookLM", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", model: "A tutor locked inside your binder.", use: "Reach for it when the answer should come from your stuff: quiz me on these notes, what do my slides say about a topic, summarize this reading. It can do the same moves, but only from the sources you give it.", catch: "It doesn’t know what it hasn’t been fed. If your notes are missing a key concept, it can’t fill in the blank for you, because it isn’t allowed to look outside its “binder.”" }
       ].map(function(tool, i) {
         return E(ComparePanel, { key: i, bg: tool.bg, accent: tool.color, emoji: tool.emoji, eyebrow: tool.eyebrow, title: tool.title },
-          E("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: tool.color, marginBottom: 8, lineHeight: 1.4 } }, tool.model),
-          E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, tool.use));
+          E("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
+            E("div", null,
+              E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: tool.color, marginBottom: 4 } }, "What it does"),
+              E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" } },
+                E("strong", { style: { color: tool.color } }, tool.model), " ", tool.use)),
+            E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 2, paddingTop: 14 } },
+              E("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
+                E("span", { style: { fontSize: 15 } }, "⚠️"),
+                E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: tool.color } }, "The catch")),
+              E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" } }, tool.catch))));
       })),
     E(SectionKicker, null, "Why these moves work"),
     E(BodyP, null,

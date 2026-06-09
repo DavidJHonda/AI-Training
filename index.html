@@ -8975,27 +8975,35 @@ function StudyingWithAISection(props) {
     E(BodyP, { marginBottom: 16 },
       E("strong", null, "One question picks the tool: "),
       "should this answer come from my materials, or do I want AI to make something new? Your two options:"),
-    E(CompareBox, { headline: "Which study tool for the job?", marginBottom: 24 },
-      [
-        { title: "General Tutor", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", lead: "Makes things from scratch.", desc: "Trained on massive amounts of data, it can explain or quiz you on almost anything.", bestUse: "You don’t have the materials, or you want a concept explained a new way or extra practice your notes don’t cover — a paper on a new topic, something not covered in class.", catch: "It can occasionally hallucinate (make things up), or explain a concept differently than the way your teacher taught it and expects on the exam." },
-        { title: "Source-grounded Tutor", eyebrow: "NotebookLM", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", lead: "Learns from your materials.", desc: "It only knows what you give it, which makes it the ultimate exam-prep machine.", bestUse: "You have the materials the test covers — class notes, screenshots, study guides. Got them? Start here.", catch: "It doesn’t know what you didn’t give it. If your notes are missing a key concept, it can’t fill in the blank for you, because it isn’t allowed to look outside its binder." }
-      ].map(function(tool, i) {
-        return E(ComparePanel, { key: i, bg: tool.bg, accent: tool.color, emoji: tool.emoji, eyebrow: tool.eyebrow, title: tool.title },
-          E("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-            E("div", null,
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 24 } },
+      E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Which study tool for the job?"),
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 18, gridTemplateRows: "auto auto auto auto" } },
+        [
+          { title: "General Tutor", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", lead: "Makes things from scratch.", desc: "Trained on massive amounts of data, it can explain or quiz you on almost anything.", bestUse: "You don’t have the materials, or you want a concept explained a new way or extra practice your notes don’t cover. Think a paper on a new topic, or something not covered in class.", catch: "It can occasionally hallucinate (make things up), or explain a concept differently than the way your teacher taught it and expects on the exam." },
+          { title: "Source-grounded Tutor", eyebrow: "NotebookLM", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", lead: "Learns from your materials.", desc: "It only knows what you give it, which makes it the ultimate exam-prep machine.", bestUse: "You have the materials the test covers: class notes, screenshots, study guides, even a webpage or YouTube video. Got them? Start here.", catch: "It doesn’t know what you didn’t give it. If your notes are missing a key concept, it can’t fill in the blank for you, because it isn’t allowed to look outside its binder." }
+        ].map(function(tool, i) {
+          var bodyTxt = { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" };
+          var whiteSide = { background: "#fff", marginLeft: 22, marginRight: 22 };
+          var sectLabel = function(emoji, text) {
+            return E("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
+              E("span", { style: { fontSize: 15 } }, emoji),
+              E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: tool.color } }, text));
+          };
+          return E("div", { key: i, style: { gridColumn: i + 1, gridRow: "1 / span 4", display: "grid", gridTemplateRows: "subgrid", background: tool.bg, borderRadius: 18 } },
+            E("div", { style: { padding: "22px 22px 12px" } },
+              E(CompareHead, { emoji: tool.emoji, eyebrow: tool.eyebrow, title: tool.title, accent: tool.color })),
+            E("div", { style: Object.assign({}, whiteSide, { borderTopLeftRadius: 12, borderTopRightRadius: 12, padding: "18px 22px 0" }) },
               E("div", { style: { fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 800, color: tool.color, marginBottom: 4, lineHeight: 1.3 } }, tool.lead),
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" } }, tool.desc)),
-            E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 2, paddingTop: 14 } },
-              E("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
-                E("span", { style: { fontSize: 15 } }, "🎯"),
-                E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: tool.color } }, "Best use")),
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" } }, tool.bestUse)),
-            E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 2, paddingTop: 14 } },
-              E("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
-                E("span", { style: { fontSize: 15 } }, "⚠️"),
-                E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: tool.color } }, "The catch")),
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" } }, tool.catch))));
-      })),
+              E("div", { style: bodyTxt }, tool.desc)),
+            E("div", { style: Object.assign({}, whiteSide, { padding: "0 22px" }) },
+              E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 14, paddingTop: 14 } },
+                sectLabel("🎯", "Best use"),
+                E("div", { style: bodyTxt }, tool.bestUse))),
+            E("div", { style: Object.assign({}, whiteSide, { marginBottom: 22, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, padding: "0 22px 20px" }) },
+              E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 14, paddingTop: 14 } },
+                sectLabel("⚠️", "The catch"),
+                E("div", { style: bodyTxt }, tool.catch))));
+        }))),
     E(SectionKicker, null, "Why these moves work"),
     E(BodyP, null,
       "Your brain remembers what it has to produce, not what it just recognizes. Reading a summary is recognition: \u201Cyeah, that looks familiar.\u201D Getting quizzed with nothing in front of you is retrieval: \u201Cwait, I actually know this.\u201D Every move below is built to make you produce, which is the part that sticks."),

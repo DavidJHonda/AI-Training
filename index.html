@@ -916,7 +916,8 @@ function NumberedRows(props) {
               item.icon ? React.createElement("span", { style: { marginRight: 7 } }, item.icon) : null,
               item.title),
             React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.body),
-            item.prompt ? React.createElement("div", { style: { marginTop: 12, background: "var(--primaryFaint)", borderRadius: 10, padding: "12px 16px", fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", lineHeight: 1.6 } }, "“" + item.prompt + "”") : null));
+            item.prompt ? React.createElement("div", { style: { marginTop: 12, background: "var(--primaryFaint)", borderRadius: 10, padding: "12px 16px", fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", lineHeight: 1.6 } }, "“" + item.prompt + "”") : null,
+            item.after ? React.createElement("div", { style: { marginTop: 10, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.after) : null));
       })));
 }
 
@@ -9832,7 +9833,6 @@ function MindTrapSection(props) {
 }
 function FlatteryTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
-  const [activeStrategy, setActiveStrategy] = useState(0);
   const SPOT_EXERCISES = [{
     prompt: "Here's my essay introduction for AP English. Can you give me feedback?",
     essay: null,
@@ -9887,42 +9887,36 @@ function FlatteryTrapSection(props) {
   }];
   const FIGHT_STRATEGIES = [{
     icon: "\uD83D\uDD0D",
-    label: "Ask for criticism",
     title: "Ask explicitly for criticism",
     desc: "Models default to being encouraging. Override that default by asking directly for what's wrong.",
     prompt: "Be brutally honest about the weaknesses in my essay. I want to improve it, not hear that it's good. What specifically doesn't work?",
     example: "Instead of \"This is a great start!\", you'll get \"Your thesis is vague, paragraph 3 contradicts paragraph 1, and your conclusion introduces a new argument instead of wrapping up.\""
   }, {
     icon: "\u2694\uFE0F",
-    label: "Steelman the opposite",
     title: "Steelman the opposite view",
     desc: "If AI agrees with your position, force it to argue the other side. If it can't make a strong case, maybe your position is solid. If it can, you've found your blind spots.",
     prompt: "I think [your position]. Now argue against me as strongly as possible. Give me the 3 best counterarguments someone could make, and explain why a reasonable person might hold each one.",
     example: "This prevents the model from just validating you. You'll discover weaknesses in your argument before your teacher or debate opponent does."
   }, {
     icon: "\u2753",
-    label: "Ask what you're missing",
     title: "Ask \"what am I missing?\"",
     desc: "This question specifically targets the blind spots that flattery hides. It tells the model you want the gaps, not the highlights.",
     prompt: "What are the biggest gaps or weaknesses in what I just shared? What would someone who disagrees with me point out? What am I not considering?",
     example: "You'll get responses like \"You haven't addressed the cost implications\" or \"Your data only covers one demographic.\" That\u2019s the kind of feedback that actually strengthens your work."
   }, {
     icon: "\uD83D\uDCCB",
-    label: "Use a rubric",
     title: "Grade against a rubric",
     desc: "A rubric forces the model to judge against a standard instead of reacting to your effort. Especially useful for school work, where the rubric usually exists anyway.",
     prompt: "Grade this against the following rubric. For each category, give me a score, quote the part of my work that supports the score, and explain what would move it up one level.\n\n[paste rubric here]",
     example: "Instead of \"this is a strong essay,\" you'll get \"Thesis: 3/5. Your claim is clear but not specific. To reach 4/5, name what specifically about the Dream Gatsby exposes.\""
   }, {
     icon: "\uD83E\uDD1D",
-    label: "Get a second opinion",
     title: "Get a second opinion from a different model",
     desc: "Different models have different RLHF training and different tendencies toward sycophancy. If two models flag the same weakness, take it seriously. If they disagree, investigate instead of picking the one that flatters you.",
     prompt: "Run the same prompt through a second model. Compare the responses. Where they disagree is where you should investigate further.",
     example: "Model A says your argument is \"compelling and well-structured.\" Model B says \"the logic in paragraph 2 doesn't follow.\" Model B just saved your grade."
   }];
   var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
-  var fs = FIGHT_STRATEGIES[activeStrategy];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding voice seeming to approve of you."),
   /*#__PURE__*/React.createElement(BodyP, null, "It says your essay is strong. Your idea is thoughtful. Your code is impressive. Your opinion is exactly right. Sometimes that\u2019s useful. Often it\u2019s approval wearing the costume of feedback. ", /*#__PURE__*/React.createElement("strong", null, "The trap is mistaking approval for help.")),
   /*#__PURE__*/React.createElement(BodyP, null, "Think of it as the difference between a hype man and a coach. A hype man says \u201Cyou crushed it, this is amazing.\u201D A coach says \u201Cthis part is working, this part is weak, here\u2019s what to fix.\u201D The hype man feels better in the moment. The coach makes you better. Many AI assistants lean toward hype man unless you ask for a coach. The technical word for this drift is ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), "."),
@@ -9985,21 +9979,10 @@ function FlatteryTrapSection(props) {
           /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
-  /*#__PURE__*/React.createElement(BodyP, null, "You can't stop models from being sycophantic, but you can prompt your way around it. These five strategies force the model to be useful instead of nice."), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 16, alignItems: "flex-start" }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", flexDirection: "column", gap: 6, minWidth: 200, flexShrink: 0 }
-  }, FIGHT_STRATEGIES.map((s, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: () => setActiveStrategy(i),
-    style: { padding: "10px 14px", borderRadius: 8, background: i === activeStrategy ? "var(--primary)" : "var(--bg)", color: i === activeStrategy ? "#fff" : "var(--inkMuted)", border: "2px solid " + (i === activeStrategy ? "var(--primary)" : "rgba(110, 81, 255, 0.3)"), boxShadow: i === activeStrategy ? "0 2px 8px rgba(110, 81, 255, 0.3)" : "0 1px 4px rgba(0, 0, 0, 0.08)", cursor: "pointer", fontSize: 13, fontWeight: 600, transition: "all 0.2s", textAlign: "left" }
-  }, s.icon, " ", s.label))), /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, background: "var(--bg)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)" }
-  }, /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, fs.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, fs.title), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, fs.desc))), /*#__PURE__*/React.createElement("div", {
-    style: { background: "#6e51ff10", border: "1px solid #6e51ff33", borderRadius: 10, padding: "14px 16px", marginTop: 14, marginBottom: 10 }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCDD Try this prompt"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.prompt)), /*#__PURE__*/React.createElement("div", {
-    style: { background: "#10b98110", border: "1px solid #10b98133", borderRadius: 10, padding: "14px 16px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "\u2705 What you'll get"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } }, fs.example)))),
+  /*#__PURE__*/React.createElement(BodyP, null, "You can't stop models from being sycophantic, but you can prompt your way around it. These five strategies force the model to be useful instead of nice."),
+  /*#__PURE__*/React.createElement(NumberedRows, { items: FIGHT_STRATEGIES.map(function(s) {
+    return { icon: s.icon, title: s.title, body: s.desc, prompt: s.prompt, after: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "What you\u2019ll get: "), s.example) };
+  }) }),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginTop: 18, marginBottom: 18 }
   },

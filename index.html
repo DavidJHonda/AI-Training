@@ -2363,40 +2363,11 @@ function AIStrengthsSection(props) {
     { prompt: "My friend is going through a really hard time. What should I say to them?", correct: "careful", tag: "Judgment calls", explain: "This is a judgment call, and it needs you. AI can\u2019t weigh the emotional context, your relationship, or what your friend actually needs to hear. That depends on empathy and values, things only you can bring." },
     { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task, a strong fit. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." }
   ];
-  var COLORS = { good: "#10b981", careful: "#f59e0b" };
   var LABELS = { good: "Good Fit", careful: "Needs Follow-Up" };
-  var _qs = useState(true), quizStarted = _qs[0], setQuizStarted = _qs[1];
-  var _si = useState(0), sIdx = _si[0], setSIdx = _si[1];
   var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
-  var _jv = useState(null), judgeView = _jv[0], setJudgeView = _jv[1];
-  var _js = useState([]), judgeSeen = _js[0], setJudgeSeen = _js[1];
-  var _done = useState(false), allDone = _done[0], setAllDone = _done[1];
-  var _tc = useState(0), typedChars = _tc[0], setTypedChars = _tc[1];
   var _yc = useLocalStorage("seeit-aistrengths-yesClicked", false), yesClicked = _yc[0], setYesClicked = _yc[1];
   var _nc = useLocalStorage("seeit-aistrengths-noClicked", false), noClicked = _nc[0], setNoClicked = _nc[1];
-  var s = SCENARIOS[sIdx];
-  var pickedJudgment = answers[sIdx];
-  var revealed = pickedJudgment !== undefined;
-  var typingDone = typedChars >= (s ? s.prompt.length : 0);
-  useEffect(function() {
-    if (!quizStarted) return;
-    setTypedChars(0);
-    var len = SCENARIOS[sIdx].prompt.length;
-    var speed = Math.max(30, Math.min(40, 1200 / len));
-    var interval = setInterval(function() {
-      setTypedChars(function(c) { if (c >= len) { clearInterval(interval); return c; } return c + 1; });
-    }, speed);
-    return function() { clearInterval(interval); };
-  }, [sIdx, quizStarted]);
-  var handlePick = function(choice) {
-    if (revealed) return;
-    setAnswers(function(prev) { var u = Object.assign({}, prev); u[sIdx] = choice; return u; });
-    setJudgeView(choice);
-    setJudgeSeen([choice]);
-  };
-  var completedCount = Object.keys(answers).length;
-  var correctCount = 0;
-  SCENARIOS.forEach(function(sc, i) { if (answers[i] === sc.correct) correctCount++; });
+  var allAnswered = Object.keys(answers).length >= SCENARIOS.length;
   return React.createElement("div", null,
     React.createElement(LessonHeader, { sectionId: "howmuchtocheck" }),
     React.createElement(BodyP, null, "AI can help with almost any task. The real skill is knowing how much to check what it gives you. Some answers need a hard look. Others barely need one."),
@@ -2467,58 +2438,41 @@ function AIStrengthsSection(props) {
                     React.createElement("div", { style: { fontSize: 12, color: "#78350f", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
                 }))),
             React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Answer needs truth, safety, sources, or your judgment."))))),
-    (yesClicked && noClicked) && React.createElement(BodyP, null, "Good Fit doesn\u2019t mean ready to use. It means the task matches AI\u2019s strengths and you can judge the result. The final call is still yours."),
-    (yesClicked && noClicked) && React.createElement(BodyP, null, "Now your turn. You\u2019ll see a prompt you might type. Make the call: is it a Good Fit, or does it Need Follow-Up?"),
-    (yesClicked && noClicked) && React.createElement(InteractiveBox, {
+    React.createElement(BodyP, null, "Good Fit doesn\u2019t mean ready to use. It means the task matches AI\u2019s strengths and you can judge the result. The final call is still yours."),
+    React.createElement(BodyP, null, "Now your turn. Below are prompts you might type. Make the call on each: is it a Good Fit, or does it Need Follow-Up?"),
+    React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Make the Call",
-      action: quizStarted ? React.createElement(ActivityCounter, { count: Math.min(sIdx + 1, SCENARIOS.length), total: SCENARIOS.length }) : null
-    }, !quizStarted ? React.createElement(ActivityButton, { onClick: function() { setQuizStarted(true); }, size: "large", style: { display: "block", margin: "0 auto" } }, "First Scenario") : React.createElement("div", null,
-      completedCount > 0 && React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginBottom: allDone ? 0 : 16 } },
-        SCENARIOS.slice(0, allDone ? SCENARIOS.length : sIdx).map(function(sc, i) {
-          var right = answers[i] === sc.correct;
-          return React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, borderLeft: "3px solid " + (right ? "#1f9d5f" : "#d4334a"), animation: i === sIdx - 1 && !allDone ? "fadeIn 0.3s ease" : "none" } },
-            React.createElement("span", { style: { fontSize: 14, color: right ? "#1f9d5f" : "#d4334a", fontWeight: 700, flexShrink: 0 } }, right ? "\u2713" : "\u2717"),
-            React.createElement("span", { style: { fontSize: 13, color: "var(--ink)", fontWeight: 600, flex: 1 } }, sc.tag),
-            React.createElement("span", { style: { fontSize: 12, fontWeight: 600, color: COLORS[sc.correct], flexShrink: 0 } }, LABELS[sc.correct]));
-        })),
-      !allDone && React.createElement(InnerCard, null,
-        React.createElement("div", { style: { marginBottom: 20 } },
-          React.createElement(UserBubble, { text: s.prompt, visibleChars: typedChars, align: "left", label: "You" })),
-        typingDone && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" } },
-          React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 10 } }, "Good Fit or Needs Follow-Up?"),
-          React.createElement("div", { style: { display: "flex", gap: 12 } },
-            ["good", "careful"].map(function(choice) {
-              var isCorrect = choice === s.correct;
-              var isViewing = choice === judgeView;
-              var isSeen = judgeSeen.indexOf(choice) !== -1;
-              var bg, border, txt, icon, iconColor;
-              if (!revealed) { icon = null; bg = "var(--card)"; border = "var(--rule)"; txt = "var(--ink)"; iconColor = null; }
-              else if (isCorrect) { icon = "\u2713"; if (isViewing) { bg = "#1f9d5f"; border = "#1f9d5f"; txt = "#fff"; iconColor = "#fff"; } else { bg = "#e7f6ee"; border = "#b6e3cd"; txt = "#1f9d5f"; iconColor = "#1f9d5f"; } }
-              else if (choice === pickedJudgment || isSeen) { icon = "\u2715"; if (isViewing) { bg = "#d4334a"; border = "#d4334a"; txt = "#fff"; iconColor = "#fff"; } else { bg = "#fbe9ec"; border = "#f0b8c1"; txt = "#d4334a"; iconColor = "#d4334a"; } }
-              else { icon = null; bg = "var(--card)"; border = "var(--rule)"; txt = "var(--inkMuted)"; iconColor = null; }
-              return React.createElement("button", { key: choice, onClick: function() { if (!revealed) { handlePick(choice); } else { setJudgeView(choice); setJudgeSeen(function(prev) { return prev.indexOf(choice) === -1 ? prev.concat([choice]) : prev; }); } }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "14px 12px", borderRadius: 10, fontSize: 15, fontWeight: 700, background: bg, color: txt, border: "2px solid " + border, cursor: "pointer", transition: "all 150ms ease" } }, LABELS[choice], icon ? React.createElement("span", { style: { color: iconColor, fontWeight: 800 } }, icon) : null);
-            })),
-          revealed && React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
-            React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-              React.createElement("div", null,
-                React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
-                  React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
-                  pickedJudgment === s.correct ? "Correct" : "Not quite"),
-                React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: pickedJudgment === s.correct ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, pickedJudgment === s.correct ? "Right." : (s.correct === "good" ? "It\u2019s a Good Fit." : "It needs follow-up."))),
-              React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, s.explain))),
-          revealed && React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
-            React.createElement(ActivityButton, { onClick: function() { setJudgeView(null); setJudgeSeen([]); if (sIdx < SCENARIOS.length - 1) { setSIdx(sIdx + 1); } else { setAllDone(true); } }, size: "large", style: { display: "block", margin: "0 auto", animation: "fadeIn 0.3s ease" } }, sIdx < SCENARIOS.length - 1 ? "Next scenario \u2192" : "Finish \u2192")))),
-      allDone && React.createElement("div", { style: { marginTop: 20, textAlign: "center", animation: "fadeIn 0.4s ease" } },
-        React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", marginBottom: 12 } }, "You judged ", correctCount, " of ", SCENARIOS.length, " correctly."),
-        React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } },
-          correctCount >= 5 ? "Strong instincts. You can feel which tasks you can trust and which ones need a second look." :
-          correctCount >= 3 ? "Good start. The pattern is the reason: an answer needs follow-up when it has to be true, current, safe, sourced, or genuinely yours." :
-          "Worth a re-read. The fit comes down to one question: can you judge the result yourself, or does it need outside backup?")))),
-    allDone && React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
+      action: React.createElement(ActivityCounter, { count: Object.keys(answers).length, total: SCENARIOS.length })
+    },
+      React.createElement(ActivityInstruction, null, "For each prompt, pick Good Fit or Needs Follow-Up. We\u2019ll explain why as you go."),
+      React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SCENARIOS.map(function(sc, i) {
+          var answered = answers[i] !== undefined;
+          var correct = answered && answers[i] === sc.correct;
+          function JudgmentPill(choice) {
+            return React.createElement(FeedbackPill, {
+              key: choice,
+              answered: answered,
+              isCorrect: choice === sc.correct,
+              isPicked: answers[i] === choice,
+              label: LABELS[choice],
+              onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = choice; return u; }); }
+            });
+          }
+          return React.createElement(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: "\u201C" + sc.prompt + "\u201D",
+            answered: answered,
+            correct: correct,
+            feedback: answered ? sc.explain : null
+          }, ["good", "careful"].map(function(choice) { return JudgmentPill(choice); }));
+        }))),
+    allAnswered && React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
     React.createElement(LessonRule, null),
-    React.createElement(NextLessonGate, { ready: allDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" }));
+    React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" }));
 }
 function WelcomeSection(props) {
   var E = React.createElement;

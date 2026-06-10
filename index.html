@@ -1282,10 +1282,10 @@ const SECTION_GROUPS = [{
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Check the Output",
-  sections: ["openercheck", "critical", "verify", "evaluating", "hallucination", "trainingbias", "documenttrap"]
+  sections: ["openercheck", "howmuchtocheck", "critical", "verify", "evaluating", "hallucination", "trainingbias", "documenttrap"]
 }, {
   label: "Protect Yourself",
-  sections: ["openerprotect", "mindtrap", "flattery", "engagementtrap", "supporttrap", "whennot", "howmuchtocheck", "integrity", "privacy", "seeingisntproof"]
+  sections: ["openerprotect", "mindtrap", "flattery", "engagementtrap", "supporttrap", "integrity", "privacy", "seeingisntproof"]
 }, {
   label: "Build Your Advantage",
   sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "aifuture", "humanedge", "creativethinking", "buildedge"]
@@ -1332,7 +1332,6 @@ const SECTION_META = {
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
   agents: { kicker: "PERMISSION MATTERS", label: "The Rise of Agents", icon: "\uD83E\uDD16" },
   openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
-  whennot: { kicker: "SOMETIMES THE ANSWER IS NO", label: "When Not to Use AI", icon: "\u270B" },
   howmuchtocheck: { kicker: "MATCH THE CHECK TO THE TASK", label: "How Much to Check", icon: "\u2696\uFE0F" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
@@ -2414,7 +2413,8 @@ function AIStrengthsSection(props) {
     { prompt: "I\u2019m taking ibuprofen and amoxicillin. Is it safe to take them together?", correct: "careful", tag: "Medical advice", explain: "This is a medical-advice task, and it needs a real expert. AI can sound confident here, but it can\u2019t account for your dosage, history, allergies, age, or other medications. For a real answer, ask a pharmacist, doctor, parent or guardian, or school nurse." },
     { prompt: "Explain the chain rule in calculus step by step with examples. I\u2019m stuck.", correct: "good", tag: "Explaining concepts", explain: "This is an explaining-concepts task, a strong fit. AI can rephrase, give analogies, and walk through steps at your level, and you can cross-check the math, which means you can judge whether the answer holds up." },
     { prompt: "My friend is going through a really hard time. What should I say to them?", correct: "careful", tag: "Judgment calls", explain: "This is a judgment call, and it needs you. AI can\u2019t weigh the emotional context, your relationship, or what your friend actually needs to hear. That depends on empathy and values, things only you can bring." },
-    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task, a strong fit. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." }
+    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task, a strong fit. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." },
+    { prompt: "An AI assistant drafted an apology email to your coach and offers to send it for you right now, so you don’t have to.", correct: "careful", tag: "Acting for you", explain: "This one acts under your name. The draft is fine to use, but nothing goes out until you’ve read every word, because the message lands as if you wrote it. Send is irreversible, and you stay accountable for what leaves with your name on it." }
   ];
   var LABELS = { good: "Good Fit", careful: "Needs Follow-Up" };
   var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
@@ -2425,7 +2425,27 @@ function AIStrengthsSection(props) {
     React.createElement(LessonHeader, { sectionId: "howmuchtocheck" }),
     React.createElement(BodyP, null, "AI can help with almost any task. The real skill is knowing how much to check what it gives you. Some answers need a hard look. Others barely need one."),
     React.createElement(BodyP, null, "That\u2019s what trust really comes down to here. Not believing the output automatically, but knowing what kind of follow-up it needs before you use it."),
-    React.createElement(BodyP, null, "Start by naming the ", React.createElement("strong", null, "type of task"), " you are asking AI to do. Some task types are easy to judge on your own and need little follow-up. Other task types almost always need follow-up because the answer has to be true, current, safe, sourced, or genuinely yours."),
+    React.createElement(SectionKicker, null, "SOMETIMES THE ANSWER IS NO"),
+    React.createElement(BodyP, null, "Before the dial even matters, there\u2019s a faster call. Some moments shouldn\u2019t go to AI at all: the sharpest move is to leave the tool closed and handle it yourself, or hand it to a real person."),
+    React.createElement(ShowcaseBox, { kicker: "DON\u2019T REACH FOR IT WHEN" },
+      React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
+        [
+          { group: "The rule already says no", items: ["The assignment or policy forbids it.", "You\u2019d be using it to dodge the very skill you\u2019re there to build."] },
+          { group: "It involves private information", items: ["You\u2019d have to paste your own sensitive details.", "It means handing over someone else\u2019s private information."] },
+          { group: "You can't stand behind the result", items: ["You can\u2019t verify whether the output is true.", "It\u2019s a high-stakes call that needs a qualified human.", "It would act under your name without your review."] },
+          { group: "It's yours, or it needs a person", items: ["The task needs your own voice or judgment.", "Someone is in real danger and needs a person, now."] }
+        ].map(function(g, gi) {
+          return React.createElement("div", { key: gi },
+            React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--tryAccent)", marginBottom: 7 } }, g.group),
+            React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 5 } },
+              g.items.map(function(it, ii) {
+                return React.createElement("div", { key: ii, style: { display: "flex", gap: 10, alignItems: "baseline" } },
+                  React.createElement("span", { style: { width: 5, height: 5, borderRadius: 999, background: "var(--tryAccent)", flexShrink: 0, transform: "translateY(-2px)" } }),
+                  React.createElement("span", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } }, it));
+              })));
+        }))),
+    React.createElement(SectionKicker, null, "FOR EVERYTHING ELSE, SET THE DIAL"),
+    React.createElement(BodyP, null, "Everything else is fair game. From here, the question becomes how much follow-up the answer needs. Start by naming the ", React.createElement("strong", null, "type of task"), " you are asking AI to do. Some task types are easy to judge on your own and need little follow-up. Other task types almost always need follow-up because the answer has to be true, current, safe, sourced, or genuinely yours."),
     React.createElement(InteractiveBox, {
       variant: "see",
       surface: "sand",
@@ -2525,7 +2545,7 @@ function AIStrengthsSection(props) {
         }))),
     allAnswered && React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
     React.createElement(LessonRule, null),
-    React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" }));
+    React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("critical"); }, label: "Next: Critical Thinking" }));
 }
 function WelcomeSection(props) {
   var E = React.createElement;
@@ -8149,7 +8169,7 @@ function OpenerCheckSection(props) {
       "It also covers the ways answers go wrong on their own, so you can catch them: invented facts, bias baked in from training, and the trap of trusting a document the model barely read."
     ],
     whatYoullLearnIntro: [
-      "First the habit of checking, then the failure modes worth knowing by name. Each lesson answers a question."
+      "First the dial: how much checking a task needs at all. Then the habit of checking, and the failure modes worth knowing by name. Each lesson answers a question."
     ],
     sectionOverview: {
       eyebrow: "In this section",
@@ -8158,8 +8178,15 @@ function OpenerCheckSection(props) {
     },
     groups: [
       {
+        kicker: "SET THE DIAL",
+        bridge: "First, how much follow-up each kind of task needs, and when the answer is not to use AI at all.",
+        questions: [
+          { question: "How much should I check, and when?", lessonId: "howmuchtocheck" }
+        ]
+      },
+      {
         kicker: "QUESTION THE ANSWER",
-        bridge: "First, the habit of not taking an answer at face value.",
+        bridge: "Then, the habit of not taking an answer at face value.",
         questions: [
           { question: "Why question an answer that already looks right?", lessonId: "critical" },
           { question: "How do I actually check what AI tells me?", lessonId: "verify" },
@@ -8168,7 +8195,7 @@ function OpenerCheckSection(props) {
       },
       {
         kicker: "KNOW HOW ANSWERS GO WRONG",
-        bridge: "Then, the failure modes built into how AI works.",
+        bridge: "Finally, the failure modes built into how AI works.",
         questions: [
           { question: "Why does AI state false things so confidently?", lessonId: "hallucination" },
           { question: "How do the model’s training shortcuts skew its answers?", lessonId: "trainingbias" },
@@ -8180,8 +8207,8 @@ function OpenerCheckSection(props) {
       "By the end, a confident answer will read as a starting point, not a finish line. You will know what to check, and when checking is worth the time."
     ],
     question: "Is this answer true, or does it just sound true?",
-    nextLessonId: "critical",
-    nextLessonLabel: "Next: Critical Thinking",
+    nextLessonId: "howmuchtocheck",
+    nextLessonLabel: "Next: How Much to Check",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -8232,8 +8259,6 @@ function OpenerProtectSection(props) {
         kicker: "THE CALLS THAT STAY YOURS",
         bridge: "Then, the decisions AI cannot make for you.",
         questions: [
-          { question: "When is the right move not to use AI at all?", lessonId: "whennot" },
-          { question: "How much should I check, and when?", lessonId: "howmuchtocheck" },
           { question: "How do I use AI to learn instead of to skip learning?", lessonId: "studying" },
           { question: "Where is the line on academic honesty?", lessonId: "integrity" },
           { question: "What happens to what I type?", lessonId: "privacy" },
@@ -10344,7 +10369,7 @@ function SupportTrapSection(props) {
     E(KeyInsight, null,
       "Relief is not resolution. AI can help you prepare. Real support comes from people who can notice, follow up, and act."),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whennot"); }, label: "Next: When Not to Use AI" }));
+    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" }));
 }
 
 const INTEGRITY_SCENARIOS = [{
@@ -10557,7 +10582,7 @@ function IntegritySection(props) {
       style: { marginTop: 14, paddingTop: 14, borderTop: "1px dashed var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 }
     }, "The yellow zone is the tricky one. The same AI use can be fine in one class and not okay in another. The assignment's rules decide.")
   ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can't explain it, defend it, or reproduce the thinking, it isn't really your work." },
-    "The teacher-without-notes test still applies. Could you walk through it cold? If not, AI did the work for you."),
+    "The teacher-without-notes test still applies. Could you walk through it cold? If not, AI did the work for you. And one more test catches almost everything: if you’d be embarrassed to say out loud how you used AI, that’s your answer."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -13719,7 +13744,6 @@ const SECTION_COMPONENTS = {
   llms: LLMsSection,
   aiismath: AIIsMathSection,
   howwegothere: HowWeGotHereSection,
-  whennot: WhenNotSection,
   howmuchtocheck: AIStrengthsSection,
   whydeeper: WhyDeeperSection,
   doesaithink: DoesAIThinkSection,

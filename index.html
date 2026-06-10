@@ -8925,25 +8925,25 @@ function StudyingWithAISection(props) {
   const [picks, setPicks] = useState({});
 
   const SCENARIOS = [{
-    situation: "You have a calculus problem you can\u2019t solve. The homework is due in 30 minutes. Pick the better prompt.",
+    situation: "Your class notes and slides are loaded into NotebookLM, and the test is tomorrow morning. Pick the better move.",
     options: [
-      { label: "\u201CI\u2019m stuck on this problem. Give me a hint that points to the next step. Don\u2019t solve it yet.\u201D", correct: true, feedback: "Right. You stay in the work. If the hint isn\u2019t enough, ask for another. Each hint gets you closer without skipping the part where your brain forms the connection." },
-      { label: "\u201CSolve this problem for me: [problem]. Show every step.\u201D", correct: false, feedback: "The deadline tempts you toward this. You\u2019ll get the answer and the steps, and you\u2019ll fail a similar problem on the test. The deadline costs you the learning." },
-      { label: "\u201CCheck my work on this problem: [problem and attempt]. What\u2019s wrong?\u201D", correct: false, feedback: "Useful for diagnosis, but only after you\u2019ve actually attempted it. If you\u2019re truly stuck and haven\u2019t tried yet, hints come first. This move belongs after an attempt, not before one." }
+      { label: "Generate a study guide and read it twice before bed.", correct: false, feedback: "Reading a guide feels productive, but it\u2019s recognition, not recall. You\u2019ll recognize the words tomorrow and still freeze on the test." },
+      { label: "Generate a blind quiz from your sources, take it closed-book, then have it grade you.", correct: true, feedback: "Right. A blind quiz is retrieval: you find out what you actually don\u2019t know while there\u2019s still time to fix it." },
+      { label: "Make flashcards and call it a night.", correct: false, feedback: "Flashcards are a fine tool, but making them isn\u2019t studying. Quizzing yourself with them is the part that sticks, so take a real quiz tonight." }
     ]
   }, {
-    situation: "You read the chapter on the Civil Rights Movement once. You feel like you understand it. The test is tomorrow morning. Pick the better prompt.",
+    situation: "NotebookLM hands you a perfect-sounding fact to use in your history essay. Pick the better move.",
     options: [
-      { label: "\u201CSummarize the Civil Rights Movement so I can review.\u201D", correct: false, feedback: "Reading a summary feels productive. It\u2019s recognition, not retrieval. You\u2019ll feel ready and underperform." },
-      { label: "\u201CMake me flashcards on the Civil Rights Movement.\u201D", correct: false, feedback: "Decent, but flashcards leave the studying step still ahead of you. Quizzing IS the studying step." },
-      { label: "\u201CQuiz me on the Civil Rights Movement. Start with five questions. Tell me what I miss and ask harder follow-ups on those topics.\u201D", correct: true, feedback: "Right. Active recall plus adaptive difficulty. You find out what you don\u2019t actually know in time to do something about it." }
+      { label: "Paste it straight into your essay. It\u2019s grounded in your sources, so it\u2019s safe.", correct: false, feedback: "Grounded doesn\u2019t mean flawless. It can still misread a sentence or stitch two unrelated facts together. Trust, then check." },
+      { label: "Click the citation bubble and check the spot in your notes it came from.", correct: true, feedback: "Right. The citation shows exactly where it pulled the fact. Five seconds to confirm it wasn\u2019t taken out of context before it lands in your paper." },
+      { label: "Ask NotebookLM whether it\u2019s sure.", correct: false, feedback: "It\u2019ll almost always say yes. Asking the model to rate its own confidence proves nothing. Check the source yourself." }
     ]
   }, {
-    situation: "You got an essay back with a B-. Your teacher marked up logic problems in your second body paragraph. Pick the better prompt.",
+    situation: "Studying from your notes in NotebookLM, you hit a concept your teacher never actually covered. Pick the better move.",
     options: [
-      { label: "\u201CRewrite my second body paragraph to fix the logic problems.\u201D", correct: false, feedback: "The next essay you write will have the same logic problems, because nothing in your thinking changed. AI fixed the paper, not the writer." },
-      { label: "\u201CHere\u2019s my paragraph and my teacher\u2019s notes. Don\u2019t rewrite it. Explain specifically where my logic broke down so I can fix it myself.\u201D", correct: true, feedback: "Right. You learn the pattern. The next essay improves because you understand what went wrong, not just what was wrong." },
-      { label: "\u201CHelp me understand what my teacher meant by \u2018logic problems\u2019 in this paragraph.\u201D", correct: false, feedback: "Good first step before the better prompt above. If you don\u2019t understand the feedback, decode the comment first, then move to the explain-my-mistake prompt." }
+      { label: "Ask NotebookLM to explain it anyway.", correct: false, feedback: "It can only work from what you gave it. With nothing in your sources on this, it comes up empty or starts guessing. This is exactly its blind spot." },
+      { label: "Switch to a general AI to learn it, then add what you learn to your notes.", correct: true, feedback: "Right. Source-grounded AI can\u2019t teach what isn\u2019t in the binder. A general tutor is built to explain something new, so use it for the gap." },
+      { label: "Skip it. If it\u2019s not in your notes, it won\u2019t be on the test.", correct: false, feedback: "Risky bet. Gaps in your notes are exactly where you lose points. Learn it with a general AI instead of gambling that it won\u2019t show up." }
     ]
   }];
 
@@ -8996,16 +8996,57 @@ function StudyingWithAISection(props) {
       "Use NotebookLM as your main study tool. The clue is in the name: it was built for learning."),
     E(BodyP, null,
       "An AI app like ChatGPT or Claude can do most of the same things, but it\u2019s more difficult because they weren\u2019t designed with the goal of learning."),
-    E(SectionKicker, null, "Pick the stronger prompt"),
+    E(SectionKicker, null, "How NotebookLM works"),
     E(BodyP, null,
-      "Three real situations. In each one you\u2019ve got AI open and a choice to make. Pick the prompt that actually teaches you the thing."),
+      "Feed it your own material and it turns that into study tools, built only from what you gave it."),
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "28px 32px", marginBottom: 24 } },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "stretch", gap: 14 } },
+        E("div", { style: { background: "#d6e2f4", borderRadius: 18, padding: "16px 16px 18px" } },
+          E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8", marginBottom: 12, textAlign: "center" } }, "What you feed in"),
+          E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            [["\ud83d\udcc4", "Notes & PDFs"], ["\ud83d\udcca", "Slides"], ["\ud83d\uddbc\ufe0f", "Images"], ["\ud83c\udf10", "Websites & articles"], ["\ud83d\udcfa", "YouTube videos"], ["\u2795", "\u2026and more"]].map(function(c, i) {
+              return E("div", { key: i, style: { display: "flex", alignItems: "center", gap: 9, background: "#fff", borderRadius: 10, padding: "9px 12px", fontSize: 14, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
+                E("span", { style: { fontSize: 16, flexShrink: 0 } }, c[0]), E("span", null, c[1]));
+            }))),
+        E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8 } },
+          E("span", { "aria-hidden": "true", style: { fontSize: 24, fontWeight: 800, color: "var(--primary)" } }, "\u2192"),
+          E("div", { style: { background: "var(--primary)", color: "#fff", borderRadius: 16, padding: "18px 14px", textAlign: "center", boxShadow: "var(--shadowElevated)" } },
+            E("div", { style: { fontSize: 30, marginBottom: 6, lineHeight: 1 } }, "\ud83d\udcd3"),
+            E("div", { style: { fontSize: 14, fontWeight: 800, whiteSpace: "nowrap" } }, "NotebookLM")),
+          E("span", { "aria-hidden": "true", style: { fontSize: 24, fontWeight: 800, color: "var(--primary)" } }, "\u2192")),
+        E("div", { style: { background: "#ddd0ef", borderRadius: 18, padding: "16px 16px 18px" } },
+          E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6", marginBottom: 12, textAlign: "center" } }, "What you get out"),
+          E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            [["\u2753", "Quiz"], ["\ud83d\uddc2\ufe0f", "Flashcards"], ["\ud83d\udcd8", "Study guide"], ["\ud83c\udfa7", "Audio overview"], ["\ud83e\udde0", "Mind map"], ["\ud83c\udfac", "Video overview"], ["\u2795", "\u2026and more"]].map(function(c, i) {
+              return E("div", { key: i, style: { display: "flex", alignItems: "center", gap: 9, background: "#fff", borderRadius: 10, padding: "9px 12px", fontSize: 14, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
+                E("span", { style: { fontSize: 16, flexShrink: 0 } }, c[0]), E("span", null, c[1]));
+            }))))),
+    E(SectionKicker, null, "Best practices"),
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 } },
+      [
+        { icon: "🗂️", title: "One notebook per subject", body: "Keep AP History and Chemistry in separate notebooks. Mixing sources confuses the model and gives you muddled study guides. Name each one clearly and treat it like its own binder." },
+        { icon: "📚", title: "Feed it a few angles, not one", body: "For a big test, give it three: your class notes (so it keeps your teacher’s wording), the teacher’s slides, and a solid YouTube explainer like Crash Course or Khan Academy. It reads the video’s transcript and blends it with your notes." },
+        { icon: "❓", title: "Quiz yourself blind", body: "Re-reading notes feels productive, but that’s recognition, not recall. Generate a quiz, close everything, and take it cold.", prompt: "Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me." },
+        { icon: "🗣️", title: "Teach it back out loud", body: "Have it build a slide deck or audio overview, then explain each part to an empty room, or pause the podcast and say it back in your own words. Wherever you stumble is exactly what you don’t know yet." },
+        { icon: "🔎", title: "Click the citations", body: "Even grounded in your sources, it can misread a sentence. Before you trust a fact, click the numbered bubbles to see exactly where in your notes it came from." }
+      ].map(function(tip, i) {
+        return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px", display: "flex", gap: 14, alignItems: "flex-start" } },
+          E("span", { style: { fontSize: 22, lineHeight: 1.2, flexShrink: 0 } }, tip.icon),
+          E("div", null,
+            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, tip.title),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, tip.body),
+            tip.prompt ? E("div", { style: { marginTop: 10, background: "var(--primaryFaint)", borderLeft: "3px solid var(--primary)", borderRadius: 8, padding: "10px 14px", fontSize: BOX_TEXT, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.5 } }, "“" + tip.prompt + "”") : null));
+      })),
+    E(SectionKicker, null, "Pick the better move"),
+    E(BodyP, null,
+      "Three real moments studying with NotebookLM. Each one is a fork, and you pick the move that actually makes you learn."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Pick the Stronger Prompt",
+      title: "Pick the Better Move",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(picks).length, total: SCENARIOS.length })
     },
-      E(ActivityInstruction, null, "Pick the stronger prompt in each one. We’ll explain why as you go."),
+      E(ActivityInstruction, null, "Pick the better move in each one. We’ll explain why as you go."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, sIdx) {
           var picked = picks[sIdx];
@@ -9028,7 +9069,7 @@ function StudyingWithAISection(props) {
               return E("button", {
                 key: oIdx,
                 onClick: function() { pickOption(sIdx, oIdx); },
-                style: { display: "flex", alignItems: "flex-start", gap: 8, width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 12, background: bg, border: bd, cursor: "pointer", transition: "all 0.15s", fontFamily: "var(--mono)", fontStyle: "italic", fontSize: 14, color: tc, lineHeight: 1.5 }
+                style: { display: "flex", alignItems: "flex-start", gap: 8, width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 12, background: bg, border: bd, cursor: "pointer", transition: "all 0.15s", fontFamily: "var(--sans)", fontStyle: "normal", fontSize: 14, fontWeight: 600, color: tc, lineHeight: 1.5 }
               },
                 st === "correct" ? E("span", { style: { fontFamily: "var(--sans)", color: "#1f9d5f", fontWeight: 800, fontSize: 14, flexShrink: 0 } }, "\u2713") : null,
                 st === "wrong" ? E("span", { style: { fontFamily: "var(--sans)", color: "#d4334a", fontWeight: 800, fontSize: 14, flexShrink: 0 } }, "\u2715") : null,
@@ -9037,8 +9078,8 @@ function StudyingWithAISection(props) {
         })
       )
     ),
-    E(KeyInsight, { lead: "Pick the tool, then run the moves." },
-      "Point source-grounded AI at your own notes and slides, or point a general AI at a topic from scratch. Either way, the moves above keep you producing instead of watching. That is the whole difference between feeling ready and being ready."),
+    E(KeyInsight, { lead: "Pick the tool, then make it test you." },
+      "Point NotebookLM at your own notes and slides, or a general AI at a topic you don’t have materials for. Either way, the win comes from producing the answers yourself, not watching it summarize. That’s the difference between feeling ready and being ready."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); }, label: "Next: What You Can Control" })
   );

@@ -4828,8 +4828,9 @@ function GoDeeper(props) {
 }
 function NameThatDrinkTryIt(props) {
   var E = React.createElement;
-  var _da = React.useState({}), drinkAnswers = _da[0], setDrinkAnswers = _da[1];
-  React.useEffect(function() { if (Object.keys(drinkAnswers).length >= questions.length && props && props.onComplete) props.onComplete(); }, [drinkAnswers]);
+  var _di = React.useState(0), drinkIdx = _di[0], setDrinkIdx = _di[1];
+  var _dg = React.useState(null), drinkGuess = _dg[0], setDrinkGuess = _dg[1];
+  var _ds = React.useState(true), drinkStarted = _ds[0], setDrinkStarted = _ds[1];
   var questions = [
     {
       dims: [["Sweet", 9], ["Fizz", 10]],
@@ -4855,21 +4856,46 @@ function NameThatDrinkTryIt(props) {
       ]
     }
   ];
+  var q = questions[Math.min(drinkIdx, questions.length - 1)];
+  var dimText = q.dims.map(function(d) { return d[0] + " of " + d[1]; }).join(" and ");
+  var statement = (q.title ? q.title + ": " : "") + "Which drink has " + dimText + "?";
+  var isLastDrink = drinkIdx === questions.length - 1;
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
-    action: E(ActivityCounter, { count: Object.keys(drinkAnswers).length, total: questions.length })
+    action: E(ActivityCounter, { count: Math.min(drinkIdx + (drinkStarted ? 1 : 0), questions.length), total: questions.length })
   },
     E(ActivityInstruction, null, "You’ll see a drink’s numbers. Pick which one it is. We’ll explain as you go."),
-    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      questions.map(function(q, si) {
-        var picked = drinkAnswers[si];
-        var dimText = q.dims.map(function(d) { return d[0] + " of " + d[1]; }).join(" and ");
-        var statement = (q.title ? q.title + ": " : "") + "Which drink has " + dimText + "?";
-        return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          E(QuizBlock, { questionNumber: si + 1, surface: "mint", statement: statement, totalQuestions: questions.length, options: q.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setDrinkAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-      })));
+    E(RevealSequence, {
+      surface: "mint",
+      items: questions,
+      currentIdx: drinkIdx,
+      started: drinkStarted,
+      onStart: function() { setDrinkStarted(true); },
+      onNext: function() {
+        if (isLastDrink && props && props.onComplete) props.onComplete();
+        setDrinkIdx(function(i) { return i + 1; });
+        setDrinkGuess(null);
+      },
+      canAdvance: drinkGuess !== null,
+      isComplete: drinkIdx >= questions.length,
+      startLabel: "See First Drink",
+      nextLabel: "Next Drink →",
+      finishLabel: "Wrap it up →",
+      completionElement: E(Takeaway, { accent: "var(--tryAccent)", headline: "You read meaning straight from the numbers.", body: "No name, no logo, no sip. The values were enough to identify the drink, because the numbers carry the meaning. That is exactly what an embedding vector does for a token: it stores the token’s meaning as numbers, ready for the model to work with." })
+    },
+      E(InnerCard, null,
+        E(QuizBlock, {
+          key: drinkIdx,
+          questionNumber: drinkIdx + 1,
+          surface: "mint",
+          statement: statement,
+          totalQuestions: questions.length,
+          options: q.options,
+          picked: drinkGuess != null ? drinkGuess : undefined,
+          onAnswer: function(idx) { setDrinkGuess(idx); }
+        }))));
 }
 function EmbeddingsSection(props) {
   var E = React.createElement;

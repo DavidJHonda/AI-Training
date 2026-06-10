@@ -41,6 +41,10 @@
     --tryAccent: #2f7d4f;
     --tryBand: #eef4eb;
     --tryRule: rgba(63, 107, 63, 0.18);
+    /* LAB band */
+    --labBand: #e4f2f0;
+    --labAccent: #0f766e;
+    --labRule: rgba(15, 118, 110, 0.25);
     --blockGap: 24px;
 
     /* SHADOWS */
@@ -344,22 +348,24 @@ function KeyTerm(props) {
   );
 }
 function InteractiveBox(props) {
-  var variant = props.variant === "see" ? "see" : "try";
-  var iconAndLabel = variant === "see" ? "\u25C9 SEE IT" : "\u270E TRY IT";
+  var variant = props.variant === "see" ? "see" : props.variant === "lab" ? "lab" : "try";
+  var iconAndLabel = variant === "see" ? "\u25C9 SEE IT" : variant === "lab" ? "\u2692 LAB" + (props.labNumber ? " " + props.labNumber : "") : "\u270E TRY IT";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";
   var hasHint = props.hint !== undefined && props.hint !== null && props.hint !== "";
   var hasChildren = props.children !== undefined && props.children !== null && props.children !== false;
   var hasTextStack = hasTitle || hasHint;
-  var surface = props.surface === "mint" ? "mint" : props.surface === "sand" ? "sand" : "default";
+  var surface = props.surface === "mint" ? "mint" : props.surface === "sand" ? "sand" : props.surface === "teal" ? "teal" : "default";
   var containerStyle = surface === "mint"
     ? { background: "var(--tryBand)", border: "none", borderRadius: 16, padding: "26px 28px" }
     : surface === "sand"
     ? { background: "var(--seeBand)", border: "none", borderRadius: 24, padding: "32px 36px 36px" }
+    : surface === "teal"
+    ? { background: "var(--labBand)", border: "none", borderRadius: 16, padding: "26px 28px" }
     : { background: "var(--primaryFaint)", border: "2px dashed var(--primary)", borderRadius: 16, padding: "26px 28px" };
   containerStyle.marginBottom = props.marginBottom != null ? props.marginBottom : "var(--blockGap)";
   if (props.marginTop != null) containerStyle.marginTop = props.marginTop;
-  var eyebrowColor = surface === "sand" ? "var(--seeAccent)" : "var(--tryAccent)";
+  var eyebrowColor = surface === "sand" ? "var(--seeAccent)" : surface === "teal" ? "var(--labAccent)" : "var(--tryAccent)";
   var eyebrowStyle = {
     fontSize: 11,
     fontWeight: 700,

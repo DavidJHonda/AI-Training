@@ -62,6 +62,11 @@ The workhorse display box: optional kicker, headline, intro, free-form body on a
 
 ![ShowcaseBox](showcase-box.png)
 
+### NumberedRows
+The numbered-list box, for an ordered list of named things with explanations: outlined circle numbers, emoji + bold title per row, hairline separators, and an optional quoted monospace prompt callout. Example: "Best practices" in Study with AI (`studying`).
+
+![NumberedRows](numbered-rows.png)
+
 ## Shared diagrams
 
 ### CoreLoopBox

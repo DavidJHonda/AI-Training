@@ -62,6 +62,11 @@ The workhorse display box: optional kicker, headline, intro, free-form body on a
 
 ![ShowcaseBox](showcase-box.png)
 
+### PullQuote
+The sourced-quotation card: serif quote on a white card with a purple left border, optional muted attribution line. For verbatim quotes from real documents or people (source punctuation kept as-is). Example: the White House AI Action Plan quote in Why Learn AI? (`whydeeper`).
+
+![PullQuote](pull-quote.png)
+
 ### NumberedRows
 The numbered-list box, for an ordered list of named things with explanations: outlined circle numbers, emoji + bold title per row, hairline separators, and an optional quoted monospace prompt callout. Example: "Best practices" in Study with AI (`studying`).
 

@@ -272,7 +272,7 @@ function InnerCard(props) {
 }
 function ActivityCounter(props) {
   try {
-    if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all") return null;
+    if (typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print")) return null;
   } catch (ex) {}
   return /*#__PURE__*/React.createElement("div", {
     style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "var(--shadowSoft)", display: "inline-flex", alignItems: "baseline", gap: 4 }
@@ -883,7 +883,7 @@ function QuizBlock(props) {
   if (surface === "mint") {
     var hasNumeral = props.questionNumber != null;
     var isPrintMode = false;
-    try { isPrintMode = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all"; } catch (ex) {}
+    try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
     if (isPrintMode) {
       return React.createElement("div", { style: { padding: 0 } },
         React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 } },
@@ -1161,7 +1161,7 @@ function RevealSequence(props) {
   var btnFontFamily = isMint || isSand ? "'Plus Jakarta Sans', system-ui, sans-serif" : "inherit";
   var stripArrow = function(s) { return (s || "").replace(/[\s\u2190-\u21FF]+$/, ""); };
   var isPrintMode = false;
-  try { isPrintMode = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all"; } catch (ex) {}
+  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
   if (isPrintMode) {
     return React.createElement("div", null,
       props.children,
@@ -14033,18 +14033,26 @@ function LLMExplorer() {
   useEffect(function() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [progress.activeSection]);
-  var isPrintMode = false;
+  var printParam = null;
   try {
-    isPrintMode = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("print") === "all";
+    printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
   } catch (ex) {}
-  if (isPrintMode) {
+  var printSections = null;
+  if (printParam === "all") {
+    printSections = SECTIONS;
+  } else if (printParam) {
+    var printSlug = function(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); };
+    var printGroup = SECTION_GROUPS.find(function(g) { return printSlug(g.label) === printParam; });
+    if (printGroup) printSections = SECTIONS.filter(function(s) { return printGroup.sections.indexOf(s.id) !== -1; });
+  }
+  if (printSections) {
     return /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", padding: "32px 40px", fontFamily: "var(--sans)" }
     },
-      SECTIONS.map(function(section, idx) {
+      printSections.map(function(section, idx) {
         var SectionComponent = SECTION_COMPONENTS[section.id];
         if (!SectionComponent) return null;
-        var isLast = idx === SECTIONS.length - 1;
+        var isLast = idx === printSections.length - 1;
         return /*#__PURE__*/React.createElement("div", {
           key: section.id,
           style: {

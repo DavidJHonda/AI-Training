@@ -5035,7 +5035,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Think of vector space like a city map. Things that are related are in the same neighborhood. A real model\u2019s map is far more complicated, but the idea holds: the \u201ccoordinates\u201d on it are the thousands of numbers in each token\u2019s vector. The more similar those values are, the closer the tokens sit in the model\u2019s map."),
     E(BodyP, null,
-      "But there\u2019s more. As you\u2019ve seen, a tool like ChatGPT types its response word by word. This concept is called ", E("strong", null, "prediction"), ", and where a token sits in vector space is a key part of that process. You\u2019ll learn about this soon."),
+      "But there\u2019s more. The model uses this map twice. In Layers, you\u2019ll watch a word\u2019s vector move across the map as context sharpens its meaning. And at the very end, ", E("strong", null, "prediction"), " itself is a map move: the model reads where the final vector landed to decide which token comes next."),
     E(BodyP, null,
       "Real vector spaces have hundreds or thousands of dimensions, so the picture below is flattened to 2D for human eyes. It\u2019s a simple illustration of vector space, not an exact map."),
     E("img", {
@@ -5323,7 +5323,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here’s the surprising part. That final set of numbers almost never matches any word’s starting vector back in the embedding table. The model didn’t pull “bank” off a shelf. Layer by layer, it built a one-of-a-kind meaning that lands in the space between known words. That’s the real payoff of depth: context creates a shade of meaning no single dictionary word can hold."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "So how does a point between words become something the model can use? It reads the map. It measures how close that final point sits to the words it knows, and the nearest ones are what it weighs most. A spot that no dictionary defines still has clear closest neighbors, and that’s what the model works from next."),
+      "So how does a point between words become something the model can use? It reads the map: the vector space you met three lessons ago. It measures how close that final point sits to the words it knows, and the nearest ones are what it weighs most. A spot that no dictionary defines still has clear closest neighbors, and that’s what the model works from next."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/layers-2.jpg",
       alt: "A board-game map of the word “bank” traveling through the layers: it starts ambiguous, moves from Layer 1 to Layer 2 to Layer 3 and dozens more, past neighborhoods for money bank, vending machine bank, blood bank, and bank the plane, until the path lands on river bank, its final meaning.",
@@ -5405,7 +5405,7 @@ function InferenceSection(props) {
   }, {
     chip: { icon: "🎲", label: "PROBABILITY", tone: "bright" },
     title: "Score every possible next token",
-    description: "After all the layers, the model has a probability score for every possible next token. About 100,000 candidates. Each one gets a probability based on everything that came before."
+    description: "After all the layers, the final vector has landed somewhere on the meaning map from Vector Space. The model scores every token it knows, about 100,000 candidates, by how closely each one matches that landing spot. Close matches get high probabilities; distant ones get almost none."
   }, {
     chip: { icon: "🎯", label: "PREDICTION", tone: "bright" },
     title: "Pick the next token (and repeat)",

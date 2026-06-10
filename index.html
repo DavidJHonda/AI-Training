@@ -1282,13 +1282,16 @@ const SECTION_GROUPS = [{
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Check the Output",
-  sections: ["openercheck", "howmuchtocheck", "critical", "verify", "evaluating", "hallucination", "trainingbias", "documenttrap"]
+  sections: ["openercheck", "howmuchtocheck", "critical", "verify", "evaluating"]
 }, {
-  label: "Protect Yourself",
-  sections: ["openerprotect", "mindtrap", "flattery", "engagementtrap", "supporttrap", "integrity", "privacy", "seeingisntproof"]
+  label: "Avoid Traps",
+  sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
 }, {
-  label: "Build Your Advantage",
-  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "stakeholders", "aifuture", "humanedge", "creativethinking", "buildedge"]
+  label: "The Future",
+  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "aifuture"]
+}, {
+  label: "Build Your Skills",
+  sections: ["openerskills", "integrity", "privacy", "humanedge", "creativethinking", "buildedge"]
 }, {
   label: "Finish Smarter",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -1348,11 +1351,11 @@ const SECTION_META = {
   verify: { kicker: "TRUST, THEN CHECK", label: "How to Verify", icon: "\uD83D\uDEE0\uFE0F" },
   evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluating the Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  openerskills: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   integrity: { kicker: "USE IT, OWN IT", label: "Academic Integrity", icon: "\uD83C\uDF93" },
   privacy: { kicker: "WHAT YOU TYPE TRAVELS", label: "Privacy & Awareness", icon: "\uD83D\uDD12" },
   aijudges: { kicker: "DECISIONS ABOUT YOU", label: "When AI Judges You", title: "When AI Judges You", icon: "\u2696\uFE0F" },
-  stakeholders: { kicker: "MORE THAN YOU", label: "Who Else Is Affected", title: "Who Else Is Affected", icon: "\uD83D\uDC65" },
-  seeingisntproof: { kicker: "FAKE IS CHEAP NOW", label: "Seeing Isn\u2019t Proof", title: "Seeing Isn\u2019t Proof", icon: "\uD83D\uDC41\uFE0F" },
+  faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "The Fake Trap", title: "The Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
   aifuture: { kicker: "WHAT COMES NEXT", label: "AI & The Future", icon: "\uD83D\uDD2D" },
   buildedge: { kicker: "YOUR MOVE NOW", label: "Build Your Edge", icon: "\uD83C\uDFAF" },
@@ -6427,8 +6430,8 @@ function DocumentChatSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: scenariosAllAnswered,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerprotect"); },
-      label: "Next: Protect Yourself"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
+      label: "Next: Mind Trap"
     })
   );
 }
@@ -8166,10 +8169,10 @@ function OpenerCheckSection(props) {
     whyThisMatters: [
       "AI hands you an answer with total confidence. That confidence is not evidence. The answer is a draft, not a verdict.",
       "This part is about the thing AI gives you: is it actually right, and is it good enough for what you need? You will learn to question an answer, check the claims, and judge when it is solid enough to use.",
-      "It also covers the ways answers go wrong on their own, so you can catch them: invented facts, bias baked in from training, and the trap of trusting a document the model barely read."
+      "The ways answers go wrong on their own, like invented facts and baked-in bias, get their own section right after this one: Avoid Traps. This section builds the checking skills you will use there."
     ],
     whatYoullLearnIntro: [
-      "First the dial: how much checking a task needs at all. Then the habit of checking, and the failure modes worth knowing by name. Each lesson answers a question."
+      "First the dial: how much checking a task needs at all. Then the habit and the moves of checking. Each lesson answers a question."
     ],
     sectionOverview: {
       eyebrow: "In this section",
@@ -8192,15 +8195,6 @@ function OpenerCheckSection(props) {
           { question: "How do I actually check what AI tells me?", lessonId: "verify" },
           { question: "Good enough for what? How do I judge the result?", lessonId: "evaluating" }
         ]
-      },
-      {
-        kicker: "KNOW HOW ANSWERS GO WRONG",
-        bridge: "Finally, the failure modes built into how AI works.",
-        questions: [
-          { question: "Why does AI state false things so confidently?", lessonId: "hallucination" },
-          { question: "How do the model’s training shortcuts skew its answers?", lessonId: "trainingbias" },
-          { question: "Why can’t I trust a summary of a document it barely read?", lessonId: "documenttrap" }
-        ]
       }
     ],
     whatYoullLearnClosing: [
@@ -8214,40 +8208,49 @@ function OpenerCheckSection(props) {
 }
 function OpenerProtectSection(props) {
   var protectIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHAT IS THE TOOL DOING TO YOU?"
+    eyebrow: "WHERE DO THE TRAPS HIDE?"
   },
     /*#__PURE__*/React.createElement("div", {
       style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
     },
-      /*#__PURE__*/React.createElement("div", null, "It’s not neutral."),
-      /*#__PURE__*/React.createElement("div", null, "Not your friend."),
-      /*#__PURE__*/React.createElement("div", null, "Not on your side."),
-      /*#__PURE__*/React.createElement("div", null, "Not making the call for you."),
+      /*#__PURE__*/React.createElement("div", null, "In the answer."),
+      /*#__PURE__*/React.createElement("div", null, "In the chat."),
+      /*#__PURE__*/React.createElement("div", null, "In your habits."),
+      /*#__PURE__*/React.createElement("div", null, "In what you see."),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
       },
         /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "the tool works on you, too."))));
+        /*#__PURE__*/React.createElement("span", null, "every trap looks fine from the inside."))));
   return React.createElement(OpenerSection, {
     sectionId: "openerprotect",
     featuredCard: protectIllustration,
     whyThisMatters: [
-      "So far you have been checking what AI gives you. This part flips the question: what is AI doing to you?",
-      "A tool built to be helpful, agreeable, and engaging can pull on you in ways you do not notice. It can feel like a mind, talk you up, keep you in the conversation, or stand in for real support. Naming those pulls is how you stay in charge.",
-      "It also covers the calls that stay yours no matter how capable AI gets: when not to use it, how much to check, how to study and stay honest, what to keep private, and how to doubt what you see."
+      "You know how to check an answer. This part names what you are checking for: the traps. Every one of them has the same shape. Something looks fine, feels fine, reads fine, and is quietly wrong.",
+      "Some traps live in the answer itself: invented facts, bias soaked up from training data, a summary of a document the model barely read. Some live in you: a tool built to be helpful, agreeable, and engaging can feel like a mind, talk you up, and keep you in the conversation longer than you meant.",
+      "And some come from the world. Other people's AI puts convincing fakes in front of you every day. Naming each trap is most of the defense; once you can spot the shape, the pull loses its grip."
     ],
     whatYoullLearnIntro: [
-      "First the ways the tool works on you, then the decisions it cannot make for you. Each lesson answers a question."
+      "First the traps in the answer, then the traps in you, then the traps from the world. Each lesson answers a question."
     ],
     sectionOverview: {
       eyebrow: "In this section",
-      title: "Protect Yourself",
-      subtitle: "The tool works on you, not just for you."
+      title: "Avoid Traps",
+      subtitle: "Every trap looks fine until you name it."
     },
     groups: [
       {
-        kicker: "WHEN THE TOOL WORKS ON YOU",
-        bridge: "First, the pulls built into a tool designed to please and to keep you engaged.",
+        kicker: "TRAPS IN THE ANSWER",
+        bridge: "First, the ways an answer goes wrong all on its own.",
+        questions: [
+          { question: "Why does AI state false things so confidently?", lessonId: "hallucination" },
+          { question: "How do the model’s training shortcuts skew its answers?", lessonId: "trainingbias" },
+          { question: "Why can’t I trust a summary of a document it barely read?", lessonId: "documenttrap" }
+        ]
+      },
+      {
+        kicker: "TRAPS IN YOU",
+        bridge: "Then, the pulls built into a tool designed to please and to keep you engaged.",
         questions: [
           { question: "Why does it feel like I’m talking to a mind?", lessonId: "mindtrap" },
           { question: "What’s wrong with AI that always agrees with me?", lessonId: "flattery" },
@@ -8256,22 +8259,19 @@ function OpenerProtectSection(props) {
         ]
       },
       {
-        kicker: "THE CALLS THAT STAY YOURS",
-        bridge: "Then, the decisions AI cannot make for you.",
+        kicker: "TRAPS FROM THE WORLD",
+        bridge: "Finally, what other people’s AI puts in front of you.",
         questions: [
-          { question: "How do I use AI to learn instead of to skip learning?", lessonId: "studying" },
-          { question: "Where is the line on academic honesty?", lessonId: "integrity" },
-          { question: "What happens to what I type?", lessonId: "privacy" },
-          { question: "How do I think clearly when seeing is no longer proof?", lessonId: "seeingisntproof" }
+          { question: "How do I think clearly when seeing is no longer proof?", lessonId: "faketrap" }
         ]
       }
     ],
     whatYoullLearnClosing: [
-      "By the end, you will recognize when a tool is working on you, and you will know which judgments are not the tool’s to make."
+      "By the end, you will know every trap by name: the ones in the answer, the ones in you, and the ones coming from everyone else’s AI. Named traps are avoidable traps."
     ],
-    question: "Am I using the tool, or is it using me?",
-    nextLessonId: "mindtrap",
-    nextLessonLabel: "Next: Mind Trap",
+    question: "What looks fine here that isn’t?",
+    nextLessonId: "hallucination",
+    nextLessonLabel: "Next: Hallucination",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -9443,7 +9443,7 @@ function EvaluatingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("hallucination"), label: "Next: Hallucination" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
 function CreativeThinkingSection(props) {
   const [scenarioAnswers, setScenarioAnswers] = useState({});
@@ -10369,7 +10369,7 @@ function SupportTrapSection(props) {
     E(KeyInsight, null,
       "Relief is not resolution. AI can help you prepare. Real support comes from people who can notice, follow up, and act."),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Academic Integrity" }));
+    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("faketrap"); }, label: "Next: The Fake Trap" }));
 }
 
 const INTEGRITY_SCENARIOS = [{
@@ -10447,35 +10447,35 @@ const INTEGRITY_SCENARIOS = [{
 }];
 function OpenerRealWorldSection(props) {
   var realWorldIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHO ELSE DOES AI TOUCH?"
+    eyebrow: "WHAT IS ALREADY CHANGING?"
   },
     /*#__PURE__*/React.createElement("div", {
       style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
     },
-      /*#__PURE__*/React.createElement("div", null, "It\u2019s not just your homework."),
-      /*#__PURE__*/React.createElement("div", null, "It\u2019s not just your data."),
-      /*#__PURE__*/React.createElement("div", null, "It\u2019s not just your screen."),
-      /*#__PURE__*/React.createElement("div", null, "It\u2019s not just your call."),
+      /*#__PURE__*/React.createElement("div", null, "Work is shifting."),
+      /*#__PURE__*/React.createElement("div", null, "Agents are acting."),
+      /*#__PURE__*/React.createElement("div", null, "Systems are judging."),
+      /*#__PURE__*/React.createElement("div", null, "Claims are flying."),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
       },
         /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "every use lands on someone else."))));
+        /*#__PURE__*/React.createElement("span", null, "the future is arriving ahead of schedule."))));
   return React.createElement(OpenerSection, {
     sectionId: "openerrealworld",
     featuredCard: realWorldIllustration,
     whyThisMatters: [
-      "You\u2019ve built the habits and the judgment: how to pick a tool, prompt it, study with it, check what it hands back, and protect yourself while you use it.",
-      "So far this has been about you and the tool. Now it widens out. AI is reshaping work, making decisions about real people, and filling the world with fakes that look real. What you do with it affects others, and what others do with it affects you.",
-      "Underneath all of it is one question: when everyone has the same AI, what makes you valuable? The answer is the part that stays human."
+      "You\u2019ve built the habits and the judgment: how to pick a tool, prompt it, check what it hands back, and spot the traps.",
+      "So far this has been about you and the tool. Now it widens out. AI is reshaping work, starting to act on its own, and making decisions about real people, including you. None of this is a someday story; every piece of it is already underway.",
+      "This section is about reading that change clearly: what is actually shifting, what to do when a system judges you, and how to weigh the big claims about where it all goes next."
     ],
     whatYoullLearnIntro: [
-      "First the big shifts already underway, then who carries the stakes, then your own edge in a world full of AI. Each lesson answers a question."
+      "First the big shifts already underway, then where they land on you. Each lesson answers a question."
     ],
     sectionOverview: {
       eyebrow: "In this section",
-      title: "Build Your Advantage",
-      subtitle: "When everyone has AI, what makes you valuable?"
+      title: "The Future",
+      subtitle: "It\u2019s arriving ahead of schedule."
     },
     groups: [
       {
@@ -10487,18 +10487,69 @@ function OpenerRealWorldSection(props) {
         ]
       },
       {
-        kicker: "THE STAKES",
-        bridge: "Then, how AI lands on real people, including you.",
+        kicker: "WHERE IT LANDS ON YOU",
+        bridge: "Then, what to do when AI judges you, and how to read the big claims about what comes next.",
         questions: [
           { question: "What do I do when AI is used to judge me?", lessonId: "aijudges" },
-          { question: "Beyond me, who else has a stake in what AI does?", lessonId: "stakeholders" }
+          { question: "Where is AI going, and how do I judge big claims about it?", lessonId: "aifuture" }
+        ]
+      }
+    ],
+    whatYoullLearnClosing: [
+      "By the end, you\u2019ll read AI news the way you read AI answers: clearly, without panic and without hype. You\u2019ll know what is actually changing and what to do when the change points at you."
+    ],
+    question: "What\u2019s actually coming, and what do I do about it?",
+    nextLessonId: "workchanges",
+    nextLessonLabel: "Next: Work Changes",
+    completeAndNavigate: props.completeAndNavigate
+  });
+}
+
+function OpenerSkillsSection(props) {
+  var skillsIllustration = /*#__PURE__*/React.createElement(Illustration, {
+    eyebrow: "WHAT CAN\u2019T BE HANDED TO YOU?"
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
+    },
+      /*#__PURE__*/React.createElement("div", null, "Your honesty."),
+      /*#__PURE__*/React.createElement("div", null, "Your privacy."),
+      /*#__PURE__*/React.createElement("div", null, "Your judgment."),
+      /*#__PURE__*/React.createElement("div", null, "Your ideas."),
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
+        /*#__PURE__*/React.createElement("span", null, "the skills that travel with you."))));
+  return React.createElement(OpenerSection, {
+    sectionId: "openerskills",
+    featuredCard: skillsIllustration,
+    whyThisMatters: [
+      "You just saw the world that\u2019s coming: work shifting, agents acting, systems judging. The last question is the one that matters most: what do you build in yourself so that world works for you?",
+      "Part of the answer is character you practice: using AI honestly when the shortcut is right there, and deciding what the tool gets to know about you.",
+      "The rest is the edge no tool supplies: framing real problems, judging what matters, bringing an angle the model hasn\u2019t seen, and turning all of it into a deliberate next move."
+    ],
+    whatYoullLearnIntro: [
+      "First the calls that stay yours, then the skills that make you valuable when everyone has the same tool. Each lesson answers a question."
+    ],
+    sectionOverview: {
+      eyebrow: "In this section",
+      title: "Build Your Skills",
+      subtitle: "When everyone has AI, what makes you valuable?"
+    },
+    groups: [
+      {
+        kicker: "THE CALLS THAT STAY YOURS",
+        bridge: "First, the two habits that keep the work yours: honesty about how you use AI, and control over what it knows about you.",
+        questions: [
+          { question: "Where is the line on academic honesty?", lessonId: "integrity" },
+          { question: "What happens to what I type?", lessonId: "privacy" }
         ]
       },
       {
         kicker: "YOUR EDGE",
-        bridge: "Finally, where this is headed, and what makes you valuable when everyone has the same tool.",
+        bridge: "Then, what stays valuable when everyone has the same tool, and how to build it on purpose.",
         questions: [
-          { question: "Where is AI going, and how do I judge big claims about it?", lessonId: "aifuture" },
           { question: "What stays valuable when AI can do so much?", lessonId: "humanedge" },
           { question: "How do I bring an angle the tool can\u2019t?", lessonId: "creativethinking" },
           { question: "What\u2019s my move now?", lessonId: "buildedge" }
@@ -10506,12 +10557,11 @@ function OpenerRealWorldSection(props) {
       }
     ],
     whatYoullLearnClosing: [
-      "By the end, you\u2019ll see AI as more than a tool you operate. You\u2019ll know how it changes who gets judged, what counts as real, whose interests are on the line, and where work is headed.",
       "Being good with AI is not just getting a better answer. It\u2019s knowing what only you bring, and using that on purpose."
     ],
     question: "When everyone has AI, what makes my work mine?",
-    nextLessonId: "workchanges",
-    nextLessonLabel: "Next: Work Changes",
+    nextLessonId: "integrity",
+    nextLessonLabel: "Next: Academic Integrity",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -11175,7 +11225,7 @@ function PrivacySection(props) {
     "The moment AI can read more than your message \u2014 files, email, photos, calendars, documents, web pages \u2014 the surface area expands. The hijack risks (prompt injection) come up later, in The Rise of Agents lesson."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t secrecy." }, "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: photoRevealed >= PHOTO_ITEMS.length && redactIdx >= REDACT_SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("seeingisntproof"), label: "Next: Seeing Isn’t Proof" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: photoRevealed >= PHOTO_ITEMS.length && redactIdx >= REDACT_SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
 }
 function WhenAIJudgesSection(props) {
   const [permIdx, setPermIdx] = useState(0);
@@ -11263,7 +11313,44 @@ function WhenAIJudgesSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Hiring screen ratings, college admissions tools, credit scores, plagiarism scores, fraud risk flags. A number or label that decides whether a human even looks at your case.")))
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Whichever mode it is, you have one tool. A short list of questions to ask any system that\u2019s judging you. Memorize them."),
+      "The modes tell you what the system is doing. The other half of reading a deployment is who\u2019s in the picture. Every system has more seats than yours, and naming the seats tells you who has power, who has risk, and who gets a say."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "FOUR ROLES IN EVERY DEPLOYMENT",
+      headline: "Same system, different stakes.",
+      intro: "The same AI looks different depending on which side of it you\u2019re on. Name the side, and you can read the deployment.",
+      marginBottom: 28
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", flexDirection: "column", gap: 12 }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #6e51ff", borderRadius: 10, padding: "14px 18px" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#6e51ff", marginBottom: 6 } }, "Role 1 \u00b7 User"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The person using the tool"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Usually got what the deployment was designed to deliver. Faster work, easier access, a quicker decision. Most of the benefit is theirs. A lot of public discussion of AI focuses on them.")),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Role 2 \u00b7 Subject"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The person the output is about"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Often not the user. When AI scores a college application, the school is the user and the applicant is the subject. The subject usually has the most at stake and the least control.")),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #3b82f6", borderRadius: 10, padding: "14px 18px" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#3b82f6", marginBottom: 6 } }, "Role 3 \u00b7 Operator"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The company or institution running it"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Could be a tech company, a school district, an employer, a hospital, or a platform. Either way, it made the deployment choice and is responsible for how the tool affects people. Their incentives are not neutral. Knowing what they were optimizing for tells you most of the story.")),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Role 4 \u00b7 Bystander"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Everyone else who\u2019s affected"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Wasn\u2019t part of the design, wasn\u2019t asked, often doesn\u2019t know the system exists. Easiest group to forget. Often where the deepest costs land."))
+      )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Whichever mode it is, and whichever seat you\u2019re in, you have one tool. A short list of questions to ask any system that\u2019s judging you. Memorize them."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "THE FIVE QUESTIONS",
       headline: /*#__PURE__*/React.createElement("div", {
@@ -11352,7 +11439,7 @@ function WhenAIJudgesSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "When AI judges you, don\u2019t argue with the machine." },
       "Find the human, ask what data was used, and learn how to appeal."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("stakeholders"), label: "Next: Who Else Is Affected" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aifuture"), label: "Next: AI & The Future" }));
 }
 function StakeholdersSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
@@ -11530,7 +11617,7 @@ function SyntheticMediaSection(props) {
   }];
   const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "seeingisntproof" }),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "faketrap" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI now makes fake text cheap. Fake images cheap. Fake voices cheap. Fake video is real now, especially in short clips, bad lighting, or anything you scroll past in three seconds. The price of generating something convincing has collapsed, and it\u2019s only going one direction."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -11625,7 +11712,7 @@ function SyntheticMediaSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t overclaim in either direction." },
       "Calling something fake without checking is just as wrong as believing it without checking. Both are confident answers without evidence. \u201CUnverified\u201D is the honest position until corroboration shows up."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Build Your Advantage" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: The Future" }));
 }
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
@@ -13462,7 +13549,7 @@ function AIFutureSection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren\u2019t the ones who panic or worship."),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They\u2019re the ones who can judge."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: predIdx >= ALL_CARDS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("humanedge"); }, label: "Next: Skills That Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: predIdx >= ALL_CARDS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
 function BuildEdgeSection(props) {
   var E = React.createElement;
@@ -13787,8 +13874,8 @@ const SECTION_COMPONENTS = {
   integrity: IntegritySection,
   privacy: PrivacySection,
   aijudges: WhenAIJudgesSection,
-  stakeholders: StakeholdersSection,
-  seeingisntproof: SyntheticMediaSection,
+  faketrap: SyntheticMediaSection,
+  openerskills: OpenerSkillsSection,
   whatyoulearned: WhatYouLearnedSection,
   fullworkflow: FullWorkflowSection,
   testyourself: TestYourselfSection,

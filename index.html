@@ -8927,6 +8927,53 @@ function ThoughtPartnerSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercheck"), label: "Next: Check the Output" }));
 }
+function Lab01CourseNotebook() {
+  var E = React.createElement;
+  var [labChecked, setLabChecked] = useLocalStorage("llm-lab01-steps", {});
+  var STEPS = [
+    { title: "Print your packet", body: [
+      "Open the ",
+      E("a", { key: "pk", href: "?print=start-smarter", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700 } }, "Start Smarter packet"),
+      ", then save it as a PDF: press Ctrl+P (Cmd+P on a Mac) and choose “Save as PDF”. Name the file Start Smarter."
+    ] },
+    { title: "Create the course notebook", body: "At notebooklm.google.com, make a new notebook and name it after the course: “Be Smarter Than the Tool”. This notebook grows with you. Every part of the course will land in it." },
+    { title: "Add the packet as a source", body: "Upload the PDF you just saved. One part of the course, one source. That’s the filing system." },
+    { title: "Generate a blind quiz", body: "Use the prompt from this lesson: “Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me.”" },
+    { title: "Take it cold", body: "Close the lesson tabs first. Answer all ten, then let it grade you. Recognition isn’t recall; cold is the point." },
+    { title: "Click one citation", body: "Pick one graded answer and click its numbered citation. It lands on the exact passage of the course that taught it. Make that check a habit." },
+    { title: "Transfer it", body: "This week, make a second notebook for whichever class has your next test, and feed it your real materials: notes, slides, a YouTube explainer. The course showed you the machine; your grades are where it pays." }
+  ];
+  var checkedCount = STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    labNumber: "01",
+    title: "Build Your Course Notebook",
+    hint: "About 25 minutes. You’ll need a laptop and a Google account.",
+    action: E(ActivityCounter, { count: checkedCount, total: STEPS.length })
+  },
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
+      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } },
+        "You just learned what a source-grounded tutor is. Now aim it at this course: study Start Smarter with the tool Start Smarter taught you."),
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        STEPS.map(function(st, i) {
+          var done = !!labChecked[i];
+          return E("button", {
+            key: i,
+            "aria-pressed": done,
+            onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); },
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", cursor: "pointer", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+          },
+            E("span", { "aria-hidden": "true", style: { width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("span", null,
+              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
+        })),
+      E("div", { style: { borderTop: "1px solid var(--labRule)", paddingTop: 14, fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } },
+        E("strong", { style: { color: "var(--labAccent)" } }, "The payoff: "),
+        "your wrong answers are your study list for the next meeting. Keep this notebook: every lab from here adds the next part of the course to it, and the quizzes grow as you go."))
+  );
+}
 function StudyingWithAISection(props) {
   var E = React.createElement;
   const [picks, setPicks] = useState({});
@@ -9087,6 +9134,7 @@ function StudyingWithAISection(props) {
     ),
     E(KeyInsight, { lead: "Pick the tool, then make it test you." },
       "Point NotebookLM at your own notes and slides, or a general AI at a topic you don’t have materials for. Either way, the win comes from producing the answers yourself, not watching it summarize. That’s the difference between feeling ready and being ready."),
+    E(Lab01CourseNotebook, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); }, label: "Next: Foundations" })
   );

@@ -6,7 +6,7 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 ## Lesson map
 61 lessons across 8 section groups (a six-part content spine plus Start Smarter and Finish Smarter), listed in delivery order. Each lesson is listed as `Displayed Label (internal id)`. The id is the React component key and navigation reference used in code; the label is what students see in the UI.
 
-- Start Smarter (8): Welcome (welcome), Why Learn AI? (whydeeper), What Is AI? (aihistory), Meet the Tool (llms), Does AI Think? (doesaithink), Why Bother Learning? (whybother), Study with AI (studying), What You Can Control (control)
+- Start Smarter (8): Welcome (welcome), Why Learn AI? (whydeeper), What Is AI? (aihistory), Meet the Tool (llms), Does AI Think? (doesaithink), Does School Still Matter? (whybother), Study with AI (studying), What You Can Control (control)
 - Understand AI (15): one section group with a single opener; the former Inside AI and AI Answers sub-openers were removed and their framing folded into tokens (top) and training (end):
   - Foundations: Opener (openerfoundations), How We Got Here (howwegothere), Rules vs Patterns (aivscode), Harder to Control (norules), From Mess to Meaning (data), AI is Math (aiismath)
   - Inside the model: Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Vector Space: Meaning by Similarity (vectorspace), The Black Box (insidethemodel), Attention (attention), Layers (layers), Training (training)

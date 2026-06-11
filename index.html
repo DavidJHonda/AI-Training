@@ -6106,7 +6106,7 @@ function CustomizationSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, "Memory")),
           /*#__PURE__*/React.createElement("div", {
             style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12 }
-          }, "What the model picks up about you as you work with it. In Claude and ChatGPT, you can see and edit your memory in Settings."),
+          }, "What the model picks up about you as you work with it. In Claude, ChatGPT, and Gemini, you can see and edit what’s been saved in Settings."),
           /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
             /*#__PURE__*/React.createElement("div", {
               style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", marginBottom: 4 }
@@ -8772,11 +8772,36 @@ function ThoughtPartnerSection(props) {
   const [phase, setPhase] = useLocalStorage("seeit-thoughtpartner-phase", "idle");
   const [userCharIdx, setUserCharIdx] = useState(0);
   const [aiWordIdx, setAiWordIdx] = useState(0);
+  const [tpAnswers, setTpAnswers] = useState({});
+  const TP_MOVES = [
+    {
+      situation: "You tell AI your history essay feels weak, and it instantly replies with a full rewrite of the whole thing.",
+      options: [
+        { label: "“Don’t rewrite it. Ask me five questions to help me find where my argument is weak.”", correct: true, headline: "You kept the pen.", feedback: "The rewrite would be AI’s essay, not a stronger you. Turning it into questions makes AI find the weak spots while the fixing, and the essay, stay yours." },
+        { label: "Take the rewrite. It reads better than your draft, and the grade is what counts.", correct: false, headline: "Better essay, weaker you.", hint: "The grade isn’t the only output here. If you hand in a rewrite you didn’t think through, what did you learn about your own argument?", feedback: "It probably does read better. But you never found out why yours was weak, so the next essay starts from the same place. The work got done. The thinking didn’t." }
+      ]
+    },
+    {
+      situation: "You ask whether to take AP Statistics or AP Computer Science, mention you’re leaning CS, and AI immediately agrees your lean makes sense.",
+      options: [
+        { label: "Take the agreement as confirmation. It heard your reasoning and signed off.", correct: false, headline: "It signed off on your lean, not your reasoning.", hint: "It agreed with the lean you handed it, within seconds. Is that analysis, or just an assistant being agreeable?", feedback: "It agreed because you leaned. AI assistants default to agreeable, so fast agreement is the cheapest signal there is. It confirmed you asked, not that you’re right." },
+        { label: "“Now challenge my assumption. What would a skeptic say about picking CS?”", correct: true, headline: "Agreement isn’t analysis.", feedback: "Forcing the other side is the thought-partner move. It surfaces what your lean was hiding, and the decision still ends up yours, just better tested." }
+      ]
+    },
+    {
+      situation: "AI listed ten fundraiser ideas for your club, and you like number 3. You’re about to write your next message.",
+      options: [
+        { label: "“Just tell me which idea is best and I’ll go with that.”", correct: false, headline: "That outsources the call.", hint: "Ten ideas in, the next step is a judgment about your club, your school, your members. Who actually has that information?", feedback: "AI doesn’t know your club, your school, or what your members will actually show up for. “Which is best” is a judgment built on context only you have. Keep the call, then put AI to work testing it." },
+        { label: "“I’m drawn to idea 3. Pressure-test it: where does this fail, and what would make it fail?”", correct: true, headline: "Decide, then stress-test.", feedback: "You made the pick, then aimed AI at what it’s good at: generating the failure cases you haven’t imagined. The decision stayed yours and came out stronger." }
+      ]
+    }
+  ];
   const TP_EXCHANGES = [
     { beat: "Start vague", user: "I don\u2019t know what to do this summer.", ai: "That\u2019s a pretty open canvas. A few things would help me think through this with you. Are you looking to make money, build something for college apps, try something new, or some combination? And is there anything you\u2019re already drawn to, even vaguely?" },
     { beat: "Narrow the goal", user: "Probably both. Money would be good but I also want something that looks decent for college. I\u2019m into tech but I don\u2019t actually know how to code.", ai: "That\u2019s a useful combination. Tech-adjacent doesn\u2019t have to mean coding. There\u2019s a whole layer of work that sits between the technical and the human side. Things like research assistance, content for tech companies, product testing, social media for startups, or even just helping a small business get set up with AI tools. Any of those directions feel interesting, or does something else come to mind?" },
     { beat: "Pick a direction", user: "The AI tools thing actually sounds interesting. I\u2019ve been using Claude a lot lately and I kind of get how it works.", ai: "That\u2019s actually a real edge right now: most people your age are using AI but very few understand it well enough to teach it or implement it for others. You could position yourself as someone who helps small local businesses figure out where AI fits in their workflow. It doesn\u2019t require coding. It requires exactly what you\u2019re already building: understanding the tool and how to use it well. Want to think through what that could actually look like?" },
     { beat: "Name the obstacle", user: "Yeah but I wouldn\u2019t even know how to get a business to take me seriously. I\u2019m 17.", ai: "17 is actually part of the pitch, not a problem with it. You lead with that: \u2018I\u2019m a student who\u2019s been studying AI tools seriously and I want to help one local business implement them this summer for free or low cost in exchange for a reference.\u2019 Free is a door opener. One good outcome becomes your portfolio. Which kind of business do you think you\u2019d actually want to work with?" },
+    { beat: "Get pushed back", user: "OK, so my plan is to email every business in town at once. That way at least somebody says yes.", ai: "I\u2019d push back on that plan. Fifty copy-paste emails from a student nobody knows will mostly get deleted, and you can\u2019t write a specific pitch for fifty places at once. What makes you credible is specificity: knowing their business, naming a gap you actually noticed. One well-researched pitch beats fifty generic ones. Does that change which businesses you\u2019d start with?" },
     { beat: "Turn it into action", user: "Probably a restaurant or a small retail store. Something local I could actually walk into.", ai: "Perfect. Walk-in businesses are ideal because the owner is usually right there. Here\u2019s a starting move: identify 3\u20135 local spots you already go to, research whether they have a Google Business profile, active social media, and whether they respond to reviews. Those gaps are your opening. You\u2019re not selling AI. You\u2019re solving a specific problem they already have. Want help drafting what you\u2019d actually say when you walk in?" }
   ];
   useEffect(function() {
@@ -8960,7 +8985,7 @@ function ThoughtPartnerSection(props) {
     showButton && !allDone && tpStep < TP_EXCHANGES.length ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
         /*#__PURE__*/React.createElement(ActivityButton, { onClick: advanceStep }, "Continue \u2192")) : null,
     allDone ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 20 } },
-        /*#__PURE__*/React.createElement(Takeaway, { headline: "AI explored. You decided.", body: "It opened up the options and poked at the obstacles, but every choice stayed yours. A good thought partner widens your thinking without taking it over." })) : null),
+        /*#__PURE__*/React.createElement(Takeaway, { headline: "AI explored. You decided.", body: "It opened up the options, pushed back on a weak plan, and poked at the obstacles, but every choice stayed yours. A good thought partner widens your thinking without taking it over." })) : null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Five thought-partner prompts to copy"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
     "The conversation above used a few specific moves. Here are five worth keeping:"),
@@ -8973,8 +8998,26 @@ function ThoughtPartnerSection(props) {
   ),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Different problems take different moves. The pattern is the same: you stay in the work, AI helps you see what you\u2019re not seeing."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Your turn. Three moments mid-conversation, each one a fork. Pick the next message that keeps the thinking yours."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Keep the Thinking Yours",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(tpAnswers).length, total: TP_MOVES.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Pick the next message you\u2019d actually send. We\u2019ll explain why as you go."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      TP_MOVES.map(function(mv, mi) {
+        var picked = tpAnswers[mi];
+        return /*#__PURE__*/React.createElement("div", { key: mi, style: { paddingTop: mi === 0 ? 0 : 24, marginTop: mi === 0 ? 0 : 24, borderTop: mi === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, mv.situation)),
+          /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which next message keeps the thinking yours?", totalQuestions: TP_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setTpAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
+      }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercheck"), label: "Next: Check the Output" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone && Object.keys(tpAnswers).length >= TP_MOVES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercheck"), label: "Next: Check the Output" }));
 }
 function Lab01CourseNotebook() {
   var E = React.createElement;

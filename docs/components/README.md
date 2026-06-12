@@ -68,7 +68,7 @@ The sourced-quotation card: serif quote on a white card with a purple left borde
 ![PullQuote](pull-quote.png)
 
 ### NumberedRows
-The numbered-list box, for an ordered list of named things with explanations: outlined circle numbers, emoji + bold title per row, hairline separators, and an optional quoted monospace prompt callout. Example: "Best practices" in Study with AI (`studying`).
+The numbered-list box, for an ordered list of named things with explanations: filled circle numbers (purple, white numeral), emoji + bold title per row, hairline separators, and an optional quoted monospace prompt callout. Rows can be title-only (body is optional). Example: "Best practices" in Study with AI (`studying`). Recaptured 2026-06-12.
 
 ![NumberedRows](numbered-rows.png)
 

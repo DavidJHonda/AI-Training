@@ -72,6 +72,11 @@ The numbered-list box, for an ordered list of named things with explanations: ou
 
 ![NumberedRows](numbered-rows.png)
 
+### NumberedColumns
+The numbered-card grid, for an ordered sequence shown side by side: white cards in an auto-fit grid, each with a filled purple number chip, bold label, and short body. Numbering is automatic; an item can set `muted` to gray its chip for a step that is deliberately not yours. Use NumberedRows when items need full-width explanations; use NumberedColumns when the point is the sequence itself. Examples: "Here's the path: six moves, in order." in Welcome (`welcome`) and "AI does step 1. You do the rest." in Does School Matter? (`whybother`), both inside a ShowcaseBox. Captured 2026-06-12.
+
+![NumberedColumns](numbered-columns.png)
+
 ## Shared diagrams
 
 ### CoreLoopBox

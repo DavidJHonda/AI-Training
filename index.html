@@ -915,10 +915,40 @@ function NumberedRows(props) {
             React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 5 } },
               item.icon ? React.createElement("span", { style: { marginRight: 7 } }, item.icon) : null,
               item.title),
-            React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.body),
+            item.body ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.body) : null,
             item.prompt ? React.createElement("div", { style: { marginTop: 12, background: "var(--primaryFaint)", borderRadius: 10, padding: "12px 16px", fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", lineHeight: 1.6 } }, "“" + item.prompt + "”") : null,
             item.after ? React.createElement("div", { style: { marginTop: 10, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.after) : null));
       })));
+}
+
+function NumberedColumns(props) {
+  return React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(125px, 1fr))", gap: 12 } },
+    props.items.map(function(item, i) {
+      return React.createElement("div", {
+        key: i,
+        style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)", display: "flex", flexDirection: "column", gap: 10 }
+      },
+        React.createElement("div", {
+          style: {
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: item.muted ? "var(--inkMuted)" : "var(--primary)",
+            color: "#fff",
+            borderRadius: 8,
+            minWidth: 28,
+            height: 24,
+            padding: "0 8px",
+            fontSize: 13,
+            fontWeight: 800,
+            fontFamily: "var(--sans)",
+            alignSelf: "flex-start"
+          }
+        }, i + 1),
+        React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, item.label),
+        React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.body)
+      );
+    }));
 }
 
 function QuizBlock(props) {
@@ -2639,41 +2669,16 @@ function WelcomeSection(props) {
       intro: "Each one builds on the last. It's the route this whole course takes.",
       marginBottom: 28
     },
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(125px, 1fr))", gap: 12 } },
-        [
-          { num: "1", label: "Understand", body: "How the machine works." },
-          { num: "2", label: "Work", body: "Use it to get a better answer." },
-          { num: "3", label: "Check", body: "Decide if what it gave you is true and useful." },
-          { num: "4", label: "Avoid", body: "Spot the traps in the answers, in you, and in what you see." },
-          { num: "5", label: "Embrace", body: "See what's coming, without panic or hype." },
-          { num: "6", label: "Build", body: "Turn AI into your personal edge." }
-        ].map(function(step, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)", display: "flex", flexDirection: "column", gap: 10 }
-          },
-            E("div", {
-              style: {
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "var(--primary)",
-                color: "#fff",
-                borderRadius: 8,
-                minWidth: 28,
-                height: 24,
-                padding: "0 8px",
-                fontSize: 13,
-                fontWeight: 800,
-                fontFamily: "var(--sans)",
-                alignSelf: "flex-start"
-              }
-            }, step.num),
-            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, step.label),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, step.body)
-          );
-        })
-      )
+      E(NumberedColumns, {
+        items: [
+          { label: "Understand", body: "How the machine works." },
+          { label: "Work", body: "Use it to get a better answer." },
+          { label: "Check", body: "Decide if what it gave you is true and useful." },
+          { label: "Avoid", body: "Spot the traps in the answers, in you, and in what you see." },
+          { label: "Embrace", body: "See what's coming, without panic or hype." },
+          { label: "Build", body: "Turn AI into your personal edge." }
+        ]
+      })
     ),
     E(BodyP, null,
       "To start, six honest questions. Yes or no. No score. No wrong answer. You’ll probably answer 'No' to at least a few. That is the point."),
@@ -2725,6 +2730,13 @@ function WelcomeSection(props) {
           E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
           E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
       })),
+    E(SectionKicker, null, "WHAT YOU'LL NEED"),
+    E(BodyP, null,
+      "The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: ",
+      E("strong", null, "NotebookLM"),
+      ", which is free with a Google account, and the free version of either ",
+      E("strong", null, "ChatGPT or Claude"),
+      ". Have those accounts ready before your first lab."),
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
@@ -3023,40 +3035,15 @@ function WhyBotherSection(props) {
       intro: "Steps 2 through 5 are skills. And every one of them runs on what you already know.",
       marginBottom: 28
     },
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12 } },
-        [
-          { num: "1", label: "Get", body: "AI gives you the answer.", muted: true },
-          { num: "2", label: "Understand", body: "Read it. Know what it says." },
-          { num: "3", label: "Evaluate", body: "Decide if it\u2019s right and useful." },
-          { num: "4", label: "Refine", body: "Push back at AI. Get a better version." },
-          { num: "5", label: "Make it better", body: "Take what AI gave you. Make it yours." }
-        ].map(function(step, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)", display: "flex", flexDirection: "column", gap: 10 }
-          },
-            E("div", {
-              style: {
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: step.muted ? "var(--inkMuted)" : "var(--primary)",
-                color: "#fff",
-                borderRadius: 8,
-                minWidth: 28,
-                height: 24,
-                padding: "0 8px",
-                fontSize: 13,
-                fontWeight: 800,
-                fontFamily: "var(--sans)",
-                alignSelf: "flex-start"
-              }
-            }, step.num),
-            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, step.label),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, step.body)
-          );
-        })
-      )
+      E(NumberedColumns, {
+        items: [
+          { label: "Get", body: "AI gives you the answer.", muted: true },
+          { label: "Understand", body: "Read it. Know what it says." },
+          { label: "Evaluate", body: "Decide if it\u2019s right and useful." },
+          { label: "Refine", body: "Push back at AI. Get a better version." },
+          { label: "Make it better", body: "Take what AI gave you. Make it yours." }
+        ]
+      })
     ),
     E(BodyP, null,
       "Here\u2019s the most important thing you\u2019ll learn in this course. AI will always handle step 1. It\u2019s the ultimate answer machine. Ask anything, and you\u2019ll get an answer."),
@@ -6391,25 +6378,14 @@ function DocumentChatSection(props) {
     ),
     E(BodyP, { marginTop: 24 },
       "You can\u2019t always tell what got retrieved. But you can steer it. Five moves help."),
-    E(ShowcaseBox, { kicker: "THE FIVE MOVES", marginBottom: 24 },
-      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-        TACTICS.map(function(t, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16 }
-          },
-            E("div", { style: { marginBottom: 6 } },
-              E("span", {
-                style: { background: "var(--primary)", color: "#fff", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700, display: "inline-block" }
-              }, String(i + 1))),
-            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, t.name),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, t.body));
-        })
-      ),
-      E("div", { style: { marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--rule)", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
-        E("strong", { style: { color: "var(--ink)" } }, "All five share one idea: "),
-        "make the right chunks easy to find. The more specific your question, the more reliable the answer.")
-    ),
+    E(NumberedRows, {
+      headline: "The five moves",
+      marginBottom: 24,
+      items: TACTICS.map(function(t) { return { title: t.name, body: t.body }; })
+    }),
+    E(BodyP, null,
+      E("strong", null, "All five share one idea: "),
+      "make the right chunks easy to find. The more specific your question, the more reliable the answer."),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -9489,18 +9465,11 @@ function CreativeThinkingSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "How creative people think"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "The good news: creative thinking isn’t a gift some people get handed. It’s a set of moves you can practice. Run these five enough times and they become automatic."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "FIVE MOVES YOU CAN PRACTICE",
-      marginBottom: 28
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-        METHOD.map(function(q, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700, display: "inline-block" } }, String(i + 1))),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6 } }, q.title),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, q.body));
-        }))),
+    /*#__PURE__*/React.createElement(NumberedRows, {
+      headline: "Five moves you can practice",
+      marginBottom: 28,
+      items: METHOD
+    }),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -11081,27 +11050,17 @@ function PrivacySection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#ef4444", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "When safety is involved"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Privacy from AI isn\u2019t silence from humans. If a friend may be in danger, get real-world help: a counselor, a parent, or a teacher you trust. Some things need a person, not a prompt.")
   ),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "BEFORE YOU SHARE",
-    intro: "Run a prompt through these five questions before hitting send.",
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-      [
-        "What does the AI actually need to help?",
-        "Can I remove names?",
-        "Can I replace exact details with categories?",
-        "Am I sharing someone else\u2019s private information?",
-        "Would I be okay if this appeared in a log?"
-      ].map(function(q, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--rule)" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--primary)", color: "#fff", borderRadius: "50%", width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 800, flexShrink: 0 } }, String(i + 1)),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.5, paddingTop: 3 } }, q));
-      }))
-  ),
+  /*#__PURE__*/React.createElement(NumberedRows, {
+    headline: "Run a prompt through these five questions before hitting send.",
+    marginBottom: 24,
+    items: [
+      { title: "What does the AI actually need to help?" },
+      { title: "Can I remove names?" },
+      { title: "Can I replace exact details with categories?" },
+      { title: "Am I sharing someone else\u2019s private information?" },
+      { title: "Would I be okay if this appeared in a log?" }
+    ]
+  }),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "WHAT EACH PLATFORM DOES",
     intro: "Last checked: May 2026. These details change as policies update, so treat what\u2019s below as a snapshot. Your job is not to memorize today\u2019s settings. Your job is to know where to look: privacy settings, data controls, activity history, temporary chat, memory, connected apps, whether your chats can be used for training, and your school account policies.",
@@ -13068,9 +13027,9 @@ function WorkChangesSection(props) {
     { task: "Filling out a standardized weekly report", answer: "absorbed", explain: "Low judgment, repeatable, digital, easy to review. A strong candidate for automation or AI assistance." }
   ];
   const SHIFT = [
-    { num: 1, title: "Tasks", desc: "AI starts by absorbing specific tasks inside a job, not the whole job." },
-    { num: 2, title: "Workflows", desc: "Then workflows are redesigned around what AI can and can\u2019t do well." },
-    { num: 3, title: "Roles", desc: "Eventually roles reshape: some shrink, some grow, some are new entirely." }
+    { label: "Tasks", body: "AI starts by absorbing specific tasks inside a job, not the whole job." },
+    { label: "Workflows", body: "Then workflows are redesigned around what AI can and can\u2019t do well." },
+    { label: "Roles", body: "Eventually roles reshape: some shrink, some grow, some are new entirely." }
   ];
   var SPLIT_TASKS = [
     {
@@ -13191,20 +13150,7 @@ function WorkChangesSection(props) {
       intro: "Change rarely happens at the level of a whole job all at once. It moves in stages.",
       marginBottom: 24
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
-        SHIFT.map(function(s, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px", display: "flex", flexDirection: "column" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("div", { style: { width: 26, height: 26, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 } }, s.num),
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, s.title)
-            ),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 } }, s.desc)
-          );
-        })
-      )
+      /*#__PURE__*/React.createElement(NumberedColumns, { items: SHIFT })
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "One wrinkle that matters for you. AI absorbs the easiest tasks first, and those are often the beginner tasks juniors used to do to learn a job. Drafting basic memos. First-pass research. Starter code. Summarizing documents. When AI does those, the rungs that used to teach the job get shorter."),

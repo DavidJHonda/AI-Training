@@ -1321,7 +1321,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "workchanges", "agents", "aijudges", "aifuture"]
 }, {
   label: "Build Your Skills",
-  sections: ["openerskills", "integrity", "privacy", "humanedge", "creativethinking", "buildedge"]
+  sections: ["openerskills", "integrity", "privacy", "humanedge", "creativethinking", "becurious", "buildedge"]
 }, {
   label: "Finish Smarter",
   sections: ["whatyoulearned", "fullworkflow", "keyterms", "testyourself", "headtohead"]
@@ -1370,6 +1370,7 @@ const SECTION_META = {
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   creativethinking: { kicker: "FIND THE BETTER ANGLE", label: "Creative Thinking", title: "Creative Thinking", icon: "\uD83D\uDCA1" },
+  becurious: { kicker: "CURIOSITY COMPOUNDS", label: "Be Curious", icon: "\uD83D\uDD2D" },
   openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerworkwith: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openercheck: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -9496,7 +9497,75 @@ function CreativeThinkingSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI does the task." },
       "You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("buildedge"); }, label: "Next: Your Edge" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Be Curious" }));
+}
+function BeCuriousSection(props) {
+  var E = React.createElement;
+  const [sortAnswers, setSortAnswers] = useState({});
+  const SORTS = [
+    { prompt: "After practice, a player asks AI to explain the neutral zone trap three different ways until one finally clicks", answer: "Building experience", explain: "The understanding ends up in his head, not just on the screen. Using AI to get something you'll actually use is exactly the rep that builds instinct." },
+    { prompt: "An essay is due tomorrow. A student pastes the assignment, copies what comes back, swaps a few words, and submits it", answer: "Outsourcing the work", explain: "Nothing was learned, and the work isn't hers. That's not experience with the tool. It's a shortcut past the experience. You saw why this backfires in Integrity." },
+    { prompt: "A student sees a YouTube video about an AI study workflow, then runs it on her own chemistry notes to see if it holds up", answer: "Building experience", explain: "She borrowed an idea and tested it against reality. Watch, try, verify: that loop is how tool instincts get built." },
+    { prompt: "Stuck on the first sentence of a lab report, a student has AI write the whole thing and moves on", answer: "Outsourcing the work", explain: "The blank-page problem is real, but handing over the whole report means the next blank page will be just as blank. Asking for three possible openings and writing your own would have been the curious move." },
+    { prompt: "A student hears an AI app added a new voice mode and spends ten minutes finding out what it's good for", answer: "Building experience", explain: "Ten minutes of poking at a new feature, with nobody assigning it, is exactly how you stay current. That's the habit." }
+  ];
+  const sortAllAnswered = Object.keys(sortAnswers).length >= SORTS.length;
+  return E("div", null,
+    E(LessonHeader, { sectionId: "becurious" }),
+    E(BodyP, null,
+      "Here's a fact worth sitting with. ChatGPT launched in late 2022. Every expert you will ever compete with started learning these tools at almost the same moment you did. In most fields, adults have decades of experience on you. In AI, nobody has a ten-year head start, because the tools aren't ten years old."),
+    E(BodyP, null,
+      "That means the only seniority in AI is reps: hours spent actually using the tools, on real things, noticing what worked and what didn't. And reps are free. You don't need permission, a budget, or a job title. You need curiosity."),
+    E(KeyInsight, { lead: "Reps beat tricks." },
+      "Prompt tricks expire every time the models update. Instincts don't. Knowing what the tool will be good at before you ask comes from one place: using it, often, on real things."),
+    E(SectionKicker, null, "FIVE CURIOSITY HABITS"),
+    E(BodyP, null,
+      "None of these take extra time out of your week. They're small changes to things you already do."),
+    E(NumberedRows, { marginBottom: 24, items: [
+      { title: "Use it on real life, not just school", body: "Planning a trip, fixing a bike, organizing a tournament, learning chords. Every new kind of task teaches you what the tool is actually good at. School assignments only show you a narrow slice." },
+      { title: "Try the new thing the week it ships", body: "New model, new feature: voice, vision, file uploads, whatever comes next. Most people wait until someone shows them. Be the one who already tried it." },
+      { title: "Watch how other people use it", body: "YouTube is full of people showing real AI workflows. Borrow what looks useful, then test it yourself before you trust it. You know how to check claims now. Use that." },
+      { title: "Ask the tool to teach you the tool", body: "The fastest way to find what you didn't know it could do is to ask.", prompt: "I want to get better at guitar. What are five different ways you could actually help me practice?" },
+      { title: "Keep a list of what surprised you", body: "Both directions. The time it nailed something hard, and the time it confidently botched something easy. The second list is the one that builds your when-not-to-trust-it instinct." }
+    ] }),
+    E(BodyP, null,
+      "There's a line to watch, though. More AI isn't automatically more experience. It depends on which side of the work the AI is on."),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Curiosity or Outsourcing?",
+      action: E(ActivityCounter, { count: Object.keys(sortAnswers).length, total: SORTS.length })
+    },
+      E(ActivityInstruction, null, "Same tool, different habits. Decide what each student is actually doing."),
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SORTS.map(function(s, i) {
+          var answered = sortAnswers[i] !== undefined;
+          var picked = sortAnswers[i];
+          var correct = picked === s.answer;
+          function PillButton(label) {
+            return E(FeedbackPill, {
+              key: label,
+              answered: answered,
+              isCorrect: label === s.answer,
+              isPicked: picked === label,
+              label: label,
+              onClick: function() { setSortAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, label]])); }); }
+            });
+          }
+          return E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: s.prompt + ".",
+            answered: answered,
+            correct: correct,
+            feedback: s.explain
+          }, [PillButton("Building experience"), PillButton("Outsourcing the work")]);
+        })
+      )),
+    E(BodyP, null,
+      "Most of this course will age. Models will change, the traps will mutate, and the prompt advice will go stale. The habit of being curious about the new thing is the one part that doesn't expire. Keep it."),
+    E(LessonRule, null),
+    E(NextLessonGate, { ready: sortAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("buildedge"); }, label: "Next: Your Edge" }));
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;
@@ -13761,6 +13830,7 @@ const SECTION_COMPONENTS = {
   questionsvaluable: QuestionsValuableSection,
   humanedge: HumanEdgeSection,
   creativethinking: CreativeThinkingSection,
+  becurious: BeCuriousSection,
   workchanges: WorkChangesSection,
   aifuture: AIFutureSection,
   buildedge: BuildEdgeSection

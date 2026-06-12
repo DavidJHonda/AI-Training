@@ -6812,22 +6812,21 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("effort"), label: "Next: Effort Dial" }));
 }
 function ChoosingModelSection(props) {
-  const [tiersRevealed, setTiersRevealed] = useLocalStorage("seeit-choosingmodel-tiersRevealed", 0);
   // Rendered standalone or embedded as the second half of "Choose the App".
   // When embedded, the parent supplies the header and the Next button.
   var embedded = props && props.embedded;
   var TIERS = [{
-    tier: "Most capable", examples: "Spot it: the picker’s label says most capable, smartest, or best for complex work.",
+    tier: "Most capable", spot: "Spot it: labeled smartest or most capable.", persona: "The Senior Architect",
     capability: 100, speed: 40, limits: 100,
-    desc: "Use when the task is hard: analyzing a research paper, debugging complex code, or writing something that needs real nuance. Slower and more limited, but better on difficult problems."
+    desc: "Deep, multi-step reasoning: a 200-page document, complex code, advanced math, writing that needs real nuance. The slowest and costliest to run, and built for the hardest problems."
   }, {
-    tier: "Everyday", examples: "Spot it: usually the default, already selected when you open the app.",
+    tier: "Everyday", spot: "Spot it: usually the default.", persona: "The Reliable Project Manager",
     capability: 70, speed: 75, limits: 50,
-    desc: "Your default for most work. Good for schoolwork, drafting, summarizing, explaining concepts, and planning. Best balance of quality, speed, and limits."
+    desc: "Smart, quick, and balanced. Your default for most work: schoolwork, drafting, summarizing, explaining, planning."
   }, {
-    tier: "Fast & light", examples: "Spot it: the picker’s label says fastest or lightest.",
+    tier: "Fast & light", spot: "Spot it: labeled fastest or lightest.", persona: "The Speed Typist",
     capability: 40, speed: 100, limits: 15,
-    desc: "Use for simple, low-stakes tasks: reformatting notes, generating a list, translating a sentence, or trying quick variations. Fast and cheap, but not the place for complex judgment."
+    desc: "Built for speed and volume where the thinking is simple: reformatting notes, generating a list, trying quick variations. Not the place for complex judgment."
   }];
   return /*#__PURE__*/React.createElement("div", null,
     embedded ? null : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
@@ -6839,69 +6838,37 @@ function ChoosingModelSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "And the lines are real. The models in a family aren\u2019t the same brain dialed up or down. They\u2019re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Bigger models think harder and write with more nuance, but they cost more and run slower. Smaller models answer fast and cheap, but they hit a ceiling on what they can figure out. You match the model to the job."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "The model family",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(tiersRevealed, TIERS.length), total: TIERS.length })
+      "Why build a family at all? Because every answer you get runs on a server doing heavy math, and that math costs real money, time, and energy. So every model is a trade between three things: how smart it is, how fast it answers, and what it costs to run. No model maxes all three. The family exists so you can pick where to sit on that scale."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Most families come in three sizes: a most capable model, an everyday one, and a fast & light one. You match the model to the job."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      headline: "The model family",
+      intro: "Three sizes, three personalities. Watch the bars trade against each other: more intelligence means less speed and a higher cost.",
+      marginBottom: 28
     },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each model size to see what it’s built for."),
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "sand",
-        items: TIERS,
-        currentIdx: tiersRevealed > 0 ? tiersRevealed - 1 : 0,
-        started: tiersRevealed > 0,
-        onStart: function() { setTiersRevealed(1); },
-        onNext: function() { setTiersRevealed(function(s) { return s + 1; }); },
-        canAdvance: true,
-        isComplete: tiersRevealed >= TIERS.length,
-        startLabel: "See most capable",
-        nextLabel: "Next Tier \u2193",
-        finishLabel: "See the trade-off \u2193",
-        completionElement: /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-              TIERS.map(function(t, i) {
-                return /*#__PURE__*/React.createElement("div", {
-                  key: i,
-                  style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === TIERS.length - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--seeRule)" }
-                },
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", fontSize: 17, marginBottom: 2 } }, t.tier),
-                    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginBottom: 12 } }, t.examples),
-                    [["Capability", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Limits", t.limits, "#f59e0b"]].map(function(arr) {
-                      return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                        /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 70, flexShrink: 0 } }, arr[0]),
-                        /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
-                          /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
-                        ));
-                    }),
-                    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginTop: 10 } }, t.desc)));
-              }))),
-          /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } }, /*#__PURE__*/React.createElement(Takeaway, { headline: "The default is a choice someone else made.", body: "Most people never open the picker and never know what they're missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it." })))
-      },
-        /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-            TIERS.slice(0, tiersRevealed).map(function(t, i) {
-              return /*#__PURE__*/React.createElement("div", {
-                key: i,
-                style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === tiersRevealed - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--seeRule)", animation: i === tiersRevealed - 1 ? "fadeIn 0.3s ease" : "none" }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
-                /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", fontSize: 17, marginBottom: 2 } }, t.tier),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginBottom: 12 } }, t.examples),
-                  [["Capability", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Limits", t.limits, "#f59e0b"]].map(function(arr) {
-                    return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                      /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 70, flexShrink: 0 } }, arr[0]),
-                      /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
-                        /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
-                      ));
-                  }),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginTop: 10 } }, t.desc)));
-            }))))),
+      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 16, padding: "8px 28px", boxShadow: "var(--shadowElevated)" } },
+        TIERS.map(function(t, i) {
+          var isLast = i === TIERS.length - 1;
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { display: "flex", gap: 16, alignItems: "flex-start", padding: "18px 0", borderBottom: isLast ? "none" : "1px solid var(--rule)" }
+          },
+            /*#__PURE__*/React.createElement("span", { style: { width: 26, height: 26, borderRadius: 999, background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 } }, i + 1),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 12 } },
+                /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontWeight: 800, color: "var(--ink)", fontSize: BOX_CARD_TITLE } }, t.tier),
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 12.5, color: "var(--inkMuted)" } }, t.spot)),
+              [["Intelligence", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Cost", t.limits, "#f59e0b"]].map(function(arr) {
+                return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 80, flexShrink: 0 } }, arr[0]),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
+                  ));
+              }),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT + 1, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 10 } },
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, t.persona + ". "),
+                t.desc)));
+        }))),
     /*#__PURE__*/React.createElement(BodyP, null,
     "Notice we didn\u2019t print any model names. That\u2019s on purpose: the companies rename and replace models a few times a year as they compete, and a name alone won\u2019t tell you its size anyway. What you need is a way to figure it out in any app, in any year. Three moves:"),
   /*#__PURE__*/React.createElement(NumberedRows, { marginBottom: 28, items: [
@@ -6909,6 +6876,8 @@ function ChoosingModelSection(props) {
     { title: "Read the descriptions, not the names", body: "Every picker labels its models with a short line like \u2018most capable\u2019 or \u2018fastest.\u2019 That label tells you the tier, whatever the name is this month." },
     { title: "When in doubt, search", body: "A ten-second search like \u2018which ChatGPT model should I use for an essay\u2019 gets you a current answer. The lineup changes; the search works every time." }
   ] }),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "The default is a choice someone else made." },
+    "Most people never open the picker and never know what they\u2019re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One more thing if you\u2019re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that\u2019s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
     embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),

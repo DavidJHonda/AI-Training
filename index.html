@@ -5350,6 +5350,36 @@ function LayersSection(props) {
 function InferenceSection(props) {
   const [stagesRevealed, setStagesRevealed] = useLocalStorage("seeit-inference-stagesRevealed", 0);
   const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
+  var COLS = [
+    { label: "Chat", desc: "A conversational interface. You type, it responds.", color: "#3b82f6" },
+    { label: "Generative", desc: "It creates new content from scratch. This includes text, video, images, audio, and documents.", color: "#10b981" },
+    { label: "Pre-trained", desc: "It learned from billions of pages of text, images, audio, video, and code before you ever used it.", color: "#f59e0b" },
+    { label: "Transformer", desc: "The architecture that lets it process all your words at once, not one at a time.", color: "#8b5cf6" }
+  ];
+  var containerRef = useRef(null);
+  var titleRefs = useRef([]);
+  var cardRefs = useRef([]);
+  var _ps = useState(null), paths = _ps[0], setPaths = _ps[1];
+  var _rs = useLocalStorage("seeit-inference-chatgptDecoded", {}), revealed = _rs[0], setRevealed = _rs[1];
+  var revealLetter = function(i) { setRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
+  useEffect(function() {
+    function calc() {
+      var c = containerRef.current;
+      if (!c) return;
+      var cRect = c.getBoundingClientRect();
+      var p = [];
+      for (var i = 0; i < 4; i++) {
+        var t = titleRefs.current[i], d = cardRefs.current[i];
+        if (!t || !d) return;
+        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
+        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
+      }
+      setPaths(p);
+    }
+    calc();
+    window.addEventListener("resize", calc);
+    return function() { window.removeEventListener("resize", calc); };
+  }, []);
   const [promptChars, setPromptChars] = useState(0);
   const [promptDone, setPromptDone] = useState(false);
   const [aiRespWords, setAiRespWords] = useState(0);
@@ -5616,6 +5646,66 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "One answer. Many picks. Each one shapes what comes next." },
     "Pick the brand and the model options change. Pick the model and the next token changes. Every token along the way is its own fresh prediction, shaped by every pick before it. Each one is a full pass through the same model, and that repeating pass is inference."),
   /*#__PURE__*/React.createElement(TemperatureSection, { embedded: true }),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "READ THE NAME ON THE BOX"),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "One last payoff before you move on. You've now seen every piece of how an LLM works, and here's the proof: you can read the most famous name in AI like a spec sheet. Every letter is something you just learned."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "ChatGPT, decoded"
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each color to see what those four letters actually mean."),
+    /*#__PURE__*/React.createElement("div", {
+      ref: containerRef,
+      style: { position: "relative" }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { textAlign: "center", fontSize: 40, fontWeight: 800, letterSpacing: 6, marginBottom: 0 }
+      },
+        COLS.map(function(col, i) {
+          var letter = i === 0 ? "Chat" : i === 1 ? "G" : i === 2 ? "P" : "T";
+          var isRevealed = !!revealed[i];
+          return /*#__PURE__*/React.createElement("span", {
+            key: i,
+            ref: function(el) { titleRefs.current[i] = el; },
+            onClick: function() { revealLetter(i); },
+            style: { color: col.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
+          }, letter);
+        })
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
+      paths ? /*#__PURE__*/React.createElement("svg", {
+        style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
+      },
+        paths.map(function(p, i) {
+          if (!revealed[i]) return null;
+          var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
+          var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
+          var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
+          return /*#__PURE__*/React.createElement("path", {
+            key: i, d: d, fill: "none", stroke: COLS[i].color, strokeWidth: 2.5
+          });
+        })
+      ) : null,
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", gap: 12 }
+      },
+        COLS.map(function(col, i) {
+          var isRevealed = !!revealed[i];
+          return /*#__PURE__*/React.createElement("div", {
+            key: i, ref: function(el) { cardRefs.current[i] = el; },
+            style: { flex: 1 }
+          },
+            /*#__PURE__*/React.createElement("div", {
+              style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + col.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontWeight: 700, fontSize: 15, color: col.color, marginBottom: 6 }
+              }, col.label),
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
+              }, col.desc)));
+        })))),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length && seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerworkwith"), label: "Next: Work With AI" }));
 }
@@ -6529,36 +6619,6 @@ function ModelSelectionSection(props) {
   var revealPhil = function(i) { setPhilRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
   var _bestForrs = useLocalStorage("seeit-modelselection-bestForRevealed", {}), bestForRevealed = _bestForrs[0], setBestForRevealed = _bestForrs[1];
   var revealBestFor = function(i) { setBestForRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  var COLS = [
-    { label: "Chat", desc: "A conversational interface. You type, it responds.", color: "#3b82f6" },
-    { label: "Generative", desc: "It creates new content from scratch. This includes text, video, images, audio, and documents.", color: "#10b981" },
-    { label: "Pre-trained", desc: "It learned from billions of pages of text, images, audio, video, and code before you ever used it.", color: "#f59e0b" },
-    { label: "Transformer", desc: "The architecture that lets it process all your words at once, not one at a time.", color: "#8b5cf6" }
-  ];
-  var containerRef = useRef(null);
-  var titleRefs = useRef([]);
-  var cardRefs = useRef([]);
-  var _ps = useState(null), paths = _ps[0], setPaths = _ps[1];
-  var _rs = useLocalStorage("seeit-modelselection-chatgptDecoded", {}), revealed = _rs[0], setRevealed = _rs[1];
-  var revealLetter = function(i) { setRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  useEffect(function() {
-    function calc() {
-      var c = containerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 4; i++) {
-        var t = titleRefs.current[i], d = cardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
   useEffect(function() {
     function calc() {
       var c = big3ContainerRef.current;
@@ -6645,22 +6705,22 @@ function ModelSelectionSection(props) {
   const scenariosAllAnswered = Object.keys(scenarioAnswers).length >= SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "Earlier in this class, you learned a little about the three most popular apps."),
+  /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to open. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
   /*#__PURE__*/React.createElement("img", {
     src: "illustrations/choose-the-app.jpg",
     alt: "A student in a Claude hoodie and CEO cap presents to a classroom from an Anthropic podium, pointing at a slide titled Choose the App that compares ChatGPT, Claude, and Gemini in three cards",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both make cheeseburgers. They taste different because the ingredients are different. Walking into each one feels different too."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The big three LLM apps work the same way. They\u2019re all Generative AI, but the companies behind them use different ingredients and train them differently."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both sell cheeseburgers, built from roughly the same ingredients. They\u2019re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The big three LLM apps work the same way. They\u2019re all Generative AI, trained on much of the same internet. But each company trains its model with different priorities and rules."),
   /*#__PURE__*/React.createElement(BodyP, null, "Those training choices shape everything: how the app feels to use, what it\u2019s good at, and what it gets wrong. Underneath, each one is built around a different core philosophy."),
   (function() {
     var PHILOSOPHIES = [
       {
         label: "ChatGPT",
         tagline: "The Anything Box",
-        body: "Built as one AI app for everything, rather than separate tools for different tasks. Writing, coding, brainstorming, voice, images, all in one place.",
+        body: "One app aimed at everyone. ChatGPT kicked off the AI era in 2022 and made it mainstream. It’s the default most people start with, and often what they mean when they say ‘AI.’",
         asks: "OpenAI asks: How do we put the most capable AI in everyone\u2019s hands?",
         color: "#10b981"
       },
@@ -6674,7 +6734,7 @@ function ModelSelectionSection(props) {
       {
         label: "Gemini",
         tagline: "Built Into Everything",
-        body: "Works across Search, Gmail, Docs, YouTube, and Android, with live access to today\u2019s web. Its edge is context: what you\u2019re working on, what\u2019s happening right now.",
+        body: "Lives inside the tools you already use: Search, Gmail, Docs, YouTube, Android. Its edge is context. It can see the doc you\u2019re writing or the video you\u2019re watching, and bring what Google knows to where you already are.",
         asks: "Google asks: How do we put AI inside everything you already use?",
         color: "#3b82f6"
       }
@@ -6743,20 +6803,17 @@ function ModelSelectionSection(props) {
       {
         label: "ChatGPT",
         color: "#10b981",
-        items: ["Brainstorming", "Coding", "Everyday varied tasks", "Anything needing third-party integrations"],
-        weakness: "Can be overconfident, quality varies by version."
+        items: ["Brainstorming", "Quick drafts of anything", "Everyday varied tasks", "Voice and image features"]
       },
       {
         label: "Claude",
         color: "#8b5cf6",
-        items: ["Analysis", "Research", "Long-form writing", "Tasks where accuracy matters most"],
-        weakness: "Smaller third-party ecosystem than ChatGPT."
+        items: ["Coding", "Analysis and research", "Long-form writing", "Tasks where accuracy matters most"]
       },
       {
         label: "Gemini",
         color: "#3b82f6",
-        items: ["Current events", "Research requiring live data", "Anything in the Google ecosystem"],
-        weakness: "Reasoning depth generally trails Claude and ChatGPT on complex analysis."
+        items: ["Current events", "Research requiring live data", "Summarizing YouTube videos", "Anything in the Google ecosystem"]
       }
     ];
     return /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -6822,72 +6879,10 @@ function ModelSelectionSection(props) {
                       }, "\u2713"),
                       item);
                   })
-                ),
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontSize: 12, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5, paddingTop: 10, borderTop: "2px solid var(--seeRule)" }
-                }, p.weakness)
+                )
               ));
           }))));
   }()),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "CHATGPT"),
-    /*#__PURE__*/React.createElement(BodyP, null, "What’s unique about the name ChatGPT is that it tells you a lot about how an LLM works. And it’s all in the name."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "ChatGPT, decoded"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each color to see what those four letters actually mean."),
-      /*#__PURE__*/React.createElement("div", {
-        ref: containerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { textAlign: "center", fontSize: 40, fontWeight: 800, letterSpacing: 6, marginBottom: 0 }
-        },
-          COLS.map(function(col, i) {
-            var letter = i === 0 ? "Chat" : i === 1 ? "G" : i === 2 ? "P" : "T";
-            var isRevealed = !!revealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { titleRefs.current[i] = el; },
-              onClick: function() { revealLetter(i); },
-              style: { color: col.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, letter);
-          })
-        ),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        paths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          paths.map(function(p, i) {
-            if (!revealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: COLS[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12 }
-        },
-          COLS.map(function(col, i) {
-            var isRevealed = !!revealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i, ref: function(el) { cardRefs.current[i] = el; },
-              style: { flex: 1 }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + col.color, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontWeight: 700, fontSize: 15, color: col.color, marginBottom: 6 }
-                }, col.label),
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-                }, col.desc)));
-          })))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHY YOUR APP KNOWS YESTERDAY\u2019S GAME"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One thing trips people up here. In Training you learned the model is frozen, with a knowledge cutoff. Yet your app can tell you yesterday\u2019s score. That isn\u2019t the model knowing; it\u2019s the app searching. All three apps can run a web search, pull the results into the context window, and answer from what they just read, often with links."),

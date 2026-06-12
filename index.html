@@ -1309,7 +1309,7 @@ const SECTION_GROUPS = [{
   sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "data", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Work With AI",
-  sections: ["openerworkwith", "whatitdoesbest", "modelselection", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
+  sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Check the Output",
   sections: ["openercheck", "howmuchtocheck", "critical", "verify", "evaluating"]
@@ -1353,6 +1353,7 @@ const SECTION_META = {
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choose the App", icon: "\uD83C\uDF9B\uFE0F" },
+  choosemodel: { kicker: "ONE APP, MANY MODELS", label: "Choose the Model", icon: "\uD83E\uDE9C" },
   effort: { kicker: "HOW HARD IT THINKS", label: "Effort Dial", icon: "\uD83E\uDDE0" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
@@ -6596,6 +6597,16 @@ function ModelSelectionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to open. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
+    headline: "App. Model. Effort.",
+    intro: "Picking the app is the first of three decisions you make before you ever type a word. They’re intertwined, and this lesson and the next two give you all three.",
+    marginBottom: 28
+  },
+    /*#__PURE__*/React.createElement(NumberedColumns, { items: [
+      { label: "App", body: "Where should you work? That’s this lesson." },
+      { label: "Model", body: "How much brain does the job need? That’s the next lesson." },
+      { label: "Effort", body: "How hard should it think before answering? The lesson after." }
+    ] })),
   /*#__PURE__*/React.createElement("img", {
     src: "illustrations/choose-the-app.jpg",
     alt: "A student in a Claude hoodie and CEO cap presents to a classroom from an Anthropic podium, pointing at a slide titled Choose the App that compares ChatGPT, Claude, and Gemini in three cards",
@@ -6784,7 +6795,11 @@ function ModelSelectionSection(props) {
     "Everything this course teaches, prompting, checking, staying in charge, works the same in all three. Which app you pick matters far less than how well you learn to drive it."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "HOW DOES THE APP KNOW YESTERDAY\u2019S SCORE?"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "It doesn\u2019t. In Training you learned the model is frozen, with a knowledge cutoff. The app runs a web search, pulls the results into the context window, and answers from what it just read, often with links."),
+    "Last night there was a great game between the Dallas Stars and the New York Rangers, and you missed it. You ask your AI app for the score, and it \u201cknows\u201d the result. It even tells you one of the Stars got a hat trick."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "That should feel contradictory. Back in Training you learned the model is frozen, with a knowledge cutoff from before the puck ever dropped. The model can\u2019t know."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Here\u2019s how it did it. The app, not the model, ran a web search, pulled the results into the context window, and answered from what it just read, often with links."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "That changes the checking, not the need for it. A searched answer can misread a real source just as confidently as a frozen one can invent a fake one. The links are the gift: click them and see whether the source matches the answer."),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -6807,14 +6822,18 @@ function ModelSelectionSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
           /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which app fits best?", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }))),
-  /*#__PURE__*/React.createElement(ChoosingModelSection, { embedded: true }),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("effort"), label: "Next: Effort Dial" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("choosemodel"), label: "Next: Choose the Model" }));
 }
 function ChoosingModelSection(props) {
-  // Rendered standalone or embedded as the second half of "Choose the App".
-  // When embedded, the parent supplies the header and the Next button.
-  var embedded = props && props.embedded;
+  const [pickerAnswers, setPickerAnswers] = useState({});
+  const PICKER_SORTS = [
+    { name: "Quasar Pro", label: "Our smartest model, for complex work.", answer: "Most capable", explain: "Name and label agree here. ‘Smartest’ and ‘complex work’ are the top tier’s signature." },
+    { name: "Breeze", label: "Our fastest model, for quick everyday tasks.", answer: "Fast & light", explain: "‘Fastest’ is the giveaway. The quick-sounding name is a bonus, but the label is what you trust." },
+    { name: "Willow", label: "Our most capable model, built for deep analysis.", answer: "Most capable", explain: "The name tells you nothing, and that’s the point. Flagships can be named anything. The label says most capable, so it is." },
+    { name: "Glacier XL", label: "Balanced speed and smarts, good for most tasks.", answer: "Everyday", explain: "XL sounds big, but ‘balanced’ and ‘most tasks’ are everyday-tier language. When the name and the label disagree, the label wins." }
+  ];
+  const pickerAllAnswered = Object.keys(pickerAnswers).length >= PICKER_SORTS.length;
   var TIERS = [{
     tier: "Most capable", spot: "Spot it: labeled smartest or most capable.", persona: "The Senior Architect",
     capability: 100, speed: 40, limits: 100,
@@ -6829,8 +6848,7 @@ function ChoosingModelSection(props) {
     desc: "Built for speed and volume where the thinking is simple: reformatting notes, generating a list, trying quick variations. Not the place for complex judgment."
   }];
   return /*#__PURE__*/React.createElement("div", null,
-    embedded ? null : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "ONE APP, MANY MODELS"),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "You picked the app. Now comes something normal apps never ask of you. Spotify doesn\u2019t ask which Spotify you want. AI apps do: inside each one is a family of models, and a picker to choose between them."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -6876,12 +6894,47 @@ function ChoosingModelSection(props) {
     { title: "Read the descriptions, not the names", body: "Every picker labels its models with a short line like \u2018most capable\u2019 or \u2018fastest.\u2019 That label tells you the tier, whatever the name is this month." },
     { title: "When in doubt, search", body: "A ten-second search like \u2018which ChatGPT model should I use for an essay\u2019 gets you a current answer. The lineup changes; the search works every time." }
   ] }),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Your turn. Below is the model picker from an app that doesn\u2019t exist, with four made-up models. The names are useless on purpose. The labels are everything."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Read the Picker",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(pickerAnswers).length, total: PICKER_SORTS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Place each model in its tier using the label, not the name."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      PICKER_SORTS.map(function(s, i) {
+        var answered = pickerAnswers[i] !== undefined;
+        var picked = pickerAnswers[i];
+        var correct = picked === s.answer;
+        function PillButton(label) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: label,
+            answered: answered,
+            isCorrect: label === s.answer,
+            isPicked: picked === label,
+            label: label,
+            onClick: function() { setPickerAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, label]])); }); }
+          });
+        }
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          kicker: s.name,
+          prompt: "\u201c" + s.label + "\u201d",
+          answered: answered,
+          correct: correct,
+          feedback: s.explain
+        }, [PillButton("Most capable"), PillButton("Everyday"), PillButton("Fast & light")]);
+      })
+    )),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "The default is a choice someone else made." },
     "Most people never open the picker and never know what they\u2019re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One more thing if you\u2019re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that\u2019s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
-    embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
-    embedded ? null : /*#__PURE__*/React.createElement(PrimaryButton, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("effort"); } }, "Next: Effort Dial"));
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: pickerAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("effort"); }, label: "Next: Effort Dial" }));
 }
 function ThinkingModeSection(props) {
   const [taskAnswers, setTaskAnswers] = useState({});
@@ -7932,7 +7985,7 @@ function OpenerWorkWithSection(props) {
         bridge: "Then, the choices you make before you type.",
         questions: [
           { question: "How do I choose the right AI app for the job?", lessonId: "modelselection" },
-          { question: "Inside that app, what changes when I pick a different model?", lessonId: "modelselection" },
+          { question: "Inside that app, what changes when I pick a different model?", lessonId: "choosemodel" },
           { question: "When should I make it slow down and think harder?", lessonId: "effort" },
           { question: "Why do some answers feel predictable and others more creative?", lessonId: "inference" },
           { question: "How do customization and memory change future answers?", lessonId: "customization" }
@@ -13623,6 +13676,7 @@ const SECTION_COMPONENTS = {
   layers: LayersSection,
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
+  choosemodel: ChoosingModelSection,
   effort: ThinkingModeSection,
   prompt: PromptSection,
   customization: CustomizationSection,

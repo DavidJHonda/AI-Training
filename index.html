@@ -6835,17 +6835,14 @@ function ChoosingModelSection(props) {
   ];
   const pickerAllAnswered = Object.keys(pickerAnswers).length >= PICKER_SORTS.length;
   var TIERS = [{
-    tier: "Most capable", spot: "Spot it: labeled smartest or most capable.", persona: "The Senior Architect",
-    capability: 100, speed: 40, limits: 100,
-    desc: "Deep, multi-step reasoning: a 200-page document, complex code, advanced math, writing that needs real nuance. The slowest and costliest to run, and built for the hardest problems."
+    tier: "Most capable", persona: "The Senior Architect", spot: "Labeled smartest or most capable.",
+    desc: "Deep, multi-step reasoning: a 200-page document, complex code, advanced math, writing that needs real nuance. The slowest and costliest, built for the hardest problems."
   }, {
-    tier: "Everyday", spot: "Spot it: usually the default.", persona: "The Reliable Project Manager",
-    capability: 70, speed: 75, limits: 50,
+    tier: "Everyday", persona: "The Reliable Project Manager", spot: "Usually the default.",
     desc: "Smart, quick, and balanced. Your default for most work: schoolwork, drafting, summarizing, explaining, planning."
   }, {
-    tier: "Fast & light", spot: "Spot it: labeled fastest or lightest.", persona: "The Speed Typist",
-    capability: 40, speed: 100, limits: 15,
-    desc: "Built for speed and volume where the thinking is simple: reformatting notes, generating a list, trying quick variations. Not the place for complex judgment."
+    tier: "Fast & light", persona: "The Speed Typist", spot: "Labeled fastest or lightest.",
+    desc: "Built for speed and volume where the thinking is simple: reformatting notes, generating a list, quick variations. Not the place for complex judgment."
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
@@ -6857,35 +6854,36 @@ function ChoosingModelSection(props) {
       "And the lines are real. The models in a family aren\u2019t the same brain dialed up or down. They\u2019re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Why build a family at all? Because every answer you get runs on a server doing heavy math, and that math costs real money, time, and energy. So every model is a trade between three things: how smart it is, how fast it answers, and what it costs to run. No model maxes all three. The family exists so you can pick where to sit on that scale."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The Model Family"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Most families come in three sizes: a most capable model, an everyday one, and a fast & light one. You match the model to the job."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "The model family",
-      intro: "Three sizes, three personalities. Watch the bars trade against each other: more intelligence means less speed and a higher cost.",
-      marginBottom: 28
+      "Every model in a family sits somewhere on one scale. Nothing maxes both ends: picking a model is picking where to sit."),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 }
     },
-      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 16, padding: "8px 28px", boxShadow: "var(--shadowElevated)" } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap", fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" } },
+        /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)" } }, "◂ Smartest · Slowest · Costliest"),
+        /*#__PURE__*/React.createElement("span", { style: { color: "#0d9488" } }, "Fastest · Cheapest · Lighter Thinking ▸")),
+      /*#__PURE__*/React.createElement("div", { style: { position: "relative", height: 28, margin: "16px 0 22px 0" } },
+        /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: "50%", left: 0, right: 0, height: 3, transform: "translateY(-50%)", borderRadius: 3, background: "linear-gradient(to right, var(--primary), #10b981)" } }),
+        [12, 50, 88].map(function(pct, i) {
+          return /*#__PURE__*/React.createElement("span", {
+            key: i,
+            style: { position: "absolute", top: "50%", left: pct + "%", transform: "translate(-50%, -50%)", width: 28, height: 28, borderRadius: 999, background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 0 4px var(--primaryFaint)" }
+          }, i + 1);
+        })),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
         TIERS.map(function(t, i) {
-          var isLast = i === TIERS.length - 1;
           return /*#__PURE__*/React.createElement("div", {
             key: i,
-            style: { display: "flex", gap: 16, alignItems: "flex-start", padding: "18px 0", borderBottom: isLast ? "none" : "1px solid var(--rule)" }
+            style: { flex: "1 1 200px", display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowElevated)" }
           },
-            /*#__PURE__*/React.createElement("span", { style: { width: 26, height: 26, borderRadius: 999, background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 } }, i + 1),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 12 } },
-                /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontWeight: 800, color: "var(--ink)", fontSize: BOX_CARD_TITLE } }, t.tier),
-                /*#__PURE__*/React.createElement("span", { style: { fontSize: 12.5, color: "var(--inkMuted)" } }, t.spot)),
-              [["Intelligence", t.capability, "var(--primary)"], ["Speed", t.speed, "#10b981"], ["Cost", t.limits, "#f59e0b"]].map(function(arr) {
-                return /*#__PURE__*/React.createElement("div", { key: arr[0], style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--inkMuted)", width: 80, flexShrink: 0 } }, arr[0]),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, height: 6, background: "var(--rule)", borderRadius: 3 } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: arr[1] + "%", height: "100%", background: arr[2], borderRadius: 3 } })
-                  ));
-              }),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT + 1, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 10 } },
-                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, t.persona + ". "),
-                t.desc)));
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 800, color: "var(--ink)", fontSize: BOX_CARD_TITLE } }, t.tier),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--primary)", fontSize: 14, marginTop: 2 } }, t.persona),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 10 } }, t.desc),
+            /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px 0", marginTop: "auto", paddingTop: 14 } }),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12.5, color: "var(--inkMuted)", lineHeight: 1.5 } },
+              /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Spot it: "),
+              t.spot));
         }))),
     /*#__PURE__*/React.createElement(BodyP, null,
     "Notice we didn\u2019t print any model names. That\u2019s on purpose: the companies rename and replace models a few times a year as they compete, and a name alone won\u2019t tell you its size anyway. What you need is a way to figure it out in any app, in any year. Three moves:"),

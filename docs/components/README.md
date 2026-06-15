@@ -77,6 +77,11 @@ The numbered-card grid, for an ordered sequence shown side by side: white cards 
 
 ![NumberedColumns](numbered-columns.png)
 
+### WatchOverview
+The collapsible "Prefer to watch?" video box: a faint-purple band wrapping a white card with a purple play icon, a WATCH eyebrow with duration, and the video title. Collapsed by default (shown here); expands to a native `<video controls preload="metadata">` plus a caption that defaults to the NotebookLM line. Reusable via props (`src` required; `title`, `duration`, `caption` optional). Example: How We Got Here (`howwegothere`). Captured 2026-06-15.
+
+![WatchOverview](watch-overview.png)
+
 ## Shared diagrams
 
 ### CoreLoopBox

@@ -13768,7 +13768,7 @@ function ChipNav(props) {
   // Focus window: clamp a fixed slice to keep the current lesson near center.
   // Only Understand AI is long enough to warrant the windowed "Your path";
   // every other part shows all its lessons at once (the full grid below).
-  var windowed = (props.groupLabel === "Understand AI") && total > WINDOW;
+  var windowed = false;  // always show the full lesson map (no focus-window / Show all)
   var start = 0, end = total;
   if (windowed && !showFull) {
     start = Math.max(0, Math.min(activeIdx - 2, total - WINDOW));
@@ -13904,20 +13904,7 @@ function ChipNav(props) {
       : E("div", { style: { marginBottom: 28 } }, grid);
   }
 
-  return E("div", { style: { display: "flex", alignItems: "flex-start", gap: 20, paddingLeft: 34 } },
-    E("div", { style: { flex: "0 0 auto", whiteSpace: "nowrap", marginTop: 9 } },
-      E("h3", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, letterSpacing: "-0.01em", color: "#0e0a1f", margin: 0 } }, props.groupLabel || ""),
-      windowed ? E("button", {
-        onClick: function() { setShowFull(!showFull); },
-        "aria-pressed": showFull ? "true" : "false",
-        style: { marginTop: 12, display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 999, border: "1px solid var(--rule)", background: "#fff", color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 800, letterSpacing: "-0.005em", cursor: "pointer", boxShadow: subtleNodeShadow, whiteSpace: "nowrap" }
-      },
-        E("svg", { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "#a7a2bd", strokeWidth: 2.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { display: "block" } },
-          showFull
-            ? [E("path", { key: 1, d: "m17 11-5-5-5 5" }), E("path", { key: 2, d: "m17 18-5-5-5 5" })]
-            : [E("path", { key: 1, d: "m7 6 5 5 5-5" }), E("path", { key: 2, d: "m7 13 5 5 5-5" })]),
-        showFull ? "Your path" : ("Show all " + total)) : null),
-    E("div", { style: { flex: "1 1 auto", minWidth: 0 } }, body));
+  return body;
 }
 // Condensed context bar that slides in once the full header has scrolled away.
 // Keeps the current lesson + position visible on the left, with Prev/Next

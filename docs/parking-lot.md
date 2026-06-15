@@ -107,3 +107,19 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Possible destination:** any lesson that needs a one-line frame for how AI turns messy input into usable output (Rules vs Patterns, What AI Does Best, or a prompting lesson).
 - **Verbatim intro:** "AI takes your messy input, matches it against the patterns it learned, and hands back something you can use."
 - **Step titles:** "What you send" / "Matches what it learned" / "What it sends back".
+
+## "How We Got Here" — the static 9-event timeline (2026-06-15)
+
+- **Origin:** the How We Got Here lesson (`HowWeGotHereSection`), cut 2026-06-15 when the lesson was redesigned around an interactive "assemble the four ideas, then ignite them at 2017" SEE IT (`HistoryAssembleSeeIt`). Rationale: the flat timeline listed concepts before students understood them (names-before-meaning) and was the only passive lesson in the Welcome→Rules-vs-Patterns stretch. Probability/prediction/training each kept one origin beat in the new SEE IT; Bayes, Yule (autoregressive), and backpropagation were dropped as named milestones. Full prior version is in git history before commit `Redesign How We Got Here`.
+- **Possible destination:** a later "history of AI" enrichment, or flavor in AI is Math / Training if any single milestone is wanted.
+- **Old KeyInsight — "AI was centuries in the making.":** "No one set out to build it. Probability, prediction, training, and patterns were each worked out by different people, decades and even centuries apart, for reasons that had nothing to do with AI. What we call AI today is what happened when those separate ideas finally came together."
+- **Verbatim 9-entry timeline:**
+  - 1654 Standard Probability (probability): "Blaise Pascal and Pierre de Fermat traded letters about games of chance, the start of modern probability math."
+  - 1763 Conditional Probability (probability) [DROPPED]: "Thomas Bayes found a formal way to update probabilities as new evidence comes in."
+  - 1927 Autoregressive Generation (prediction) [DROPPED]: "George Udny Yule proposed the autoregressive model: predict each step in a sequence from the ones before it."
+  - 1948 Generating English (prediction): "Claude Shannon applied the autoregressive idea to language, picking each word from the probability of the one before it: an early statistical model of language."
+  - 1957 The Perceptron (training): "One of the first machines that could learn from examples. It was primitive, but it proved the concept: machines can learn, not just follow instructions."
+  - 1986 Backpropagation (training) [DROPPED]: "How a machine learns from its mistakes: each wrong answer makes the next one better, over billions of tries."
+  - 2017 Attention Is All You Need (patterns): "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The transformer was born."
+  - 2018 to 2021 Scaling Up: "Researchers fed transformers more of the internet and more computing power. The bigger they got, the more capable they got, turning a research idea into something powerful."
+  - 2022 ChatGPT Launches: "The public finally saw what large language models could do. AI started feeling like a tool anyone could use."

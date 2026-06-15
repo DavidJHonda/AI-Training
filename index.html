@@ -2211,6 +2211,49 @@ function HowWeGotHereSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aivscode"); }, label: "Next: Rules vs Patterns" })
   );
 }
+function ConvergenceDiagram(props) {
+  var reduced = props.reduced;
+  var _d = useState(false), drawn = _d[0], setDrawn = _d[1];
+  useEffect(function() {
+    if (reduced) { setDrawn(true); return; }
+    var t = setTimeout(function() { setDrawn(true); }, 60);
+    return function() { clearTimeout(t); };
+  }, []);
+  var DASH = 1400;
+  var amber = "#b45309", purple = "var(--primary)";
+  var drawPath = function(d, color, delay) {
+    return /*#__PURE__*/React.createElement("path", {
+      d: d, fill: "none", stroke: color, strokeWidth: 2.5, strokeLinecap: "round",
+      style: { strokeDasharray: DASH, strokeDashoffset: drawn ? 0 : DASH, transition: reduced ? "none" : ("stroke-dashoffset 0.9s ease " + (delay || 0) + "s") }
+    });
+  };
+  var fadeStyle = { opacity: drawn ? 1 : 0, transition: reduced ? "none" : "opacity 0.5s ease 0.55s" };
+  return /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, background: "var(--card)", borderRadius: 14, padding: "18px 12px", boxShadow: "var(--shadowSoft)" } },
+    /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 760 240", width: "100%", style: { display: "block", height: "auto" }, role: "img", "aria-label": "Three ideas from the 1650s, 1948, and 1957 converge at 2017, then continue to ChatGPT today." },
+      drawPath("M78,58 C210,58 250,120 356,120", amber, 0),
+      drawPath("M78,120 C220,120 285,120 356,120", amber, 0.1),
+      drawPath("M78,182 C210,182 250,120 356,120", purple, 0.2),
+      /*#__PURE__*/React.createElement("circle", { cx: 78, cy: 58, r: 7, fill: amber }),
+      /*#__PURE__*/React.createElement("circle", { cx: 78, cy: 120, r: 7, fill: amber }),
+      /*#__PURE__*/React.createElement("circle", { cx: 78, cy: 182, r: 7, fill: purple }),
+      /*#__PURE__*/React.createElement("text", { x: 96, y: 51, style: { fontFamily: "var(--sans)", fontSize: 15 } },
+        /*#__PURE__*/React.createElement("tspan", { style: { fontWeight: 800, fill: amber } }, "1650s "),
+        /*#__PURE__*/React.createElement("tspan", { style: { fill: "var(--inkSoft)" } }, "Probability")),
+      /*#__PURE__*/React.createElement("text", { x: 96, y: 113, style: { fontFamily: "var(--sans)", fontSize: 15 } },
+        /*#__PURE__*/React.createElement("tspan", { style: { fontWeight: 800, fill: amber } }, "1948 "),
+        /*#__PURE__*/React.createElement("tspan", { style: { fill: "var(--inkSoft)" } }, "Prediction")),
+      /*#__PURE__*/React.createElement("text", { x: 96, y: 175, style: { fontFamily: "var(--sans)", fontSize: 15 } },
+        /*#__PURE__*/React.createElement("tspan", { style: { fontWeight: 800, fill: purple } }, "1957 "),
+        /*#__PURE__*/React.createElement("tspan", { style: { fill: "var(--inkSoft)" } }, "Training")),
+      /*#__PURE__*/React.createElement("g", { style: fadeStyle },
+        /*#__PURE__*/React.createElement("rect", { x: 356, y: 86, width: 128, height: 68, rx: 16, fill: "#ece8fd", stroke: "var(--primary)", strokeWidth: 2 }),
+        /*#__PURE__*/React.createElement("text", { x: 420, y: 122, textAnchor: "middle", style: { fontFamily: "var(--serif)", fontSize: 26, fill: "var(--primary)" } }, "2017"),
+        /*#__PURE__*/React.createElement("text", { x: 420, y: 142, textAnchor: "middle", style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, fill: "var(--primary)" } }, "they connect"),
+        /*#__PURE__*/React.createElement("path", { d: "M484,120 L600,120", fill: "none", stroke: "var(--primary)", strokeWidth: 2, strokeDasharray: "2 7", strokeLinecap: "round" }),
+        /*#__PURE__*/React.createElement("text", { x: 620, y: 104, style: { fontFamily: "var(--sans)", fontSize: 16, fill: "var(--primary)" } }, "↗"),
+        /*#__PURE__*/React.createElement("text", { x: 620, y: 122, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, fill: "var(--ink)" } }, "ChatGPT"),
+        /*#__PURE__*/React.createElement("text", { x: 620, y: 140, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, fill: "var(--primary)" } }, "today"))));
+}
 function HistoryAssembleSeeIt(props) {
   var reduced = useReducedMotion();
   var ANCIENT = [
@@ -2249,19 +2292,7 @@ function HistoryAssembleSeeIt(props) {
   var sparkZone = ignited
     ? /*#__PURE__*/React.createElement("div", { style: { animation: reduced ? "none" : "fadeIn 0.5s ease" } },
         ideaCard(SPARK, true, undefined, false),
-        /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, display: "flex", alignItems: "stretch", background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "var(--shadowSoft)" } },
-          /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 auto", display: "flex", flexDirection: "column", justifyContent: "center", paddingRight: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkFaint)", marginBottom: 10 } }, "About 300 years"),
-            /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px dotted var(--inkFaint)", marginBottom: 10 } }),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.4 } }, "The four ideas sit apart. Progress is slow.")),
-          /*#__PURE__*/React.createElement("div", { style: { flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 16px", borderLeft: "2px solid var(--rule)", borderRight: "2px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 28, color: "var(--primary)", lineHeight: 1 } }, "2017"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--primary)", marginTop: 4 } }, "they connect")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: "0 0 auto", display: "flex", flexDirection: "column", justifyContent: "center", paddingLeft: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, color: "var(--primary)", fontWeight: 800, lineHeight: 1 } }, "↗"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--ink)", fontWeight: 700, marginTop: 6, lineHeight: 1.4 } }, "Scaling up"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--ink)", fontWeight: 700, lineHeight: 1.4 } }, "ChatGPT"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--primary)", fontWeight: 800, lineHeight: 1.4 } }, "today"))),
+        /*#__PURE__*/React.createElement(ConvergenceDiagram, { reduced: reduced }),
         /*#__PURE__*/React.createElement(Takeaway, { merged: true, headline: "Centuries apart, then all at once.", body: "Four ideas, each invented separately and left sitting apart for decades, finally snapped together in 2017. That collision, not any single invention, is the AI you use today." }))
     : /*#__PURE__*/React.createElement("div", { style: { border: "1.5px dashed var(--rule)", borderRadius: 14, padding: "20px 18px", textAlign: "center", background: "var(--card)", opacity: allThreeIn ? 1 : 0.6 } },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: allThreeIn ? 14 : 0 } },

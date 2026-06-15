@@ -193,20 +193,6 @@ function LessonHeader(props) {
   if (!sec) return null;
   var groupName = group.label.toUpperCase();
   var resolvedTitle = props.titleOverride !== undefined ? props.titleOverride : (sec.title || sec.label);
-  var body, punct;
-  if (resolvedTitle && resolvedTitle.length > 0) {
-    var last = resolvedTitle.charAt(resolvedTitle.length - 1);
-    if (last === "." || last === "?" || last === "!") {
-      body = resolvedTitle.slice(0, -1);
-      punct = last;
-    } else {
-      body = resolvedTitle;
-      punct = ".";
-    }
-  } else {
-    body = "";
-    punct = "";
-  }
   return /*#__PURE__*/React.createElement("div", { className: "lesson-header" },
     /*#__PURE__*/React.createElement("div", {
       style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
@@ -219,8 +205,7 @@ function LessonHeader(props) {
     /*#__PURE__*/React.createElement("h1", {
       style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: "0 0 18px 0" }
     },
-      body,
-      punct ? /*#__PURE__*/React.createElement("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, punct) : null
+      resolvedTitle
     ),
     props.subtitle ? /*#__PURE__*/React.createElement("p", {
       style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.5, color: "var(--inkSoft)", maxWidth: 640, textWrap: "pretty", margin: "0 0 32px 0" }

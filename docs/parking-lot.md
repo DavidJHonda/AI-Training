@@ -98,3 +98,12 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
   - **"Spot the Cost" TRY IT** — three scenarios (district plagiarism detector, image-generation tools vs artists' training data, school communication monitoring), each asking "who carries the cost the design overlooked?" with full per-option feedback. Strong material if a stakeholder beat ever returns; the artists/training-data scenario is the only place the course discussed that debate.
   - **KeyInsights** — "A lot of AI conversation is about how users feel" (most of the cost lands elsewhere); "No appeal path is its own answer"; and the closer "The question isn't only 'Does this AI work?' It's 'Who does it work for, and who carries the cost?'" — that last line is a candidate for When AI Judges You's ending if it ever wants a sharper close.
 - **Full source:** `StakeholdersSection` remains defined in `index.html` as dead code (removed from SECTION_GROUPS/SECTION_META/SECTION_COMPONENTS).
+
+---
+
+## "The move, step by step" — messy-input ShowcaseBox (2026-06-15)
+
+- **Origin:** the Mess to Meaning lesson (`DataSection`), cut 2026-06-15 when Mess to Meaning was merged into Rules vs Patterns (aivscode). The merged lesson kept both CompareBoxes, the PS5 SEE IT, and both TRY ITs, but dropped this "The move, step by step" ShowcaseBox; the data lesson's "AI runs on patterns" opener was replaced by a bridge paragraph back to the first TRY IT.
+- **Possible destination:** any lesson that needs a one-line frame for how AI turns messy input into usable output (Rules vs Patterns, What AI Does Best, or a prompting lesson).
+- **Verbatim intro:** "AI takes your messy input, matches it against the patterns it learned, and hands back something you can use."
+- **Step titles:** "What you send" / "Matches what it learned" / "What it sends back".

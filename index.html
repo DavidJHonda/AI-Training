@@ -1854,8 +1854,6 @@ function LLMsSection(props) {
   );
 }
 function AIIsMathSection(props) {
-  var _vbs = useLocalStorage("seeit-aiismath-bayesStep", 0), visibleBayesSteps = _vbs[0], setVisibleBayesSteps = _vbs[1];
-  var BAYES_CONTINUE_LABELS = ["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aiismath" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 },
@@ -1869,25 +1867,24 @@ function AIIsMathSection(props) {
       alt: "Mathematicians Blaise Pascal and Pierre de Fermat trading letters about a game of chance",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where ", /*#__PURE__*/React.createElement("strong", null, "standard probability"), " is usually dated from. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one. Useful, but only when you can see everything."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Take a simple example. If you toss 2 coins in the air, what\u2019s the probability of one landing heads, and the other landing tails?"),
+    /*#__PURE__*/React.createElement(BodyP, null, "In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where ", /*#__PURE__*/React.createElement("strong", null, "standard probability"), " is usually dated from. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "STANDARD PROBABILITY"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Take a simple example. If you toss a coin in the air, what\u2019s the probability it lands on heads?"),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "List Possible Outcomes"
     },
       /*#__PURE__*/React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }
+        style: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }
       },
         [
-          { lines: ["1st Heads", "2nd Heads"], coins: ["H", "H"] },
-          { lines: ["1st Heads", "2nd Tails"], coins: ["H", "T"], bold: true },
-          { lines: ["1st Tails", "2nd Heads"], coins: ["T", "H"], bold: true },
-          { lines: ["1st Tails", "2nd Tails"], coins: ["T", "T"] }
+          { lines: ["Heads"], coins: ["H"], bold: true, result: true },
+          { lines: ["Tails"], coins: ["T"] }
         ].map(function(o, i) {
           return /*#__PURE__*/React.createElement("div", {
             key: i,
             style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }
           },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: o.bold ? 800 : 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center", lineHeight: 1.3, height: 40, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap" } }, o.lines.map(function(ln, k) { return /*#__PURE__*/React.createElement("div", { key: k }, ln); })),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: o.bold ? 800 : 700, color: o.result ? "var(--green)" : "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center", lineHeight: 1.3, height: 40, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap" } }, o.lines.map(function(ln, k) { return /*#__PURE__*/React.createElement("div", { key: k }, ln); })),
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6 } },
               o.coins.map(function(c, j) {
                 return /*#__PURE__*/React.createElement("div", {
@@ -1914,14 +1911,14 @@ function AIIsMathSection(props) {
           style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
         },
           /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
-            "How do we calculate the probability that one coin is heads and the other is tails? Here’s the formula."
+            "How do we calculate the probability the coin lands on ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--green)", fontWeight: 700 } }, "HEADS"), "? Here\u2019s the formula."
           ),
           /*#__PURE__*/React.createElement("div", {
             style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", marginTop: 4 }
           },
             /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
-              /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(2)")),
-              /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(4)"))
+              /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
+              /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(2)"))
             ),
             /*#__PURE__*/React.createElement("span", null, "="),
             /*#__PURE__*/React.createElement("span", null, "Probability ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(50%)"))
@@ -1929,225 +1926,132 @@ function AIIsMathSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "CONDITIONAL PROBABILITY"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Standard probability could count what you could see, like the coins, but it couldn’t tell you how much to change your mind when fresh evidence arrived. Thomas Bayes worked that part out. A minister, mathematician, and philosopher, he found the math for updating a belief as new evidence arrives."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Bayes’ Theorem in Action"
+    /*#__PURE__*/React.createElement(BodyP, null, "Now make it a little harder. If you toss 2 coins in the air, what\u2019s the probability that both land on heads?"),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      headline: "List Possible Outcomes"
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column" } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }
+      },
         [
-          {
-            n: 1, color: "#64748b", title: "The setup",
-            render: function() {
-              return /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 } },
-                  "Someone has 20 colored basketballs: 10 red and 10 blue. They place them in 2 bags."
-                ),
-                /*#__PURE__*/React.createElement("ul", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, margin: "8px 0 0 0", paddingLeft: 22 } },
-                  /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } },
-                    "In a ",
-                    /*#__PURE__*/React.createElement("span", { style: { color: "#dc2626" } }, "Red Bag"),
-                    ", they place 8 red and 2 blue."),
-                  /*#__PURE__*/React.createElement("li", null,
-                    "In a ",
-                    /*#__PURE__*/React.createElement("span", { style: { color: "#2563eb" } }, "Blue Bag"),
-                    ", they place the remaining 2 red and 8 blue.")
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, marginTop: 12 } },
-                  "You are blindfolded, and someone gives you a bag. You don’t know which bag they gave you."
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 } },
-                  [
-                    { name: "Red Bag", red: 8, blue: 2, fillColor: "#ef4444", strokeColor: "#dc2626", textColor: "#dc2626" },
-                    { name: "Blue Bag", red: 2, blue: 8, fillColor: "#3b82f6", strokeColor: "#2563eb", textColor: "#2563eb" }
-                  ].map(function(bag, bi) {
-                    return /*#__PURE__*/React.createElement("div", {
-                      key: bi,
-                      style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 12px", textAlign: "center" }
-                    },
-                      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: bag.textColor, marginBottom: 8, letterSpacing: 0.3 } }, bag.name),
-                      /*#__PURE__*/React.createElement("svg", {
-                        viewBox: "0 0 130 165",
-                        style: { width: "100%", maxWidth: 140, display: "block", margin: "0 auto 8px" }
-                      },
-                        /*#__PURE__*/React.createElement("rect", {
-                          x: 15, y: 22,
-                          width: 100, height: 138,
-                          rx: 4,
-                          fill: bag.fillColor,
-                          fillOpacity: 0.22,
-                          stroke: bag.strokeColor,
-                          strokeWidth: 1.2,
-                          strokeOpacity: 0.4
-                        }),
-                        /*#__PURE__*/React.createElement("line", {
-                          x1: 19, y1: 30,
-                          x2: 111, y2: 30,
-                          stroke: bag.strokeColor,
-                          strokeWidth: 1.2,
-                          strokeOpacity: 0.4
-                        }),
-                        Array.apply(null, { length: 10 }).map(function(_, i) {
-                          var col = i % 5;
-                          var row = Math.floor(i / 5);
-                          var cx = 35 + col * 15;
-                          var cy = 105 + row * 25;
-                          var isRed = i < bag.red;
-                          return /*#__PURE__*/React.createElement("circle", {
-                            key: i,
-                            cx: cx,
-                            cy: cy,
-                            r: 6,
-                            fill: isRed ? "#ef4444" : "#3b82f6",
-                            stroke: isRed ? "#dc2626" : "#2563eb",
-                            strokeWidth: 0.6
-                          });
-                        })
-                      ),
-                      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkSoft)", lineHeight: 1.4 } },
-                        /*#__PURE__*/React.createElement("strong", { style: { color: "#dc2626" } }, bag.red + " red"),
-                        " · ",
-                        /*#__PURE__*/React.createElement("strong", { style: { color: "#2563eb" } }, bag.blue + " blue"))
-                    );
-                  })
-                )
-              );
-            }
+          { lines: ["1st Heads", "2nd Heads"], coins: ["H", "H"], bold: true, result: true },
+          { lines: ["1st Heads", "2nd Tails"], coins: ["H", "T"] },
+          { lines: ["1st Tails", "2nd Heads"], coins: ["T", "H"] },
+          { lines: ["1st Tails", "2nd Tails"], coins: ["T", "T"] }
+        ].map(function(o, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }
           },
-          {
-            n: 2, color: "var(--primary)", title: "What is the probability you have the Red Bag?",
-            render: function() {
-              return /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-                  [
-                    { label: "Red Bag", pct: 50, fill: "#ef4444", track: "#fee2e2", color: "#dc2626" },
-                    { label: "Blue Bag", pct: 50, fill: "#3b82f6", track: "#dbeafe", color: "#2563eb" }
-                  ].map(function(row, i) {
-                    return /*#__PURE__*/React.createElement("div", { key: i },
-                      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 700, marginBottom: 4, color: row.color } },
-                        /*#__PURE__*/React.createElement("span", null, row.label),
-                        /*#__PURE__*/React.createElement("span", null, row.pct + "%")),
-                      /*#__PURE__*/React.createElement("div", { style: { height: 8, background: row.track, borderRadius: 4, overflow: "hidden" } },
-                        /*#__PURE__*/React.createElement("div", { style: { width: row.pct + "%", height: "100%", background: row.fill, transition: "width 0.4s" } }))
-                    );
-                  })
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { marginTop: 12, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 12px" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "The Math"),
-                  /*#__PURE__*/React.createElement("div", {
-                    style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", fontSize: 15, marginTop: 4 }
-                  },
-                    /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
-                      /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
-                      /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(2)"))
-                    ),
-                    /*#__PURE__*/React.createElement("span", null, "="),
-                    /*#__PURE__*/React.createElement("span", null, "Probability ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(50%)"))
-                  )
-                )
-              );
-            }
-          },
-          {
-            n: 3, color: "#10b981", title: "You reach in and draw a ball. Someone tells you it’s red. What is the probability you have the Red Bag?",
-            render: function() {
-              return /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 12 } },
-                  "This new evidence changes the probability you have the Red Bag, because a red ball is much more likely to come from the Red Bag than the Blue Bag. So your belief shifts toward the Red Bag."
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 } },
-                  [
-                    { label: "Red Bag", pct: 80, fill: "#ef4444", track: "#fee2e2", color: "#dc2626" },
-                    { label: "Blue Bag", pct: 20, fill: "#3b82f6", track: "#dbeafe", color: "#2563eb" }
-                  ].map(function(row, i) {
-                    return /*#__PURE__*/React.createElement("div", { key: i },
-                      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 700, marginBottom: 4, color: row.color } },
-                        /*#__PURE__*/React.createElement("span", null, row.label),
-                        /*#__PURE__*/React.createElement("span", null, row.pct + "%")),
-                      /*#__PURE__*/React.createElement("div", { style: { height: 8, background: row.track, borderRadius: 4, overflow: "hidden" } },
-                        /*#__PURE__*/React.createElement("div", { style: { width: row.pct + "%", height: "100%", background: row.fill, transition: "width 0.4s" } }))
-                    );
-                  })
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 12px" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "The Math"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.7 } },
-                    /*#__PURE__*/React.createElement("div", {
-                      style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", fontSize: 15, marginTop: 4 }
-                    },
-                      /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
-                        /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(8)")),
-                        /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(10)"))
-                      ),
-                      /*#__PURE__*/React.createElement("span", null, "="),
-                      /*#__PURE__*/React.createElement("span", null, "Chance of a red draw ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(80%)"))
-                    )
-                  )
-                )
-              );
-            }
-          },
-          {
-            n: 4, color: "#8b5cf6", title: "You put the ball back, the bag is shaken, and you draw again. Again, the ball is red.",
-            render: function() {
-              return /*#__PURE__*/React.createElement("div", null,
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 12 } },
-                  "What is the probability you have the Red Bag now, considering the new evidence? You compare how likely two red draws in a row are from each bag, then convert that comparison into a probability."
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 } },
-                  [
-                    { label: "Red Bag", pct: 94, fill: "#ef4444", track: "#fee2e2", color: "#dc2626" },
-                    { label: "Blue Bag", pct: 6, fill: "#3b82f6", track: "#dbeafe", color: "#2563eb" }
-                  ].map(function(row, i) {
-                    return /*#__PURE__*/React.createElement("div", { key: i },
-                      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 700, marginBottom: 4, color: row.color } },
-                        /*#__PURE__*/React.createElement("span", null, row.label),
-                        /*#__PURE__*/React.createElement("span", null, row.pct + "%")),
-                      /*#__PURE__*/React.createElement("div", { style: { height: 8, background: row.track, borderRadius: 4, overflow: "hidden" } },
-                        /*#__PURE__*/React.createElement("div", { style: { width: row.pct + "%", height: "100%", background: row.fill, transition: "width 0.4s" } }))
-                    );
-                  })
-                ),
-                /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 12px" } },
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "The Math"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.7 } },
-                    "A second red ball is even stronger evidence, so your belief that you’re holding the Red Bag jumps again, from 80% to 94%. We’ll save the formula for your stats class."
-                  )
-                )
-              );
-            }
-          }
-        ].slice(0, visibleBayesSteps).map(function(box, i, arr) {
-          var isLastVisible = i === arr.length - 1;
-          return /*#__PURE__*/React.createElement(React.Fragment, { key: i },
-            /*#__PURE__*/React.createElement("div", {
-              style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + box.color, borderRadius: 10, padding: "16px 18px", display: "flex", gap: 14, alignItems: "flex-start", animation: "fadeIn 0.4s ease" }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { flexShrink: 0, width: 32, height: 32, borderRadius: "50%", background: box.color, color: "#fff", fontSize: 15, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }
-              }, box.n),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, box.title),
-                box.render()
-              )
-            ),
-            !isLastVisible ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", color: "var(--inkMuted)", fontSize: 20, fontWeight: 700, padding: "6px 0", lineHeight: 1 } }, "↓") : null
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: o.bold ? 800 : 700, color: o.result ? "var(--green)" : "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center", lineHeight: 1.3, height: 40, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap" } }, o.lines.map(function(ln, k) { return /*#__PURE__*/React.createElement("div", { key: k }, ln); })),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6 } },
+              o.coins.map(function(c, j) {
+                return /*#__PURE__*/React.createElement("div", {
+                  key: j,
+                  style: { width: 44, height: 44, borderRadius: "50%", background: "radial-gradient(circle at 38% 30%, #FBE6A0 0%, #EAC65E 45%, #C9962F 85%, #B5851F 100%)", boxShadow: "inset 0 2px 3px rgba(255,255,255,0.5), inset 0 -2px 3px rgba(122,82,20,0.45), inset 0 0 0 2px rgba(189,139,44,0.9), 0 3px 5px rgba(0,0,0,0.16)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 19, fontWeight: 800, color: "#5C3A0E", textShadow: "0 1px 0 rgba(255,255,255,0.45), 0 -1px 1px rgba(92,58,14,0.35)" }
+                }, c);
+              })
+            )
           );
         })
       ),
-      visibleBayesSteps < 4 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 18 } },
-        /*#__PURE__*/React.createElement("button", {
-          onClick: function() { setVisibleBayesSteps(visibleBayesSteps + 1); },
-          style: { display: "inline-block", padding: "12px 28px", borderRadius: 10, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
-        }, BAYES_CONTINUE_LABELS[visibleBayesSteps])
-      ) : null,
-      visibleBayesSteps >= 4 ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 20, animation: "fadeIn 0.5s ease" } },
-        /*#__PURE__*/React.createElement(Takeaway, { headline: "Bayes is about how new evidence changes probability.", body: /*#__PURE__*/React.createElement(React.Fragment, null, "You started at 50% probability you had the ", /*#__PURE__*/React.createElement("span", { style: { color: "#dc2626" } }, "Red Bag"), ". One red ball moved that to 80 percent. A second took it to 94. The theorem is just a precise way to update a belief as the evidence comes in.") })
-      ) : null
-    )
-    ,
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginTop: 24, marginBottom: 10 }
+      }, "The Math"),
+      /*#__PURE__*/React.createElement("div", {
+        style: {
+          background: "#fff",
+          border: "1px solid var(--rule)",
+          borderRadius: 8,
+          padding: "16px 18px"
+        }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
+            "How do we calculate the probability that both coins land on ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--green)", fontWeight: 700 } }, "HEADS"), "? Here’s the formula."
+          ),
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", marginTop: 4 }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
+              /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
+              /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(4)"))
+            ),
+            /*#__PURE__*/React.createElement("span", null, "="),
+            /*#__PURE__*/React.createElement("span", null, "Probability ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(25%)"))
+          )
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "CONDITIONAL PROBABILITY"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Standard probability could count what you could see, like the coins, but it couldn’t tell you how much to change your mind when fresh evidence arrived. Thomas Bayes worked that part out. A minister, mathematician, and philosopher, he found the math for updating a belief as new evidence arrives, now known as Bayes’ Theorem."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      headline: "Update With New Evidence"
+    },
+      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" } },
+        "A moment ago, two coins gave you a 25% chance of both landing heads. Now someone peeks and tells you the ", /*#__PURE__*/React.createElement("strong", null, "first coin landed on heads"), ". That new evidence rules out every outcome where the first coin was tails, so we cross those out and recount."
+      ),
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }
+      },
+        [
+          { lines: ["1st Heads", "2nd Heads"], coins: ["H", "H"], bold: true, result: true },
+          { lines: ["1st Heads", "2nd Tails"], coins: ["H", "T"] },
+          { lines: ["1st Tails", "2nd Heads"], coins: ["T", "H"], out: true },
+          { lines: ["1st Tails", "2nd Tails"], coins: ["T", "T"], out: true }
+        ].map(function(o, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, opacity: o.out ? 0.35 : 1, position: "relative" }
+          },
+            o.out ? /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: "50%", left: 8, right: 8, height: 2, background: "var(--inkMuted)" } }) : null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: o.bold ? 800 : 700, color: o.result ? "var(--green)" : "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center", lineHeight: 1.3, height: 40, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap" } }, o.lines.map(function(ln, k) { return /*#__PURE__*/React.createElement("div", { key: k }, ln); })),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6 } },
+              o.coins.map(function(c, j) {
+                return /*#__PURE__*/React.createElement("div", {
+                  key: j,
+                  style: { width: 44, height: 44, borderRadius: "50%", background: "radial-gradient(circle at 38% 30%, #FBE6A0 0%, #EAC65E 45%, #C9962F 85%, #B5851F 100%)", boxShadow: "inset 0 2px 3px rgba(255,255,255,0.5), inset 0 -2px 3px rgba(122,82,20,0.45), inset 0 0 0 2px rgba(189,139,44,0.9), 0 3px 5px rgba(0,0,0,0.16)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 19, fontWeight: 800, color: "#5C3A0E", textShadow: "0 1px 0 rgba(255,255,255,0.45), 0 -1px 1px rgba(92,58,14,0.35)" }
+                }, c);
+              })
+            )
+          );
+        })
+      ),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginTop: 24, marginBottom: 10 }
+      }, "The Math"),
+      /*#__PURE__*/React.createElement("div", {
+        style: {
+          background: "#fff",
+          border: "1px solid var(--rule)",
+          borderRadius: 8,
+          padding: "16px 18px"
+        }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
+            "With the first coin known to be heads, only 2 outcomes are still possible. How likely is both ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--green)", fontWeight: 700 } }, "HEADS"), " now?"
+          ),
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", marginTop: 4 }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
+              /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
+              /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(2)"))
+            ),
+            /*#__PURE__*/React.createElement("span", null, "="),
+            /*#__PURE__*/React.createElement("span", null, "Probability ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--green)" } }, "(50%)"))
+          ),
+          /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 14, fontSize: 15 } },
+            "The evidence didn’t just rule things out, it moved the probability from ", /*#__PURE__*/React.createElement("strong", null, "25%"), " to ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--green)" } }, "50%"), ". That update is conditional probability."
+          )
+        )
+      )
+    ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AUTOREGRESSIVE GENERATION"),
     /*#__PURE__*/React.createElement(BodyP, null, "That same updating move, sharpening a guess as new information lands, is also how AI writes a sentence. Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. That’s how single-word guesses turn into full paragraphs, essays, and explanations."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
@@ -2159,11 +2063,12 @@ function AIIsMathSection(props) {
         [
           { title: "Standard Probability", subtitle: "Base rate from past years", pct: 40,
             pills: [{ text: "Over the last 100 years, it rained 40 times on May 21st.", highlight: true }] },
-          { title: "Conditional Probability", subtitle: "Updated with a clue", pct: 80,
+          { title: "Conditional Probability", subtitle: "Updated with a clue", pct: 60,
             pills: [{ text: "Rained 40 of the last 100 May 21sts." }, { text: "Humidity is 90% right now.", isNew: true }] },
-          { title: "Autoregressive Generation", subtitle: "Feeding its own words back in",
-            generate: ["It", "is", "going", "to", "rain"],
-            note: "No new outside clue here. Each word is predicted from the words the model already wrote, its own output fed back in to pick the next one." }
+          { title: "Autoregressive Generation", subtitle: "Conditional probability on every word",
+            generate: ["It", "is", "going", "to"],
+            candidates: [{ word: "rain", pct: 71, win: true }, { word: "pour", pct: 18 }, { word: "stay", pct: 7 }],
+            note: "No outside clue this time, the words it already wrote are the clue. Given “It is going to,” it picks the most probable next word, then feeds that back in and does it all over again." }
         ].map(function(r, i) {
           return /*#__PURE__*/React.createElement("div", {
             key: i,
@@ -2178,11 +2083,22 @@ function AIIsMathSection(props) {
                 : /*#__PURE__*/React.createElement("div", { style: { fontSize: 30, fontWeight: 800, color: "var(--primary)", lineHeight: 1, flexShrink: 0 } }, r.pct + "%")),
             r.generate
               ? /*#__PURE__*/React.createElement("div", null,
-                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 10 } },
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 16 } },
                     r.generate.map(function(w, k) {
                       return /*#__PURE__*/React.createElement(React.Fragment, { key: k },
                         k > 0 ? /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { color: "var(--primary)", fontWeight: 800 } }, "→") : null,
                         /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", borderRadius: 999, padding: "6px 14px", border: "1px solid var(--primary)", background: "var(--primaryFaint)", color: "var(--ink)", fontWeight: 700, fontSize: 14 } }, w));
+                    }),
+                    /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { color: "var(--primary)", fontWeight: 800 } }, "→"),
+                    /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", borderRadius: 999, padding: "6px 16px", border: "1px dashed var(--primary)", background: "transparent", color: "var(--primary)", fontWeight: 800, fontSize: 14 } }, "?")),
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--inkMuted)", marginBottom: 10 } }, "Picking the next word"),
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 9, marginBottom: 12 } },
+                    r.candidates.map(function(c, j) {
+                      return /*#__PURE__*/React.createElement("div", { key: j, style: { display: "flex", alignItems: "center", gap: 12 } },
+                        /*#__PURE__*/React.createElement("span", { style: { width: 52, flexShrink: 0, fontSize: 14, fontWeight: c.win ? 800 : 600, color: c.win ? "var(--ink)" : "var(--inkMuted)" } }, c.word),
+                        /*#__PURE__*/React.createElement("div", { "aria-hidden": "true", style: { flex: 1, height: 10, borderRadius: 999, background: "var(--rule)", overflow: "hidden" } },
+                          /*#__PURE__*/React.createElement("div", { style: { width: c.pct + "%", height: "100%", borderRadius: 999, background: c.win ? "linear-gradient(90deg, var(--primary), var(--primaryDeep))" : "var(--inkFaint)" } })),
+                        /*#__PURE__*/React.createElement("span", { style: { width: 42, flexShrink: 0, textAlign: "right", fontSize: 14, fontWeight: c.win ? 800 : 600, color: c.win ? "var(--primary)" : "var(--inkMuted)" } }, c.pct + "%"));
                     })),
                   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, r.note))
               : /*#__PURE__*/React.createElement(React.Fragment, null,
@@ -2206,10 +2122,9 @@ function AIIsMathSection(props) {
       alt: "A study-desk scene showing how every new clue changes the next guess: the chance of rain climbs from a 40% base rate, to 80% once humidity is added, to 99% once the last few minutes of rainfall are known, alongside an autoregressive strip that builds the sentence “It is going to rain” one word at a time.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "One thing to hold onto: the model isn’t handed these probabilities. It learns them from patterns in mountains of data, and stores what it learns as numbers, millions of them. Those learned numbers are what’s actually inside the model."),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past these three ideas. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But these three concepts are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: visibleBayesSteps >= 4, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
   );
 }
 

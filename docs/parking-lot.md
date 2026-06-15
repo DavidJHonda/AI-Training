@@ -4,6 +4,15 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "Bayes' Theorem in Action" — bag-of-basketballs SEE IT
+
+- **Origin:** AI is Math lesson (`AIIsMathSection`), Conditional Probability section. Removed 2026-06-15 and replaced by the static "Update With New Evidence" ShowcaseBox, which reuses the lesson's own 2-coin grid: new evidence ("the first coin landed on heads") greys out the tails-first outcomes and updates P(both heads) from 25% to 50%. The static box keeps conditional probability tied to the coins the learner just met, instead of introducing a fresh bag-of-balls scenario (beta learners struggled with the example switch).
+- **Possible destination:** back into Conditional Probability if an interactive, graded-posterior beat is wanted again, or any lesson that needs to show a belief updating across multiple pieces of evidence (it shows a true posterior sliding 50% → 80% → 94%, which the static coin box does not).
+- **Supporting state it needs if restored:** `visibleBayesSteps` (useLocalStorage key `seeit-aiismath-bayesStep`, default 0) + its setter for the step-by-step reveal, and the `BAYES_CONTINUE_LABELS` array (`["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"]`). Both were declared at the top of `AIIsMathSection` and removed in the same commit. The lesson's `NextLessonGate` was also gated on `visibleBayesSteps >= 4`; it is now `ready: true`, so restoring the gate means re-adding that condition. Depends on the shared `InteractiveBox` and `Takeaway` components, both still in `index.html`.
+- **Full source:** in git history at the commit before this one, inside the `AIIsMathSection` function — the `InteractiveBox` titled "Bayes' Theorem in Action" (anchor string for search). It's a 4-step reveal: (1) the setup with two SVG bags of 10 basketballs each (Red Bag 8R/2B, Blue Bag 2R/8B), (2) 50/50 starting belief with a "Ways it happens (1) / Total outcomes (2) = 50%" math row, (3) draw a red ball → belief shifts to 80% with an "(8)/(10) = 80%" row, (4) draw red again → 94%, closing on the Takeaway "Bayes is about how new evidence changes probability."
+
+---
+
 ## "See you ___" — original next-word bar-chart example
 
 - **Origin:** the "How the model picks the next word" ShowcaseBox. Retired 2026-06-04 when What Is AI? adopted a single peanut-butter throughline and the bar chart was re-themed to "I went to the store to buy peanut butter and ___" (top word "jelly"). The chart structure lives on in `AIHistorySection`; only this example's wording/data was replaced.

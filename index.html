@@ -2192,7 +2192,7 @@ function HistoryAssembleSeeIt(props) {
     { key: "prediction", icon: "✍️", label: "Prediction", color: "#b45309", bg: "#fbedd3", year: "1948", caption: "Guess the next word from the last, like your phone’s autocomplete.", who: "Claude Shannon" },
     { key: "training", icon: "📚", label: "Training", color: "var(--primary)", bg: "#ece8fd", year: "1957", caption: "The first machine that learned from examples instead of following instructions.", who: "the perceptron" }
   ];
-  var SPARK = { key: "patterns", icon: "🧩", label: "Patterns", color: "var(--primary)", bg: "#ece8fd", year: "2017", caption: "One breakthrough let a machine weigh all the words at once and find the patterns between them: the transformer.", who: "“Attention Is All You Need”" };
+  var SPARK = { key: "patterns", icon: "🧩", label: "Patterns", color: "var(--primary)", bg: "#ece8fd", year: "2017", caption: "Eight researchers at Google published one breakthrough that let a machine weigh all the words at once and find the patterns between them: the transformer.", who: "Attention Is All You Need" };
   var _st = useLocalStorage("seeit-howwegothere-assembleStep", { lit: [], ignited: false });
   var st = _st[0], setSt = _st[1];
   var lit = st.lit || [];
@@ -2204,7 +2204,7 @@ function HistoryAssembleSeeIt(props) {
   function ideaCard(idea, isLit, onClick, locked) {
     return /*#__PURE__*/React.createElement("button", {
       key: idea.key, onClick: onClick, disabled: locked || isLit,
-      style: { textAlign: "left", border: isLit ? "1.5px solid " + idea.color : "1.5px solid var(--rule)", cursor: (locked || isLit) ? "default" : "pointer", background: "var(--card)", borderRadius: 14, padding: "16px 18px", opacity: isLit ? 1 : (locked ? 0.4 : 0.85), boxShadow: "var(--shadowSoft)", transition: "all 200ms ease", fontFamily: "var(--sans)", width: "100%" }
+      style: { textAlign: "left", border: isLit ? "1.5px solid " + idea.color : "1.5px solid var(--rule)", cursor: (locked || isLit) ? "default" : "pointer", background: "var(--card)", borderRadius: 14, padding: "16px 18px", opacity: isLit ? 1 : (locked ? 0.4 : 0.85), boxShadow: "var(--shadowSoft)", transition: "all 200ms ease", fontFamily: "var(--sans)", width: "100%", display: "flex", flexDirection: "column" }
     },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: isLit ? 10 : 0 } },
         /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, filter: isLit ? "none" : "grayscale(1)", opacity: isLit ? 1 : 0.6 } }, idea.icon),
@@ -2214,9 +2214,9 @@ function HistoryAssembleSeeIt(props) {
             ? /*#__PURE__*/React.createElement("span", { style: { background: idea.color, color: "#fff", borderRadius: 20, padding: "3px 11px", fontSize: 12, fontWeight: 700 } }, idea.year)
             : /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: locked ? "var(--inkFaint)" : idea.color } }, locked ? "Locked" : "Tap to add"))),
       isLit
-        ? /*#__PURE__*/React.createElement("div", null,
+        ? /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column" } },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 8 } }, idea.caption),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkFaint)", textTransform: "uppercase", letterSpacing: "0.08em" } }, idea.who))
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: idea.color, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: "auto" } }, idea.who))
         : null);
   }
 
@@ -13665,41 +13665,20 @@ const CHIP_LABELS = { inference: "Inference", embeddings: "Embeddings", vectorsp
 function ChipNav(props) {
   var E = React.createElement;
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];
-  var _fm = useState(false), showFull = _fm[0], setShowFull = _fm[1];
   var PER_ROW = 9;
-  var WINDOW = 5;
   var DOT = 56;            // node circle diameter
-  var COL = 118;           // node column width, tuned so the track + "more" pill reach the Finish pill's right edge
+  var COL = 118;           // node column width, tuned so the track reaches the Finish pill's right edge
   var CONN_INSET = 7;      // clearance between a connector end and a circle
   var connW = COL - DOT - 2 * CONN_INSET;  // visible connector segment length
-  var FIRST_ANCHOR = 96;   // keep the first lesson at the spot it sat when columns were 96px wide
   var completed = props.completed || [];
   var sections = props.sections;
-  var total = sections.length;
-  var activeIdx = sections.indexOf(props.activeSection);
-  if (activeIdx < 0) activeIdx = 0;
   var subtleNodeShadow = "0 1px 2px rgba(14,10,31,.04), 0 6px 16px -12px rgba(14,10,31,.22)";
-
-  // Focus window: clamp a fixed slice to keep the current lesson near center.
-  // Only Understand AI is long enough to warrant the windowed "Your path";
-  // every other part shows all its lessons at once (the full grid below).
-  var windowed = false;  // always show the full lesson map (no focus-window / Show all)
-  var start = 0, end = total;
-  if (windowed && !showFull) {
-    start = Math.max(0, Math.min(activeIdx - 2, total - WINDOW));
-    end = start + WINDOW;
-  }
-  var earlierCount = start;
-  var moreCount = total - end;
 
   // A connector segment sitting behind a node, drawn from the previous center.
   function connector(kind) {
     if (!kind) return null;
     // Center a short segment in the gap between adjacent dots, leaving CONN_INSET clearance each side.
     var base = { position: "absolute", top: 27, left: -(connW / 2), width: connW, zIndex: 0 };
-    if (kind === "dotted") {
-      return E("span", { "aria-hidden": "true", style: Object.assign({}, base, { height: 0, borderTop: "2px dotted #c4bed6" }) });
-    }
     return E("span", { "aria-hidden": "true", style: Object.assign({}, base, { height: 2, borderRadius: 999, background: kind === "red" ? "#e11d2a" : "#e7e3f2", opacity: kind === "red" ? 0.95 : 1 }) });
   }
 
@@ -13739,85 +13718,14 @@ function ChipNav(props) {
       }, chipLabel));
   }
 
-  function stubNode(count, label, connEl) {
-    return E("button", {
-      key: "stub-" + label,
-      className: "course-path-node",
-      onClick: function() { setShowFull(true); },
-      "aria-label": "Show full map: " + count + " more lessons " + label.toLowerCase(),
-      style: { position: "relative", border: "none", background: "transparent", padding: "0 2px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 11 }
-    },
-      connEl,
-      E("span", {
-        "aria-hidden": "true",
-        style: { position: "relative", zIndex: 1, width: 56, height: 56, borderRadius: "50%", background: "transparent", border: "2px dashed #cfc9e2", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 160ms ease" }
-      }, E("span", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, color: "var(--inkMuted)" } }, "+" + count)),
-      E("span", {
-        style: { position: "relative", zIndex: 1, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textAlign: "center", color: "#a7a2bd", maxWidth: 104, minHeight: 31 }
-      }, label));
-  }
-
-  // Trailing "more" affordance: a pill that previews the next hidden lessons' icons
-  // as an overlapping stack, echoing the course's illustration-forward character.
-  function moreGhostPill(count) {
-    var nextIcons = sections.slice(end, end + 3).map(function(sid) {
-      var s = SECTIONS.find(function(x) { return x.id === sid; });
-      return s ? s.icon : null;
-    }).filter(Boolean);
-    var isHovered = chipHover === "__more__";
-    return E("div", { key: "more-pill", style: { flex: "0 0 auto", display: "flex", alignItems: "center", marginTop: 6, marginLeft: -((COL - DOT) / 2 - CONN_INSET) } },
-      E("span", { "aria-hidden": "true", style: { width: 42, height: 0, borderTop: "2px dotted #c4bed6", marginRight: 8 } }),
-      E("button", {
-        onClick: function() { setShowFull(true); },
-        onMouseEnter: function() { setChipHover("__more__"); },
-        onMouseLeave: function() { setChipHover(null); },
-        "aria-label": "Show " + count + " more lessons",
-        style: { display: "inline-flex", alignItems: "center", gap: 9, padding: "5px 16px 5px 7px", borderRadius: 999, border: "1px solid var(--rule)", background: "#fff", cursor: "pointer", boxShadow: subtleNodeShadow, whiteSpace: "nowrap", transform: isHovered ? "translateY(-1px)" : "none", transition: "transform 160ms ease, box-shadow 160ms ease" }
-      },
-        E("span", { "aria-hidden": "true", style: { display: "inline-flex", alignItems: "center" } },
-          nextIcons.map(function(ic, i) {
-            return E("span", {
-              key: i,
-              style: { width: 28, height: 28, borderRadius: "50%", background: "#fff", border: "2px solid #fff", boxShadow: "0 1px 4px rgba(14,10,31,.20)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 14, lineHeight: 1, marginLeft: i === 0 ? 0 : -10, position: "relative", zIndex: 3 - i }
-            }, ic);
-          })),
-        E("span", { style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 800, color: "var(--ink)" } }, count + " more")));
-  }
-
-  // Body: full grid (toggle, or any non-windowed part) or the focus-window row.
-  var body;
-  if (showFull || !windowed) {
-    body = E("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", columnGap: 0, rowGap: 10, marginBottom: 28, alignItems: "start" }
-    }, sections.map(function(sid, ci) {
-      var firstInRow = (ci % PER_ROW) === 0;
-      var thisDone = sid !== props.activeSection && completed.includes(sid);
-      return lessonNode(sid, firstInRow ? null : connector(thisDone ? "red" : "grey"));
-    }));
-  } else {
-    var items = [];
-    if (earlierCount > 0) items.push({ type: "stub", count: earlierCount, label: "EARLIER" });
-    sections.slice(start, end).forEach(function(sid) { items.push({ type: "lesson", sid: sid }); });
-    var grid = E("div", {
-      style: { flex: "0 0 auto", display: "grid", gridTemplateColumns: "repeat(" + items.length + ", " + COL + "px)", columnGap: 0, alignItems: "start", marginLeft: (FIRST_ANCHOR - COL) / 2 }
-    }, items.map(function(it, idx) {
-      var prev = items[idx - 1];
-      var connEl = null;
-      if (idx > 0) {
-        if (it.type === "stub" || prev.type === "stub") {
-          connEl = connector("dotted");
-        } else {
-          var thisDone = it.sid !== props.activeSection && completed.includes(it.sid);
-          connEl = connector(thisDone ? "red" : "grey");
-        }
-      }
-      return it.type === "stub" ? stubNode(it.count, it.label, connEl) : lessonNode(it.sid, connEl);
-    }));
-    // Trailing "more" lives outside the equal-width grid so the preview pill can size to its content.
-    body = moreCount > 0
-      ? E("div", { style: { display: "flex", alignItems: "flex-start", marginBottom: 28 } }, grid, moreGhostPill(moreCount))
-      : E("div", { style: { marginBottom: 28 } }, grid);
-  }
+  // Full lesson map: every lesson in the part shown at once, wrapping at PER_ROW.
+  var body = E("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(9, 1fr)", columnGap: 0, rowGap: 10, marginBottom: 28, alignItems: "start" }
+  }, sections.map(function(sid, ci) {
+    var firstInRow = (ci % PER_ROW) === 0;
+    var thisDone = sid !== props.activeSection && completed.includes(sid);
+    return lessonNode(sid, firstInRow ? null : connector(thisDone ? "red" : "grey"));
+  }));
 
   return body;
 }
@@ -14283,7 +14191,7 @@ function LLMExplorer() {
         })
       ),
       /*#__PURE__*/React.createElement("nav", { "aria-label": "Lesson navigation", style: { marginTop: 18 } },
-        /*#__PURE__*/React.createElement(ChipNav, { groupLabel: activeGroup.label, sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection }))
+        /*#__PURE__*/React.createElement(ChipNav, { sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection }))
     );
   }(), /*#__PURE__*/React.createElement("main", {
     id: "main-content",

@@ -95,7 +95,7 @@ The four-ideas anchor (Learn once: Training → Patterns | Answer, every word: P
 ![CoreLoopBox](core-loop-box.png)
 
 ### LoopLocator
-The compact "you are here" echo of CoreLoopBox: two pill-shaped phase capsules joined by an arrow — a lavender "Learn once" capsule (Training, Patterns) and a cream "Every word" capsule (Probability, Prediction) — each node a radio dot + label. Heads each concept section in What Is AI? (`aihistory`) with no text kicker — a doubled (48px) top margin sets each concept apart. The `active` node fills its dot and bolds its label in the phase color (purple for Training/Patterns, amber for Probability/Prediction); the other three stay hollow with a grey label. Keeps the loop structure in view as the reader scrolls through the four sections. Captured 2026-06-16.
+The compact "you are here" echo of CoreLoopBox: a phase-colored "0X/4" step number, then two pill-shaped phase capsules joined by an arrow — a lavender "Learn once" capsule (Training, Patterns) and a cream "Every word" capsule (Probability, Prediction) — each node a radio dot + label. Heads each concept section in What Is AI? (`aihistory`) with no text kicker — a doubled (48px) top margin sets each concept apart. The `active` node fills its dot and bolds its label in the phase color (purple for Training/Patterns, amber for Probability/Prediction); the other three stay hollow with a grey label. Keeps the loop structure in view as the reader scrolls through the four sections. Captured 2026-06-16.
 
 ![LoopLocator](loop-locator.png)
 

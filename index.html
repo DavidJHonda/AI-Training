@@ -1551,6 +1551,9 @@ function CoreLoopBox() {
 // dots. props.active fills one node's dot and bolds its label in the phase color.
 function LoopLocator(props) {
   var E = React.createElement;
+  var STEPS = { training: 1, patterns: 2, probability: 3, prediction: 4 };
+  var step = STEPS[props.active];
+  var activeColor = (props.active === "training" || props.active === "patterns") ? "var(--primary)" : "#d97706";
   function nodeChip(key, label, color, ring) {
     var on = key === props.active;
     return E("span", { key: key, style: { display: "inline-flex", alignItems: "center", gap: 8 } },
@@ -1563,6 +1566,9 @@ function LoopLocator(props) {
       nodes.map(function(n) { return nodeChip(n[0], n[1], color, ring); }));
   }
   return E("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginTop: 48, marginBottom: 18 } },
+    step ? E("span", { style: { display: "inline-flex", alignItems: "baseline", flexShrink: 0 } },
+      E("span", { style: { fontSize: 24, fontWeight: 800, color: activeColor, lineHeight: 1 } }, String(step).padStart(2, "0")),
+      E("span", { style: { fontSize: 15, fontWeight: 800, color: "var(--inkFaint)", lineHeight: 1 } }, "/4")) : null,
     capsule("Learn once", "var(--primary)", "#ece8fd", "rgba(110, 81, 255, 0.4)", [["training", "Training"], ["patterns", "Patterns"]]),
     E("span", { style: { color: "var(--inkFaint)", fontWeight: 800, fontSize: 20 } }, "→"),
     capsule("Every word", "#d97706", "#fbedd3", "rgba(217, 119, 6, 0.45)", [["probability", "Probability"], ["prediction", "Prediction"]]));

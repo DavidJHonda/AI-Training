@@ -1568,6 +1568,32 @@ function LoopLocator(props) {
     capsule("Every word", "#d97706", "#fbedd3", "rgba(217, 119, 6, 0.45)", [["probability", "Probability"], ["prediction", "Prediction"]]));
 }
 function AIHistorySection(props) {
+  var E = React.createElement;
+  const [quizAnswers, setQuizAnswers] = useState({});
+  var WHATQUIZ = [
+    { text: "AI learns by reading mountains of text and nudging itself every time it guesses the next word wrong.", answer: "true",
+      trueFeedback: "Right. Read, guess the next word, check, nudge, billions of times. That’s training.",
+      falseFeedback: "Actually true: that guess-check-nudge loop, run billions of times, is exactly how AI learns." },
+    { text: "There are people in a dark data center typing out the answers.", answer: "false",
+      trueFeedback: "Nope. Nobody’s typing for it. AI builds every answer itself, one predicted word at a time.",
+      falseFeedback: "Right. No humans in the loop. AI generates each answer on its own from patterns it learned." },
+    { text: "AI memorizes the exact answer to every question and looks it up later.", answer: "false",
+      trueFeedback: "Not quite. AI doesn’t store answers to look up. It learns patterns and builds a new answer each time.",
+      falseFeedback: "Right. It doesn’t look anything up. It absorbs patterns like “peanut butter and ___” and predicts from them." },
+    { text: "AI has read more text than any person could in a thousand lifetimes.", answer: "true",
+      trueFeedback: "Right. Training feeds it more books, sites, and chats than anyone could read in a thousand lifetimes.",
+      falseFeedback: "Actually true: AI trains on more text than a person could read in a thousand lifetimes." },
+    { text: "When AI picks the next word, it scores every option, and the surrounding text changes those scores.", answer: "true",
+      trueFeedback: "Right. Add “banana” and jelly’s odds fall from 41% to 2%. Context reshapes the scores.",
+      falseFeedback: "Actually true: AI scores every candidate word, and the surrounding text shifts those odds." },
+    { text: "AI knows hockey rules because it grew up in Canada.", answer: "false",
+      trueFeedback: "Ha, no. AI has no childhood and no home country. It picked up hockey from the text it trained on.",
+      falseFeedback: "Right. AI didn’t grow up anywhere. It learned hockey, and everything else, from patterns in text." },
+    { text: "AI plans out the whole sentence before it writes the first word.", answer: "false",
+      trueFeedback: "Not quite. There’s no plan ahead. AI builds the sentence one predicted word at a time.",
+      falseFeedback: "Right. No plan. It predicts one word, looks again, predicts the next, all the way to the end." }
+  ];
+  var quizAllAnswered = Object.keys(quizAnswers).length >= WHATQUIZ.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, spotting patterns, seeing, hearing, and using language."),
@@ -1644,8 +1670,41 @@ function AIHistorySection(props) {
         "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a search engine"), " — it doesn’t pull up a stored answer, it builds a new one each time.")
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "Keep those three straight and much of the confusion falls away."),
+    /*#__PURE__*/E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "True or false?",
+      action: /*#__PURE__*/E(ActivityCounter, { count: Object.keys(quizAnswers).length, total: WHATQUIZ.length })
+    },
+      /*#__PURE__*/E(ActivityInstruction, null, "One statement for each idea you just met. True or false?"),
+      /*#__PURE__*/E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        WHATQUIZ.map(function(item, i) {
+          var answered = quizAnswers[i] !== undefined;
+          var picked = quizAnswers[i];
+          var correct = answered && picked === item.answer;
+          function PillButton(value, label) {
+            return /*#__PURE__*/E(FeedbackPill, {
+              key: value,
+              answered: answered,
+              isCorrect: value === item.answer,
+              isPicked: picked === value,
+              label: label,
+              onClick: function() { setQuizAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
+            });
+          }
+          return /*#__PURE__*/E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: item.text,
+            answered: answered,
+            correct: correct,
+            feedback: answered ? (picked === "true" ? item.trueFeedback : item.falseFeedback) : null
+          },
+            PillButton("true", "True"),
+            PillButton("false", "False"));
+        }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: Meet the Tool" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: quizAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: Meet the Tool" })
   );
 }
 function YouAlreadyUseSection(props) {

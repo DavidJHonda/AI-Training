@@ -230,11 +230,8 @@ function ShowcaseBox(props) {
         style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
       }, props.headline) : null,
       props.intro ? /*#__PURE__*/React.createElement("p", {
-        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: props.divider ? "0 0 16px 0" : "0 0 18px 0" }
+        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
       }, props.intro) : null,
-      props.divider ? /*#__PURE__*/React.createElement("div", {
-        style: { borderTop: "1px solid var(--rule)", margin: "0 0 18px 0" }
-      }) : null,
       props.children
     )
   );
@@ -916,9 +913,14 @@ function CompareRows(props) {
 }
 
 function PullQuote(props) {
-  return React.createElement("div", { style: { background: "var(--card)", borderLeft: "3px solid var(--primary)", borderRadius: 12, padding: "22px 26px", boxShadow: "var(--shadowSoft)", marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" } },
-    React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 24, lineHeight: 1.35, color: "var(--ink)" } }, "“", props.quote, "”"),
-    props.attribution ? React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginTop: 12 } }, props.attribution) : null);
+  return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 36px 26px", marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" } },
+    React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 60, lineHeight: 1, height: 30, color: "var(--primary)", userSelect: "none" } }, "“"),
+    React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 30, lineHeight: 1.4, color: "var(--ink)", letterSpacing: "-0.01em" } }, props.quote),
+    (props.cite || props.source || props.attribution) ? React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginTop: 22, flexWrap: "wrap" } },
+      props.cite ? React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 12 } },
+        React.createElement("span", { style: { width: 26, height: 2, borderRadius: 2, background: "var(--primary)" } }),
+        React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.12em" } }, props.cite)) : null,
+      (props.source || props.attribution) ? React.createElement("span", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)" } }, (props.cite ? "· " : "") + (props.source || props.attribution)) : null) : null);
 }
 
 function NumberedRows(props) {
@@ -2761,8 +2763,7 @@ function WhyDeeperSection(props) {
       /*#__PURE__*/E("strong", null, "Most of what it does today, it will do better tomorrow.")),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "AI is hiding in apps you use every day",
-      intro: "Most of the time, it's making a prediction: what you might tap, say, watch, search for, or need next.",
-      divider: true
+      intro: "Most of the time, it's making a prediction: what you might tap, say, watch, search for, or need next."
     },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }
@@ -2770,12 +2771,12 @@ function WhyDeeperSection(props) {
         EVERYDAY_AI_USES.map(function(item, i) {
           return /*#__PURE__*/React.createElement("div", {
             key: i,
-            style: { background: "var(--card)", borderRadius: 14, padding: "14px 12px", boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)", border: "1px solid rgba(231, 227, 242, 0.65)" }
+            style: { background: "var(--card)", borderRadius: 14, padding: "14px 12px", boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)", border: "1px solid rgba(231, 227, 242, 0.65)", display: "flex", flexDirection: "column" }
           },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, item.icon),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, item.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.45, marginBottom: 4 } }, item.prediction),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkSoft)" } }, item.examples));
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.45, marginBottom: 8 } }, item.prediction),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkSoft)", borderTop: "1px solid var(--rule)", paddingTop: 8, marginTop: "auto", lineHeight: 1.3, minHeight: 38 } }, item.examples));
         }))),
     /*#__PURE__*/E(SectionKicker, null, "AND IT’S EARLY"),
     /*#__PURE__*/E(BodyP, null,
@@ -2800,7 +2801,8 @@ function WhyDeeperSection(props) {
       ". Here\u2019s how it describes what AI makes possible:"),
     /*#__PURE__*/E(PullQuote, {
       quote: "An industrial revolution, an information revolution, and a renaissance\u2014all at once. This is the potential that AI presents.",
-      attribution: "Winning the Race: America\u2019s AI Action Plan, The White House, July 2025"
+      cite: "Winning the Race",
+      source: "The White House, July 2025"
     }),
     /*#__PURE__*/E(BodyP, null,
       "Almost everything in this course lives in the second one: how information moves through your work. ",

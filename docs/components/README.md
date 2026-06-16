@@ -63,7 +63,7 @@ The workhorse display box: optional kicker, headline, intro, free-form body on a
 ![ShowcaseBox](showcase-box.png)
 
 ### PullQuote
-The sourced-quotation card: serif quote on a white card with a purple left border, optional muted attribution line. For verbatim quotes from real documents or people (source punctuation kept as-is). Example: the White House AI Action Plan quote in Why Learn AI? (`whydeeper`).
+The sourced-quotation card: a large primary quotation mark over a serif quote on a faint-purple band, with a two-part attribution row — a short primary rule plus an uppercase `cite` label, then a muted `source`. For verbatim quotes from real documents or people (source punctuation kept as-is). Example: the White House AI Action Plan quote in Why Learn AI? (`whydeeper`). Recaptured 2026-06-16.
 
 ![PullQuote](pull-quote.png)
 

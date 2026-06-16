@@ -132,3 +132,16 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
   - 2017 Attention Is All You Need (patterns): "A team at Google published one paper that changed everything. AI could now read all your words at once instead of one at a time. The transformer was born."
   - 2018 to 2021 Scaling Up: "Researchers fed transformers more of the internet and more computing power. The bigger they got, the more capable they got, turning a research idea into something powerful."
   - 2022 ChatGPT Launches: "The public finally saw what large language models could do. AI started feeling like a tool anyone could use."
+
+## "Where AI sits in some jobs" — fields ShowcaseBox (2026-06-16)
+
+- **Origin:** the Why Learn AI? lesson (`WhyDeeperSection`), cut 2026-06-16 as redundant. The point ("whatever career you pick, AI will be in the middle of the work") is already stated in the paragraph directly above it, made personally in Does School Matter? (the "dream job at Google" walkthrough), and covered in full by How AI Absorbs Work (`WorkChangesSection`). Removing it tightened the motivation lesson.
+- **Possible destination:** How AI Absorbs Work, or any lesson wanting concrete cross-field proof that AI is already in the work.
+- **Verbatim headline/intro:** "Where AI sits in some jobs" / "A few real fields where it's already part of the work, not something coming someday."
+- **Six FIELD_CARDS (icon · title · body):**
+  - 🩺 Medicine: "Reading scans, drafting chart notes, and flagging risks a tired human might miss."
+  - ⚖️ Law: "Combing thousands of pages for the one clause that matters."
+  - 🎨 Design & Art: "Mockups, drafts, and variations in seconds for a human to choose between."
+  - 💻 Software: "Writing code, catching bugs, and explaining what a stranger's repo actually does."
+  - 📊 Business: "Developing strategy, entering data, and writing the email."
+  - 🔬 Science: "Proposing experiments and chewing through data faster than a lab could by hand."

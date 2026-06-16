@@ -95,12 +95,12 @@ The four-ideas anchor (Learn once: Training → Patterns | Answer, every word: P
 ![CoreLoopBox](core-loop-box.png)
 
 ### LoopLocator
-The compact "you are here" echo of CoreLoopBox: two pill-shaped phase capsules joined by an arrow — a lavender "Learn once" capsule (Training, Patterns) and a cream "Every word" capsule (Probability, Prediction) — each node a radio dot + label. Sits just under each concept's kicker in What Is AI? (`aihistory`). The `active` node fills its dot and bolds its label in the phase color (purple for Training/Patterns, amber for Probability/Prediction); the other three stay hollow with a grey label. Keeps the loop structure in view as the reader scrolls through the four sections. Captured 2026-06-16.
+The compact "you are here" echo of CoreLoopBox: two pill-shaped phase capsules joined by an arrow — a lavender "Learn once" capsule (Training, Patterns) and a cream "Every word" capsule (Probability, Prediction) — each node a radio dot + label. Heads each concept section in What Is AI? (`aihistory`) with no text kicker — a doubled (48px) top margin sets each concept apart. The `active` node fills its dot and bolds its label in the phase color (purple for Training/Patterns, amber for Probability/Prediction); the other three stay hollow with a grey label. Keeps the loop structure in view as the reader scrolls through the four sections. Captured 2026-06-16.
 
 ![LoopLocator](loop-locator.png)
 
 ### TrainingLoopBox
-The reads → guesses → corrects training loop with the "Repeat billions of times" pill. Rendered in What Is AI? (`aihistory`) and Training (`training`).
+The reads → guesses → corrects training loop. Rendered in What Is AI? (`aihistory`) and Training (`training`); the "repeat billions of times, that's training" takeaway now sits as a body line below the box rather than a pill inside it. Recaptured 2026-06-16.
 
 ![TrainingLoopBox](training-loop-box.png)
 

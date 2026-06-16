@@ -923,9 +923,31 @@ function PullQuote(props) {
       (props.source || props.attribution) ? React.createElement("span", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)" } }, (props.cite ? "· " : "") + (props.source || props.attribution)) : null) : null);
 }
 
+// Horizontal progression of eras/tools, connected left-to-right, with the final
+// node highlighted as the payoff. items: [{ icon, era, transformed }]; the last
+// item renders in --primary. Optional headline + intro caption above the track.
+function Timeline(props) {
+  var E = React.createElement;
+  var items = props.items || [];
+  var edge = (50 / Math.max(items.length, 1)) + "%";
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "24px 26px", marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" } },
+    props.headline ? E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: props.intro ? 6 : 18 } }, props.headline) : null,
+    props.intro ? E("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 20px 0" } }, props.intro) : null,
+    E("div", { style: { position: "relative", display: "grid", gridTemplateColumns: "repeat(" + items.length + ", 1fr)", gap: 8 } },
+      E("div", { style: { position: "absolute", top: 21, left: edge, right: edge, height: 2, background: "linear-gradient(90deg, var(--rule), var(--primary))" } }),
+      items.map(function(it, i) {
+        var last = i === items.length - 1;
+        return E("div", { key: i, style: { position: "relative", textAlign: "center" } },
+          E("div", { style: { width: 44, height: 44, borderRadius: 999, margin: "0 auto 10px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, background: last ? "var(--primary)" : "#fff", border: last ? "none" : "2px solid var(--rule)", boxShadow: last ? "0 6px 16px rgba(110, 81, 255, 0.4)" : "none" } }, it.icon),
+          E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: last ? "var(--primary)" : "var(--ink)", lineHeight: 1.2, marginBottom: 3 } }, it.era),
+          E("div", { style: { fontSize: BOX_TEXT, color: last ? "var(--primary)" : "var(--inkSoft)", fontWeight: last ? 700 : 400, lineHeight: 1.4 } }, it.transformed));
+      })));
+}
+
 function NumberedRows(props) {
   return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" } },
-    props.headline ? React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, props.headline) : null,
+    props.headline ? React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: props.intro ? 6 : 18 } }, props.headline) : null,
+    props.intro ? React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" } }, props.intro) : null,
     React.createElement("div", { style: { background: "#fff", borderRadius: 16, padding: "8px 28px", boxShadow: "var(--shadowElevated)" } },
       props.items.map(function(item, i) {
         var isLast = i === props.items.length - 1;
@@ -2779,22 +2801,31 @@ function WhyDeeperSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkSoft)", borderTop: "1px solid var(--rule)", paddingTop: 8, marginTop: "auto", lineHeight: 1.3, minHeight: 38 } }, item.examples));
         }))),
     /*#__PURE__*/E(SectionKicker, null, "AND IT’S EARLY"),
-    /*#__PURE__*/E(BodyP, null,
-      "Here\u2019s the part nobody says out loud: ",
-      /*#__PURE__*/E("strong", null, "AI is new for everyone"),
-      ". The adults figuring out AI started about ten minutes before you did. Nobody has a twenty-year head start. With something this big, that almost never happens, and you\u2019re showing up right as it lands."),
-    /*#__PURE__*/E(BodyP, null,
-      /*#__PURE__*/E("strong", null, "Being early isn\u2019t just fair, it\u2019s a head start."),
-      " The old path to doing real work, starting a company, shipping something people actually pay for, usually meant years of paying dues first. Learn the trade, climb the ladder, then maybe strike out on your own. AI collapses that runway. The leverage that used to take a decade to earn, you can reach for now."),
-    /*#__PURE__*/E(BodyP, null,
-      /*#__PURE__*/E("strong", null, "And there’s nothing to unlearn."),
-      " The people who got good at the old way now have to undo it: break habits, give up the workflow that made them fast, and trust a tool that works nothing like what they’re used to. That unlearning is slow, and it’s real work. You skip all of it, you’re learning the work with AI from the start, not retraining around it. The one thing that usually counts against you, having no experience to fall back on, is exactly what puts you ahead."),
+    /*#__PURE__*/E(NumberedRows, {
+      headline: "AI is new for everyone. This is YOUR advantage.",
+      intro: "You\u2019re positioned to thrive in the AI future, for three reasons.",
+      items: [
+        { title: "New for everyone", body: "The adults figuring out AI started about ten minutes before you did. Nobody has a twenty-year head start. With something this big, that almost never happens, and you\u2019re showing up right as it lands." },
+        { title: "Early is a head start", body: "The old path to real work, starting a company, shipping something people actually pay for, usually meant years of paying dues: learn the trade, climb the ladder, then maybe strike out on your own. AI collapses that runway. The leverage that used to take a decade to earn, you can reach for now." },
+        { title: "Nothing to unlearn", body: "The people who got good at the old way have to undo it: break habits, give up the workflow that made them fast, and trust a tool that works nothing like what they\u2019re used to. You skip all of that. You\u2019re learning the work with AI from the start, and having no experience to retrain around is exactly what puts you ahead." }
+      ]
+    }),
     /*#__PURE__*/E(SectionKicker, null, "THIS HAS HAPPENED BEFORE"),
     /*#__PURE__*/E(BodyP, null,
       "Before personal computers, becoming a designer meant years at a drafting table learning the craft by hand. Then desktop publishing showed up, and a teenager with a Mac could turn out professional work in an afternoon. The tool didn\u2019t replace skill, it shortened the distance between wanting to do the work and actually doing it. ",
       /*#__PURE__*/E("strong", null, "AI is that, for almost everything.")),
+    /*#__PURE__*/E(Timeline, {
+      headline: "This is the rule, not the exception.",
+      intro: "Each one shortened the distance between wanting to do the work and actually doing it.",
+      items: [
+        { icon: "\u2699\ufe0f", era: "Steam engine", transformed: "Physical work" },
+        { icon: "\ud83d\udca1", era: "Electricity", transformed: "The factory" },
+        { icon: "\ud83c\udf10", era: "Internet", transformed: "Information" },
+        { icon: "\ud83e\udd16", era: "AI", transformed: "Almost everything" }
+      ]
+    }),
     /*#__PURE__*/E(BodyP, null,
-      "This is the rule, not the exception. The steam engine did it to physical work, electricity did it to the factory, the internet did it to information. We\u2019re living through the next one, and the people who learn the new tool early tend to set the terms for everyone who shows up later."),
+      "We\u2019re living through the next one, and the people who learn the new tool early tend to set the terms for everyone who shows up later."),
     /*#__PURE__*/E(BodyP, null,
       "And this isn\u2019t just tech industry hype. In July 2025, the White House released an official national strategy document, ",
       /*#__PURE__*/E("em", null, "Winning the Race: America\u2019s AI Action Plan"),

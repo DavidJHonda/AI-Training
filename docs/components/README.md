@@ -82,6 +82,11 @@ The collapsible "Prefer to watch?" video box: a faint-purple band wrapping a whi
 
 ![WatchOverview](watch-overview.png)
 
+### Timeline
+The horizontal progression band: a faint-purple band with an optional headline + intro caption, then a row of connected nodes (icon circle, era, what it transformed) joined by a rule→primary connector, with the final node highlighted in primary as the payoff. For "this is the rule, not the exception" sequences that land on a present-day endpoint. Props: items (`{icon, era, transformed}[]`, last item highlighted), headline, intro, marginBottom. Example: the steam-engine → AI run in Why Learn AI? (`whydeeper`). Captured 2026-06-16.
+
+![Timeline](timeline.png)
+
 ## Shared diagrams
 
 ### CoreLoopBox

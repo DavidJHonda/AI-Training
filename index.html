@@ -997,6 +997,57 @@ function NumberedColumns(props) {
     }));
 }
 
+function ChoiceRadio(props) {
+  var dotBorder = "var(--rule)", dotFill = "transparent", txtColor = "#0e0a1f";
+  if (props.picked && props.correct) { dotBorder = "#1f9d5f"; dotFill = "#1f9d5f"; txtColor = "#1f9d5f"; }
+  else if (props.picked) { dotBorder = "#d4334a"; dotFill = "#d4334a"; txtColor = "#d4334a"; }
+  return React.createElement("button", { onClick: props.onClick, style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: txtColor, textAlign: "left" } },
+    React.createElement("span", { style: { width: 22, height: 22, borderRadius: 999, border: "2px solid " + dotBorder, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
+      React.createElement("span", { style: { width: 11, height: 11, borderRadius: 999, background: dotFill } })),
+    props.label);
+}
+
+// One-shot multiple-choice activity: numbered prompts, horizontal radio options,
+// reveal feedback for the picked option. Owns its answer state; calls onComplete()
+// once when every scenario is answered. See docs/superpowers/specs/2026-06-16-choicequiz-component-design.md
+function ChoiceQuiz(props) {
+  var _a = useState({}); var answers = _a[0]; var setAnswers = _a[1];
+  var scenarios = props.scenarios || [];
+  var allAnswered = scenarios.length > 0 && Object.keys(answers).length >= scenarios.length;
+  React.useEffect(function() { if (allAnswered && props.onComplete) props.onComplete(); }, [allAnswered]);
+  var pick = function(si, oi) {
+    setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); });
+  };
+  return React.createElement(InteractiveBox, { variant: "try", surface: props.surface || "mint", title: props.title },
+    props.instruction ? React.createElement(ActivityInstruction, null, props.instruction) : null,
+    React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      scenarios.map(function(sc, si) {
+        var viewing = answers[si];
+        var answered = viewing !== undefined;
+        var opts = sc.options || [];
+        var picked = answered ? opts[viewing] : null;
+        var vCorrect = answered && picked && picked.correct;
+        var accent = vCorrect ? "#1f9d5f" : "#d4334a";
+        var eyebrow = answered ? (picked.eyebrow || (picked.correct ? "Correct" : "Not quite")) : null;
+        return React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 18, marginTop: si === 0 ? 0 : 18, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start" } },
+            React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 30, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, sc.prompt)),
+          React.createElement("div", { style: { display: "flex", flexDirection: "row", gap: 28, marginLeft: 46, marginTop: 14, flexWrap: "wrap" } },
+            opts.map(function(opt, oi) {
+              return React.createElement(ChoiceRadio, { key: oi, label: opt.label, picked: viewing === oi, correct: opt.correct, onClick: function() { pick(si, oi); } });
+            })),
+          answered ? React.createElement("div", { style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
+            React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
+              React.createElement("div", null,
+                React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
+                  React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
+                  eyebrow),
+                React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, picked.headline)),
+              React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, picked.feedback))) : null);
+      })));
+}
+
 function QuizBlock(props) {
   var _ps = useState(props.picked != null ? props.picked : null);
   var internalPicked = _ps[0]; var setInternalPicked = _ps[1];
@@ -3492,25 +3543,24 @@ function KeyTermsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { if (props.completeAndNavigate) props.completeAndNavigate("testyourself"); }, label: "Next: Test Yourself" }));
 }
 function AIvsCodeSection(props) {
-  const [fitAnswers, setFitAnswers] = useState({});
+  const [quizDone, setQuizDone] = useState(false);
   var _rs = useLocalStorage("seeit-aivscode-twoSystemsRevealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
   var _aa = useLocalStorage("seeit-aivscode-twoSystemsAskCount", 0), askCount = _aa[0], setAskCount = _aa[1];
   var _sc = useState(false), seeComplete = _sc[0], setSeeComplete = _sc[1];
   const FIT_SCENARIOS = [
-    { situation: "You log in to your school’s portal and it shows your cumulative GPA, pulled from every class you’ve taken.", correct: "trad",
-      trad: { headline: "It’s a rule.", feedback: "Your GPA is exact math with one right answer: total the grade points, weight them by credits, and divide. The portal runs the same formula every time, so the number never drifts." },
-      ai: { headline: "You don’t want patterns here.", feedback: "AI could try, but it can slip on the multi-step math and may not give the same number twice. For an official figure like your GPA, you want the system that returns the exact same answer every time." } },
-    { situation: "Turn a friend’s rambling voice memo into a clean to-do list.", correct: "ai",
-      ai: { headline: "This needs patterns.", feedback: "Messy, unstructured talk with no fixed fields. AI has heard countless ways people ramble, so it pulls the to-dos right out: buy milk, text Jordan back, book the dentist. Making sense of mess is its superpower." },
-      trad: { headline: "No rule fits this.", feedback: "A rule-based program needs neat, labeled input. Nobody wrote a rule for “um, oh and grab milk, wait, two.” There is no fixed structure to follow." } },
-    { situation: "A website checks that your new password has at least 8 characters and a number before it lets you create your account.", correct: "trad",
-      trad: { headline: "It’s a rule.", feedback: "A precise, fixed check with a clear yes or no. Count the characters, look for a digit, done. No judgment or learning needed, so written rules nail it every time." },
-      ai: { headline: "Patterns are overkill here.", feedback: "You could ask AI, but the check never changes and must be exact on every signup. When the rule is this clear, traditional software is faster and always consistent." } },
-    { situation: "Your mom asks you to send her every photo you’ve taken of your dog, Tei-Tie. Your camera roll has thousands of pictures, none of them labeled.", correct: "ai",
-      ai: { headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tie in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes her across angles and lighting and pulls every shot. Just glance before you send: it can only find her where she actually appears, and a look-alike could sneak in." },
-      trad: { headline: "No rule fits this.", feedback: "Traditional software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tie in a pile of unlabeled images is exactly AI’s kind of job." } }
+    { prompt: "You log in to your school’s portal and it shows your cumulative GPA, pulled from every class you’ve taken.", options: [
+      { label: "Traditional software", correct: true, headline: "It’s a rule.", feedback: "Your GPA is exact math with one right answer: total the grade points, weight them by credits, and divide. The portal runs the same formula every time, so the number never drifts." },
+      { label: "AI", correct: false, headline: "You don’t want patterns here.", feedback: "AI could try, but it can slip on the multi-step math and may not give the same number twice. For an official figure like your GPA, you want the system that returns the exact same answer every time." } ] },
+    { prompt: "Turn a friend’s rambling voice memo into a clean to-do list.", options: [
+      { label: "Traditional software", correct: false, headline: "No rule fits this.", feedback: "A rule-based program needs neat, labeled input. Nobody wrote a rule for “um, oh and grab milk, wait, two.” There is no fixed structure to follow." },
+      { label: "AI", correct: true, headline: "This needs patterns.", feedback: "Messy, unstructured talk with no fixed fields. AI has heard countless ways people ramble, so it pulls the to-dos right out: buy milk, text Jordan back, book the dentist. Making sense of mess is its superpower." } ] },
+    { prompt: "A website checks that your new password has at least 8 characters and a number before it lets you create your account.", options: [
+      { label: "Traditional software", correct: true, headline: "It’s a rule.", feedback: "A precise, fixed check with a clear yes or no. Count the characters, look for a digit, done. No judgment or learning needed, so written rules nail it every time." },
+      { label: "AI", correct: false, headline: "Patterns are overkill here.", feedback: "You could ask AI, but the check never changes and must be exact on every signup. When the rule is this clear, traditional software is faster and always consistent." } ] },
+    { prompt: "Your mom asks you to send her every photo you’ve taken of your dog, Tei-Tie. Your camera roll has thousands of pictures, none of them labeled.", options: [
+      { label: "Traditional software", correct: false, headline: "No rule fits this.", feedback: "Traditional software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tie in a pile of unlabeled images is exactly AI’s kind of job." },
+      { label: "AI", correct: true, headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tie in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes her across angles and lighting and pulls every shot. Just glance before you send: it can only find her where she actually appears, and a look-alike could sneak in." } ] }
   ];
-  var fitAllAnswered = Object.keys(fitAnswers).length >= FIT_SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -3638,50 +3688,10 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That still doesn’t make AI the better tool. When a job is exact and never changes, plain rules win every time. The real skill is telling which job is which."
     ),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Which One Handles This?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(fitAnswers).length, total: FIT_SCENARIOS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each situation, pick which one would handle it better. Some need the rules and structure of traditional software. Others need the patterns and flexibility of AI."),
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        FIT_SCENARIOS.map(function(sc, si) {
-          var viewing = fitAnswers[si];
-          var answered = viewing !== undefined;
-          var renderOpt = function(optKey, optLabel) {
-            var isViewing = viewing === optKey;
-            var isCorrectOpt = sc.correct === optKey;
-            var dotBorder = "var(--rule)", dotFill = "transparent", txtColor = "#0e0a1f";
-            if (isViewing && isCorrectOpt) { dotBorder = "#1f9d5f"; dotFill = "#1f9d5f"; txtColor = "#1f9d5f"; }
-            else if (isViewing) { dotBorder = "#d4334a"; dotFill = "#d4334a"; txtColor = "#d4334a"; }
-            return /*#__PURE__*/React.createElement("button", { key: optKey, onClick: function() { setFitAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, optKey]])); }); }, style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: txtColor, textAlign: "left" } },
-              /*#__PURE__*/React.createElement("span", { style: { width: 22, height: 22, borderRadius: 999, border: "2px solid " + dotBorder, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
-                /*#__PURE__*/React.createElement("span", { style: { width: 11, height: 11, borderRadius: 999, background: dotFill } })),
-              optLabel);
-          };
-          var v = answered ? sc[viewing] : null;
-          var vCorrect = viewing === sc.correct;
-          var accent = vCorrect ? "#1f9d5f" : "#d4334a";
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 18, marginTop: si === 0 ? 0 : 18, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 30, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, sc.situation)),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "row", gap: 28, marginLeft: 46, marginTop: 14, flexWrap: "wrap" } },
-              renderOpt("trad", "Traditional software"),
-              renderOpt("ai", "AI")),
-            answered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
-                /*#__PURE__*/React.createElement("div", null,
-                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
-                    /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
-                    vCorrect ? "Correct" : "Not quite"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, v.headline)),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, v.feedback))) : null);
-        }))),
-    fitAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "It works with what’s there; it doesn’t invent." }, "AI makes sense of your mess and finds the needle in it, but only from what’s actually there. It won’t add a to-do you never mentioned, or hand you a photo Tei-Tie isn’t in. When something is missing, a good answer leaves it out, and a careless one makes it up.") : null,
+    /*#__PURE__*/React.createElement(ChoiceQuiz, { title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of traditional software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS, onComplete: function() { setQuizDone(true); } }),
+    quizDone ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "It works with what’s there; it doesn’t invent." }, "AI makes sense of your mess and finds the needle in it, but only from what’s actually there. It won’t add a to-do you never mentioned, or hand you a photo Tei-Tie isn’t in. When something is missing, a good answer leaves it out, and a careless one makes it up.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: fitAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Harder to Control" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: quizDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Harder to Control" })
   );
 }
 function TypingAICard(props) {

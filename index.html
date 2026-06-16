@@ -2760,6 +2760,28 @@ function WhyDeeperSection(props) {
     { icon: "\ud83d\uddbc\ufe0f", label: "Photo search", prediction: "Predicts what is inside your pictures.", examples: "Search \u201cbeach\u201d or \u201cdog\u201d" },
     { icon: "\ud83d\udde3\ufe0f", label: "Voice assistants", prediction: "Turns your speech into words.", examples: "Siri, Alexa, Hey Google" }
   ];
+  const [storeAnswers, setStoreAnswers] = useState({});
+  var STORE_TASKS = [
+    { text: "Writing descriptions for all 40 jerseys in your catalog.", answer: "ai",
+      aiFeedback: "Forty product descriptions used to eat a weekend. AI drafts them all in a couple of minutes; you skim and fix the few that matter.",
+      youFeedback: "This is AI at its best: lots of similar writing, fast. Hand it the catalog and edit the output instead of starting from a blank page forty times." },
+    { text: "Designing a logo and a store banner before you\u2019ve hired anyone.", answer: "ai",
+      aiFeedback: "A designer and two weeks, or twenty concepts in a minute to choose and refine from. The bar to look professional just dropped to the floor.",
+      youFeedback: "AI will generate twenty logo and banner options on the spot. Pick the one closest to right and nudge it from there." },
+    { text: "Deciding what makes your store worth buying from instead of the ten others selling the same jerseys.", answer: "you",
+      aiFeedback: "AI can list ideas all day, but it can\u2019t decide what your store is. That judgment, your taste, is exactly the part no tool can hand you.",
+      youFeedback: "AI can brainstorm angles, but it has no taste and no stake. What you stand for, the reason someone picks you over ten identical stores, is the human call." },
+    { text: "Reading three months of sales data to find which jerseys actually sell.", answer: "ai",
+      aiFeedback: "Paste the spreadsheet and ask what\u2019s selling and what\u2019s stuck. You get the trends in minutes, no finance degree required.",
+      youFeedback: "This one\u2019s a shortcut: AI reads the numbers and summarizes the patterns in seconds. You just decide what to do about them." },
+    { text: "Replying to 50 \u201cwhere\u2019s my order?\u201d messages overnight.", answer: "ai",
+      aiFeedback: "Repetitive, predictable support is exactly what AI handles well. Draft the answer once, let it reply to the rest, and step in for the strange ones.",
+      youFeedback: "Fifty near-identical replies is a job AI can carry. Save yourself for the weird complaints that actually need a person." },
+    { text: "Earning the trust of your first hundred customers.", answer: "you",
+      aiFeedback: "AI can speed up the messages, but trust is earned by what you actually do: ship well, fix problems, stand behind it. That part stays yours.",
+      youFeedback: "Trust comes from real orders shipped, real problems fixed, and your name behind it. AI can write the apology email, but it can\u2019t be the reason people believe you." }
+  ];
+  var storeAllAnswered = Object.keys(storeAnswers).length >= STORE_TASKS.length;
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/E(BodyP, null,
@@ -2797,7 +2819,7 @@ function WhyDeeperSection(props) {
       headline: "AI is new for everyone. This is YOUR advantage.",
       intro: "You\u2019re positioned to thrive in the AI future, for three reasons.",
       items: [
-        { title: "New for everyone", body: "The adults figuring out AI started about ten minutes before you did. Nobody has a twenty-year head start. With something this big, that almost never happens, and you\u2019re showing up right as it lands." },
+        { title: "No one\u2019s ahead of you", body: "The adults figuring out AI started about ten minutes before you did. Nobody has a twenty-year head start. With something this big, that almost never happens, and you\u2019re showing up right as it lands." },
         { title: "Early is a head start", body: "The old path to real work, starting a company, shipping something people actually pay for, usually meant years of paying dues: learn the trade, climb the ladder, then maybe strike out on your own. AI collapses that runway. The leverage that used to take a decade to earn, you can reach for now." },
         { title: "Nothing to unlearn", body: "The people who got good at the old way have to undo it: break habits, give up the workflow that made them fast, and trust a tool that works nothing like what they\u2019re used to. You skip all of that. You\u2019re learning the work with AI from the start." }
       ]
@@ -2832,12 +2854,47 @@ function WhyDeeperSection(props) {
       /*#__PURE__*/E("strong", null, "is already here.")),
     /*#__PURE__*/E(BodyP, null,
       "AI won\u2019t stay in one lane. Whatever career you pick, AI will be sitting in the middle of the work. The people who learn to push it to its full potential will run circles around everyone still scratching the surface."),
+    /*#__PURE__*/E(BodyP, null,
+      "Remember that distance between wanting to do the work and actually doing it? AI is what shortens it now. Say you launch an online store selling hockey jerseys: where does AI close the gap for you, and where is it still on you?"),
+    /*#__PURE__*/E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "You launch a hockey-jersey store",
+      action: /*#__PURE__*/E(ActivityCounter, { count: Object.keys(storeAnswers).length, total: STORE_TASKS.length })
+    },
+      /*#__PURE__*/E(ActivityInstruction, null, "For each job, decide: can AI shortcut it, or is it still on you? We\u2019ll explain as you go."),
+      /*#__PURE__*/E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        STORE_TASKS.map(function(item, i) {
+          var answered = storeAnswers[i] !== undefined;
+          var picked = storeAnswers[i];
+          var correct = answered && picked === item.answer;
+          function PillButton(value, label) {
+            return /*#__PURE__*/E(FeedbackPill, {
+              key: value,
+              answered: answered,
+              isCorrect: value === item.answer,
+              isPicked: picked === value,
+              label: label,
+              onClick: function() { setStoreAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
+            });
+          }
+          return /*#__PURE__*/E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: item.text,
+            answered: answered,
+            correct: correct,
+            feedback: answered ? (picked === "ai" ? item.aiFeedback : item.youFeedback) : null
+          },
+            PillButton("ai", "AI can shortcut it"),
+            PillButton("you", "Still on you"));
+        }))),
     /*#__PURE__*/E(SectionKicker, null, "AND IT CUTS BOTH WAYS"),
     /*#__PURE__*/E(BodyP, null,
       "There\u2019s a flip side. The same tool that hands some people an edge quietly works against anyone who doesn\u2019t understand it. AI sounds sure when it\u2019s wrong, slips in answers you never asked for, and shapes what you read without ever saying so. If you can\u2019t tell when it\u2019s off, the tool is using you. Learning how it works is how you stay in charge."),
     /*#__PURE__*/E(KeyInsight, { lead: "Offense and defense, one skill." }, "Understanding how AI works is what turns it into your edge, and what keeps it from quietly using you. That’s why you learn it now, not later."),
     /*#__PURE__*/E(LessonRule, null),
-    /*#__PURE__*/E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: What Is AI?" }));
+    /*#__PURE__*/E(NextLessonGate, { ready: storeAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: What Is AI?" }));
 }
 function DoesAIThinkSection(props) {
   var E = React.createElement;

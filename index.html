@@ -8929,12 +8929,20 @@ function Lab01CourseNotebook() {
       E("a", { key: "pk", href: "packets/start-smarter.pdf", download: "Start Smarter.pdf", style: { color: "var(--labAccent)", fontWeight: 700 } }, "Download the Start Smarter packet (PDF)"),
       " and save it to your computer. That one file is the whole first part of the course."
     ] },
-    { title: "Create the course notebook", body: "At notebooklm.google.com, make a new notebook and name it after the course: “Be Smarter Than the Tool”. This notebook grows with you. Every part of the course will land in it." },
-    { title: "Add the packet as a source", body: "Upload the PDF you just saved. One part of the course, one source. That’s the filing system." },
-    { title: "Generate a blind quiz", body: "Use the prompt from this lesson: “Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me.”" },
-    { title: "Take it cold", body: "Close the lesson tabs first. Answer all ten, then let it grade you. Recognition isn’t recall; cold is the point." },
+    { title: "Create the course notebook", body: [
+      "At notebooklm.google.com, make a new notebook and name it after the course: ",
+      E("strong", { key: "nm" }, "Be Smarter Than the Tool"),
+      ". This notebook grows with you. Every part of the course will land in it."
+    ] },
+    { title: "Upload the packet", body: [
+      "Click ",
+      E("strong", { key: "btn" }, "+ Add sources"),
+      " and upload the Start Smarter PDF you just downloaded."
+    ] },
+    { title: "Generate a quiz to check your knowledge", body: "Use the prompt from this lesson: “Generate a 10-question quiz from this source only. Don’t show the answers yet. Wait for mine, then grade me.”" },
+    { title: "Take the quiz", body: "Answer all ten, then let it grade you." },
     { title: "Click one citation", body: "Pick one graded answer and click its numbered citation. It lands on the exact passage of the course that taught it. Make that check a habit." },
-    { title: "Transfer it", body: "This week, make a second notebook for whichever class has your next test, and feed it your real materials: notes, slides, a YouTube explainer. The course showed you the machine; your grades are where it pays." }
+    { title: "Transfer it", body: "This week, make a second notebook for whichever class has your next test, and feed it your real materials: notes, slides, anything your teacher shared. The course showed you the machine; your grades are where it pays." }
   ];
   var checkedCount = STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -8946,8 +8954,6 @@ function Lab01CourseNotebook() {
     action: E(ActivityCounter, { count: checkedCount, total: STEPS.length })
   },
     E("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
-      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } },
-        "You just learned what a source-grounded tutor is. Now aim it at this course: study Start Smarter with the tool Start Smarter taught you."),
       E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         STEPS.map(function(st, i) {
           var done = !!labChecked[i];
@@ -8969,36 +8975,6 @@ function Lab01CourseNotebook() {
 }
 function StudyingWithAISection(props) {
   var E = React.createElement;
-  const [picks, setPicks] = useState({});
-
-  const SCENARIOS = [{
-    situation: "Your class notes and slides are loaded into NotebookLM, and the test is tomorrow morning. Pick the better move.",
-    options: [
-      { label: "Generate a study guide and read it twice before bed.", correct: false, feedback: "Reading a guide feels productive, but it\u2019s recognition, not recall. You\u2019ll recognize the words tomorrow and still freeze on the test." },
-      { label: "Generate a blind quiz from your sources, take it closed-book, then have it grade you.", correct: true, feedback: "Right. A blind quiz is retrieval: you find out what you actually don\u2019t know while there\u2019s still time to fix it." },
-      { label: "Make flashcards and call it a night.", correct: false, feedback: "Flashcards are a fine tool, but making them isn\u2019t studying. Quizzing yourself with them is the part that sticks, so take a real quiz tonight." }
-    ]
-  }, {
-    situation: "NotebookLM hands you a perfect-sounding fact to use in your history essay. Pick the better move.",
-    options: [
-      { label: "Paste it straight into your essay. It\u2019s grounded in your sources, so it\u2019s safe.", correct: false, feedback: "Grounded doesn\u2019t mean flawless. It can still misread a sentence or stitch two unrelated facts together. Trust, then check." },
-      { label: "Click the citation bubble and check the spot in your notes it came from.", correct: true, feedback: "Right. The citation shows exactly where it pulled the fact. Five seconds to confirm it wasn\u2019t taken out of context before it lands in your paper." },
-      { label: "Ask NotebookLM whether it\u2019s sure.", correct: false, feedback: "It\u2019ll almost always say yes. Asking the model to rate its own confidence proves nothing. Check the source yourself." }
-    ]
-  }, {
-    situation: "Studying from your notes in NotebookLM, you hit a concept your teacher never actually covered. Pick the better move.",
-    options: [
-      { label: "Ask NotebookLM to explain it anyway.", correct: false, feedback: "It can only work from what you gave it. With nothing in your sources on this, it comes up empty or starts guessing. This is exactly its blind spot." },
-      { label: "Switch to a general AI to learn it, then add what you learn to your notes.", correct: true, feedback: "Right. Source-grounded AI can\u2019t teach what isn\u2019t in the binder. A general tutor is built to explain something new, so use it for the gap." },
-      { label: "Skip it. If it\u2019s not in your notes, it won\u2019t be on the test.", correct: false, feedback: "Risky bet. Gaps in your notes are exactly where you lose points. Learn it with a general AI instead of gambling that it won\u2019t show up." }
-    ]
-  }];
-
-
-
-  const pickOption = function(sIdx, oIdx) {
-    setPicks(function(prev) { var next = Object.assign({}, prev); next[sIdx] = oIdx; return next; });
-  };
 
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "studying" }),
@@ -9073,57 +9049,16 @@ function StudyingWithAISection(props) {
       "Here’s how to use NotebookLM to its full potential."),
     E(NumberedRows, { marginBottom: 24, items: [
       { icon: "🗂️", title: "One notebook per subject", body: "Keep AP History and Chemistry in separate notebooks. Mixing sources confuses the model and gives you muddled study guides. Name each one clearly and treat it like its own binder." },
-      { icon: "📚", title: "Feed it a few angles, not one", body: "For a big test, give it three: your class notes (so it keeps your teacher’s wording), the teacher’s slides, and a solid YouTube explainer like Crash Course or Khan Academy. It reads the video’s transcript and blends it with your notes." },
+      { icon: "📚", title: "Feed it a few angles, not one", body: "For a big test, give it everything your teacher handed you: your class notes (so it keeps your teacher’s wording), the slides, and any video or link the teacher shared. NotebookLM reads a video’s transcript and blends it with your notes, so everything it gives back stays true to your class." },
       { icon: "❓", title: "Quiz yourself blind", body: "Re-reading notes feels productive, but that’s recognition, not recall. Generate a quiz, close everything, and take it cold.", prompt: "Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me." },
       { icon: "🗣️", title: "Teach it back out loud", body: "Have it build a slide deck or audio overview, then explain each part to an empty room, or pause the podcast and say it back in your own words. Wherever you stumble is exactly what you don’t know yet." },
-      { icon: "🔎", title: "Click the citations", body: "Even grounded in your sources, it can misread a sentence. Before you trust a fact, click the numbered bubbles to see exactly where in your notes it came from." }
+      { icon: "🔎", title: "Spot-check the citations", body: "NotebookLM stays grounded in your sources, so it’s usually right, but it can still misread a sentence. You don’t need to check every line. When a fact surprises you, click its numbered bubble to jump to the exact spot in your notes." }
     ] }),
-    E(SectionKicker, null, "Pick the better move"),
-    E(BodyP, null,
-      "Three real moments studying with NotebookLM. Each one is a fork, and you pick the move that actually makes you learn."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Pick the Better Move",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(picks).length, total: SCENARIOS.length })
-    },
-      E(ActivityInstruction, null, "Pick the better move in each one. We’ll explain why as you go."),
-      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SCENARIOS.map(function(sc, sIdx) {
-          var picked = picks[sIdx];
-          var answered = picked !== undefined;
-          var pickedOpt = answered ? sc.options[picked] : null;
-          return E(ScenarioRow, {
-            key: sIdx,
-            index: sIdx + 1,
-            prompt: sc.situation,
-            answered: answered,
-            correct: answered && pickedOpt.correct,
-            feedback: answered ? pickedOpt.feedback : null
-          },
-            sc.options.map(function(opt, oIdx) {
-              var isPicked = picked === oIdx;
-              var st = !answered ? "default" : (isPicked && opt.correct ? "correct" : (isPicked && !opt.correct ? "wrong" : "default"));
-              var bg = st === "correct" ? "#e7f6ee" : (st === "wrong" ? "#fbe9ec" : "#fff");
-              var bd = st === "correct" ? "1.5px solid #1f9d5f" : (st === "wrong" ? "1.5px solid #f0b8c1" : "1.5px solid var(--rule)");
-              var tc = st === "wrong" ? "#6e6986" : "#0e0a1f";
-              return E("button", {
-                key: oIdx,
-                onClick: function() { pickOption(sIdx, oIdx); },
-                style: { display: "flex", alignItems: "flex-start", gap: 8, width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 12, background: bg, border: bd, cursor: "pointer", transition: "all 0.15s", fontFamily: "var(--sans)", fontStyle: "normal", fontSize: 14, fontWeight: 600, color: tc, lineHeight: 1.5 }
-              },
-                st === "correct" ? E("span", { style: { fontFamily: "var(--sans)", color: "#1f9d5f", fontWeight: 800, fontSize: 14, flexShrink: 0 } }, "\u2713") : null,
-                st === "wrong" ? E("span", { style: { fontFamily: "var(--sans)", color: "#d4334a", fontWeight: 800, fontSize: 14, flexShrink: 0 } }, "\u2715") : null,
-                E("span", null, opt.label));
-            }));
-        })
-      )
-    ),
     E(KeyInsight, { lead: "Pick the tool, then make it test you." },
       "Point NotebookLM at your own notes and slides, or a general AI at a topic you don’t have materials for. Either way, the win comes from producing the answers yourself, not watching it summarize. That’s the difference between feeling ready and being ready."),
     E(Lab01CourseNotebook, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(picks).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); }, label: "Next: Foundations" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); }, label: "Next: Foundations" })
   );
 }
 const EVAL_CRITERIA = [{

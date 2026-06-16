@@ -145,3 +145,22 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
   - 💻 Software: "Writing code, catching bugs, and explaining what a stranger's repo actually does."
   - 📊 Business: "Developing strategy, entering data, and writing the email."
   - 🔬 Science: "Proposing experiments and chewing through data faster than a lab could by hand."
+
+## "Pick the Better Move" TRY IT — Study with AI (2026-06-16)
+
+- **Origin:** the Study with AI lesson (`StudyingWithAISection`, studying), cut 2026-06-16. Once the lesson refocused on NotebookLM and the hands-on Lab ("Build Your Course Notebook") became the payoff, this 3-scenario TRY IT was redundant: each point is already stated in the Best practices list and the comparison box, and two are done for real in the Lab. The Next gate (formerly keyed to this activity) is now `ready: true`, since the Lab is take-home.
+- **Possible destination:** any future lesson wanting a pitfall-recognition ("here's the tempting wrong move") check on retrieval practice, citation-checking, or tool choice. Rendered as a mint `InteractiveBox` over `ScenarioRow`/`QuizBlock`, gated on `picks ≥ scenarios`.
+- **Kicker / intro:** "Pick the better move" / "Three real moments studying with NotebookLM. Each one is a fork, and you pick the move that actually makes you learn." Instruction: "Pick the better move in each one. We'll explain why as you go."
+- **Three verbatim scenarios (✓ = correct):**
+  1. *"Your class notes and slides are loaded into NotebookLM, and the test is tomorrow morning. Pick the better move."*
+     - Generate a study guide and read it twice before bed. — "Reading a guide feels productive, but it's recognition, not recall. You'll recognize the words tomorrow and still freeze on the test."
+     - ✓ Generate a blind quiz from your sources, take it closed-book, then have it grade you. — "Right. A blind quiz is retrieval: you find out what you actually don't know while there's still time to fix it."
+     - Make flashcards and call it a night. — "Flashcards are a fine tool, but making them isn't studying. Quizzing yourself with them is the part that sticks, so take a real quiz tonight."
+  2. *"NotebookLM hands you a perfect-sounding fact to use in your history essay. Pick the better move."*
+     - Paste it straight into your essay. It's grounded in your sources, so it's safe. — "Grounded doesn't mean flawless. It can still misread a sentence or stitch two unrelated facts together. Trust, then check."
+     - ✓ Click the citation bubble and check the spot in your notes it came from. — "Right. The citation shows exactly where it pulled the fact. Five seconds to confirm it wasn't taken out of context before it lands in your paper."
+     - Ask NotebookLM whether it's sure. — "It'll almost always say yes. Asking the model to rate its own confidence proves nothing. Check the source yourself."
+  3. *"Studying from your notes in NotebookLM, you hit a concept your teacher never actually covered. Pick the better move."*
+     - Ask NotebookLM to explain it anyway. — "It can only work from what you gave it. With nothing in your sources on this, it comes up empty or starts guessing. This is exactly its blind spot."
+     - ✓ Switch to a general AI to learn it, then add what you learn to your notes. — "Right. Source-grounded AI can't teach what isn't in the binder. A general tutor is built to explain something new, so use it for the gap."
+     - Skip it. If it's not in your notes, it won't be on the test. — "Risky bet. Gaps in your notes are exactly where you lose points. Learn it with a general AI instead of gambling that it won't show up."

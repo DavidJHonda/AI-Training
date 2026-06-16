@@ -706,8 +706,9 @@ function OpenerSection(props) {
   );
 }
 
-// Reusable collapsible "Prefer to watch?" video box.
-// Props: src (video path, required), title (text after "Prefer to watch?"),
+// Reusable collapsible "Prefer to watch?" / "Prefer to listen?" media box.
+// Props: src (media path, required), audio (true renders an audio player with the
+// "Listen" / "Prefer to listen?" labels; default is video), title (text after the heading),
 // duration (e.g. "2 min"), caption (defaults to the NotebookLM line; pass "" to hide).
 function WatchOverview(props) {
   var E = React.createElement;
@@ -724,16 +725,19 @@ function WatchOverview(props) {
       E("div", { style: { flex: 1, minWidth: 0 } },
         E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 2 } },
           E("span", { style: { color: "var(--primary)", fontSize: 11 } }, "▸"),
-          E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, "Watch"),
+          E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, props.audio ? "Listen" : "Watch"),
           props.duration ? E("span", { style: { color: "var(--inkMuted)", fontSize: 13 } }, props.duration) : null),
         E("div", { style: { fontSize: 17, color: "var(--ink)", lineHeight: 1.35 } },
-          E("strong", { style: { fontWeight: 800 } }, "Prefer to watch?"),
+          E("strong", { style: { fontWeight: 800 } }, props.audio ? "Prefer to listen?" : "Prefer to watch?"),
           props.title ? " " + props.title : "")),
       E("svg", { width: 16, height: 16, viewBox: "0 0 16 16", "aria-hidden": "true", style: { flexShrink: 0, transform: open ? "rotate(180deg)" : "none", transition: "transform 150ms ease" } },
         E("path", { d: "M4 6 L8 10 L12 6", fill: "none", stroke: "var(--inkMuted)", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }))),
     open ? E("div", { style: { marginTop: 12 } },
-      E("video", { controls: true, preload: "metadata", style: { width: "100%", borderRadius: 12, display: "block", background: "#000" } },
-        E("source", { src: props.src, type: "video/mp4" })),
+      props.audio
+        ? E("audio", { controls: true, preload: "metadata", style: { width: "100%", display: "block" } },
+            E("source", { src: props.src, type: "audio/mp4" }))
+        : E("video", { controls: true, preload: "metadata", style: { width: "100%", borderRadius: 12, display: "block", background: "#000" } },
+            E("source", { src: props.src, type: "video/mp4" })),
       caption ? E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, paddingLeft: 4 } }, caption) : null) : null);
 }
 function ActivityButton(props) {
@@ -3066,6 +3070,8 @@ function DoesAIThinkSection(props) {
     }),
     E(BodyP, null,
       "That\u2019s AI. It arranges symbols brilliantly and understands none of them. You get a perfect-looking answer with no real understanding behind it."),
+
+    E(WatchOverview, { audio: true, src: "videos/Chinese_room.m4a", title: "The Chinese Room story", duration: "1 min" }),
 
     E(CompareRows, { headline: "When you think vs. what AI does", columns: COLUMNS }),
 

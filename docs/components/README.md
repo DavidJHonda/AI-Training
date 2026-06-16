@@ -78,7 +78,7 @@ The numbered-card grid, for an ordered sequence shown side by side: white cards 
 ![NumberedColumns](numbered-columns.png)
 
 ### WatchOverview
-The collapsible "Prefer to watch?" video box: a faint-purple band wrapping a white card with a purple play icon, a WATCH eyebrow with duration, and the video title. Collapsed by default (shown here); expands to a native `<video controls preload="metadata">` plus a caption that defaults to the NotebookLM line. Reusable via props (`src` required; `title`, `duration`, `caption` optional). Example: How We Got Here (`howwegothere`). Captured 2026-06-15.
+The collapsible "Prefer to watch?" / "Prefer to listen?" media box: a faint-purple band wrapping a white card with a purple play icon, a WATCH (or LISTEN) eyebrow with duration, and the title. Collapsed by default (video variant shown here); expands to a native `<video controls preload="metadata">` — or, with `audio: true`, a native `<audio controls>` player — plus a caption that defaults to the NotebookLM line. Reusable via props (`src` required; `audio`, `title`, `duration`, `caption` optional). Examples: How We Got Here (`howwegothere`, video); Does AI Think? (`doesaithink`, the Chinese Room NotebookLM podcast, `audio: true`). Captured 2026-06-15.
 
 ![WatchOverview](watch-overview.png)
 

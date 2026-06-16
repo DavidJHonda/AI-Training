@@ -3493,7 +3493,6 @@ function KeyTermsSection(props) {
 }
 function AIvsCodeSection(props) {
   const [fitAnswers, setFitAnswers] = useState({});
-  const [fuelAnswers, setFuelAnswers] = useState({});
   var _rs = useLocalStorage("seeit-aivscode-twoSystemsRevealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
   var _aa = useLocalStorage("seeit-aivscode-twoSystemsAskCount", 0), askCount = _aa[0], setAskCount = _aa[1];
   var _sc = useState(false), seeComplete = _sc[0], setSeeComplete = _sc[1];
@@ -3502,17 +3501,16 @@ function AIvsCodeSection(props) {
       trad: { headline: "It’s a rule.", feedback: "Exact math with one right answer, and you want the same result every time. The program adds it up the same way on every check. Same input, same output, no learning needed." },
       ai: { headline: "Overkill, and less reliable.", feedback: "AI could compute it, but it might phrase or round it differently from one try to the next. For exact money, you want the answer that never drifts." } },
     { situation: "Turn a friend’s rambling voice memo into a clean to-do list.", correct: "ai",
-      ai: { headline: "This needs patterns.", feedback: "Messy, unstructured talk with no fixed fields. AI has heard countless ways people ramble, so it can pull the tasks out. Making sense of mess is its superpower." },
+      ai: { headline: "This needs patterns.", feedback: "Messy, unstructured talk with no fixed fields. AI has heard countless ways people ramble, so it pulls the to-dos right out: buy milk, text Jordan back, book the dentist. Making sense of mess is its superpower." },
       trad: { headline: "No rule fits this.", feedback: "A rule-based program needs neat, labeled input. Nobody wrote a rule for “um, oh and grab milk, wait, two.” There is no fixed structure to follow." } },
     { situation: "Check that a password has at least 8 characters and a number.", correct: "trad",
       trad: { headline: "It’s a rule.", feedback: "A precise, fixed check with a clear yes or no. Count the characters, look for a digit, done. No judgment or learning needed, so written rules nail it." },
       ai: { headline: "Patterns are overkill here.", feedback: "You could ask AI, but the rule never changes and must be exact every time. When the rule is this clear, traditional software is faster and always consistent." } },
-    { situation: "Flag a scam text you’ve never seen before.", correct: "ai",
-      ai: { headline: "This needs patterns.", feedback: "It is brand new, so no rule exists for this exact message. AI handles the unfamiliar by matching patterns from the many scams it has seen." },
-      trad: { headline: "A rule can’t keep up.", feedback: "A written rule only catches scams someone already described. A brand-new one walks right past it. Spotting the unfamiliar is AI’s strength." } }
+    { situation: "Snap a photo of a handwritten grocery list.", correct: "ai",
+      ai: { headline: "This needs patterns.", feedback: "AI reads the handwriting and the shorthand into a clean checklist: milk x2, a dozen eggs, sourdough, six bananas. But it only pulls what’s actually there. It won’t invent a store name or prices the photo never showed." },
+      trad: { headline: "No rule fits this.", feedback: "A rule-based program needs typed, labeled fields. Loose handwriting and “x2” shorthand give it no fixed structure to follow." } }
   ];
   var fitAllAnswered = Object.keys(fitAnswers).length >= FIT_SCENARIOS.length;
-  var fuelAllAnswered = Object.keys(fuelAnswers).length >= 3;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
@@ -3541,49 +3539,6 @@ function AIvsCodeSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That difference shows up everywhere: how each one solves a problem, how it reaches an answer, how it fails, and whether you can even trace why."
-    ),
-    /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 32 },
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "💻", eyebrow: "Traditional software", title: "Built from rules a person wrote" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8", marginBottom: 3 } }, "When it’s wrong"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } }, "A bug on one line. You can find it and fix it.")),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8", marginBottom: 3 } }, "Ask it twice"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } }, "The same answer every time.")),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8", marginBottom: 3 } }, "Why did it do that?"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } }, "Open the code and read it.")),
-          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 2, paddingTop: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 15 } }, "⚡"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8" } }, "Superpowers")),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              /*#__PURE__*/React.createElement("strong", null, "Sorry, none."), " It only does what it was written to do."))
-        )
-      ),
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "🤖", eyebrow: "AI", title: "Built from patterns in data" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6", marginBottom: 3 } }, "When it’s wrong"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } }, "Confidently wrong, with no line to point to.")),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6", marginBottom: 3 } }, "Ask it twice"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } }, "The answer can change.")),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6", marginBottom: 3 } }, "Why did it do that?"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } }, "Even the people who built it can’t fully say.")),
-          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 2, paddingTop: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 15 } }, "⚡"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6" } }, "Superpowers")),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-                /*#__PURE__*/React.createElement("strong", null, "Handles the unfamiliar."), " It takes on problems no one wrote a rule for."),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-                /*#__PURE__*/React.createElement("strong", null, "Makes sense of mess."), " Plain language, a photo, a half-formed question, with no neat fields required.")))
-        )
-      )
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like in action."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -3619,6 +3574,61 @@ function AIvsCodeSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "Rules are perfect when the situation is exact. They break the moment reality adds a variable no one wrote down."
+    ),
+    /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 28 },
+      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "💻", eyebrow: "Traditional software", title: "Built from rules a person wrote" },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8", marginBottom: 6 } }, "What it needs"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)", marginBottom: 10 } }, "Clean, structured input: rows, fields, and labels, all defined ahead of time."),
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: 12, fontFamily: "var(--mono)", fontSize: 13, lineHeight: 1.6, color: "var(--ink)", whiteSpace: "pre" } }, "Name    | Score | Grade\n--------|-------|------\nAlex    | 82    | B\nJordan  | 91    | A\nSam     | 78    | C+")),
+          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", paddingTop: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8", marginBottom: 8 } }, "So how it acts"),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+              [["Ask it twice", "the same answer every time."], ["When it’s wrong", "a bug on one line you can find and fix."], ["Why it did that", "open the code and read it."]].map(function(r, i) {
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.45, color: "var(--ink)" } },
+                  /*#__PURE__*/React.createElement("strong", null, r[0]), ": " + r[1]);
+              }))),
+          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", paddingTop: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 15 } }, "⚡"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#2f4cb8" } }, "Superpower")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.45, color: "var(--ink)" } },
+              /*#__PURE__*/React.createElement("strong", null, "Sorry, none."), " It only does what it was written to do."))
+        )
+      ),
+      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "🤖", eyebrow: "AI", title: "Built from patterns in data" },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6", marginBottom: 6 } }, "What it needs"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)", marginBottom: 10 } }, "Messy human input: conversations, photos, audio, and half-formed questions, with no neat fields required."),
+            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 } },
+              [["💬", "Text"], ["🖼️", "Images"], ["🎤", "Audio"], ["🎥", "Video"], ["📄", "Documents"]].map(function(item, i) {
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 8px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 4 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, item[0]),
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5a3aa6" } }, item[1]));
+              }))),
+          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", paddingTop: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6", marginBottom: 8 } }, "So how it acts"),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+              [["Ask it twice", "the answer can change."], ["When it’s wrong", "confidently wrong, with no line to point to."], ["Why it did that", "even the people who built it can’t fully say."]].map(function(r, i) {
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.45, color: "var(--ink)" } },
+                  /*#__PURE__*/React.createElement("strong", null, r[0]), ": " + r[1]);
+              }))),
+          /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", paddingTop: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 15 } }, "⚡"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5a3aa6" } }, "Superpower")),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.45, color: "var(--ink)" } },
+                /*#__PURE__*/React.createElement("strong", null, "Handles the unfamiliar."), " It takes on problems no one wrote a rule for."),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.45, color: "var(--ink)" } },
+                /*#__PURE__*/React.createElement("strong", null, "Makes sense of mess."), " Plain language, a photo, a half-formed question, all turned into something usable.")))
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Neither one is better; they are built for different jobs. The real skill is telling which job is which."
     ),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -3661,85 +3671,9 @@ function AIvsCodeSection(props) {
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, v.headline)),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, v.feedback))) : null);
         }))),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Look back at the two jobs AI handled in that exercise: turning a rambling voice memo into a clean list, and flagging a scam text nobody had seen before. Neither arrived in neat fields, and nobody wrote a rule for them. That is exactly AI’s edge. It takes the messy, unfamiliar input that rules choke on and pulls something usable out."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "It can do this because it learned from the messy stuff humans actually produce: conversations, images, audio, video, emails, code, reviews, and notes. So new mess looks familiar."
-    ),
-    /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 28 },
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "💻", eyebrow: "Traditional software", title: "Needs structure first" },
-        /*#__PURE__*/React.createElement("p", { style: { color: "var(--ink)", fontSize: BOX_TEXT, lineHeight: 1.6, marginTop: 0, marginBottom: 12 } }, "Works best when the input is already clean: rows, fields, labels, dropdowns, checkboxes, and predictable formats. The structure has to be defined ahead of time."),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: 12, fontFamily: "var(--mono)", fontSize: 13, lineHeight: 1.6, color: "var(--ink)", whiteSpace: "pre" } }, "Name    | Score | Grade\n--------|-------|------\nAlex    | 82    | B\nJordan  | 91    | A\nSam     | 78    | C+")),
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "🤖", eyebrow: "AI", title: "Learns from messy data" },
-        /*#__PURE__*/React.createElement("p", { style: { color: "var(--ink)", fontSize: BOX_TEXT, lineHeight: 1.6, marginTop: 0, marginBottom: 12 } }, "Trained on messy human data: books, conversations, images, web pages, emails, code, reviews, arguments, jokes, and notes. From all those examples, it learns to find the structure in new messy input it has never seen before."),
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 } },
-          [["💬", "Text"], ["🖼️", "Images"], ["🎤", "Audio"], ["🎥", "Video"], ["📄", "Documents"]].map(function(item, i) {
-            return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 8px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 4 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, item[0]),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5a3aa6" } }, item[1]));
-          })))),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "What Could AI Pull Out?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(fuelAnswers).length, total: 3 })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Three real messes: a text, a photo, a spoken order. For each, pick what AI could actually pull out of it."),
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        [
-          { question: "A friend texts you about their grades. What could AI pull out?", kind: "text", input: "“Honestly math was rough, I think I got like a B minus? English went really well though, probably my best score this semester. Science was okay I guess, not great not terrible.”", correct: 1, options: [
-            { label: "Your exact percentage scores", headline: "It can’t invent what isn’t there.", feedback: "The text never gives real numbers, so AI can’t produce them. It can read a signal like “around a B minus,” but it won’t make up an exact score." },
-            { label: "The subjects, a grade signal for each, and how you felt about them", headline: "Right.", feedback: "AI matches the casual words to what it learned: “rough” reads as a struggle, “best score” as strong, “not great not terrible” as average. Out comes subject, signal, and feeling." },
-            { label: "Nothing usable, it’s too messy", headline: "Messy is the whole point.", feedback: "A casual sentence is exactly the kind of mess AI is built to read. Traditional software would choke on it; AI finds the structure inside." }
-          ] },
-          { question: "You snap a photo of a handwritten grocery list. What could AI pull out?", kind: "image", items: ["Milk x2 (whole)", "Eggs - 1 dozen lg", "Sourdough bread", "Bananas (ripe) x6"], correct: 0, options: [
-            { label: "Each item with its quantity and notes, as a clean checklist", headline: "Right.", feedback: "AI reads the handwriting and the shorthand: “x2” is a quantity, “(whole)” is a note. The photo becomes an organized list." },
-            { label: "Nothing, a photo is just pixels to AI", headline: "AI reads the pixels like text.", feedback: "Not so. AI learned from countless images, so it reads the pixels the same way it reads messy text, and pulls the list right out." },
-            { label: "The store name and the prices", headline: "It can only pull what’s there.", feedback: "The photo shows items and quantities, not a store or prices, so AI has nothing to pull those from." }
-          ] },
-          { question: "Someone speaks a drive-thru order. What could AI pull out?", kind: "speech", input: "“Yeah can I get a double burger but no onions, large fries with extra salt, and like two medium Cokes”", correct: 2, options: [
-            { label: "Nothing until someone types it into a form", headline: "AI handles the speech directly.", feedback: "Traditional software needs typed fields. AI takes the spoken words and structures them itself." },
-            { label: "The customer’s name and payment", headline: "It can only pull what’s in the audio.", feedback: "The clip is just the order. AI won’t invent a name or payment that was never said." },
-            { label: "A clean order: each item, its size, and the special requests", headline: "Right.", feedback: "AI transcribes the speech and maps the casual sentence into fields: a double burger with no onions, large fries with extra salt, two medium Cokes." }
-          ] }
-        ].map(function(sc, si) {
-          var viewing = fuelAnswers[si];
-          var answered = viewing !== undefined;
-          var v = answered ? sc.options[viewing] : null;
-          var vCorrect = answered && viewing === sc.correct;
-          var accent = vCorrect ? "#1f9d5f" : "#d4334a";
-          var stimContent = sc.kind === "image"
-            ? sc.items.map(function(it, k) { return /*#__PURE__*/React.createElement("div", { key: k }, it); })
-            : sc.input;
-          var stimulus = /*#__PURE__*/React.createElement("div", { style: { background: "#faf5ff", border: "1px solid #c4b5fd", borderRadius: 8, padding: "12px 16px", fontSize: 15, color: "#3b1f6e", lineHeight: 1.6, fontStyle: "italic" } }, stimContent);
-          var renderOpt = function(opt, oi) {
-            var isViewing = viewing === oi;
-            var isCorrectOpt = sc.correct === oi;
-            var dotBorder = "var(--rule)", dotFill = "transparent", txtColor = "#0e0a1f", rowBg = "#fff", rowBorder = "var(--rule)";
-            if (isViewing && isCorrectOpt) { dotBorder = "#1f9d5f"; dotFill = "#1f9d5f"; txtColor = "#1f9d5f"; rowBorder = "#1f9d5f"; rowBg = "#e7f6ee"; }
-            else if (isViewing) { dotBorder = "#d4334a"; dotFill = "#d4334a"; txtColor = "#d4334a"; rowBorder = "#d4334a"; rowBg = "#fbe9ec"; }
-            return /*#__PURE__*/React.createElement("button", { key: oi, onClick: function() { setFuelAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); }); }, style: { display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderRadius: 12, border: "1.5px solid " + rowBorder, background: rowBg, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: txtColor, width: "100%" } },
-              /*#__PURE__*/React.createElement("span", { style: { width: 16, height: 16, borderRadius: 999, border: "2px solid " + dotBorder, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } }, /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: dotFill } })),
-              /*#__PURE__*/React.createElement("span", { style: { flex: 1 } }, opt.label));
-          };
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 600, color: "#0e0a1f", lineHeight: 1.35, marginBottom: 12 } }, sc.question),
-                stimulus)),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } }, sc.options.map(renderOpt)),
-            answered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
-                /*#__PURE__*/React.createElement("div", null,
-                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } }, /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }), vCorrect ? "Correct" : "Not quite"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, v.headline)),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, v.feedback))) : null);
-        }))),
-    fuelAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "It restructures; it doesn’t invent." }, "AI pulls the structure out of your mess, but it can only work with what’s actually there. It won’t conjure a grade you never wrote, a price the receipt doesn’t show, or a detail the audio never said. When something is missing, a good answer leaves it out, and a careless one makes it up.") : null,
+    fitAllAnswered ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "It restructures; it doesn’t invent." }, "AI pulls the structure out of your mess, but it can only work with what’s actually there. It won’t conjure a grade you never wrote, a price the receipt doesn’t show, or a detail the audio never said. When something is missing, a good answer leaves it out, and a careless one makes it up.") : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: fitAllAnswered && fuelAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Harder to Control" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: fitAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Harder to Control" })
   );
 }
 function TypingAICard(props) {

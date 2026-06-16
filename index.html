@@ -1548,17 +1548,41 @@ function CoreLoopBox() {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "#d97706", margin: "4px 0" } }, "↓"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "✍️ Prediction"))));
 }
+// Compact "you are here" echo of CoreLoopBox: two phase capsules (Learn once:
+// Training, Patterns | Every word: Probability, Prediction) with radio-style node
+// dots. props.active fills one node's dot and bolds its label in the phase color.
+function LoopLocator(props) {
+  var E = React.createElement;
+  function nodeChip(key, label, color, ring) {
+    var on = key === props.active;
+    return E("span", { key: key, style: { display: "inline-flex", alignItems: "center", gap: 8 } },
+      E("span", { style: { width: 13, height: 13, borderRadius: 999, flexShrink: 0, boxSizing: "border-box", background: on ? color : "transparent", border: on ? "none" : "2px solid " + ring } }),
+      E("span", { style: { fontSize: 16, fontWeight: on ? 800 : 600, color: on ? color : "var(--inkMuted)", whiteSpace: "nowrap" } }, label));
+  }
+  function capsule(plabel, color, bg, ring, nodes) {
+    return E("div", { style: { display: "inline-flex", alignItems: "center", gap: 18, background: bg, borderRadius: 999, padding: "10px 22px" } },
+      E("span", { style: { fontSize: 13, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: color } }, plabel),
+      nodes.map(function(n) { return nodeChip(n[0], n[1], color, ring); }));
+  }
+  return E("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 18 } },
+    capsule("Learn once", "var(--primary)", "#ece8fd", "rgba(110, 81, 255, 0.4)", [["training", "Training"], ["patterns", "Patterns"]]),
+    E("span", { style: { color: "var(--inkFaint)", fontWeight: 800, fontSize: 20 } }, "→"),
+    capsule("Every word", "#d97706", "#fbedd3", "rgba(217, 119, 6, 0.45)", [["probability", "Probability"], ["prediction", "Prediction"]]));
+}
 function AIHistorySection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Artificial intelligence (AI) is software built to do things that used to need a human brain: learning from examples, spotting patterns, seeing, hearing, and using language."),
     /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they're running math to predict the likely next words. They aren't looking up what your words mean; they're working out which words tend to follow which."),
-    /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? In two phases. First the model learns, once, by soaking up patterns from mountains of text. Then, every time you chat, it uses those patterns to build your answer one word at a time. Four ideas carry it, and we'll follow one example, peanut butter, through all of them."),
+    /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? In two phases. First the model learns, once, by soaking up patterns from mountains of text. Then, every time you chat, it uses those patterns to build your answer one word at a time."),
     /*#__PURE__*/React.createElement(CoreLoopBox, null),
+    /*#__PURE__*/React.createElement(BodyP, null, "Four ideas carry it, and we'll follow one example, peanut butter, through all of them."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "TRAINING"),
+    /*#__PURE__*/React.createElement(LoopLocator, { active: "training" }),
     /*#__PURE__*/React.createElement(BodyP, null, "The model ", /*#__PURE__*/React.createElement("strong", null, "teaches itself"), ": guess the next word, check, and nudge its numbers when it's wrong."),
     /*#__PURE__*/React.createElement(TrainingLoopBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "PATTERNS"),
+    /*#__PURE__*/React.createElement(LoopLocator, { active: "patterns" }),
     /*#__PURE__*/React.createElement(BodyP, null, "So what is it actually learning? ", /*#__PURE__*/React.createElement("strong", null, "Patterns"), ". Here's one you picked up as a child. Which word comes next?"),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 14 } },
       /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 14, padding: "18px 20px", display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14 } },
@@ -1578,6 +1602,7 @@ function AIHistorySection(props) {
       })),
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", marginTop: 14 } }, /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", borderRadius: 999, padding: "10px 18px", fontSize: 14, fontWeight: 700, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } }, /*#__PURE__*/React.createElement("span", null, "🧩"), "AI didn't memorize these. It absorbed the pattern by running through billions of examples."))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "PROBABILITY"),
+    /*#__PURE__*/React.createElement(LoopLocator, { active: "probability" }),
     /*#__PURE__*/React.createElement(BodyP, null, "AI doesn't make one guess. It scores ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next word: a ranked list with a probability on each, and those numbers shift with the surrounding text."),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--primary)", marginBottom: 16 } }, "Same word, different odds"),
@@ -1597,6 +1622,7 @@ function AIHistorySection(props) {
         })),
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", marginTop: 14 } }, /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", borderRadius: 999, padding: "10px 18px", fontSize: 14, fontWeight: 700, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } }, /*#__PURE__*/React.createElement("span", null, "🎲"), "Add the word banana, and jelly's probability drops from 41% to 2%. The surrounding text changed everything."))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "PREDICTION"),
+    /*#__PURE__*/React.createElement(LoopLocator, { active: "prediction" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Probability handled one word. But your answer is hundreds of words long, so the model just repeats the move. Your phone does this when you write a text: it suggests a word, you tap it, it suggests the next. AI works the same way, with no fixed plan for where the sentence will end up. One word, look again, the next."),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 } },
       [["I want to buy peanut butter and", null, "jelly"], ["I want to buy peanut butter and ", "jelly", "for"], ["I want to buy peanut butter and jelly ", "for", "lunch"]].map(function(s, i) {

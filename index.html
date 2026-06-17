@@ -4841,8 +4841,8 @@ function TokenSection(props) {
   };
   var tokenizeBox = E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 36px 36px", marginTop: 32 } },
     E("div", { style: { marginBottom: 10 } },
-      E("h3", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25, margin: 0 } }, "Here’s how text is split into tokens")),
-    E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0" } }, "This is an example. Different LLMs do this differently."),
+      E("h3", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25, margin: 0 } }, "Here’s how AI splits text into tokens")),
+    E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0" } }, "Each AI does this differently, so this is only an example."),
     E(InnerCard, { pad: "snug" },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
         staticExamples.map(function(ex, i) { return renderTokenRow(ex, i, i === staticExamples.length - 1); }))));
@@ -4860,34 +4860,33 @@ function TokenSection(props) {
           E("div", { style: { fontSize: 28, fontWeight: 700, color: "var(--primary)", marginBottom: 6, lineHeight: 1 } }, "\u2193"),
           E("div", { style: { fontFamily: "var(--mono)", fontSize: 32, fontWeight: 700, color: "#10b981", marginBottom: 12 } }, "9246"),
           E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.5, marginTop: "auto" } }, "The tokenizer turns it into a token ID. The exact number varies by model; either way, it\u2019s a number, not meaning yet.")))));
-  var vocabDeeper = E("div", { style: { marginTop: 4 } },
-    E(BodyP, { style: { marginBottom: 6 } },
-      "Once it\u2019s built, the model uses that same fixed vocabulary of tokens every time it reads text."),
-    E(GoDeeper, null,
-      "Engineers build the vocabulary once, before training: a special process studies a massive collection of text and keeps the most reused chunks, from whole common words like ",
-      E("strong", null, "\u201cthe\u201d"), " down to fragments like ",
-      E("strong", null, "un"), ", ", E("strong", null, "believ"), ", and ", E("strong", null, "able"),
-      ". The size is a deliberate choice (tens of thousands to hundreds of thousands of entries are common), and once it\u2019s locked it never changes."));
+  var vocabDeeper = E(BodyP, { style: { marginTop: 24 } },
+    "Once it\u2019s built, the model uses that same fixed vocabulary of tokens every time it reads text.");
   var navButton = E(NextLessonGate, { ready: tokenTryDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
-  var exchange = E("div", { style: { display: "flex", flexDirection: "column", gap: 12, margin: "8px 0 24px" } },
-    E(UserBubble, { text: "what\u2019s the best Avengers movie?" }),
-    E(AIBubble, { text: "Most people point to Avengers: Endgame. It\u2019s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending." }));
+  var exchange = E(ShowcaseBox, {
+      headline: "But that\u2019s not what using AI feels like.",
+      intro: "When you type \u201cwhat\u2019s the best Avengers movie\u201d into ChatGPT, you ask in plain English and get plain English back.",
+      marginTop: 8
+    },
+    E(InnerCard, null,
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        E(UserBubble, { text: "what\u2019s the best Avengers movie?" }),
+        E(AIBubble, { text: "Most people point to Avengers: Endgame. It\u2019s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending." }))));
+  var reuseWords = [["un", "believable"], ["un", "matchable"], ["un", "tied"], ["un", "lock"], ["un", "fair"], ["un", "do"], ["un", "known"], ["un", "usual"], ["un", "happy"], ["un", "plug"], ["un", "fold"], ["un", "seen"]];
   var reuseBox = E(ShowcaseBox, { headline: "One chunk, thousands of words", marginTop: 8 },
-    E("div", { style: { display: "flex", flexWrap: "wrap", gap: 12 } },
-      [["un", "believable"], ["un", "matchable"], ["un", "tied"]].map(function(pair, i) {
+    E("div", { style: { display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" } },
+      reuseWords.map(function(pair, i) {
         return E("div", { key: i, style: { display: "flex", alignItems: "center", gap: 2, background: "#fff", borderRadius: 12, padding: "10px 14px", boxShadow: "var(--shadowSoft)" } },
-          E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--primary)", background: "#efeafd", border: "1.5px solid #cdbef7", borderRadius: 8, padding: "4px 8px" } }, pair[0]),
-          E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 600, color: "var(--ink)" } }, pair[1]));
-      })));
+          E("span", { style: { fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, color: "var(--primary)", background: "#efeafd", border: "1.5px solid #cdbef7", borderRadius: 8, padding: "4px 8px" } }, pair[0]),
+          E("span", { style: { fontFamily: "var(--mono)", fontSize: 14, fontWeight: 600, color: "var(--ink)" } }, pair[1]));
+      }).concat([
+        E("div", { key: "more", style: { flexBasis: "100%", color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, paddingTop: 2 } }, "Plus thousands more")
+      ])));
   return E("div", null,
     E(LessonHeader, { sectionId: "tokens" }),
     E(BodyP, null,
       "You\u2019ve seen the idea already; ",
       E("strong", null, "Math is the magic that powers AI"), "."),
-    E(BodyP, null,
-      "But that\u2019s not what using AI feels like. When you type ",
-      E("em", null, "\u201cwhat\u2019s the best Avengers movie\u201d"),
-      " into ChatGPT, you ask in plain English and get plain English back."),
     exchange,
     E(BodyP, null,
       "That felt effortless, because you think in language. You read ",
@@ -4902,8 +4901,9 @@ function TokenSection(props) {
       "That falls apart fast. Counting names, slang, typos, other languages, and code, you\u2019d need ",
       E("strong", null, "millions"),
       " of numbers, and you still couldn\u2019t cover words nobody\u2019s invented yet."),
+    E(SectionKicker, null, "THE SOLUTION"),
     E(BodyP, null,
-      "Engineers found a smarter way: break language into ",
+      "Software engineers found a smarter way: break language into ",
       E("strong", null, "reusable chunks"),
       ". Take every word that starts with ",
       E("em", null, "un"),
@@ -4916,7 +4916,13 @@ function TokenSection(props) {
       E("strong", null, "tokenization"),
       ", and the chunks are called ",
       E("strong", null, "tokens"),
-      ". A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word."),
+      ". A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word. Each model knows a fixed set of them, called its ",
+      E("strong", null, "vocabulary"),
+      ", and these run large: ChatGPT’s holds about ",
+      E("strong", null, "200,000"),
+      " tokens and Gemini’s about ",
+      E("strong", null, "256,000"),
+      ". Anthropic hasn’t published Claude’s."),
     E(BodyP, null,
       "Each token gets a number, its ",
       E("strong", null, "token ID"),

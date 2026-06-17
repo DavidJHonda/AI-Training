@@ -5138,14 +5138,27 @@ function VectorSpaceSection(props) {
       })));
   return E("div", null,
     props.embedded ? null : E(LessonHeader, { sectionId: "vectorspace" }),
+    E(SectionKicker, { style: { marginTop: 48 } }, "Vector Space"),
     E(BodyP, null,
-      "You just watched “bank” travel through the layers and settle into one final vector. That set of numbers is the model’s whole understanding of the word in your sentence, and it’s more than storage: it’s a ",
-      E("strong", null, "position"),
-      ", a single point in a vast space of meaning."),
+      "Let’s go back to your taste test. This version adds a row for Pepsi and the Citrus dimension we floated earlier. (Remember: real dimensions are learned, not hand-labeled.)"),
+    vsTasteProfile,
     E(BodyP, null,
-      "In that space, where a point sits is what it means. Words with similar meanings land close together; words with different meanings land far apart. Because the layers built a one-of-a-kind point, it often lands between known words, a shade no single dictionary word can hold. That closeness is what lets the model ",
-      E("strong", null, "compare meanings"),
-      ", the whole idea behind this lesson."),
+      "Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee."),
+    E(BodyP, null,
+      "This matters for AI. The model measures closeness with ",
+      E("strong", null, "distance"),
+      ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. Coke and Pepsi match on six of the seven dimensions and differ on only one (citrus), so they sit close; Coke and Coffee differ on nearly every dimension, so they sit far apart. The model has established that Coke is more like Pepsi than like Coffee."),
+    E(BodyP, null,
+      "Now back to ",
+      E("strong", null, "bank"),
+      ". It started as one vector, but running through the layers, applying attention and transformation at each one, changed it into a brand-new row of numbers."),
+    E(SectionKicker, { style: { marginTop: 48 } }, "Here’s the catch"),
+    E(BodyP, null,
+      "That new set of numbers doesn’t match the vector for any single word. It’s one of a kind."),
+    E(BodyP, null,
+      "So how does the model know what it means? It reads its position. This is the idea of ",
+      E("strong", null, "vector space"),
+      ": think of it like a map where every vector sits somewhere, and similar words share a neighborhood. Even a brand-new point has clear closest neighbors, and that’s what the model works from."),
     E(BodyP, null,
       "Here’s that idea in one picture. “Bank” starts ambiguous, and each layer nudges it toward the right neighborhood, until it lands on its final position: river bank."),
     E("img", {
@@ -5153,15 +5166,6 @@ function VectorSpaceSection(props) {
       alt: "A board-game map of the word “bank” traveling through the layers: it starts ambiguous, moves from Layer 1 to Layer 2 to Layer 3 and dozens more, past neighborhoods for money bank, vending machine bank, blood bank, and bank the plane, until the path lands on river bank, its final meaning.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
-    E(BodyP, null,
-      "The bank’s final vector is real numbers, just ones we can’t read. To make “close” concrete, go back to numbers you can: the taste test, now extended with the Citrus dimension we floated earlier and a new row for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for citrus. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to coffee."),
-    vsTasteProfile,
-    E(BodyP, null,
-      "The model measures this with ",
-      E("strong", null, "distance"),
-      ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. Coke and Pepsi are identical on six of the seven dimensions and differ on only one (citrus), so those gaps add up to a short distance. Coke and Coffee differ across nearly every dimension, so the gaps pile up and they sit far apart."),
-    E(BodyP, null,
-      "The model reads this map again at the very end. ", E("strong", null, "Prediction"), " itself is a map move: it reads where the final vector landed to decide which token comes next."),
     props.embedded ? null : E(LessonRule, null),
     props.embedded ? null : E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
 }
@@ -5411,11 +5415,11 @@ function LayersSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--inkMuted)", paddingLeft: 38, marginTop: 10 } }, "Full understanding")
         ),
         reachedFinal && /*#__PURE__*/React.createElement("div", { style: { marginTop: 4, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(Takeaway, { headline: "No single layer understands the word." })
+          /*#__PURE__*/React.createElement(Takeaway, { headline: "No single layer understands the word.", body: "Each layer rewrote the vector for “bank,” nudging its numbers a little closer to the meaning the sentence needed. The understanding you watched sharpen is really those numbers changing, layer by layer." })
         )
       )
     ),
-    /*#__PURE__*/React.createElement(SectionKicker, { style: { marginTop: 48 } }, "Why so many layers?"),
+    /*#__PURE__*/React.createElement(SectionKicker, { style: { marginTop: 48 } }, "Why are there dozens of layers?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Because some meaning is many steps deep. “River bank” resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a problem takes many more. A few layers reach only shallow meaning; stacking dozens leaves room for the deep kind."),
     /*#__PURE__*/React.createElement(BodyP, null,

@@ -19,7 +19,7 @@ A `RevealSequence` steps through items one at a time (here an `InnerCard` scenar
 ![TRY IT sequential](try-it-sequential.png)
 
 ### TRY IT — completed, with Takeaway
-Sequential TRY ITs end on a `Takeaway` (the RevealSequence's `completionElement`), which makes a conceptual point and marks completion. Parallel TRY ITs do NOT carry a Takeaway. Example: "Name That Drink" in Embeddings (`embeddings`).
+Sequential TRY ITs end on a `Takeaway` (the RevealSequence's `completionElement`), which makes a conceptual point and marks completion. Parallel TRY ITs do NOT carry a Takeaway. Example: "What Did the Model Actually Learn?" in Training Bias Trap (`trainingbias`). Recaptured 2026-06-17 (the former source, "Name That Drink" in Embeddings, was converted to a parallel TRY IT).
 
 ![TRY IT completed with Takeaway](try-it-takeaway.png)
 

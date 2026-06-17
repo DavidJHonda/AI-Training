@@ -4948,22 +4948,20 @@ function GoDeeper(props) {
 }
 function NameThatDrinkTryIt(props) {
   var E = React.createElement;
-  var _di = React.useState(0), drinkIdx = _di[0], setDrinkIdx = _di[1];
-  var _dg = React.useState(null), drinkGuess = _dg[0], setDrinkGuess = _dg[1];
-  var _ds = React.useState(true), drinkStarted = _ds[0], setDrinkStarted = _ds[1];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var questions = [
     {
       dims: [["Sweet", 9], ["Fizz", 10]],
       options: [
         { label: "\uD83E\uDD64 Coke", correct: true, headline: "Right.", feedback: "High sweet and high fizz point straight at Coke." },
-        { label: "\u2615 Black Coffee", correct: false, headline: "Not this one.", hint: "Coffee is not sweet, and it is not fizzy. Look at those two numbers again.", feedback: "Coffee is not sweet or fizzy. Those two numbers are screaming soda." }
+        { label: "\u2615 Coffee", correct: false, headline: "Not this one.", hint: "Coffee is not sweet, and it is not fizzy. Look at those two numbers again.", feedback: "Coffee is not sweet or fizzy. Those two numbers are screaming soda." }
       ]
     },
     {
       dims: [["Bitter", 9], ["Heat", 9]],
       options: [
         { label: "\uD83E\uDD64 Coke", correct: false, headline: "Not this one.", hint: "Coke is not bitter, and it is served cold. These numbers say something hot and bitter.", feedback: "Coke is cold and sweet, not hot and bitter. The numbers point elsewhere." },
-        { label: "\u2615 Black Coffee", correct: true, headline: "Right.", feedback: "High bitter and high heat is black coffee." }
+        { label: "\u2615 Coffee", correct: true, headline: "Right.", feedback: "High bitter and high heat is coffee." }
       ]
     },
     {
@@ -4976,67 +4974,69 @@ function NameThatDrinkTryIt(props) {
       ]
     }
   ];
-  var q = questions[Math.min(drinkIdx, questions.length - 1)];
-  var dimText = q.dims.map(function(d) { return d[0] + " of " + d[1]; }).join(" and ");
-  var statement = (q.title ? q.title + ": " : "") + "Which drink has " + dimText + "?";
-  var isLastDrink = drinkIdx === questions.length - 1;
+  var answeredCount = Object.keys(answers).length;
+  var done = answeredCount >= questions.length;
+  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
-    action: E(ActivityCounter, { count: Math.min(drinkIdx + (drinkStarted ? 1 : 0), questions.length), total: questions.length })
+    action: E(ActivityCounter, { count: answeredCount, total: questions.length })
   },
-    E(ActivityInstruction, null, "You’ll see a drink’s numbers. Pick which one it is. We’ll explain as you go."),
-    E(RevealSequence, {
-      surface: "mint",
-      items: questions,
-      currentIdx: drinkIdx,
-      started: drinkStarted,
-      onStart: function() { setDrinkStarted(true); },
-      onNext: function() {
-        if (isLastDrink && props && props.onComplete) props.onComplete();
-        setDrinkIdx(function(i) { return i + 1; });
-        setDrinkGuess(null);
-      },
-      canAdvance: drinkGuess !== null,
-      isComplete: drinkIdx >= questions.length,
-      startLabel: "See First Drink",
-      nextLabel: "Next Drink →",
-      finishLabel: "Wrap it up →",
-      completionElement: E(Takeaway, { accent: "var(--tryAccent)", headline: "You read meaning straight from the numbers.", body: "No name, no logo, no sip. The values were enough to identify the drink, because the numbers carry the meaning. That is exactly what an embedding vector does for a token: it stores the token’s meaning as numbers, ready for the model to work with." })
-    },
-      E(InnerCard, null,
-        E(QuizBlock, {
-          key: drinkIdx,
-          questionNumber: drinkIdx + 1,
-          surface: "mint",
-          statement: statement,
-          totalQuestions: questions.length,
-          options: q.options,
-          picked: drinkGuess != null ? drinkGuess : undefined,
-          onAnswer: function(idx) { setDrinkGuess(idx); }
-        }))));
+    E(ActivityInstruction, null, "Each row shows a drink’s numbers. Read them and pick which drink it is."),
+    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      questions.map(function(q, i) {
+        var picked = answers[i];
+        var answered = picked !== undefined;
+        var opt = answered ? q.options[picked] : null;
+        return E(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          kicker: q.title || null,
+          prompt: E(React.Fragment, null, "Which drink has ", E("strong", null, q.dims[0][0] + " of " + q.dims[0][1]), " and ", E("strong", null, q.dims[1][0] + " of " + q.dims[1][1]), "?"),
+          answered: answered,
+          correct: answered && opt.correct,
+          headline: answered ? opt.headline : null,
+          feedback: answered ? opt.feedback : null
+        }, q.options.map(function(o, oi) {
+          return E(FeedbackPill, {
+            key: oi,
+            answered: answered,
+            isCorrect: o.correct,
+            isPicked: picked === oi,
+            label: o.label,
+            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, oi]])); }); }
+          });
+        }));
+      })));
 }
 function EmbeddingsSection(props) {
   var E = React.createElement;
   var _mc = useState(false), meaningComplete = _mc[0], setMeaningComplete = _mc[1];
   var tpDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark"];
   var tpDrinks = [
-    { emoji: "🥤", name: "Coke", vals: [9, 1, 10, 2, 3, 8], pillBg: "#fbdfe2", pillFg: "#e6394d" },
-    { emoji: "☕", name: "Black Coffee", vals: [1, 9, 0, 9, 8, 10], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
+    { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8], pillBg: "#fbdfe2", pillFg: "#e6394d" },
+    { emoji: "☕", name: "Coffee", tokenId: 51820, vals: [1, 9, 0, 9, 8, 10], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
   ];
-  var tpCols = "minmax(116px, 150px) repeat(6, minmax(50px, 1fr))";
-  var tpHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "1.5px" };
+  var tpCols = "minmax(110px, 150px) minmax(72px, 96px) repeat(6, minmax(46px, 1fr))";
+  var tpHead = { fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "1.5px" };
+  var tpColHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" };
+  var tpColHeadBold = { fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" };
   var tasteProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 16px", background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 32px" } },
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Black Coffee"),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Coffee"),
     E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflowX: "auto" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "center", gap: 8, padding: "16px 24px", borderBottom: "1px solid #ece4f1", minWidth: 470 } },
-        E("div", { style: tpHead }, "Dimension"),
-        tpDims.map(function(d, i) { return E("div", { key: i, style: { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" } }, d); })),
+      E("div", { style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "end", gap: 8, padding: "16px 24px 0", minWidth: 520 } },
+        E("div", null), E("div", null),
+        E("div", { style: { gridColumn: "span 6", textAlign: "center", paddingBottom: 7, borderBottom: "2px solid #8b81a3", fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "1.5px" } }, "Dimensions")),
+      E("div", { style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "center", gap: 8, padding: "10px 24px 14px", borderBottom: "1px solid #ece4f1", minWidth: 520 } },
+        E("div", { style: tpHead }, "Token"),
+        E("div", { style: tpColHeadBold }, "Token ID"),
+        tpDims.map(function(d, i) { return E("div", { key: i, style: tpColHead }, d); })),
       tpDrinks.map(function(dr, di) {
-        return E("div", { key: di, style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "center", gap: 8, padding: "14px 24px", borderTop: di === 0 ? "none" : "1px solid #f0ecf6", minWidth: 470 } },
+        return E("div", { key: di, style: { display: "grid", gridTemplateColumns: tpCols, alignItems: "center", gap: 8, padding: "14px 24px", borderTop: di === 0 ? "none" : "1px solid #f0ecf6", minWidth: 520 } },
           E("div", null,
             E("span", { style: { background: dr.pillBg, color: dr.pillFg, fontWeight: 700, fontSize: BOX_TEXT, padding: "6px 12px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap" } }, dr.emoji, dr.name)),
+          E("div", { style: { textAlign: "center", fontFamily: "var(--mono)", fontSize: 14, fontWeight: 600, color: "var(--inkMuted)" } }, dr.tokenId),
           dr.vals.map(function(v, vi) {
             return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: dr.pillFg } }, v);
           }));
@@ -5044,9 +5044,9 @@ function EmbeddingsSection(props) {
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
-    "You\u2019ve learned that an LLM turns text into token IDs. But that\u2019s just a number. It doesn\u2019t say anything about what it means."),
+    "You\u2019ve learned that AI turns text into token IDs. But that\u2019s just a number. It doesn\u2019t say anything about what it means."),
   E(BodyP, null,
-    "It\u2019s the same as your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
+    "It\u2019s the same as the number assigned to your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
   E("img", {
     src: "illustrations/embeddings.jpg",
     alt: "Four high-school students in shirts and ties at a cafeteria table; one standing student is comically loaded with handfuls of fries",
@@ -5057,33 +5057,26 @@ function EmbeddingsSection(props) {
     E("strong", null, "Embedding"),
     "."),
   E(BodyP, null,
-    "To see how this works, we\u2019ll build a ",
-    E("strong", null, "simple example by hand"),
-    ", labeling each dimension ourselves so you can see how a list of numbers can describe meaning."),
+    "To see how this works, you and your friends decide to rate Coke and a cup of coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark."),
   E(BodyP, null,
-    "You and your friends decide to rate Coke and a cup of black coffee based on six dimensions. Here are your results."),
+    "Here are your results. We added a column for Token ID, even though that wasn\u2019t part of your test."),
   tasteProfile,
   E(BodyP, { style: { marginTop: 18 } },
-    "In your taste test, Coke\u2019s row of numbers is ",
-    E("strong", null, "[9, 1, 10, 2, 3, 8]"),
-    ". The order matters: sweet, bitter, fizz, heat, caffeine, and darkness."),
+    "If someone asked you, \u201cWhich drink has sweet of 9, bitter of 1, and fizz of 10?\u201d you\u2019d immediately answer Coke."),
   E(BodyP, null,
-    "A row of numbers in a specific order like this is called a ",
-    E("strong", null, "vector"),
+    "By rating each drink on those dimensions, you\u2019ve done what AI does on a massive scale: you\u2019ve represented a word with a row of numbers."),
+  E(BodyP, null,
+    "A row of numbers in a specific order, like this, is called a ",
+    E("strong", null, "Vector"),
     ". Each slot (Sweet, Bitter, etc.) is a ",
-    E("strong", null, "dimension"),
+    E("strong", null, "Dimension"),
     ". And each number is a ",
-    E("strong", null, "value"),
+    E("strong", null, "Value"),
     "."),
-  E(BodyP, null,
-    "When a model uses a vector to represent one token, we call it an ",
-    E("strong", null, "embedding vector"),
-    ". This is the AI\u2019s ",
-    E("strong", null, "starting"),
-    " meaning for a token, before the surrounding words refine it in later layers."),
   E(NameThatDrinkTryIt, { onComplete: function() { setMeaningComplete(true); } }),
+  meaningComplete ? E(KeyInsight, { lead: "You read meaning straight from the numbers." }, "The values alone were enough to name the drink, because the numbers carry the meaning. That is exactly what a vector does for a token: it stores the token’s meaning as numbers, ready for the model to work with.") : null,
   E(SectionKicker, null, "DO WE NEED MORE DIMENSIONS?"),
-  E(BodyP, null, "Six dimensions were enough to tell Coke from black coffee. But in the last question, they weren\u2019t enough to tell Coke from Pepsi."),
+  E(BodyP, null, "Six dimensions were enough to tell Coke from coffee. But in the last question, they weren\u2019t enough to tell Coke from Pepsi."),
   E(BodyP, null,
     "They differ in subtler ways, too. You could add one more dimension, say, \u201cCitrus,\u201d and Pepsi scores a 10 while Coke sits near 0."),
   E(BodyP, null,
@@ -5103,12 +5096,12 @@ function EmbeddingsSection(props) {
         E("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 2 } },
           E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 16, lineHeight: 1 } }, "→"),
           E("span", { style: { fontSize: 11, color: "var(--inkMuted)" } }, "look up")),
-        E("span", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, "embedding vector")),
+        E("span", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, "vector")),
       E("div", { style: { borderTop: "1px dashed var(--rule)", marginBottom: 16 } }),
       E("div", { style: { fontFamily: "var(--mono)", fontSize: BOX_TEXT, fontWeight: 700, color: "#8b5cf6", lineHeight: 1.6, wordBreak: "break-all", marginBottom: 10 } }, "[0.12, -0.48, 1.03, 0.07, -0.91, 0.44, 0.18, -0.36, 0.81, -0.05, 0.59, -1.27, 0.33, 0.92, -0.14, 0.67, -0.72, 0.21, ... thousands more]"),
       E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, "The slots are learned during training. They don\u2019t come with clean human-readable labels."))),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own embedding vector?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own embedding vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" }));
 }
@@ -5118,12 +5111,12 @@ function VectorSpaceSection(props) {
   var vsDrinks = [
     { emoji: "🥤", name: "Coke", vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
     { emoji: "🥤", name: "Pepsi", vals: [9, 1, 10, 2, 3, 8, 10], pillBg: "#dbe6fb", pillFg: "#2f6fd6" },
-    { emoji: "☕", name: "Black Coffee", vals: [1, 9, 0, 9, 8, 10, 0], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
+    { emoji: "☕", name: "Coffee", vals: [1, 9, 0, 9, 8, 10, 0], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
   ];
   var vsCols = "minmax(116px, 150px) repeat(7, minmax(44px, 1fr))";
   var vsHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "1.5px" };
   var vsTasteProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 20px", background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 32px" } },
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi vs. Black Coffee"),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi vs. Coffee"),
     E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflowX: "auto" } },
       E("div", { style: { display: "grid", gridTemplateColumns: vsCols, alignItems: "center", gap: 8, padding: "16px 24px", borderBottom: "1px solid #ece4f1", minWidth: 470 } },
         E("div", { style: vsHead }, "Dimension"),
@@ -5141,7 +5134,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Embeddings turn each token into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
     E(BodyP, null,
-      "The table below extends your taste test, adding the Citrus dimension we floated earlier and a new row for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for citrus. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to black coffee."),
+      "The table below extends your taste test, adding the Citrus dimension we floated earlier and a new row for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for citrus. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to coffee."),
     vsTasteProfile,
     E(BodyP, null,
       "Two vectors that are close usually mean related things. Two vectors that are far apart usually mean less related things."),
@@ -5149,7 +5142,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "The model measures this with ",
       E("strong", null, "distance"),
-      ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. Coke and Pepsi are identical on six of the seven dimensions and differ on only one (citrus), so those gaps add up to a short distance. Coke and Black Coffee differ across nearly every dimension, so the gaps pile up and they sit far apart."),
+      ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. Coke and Pepsi are identical on six of the seven dimensions and differ on only one (citrus), so those gaps add up to a short distance. Coke and Coffee differ across nearly every dimension, so the gaps pile up and they sit far apart."),
 
     E(BodyP, null,
       "Close doesn\u2019t always mean identical. Coke and Pepsi sit close together, but the model still keeps them distinct: nearby is not the same as interchangeable."),
@@ -5248,7 +5241,9 @@ function BehindTheNumbersSection(props) {
 
     E(SectionKicker, null, "THE PIECES, INSIDE ONE BOX"),
     E(BodyP, null,
-      "You’ve already met almost everything in here. Three of the five pieces come straight from the taste test: dimensions, values, and the embedding vector. The embedding table and parameters are new here. The picture summarizes them all. Notice that the dimensions aren’t named: that’s exactly why it’s called the black box, since we don’t know what the model tracks in each one."),
+      "You’ve already met most of this. From the taste test you know dimensions, values, and the vector. Here that vector earns its full name: when one stands for a single token, pulled from the embedding table, it’s the token’s ",
+      E("strong", null, "embedding vector"),
+      ". The embedding table and parameters are new. The picture summarizes them all. Notice that the dimensions aren’t named: that’s exactly why it’s called the black box, since we don’t know what the model tracks in each one."),
 
     E("img", {
       src: "illustrations/black-box-2.jpg",

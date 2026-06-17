@@ -9,12 +9,12 @@ Captured 2026-06-10 at 1200px viewport from the lessons noted below. If a compon
 All activities sit on `InteractiveBox`, which has three variants: `try` on the mint surface (✎ TRY IT), `see` on the sand surface (◉ SEE IT), and `lab` on the teal surface (⚒ LAB). The header row carries the eyebrow, title, and usually an `ActivityCounter`; an `ActivityInstruction` line sits below the title.
 
 ### TRY IT — Pattern 2 (parallel)
-All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `FeedbackPill` answer controls and per-item feedback; counter tracks answered. Shown with the first row answered. Canonical reference: "Match the Task to the Effort" in The Effort Dial (`effort`).
+All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `FeedbackPill` answer controls and per-item feedback; counter tracks answered. Shown with the first row answered. Canonical reference: "Match the Task to the Effort" in The Effort Dial (`effort`). Question prompts are non-bold; answer pills stay bold. Recaptured 2026-06-17.
 
 ![TRY IT parallel](try-it-parallel.png)
 
 ### TRY IT — Pattern 1 (sequential)
-A `RevealSequence` steps through items one at a time (here an `InnerCard` scenario plus a `QuizBlock`), with Next gated on answering. Canonical reference: "What Did the Model Actually Learn?" in Training Bias Trap (`trainingbias`).
+A `RevealSequence` steps through items one at a time (here an `InnerCard` scenario plus a `QuizBlock`), with Next gated on answering. Canonical reference: "What Did the Model Actually Learn?" in Training Bias Trap (`trainingbias`). The question statement is non-bold; answer options stay bold. Recaptured 2026-06-17.
 
 ![TRY IT sequential](try-it-sequential.png)
 

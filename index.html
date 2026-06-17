@@ -1403,7 +1403,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control", "studying"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "aiismath", "tokens", "embeddings", "vectorspace", "insidethemodel", "attention", "layers", "training", "prompt", "inference"]
+  sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "training", "prompt", "inference", "insidethemodel"]
 }, {
   label: "Work With AI",
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
@@ -4552,9 +4552,10 @@ function TrainingSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
         "Repeat that loop billions of times, and that’s training. Each pass nudges the model’s internal numbers, its ",
         /*#__PURE__*/React.createElement("strong", null, "weights"),
-        " (the parameters you met in Black Box), a little closer to right. The result is a ",
+        " (also called its parameters), a little closer to right. The result is a ",
         /*#__PURE__*/React.createElement("strong", null, "base model"),
         ": it can predict what comes next, but it doesn’t know how to be helpful yet."))),
+  /*#__PURE__*/React.createElement(BodyP, null, "Those numbers have a name you’ll hear a lot. A model with 70 billion parameters has 70 billion of these stored learned numbers, not 70 billion facts. A few sit in the embedding table; most are spread through the layers. They are what training leaves behind, and they shape how the model handles grammar, style, facts, context, and patterns."),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: 16 } },
     phaseLabel(2, "Instruction tuning"),
     stepCard(steps[2])),
@@ -5084,26 +5085,26 @@ function EmbeddingsSection(props) {
     E("strong", null, "thousands of dimensions"),
     ", learned during training."),
   E(BodyP, null, "Every token uses those same dimensions. Only the values change."),
-  E("div", { style: { background: "var(--primaryFaint)", borderRadius: 16, padding: 16, marginTop: 16, marginBottom: 24 } },
-    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", marginBottom: 12, paddingLeft: 4 } }, "Real model version"),
-    E("div", { style: { background: "var(--card)", borderRadius: 12, padding: 24, border: "1px solid var(--rule)" } },
-      E("div", { style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 12, marginBottom: 16 } },
-        E("span", { style: { fontFamily: "var(--mono)", fontWeight: 700, fontSize: 15, color: "var(--ink)", background: "#ececf2", borderRadius: 8, padding: "6px 14px" } }, "\"cat\""),
-        E("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 2 } },
-          E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 16, lineHeight: 1 } }, "→"),
-          E("span", { style: { fontSize: 11, color: "var(--inkMuted)" } }, "tokenize")),
-        E("span", { style: { fontFamily: "var(--mono)", fontWeight: 700, fontSize: 15, color: "var(--green)", background: "#e7f6ee", border: "1px solid #b6e3cd", borderRadius: 8, padding: "6px 14px" } }, "9246"),
-        E("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 2 } },
-          E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 16, lineHeight: 1 } }, "→"),
-          E("span", { style: { fontSize: 11, color: "var(--inkMuted)" } }, "look up")),
-        E("span", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)" } }, "vector")),
-      E("div", { style: { borderTop: "1px dashed var(--rule)", marginBottom: 16 } }),
-      E("div", { style: { fontFamily: "var(--mono)", fontSize: BOX_TEXT, fontWeight: 700, color: "#8b5cf6", lineHeight: 1.6, wordBreak: "break-all", marginBottom: 10 } }, "[0.12, -0.48, 1.03, 0.07, -0.91, 0.44, 0.18, -0.36, 0.81, -0.05, 0.59, -1.27, 0.33, 0.92, -0.14, 0.67, -0.72, 0.21, ... thousands more]"),
-      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, "The slots are learned during training. They don\u2019t come with clean human-readable labels."))),
+  E(SectionKicker, null, "INSIDE A REAL MODEL"),
+  E(BodyP, null,
+    "Here’s how it all fits together. The token ",
+    E("strong", null, "cat"),
+    " becomes its token ID, which looks up a row in the ",
+    E("strong", null, "embedding table"),
+    " (a giant lookup of every token’s numbers). That row is cat’s ",
+    E("strong", null, "embedding vector"),
+    ": its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called ",
+    E("strong", null, "parameters"),
+    ". Notice the dimensions aren’t named: the model decides what each one tracks, and we usually can’t tell."),
+  E("img", {
+    src: "illustrations/black-box-2.jpg",
+    alt: "Inside a real AI model: the token “cat” becomes ID 9246, which looks up a row in the embedding table; that row is its embedding vector of values across dimensions, and parameters are these learned numbers plus many more in the later layers",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
+  }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Attention" }));
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
@@ -5132,7 +5133,9 @@ function VectorSpaceSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
-      "Embeddings turn each token into a vector of numbers. But those numbers aren\u2019t just for storage. They let the model do something powerful: compare meanings."),
+      "In Layers, you watched “bank” travel through the model until it settled on one final vector, a point that often matches no dictionary word. So how does the model make sense of a point that sits between known words? It reads a map."),
+    E(BodyP, null,
+      "Every token’s vector is a position on that map, and the numbers are its coordinates. Two vectors that sit close together usually mean related things; two that sit far apart usually don’t. That lets the model do something powerful: compare meanings."),
     E(BodyP, null,
       "The table below extends your taste test, adding the Citrus dimension we floated earlier and a new row for Pepsi. (Remember: real dimensions are learned, not hand-labeled.) Coke and Pepsi are identical except for citrus. Based on these example vectors, Coke and Pepsi are more similar drinks than either one is to coffee."),
     vsTasteProfile,
@@ -5151,7 +5154,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Think of vector space like a city map. Things that are related are in the same neighborhood. A real model\u2019s map is far more complicated, but the idea holds: the \u201ccoordinates\u201d on it are the thousands of numbers in each token\u2019s vector. The more similar those values are, the closer the tokens sit in the model\u2019s map."),
     E(BodyP, null,
-      "But there\u2019s more. The model uses this map twice. In Layers, you\u2019ll watch a word\u2019s vector move across the map as context sharpens its meaning. And at the very end, ", E("strong", null, "prediction"), " itself is a map move: the model reads where the final vector landed to decide which token comes next."),
+      "There’s a second use. You just saw the first in Layers, where a word’s vector moved across this map as context sharpened its meaning. The last comes at the very end, where ", E("strong", null, "prediction"), " itself is a map move: the model reads where the final vector landed to decide which token comes next."),
     E(BodyP, null,
       "Real vector spaces have hundreds or thousands of dimensions, so the picture below is flattened to 2D for human eyes. It\u2019s a simple illustration of vector space, not an exact map."),
     E("img", {
@@ -5162,7 +5165,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Notice how soda and coffee sit close together, while both sit far from vehicles."),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("insidethemodel"); }, label: "Next: Black Box" }));
+    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
 }
 
 function MatchTermsTryIt(props) {
@@ -5239,24 +5242,8 @@ function BehindTheNumbersSection(props) {
     E(BodyP, null,
       "Your taste test used 6 dimensions you picked by hand. A real model uses thousands of dimensions and billions of learned numbers, and nobody types those in. Engineers choose the architecture (how many dimensions, how many layers, how the parts connect), but training fills in the values. And those dimensions don\u2019t end up with clean labels like sweetness or caffeine."),
 
-    E(SectionKicker, null, "THE PIECES, INSIDE ONE BOX"),
     E(BodyP, null,
-      "You’ve already met most of this. From the taste test you know dimensions, values, and the vector. Here that vector earns its full name: when one stands for a single token, pulled from the embedding table, it’s the token’s ",
-      E("strong", null, "embedding vector"),
-      ". The embedding table and parameters are new. The picture summarizes them all. Notice that the dimensions aren’t named: that’s exactly why it’s called the black box, since we don’t know what the model tracks in each one."),
-
-    E("img", {
-      src: "illustrations/black-box-2.jpg",
-      alt: "Inside a real AI model: the token “cat” becomes ID 9246, which looks up a row in the embedding table; that row is its embedding vector of values across dimensions, and parameters are these learned numbers plus many more in the later layers",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
-    }),
-
-    E(SectionKicker, null, "THE FIFTH PIECE: PARAMETERS"),
-    E(BodyP, null,
-      "When a model has 70 billion parameters, that means 70 billion stored learned numbers, not 70 billion facts. A few sit in the embedding table; most are in the later layers. They are what training leaves behind, and they shape how the model handles grammar, style, facts, context, and patterns."),
-
-    E(BodyP, null,
-      "These pieces are the vocabulary for everything ahead. Here’s a quick checkpoint."),
+      "You’ve now met every piece that lives inside the model: tokens, token IDs, the embedding table, embedding vectors, dimensions, values, and parameters. Here’s a quick checkpoint to lock them in."),
 
     E(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
 
@@ -5264,7 +5251,7 @@ function BehindTheNumbersSection(props) {
       "Humans design the structure. Training learns the values. Researchers can study the model, but they usually can\u2019t point to one rule or one parameter and say, \u201Cthat caused this answer.\u201D"),
 
     E(LessonRule, null),
-    E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("attention"); }, label: "Next: Attention" }));
+    E(NextLessonGate, { ready: matchComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" }));
 }
 const LAYER_WORDS = {
   "bank": {
@@ -5441,7 +5428,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here’s the surprising part. That final set of numbers almost never matches any word’s starting vector back in the embedding table. The model didn’t pull “bank” off a shelf. Layer by layer, it built a one-of-a-kind meaning that lands in the space between known words. That’s the real payoff of depth: context creates a shade of meaning no single dictionary word can hold."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "So how does a point between words become something the model can use? It reads the map: the vector space you met three lessons ago. It measures how close that final point sits to the words it knows, and the nearest ones are what it weighs most. A spot that no dictionary defines still has clear closest neighbors, and that’s what the model works from next."),
+      "So how does the model use a point that matches no dictionary word? It reads its position on a map of meanings, which is exactly where we’re headed next."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/layers-2.jpg",
       alt: "A board-game map of the word “bank” traveling through the layers: it starts ambiguous, moves from Layer 1 to Layer 2 to Layer 3 and dozens more, past neighborhoods for money bank, vending machine bank, blood bank, and bank the plane, until the path lands on river bank, its final meaning.",
@@ -5450,7 +5437,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "By the last layer, the model has a representation, not an answer." },
       "Every layer added a little more context. What comes out isn’t “the truth” about your sentence; it’s the rich, context-aware version the model will use to predict the next token."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: reachedFinal, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: reachedFinal, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
   );
 }
 function InferenceSection(props) {
@@ -5813,7 +5800,7 @@ function InferenceSection(props) {
               }, col.desc)));
         })))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length && seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerworkwith"), label: "Next: Work With AI" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length && seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("insidethemodel"), label: "Next: Black Box" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",

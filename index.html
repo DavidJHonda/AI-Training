@@ -5427,8 +5427,8 @@ function InferenceJourneyDiagram() {
   var node = function(opts) {
     return E("div", { style: { background: "#fff", border: "1.5px solid " + (opts.accent || "var(--rule)"), borderRadius: 12, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
       chip(opts.chip, opts.tone),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 4, lineHeight: 1.25 } }, opts.title),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.4, color: "var(--inkMuted)" } }, opts.desc));
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--ink)", marginBottom: 6, lineHeight: 1.3 } }, opts.title),
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--inkMuted)" } }, opts.desc));
   };
   var bracket = function(text) { return E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.12em", margin: "0 0 10px" } }, text); };
   var down = function() { return E("div", { style: { display: "flex", justifyContent: "center", margin: "8px 0" } }, E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, lineHeight: 1 } }, "↓")); };
@@ -5452,9 +5452,7 @@ function InferenceJourneyDiagram() {
       down(),
       node({ chip: "Output", tone: "bright", accent: "var(--green)", title: "Types it out", desc: "The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream." }),
       down(),
-      E("div", { style: { padding: "14px 16px", borderRadius: 12, background: "#fff", border: "1px dashed var(--primary)", display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } },
-        E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0 } }, "↻"),
-        E("div", null, E("strong", { style: { color: "var(--ink)" } }, "No memory, so it loops. "), "The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and runs the whole journey again, token by token, until the answer is complete."))));
+      node({ chip: "Loop", tone: "bright", accent: "var(--primary)", title: "No memory, so it loops", desc: "The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and runs the whole journey again, token by token, until the answer is complete." })));
 }
 function InferenceSection(props) {
   const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);

@@ -5420,11 +5420,23 @@ function InferenceJourneyDiagram() {
   var READ = { accent: "#6e51ff", deep: "#4c2dff", lane: "#f4f1fd", chipBg: "#ebe4fd", chipInk: "#4c2dff", line: "#cdbcff", cardBorder: "#e7dffb" };
   var WRITE = { accent: "#e0850f", deep: "#b06608", lane: "#fdf6ea", chipBg: "#f8e7c8", chipInk: "#a85f07", line: "#f0cf91", cardBorder: "#f2e3c4" };
   var _n = useState(false), narrow = _n[0], setNarrow = _n[1];
+  var _g = useState(null), geo = _g[0], setGeo = _g[1];
+  var containerRef = useRef(null), firstCardRef = useRef(null), lastCardRef = useRef(null);
   useEffect(function() {
-    function check() { try { setNarrow(window.innerWidth < 640); } catch (e) {} }
-    check();
-    window.addEventListener("resize", check);
-    return function() { window.removeEventListener("resize", check); };
+    var alive = true;
+    function measure() {
+      try { setNarrow(window.innerWidth < 640); } catch (e) {}
+      var c = containerRef.current, f = firstCardRef.current, l = lastCardRef.current;
+      if (c && f && l) {
+        var cr = c.getBoundingClientRect(), fr = f.getBoundingClientRect(), lr = l.getBoundingClientRect();
+        var topY = fr.top + fr.height / 2 - cr.top, botY = lr.top + lr.height / 2 - cr.top;
+        setGeo({ top: topY, height: Math.max(0, botY - topY) });
+      }
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) document.fonts.ready.then(function() { if (alive) measure(); });
+    return function() { alive = false; window.removeEventListener("resize", measure); };
   }, []);
   var b = function(t) { return E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, t); };
   var STEPS = [
@@ -5443,15 +5455,15 @@ function InferenceJourneyDiagram() {
   var stepRow = function(step, isFirst, isLast) {
     var ph = step.ph;
     var railCell = E("div", { style: { width: 36, flex: "none", position: "relative" } },
-      E("div", { style: { position: "absolute", left: "50%", transform: "translateX(-50%)", top: isFirst ? 24 : 0, bottom: isLast ? "calc(100% - 24px)" : 0, width: 2.5, background: ph.line, borderRadius: 3 } }),
-      E("div", { style: { position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", width: 32, height: 32, borderRadius: 999, background: ph.accent, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px " + ph.accent + "55" } }, String(step.n)));
+      E("div", { style: { position: "absolute", left: "50%", transform: "translateX(-50%)", top: isFirst ? "50%" : 0, bottom: isLast ? "50%" : -16, width: 2.5, background: ph.line, borderRadius: 3 } }),
+      E("div", { style: { position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 32, height: 32, borderRadius: 999, background: ph.accent, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px " + ph.accent + "55" } }, String(step.n)));
     var head = E("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } },
       chip(ph, step.chip),
       step.big ? E("span", { style: { display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", color: "#fff", background: ph.accent, padding: "4px 9px", borderRadius: 6 } }, "The core") : null);
     var title = E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", margin: "9px 0 5px", lineHeight: 1.2 } }, step.title);
     var bodyEl = E.apply(null, ["div", { style: { fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 400, color: "var(--inkSoft)", lineHeight: 1.55 } }].concat(step.body));
-    var card = E("div", { style: { flex: 1, marginBottom: isLast ? 0 : 16, background: "#fff", border: step.big ? "2px solid " + ph.accent : "1.5px solid " + ph.cardBorder, borderRadius: 16, padding: "15px 18px 16px", boxShadow: step.big ? "0 5px 16px " + ph.accent + "22" : "0 1px 2px rgba(14,10,31,0.03)" } }, head, title, bodyEl);
-    return E("div", { style: { display: "flex", alignItems: "stretch", gap: 14 } }, railCell, card);
+    var card = E("div", { ref: step.n === 1 ? firstCardRef : (step.n === 8 ? lastCardRef : null), style: { flex: 1, background: "#fff", border: step.big ? "2px solid " + ph.accent : "1.5px solid " + ph.cardBorder, borderRadius: 16, padding: "15px 18px 16px", boxShadow: step.big ? "0 5px 16px " + ph.accent + "22" : "0 1px 2px rgba(14,10,31,0.03)" } }, head, title, bodyEl);
+    return E("div", { style: { display: "flex", alignItems: "stretch", gap: 14, marginBottom: isLast ? 0 : 16 } }, railCell, card);
   };
   var laneHeader = function(ph, kicker, title, sub) {
     return E("div", { style: { display: "flex", alignItems: "center", gap: 13, marginBottom: 16 } },
@@ -5482,7 +5494,7 @@ function InferenceJourneyDiagram() {
           E("div", { style: { fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.25, color: "var(--ink)" } }, "One final vector per token. Everything you sent, understood."))));
   };
   var rail = function(color, label) {
-    return E("div", { style: { position: "absolute", top: 18, right: 18, bottom: 18, width: RAIL_W, pointerEvents: "none" } },
+    return E("div", { style: geo ? { position: "absolute", top: geo.top, height: geo.height, right: 18, width: RAIL_W, pointerEvents: "none" } : { position: "absolute", top: 18, bottom: 18, right: 18, width: RAIL_W, pointerEvents: "none" } },
       E("div", { style: { position: "absolute", top: 0, bottom: 0, left: 26, right: 30, borderTop: "3px solid " + color, borderRight: "3px solid " + color, borderBottom: "3px solid " + color, borderTopRightRadius: 16, borderBottomRightRadius: 16 } }),
       E("div", { style: { position: "absolute", top: -4.5, left: 18, width: 0, height: 0, borderTop: "6px solid transparent", borderBottom: "6px solid transparent", borderRight: "10px solid " + color } }),
       E("div", { style: { position: "absolute", bottom: -5, left: 21, width: 11, height: 11, borderRadius: 999, background: color } }),
@@ -5496,7 +5508,7 @@ function InferenceJourneyDiagram() {
     E("p", { style: { fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "2px 4px 22px" } },
       "Here’s the whole journey in one picture, from your prompt to a finished answer. ",
       E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, "It runs in two phases, and the end feeds back to the start.")),
-    E("div", { style: { position: "relative", paddingRight: narrow ? 0 : (RAIL_W + 14) } },
+    E("div", { ref: containerRef, style: { position: "relative", paddingRight: narrow ? 0 : (RAIL_W + 14) } },
       lane(READ, "Phase 1", "Read the message", "One pass over everything you sent: your prompt, the history, all of it.", read),
       downConnect(),
       milestone(),

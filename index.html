@@ -304,7 +304,7 @@ var TERMS = [
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
   { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "customization" },
-  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "inference" },
+  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "choosemodel" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
   { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
@@ -5444,7 +5444,7 @@ function InferenceJourneyDiagram() {
     { n: 2, ph: READ, chip: "TOKENS", title: "Text becomes numbers", body: ["The whole thing is split into tokens, each mapped to a number. ", b("From here on, it’s all numbers.")] },
     { n: 3, ph: READ, chip: "EMBEDDINGS", title: "Starting meaning", body: ["Each token’s number becomes a vector, its starting meaning on the map."] },
     { n: 4, ph: READ, chip: "TRANSFORMER", title: "Reads everything at once", big: true, body: ["The architecture that reads every token at once. Each of ~100 layers runs ", b("attention"), " (which tokens relate), then ", b("transformation"), " (what they mean together), using weights frozen in training. One final vector per token comes out."] },
-    { n: 5, ph: WRITE, chip: "PROBABILITY", title: "Score every possible next token", body: ["The last token’s final vector is compared against all ~100,000 tokens it knows. Closeness becomes a probability."] },
+    { n: 5, ph: WRITE, chip: "PROBABILITY", title: "Score every possible next token", body: ["Now the model takes everything it just understood and scores all ~100,000 tokens it knows for what comes next. The better the fit, the higher the probability."] },
     { n: 6, ph: WRITE, chip: "PREDICTION", title: "Pick the next token", body: ["It picks one token, usually a whole word."] },
     { n: 7, ph: WRITE, chip: "OUTPUT", title: "Types it out", body: ["The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream."] },
     { n: 8, ph: WRITE, chip: "LOOP", title: "No memory, so it loops", body: ["The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and ", b("runs the whole journey again"), ", token by token, until the answer is complete."] }
@@ -5504,18 +5504,19 @@ function InferenceJourneyDiagram() {
   var write = STEPS.filter(function(s) { return s.ph === WRITE; });
   var loopCaption = E("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 14, fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", color: READ.deep } },
     E("span", { style: { fontSize: 16 } }, "↻"), "No memory · the whole journey runs again");
-  return E("div", { style: { maxWidth: 760, marginBottom: "var(--blockGap)" } },
-    E("p", { style: { fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "2px 0 22px" } },
+  return E("div", { style: { marginBottom: "var(--blockGap)" } },
+    E("p", { style: { fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "2px 0 22px", maxWidth: 760 } },
       "Here’s the whole journey in one picture, from your prompt to a finished answer. ",
       E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, "It runs in two phases, and the end feeds back to the start.")),
-    E("div", { ref: containerRef, style: { position: "relative", paddingRight: narrow ? 0 : (RAIL_W + 14) } },
-      lane(READ, "Phase 1", "Read the message", "One pass over everything you sent: your prompt, the history, all of it.", read),
-      downConnect(),
-      milestone(),
-      downConnect(),
-      lane(WRITE, "Phase 2", "Write the reply", "One token at a time, looping until the answer is complete.", write),
-      narrow ? null : rail(READ.deep, "no memory · the whole journey runs again")),
-    narrow ? loopCaption : null);
+    E("div", { style: { maxWidth: 760, margin: "0 auto" } },
+      E("div", { ref: containerRef, style: { position: "relative", paddingRight: narrow ? 0 : (RAIL_W + 14) } },
+        lane(READ, "Phase 1", "Read the message", "One pass over everything you sent: your prompt, the history, all of it.", read),
+        downConnect(),
+        milestone(),
+        downConnect(),
+        lane(WRITE, "Phase 2", "Write the reply", "One token at a time, looping until the answer is complete.", write),
+        narrow ? null : rail(READ.deep, "no memory · the whole journey runs again")),
+      narrow ? loopCaption : null));
 }
 function InferenceSection(props) {
   var COLS = [
@@ -5562,7 +5563,6 @@ function InferenceSection(props) {
       alt: "A hand-drawn diagram: a neural network is layers of math passing numbers forward. Numbers from the prompt enter on the left and pass through Layer 1 to Layer N, where each node multiplies its inputs by weights, sums them, applies an activation, and passes the result forward; a score for every possible next token comes out on the right. Weights are learned in training and frozen during inference.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 16 }
     }),
-  /*#__PURE__*/React.createElement(TemperatureSection, { embedded: true }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "READ THE NAME ON THE BOX"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One last payoff before you move on. You've now seen every piece of how an LLM works, and here's the proof: you can read the most famous name in AI like a spec sheet. Every letter is something you just learned."),
@@ -7007,6 +7007,7 @@ function ChoosingModelSection(props) {
     "Most people never open the picker and never know what they\u2019re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One more thing if you\u2019re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that\u2019s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
+    /*#__PURE__*/React.createElement(TemperatureSection, { inline: true }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: pickerAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("effort"); }, label: "Next: Effort Dial" }));
 }
@@ -7027,7 +7028,7 @@ function ThinkingModeSection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "effort" }), /*#__PURE__*/React.createElement(BodyP, null, "You already chose the app. You already chose the model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing. Some apps show this as a simple on/off switch, others as a dial with several levels."),
-  /*#__PURE__*/React.createElement(BodyP, null, "You met one dial already: temperature, back in Inference. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You met one dial already: temperature, back on the model page. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds."),
   /*#__PURE__*/React.createElement(BodyP, null, "And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models."),
   /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 32 },
     [
@@ -7104,6 +7105,7 @@ function TemperatureSection(props) {
   // Folded into Inference as a closing beat (passed embedded:true), which swaps
   // the Work-With-AI framing for a prediction-anchored one and drops the header/Next.
   var embedded = props && props.embedded;
+  var inline = props && props.inline;
   const [temp, setTemp] = useState(0);
   const prompt = "The secret to a great pizza is";
   const tempKey = temp <= 0.2 ? 0 : temp <= 0.7 ? 0.5 : 1;
@@ -7117,9 +7119,11 @@ function TemperatureSection(props) {
     { word: "other words", low: 0, medium: 1, high: 4 }
   ];
   return /*#__PURE__*/React.createElement("div", null,
-  embedded ? /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on that pick: temperature") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }),
+  embedded ? /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on that pick: temperature") : inline ? /*#__PURE__*/React.createElement(SectionKicker, null, "One more dial: temperature") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }),
   embedded
     ? /*#__PURE__*/React.createElement(BodyP, null, "You just watched the final vector land on the map and the closest tokens take the highest probabilities. There\u2019s a dial on how boldly the model commits to the closest match: temperature.")
+    : inline
+    ? /*#__PURE__*/React.createElement(BodyP, null, "Picking the model sets how much brain you get. One more dial changes how that brain behaves, without swapping the model at all: temperature.")
     : /*#__PURE__*/React.createElement(BodyP, null, "You picked the app. You picked the model. You set the effort. Now there\u2019s one smaller control to understand: temperature."),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
@@ -7252,11 +7256,11 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means repeatable. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  embedded
+  (embedded || inline)
     ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Temperature changes the variation, never the truth." }, "It tunes how boldly the model commits to its most likely next word: down for repeatable answers, up for surprising ones. It never makes an answer more correct, only more or less varied.")
     : /*#__PURE__*/React.createElement(KeyInsight, null, "Model choice controls capability. Effort controls how hard it thinks. Temperature controls variation. Verification controls truth."),
-  embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
-  embedded ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
+  (embedded || inline) ? null : /*#__PURE__*/React.createElement(LessonRule, null),
+  (embedded || inline) ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function OpenerTrapsSection(props) {
   var trapsIllustration = /*#__PURE__*/React.createElement(Illustration, {

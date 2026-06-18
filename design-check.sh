@@ -44,12 +44,13 @@ chk "near-token lavender #f3f1fa" 0 \
 # (normalized 2026-06-10: HowWeGotHere timeline, Training phases x3, WorkChanges value box).
 chk "page-bg used as outer band" 0 \
   "$(grep -oF 'background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24' "$F" | wc -l | tr -d ' ')"
-# 7 = 3 spaced em-dashes in the "not magic / not a person / not a search engine" display lines
-#   + 1 in the "words — analogy" line + 3 in validate() JS comments (not copy).
+# 13 = 3 spaced em-dashes in the "not magic / not a person / not a search engine" display lines
+#    + 1 in the "words — analogy" line + 3 in validate() JS comments (not copy)
+#    + 6 in InferenceJourneyDiagram node descriptions and loop strip (deliberate diagram copy).
 # The verbatim White House quote in whydeeper carries one more, written as the
 # backslash-u2014 JS escape, so this raw-byte count doesn't see it (quotes from sources
 # keep their original punctuation; our own copy still avoids em-dashes).
-chk "em-dashes in copy" 7 \
+chk "em-dashes in copy" 13 \
   "$(grep -oF '—' "$F" | wc -l | tr -d ' ')"
 
 echo "----------------------------------------------------"

@@ -5414,36 +5414,50 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: reachedFinal, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" })
   );
 }
-function InferenceFlowDiagram() {
+function InferenceJourneyDiagram() {
   var E = React.createElement;
-  var node = function(label, desc, variant) {
-    var bg = variant === "bridge" ? "var(--primary)" : "#fff";
-    var labelColor = variant === "bridge" ? "#fff" : (variant === "output" ? "var(--green)" : "var(--ink)");
-    var descColor = variant === "bridge" ? "rgba(255,255,255,0.88)" : "var(--inkMuted)";
-    var border = variant === "bridge" ? "var(--primary)" : (variant === "output" ? "var(--green)" : "var(--rule)");
-    return E("div", { style: { background: bg, border: "1.5px solid " + border, borderRadius: 12, padding: "10px 14px", boxShadow: "var(--shadowSoft)", minWidth: 112, maxWidth: 152 } },
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: labelColor, marginBottom: 3 } }, label),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 11.5, lineHeight: 1.35, color: descColor } }, desc));
+  var chipTones = {
+    muted: { bg: "rgba(100, 116, 139, 0.12)", color: "#64748b" }, // mirrors InferenceSection renderChip tones (already in file, not a new raw color family)
+    bright: { bg: "var(--primaryFaint)", color: "var(--primary)" }
   };
-  var arrow = function() { return E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0 } }, "→"); };
-  var down = function() { return E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18 } }, "↓"); };
-  var phaseLabel = function(text) { return E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 12 } }, text); };
-  var rowStyle = { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8 };
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 24px", marginBottom: "var(--blockGap)" } },
-    phaseLabel("Establish meaning"),
-    E("div", { style: rowStyle }, node("Prompt", "what you typed"), arrow(), node("Tokens", "split into chunks"), arrow(), node("Starting meaning", "each token’s first vector"), arrow(), node("Layers", "context reshapes them")),
-    E("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 6, margin: "16px 0" } },
-      down(),
-      node("Meaning established", "one final vector per token", "bridge"),
-      down()),
-    phaseLabel("Produce the answer"),
-    E("div", { style: rowStyle }, node("Match", "score every next word"), arrow(), node("Predict", "pick the likeliest"), arrow(), node("One word", "added on, then repeat", "output")),
-    E("div", { style: { marginTop: 18, paddingTop: 16, borderTop: "1px dashed var(--rule)", display: "flex", alignItems: "flex-start", gap: 8, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } },
-      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "↻"),
-      E("div", null, "Then it all runs again, your prompt plus that new word, back through every step, one word at a time, until the answer is complete.")));
+  var chip = function(label, tone) {
+    var t = chipTones[tone] || chipTones.muted;
+    return E("div", { style: { display: "inline-flex", alignItems: "center", padding: "3px 9px", borderRadius: 999, background: t.bg, color: t.color, fontSize: 10, fontWeight: 800, letterSpacing: "0.10em", textTransform: "uppercase", marginBottom: 8 } }, label);
+  };
+  var node = function(opts) {
+    return E("div", { style: { background: "#fff", border: "1.5px solid " + (opts.accent || "var(--rule)"), borderRadius: 12, padding: "12px 14px", boxShadow: "var(--shadowSoft)", flex: "1 1 150px", minWidth: 140, maxWidth: 220 } },
+      chip(opts.chip, opts.tone),
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 4, lineHeight: 1.25 } }, opts.title),
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.4, color: "var(--inkMuted)" } }, opts.desc));
+  };
+  var arrow = function() { return E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0, alignSelf: "center" } }, "→"); };
+  var bracket = function(text) { return E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.12em", margin: "0 0 10px" } }, text); };
+  var rowStyle = { display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 8 };
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "26px 22px", marginBottom: "var(--blockGap)" } },
+    E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.14em", marginBottom: 18 } }, "Inference · one token, start to finish"),
+    bracket("Reads your whole prompt at once"),
+    E("div", { style: rowStyle },
+      node({ chip: "Context Window", tone: "muted", title: "What the model sees", desc: "Your prompt plus everything else in the window — past messages, custom instructions, saved memory." }),
+      arrow(),
+      node({ chip: "Tokens", tone: "muted", title: "Text becomes numbers", desc: "The whole thing is split into tokens, each mapped to a number. From here on, it’s all numbers." }),
+      arrow(),
+      node({ chip: "Embeddings", tone: "muted", title: "Starting meaning", desc: "Each token’s number becomes a vector — its starting meaning on the map." }),
+      arrow(),
+      node({ chip: "Layers / Attention", tone: "muted", title: "Meaning in context", desc: "~100 layers, reading every token against every other at once, using weights frozen in training. Out comes one final vector per token." })),
+    E("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 6, margin: "14px 0" } },
+      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18 } }, "↓"),
+      E("div", { style: { background: "var(--primary)", color: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 16px", borderRadius: 999, textAlign: "center", lineHeight: 1.4 } }, "One final vector per token — your prompt, understood."),
+      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18 } }, "↓")),
+    bracket("Writes one token at a time"),
+    E("div", { style: rowStyle },
+      node({ chip: "Probability", tone: "bright", accent: "var(--primary)", title: "Score every possible next token", desc: "The last token’s final vector is compared against all ~100,000 tokens it knows. Closeness becomes a probability." }),
+      arrow(),
+      node({ chip: "Prediction", tone: "bright", accent: "var(--green)", title: "Pick one token", desc: "It picks one — usually a word — and adds it to the answer." })),
+    E("div", { style: { marginTop: 18, padding: "14px 16px", borderRadius: 12, background: "var(--primaryFaint)", border: "1px dashed var(--primary)", display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } },
+      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0 } }, "↻"),
+      E("div", null, E("strong", { style: { color: "var(--ink)" } }, "Then it loops. "), "Append that token, then run the whole journey again — now over your prompt plus what it’s written so far. Repeat until the answer is complete.")));
 }
 function InferenceSection(props) {
-  const [stagesRevealed, setStagesRevealed] = useLocalStorage("seeit-inference-stagesRevealed", 0);
   const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
   var COLS = [
     { label: "Chat", desc: "A conversational interface. You type, it responds.", color: "#3b82f6" },
@@ -5523,74 +5537,11 @@ function InferenceSection(props) {
       chip.label
     );
   };
-  const steps = [{
-    chip: { icon: "👤", label: "YOU", tone: "neutral" },
-    title: "You type a prompt",
-    description: "You type a message and hit send. Everything that follows happens in milliseconds."
-  }, {
-    chip: { icon: "🧩", label: "TOKENS", tone: "muted" },
-    title: "Tokenization",
-    description: "Your text gets broken into tokens. Each chunk maps to a number. \"How are you?\" becomes [How][are][you][?]. The text is gone; from here on, the model works entirely with numbers."
-  }, {
-    chip: { icon: "📐", label: "EMBEDDINGS", tone: "muted" },
-    title: "Starting meaning",
-    description: "Each token ID is looked up in the embedding table, returning a vector (a list of hundreds of numbers) representing the word’s starting meaning. Similar words get similar vectors, so the model has a rough sense of meaning before the layers even start."
-  }, {
-    chip: { icon: "🧅", label: "LAYERS", tone: "muted" },
-    title: "Flow through the layers",
-    description: "The vectors enter ~100 layers. Each layer runs attention (which tokens matter to which?) then transformation (what they mean together). By the final layer, every token’s meaning is shaped by every other token, and the model has understood your whole prompt."
-  }, {
-    chip: { icon: "🎲", label: "PROBABILITY", tone: "bright" },
-    pivot: "It understands the question. Now it answers, one token at a time.",
-    title: "Score every possible next token",
-    description: "To choose the first word of its response, the model scores every token it knows, about 100,000 candidates, by how closely each one matches where the final vector landed on the meaning map. Close matches get high probabilities; distant ones get almost none."
-  }, {
-    chip: { icon: "🎯", label: "PREDICTION", tone: "bright" },
-    title: "Pick the next token (and repeat)",
-    description: "The model picks one token and adds it to the response. That was just one word. To write the next one, it runs this whole journey again, back through tokenization, embeddings, and all the layers, now over your prompt plus what it has written so far. It repeats until the answer is complete."
-  }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and that final probability score. Now watch them work together as a single journey from your prompt to a finished answer."),
   /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to produce one token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s the whole shape of a single pass, from your prompt to one word of the answer:"),
-  /*#__PURE__*/React.createElement(InferenceFlowDiagram, null),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "The Complete Journey",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(stagesRevealed, steps.length), total: steps.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Step through each stage to follow your prompt all the way to an answer."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "sand",
-      items: steps,
-      currentIdx: stagesRevealed > 0 ? stagesRevealed - 1 : 0,
-      started: stagesRevealed > 0,
-      onStart: function() { setStagesRevealed(1); },
-      onNext: function() { setStagesRevealed(function(s) { return s + 1; }); },
-      canAdvance: true,
-      isComplete: stagesRevealed >= steps.length,
-      startLabel: "See Stage 1",
-      nextLabel: "Next Stage ↓",
-      finishLabel: "See the loop ↓",
-      appendCompletion: true,
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Now repeat the entire journey.", body: "Every token in the response is its own full pass through the model. And again. And again." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-          steps.slice(0, stagesRevealed).map(function(step, i) {
-            return /*#__PURE__*/React.createElement(React.Fragment, { key: i },
-              step.pivot ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", padding: "16px 0 6px", borderTop: "2px solid var(--seeRule)" } },
-                /*#__PURE__*/React.createElement("div", { style: { background: "var(--seeAccent)", color: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 16px", borderRadius: 999, textAlign: "center", lineHeight: 1.4 } }, step.pivot)) : null,
-              /*#__PURE__*/React.createElement("div", {
-                style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === stagesRevealed - 1 ? 0 : 14, borderTop: (i === 0 || step.pivot) ? "none" : "2px solid var(--seeRule)", animation: i === stagesRevealed - 1 ? "fadeIn 0.3s ease" : "none" }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
-                /*#__PURE__*/React.createElement("div", null,
-                  renderChip(step.chip),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, step.title),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, step.description))));
-          }))))),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s the whole journey in one picture, from your prompt to a finished answer:"),
+  /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "At the heart of that journey is a neural network"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "It’s the engine in the middle, and most of what you’ve learned (embeddings, layers, attention, transform, and those final scores) lives inside it. Tokenizing is just the on-ramp that turns your words into the numbers it reads."),
@@ -5807,7 +5758,7 @@ function InferenceSection(props) {
               }, col.desc)));
         })))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: stagesRevealed >= steps.length && seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("insidethemodel"), label: "Next: Black Box" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("insidethemodel"), label: "Next: Black Box" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",

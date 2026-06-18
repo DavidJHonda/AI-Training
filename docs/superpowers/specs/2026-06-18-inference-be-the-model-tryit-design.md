@@ -1,5 +1,7 @@
 # Inference "Be the Model" TRY IT — Design
 
+> **Status: removed (2026-06-18).** Built and shipped, then removed the same week. Once the "Name the Piece" vocab checkpoint moved to the end of Inference (the Black Box dissolution), this TRY IT was redundant and felt weak, so `InferenceLoopTryIt` + its data were deleted. Kept as a design record.
+
 Date: 2026-06-18
 Lesson: Inference (`inference`), the closing lesson of the Understand AI section.
 

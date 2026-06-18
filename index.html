@@ -5425,37 +5425,36 @@ function InferenceJourneyDiagram() {
     return E("div", { style: { display: "inline-flex", alignItems: "center", padding: "3px 9px", borderRadius: 999, background: t.bg, color: t.color, fontSize: 10, fontWeight: 800, letterSpacing: "0.10em", textTransform: "uppercase", marginBottom: 8 } }, label);
   };
   var node = function(opts) {
-    return E("div", { style: { background: "#fff", border: "1.5px solid " + (opts.accent || "var(--rule)"), borderRadius: 12, padding: "12px 14px", boxShadow: "var(--shadowSoft)", flex: "1 1 150px", minWidth: 140, maxWidth: 220 } },
+    return E("div", { style: { background: "#fff", border: "1.5px solid " + (opts.accent || "var(--rule)"), borderRadius: 12, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
       chip(opts.chip, opts.tone),
       E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 4, lineHeight: 1.25 } }, opts.title),
       E("div", { style: { fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.4, color: "var(--inkMuted)" } }, opts.desc));
   };
-  var arrow = function() { return E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0, alignSelf: "center" } }, "→"); };
   var bracket = function(text) { return E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.12em", margin: "0 0 10px" } }, text); };
-  var rowStyle = { display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 8 };
+  var down = function() { return E("div", { style: { display: "flex", justifyContent: "center", margin: "8px 0" } }, E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, lineHeight: 1 } }, "↓")); };
   return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "26px 22px", marginBottom: "var(--blockGap)" } },
-    E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.14em", marginBottom: 18 } }, "Inference · one token, start to finish"),
-    bracket("Reads your whole prompt at once"),
-    E("div", { style: rowStyle },
-      node({ chip: "Context Window", tone: "muted", title: "What the model sees", desc: "Your prompt plus everything else in the window — past messages, custom instructions, saved memory." }),
-      arrow(),
-      node({ chip: "Tokens", tone: "muted", title: "Text becomes numbers", desc: "The whole thing is split into tokens, each mapped to a number. From here on, it’s all numbers." }),
-      arrow(),
-      node({ chip: "Embeddings", tone: "muted", title: "Starting meaning", desc: "Each token’s number becomes a vector — its starting meaning on the map." }),
-      arrow(),
-      node({ chip: "Layers / Attention", tone: "muted", title: "Meaning in context", desc: "~100 layers, reading every token against every other at once, using weights frozen in training. Out comes one final vector per token." })),
-    E("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 6, margin: "14px 0" } },
-      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18 } }, "↓"),
-      E("div", { style: { background: "var(--primary)", color: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 16px", borderRadius: 999, textAlign: "center", lineHeight: 1.4 } }, "One final vector per token — your prompt, understood."),
-      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18 } }, "↓")),
-    bracket("Writes one token at a time"),
-    E("div", { style: rowStyle },
+    E("div", { style: { display: "flex", flexDirection: "column", alignItems: "stretch", maxWidth: 520, margin: "0 auto" } },
+      bracket("You type a message to ChatGPT"),
+      node({ chip: "Context Window", tone: "muted", accent: "var(--primary)", title: "What the model sees", desc: "Your prompt plus everything else in the window: past messages, AI responses, custom instructions, saved memory." }),
+      down(),
+      node({ chip: "Tokens", tone: "muted", accent: "var(--primary)", title: "Text becomes numbers", desc: "The whole thing is split into tokens, each mapped to a number. From here on, it’s all numbers." }),
+      down(),
+      node({ chip: "Embeddings", tone: "muted", accent: "var(--primary)", title: "Starting meaning", desc: "Each token’s number becomes a vector, its starting meaning on the map." }),
+      down(),
+      node({ chip: "Transformer", tone: "muted", accent: "var(--primary)", title: "Reads everything at once", desc: "The architecture that reads every token at once. Each of ~100 layers runs attention (which tokens relate), then transformation (what they mean together), using weights frozen in training. One final vector per token comes out." }),
+      down(),
+      E("div", { style: { alignSelf: "center", background: "var(--primary)", color: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 16px", borderRadius: 999, textAlign: "center", lineHeight: 1.4 } }, "One final vector per token. Everything you sent, understood."),
+      down(),
+      bracket("How AI responds (one token at a time)"),
       node({ chip: "Probability", tone: "bright", accent: "var(--primary)", title: "Score every possible next token", desc: "The last token’s final vector is compared against all ~100,000 tokens it knows. Closeness becomes a probability." }),
-      arrow(),
-      node({ chip: "Prediction", tone: "bright", accent: "var(--green)", title: "Pick one token", desc: "It picks one — usually a word — and adds it to the answer." })),
-    E("div", { style: { marginTop: 18, padding: "14px 16px", borderRadius: 12, background: "var(--primaryFaint)", border: "1px dashed var(--primary)", display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } },
-      E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0 } }, "↻"),
-      E("div", null, E("strong", { style: { color: "var(--ink)" } }, "Then it loops. "), "Append that token, then run the whole journey again, now over your prompt plus what it’s written so far. Repeat until the answer is complete.")));
+      down(),
+      node({ chip: "Prediction", tone: "bright", accent: "var(--primary)", title: "Pick the next token", desc: "It picks one token, usually a whole word." }),
+      down(),
+      node({ chip: "Output", tone: "bright", accent: "var(--green)", title: "Types it out", desc: "The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream." }),
+      down(),
+      E("div", { style: { padding: "14px 16px", borderRadius: 12, background: "#fff", border: "1px dashed var(--primary)", display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } },
+        E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0 } }, "↻"),
+        E("div", null, E("strong", { style: { color: "var(--ink)" } }, "No memory, so it loops. "), "The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and runs the whole journey again, token by token, until the answer is complete."))));
 }
 function InferenceSection(props) {
   const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);

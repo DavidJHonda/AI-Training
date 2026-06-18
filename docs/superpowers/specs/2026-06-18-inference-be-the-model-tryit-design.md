@@ -35,8 +35,12 @@ and tie directly back to the diagram's Probability → Prediction → Loop steps
   paragraph), before the "At the heart of that journey is a neural network"
   `SectionKicker`. The diagram's loop rail says "runs again"; this TRY IT *is* that
   "again."
-- **No gating / no localStorage:** it's exploratory and replayable; the Next gate stays
-  on the existing ChatGPT-decoded reveal.
+- **No gating / no localStorage:** the Next gate stays on the existing ChatGPT-decoded
+  reveal.
+- **Conclusion = `Takeaway` component, no replay control:** the activity ends with the
+  deck's standard `Takeaway` (matching every other sequential TRY IT), not a "Start
+  over" button. A replay/reset control is an interaction the deck doesn't use elsewhere.
+  (Original design used Start over + a separate `KeyInsight`; changed during review.)
 
 ## Content (data)
 
@@ -81,23 +85,26 @@ Render:
   - **If not complete:** "Pick the next token →" plus the 3 current candidates as
     ranked chips (word + `%`), styled like the Core Loop probability rows (amber bars
     / chips). Tapping appends to `picks`.
-  - A sub-label: *"Each pick runs the whole journey again. The model has no plan — it
+  - A sub-label: *"Each pick runs the whole journey again. The model has no plan: it
     only sees the words so far."*
-  - After the fork pick: a one-line nudge — *"Pick differently next time and the
-    sentence changes from here."*
-  - **If complete:** the finished sentence, a **"Start over"** button (resets `picks`),
-    and the payoff.
-- Payoff `KeyInsight` (renders once complete): *"That's inference. One token at a
-  time, each one a full re-run of the journey, with no plan for where it ends. Hit
-  start over and choose differently — you'll get a different sentence, the same way the
-  model would."*
+  - After the fork pick: a one-line nudge — *"A different pick here would send the
+    sentence somewhere else."*
+  - The standard disclaimer line, shown while picking.
+  - **If complete:** the picker is replaced by a "THE ANSWER YOU BUILT" eyebrow above
+    the finished sentence (no replay control).
+- Conclusion (renders once complete): the deck's `Takeaway` component
+  (`accent: "var(--tryAccent)"`), headline *"One word, look again, the next."*, body
+  *"Each tap ran the whole journey once: score every token, pick one, add it, then look
+  again. That's inference, and it's why the model has no fixed plan for where a sentence
+  ends. The path you chose is what decided this one."* It sits inside the box, below the
+  finished-sentence card, matching the other sequential TRY ITs.
 
 Completion = `picks.length === 3` (depth of the authored data along the chosen path).
 
 ## Styling / consistency
 
 - Reuse existing tokens and box components (`InteractiveBox`, `InnerCard`,
-  `ActivityInstruction`, `KeyInsight`, `BOX_TEXT`); mono font for the building sentence
+  `ActivityInstruction`, `Takeaway`); mono font for the building sentence
   (`var(--mono)`), matching other prediction demos.
 - Candidate chips reuse the amber probability palette (`#d97706` / `#fbedd3`) from the
   Core Loop "Same word, different odds" box, so the % reads as the same idea.

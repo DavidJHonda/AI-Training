@@ -5518,6 +5518,60 @@ function InferenceJourneyDiagram() {
         narrow ? null : rail(READ.deep, "no memory · the whole journey runs again")),
       narrow ? loopCaption : null));
 }
+var INFERENCE_LOOP = {
+  seed: "After school, I like to",
+  l1: [{ word: "play", pct: 47 }, { word: "go", pct: 26 }, { word: "watch", pct: 18 }],
+  l2: {
+    play: [{ word: "basketball", pct: 38 }, { word: "video games", pct: 33 }, { word: "the guitar", pct: 14 }],
+    go: [{ word: "outside", pct: 41 }, { word: "home", pct: 29 }, { word: "for a walk", pct: 12 }],
+    watch: [{ word: "videos", pct: 44 }, { word: "movies", pct: 22 }, { word: "the game", pct: 16 }]
+  },
+  closers: {
+    play: [{ word: "with my friends", pct: 45 }, { word: "at the park", pct: 30 }, { word: "after dinner", pct: 15 }],
+    go: [{ word: "until dinner", pct: 40 }, { word: "with my dog", pct: 28 }, { word: "for a bit", pct: 16 }],
+    watch: [{ word: "on my phone", pct: 43 }, { word: "with my sister", pct: 24 }, { word: "till late", pct: 13 }]
+  }
+};
+function InferenceLoopTryIt() {
+  var E = React.createElement;
+  var _p = useState([]), picks = _p[0], setPicks = _p[1];
+  var _h = useState(-1), hover = _h[0], setHover = _h[1];
+  var d = INFERENCE_LOOP;
+  var complete = picks.length >= 3;
+  var candidates = picks.length === 0 ? d.l1 : picks.length === 1 ? d.l2[picks[0]] : picks.length === 2 ? d.closers[picks[0]] : [];
+  var AMBER = "#b45309", AMBER_BG = "#fbedd3", AMBER_TRACK = "#f3e7d0", AMBER_FILL = "#f5d9a8", AMBER_TOP = "linear-gradient(90deg, #d97706, #f59e0b)";
+  var pick = function(w) { setHover(-1); setPicks(function(p) { return p.concat([w]); }); };
+  var soFar = E("div", { style: { fontFamily: "var(--mono)", fontSize: 16, lineHeight: 1.75, color: "var(--ink)", marginBottom: complete ? 16 : 22 } },
+    E("span", { style: { color: "var(--inkMuted)" } }, d.seed + " "),
+    picks.map(function(w, i) {
+      var hot = i === picks.length - 1 && !complete;
+      return E("span", { key: i, style: { fontWeight: hot ? 800 : 600, color: hot ? AMBER : "var(--ink)", background: hot ? AMBER_BG : "transparent", borderRadius: 6, padding: hot ? "1px 6px" : 0, marginRight: 5, animation: hot ? "fadeIn 0.3s ease" : "none" } }, w);
+    }),
+    complete ? E("span", { style: { color: "var(--ink)", fontWeight: 600, marginLeft: -5 } }, ".") : E("span", { style: { color: AMBER, fontWeight: 700, marginLeft: 1, animation: "fadeIn 0.8s ease infinite alternate" } }, "█"));
+  var picker = E("div", { style: { animation: "fadeIn 0.3s ease" } },
+    E("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 } },
+      E("span", { style: { fontWeight: 700, fontSize: 14, color: "var(--ink)" } }, "Pick the next token →"),
+      E("span", { style: { fontSize: 12, color: "var(--inkMuted)", fontWeight: 600 } }, "Token " + (picks.length + 1) + " of 3")),
+    candidates.map(function(c, i) {
+      var top = i === 0, on = hover === i;
+      return E("button", { key: c.word, onClick: function() { pick(c.word); }, onMouseEnter: function() { setHover(i); }, onMouseLeave: function() { setHover(-1); },
+        style: { display: "flex", alignItems: "center", gap: 12, width: "100%", textAlign: "left", cursor: "pointer", font: "inherit", background: on ? AMBER_BG : "#fff", border: "1.5px solid " + (on ? "#d97706" : AMBER_BG), borderRadius: 10, padding: "10px 14px", marginBottom: 8, transition: "background 120ms ease, border-color 120ms ease" } },
+        E("span", { style: { fontFamily: "var(--mono)", fontWeight: 700, fontSize: 14, minWidth: 116, color: top ? AMBER : "var(--ink)" } }, c.word),
+        E("div", { style: { flex: 1, background: AMBER_TRACK, height: 14, borderRadius: 7, overflow: "hidden" } },
+          E("div", { style: { width: c.pct + "%", height: "100%", borderRadius: 7, background: top ? AMBER_TOP : AMBER_FILL } })),
+        E("span", { style: { fontWeight: 700, fontSize: 13, minWidth: 40, textAlign: "right", color: top ? AMBER : "var(--inkSoft)" } }, c.pct + "%"));
+    }),
+    E("div", { style: { fontSize: 12.5, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10 } }, "Each pick runs the whole journey again. The model has no plan: it only sees the words so far."),
+    picks.length >= 1 ? E("div", { style: { fontSize: 12.5, color: "#b45309", lineHeight: 1.5, marginTop: 6, fontWeight: 600, animation: "fadeIn 0.3s ease" } }, "A different pick here would send the sentence somewhere else.") : null,
+    E("div", { style: { fontSize: 12, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 12 } }, "Simplified demo: the model scores every token it knows and exact numbers vary by model."));
+  return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the model" },
+    E(ActivityInstruction, null, "Tap the next word. Each tap is one trip through the journey above."),
+    E(InnerCard, null,
+      complete ? E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--inkMuted)", marginBottom: 8 } }, "The answer you built") : null,
+      soFar,
+      complete ? null : picker),
+    complete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "One word, look again, the next.", body: "Each tap ran the whole journey once: score every token, pick one, add it, then look again. That’s inference, and it’s why the model has no fixed plan for where a sentence ends. The path you chose is what decided this one." }) : null);
+}
 function InferenceSection(props) {
   var COLS = [
     { label: "Chat", desc: "A conversational interface. You type, it responds.", color: "#3b82f6" },
@@ -5553,6 +5607,9 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to produce one token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
   /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "YOUR TURN: BE THE MODEL"),
+  /*#__PURE__*/React.createElement(BodyP, null, "You just read the loop. Now run it. Below, you’re the model: at each step, pick the next token from its ranked list and watch the sentence build itself, one token at a time."),
+  /*#__PURE__*/React.createElement(InferenceLoopTryIt, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "At the heart of that journey is a neural network"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "It’s the engine in the middle, and most of what you’ve learned (embeddings, layers, attention, transform, and those final scores) lives inside it. Its structure is borrowed from biology, nodes passing numbers forward, but it isn’t a brain and it isn’t thinking. The adjustable numbers inside are the ",

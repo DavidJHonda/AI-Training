@@ -9,7 +9,7 @@ Captured 2026-06-10 at 1200px viewport from the lessons noted below. If a compon
 All activities sit on `InteractiveBox`, which has three variants: `try` on the mint surface (✎ TRY IT), `see` on the sand surface (◉ SEE IT), and `lab` on the teal surface (⚒ LAB). The header row carries the eyebrow, title, and usually an `ActivityCounter`; an `ActivityInstruction` line sits below the title.
 
 ### TRY IT — Pattern 2 (parallel)
-All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `FeedbackPill` answer controls and per-item feedback; counter tracks answered. Shown with the first row answered. Canonical reference: "Match the Task to the Effort" in The Effort Dial (`effort`). Question prompts are non-bold; answer pills stay bold. Recaptured 2026-06-17.
+All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `FeedbackPill` answer controls and per-item feedback. No `ActivityCounter` — every item is on screen, so an "N of M answered" pill is redundant (removed 2026-06-18); the counter is reserved for sequential reveals. Shown with the first row answered. Canonical reference: "Match the Task to the Effort" in The Effort Dial (`effort`). Question prompts are non-bold; answer pills stay bold. Recaptured 2026-06-18.
 
 ![TRY IT parallel](try-it-parallel.png)
 

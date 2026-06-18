@@ -546,7 +546,10 @@ function NextCardUnlocked(props) {
       }, "Next Lesson"),
       React.createElement("div", {
         style: { fontSize: 15, fontWeight: 600, color: "var(--ink)", lineHeight: 1.25 }
-      }, props.label)
+      }, props.label),
+      props.hint ? React.createElement("div", {
+        style: { fontSize: 11.5, fontWeight: 600, color: "#b45309", lineHeight: 1.4, marginTop: 1 }
+      }, props.hint) : null
     ),
     React.createElement("div", {
       style: {
@@ -616,9 +619,11 @@ function NextLessonGate(props) {
       })
     : React.createElement("div", { style: { flex: "0 1 340px" } });
 
-  var nextCard = isReady
-    ? React.createElement(NextCardUnlocked, { label: nextLabel, onClick: props.onClick })
-    : React.createElement(NextCardLocked, { message: props.lockedMessage });
+  var nextCard = React.createElement(NextCardUnlocked, {
+    label: nextLabel,
+    onClick: props.onClick,
+    hint: isReady ? null : "You can keep going, but the activity above is the point."
+  });
 
   return React.createElement("div", {
     style: { display: "flex", justifyContent: "space-between", gap: 16, alignItems: "stretch", marginTop: 8 }

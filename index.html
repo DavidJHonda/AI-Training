@@ -1403,7 +1403,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control", "studying"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference", "insidethemodel"]
+  sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Work With AI",
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
@@ -5585,6 +5585,7 @@ function InferenceSection(props) {
   var _ps = useState(null), paths = _ps[0], setPaths = _ps[1];
   var _rs = useLocalStorage("seeit-inference-chatgptDecoded", {}), revealed = _rs[0], setRevealed = _rs[1];
   var revealLetter = function(i) { setRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
+  var _mc = useState(false), matchComplete = _mc[0], setMatchComplete = _mc[1];
   useEffect(function() {
     function calc() {
       var c = containerRef.current;
@@ -5680,8 +5681,11 @@ function InferenceSection(props) {
                 style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
               }, col.desc)));
         })))),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "LOCK IN THE PIECES"),
+  /*#__PURE__*/React.createElement(BodyP, null, "You’ve now met every piece that lives inside the model: tokens, token IDs, the embedding table, embedding vectors, dimensions, values, and parameters. Here’s a quick checkpoint to lock them in."),
+  /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(revealed).length >= COLS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("insidethemodel"), label: "Next: Black Box" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerworkwith"), label: "Next: Work With AI" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",
@@ -13381,9 +13385,13 @@ function AIFutureSection(props) {
     trackContent,
     watchContent,
     /*#__PURE__*/React.createElement("div", { style: { marginTop: 48 } },
-      /*#__PURE__*/React.createElement(SectionKicker, null, "WHY OUTSIDE EVIDENCE MATTERS")
+      /*#__PURE__*/React.createElement(SectionKicker, null, "AI IS A BLACK BOX")
     ),
-    /*#__PURE__*/React.createElement(BodyP, null, "Earlier in the course you saw why AI is a black box: the rules are learned, not written; the inside isn\u2019t a repair manual; explanations may not match real causes; closed tools hide even more. That matters here, on a page about future claims. If someone says \u201CAI will definitely do X soon,\u201D the technical-sounding explanation is not the evidence. The evidence is what shows up outside the model: real-world performance, repeated results, deployment at scale, known failure rates, accountable owners."),
+    /*#__PURE__*/React.createElement(BodyP, null, "There is a term software engineers use for AI: ", /*#__PURE__*/React.createElement("strong", null, "the black box"), ". With a regular calculator, if you type 2+2 and it says 5, a programmer can open the code, find the broken line, and fix it. The path from input to output is traceable."),
+    /*#__PURE__*/React.createElement(BodyP, null, "AI is different. When you give ChatGPT a prompt and it writes you a poem, nobody (not even the people who built it) can point to a specific spot inside the model and say \u201Cthat\u2019s where the rhyme came from.\u201D You can study its behavior from outside, but you can\u2019t crack it open and read the logic like normal software."),
+    /*#__PURE__*/React.createElement(BodyP, null, "So what IS inside? Learned numbers. Billions of them, adjusted during training until they helped the model predict better."),
+    /*#__PURE__*/React.createElement("img", { src: "illustrations/black-box-1.jpg", alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
+    /*#__PURE__*/React.createElement(BodyP, null, "That opacity is exactly why future claims are hard to check. If someone says \u201CAI will definitely do X soon,\u201D the technical-sounding explanation is not the evidence. The evidence is what shows up outside the model: real-world performance, repeated results, deployment at scale, known failure rates, accountable owners."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       marginBottom: 18
     },
@@ -13722,7 +13730,6 @@ const SECTION_COMPONENTS = {
   trainingbias: TrainingBiasSection,
   tokens: TokenSection,
   embeddings: EmbeddingsSection,
-  insidethemodel: BehindTheNumbersSection,
   layers: LayersSection,
   inference: InferenceSection,
   modelselection: ModelSelectionSection,

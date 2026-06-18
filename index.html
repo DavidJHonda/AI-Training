@@ -8094,7 +8094,6 @@ function OpenerWorkWithSection(props) {
     whatYoullLearnClosing: [
       "By the end, opening a chat should feel less like a guess and more like a setup: the right tool, a clear ask, and your own thinking still in the loop."
     ],
-    question: "Am I reaching for the right tool, or just the first one?",
     nextLessonId: "whatitdoesbest",
     nextLessonLabel: "Next: What AI Does Best",
     completeAndNavigate: props.completeAndNavigate
@@ -8353,11 +8352,28 @@ function WhatItDoesBestSection(props) {
     E(BodyP, null,
       "The class title points at three ideas: patterns, probability, prediction. You’ve met them in almost every lesson. Now we get to use them."),
     E(BodyP, null,
-      "AI can be aimed at almost anything, but it’s at its best at four kinds of work. Each one traces back to a mechanism you already learned. Naming them turns ‘AI can do X’ into ‘AI does X well because Y.’"),
+      "AI will take on almost anything you ask: writing, planning, summarizing, coding, drawing, whatever you throw at it. But being willing to try and being good at it are two different things, and AI is far better at some kinds of work than others. It’s at its best at four of them, and each one traces back to a mechanism you already learned. Naming them turns ‘AI can do X’ into ‘AI does X well because Y.’"),
     E(SectionKicker, null, "WHAT AI EXCELS AT"),
-    E(NumberedRows, { headline: "AI is built to do four things really well.", marginBottom: 32, items: ENGINES.map(function(e) {
-      return { title: e.name, body: E(React.Fragment, null, E("em", null, e.tagline), " ", e.mechanism), after: E(React.Fragment, null, E("strong", null, "Powers: "), e.powers.join(", ") + ".") };
-    }) }),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", marginBottom: 16 } }, "AI is built to do four things really well."),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))", gap: 16, marginBottom: 32 } },
+      ENGINES.map(function(e) {
+        var icon = { pattern: "🧩", exposure: "📚", compression: "🔍", generation: "🎲" }[e.id];
+        return E("div", { key: e.id, style: { background: "#fff", borderRadius: 16, borderTop: "3px solid " + e.color, boxShadow: "var(--shadowSoft)", padding: "18px 20px", display: "flex", flexDirection: "column" } },
+          E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 6 } },
+            E("span", { style: { fontSize: 20, flexShrink: 0 } }, icon),
+            E("span", { style: { fontFamily: "var(--sans)", fontSize: 17, fontWeight: 800, color: e.color } }, e.name)),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 6 } }, e.tagline),
+          E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, e.mechanism),
+          E("div", { style: { marginTop: "auto" } },
+            E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+            E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: e.color, marginBottom: 8 } }, "Good for"),
+            E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+              e.powers.map(function(p, pi) {
+                return E("div", { key: pi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                  E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: e.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                  E("span", null, p));
+              }))));
+      })),
     E(BodyP, null,
       "Eight real tasks. For each one, pick the strength doing the heavy lifting. Some are close calls."),
     E(InteractiveBox, {

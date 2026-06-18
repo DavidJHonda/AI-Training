@@ -1440,7 +1440,7 @@ const SECTION_META = {
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   insidethemodel: { kicker: "WHAT’S ACTUALLY INSIDE", label: "Black Box", title: "Black Box", icon: "\uD83D\uDD0D" },
-  attention: { kicker: "ALL AT ONCE", label: "Attention", icon: "\uD83D\uDCD6" },
+  attention: { kicker: "ALL AT ONCE", label: "Transformer", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -4016,11 +4016,13 @@ function HowAIReadsSection(props) {
     E(BodyP, null,
       "In 2017, eight researchers at Google published a paper called ",
       E("strong", null, "Attention Is All You Need"),
-      ". We’ll share the specific concepts next, but for now, let’s focus on the impact."
+      ". It introduced the ",
+      E("strong", null, "Transformer"),
+      ", the architecture behind every modern LLM, and the “T” in ChatGPT. We’ll share the specific concepts next, but for now, let’s focus on the impact."
     ),
 
     E(BodyP, null,
-      "Instead of reading information sequentially, one word (token) at a time, AI reads it all at once. That means it can establish the meaning of the word ",
+      "Instead of reading information sequentially, one word (token) at a time, the Transformer reads your whole text at once. That means it can establish the meaning of the word ",
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
       " based on the words around it, like ",
       E("strong", { style: { color: "var(--primary)" } }, "CAT"),
@@ -4030,6 +4032,8 @@ function HowAIReadsSection(props) {
       E("strong", { style: { color: "var(--primary)" } }, "TIRED"),
       "."
     ),
+
+    E(BodyP, null, "It makes sense of all those words with two moves:"),
 
     E("div", {
       style: {
@@ -4194,7 +4198,7 @@ function HowAIReadsSection(props) {
 
 
     E(KeyInsight, { lead: "It made AI possible." },
-      "This two-step move, attention then transformation, is the engine inside ChatGPT, Claude, and Gemini."),
+      "Attention then transformation: together they’re the Transformer, the engine inside ChatGPT, Claude, and Gemini. The Transformer runs those two moves over and over, stacked in layers, which is next."),
 
     E(LessonRule, null),
     E(NextLessonGate, {
@@ -5088,7 +5092,7 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Attention" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
@@ -5293,7 +5297,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI does the same thing. It reads your words once into numbers, then works over those numbers again and again, establishing the meaning a little more with each pass. Each pass is called a ",
       /*#__PURE__*/React.createElement("strong", null, "layer"),
-      ". At every layer it runs the same two processes: ",
+      ", and the Transformer stacks dozens of them. At every layer it runs the same two moves you just met: ",
       /*#__PURE__*/React.createElement("strong", null, "attention"),
       " (which words matter) and ",
       /*#__PURE__*/React.createElement("strong", null, "transformation"),
@@ -5303,7 +5307,7 @@ function LayersSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "IT"),
       " into the meaning for ",
       /*#__PURE__*/React.createElement("strong", null, "CAT"),
-      " (the pronoun example from Attention). It’s doing the same thing you did when you read the sentence above, but with math."),
+      " (the pronoun example from Transformer). It’s doing the same thing you did when you read the sentence above, but with math."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/layers-1.jpg",
       alt: "Inside one layer: vectors go in, attention finds which words matter, transformation updates the meaning, and richer vectors come out, then feed into the next layer",

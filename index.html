@@ -5157,14 +5157,16 @@ function VectorSpaceSection(props) {
 function MatchTermsTryIt(props) {
   var E = React.createElement;
   var QUESTIONS = [
-    { prompt: "A chunk of text the model reads, like a word, part of a word, or emoji.", answer: "Token", choices: ["Token", "Token ID", "Value"], feedback: "A token is the chunk of text itself: a word, part of a word, punctuation, or emoji." },
-    { prompt: "The number assigned to a token.", answer: "Token ID", choices: ["Value", "Token ID", "Token"], feedback: "Every token is turned into a number, and that number is its token ID." },
-    { prompt: "A row of numbers in a specific order.", answer: "Vector", choices: ["Vector", "Embedding vector", "Dimension"], feedback: "A vector is simply a row of numbers in a fixed order." },
-    { prompt: "One slot in a vector.", answer: "Dimension", choices: ["Dimension", "Value", "Embedding vector"], feedback: "Each slot in that row of numbers is a dimension." },
-    { prompt: "The number inside one slot.", answer: "Value", choices: ["Dimension", "Token ID", "Value"], feedback: "The number that sits inside one slot is its value." },
-    { prompt: "The full number profile for a token.", answer: "Embedding vector", choices: ["Embedding table", "Embedding vector", "Vector"], feedback: "When a vector stands for one token’s meaning, we call it the embedding vector." },
-    { prompt: "The lookup table that maps token IDs to starting vectors.", answer: "Embedding table", choices: ["Embedding vector", "Parameter", "Embedding table"], feedback: "The embedding table is the lookup that maps each token ID to its starting vector." },
-    { prompt: "A stored learned number adjusted during training.", answer: "Parameter", choices: ["Value", "Parameter", "Embedding table"], feedback: "A parameter is one of the model’s learned numbers, set during training." }
+    { prompt: "A chunk of text the model reads or writes, like a word, part of a word, or emoji.", answer: "Token", choices: ["Token", "Embedding", "Parameter"], feedback: "A token is the chunk of text itself: a word, part of a word, punctuation, or emoji." },
+    { prompt: "A token turned into a row of numbers that captures its meaning.", answer: "Embedding", choices: ["Token", "Embedding", "Context window"], feedback: "An embedding turns a token into numbers that capture meaning, so similar words land close together." },
+    { prompt: "A learned number inside the model, set during training and frozen afterward.", answer: "Parameter", choices: ["Layers", "Parameter", "Token"], feedback: "A parameter (also called a weight) is one of the model’s learned numbers, fixed once training ends." },
+    { prompt: "The step that works out which words in the text relate to which.", answer: "Attention", choices: ["Attention", "Transformer", "Prediction"], feedback: "Attention figures out which words connect: each word weighs every other word." },
+    { prompt: "The architecture that lets the model read all your words at once, not one at a time.", answer: "Transformer", choices: ["Inference", "Transformer", "Attention"], feedback: "The Transformer is the architecture behind modern LLMs (the T in ChatGPT). It reads all the tokens at once." },
+    { prompt: "The stacked steps that refine meaning a little more on each pass.", answer: "Layers", choices: ["Training", "Attention", "Layers"], feedback: "Layers are the stacked steps, around 100 of them, and each one refines the meaning before passing it on." },
+    { prompt: "Learning patterns from billions of examples, once, before you ever use the model.", answer: "Training", choices: ["Training", "Inference", "Parameter"], feedback: "Training is the one-time build where the model learns its patterns. Afterward the weights are frozen." },
+    { prompt: "Everything the model can see at once: your prompt, the conversation, and instructions.", answer: "Context window", choices: ["Embedding", "Context window", "Training"], feedback: "The context window is the model’s field of view. Anything outside it is invisible to the model." },
+    { prompt: "Using the trained model to generate an answer, one token at a time.", answer: "Inference", choices: ["Training", "Inference", "Transformer"], feedback: "Inference is answer-time: the model uses what it learned to generate, token by token. It isn’t learning now." },
+    { prompt: "Choosing the next token from the model’s ranked list of possibilities.", answer: "Prediction", choices: ["Inference", "Attention", "Prediction"], feedback: "Prediction is the pick: the model scores every possible next token, chooses one, then repeats." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
@@ -5625,7 +5627,7 @@ function InferenceSection(props) {
               }, col.desc)));
         })))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "LOCK IN THE PIECES"),
-  /*#__PURE__*/React.createElement(BodyP, null, "You’ve now met every piece that lives inside the model: tokens, token IDs, the embedding table, embedding vectors, dimensions, values, and parameters. Here’s a quick checkpoint to lock them in."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You’ve now met every piece of how an LLM works: tokens and embeddings, attention and layers, training, the context window, and inference itself. Here’s a quick checkpoint to lock them in."),
   /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerworkwith"), label: "Next: Work With AI" }));

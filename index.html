@@ -5518,7 +5518,6 @@ function InferenceJourneyDiagram() {
     narrow ? loopCaption : null);
 }
 function InferenceSection(props) {
-  const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
   var COLS = [
     { label: "Chat", desc: "A conversational interface. You type, it responds.", color: "#3b82f6" },
     { label: "Generative", desc: "It creates new content from scratch. This includes text, video, images, audio, and documents.", color: "#10b981" },
@@ -5549,185 +5548,20 @@ function InferenceSection(props) {
     window.addEventListener("resize", calc);
     return function() { window.removeEventListener("resize", calc); };
   }, []);
-  const [promptChars, setPromptChars] = useState(0);
-  const [promptDone, setPromptDone] = useState(false);
-  const [aiRespWords, setAiRespWords] = useState(0);
-  const [aiRespDone, setAiRespDone] = useState(false);
-  var seePromptText = "What car should I buy after I graduate from college?";
-  var lukeRespText = "Great question, Luke. I definitely recommend a Jeep Cherokee.";
-  var nateRespText = "I’m happy you asked this question, Nate. At this point in your life, I recommend the Ford Raptor.";
-  var nateRespWordsArr = nateRespText.split(" ");
-  useEffect(function() {
-    if (seeStep < 1 || promptDone) return;
-    if (promptChars >= seePromptText.length) { setPromptDone(true); return; }
-    var iv = setInterval(function() { setPromptChars(function(c) { if (c >= seePromptText.length) { clearInterval(iv); return c; } return c + 1; }); }, 35);
-    return function() { clearInterval(iv); };
-  }, [seeStep, promptChars, promptDone]);
-  useEffect(function() {
-    if (seeStep < 5 || aiRespDone) return;
-    var t = setTimeout(function() {
-      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= nateRespWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
-    }, 500);
-    return function() { clearTimeout(t); };
-  }, [seeStep]);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and that final probability score. Now watch them work together as a single journey from your prompt to a finished answer."),
   /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to produce one token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
   /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "At the heart of that journey is a neural network"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "It’s the engine in the middle, and most of what you’ve learned (embeddings, layers, attention, transform, and those final scores) lives inside it. Tokenizing is just the on-ramp that turns your words into the numbers it reads."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Its structure is borrowed from biology, nodes passing numbers forward, but it isn’t a brain and it isn’t thinking. The adjustable numbers inside are the ",
+      "It’s the engine in the middle, and most of what you’ve learned (embeddings, layers, attention, transform, and those final scores) lives inside it. Its structure is borrowed from biology, nodes passing numbers forward, but it isn’t a brain and it isn’t thinking. The adjustable numbers inside are the ",
       /*#__PURE__*/React.createElement("strong", null, "weights"),
-      " from Training: billions of them, frozen once the model was done. When you hear “open weights” in the news, that’s a model whose weights anyone can download."),
+      " from Training: billions of them, frozen once the model was done."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/inference-1.jpg",
       alt: "A hand-drawn diagram: a neural network is layers of math passing numbers forward. Numbers from the prompt enter on the left and pass through Layer 1 to Layer N, where each node multiplies its inputs by weights, sums them, applies an activation, and passes the result forward; a score for every possible next token comes out on the right. Weights are learned in training and frozen during inference.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 16 }
     }),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Same question, different prediction",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(seeStep, 5), total: 5 })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the same question play out token by token."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "sand",
-      items: [1, 2, 3, 4, 5],
-      currentIdx: seeStep > 0 ? seeStep - 1 : 0,
-      started: seeStep > 0,
-      onStart: function() { setSeeStep(1); },
-      onNext: function() { setSeeStep(function(s) { return s + 1; }); },
-      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 5) || (seeStep === 5 && aiRespDone),
-      isComplete: seeStep >= 6,
-      startLabel: "Start",
-      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Pick the brand →" : seeStep === 3 ? "Pick the model →" : seeStep === 4 ? "Watch the responses →" : "Next →",
-      finishLabel: "See the takeaway →",
-      appendCompletion: true,
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Same model. Different context. Every token changes.", body: "Nothing about the model was different between Luke and Nate. Same training, same vocabulary, same architecture. The context window is what shifted. And that single difference rewrote every single token." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Same question")),
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "#e0f2fe", borderRadius: 12, padding: 14, border: "1px solid #bfdbfe" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👦🏻"),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#1e40af" } }, "Luke")),
-            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" })),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#f3e8ff", borderRadius: 12, padding: 14, border: "1px solid #ddd6fe" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👱‍♂️"),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#5b21b6" } }, "Nate")),
-            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" }))),
-        seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different context")),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Luke’s context window"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
-                "This question, ",
-                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
-                " an earlier message from Luke: ",
-                /*#__PURE__*/React.createElement("em", null, "“I want something all-terrain for camping and road trips.”"))),
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Nate’s context window"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
-                "This question, ",
-                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
-                " an earlier message from Nate: ",
-                /*#__PURE__*/React.createElement("em", null, "“I love pickup trucks.”")))) ),
-        seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the brand"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "Same vocabulary, different probabilities."))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend a ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Jeep", pct: 44 }, { word: "Toyota", pct: 22 }, { word: "Honda", pct: 14 }, { word: "Ford", pct: 12 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend the ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Ford", pct: 53 }, { word: "Honda", pct: 15 }, { word: "Toyota", pct: 12 }, { word: "Chevy", pct: 12 }, { word: "Jeep", pct: 8 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })))),
-        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "04"),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the model"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "With the brand locked in, that choice reshapes what comes next."))),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend a ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "#1e40af", borderBottom: "2px solid #1e40af", paddingBottom: 2, fontWeight: 800 } }, "Jeep"),
-                " ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Cherokee", pct: 41 }, { word: "Wrangler", pct: 28 }, { word: "Wagoneer", pct: 13 }, { word: "Compass", pct: 11 }, { word: "Renegade", pct: 7 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
-                "“... recommend the ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "#5b21b6", borderBottom: "2px solid #5b21b6", paddingBottom: 2, fontWeight: 800 } }, "Ford"),
-                " ",
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
-                "”"),
-              [{ word: "Raptor", pct: 42 }, { word: "F-150", pct: 25 }, { word: "Bronco", pct: 14 }, { word: "Ranger", pct: 12 }, { word: "Maverick", pct: 7 }].map(function(opt, i) {
-                var isTop = i === 0;
-                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
-                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
-                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
-              })))),
-        seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "05"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different responses")),
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
-  /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/inference-2.jpg",
-    alt: "Two teens in a car showroom beside a Ford pickup and a Jeep. A screen above shows the model reading thousands of signals about each person, matching patterns, and predicting the vehicle each is most likely to like: Nate’s pick is the rugged Ford, Luke’s is the versatile Jeep. Caption: AI predicts, you choose. It is a helpful guess, not a rule.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "16px auto 28px", borderRadius: 16 }
-  }),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "One answer. Many picks. Each one shapes what comes next." },
-    "Pick the brand and the model options change. Pick the model and the next token changes. Every token along the way is its own fresh prediction, shaped by every pick before it. Each one is a full pass through the same model, and that repeating pass is inference."),
   /*#__PURE__*/React.createElement(TemperatureSection, { embedded: true }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "READ THE NAME ON THE BOX"),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -5790,7 +5624,7 @@ function InferenceSection(props) {
               }, col.desc)));
         })))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep >= 6, onClick: () => props.completeAndNavigate && props.completeAndNavigate("insidethemodel"), label: "Next: Black Box" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(revealed).length >= COLS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("insidethemodel"), label: "Next: Black Box" }));
 }
 const CONTEXT_WINDOW_FACTS = [{
   label: "1st version of ChatGPT (November, 2022)",
@@ -5963,6 +5797,28 @@ function OpenerAnswersSection(props) {
 }
 
 function PromptSection(props) {
+  const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
+  const [promptChars, setPromptChars] = useState(0);
+  const [promptDone, setPromptDone] = useState(false);
+  const [aiRespWords, setAiRespWords] = useState(0);
+  const [aiRespDone, setAiRespDone] = useState(false);
+  var seePromptText = "What car should I buy after I graduate from college?";
+  var lukeRespText = "Great question, Luke. I definitely recommend a Jeep Cherokee.";
+  var nateRespText = "I’m happy you asked this question, Nate. At this point in your life, I recommend the Ford Raptor.";
+  var nateRespWordsArr = nateRespText.split(" ");
+  useEffect(function() {
+    if (seeStep < 1 || promptDone) return;
+    if (promptChars >= seePromptText.length) { setPromptDone(true); return; }
+    var iv = setInterval(function() { setPromptChars(function(c) { if (c >= seePromptText.length) { clearInterval(iv); return c; } return c + 1; }); }, 35);
+    return function() { clearInterval(iv); };
+  }, [seeStep, promptChars, promptDone]);
+  useEffect(function() {
+    if (seeStep < 5 || aiRespDone) return;
+    var t = setTimeout(function() {
+      var iv = setInterval(function() { setAiRespWords(function(w) { if (w >= nateRespWordsArr.length) { clearInterval(iv); setAiRespDone(true); return w; } return w + 1; }); }, 90);
+    }, 500);
+    return function() { clearTimeout(t); };
+  }, [seeStep]);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -6028,11 +5884,152 @@ function PromptSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, f.words + " words — " + f.analogy))));
         }))),
 
+    /*#__PURE__*/React.createElement(BodyP, null, "Big or small, what fills the window is what shapes the answer. Here’s that Luke and Nate split, played out live:"),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "see",
+    surface: "sand",
+    title: "Same question, different prediction",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(seeStep, 5), total: 5 })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the same question play out token by token."),
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "sand",
+      items: [1, 2, 3, 4, 5],
+      currentIdx: seeStep > 0 ? seeStep - 1 : 0,
+      started: seeStep > 0,
+      onStart: function() { setSeeStep(1); },
+      onNext: function() { setSeeStep(function(s) { return s + 1; }); },
+      canAdvance: (seeStep === 1 && promptDone) || (seeStep >= 2 && seeStep < 5) || (seeStep === 5 && aiRespDone),
+      isComplete: seeStep >= 6,
+      startLabel: "Start",
+      nextLabel: seeStep === 1 ? "Show each user’s context →" : seeStep === 2 ? "Pick the brand →" : seeStep === 3 ? "Pick the model →" : seeStep === 4 ? "Watch the responses →" : "Next →",
+      finishLabel: "See the takeaway →",
+      appendCompletion: true,
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Same model. Different context. Every token changes.", body: "Nothing about the model was different between Luke and Nate. Same training, same vocabulary, same architecture. The context window is what shifted. And that single difference rewrote every single token." })
+    },
+      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "01"),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Same question")),
+        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { background: "#e0f2fe", borderRadius: 12, padding: 14, border: "1px solid #bfdbfe" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👦🏻"),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#1e40af" } }, "Luke")),
+            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" })),
+          /*#__PURE__*/React.createElement("div", { style: { background: "#f3e8ff", borderRadius: 12, padding: 14, border: "1px solid #ddd6fe" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, "👱‍♂️"),
+              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "#5b21b6" } }, "Nate")),
+            /*#__PURE__*/React.createElement(UserBubble, { text: seePromptText, visibleChars: promptChars, maxWidth: "100%" }))),
+        seeStep >= 2 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "02"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different context")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Luke’s context window"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
+                "This question, ",
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
+                " an earlier message from Luke: ",
+                /*#__PURE__*/React.createElement("em", null, "“I want something all-terrain for camping and road trips.”"))),
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px solid var(--rule)" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#5b21b6", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 8 } }, "Nate’s context window"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } },
+                "This question, ",
+                /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "plus"),
+                " an earlier message from Nate: ",
+                /*#__PURE__*/React.createElement("em", null, "“I love pickup trucks.”")))) ),
+        seeStep >= 3 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "03"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the brand"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "Same vocabulary, different probabilities."))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend a ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Jeep", pct: 44 }, { word: "Toyota", pct: 22 }, { word: "Honda", pct: 14 }, { word: "Ford", pct: 12 }, { word: "Chevy", pct: 8 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend the ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Ford", pct: 53 }, { word: "Honda", pct: 15 }, { word: "Toyota", pct: 12 }, { word: "Chevy", pct: 12 }, { word: "Jeep", pct: 8 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 56, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })))),
+        seeStep >= 4 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 18, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "04"),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Pick the model"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, "With the brand locked in, that choice reshapes what comes next."))),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 12 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend a ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "#1e40af", borderBottom: "2px solid #1e40af", paddingBottom: 2, fontWeight: 800 } }, "Jeep"),
+                " ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Cherokee", pct: 41 }, { word: "Wrangler", pct: 28 }, { word: "Wagoneer", pct: 13 }, { word: "Compass", pct: 11 }, { word: "Renegade", pct: 7 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#1e40af" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #1e40af, #3b82f6)" : "#bfdbfe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#1e40af" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", marginBottom: 10 } },
+                "“... recommend the ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "#5b21b6", borderBottom: "2px solid #5b21b6", paddingBottom: 2, fontWeight: 800 } }, "Ford"),
+                " ",
+                /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", borderBottom: "2px dashed var(--rule)", paddingBottom: 2, fontWeight: 800 } }, "___"),
+                "”"),
+              [{ word: "Raptor", pct: 42 }, { word: "F-150", pct: 25 }, { word: "Bronco", pct: 14 }, { word: "Ranger", pct: 12 }, { word: "Maverick", pct: 7 }].map(function(opt, i) {
+                var isTop = i === 0;
+                return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, fontSize: 13, minWidth: 80, color: isTop ? "#5b21b6" : "var(--ink)" } }, opt.word),
+                  /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--rule)", borderRadius: 6, height: 18, overflow: "hidden" } },
+                    /*#__PURE__*/React.createElement("div", { style: { width: opt.pct + "%", height: "100%", background: isTop ? "linear-gradient(90deg, #5b21b6, #8b5cf6)" : "#ddd6fe", borderRadius: 6 } })),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: isTop ? "#5b21b6" : "var(--inkMuted)", minWidth: 36, textAlign: "right" } }, opt.pct + "%"));
+              })))),
+        seeStep >= 5 && /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, "05"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--ink)" } }, "Different responses")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } },
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement(AIBubble, { text: lukeRespText, visibleWords: aiRespWords, maxWidth: "100%" })),
+            /*#__PURE__*/React.createElement("div", null,
+              /*#__PURE__*/React.createElement(AIBubble, { text: nateRespText, visibleWords: aiRespWords, maxWidth: "100%" })))))) ),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/inference-2.jpg",
+    alt: "Two teens in a car showroom beside a Ford pickup and a Jeep. A screen above shows the model reading thousands of signals about each person, matching patterns, and predicting the vehicle each is most likely to like: Nate’s pick is the rugged Ford, Luke’s is the versatile Jeep. Caption: AI predicts, you choose. It is a helpful guess, not a rule.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "16px auto 28px", borderRadius: 16 }
+  }),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Same question, different answer. The context window is the difference." }, "What the model can see when it answers is the whole game. Change what’s in the window and you change what comes out."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "You’ve seen what the model can see. Next: how it turns all of it into an answer, one word at a time."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: seeStep >= 6, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
 function CustomizationSection(props) {
   const [sortAnswers, setSortAnswers] = useState({});

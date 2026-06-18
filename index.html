@@ -1415,7 +1415,7 @@ const SECTION_GROUPS = [{
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
 }, {
   label: "Embrace the Future",
-  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "computecost", "aifuture"]
+  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "computecost", "aifuture", "talkingai"]
 }, {
   label: "Build Your Skills",
   sections: ["openerskills", "integrity", "privacy", "humanedge", "creativethinking", "becurious", "buildedge"]
@@ -1484,7 +1484,8 @@ const SECTION_META = {
   faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "The Fake Trap", title: "The Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
   computecost: { kicker: "WHAT AN ANSWER COSTS", label: "The Hidden Cost", title: "The Hidden Cost", icon: "\uD83D\uDD0C" },
-  aifuture: { kicker: "WHAT COMES NEXT", label: "The Future", icon: "\uD83D\uDD2D" },
+  aifuture: { kicker: "WHAT COMES NEXT", label: "Judging AI\u2019s Future", title: "Judging AI\u2019s Future", icon: "\uD83D\uDD2D" },
+  talkingai: { kicker: "MEET THE WORRY", label: "Talking About AI", title: "Talking About AI", icon: "\uD83D\uDCAC" },
   buildedge: { kicker: "YOUR MOVE NOW", label: "Your Edge", icon: "\uD83C\uDFAF" },
   whatyoulearned: { kicker: "THE BIG PICTURE", label: "What You Learned", icon: "\uD83D\uDCCB" },
   fullworkflow: { kicker: "EVERY PART, ONE LOOP", label: "The Full Loop", icon: "\uD83D\uDDFA\uFE0F" },
@@ -13241,7 +13242,7 @@ function TheHiddenCostSection(props) {
     E(BodyP, null, "All that hardware draws real electricity, and cooling it takes real water. As more people use AI, that footprint grows. It isn’t unique to AI; every big technology has one, from streaming video to the cars outside, and engineers are racing to make the chips far more efficient. But it is real, and most people never picture it."),
     E(Takeaway, { accent: "var(--primary)", headline: "Now you know what’s behind the magic.", body: "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using." }),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: The Future" }));
+    E(NextLessonGate, { ready: revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
 }
 function AIFutureSection(props) {
   const [predIdx, setPredIdx] = useState(0);
@@ -13406,30 +13407,36 @@ function AIFutureSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--bg)", borderRadius: 12, padding: 16, fontSize: 15, fontWeight: 700, color: "var(--ink)", lineHeight: 1.6, marginBottom: 18 }
     }, "A confident explanation isn\u2019t the same as evidence. Outside-the-model evidence is what tells you whether a future claim is real."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
+    /*#__PURE__*/React.createElement(BodyP, null, "That’s how you weigh a claim yourself. But you’ll also be the one friends and family ask about AI. That’s next."),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: predIdx >= ALL_CARDS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
+}
+function TalkingAboutAISection(props) {
+  var E = React.createElement;
+  return E("div", null,
+    E(LessonHeader, { sectionId: "talkingai" }),
+    E(BodyP, null, "You can weigh a claim for yourself now. But you’ll also be the person friends, family, and teachers ask about AI, often with a worry sitting under the question. The move is to meet the worry, not the soundbite."),
+    E(ShowcaseBox, {
       kicker: "TALKING ABOUT AI",
-      headline: "When people ask, here\u2019s what they\u2019re really worried about.",
-      intro: "The questions you\u2019ll get usually have a real concern underneath. Address that, not the soundbite.",
+      headline: "When people ask, here’s what they’re really worried about.",
+      intro: "The questions you’ll get usually have a real concern underneath. Address that, not the soundbite.",
       marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 } },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 } },
         [
-          { take: "\u201CAI is going to take over.\u201D", body: "They\u2019re worried about agents doing stuff without supervision. That\u2019s a real risk worth taking seriously. The fix is the Five-Word Rule: AI shouldn\u2019t send, spend, submit, delete, or post without you reviewing first." },
-          { take: "\u201CAI is going to take all the jobs.\u201D", body: "They\u2019re probably worried about work changing faster than people can adapt. That\u2019s a fair concern. The better frame is task-by-task: which tasks get automated, which need a human in the loop, and which new skills become valuable as the mix shifts." },
-          { take: "\u201CAI is just hype, it\u2019ll pass.\u201D", body: "They may be reacting against exaggerated claims, which is understandable: there\u2019s a lot of overclaiming on the optimist side. But hype cycles end while the technology doesn\u2019t. The internet was overhyped in 1999, and it\u2019s also still here." },
-          { take: "\u201CKids these days just use AI to cheat.\u201D", body: "They\u2019re worried about whether you\u2019re actually learning. Same tool, different outcomes depending on how you use it. Use AI to learn faster, not to skip the learning." }
+          { take: "“AI is going to take over.”", body: "They’re worried about agents doing stuff without supervision. That’s a real risk worth taking seriously. The fix is the Five-Word Rule: AI shouldn’t send, spend, submit, delete, or post without you reviewing first." },
+          { take: "“AI is going to take all the jobs.”", body: "They’re probably worried about work changing faster than people can adapt. That’s a fair concern. The better frame is task-by-task: which tasks get automated, which need a human in the loop, and which new skills become valuable as the mix shifts." },
+          { take: "“AI is just hype, it’ll pass.”", body: "They may be reacting against exaggerated claims, which is understandable: there’s a lot of overclaiming on the optimist side. But hype cycles end while the technology doesn’t. The internet was overhyped in 1999, and it’s also still here." },
+          { take: "“Kids these days just use AI to cheat.”", body: "They’re worried about whether you’re actually learning. Same tool, different outcomes depending on how you use it. Use AI to learn faster, not to skip the learning." }
         ].map(function(card, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 10px 28px rgba(14, 10, 31, 0.06)" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.35 } }, card.take),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
+          return E("div", { key: i, style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 10px 28px rgba(14, 10, 31, 0.06)" } },
+            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.35 } }, card.take),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
         }))),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren\u2019t the ones who panic or worship."),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They\u2019re the ones who can judge."),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: predIdx >= ALL_CARDS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
+    E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren’t the ones who panic or worship."),
+    E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They’re the ones who can judge."),
+    E(LessonRule, null),
+    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
 function BuildEdgeSection(props) {
   var E = React.createElement;
@@ -13766,6 +13773,7 @@ const SECTION_COMPONENTS = {
   workchanges: WorkChangesSection,
   computecost: TheHiddenCostSection,
   aifuture: AIFutureSection,
+  talkingai: TalkingAboutAISection,
   buildedge: BuildEdgeSection
 };
 const CHIP_LABELS = { inference: "Inference", embeddings: "Embeddings", critical: "Critical Thinking" };

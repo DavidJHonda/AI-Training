@@ -5416,43 +5416,94 @@ function LayersSection(props) {
 }
 function InferenceJourneyDiagram() {
   var E = React.createElement;
-  var chipTones = {
-    muted: { bg: "rgba(100, 116, 139, 0.12)", color: "#64748b" }, // mirrors InferenceSection renderChip tones (already in file, not a new raw color family)
-    bright: { bg: "var(--primaryFaint)", color: "var(--primary)" }
+  var RAIL_W = 96;
+  var READ = { accent: "#6e51ff", deep: "#4c2dff", lane: "#f4f1fd", chipBg: "#ebe4fd", chipInk: "#4c2dff", line: "#cdbcff", cardBorder: "#e7dffb" };
+  var WRITE = { accent: "#e0850f", deep: "#b06608", lane: "#fdf6ea", chipBg: "#f8e7c8", chipInk: "#a85f07", line: "#f0cf91", cardBorder: "#f2e3c4" };
+  var _n = useState(false), narrow = _n[0], setNarrow = _n[1];
+  useEffect(function() {
+    function check() { try { setNarrow(window.innerWidth < 640); } catch (e) {} }
+    check();
+    window.addEventListener("resize", check);
+    return function() { window.removeEventListener("resize", check); };
+  }, []);
+  var b = function(t) { return E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, t); };
+  var STEPS = [
+    { n: 1, ph: READ, chip: "CONTEXT WINDOW", title: "What the model sees", body: ["Your prompt plus everything else in the window: past messages, AI responses, custom instructions, saved memory."] },
+    { n: 2, ph: READ, chip: "TOKENS", title: "Text becomes numbers", body: ["The whole thing is split into tokens, each mapped to a number. ", b("From here on, it’s all numbers.")] },
+    { n: 3, ph: READ, chip: "EMBEDDINGS", title: "Starting meaning", body: ["Each token’s number becomes a vector, its starting meaning on the map."] },
+    { n: 4, ph: READ, chip: "TRANSFORMER", title: "Reads everything at once", big: true, body: ["The architecture that reads every token at once. Each of ~100 layers runs ", b("attention"), " (which tokens relate), then ", b("transformation"), " (what they mean together), using weights frozen in training. One final vector per token comes out."] },
+    { n: 5, ph: WRITE, chip: "PROBABILITY", title: "Score every possible next token", body: ["The last token’s final vector is compared against all ~100,000 tokens it knows. Closeness becomes a probability."] },
+    { n: 6, ph: WRITE, chip: "PREDICTION", title: "Pick the next token", body: ["It picks one token, usually a whole word."] },
+    { n: 7, ph: WRITE, chip: "OUTPUT", title: "Types it out", body: ["The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream."] },
+    { n: 8, ph: WRITE, chip: "LOOP", title: "No memory, so it loops", body: ["The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and ", b("runs the whole journey again"), ", token by token, until the answer is complete."] }
+  ];
+  var chip = function(ph, text) {
+    return E("span", { style: { display: "inline-block", background: ph.chipBg, color: ph.chipInk, fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", padding: "4px 9px", borderRadius: 6 } }, text);
   };
-  var chip = function(label, tone) {
-    var t = chipTones[tone] || chipTones.muted;
-    return E("div", { style: { display: "inline-flex", alignItems: "center", padding: "3px 9px", borderRadius: 999, background: t.bg, color: t.color, fontSize: 10, fontWeight: 800, letterSpacing: "0.10em", textTransform: "uppercase", marginBottom: 8 } }, label);
+  var stepRow = function(step, isFirst, isLast) {
+    var ph = step.ph;
+    var railCell = E("div", { style: { width: 36, flex: "none", position: "relative" } },
+      E("div", { style: { position: "absolute", left: "50%", transform: "translateX(-50%)", top: isFirst ? 24 : 0, bottom: isLast ? "calc(100% - 24px)" : 0, width: 2.5, background: ph.line, borderRadius: 3 } }),
+      E("div", { style: { position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", width: 32, height: 32, borderRadius: 999, background: ph.accent, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px " + ph.accent + "55" } }, String(step.n)));
+    var head = E("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } },
+      chip(ph, step.chip),
+      step.big ? E("span", { style: { display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", color: "#fff", background: ph.accent, padding: "4px 9px", borderRadius: 6 } }, "The core") : null);
+    var title = E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", margin: "9px 0 5px", lineHeight: 1.2 } }, step.title);
+    var bodyEl = E.apply(null, ["div", { style: { fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 400, color: "var(--inkSoft)", lineHeight: 1.55 } }].concat(step.body));
+    var card = E("div", { style: { flex: 1, marginBottom: isLast ? 0 : 16, background: "#fff", border: step.big ? "2px solid " + ph.accent : "1.5px solid " + ph.cardBorder, borderRadius: 16, padding: "15px 18px 16px", boxShadow: step.big ? "0 5px 16px " + ph.accent + "22" : "0 1px 2px rgba(14,10,31,0.03)" } }, head, title, bodyEl);
+    return E("div", { style: { display: "flex", alignItems: "stretch", gap: 14 } }, railCell, card);
   };
-  var node = function(opts) {
-    return E("div", { style: { background: "#fff", border: "1.5px solid " + (opts.accent || "var(--rule)"), borderRadius: 12, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
-      chip(opts.chip, opts.tone),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--ink)", marginBottom: 6, lineHeight: 1.3 } }, opts.title),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--inkMuted)" } }, opts.desc));
+  var laneHeader = function(ph, kicker, title, sub) {
+    return E("div", { style: { display: "flex", alignItems: "center", gap: 13, marginBottom: 16 } },
+      E("span", { style: { flex: "none", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", background: ph.accent, padding: "5px 11px", borderRadius: 999 } }, kicker),
+      E("div", null,
+        E("div", { style: { fontFamily: "var(--sans)", fontSize: 19, fontWeight: 800, color: ph.deep, letterSpacing: "-0.01em", lineHeight: 1.1 } }, title),
+        E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, color: "var(--inkMuted)", marginTop: 2 } }, sub)));
   };
-  var bracket = function(text) { return E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.12em", margin: "0 0 10px" } }, text); };
-  var down = function() { return E("div", { style: { display: "flex", justifyContent: "center", margin: "8px 0" } }, E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, lineHeight: 1 } }, "↓")); };
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "26px 22px", marginBottom: "var(--blockGap)" } },
-    E("div", { style: { display: "flex", flexDirection: "column", alignItems: "stretch", maxWidth: 520, margin: "0 auto" } },
-      bracket("You type a message to ChatGPT"),
-      node({ chip: "Context Window", tone: "muted", accent: "var(--primary)", title: "What the model sees", desc: "Your prompt plus everything else in the window: past messages, AI responses, custom instructions, saved memory." }),
-      down(),
-      node({ chip: "Tokens", tone: "muted", accent: "var(--primary)", title: "Text becomes numbers", desc: "The whole thing is split into tokens, each mapped to a number. From here on, it’s all numbers." }),
-      down(),
-      node({ chip: "Embeddings", tone: "muted", accent: "var(--primary)", title: "Starting meaning", desc: "Each token’s number becomes a vector, its starting meaning on the map." }),
-      down(),
-      node({ chip: "Transformer", tone: "muted", accent: "var(--primary)", title: "Reads everything at once", desc: "The architecture that reads every token at once. Each of ~100 layers runs attention (which tokens relate), then transformation (what they mean together), using weights frozen in training. One final vector per token comes out." }),
-      down(),
-      E("div", { style: { alignSelf: "center", background: "var(--primary)", color: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 16px", borderRadius: 999, textAlign: "center", lineHeight: 1.4 } }, "One final vector per token. Everything you sent, understood."),
-      down(),
-      bracket("How AI responds (one token at a time)"),
-      node({ chip: "Probability", tone: "bright", accent: "var(--primary)", title: "Score every possible next token", desc: "The last token’s final vector is compared against all ~100,000 tokens it knows. Closeness becomes a probability." }),
-      down(),
-      node({ chip: "Prediction", tone: "bright", accent: "var(--primary)", title: "Pick the next token", desc: "It picks one token, usually a whole word." }),
-      down(),
-      node({ chip: "Output", tone: "bright", accent: "var(--green)", title: "Types it out", desc: "The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream." }),
-      down(),
-      node({ chip: "Loop", tone: "bright", accent: "var(--primary)", title: "No memory, so it loops", desc: "The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and runs the whole journey again, token by token, until the answer is complete." })));
+  var lane = function(ph, kicker, title, sub, steps) {
+    var kids = [laneHeader(ph, kicker, title, sub)].concat(steps.map(function(s, i) { return stepRow(s, i === 0, i === steps.length - 1); }));
+    return E.apply(null, ["div", { style: { position: "relative", background: ph.lane, borderRadius: 22, padding: "20px 22px" } }].concat(kids));
+  };
+  var downConnect = function() {
+    return E("div", { style: { display: "flex", justifyContent: "center", padding: "9px 0" } },
+      E("svg", { width: "20", height: "22", viewBox: "0 0 20 22", fill: "none" },
+        E("path", { d: "M10 0 L10 16", stroke: "#b9b2d4", strokeWidth: "2.5", strokeLinecap: "round" }),
+        E("path", { d: "M4 13 L10 20 L16 13", stroke: "#b9b2d4", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", fill: "none" })));
+  };
+  var milestone = function() {
+    return E("div", { style: { display: "flex", justifyContent: "center", padding: "2px 0" } },
+      E("div", { style: { display: "flex", alignItems: "center", gap: 15, background: "#fff", color: "var(--ink)", borderRadius: 14, padding: "14px 24px", border: "1.5px solid #e7dffb", boxShadow: "0 5px 16px rgba(14,10,31,0.08)", maxWidth: 600 } },
+        E("span", { style: { display: "flex", alignItems: "center", gap: 6, flex: "none" } },
+          E("span", { style: { width: 10, height: 10, borderRadius: 999, background: "#6e51ff" } }),
+          E("span", { style: { color: "#b9b2d4", fontSize: 14, fontWeight: 800 } }, "→"),
+          E("span", { style: { width: 10, height: 10, borderRadius: 999, background: "#e0850f" } })),
+        E("div", null,
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 10, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 3 } }, "Read complete · now writing"),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.25, color: "var(--ink)" } }, "One final vector per token. Everything you sent, understood."))));
+  };
+  var rail = function(color, label) {
+    return E("div", { style: { position: "absolute", top: 18, right: 18, bottom: 18, width: RAIL_W, pointerEvents: "none" } },
+      E("div", { style: { position: "absolute", top: 0, bottom: 0, left: 26, right: 30, borderTop: "3px solid " + color, borderRight: "3px solid " + color, borderBottom: "3px solid " + color, borderTopRightRadius: 16, borderBottomRightRadius: 16 } }),
+      E("div", { style: { position: "absolute", top: -4.5, left: 18, width: 0, height: 0, borderTop: "6px solid transparent", borderBottom: "6px solid transparent", borderRight: "10px solid " + color } }),
+      E("div", { style: { position: "absolute", bottom: -5, left: 21, width: 11, height: 11, borderRadius: 999, background: color } }),
+      E("div", { style: { position: "absolute", top: "50%", right: 2, transform: "translateY(-50%) rotate(180deg)", writingMode: "vertical-rl", fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: color, whiteSpace: "nowrap" } }, label));
+  };
+  var read = STEPS.filter(function(s) { return s.ph === READ; });
+  var write = STEPS.filter(function(s) { return s.ph === WRITE; });
+  var loopCaption = E("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 14, fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", color: READ.deep } },
+    E("span", { style: { fontSize: 16 } }, "↻"), "No memory · the whole journey runs again");
+  return E("div", { style: { maxWidth: 760, margin: "0 auto", marginBottom: "var(--blockGap)" } },
+    E("p", { style: { fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "2px 4px 22px" } },
+      "Here’s the whole journey in one picture, from your prompt to a finished answer. ",
+      E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, "It runs in two phases, and the end feeds back to the start.")),
+    E("div", { style: { position: "relative", paddingRight: narrow ? 0 : (RAIL_W + 14) } },
+      lane(READ, "Phase 1", "Read the message", "One pass over everything you sent: your prompt, the history, all of it.", read),
+      downConnect(),
+      milestone(),
+      downConnect(),
+      lane(WRITE, "Phase 2", "Write the reply", "One token at a time, looping until the answer is complete.", write),
+      narrow ? null : rail(READ.deep, "no memory · the whole journey runs again")),
+    narrow ? loopCaption : null);
 }
 function InferenceSection(props) {
   const [seeStep, setSeeStep] = useLocalStorage("seeit-prediction-step", 0);
@@ -5510,7 +5561,6 @@ function InferenceSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and that final probability score. Now watch them work together as a single journey from your prompt to a finished answer."),
   /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to produce one token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s the whole journey in one picture, from your prompt to a finished answer:"),
   /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "At the heart of that journey is a neural network"),
     /*#__PURE__*/React.createElement(BodyP, null,

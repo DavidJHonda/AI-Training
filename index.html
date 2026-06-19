@@ -8045,11 +8045,65 @@ const EVAL_CRITERIA = [{
     note: "Entirely one-sided. Doesn't mention potential challenges like coverage gaps, client expectations, or industry-specific constraints. Presents opinion as settled fact."
   }
 }];
+function GoodEnoughTryIt(props) {
+  var GE_SCENARIOS = [
+    {
+      task: "Write two sentences on when the first iPhone came out and what was new about it.",
+      response: "The first iPhone launched in 2005 and shipped with the App Store, making it the first phone you could download apps onto.",
+      statement: "It reads cleanly. What stops you from using it as-is?",
+      options: [
+        { label: "The facts are wrong", correct: true, feedback: "Right. The iPhone launched in 2007, and the App Store didn’t arrive until 2008. Confident phrasing hides a real error. Check Accuracy first." },
+        { label: "The tone is too formal", feedback: "Tone is fine for a quick fact. The deeper problem is that the facts themselves are wrong." },
+        { label: "It’s missing detail", feedback: "It has enough for two sentences. The issue is that some of the detail is made up." },
+        { label: "Nothing, good to go", feedback: "Not quite. It sounds authoritative, but the date and the App Store claim are both wrong." }
+      ]
+    },
+    {
+      task: "Write an Instagram caption for our team’s championship win.",
+      response: "We are pleased to announce that our team has achieved victory in the championship final. We extend our sincere gratitude to all supporters for their continued patronage.",
+      statement: "Nothing here is false. What stops you from posting it as-is?",
+      options: [
+        { label: "Wrong tone for the audience", correct: true, feedback: "Right. It’s accurate but reads like a corporate press release, not a hype caption for teammates. Match the voice to where it’s going." },
+        { label: "It’s not true", feedback: "Nothing here is false. The problem is the stiff, formal voice." },
+        { label: "It leaves out the score", feedback: "Adding the score could help, but the core miss is the formal tone for a celebration post." },
+        { label: "Nothing, good to go", feedback: "It’s accurate, but the voice is all wrong for Instagram. Tone & Audience matters as much as the facts." }
+      ]
+    },
+    {
+      task: "Explain photosynthesis in two sentences for a 9th-grade study guide.",
+      response: "Photosynthesis is how plants use sunlight, water, and carbon dioxide to make glucose (their food) and oxygen. It happens mostly in the leaves, inside tiny structures called chloroplasts.",
+      statement: "You’re adding this to your study guide. What stops you from using it as-is?",
+      options: [
+        { label: "Nothing, good to go", correct: true, feedback: "Right. It’s accurate, on-topic, complete enough for a study guide, and pitched at the right level. “Good enough” is a real verdict, so don’t over-polish." },
+        { label: "It’s not accurate", feedback: "The facts check out: sunlight, water, and CO2 become glucose and oxygen, in the chloroplasts." },
+        { label: "Wrong tone", feedback: "The tone is right for a 9th-grade study guide: clear and plain." },
+        { label: "It’s incomplete", feedback: "For a two-sentence study-guide entry, this covers the essentials." }
+      ]
+    }
+  ];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Good enough?",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: GE_SCENARIOS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each answer below looks fine at a glance. For each, decide what (if anything) would stop you from using it as-is."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      GE_SCENARIOS.map(function(sc, si) {
+        var picked = answers[si];
+        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--tryAccent)", marginBottom: 6 } }, "The task"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "#0e0a1f", lineHeight: 1.5 } }, sc.task))),
+          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", marginBottom: 16 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--inkMuted)", marginBottom: 6 } }, "AI output"),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, sc.response)),
+          /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", statement: sc.statement, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); } }));
+      })));
+}
 function EvaluatingSection(props) {
-  const [activeCriterion, setActiveCriterion] = useState(0);
-  const [showExample, setShowExample] = useLocalStorage("seeit-evaluating-showExample", false);
-  const [startedCriteria, setStartedCriteria] = useState(false);
-  const c = EVAL_CRITERIA[activeCriterion] || EVAL_CRITERIA[EVAL_CRITERIA.length - 1];
   const ITERATION_STEPS = [{
     step: 1,
     label: "First attempt",
@@ -8099,58 +8153,7 @@ function EvaluatingSection(props) {
   ),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Use these six criteria as a checklist every time you evaluate AI output."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "The Good Enough Checklist",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeCriterion + (startedCriteria ? 1 : 0), EVAL_CRITERIA.length), total: EVAL_CRITERIA.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each one to see what to look for."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "sand",
-      items: EVAL_CRITERIA,
-      currentIdx: activeCriterion,
-      started: startedCriteria,
-      onStart: function() { setStartedCriteria(true); },
-      onNext: function() { setActiveCriterion(activeCriterion + 1); setShowExample(false); },
-      canAdvance: showExample,
-      isComplete: activeCriterion >= EVAL_CRITERIA.length,
-      startLabel: "First Criterion",
-      nextLabel: "Next Criterion \u2192",
-      finishLabel: "Done with the checklist \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Six checks. One question.", body: "Is this answer good enough to use? Run every output through this list before you trust it." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(activeCriterion + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, c.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, c.label)),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--seeAccent)", lineHeight: 1.55, fontStyle: "italic", marginBottom: 6 } }, c.question),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.55 } }, c.desc))),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\u2713 What to check"),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-            c.checkpoints.map(function(cp, i) {
-              return /*#__PURE__*/React.createElement("div", {
-                key: i,
-                style: { display: "flex", alignItems: "flex-start", gap: 10, fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.55 }
-              },
-                /*#__PURE__*/React.createElement("span", { style: { color: "var(--seeAccent)", fontWeight: 700, flexShrink: 0, marginTop: 2 } }, "\u2022"),
-                cp);
-            }))),
-        !showExample ? /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setShowExample(true); }, style: { padding: "10px 20px", width: "100%" } }, "\uD83D\uDD0D Show example") : /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.3s ease", borderTop: "2px solid var(--seeRule)", paddingTop: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "Prompt"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, fontStyle: "italic" } }, "\u201C", c.example.prompt, "\u201D")),
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "Response"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, fontStyle: "italic" } }, "\u201C", c.example.response, "\u201D")),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } },
-            /*#__PURE__*/React.createElement("strong", { style: { color: c.example.verdict === "pass" ? "#1f9d5f" : "#d4334a", fontFamily: "var(--sans)", fontWeight: 700 } }, c.example.verdict === "pass" ? "\u2705 Pass" : "\u274C Fail"),
-            " ",
-            c.example.note))))),
+    /*#__PURE__*/React.createElement(GoodEnoughTryIt, null),
   /*#__PURE__*/React.createElement(BodyP, null,
     "When the output isn\u2019t good enough, don\u2019t start over. Instead, ", /*#__PURE__*/React.createElement("strong", null, "refine and try again"), "."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {

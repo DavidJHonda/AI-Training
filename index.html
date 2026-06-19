@@ -2228,10 +2228,11 @@ function HowWeGotHereSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
     /*#__PURE__*/React.createElement(BodyP, null, "AI can feel like it appeared out of nowhere, fully formed, almost like magic. It didn’t. What looks like one sudden invention is really four older ideas, each worked out by different people who weren’t trying to build AI at all."),
-    /*#__PURE__*/React.createElement(BodyP, null, "You already met those four ideas in What Is AI? Here, you’ll watch them come together: bring in each one, then connect them at the single moment everything changed."),
+    /*#__PURE__*/React.createElement(BodyP, null, "You already met those four ideas in What Is AI? Here’s how they come together: four separate breakthroughs that finally connected at the single moment everything changed."),
     /*#__PURE__*/React.createElement(CoreLoopBox, null),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "None of them arrived together. Each was figured out decades, even centuries, apart, for reasons that had nothing to do with AI. Bring them in one at a time."),
-    /*#__PURE__*/React.createElement(HistoryAssembleSeeIt, null),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "None of them arrived together. Each was figured out decades, even centuries, apart, for reasons that had nothing to do with AI."),
+    /*#__PURE__*/React.createElement(HistoryMatchTryIt, null),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Centuries apart, then all at once." }, "Four ideas, each invented separately and left sitting apart for decades, finally snapped together in 2017. That collision, not any single invention, is the AI you use today."),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aivscode"); }, label: "Next: Rules vs Patterns" })
   );
@@ -2280,64 +2281,48 @@ function ConvergenceDiagram(props) {
         /*#__PURE__*/React.createElement("text", { x: 624, y: 124, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, fill: "var(--ink)" } }, "& Gemini"),
         /*#__PURE__*/React.createElement("text", { x: 624, y: 143, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, fill: "var(--primary)" } }, "today"))));
 }
-function HistoryAssembleSeeIt(props) {
+function HistoryMatchTryIt(props) {
   var reduced = useReducedMotion();
-  var ANCIENT = [
-    { key: "probability", icon: "🎲", label: "Probability", color: "#b45309", bg: "#fbedd3", year: "1650s", caption: "Started as gambling math: figuring the odds.", who: "Pascal & Fermat" },
-    { key: "prediction", icon: "✍️", label: "Prediction", color: "#b45309", bg: "#fbedd3", year: "1948", caption: "Guess the next word from the last, like your phone’s autocomplete.", who: "Claude Shannon" },
-    { key: "training", icon: "📚", label: "Training", color: "var(--primary)", bg: "#ece8fd", year: "1957", caption: "The first machine that learned from examples instead of following instructions.", who: "the perceptron" }
+  var ROWS = [
+    { label: "Probability", year: "1650s", who: "Pascal & Fermat", correct: "odds", explain: "Probability is the gambling math that lets a model express an answer as odds, never a flat certainty." },
+    { label: "Prediction", year: "1948", who: "Claude Shannon", correct: "next", explain: "Shannon framed language as guessing the next word from the words before it, exactly how AI generates text." },
+    { label: "Training", year: "1957", who: "the perceptron", correct: "examples", explain: "The perceptron was the first machine to learn patterns from examples instead of following hand-written rules." },
+    { label: "Transformer", year: "2017", who: "Attention Is All You Need", correct: "weigh", explain: "The 2017 breakthrough let a machine weigh all the words at once and find the patterns between them, the spark that connected the other three." }
   ];
-  var SPARK = { key: "patterns", icon: "🧩", label: "Patterns", color: "var(--primary)", bg: "#ece8fd", year: "2017", caption: "Eight researchers at Google published one breakthrough that let a machine weigh all the words at once and find the patterns between them: the transformer.", who: "Attention Is All You Need" };
-  var _st = useLocalStorage("seeit-howwegothere-assembleStep", { lit: [], ignited: false });
-  var st = _st[0], setSt = _st[1];
-  var lit = st.lit || [];
-  var ignited = !!st.ignited;
-  var allThreeIn = lit.length >= ANCIENT.length;
-  function bringIn(key) { if (lit.indexOf(key) !== -1) return; setSt({ lit: lit.concat([key]), ignited: ignited }); }
-  function ignite() { if (!allThreeIn || ignited) return; setSt({ lit: lit, ignited: true }); }
-
-  function ideaCard(idea, isLit, onClick, locked) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: idea.key, onClick: onClick, disabled: locked || isLit,
-      style: { textAlign: "left", border: isLit ? "1.5px solid " + idea.color : "1.5px solid var(--rule)", cursor: (locked || isLit) ? "default" : "pointer", background: "var(--card)", borderRadius: 14, padding: "16px 18px", opacity: isLit ? 1 : (locked ? 0.4 : 0.85), boxShadow: "var(--shadowSoft)", transition: "all 200ms ease", fontFamily: "var(--sans)", width: "100%", display: "flex", flexDirection: "column" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: isLit ? 10 : 0 } },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, filter: isLit ? "none" : "grayscale(1)", opacity: isLit ? 1 : 0.6 } }, idea.icon),
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 17, fontWeight: 800, color: isLit ? idea.color : "var(--inkMuted)" } }, idea.label),
-        /*#__PURE__*/React.createElement("span", { style: { marginLeft: "auto" } },
-          isLit
-            ? /*#__PURE__*/React.createElement("span", { style: { background: idea.color, color: "#fff", borderRadius: 20, padding: "3px 11px", fontSize: 12, fontWeight: 700 } }, idea.year)
-            : /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: locked ? "var(--inkFaint)" : idea.color } }, locked ? "Locked" : "Tap to add"))),
-      isLit
-        ? /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 8 } }, idea.caption),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: idea.color, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: "auto" } }, idea.who))
-        : null);
-  }
-
-  var sparkZone = ignited
-    ? /*#__PURE__*/React.createElement("div", { style: { animation: reduced ? "none" : "fadeIn 0.5s ease" } },
-        ideaCard(SPARK, true, undefined, false),
-        /*#__PURE__*/React.createElement(ConvergenceDiagram, { reduced: reduced }),
-        /*#__PURE__*/React.createElement(Takeaway, { merged: true, headline: "Centuries apart, then all at once.", body: "Four ideas, each invented separately and left sitting apart for decades, finally snapped together in 2017. That collision, not any single invention, is the AI you use today." }))
-    : /*#__PURE__*/React.createElement("div", { style: { border: "1.5px dashed var(--rule)", borderRadius: 14, padding: "20px 18px", textAlign: "center", background: "var(--card)", opacity: allThreeIn ? 1 : 0.6 } },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: allThreeIn ? 14 : 0 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, filter: "grayscale(1)", opacity: 0.6 } }, SPARK.icon),
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 17, fontWeight: 800, color: "var(--inkMuted)" } }, "2017: the fourth idea"),
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkFaint)" } }, allThreeIn ? "" : "· locked")),
-        allThreeIn
-          ? /*#__PURE__*/React.createElement(ActivityButton, { size: "large", onClick: ignite }, "Connect them at 2017 →")
-          : /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkMuted)", lineHeight: 1.5 } }, "Bring in the three ideas above to reach 2017."));
-
+  var CHOICES = [
+    { id: "odds", label: "Answers as odds" },
+    { id: "next", label: "Guess the next word" },
+    { id: "examples", label: "Learn from examples" },
+    { id: "weigh", label: "Weigh all words at once" }
+  ];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see", surface: "sand", title: "Build the machine",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: lit.length + (ignited ? 1 : 0), total: 4 })
+    variant: "try", surface: "mint", title: "Build the machine",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
   },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Bring in each idea, then connect them at the moment everything changed."),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 14 } },
-      ANCIENT.map(function(idea) { var isLit = lit.indexOf(idea.key) !== -1; return ideaCard(idea, isLit, function() { bringIn(idea.key); }, false); })),
-    /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 20, fontWeight: 800, margin: "2px 0 12px" } }, "↓"),
-    sparkZone);
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Modern AI is four older ideas that finally clicked together. Match each one to what it gave the machine."),
+    /*#__PURE__*/React.createElement(ConvergenceDiagram, { reduced: reduced }),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 16 } },
+      ROWS.map(function(row, i) {
+        var answered = answers[i] !== undefined;
+        var correct = answered && answers[i] === row.correct;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i, index: i + 1,
+          kicker: row.year + " · " + row.who,
+          prompt: row.label,
+          answered: answered, correct: correct,
+          feedback: answered ? row.explain : null
+        }, CHOICES.map(function(c) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: c.id, answered: answered,
+            isCorrect: c.id === row.correct,
+            isPicked: answers[i] === c.id,
+            label: c.label,
+            onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c.id; return u; }); }
+          });
+        }));
+      })));
 }
 const WHENNOT_SCENARIOS = [{
   icon: "\uD83D\uDCAC",

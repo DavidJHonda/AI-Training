@@ -5178,9 +5178,15 @@ const CONTEXT_WINDOW_FACTS = [{
 
 function PromptSplitTryIt(props) {
   var ROWS = [
-    { who: "Luke", ctx: "I want something all-terrain for camping and road trips.", correct: "jeep", explain: "Camping and all-terrain push the next-token odds toward rugged SUVs, so the model lands on a Jeep." },
-    { who: "Nate", ctx: "I love pickup trucks.", correct: "raptor", explain: "“Pickup trucks” in the window makes truck tokens far more likely, so the model recommends a Ford Raptor." },
-    { who: "Maya", ctx: "I just want to spend as little as possible on gas.", correct: "prius", explain: "Cost and gas mileage steer the odds toward an efficient hybrid like a Prius." }
+    { who: "Luke", ctx: "I want something all-terrain for camping and road trips.", correct: "jeep", fb: {
+      ok: "Right. Camping and all-terrain push the next-token odds toward rugged SUVs, so the model lands on a Jeep.",
+      no: "Not quite. Camping and all-terrain push the odds toward a rugged SUV, so the model lands on the Jeep." } },
+    { who: "Nate", ctx: "I love pickup trucks.", correct: "raptor", fb: {
+      ok: "Right. “Pickup trucks” in the window makes truck tokens far more likely, so the model recommends a Ford Raptor.",
+      no: "Not quite. “Pickup trucks” in the window makes truck tokens most likely, so the model lands on the Ford Raptor." } },
+    { who: "Maya", ctx: "I just want to spend as little as possible on gas.", correct: "prius", fb: {
+      ok: "Right. Cost and gas mileage steer the odds toward an efficient hybrid like a Prius.",
+      no: "Not quite. Cost and gas mileage steer the odds toward an efficient hybrid, the Prius." } }
   ];
   var CHOICES = [
     { id: "jeep", label: "Jeep (rugged SUV)" },
@@ -5203,7 +5209,7 @@ function PromptSplitTryIt(props) {
           kicker: r.who + "’s earlier message",
           prompt: "“" + r.ctx + "”",
           answered: answered, correct: correct,
-          feedback: answered ? r.explain : null
+          feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null
         }, CHOICES.map(function(c) {
           return /*#__PURE__*/React.createElement(FeedbackPill, {
             key: c.id, answered: answered,

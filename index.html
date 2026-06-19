@@ -6495,61 +6495,29 @@ function ModelSelectionSection(props) {
         color: "#3b82f6"
       }
     ];
-    return /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Three theories of AI"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each name to see the philosophy behind it."),
-      /*#__PURE__*/React.createElement("div", {
-        ref: philContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
-        },
-          PHILOSOPHIES.map(function(p, i) {
-            var isRevealed = !!philRevealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { philTitleRefs.current[i] = el; },
-              onClick: function() { revealPhil(i); },
-              style: { color: p.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, p.label);
-          })),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        philPaths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          philPaths.map(function(p, i) {
-            if (!philRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: PHILOSOPHIES[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12, alignItems: "stretch" }
-        },
-          PHILOSOPHIES.map(function(p, i) {
-            var isRevealed = !!philRevealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i,
-              ref: function(el) { philCardRefs.current[i] = el; },
-              style: { flex: 1, display: "flex" }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 18, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, display: "flex", flexDirection: "column", flex: 1, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 4 } }, p.label),
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 } }, p.tagline),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 12, flex: 1 } }, p.body),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5, paddingTop: 10, borderTop: "2px solid var(--seeRule)" } }, p.asks)
-              ));
-          }))));
+    var STRENGTHS = {
+      ChatGPT: ["Brainstorming", "Quick drafts of anything", "Everyday varied tasks", "Voice and image features"],
+      Claude: ["Coding", "Analysis and research", "Long-form writing", "Tasks where accuracy matters most"],
+      Gemini: ["Current events", "Research requiring live data", "Summarizing YouTube videos", "Anything in the Google ecosystem"]
+    };
+    return /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "The big three, side by side" },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "stretch", flexWrap: "wrap" } },
+        PHILOSOPHIES.map(function(p, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { flex: "1 1 220px", display: "flex" } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 10, padding: 18, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, display: "flex", flexDirection: "column", flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 4 } }, p.label),
+              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 } }, p.tagline),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 14 } }, p.body),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: p.color, marginBottom: 8 } }, "Best for"),
+              /*#__PURE__*/React.createElement("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 14px 0", flex: 1 } },
+                STRENGTHS[p.label].map(function(item, j) {
+                  return /*#__PURE__*/React.createElement("li", { key: j, style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 6, paddingLeft: 18, position: "relative" } },
+                    /*#__PURE__*/React.createElement("span", { style: { position: "absolute", left: 0, top: 0, color: p.color, fontWeight: 700 } }, "✓"),
+                    item);
+                })),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5, paddingTop: 10, borderTop: "2px solid var(--seeRule)" } }, p.asks)
+            ));
+        })));
   }()),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Which app is best?"),
   /*#__PURE__*/React.createElement(BodyP, null, "The best app is the one that fits the job. Most people just use whatever they opened last."),
@@ -6572,72 +6540,7 @@ function ModelSelectionSection(props) {
         items: ["Current events", "Research requiring live data", "Summarizing YouTube videos", "Anything in the Google ecosystem"]
       }
     ];
-    return /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Three kinds of strength"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Click each name to see its strengths."),
-      /*#__PURE__*/React.createElement("div", {
-        ref: bestForContainerRef,
-        style: { position: "relative" }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 26, fontWeight: 800, marginBottom: 0 }
-        },
-          BEST_FOR.map(function(p, i) {
-            var isRevealed = !!bestForRevealed[i];
-            return /*#__PURE__*/React.createElement("span", {
-              key: i,
-              ref: function(el) { bestForTitleRefs.current[i] = el; },
-              onClick: function() { revealBestFor(i); },
-              style: { color: p.color, cursor: "pointer", opacity: isRevealed ? 1 : 0.7, transition: "opacity 150ms ease" }
-            }, p.label);
-          })),
-        /*#__PURE__*/React.createElement("div", { style: { height: 40 } }),
-        bestForPaths ? /*#__PURE__*/React.createElement("svg", {
-          style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }
-        },
-          bestForPaths.map(function(p, i) {
-            if (!bestForRevealed[i]) return null;
-            var cy1 = p.y1 + (p.y2 - p.y1) * 0.4;
-            var cy2 = p.y1 + (p.y2 - p.y1) * 0.6;
-            var d = "M" + p.x1 + "," + p.y1 + " C" + p.x1 + "," + cy1 + " " + p.x2 + "," + cy2 + " " + p.x2 + "," + p.y2;
-            return /*#__PURE__*/React.createElement("path", {
-              key: i, d: d, fill: "none", stroke: BEST_FOR[i].color, strokeWidth: 2.5
-            });
-          })
-        ) : null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { display: "flex", gap: 12, alignItems: "stretch" }
-        },
-          BEST_FOR.map(function(p, i) {
-            var isRevealed = !!bestForRevealed[i];
-            return /*#__PURE__*/React.createElement("div", {
-              key: i,
-              ref: function(el) { bestForCardRefs.current[i] = el; },
-              style: { flex: 1, display: "flex" }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { background: "var(--card)", borderRadius: 10, padding: 18, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, display: "flex", flexDirection: "column", flex: 1, visibility: isRevealed ? "visible" : "hidden", opacity: isRevealed ? 1 : 0, transition: "opacity 200ms ease" }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: p.color, marginBottom: 10 } }, p.label),
-                /*#__PURE__*/React.createElement("ul", {
-                  style: { listStyle: "none", padding: 0, margin: "0 0 12px 0", flex: 1 }
-                },
-                  p.items.map(function(item, j) {
-                    return /*#__PURE__*/React.createElement("li", {
-                      key: j,
-                      style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 6, paddingLeft: 18, position: "relative" }
-                    },
-                      /*#__PURE__*/React.createElement("span", {
-                        style: { position: "absolute", left: 0, top: 0, color: p.color, fontWeight: 700 }
-                      }, "\u2713"),
-                      item);
-                  })
-                )
-              ));
-          }))));
+    return null;
   }()),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT SHOULD YOU USE?"),
   /*#__PURE__*/React.createElement(BodyP, null,

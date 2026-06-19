@@ -184,7 +184,17 @@ function BodyP(props) {
   return React.createElement("p", { style: style }, props.children);
 }
 
+// lessonId -> video overview shown as a compact "Watch" pill in LessonHeader.
+// Add one entry per teaching lesson as each video is produced; no entry means no pill
+// (so section openers, which aren't listed, never show one). Use { src } for a local
+// mp4 now; later swap to { youtubeId } for an unlisted hosted video. Optional { caption }.
+const LESSON_VIDEOS = {
+  howwegothere: { src: "videos/How_We_Got_Here.mp4", duration: "2 min" },
+  inference: { src: "videos/Inference.mp4", duration: "7 min" }
+};
 function LessonHeader(props) {
+  var E = React.createElement;
+  var _o = useState(false), open = _o[0], setOpen = _o[1];
   var sectionId = props.sectionId;
   var groupIdx = SECTION_GROUPS.findIndex(function(g) { return g.sections.indexOf(sectionId) !== -1; });
   if (groupIdx < 0) return null;
@@ -193,21 +203,26 @@ function LessonHeader(props) {
   if (!sec) return null;
   var groupName = group.label.toUpperCase();
   var resolvedTitle = props.titleOverride !== undefined ? props.titleOverride : (sec.title || sec.label);
-  return /*#__PURE__*/React.createElement("div", { className: "lesson-header" },
-    /*#__PURE__*/React.createElement("div", {
+  var video = LESSON_VIDEOS[sectionId];
+  return E("div", { className: "lesson-header" },
+    E("div", {
       style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }
     },
-      /*#__PURE__*/React.createElement("div", { style: { width: 22, height: 1.5, background: "var(--inkMuted)" } }),
-      /*#__PURE__*/React.createElement("span", {
+      E("div", { style: { width: 22, height: 1.5, background: "var(--inkMuted)" } }),
+      E("span", {
         style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--inkMuted)" }
       }, groupName)
     ),
-    /*#__PURE__*/React.createElement("h1", {
-      style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: "0 0 18px 0" }
+    E("div", {
+      style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, margin: "0 0 18px 0" }
     },
-      resolvedTitle
+      E("h1", {
+        style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: 0, flex: "1 1 auto", minWidth: 0 }
+      }, resolvedTitle),
+      video ? E(WatchPill, { duration: video.duration, open: open, onClick: function() { setOpen(!open); } }) : null
     ),
-    props.subtitle ? /*#__PURE__*/React.createElement("p", {
+    video && open ? E(WatchPlayer, { video: video }) : null,
+    props.subtitle ? E("p", {
       style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.5, color: "var(--inkSoft)", maxWidth: 640, textWrap: "pretty", margin: "0 0 32px 0" }
     }, props.subtitle) : null
   );
@@ -711,39 +726,45 @@ function OpenerSection(props) {
   );
 }
 
-// Reusable collapsible "Prefer to watch?" / "Prefer to listen?" media box.
-// Props: src (media path, required), audio (true renders an audio player with the
-// "Listen" / "Prefer to listen?" labels; default is video), title (text after the heading),
-// duration (e.g. "2 min"), caption (defaults to the NotebookLM line; pass "" to hide).
-function WatchOverview(props) {
+// Compact "Watch" pill shown to the right of a lesson title when the lesson has a
+// video overview (see LESSON_VIDEOS). Clicking toggles the inline player that
+// LessonHeader renders just below the title. Props: duration, open, onClick.
+function WatchPill(props) {
   var E = React.createElement;
-  var _o = useState(false), open = _o[0], setOpen = _o[1];
-  var caption = props.caption !== undefined ? props.caption : "Made with NotebookLM from this lesson’s notes. You can do the same with your own class material.";
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 12, marginBottom: 28 } },
-    E("button", {
-      onClick: function() { setOpen(!open); },
-      style: { display: "flex", alignItems: "center", gap: 16, width: "100%", textAlign: "left", background: "var(--card)", border: "none", borderRadius: 16, padding: "16px 20px", cursor: "pointer", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-    },
-      E("span", { style: { flexShrink: 0, width: 44, height: 44, borderRadius: 12, background: "var(--primary)", display: "inline-flex", alignItems: "center", justifyContent: "center" } },
-        E("svg", { width: 16, height: 16, viewBox: "0 0 16 16", "aria-hidden": "true" },
-          E("path", { d: "M5 3.5 L12.5 8 L5 12.5 Z", fill: "#fff" }))),
-      E("div", { style: { flex: 1, minWidth: 0 } },
-        E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 2 } },
-          E("span", { style: { color: "var(--primary)", fontSize: 11 } }, "▸"),
-          E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, props.audio ? "Listen" : "Watch"),
-          props.duration ? E("span", { style: { color: "var(--inkMuted)", fontSize: 13 } }, props.duration) : null),
-        E("div", { style: { fontSize: 17, color: "var(--ink)", lineHeight: 1.35 } },
-          E("strong", { style: { fontWeight: 800 } }, props.audio ? "Prefer to listen?" : "Prefer to watch?"),
-          props.title ? " " + props.title : "")),
-      E("svg", { width: 16, height: 16, viewBox: "0 0 16 16", "aria-hidden": "true", style: { flexShrink: 0, transform: open ? "rotate(180deg)" : "none", transition: "transform 150ms ease" } },
-        E("path", { d: "M4 6 L8 10 L12 6", fill: "none", stroke: "var(--inkMuted)", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }))),
-    open ? E("div", { style: { marginTop: 12 } },
-      props.audio
-        ? E("audio", { controls: true, preload: "metadata", style: { width: "100%", display: "block" } },
-            E("source", { src: props.src, type: "audio/mp4" }))
-        : E("video", { controls: true, preload: "metadata", style: { width: "100%", borderRadius: 12, display: "block", background: "#000" } },
-            E("source", { src: props.src, type: "video/mp4" })),
-      caption ? E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, paddingLeft: 4 } }, caption) : null) : null);
+  return E("button", {
+    onClick: props.onClick,
+    "aria-expanded": props.open ? "true" : "false",
+    "aria-label": (props.open ? "Hide" : "Watch") + " the video overview for this lesson",
+    style: { display: "inline-flex", alignItems: "center", gap: 9, flexShrink: 0, background: "var(--primaryFaint)", border: "none", borderRadius: 999, padding: "5px 16px 5px 5px", cursor: "pointer", fontFamily: "var(--sans)" }
+  },
+    E("span", { style: { flexShrink: 0, width: 30, height: 30, borderRadius: 999, background: "var(--primary)", display: "inline-flex", alignItems: "center", justifyContent: "center" } },
+      E("svg", { width: 12, height: 12, viewBox: "0 0 16 16", "aria-hidden": "true" },
+        E("path", { d: "M5 3.5 L12.5 8 L5 12.5 Z", fill: "#fff" }))),
+    E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 14 } }, "Watch"),
+    E("span", { style: { color: "var(--inkMuted)", fontSize: 13 } }, "·"),
+    E("span", { style: { color: "var(--inkMuted)", fontSize: 14 } }, props.duration));
+}
+
+// Inline 16:9 video overview rendered below a lesson title when its WatchPill is open.
+// Reads a LESSON_VIDEOS entry: { src } plays a local/hosted mp4; { youtubeId } embeds
+// an unlisted YouTube video via the privacy-enhanced, distraction-suppressed player.
+function WatchPlayer(props) {
+  var E = React.createElement;
+  var v = props.video;
+  var caption = v.caption !== undefined ? v.caption : "Made with NotebookLM from this lesson’s notes. You can do the same with your own class material.";
+  var player = v.youtubeId
+    ? E("iframe", {
+        src: "https://www.youtube-nocookie.com/embed/" + v.youtubeId + "?rel=0&modestbranding=1",
+        title: "Lesson video overview",
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+        allowFullScreen: true,
+        style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }
+      })
+    : E("video", { controls: true, preload: "metadata", style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "#000" } },
+        E("source", { src: v.src, type: "video/mp4" }));
+  return E("div", { style: { marginBottom: 28 } },
+    E("div", { style: { position: "relative", width: "100%", aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden", background: "#000" } }, player),
+    caption ? E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, paddingLeft: 4 } }, caption) : null);
 }
 function ActivityButton(props) {
   var sizeStyles = props.size === "large"
@@ -2306,7 +2327,6 @@ function AIIsMathSection(props) {
 function HowWeGotHereSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
-    /*#__PURE__*/React.createElement(WatchOverview, { src: "videos/How_We_Got_Here.mp4", title: "How four ideas became AI", duration: "2 min" }),
     /*#__PURE__*/React.createElement(BodyP, null, "AI can feel like it appeared out of nowhere, fully formed, almost like magic. It didn’t. What looks like one sudden invention is really four older ideas, each worked out by different people who weren’t trying to build AI at all."),
     /*#__PURE__*/React.createElement(BodyP, null, "You already met those four ideas in What Is AI? Here, you’ll watch them come together: bring in each one, then connect them at the single moment everything changed."),
     /*#__PURE__*/React.createElement(CoreLoopBox, null),
@@ -3122,8 +3142,6 @@ function DoesAIThinkSection(props) {
     }),
     E(BodyP, null,
       "That\u2019s AI. It arranges symbols brilliantly and understands none of them. You get a perfect-looking answer with no real understanding behind it."),
-
-    E(WatchOverview, { audio: true, src: "videos/Chinese_room.m4a", title: "The Chinese Room story", duration: "1 min" }),
 
     E(CompareRows, { headline: "When you think vs. what AI does", columns: COLUMNS }),
 
@@ -5564,7 +5582,7 @@ function InferenceSection(props) {
     window.addEventListener("resize", calc);
     return function() { window.removeEventListener("resize", calc); };
   }, []);
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(WatchOverview, { src: "videos/Inference.mp4", title: "How AI turns a prompt into an answer", duration: "7 min" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and that final probability score. Now watch them work together as a single journey from your prompt to a finished answer."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and that final probability score. Now watch them work together as a single journey from your prompt to a finished answer."),
   /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to produce one token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
   /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),

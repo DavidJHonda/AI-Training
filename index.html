@@ -4434,26 +4434,9 @@ function TrainingSection(props) {
     { actor: "humans", label: "After Preference tuning", phase: "RLHF", response: "Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: elbow under the ball, flick your wrist like you\u2019re reaching into a cookie jar on a high shelf. Want tips on free throws vs three-pointers?", note: "Human rankings taught it to be engaging, use analogies, and offer follow-up. This is what you experience today.", color: "#10b981" }
   ];
   var seeItBtnLabels = ["First Snapshot: After Pretraining \u2192", "Next Snapshot: After Instruction Tuning \u2192", "Last Snapshot: After Preference Tuning \u2192"];
-  var _svs = useLocalStorage("seeit-training-visibleStages", 0), visibleStages = Math.min(_svs[0], seeItStages.length), setVisibleStages = _svs[1];
-  var _stw = useState(0), seeItTypedWords = _stw[0], setSeeItTypedWords = _stw[1];
-  var _stt = useState(false), seeItTypingDone = _stt[0], setSeeItTypingDone = _stt[1];
-  useEffect(function() {
-    if (visibleStages === 0) return;
-    setSeeItTypedWords(0);
-    setSeeItTypingDone(false);
-    var stage = seeItStages[visibleStages - 1];
-    var words = stage.response.split(" ");
-    var speed = visibleStages <= 2 ? 80 : 90;
-    var interval = setInterval(function() {
-      setSeeItTypedWords(function(w) {
-        if (w >= words.length) { clearInterval(interval); setSeeItTypingDone(true); return w; }
-        return w + 1;
-      });
-    }, speed);
-    return function() { clearInterval(interval); };
-  }, [visibleStages]);
-  var advanceSeeIt = function() { setVisibleStages(function(s) { return s + 1; }); };
-  var resetSeeIt = function() { setVisibleStages(0); setSeeItTypedWords(0); setSeeItTypingDone(false); };
+  // Static (was a typing reveal SEE IT): all stages shown, fully typed.
+  var visibleStages = seeItStages.length, seeItTypedWords = 9999, seeItTypingDone = true;
+  var advanceSeeIt = function() {}, resetSeeIt = function() {};
   const steps = [{
     actor: "humans",
     title: "Set up the system",
@@ -4506,12 +4489,7 @@ function TrainingSection(props) {
     stepCard(steps[3])),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Weeks, money, and massive compute." }, "Training a model from scratch runs for weeks to months, eats enormous computing power, and costs a fortune. It all happens in the build phase, before the model ever answers a single question."),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Watch It Happen"
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "The same question after each training phase. Watch how the model’s answer transforms."),
+  /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Watch It Happen" },
     /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--ink)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" } }, "You"),
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "4px 12px 12px 12px", padding: "14px 18px", fontSize: 15, fontWeight: 500, color: "var(--ink)", lineHeight: 1.6, maxWidth: 360 } }, seeItQuestion)),
@@ -8880,9 +8858,7 @@ const EVAL_CRITERIA = [{
 function EvaluatingSection(props) {
   const [activeCriterion, setActiveCriterion] = useState(0);
   const [showExample, setShowExample] = useLocalStorage("seeit-evaluating-showExample", false);
-  const [iterationStep, setIterationStep] = useState(0);
   const [startedCriteria, setStartedCriteria] = useState(false);
-  const [startedRefine, setStartedRefine] = useState(false);
   const c = EVAL_CRITERIA[activeCriterion] || EVAL_CRITERIA[EVAL_CRITERIA.length - 1];
   const ITERATION_STEPS = [{
     step: 1,
@@ -8906,7 +8882,6 @@ function EvaluatingSection(props) {
     issue: null,
     action: null
   }];
-  const iterStep = ITERATION_STEPS[iterationStep] || ITERATION_STEPS[ITERATION_STEPS.length - 1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "evaluating" }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this actually good enough to use?"), " You\u2019ve learned how to verify whether AI output is ", /*#__PURE__*/React.createElement("em", null, "true"), ". This section is about whether it\u2019s ", /*#__PURE__*/React.createElement("em", null, "usable"), ": does it actually solve your problem, match your audience, and meet your standard?"),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "WHY EVALUATION MATTERS",
@@ -9016,46 +8991,29 @@ function EvaluatingSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
     }))
   ),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Prompt \u2192 Evaluate \u2192 Refine",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(iterationStep + (startedRefine ? 1 : 0), ITERATION_STEPS.length), total: ITERATION_STEPS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the loop in action. Each round shows the prompt, the response, and what\u2019s still missing. By round three, the answer is what you actually wanted."),
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "sand",
-      items: ITERATION_STEPS,
-      currentIdx: iterationStep,
-      started: startedRefine,
-      onStart: function() { setStartedRefine(true); },
-      onNext: function() { setIterationStep(iterationStep + 1); },
-      canAdvance: true,
-      isComplete: iterationStep >= ITERATION_STEPS.length,
-      startLabel: "Round 1",
-      nextLabel: "Next Round \u2192",
-      finishLabel: "See the takeaway \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { headline: "Prompt. Evaluate. Refine. Repeat.", body: "Three rounds got us from a generic summary to a real Instagram post. Each round was a small refinement, not a complete rewrite." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
+  /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Prompt \u2192 Evaluate \u2192 Refine" },
+    ITERATION_STEPS.map(function(s, idx) {
+      return /*#__PURE__*/React.createElement(InnerCard, { key: idx, pad: "snug", style: idx > 0 ? { marginTop: 16 } : null },
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(iterationStep + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(idx + 1).padStart(2, "0")),
           /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, iterStep.label))),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, s.label))),
         /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 14, display: "flex", flexDirection: "column", gap: 10 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: iterStep.prompt }),
-          /*#__PURE__*/React.createElement(AIBubble, { text: iterStep.response })),
-        iterStep.issue ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 12 } },
+          /*#__PURE__*/React.createElement(UserBubble, { text: s.prompt }),
+          /*#__PURE__*/React.createElement(AIBubble, { text: s.response })),
+        s.issue ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 12 } },
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\uD83D\uDD0D Evaluation"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: 14 } }, iterStep.issue),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: 14 } }, s.issue),
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\u2192 Next Step"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, iterStep.action)
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, s.action)
         ) : /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14 } },
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1f9d5f", marginBottom: 8 } }, "\u2705 Final result"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite."))))),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")));
+    }),
+    /*#__PURE__*/React.createElement(Takeaway, { headline: "Prompt. Evaluate. Refine. Repeat.", body: "Three rounds got us from a generic summary to a real Instagram post. Each round was a small refinement, not a complete rewrite." })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: iterationStep >= ITERATION_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
 function CreativeThinkingSection(props) {
   const [scenarioAnswers, setScenarioAnswers] = useState({});

@@ -90,6 +90,22 @@ SEE IT CSS band (~line 35), and the typography comment (~line 154).
 - Default static treatment for other reveals: `ShowcaseBox` (lavender band +
   optional headline) with the content rendered in its fully-revealed end state.
 
+## Status (updated 2026-06-19)
+
+**All planned static conversions DONE** (`variant:"see"` 25 → 9). Converted/handled:
+llms×2, inference, prompting×2, howmuchtocheck, critical, documenttrap, privacy,
+computecost, training, evaluating "Refine", aivscode → static; modelselection×2 →
+merged into one card; customization → deleted. Gate fixes where reveal-state fed the
+NextLessonGate: llms, critical, privacy, evaluating.
+
+**Remaining 9 `variant:"see"`** — none are "convert to static" anymore:
+- **Capstone-pass reworks (7):** `prompt`, `thoughtpartner` (flagged to *become* TRY
+  ITs) + the 5 flagged TRY-IT candidates (`howwegothere`, `layers`, `verify`,
+  `evaluating` "Checklist", `aifuture`). Left as SEE ITs until authored into TRY ITs.
+- **Orphans (2):** `OpenerInsideSection`, `OpenerAnswersSection` — remove in the
+  dead-function sweep (10 dead functions total).
+- Then the **variant decommission** (after the capstone pass clears the last `see`).
+
 ## Execution order (Step 2)
 
 1. Per-lesson static conversions + prose fixes (small commits per lesson/batch).

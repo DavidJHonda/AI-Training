@@ -3489,9 +3489,10 @@ function KeyTermsSection(props) {
 }
 function AIvsCodeSection(props) {
   const [quizDone, setQuizDone] = useState(false);
-  var _rs = useLocalStorage("seeit-aivscode-twoSystemsRevealStep", 0), revealStep = _rs[0], setRevealStep = _rs[1];
-  var _aa = useLocalStorage("seeit-aivscode-twoSystemsAskCount", 0), askCount = _aa[0], setAskCount = _aa[1];
-  var _sc = useState(false), seeComplete = _sc[0], setSeeComplete = _sc[1];
+  // Static (was a click-through SEE IT): render the final, fully-revealed state.
+  var revealStep = 2, setRevealStep = function() {};
+  var askCount = 2, setAskCount = function() {};
+  var seeComplete = true, setSeeComplete = function() {};
   const FIT_SCENARIOS = [
     { prompt: "You log in to your school’s portal and it shows your cumulative GPA, pulled from every class you’ve taken.", options: [
       { label: "Traditional software", correct: true, headline: "It’s a rule.", feedback: "Your GPA is exact math with one right answer: total the grade points, weight them by credits, and divide. The portal runs the same formula every time, so the number never drifts." },
@@ -3536,12 +3537,7 @@ function AIvsCodeSection(props) {
       "That difference shows up everywhere: how each one solves a problem, how it reaches an answer, how it fails, and whether you can even trace why."
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like in action."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "see",
-      surface: "sand",
-      title: "Fixed Rules vs. Built From Patterns"
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Same question, two completely different systems. Watch what happens inside each one."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Fixed Rules vs. Built From Patterns" },
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What’s the best game for my new PS5?”")),
@@ -3649,51 +3645,16 @@ function TypingAICard(props) {
     "NHL 26 is a solid pick. The skating physics feel sharper than last year, the goalies actually put up a fight on one-on-one breakaways, and franchise mode goes deep if you want to build a dynasty over a decade of seasons. Online play is fast and competitive.",
     "God of War Ragnarok is a strong choice. It’s a cinematic action game with great combat, a serious story about Kratos and his son Atreus, and stunning visuals across the Nine Realms of Norse mythology. Expect 30+ hours of content."
   ];
-  var _ri = useState(0), responseIdx = _ri[0], setResponseIdx = _ri[1];
-  var _tw = useState(""), typedWords = _tw[0], setTypedWords = _tw[1];
-  var _td = useState(false), typingDone = _td[0], setTypingDone = _td[1];
-  var askCount = props.askCount;
-  var wordsRef = useRef([]);
-  var indexRef = useRef(0);
-  function startTyping(idx) {
-    var words = responses[idx].split(" ");
-    wordsRef.current = words;
-    indexRef.current = 0;
-    setTypedWords("");
-    setTypingDone(false);
-  }
-  useEffect(function() { startTyping(0); }, []);
-  useEffect(function() {
-    if (typingDone) return;
-    var words = wordsRef.current;
-    if (!words.length) return;
-    var iv = setInterval(function() {
-      var i = indexRef.current;
-      if (i >= words.length) { clearInterval(iv); setTypingDone(true); return; }
-      indexRef.current = i + 1;
-      setTypedWords(words.slice(0, i + 1).join(" "));
-    }, 90);
-    return function() { clearInterval(iv); };
-  }, [responseIdx, askCount]);
-  useEffect(function() {
-    if (typingDone && askCount >= 2) { props.onComplete && props.onComplete(); }
-  }, [typingDone, askCount]);
-  function handleAskAgain() {
-    var next = (responseIdx + 1) % responses.length;
-    setResponseIdx(next);
-    props.onAskAgain && props.onAskAgain();
-    startTyping(next);
-  }
+  // Static (was a type-and-ask-again card): all three asks shown at once.
   return /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
     /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built From Patterns"),
-    /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b1f6e", lineHeight: 1.6, marginBottom: 12, minHeight: 48 } },
-      typedWords || ""),
-    typingDone && askCount < 2 ? /*#__PURE__*/React.createElement("button", {
-      onClick: handleAskAgain,
-      style: { display: "block", margin: "0 auto", padding: "10px 24px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700 }
-    }, "Ask Again \u2192") : null);
+    responses.map(function(r, i) {
+      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginBottom: 10 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#7c3aed", marginBottom: 4 } }, ["First ask", "Ask again", "Ask again"][i]),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b1f6e", lineHeight: 1.6 } }, r));
+    }));
 }
 function BlackBoxSection(props) {
   const [scenarioIdx, setScenarioIdx] = useState(0);

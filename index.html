@@ -7444,11 +7444,20 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: pAllFilled, onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
+function ThinkingTogetherStatic(props) {
+  return /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WATCH: THINKING TOGETHER", headline: "Working a summer-plans problem with AI", marginBottom: 24 },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 18 } },
+      props.exchanges.map(function(ex, i) {
+        return /*#__PURE__*/React.createElement("div", { key: i },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--primary)", marginBottom: 8 } }, ex.beat),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "#ddd6f3", borderRadius: "12px 12px 4px 12px", padding: "10px 14px", fontSize: 14, color: "#3b2a63", maxWidth: "85%", lineHeight: 1.5 } }, ex.user)),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-start" } },
+            /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "12px 12px 12px 4px", padding: "10px 14px", fontSize: 14, color: "var(--ink)", maxWidth: "85%", lineHeight: 1.55 } }, ex.ai)));
+      })),
+    /*#__PURE__*/React.createElement(Takeaway, { headline: "AI explored. You decided.", body: "It opened up the options, pushed back on a weak plan, and poked at the obstacles, but every choice stayed yours. A good thought partner widens your thinking without taking it over." }));
+}
 function ThoughtPartnerSection(props) {
-  const [tpStep, setTpStep] = useLocalStorage("seeit-thoughtpartner-tpStep", 0);
-  const [phase, setPhase] = useLocalStorage("seeit-thoughtpartner-phase", "idle");
-  const [userCharIdx, setUserCharIdx] = useState(0);
-  const [aiWordIdx, setAiWordIdx] = useState(0);
   const [tpAnswers, setTpAnswers] = useState({});
   const TP_MOVES = [
     {
@@ -7481,171 +7490,13 @@ function ThoughtPartnerSection(props) {
     { beat: "Get pushed back", user: "OK, so my plan is to email every business in town at once. That way at least somebody says yes.", ai: "I\u2019d push back on that plan. Fifty copy-paste emails from a student nobody knows will mostly get deleted, and you can\u2019t write a specific pitch for fifty places at once. What makes you credible is specificity: knowing their business, naming a gap you actually noticed. One well-researched pitch beats fifty generic ones. Does that change which businesses you\u2019d start with?" },
     { beat: "Turn it into action", user: "Probably a restaurant or a small retail store. Something local I could actually walk into.", ai: "Perfect. Walk-in businesses are ideal because the owner is usually right there. Here\u2019s a starting move: identify 3\u20135 local spots you already go to, research whether they have a Google Business profile, active social media, and whether they respond to reviews. Those gaps are your opening. You\u2019re not selling AI. You\u2019re solving a specific problem they already have. Want help drafting what you\u2019d actually say when you walk in?" }
   ];
-  useEffect(function() {
-    if (phase === "typing-user" && tpStep > 0) {
-      var chars = TP_EXCHANGES[tpStep - 1].user;
-      if (userCharIdx >= chars.length) { setPhase("pausing"); return; }
-      var timer = setInterval(function() {
-        setUserCharIdx(function(prev) {
-          if (prev >= chars.length - 1) { clearInterval(timer); setPhase("pausing"); return chars.length; }
-          return prev + 1;
-        });
-      }, 25);
-      return function() { clearInterval(timer); };
-    }
-  }, [phase, tpStep]);
-  useEffect(function() {
-    if (phase === "pausing") {
-      var timer = setTimeout(function() { setAiWordIdx(0); setPhase("typing-ai"); }, 2000);
-      return function() { clearTimeout(timer); };
-    }
-  }, [phase]);
-  useEffect(function() {
-    if (phase === "typing-ai" && tpStep > 0) {
-      var words = TP_EXCHANGES[tpStep - 1].ai.split(" ");
-      if (aiWordIdx >= words.length) { setPhase("done"); return; }
-      var timer = setInterval(function() {
-        setAiWordIdx(function(prev) {
-          if (prev >= words.length - 1) { clearInterval(timer); setPhase("done"); return words.length; }
-          return prev + 1;
-        });
-      }, 45);
-      return function() { clearInterval(timer); };
-    }
-  }, [phase, tpStep]);
-  var advanceStep = function() {
-    setUserCharIdx(0);
-    setAiWordIdx(0);
-    setPhase("typing-user");
-    setTpStep(tpStep + 1);
-  };
-  var allDone = tpStep >= TP_EXCHANGES.length && phase === "done";
-  var showButton = phase === "idle" || phase === "done";
-  var cursor = /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "thoughtpartner" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Prompting got you a good answer in one shot. Thought partnership is for the messier work where one answer isn\u2019t the end of the conversation."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI can help you explore ideas, pressure-test your thinking, and get unstuck. But the thinking still has to be yours. The best use of AI as a thought partner is when ", /*#__PURE__*/React.createElement("strong", null, "you"), " drive the conversation and ", /*#__PURE__*/React.createElement("strong", null, "you"), " make the decisions."),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "see",
-    surface: "sand",
-    title: "Thinking Together"
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the rhythm: the user brings the next thought, AI helps explore and narrow, but every decision stays with the user."),
-    TP_EXCHANGES.slice(0, tpStep).map(function(ex, i) {
-        var isLatest = i === tpStep - 1;
-        var isTypingUser = isLatest && phase === "typing-user";
-        var isPausing = isLatest && phase === "pausing";
-        var isTypingAi = isLatest && phase === "typing-ai";
-        var userText = isTypingUser ? ex.user.substring(0, userCharIdx) : ex.user;
-        var showUserCursor = isTypingUser;
-        var aiWords = ex.ai.split(" ");
-        var showAi = !isLatest || phase === "typing-ai" || phase === "done";
-        var visibleAiText = isTypingAi ? aiWords.slice(0, aiWordIdx).join(" ") : (showAi ? ex.ai : "");
-        var showAiCursor = isTypingAi;
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: {
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-            marginBottom: 22,
-            animation: "fadeIn 0.4s ease"
-          }
-        },
-          /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "inline-flex",
-              alignSelf: "center",
-              background: "rgba(255,255,255,0.72)",
-              color: "var(--primary)",
-              borderRadius: 999,
-              padding: "5px 10px",
-              fontSize: 11,
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.45px",
-              boxShadow: "0 4px 12px rgba(14, 10, 31, 0.04)"
-            }
-          }, ex.beat),
-
-          /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "flex",
-              justifyContent: "flex-end"
-            }
-          },
-            /*#__PURE__*/React.createElement("div", {
-              style: {
-                maxWidth: "min(82%, 620px)"
-              }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: {
-                  color: "var(--primary)",
-                  fontSize: 12,
-                  fontWeight: 800,
-                  marginBottom: 5,
-                  textAlign: "right"
-                }
-              }, "You"),
-              /*#__PURE__*/React.createElement("div", {
-                style: {
-                  background: "#fff",
-                  borderRadius: "16px 16px 4px 16px",
-                  padding: "14px 16px",
-                  fontSize: 14,
-                  color: "var(--ink)",
-                  lineHeight: 1.6,
-                  boxShadow: "var(--shadowElevated)"
-                }
-              }, userText, showUserCursor ? cursor : null)
-            )
-          ),
-
-          isPausing ? /*#__PURE__*/React.createElement(ThinkingBubble, null) : null,
-
-          showAi ? /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "flex",
-              justifyContent: "flex-start"
-            }
-          },
-            /*#__PURE__*/React.createElement("div", {
-              style: {
-                maxWidth: "min(88%, 700px)"
-              }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: {
-                  color: "#10b981",
-                  fontSize: 12,
-                  fontWeight: 800,
-                  marginBottom: 5
-                }
-              }, "AI"),
-              /*#__PURE__*/React.createElement("div", {
-                style: {
-                  background: "var(--card)",
-                  borderRadius: "16px 16px 16px 4px",
-                  padding: "14px 16px",
-                  fontSize: 14,
-                  color: "var(--ink)",
-                  lineHeight: 1.6,
-                  minHeight: 48,
-                  boxShadow: "0 8px 22px rgba(14, 10, 31, 0.06)"
-                }
-              }, visibleAiText, showAiCursor ? cursor : null)
-            )
-          ) : null
-        );
-      }),
-    showButton && !allDone && tpStep < TP_EXCHANGES.length ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 16 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: advanceStep }, "Continue \u2192")) : null,
-    allDone ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 20 } },
-        /*#__PURE__*/React.createElement(Takeaway, { headline: "AI explored. You decided.", body: "It opened up the options, pushed back on a weak plan, and poked at the obstacles, but every choice stayed yours. A good thought partner widens your thinking without taking it over." })) : null),
+    /*#__PURE__*/React.createElement(ThinkingTogetherStatic, { exchanges: TP_EXCHANGES }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Five thought-partner prompts to copy"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
     "The conversation above used a few specific moves. Here are five worth keeping:"),
@@ -7676,7 +7527,7 @@ function ThoughtPartnerSection(props) {
           /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which next message keeps the thinking yours?", totalQuestions: TP_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setTpAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
       }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: allDone && Object.keys(tpAnswers).length >= TP_MOVES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercheck"), label: "Next: Check the Output" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(tpAnswers).length >= TP_MOVES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openercheck"), label: "Next: Check the Output" }));
 }
 function Lab01CourseNotebook() {
   var E = React.createElement;

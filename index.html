@@ -3639,8 +3639,34 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aiismath"); }, label: "Next: AI is Math" }));
 }
+function PronounAttentionTryIt(props) {
+  var ROWS = [
+    { sentence: "“The trophy didn’t fit in the suitcase because it was too big.”", options: ["The trophy", "The suitcase"], correct: "The trophy", explain: "“Big” points attention to the trophy, the thing that wouldn’t fit." },
+    { sentence: "“The trophy didn’t fit in the suitcase because it was too small.”", options: ["The trophy", "The suitcase"], correct: "The suitcase", explain: "Flip one word and attention swings to the suitcase. Same sentence, opposite answer." },
+    { sentence: "“The cat chased the mouse until it got tired.”", options: ["The cat", "The mouse"], correct: "The cat", explain: "“Chased” and “tired” link “it” to the cat doing the chasing." }
+  ];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "What does “it” point to?",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each sentence has the word “it.” Pick what attention links it to."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      ROWS.map(function(r, i) {
+        var answered = answers[i] !== undefined;
+        var correct = answered && answers[i] === r.correct;
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.sentence, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+          r.options.map(function(opt) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
+              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
+          }));
+      })));
+}
 function HowAIReadsSection(props) {
   var E = React.createElement;
+  var _pa = useState(false), paDone = _pa[0], setPaDone = _pa[1];
   var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"];
 
   return E("div", null,
@@ -3976,9 +4002,10 @@ function HowAIReadsSection(props) {
     E(KeyInsight, { lead: "It made AI possible." },
       "Attention then transformation: together they’re the Transformer, the engine inside ChatGPT, Claude, and Gemini. The Transformer runs those two moves over and over, stacked in layers, which is next."),
 
+    E(PronounAttentionTryIt, { onComplete: function() { setPaDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: true,
+      ready: paDone,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); },
       label: "Next: Layers"
     })

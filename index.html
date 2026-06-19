@@ -133,6 +133,24 @@
   .redact-chunk:hover {
     background: rgba(110, 81, 255, 0.10);
   }
+  /* Per-lesson print: hide the app chrome so only the lesson (from its kicker + title
+     down) goes to the PDF. Triggered by the "Print This Lesson" button -> window.print(). */
+  @media print {
+    .course-header,
+    .section-map,
+    nav[aria-label="Lesson navigation"],
+    .no-print { display: none !important; }
+    #main-content {
+      background: #fff !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    body { background: #fff !important; }
+    @page { margin: 1.6cm; }
+  }
 </style>
 </head>
 <body>
@@ -219,7 +237,7 @@ function LessonHeader(props) {
       E("h1", {
         style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: 0, flex: "1 1 auto", minWidth: 0 }
       }, resolvedTitle),
-      video ? E(WatchPill, { duration: video.duration, open: open, onClick: function() { setOpen(!open); } }) : null
+      video ? E("span", { className: "no-print" }, E(WatchPill, { duration: video.duration, open: open, onClick: function() { setOpen(!open); } })) : null
     ),
     video && open ? E(WatchPlayer, { video: video }) : null,
     props.subtitle ? E("p", {
@@ -657,6 +675,7 @@ function NextLessonGate(props) {
   });
 
   return React.createElement("div", {
+    className: "no-print",
     style: { display: "flex", justifyContent: "space-between", gap: 16, alignItems: "stretch", marginTop: 8 }
   }, prevCard, nextCard);
 }
@@ -12595,6 +12614,7 @@ function StickyLessonBar(props) {
   };
 
   return E("div", {
+    className: "no-print",
     style: { position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "#fff", borderBottom: "1px solid var(--rule)", boxShadow: visible ? "0 4px 16px -8px rgba(14,10,31,.22)" : "none", transform: visible ? "translateY(0)" : "translateY(-100%)", transition: "transform 220ms ease", pointerEvents: visible ? "auto" : "none" }
   },
     E("div", { style: { maxWidth: 1080, margin: "0 auto", padding: "8px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 } },
@@ -13024,6 +13044,7 @@ function LLMExplorer() {
       /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
     )
   )),/*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       textAlign: "center",
       marginTop: 20,
@@ -13041,6 +13062,10 @@ function LLMExplorer() {
     },
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
   }, "\u21BA Reset Progress"),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: function() { window.print(); },
+    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12.5, color: "var(--primary)", fontWeight: 700, padding: 0, font: "inherit", display: "block", margin: "10px auto 0" }
+  }, "\u2399 Print This Lesson (for NotebookLM)"),
   /*#__PURE__*/React.createElement("button", {
     onClick: function() { window.location.search = "?print=all"; },
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "8px auto 0" }

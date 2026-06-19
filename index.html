@@ -1992,9 +1992,15 @@ function LLMsSection(props) {
 }
 function NextWordTryIt(props) {
   var ROWS = [
-    { stem: "The forecast warned of a huge storm. Tomorrow it’s going to…", options: ["rain", "shine", "cook"], correct: "rain", explain: "“Storm” piles the odds onto “rain.” The model just picks the highest-probability next word." },
-    { stem: "Peanut butter and…", options: ["jelly", "gravel", "Tuesday"], correct: "jelly", explain: "You predicted it the way the model does: “jelly” is by far the most probable next word." },
-    { stem: "She was so tired she fell…", options: ["asleep", "upward", "blue"], correct: "asleep", explain: "Common patterns make “asleep” the runaway favorite. Context sets the odds." }
+    { stem: "The forecast warned of a huge storm. Tomorrow it’s going to…", options: ["rain", "shine", "cook"], correct: "rain", fb: {
+      ok: "Right. “Storm” piles the odds onto “rain.” The model just picks the highest-probability next word.",
+      no: "Not quite. Given “storm,” the odds pile onto “rain.” The model picks the highest-probability next word." } },
+    { stem: "Peanut butter and…", options: ["jelly", "gravel", "Tuesday"], correct: "jelly", fb: {
+      ok: "Right. You predicted it the way the model does: “jelly” is by far the most probable next word.",
+      no: "Not quite. “Jelly” is the runaway favorite here, the same pattern the model learned." } },
+    { stem: "She was so tired she fell…", options: ["asleep", "upward", "blue"], correct: "asleep", fb: {
+      ok: "Right. Common patterns make “asleep” the runaway favorite. Context sets the odds.",
+      no: "Not quite. “Asleep” fits the pattern best. Context sets the odds for the next word." } }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
@@ -2008,7 +2014,7 @@ function NextWordTryIt(props) {
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.stem, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.stem, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
           r.options.map(function(opt) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
@@ -3651,9 +3657,15 @@ function BlackBoxSection(props) {
 }
 function PronounAttentionTryIt(props) {
   var ROWS = [
-    { sentence: "“The trophy didn’t fit in the suitcase because it was too big.”", options: ["The trophy", "The suitcase"], correct: "The trophy", explain: "“Big” points attention to the trophy, the thing that wouldn’t fit." },
-    { sentence: "“The trophy didn’t fit in the suitcase because it was too small.”", options: ["The trophy", "The suitcase"], correct: "The suitcase", explain: "Flip one word and attention swings to the suitcase. Same sentence, opposite answer." },
-    { sentence: "“The cat chased the mouse until it got tired.”", options: ["The cat", "The mouse"], correct: "The cat", explain: "“Chased” and “tired” link “it” to the cat doing the chasing." }
+    { sentence: "“The trophy didn’t fit in the suitcase because it was too big.”", options: ["The trophy", "The suitcase"], correct: "The trophy", fb: {
+      ok: "Right. “Big” points attention to the trophy, the thing that wouldn’t fit.",
+      no: "Not quite. “Big” points to the trophy, the thing that wouldn’t fit. Attention links “it” there." } },
+    { sentence: "“The trophy didn’t fit in the suitcase because it was too small.”", options: ["The trophy", "The suitcase"], correct: "The suitcase", fb: {
+      ok: "Right. Flip one word and attention swings to the suitcase. Same sentence, opposite answer.",
+      no: "Not quite. Change “big” to “small” and attention swings to the suitcase, the thing too small to hold it." } },
+    { sentence: "“The cat chased the mouse until it got tired.”", options: ["The cat", "The mouse"], correct: "The cat", fb: {
+      ok: "Right. “Chased” and “tired” link “it” to the cat doing the chasing.",
+      no: "Not quite. “Chased” and “tired” point to the cat, the one doing the chasing." } }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
@@ -3667,7 +3679,7 @@ function PronounAttentionTryIt(props) {
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.sentence, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.sentence, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
           r.options.map(function(opt) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
@@ -4246,11 +4258,21 @@ function TrainingBiasSection(props) {
 }
 function TrainingPhaseMatch(props) {
   var ROWS = [
-    { step: "It reads billions of pages and learns to predict the next word.", correct: "p1", explain: "Phase 1, the raw stage: pattern-learning from mountains of text, with no human grading each answer." },
-    { step: "Trainers show it example questions paired with ideal answers.", correct: "p2", explain: "Phase 2: example Q&A teaches it to answer you, not just continue the text." },
-    { step: "Humans rate which of two answers is better; it shifts toward the winners.", correct: "p3", explain: "Phase 3 is RLHF: human rankings shape its helpfulness and tone." },
-    { step: "It practices on books, websites, and code with no one scoring its replies.", correct: "p1", explain: "Phase 1 again, still unsupervised: it’s just absorbing patterns." },
-    { step: "Reviewers mark answers as more or less helpful, tuning its style.", correct: "p3", explain: "Phase 3: the same preference signal, people’s ratings nudging the model." }
+    { step: "It reads billions of pages and learns to predict the next word.", correct: "p1", fb: {
+      ok: "Right. Phase 1, the raw stage: pattern-learning from mountains of text, with no human grading each answer.",
+      no: "Not quite. This is Phase 1 (Pretraining): reading mountains of text to learn the next word, before any human feedback." } },
+    { step: "Trainers show it example questions paired with ideal answers.", correct: "p2", fb: {
+      ok: "Right. Phase 2: example Q&A teaches it to answer you, not just continue the text.",
+      no: "Not quite. Example questions paired with ideal answers is Phase 2 (Instruction tuning): it learns to respond, not just continue text." } },
+    { step: "Humans rate which of two answers is better; it shifts toward the winners.", correct: "p3", fb: {
+      ok: "Right. Phase 3 is RLHF: human rankings shape its helpfulness and tone.",
+      no: "Not quite. Humans ranking answers is Phase 3 (Preference tuning), the RLHF step that shapes tone." } },
+    { step: "It practices on books, websites, and code with no one scoring its replies.", correct: "p1", fb: {
+      ok: "Right. Phase 1 again, still unsupervised: it’s just absorbing patterns.",
+      no: "Not quite. No one scoring the replies is the giveaway for Phase 1 (Pretraining): unsupervised pattern-learning." } },
+    { step: "Reviewers mark answers as more or less helpful, tuning its style.", correct: "p3", fb: {
+      ok: "Right. Phase 3: the same preference signal, people’s ratings nudging the model.",
+      no: "Not quite. Rating answers as more or less helpful is the Phase 3 (Preference tuning) signal." } }
   ];
   var LABELS = { p1: "Phase 1: Pretraining", p2: "Phase 2: Instruction tuning", p3: "Phase 3: Preference tuning" };
   var ORDER = ["p1", "p2", "p3"];
@@ -4266,7 +4288,7 @@ function TrainingPhaseMatch(props) {
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.step, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.step, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
           ORDER.map(function(c) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
@@ -11796,9 +11818,15 @@ function WorkChangesSection(props) {
 }
 function CostClaimsTryIt(props) {
   var ROWS = [
-    { claim: "A longer answer takes more compute than a short one.", correct: "true", explain: "True. More tokens means the whole network runs more times. Length drives cost." },
-    { claim: "A bigger model costs more compute per word than a smaller one.", correct: "true", explain: "True. More parameters means more calculations for every single token." },
-    { claim: "Once a model is trained, answering a question is basically free.", correct: "false", explain: "False. Every answer re-runs billions of parameters: real electricity and water, every time." }
+    { claim: "A longer answer takes more compute than a short one.", correct: "true", fb: {
+      ok: "Right, it’s true. More tokens means the whole network runs more times, so length drives cost.",
+      no: "Actually true. More tokens means the whole network runs more times, so length drives cost." } },
+    { claim: "A bigger model costs more compute per word than a smaller one.", correct: "true", fb: {
+      ok: "Right, it’s true. More parameters means more calculations for every single token.",
+      no: "Actually true. More parameters means more calculations for every single token." } },
+    { claim: "Once a model is trained, answering a question is basically free.", correct: "false", fb: {
+      ok: "Right, it’s false. Every answer re-runs billions of parameters: real electricity and water, every time.",
+      no: "Actually false. Every answer re-runs billions of parameters: real electricity and water, every time." } }
   ];
   var LABELS = { "true": "True", "false": "False" };
   var ORDER = ["true", "false"];
@@ -11814,7 +11842,7 @@ function CostClaimsTryIt(props) {
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.claim, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.claim, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
           ORDER.map(function(c) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });

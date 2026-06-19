@@ -329,7 +329,7 @@ var TERMS = [
   { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn\u2019t know what\u2019s true, only what sounds right.", source: "hallucination" },
   { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
   { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
-  { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "aihistory" },
+  { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "llms" },
   { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "modelselection" },
   { term: "Prompt", definition: "What you type and send to the model: your question, instruction, or request.", source: "prompting" },
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
@@ -1606,7 +1606,7 @@ function TrainingLoopBox() {
         /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 200px", background: "#fff", borderRadius: 14, padding: "16px 18px" } },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink)", marginBottom: 12 } }, "1 · Reads"),
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 } },
-            [["📖", "books"], ["🌐", "web"], ["💬", "chats"], ["💻", "code"], ["🖼️", "images"], ["🎧", "audio"], ["🎬", "video"]].map(function(c, i) {
+            [["📖", "books"], ["🌐", "web"], ["💬", "chats"], ["💻", "code"]].map(function(c, i) {
               return /*#__PURE__*/React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 5, background: "#f1eff9", borderRadius: 8, padding: "5px 9px", fontSize: 13, fontWeight: 600, color: "var(--ink)" } }, c[0] + " " + c[1]);
             })),
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkMuted)", lineHeight: 1.45, borderTop: "1px solid var(--rule)", paddingTop: 12 } }, "more than you could read in 1,000 lifetimes")),
@@ -1707,7 +1707,7 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(CoreLoopBox, null),
     /*#__PURE__*/React.createElement(BodyP, null, "Four ideas carry it, and we'll follow one example, peanut butter, through all of them."),
     /*#__PURE__*/React.createElement(LoopLocator, { active: "training" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "The model ", /*#__PURE__*/React.createElement("strong", null, "teaches itself"), ": guess the next word, check, and nudge its numbers when it's wrong."),
+    /*#__PURE__*/React.createElement(BodyP, null, "The model ", /*#__PURE__*/React.createElement("strong", null, "teaches itself"), ": guess the next word, check, and nudge its numbers toward the right word."),
     /*#__PURE__*/React.createElement(TrainingLoopBox, null),
     /*#__PURE__*/React.createElement(BodyP, null, "Repeat that loop billions of times, and that's training."),
     /*#__PURE__*/React.createElement(LoopLocator, { active: "patterns" }),
@@ -1768,11 +1768,11 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "That clears up three big myths:"),
     /*#__PURE__*/React.createElement("ul", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 24px 0", paddingLeft: 22 } },
       /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        "AI isn’t ", /*#__PURE__*/React.createElement("strong", null, "magic"), " — it’s math working out probabilities."),
+        "AI isn’t ", /*#__PURE__*/React.createElement("strong", null, "magic"), ": it’s math working out probabilities."),
       /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a person"), " — no thoughts, no understanding, even when it sounds like it has both."),
+        "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a person"), ": no thoughts, no understanding, even when it sounds like it has both."),
       /*#__PURE__*/React.createElement("li", null,
-        "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a truth machine"), " — it predicts what sounds likely, so a wrong answer can sound just as confident as a right one.")
+        "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a truth machine"), ": it predicts what sounds likely, so a wrong answer can sound just as confident as a right one.")
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "Keep those three straight and much of the confusion falls away."),
     /*#__PURE__*/E(InteractiveBox, {
@@ -1835,10 +1835,7 @@ function TypeOut(props) {
   return /*#__PURE__*/React.createElement("span", null, shown, /*#__PURE__*/React.createElement("span", { style: { opacity: 0.45, fontWeight: 700 } }, "▍"));
 }
 function WatchTonightSeeIt() {
-  // Static example (was a click-through SEE IT): render the final, fully-revealed state.
-  var step = 4, genDone = true, userDone = true, adaptDone = true;
   var PRED = ["Midnight Harbor", "Echoes of the Tide", "The Glass Orchard", "Northern Lights"];
-  var topIdx = step >= 3 ? 1 : 0;
   var firstText = "How about Midnight Harbor? It’s the slow-burn thriller most people rate highest right now, rainy and tense the whole way through.";
   var userText = "🛋️ I already saw that at a friend’s.";
   var adaptText = "Ah, then skip it. Try Paper Cranes instead, it keeps that same rainy, tense mood but it’s a quiet little mystery you’ve almost certainly missed. Want something lighter?";
@@ -1848,47 +1845,34 @@ function WatchTonightSeeIt() {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Netflix-style recommendation"),
     /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, marginBottom: 12 } },
       PRED.map(function(title, i) {
-        var isTop = i === topIdx;
-        var isSeen = step >= 3 && i === 0;
+        var isTop = i === 1;
+        var isSeen = i === 0;
         return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 14, lineHeight: 1.9, fontWeight: isTop ? 800 : 500, color: isSeen ? "#9aa4b2" : "#1e3a5f", textDecoration: isSeen ? "line-through" : "none" } },
           /*#__PURE__*/React.createElement("span", null, title),
           isTop ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#fff", background: "#1e40af", borderRadius: 999, padding: "2px 8px" } }, "TOP PICK") : (isSeen ? /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#9aa4b2" } }, "seen") : null));
       })),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
-      step >= 3 ? "It just moves to the next title on the list. It has no idea why you skipped the first." : "Ranks its catalog and serves the top match."));
+      "It just moves to the next title on the list. It has no idea why you skipped the first."));
   var genCard = /*#__PURE__*/React.createElement(CompareCard, { bg: "#ede9fe" },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "✨"),
     /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5a3aa6", marginBottom: 4, fontSize: 18 } }, "Generative AI"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5a3aa6", fontStyle: "italic", marginBottom: 8 } }, "Writes a reply, in a conversation"),
-    /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, marginBottom: 10, minHeight: 44 } },
-      step >= 3 ? firstText : /*#__PURE__*/React.createElement(TypeOut, { text: firstText, onDone: function() { setGenDone(true); } })),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#5a3aa6", fontWeight: 600, fontStyle: "italic", marginBottom: step >= 3 ? 12 : 0 } }, "Composes a reply, and you can talk back."),
-    step >= 3 ? /*#__PURE__*/React.createElement(React.Fragment, null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: step >= 4 ? 10 : 0 } },
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ddd6f3", borderRadius: 8, padding: "8px 12px", fontSize: 13, color: "#3b2a63", maxWidth: "85%", fontWeight: 600 } },
-          step >= 4 ? userText : /*#__PURE__*/React.createElement(TypeOut, { text: userText, onDone: function() { setUserDone(true); } }))),
-      step >= 4 ? /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, minHeight: 44 } },
-        adaptText) : null) : null);
-  var genPlaceholder = /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
-    /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ Generative AI..."));
+    /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, marginBottom: 10, minHeight: 44 } }, firstText),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#5a3aa6", fontWeight: 600, fontStyle: "italic", marginBottom: 12 } }, "Composes a reply, and you can talk back."),
+    /*#__PURE__*/React.createElement(React.Fragment, null,
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 10 } },
+        /*#__PURE__*/React.createElement("div", { style: { background: "#ddd6f3", borderRadius: 8, padding: "8px 12px", fontSize: 13, color: "#3b2a63", maxWidth: "85%", fontWeight: 600 } }, userText)),
+      /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b2a63", lineHeight: 1.6, minHeight: 44 } }, adaptText)));
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE TASK"),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What movie should I watch tonight?”")),
-    step === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
-      /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(1); }, size: "large" }, "See what Netflix recommends →")) :
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease", alignItems: "start" } },
         predCard,
-        step >= 2 ? genCard : genPlaceholder),
-      step === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(2); }, size: "large" }, "See what Generative AI does →")) : null,
-      step === 2 && genDone ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(3); }, size: "large" }, "See your response →")) : null,
-      step === 3 && userDone ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 4 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setStep(4); }, size: "large" }, "See AI response →")) : null,
-      step >= 4 && adaptDone ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginTop: 16 } },
-        /*#__PURE__*/React.createElement(Takeaway, { headline: "Same movie. Then everything changes.", body: "Recommendation AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and composed something new from it. And it’s still in the conversation." })) : null));
+        genCard),
+      /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginTop: 16 } },
+        /*#__PURE__*/React.createElement(Takeaway, { headline: "Same movie. Then everything changes.", body: "Recommendation AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and composed something new from it. And it’s still in the conversation." }))));
 }
 function RecOrGenTryIt(props) {
   var ROWS = [
@@ -1962,7 +1946,7 @@ function LLMsSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", fontSize: 15, color: "#5a3aa6", marginTop: 2, marginBottom: 14 } }, "Makes something that didn’t exist"),
           /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: 18, flex: 1, display: "flex", flexDirection: "column" } },
             /*#__PURE__*/React.createElement("div", { style: { minHeight: 130, marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { border: "1px solid var(--rule)", borderRadius: 8, padding: "12px 14px", marginBottom: 10, fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", display: "flex", alignItems: "center" } }, "Twin boys in highschool, who love the Dallas Stars, are building an AI course at a warm kitchen table.", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: 18, background: "var(--ink)", marginLeft: 1 } })),
+            /*#__PURE__*/React.createElement("div", { style: { border: "1px solid var(--rule)", borderRadius: 8, padding: "12px 14px", marginBottom: 10, fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", display: "flex", alignItems: "center" } }, "Twin boys in high school, who love the Dallas Stars, are building an AI course at a warm kitchen table.", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 2, height: 18, background: "var(--ink)", marginLeft: 1 } })),
             /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", fontSize: 14, color: "var(--inkSoft)" } }, "This prompt made the picture on the welcome page.")),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 8 } }, "What it can do"),
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 } },
@@ -2648,8 +2632,8 @@ function WelcomeSection(props) {
     E(BodyP, null,
       "You\u2019ll even catch us in a few of the examples later, usually wearing the jerseys of the greatest hockey team in the world."),
     E(ShowcaseBox, {
-      headline: "Here's the path: six moves, in order.",
-      intro: "Each one builds on the last. It's the route this whole course takes.",
+      headline: "Here’s the path: six moves, in order.",
+      intro: "Each one builds on the last. It’s the route this whole course takes.",
       marginBottom: 28
     },
       E(NumberedColumns, {
@@ -2776,7 +2760,7 @@ function WhyDeeperSection(props) {
     }),
     /*#__PURE__*/E(SectionKicker, null, "IT\u2019S ALREADY EVERYWHERE"),
     /*#__PURE__*/E(BodyP, null,
-      "AI isn\u2019t something you go visit. It\u2019s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It went from sci-fi to normal in about two years. ",
+      "AI isn\u2019t something you go visit. It\u2019s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. The kind you can just talk to went from sci-fi to normal in about two years. ",
       /*#__PURE__*/E("strong", null, "Most of what it does today, it will do better tomorrow.")),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "AI is hiding in apps you use every day",
@@ -2899,7 +2883,7 @@ function DoesAIThinkSection(props) {
       bg: "#ddd0ef",
       items: [
         "Matches patterns in mountains of text",
-        "Only ever read about the world",
+        "Only ever reads about the world",
         "Predicts the next likely word",
         "Has no stake in being right or wrong",
         "Echoes what people call beautiful",
@@ -2919,7 +2903,7 @@ function DoesAIThinkSection(props) {
       realFeedback: "It writes \u201CI\u2019m so sorry\u201D so convincingly that it can feel real. But there\u2019s nobody home to feel anything. Apologies are a pattern it has seen a million times. The words are there. The feeling isn\u2019t.",
       illusionFeedback: "Right. No feelings in there. It writes \u201CI\u2019m so sorry\u201D because apologies are a pattern it has seen a million times, not because anything is bothered." },
     { text: "AI builds its answers by matching patterns from a huge pile of text.", answer: "real", headline: "That\u2019s real.",
-      realFeedback: "Right. It learned from a mountain of human writing and got very good at copying the patterns in it. That\u2019s the pattern-machine part, and you\u2019ll see exactly how in Foundations.",
+      realFeedback: "Right. It learned from a mountain of human writing and got very good at copying the patterns in it. That\u2019s the pattern-machine part, and you\u2019ll see exactly how in the next part, Understand AI.",
       illusionFeedback: "It feels too mechanical to explain something this fluent, but it is. The pattern machine learned from a mountain of human writing, and the fluency is just very good copying of what it saw." },
     { text: "AI knows when it doesn\u2019t know something.", answer: "illusion", headline: "That just sounds true.",
       realFeedback: "If only. When AI hits something it doesn\u2019t know, it doesn\u2019t go quiet. It predicts confident-sounding words anyway. That\u2019s how it invents facts without flinching.",
@@ -2945,7 +2929,7 @@ function DoesAIThinkSection(props) {
       E("strong", null, "We call it Artificial Intelligence, not Artificial Thinking."),
       " That was picked on purpose. Something can act intelligent, finish your sentence, explain a poem, without understanding a single thing it just said."),
     E(BodyP, null,
-      "There\u2019s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn\u2019t know a word of Chinese. Notes in Chinese come in under the door. The person can\u2019t read any of it, but they have a giant chart of which symbol tends to follow which. So they match symbols and slide back an answer that looks perfect to the people outside."),
+      "There\u2019s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn\u2019t know a word of Chinese. Notes in Chinese come in under the door. The person can\u2019t read any of it, but they have a giant rulebook telling them which symbols to send back. So they match symbols and slide back an answer that looks perfect to the people outside."),
     E("img", {
       src: "illustrations/does-ai-think.jpg",
       alt: "A person sealed inside a room matching Chinese symbols against a rulebook, sliding answers under the door",
@@ -3067,12 +3051,12 @@ function WhyBotherSection(props) {
     E(BodyP, null,
       "Here\u2019s the most important thing you\u2019ll learn in this course. AI will always handle step 1. It\u2019s the ultimate answer machine. Ask anything, and you\u2019ll get an answer."),
     E(BodyP, null,
-      "But, it\u2019s not as good at steps 2 to 5. It doesn\u2019t understand what it gives you the way you do. So, how can it evaluate, refine, and make it better, when it doesn\u2019t even understand what it says?"),
+      "But it\u2019s not as good at steps 2 to 5. It can take a swing at evaluating and refining, but it does that blind to your context, so its judgment stays generic."),
     E(BodyP, null,
-      "Those steps are your domain. This is where you need to live. And it starts today, not when you work at Google. Double-down on building your knowledge and skills. And, one day you\u2019ll be the CEO at Google."),
+      "Those steps are your domain. This is where you need to live. And it starts today, not when you work at Google. Double down on building your knowledge and skills. And one day you\u2019ll be the CEO at Google."),
     E("img", {
       src: "illustrations/does-school-matter.jpg",
-      alt: "Luke as the CEO at Google",
+      alt: "A student imagined as the future CEO at Google",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
 
@@ -3080,7 +3064,7 @@ function WhyBotherSection(props) {
     E(BodyP, null,
       "AI is programmed to give you answers. And, as you gain AI experience, you\u2019ll see that sometimes it\u2019s amazing. But other times, it\u2019s not."),
     E(BodyP, null,
-      "For example, we used AI to help develop this class. It coded every page and every piece of interactivity you\u2019ll see. For coding, it deserves an ", E("strong", null, "A+++"), ". It also wrote the first draft for much of the text. It was average, at best. It didn\u2019t always make points in the right order, explain things in the way we wanted, or give us the learning flow we wanted. For writing, we give it a ", E("strong", null, "C-"), ". Much of our time was spent in the last 3 steps: Evaluate, Refine, and Make it better."),
+      "For example, we used AI to help develop this class. It coded every page and every piece of interactivity you\u2019ll see. For coding, it deserves an ", E("strong", null, "A+++"), ". It also wrote the first draft for much of the text. It was average, at best. It didn\u2019t always make points in the right order, explain things in the way we wanted, or give us the learning flow we wanted. For writing, we give it a ", E("strong", null, "C-"), ". Much of our time was spent in the last three steps: Evaluate, Refine, and Make it better."),
     E(BodyP, null,
       "It\u2019s not that AI is broken. It\u2019s that we humans are much better at understanding, evaluating, refining, and making things better."),
 
@@ -3179,7 +3163,7 @@ function ControlSection(props) {
       text: "Whether AI replaces entry-level work in your field",
       answer: "cant",
       headline: "Out of your hands.",
-      canFeedback: "You don\u2019t set that. Whether AI takes the first rung is an economic call other people make, based on what pays off when automated. What you can decide is how strong your hand is when you arrive.",
+      canFeedback: "You don\u2019t set that. Whether AI takes the first rung is an economic call other people make, based on what pays off when automated. What you can decide is how strong your skills are when you arrive.",
       cantFeedback: "Right. Some fields will absorb AI faster than others, and that\u2019s an economic call other people make. What is in your hands: how much real skill you\u2019ve built by the time you get there."
     },
     {
@@ -7705,7 +7689,7 @@ function Lab01CourseNotebook() {
       E("strong", { key: "btn" }, "+ Add sources"),
       " and upload the Start Smarter PDF you just downloaded."
     ] },
-    { title: "Generate a quiz to check your knowledge", body: "Use the prompt from this lesson: “Generate a 10-question quiz from this source only. Don’t show the answers yet. Wait for mine, then grade me.”" },
+    { title: "Generate a quiz to check your knowledge", body: "Use the prompt from this lesson: “Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me.”" },
     { title: "Take the quiz", body: "Answer all ten, then let it grade you." },
     { title: "Click one citation", body: "Pick one graded answer and click its numbered citation. It lands on the exact passage of the course that taught it. Make that check a habit." },
     { title: "Transfer it", body: "This week, make a second notebook for whichever class has your next test, and feed it your real materials: notes, slides, anything your teacher shared. The course showed you the machine; your grades are where it pays." }
@@ -7748,9 +7732,9 @@ function StudyingWithAISection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "studying" }),
     E(BodyP, { marginBottom: 14 },
-      "Here\u2019s the good news: when it comes to studying, AI might be the most powerful tool you\u2019ll ever get your hands on. Used the right way, it doesn\u2019t just help you finish the work, it makes you genuinely sharper at the subject, and that shows up in your grades."),
+      "Here\u2019s the good news: when it comes to studying, AI might be the most powerful tool you\u2019ll ever get your hands on. Used the right way, it doesn\u2019t just help you finish the work, it makes you genuinely sharper at the subject."),
     E(BodyP, { marginBottom: 24 },
-      "It\u2019s the most patient tutor you\u2019ll ever meet. It\u2019ll quiz you at 1am, never sighs when you ask again, and meets you exactly where you\u2019re stuck. Point it at your work the right way and the grades follow. The first move is choosing which kind of AI to aim at the job."),
+      "It\u2019s the most patient tutor you\u2019ll ever meet. It\u2019ll quiz you at 1am, never sigh when you ask again, and meet you exactly where you\u2019re stuck. Point it at your work the right way. The first move is choosing which kind of AI to aim at the job."),
     E(BodyP, { marginBottom: 16 },
       E("strong", null, "One question picks the tool: "),
       "do you want to learn from materials you already have, or learn something new?"),
@@ -7758,8 +7742,8 @@ function StudyingWithAISection(props) {
       E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Which study tool for the job?"),
       E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 18, gridTemplateRows: "auto auto auto auto" } },
         [
-          { title: "General Tutor", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", lead: "Makes things from scratch.", desc: "Trained on massive amounts of data, it can explain or quiz you on almost anything.", bestUse: "You don’t have the materials, or you want a concept explained a new way or extra practice your notes don’t cover. Think a paper on a new topic, or something not covered in class.", catch: "It can occasionally hallucinate (make things up), or explain a concept differently than the way your teacher taught it and expects on the exam." },
-          { title: "Source-grounded Tutor", eyebrow: "NotebookLM", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", lead: "Learns from your materials.", desc: "It only knows what you give it, which makes it the ultimate exam-prep machine.", bestUse: "You have the materials the test covers: class notes, screenshots, study guides, even a webpage or YouTube video. Got them? Start here.", catch: "It doesn’t know what you didn’t give it. If your notes are missing a key concept, it can’t fill in the blank for you, because it isn’t allowed to look outside its binder." }
+          { title: "General Tutor", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", lead: "Makes things from scratch.", desc: "Trained on massive amounts of data, it can explain or quiz you on almost anything.", bestUse: "You don’t have the materials, or you want a concept explained a new way or extra practice your notes don’t cover. Think: a topic your class never covered, or a concept explained a different way than the textbook.", catch: "It can occasionally hallucinate (make things up), or explain a concept differently than the way your teacher taught it and expects on the exam." },
+          { title: "Source-grounded Tutor", eyebrow: "NotebookLM", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", lead: "Learns from your materials.", desc: "It only knows what you give it, which makes it the ultimate exam-prep machine.", bestUse: "You have the materials the test covers: class notes, screenshots, study guides, even a webpage or YouTube video. Got them? Start here.", catch: "It doesn’t know what you didn’t give it. If your notes are missing a key concept, it can’t reliably fill the gap, because it works from the sources you gave it, not the whole internet." }
         ].map(function(tool, i) {
           var bodyTxt = { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" };
           var whiteSide = { background: "#fff", marginLeft: 22, marginRight: 22 };

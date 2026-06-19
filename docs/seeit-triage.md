@@ -102,9 +102,13 @@ NextLessonGate: llms, critical, privacy, evaluating.
 - **Capstone-pass reworks (7):** `prompt`, `thoughtpartner` (flagged to *become* TRY
   ITs) + the 5 flagged TRY-IT candidates (`howwegothere`, `layers`, `verify`,
   `evaluating` "Checklist", `aifuture`). Left as SEE ITs until authored into TRY ITs.
-- **Orphans (2):** `OpenerInsideSection`, `OpenerAnswersSection` — remove in the
-  dead-function sweep (10 dead functions total).
+- ~~**Orphans (2):** `OpenerInsideSection`, `OpenerAnswersSection`~~ — DONE: removed
+  in the dead-function sweep (2026-06-19), which deleted all 10 dead section functions
+  (787 lines). `variant:"see"` 9 → 7. validate() clean (62 sections).
 - Then the **variant decommission** (after the capstone pass clears the last `see`).
+
+**Remaining 7 `see`** are all capstone-pass reworks: `prompt`, `thoughtpartner`,
+`howwegothere`, `layers`, `verify`, `evaluating` "Checklist", `aifuture`.
 
 ## Execution order (Step 2)
 

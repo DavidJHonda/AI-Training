@@ -1892,11 +1892,21 @@ function WatchTonightSeeIt() {
 }
 function RecOrGenTryIt(props) {
   var ROWS = [
-    { use: "Netflix suggesting your next show", correct: "rec", explain: "It ranks shows that already exist and serves the top match. It makes nothing new." },
-    { use: "ChatGPT writing you a birthday poem", correct: "gen", explain: "The poem didn’t exist until you asked. It’s built fresh, word by word." },
-    { use: "Spotify’s Discover Weekly", correct: "rec", explain: "It chooses from songs that already exist and orders them for you." },
-    { use: "An app that drafts your Instagram caption", correct: "gen", explain: "It writes new text from patterns. There was no caption to pick from." },
-    { use: "TikTok’s For You feed", correct: "rec", explain: "It ranks videos that already exist to predict what you’ll watch. It never makes a video." }
+    { use: "Netflix suggesting your next show", correct: "rec", fb: {
+      rec: "Right. It ranks shows that already exist and serves the top match. Nothing new is made.",
+      gen: "Not quite. Netflix doesn’t make a new show, it ranks ones that already exist. That’s recommendation." } },
+    { use: "ChatGPT writing you a birthday poem", correct: "gen", fb: {
+      gen: "Right. The poem didn’t exist until you asked. It’s built fresh, word by word.",
+      rec: "Not quite. There’s no list of poems to pick from. ChatGPT builds a new one, so it’s generative." } },
+    { use: "Spotify building you a playlist of songs you might like", correct: "rec", fb: {
+      rec: "Right. It’s choosing from songs that already exist and ordering them for you.",
+      gen: "Not quite. Spotify isn’t writing new music, it’s ranking songs that already exist. That’s recommendation." } },
+    { use: "Gemini writing your Instagram caption", correct: "gen", fb: {
+      gen: "Right. The caption is written fresh for your post. There was nothing to pick from.",
+      rec: "Not quite. It isn’t choosing from existing captions, it’s generating new text. That’s generative." } },
+    { use: "TikTok choosing which videos to show you next", correct: "rec", fb: {
+      rec: "Right. It ranks videos that already exist to predict what you’ll watch. It never makes a video.",
+      gen: "Not quite. TikTok doesn’t create videos, it picks which existing ones to show you. That’s recommendation." } }
   ];
   var LABELS = { rec: "Recommendation", gen: "Generative" };
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
@@ -1911,7 +1921,7 @@ function RecOrGenTryIt(props) {
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.use, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.use, answered: answered, correct: correct, feedback: answered ? r.fb[answers[i]] : null },
           ["rec", "gen"].map(function(c) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });

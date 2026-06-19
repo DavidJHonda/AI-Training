@@ -12028,8 +12028,54 @@ function AIFutureSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
 }
+function SpotTheWorryTryIt(props) {
+  var SCENARIOS = [
+    {
+      soundbite: "“AI is going to take all the jobs.”",
+      options: [
+        { label: "“Some tasks change fast. Which ones, and who adapts?”", correct: true, feedback: "That meets the worry. It names what actually shifts (tasks, not whole people) and keeps it concrete." },
+        { label: "“Relax, every new technology creates jobs.”", feedback: "A brush-off. It waves the concern away instead of engaging what's actually changing." },
+        { label: "“Honestly, AI is mostly overhyped.”", feedback: "A dodge. Hype-or-not isn't the worry; which tasks change is." }
+      ]
+    },
+    {
+      soundbite: "“AI is going to take over the world.”",
+      options: [
+        { label: "“It only acts where someone gives it access. What would it need permission to do that?”", correct: true, feedback: "That meets the worry: it points at the real lever (permission and access), not the sci-fi image." },
+        { label: "“That's just science fiction.”", feedback: "A brush-off. It might feel true, but it shuts the conversation instead of addressing the concern." },
+        { label: "“AI can't even drive a car perfectly yet.”", feedback: "A cheap debunk. One limitation today doesn't speak to the actual worry about control." }
+      ]
+    },
+    {
+      soundbite: "“Using AI for homework is just cheating.”",
+      options: [
+        { label: "“Depends how you use it: to understand, or to dodge the work?”", correct: true, feedback: "That meets the worry. It separates learning-with-it from offloading, which is the real line." },
+        { label: "“Everyone uses it, so it's fine.”", feedback: "A brush-off. \"Everyone does it\" skips the actual question of how you use it." },
+        { label: "“Teachers can't even detect it.”", feedback: "A dodge. Whether you get caught isn't the point; whether you learned is." }
+      ]
+    }
+  ];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  useEffect(function() { if (answeredCount >= SCENARIOS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Spot the worry",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: SCENARIOS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each thing someone might say, pick the response that meets the real worry underneath, not a brush-off or a cheap debunk."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      SCENARIOS.map(function(sc, si) {
+        var picked = answers[si];
+        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, sc.soundbite)),
+          /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", statement: "Which response meets the real worry?", options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); } }));
+      })));
+}
 function TalkingAboutAISection(props) {
   var E = React.createElement;
+  var _sw = useState(false), swDone = _sw[0], setSwDone = _sw[1];
   return E("div", null,
     E(LessonHeader, { sectionId: "talkingai" }),
     E(BodyP, null, "You can weigh a claim for yourself now. But you’ll also be the person friends, family, and teachers ask about AI, often with a worry sitting under the question. The move is to meet the worry, not the soundbite."),
@@ -12052,8 +12098,9 @@ function TalkingAboutAISection(props) {
         }))),
     E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren’t the ones who panic or worship."),
     E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They’re the ones who can judge."),
+    E(SpotTheWorryTryIt, { onComplete: function() { setSwDone(true); } }),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
+    E(NextLessonGate, { ready: swDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
 function BuildEdgeSection(props) {
   var E = React.createElement;

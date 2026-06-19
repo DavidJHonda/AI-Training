@@ -1979,7 +1979,33 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: rgDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
 }
+function NextWordTryIt(props) {
+  var ROWS = [
+    { stem: "The forecast warned of a huge storm. Tomorrow it’s going to…", options: ["rain", "shine", "cook"], correct: "rain", explain: "“Storm” piles the odds onto “rain.” The model just picks the highest-probability next word." },
+    { stem: "Peanut butter and…", options: ["jelly", "gravel", "Tuesday"], correct: "jelly", explain: "You predicted it the way the model does: “jelly” is by far the most probable next word." },
+    { stem: "She was so tired she fell…", options: ["asleep", "upward", "blue"], correct: "asleep", explain: "Common patterns make “asleep” the runaway favorite. Context sets the odds." }
+  ];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Pick the next word",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each sentence, pick the word the model would most likely choose next."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      ROWS.map(function(r, i) {
+        var answered = answers[i] !== undefined;
+        var correct = answered && answers[i] === r.correct;
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.stem, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+          r.options.map(function(opt) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
+              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
+          }));
+      })));
+}
 function AIIsMathSection(props) {
+  var _nw = useState(false), nwDone = _nw[0], setNwDone = _nw[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aiismath" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 },
@@ -2249,8 +2275,9 @@ function AIIsMathSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past these three ideas. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But these three concepts are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
+    /*#__PURE__*/React.createElement(NextWordTryIt, { onComplete: function() { setNwDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: nwDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
   );
 }
 

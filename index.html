@@ -1889,7 +1889,36 @@ function WatchTonightSeeIt() {
       step >= 4 && adaptDone ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginTop: 16 } },
         /*#__PURE__*/React.createElement(Takeaway, { headline: "Same movie. Then everything changes.", body: "Recommendation AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and composed something new from it. And it’s still in the conversation." })) : null));
 }
+function RecOrGenTryIt(props) {
+  var ROWS = [
+    { use: "Netflix suggesting your next show", correct: "rec", explain: "It ranks shows that already exist and serves the top match. It makes nothing new." },
+    { use: "ChatGPT writing you a birthday poem", correct: "gen", explain: "The poem didn’t exist until you asked. It’s built fresh, word by word." },
+    { use: "Spotify’s Discover Weekly", correct: "rec", explain: "It chooses from songs that already exist and orders them for you." },
+    { use: "An app that drafts your Instagram caption", correct: "gen", explain: "It writes new text from patterns. There was no caption to pick from." },
+    { use: "TikTok’s For You feed", correct: "rec", explain: "It ranks videos that already exist to predict what you’ll watch. It never makes a video." }
+  ];
+  var LABELS = { rec: "Recommendation", gen: "Generative" };
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Recommendation or Generative?",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each one, decide: is it picking from what already exists, or making something new?"),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      ROWS.map(function(r, i) {
+        var answered = answers[i] !== undefined;
+        var correct = answered && answers[i] === r.correct;
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.use, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+          ["rec", "gen"].map(function(c) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
+              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
+          }));
+      })));
+}
 function LLMsSection(props) {
+  var _rg = useState(false), rgDone = _rg[0], setRgDone = _rg[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
     /*#__PURE__*/React.createElement(BodyP, null, "You’ve seen how AI works: it learns patterns, then predicts an answer one word at a time. Now let’s name the thing you’re actually using when you open ChatGPT, Claude, or Gemini."),
@@ -1946,7 +1975,8 @@ function LLMsSection(props) {
       ]
     }),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The tool, named:" }, "The AI you’ll use all course is generative AI, powered by a Large Language Model. Everything ahead is about getting more out of it."),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
+    /*#__PURE__*/React.createElement(RecOrGenTryIt, { onComplete: function() { setRgDone(true); } }),
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: rgDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
 }
 function AIIsMathSection(props) {

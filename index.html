@@ -2386,7 +2386,7 @@ function HistoryMatchTryIt(props) {
           kicker: row.year + " · " + row.who,
           prompt: row.label,
           answered: answered, correct: correct,
-          feedback: answered ? row.explain : null
+          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + row.explain) : null
         }, CHOICES.map(function(c) {
           return /*#__PURE__*/React.createElement(FeedbackPill, {
             key: c.id, answered: answered,
@@ -2563,7 +2563,7 @@ function AIStrengthsSection(props) {
             prompt: "\u201C" + sc.prompt + "\u201D",
             answered: answered,
             correct: correct,
-            feedback: answered ? sc.explain : null
+            feedback: answered ? ((correct ? "Right. " : "Not quite. ") + sc.explain) : null
           }, ["good", "careful"].map(function(choice) { return JudgmentPill(choice); }));
         }))),
     allAnswered && React.createElement(KeyInsight, { lead: "The real question isn\u2019t \u201CCan AI do this?\u201D" }, "It\u2019s \u201CWhat do I need to check before I use it?\u201D That\u2019s the move judgment makes."),
@@ -4458,7 +4458,7 @@ function TokenCountTryIt(props) {
           prompt: E(React.Fragment, null, "How many tokens is ", E("span", { style: { fontFamily: "var(--mono)", fontWeight: 700 } }, "“" + q.word + "”"), "?"),
           answered: answered,
           correct: correct,
-          feedback: answered ? q.feedback : null
+          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + q.feedback) : null
         }, q.choices.map(function(c) {
           return E(FeedbackPill, {
             key: c,
@@ -4866,7 +4866,7 @@ function MatchTermsTryIt(props) {
           prompt: q.prompt,
           answered: answered,
           correct: correct,
-          feedback: answered ? q.feedback : null
+          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + q.feedback) : null
         }, q.choices.map(function(c) {
           return E(FeedbackPill, {
             key: c,
@@ -4944,7 +4944,7 @@ function LayerTraceTryIt(props) {
         BAT_LAYERS.map(function(row, i) {
           var answered = answers[i] !== undefined;
           var correct = answered && answers[i] === row.correct;
-          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: row.label, answered: answered, correct: correct, feedback: answered ? EXPL[row.correct] : null },
+          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: row.label, answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + EXPL[row.correct]) : null },
             BAT_CHOICES.map(function(c) {
               return /*#__PURE__*/React.createElement(FeedbackPill, { key: c.id, answered: answered, isCorrect: c.id === row.correct, isPicked: answers[i] === c.id, label: c.label,
                 onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c.id; return u; }); } });
@@ -6511,7 +6511,7 @@ function VerifyChecksActivity(props) {
         CLAIMS.map(function(cl, i) {
           var answered = answers[i] !== undefined;
           var correct = answered && answers[i] === cl.correct;
-          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: "“" + cl.ai + "”", answered: answered, correct: correct, feedback: answered ? cl.explain : null },
+          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: "“" + cl.ai + "”", answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + cl.explain) : null },
             CHOICES.map(function(c) {
               return /*#__PURE__*/React.createElement(FeedbackPill, { key: c.id, answered: answered, isCorrect: c.id === cl.correct, isPicked: answers[i] === c.id, label: c.label,
                 onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c.id; return u; }); } });
@@ -8358,7 +8358,7 @@ function WhenAIActsSection(props) {
       surface: "mint",
       title: "Set Your Permissions",
     },
-      E(ActivityInstruction, null, "Pick the permission you\u2019d actually grant for each one. We\u2019ll tell you how it lines up as you go."),
+      E(ActivityInstruction, null, "Pick the permission you\u2019d actually grant for each one."),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         PERM_ITEMS.map(function(item, i) {
           var answered = permAnswers[i] !== undefined;
@@ -8382,7 +8382,7 @@ function WhenAIActsSection(props) {
             prompt: item.prompt,
             answered: answered,
             correct: correct,
-            feedback: answered ? item.feedback : null
+            feedback: answered ? ((correct ? "Right. " : "Not quite. ") + item.feedback) : null
           },
             item.options.map(function(opt) { return PillButton(opt); }));
         }))),
@@ -11925,7 +11925,7 @@ function AiFutureMatchTryIt(props) {
           key: i, index: i + 1,
           prompt: "“" + card.short + "”",
           answered: answered, correct: correct,
-          feedback: answered ? ("The miss was friction (" + card.friction.join(", ").toLowerCase() + "). " + card.reality) : null
+          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + "The miss was friction (" + card.friction.join(", ").toLowerCase() + "). " + card.reality) : null
         }, cards.map(function(opt) {
           return /*#__PURE__*/React.createElement(FeedbackPill, {
             key: opt.id, answered: answered,

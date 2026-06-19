@@ -11784,10 +11784,38 @@ function WorkChangesSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(splitAnswers).length >= SPLIT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" })
   );
 }
+function CostClaimsTryIt(props) {
+  var ROWS = [
+    { claim: "A longer answer takes more compute than a short one.", correct: "true", explain: "True. More tokens means the whole network runs more times. Length drives cost." },
+    { claim: "A bigger model costs more compute per word than a smaller one.", correct: "true", explain: "True. More parameters means more calculations for every single token." },
+    { claim: "Once a model is trained, answering a question is basically free.", correct: "false", explain: "False. Every answer re-runs billions of parameters: real electricity and water, every time." }
+  ];
+  var LABELS = { "true": "True", "false": "False" };
+  var ORDER = ["true", "false"];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Does this cost claim hold up?",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "True or false? Decide each, then check your reasoning."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      ROWS.map(function(r, i) {
+        var answered = answers[i] !== undefined;
+        var correct = answered && answers[i] === r.correct;
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.claim, answered: answered, correct: correct, feedback: answered ? r.explain : null },
+          ORDER.map(function(c) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
+              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
+          }));
+      })));
+}
 function TheHiddenCostSection(props) {
   var E = React.createElement;
   // Static (was a single-reveal SEE IT): the cost is always shown.
   var revealed = true, setRevealed = function() {};
+  var _cc = useState(false), ccDone = _cc[0], setCcDone = _cc[1];
   var AMBER = "#b45309", AMBER_BG = "#fbedd3";
   var chip = function(v, l) {
     return E("div", { style: { background: AMBER_BG, borderRadius: 10, padding: "8px 14px", textAlign: "center", minWidth: 72 } },
@@ -11826,8 +11854,9 @@ function TheHiddenCostSection(props) {
     E(SectionKicker, null, "THE FOOTPRINT"),
     E(BodyP, null, "All that hardware draws real electricity, and cooling it takes real water. As more people use AI, that footprint grows. It isn’t unique to AI; every big technology has one, from streaming video to the cars outside, and engineers are racing to make the chips far more efficient. But it is real, and most people never picture it."),
     E(KeyInsight, { lead: "Now you know what’s behind the magic." }, "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
+    E(CostClaimsTryIt, { onComplete: function() { setCcDone(true); } }),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
+    E(NextLessonGate, { ready: ccDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
 }
 function AiFutureMatchTryIt(props) {
   var cards = props.cards;

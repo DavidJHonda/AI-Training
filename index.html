@@ -2568,7 +2568,7 @@ function WelcomeSection(props) {
     {
       eyebrow: "\u270E TRY IT",
       title: "You'll do something",
-      body: "Activities where you click, sort, pick, or answer. You just did one.",
+      body: "Activities where you click, sort, pick, or answer. Each lesson ends with one.",
       bg: "var(--tryBand)",
       accent: "var(--tryAccent)"
     },
@@ -2646,8 +2646,36 @@ function WelcomeSection(props) {
         ]
       })
     ),
+    E(SectionKicker, null, "HOW LESSONS WORK"),
     E(BodyP, null,
-      "To start, six honest questions. Yes or no. No score. No wrong answer. You’ll probably answer 'No' to at least a few. That is the point."),
+      "Two ways to take a lesson: when you see a ",
+      E("strong", { style: { color: "var(--primary)" } }, "Watch"),
+      " button by the title, you can watch a short video overview instead of reading. Same material, your choice."),
+    E(BodyP, null,
+      "Three patterns repeat throughout the course. Spotting them tells you what each moment is asking of you. The ",
+      E("strong", { style: { color: "var(--tryAccent)" } }, "TRY IT"),
+      " activities are where you’ll do the thinking."),
+    E("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, maxWidth: 680, marginLeft: "auto", marginRight: "auto", marginBottom: 8 }
+    },
+      PATTERNS.map(function(p, i) {
+        return E("div", {
+          key: i,
+          style: { background: p.bg, borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
+        },
+          E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.accent, marginBottom: 8 } }, p.eyebrow),
+          E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
+          E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
+      })),
+    E(SectionKicker, null, "WHAT YOU'LL NEED"),
+    E(BodyP, null,
+      "The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: ",
+      E("strong", null, "NotebookLM"),
+      ", which is free with a Google account, and the free version of ",
+      E("strong", null, "ChatGPT, Claude, or Gemini"),
+      ". Have those accounts ready before your first lab."),
+    E(BodyP, null,
+      "One last thing before you dive in: six honest questions. Yes or no, no score, no wrong answer. You’ll probably answer 'No' to at least a few. That is the point."),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -2679,30 +2707,6 @@ function WelcomeSection(props) {
                 YesNoButton("no", current, function() { setAnswer(i, "no"); })))
           );
         }))),
-    E(SectionKicker, null, "HOW LESSONS WORK"),
-    E(BodyP, null,
-      "Three patterns repeat throughout the course. Spotting them tells you what each moment is asking of you. The ",
-      E("strong", { style: { color: "var(--tryAccent)" } }, "TRY IT"),
-      " activities are where you’ll do the thinking."),
-    E("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, maxWidth: 680, marginLeft: "auto", marginRight: "auto", marginBottom: 8 }
-    },
-      PATTERNS.map(function(p, i) {
-        return E("div", {
-          key: i,
-          style: { background: p.bg, borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
-        },
-          E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.accent, marginBottom: 8 } }, p.eyebrow),
-          E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
-          E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
-      })),
-    E(SectionKicker, null, "WHAT YOU'LL NEED"),
-    E(BodyP, null,
-      "The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: ",
-      E("strong", null, "NotebookLM"),
-      ", which is free with a Google account, and the free version of ",
-      E("strong", null, "ChatGPT, Claude, or Gemini"),
-      ". Have those accounts ready before your first lab."),
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,

@@ -12018,10 +12018,42 @@ function TheHiddenCostSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, { ready: revealed, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
 }
+function AiFutureMatchTryIt(props) {
+  var cards = props.cards;
+  var REALITY = {
+    p0: "Got cheaper and smaller until everyone had one",
+    p1: "Technically solved, but rules and trust slow it",
+    w0: "More branches opened, so teller jobs rose",
+    w1: "Cheaper analysis created more accounting work"
+  };
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  return /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Match the miss",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: cards.length })
+  },
+    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each prediction below was confident and wrong. Match it to what actually happened."),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      cards.map(function(card, i) {
+        var answered = answers[i] !== undefined;
+        var correct = answered && answers[i] === card.id;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i, index: i + 1,
+          prompt: "“" + card.short + "”",
+          answered: answered, correct: correct,
+          feedback: answered ? ("The miss was friction (" + card.friction.join(", ").toLowerCase() + "). " + card.reality) : null
+        }, cards.map(function(opt) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: opt.id, answered: answered,
+            isCorrect: opt.id === card.id,
+            isPicked: answers[i] === opt.id,
+            label: REALITY[opt.id],
+            onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = opt.id; return u; }); }
+          });
+        }));
+      })));
+}
 function AIFutureSection(props) {
-  const [predIdx, setPredIdx] = useState(0);
-  const [startedPred, setStartedPred] = useState(false);
-  const [predRevealed, setPredRevealed] = useState(false);
   var ALL_CARDS = [
     { id: "p0", icon: "\uD83D\uDDA5\uFE0F", title: "Personal computers were supposed to be pointless.", claim: "No one would ever want or need a computer in their home.", short: "No one will want a home computer", friction: ["Hardware cost", "Physical size", "No clear use case yet"], reality: "Computers got cheaper, smaller, and essential. Now more computers than people in most homes." },
     { id: "p1", icon: "\uD83D\uDE97", title: "Self-driving cars were supposed to be impossible.", claim: "AI would never be able to drive a car in real traffic.", short: "AI can\u2019t handle real-world driving", friction: ["Regulation", "Liability", "Public trust"], reality: "Waymo opened a limited fully-driverless service in Phoenix in 2020. Possible, but broad adoption is still slow." },
@@ -12058,38 +12090,9 @@ function AIFutureSection(props) {
     { icon: "\uD83D\uDCAC", title: "Its explanation may not be the real cause.", desc: "If you ask why it said something, the answer can sound reasonable but may not actually trace the internal cause." },
     { icon: "\uD83D\uDD12", title: "Closed tools hide even more.", desc: "With ChatGPT, Claude, and Gemini, you don\u2019t see the full model, training data, system instructions, or safety layers." }
   ];
-    var predCard = ALL_CARDS[Math.min(predIdx, ALL_CARDS.length - 1)];
     var trackContent = /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("p", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 4 } }, "History does not say ignore big predictions. It says ask what gets ignored between possibility and reality."),
-      /*#__PURE__*/React.createElement(InteractiveBox, {
-        variant: "see",
-        surface: "sand",
-        title: "Why Smart Predictions Fail",
-        action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(predIdx + (startedPred ? 1 : 0), ALL_CARDS.length), total: ALL_CARDS.length })
-      },
-        /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each one was a confident prediction that missed. Reveal what it underestimated, then go to the next."),
-        /*#__PURE__*/React.createElement(RevealSequence, {
-          surface: "sand",
-          items: ALL_CARDS,
-          currentIdx: predIdx,
-          started: startedPred,
-          onStart: function() { setStartedPred(true); },
-          onNext: function() { setPredIdx(predIdx + 1); setPredRevealed(false); },
-          canAdvance: predRevealed,
-          isComplete: predIdx >= ALL_CARDS.length,
-          startLabel: "First Prediction",
-          nextLabel: "Next Prediction",
-          finishLabel: "See the Pattern",
-          completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "The miss is always the friction.", body: "Cost, rules, trust, and habits are what these confident predictions left out. Something being possible is not the same as it being inevitable." })
-        },
-          /*#__PURE__*/React.createElement(InnerCard, null,
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, predCard.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.4, marginBottom: 8 } }, predCard.title),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, fontStyle: "italic", maxWidth: "56ch" } }, "\u201C" + predCard.claim + "\u201D"),
-            predRevealed
-              ? renderFlowDiagram(predCard.short, predCard.friction, predCard.reality)
-              : /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, textAlign: "center" } },
-                  /*#__PURE__*/React.createElement("button", { onClick: function() { setPredRevealed(true); }, style: { background: "#0e0a1f", color: "#fff", padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 700, fontFamily: "var(--sans)", border: "none", cursor: "pointer" } }, "What Happened?"))))),
+      /*#__PURE__*/React.createElement(AiFutureMatchTryIt, { cards: ALL_CARDS }),
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: 24, border: "1px solid var(--rule)", marginTop: 24 } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The pattern: predictions fail on friction."),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 20 } }, "Most predictions fail because people confuse what is technically possible with what can actually spread, scale, and stick."),
@@ -12183,7 +12186,7 @@ function AIFutureSection(props) {
     }, "A confident explanation isn\u2019t the same as evidence. Outside-the-model evidence is what tells you whether a future claim is real."),
     /*#__PURE__*/React.createElement(BodyP, null, "That’s how you weigh a claim yourself. But you’ll also be the one friends and family ask about AI. That’s next."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: predIdx >= ALL_CARDS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
 }
 function TalkingAboutAISection(props) {
   var E = React.createElement;

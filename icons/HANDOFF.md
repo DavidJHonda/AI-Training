@@ -1,7 +1,8 @@
-# Favicon handoff — AI Leadership Society (Navy Square)
+# Favicon handoff — AI Leadership Society (Ai Bold)
 
-The browser-tab mark is the "Ai" logo (no "Leadership Society" wordmark),
-on a brand-navy rounded square with a cream "A" and gold figure.
+Browser-tab mark: the full "Ai" logo (no "Leadership Society" wordmark) on a
+brand-navy rounded square, with the strokes bolded and padding tightened for
+legibility in the tab — cream "A" + gold figure.
 
 ## Files (in /icons)
 - favicon-16x16.png
@@ -12,7 +13,7 @@ on a brand-navy rounded square with a cream "A" and gold figure.
 - icon-512.png           (PWA / Android)
 - site.webmanifest
 
-Source master: favicon-navy-512.png
+Source master: favicon-navy-bold-512.png
 
 ## What to do
 1. Copy the /icons folder to the site's web root (so paths resolve at /icons/...).
@@ -27,7 +28,7 @@ Source master: favicon-navy-512.png
 ```
 
 3. (Optional) Generate a multi-resolution /favicon.ico (16+32+48) for legacy
-   browsers and place it at the web root — most modern browsers don't need it
-   since the PNG <link> tags above cover them.
+   browsers and place it at the web root — modern browsers are covered by the
+   PNG <link> tags above.
 
 Note: hard-refresh / clear cache to see the new tab icon — favicons cache aggressively.

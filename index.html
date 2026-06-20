@@ -2582,6 +2582,11 @@ function AIStrengthsSection(props) {
 }
 function WelcomeSection(props) {
   var E = React.createElement;
+  // Print/NotebookLM view: the "how lessons work" legend below explains the
+  // app's interactive patterns (TRY IT / KEY INSIGHT / LAB), which is meaningless
+  // in a passive video. Hide it in print so no TRY-IT-styled card prints.
+  var isPrintMode = false;
+  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
   const [answers, setAnswers] = useState({});
   const QUESTIONS = [
     "Do you know why AI writes a sentence one word at a time, like a person would?",
@@ -2673,6 +2678,7 @@ function WelcomeSection(props) {
         ]
       })
     ),
+    isPrintMode ? null : E(React.Fragment, null,
     E(SectionKicker, null, "HOW LESSONS WORK"),
     E(BodyP, null,
       "Two ways to take a lesson: when you see a ",
@@ -2693,7 +2699,7 @@ function WelcomeSection(props) {
           E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.accent, marginBottom: 8 } }, p.eyebrow),
           E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
           E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
-      })),
+      }))),
     E(SectionKicker, null, "WHAT YOU'LL NEED"),
     E(BodyP, null,
       "The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: ",

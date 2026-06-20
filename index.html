@@ -384,6 +384,13 @@ function KeyTerm(props) {
 }
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
+  // Print/NotebookLM view: omit TRY IT activities entirely. Students do these
+  // live in the app, so the per-lesson PDF (and the video built from it) should
+  // cover only the teaching. TRY ITs sit last in every lesson, so dropping them
+  // leaves the lesson ending cleanly on its closing synthesis. LABs still print.
+  var isPrintMode = false;
+  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
+  if (isPrintMode && variant === "try") return null;
   var iconAndLabel = variant === "lab" ? "\u2692 LAB" + (props.labNumber ? " " + props.labNumber : "") : "\u270E TRY IT";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";

@@ -140,6 +140,11 @@
     .section-map,
     nav[aria-label="Lesson navigation"],
     .no-print { display: none !important; }
+    /* Drop the interactive TRY IT and the Welcome "how lessons work" legend from
+       the NotebookLM per-lesson print: students do those in the live app. Scoped
+       to #main-content, so the full Course PDF (?print=all) keeps them. */
+    #main-content .interactive-box--try,
+    #main-content .lesson-mechanics { display: none !important; }
     #main-content {
       background: #fff !important;
       border: none !important;
@@ -384,13 +389,6 @@ function KeyTerm(props) {
 }
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
-  // Print/NotebookLM view: omit TRY IT activities entirely. Students do these
-  // live in the app, so the per-lesson PDF (and the video built from it) should
-  // cover only the teaching. TRY ITs sit last in every lesson, so dropping them
-  // leaves the lesson ending cleanly on its closing synthesis. LABs still print.
-  var isPrintMode = false;
-  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
-  if (isPrintMode && variant === "try") return null;
   var iconAndLabel = variant === "lab" ? "\u2692 LAB" + (props.labNumber ? " " + props.labNumber : "") : "\u270E TRY IT";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";
@@ -2582,11 +2580,6 @@ function AIStrengthsSection(props) {
 }
 function WelcomeSection(props) {
   var E = React.createElement;
-  // Print/NotebookLM view: the "how lessons work" legend below explains the
-  // app's interactive patterns (TRY IT / KEY INSIGHT / LAB), which is meaningless
-  // in a passive video. Hide it in print so no TRY-IT-styled card prints.
-  var isPrintMode = false;
-  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
   const [answers, setAnswers] = useState({});
   const QUESTIONS = [
     "Do you know why AI writes a sentence one word at a time, like a person would?",
@@ -2678,7 +2671,7 @@ function WelcomeSection(props) {
         ]
       })
     ),
-    isPrintMode ? null : E(React.Fragment, null,
+    E("div", { className: "lesson-mechanics" },
     E(SectionKicker, null, "HOW LESSONS WORK"),
     E(BodyP, null,
       "Two ways to take a lesson: when you see a ",

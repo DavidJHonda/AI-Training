@@ -390,6 +390,9 @@ function KeyTerm(props) {
 }
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
+  // A `lead` (priming kicker + paragraph rendered before the box) implies `primed`:
+  // the box drops its own eyebrow so the kicker is the single TRY IT / LAB marker.
+  var primed = props.primed || props.lead != null;
   var iconAndLabel = variant === "lab" ? "\u2692 LAB" + (props.labNumber ? " " + props.labNumber : "") : "\u270E TRY IT";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";
@@ -429,7 +432,7 @@ function InteractiveBox(props) {
     lineHeight: 1.5,
     margin: 0
   };
-  var eyebrowEl = /*#__PURE__*/React.createElement("div", { style: eyebrowStyle }, iconAndLabel);
+  var eyebrowEl = primed ? null : /*#__PURE__*/React.createElement("div", { style: eyebrowStyle }, iconAndLabel);
   var titleEl = hasTitle ? /*#__PURE__*/React.createElement("h3", { style: titleStyle }, props.title) : null;
   var hintEl = hasHint ? /*#__PURE__*/React.createElement("p", { style: hintStyle }, props.hint) : null;
   var stack = /*#__PURE__*/React.createElement("div", null, eyebrowEl, titleEl, hintEl);
@@ -443,7 +446,7 @@ function InteractiveBox(props) {
   } else {
     topRow = stack;
   }
-  return /*#__PURE__*/React.createElement("div", {
+  var boxEl = /*#__PURE__*/React.createElement("div", {
     className: "interactive-box interactive-box--" + variant,
     style: containerStyle
   },
@@ -452,11 +455,28 @@ function InteractiveBox(props) {
       style: { marginTop: hasTextStack || hasAction ? 18 : 0 }
     }, props.children) : null
   );
+  if (props.lead == null) return boxEl;
+  // The lead (kicker + priming paragraph) renders BEFORE the box, as a sibling, so it
+  // survives the NotebookLM/print view that hides the box itself.
+  return /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, labNumber: props.labNumber }, props.lead),
+    boxEl);
 }
 function ActivityInstruction(props) {
   return /*#__PURE__*/React.createElement("p", {
     style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 }
   }, props.children);
+}
+// Primes a TRY IT / LAB just before its (eyebrow-less, "primed") box: an accent-colored
+// "TRY IT" / "LAB NN" kicker plus a purpose-and-task paragraph. Written to stand on its
+// own, since the interactive box is hidden from the NotebookLM/print view.
+function ActivityLead(props) {
+  var variant = props.variant === "lab" ? "lab" : "try";
+  var accent = variant === "lab" ? "var(--labAccent)" : "var(--tryAccent)";
+  var label = variant === "lab" ? ("LAB" + (props.labNumber ? " " + props.labNumber : "")) : "TRY IT";
+  return /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement(SectionKicker, { style: { color: accent } }, label),
+    /*#__PURE__*/React.createElement(BodyP, null, props.children));
 }
 function LessonRule() {
   return React.createElement("div", {
@@ -1086,8 +1106,7 @@ function ChoiceQuiz(props) {
   var pick = function(si, oi) {
     setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); });
   };
-  return React.createElement(InteractiveBox, { variant: "try", surface: props.surface || "mint", title: props.title },
-    props.instruction ? React.createElement(ActivityInstruction, null, props.instruction) : null,
+  return React.createElement(InteractiveBox, { variant: "try", surface: props.surface || "mint", title: props.title, lead: props.instruction },
     React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       scenarios.map(function(sc, si) {
         var viewing = answers[si];
@@ -1804,8 +1823,7 @@ function AIHistorySection(props) {
       variant: "try",
       surface: "mint",
       title: "True or false?",
-    },
-      /*#__PURE__*/E(ActivityInstruction, null, "One statement for each idea you just met. True or false?"),
+     lead: "One statement for each idea you just met. True or false?"},
       /*#__PURE__*/E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         WHATQUIZ.map(function(item, i) {
           var answered = quizAnswers[i] !== undefined;
@@ -1924,8 +1942,7 @@ function RecOrGenTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "What type of AI? Recommendation or Generative?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each one, decide: is it picking from what already exists, or making something new?"),
+  , lead: "For each one, decide: is it picking from what already exists, or making something new?"},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -2017,8 +2034,7 @@ function NextWordTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Pick the next word",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each sentence, pick the word the model would most likely choose next."),
+  , lead: "For each sentence, pick the word the model would most likely choose next."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -2413,9 +2429,9 @@ function HistoryMatchTryIt(props) {
   var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Build the machine",
+    lead: "Now put it together. You just met the four ideas behind modern AI. Match each one to what it gave the machine: answering in odds, guessing the next word, learning from examples, and weighing every word at once.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
   },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Modern AI is four older ideas that finally clicked together. Match each one to what it gave the machine."),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 16 } },
       ROWS.map(function(row, i) {
         var answered = answers[i] !== undefined;
@@ -2581,8 +2597,7 @@ function AIStrengthsSection(props) {
       variant: "try",
       surface: "mint",
       title: "Make the Call",
-    },
-      React.createElement(ActivityInstruction, null, "For each prompt, pick Good Fit or Needs Follow-Up."),
+     lead: "For each prompt, pick Good Fit or Needs Follow-Up."},
       React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, i) {
           var answered = answers[i] !== undefined;
@@ -2731,12 +2746,11 @@ function WelcomeSection(props) {
       ", which is free with a Google account, and the free version of ",
       E("strong", null, "ChatGPT, Claude, or Gemini"),
       ". Have those accounts ready before your first lab."),
-    E(BodyP, null,
-      "One last thing before you dive in: six honest questions. Yes or no, no score, no wrong answer. You’ll probably answer 'No' to at least a few. That is the point."),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Do you know how AI does this?",
+      lead: "One last thing before you dive in: six honest questions. Yes or no, no score, no wrong answer. You’ll probably answer 'No' to at least a few. That is the point.",
     },
       E(InnerCard, null,
         QUESTIONS.map(function(q, i) {
@@ -2880,8 +2894,7 @@ function WhyDeeperSection(props) {
       variant: "try",
       surface: "mint",
       title: "You launch an online store selling hockey jerseys",
-    },
-      /*#__PURE__*/E(ActivityInstruction, null, "For each job, decide: can AI shortcut it, or is it still on you?"),
+     lead: "For each job, decide: can AI shortcut it, or is it still on you?"},
       /*#__PURE__*/E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         STORE_TASKS.map(function(item, i) {
           var answered = storeAnswers[i] !== undefined;
@@ -3000,8 +3013,7 @@ function DoesAIThinkSection(props) {
       variant: "try",
       surface: "mint",
       title: "True, or Just Sounds True?",
-    },
-      E(ActivityInstruction, null, "For each one, decide whether it\u2019s what AI really does or whether it just sounds that way."),
+     lead: "For each one, decide whether it\u2019s what AI really does or whether it just sounds that way."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         ITEMS.map(function(item, i) {
           var answered = answers[i] !== undefined;
@@ -3125,8 +3137,7 @@ function WhyBotherSection(props) {
       variant: "try",
       surface: "mint",
       title: "More Knowledge. Better Results.",
-    },
-      E(ActivityInstruction, null, "You and your coworker have the same job, the same AI, and the same answer back from it. Each time, one choice trusts AI’s output and the other applies what you know. Pick the move that makes you more valuable than your coworker."),
+     lead: "You and your coworker have the same job, the same AI, and the same answer back from it. Each time, one choice trusts AI’s output and the other applies what you know. Pick the move that makes you more valuable than your coworker."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         WORKER_SCENARIOS.map(function(s, i) {
           var answered = workerAnswers[i] !== undefined;
@@ -3277,8 +3288,7 @@ function ControlSection(props) {
       variant: "try",
       surface: "mint",
       title: "In Your Hands or Not?",
-    },
-      E(ActivityInstruction, null, "For each one, decide whether it\u2019s in your hands or not."),
+     lead: "For each one, decide whether it\u2019s in your hands or not."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         ITEMS.map(function(item, i) {
           var answered = answers[i] !== undefined;
@@ -3357,6 +3367,7 @@ function KeyTermsSection(props) {
     variant: "try",
     surface: "mint",
     title: "Vocab Quiz",
+    lead: "A quick check on the words from this part of the course. Match each term to the definition that fits it.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: matched[0].length + matched[1].length, total: ALL_TERMS.length })
   },
     /*#__PURE__*/React.createElement(InnerCard, null,
@@ -3670,8 +3681,7 @@ function BlackBoxSection(props) {
       surface: "mint",
       title: "Rule, Pattern, or Guardrail?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(scenarioIdx + (startedRulePattern ? 1 : 0), RULE_PATTERN_SCENARIOS.length), total: RULE_PATTERN_SCENARIOS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "In this exercise, you\u2019ll see a negative event. Your challenge is to identify what would have stopped it: a fixed rule, a learned pattern, or a guardrail."),
+    , lead: "In this exercise, you\u2019ll see a negative event. Your challenge is to identify what would have stopped it: a fixed rule, a learned pattern, or a guardrail."},
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: RULE_PATTERN_SCENARIOS,
@@ -3721,8 +3731,7 @@ function PronounAttentionTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "What does “it” point to?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each sentence has the word “it.” Pick what attention links it to."),
+  , lead: "Each sentence has the word “it.” Pick what attention links it to."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -4175,8 +4184,7 @@ function BiasQuiz(props) {
     surface: "mint",
     title: "What Did the Model Actually Learn?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(biasIdx + (biasStarted ? 1 : 0), biasScenarios.length), total: biasScenarios.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each case, pick what actually shaped the model."),
+  , lead: "For each case, pick what actually shaped the model."},
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: biasScenarios,
@@ -4330,8 +4338,7 @@ function TrainingPhaseMatch(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Match the step to the phase",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Match each training step to the phase it belongs to."),
+  , lead: "Match each training step to the phase it belongs to."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -4493,8 +4500,7 @@ function TokenCountTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "How Many Tokens?",
-  },
-    E(ActivityInstruction, null, "Before each answer, guess how many tokens the word splits into. Common words often stay whole; longer or rarer ones get chopped into pieces."),
+   lead: "Before each answer, guess how many tokens the word splits into. Common words often stay whole; longer or rarer ones get chopped into pieces."},
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       QUESTIONS.map(function(q, i) {
         var picked = answers[i];
@@ -4691,8 +4697,7 @@ function NameThatDrinkTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
-  },
-    E(ActivityInstruction, null, "Each row shows a drink’s numbers. Read them and pick which drink it is."),
+   lead: "Each row shows a drink’s numbers. Read them and pick which drink it is."},
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       questions.map(function(q, i) {
         var picked = answers[i];
@@ -4901,8 +4906,7 @@ function MatchTermsTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name the Piece",
-  },
-    E(ActivityInstruction, null, "Read each definition and pick the term it describes."),
+   lead: "Read each definition and pick the term it describes."},
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       QUESTIONS.map(function(q, i) {
         var picked = answers[i];
@@ -4986,8 +4990,7 @@ function LayerTraceTryIt(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try", surface: "mint", title: "Now trace a new word",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: BAT_LAYERS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "New sentence: “The bat swooped over the field at dusk.” Match each stage to what the model figures out about “bat.”"),
+    , lead: "New sentence: “The bat swooped over the field at dusk.” Match each stage to what the model figures out about “bat.”"},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         BAT_LAYERS.map(function(row, i) {
           var answered = answers[i] !== undefined;
@@ -5246,8 +5249,7 @@ function PromptSplitTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Predict the split",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Everyone asks the same question: “What car should I get after college?” Only their earlier message differs. Predict what each one gets."),
+  , lead: "Everyone asks the same question: “What car should I get after college?” Only their earlier message differs. Predict what each one gets."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -5599,8 +5601,7 @@ function CustomizationSection(props) {
     variant: "try",
     surface: "mint",
     title: "Where should this go?",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Place each item where it should live."),
+   lead: "Place each item where it should live."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SORT_ITEMS.map(function(s, i) {
         var current = sortAnswers[i];
@@ -5791,8 +5792,7 @@ function DocumentChatSection(props) {
       variant: "try",
       surface: "mint",
       title: "Pick the Better Prompt",
-    },
-      E(ActivityInstruction, null, "Your turn. Three uploads, three questions. Pick the prompt that gives retrieval the best shot."),
+     lead: "Your turn. Three uploads, three questions. Pick the prompt that gives retrieval the best shot."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
@@ -6018,8 +6018,7 @@ function ModelSelectionSection(props) {
     variant: "try",
     surface: "mint",
     title: "Pick the Best App",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Match the right app to the job. Four scenarios. Pick which one fits each best."),
+   lead: "Match the right app to the job. Four scenarios. Pick which one fits each best."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SCENARIOS.map(function(sc, si) {
         var picked = scenarioAnswers[si];
@@ -6112,8 +6111,7 @@ function ChoosingModelSection(props) {
     variant: "try",
     surface: "mint",
     title: "Read the Picker",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Place each model in its tier using the label, not the name."),
+   lead: "Place each model in its tier using the label, not the name."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       PICKER_SORTS.map(function(s, i) {
         var answered = pickerAnswers[i] !== undefined;
@@ -6202,8 +6200,7 @@ function ThinkingModeSection(props) {
     variant: "try",
     surface: "mint",
     title: "Match the Task to the Effort",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Pick Quick or Deeper for each task."),
+   lead: "Pick Quick or Deeper for each task."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       TASKS.map(function(t, i) {
         var answered = taskAnswers[i] !== undefined;
@@ -6316,12 +6313,11 @@ function TemperatureSection(props) {
           }));
       })
     )),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "See temperature in action. Move the slider and watch the same prompt produce wildly different answers."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "The Temperature Dial"
+    title: "The Temperature Dial",
+    lead: "See temperature in action. Move the slider and watch the same prompt produce wildly different answers."
   },
     /*#__PURE__*/React.createElement(InnerCard, null,
       /*#__PURE__*/React.createElement("div", {
@@ -6482,8 +6478,7 @@ function HallucinationSection(props) {
       surface: "mint",
       title: "What\u2019s Real, What\u2019s Made Up?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(responseIdx + 1, SPOT_RESPONSES.length), total: SPOT_RESPONSES.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Two AI answers, three sentences each. Click each sentence to see if it\u2019s real or made up."),
+    , lead: "Two AI answers, three sentences each. Click each sentence to see if it\u2019s real or made up."},
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: SPOT_RESPONSES,
@@ -6553,8 +6548,7 @@ function VerifyChecksActivity(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try", surface: "mint", title: "Which check catches it?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: CLAIMS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each AI claim below has a flaw. Pick the check that would catch it."),
+    , lead: "Each AI claim below has a flaw. Pick the check that would catch it."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         CLAIMS.map(function(cl, i) {
           var answered = answers[i] !== undefined;
@@ -6822,8 +6816,7 @@ function CriticalThinkingSection(props) {
     surface: "mint",
     title: "Spot the Problem",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(active101 + (started101 ? 1 : 0), CT_101.length), total: CT_101.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."),
+  , lead: "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: CT_101,
@@ -6907,8 +6900,7 @@ function CriticalThinkingSection(props) {
     surface: "mint",
     title: "Interrogate the Output",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeConcept + (started5Habits ? 1 : 0), CT_CONCEPTS.length), total: CT_CONCEPTS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."),
+  , lead: "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."},
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: CT_CONCEPTS,
@@ -7373,8 +7365,7 @@ function WhatItDoesBestSection(props) {
       variant: "try",
       surface: "mint",
       title: "Match the Task to the Strength",
-    },
-      E(ActivityInstruction, null, "Match each task to the strength it plays to."),
+     lead: "Match each task to the strength it plays to."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         TASKS.map(function(t, tIdx) {
           var picked = taskAnswers[tIdx];
@@ -7539,6 +7530,7 @@ function PromptingSection(props) {
     variant: "try",
     surface: "mint",
     title: "Build a Study Prompt",
+    lead: "Now build one yourself. Fill in each field, watch the prompt take shape, then see how it stacks up against a strong example.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: pFilledCount, total: 6 })
   },
     /*#__PURE__*/React.createElement("div", {
@@ -7707,8 +7699,7 @@ function ThoughtPartnerSection(props) {
     variant: "try",
     surface: "mint",
     title: "Keep the Thinking Yours",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Pick the next message you\u2019d actually send."),
+   lead: "Pick the next message you\u2019d actually send."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       TP_MOVES.map(function(mv, mi) {
         var picked = tpAnswers[mi];
@@ -7751,6 +7742,7 @@ function Lab01CourseNotebook() {
     labNumber: "01",
     title: "Build Your Course Notebook",
     hint: "About 25 minutes. You’ll need a laptop and a Google account.",
+    lead: "Your first lab. In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a NotebookLM study notebook and use it to quiz yourself.",
     action: E(ActivityCounter, { count: checkedCount, total: STEPS.length })
   },
     E("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
@@ -7984,8 +7976,7 @@ function GoodEnoughTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Good enough?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: GE_SCENARIOS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each answer below looks fine at a glance. For each, decide what (if anything) would stop you from using it as-is."),
+  , lead: "Each answer below looks fine at a glance. For each, decide what (if anything) would stop you from using it as-is."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       GE_SCENARIOS.map(function(sc, si) {
         var picked = answers[si];
@@ -8189,8 +8180,7 @@ function CreativeThinkingSection(props) {
       variant: "try",
       surface: "mint",
       title: "Same Problem, Different Thinking",
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Watch the moves in action. In each scenario, spot the thinker doing the creative move before AI ever comes into the picture."),
+     lead: "Watch the moves in action. In each scenario, spot the thinker doing the creative move before AI ever comes into the picture."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
@@ -8247,8 +8237,7 @@ function BeCuriousSection(props) {
       variant: "try",
       surface: "mint",
       title: "Curiosity or Outsourcing?",
-    },
-      E(ActivityInstruction, null, "Same tool, different habits. Decide what each student is actually doing."),
+     lead: "Same tool, different habits. Decide what each student is actually doing."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SORTS.map(function(s, i) {
           var answered = sortAnswers[i] !== undefined;
@@ -8407,8 +8396,7 @@ function WhenAIActsSection(props) {
       variant: "try",
       surface: "mint",
       title: "Set Your Permissions",
-    },
-      E(ActivityInstruction, null, "Pick the permission you\u2019d actually grant for each one."),
+     lead: "Pick the permission you\u2019d actually grant for each one."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         PERM_ITEMS.map(function(item, i) {
           var answered = permAnswers[i] !== undefined;
@@ -8566,8 +8554,7 @@ function MindTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "What did your brain add?",
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each AI reply. Watch what your brain does, and answer honestly."),
+     lead: "Read each AI reply. Watch what your brain does, and answer honestly."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -8735,8 +8722,7 @@ function FlatteryTrapSection(props) {
     variant: "try",
     surface: "mint",
     title: "Spot the Sycophancy",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."),
+   lead: "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SPOT_EXERCISES.map(function(sc, si) {
         var picked = spotAnswers[si];
@@ -8839,8 +8825,7 @@ function EngagementTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "Notice the Loop",
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Read each AI reply. Decide what’s actually being asked of you, and answer honestly."),
+     lead: "Read each AI reply. Decide what’s actually being asked of you, and answer honestly."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -9030,8 +9015,7 @@ function SupportTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "Support or Substitute?",
-    },
-      E(ActivityInstruction, null, "For each one, decide whether AI gets you to the real step or helps you avoid it."),
+     lead: "For each one, decide whether AI gets you to the real step or helps you avoid it."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SUPPORT_TASKS.map(function(s, i) {
           var answered = supportAnswers[i] !== undefined;
@@ -9496,8 +9480,7 @@ function IntegritySection(props) {
     variant: "try",
     surface: "mint",
     title: "Real Scenarios",
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."),
+   lead: "Real situations you'll face. For each one, pick the approach you think is best, then see how it lands."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       INTEGRITY_SCENARIOS.map(function(sc, si) {
         var sel = integrityAnswers[si];
@@ -9843,8 +9826,7 @@ function PrivacySection(props) {
       surface: "mint",
       title: "Redact the Prompt",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(redactIdx + 1, REDACT_SCENARIOS.length), total: REDACT_SCENARIOS.length })
-    },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we\u2019ll tell you if you\u2019re right. Redact everything sensitive to reveal a safer rewrite."),
+    , lead: "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we\u2019ll tell you if you\u2019re right. Redact everything sensitive to reveal a safer rewrite."},
     /*#__PURE__*/React.createElement(RevealSequence, {
       surface: "mint",
       items: REDACT_SCENARIOS,
@@ -10075,8 +10057,7 @@ function WhenAIJudgesSection(props) {
       surface: "mint",
       title: "What\u2019s Your Move?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(permIdx + (startedPerms ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."),
+    , lead: "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."},
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: SCENARIOS,
@@ -10221,8 +10202,7 @@ function SyntheticMediaSection(props) {
       surface: "mint",
       title: "What\u2019s Your Move?",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(permIdx + (startedPerms ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Time to practice. Each scenario shows something that looks convincing. Pick the move you\u2019d actually make."),
+    , lead: "Time to practice. Each scenario shows something that looks convincing. Pick the move you\u2019d actually make."},
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: SCENARIOS,
@@ -10399,11 +10379,11 @@ function FullWorkflowSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8 } }, "\uD83C\uDFAF The assignment"),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.5, fontWeight: 600 } },
         "Class debate next week. Topic: School uniforms in public schools. Your side: against. You need 3 strong arguments and the evidence to back them up.")),
-    /*#__PURE__*/React.createElement(BodyP, null, "Seven steps. Drop them in order. Tap a step to pick it up, tap a numbered slot to drop it in. A slot turns green when the step is in the right place and red when it isn\u2019t. Move the red ones until all seven are green."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Put It In Order",
+      lead: "Seven steps. Drop them in order. Tap a step to pick it up, tap a numbered slot to drop it in. A slot turns green when the step is in the right place and red when it isn\u2019t. Move the red ones until all seven are green.",
       action: /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "var(--shadowSoft)", display: "inline-flex", alignItems: "baseline", gap: 4 }
       },
@@ -11239,8 +11219,7 @@ function QuestionsValuableSection(props) {
       surface: "mint",
       title: "Pick the Stronger Question",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(upgradeIdx + (startedUpgrade ? 1 : 0), UPGRADE_SCENARIOS.length), total: UPGRADE_SCENARIOS.length })
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Your turn. Each one starts with a weak question. Pick the version that actually helps. Some just pile on words. Others are sharp but aimed at the wrong thing. Only one frames the real problem."),
+    , lead: "Your turn. Each one starts with a weak question. Pick the version that actually helps. Some just pile on words. Others are sharp but aimed at the wrong thing. Only one frames the real problem."},
       /*#__PURE__*/React.createElement(RevealSequence, {
         surface: "mint",
         items: UPGRADE_SCENARIOS,
@@ -11454,8 +11433,7 @@ function HumanEdgeSection(props) {
       variant: "try",
       surface: "mint",
       title: "Which Move Was Missing?",
-    },
-      E(ActivityInstruction, null, "Each one shows AI giving a believable answer. Pick the human move that was missing."),
+     lead: "Each one shows AI giving a believable answer. Pick the human move that was missing."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         MISSING_SCENARIOS.map(function(s, i) {
           var answered = missingAnswers[i] !== undefined;
@@ -11489,8 +11467,7 @@ function HumanEdgeSection(props) {
       variant: "try",
       surface: "mint",
       title: "Spot the Stronger Use of AI",
-    },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."),
+     lead: "Both approaches use AI. Only one applies the skills above. Pick the stronger one in each scenario."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sk, si) {
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
@@ -11689,8 +11666,7 @@ function WorkChangesSection(props) {
     variant: "try",
     surface: "mint",
     title: "Sort the Tasks by Exposure",
-  },
-      /*#__PURE__*/React.createElement(ActivityInstruction, null, "Drop each task in the bucket that fits."),
+   lead: "Drop each task in the bucket that fits."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         TASKS.map(function(t, tIdx) {
           var picked = taskAnswers[tIdx];
@@ -11836,8 +11812,7 @@ function WorkChangesSection(props) {
       variant: "try",
       surface: "mint",
       title: "Split the Job",
-    },
-      E(ActivityInstruction, null, "Each task belongs to a real job. Decide whether AI can help with it or it needs a human."),
+     lead: "Each task belongs to a real job. Decide whether AI can help with it or it needs a human."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPLIT_TASKS.map(function(s, i) {
           var answered = splitAnswers[i] !== undefined;
@@ -11890,8 +11865,7 @@ function CostClaimsTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Does this cost claim hold up?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "True or false? Decide each, then check your reasoning."),
+  , lead: "True or false? Decide each, then check your reasoning."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -11963,8 +11937,7 @@ function AiFutureMatchTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Match the miss",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: cards.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "Each prediction below was confident and wrong. Match it to what actually happened."),
+  , lead: "Each prediction below was confident and wrong. Match it to what actually happened."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       cards.map(function(card, i) {
         var answered = answers[i] !== undefined;
@@ -12153,8 +12126,7 @@ function SpotTheWorryTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Spot the worry",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: SCENARIOS.length })
-  },
-    /*#__PURE__*/React.createElement(ActivityInstruction, null, "For each thing someone might say, pick the response that meets the real worry underneath, not a brush-off or a cheap debunk."),
+  , lead: "For each thing someone might say, pick the response that meets the real worry underneath, not a brush-off or a cheap debunk."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SCENARIOS.map(function(sc, si) {
         var picked = answers[si];
@@ -12437,8 +12409,7 @@ function BuildEdgeSection(props) {
       variant: "try",
       surface: "mint",
       title: "Spot the Gap",
-    },
-      E(ActivityInstruction, null, "For each one, pick the move that catches what’s missing."),
+     lead: "For each one, pick the move that catches what’s missing."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(s, sIdx) {
           var picked = scenarioAnswers[sIdx];

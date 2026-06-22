@@ -4870,6 +4870,31 @@ function EmbeddingsSection(props) {
             return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: dr.pillFg } }, v);
           }));
       })));
+  var ppDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark", "Citrus"];
+  var ppDrinks = [
+    { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
+    { emoji: "🥤", name: "Pepsi", tokenId: 38106, vals: [9, 1, 10, 2, 3, 8, 10], pillBg: "#dbe6fb", pillFg: "#2f6fd6" }
+  ];
+  var ppCols = "minmax(110px, 150px) minmax(72px, 96px) repeat(7, minmax(44px, 1fr))";
+  var pepsiProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 16px", background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 32px" } },
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi"),
+    E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflowX: "auto" } },
+      E("div", { style: { display: "grid", gridTemplateColumns: ppCols, alignItems: "end", gap: 8, padding: "16px 24px 0", minWidth: 560 } },
+        E("div", null), E("div", null),
+        E("div", { style: { gridColumn: "span 7", textAlign: "center", paddingBottom: 7, borderBottom: "2px solid #8b81a3", fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "1.5px" } }, "Dimensions")),
+      E("div", { style: { display: "grid", gridTemplateColumns: ppCols, alignItems: "center", gap: 8, padding: "10px 24px 14px", borderBottom: "1px solid #ece4f1", minWidth: 560 } },
+        E("div", { style: tpHead }, "Token"),
+        E("div", { style: tpColHeadBold }, "Token ID"),
+        ppDims.map(function(d, i) { return E("div", { key: i, style: tpColHead }, d); })),
+      ppDrinks.map(function(dr, di) {
+        return E("div", { key: di, style: { display: "grid", gridTemplateColumns: ppCols, alignItems: "center", gap: 8, padding: "14px 24px", borderTop: di === 0 ? "none" : "1px solid #f0ecf6", minWidth: 560 } },
+          E("div", null,
+            E("span", { style: { background: dr.pillBg, color: dr.pillFg, fontWeight: 700, fontSize: BOX_TEXT, padding: "6px 12px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap" } }, dr.emoji, dr.name)),
+          E("div", { style: { textAlign: "center", fontFamily: "var(--mono)", fontSize: 14, fontWeight: 600, color: "var(--inkMuted)" } }, dr.tokenId),
+          dr.vals.map(function(v, vi) {
+            return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: dr.pillFg } }, v);
+          }));
+      })));
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
@@ -4903,10 +4928,11 @@ function EmbeddingsSection(props) {
     E("strong", null, "Value"),
     "."),
   E(KeyInsight, { lead: "You read meaning straight from the numbers." }, "The values alone were enough to name the drink, because the numbers carry the meaning. That is exactly what a vector does for a token: it stores the token’s meaning as numbers, ready for the model to work with."),
+  E(SectionKicker, null, "What about Pepsi?"),
+  E(BodyP, null, "Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart."),
+  pepsiProfile,
+  E(BodyP, null, "To separate them, you would have to add a new dimension, ", E("strong", null, "Citrus"), ". Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ."),
   E(SectionKicker, null, "DO WE NEED MORE DIMENSIONS?"),
-  E(BodyP, null, "Six dimensions were enough to tell Coke from coffee. But in the last question, they weren\u2019t enough to tell Coke from Pepsi."),
-  E(BodyP, null,
-    "They differ in subtler ways, too. You could add one more dimension, say, \u201cCitrus,\u201d and Pepsi scores a 10 while Coke sits near 0."),
   E(BodyP, null,
     "But an AI can\u2019t hand-pick a neat \u201cCitrus\u201d slot for every distinction in language. There are far too many words to tell apart. So instead of a handful of labeled dimensions, real models give each token ",
     E("strong", null, "thousands of dimensions"),
@@ -4930,9 +4956,8 @@ function EmbeddingsSection(props) {
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
-  E(NameThatDrinkTryIt, { onComplete: function() { setMeaningComplete(true); } }),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: meaningComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
@@ -4969,7 +4994,7 @@ function VectorSpaceSection(props) {
     props.embedded ? null : E(LessonHeader, { sectionId: "vectorspace" }),
     E(SectionKicker, { style: { marginTop: 48 } }, "Vector Space"),
     E(BodyP, null,
-      "Let’s go back to your taste test. This version adds a row for Pepsi and the Citrus dimension we floated earlier. (Remember: real dimensions are learned, not hand-labeled.)"),
+      "Remember the taste test from Embeddings, where Pepsi looked almost exactly like Coke until a Citrus dimension finally told them apart? Here it is again, with Coffee back alongside both. (Remember: real dimensions are learned, not hand-labeled.)"),
     vsTasteProfile,
     E(BodyP, null,
       "Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee."),

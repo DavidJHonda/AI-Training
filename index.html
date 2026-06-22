@@ -3842,7 +3842,7 @@ function PronounAttentionTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "What does “it” point to?",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "Watch the short video below about the Transformer. Warning: there are 6 ideas expressed in it, but only 3 are accurate. After you watch, you’ll have a chance to pick which were right and which were wrong."},
+  , lead: "Watch the short video below about the Transformer. Warning: there are 6 ideas expressed in it, but they’re not all accurate. After you watch, you’ll have a chance to pick which were right and which were wrong."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -3867,21 +3867,7 @@ function HowAIReadsSection(props) {
     ),
 
     E(BodyP, null,
-      "Often a word’s meaning isn’t clear until you read the words around it. Take ",
-      E("strong", null, "run"),
-      ". It could be how fast you ",
-      E("strong", null, "run"),
-      " a race, water you let ",
-      E("strong", null, "run"),
-      " in the sink, a TV show that ",
-      E("strong", null, "runs"),
-      " long, or ice cream that ",
-      E("strong", null, "runs"),
-      " down your hand. Same token, four different meanings."
-    ),
-
-    E(BodyP, null,
-      "So how does the model settle which meaning a word takes? This was a major challenge: the meaning can’t be pinned down until the model takes in the surrounding context. Here are three situations where a starting vector, on its own, falls short."
+      "Often a word’s meaning isn’t clear until you read the words around it. Here are three situations where a starting vector, on its own, falls short."
     ),
 
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 20, marginBottom: 28 } },
@@ -5111,20 +5097,33 @@ function VectorSpaceSection(props) {
       "This matters for AI. The model measures closeness with ",
       E("strong", null, "distance"),
       ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. The model has established that Coke is more like Pepsi than like Coffee."),
-    E(SectionKicker, null, "Here’s the catch"),
-    E(BodyP, null,
-      "That new set of numbers doesn’t match the vector for any single word. It’s one of a kind."),
-    E(BodyP, null,
-      "So how does the model know what it means? It reads its position. This is the idea of ",
-      E("strong", null, "vector space"),
-      ": think of it like a map where every vector sits somewhere, and similar words share a neighborhood. Even a brand-new point has clear closest neighbors, and that’s what the model works from."),
-    E(BodyP, null,
-      "Here’s that idea in one picture. “Bank” starts ambiguous, and each layer nudges it toward the right neighborhood, until it lands on its final position: river bank."),
     E("img", {
       src: "illustrations/layers-2.jpg",
-      alt: "A board-game map of the word “bank” traveling through the layers: it starts ambiguous, moves from Layer 1 to Layer 2 to Layer 3 and dozens more, past neighborhoods for money bank, vending machine bank, blood bank, and bank the plane, until the path lands on river bank, its final meaning.",
+      alt: "A glowing board-game map of vector space: Coke and Pepsi sit close together (small distance, very similar) while a lit path runs out to a Coffee mug far away (large distance, very different). Closeness is measured by distance, so the model treats Coke as more like Pepsi than like Coffee.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
+    E(SectionKicker, null, "Why this matters"),
+    E(BodyP, null,
+      "After the token runs through the layers, the new set of numbers doesn’t match a vector for any other token. It’s one of a kind."),
+    E(BodyP, null,
+      "So how does AI know what it means, when the numbers are unique? It reads its position. This is the idea of ",
+      E("strong", null, "vector space"),
+      ": think of it like a map where every vector sits somewhere, and similar words share a neighborhood."),
+    E(BodyP, null,
+      "Let’s demonstrate this by using the example in the Transformer lesson."),
+    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
+      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
+        ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
+          var highlight = w === "cat" || w === "it" || w === "tired";
+          return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
+        }))),
+    E(BodyP, null,
+      E("strong", null, "IT"),
+      " starts off with a vector that’s ambiguous, and certainly doesn’t mean ",
+      E("strong", null, "CAT"),
+      ". But as the token runs through the layers, its final numbers land closer to ",
+      E("strong", null, "CAT"),
+      " than to any other word in the sentence."),
     props.embedded ? null : E(LessonRule, null),
     props.embedded ? null : E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
 }
@@ -5225,12 +5224,6 @@ function LayerTraceTryIt(props) {
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WORKED EXAMPLE: “BANK”"),
-    /*#__PURE__*/React.createElement(NumberedRows, {
-      headline: "“I walked along the river bank at sunset”",
-      marginBottom: 20,
-      items: bank.map(function(l) { return { title: l.label + ": " + l.understanding, body: l.detail }; })
-    }),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try", surface: "mint", title: "Now trace a new word",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: BAT_LAYERS.length })

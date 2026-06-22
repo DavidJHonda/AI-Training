@@ -231,7 +231,8 @@ const LESSON_VIDEOS = {
   howwegothere: { src: "videos/How_We_Got_Here.mp4", duration: "3 min", title: "How four ideas became AI." },
   aivscode: { src: "videos/Rules_vs_Patterns.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
   norules: { src: "videos/Harder_to_Control.mp4", duration: "3 min", title: "Why software nobody programmed is harder to control." },
-  aiismath: { src: "videos/AI_is_Math.mp4", duration: "4 min", title: "The handful of math ideas underneath everything AI does." }
+  aiismath: { src: "videos/AI_is_Math.mp4", duration: "4 min", title: "The handful of math ideas underneath everything AI does." },
+  tokens: { src: "videos/Tokens.mp4", duration: "3 min", title: "How AI breaks your words into pieces and turns them into numbers." }
 };
 function LessonHeader(props) {
   var E = React.createElement;
@@ -4842,6 +4843,42 @@ function NameThatDrinkTryIt(props) {
 function EmbeddingsSection(props) {
   var E = React.createElement;
   var _mc = useState(false), meaningComplete = _mc[0], setMeaningComplete = _mc[1];
+  var CLUBS = [
+    { name: "Lego Club", emoji: "🧱", pillBg: "#fde8cf", pillFg: "#c2701a" },
+    { name: "AI Club", emoji: "🤖", pillBg: "#e7dcf4", pillFg: "#7b3aa6" },
+    { name: "BBQ Club", emoji: "🍖", pillBg: "#fbdfe2", pillFg: "#e6394d" }
+  ];
+  var CLUB_DIMS = ["Tech", "Build Things", "Messy", "Tasty", "Career Edge"];
+  var _cv = useState([["", "", "", "", ""], ["", "", "", "", ""], ["", "", "", "", ""]]), clubVals = _cv[0], setClubVals = _cv[1];
+  var _cl = useState(false), clubLocked = _cl[0], setClubLocked = _cl[1];
+  var _co = useState([null, null, null]), clubOrder = _co[0], setClubOrder = _co[1];
+  var _cp = useState([null, null, null]), clubPicks = _cp[0], setClubPicks = _cp[1];
+  var _ct = useState(false), clubTableShown = _ct[0], setClubTableShown = _ct[1];
+  var clubAllFilled = clubVals.every(function(row) { return row.every(function(v) { return v !== "" && !isNaN(parseInt(v, 10)); }); });
+  function setClubCell(ci, di, raw) {
+    var n = raw.replace(/[^0-9]/g, "");
+    if (n !== "") { var num = parseInt(n, 10); if (num > 10) num = 10; n = String(num); }
+    setClubVals(function(prev) {
+      var next = prev.map(function(r) { return r.slice(); });
+      next[ci][di] = n;
+      return next;
+    });
+  }
+  function rowsEqual(a, b) { return a.every(function(v, i) { return parseInt(v, 10) === parseInt(b[i], 10); }); }
+  function lockClubs() {
+    var idx = [0, 1, 2];
+    for (var i = idx.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+    setClubOrder(idx);
+    setClubLocked(true);
+  }
+  function pickClub(mysteryPos, clubIdx) {
+    setClubPicks(function(prev) { var next = prev.slice(); next[mysteryPos] = clubIdx; return next; });
+  }
+  var clubMatchComplete = clubLocked && clubPicks.every(function(pick, pos) {
+    if (pick === null) return false;
+    var actualIdx = clubOrder[pos];
+    return rowsEqual(clubVals[pick], clubVals[actualIdx]);
+  });
   var tpDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark"];
   var tpDrinks = [
     { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8], pillBg: "#fbdfe2", pillFg: "#e6394d" },
@@ -4873,11 +4910,12 @@ function EmbeddingsSection(props) {
   var ppDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark", "Citrus"];
   var ppDrinks = [
     { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
-    { emoji: "🥤", name: "Pepsi", tokenId: 38106, vals: [9, 1, 10, 2, 3, 8, 10], pillBg: "#dbe6fb", pillFg: "#2f6fd6" }
+    { emoji: "🥤", name: "Pepsi", tokenId: 38106, vals: [9, 1, 10, 2, 3, 8, 10], pillBg: "#dbe6fb", pillFg: "#2f6fd6" },
+    { emoji: "☕", name: "Coffee", tokenId: 51820, vals: [1, 9, 0, 9, 8, 10, 0], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
   ];
   var ppCols = "minmax(110px, 150px) minmax(72px, 96px) repeat(7, minmax(44px, 1fr))";
   var pepsiProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 16px", background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 32px" } },
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi"),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi vs. Coffee"),
     E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflowX: "auto" } },
       E("div", { style: { display: "grid", gridTemplateColumns: ppCols, alignItems: "end", gap: 8, padding: "16px 24px 0", minWidth: 560 } },
         E("div", null), E("div", null),
@@ -4895,6 +4933,77 @@ function EmbeddingsSection(props) {
             return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: dr.pillFg } }, v);
           }));
       })));
+  var clubEntryCols = "minmax(96px, 130px) repeat(5, minmax(58px, 1fr))";
+  var clubColHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" };
+  var clubEntryGrid = E(InnerCard, { style: { overflowX: "auto" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: clubEntryCols, alignItems: "center", gap: 8, paddingBottom: 12, borderBottom: "1px solid #ece4f1", minWidth: 480 } },
+      E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "1.5px" } }, "Club"),
+      CLUB_DIMS.map(function(d, i) { return E("div", { key: i, style: clubColHead }, d); })),
+    CLUBS.map(function(club, ci) {
+      return E("div", { key: ci, style: { display: "grid", gridTemplateColumns: clubEntryCols, alignItems: "center", gap: 8, padding: "14px 0", borderTop: ci === 0 ? "none" : "1px solid #f0ecf6", minWidth: 480 } },
+        E("div", null,
+          E("span", { style: { background: club.pillBg, color: club.pillFg, fontWeight: 700, fontSize: BOX_TEXT, padding: "6px 12px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap" } }, club.emoji, club.name)),
+        CLUB_DIMS.map(function(d, di) {
+          return E("input", {
+            key: di,
+            type: "text",
+            inputMode: "numeric",
+            value: clubVals[ci][di],
+            disabled: clubLocked,
+            onChange: function(e) { setClubCell(ci, di, e.target.value); },
+            style: { width: "100%", textAlign: "center", fontFamily: "var(--mono)", fontSize: 17, fontWeight: 800, color: club.pillFg, padding: "9px 0", borderRadius: 8, border: "1.5px solid var(--rule)", background: clubLocked ? "#f7f5f2" : "#fff", boxSizing: "border-box" }
+          });
+        }));
+    }));
+  var clubMysteryRows = clubLocked ? clubOrder.map(function(actualIdx, pos) {
+    var row = clubVals[actualIdx];
+    var pick = clubPicks[pos];
+    var answered = pick !== null;
+    var correct = answered && rowsEqual(clubVals[pick], row);
+    var tie = CLUBS.filter(function(c, idx) { return idx !== actualIdx && rowsEqual(clubVals[idx], row); }).length > 0;
+    var fb;
+    if (!answered) fb = null;
+    else if (correct && tie) fb = "These rows came out too similar to tell apart, so more than one answer fits. That is the whole point: when the numbers barely differ, even you can’t separate them, and neither can the model. Adding a dimension that splits them is the fix.";
+    else if (correct) fb = "The numbers alone were enough. You stripped the name off and still found the club, because the values carried its meaning.";
+    else fb = "That row’s numbers don’t match the values you gave that club. Read the row again and find the club whose profile fits.";
+    var letters = ["A", "B", "C"];
+    return E(ScenarioRow, {
+      key: pos,
+      index: pos + 1,
+      kicker: "Mystery Club " + letters[pos],
+      prompt: CLUB_DIMS.map(function(d, i) { return d + " " + row[i]; }).join("  ·  "),
+      answered: answered,
+      correct: correct,
+      feedback: fb,
+      eyebrow: correct ? "Match" : "Not quite",
+      headline: correct ? "That’s the one." : "Look again."
+    }, CLUBS.map(function(club, idx) {
+      return E(FeedbackPill, {
+        key: idx,
+        label: club.name,
+        answered: answered,
+        isPicked: pick === idx,
+        isCorrect: answered && rowsEqual(clubVals[idx], row),
+        onClick: function() { pickClub(pos, idx); }
+      });
+    }));
+  }) : null;
+  var clubExpandToggle = E("button", {
+    onClick: function() { setClubTableShown(!clubTableShown); },
+    "aria-expanded": clubTableShown ? "true" : "false",
+    style: { display: "inline-flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--tryAccent)", textTransform: "uppercase", letterSpacing: "0.08em", padding: "4px 0" }
+  }, E("span", { style: { fontSize: 11 } }, clubTableShown ? "▾" : "▸"), clubTableShown ? "Collapse table" : "Expand table");
+  var clubTryIt = E("div", null,
+    E(InteractiveBox, { surface: "mint", title: "Build a Club Vector", lead: "You did this for drinks. Now do it for three clubs you could join at school. Score each one from 0 to 10 on five dimensions. Then we hide the names and you read the meaning back out of the numbers." },
+      E(ActivityInstruction, null, "Give each club a 0 to 10 score on every dimension. When all fifteen are filled, the table hides, and you’ll need to match each row of numbers back to the club."),
+      clubLocked ? null : clubEntryGrid,
+      clubLocked ? null : E("div", { style: { marginTop: 18 } },
+        E(ActivityButton, { onClick: lockClubs, disabled: !clubAllFilled, style: clubAllFilled ? null : { opacity: 0.4, cursor: "not-allowed" } }, "Hide the names and match →")),
+      clubLocked ? E("div", null,
+        clubExpandToggle,
+        clubTableShown ? E("div", { style: { marginTop: 14 } }, clubEntryGrid) : null) : null,
+      clubLocked ? E("div", { style: { marginTop: 22 } }, clubMysteryRows) : null),
+    clubMatchComplete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "The numbers carried the meaning.", body: "You stripped the names off and still found each club, because the row of values held everything that made it that club. That is exactly what an embedding does for a token: it stores meaning as numbers the model can read." }) : null);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
@@ -4931,7 +5040,7 @@ function EmbeddingsSection(props) {
   E(SectionKicker, null, "What about Pepsi?"),
   E(BodyP, null, "Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart."),
   pepsiProfile,
-  E(BodyP, null, "To separate them, you would have to add a new dimension, ", E("strong", null, "Citrus"), ". Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ."),
+  E(BodyP, null, "To separate them, you added a new dimension, ", E("strong", null, "Citrus"), ". Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ."),
   E(BodyP, null,
     "But AI can\u2019t add a unique dimension like Citrus for every distinction between all the words in a language. So instead of a handful of labeled dimensions, real models give each token ",
     E("strong", null, "thousands of dimensions"),
@@ -4955,8 +5064,9 @@ function EmbeddingsSection(props) {
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
+  clubTryIt,
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: clubMatchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;

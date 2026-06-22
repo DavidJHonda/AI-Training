@@ -2052,35 +2052,103 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: rgDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
 }
-function NextWordTryIt(props) {
-  var ROWS = [
-    { stem: "The forecast warned of a huge storm. Tomorrow it’s going to…", options: ["rain", "shine", "cook"], correct: "rain", fb: {
-      ok: "Right. “Storm” piles the odds onto “rain.” The model just picks the highest-probability next word.",
-      no: "Not quite. Given “storm,” the odds pile onto “rain.” The model picks the highest-probability next word." } },
-    { stem: "Peanut butter and…", options: ["jelly", "gravel", "Tuesday"], correct: "jelly", fb: {
-      ok: "Right. You predicted it the way the model does: “jelly” is by far the most probable next word.",
-      no: "Not quite. “Jelly” is the runaway favorite here, the same pattern the model learned." } },
-    { stem: "She was so tired she fell…", options: ["asleep", "upward", "blue"], correct: "asleep", fb: {
-      ok: "Right. Common patterns make “asleep” the runaway favorite. Context sets the odds.",
-      no: "Not quite. “Asleep” fits the pattern best. Context sets the odds for the next word." } }
+function ReachFriendTryIt(props) {
+  var CONTACTS = ["555‑0182", "555‑4470", "555‑7193", "555‑6628", "555‑3051"];
+  var STEPS = [
+    {
+      caption: "You need to reach Sam, but you never saved his number. Five contacts could be his, and this can’t wait.",
+      question: "You send to the first number. Before it goes through, what’s the chance it reaches Sam?",
+      correct: 0,
+      choices: [
+        { label: "1 in 5 (20%)", headline: "One of five.", feedback: "Right. Five numbers, one is Sam’s, and no reason to favor any. That’s 1 in 5, or 20%. Plain probability: list the equally likely outcomes and count." },
+        { label: "1 in 4 (25%)", headline: "Nothing’s ruled out yet.", feedback: "You haven’t missed anyone yet, so all five are still in play. That makes it 1 in 5." },
+        { label: "1 in 2 (50%)", headline: "Not a coin flip.", feedback: "There are five numbers, not two. With nothing ruled out, each has a 1 in 5 shot." }
+      ]
+    },
+    {
+      caption: "“Who is this?” Wrong number. You cross it off and text the next one.",
+      question: "One number is ruled out. Now what’s the chance this text reaches Sam?",
+      correct: 0,
+      choices: [
+        { label: "1 in 4 (25%)", headline: "The miss told you something.", feedback: "Right. One number is gone, so it’s now 1 in 4, or 25%. The phones didn’t change; what you know did. That’s conditional probability: new information updates the odds." },
+        { label: "1 in 5 (20%)", headline: "The odds moved.", feedback: "1 in 5 was true before the first miss. Now that you’ve ruled one out, four remain, so it’s 1 in 4." },
+        { label: "1 in 3 (33%)", headline: "One miss, not two.", feedback: "You’ve only ruled out one number so far. Four are still in play, so it’s 1 in 4." }
+      ]
+    },
+    {
+      caption: "“Sorry, wrong number.” Two down, three left.",
+      question: "Two numbers are ruled out. What’s the chance the next text reaches Sam?",
+      correct: 0,
+      choices: [
+        { label: "1 in 3 (33%)", headline: "The odds keep climbing.", feedback: "Right. Two are gone, three remain: 1 in 3, or 33%. Each miss is new information that lifts the odds on what’s left." },
+        { label: "1 in 5 (20%)", headline: "You’ve learned a lot since then.", feedback: "1 in 5 was the starting point. Two misses later, only three numbers remain, so it’s 1 in 3." },
+        { label: "1 in 2 (50%)", headline: "Not down to two yet.", feedback: "Three numbers are still in play, so it’s 1 in 3. One more miss and it would be 1 in 2." }
+      ]
+    }
   ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  var _i = useState(0), idx = _i[0], setIdx = _i[1];
+  var _g = useState(null), guess = _g[0], setGuess = _g[1];
+  var _s = useState(true), started = _s[0], setStarted = _s[1];
+  var step = STEPS[Math.min(idx, STEPS.length - 1)];
+  var isLast = idx === STEPS.length - 1;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Pick the next word",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "AI writes by predicting one word at a time. For each sentence, pick the word the model would most likely choose next."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      ROWS.map(function(r, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.stem, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
-          r.options.map(function(opt) {
-            return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
-              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
-          }));
-      })));
+    variant: "try", surface: "mint", title: "Text the right number",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(idx + (started ? 1 : 0), STEPS.length), total: STEPS.length }),
+    lead: "You need to reach a friend, but you never saved his number. Five contacts could be his. Send a text and watch how each result changes the odds."
+  },
+    /*#__PURE__*/React.createElement(RevealSequence, {
+      surface: "mint",
+      items: STEPS,
+      currentIdx: idx,
+      started: started,
+      onStart: function() { setStarted(true); },
+      onNext: function() {
+        if (isLast && props && props.onComplete) props.onComplete();
+        setIdx(function(i) { return i + 1; });
+        setGuess(null);
+      },
+      canAdvance: guess !== null,
+      isComplete: idx >= STEPS.length,
+      startLabel: "Send the first text",
+      nextLabel: "Send the next text →",
+      finishLabel: "Wrap it up →",
+      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each miss changed the odds, not the phones.", body: "The numbers never changed. What changed was what you knew. Every miss ruled out a possibility and lifted the odds on what was left, from 1 in 5 to 1 in 4 to 1 in 3. That’s conditional probability: new information reshapes the odds. Stack the tries together and the long shots add up, too: by the third text you were more likely than not to have reached him. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })
+    },
+      /*#__PURE__*/React.createElement(InnerCard, null,
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(idx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
+            /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: "0 0 14px" } }, step.caption),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
+              CONTACTS.map(function(num, i) {
+                var out = i < idx;
+                var current = i === idx;
+                return /*#__PURE__*/React.createElement("span", {
+                  key: i,
+                  style: {
+                    display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 999,
+                    padding: "6px 13px", fontSize: 13, fontFamily: "var(--mono)", fontWeight: 600,
+                    border: "1px solid " + (current ? "var(--primary)" : "var(--rule)"),
+                    background: out ? "transparent" : current ? "var(--primaryFaint)" : "var(--card)",
+                    color: out ? "var(--inkFaint)" : current ? "var(--ink)" : "var(--inkMuted)",
+                    textDecoration: out ? "line-through" : "none"
+                  }
+                },
+                  out ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--red)", fontWeight: 800 } }, "✕") : null,
+                  num);
+              })))),
+        /*#__PURE__*/React.createElement(QuizBlock, {
+          key: idx,
+          surface: "mint",
+          statement: step.question,
+          totalQuestions: STEPS.length,
+          options: step.choices.map(function(c, i) {
+            var isCorrect = i === step.correct;
+            return { label: c.label, correct: isCorrect, headline: c.headline, feedback: c.feedback, hint: isCorrect ? undefined : c.feedback };
+          }),
+          picked: guess != null ? guess : undefined,
+          onAnswer: function(i) { setGuess(i); }
+        }))));
 }
 function AIIsMathSection(props) {
   var _nw = useState(false), nwDone = _nw[0], setNwDone = _nw[1];
@@ -2353,7 +2421,7 @@ function AIIsMathSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past what’s here. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But two ideas from probability, plus the loop that turns them into language, are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
-    /*#__PURE__*/React.createElement(NextWordTryIt, { onComplete: function() { setNwDone(true); } }),
+    /*#__PURE__*/React.createElement(ReachFriendTryIt, { onComplete: function() { setNwDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: nwDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
   );

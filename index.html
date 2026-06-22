@@ -4592,42 +4592,47 @@ function TrainingSection(props) {
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 
-function TokenCountTryIt(props) {
+function TokenTrueFalseTryIt(props) {
   var E = React.createElement;
-  var QUESTIONS = [
-    { word: "cat", answer: "1", choices: ["1", "2", "3"], feedback: "“cat” is short and common, so it stays whole, just one token (9246)." },
-    { word: "pineapple", answer: "2", choices: ["1", "2", "3"], feedback: "“pineapple” breaks into pine + apple, two tokens." },
-    { word: "unbreakable", answer: "3", choices: ["2", "3", "4"], feedback: "“unbreakable” breaks into un + break + able, three tokens, the same way “unbelievable” did." }
+  var STATEMENTS = [
+    { text: "A token is always one whole word.", answer: false, why: "A token can be a whole word, part of a word, punctuation, an emoji, or even the space before a word." },
+    { text: "Before the model can read your text, it has to be turned into numbers.", answer: true, why: "Computers work only with numbers. They don’t read text at all, so your words get broken into tokens and then into numbers." },
+    { text: "Common short words often stay one token, while long or rare words get split into pieces.", answer: true, why: "“cat” stays whole as a single token, but “unbreakable” splits into un + break + able." },
+    { text: "A token’s ID number tells the model what the word means.", answer: false, why: "The ID is just an address in the vocabulary. It tells the model which token, not what it means. Meaning comes later, in Embeddings." },
+    { text: "Every model uses the same standard set of tokens.", answer: false, why: "Each model has its own vocabulary. ChatGPT’s holds about 200,000 tokens, Gemini’s about 256,000." },
+    { text: "Even the space before a word can be part of a token.", answer: true, why: "That leading space rides along with the word, which is why a token can start with a space." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
-  var done = answeredCount >= QUESTIONS.length;
+  var done = answeredCount >= STATEMENTS.length;
   useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "How Many Tokens?",
-   lead: "Before each answer, guess how many tokens the word splits into. Common words often stay whole; longer or rarer ones get chopped into pieces."},
+    title: "True or False?",
+    action: E(ActivityCounter, { count: answeredCount, total: STATEMENTS.length }),
+    lead: "Six claims about how tokens work. Decide whether each one is true or false."
+  },
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      QUESTIONS.map(function(q, i) {
+      STATEMENTS.map(function(s, i) {
         var picked = answers[i];
         var answered = picked !== undefined;
-        var correct = answered && picked === q.answer;
+        var correct = answered && (picked === "true") === s.answer;
         return E(ScenarioRow, {
           key: i,
           index: i + 1,
-          prompt: E(React.Fragment, null, "How many tokens is ", E("span", { style: { fontFamily: "var(--mono)", fontWeight: 700 } }, "“" + q.word + "”"), "?"),
+          prompt: s.text,
           answered: answered,
           correct: correct,
-          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + q.feedback) : null
-        }, q.choices.map(function(c) {
+          feedback: answered ? s.why : null
+        }, ["true", "false"].map(function(v) {
           return E(FeedbackPill, {
-            key: c,
+            key: v,
             answered: answered,
-            isCorrect: c === q.answer,
-            isPicked: picked === c,
-            label: c,
-            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, c]])); }); }
+            isCorrect: (v === "true") === s.answer,
+            isPicked: picked === v,
+            label: v === "true" ? "True" : "False",
+            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, v]])); }); }
           });
         }));
       })));
@@ -4754,7 +4759,7 @@ function TokenSection(props) {
     catCompare,
     tokenizeBox,
     vocabDeeper,
-    E(TokenCountTryIt, { onComplete: function() { setTokenTryDone(true); } }),
+    E(TokenTrueFalseTryIt, { onComplete: function() { setTokenTryDone(true); } }),
     E(LessonRule, null),
     navButton);
 }

@@ -232,7 +232,9 @@ const LESSON_VIDEOS = {
   aivscode: { src: "videos/Rules_vs_Patterns.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
   norules: { src: "videos/Harder_to_Control.mp4", duration: "3 min", title: "Why software nobody programmed is harder to control." },
   aiismath: { src: "videos/AI_is_Math.mp4", duration: "4 min", title: "The handful of math ideas underneath everything AI does." },
-  tokens: { src: "videos/Tokens.mp4", duration: "3 min", title: "How AI breaks your words into pieces and turns them into numbers." }
+  tokens: { src: "videos/Tokens.mp4", duration: "3 min", title: "How AI breaks your words into pieces and turns them into numbers." },
+  embeddings: { src: "videos/Embeddings.mp4", duration: "3 min", title: "How AI turns each token into numbers that capture its meaning." },
+  attention: { src: "videos/Transformer-1.mp4", duration: "4 min", title: "How AI reads your whole sentence at once to work out what each word means." }
 };
 function LessonHeader(props) {
   var E = React.createElement;
@@ -1983,8 +1985,7 @@ function RecOrGenTryIt(props) {
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "What type of AI? Recommendation or Generative?",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "You use both kinds of AI every day without noticing. For each example, decide whether it’s recommendation AI picking from what already exists, or generative AI making something new."},
+    lead: "You use both kinds of AI every day without noticing. For each example, decide whether it’s recommendation AI picking from what already exists, or generative AI making something new."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -2540,7 +2541,6 @@ function HistoryMatchTryIt(props) {
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Build the machine",
     lead: "Now put it together. You just met the four ideas behind modern AI. Match each one to what it gave the machine.",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
   },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 16 } },
       ROWS.map(function(row, i) {
@@ -3825,32 +3825,30 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aiismath"); }, label: "Next: AI is Math" }));
 }
 function PronounAttentionTryIt(props) {
-  var ROWS = [
-    { sentence: "“The trophy didn’t fit in the suitcase because it was too big.”", options: ["The trophy", "The suitcase"], correct: "The trophy", fb: {
-      ok: "Right. “Big” points attention to the trophy, the thing that wouldn’t fit.",
-      no: "Not quite. “Big” points to the trophy, the thing that wouldn’t fit. Attention links “it” there." } },
-    { sentence: "“The trophy didn’t fit in the suitcase because it was too small.”", options: ["The trophy", "The suitcase"], correct: "The suitcase", fb: {
-      ok: "Right. Flip one word and attention swings to the suitcase. Same sentence, opposite answer.",
-      no: "Not quite. Change “big” to “small” and attention swings to the suitcase, the thing too small to hold it." } },
-    { sentence: "“The cat chased the mouse until it got tired.”", options: ["The cat", "The mouse"], correct: "The cat", fb: {
-      ok: "Right. “Chased” and “tired” link “it” to the cat doing the chasing.",
-      no: "Not quite. “Chased” and “tired” point to the cat, the one doing the chasing." } }
+  var CLAIMS = [
+    { claim: "Before Transformers, AI read text one word at a time, and Transformers basically do the same thing, just faster.", answer: false, explain: "Before Transformers, AI did read one word at a time. But the Transformer’s breakthrough was reading the whole text at once, not just doing the same thing faster." },
+    { claim: "AI doesn’t actually think, but through technology and your cell phone, it reads your mind.", answer: false, explain: "AI doesn’t think, and it can’t read your mind. It predicts likely next words from patterns in text." },
+    { claim: "“Attention” is how AI stays awake late at night, when it’s past bedtime.", answer: false, explain: "Attention has nothing to do with sleep. It’s how the model works out which words in your text relate to which." },
+    { claim: "The Transformer was developed in 1654, to help two old French guys win at gambling.", answer: false, explain: "The Transformer was introduced in 2017, in the paper “Attention Is All You Need”, not by 17th-century gamblers." },
+    { claim: "No cat actually ever sat on a mat during a May rainstorm. This means AI isn’t real.", answer: false, explain: "The cat sentence is just an example we use to explain attention. It says nothing about whether AI is real." },
+    { claim: "Transformation lets AI do things only humans can do, like dance, jump, and play hockey.", answer: false, explain: "Transformation updates a token’s meaning using context. It doesn’t give AI a body or let it play hockey." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
-  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
+  useEffect(function() { if (answeredCount >= CLAIMS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "What does “it” point to?",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "Watch the short video below about the Transformer. Warning: there are 6 ideas expressed in it, but they’re not all accurate. After you watch, you’ll have a chance to pick which were right and which were wrong."},
+    variant: "try", surface: "mint", title: "Which claims are true?",
+    lead: "Watch the short video below about the Transformer. Warning: there are 6 ideas expressed in it, but they’re not all accurate. After you watch, you’ll have a chance to pick which were right and which were wrong."},
+    /*#__PURE__*/React.createElement(WatchPlayer, { video: { src: "videos/Transformer-2.mp4", caption: "" } }),
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      ROWS.map(function(r, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.sentence, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
-          r.options.map(function(opt) {
-            return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
-              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
+      CLAIMS.map(function(c, i) {
+        var picked = answers[i];
+        var answered = picked !== undefined;
+        var correct = answered && picked === String(c.answer);
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: c.claim, answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + c.explain) : null },
+          [["true", "True"], ["false", "False"]].map(function(opt) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt[0], answered: answered, isCorrect: opt[0] === String(c.answer), isPicked: picked === opt[0], label: opt[1],
+              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt[0]; return u; }); } });
           }));
       })));
 }
@@ -4434,8 +4432,7 @@ function TrainingPhaseMatch(props) {
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Match the step to the phase",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "You just saw how a model is trained in phases, from raw pretraining to human feedback. Match each step to the phase it belongs to."},
+    lead: "You just saw how a model is trained in phases, from raw pretraining to human feedback. Match each step to the phase it belongs to."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -4511,7 +4508,7 @@ function TrainingSection(props) {
   }, {
     actor: "humans",
     title: "Teach it to have conversations (SFT)",
-    text: "Humans write examples of ideal conversations: a question paired with a strong answer, repeated across many topics. The model studies them and learns to respond helpfully instead of just continuing text. This step is called Supervised Fine-Tuning, and it\u2019s what turns a raw text predictor into something that can actually answer your questions, explain ideas, and follow what you ask."
+    text: "Humans write examples of ideal conversations: a question paired with a strong answer, repeated across many topics. The model studies them and learns to respond helpfully instead of just continuing text. This step is called Supervised Fine-Tuning."
   }, {
     actor: "humans",
     title: "Rank AI\u2019s answers (RLHF)",
@@ -4541,9 +4538,7 @@ function TrainingSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
         "Repeat that loop billions of times, and that’s training. Each pass nudges the model’s internal numbers, its ",
         /*#__PURE__*/React.createElement("strong", null, "weights"),
-        " (also called its parameters), a little closer to right. The result is a ",
-        /*#__PURE__*/React.createElement("strong", null, "base model"),
-        ": it can predict what comes next, but it doesn’t know how to be helpful yet."))),
+        " (also called its parameters), a little closer to right."))),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: 16 } },
     phaseLabel(2, "Instruction tuning", "Teaches it to follow instructions and answer your questions."),
     stepCard(steps[2])),
@@ -4600,7 +4595,6 @@ function TokenTrueFalseTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "True or False?",
-    action: E(ActivityCounter, { count: answeredCount, total: STATEMENTS.length }),
     lead: "Six claims about how tokens work. Decide whether each one is true or false."
   },
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
@@ -5202,40 +5196,42 @@ const LAYER_WORDS = {
   },
 };
 function LayerTraceTryIt(props) {
-  var bank = props.bankLayers;
-  var BAT_LAYERS = [
-    { label: "Early layers", correct: "noun" },
-    { label: "Middle layers", correct: "animal" },
-    { label: "Deeper layers", correct: "scene" },
-    { label: "Final layers", correct: "full" }
+  var SENTENCES = [
+    { sentence: "“The old man the boat.”",
+      options: ["An old man stands next to a boat.", "The elderly people operate the boat."],
+      correct: "The elderly people operate the boat.",
+      fb: { ok: "Right. “Man” is the verb here: the old (elderly people) man (operate) the boat.",
+            no: "Not quite. That reading has no verb. “Man” is the verb: the old (elderly people) man (operate) the boat." } },
+    { sentence: "“The cotton clothing is made of grows in Texas.”",
+      options: ["Cotton clothing grows in Texas.", "The cotton that clothing is made of grows in Texas."],
+      correct: "The cotton that clothing is made of grows in Texas.",
+      fb: { ok: "Right. It’s the raw cotton, the material clothing is made of, that grows in Texas.",
+            no: "Not quite. It’s the raw cotton (the material clothing is made of) that grows in Texas, not the clothing." } },
+    { sentence: "“The man who hunts ducks out on weekends.”",
+      options: ["The man sneaks away on weekends.", "A hunter shoots ducks on weekends."],
+      correct: "The man sneaks away on weekends.",
+      fb: { ok: "Right. “Ducks out” is the verb: the man, who happens to hunt, sneaks away on weekends.",
+            no: "Not quite. “Ducks out” is the verb here: the man, a hunter, sneaks away on weekends." } },
+    { sentence: "“The complex houses married and single soldiers.”",
+      options: ["A building provides shelter for the soldiers.", "These are complicated houses."],
+      correct: "A building provides shelter for the soldiers.",
+      fb: { ok: "Right. “Complex” is a building and “houses” is the verb: the building shelters the soldiers.",
+            no: "Not quite. “Complex” is the noun (a building) and “houses” is the verb: the building shelters the soldiers." } }
   ];
-  var BAT_CHOICES = [
-    { id: "noun", label: "It’s a noun, not the verb “to bat”" },
-    { id: "animal", label: "The animal: “swooped” rules out baseball" },
-    { id: "scene", label: "An outdoor scene at dusk" },
-    { id: "full", label: "A bat hunting over a field at nightfall" }
-  ];
-  var EXPL = {
-    noun: "Early layers handle grammar: here “bat” is a thing, not the verb “to bat.”",
-    animal: "Attention links “bat” to “swooped” and “field,” so the model rules out the baseball meaning.",
-    scene: "Deeper layers pull in “dusk” to build a scene: something flying outdoors as the light fades.",
-    full: "By the final layers it’s a full picture: a bat, the animal, hunting over a field at nightfall."
-  };
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try", surface: "mint", title: "Now trace a new word",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: BAT_LAYERS.length })
-    , lead: "New sentence: “The bat swooped over the field at dusk.” Match each stage to what the model figures out about “bat.”"},
+      variant: "try", surface: "mint", title: "What’s the meaning of these sentences?",
+      lead: "You’ve learned that AI updates the meaning by running your text through layers. In this exercise, you’ll do what AI does, but the old-fashioned way: by trying to understand the meaning by running it through the layers of your own brain."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        BAT_LAYERS.map(function(row, i) {
+        SENTENCES.map(function(r, i) {
           var answered = answers[i] !== undefined;
-          var correct = answered && answers[i] === row.correct;
-          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: row.label, answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + EXPL[row.correct]) : null },
-            BAT_CHOICES.map(function(c) {
-              return /*#__PURE__*/React.createElement(FeedbackPill, { key: c.id, answered: answered, isCorrect: c.id === row.correct, isPicked: answers[i] === c.id, label: c.label,
-                onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c.id; return u; }); } });
+          var correct = answered && answers[i] === r.correct;
+          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.sentence, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
+            r.options.map(function(opt) {
+              return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
+                onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = opt; return u; }); } });
             }));
         }))));
 }
@@ -5477,8 +5473,7 @@ function PromptSplitTryIt(props) {
   var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Predict the split",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "Everyone asks the same question: “What car should I get after college?” Only their earlier message differs. Predict what each one gets."},
+    lead: "Everyone asks the same question: “What car should I get after college?” Only their earlier message differs. Predict what each one gets."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -6776,8 +6771,7 @@ function VerifyChecksActivity(props) {
         }))),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try", surface: "mint", title: "Which check catches it?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: CLAIMS.length })
-    , lead: "Each AI claim below has a flaw. Pick the check that would catch it."},
+      lead: "Each AI claim below has a flaw. Pick the check that would catch it."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         CLAIMS.map(function(cl, i) {
           var answered = answers[i] !== undefined;
@@ -8204,8 +8198,7 @@ function GoodEnoughTryIt(props) {
   var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Good enough?",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: GE_SCENARIOS.length })
-  , lead: "Each answer below looks fine at a glance. For each, decide what (if anything) would stop you from using it as-is."},
+    lead: "Each answer below looks fine at a glance. For each, decide what (if anything) would stop you from using it as-is."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       GE_SCENARIOS.map(function(sc, si) {
         var picked = answers[si];
@@ -12093,8 +12086,7 @@ function CostClaimsTryIt(props) {
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Does this cost claim hold up?",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: ROWS.length })
-  , lead: "AI’s energy and water footprint gets talked about in extremes. True or false? Decide each, then check your reasoning."},
+    lead: "AI’s energy and water footprint gets talked about in extremes. True or false? Decide each, then check your reasoning."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -12165,8 +12157,7 @@ function AiFutureMatchTryIt(props) {
   var answeredCount = Object.keys(answers).length;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Match the miss",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: cards.length })
-  , lead: "Each prediction below was confident and wrong. Match it to what actually happened."},
+    lead: "Each prediction below was confident and wrong. Match it to what actually happened."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       cards.map(function(card, i) {
         var answered = answers[i] !== undefined;
@@ -12354,8 +12345,7 @@ function SpotTheWorryTryIt(props) {
   useEffect(function() { if (answeredCount >= SCENARIOS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Spot the worry",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: answeredCount, total: SCENARIOS.length })
-  , lead: "For each thing someone might say, pick the response that meets the real worry underneath, not a brush-off or a cheap debunk."},
+    lead: "For each thing someone might say, pick the response that meets the real worry underneath, not a brush-off or a cheap debunk."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       SCENARIOS.map(function(sc, si) {
         var picked = answers[si];

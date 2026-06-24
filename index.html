@@ -851,8 +851,38 @@ function WatchPlayer(props) {
 function WatchOverview(props) {
   var E = React.createElement;
   var _o = useState(false), open = _o[0], setOpen = _o[1];
+  var rootRef = useRef(null);
   var v = props.video;
-  return E("div", { className: "no-print", style: { marginBottom: open ? 12 : 28 } },
+  // When the player opens, glide the card to the top so the video lands in view
+  // without manual scrolling, then autoplay from frame 0 once the scroll settles.
+  // Playback is started in response to the user's click (a gesture), so sound is
+  // allowed. Only on open (closing shouldn't yank the page or start playback).
+  useEffect(function() {
+    if (!open) return;
+    var el = rootRef.current;
+    if (!el || !el.scrollIntoView) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+
+    var timer = null;
+    var startPlay = function() {
+      cleanup();
+      var vid = el.querySelector("video");
+      if (vid && vid.play) { var p = vid.play(); if (p && p.catch) p.catch(function() {}); }
+    };
+    var cleanup = function() {
+      window.removeEventListener("scrollend", startPlay);
+      if (timer) { clearTimeout(timer); timer = null; }
+    };
+    // Reduced motion jumps instantly, so there's no scroll to wait on.
+    if (reduce) { startPlay(); return; }
+    // scrollend fires when the smooth scroll finishes; the timer is a fallback
+    // for browsers without it (and for the no-scroll-needed case).
+    window.addEventListener("scrollend", startPlay);
+    timer = setTimeout(startPlay, 700);
+    return cleanup;
+  }, [open]);
+  return E("div", { ref: rootRef, className: "no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
     E("button", {
       onClick: function() { setOpen(!open); },
       "aria-expanded": open ? "true" : "false",

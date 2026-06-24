@@ -851,8 +851,38 @@ function WatchPlayer(props) {
 function WatchOverview(props) {
   var E = React.createElement;
   var _o = useState(false), open = _o[0], setOpen = _o[1];
+  var rootRef = useRef(null);
   var v = props.video;
-  return E("div", { className: "no-print", style: { marginBottom: open ? 12 : 28 } },
+  // When the player opens, glide the card to the top so the video lands in view
+  // without manual scrolling, then autoplay from frame 0 once the scroll settles.
+  // Playback is started in response to the user's click (a gesture), so sound is
+  // allowed. Only on open (closing shouldn't yank the page or start playback).
+  useEffect(function() {
+    if (!open) return;
+    var el = rootRef.current;
+    if (!el || !el.scrollIntoView) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+
+    var timer = null;
+    var startPlay = function() {
+      cleanup();
+      var vid = el.querySelector("video");
+      if (vid && vid.play) { var p = vid.play(); if (p && p.catch) p.catch(function() {}); }
+    };
+    var cleanup = function() {
+      window.removeEventListener("scrollend", startPlay);
+      if (timer) { clearTimeout(timer); timer = null; }
+    };
+    // Reduced motion jumps instantly, so there's no scroll to wait on.
+    if (reduce) { startPlay(); return; }
+    // scrollend fires when the smooth scroll finishes; the timer is a fallback
+    // for browsers without it (and for the no-scroll-needed case).
+    window.addEventListener("scrollend", startPlay);
+    timer = setTimeout(startPlay, 700);
+    return cleanup;
+  }, [open]);
+  return E("div", { ref: rootRef, className: "no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
     E("button", {
       onClick: function() { setOpen(!open); },
       "aria-expanded": open ? "true" : "false",
@@ -1531,7 +1561,7 @@ function RevealSequence(props) {
 }
 const SECTION_GROUPS = [{
   label: "Start Smarter",
-  sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "whybother", "control", "studying"]
+  sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "control", "studying", "whybother"]
 }, {
   label: "Understand AI",
   sections: ["openerfoundations", "howwegothere", "aivscode", "norules", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference"]
@@ -1604,7 +1634,7 @@ const SECTION_META = {
   whatitdoesbest: { kicker: "FOUR ENGINES, MANY USES", label: "What AI Does Best", icon: "\u2699\uFE0F" },
   prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "Art of Prompting", icon: "\u270D\uFE0F" },
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Thought Partner", icon: "\uD83E\uDD1D" },
-  studying: { kicker: "USE IT TO LEARN", label: "Study with AI", icon: "\uD83D\uDCD3" },
+  studying: { kicker: "USE IT TO LEARN", label: "Learn with AI", icon: "\uD83D\uDCD3" },
   verify: { kicker: "TRUST, THEN CHECK", label: "Verify", icon: "\uD83D\uDEE0\uFE0F" },
   evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluate", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -3157,8 +3187,8 @@ function DoesAIThinkSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); },
-      label: "Next: Does School Matter?"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); },
+      label: "Next: What You Can Control"
     }));
 }
 function WhyBotherSection(props) {
@@ -3279,8 +3309,8 @@ function WhyBotherSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); },
-      label: "Next: What You Can Control"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); },
+      label: "Next: Foundations"
     }));
 }
 function ControlSection(props) {
@@ -3433,7 +3463,7 @@ function ControlSection(props) {
     E(NextLessonGate, {
       ready: allAnswered,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
-      label: "Next: Study with AI"
+      label: "Next: Learn with AI"
     }));
 }
 function KeyTermsSection(props) {
@@ -8076,7 +8106,7 @@ function StudyingWithAISection(props) {
       "Point NotebookLM at your own notes and slides, or a general AI at a topic you don’t have materials for. Either way, the win comes from producing the answers yourself, not watching it summarize. That’s the difference between feeling ready and being ready."),
     E(Lab01CourseNotebook, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); }, label: "Next: Foundations" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); }, label: "Next: Does School Matter?" })
   );
 }
 const EVAL_CRITERIA = [{

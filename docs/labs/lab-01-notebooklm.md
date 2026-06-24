@@ -1,7 +1,7 @@
 # Lab 01 facilitator note: Build Your Course Notebook
 
 For whoever is running the session (Nate / Luke). The lab itself lives at
-the end of the **Study with AI** lesson in the app; students follow it on
+the end of the **Learn with AI** lesson in the app; students follow it on
 their own laptops. This note is the session plan around it.
 
 ## Before September (one-time pre-flight)
@@ -17,7 +17,7 @@ their own laptops. This note is the session plan around it.
 
 | Time | What happens |
 |------|--------------|
-| 0-3 | Everyone opens the Study with AI lesson, scrolls to LAB 01, signs into NotebookLM. |
+| 0-3 | Everyone opens the Learn with AI lesson, scrolls to LAB 01, signs into NotebookLM. |
 | 3-8 | **Demo on the shared screen:** you run steps 1-4 once (packet, notebook, source, quiz) while narrating the one idea: every question comes from the course and nowhere else. |
 | 8-26 | **Everyone builds:** students work the seven steps on their own machines. Circulate. |
 | 26-30 | Optional coda if time remains: two volunteers read out one quiz question and say how they scored. Keep it informal. |

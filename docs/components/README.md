@@ -29,7 +29,7 @@ The sand-surface demonstration box; interiors are bespoke per demo. Shown mid-in
 ![SEE IT](see-it.png)
 
 ### LAB
-The teal-surface variant for hands-on labs, with a `labNumber` in the eyebrow and checkbox steps. Example: LAB 01 "Build Your Course Notebook" in Study with AI (`studying`).
+The teal-surface variant for hands-on labs, with a `labNumber` in the eyebrow and checkbox steps. Example: LAB 01 "Build Your Course Notebook" in Learn with AI (`studying`).
 
 ![LAB](lab.png)
 
@@ -68,7 +68,7 @@ The sourced-quotation card: a large primary quotation mark over a serif quote on
 ![PullQuote](pull-quote.png)
 
 ### NumberedRows
-The numbered-list box, for an ordered list of named things with explanations: filled circle numbers (purple, white numeral), emoji + bold title per row, hairline separators, and an optional quoted monospace prompt callout. Rows can be title-only (body is optional). Example: "Best practices" in Study with AI (`studying`). Recaptured 2026-06-12.
+The numbered-list box, for an ordered list of named things with explanations: filled circle numbers (purple, white numeral), emoji + bold title per row, hairline separators, and an optional quoted monospace prompt callout. Rows can be title-only (body is optional). Example: "Best practices" in Learn with AI (`studying`). Recaptured 2026-06-12.
 
 ![NumberedRows](numbered-rows.png)
 

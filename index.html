@@ -378,7 +378,7 @@ var TERMS = [
   { term: "Prompt", definition: "What you type and send to the model: your question, instruction, or request.", source: "prompting" },
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
-  { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "customization" },
+  { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "prompt" },
   { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "choosemodel" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
@@ -1566,7 +1566,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "aihistory", "llms", "doesaithink", "control", "studying", "whybother"]
 }, {
   label: "Work With AI",
-  sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "choosemodel", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
+  sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "choosemodel", "effort", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Understand AI",
   sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference"]
@@ -5596,6 +5596,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "You’ve seen what the model can see. Next: how it turns all of it into an answer, one word at a time."),
     /*#__PURE__*/React.createElement(PromptSplitTryIt, null),
+    /*#__PURE__*/React.createElement(CustomizationSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("inference"); }, label: "Next: Inference" }));
 }
@@ -5677,7 +5678,9 @@ function CustomizationSection(props) {
     { id: "nowhere", label: "Nowhere", icon: "\uD83D\uDEAB" }
   ];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }),
+    props.embedded
+      ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "MAKE IT YOURS")
+      : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "customization" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Every model has a context window: the working memory it uses to answer your prompt."),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "Now, you learn what the model uses to answer BEYOND THIS CHAT."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
@@ -5880,8 +5883,8 @@ function CustomizationSection(props) {
       })
     )
   ),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(sortAnswers).length >= SORT_ITEMS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
+  props.embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
+  props.embedded ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(sortAnswers).length >= SORT_ITEMS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
@@ -6477,7 +6480,7 @@ function ThinkingModeSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function TemperatureSection(props) {
   // Folded into Inference as a closing beat (passed embedded:true), which swaps
@@ -7308,7 +7311,7 @@ function OpenerWorkWithSection(props) {
           { question: "Inside that app, what changes when I pick a different model?", lessonId: "choosemodel" },
           { question: "When should I make it slow down and think harder?", lessonId: "effort" },
           { question: "Why do some answers feel predictable and others more creative?", lessonId: "inference" },
-          { question: "How do customization and memory change future answers?", lessonId: "customization" }
+          { question: "How do customization and memory change future answers?", lessonId: "prompt" }
         ]
       },
       {
@@ -12709,7 +12712,6 @@ const SECTION_COMPONENTS = {
   choosemodel: ChoosingModelSection,
   effort: ThinkingModeSection,
   prompt: PromptSection,
-  customization: CustomizationSection,
   documenttrap: DocumentChatSection,
   critical: CriticalThinkingSection,
   mindtrap: MindTrapSection,

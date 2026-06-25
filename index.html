@@ -369,7 +369,7 @@ var TERMS = [
   { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "prompt" },
   { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "prompt" },
   { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve \u2018king \u2212 man + woman = queen.\u2019", source: "embeddings" },
-  { term: "Guardrail", definition: "A safety layer the AI company adds around an AI model to block, redirect, or limit specific behaviors like medical dosage advice or harmful content. Guardrails can be software programs, filters, classifiers, or safety-tuned behaviors, which is why they catch some things and miss others.", source: "norules" },
+  { term: "Guardrail", definition: "A safety layer the AI company adds around an AI model to block, redirect, or limit specific behaviors like medical dosage advice or harmful content. Guardrails can be software programs, filters, classifiers, or safety-tuned behaviors, which is why they catch some things and miss others.", source: "aivscode" },
   { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn\u2019t know what\u2019s true, only what sounds right.", source: "hallucination" },
   { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
   { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
@@ -1569,7 +1569,7 @@ const SECTION_GROUPS = [{
   sections: ["openerworkwith", "whatitdoesbest", "modelselection", "choosemodel", "effort", "customization", "questionsvaluable", "prompting", "thoughtpartner"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "aivscode", "norules", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference"]
+  sections: ["openerfoundations", "aivscode", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Check the Output",
   sections: ["openercheck", "howmuchtocheck", "critical", "verify", "evaluating"]
@@ -1597,7 +1597,7 @@ const SECTION_META = {
   llms: { kicker: "WHAT YOU\u2019RE ACTUALLY USING", label: "Meet the Tool", icon: "\uD83E\uDD16" },
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "AI ISN’T MAGIC", label: "How We Got Here", icon: "\uD83D\uDCDC" },
-  aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "Rules vs Patterns", icon: "\u26A1" },
+  aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "AI is Different", icon: "\u26A1" },
   norules: { kicker: "NOBODY PROGRAMMED THIS", label: "Harder to Control", icon: "\uD83D\uDCE6" },
   openerinside: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
@@ -3715,8 +3715,7 @@ function AIvsCodeSection(props) {
       "That still doesn’t make AI the better tool. When a job is exact and never changes, plain rules win every time. The real skill is telling which job is which."
     ),
     /*#__PURE__*/React.createElement(ChoiceQuiz, { title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of traditional software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS, onComplete: function() { setQuizDone(true); } }),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: quizDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("norules"), label: "Next: Harder to Control" })
+    /*#__PURE__*/React.createElement(BlackBoxSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate })
   );
 }
 function TypingAICard(props) {
@@ -3778,7 +3777,9 @@ function BlackBoxSection(props) {
   }];
   const sc = RULE_PATTERN_SCENARIOS[Math.min(scenarioIdx, RULE_PATTERN_SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "norules" }),
+    props.embedded
+      ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "NOBODY PROGRAMMED THIS")
+      : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "norules" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "You just saw the shift: AI runs on patterns it learned, not rules someone wrote. That\u2019s exactly what makes it harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written code."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
     ),
@@ -10855,8 +10856,8 @@ function TestYourselfSection(props) {
     question: "A model has 70 billion parameters. What are those parameters?",
     options: ["The number of facts it has memorized", "Tiny internal numbers that were adjusted during training; they store the patterns the model learned", "The number of words in its training data", "Settings engineers manually configured"],
     correct: 1,
-    section: "Harder to Control",
-    review: "norules",
+    section: "AI is Different",
+    review: "aivscode",
     explain: "Parameters are billions of internal numbers nudged during training. Each wrong prediction tweaked them slightly. After trillions of tweaks, the numbers encode grammar, facts, style, and tone. No human wrote any of them.",
     pitfalls: {
       0: "The model doesn’t store discrete facts. It stores weights that happen to produce fact-like outputs.",
@@ -12700,7 +12701,6 @@ const SECTION_COMPONENTS = {
   control: ControlSection,
   keyterms: KeyTermsSection,
   aivscode: AIvsCodeSection,
-  norules: BlackBoxSection,
   attention: HowAIReadsSection,
   hallucination: HallucinationSection,
   training: TrainingSection,

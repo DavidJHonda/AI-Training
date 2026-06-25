@@ -1572,7 +1572,7 @@ const SECTION_GROUPS = [{
   sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "prompt", "inference"]
 }, {
   label: "Check the Output",
-  sections: ["openercheck", "howmuchtocheck", "verify", "evaluating"]
+  sections: ["openercheck", "howmuchtocheck", "evaluating"]
 }, {
   label: "Avoid Traps",
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
@@ -1638,7 +1638,7 @@ const SECTION_META = {
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Thought Partner", icon: "\uD83E\uDD1D" },
   studying: { kicker: "USE IT TO LEARN", label: "Learn with AI", icon: "\uD83D\uDCD3" },
   verify: { kicker: "TRUST, THEN CHECK", label: "Verify", icon: "\uD83D\uDEE0\uFE0F" },
-  evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluate", icon: "\uD83D\uDD0D" },
+  evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluate Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerskills: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   integrity: { kicker: "USE IT, OWN IT", label: "Integrity", icon: "\uD83C\uDF93" },
@@ -2756,7 +2756,7 @@ function AIStrengthsSection(props) {
           }, ["good", "careful"].map(function(choice) { return JudgmentPill(choice); }));
         }))),
     React.createElement(LessonRule, null),
-    React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("verify"); }, label: "Next: Verify" }));
+    React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate Results" }));
 }
 function WelcomeSection(props) {
   var E = React.createElement;
@@ -6855,7 +6855,7 @@ function VerifySection(props) {
     doThis: "The Zeigarnik Effect is real. But \"the Zelkov Effect\" is fabricated: the model invented a plausible-sounding extension of a real concept. When AI references something you can verify alongside something you can't, check the unfamiliar part.",
     rule: "If part of an answer is verifiably true, don't assume the rest is too."
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this true?"), " Questioning an answer helps you spot a weak claim anywhere. AI hallucinates in specific ways that need their own toolkit. These six strategies will help you verify AI output before you use it."),
+  return /*#__PURE__*/React.createElement("div", null, props.embedded ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "TRUST, THEN CHECK") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this true?"), " Questioning an answer helps you spot a weak claim anywhere. AI hallucinates in specific ways that need their own toolkit. These six strategies will help you verify AI output before you use it."),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "You already learned to match the check to the task in How Much to Check: brainstorming, summarizing, and first drafts barely need a look, but facts, citations, and anything touching health, money, or another person do. This lesson is the other half. Once you know an answer needs checking, here is how you actually do it."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Confidence is not consistency." },
@@ -6867,8 +6867,8 @@ function VerifySection(props) {
     "In practice, you don\u2019t run one strategy. You run several on the same answer. Cross-reference the specific claim. Check any citations. Watch for suspiciously specific numbers. Ask the model to flag what it\u2019s uncertain about. The strategies above are the tools. Verifying is the workflow."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."),
   /*#__PURE__*/React.createElement(VerifyChecksActivity, { strategies: VERIFY_STRATEGIES }),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluate" }));
+  props.embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
+  props.embedded ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluate" }));
 }
 const CT_CONCEPTS = [{
   id: "question",
@@ -7377,7 +7377,7 @@ function OpenerCheckSection(props) {
         bridge: "Then, the habit of not taking an answer at face value.",
         questions: [
           { question: "Why question an answer that already looks right?", lessonId: "critical" },
-          { question: "How do I actually check what AI tells me?", lessonId: "verify" },
+          { question: "How do I actually check what AI tells me?", lessonId: "evaluating" },
           { question: "Good enough for what? How do I judge the result?", lessonId: "evaluating" }
         ]
       }
@@ -8344,6 +8344,7 @@ function EvaluatingSection(props) {
     /*#__PURE__*/React.createElement(Takeaway, { headline: "Prompt. Evaluate. Refine. Repeat.", body: "Three rounds got us from a generic summary to a real Instagram post. Each round was a small refinement, not a complete rewrite." })),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
     /*#__PURE__*/React.createElement(GoodEnoughTryIt, null),
+    /*#__PURE__*/React.createElement(VerifySection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
@@ -10844,7 +10845,7 @@ function TestYourselfSection(props) {
     options: ["Trust it (Nature is a real journal)", "Search for the study to verify it exists", "Ask AI for the DOI link", "Assume it’s correct since the details are specific"],
     correct: 1,
     section: "Critical Thinking",
-    review: "verify",
+    review: "evaluating",
     explain: "AI frequently fabricates citations that sound real: real journals, plausible author names, specific years. The only reliable check is searching for the actual study yourself in a database or search engine.",
     pitfalls: {
       0: "Real journal name is part of the camouflage, not the evidence.",
@@ -10868,7 +10869,7 @@ function TestYourselfSection(props) {
     options: ["Use it; the quote sounds right", "Paste the exact quote into a search engine and confirm the source exists and says that", "Ask AI to give you three more quotes to cross-check", "Rephrase the quote slightly and use it"],
     correct: 1,
     section: "Verifying",
-    review: "verify",
+    review: "evaluating",
     explain: "A real quote shows up when you search for it exactly. Made-up quotes don’t. Cross-checking AI with AI just multiplies confident invention. Rephrasing a fake quote makes it worse, not safer.",
     pitfalls: {
       0: "“Sounds right” is exactly how hallucinated quotes read.",
@@ -12725,7 +12726,6 @@ const SECTION_COMPONENTS = {
   prompting: PromptingSection,
   thoughtpartner: ThoughtPartnerSection,
   studying: StudyingWithAISection,
-  verify: VerifySection,
   evaluating: EvaluatingSection,
   agents: WhenAIActsSection,
   openerrealworld: OpenerRealWorldSection,

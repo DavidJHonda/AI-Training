@@ -1569,7 +1569,7 @@ const SECTION_GROUPS = [{
   sections: ["openerworkwith", "aivscode", "whatitdoesbest", "questionsvaluable", "prompting", "howmuchtocheck", "evaluating", "prompt"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "training", "inference"]
+  sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "training", "inference"]
 }, {
   label: "Avoid Traps",
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
@@ -1606,6 +1606,7 @@ const SECTION_META = {
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
+  vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choose the App", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "ONE APP, MANY MODELS", label: "Choose the Model", icon: "\uD83E\uDE9C" },
@@ -5059,8 +5060,37 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: clubMatchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
+function WhichSitsCloserTryIt(props) {
+  var E = React.createElement;
+  var ROWS = [
+    { prompt: "Which sits closer to ocean?", choices: ["sea", "desert"], answer: "sea", feedback: "Ocean and sea share a neighborhood: both are large bodies of water. Desert sits far across the map." },
+    { prompt: "Which sits closer to furious?", choices: ["angry", "calm"], answer: "angry", feedback: "Furious is just angry turned all the way up, so the two sit close together. Calm is on the opposite side." },
+    { prompt: "Which sits closer to whisper?", choices: ["mumble", "shout"], answer: "mumble", feedback: "Whisper and mumble are both quiet, low ways of speaking. Shout is loud, far across the space." },
+    { prompt: "In “Flowers bloom every spring,” which sits closer to spring?", choices: ["summer", "wire"], answer: "summer", feedback: "The words around it, flowers and bloom, pull spring into the season neighborhood, near summer. Wire belongs to the coiled-metal meaning." },
+    { prompt: "In “The bat flew out of the cave at dusk,” which sits closer to bat?", choices: ["owl", "baseball"], answer: "owl", feedback: "Cave, flew, and dusk set bat’s position in the animal neighborhood, near owl, not the baseball kind." }
+  ];
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  var done = answeredCount >= ROWS.length;
+  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
+  return E(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Which sits closer?",
+    lead: "Meaning is a position, and similar words sit close together. For each one, pick the word that lands in the same neighborhood." },
+    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      ROWS.map(function(r, i) {
+        var picked = answers[i];
+        var answered = picked !== undefined;
+        var correct = answered && picked === r.answer;
+        return E(ScenarioRow, { key: i, index: i + 1, prompt: r.prompt, answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + r.feedback) : null },
+          r.choices.map(function(opt) {
+            return E(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.answer, isPicked: picked === opt, label: opt,
+              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
+          }));
+      })));
+}
 function VectorSpaceSection(props) {
   var E = React.createElement;
+  var _vd = useState(false), vsDone = _vd[0], setVsDone = _vd[1];
   var vsDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark", "Citrus"];
   var vsDrinks = [
     { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
@@ -5091,8 +5121,7 @@ function VectorSpaceSection(props) {
           }));
       })));
   return E("div", null,
-    props.embedded ? null : E(LessonHeader, { sectionId: "vectorspace" }),
-    E(SectionKicker, null, "Vector Space"),
+    E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
       "Remember the taste test from Embeddings, where Pepsi looked almost exactly like Coke until a Citrus dimension finally told them apart? Here it is again."),
     vsTasteProfile,
@@ -5129,8 +5158,16 @@ function VectorSpaceSection(props) {
       ". But as the token runs through the layers, its final numbers land closer to ",
       E("strong", null, "CAT"),
       " than to any other word in the sentence."),
-    props.embedded ? null : E(LessonRule, null),
-    props.embedded ? null : E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
+    E("img", {
+      src: "illustrations/layers-3.jpg",
+      alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is whatever sits closest.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }),
+    E(KeyInsight, { lead: "By the last layer, meaning is a position." },
+      "The model has turned your word into a point on the map: a rich, context-aware representation, not an answer yet. The next word it picks is whatever sits closest."),
+    E(WhichSitsCloserTryIt, { onComplete: function() { setVsDone(true); } }),
+    E(LessonRule, null),
+    E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
 }
 
 function MatchTermsTryIt(props) {
@@ -5300,17 +5337,9 @@ function LayersSection(props) {
       "Because some meaning is many steps deep. Simple meaning resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. A few layers reach only shallow meaning; stacking dozens leaves room for the deep kind."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "There’s no perfect number, though. More depth adds capacity up to a point, and labs trade that against the cost of running it."),
-    /*#__PURE__*/React.createElement(VectorSpaceSection, { embedded: true }),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/layers-3.jpg",
-      alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is whatever sits closest.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "By the last layer, meaning is a position." },
-      "The model has turned your word into a point on the map: a rich, context-aware representation, not an answer yet. The next word it picks is whatever sits closest."),
     /*#__PURE__*/React.createElement(LayerTraceTryIt, { bankLayers: bankLayers }),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
   );
 }
 function InferenceJourneyDiagram() {
@@ -12641,6 +12670,7 @@ const SECTION_COMPONENTS = {
   tokens: TokenSection,
   embeddings: EmbeddingsSection,
   layers: LayersSection,
+  vectorspace: VectorSpaceSection,
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,

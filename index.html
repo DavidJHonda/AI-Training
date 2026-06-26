@@ -1578,7 +1578,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "workchanges", "agents", "aijudges", "computecost", "aifuture", "talkingai"]
 }, {
   label: "Build Your Skills",
-  sections: ["openerskills", "choosemodel", "effort", "humanedge", "thoughtpartner", "critical", "creativethinking", "becurious", "buildedge"]
+  sections: ["openerskills", "choosemodel", "humanedge", "thoughtpartner", "critical", "creativethinking", "becurious", "buildedge"]
 }, {
   label: "Finish Smarter",
   sections: ["whatyoulearned", "integrity", "privacy", "fullworkflow", "howwegothere"]
@@ -1610,8 +1610,7 @@ const SECTION_META = {
   prediction: { kicker: "THE PICK", label: "Prediction", icon: "\uD83D\uDCCA" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
-  choosemodel: { kicker: "ONE APP, MANY MODELS", label: "Choose the Model", icon: "\uD83E\uDE9C" },
-  effort: { kicker: "HOW HARD IT THINKS", label: "Effort Dial", icon: "\uD83E\uDDE0" },
+  choosemodel: { kicker: "PICK THE MODEL, SET THE EFFORT", label: "Tune the Model", icon: "\uD83E\uDE9C" },
   customization: { kicker: "MAKE IT YOURS", label: "Customization & Memory", icon: "\u2699\uFE0F" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -6196,6 +6195,20 @@ function ModelSelectionSection(props) {
 }
 function ChoosingModelSection(props) {
   const [pickerAnswers, setPickerAnswers] = useState({});
+  const [taskAnswers, setTaskAnswers] = useState({});
+  const TASKS = [{
+    task: "Write 10 ideas for a YouTube channel name",
+    answer: "Quick", explain: "Creative brainstorming is about breadth and speed. A quick, low-effort answer generates lots of options fast, which is exactly what you need."
+  }, {
+    task: "Analyze whether my business plan has any logical flaws",
+    answer: "Deeper", explain: "Finding logical flaws means reasoning step by step through connected arguments. Turning the effort up makes the model check its own work and catch subtleties a quick answer misses."
+  }, {
+    task: "Summarize this short article in 3 bullet points",
+    answer: "Quick", explain: "For a short, simple article, a quick answer is enough. For a dense research paper, legal document, or complicated argument, turn the effort up."
+  }, {
+    task: "Solve this multi-step calculus problem",
+    answer: "Deeper", explain: "Multi-step math requires the model to work through each step in order and verify its logic. More effort dramatically reduces errors on problems like this."
+  }];
   const PICKER_SORTS = [
     { name: "Quasar Pro", label: "Our smartest model, for complex work.", answer: "Most capable", explain: "Name and label agree here. ‘Smartest’ and ‘complex work’ are the top tier’s signature." },
     { name: "Breeze", label: "Our fastest model, for quick everyday tasks.", answer: "Fast & light", explain: "‘Fastest’ is the giveaway. The quick-sounding name is a bonus, but the label is what you trust." },
@@ -6298,25 +6311,8 @@ function ChoosingModelSection(props) {
         }, [PillButton("Most capable"), PillButton("Everyday"), PillButton("Fast & light")]);
       })
     )),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: pickerAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("effort"); }, label: "Next: Effort Dial" }));
-}
-function ThinkingModeSection(props) {
-  const [taskAnswers, setTaskAnswers] = useState({});
-  const TASKS = [{
-    task: "Write 10 ideas for a YouTube channel name",
-    answer: "Quick", explain: "Creative brainstorming is about breadth and speed. A quick, low-effort answer generates lots of options fast, which is exactly what you need."
-  }, {
-    task: "Analyze whether my business plan has any logical flaws",
-    answer: "Deeper", explain: "Finding logical flaws means reasoning step by step through connected arguments. Turning the effort up makes the model check its own work and catch subtleties a quick answer misses."
-  }, {
-    task: "Summarize this short article in 3 bullet points",
-    answer: "Quick", explain: "For a short, simple article, a quick answer is enough. For a dense research paper, legal document, or complicated argument, turn the effort up."
-  }, {
-    task: "Solve this multi-step calculus problem",
-    answer: "Deeper", explain: "Multi-step math requires the model to work through each step in order and verify its logic. More effort dramatically reduces errors on problems like this."
-  }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "effort" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve chosen your app, and you just chose your model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
+  /*#__PURE__*/React.createElement(LessonRule, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve chosen your app, and you just chose your model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing. Some apps show this as a simple on/off switch, others as a dial with several levels."),
   /*#__PURE__*/React.createElement(BodyP, null, "You met one dial already: temperature, back in the Prediction lesson. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds."),
   /*#__PURE__*/React.createElement(BodyP, null, "And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models."),
@@ -9310,8 +9306,7 @@ function OpenerSkillsSection(props) {
         kicker: "SET UP THE TOOL",
         bridge: "First, the setup choices you make inside your app: which model, and how hard it should think.",
         questions: [
-          { question: "Inside your app, what changes when I pick a different model?", lessonId: "choosemodel" },
-          { question: "When should I make it slow down and think harder?", lessonId: "effort" }
+          { question: "Which model do I pick, and how hard should it think?", lessonId: "choosemodel" }
         ]
       },
       {
@@ -11917,7 +11912,6 @@ const SECTION_COMPONENTS = {
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,
-  effort: ThinkingModeSection,
   prompt: PromptSection,
   documenttrap: DocumentChatSection,
   critical: CriticalThinkingSection,

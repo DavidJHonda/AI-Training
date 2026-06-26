@@ -379,7 +379,7 @@ var TERMS = [
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
   { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "prompt" },
-  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "choosemodel" },
+  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "prediction" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
   { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
@@ -1569,7 +1569,7 @@ const SECTION_GROUPS = [{
   sections: ["openerworkwith", "aivscode", "whatitdoesbest", "questionsvaluable", "prompting", "howmuchtocheck", "evaluating", "prompt"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "training", "inference"]
+  sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "prediction", "training", "inference"]
 }, {
   label: "Avoid Traps",
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
@@ -1607,6 +1607,7 @@ const SECTION_META = {
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
+  prediction: { kicker: "THE PICK", label: "Prediction", icon: "\uD83D\uDCCA" },
   inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Choose the App", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "ONE APP, MANY MODELS", label: "Choose the Model", icon: "\uD83E\uDE9C" },
@@ -5167,7 +5168,7 @@ function VectorSpaceSection(props) {
       "The model has turned your word into a point on the map: a rich, context-aware representation, not an answer yet. The next word it picks is whatever sits closest."),
     E(WhichSitsCloserTryIt, { onComplete: function() { setVsDone(true); } }),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
+    E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: Prediction" }));
 }
 
 function MatchTermsTryIt(props) {
@@ -5448,8 +5449,8 @@ function InferenceJourneyDiagram() {
 }
 function InferenceSection(props) {
   var _mc = useState(false), matchComplete = _mc[0], setMatchComplete = _mc[1];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and that final probability score. Now watch them work together as a single journey from your prompt to a finished answer."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to produce one token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve met every piece on its own: tokens, embeddings, layers, the context window, and the single prediction that picks one token. Now watch them work together as a single journey from your prompt to a finished answer."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to make one prediction: a single token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
   /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "At the heart of that journey is a neural network"),
@@ -6373,7 +6374,6 @@ function ChoosingModelSection(props) {
     "Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
-  /*#__PURE__*/React.createElement(TemperatureSection, { inline: true }),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -6425,7 +6425,7 @@ function ThinkingModeSection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "effort" }), /*#__PURE__*/React.createElement(BodyP, null, "You already chose the app. You already chose the model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing. Some apps show this as a simple on/off switch, others as a dial with several levels."),
-  /*#__PURE__*/React.createElement(BodyP, null, "You met one dial already: temperature, back on the model page. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You met one dial already: temperature, back in the Prediction lesson. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds."),
   /*#__PURE__*/React.createElement(BodyP, null, "And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models."),
   /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 32 },
     [
@@ -6497,11 +6497,7 @@ function ThinkingModeSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("integrity"), label: "Next: Integrity" }));
 }
-function TemperatureSection(props) {
-  // Folded into Inference as a closing beat (passed embedded:true), which swaps
-  // the Work-With-AI framing for a prediction-anchored one and drops the header/Next.
-  var embedded = props && props.embedded;
-  var inline = props && props.inline;
+function PredictionSection(props) {
   const [temp, setTemp] = useState(0);
   const prompt = "The secret to a great pizza is";
   const tempKey = temp <= 0.2 ? 0 : temp <= 0.7 ? 0.5 : 1;
@@ -6515,12 +6511,13 @@ function TemperatureSection(props) {
     { word: "other words", low: 0, medium: 1, high: 4 }
   ];
   return /*#__PURE__*/React.createElement("div", null,
-  embedded ? /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on that pick: temperature") : inline ? /*#__PURE__*/React.createElement(SectionKicker, null, "One more dial: temperature") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "temperature" }),
-  embedded
-    ? /*#__PURE__*/React.createElement(BodyP, null, "You just watched the final vector land on the map and the closest tokens take the highest probabilities. There\u2019s a dial on how boldly the model commits to the closest match: temperature.")
-    : inline
-    ? /*#__PURE__*/React.createElement(BodyP, null, "Picking the model sets how much brain you get. One more dial changes how that brain behaves, without swapping the model at all: temperature.")
-    : /*#__PURE__*/React.createElement(BodyP, null, "You picked the app. You picked the model. You set the effort. Now there\u2019s one smaller control to understand: temperature."),
+  /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "You just watched the final vector land on the map, with the closest tokens taking the highest probabilities. Now here\u2019s how the model turns that position into an actual next word."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
+  /*#__PURE__*/React.createElement(BodyP, null, "The model doesn\u2019t just grab the single closest token. It scores ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next token at once and lines them up by probability: a ranked list, with the best fit on top and a long tail of less likely options below it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Then it takes one, almost always from the top, adds it to the text, and runs the whole thing again for the token after that. That pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
+  /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
   },
@@ -6539,7 +6536,7 @@ function TemperatureSection(props) {
     })),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     headline: "How temperature reshapes the picks",
-    intro: "Same next-word prediction you just watched, now for \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."
+    intro: "Here\u2019s that ranked list for \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."
   },
     /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
       /*#__PURE__*/React.createElement("div", {
@@ -6617,7 +6614,7 @@ function TemperatureSection(props) {
       }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework."))),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
     "You probably won\u2019t see this slider in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters."),
-  embedded ? null : /*#__PURE__*/React.createElement(ShowcaseBox, {
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "When you want repeatability vs variety",
     intro: "Most students won\u2019t touch a temperature slider directly. But you can ask for the effect through prompting.",
     marginTop: 36
@@ -6651,11 +6648,10 @@ function TemperatureSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means repeatable. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
-  (embedded || inline)
-    ? /*#__PURE__*/React.createElement(KeyInsight, { lead: "Temperature changes the variation, never the truth." }, "It tunes how boldly the model commits to its most likely next word: down for repeatable answers, up for surprising ones. It never makes an answer more correct, only more or less varied.")
-    : /*#__PURE__*/React.createElement(KeyInsight, null, "Model choice controls capability. Effort controls how hard it thinks. Temperature controls variation. Verification controls truth."),
-  (embedded || inline) ? null : /*#__PURE__*/React.createElement(LessonRule, null),
-  (embedded || inline) ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Temperature changes the variation, never the truth." }, "It tunes how boldly the model commits to its most likely next word: down for repeatable answers, up for surprising ones. It never makes an answer more correct, only more or less varied."),
+  /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "These odds didn’t come from nowhere. The model learned every one of them from billions of examples, long before you typed a word. That’s ", /*#__PURE__*/React.createElement("strong", null, "training"), "."),
+  /*#__PURE__*/React.createElement(LessonRule, null),
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" }));
 }
 
 function HallucinationSection(props) {
@@ -12671,6 +12667,7 @@ const SECTION_COMPONENTS = {
   embeddings: EmbeddingsSection,
   layers: LayersSection,
   vectorspace: VectorSpaceSection,
+  prediction: PredictionSection,
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,

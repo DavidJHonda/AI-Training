@@ -3181,35 +3181,41 @@ function DoesAIThinkSection(props) {
 }
 function WhyBotherSection(props) {
   var E = React.createElement;
-  const [workerAnswers, setWorkerAnswers] = useState({});
+  const [catchAnswers, setCatchAnswers] = useState({});
 
-  var WORKER_SCENARIOS = [{
-    setup: "Your team needs to cut customer wait times. Your coworker asks AI how to make support faster and gets a tidy list of generic tips. You know the real bottleneck: tickets pile up overnight in one time zone.",
+  var CATCH_ITEMS = [{
+    claim: "You ask AI the price of a $60 hoodie that\u2019s 20% off. It answers, instantly: 20% of $60 is $12, so the hoodie costs $52.",
     options: [
-      { label: "Ask the same broad question", correct: false, feedback: "A vague question gets a vague answer, the same one your coworker got, and everyone else who typed it. AI can only work with what you give it." },
-      { label: "Ask about the overnight backlog you spotted", correct: true, feedback: "Because you knew where the real problem was, you asked a sharper question, and a far more useful answer came back, before any cleanup. That\u2019s the first half: what you ask. Your knowledge shaped the question, so the answer was better from the start." }
+      { label: "I can catch it", correct: true, feedback: "Right, and you can prove it: $60 minus $12 is $48, not $52. The arithmetic you already own just caught AI in a confident mistake." },
+      { label: "I\u2019d have to trust it", correct: false, feedback: "You\u2019ve got this one already. $60 minus 20% ($12) is $48, not $52. Basic arithmetic was all it took, and you have it." }
     ]
   }, {
-    setup: "A long-time customer is upset and threatening to leave. You both ask AI what to say, and it writes a polished, professional reply. But you know this customer. They have been with you five years, and right now they just want to feel heard, not handled.",
+    claim: "You ask AI when World War I began. It answers, with total confidence: World War I started in 1739.",
     options: [
-      { label: "Send AI\u2019s polished reply", correct: false, feedback: "The reply is fine for a stranger and wrong for this person. AI doesn\u2019t know who it is talking to, so it wrote something generic, because generic is all it had. Your coworker sends it, sounds like a robot reading a card, and the customer walks." },
-      { label: "Answer like you know this customer", correct: true, feedback: "Because you understood who this customer actually is, you say the thing a script never could. That\u2019s the other half: what you do with the answer. AI gave you words. You brought the context that made them land." }
+      { label: "I can catch it", correct: true, feedback: "Right. World War I began in 1914, not 1739. A date from history class just caught an answer AI delivered without blinking." },
+      { label: "I\u2019d have to trust it", correct: false, feedback: "You likely knew this one. World War I began in 1914; 1739 isn\u2019t close. History already handed you the tool to catch it." }
     ]
   }, {
-    setup: "You both ask AI to build a new feature, and it writes code that passes its first test and looks finished. But you remember what you learned: passing one test is not the same as holding up when a million people hit it at once.",
+    claim: "You ask AI about the US government. It answers: it has four branches, the Legislative, the Judicial, the Executive, and the Provincial.",
     options: [
-      { label: "Ship it, the test passed", correct: false, feedback: "This is what trusting AI looks like. It ran once on your screen, so it must be done. Your coworker ships it, and the site buckles the first busy day. Running once and surviving real traffic were never the same thing." },
-      { label: "Load-test it first, the way you learned", correct: true, feedback: "Because you knew to question a passing test, you catch the design that collapses under load, fix it, and ship something that lasts. Again, what you do with the answer. It only happened because you learned enough to doubt the easy answer." }
+      { label: "I can catch it", correct: true, feedback: "Right. There are three branches: Legislative, Executive, and Judicial. 'Provincial' is invented. Civics already gave you what you need to catch it." },
+      { label: "I\u2019d have to trust it", correct: false, feedback: "You may know more than you think. The US government has three branches; 'Provincial' is made up. That\u2019s a civics fact, and it\u2019s catchable." }
     ]
   }, {
-    setup: "The hardest one. You both ask AI to write the launch email for that feature. It comes back clean, with no errors, and it reads fine. Your coworker sends theirs as is. But you know your customers. They do not care about a feature list. They care about the one problem it solves for them.",
+    claim: "You ask AI where modern chatbots come from. It answers: the Transformer, the design behind every modern chatbot, was invented by OpenAI in their 2017 paper, Attention Is All You Need.",
     options: [
-      { label: "Send it, it\u2019s clean and correct", correct: false, feedback: "Nothing is wrong with it, which is exactly the trap. Correct and good are not the same. AI handed everyone the same average draft, and an average email gets skimmed and forgotten." },
-      { label: "Rewrite it around what your customers actually want", correct: true, feedback: "You did not fix a mistake. You made an okay draft genuinely better. Still the second half, doing more than the first draft. Same tool as your coworker, but what you know about customers is the difference in the result." }
+      { label: "I can catch it", correct: false, feedback: "If you knew it was Google, not OpenAI, you\u2019re ahead. Most people haven\u2019t learned this yet, and you will, in the Transformer lesson later in this course." },
+      { label: "I\u2019d have to trust it", correct: true, feedback: "Honest call. The paper and the year are real, but it came from eight researchers at Google, not OpenAI. The payoff is close: you\u2019ll learn the whole story in the Transformer lesson." }
+    ]
+  }, {
+    claim: "You ask AI about a handshake deal. It answers: a spoken agreement is never legally binding, it only counts if it\u2019s in writing.",
+    options: [
+      { label: "I can catch it", correct: false, feedback: "Trickier than it looks. Many spoken agreements are binding; only certain kinds need to be in writing. This is the sort of thing further education hands you." },
+      { label: "I\u2019d have to trust it", correct: true, feedback: "Exactly right to be unsure. Plenty of spoken agreements are legally binding; only certain kinds must be written. Most people don\u2019t learn this until much later. More education, more you can catch." }
     ]
   }];
 
-  const allAnswered = Object.keys(workerAnswers).length >= WORKER_SCENARIOS.length;
+  const allAnswered = Object.keys(catchAnswers).length >= CATCH_ITEMS.length;
 
   return E("div", null,
     E(LessonHeader, { sectionId: "whybother" }),
@@ -3256,12 +3262,12 @@ function WhyBotherSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "More Knowledge. Better Results.",
-     lead: "You and your coworker have the same job and the same AI. Each time, one choice leans on AI alone and the other uses what you know, sometimes to ask a sharper question, sometimes to do more with the answer. Pick the move that makes you more valuable."},
+      title: "Catch It, or Trust It?",
+     lead: "Here are five answers AI gave, each one stated with total confidence, and each one with something wrong. The question isn\u2019t whether AI makes mistakes. It\u2019s whether what you\u2019ve learned lets you catch them. For each, be honest: can you catch the mistake, or would you have to trust it?"},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        WORKER_SCENARIOS.map(function(s, i) {
-          var answered = workerAnswers[i] !== undefined;
-          var pickedIdx = workerAnswers[i];
+        CATCH_ITEMS.map(function(s, i) {
+          var answered = catchAnswers[i] !== undefined;
+          var pickedIdx = catchAnswers[i];
           var pickedOpt = answered ? s.options[pickedIdx] : null;
           var correct = answered && pickedOpt.correct;
           function PillButton(opt, optIdx) {
@@ -3272,18 +3278,21 @@ function WhyBotherSection(props) {
               isCorrect: opt.correct,
               isPicked: isPicked,
               label: opt.label,
-              onClick: function() { setWorkerAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
+              onClick: function() { setCatchAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
             });
           }
           return E(ScenarioRow, {
             key: i,
             index: i + 1,
-            prompt: s.setup,
+            prompt: s.claim,
             answered: answered,
             correct: correct,
             feedback: pickedOpt ? pickedOpt.feedback : null
           }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
-        }))),
+        }),
+        allAnswered ? E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 18, paddingTop: 16, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, color: "var(--inkSoft)" } },
+          E("strong", { style: { color: "var(--ink)" } }, "Every mistake you caught was your education at work. "),
+          "Every one you couldn\u2019t is what more learning gives you, and one of them is only a few lessons away.") : null)),
 
     E(LessonRule, null),
     E(NextLessonGate, {

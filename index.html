@@ -154,6 +154,12 @@
     #main-content .interactive-box--try,
     #main-content .interactive-box--lab,
     #main-content .lesson-mechanics { display: none !important; }
+    /* Per-group packet (e.g. ?print=start-smarter, the Learn with AI lab download):
+       content only — drop the interactive TRY IT / LAB and the mechanics legend.
+       The full Course PDF (?print=all) is exempt and keeps them. */
+    .course-packet--content-only .interactive-box--try,
+    .course-packet--content-only .interactive-box--lab,
+    .course-packet--content-only .lesson-mechanics { display: none !important; }
     #main-content {
       background: #fff !important;
       border: none !important;
@@ -1561,7 +1567,7 @@ function RevealSequence(props) {
 }
 const SECTION_GROUPS = [{
   label: "Start Smarter",
-  sections: ["welcome", "whydeeper", "llms", "aihistory", "doesaithink", "control", "studying", "whybother"]
+  sections: ["welcome", "whydeeper", "llms", "aihistory", "doesaithink", "control", "whybother", "studying"]
 }, {
   label: "Work With AI",
   sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "questionsvaluable", "prompting", "howmuchtocheck", "evaluating", "prompt"]
@@ -3294,8 +3300,8 @@ function WhyBotherSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); },
-      label: "Next: Work With AI"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
+      label: "Next: Learn with AI"
     }));
 }
 function ControlSection(props) {
@@ -3440,8 +3446,8 @@ function ControlSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       ready: allAnswered,
-      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
-      label: "Next: Learn with AI"
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); },
+      label: "Next: Does School Matter?"
     }));
 }
 function AIvsCodeSection(props) {
@@ -8004,7 +8010,7 @@ function StudyingWithAISection(props) {
     ] }),
     E(Lab01CourseNotebook, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); }, label: "Next: Does School Matter?" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );
 }
 const EVAL_CRITERIA = [{
@@ -12225,6 +12231,7 @@ function LLMExplorer() {
   }
   if (printSections) {
     return /*#__PURE__*/React.createElement("div", {
+      className: printParam === "all" ? "course-packet" : "course-packet course-packet--content-only",
       style: { background: "var(--bg)", padding: "32px 40px", fontFamily: "var(--sans)" }
     },
       printSections.map(function(section, idx) {

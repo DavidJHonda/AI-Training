@@ -3619,9 +3619,7 @@ function TypingAICard(props) {
     }));
 }
 function BlackBoxSection(props) {
-  const [scenarioIdx, setScenarioIdx] = useState(0);
-  const [scenarioAnswer, setScenarioAnswer] = useState(null);
-  const [startedRulePattern, setStartedRulePattern] = useState(true);
+  const [scenarioAnswers, setScenarioAnswers] = useState({});
   const RULE_PATTERN_SCENARIOS = [{
     setup: "A signup form accepts a birthdate showing the user is 12 years old on a platform with an 18+ policy.",
     options: [
@@ -3658,7 +3656,6 @@ function BlackBoxSection(props) {
       { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer specifically for face-swap and explicit content involving real people, especially minors, would have blocked the request before the output shipped. The model is capable of generating it. The guardrail is the company refusing to let it." }
     ]
   }];
-  const sc = RULE_PATTERN_SCENARIOS[Math.min(scenarioIdx, RULE_PATTERN_SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     props.embedded
       ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "NOBODY PROGRAMMED THIS")
@@ -3703,38 +3700,30 @@ function BlackBoxSection(props) {
       variant: "try",
       surface: "mint",
       title: "Rule, Pattern, or Guardrail?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(scenarioIdx + (startedRulePattern ? 1 : 0), RULE_PATTERN_SCENARIOS.length), total: RULE_PATTERN_SCENARIOS.length })
-    , lead: "In this exercise, you\u2019ll see a negative event. Your challenge is to identify what would have stopped it: a fixed rule, a learned pattern, or a guardrail."},
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: RULE_PATTERN_SCENARIOS,
-        currentIdx: scenarioIdx,
-        started: startedRulePattern,
-        onStart: function() { setStartedRulePattern(true); },
-        onNext: function() { setScenarioIdx(scenarioIdx + 1); setScenarioAnswer(null); },
-        canAdvance: scenarioAnswer !== null,
-        isComplete: scenarioIdx >= RULE_PATTERN_SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Event \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Guardrails are bolted on, not built in.", body: "A real AI app runs on all three at once, but only the guardrail is an attempt to control the model, and it sits on top because no one can reach inside the trained behavior and fix it directly. That\u2019s why control stays partial: a bolted-on layer catches some things and misses others." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(scenarioIdx + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup))),
-          /*#__PURE__*/React.createElement(QuizBlock, {
-            key: scenarioIdx,
-            surface: "mint",
-            statement: "Which would have stopped it?",
-            totalQuestions: RULE_PATTERN_SCENARIOS.length,
-            options: sc.options,
-            picked: scenarioAnswer != null ? scenarioAnswer : undefined,
-            onAnswer: function(idx) { setScenarioAnswer(idx); }
-          })))),
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(scenarioAnswers).length, total: RULE_PATTERN_SCENARIOS.length })
+    , lead: "In this exercise, you’ll see a negative event. Your challenge is to identify what would have stopped it: a fixed rule, a learned pattern, or a guardrail."},
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        RULE_PATTERN_SCENARIOS.map(function(sc, si) {
+          var picked = scenarioAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup))),
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: si,
+              surface: "mint",
+              statement: "Which would have stopped it?",
+              totalQuestions: RULE_PATTERN_SCENARIOS.length,
+              options: sc.options,
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+            }));
+        }))),
+    Object.keys(scenarioAnswers).length >= RULE_PATTERN_SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Guardrails are bolted on, not built in.", body: "A real AI app runs on all three at once, but only the guardrail is an attempt to control the model, and it sits on top because no one can reach inside the trained behavior and fix it directly. That’s why control stays partial: a bolted-on layer catches some things and misses others." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenarioIdx >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: What AI Does Best" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: What AI Does Best" }));
 }
 function PronounAttentionTryIt(props) {
   var CLAIMS = [
@@ -4098,9 +4087,7 @@ function HowAIReadsSection(props) {
   );
 }
 function BiasQuiz(props) {
-  const [biasIdx, setBiasIdx] = useState(0);
-  const [biasGuess, setBiasGuess] = useState(null);
-  const [biasStarted, setBiasStarted] = useState(true);
+  const [biasAnswers, setBiasAnswers] = useState({});
   const biasScenarios = [
     {
       icon: "\uD83D\uDC3A",
@@ -4183,53 +4170,42 @@ function BiasQuiz(props) {
     ["Biased labels became the rule.", "No one wrote that rule.", "Pattern fit, not merit."],
     ["Not a coded rule.", "Most documented became default.", "That\u2019s the bias talking."]
   ];
-  var bs = biasScenarios[Math.min(biasIdx, biasScenarios.length - 1)];
-  var bsHeadlines = biasHeadlines[Math.min(biasIdx, biasScenarios.length - 1)];
-  var isLastBias = biasIdx === biasScenarios.length - 1;
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "What Did the Model Actually Learn?",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(biasIdx + (biasStarted ? 1 : 0), biasScenarios.length), total: biasScenarios.length })
-  , lead: "A model only learns from the data it’s fed, flaws and all. For each case, pick what actually shaped the model."},
-    /*#__PURE__*/React.createElement(RevealSequence, {
+  var biasAllAnswered = Object.keys(biasAnswers).length >= biasScenarios.length;
+  useEffect(function() { if (biasAllAnswered && props.onComplete) props.onComplete(); }, [biasAllAnswered]);
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
       surface: "mint",
-      items: biasScenarios,
-      currentIdx: biasIdx,
-      started: biasStarted,
-      onStart: function() { setBiasStarted(true); },
-      onNext: function() {
-        if (isLastBias && props && props.onComplete) props.onComplete();
-        setBiasIdx(function(i) { return i + 1; });
-        setBiasGuess(null);
-      },
-      canAdvance: biasGuess !== null,
-      isComplete: biasIdx >= biasScenarios.length,
-      startLabel: "See First Scenario",
-      nextLabel: "Next Scenario \u2192",
-      finishLabel: "Wrap it up \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or carries biased labels, the model repeats those patterns. It isn\u2019t asking \u201Cis this fair?\u201D It\u2019s asking \u201Cwhat pattern fits?\u201D So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(biasIdx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
-              /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
-            /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: 0 } }, bs.scenario))),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: biasIdx,
-          surface: "mint",
-          statement: bs.question,
-          totalQuestions: biasScenarios.length,
-          options: bs.choices.map(function(choice, i) {
-            var isCorrect = i === bs.correct;
-            return { label: choice.text, correct: isCorrect, headline: bsHeadlines[i], feedback: choice.explain, hint: isCorrect ? undefined : choice.explain };
-          }),
-          picked: biasGuess != null ? biasGuess : undefined,
-          onAnswer: function(idx) { setBiasGuess(idx); }
-        }))));
+      title: "What Did the Model Actually Learn?",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(biasAnswers).length, total: biasScenarios.length })
+    , lead: "A model only learns from the data it’s fed, flaws and all. For each case, pick what actually shaped the model."},
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        biasScenarios.map(function(bs, si) {
+          var picked = biasAnswers[si];
+          var bsHeadlines = biasHeadlines[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
+                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)" } }, bs.title)),
+                /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: 0 } }, bs.scenario))),
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: si,
+              surface: "mint",
+              statement: bs.question,
+              totalQuestions: biasScenarios.length,
+              options: bs.choices.map(function(choice, i) {
+                var isCorrect = i === bs.correct;
+                return { label: choice.text, correct: isCorrect, headline: bsHeadlines[i], feedback: choice.explain, hint: isCorrect ? undefined : choice.explain };
+              }),
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setBiasAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+            }));
+        }))),
+    biasAllAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or carries biased labels, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
 }
 function TrainingBiasSection(props) {
   const [biasComplete, setBiasComplete] = useState(false);
@@ -6867,9 +6843,7 @@ const CT_CONCEPTS = [{
   }
 }];
 function CriticalThinkingSection(props) {
-  const [active101, setActive101] = useState(0);
-  const [problemAnswer, setProblemAnswer] = useState(null);
-  const [started101, setStarted101] = useState(true);
+  const [problemAnswers, setProblemAnswers] = useState({});
   const CT_101 = [{
     label: "Ice cream & drowning",
     icon: "\uD83C\uDF66",
@@ -6959,51 +6933,40 @@ function CriticalThinkingSection(props) {
     reality: "The 95% probably IS accurate. But the gym is measuring its current members, not everyone who ever joined. The people who weren\u2019t getting fit got frustrated and quit. The people who are fit kept paying. The number measures who self-selected to stay, not who got transformed.",
     lesson: "Watch out for stats that only count who\u2019s left. The sample is filtered. Always ask: who got measured, and who got left out?"
   }];
-  const ex101 = CT_101[active101] || CT_101[CT_101.length - 1];
-  const [activeConcept, setActiveConcept] = useState(0);
-  const [habitAnswer, setHabitAnswer] = useState(null);
-  const [started5Habits, setStarted5Habits] = useState(true);
-  const ct = CT_CONCEPTS[activeConcept] || CT_CONCEPTS[CT_CONCEPTS.length - 1];
+  const [habitAnswers, setHabitAnswers] = useState({});
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "A sharper question gets you a better answer, but not a guaranteed one. ", /*#__PURE__*/React.createElement("strong", null, "Critical thinking"), " is what you do with the answer that comes back: not taking it at face value. AI makes you faster at both good work and bad work, and the difference is whether you question the output before you use it."),
   /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking is the habit of not taking information at face value. It is the process of actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t \u201Cdon\u2019t trust anything,\u201D either. It\u2019s the habit of asking what would have to be true for a claim to hold up."),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Critical thinking isn’t new to you." }, "You already catch weak reasoning in everyday claims without trying. The real skill is running that same check on AI, which is built to sound right."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Spot the Problem",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(active101 + (started101 ? 1 : 0), CT_101.length), total: CT_101.length })
-  , lead: "This isn\u2019t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "mint",
-      items: CT_101,
-      currentIdx: active101,
-      started: started101,
-      onStart: function() { setStarted101(true); },
-      onNext: function() { setActive101(active101 + 1); setProblemAnswer(null); },
-      canAdvance: problemAnswer !== null,
-      isComplete: active101 >= CT_101.length,
-      startLabel: "First Problem",
-      nextLabel: "Next Problem \u2192",
-      finishLabel: "See the Wrap-up \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught eight shaky claims on instinct. The hard part is using that same instinct when AI\u2019s answer sounds confident and clean." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(active101 + 1).padStart(2, "0")),
-        /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ex101.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ex101.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ex101.claim))),
-      /*#__PURE__*/React.createElement(QuizBlock, {
-        key: active101,
-        surface: "mint",
-        statement: "What\u2019s the problem with this claim?",
-        totalQuestions: CT_101.length,
-        options: ex101.options,
-        picked: problemAnswer != null ? problemAnswer : undefined,
-        onAnswer: function(idx) { setProblemAnswer(idx); }
-      })))),
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(problemAnswers).length, total: CT_101.length })
+  , lead: "This isn’t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      CT_101.map(function(sc, si) {
+        var picked = problemAnswers[si];
+        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, sc.label)),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.claim))),
+          /*#__PURE__*/React.createElement(QuizBlock, {
+            key: si,
+            surface: "mint",
+            statement: "What’s the problem with this claim?",
+            totalQuestions: CT_101.length,
+            options: sc.options,
+            picked: picked != null ? picked : undefined,
+            onAnswer: function(idx) { setProblemAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+          }));
+      }))),
+  Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught eight shaky claims on instinct. The hard part is using that same instinct when AI’s answer sounds confident and clean." })) : null,
     /*#__PURE__*/React.createElement(BodyP, null, "You just practiced spotting weak reasoning in any claim. These five habits are how you run that instinct on AI output, every time, before you trust it."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -7055,45 +7018,37 @@ function CriticalThinkingSection(props) {
     variant: "try",
     surface: "mint",
     title: "Interrogate the Output",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(activeConcept + (started5Habits ? 1 : 0), CT_CONCEPTS.length), total: CT_CONCEPTS.length })
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(habitAnswers).length, total: CT_CONCEPTS.length })
   , lead: "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."},
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "mint",
-      items: CT_CONCEPTS,
-      currentIdx: activeConcept,
-      started: started5Habits,
-      onStart: function() { setStarted5Habits(true); },
-      onNext: function() { setActiveConcept(activeConcept + 1); setHabitAnswer(null); },
-      canAdvance: habitAnswer !== null,
-      isComplete: activeConcept >= CT_CONCEPTS.length,
-      startLabel: "First Trap \u2192",
-      nextLabel: "Next Trap \u2192",
-      finishLabel: "All five spotted \u2192",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "In real life, the trap isn\u2019t labeled.", body: "Each scenario hid one weak spot. AI won\u2019t tell you which habit a given answer needs, so running the checks is on you." })
-    },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(activeConcept + 1).padStart(2, "0")),
-        /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ct.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
-            /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
-            /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response })))),
-      /*#__PURE__*/React.createElement(QuizBlock, {
-        key: activeConcept,
-        surface: "mint",
-        statement: ct.scenario.question,
-        totalQuestions: CT_CONCEPTS.length,
-        options: ct.scenario.options,
-        picked: habitAnswer != null ? habitAnswer : undefined,
-        onAnswer: function(idx) { setHabitAnswer(idx); }
-      })))),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      CT_CONCEPTS.map(function(ct, si) {
+        var picked = habitAnswers[si];
+        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ct.label)),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
+                /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
+                /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response })))),
+          /*#__PURE__*/React.createElement(QuizBlock, {
+            key: si,
+            surface: "mint",
+            statement: ct.scenario.question,
+            totalQuestions: CT_CONCEPTS.length,
+            options: ct.scenario.options,
+            picked: picked != null ? picked : undefined,
+            onAnswer: function(idx) { setHabitAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+          }));
+      }))),
+  Object.keys(habitAnswers).length >= CT_CONCEPTS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "In real life, the trap isn’t labeled.", body: "Each scenario hid one weak spot. AI won’t tell you which habit a given answer needs, so running the checks is on you." })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: active101 >= CT_101.length - 1 && problemAnswer !== null && habitAnswer !== null, onClick: () => props.completeAndNavigate && props.completeAndNavigate("creativethinking"), label: "Next: Creative Thinking" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length && Object.keys(habitAnswers).length >= CT_CONCEPTS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("creativethinking"), label: "Next: Creative Thinking" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -10034,9 +9989,7 @@ function PrivacySection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactIdx >= REDACT_SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow"), label: "Next: The Full Loop" }));
 }
 function WhenAIJudgesSection(props) {
-  const [permIdx, setPermIdx] = useState(0);
-  const [permAnswer, setPermAnswer] = useState(null);
-  const [startedPerms, setStartedPerms] = useState(true);
+  const [permAnswers, setPermAnswers] = useState({});
   const SCENARIOS = [{
     icon: "\uD83D\uDEA8",
     setup: "Your English teacher emails you that your essay got flagged by an AI detector with a 73% score. You wrote every word yourself. She wants to talk after class tomorrow.",
@@ -10078,7 +10031,6 @@ function WhenAIJudgesSection(props) {
       { label: "Put white-text keywords in your resume to game the AI.", correct: false, headline: "That's a known disqualifier.", hint: "Hidden-keyword tricks are well known, and modern screens often catch them, which can get you tossed outright. Gaming a system you can't see is risky. What's the move that doesn't hand them a reason to pass?", feedback: "This is a known trick. It\u2019s also a known disqualifier when caught, and modern screens often catch it. Same goes for AI-generated cover letters that ramble in giveaway ways. Don\u2019t hand the system a reason to pass on you." }
     ]
   }];
-  const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aijudges" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -10209,47 +10161,37 @@ function WhenAIJudgesSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "What\u2019s Your Move?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(permIdx + (startedPerms ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
+      title: "What’s Your Move?",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(permAnswers).length, total: SCENARIOS.length })
     , lead: "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."},
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: SCENARIOS,
-        currentIdx: permIdx,
-        started: startedPerms,
-        onStart: function() { setStartedPerms(true); },
-        onNext: function() { setPermIdx(permIdx + 1); setPermAnswer(null); },
-        canAdvance: permAnswer !== null,
-        isComplete: permIdx >= SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Five questions. Every system. Every time.", body: "You won\u2019t always get clear answers. The questions still work. A system that won\u2019t tell you who\u2019s responsible is telling you something." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(permIdx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: permIdx,
-          surface: "mint",
-          statement: "What\u2019s your move?",
-          totalQuestions: SCENARIOS.length,
-          options: ps.options,
-          picked: permAnswer != null ? permAnswer : undefined,
-          onAnswer: function(idx) { setPermAnswer(idx); }
-        })))),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SCENARIOS.map(function(ps, si) {
+          var picked = permAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: si,
+              surface: "mint",
+              statement: "What’s your move?",
+              totalQuestions: SCENARIOS.length,
+              options: ps.options,
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+            }));
+        }))),
+    Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Five questions. Every system. Every time.", body: "You won’t always get clear answers. The questions still work. A system that won’t tell you who’s responsible is telling you something." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("computecost"), label: "Next: The Hidden Cost" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(permAnswers).length >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("computecost"), label: "Next: The Hidden Cost" }));
 }
 function SyntheticMediaSection(props) {
-  const [permIdx, setPermIdx] = useState(0);
-  const [permAnswer, setPermAnswer] = useState(null);
-  const [startedPerms, setStartedPerms] = useState(true);
+  const [permAnswers, setPermAnswers] = useState({});
   const SCENARIOS = [{
     icon: "\uD83D\uDCDE",
     setup: "You get a voicemail that sounds exactly like your mom. She says she\u2019s locked out at work and needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
@@ -10291,7 +10233,6 @@ function SyntheticMediaSection(props) {
       { label: "Show the screenshot to other friends to ask if they think it looks real.", correct: false, headline: "Don't spread it further.", hint: "Passing it around means a bunch of people are reacting to something that might be fake, before you've even talked to your best friend. That does damage no matter how it turns out. Who should you actually be asking first?", feedback: "Now multiple people are reacting to a screenshot that may not be real. The friendship is in everyone else\u2019s mouths before you\u2019ve even talked to your best friend. Whatever the truth turns out to be, you\u2019ve already done damage." }
     ]
   }];
-  const ps = SCENARIOS[Math.min(permIdx, SCENARIOS.length - 1)];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "faketrap" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -10354,42 +10295,34 @@ function SyntheticMediaSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "What\u2019s Your Move?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(permIdx + (startedPerms ? 1 : 0), SCENARIOS.length), total: SCENARIOS.length })
-    , lead: "Time to practice. Each scenario shows something that looks convincing. Pick the move you\u2019d actually make."},
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: SCENARIOS,
-        currentIdx: permIdx,
-        started: startedPerms,
-        onStart: function() { setStartedPerms(true); },
-        onNext: function() { setPermIdx(permIdx + 1); setPermAnswer(null); },
-        canAdvance: permAnswer !== null,
-        isComplete: permIdx >= SCENARIOS.length,
-        startLabel: "First Scenario",
-        nextLabel: "Next Scenario \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Source. Context. Corroboration.", body: "Run anything you\u2019re about to react to through the three checks. Slowing down by a minute is almost always the right call." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(permIdx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: permIdx,
-          surface: "mint",
-          statement: "What\u2019s your move?",
-          totalQuestions: SCENARIOS.length,
-          options: ps.options,
-          picked: permAnswer != null ? permAnswer : undefined,
-          onAnswer: function(idx) { setPermAnswer(idx); }
-        })))),
+      title: "What’s Your Move?",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(permAnswers).length, total: SCENARIOS.length })
+    , lead: "Time to practice. Each scenario shows something that looks convincing. Pick the move you’d actually make."},
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SCENARIOS.map(function(ps, si) {
+          var picked = permAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: si,
+              surface: "mint",
+              statement: "What’s your move?",
+              totalQuestions: SCENARIOS.length,
+              options: ps.options,
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+            }));
+        }))),
+    Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Source. Context. Corroboration.", body: "Run anything you’re about to react to through the three checks. Slowing down by a minute is almost always the right call." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permIdx >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(permAnswers).length >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
 }
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
@@ -10648,9 +10581,7 @@ function FullWorkflowSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: wfAllCorrect, onClick: () => props.completeAndNavigate && props.completeAndNavigate("howwegothere"), label: "Next: How We Got Here" }));
 }
 function QuestionsValuableSection(props) {
-  const [upgradeIdx, setUpgradeIdx] = useState(0);
-  const [upgradeAnswer, setUpgradeAnswer] = useState(null);
-  const [startedUpgrade, setStartedUpgrade] = useState(true);
+  const [upgradeAnswers, setUpgradeAnswers] = useState({});
   const UPGRADE_SCENARIOS = [{
     weak: "What should I do for my project?",
     options: [
@@ -10687,7 +10618,6 @@ function QuestionsValuableSection(props) {
       { label: "Is Harvard a good college?", correct: false, headline: "Specific, wrong question.", hint: "This is specific, but it asks about one school instead of helping you find the right ones for you. Even a clear 'yes' teaches you nothing about your own search. Is that the question that actually helps?", feedback: "Specific but the wrong question. You\u2019re asking about one school instead of getting help finding the right ones for you. AI says \u2018yes Harvard is good\u2019 and you\u2019ve learned nothing about your actual college search." }
     ]
   }];
-  const us = UPGRADE_SCENARIOS[Math.min(upgradeIdx, UPGRADE_SCENARIOS.length - 1)];
   var VALUABLE = [
     { icon: "\uD83C\uDFAF", title: "Frames the problem", desc: "Most bad AI output starts with a fuzzy question. Naming what actually needs to be solved is half the work." },
     { icon: "\uD83D\uDCCF", title: "Sets constraints", desc: "\u201CDo it well\u201D isn\u2019t a spec. Deciding the audience, the format, the limits, and what to leave out shapes everything that comes back." },
@@ -10735,38 +10665,30 @@ function QuestionsValuableSection(props) {
       variant: "try",
       surface: "mint",
       title: "Pick the Stronger Question",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(upgradeIdx + (startedUpgrade ? 1 : 0), UPGRADE_SCENARIOS.length), total: UPGRADE_SCENARIOS.length })
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(upgradeAnswers).length, total: UPGRADE_SCENARIOS.length })
     , lead: "Your turn. Each one starts with a weak question. Pick the version that actually helps. Some just pile on words. Others are sharp but aimed at the wrong thing. Only one frames the real problem."},
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "mint",
-        items: UPGRADE_SCENARIOS,
-        currentIdx: upgradeIdx,
-        started: startedUpgrade,
-        onStart: function() { setStartedUpgrade(true); },
-        onNext: function() { setUpgradeIdx(upgradeIdx + 1); setUpgradeAnswer(null); },
-        canAdvance: upgradeAnswer !== null,
-        isComplete: upgradeIdx >= UPGRADE_SCENARIOS.length,
-        startLabel: "First Question",
-        nextLabel: "Next Question \u2192",
-        finishLabel: "Wrap it up \u2192",
-        completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Specific isn't the same as right.", body: "The strongest questions frame the real problem and define what a good answer looks like. That's the part AI can't do for you." })
-      },
-        /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(upgradeIdx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement(UserBubble, { text: us.weak, align: "left", label: "Weak prompt" }))),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: upgradeIdx,
-          surface: "mint",
-          statement: "Which version asks the right question?",
-          totalQuestions: UPGRADE_SCENARIOS.length,
-          options: us.options,
-          picked: upgradeAnswer != null ? upgradeAnswer : undefined,
-          onAnswer: function(idx) { setUpgradeAnswer(idx); }
-        })))),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        UPGRADE_SCENARIOS.map(function(us, si) {
+          var picked = upgradeAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                /*#__PURE__*/React.createElement(UserBubble, { text: us.weak, align: "left", label: "Weak prompt" }))),
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: si,
+              surface: "mint",
+              statement: "Which version asks the right question?",
+              totalQuestions: UPGRADE_SCENARIOS.length,
+              options: us.options,
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setUpgradeAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+            }));
+        }))),
+    Object.keys(upgradeAnswers).length >= UPGRADE_SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Specific isn’t the same as right.", body: "The strongest questions frame the real problem and define what a good answer looks like. That’s the part AI can’t do for you." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: upgradeIdx >= UPGRADE_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(upgradeAnswers).length >= UPGRADE_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
   );
 }
 function HumanEdgeSection(props) {

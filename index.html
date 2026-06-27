@@ -1599,7 +1599,6 @@ const SECTION_META = {
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "AI ISN’T MAGIC", label: "How We Got Here", icon: "\uD83D\uDCDC" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "AI is Different", icon: "\u26A1" },
-  norules: { kicker: "NOBODY PROGRAMMED THIS", label: "Harder to Control", icon: "\uD83D\uDCE6" },
   openerinside: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
@@ -3451,8 +3450,9 @@ function ControlSection(props) {
     }));
 }
 function AIvsCodeSection(props) {
-  const [quizDone, setQuizDone] = useState(false);
-  // Static (was a click-through SEE IT): render the final, fully-revealed state.
+  const [part1Answers, setPart1Answers] = useState({});
+  const [part2Answers, setPart2Answers] = useState({});
+  // Fixed Rules vs Patterns box renders fully revealed (was a click-through SEE IT).
   var revealStep = 2, setRevealStep = function() {};
   var askCount = 2, setAskCount = function() {};
   var seeComplete = true, setSeeComplete = function() {};
@@ -3470,42 +3470,95 @@ function AIvsCodeSection(props) {
       { label: "Traditional software", correct: false, headline: "No rule fits this.", feedback: "Traditional software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tie in a pile of unlabeled images is exactly AI’s kind of job." },
       { label: "AI", correct: true, headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tie in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes her across angles and lighting and pulls every shot. Just glance before you send: it can only find her where she actually appears, and a look-alike could sneak in." } ] }
   ];
+  const RULE_PATTERN_SCENARIOS = [{
+    setup: "A signup form accepts a birthdate showing the user is 12 years old on a platform with an 18+ policy.",
+    options: [
+      { label: "Rule", correct: true, headline: "It's a rule.", feedback: "A fixed age check at signup would have caught this every time. The system asks for date of birth, compares it to the requirement, and blocks or allows. Same input, same output, no learning needed." },
+      { label: "Pattern", correct: false, headline: "Patterns learn too slowly here.", hint: "A pattern only gets sharp after it has seen lots of examples, so the very first underage signup still slips through. What kind of check would catch it on day one, before anything has been learned?", feedback: "A pattern-based system could learn to spot fake underage accounts after seeing many examples, but the first underage user would still slip through. A simple written age check stops every signup at the door." },
+      { label: "Guardrail", correct: false, headline: "Guardrails are for outputs.", hint: "Guardrails sit on top of an AI to block what it generates. Is this really about something an AI produced, or about who gets let in the door?", feedback: "Guardrails block unsafe AI outputs. The underage signup problem isn’t about what AI generates. It’s about who’s allowed in. A written rule handles that." }
+    ]
+  }, {
+    setup: "ChatGPT gives a student step-by-step instructions for building a dangerous weapon.",
+    options: [
+      { label: "Rule", correct: false, headline: "Too many to write down.", hint: "Picture the actual written check. Would someone really list every dangerous thing the AI must refuse to explain? When the risk is in what the AI says back, a fixed list can’t cover it.", feedback: "It would feel like a rule, but no one can write a fixed list of every dangerous request. The fix is a safety layer trained to recognize the shape of a harmful how-to and shut it down. That’s a guardrail." },
+      { label: "Pattern", correct: false, headline: "The pattern is the problem.", hint: "The model's pattern matching is exactly what assembled those instructions, so here the pattern is the cause, not the cure. If the model can produce that on its own, what would a company add to stop it?", feedback: "The model can pattern-match its way to dangerous instructions from its training data, which is exactly the problem here. The pattern doesn’t stop the harmful answer. A guardrail the company adds on top does." },
+      { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer on top of the model recognizes requests for dangerous how-to instructions and refuses them. The model was trained on enough text to attempt an answer. The guardrail is the company saying it won’t help with this." }
+    ]
+  }, {
+    setup: "A malicious email impersonating your school’s tech support slips into students’ inboxes for hours before being caught.",
+    options: [
+      { label: "Rule", correct: false, headline: "Fixed rules can't keep up.", hint: "A fixed rule like 'block the word verify' stops working the second a phisher writes 'verifyy.' Phishing keeps changing shape. What kind of system keeps up with variations no one wrote down ahead of time?", feedback: "A rule like ‘block emails with the word verify’ stops working the moment phishers spell it ‘verifyy.’ Phishing keeps mutating, so a fixed rule misses each new variation. A learned pattern adapts." },
+      { label: "Pattern", correct: true, headline: "It's a pattern.", feedback: "Phishers change tactics constantly. A pattern detector trained on billions of phishing examples recognizes the shape of the new variation faster than a human team writing rules. The few hours of delay is the pattern detector catching up." },
+      { label: "Guardrail", correct: false, headline: "Guardrails are for outputs.", hint: "Guardrails block what an AI generates. But here the job is sorting mail that's coming in, not stopping something an AI produced. What kind of system is doing that sorting?", feedback: "Guardrails block unsafe AI outputs. Spam filtering is doing the core classification job on incoming email, not blocking what an AI generates. The fix here is a learned pattern, not a guardrail." }
+    ]
+  }, {
+    setup: "A checkout form accepts ‘ABCD1234’ as a credit card number and tries to charge it.",
+    options: [
+      { label: "Rule", correct: true, headline: "It's a rule.", feedback: "A fixed math check (the Luhn algorithm) on every card number would have caught this instantly. The math rejects anything that isn’t a valid card number. Same input, same output, every time." },
+      { label: "Pattern", correct: false, headline: "Patterns need examples first.", hint: "A pattern would need to see piles of fake cards before it learned the look of a fake one. But 'ABCD1234' fails a simple math test on the very first try. Does catching it really need any learning?", feedback: "A pattern-based system would have to see many examples of fake cards to learn what fake cards look like. The Luhn check is exact math that catches the very first invalid card." },
+      { label: "Guardrail", correct: false, headline: "No AI involved here.", hint: "Guardrails are about controlling what an AI generates. Does validating a credit card number involve an AI at all? Look at what is actually checking the number.", feedback: "Guardrails block unsafe AI outputs. Card validation has nothing to do with AI behavior. It’s a pure math rule running on the card number itself." }
+    ]
+  }, {
+    setup: "Someone uses an AI image tool to generate a harmful fake image of a classmate.",
+    options: [
+      { label: "Rule", correct: false, headline: "Too broad for a rule.", hint: "There's no clean written rule like 'never make any image,' since making images is the whole point of the tool. The block here has to target one specific kind of misuse. Is a blanket rule the right shape for that?", feedback: "There’s no fixed rule like ‘never generate any explicit content.’ The model can generate plenty of images. The block needed here is targeted at this specific kind of misuse, which is exactly what a guardrail does." },
+      { label: "Pattern", correct: false, headline: "The pattern is the cause.", hint: "The patterns the model learned (how faces and bodies look) are exactly what let it make the image in the first place. That's the cause, not the cure. What would a company put around the model to block this specific output?", feedback: "The pattern is what the model learned from training data: how faces work, how bodies work, how scenes look. That’s the problem, not the fix. The fix is a safety layer the company puts around what the model is allowed to actually output." },
+      { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer specifically for face-swap and explicit content involving real people, especially minors, would have blocked the request before the output shipped. The model is capable of generating it. The guardrail is the company refusing to let it." }
+    ]
+  }];
+  var part1AllAnswered = Object.keys(part1Answers).length >= FIT_SCENARIOS.length;
+  var part2AllAnswered = Object.keys(part2Answers).length >= RULE_PATTERN_SCENARIOS.length;
+  var partHeader = function(label) {
+    return /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--tryAccent)", marginBottom: 6 } }, label);
+  };
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "You’ve already learned that AI is based on Patterns. This is different from traditional software, like Microsoft Word or the calculator on your phone."
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "We all know that AI is taking the world by storm. That’s because AI has superpowers that no other computer program ever written has. In this lesson, you’ll learn about those superpowers, and how they exist."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Traditional software uses rules that a human typed out: ",
-      /*#__PURE__*/React.createElement("strong", null, "if"),
-      " your passcode matches, ",
-      /*#__PURE__*/React.createElement("strong", null, "then"),
-      " the phone unlocks; ",
-      /*#__PURE__*/React.createElement("strong", null, "otherwise"),
-      " it just shakes and asks again."
+      "The best way to understand this is by comparing AI to non-AI software, like the calculator app on your phone or Microsoft Excel. We’ll call non-AI programs ",
+      /*#__PURE__*/React.createElement("strong", null, "Traditional Software"),
+      " in this lesson."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI is different. A programmer doesn’t write the rules."
+      "To write traditional software, a programmer writes code line-by-line. What becomes the calculator on your phone is actually zillions of lines of code. The essential idea behind traditional code is rules, best expressed as ",
+      /*#__PURE__*/React.createElement("strong", null, "IF-THEN-ELSE"),
+      " statements. Here’s what that looks like."
     ),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 8 },
-      "Here’s a cooking analogy that might help."
+    /*#__PURE__*/React.createElement(InnerCard, { style: { marginBottom: 20 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.9, color: "var(--ink)" } },
+        /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "IF"), " the password matches"),
+        /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "THEN"), " open the app"),
+        /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "ELSE"), " show message “password not found”"))),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "This is an important point: traditional software is based on ",
+      /*#__PURE__*/React.createElement("strong", null, "RULES"),
+      "."
+    ),
+    /*#__PURE__*/React.createElement(BodyP, null, "You’ve already seen that AI is different:"),
+    /*#__PURE__*/React.createElement(CoreLoopBox, null),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "AI isn’t based on rules, it’s based on learned patterns. Wrapping your head around this is important, so here’s a cooking analogy."
     ),
     /*#__PURE__*/React.createElement("ul", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 24px 0", paddingLeft: 22 } },
       /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        /*#__PURE__*/React.createElement("strong", null, "Traditional software is like a recipe in a cookbook:"), " someone wrote every step, and it makes exactly the dish it was written for."),
+        /*#__PURE__*/React.createElement("strong", null, "Traditional software is like a recipe in a cookbook:"), " someone wrote every step, and it makes the same exact dish every time."),
       /*#__PURE__*/React.createElement("li", null,
         /*#__PURE__*/React.createElement("strong", null, "AI is like a chef:"), " no one handed them a cookbook. They learned by cooking thousands of dishes, so they can handle one they’ve never made. Same kitchen, completely different way to get to dinner.")
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That difference shows up everywhere: how each one solves a problem, how it reaches an answer, how it fails, and whether you can even trace why."
     ),
-    /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like in action."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "RULES VS PATTERNS"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Here’s what this means when you ask, “What’s the best game for my new PS5?” Traditional software returns a preset list, because a programmer told it to. AI builds each answer from patterns."
+    ),
     /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Fixed Rules vs. Built From Patterns" },
       /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What’s the best game for my new PS5?”")),
-      revealStep === 0 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-        /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(1); }, size: "large" }, "See Traditional Software Results →")) : /*#__PURE__*/React.createElement("div", null,
+      /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
           /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
@@ -3515,19 +3568,15 @@ function AIvsCodeSection(props) {
               "Returns the same preset list, no matter who asks or why."),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
               "Ask again → same list, every time.")),
-          revealStep >= 2 ? /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() { setAskCount(askCount + 1); }, onComplete: function() { setSeeComplete(true); } }) :
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "2px dashed var(--rule)", borderRadius: 12, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 14, fontWeight: 600 } }, "✨ Generative results..."))),
-        revealStep === 1 ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 20 } },
-          /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setRevealStep(2); }, size: "large" }, "See AI Results →")) : null,
-        seeComplete ? /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(Takeaway, { headline: "Same question. Different games.", body: "Three asks gave three different games, while traditional software returned the same fixed answer every time. One system builds each answer from patterns, the other just follows fixed rules. And because the answer is built fresh, there’s no rulebook line to point back to." })) : null)),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "THAT’S WHY AI EXPLODED"),
+          /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() {}, onComplete: function() {} })),
+        /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease" } },
+          /*#__PURE__*/React.createElement(Takeaway, { headline: "Same question. Different games.", body: "Three asks gave three different games, while traditional software returned the same fixed answer every time. One system builds each answer from patterns, the other just follows fixed rules. And because the answer is built fresh, there’s no rulebook line to point back to." })))),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "STRUCTURED VS UNSTRUCTURED DATA"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Handling the unfamiliar is something traditional software can’t do, and nearly everything impressive about AI grows from it."
+      "Because AI learns from patterns, it has a superpower traditional software can’t match. What you give it, and what it returns, doesn’t have to follow a set structure."
     ),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Rules are perfect when the situation is exact. They break the moment reality adds a variable no one wrote down."
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "A good example is how we wrote this lesson. We sketched out messy notes on a legal pad. We scratched through lines, drew arrows to move things around, the works. It was MESSY. Could we hand that to Microsoft Excel? No, it needs data in nice rows and columns. But AI is different. It takes our messy notes and turns them into whatever we ask for."
     ),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 28 } },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto auto", columnGap: 18, rowGap: 12 } },
@@ -3583,8 +3632,9 @@ function AIvsCodeSection(props) {
       )
       )
     ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "AI’S SUPERPOWERS"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Let’s talk about the SUPERPOWERs. Think of Superman. Flying, stopping a train, lifting a house, his powers are just the things no ordinary person can do."
+      "Think of Superman. Flying, stopping a train, lifting a house, his powers are just the things no ordinary person can do."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Traditional software is the ordinary person. It can only do what a human wrote into it. AI’s superpower is that no human wrote its abilities, so it can take on problems nobody ever spelled out a rule for."
@@ -3594,79 +3644,20 @@ function AIvsCodeSection(props) {
       alt: "Rules-based software following a fixed script beside AI recognizing patterns it was never explicitly taught",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "AI’S KRYPTONITE"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That still doesn’t make AI the better tool. When a job is exact and never changes, plain rules win every time. The real skill is telling which job is which."
+      "Even though Kryptonite isn’t a real mineral, you know the story. A human can hold Kryptonite, toss it in a backpack, whatever. Not Superman, for him it can be fatal."
     ),
-    /*#__PURE__*/React.createElement(ChoiceQuiz, { title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of traditional software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS, onComplete: function() { setQuizDone(true); } }),
-    /*#__PURE__*/React.createElement(BlackBoxSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate })
-  );
-}
-function TypingAICard(props) {
-  var responses = [
-    "Marvel’s Spider-Man 2 is a great pick. The open-world web-swinging across New York City feels incredible on the PS5, and you can switch between Peter Parker and Miles Morales mid-mission. It’s polished, fun, and easy to jump into.",
-    "NHL 26 is a solid pick. The skating physics feel sharper than last year, the goalies actually put up a fight on one-on-one breakaways, and franchise mode goes deep if you want to build a dynasty over a decade of seasons. Online play is fast and competitive.",
-    "God of War Ragnarok is a strong choice. It’s a cinematic action game with great combat, a serious story about Kratos and his son Atreus, and stunning visuals across the Nine Realms of Norse mythology. Expect 30+ hours of content."
-  ];
-  // Static (was a type-and-ask-again card): all three asks shown at once.
-  return /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
-    /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built From Patterns"),
-    responses.map(function(r, i) {
-      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#7c3aed", marginBottom: 4 } }, ["First ask", "Ask again", "Ask again"][i]),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b1f6e", lineHeight: 1.6 } }, r));
-    }));
-}
-function BlackBoxSection(props) {
-  const [scenarioAnswers, setScenarioAnswers] = useState({});
-  const RULE_PATTERN_SCENARIOS = [{
-    setup: "A signup form accepts a birthdate showing the user is 12 years old on a platform with an 18+ policy.",
-    options: [
-      { label: "Rule", correct: true, headline: "It's a rule.", feedback: "A fixed age check at signup would have caught this every time. The system asks for date of birth, compares it to the requirement, and blocks or allows. Same input, same output, no learning needed." },
-      { label: "Pattern", correct: false, headline: "Patterns learn too slowly here.", hint: "A pattern only gets sharp after it has seen lots of examples, so the very first underage signup still slips through. What kind of check would catch it on day one, before anything has been learned?", feedback: "A pattern-based system could learn to spot fake underage accounts after seeing many examples, but the first underage user would still slip through. A simple written age check stops every signup at the door." },
-      { label: "Guardrail", correct: false, headline: "Guardrails are for outputs.", hint: "Guardrails sit on top of an AI to block what it generates. Is this really about something an AI produced, or about who gets let in the door?", feedback: "Guardrails block unsafe AI outputs. The underage signup problem isn\u2019t about what AI generates. It\u2019s about who\u2019s allowed in. A written rule handles that." }
-    ]
-  }, {
-    setup: "ChatGPT gives a student step-by-step instructions for building a dangerous weapon.",
-    options: [
-      { label: "Rule", correct: false, headline: "Too many to write down.", hint: "Picture the actual written check. Would someone really list every dangerous thing the AI must refuse to explain? When the risk is in what the AI says back, a fixed list can\u2019t cover it.", feedback: "It would feel like a rule, but no one can write a fixed list of every dangerous request. The fix is a safety layer trained to recognize the shape of a harmful how-to and shut it down. That\u2019s a guardrail." },
-      { label: "Pattern", correct: false, headline: "The pattern is the problem.", hint: "The model's pattern matching is exactly what assembled those instructions, so here the pattern is the cause, not the cure. If the model can produce that on its own, what would a company add to stop it?", feedback: "The model can pattern-match its way to dangerous instructions from its training data, which is exactly the problem here. The pattern doesn\u2019t stop the harmful answer. A guardrail the company adds on top does." },
-      { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer on top of the model recognizes requests for dangerous how-to instructions and refuses them. The model was trained on enough text to attempt an answer. The guardrail is the company saying it won\u2019t help with this." }
-    ]
-  }, {
-    setup: "A malicious email impersonating your school\u2019s tech support slips into students\u2019 inboxes for hours before being caught.",
-    options: [
-      { label: "Rule", correct: false, headline: "Fixed rules can't keep up.", hint: "A fixed rule like 'block the word verify' stops working the second a phisher writes 'verifyy.' Phishing keeps changing shape. What kind of system keeps up with variations no one wrote down ahead of time?", feedback: "A rule like \u2018block emails with the word verify\u2019 stops working the moment phishers spell it \u2018verifyy.\u2019 Phishing keeps mutating, so a fixed rule misses each new variation. A learned pattern adapts." },
-      { label: "Pattern", correct: true, headline: "It's a pattern.", feedback: "Phishers change tactics constantly. A pattern detector trained on billions of phishing examples recognizes the shape of the new variation faster than a human team writing rules. The few hours of delay is the pattern detector catching up." },
-      { label: "Guardrail", correct: false, headline: "Guardrails are for outputs.", hint: "Guardrails block what an AI generates. But here the job is sorting mail that's coming in, not stopping something an AI produced. What kind of system is doing that sorting?", feedback: "Guardrails block unsafe AI outputs. Spam filtering is doing the core classification job on incoming email, not blocking what an AI generates. The fix here is a learned pattern, not a guardrail." }
-    ]
-  }, {
-    setup: "A checkout form accepts \u2018ABCD1234\u2019 as a credit card number and tries to charge it.",
-    options: [
-      { label: "Rule", correct: true, headline: "It's a rule.", feedback: "A fixed math check (the Luhn algorithm) on every card number would have caught this instantly. The math rejects anything that isn\u2019t a valid card number. Same input, same output, every time." },
-      { label: "Pattern", correct: false, headline: "Patterns need examples first.", hint: "A pattern would need to see piles of fake cards before it learned the look of a fake one. But 'ABCD1234' fails a simple math test on the very first try. Does catching it really need any learning?", feedback: "A pattern-based system would have to see many examples of fake cards to learn what fake cards look like. The Luhn check is exact math that catches the very first invalid card." },
-      { label: "Guardrail", correct: false, headline: "No AI involved here.", hint: "Guardrails are about controlling what an AI generates. Does validating a credit card number involve an AI at all? Look at what is actually checking the number.", feedback: "Guardrails block unsafe AI outputs. Card validation has nothing to do with AI behavior. It\u2019s a pure math rule running on the card number itself." }
-    ]
-  }, {
-    setup: "Someone uses an AI image tool to generate a harmful fake image of a classmate.",
-    options: [
-      { label: "Rule", correct: false, headline: "Too broad for a rule.", hint: "There's no clean written rule like 'never make any image,' since making images is the whole point of the tool. The block here has to target one specific kind of misuse. Is a blanket rule the right shape for that?", feedback: "There\u2019s no fixed rule like \u2018never generate any explicit content.\u2019 The model can generate plenty of images. The block needed here is targeted at this specific kind of misuse, which is exactly what a guardrail does." },
-      { label: "Pattern", correct: false, headline: "The pattern is the cause.", hint: "The patterns the model learned (how faces and bodies look) are exactly what let it make the image in the first place. That's the cause, not the cure. What would a company put around the model to block this specific output?", feedback: "The pattern is what the model learned from training data: how faces work, how bodies work, how scenes look. That\u2019s the problem, not the fix. The fix is a safety layer the company puts around what the model is allowed to actually output." },
-      { label: "Guardrail", correct: true, headline: "It's a guardrail.", feedback: "A safety layer specifically for face-swap and explicit content involving real people, especially minors, would have blocked the request before the output shipped. The model is capable of generating it. The guardrail is the company refusing to let it." }
-    ]
-  }];
-  return /*#__PURE__*/React.createElement("div", null,
-    props.embedded
-      ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "NOBODY PROGRAMMED THIS")
-      : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "norules" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You just saw the shift: AI runs on patterns it learned, not rules someone wrote. That\u2019s exactly what makes it harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written code."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
+      "AI has its own Kryptonite. It’s not fatal, but you need to be aware of it."
+    ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "AI runs on patterns it learned, not rules someone wrote. That’s exactly what makes it harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written rules."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "These failures do not happen because AI wants to break rules. They happen because no one wrote a rule for every situation, and the trained behavior keeps producing surprises."
     ),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "You\u2019ll see stories like this" },
+    /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "You’ll see stories like this" },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 } },
         [
           { icon: "💸", title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds, so fraud spreads faster and wider." },
@@ -3699,31 +3690,84 @@ function BlackBoxSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Rule, Pattern, or Guardrail?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(scenarioAnswers).length, total: RULE_PATTERN_SCENARIOS.length })
-    , lead: "In this exercise, you’ll see a negative event. Your challenge is to identify what would have stopped it: a fixed rule, a learned pattern, or a guardrail."},
+      title: "Rules, Patterns, and Guardrails",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(part1Answers).length + Object.keys(part2Answers).length, total: FIT_SCENARIOS.length + RULE_PATTERN_SCENARIOS.length }),
+      lead: "Two rounds. First, which kind of software fits the job. Then, once you’ve got that, what would have stopped each failure."
+    },
+      partHeader("Part I — Which One Handles This?"),
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 16 } }, "For each situation, pick which one would handle it better. Some need the rules and structure of traditional software. Others need the patterns and flexibility of AI."),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        RULE_PATTERN_SCENARIOS.map(function(sc, si) {
-          var picked = scenarioAnswers[si];
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup))),
-            /*#__PURE__*/React.createElement(QuizBlock, {
-              key: si,
-              surface: "mint",
-              statement: "Which would have stopped it?",
-              totalQuestions: RULE_PATTERN_SCENARIOS.length,
-              options: sc.options,
-              picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
-            }));
-        }))),
-    Object.keys(scenarioAnswers).length >= RULE_PATTERN_SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Guardrails are bolted on, not built in.", body: "A real AI app runs on all three at once, but only the guardrail is an attempt to control the model, and it sits on top because no one can reach inside the trained behavior and fix it directly. That’s why control stays partial: a bolted-on layer catches some things and misses others." })) : null,
+        FIT_SCENARIOS.map(function(sc, si) {
+          var viewing = part1Answers[si];
+          var answered = viewing !== undefined;
+          var opts = sc.options || [];
+          var picked = answered ? opts[viewing] : null;
+          var vCorrect = answered && picked && picked.correct;
+          var accent = vCorrect ? "#1f9d5f" : "#d4334a";
+          var eyebrow = answered ? (picked.correct ? "Correct" : "Not quite") : null;
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 18, marginTop: si === 0 ? 0 : 18, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 30, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, sc.prompt)),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "row", gap: 28, marginLeft: 46, marginTop: 14, flexWrap: "wrap" } },
+              opts.map(function(opt, oi) {
+                return /*#__PURE__*/React.createElement(ChoiceRadio, { key: oi, label: opt.label, picked: viewing === oi, correct: opt.correct, onClick: function() { setPart1Answers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); }); } });
+              })),
+            answered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
+                /*#__PURE__*/React.createElement("div", null,
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
+                    /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
+                    eyebrow),
+                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, picked.headline)),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, picked.feedback))) : null);
+        })),
+      part1AllAnswered
+        ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 28, animation: "fadeIn 0.4s ease" } },
+            partHeader("Part II — Which Would Have Stopped It?"),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 16 } }, "Each one is a negative event. Decide what would have stopped it: a fixed rule, a learned pattern, or a guardrail."),
+            /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+              RULE_PATTERN_SCENARIOS.map(function(sc, si) {
+                var picked = part2Answers[si];
+                return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+                    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+                    /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+                      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.setup))),
+                  /*#__PURE__*/React.createElement(QuizBlock, {
+                    key: si,
+                    surface: "mint",
+                    statement: "Which would have stopped it?",
+                    totalQuestions: RULE_PATTERN_SCENARIOS.length,
+                    options: sc.options,
+                    picked: picked != null ? picked : undefined,
+                    onAnswer: function(idx) { setPart2Answers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+                  }));
+              })))
+        : /*#__PURE__*/React.createElement("div", { style: { marginTop: 24, padding: "14px 18px", borderRadius: 12, background: "var(--bg)", border: "1px dashed var(--rule)", fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)", textAlign: "center" } }, "Answer all of Part I to unlock Part II.")
+    ),
+    part2AllAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "The superpower and the Kryptonite are the same thing.", body: "Learning from patterns is what lets AI handle the messy, unfamiliar jobs rules can’t touch, and it’s exactly why no one can fully control it. Rules, patterns, and guardrails each stop different failures, and only the guardrail is bolted on top, because no one can reach inside the trained behavior and fix it directly." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= RULE_PATTERN_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: What AI Does Best" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: part2AllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: What AI Does Best" })
+  );
+}
+function TypingAICard(props) {
+  var responses = [
+    "Marvel’s Spider-Man 2 is a great pick. The open-world web-swinging across New York City feels incredible on the PS5, and you can switch between Peter Parker and Miles Morales mid-mission. It’s polished, fun, and easy to jump into.",
+    "NHL 26 is a solid pick. The skating physics feel sharper than last year, the goalies actually put up a fight on one-on-one breakaways, and franchise mode goes deep if you want to build a dynasty over a decade of seasons. Online play is fast and competitive.",
+    "God of War Ragnarok is a strong choice. It’s a cinematic action game with great combat, a serious story about Kratos and his son Atreus, and stunning visuals across the Nine Realms of Norse mythology. Expect 30+ hours of content."
+  ];
+  // Static (was a type-and-ask-again card): all three asks shown at once.
+  return /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
+    /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built From Patterns"),
+    responses.map(function(r, i) {
+      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginBottom: 10 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#7c3aed", marginBottom: 4 } }, ["First ask", "Ask again", "Ask again"][i]),
+        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b1f6e", lineHeight: 1.6 } }, r));
+    }));
 }
 function PronounAttentionTryIt(props) {
   var CLAIMS = [

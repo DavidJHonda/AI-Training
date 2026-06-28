@@ -7231,48 +7231,25 @@ function WhatItDoesBestSection(props) {
       color: "#0d9488"
     }
   ];
-  const TASKS = [
-    {
-      task: "Turn my messy bullet-point outline into a clean essay draft.",
-      answer: "transform",
-      feedback: {
-        transform: "Right. Same content, new shape: bullets in, paragraphs out. The meaning is preserved; only the structure changes. That’s patterned transformation.",
-        variation: "There’s no ‘give me several versions’ move here. You want one clean draft from one outline, not options to choose between. That’s transformation.",
-        compression: "The task isn’t ‘long in, short out.’ The outline and the essay carry the same content. You’re reshaping it, not condensing it. That’s transformation.",
-        reasoning: "You’re not asking AI to weigh facts toward a judgment. The thinking is already in your outline; you just want it reshaped into prose. That’s transformation."
-      }
-    },
-    {
-      task: "Give me 5 different opening lines for my college essay.",
-      answer: "variation",
-      feedback: {
-        transform: "Nothing is being reshaped from one form into another. You want five fresh options from a short prompt. That’s generative variation.",
-        variation: "Right. Same prompt, five different samples, each one a slightly different roll of the dice. That’s generative variation.",
-        compression: "There’s no long input to condense. You want more output than input: several options. That’s variation.",
-        reasoning: "You’re not handing AI facts and criteria to reason through. You want a spread of options to react to. That’s variation."
-      }
-    },
-    {
-      task: "Take my 30-page lecture notes and condense them into a one-page study sheet.",
-      answer: "compression",
-      feedback: {
-        transform: "Close, but transformation keeps the same content in a new shape. Here you’re dropping most of it and keeping only what matters. That’s compression.",
-        variation: "There’s no ‘ten versions’ move. The task has one shape: long in, short out, keep the signal. That’s compression and retrieval.",
-        compression: "Right. Long input, short output, and the real work is deciding what matters. That’s semantic compression.",
-        reasoning: "You’re not weighing facts toward a decision. You’re shortening long material down to its core. That’s compression."
-      }
-    },
-    {
-      task: "Here are my three internship offers, with the pay, commute, and what I’d learn at each. Help me weigh the tradeoffs and recommend one.",
-      answer: "reasoning",
-      feedback: {
-        transform: "Nothing is being reshaped into a new format. You’re handing AI facts and criteria and asking it to think them through. That’s structured reasoning.",
-        variation: "You don’t want a spread of options. You already have the options. You want AI to reason across them toward a recommendation. That’s reasoning and synthesis.",
-        compression: "The input isn’t long text to condense. It’s a set of facts and tradeoffs to weigh against each other. That’s reasoning.",
-        reasoning: "Right. You gave it the facts, the constraints, and the goal, and asked it to work through them toward a judgment. That’s structured reasoning and synthesis. Just remember to check its logic."
-      }
-    }
+  const CLAIMS = [
+    { claim: "Need a single exact answer that comes out the same every time, like your final GPA? That’s a job for AI.", correct: "false", fb: {
+      ok: "Right, it’s false. An exact, always-the-same figure like a GPA is rule-based work. AI can slip on the math and may not return the same number twice. Use the tool that’s built to be exact.",
+      no: "Actually false. An exact, always-the-same figure like a GPA is rule-based work. AI can slip on the math and may not return the same number twice. Use the tool that’s built to be exact." } },
+    { claim: "Turning a messy outline into a clean draft plays to AI’s strengths.", correct: "true", fb: {
+      ok: "Right, it’s true. Same content, new shape. That’s patterned transformation, one of AI’s best fits.",
+      no: "Actually true. Same content, new shape. That’s patterned transformation, one of AI’s best fits." } },
+    { claim: "Asking for ten different angles on an essay topic is a good use of AI.", correct: "true", fb: {
+      ok: "Right, it’s true. You want options, not one fixed answer, and generating variety on demand is a core strength.",
+      no: "Actually true. You want options, not one fixed answer, and generating variety on demand is a core strength." } },
+    { claim: "AI summarized a long reading for you, so you can trust the summary without opening the original.", correct: "false", fb: {
+      ok: "Right, it’s false. Summarizing is a great fit, but AI can sound sure and still miss or invent a point. A good fit still gets a check.",
+      no: "Actually false. Summarizing is a great fit, but AI can sound sure and still miss or invent a point. A good fit still gets a check." } },
+    { claim: "Every task fits neatly into exactly one of AI’s strengths.", correct: "false", fb: {
+      ok: "Right, it’s false. Some jobs lean on two strengths at once, and some fit none of them. The skill is noticing which, not forcing a label.",
+      no: "Actually false. Some jobs lean on two strengths at once, and some fit none of them. The skill is noticing which, not forcing a label." } }
   ];
+  const TF_LABELS = { "true": "True", "false": "False" };
+  const TF_ORDER = ["true", "false"];
   return E("div", null,
     E(LessonHeader, { sectionId: "whatitdoesbest" }),
     E(BodyP, null,
@@ -7317,41 +7294,39 @@ function WhatItDoesBestSection(props) {
       "Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before."),
     E(BodyP, null,
       "But exposure has a limit. AI is often good at the common version of a task, not necessarily the true, current, personal, safest, or best version. That’s why your judgment still matters."),
-    E(KeyInsight, { lead: "Four strengths. A thousand uses." }, "Most useful AI tasks fit one or more of these shapes: transform a pattern, generate options, compress meaning, or reason through supplied context. The skill isn’t memorizing a hundred clever prompts. It’s spotting which strength the job needs, knowing when none of them fit, and checking the result before you trust it."),
+    E(KeyInsight, { lead: "Four strengths. A thousand uses." }, "The real skill isn’t memorizing a hundred clever prompts. It’s spotting which strength a job needs, noticing when none of them fit, and checking the result before you trust it."),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Match the Task to the Strength",
-     lead: "AI is strong at some kinds of work and weaker at others. Match each task to the strength it plays to."},
+      title: "Where does AI fit?",
+      lead: "AI is strong at some kinds of work and weak at others. True or false? Decide each, then check your reasoning."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        TASKS.map(function(t, tIdx) {
-          var picked = taskAnswers[tIdx];
+        CLAIMS.map(function(r, i) {
+          var picked = taskAnswers[i];
           var answered = picked !== undefined;
-          var correct = answered && picked === t.answer;
-          var feedback = answered ? t.feedback[picked] : null;
-          function PillButton(engine) {
-            var isPicked = picked === engine.id;
-            return E(FeedbackPill, {
-              key: engine.id,
-              answered: answered,
-              isCorrect: engine.id === t.answer,
-              isPicked: isPicked,
-              label: engine.name,
-              onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[tIdx, engine.id]])); }); }
-            });
-          }
+          var correct = answered && picked === r.correct;
+          var feedback = answered ? (correct ? r.fb.ok : r.fb.no) : null;
           return E(ScenarioRow, {
-            key: tIdx,
-            index: tIdx + 1,
-            prompt: t.task,
+            key: i,
+            index: i + 1,
+            prompt: r.claim,
             answered: answered,
             correct: correct,
             feedback: feedback
-          }, ENGINES.map(function(e) { return PillButton(e); }));
+          }, TF_ORDER.map(function(c) {
+            return E(FeedbackPill, {
+              key: c,
+              answered: answered,
+              isCorrect: c === r.correct,
+              isPicked: picked === c,
+              label: TF_LABELS[c],
+              onClick: function() { setTaskAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c; return u; }); }
+            });
+          }));
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: Object.keys(taskAnswers).length >= TASKS.length,
+      ready: Object.keys(taskAnswers).length >= CLAIMS.length,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("modelselection"); },
       label: "Next: Which App?"
     }));

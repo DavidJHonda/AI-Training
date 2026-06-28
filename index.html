@@ -479,8 +479,9 @@ function InteractiveBox(props) {
     }, props.children) : null
   );
   if (props.lead == null) return boxEl;
-  // The lead (kicker + priming paragraph) renders BEFORE the box, as a sibling, so it
-  // survives the NotebookLM/print view that hides the box itself.
+  // The lead (kicker + priming paragraph) renders BEFORE the box, as a sibling. On screen
+  // it primes the activity; in the content-only export it removes itself (see ActivityLead),
+  // so the hidden box leaves no orphaned "TRY IT" text behind in the PDF.
   return /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, labNumber: props.labNumber }, props.lead),
     boxEl);
@@ -491,9 +492,14 @@ function ActivityInstruction(props) {
   }, props.children);
 }
 // Primes a TRY IT / LAB just before its (eyebrow-less, "primed") box: an accent-colored
-// "TRY IT" / "LAB NN" kicker plus a purpose-and-task paragraph. Written to stand on its
-// own, since the interactive box is hidden from the NotebookLM/print view.
+// "TRY IT" / "LAB NN" kicker plus a purpose-and-task paragraph.
+// Dropped entirely from the content-only PDF/NotebookLM export (?print=...): the box is
+// already hidden there, so the kicker + priming paragraph would otherwise be a dangling
+// reference to an activity that isn't in the document.
 function ActivityLead(props) {
+  try {
+    if (typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print")) return null;
+  } catch (ex) {}
   var variant = props.variant === "lab" ? "lab" : "try";
   var accent = variant === "lab" ? "var(--labAccent)" : "var(--tryAccent)";
   var label = variant === "lab" ? ("LAB" + (props.labNumber ? " " + props.labNumber : "")) : "TRY IT";

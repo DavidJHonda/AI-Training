@@ -233,7 +233,7 @@ const LESSON_VIDEOS = {
   whybother: { src: "videos/does-school-matter.mp4", duration: "2 min", title: "Whether school still matters in the age of AI." },
   control: { src: "videos/what-you-can-control.mp4", duration: "3 min", title: "What about your future with AI is actually in your hands." },
   studying: { src: "videos/learn-with-ai.mp4", duration: "5 min", title: "How to turn AI into a study tool that actually works." },
-  openerfoundations: { src: "videos/understand-ai-opener.mp4", duration: "1 min", title: "A quick map of how AI really works, before we dig in." },
+  openerfoundations: { src: "videos/understand-ai-opener.mp4", duration: "1 min", title: "A quick map of how AI really works, before we dig in.", cta: "Then dig into the lessons in this section." },
   howwegothere: { src: "videos/how-we-got-here.mp4", duration: "3 min", title: "How four ideas became AI." },
   aivscode: { src: "videos/ai-is-different.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
   aiismath: { src: "videos/ai-is-math.mp4", duration: "4 min", title: "The handful of math ideas underneath everything AI does." },
@@ -241,6 +241,10 @@ const LESSON_VIDEOS = {
   embeddings: { src: "videos/embeddings.mp4", duration: "3 min", title: "How AI turns each token into numbers that capture its meaning." },
   attention: { src: "videos/transformer.mp4", duration: "4 min", title: "How AI reads your whole sentence at once to work out what each word means." }
 };
+// Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
+// Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
+// that don't end in a TRY IT).
+const WATCH_CTA_DEFAULT = "After watching, put it into practice with the TRY IT at the end of this lesson.";
 function LessonHeader(props) {
   var E = React.createElement;
   var sectionId = props.sectionId;
@@ -908,8 +912,8 @@ function WatchOverview(props) {
           E("span", { style: { color: "var(--primary)", fontSize: 11 } }, "▸"),
           E("span", { style: { color: "var(--primary)", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, "Watch"),
           v.duration ? E("span", { style: { color: "var(--inkMuted)", fontSize: 13 } }, "· " + v.duration) : null),
-        E("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2, marginBottom: 3 } }, "Prefer to watch?"),
-        v.title ? E("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.45 } }, v.title) : null)),
+        v.title ? E("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2, marginBottom: 3 } }, v.title) : null,
+        E("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.45 } }, v.cta || WATCH_CTA_DEFAULT))),
     open ? E("div", { style: { marginTop: 12 } }, E(WatchPlayer, { video: v })) : null);
 }
 function ActivityButton(props) {

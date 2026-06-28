@@ -7204,138 +7204,98 @@ function WhatItDoesBestSection(props) {
   const [taskAnswers, setTaskAnswers] = useState({});
   const ENGINES = [
     {
-      id: "pattern",
-      name: "Pattern matching",
-      tagline: "Patterns in, patterns out.",
-      mechanism: "Code is patterns. So is reformatting data, or turning an outline into prose. AI trained on millions of examples and learned each pattern. Hand it any input and it predicts the pattern that fits.",
-      powers: ["Coding", "Reformatting messy data", "Pulling fields out of documents", "Turning an outline into prose"],
+      id: "transform",
+      name: "Patterned transformation",
+      tagline: "Same meaning, new shape.",
+      mechanism: "AI is strong when you give it input and ask it to turn that input into a clearer, cleaner, or differently structured version. Code has patterns. So do outlines, messy notes, spreadsheets, emails, translations, and documents with repeated fields. When the target shape is clear, AI can transform the material fast.",
+      powers: ["Coding help", "Reformatting messy data", "Pulling fields out of documents", "Translation", "Turning an outline into prose", "Rewriting for a different audience"],
       color: "#3b82f6"
     },
     {
-      id: "exposure",
-      name: "Vast exposure",
-      tagline: "Seen a thousand of these before.",
-      mechanism: "Training gave AI more material than any human will read in a lifetime. So for most everyday questions, it has seen many versions of yours, and many examples of how good answers get shaped.",
-      powers: ["Brainstorming angles", "First drafts of common documents", "Explaining at any level", "“How do people usually handle…” questions"],
-      color: "#10b981"
+      id: "variation",
+      name: "Generative variation",
+      tagline: "Ten versions in ten seconds.",
+      mechanism: "AI builds answers one small piece at a time, choosing from many likely options. That makes it especially useful when you don’t need one perfect answer right away. You need options. It can give you ten angles, five titles, three tones, or a first draft you can react to.",
+      powers: ["Brainstorming angles", "“Give me 10 variations”", "Rewriting in a different tone", "Alternative phrasings", "Creative options", "First drafts of common documents"],
+      color: "#f59e0b"
     },
     {
       id: "compression",
-      name: "Compression of meaning",
+      name: "Semantic compression and retrieval",
       tagline: "Finds the signal in long stuff.",
-      mechanism: "It boils long text down to its core meaning, then pulls the relevant parts back out. Long documents get split into chunks, each one condensed into a summary it can search. Pull specific answers out of long material in seconds.",
-      powers: ["Summarizing", "Extracting key points", "Finding the relevant section in a long document", "Translation"],
+      mechanism: "AI is strong at condensing long material into the important parts and helping you find what matters. It can summarize, extract key points, compare passages, and answer questions from documents you provide. Many document tools do this by splitting long text into chunks and searching for the chunks most related to your question.",
+      powers: ["Summarizing", "Extracting key points", "Finding the relevant section in a long document", "Comparing documents", "Answering questions from supplied material"],
       color: "#8b5cf6"
     },
     {
-      id: "generation",
-      name: "Probabilistic generation",
-      tagline: "Ten versions in ten seconds.",
-      mechanism: "It builds each answer one small piece at a time, each piece a best guess chosen from many options. Same prompt, different output every time.",
-      powers: ["“Give me 10 variations”", "Rewriting in a different tone", "Alternative phrasings", "Creative options"],
-      color: "#f59e0b"
+      id: "reasoning",
+      name: "Structured reasoning and synthesis",
+      tagline: "Works through the pieces you give it.",
+      mechanism: "AI is also strong at taking facts, constraints, examples, and goals, then helping you work through them. It can compare tradeoffs, debug a problem, critique a draft against a rubric, explain steps, build a plan, or pressure-test an idea. This does not mean it is always right. It means it is useful when you give it the context and still check the result.",
+      powers: ["Planning", "Debugging", "Comparing options", "Explaining steps", "Critiquing a draft", "Pressure-testing an idea"],
+      color: "#0d9488"
     }
   ];
   const TASKS = [
     {
-      task: "Take my 30-page lecture notes and condense them into a one-page study sheet.",
-      answer: "compression",
-      feedback: {
-        pattern: "Close, but pattern matching is about transforming one structure into another. This task is ‘long in, short out, keep what matters.’ That’s compression.",
-        exposure: "AI has read plenty of study sheets, but the work isn’t pulling from training. It’s reading your specific notes and shortening them. That’s compression.",
-        compression: "Right. Long input, short output, the work is deciding what matters. Embeddings and attention are what let it do this.",
-        generation: "There’s no ‘ten versions’ move here. The task has one shape: take long, produce short, keep the signal. That’s compression."
-      }
-    },
-    {
-      task: "Help me see essay angles I might not have thought of for a paper on social media and teen mental health.",
-      answer: "exposure",
-      feedback: {
-        pattern: "Pattern matching transforms one structure into another, but this task isn’t about reshape. It’s pulling from a deep well of writing on the topic. That’s vast exposure.",
-        exposure: "Right. The reason AI can suggest angles you haven’t thought of is that it has read a ton of writing on the topic. It can show you how the conversation usually goes.",
-        compression: "Compression goes the other way: long input, short output. This task starts from a short prompt and asks for angles you haven’t seen. That’s exposure.",
-        generation: "Generation is what produces multiple options from a prompt, but the angles themselves come from material AI has read. Without exposure, the variations would be empty."
-      }
-    },
-    {
-      task: "Rewrite this paragraph in three different tones: formal, casual, sarcastic.",
-      answer: "generation",
-      feedback: {
-        pattern: "There’s a surface shift happening, but the strength that produces three different versions of the same paragraph is generation: sampling alternatives.",
-        exposure: "AI has seen tones in plenty of writing, but the move that produces three different versions of the same paragraph is generation.",
-        compression: "Compression goes long-to-short. This task keeps the content the same length and changes how it sounds. That’s generation.",
-        generation: "Right. Same prompt, three outputs, each one a different sample. That’s probabilistic generation in its purest form."
-      }
-    },
-    {
       task: "Turn my messy bullet-point outline into a clean essay draft.",
-      answer: "pattern",
+      answer: "transform",
       feedback: {
-        pattern: "Right. Same content, different structure. Bullets in, paragraphs out. That’s pattern matching.",
-        exposure: "Close. AI does draw on having seen many essays, but the core move here is transforming one structure (bullets) into another (paragraphs). That’s pattern matching.",
-        compression: "The task isn’t ‘long in, short out.’ It’s the same content reshaped from bullets into prose. That’s pattern matching.",
-        generation: "There’s no ‘give me ten versions’ move here. The task has one input shape and one output shape: bullets in, paragraphs out. That’s pattern matching."
-      }
-    },
-    {
-      task: "Find the part of this 50-page PDF where they discuss budget assumptions.",
-      answer: "compression",
-      feedback: {
-        pattern: "Pattern matching transforms structure. This task searches inside a long document for the relevant section. That’s compression: weighing what matters in long text.",
-        exposure: "AI’s training doesn’t help here. This is about reading your specific document and finding the right part. That’s compression.",
-        compression: "Right. Long document in, the one part you care about out. Attention weighing what matters is exactly this strength.",
-        generation: "There’s no ‘produce many variations’ move. The task wants one answer: where is the budget section. That’s compression."
-      }
-    },
-    {
-      task: "Write a first draft of a cover letter for a marketing internship.",
-      answer: "exposure",
-      feedback: {
-        pattern: "AI does follow the shape of a cover letter, but the reason it can produce a first draft at all is that it has seen thousands of them. That’s vast exposure.",
-        exposure: "Right. AI has seen tons of cover letters and knows the moves: opening, why you, why them, close. First drafts are where exposure shines.",
-        compression: "Compression goes long-to-short. The cover letter is being created from a short prompt, not summarized from something long. That’s exposure.",
-        generation: "Generation could produce multiple drafts, but the reason any first draft is possible is that AI has read tons of cover letters. The raw material is exposure."
-      }
-    },
-    {
-      task: "Take this CSV of messy customer feedback and pull out the names, dates, and sentiment.",
-      answer: "pattern",
-      feedback: {
-        pattern: "Right. Messy text in, structured fields out. The move is recognizing what’s a name, what’s a date, and what’s a sentiment. Pattern matching.",
-        exposure: "AI has seen plenty of feedback, but the work here is finding the fields inside messy text and pulling them out. That’s pattern matching.",
-        compression: "The task isn’t to shorten the feedback. It’s to extract specific structured pieces from unstructured text. That’s pattern matching.",
-        generation: "There’s no ‘give me variations’ move. The task wants one answer per row: who, when, how they felt. That’s pattern matching."
+        transform: "Right. Same content, new shape: bullets in, paragraphs out. The meaning is preserved; only the structure changes. That’s patterned transformation.",
+        variation: "There’s no ‘give me several versions’ move here. You want one clean draft from one outline, not options to choose between. That’s transformation.",
+        compression: "The task isn’t ‘long in, short out.’ The outline and the essay carry the same content. You’re reshaping it, not condensing it. That’s transformation.",
+        reasoning: "You’re not asking AI to weigh facts toward a judgment. The thinking is already in your outline; you just want it reshaped into prose. That’s transformation."
       }
     },
     {
       task: "Give me 5 different opening lines for my college essay.",
-      answer: "generation",
+      answer: "variation",
       feedback: {
-        pattern: "There’s no transformation of input structure happening. The task is to produce five samples from a short prompt. That’s probabilistic generation.",
-        exposure: "AI has read plenty of college essays, but the move that produces five different openings is generation: sampling alternatives from the same prompt.",
-        compression: "There’s no long input to compress. The student wants more output than input. That’s generation.",
-        generation: "Right. Same prompt, five different outputs, each one a sample. Generation."
+        transform: "Nothing is being reshaped from one form into another. You want five fresh options from a short prompt. That’s generative variation.",
+        variation: "Right. Same prompt, five different samples, each one a slightly different roll of the dice. That’s generative variation.",
+        compression: "There’s no long input to condense. You want more output than input: several options. That’s variation.",
+        reasoning: "You’re not handing AI facts and criteria to reason through. You want a spread of options to react to. That’s variation."
+      }
+    },
+    {
+      task: "Take my 30-page lecture notes and condense them into a one-page study sheet.",
+      answer: "compression",
+      feedback: {
+        transform: "Close, but transformation keeps the same content in a new shape. Here you’re dropping most of it and keeping only what matters. That’s compression.",
+        variation: "There’s no ‘ten versions’ move. The task has one shape: long in, short out, keep the signal. That’s compression and retrieval.",
+        compression: "Right. Long input, short output, and the real work is deciding what matters. That’s semantic compression.",
+        reasoning: "You’re not weighing facts toward a decision. You’re shortening long material down to its core. That’s compression."
+      }
+    },
+    {
+      task: "Here are my three internship offers, with the pay, commute, and what I’d learn at each. Help me weigh the tradeoffs and recommend one.",
+      answer: "reasoning",
+      feedback: {
+        transform: "Nothing is being reshaped into a new format. You’re handing AI facts and criteria and asking it to think them through. That’s structured reasoning.",
+        variation: "You don’t want a spread of options. You already have the options. You want AI to reason across them toward a recommendation. That’s reasoning and synthesis.",
+        compression: "The input isn’t long text to condense. It’s a set of facts and tradeoffs to weigh against each other. That’s reasoning.",
+        reasoning: "Right. You gave it the facts, the constraints, and the goal, and asked it to work through them toward a judgment. That’s structured reasoning and synthesis. Just remember to check its logic."
       }
     }
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "whatitdoesbest" }),
     E(BodyP, null,
-      "AI will take on almost anything you ask: writing, planning, summarizing, coding, drawing, whatever you throw at it. But trying and being good at it are two different things, and AI is far better at some kinds of work than others."),
+      "AI will take on almost anything you ask: writing, planning, summarizing, coding, drawing, researching, and more. But “can try” is not the same as “built for,” and AI is far better at some kinds of work than others."),
     E(BodyP, null,
       "We saw this firsthand building this course. AI coded every page and every interaction you’ll see, and we give it a grade of ", E("strong", { style: { color: "var(--green)" } }, "A+"), ". It also wrote the first drafts of all lessons, but only earned a ", E("strong", { style: { color: "var(--red)" } }, "C-"), ". It made points in the wrong order, added explanations that missed what we meant, and had no real feel for how a lesson should flow."),
     E(BodyP, null,
       "This gets at the core idea of the lesson. Writing software code is all about patterns, and AI is a pattern-making machine, so it aces that job. But writing strong lessons doesn’t follow a set pattern, so AI can help, but it can’t do the whole thing."),
     E(BodyP, null,
-      "What AI does best is based on the mechanisms you already learned: Training, Patterns, Probability, and Prediction."),
+      "What AI does best grows out of the mechanisms you already learned: it was trained to predict and generate from learned patterns."),
     E(CoreLoopBox, null),
     E(BodyP, null,
-      "Point those four mechanisms at real work, and they become the things AI does best."),
+      "Aim that one ability at real work and it shows up as four recognizable shapes: four kinds of job AI is built for."),
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 32 } },
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", marginBottom: 16 } }, "AI is built to do four things really well."),
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", marginBottom: 16 } }, "AI is strongest when the job has one of four shapes."),
       E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
         ENGINES.map(function(e) {
-          var icon = { pattern: "🍀", exposure: "🌱", compression: "🔍", generation: "🎲" }[e.id];
+          var icon = { transform: "🍀", variation: "🎲", compression: "🔍", reasoning: "🧠" }[e.id];
           return E("div", { key: e.id, style: { background: e.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
             E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 4 } },
               E("span", { style: { fontSize: 20, flexShrink: 0 } }, icon),
@@ -7353,7 +7313,15 @@ function WhatItDoesBestSection(props) {
                       E("span", null, p));
                   })))));
         }))),
-    E(KeyInsight, { lead: "Four engines. A thousand uses." }, "Almost everything AI is good at is one of those four strengths pointed at the right task. The skill isn’t memorizing a hundred clever prompts. It’s spotting which strength a job needs, noticing when none of them fit, and knowing when one fits but you still shouldn’t reach for it."),
+    E("div", { style: { background: "#10b98112", borderRadius: 18, padding: "20px 22px", marginBottom: 32 } },
+      E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 12 } },
+        E("span", { style: { fontSize: 20, flexShrink: 0 } }, "🌱"),
+        E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: "#10b981", letterSpacing: "-0.01em" } }, "Why this works: vast exposure")),
+      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 12 } },
+        "Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before."),
+      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
+        "But exposure has a limit. AI is often good at the common version of a task, not necessarily the true, current, personal, safest, or best version. That’s why your judgment still matters.")),
+    E(KeyInsight, { lead: "Four strengths. A thousand uses." }, "Most useful AI tasks fit one or more of these shapes: transform a pattern, generate options, compress meaning, or reason through supplied context. The skill isn’t memorizing a hundred clever prompts. It’s spotting which strength the job needs, knowing when none of them fit, and checking the result before you trust it."),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",

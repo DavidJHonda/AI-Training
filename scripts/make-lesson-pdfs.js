@@ -52,9 +52,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const h = await ev('Math.ceil(Math.max(document.body.scrollHeight, (document.querySelector(".course-packet")||document.body).getBoundingClientRect().bottom))');
     const H = (h || 1200) + 40; // buffer so nothing spills to a 2nd page
     const pdf = await send("Page.printToPDF", { printBackground: true, marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0, paperWidth: WIDTH / 96, paperHeight: H / 96, preferCSSPageSize: false });
-    fs.writeFileSync(OUT + "/" + lid + ".pdf", Buffer.from(pdf.result.data, "base64"));
+    var fname = (await ev('lessonSlug("' + lid + '")')) || lid; // filename = lesson title slug
+    fs.writeFileSync(OUT + "/" + fname + ".pdf", Buffer.from(pdf.result.data, "base64"));
     await send("Emulation.setEmulatedMedia", { media: "" });
-    console.log("  " + lid + ".pdf  (" + H + "px tall)");
+    console.log("  " + fname + ".pdf  (" + H + "px tall)");
   }
   ws.close();
   process.exit(0);

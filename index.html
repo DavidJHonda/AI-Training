@@ -225,22 +225,21 @@ function BodyP(props) {
 // (so section openers, which aren't listed, never show one). Use { src } for a local
 // mp4 now; later swap to { youtubeId } for an unlisted hosted video. Optional { caption }.
 const LESSON_VIDEOS = {
-  welcome: { src: "videos/Welcome.mp4", duration: "3 min", title: "A quick look at what this course is and why it exists." },
-  whydeeper: { src: "videos/Why_Learn_AI_.mp4", duration: "4 min", title: "Why understanding AI is the edge that pays off." },
-  aihistory: { src: "videos/What_is_AI.mp4", duration: "5 min", title: "How an LLM turns your prompt into an answer." },
-  llms: { src: "videos/Meet_the_Tool.mp4", duration: "3 min", title: "What AI is, and the two kinds you already use." },
-  doesaithink: { src: "videos/Does_AI_Think_.mp4", duration: "4 min", title: "Whether AI thinks, or just sounds like it does." },
-  whybother: { src: "videos/Does_School_Matter_.mp4", duration: "2 min", title: "Whether school still matters in the age of AI." },
-  control: { src: "videos/What_You_Can_Control.mp4", duration: "3 min", title: "What about your future with AI is actually in your hands." },
-  studying: { src: "videos/Study_with_AI.mp4", duration: "5 min", title: "How to turn AI into a study tool that actually works." },
-  openerfoundations: { src: "videos/Understand_AI__The_Opener.mp4", duration: "1 min", title: "A quick map of how AI really works, before we dig in." },
-  howwegothere: { src: "videos/How_We_Got_Here.mp4", duration: "3 min", title: "How four ideas became AI." },
-  aivscode: { src: "videos/Rules_vs_Patterns.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
-  norules: { src: "videos/Harder_to_Control.mp4", duration: "3 min", title: "Why software nobody programmed is harder to control." },
-  aiismath: { src: "videos/AI_is_Math.mp4", duration: "4 min", title: "The handful of math ideas underneath everything AI does." },
-  tokens: { src: "videos/Tokens.mp4", duration: "3 min", title: "How AI breaks your words into pieces and turns them into numbers." },
-  embeddings: { src: "videos/Embeddings.mp4", duration: "3 min", title: "How AI turns each token into numbers that capture its meaning." },
-  attention: { src: "videos/Transformer-1.mp4", duration: "4 min", title: "How AI reads your whole sentence at once to work out what each word means." }
+  welcome: { src: "videos/welcome.mp4", duration: "3 min", title: "A quick look at what this course is and why it exists." },
+  whydeeper: { src: "videos/why-learn-ai.mp4", duration: "4 min", title: "Why understanding AI is the edge that pays off." },
+  aihistory: { src: "videos/how-an-llm-works.mp4", duration: "5 min", title: "How an LLM turns your prompt into an answer." },
+  llms: { src: "videos/what-is-ai.mp4", duration: "3 min", title: "What AI is, and the two kinds you already use." },
+  doesaithink: { src: "videos/does-ai-think.mp4", duration: "4 min", title: "Whether AI thinks, or just sounds like it does." },
+  whybother: { src: "videos/does-school-matter.mp4", duration: "2 min", title: "Whether school still matters in the age of AI." },
+  control: { src: "videos/what-you-can-control.mp4", duration: "3 min", title: "What about your future with AI is actually in your hands." },
+  studying: { src: "videos/learn-with-ai.mp4", duration: "5 min", title: "How to turn AI into a study tool that actually works." },
+  openerfoundations: { src: "videos/understand-ai-opener.mp4", duration: "1 min", title: "A quick map of how AI really works, before we dig in." },
+  howwegothere: { src: "videos/how-we-got-here.mp4", duration: "3 min", title: "How four ideas became AI." },
+  aivscode: { src: "videos/ai-is-different.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
+  aiismath: { src: "videos/ai-is-math.mp4", duration: "4 min", title: "The handful of math ideas underneath everything AI does." },
+  tokens: { src: "videos/tokens.mp4", duration: "3 min", title: "How AI breaks your words into pieces and turns them into numbers." },
+  embeddings: { src: "videos/embeddings.mp4", duration: "3 min", title: "How AI turns each token into numbers that capture its meaning." },
+  attention: { src: "videos/transformer.mp4", duration: "4 min", title: "How AI reads your whole sentence at once to work out what each word means." }
 };
 function LessonHeader(props) {
   var E = React.createElement;
@@ -1655,6 +1654,14 @@ const SECTION_META = {
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
   .map(function(id) { return Object.assign({ id: id }, SECTION_META[id]); });
+// Filename slug for a lesson's assets (PDF/video/illustration): from the displayed
+// title, lowercase-hyphen, & -> "and", apostrophes dropped. Keep in sync with the
+// slug() in scripts/make-lesson-pdfs.js.
+function lessonSlug(id) {
+  var m = SECTION_META[id] || {};
+  var t = (m.title || m.label || id);
+  return t.replace(/&/g, " and ").replace(/[’']/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
 function OpenerFoundationsSection(props) {
   var foundationsIllustration = /*#__PURE__*/React.createElement(Illustration, {
     eyebrow: "WHAT KIND OF THING IS AI?"
@@ -1887,7 +1894,7 @@ function AIHistorySection(props) {
       })),
     /*#__PURE__*/React.createElement(BodyP, null, "A full paragraph runs this loop many times, fast enough to look like thought."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/what-is-ai.jpg",
+      src: "illustrations/how-an-llm-works.jpg",
       alt: "A 'How AI Works' infographic. A teen holds a phone showing autocomplete for 'I went to the store to buy peanut butter and' with suggestions jelly, bread, and bananas. The same example runs through four labeled steps: Training, where AI reads huge amounts of text; Patterns, learning which words tend to follow which; Probability, scoring jelly 41 percent, bread 27 percent, and bananas 16 percent; and Prediction, where AI picks the top word, adds it, and repeats. A caption notes that AI does not know meaning the way people do, it finds patterns and predicts the most likely next word.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
@@ -3595,7 +3602,7 @@ function AIvsCodeSection(props) {
       "Non-AI software is the ordinary person. It can only do what a human wrote into it. AI’s superpower is that no human wrote its abilities, so it can take on problems nobody ever spelled out a rule for."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/rules-vs-patterns.jpg",
+      src: "illustrations/ai-is-different.jpg",
       alt: "Rules-based software following a fixed script beside AI recognizing patterns it was never explicitly taught",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
@@ -4837,7 +4844,7 @@ function EmbeddingsSection(props) {
   E(BodyP, null,
     "It\u2019s the same as the number assigned to your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
   E("img", {
-    src: "illustrations/embeddings.jpg",
+    src: "illustrations/embeddings-1.jpg",
     alt: "Four high-school students in shirts and ties at a cafeteria table; one standing student is comically loaded with handfuls of fries",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   }),
@@ -4884,7 +4891,7 @@ function EmbeddingsSection(props) {
     E("strong", null, "parameters"),
     ". Notice the dimensions aren’t named: the model decides what each one tracks, and we usually can’t tell."),
   E("img", {
-    src: "illustrations/black-box-2.jpg",
+    src: "illustrations/embeddings-2.jpg",
     alt: "Inside a real AI model: the token “cat” becomes ID 9246, which looks up a row in the embedding table; that row is its embedding vector of values across dimensions, and parameters are these learned numbers plus many more in the later layers",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
   }),
@@ -4966,7 +4973,7 @@ function VectorSpaceSection(props) {
       E("strong", null, "distance"),
       ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. The model has established that Coke is more like Pepsi than like Coffee."),
     E("img", {
-      src: "illustrations/layers-2.jpg",
+      src: "illustrations/vector-space-1.jpg",
       alt: "A glowing board-game map of vector space: Coke and Pepsi sit close together (small distance, very similar) while a lit path runs out to a Coffee mug far away (large distance, very different). Closeness is measured by distance, so the model treats Coke as more like Pepsi than like Coffee.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
@@ -4993,7 +5000,7 @@ function VectorSpaceSection(props) {
       E("strong", null, "CAT"),
       " than to any other word in the sentence."),
     E("img", {
-      src: "illustrations/layers-3.jpg",
+      src: "illustrations/vector-space-2.jpg",
       alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is whatever sits closest.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
@@ -5158,7 +5165,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "It’s doing the same thing you did when you read the barn fell sentence, but with math."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/layers-1.jpg",
+      src: "illustrations/layers.jpg",
       alt: "Inside one layer: vectors go in, attention finds which words matter, transformation updates the meaning, and richer vectors come out, then feed into the next layer",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
@@ -5301,7 +5308,7 @@ function InferenceSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "weights"),
       ". Training set those weights; inference just runs them forward, the same machine doing the same arithmetic every time you ask."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/inference-1.jpg",
+      src: "illustrations/inference.jpg",
       alt: "A hand-drawn diagram: a neural network is layers of math passing numbers forward. Numbers from the prompt enter on the left and pass through Layer 1 to Layer N, where each node multiplies its inputs by weights, sums them, applies an activation, and passes the result forward; a score for every possible next token comes out on the right. Weights are learned in training and frozen during inference.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 16 }
     }),
@@ -5411,7 +5418,7 @@ function PromptSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "context window."),
       " Think of it almost like the working memory the model uses to answer. And it builds that working memory from several places."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/context-window.jpg",
+      src: "illustrations/context-window-1.jpg",
       alt: "The four parts that feed the context window (your current prompt, earlier in this chat, your custom instructions, and saved memory) flow into a glowing tray labeled The Context Window: all of this is what the model sees right now. The window feeds the model, which produces an answer. Cards for older chats, web pages you didn’t send, notes on your computer, and other apps sit outside the window, out of reach.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
@@ -5446,7 +5453,7 @@ function PromptSection(props) {
 
     /*#__PURE__*/React.createElement(BodyP, null, "Big or small, what fills the window is what shapes the answer. Same question, different windows. Your call:"),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/inference-2.jpg",
+    src: "illustrations/context-window-2.jpg",
     alt: "Two teens in a car showroom beside a Ford pickup and a Jeep. A screen above shows the model reading thousands of signals about each person, matching patterns, and predicting the vehicle each is most likely to like: Nate’s pick is the rugged Ford, Luke’s is the versatile Jeep. Caption: AI predicts, you choose. It is a helpful guess, not a rule.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "16px auto 28px", borderRadius: 16 }
   }),
@@ -6014,7 +6021,7 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to open. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/choose-the-app.jpg",
+    src: "illustrations/which-app.jpg",
     alt: "A student in a Claude hoodie and CEO cap presents to a classroom from an Anthropic podium, pointing at a slide titled Choose the App that compares ChatGPT, Claude, and Gemini in three cards",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
   }),
@@ -11433,7 +11440,7 @@ function AIFutureSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "There is a term software engineers use for AI: ", /*#__PURE__*/React.createElement("strong", null, "the black box"), ". With a regular calculator, if you type 2+2 and it says 5, a programmer can open the code, find the broken line, and fix it. The path from input to output is traceable."),
     /*#__PURE__*/React.createElement(BodyP, null, "AI is different. When you give ChatGPT a prompt and it writes you a poem, nobody (not even the people who built it) can point to a specific spot inside the model and say \u201Cthat\u2019s where the rhyme came from.\u201D You can study its behavior from outside, but you can\u2019t crack it open and read the logic like normal software."),
     /*#__PURE__*/React.createElement(BodyP, null, "So what IS inside? Learned numbers. Billions of them, adjusted during training until they helped the model predict better."),
-    /*#__PURE__*/React.createElement("img", { src: "illustrations/black-box-1.jpg", alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
+    /*#__PURE__*/React.createElement("img", { src: "illustrations/judging-ais-future.jpg", alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
     /*#__PURE__*/React.createElement(BodyP, null, "That opacity is exactly why future claims are hard to check. If someone says \u201CAI will definitely do X soon,\u201D the technical-sounding explanation is not the evidence. The evidence is what shows up outside the model: real-world performance, repeated results, deployment at scale, known failure rates, accountable owners."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       marginBottom: 18
@@ -11659,7 +11666,7 @@ function BuildEdgeSection(props) {
         }))),
 
     E("img", {
-      src: "illustrations/build-your-edge.jpg",
+      src: "illustrations/your-edge.jpg",
       alt: "A person in an I-have-the-edge hoodie at a mixing console labeled Clarify, Context, Standards, Taste, Purpose, turning generic AI output into polished work, over books labeled Depth, Judgment, and Experience",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
@@ -12453,7 +12460,7 @@ function LLMExplorer() {
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
   }, "\u21BA Reset Progress"),
   (activeSection && activeSection.indexOf("opener") !== 0) ? /*#__PURE__*/React.createElement("a", {
-    href: "packets/lessons/" + activeSection + ".pdf",
+    href: "packets/lessons/" + lessonSlug(activeSection) + ".pdf",
     download: ((SECTION_META[activeSection] && SECTION_META[activeSection].label) || activeSection) + ".pdf",
     style: { textDecoration: "none", cursor: "pointer", fontSize: 12.5, color: "var(--primary)", fontWeight: 700, display: "block", textAlign: "center", margin: "10px auto 0" }
   }, "\u2b07 Download this lesson (PDF)") : null));

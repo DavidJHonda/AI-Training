@@ -5919,7 +5919,7 @@ const TEMP_OUTPUTS = {
 
 
 function ModelSelectionSection(props) {
-  const [scenarioAnswers, setScenarioAnswers] = useState({});
+  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-whichapp-steps", {});
   var philContainerRef = useRef(null);
   var philTitleRefs = useRef([]);
   var philCardRefs = useRef([]);
@@ -5968,36 +5968,12 @@ function ModelSelectionSection(props) {
     window.addEventListener("resize", calc);
     return function() { window.removeEventListener("resize", calc); };
   }, []);
-  const SCENARIOS = [{
-    prompt: "You need to summarize a 60-page research report and pull out the key arguments.",
-    options: [
-      { label: "Claude", correct: true, headline: "Claude's the fit.", feedback: "Anthropic built it to prioritize careful reasoning and accuracy on complex tasks. Long documents and structured analysis are where it shines." },
-      { label: "ChatGPT", correct: false, headline: "Breadth, not deep reading.", hint: "ChatGPT is tuned for range and speed, not slow careful reading of a long, dense document. On the technical parts you'd risk glossed-over detail. Which tool is built for depth on exactly this kind of material?", feedback: "ChatGPT can do this, but it\u2019s optimized for breadth and creative range, not careful reading of a long dense document. You\u2019d get a usable summary and a higher chance of glossed-over detail or confident mistakes on the technical bits. Claude is built for this exact job." },
-      { label: "Gemini", correct: false, headline: "Live data won't help here.", hint: "Gemini's edge is live web data and Google apps. But this report is already in your hands, so freshness buys you nothing. The job is depth on a long document. Which tool is built for that?", feedback: "Gemini\u2019s strengths are live data and Google Workspace integration. For a 60-page report you already have in hand, those advantages don\u2019t help. The job is depth on a long document, and that\u2019s where Claude pulls ahead." }
-    ]
-  }, {
-    prompt: "You want to brainstorm 20 creative names for a podcast about sports science.",
-    options: [
-      { label: "Claude", correct: false, headline: "Careful when you want wild.", hint: "Claude leans careful and considered, which is great for precision but not for spitballing. Brainstorming wants quantity and range first, polish later. Which tool is built to throw out a lot of options fast?", feedback: "Claude will give you good names, but it tends to be careful and considered. For pure brainstorming, where you want quantity and range first and quality later, ChatGPT\u2019s breadth usually wins." },
-      { label: "ChatGPT", correct: true, headline: "ChatGPT's the fit.", feedback: "OpenAI optimized it for versatility and creative breadth. It\u2019ll give you a wide range of options fast, which is what brainstorming needs." },
-      { label: "Gemini", correct: false, headline: "Live data won't help here.", hint: "Gemini's strengths are real-time data and Google integration, and neither does much for a creative naming session. This task is pure idea generation. Which tool was built to spitball at volume?", feedback: "Gemini can brainstorm, but its strengths are real-time data and Google integration, neither of which help with a creative naming exercise. ChatGPT was built to spitball, and that\u2019s the job here." }
-    ]
-  }, {
-    prompt: "You need to know what happened in the news this week and summarize the top stories.",
-    options: [
-      { label: "Claude", correct: false, headline: "Strong on what you give it.", hint: "Claude is built to analyze what you hand it, not to go pull this week's headlines. This task lives or dies on fresh web access. Which tool was built around that from the start?", feedback: "Claude has web search too, but its strength is careful analysis of what you give it, not pulling fresh news. Google built Gemini around web grounding as a core feature. For \u2018what happened this week,\u2019 Gemini is the cleaner fit." },
-      { label: "ChatGPT", correct: false, headline: "It can search, but it isn’t the specialist.", hint: "ChatGPT can search the web, and for many tasks that’s plenty. But this task is all about fresh, current information. Which app is tuned for live information and tied into a search index?", feedback: "ChatGPT can search the web too. But Gemini is tuned for fresh information and tied into Google’s index, so for news this week specifically, Gemini is the cleaner fit." },
-      { label: "Gemini", correct: true, headline: "Gemini's the fit.", feedback: "Google tuned it for real-time information and tied it into the world’s biggest search index. The others can search the web too; Gemini is simply the specialist for this job." }
-    ]
-  }, {
-    prompt: "You\u2019re writing a persuasive essay and want detailed feedback on your argument structure.",
-    options: [
-      { label: "Claude", correct: true, headline: "Claude's the fit.", feedback: "Anthropic\u2019s focus on honesty and careful reasoning means it gives structured, specific feedback on logic and argumentation rather than generic praise." },
-      { label: "ChatGPT", correct: false, headline: "Useful feedback, not the specialist.", hint: "Any of the three can comment on an essay. But this task wants the toughest, most specific critique of your logic. Which one is trained around principles that prize honest critique over making you feel good?", feedback: "ChatGPT will give you useful feedback. But careful reasoning over the structure of an argument is exactly what Anthropic trained Claude for, so for the toughest read on your logic, Claude is the better fit." },
-      { label: "Gemini", correct: false, headline: "Current info won't critique logic.", hint: "Gemini's strengths are current information and Google integration, which don't help when you need someone to tear your argument apart. This task wants a tough critic. Which tool is built for careful reasoning over your logic?", feedback: "Gemini is strong on current information and Google integration. Neither of those help when you need someone to tear apart your argument and tell you exactly where the logic falls down. Claude is the tougher critic here." }
-    ]
-  }];
-  const scenariosAllAnswered = Object.keys(scenarioAnswers).length >= SCENARIOS.length;
+  const STEPS = [
+    { title: "Get Claude", body: "Sign up at claude.ai (it works in any browser). A few later lessons involve light coding on a computer, so get Claude set up on the device you’ll actually work on." },
+    { title: "Ask it about itself", body: "Send it: “What are you good at, and what should I not fully trust you on?” Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word." },
+    { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, or a draft to start. Notice how it feels to use a real AI on a real task." }
+  ];
+  var labCheckedCount = STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to download and use. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
@@ -6104,23 +6080,37 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "The skills transfer. The app is just where you practice them." },
     "Everything this course teaches, prompting, checking, staying in charge, works the same in all three. Which app you pick matters far less than how well you learn to drive it."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Pick the Best App",
-   lead: "Match the right app to the job. Four scenarios. Pick which one fits each best."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      SCENARIOS.map(function(sc, si) {
-        var picked = scenarioAnswers[si];
-        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The scenario"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
-          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which app fits best?", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+    variant: "lab",
+    surface: "teal",
+    labNumber: "02",
+    title: "Set It Up and Use It",
+    hint: "Click the box after you finish each step.",
+    lead: "Any of the three works, but for the rest of this course we’ll use Claude so the hands-on steps line up. Let’s get it set up and put it to work right now.",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: STEPS.length })
+  },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        STEPS.map(function(st, i) {
+          var done = !!labChecked[i];
+          return /*#__PURE__*/React.createElement("button", {
+            key: i,
+            "aria-pressed": done,
+            onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); },
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", cursor: "pointer", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+          },
+            /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            /*#__PURE__*/React.createElement("span", null,
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
+        })),
+      /*#__PURE__*/React.createElement(Takeaway, {
+        eyebrow: "The payoff",
+        accent: "var(--labAccent)",
+        headline: "You set one up and used it. That’s the whole skill.",
+        body: "There’s no single best app, and the gaps keep shifting. What lasts is being comfortable enough to open one, ask it well, and check what you get. That habit carries to any app, in any year."
       }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: labCheckedCount >= STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function ChoosingModelSection(props) {
   const [pickerAnswers, setPickerAnswers] = useState({});

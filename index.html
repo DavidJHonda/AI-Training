@@ -1558,7 +1558,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "whydeeper", "llms", "aihistory", "doesaithink", "control", "whybother", "studying"]
 }, {
   label: "Work With AI",
-  sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "questionsvaluable", "prompting", "prompt", "critical", "howmuchtocheck", "evaluating"]
+  sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "questionsvaluable", "prompting", "prompt", "critical", "evaluating"]
 }, {
   label: "Understand AI",
   sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "prediction", "training", "inference"]
@@ -1627,7 +1627,7 @@ const SECTION_META = {
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Thought Partner", icon: "\uD83E\uDD1D" },
   studying: { kicker: "USE IT TO LEARN", label: "Learn with AI", icon: "\uD83D\uDCD3" },
   verify: { kicker: "TRUST, THEN CHECK", label: "Verify", icon: "\uD83D\uDEE0\uFE0F" },
-  evaluating: { kicker: "GOOD ENOUGH FOR WHAT?", label: "Evaluate Results", icon: "\uD83D\uDD0D" },
+  evaluating: { kicker: "BEFORE YOU TRUST IT", label: "Check the Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerskills: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   integrity: { kicker: "USE IT, OWN IT", label: "Integrity", icon: "\uD83C\uDF93" },
@@ -2661,7 +2661,7 @@ function AIStrengthsSection(props) {
   var noClicked = true, setNoClicked = function() {};
   var allAnswered = Object.keys(answers).length >= SCENARIOS.length;
   return React.createElement("div", null,
-    React.createElement(LessonHeader, { sectionId: "howmuchtocheck" }),
+    props.embedded ? React.createElement(SectionKicker, { size: "large", style: { marginTop: 8 } }, "HOW MUCH TO CHECK") : React.createElement(LessonHeader, { sectionId: "howmuchtocheck" }),
     React.createElement(BodyP, null, "AI can help with almost any task. The real skill is knowing how much to check what it gives you. Some answers need a hard look. Others barely need one."),
     React.createElement(BodyP, null, "That\u2019s what trust really comes down to here. Not believing the output automatically, but knowing what kind of follow-up it needs before you use it."),
     React.createElement(SectionKicker, null, "SOMETIMES THE ANSWER IS NO"),
@@ -2776,8 +2776,8 @@ function AIStrengthsSection(props) {
             feedback: answered ? ((correct ? "Right. " : "Not quite. ") + sc.explain) : null
           }, ["good", "careful"].map(function(choice) { return JudgmentPill(choice); }));
         }))),
-    React.createElement(LessonRule, null),
-    React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate Results" }));
+    props.embedded ? null : React.createElement(LessonRule, null),
+    props.embedded ? null : React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate Results" }));
 }
 function WelcomeSection(props) {
   var E = React.createElement;
@@ -6924,7 +6924,7 @@ function CriticalThinkingSection(props) {
   Object.keys(habitAnswers).length >= CT_CONCEPTS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
     /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "In real life, the trap isn’t labeled.", body: "Each scenario hid one weak spot. AI won’t tell you which habit a given answer needs, so running the checks is on you." })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length && Object.keys(habitAnswers).length >= CT_CONCEPTS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("howmuchtocheck"), label: "Next: How Much to Check" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length && Object.keys(habitAnswers).length >= CT_CONCEPTS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Check the Results" }));
 }
 const PROMPT_QUALITIES = [{
   id: "clarity",
@@ -7065,7 +7065,7 @@ function OpenerWorkWithSection(props) {
         kicker: "CHECK WHAT YOU GET",
         bridge: "Finally, how to tell whether the answer is any good before you trust it.",
         questions: [
-          { question: "How much should I check, and when?", lessonId: "howmuchtocheck" },
+          { question: "How much should I check, and when?", lessonId: "evaluating" },
           { question: "Is the answer right, and good enough for what I need?", lessonId: "evaluating" }
         ]
       }
@@ -7962,7 +7962,7 @@ function EvaluatingSection(props) {
     issue: null,
     action: null
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "evaluating" }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this actually good enough to use?"), " You\u2019ve learned how to verify whether AI output is ", /*#__PURE__*/React.createElement("em", null, "true"), ". This section is about whether it\u2019s ", /*#__PURE__*/React.createElement("em", null, "usable"), ": does it actually solve your problem, match your audience, and meet your standard?"),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "evaluating" }), /*#__PURE__*/React.createElement(AIStrengthsSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this actually good enough to use?"), " You\u2019ve learned how to verify whether AI output is ", /*#__PURE__*/React.createElement("em", null, "true"), ". This section is about whether it\u2019s ", /*#__PURE__*/React.createElement("em", null, "usable"), ": does it actually solve your problem, match your audience, and meet your standard?"),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "WHY EVALUATION MATTERS",
     marginBottom: 24
@@ -11711,7 +11711,6 @@ const SECTION_COMPONENTS = {
   llms: LLMsSection,
   aiismath: AIIsMathSection,
   howwegothere: HowWeGotHereSection,
-  howmuchtocheck: AIStrengthsSection,
   whydeeper: WhyDeeperSection,
   doesaithink: DoesAIThinkSection,
   whybother: WhyBotherSection,

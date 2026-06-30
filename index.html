@@ -4381,10 +4381,6 @@ function TrainingSection(props) {
     "That should feel contradictory. The model is frozen once training ends, with a knowledge cutoff from before the puck ever dropped. The model itself can’t know."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Here’s how it did it. The app, not the model, ran a web search, pulled the results into the context window, and answered from what it just read, often with links."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "That changes the checking, not the need for it. A searched answer can misread a real source just as confidently as a frozen one can invent a fake one. The links are the gift: click them and see whether the source matches the answer."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Search isn’t the only door the app opens. Modern AI apps take more than typed text: snap a photo of a problem, talk instead of type, hand it a PDF. Same kind of model underneath; the app decides which doors are open."),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
   /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Watch It Happen" },
     /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
@@ -4948,11 +4944,13 @@ function VectorSpaceSection(props) {
       })));
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
+    E(BodyP, null,
+      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. Those layers reshape the token’s starting numbers into a new set that captures what it means right here, in this sentence."),
+    E(BodyP, null,
+      "In theory, the model could now look that vector up in its full table of token vectors and see which one it matches. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table."),
     E(SectionKicker, null, "The problem"),
     E(BodyP, null,
-      "In the last lesson, you watched a token travel through the layers, its numbers changing at every step. By the end it has a brand-new set of numbers, one of a kind, that doesn’t match the vector of any other token."),
-    E(BodyP, null,
-      "So how does the model know what this token means, when its numbers are unique and match no token’s embedding?"),
+      "So how does AI work out what the token means, when its vector matches nothing on file?"),
     E(BodyP, null,
       "To see the answer, go back to the taste test from Embeddings, where Pepsi looked almost exactly like Coke until a Citrus dimension finally told them apart."),
     vsTasteProfile,
@@ -4982,15 +4980,20 @@ function VectorSpaceSection(props) {
           var highlight = w === "cat" || w === "it" || w === "tired";
           return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
         }))),
+    E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8, maxWidth: 880, margin: "8px auto 14px" } },
+      [
+        { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", E("strong", null, "IT"), " is just a pronoun. Its vector is ambiguous and doesn’t mean ", E("strong", null, "CAT"), ".") },
+        { tag: "Through the layers", body: "The model reads the surrounding words to work out what it refers to." },
+        { tag: "Lands by “cat”", body: E(React.Fragment, null, "Its vector ends up closer to ", E("strong", null, "CAT"), " than to any other word in the sentence.") }
+      ].map(function(node, i) {
+        return E(React.Fragment, { key: i },
+          i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
+          E("div", { style: { flex: "1 1 200px", minWidth: 180, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
+            E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 6 } }, node.tag),
+            E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, node.body)));
+      })),
     E(BodyP, null,
-      E("strong", null, "IT"),
-      " is a pronoun, so on its own its vector is ambiguous and certainly doesn’t mean ",
-      E("strong", null, "CAT"),
-      ". But as the token runs through the layers, the model uses the surrounding words to work out what ",
-      E("strong", null, "IT"),
-      " refers to. By the end, its numbers land closer to ",
-      E("strong", null, "CAT"),
-      " than to any other word in the sentence — the model has figured out that ",
+      "In other words, the model has figured out that ",
       E("strong", null, "IT"),
       " means the cat."),
     E("img", {

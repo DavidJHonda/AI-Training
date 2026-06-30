@@ -4945,9 +4945,9 @@ function VectorSpaceSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
-      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. Those layers reshape the token’s starting numbers into a new set that captures what it means right here, in this sentence."),
+      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. Those layers reshape the token’s starting numbers into a new vector: a fresh row of numbers that captures what it means."),
     E(BodyP, null,
-      "In theory, the model could now look that vector up in its full table of token vectors and see which one it matches. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table."),
+      "In theory, the model could now look that vector up in its full table of token embeddings and see which one it matches. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table."),
     E(SectionKicker, null, "The problem"),
     E(BodyP, null,
       "So how does AI work out what the token means, when its vector matches nothing on file?"),
@@ -4959,12 +4959,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "This matters for AI. The model measures closeness with ",
       E("strong", null, "distance"),
-      ": how far apart two vectors are when you add up the gap in every dimension, not just a count of which slots differ. The model has established that Coke is more like Pepsi than like Coffee."),
-    E("img", {
-      src: "illustrations/vector-space-1.jpg",
-      alt: "A glowing board-game map of vector space: Coke and Pepsi sit close together (small distance, very similar) while a lit path runs out to a Coffee mug far away (large distance, very different). Closeness is measured by distance, so the model treats Coke as more like Pepsi than like Coffee.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
+      ": how far apart two vectors are when you add up the gap in every dimension. The model has established that Coke is more like Pepsi than like Coffee."),
     E(SectionKicker, null, "Meaning is a position"),
     E(BodyP, null,
       "Now back to that one-of-a-kind token. The model can’t look its numbers up, so it does what we just did with the drinks: it reads the token’s ",
@@ -4973,31 +4968,34 @@ function VectorSpaceSection(props) {
       E("strong", null, "vector space"),
       ": a map where every vector sits somewhere, and similar words share a neighborhood."),
     E(BodyP, null,
-      "Let’s demonstrate this by using the example in the Transformer lesson."),
+      "Let’s demonstrate with the example from the Transformer lesson. How does AI establish the meaning of the word ",
+      E("strong", { style: { color: "var(--primary)" } }, "IT"),
+      "?"),
     E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
       E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
         ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
-          var highlight = w === "cat" || w === "it" || w === "tired";
+          var highlight = w === "cat" || w === "it";
           return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
         }))),
-    E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8, maxWidth: 880, margin: "8px auto 14px" } },
+    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px" } },
+      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
       [
-        { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", E("strong", null, "IT"), " is just a pronoun. Its vector is ambiguous and doesn’t mean ", E("strong", null, "CAT"), ".") },
-        { tag: "Through the layers", body: "The model reads the surrounding words to work out what it refers to." },
-        { tag: "Lands by “cat”", body: E(React.Fragment, null, "Its vector ends up closer to ", E("strong", null, "CAT"), " than to any other word in the sentence.") }
+        { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", E("strong", { style: { color: "var(--primary)" } }, "IT"), " is just a pronoun. Its vector could mean almost anything, and certainly not ", E("strong", { style: { color: "var(--primary)" } }, "CAT"), ".") },
+        { tag: "Through the layers", body: E(React.Fragment, null, "At each layer its numbers shift, as the model reads the surrounding words to work out what ", E("strong", { style: { color: "var(--primary)" } }, "IT"), " refers to.") },
+        { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", E("strong", { style: { color: "var(--primary)" } }, "IT"), " land closer to ", E("strong", { style: { color: "var(--primary)" } }, "CAT"), " than to any other word in the sentence.") }
       ].map(function(node, i) {
         return E(React.Fragment, { key: i },
           i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
           E("div", { style: { flex: "1 1 200px", minWidth: 180, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
             E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 6 } }, node.tag),
             E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, node.body)));
-      })),
+      }))),
     E(BodyP, null,
       "In other words, the model has figured out that ",
-      E("strong", null, "IT"),
+      E("strong", { style: { color: "var(--primary)" } }, "IT"),
       " means the cat."),
     E("img", {
-      src: "illustrations/vector-space-2.jpg",
+      src: "illustrations/vector-space-1.jpg",
       alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is whatever sits closest.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),

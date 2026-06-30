@@ -28,10 +28,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await send("Page.enable"); await send("Runtime.enable");
   await send("Emulation.setDeviceMetricsOverride", { width: WIDTH, height: 1400, deviceScaleFactor: 1, mobile: false });
 
-  // Pull the lesson id list from the live SECTION_GROUPS; drop section "opener" splash pages.
+  // Pull the lesson id list from the live SECTION_GROUPS (openers included; each gets a
+  // distinct PDF name via lessonSlug's OPENER_PDF_NAMES map).
   await send("Page.navigate", { url: BASE }); await sleep(2500);
   let ids = JSON.parse(await ev("JSON.stringify(SECTION_GROUPS.flatMap(function(g){return g.sections;}))"));
-  ids = ids.filter((x) => x.indexOf("opener") !== 0);
   if (only.length) ids = only;
   console.log("Generating " + ids.length + " lesson PDF(s) into " + OUT + " ...");
 

@@ -1645,10 +1645,21 @@ const SECTION_META = {
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
   .map(function(id) { return Object.assign({ id: id }, SECTION_META[id]); });
+// Opener sections all share the label "Opener", so their title slugs would collide.
+// Give each a distinct PDF name keyed off its section (used for the file on disk and
+// the Download link). Short form: the section's defining keyword.
+const OPENER_PDF_NAMES = {
+  openerworkwith: "Opener-Work",
+  openerfoundations: "Opener-Understand",
+  openerprotect: "Opener-Avoid",
+  openerrealworld: "Opener-Embrace",
+  openerskills: "Opener-Build"
+};
 // Filename slug for a lesson's assets (PDF/video/illustration): from the displayed
 // title, lowercase-hyphen, & -> "and", apostrophes dropped. Keep in sync with the
 // slug() in scripts/make-lesson-pdfs.js.
 function lessonSlug(id) {
+  if (OPENER_PDF_NAMES[id]) return OPENER_PDF_NAMES[id];
   var m = SECTION_META[id] || {};
   var t = (m.title || m.label || id);
   return t.replace(/&/g, " and ").replace(/[’']/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -12392,9 +12403,9 @@ function LLMExplorer() {
     },
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
   }, "\u21BA Reset Progress"),
-  (activeSection && activeSection.indexOf("opener") !== 0) ? /*#__PURE__*/React.createElement("a", {
+  activeSection ? /*#__PURE__*/React.createElement("a", {
     href: "packets/lessons/" + lessonSlug(activeSection) + ".pdf",
-    download: ((SECTION_META[activeSection] && SECTION_META[activeSection].label) || activeSection) + ".pdf",
+    download: (OPENER_PDF_NAMES[activeSection] || (SECTION_META[activeSection] && SECTION_META[activeSection].label) || activeSection) + ".pdf",
     style: { textDecoration: "none", cursor: "pointer", fontSize: 12.5, color: "var(--primary)", fontWeight: 700, display: "block", textAlign: "center", margin: "10px auto 0" }
   }, "\u2b07 Download this lesson (PDF)") : null));
 }

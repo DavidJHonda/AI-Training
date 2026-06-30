@@ -5952,13 +5952,6 @@ function DocumentChatSection(props) {
     })
   );
 }
-const TEMP_OUTPUTS = {
-  "The secret to a great pizza is": {
-    0: ["using high-quality ingredients and a hot oven.", "using fresh ingredients and a very hot oven."],
-    0.5: ["letting the dough ferment slowly for at least 24 hours.", "a wood-fired oven and San Marzano tomatoes."],
-    1: ["whispering encouraging words to the dough while it rises.", "putting pineapple on it and watching the world burn."]
-  },
-};
 
 
 function ModelSelectionSection(props) {
@@ -6349,7 +6342,6 @@ function ChoosingModelSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function PredictionSection(props) {
-  const prompt = "The secret to a great pizza is";
   var WORD_DISTRIBUTIONS = [
     { word: "tomorrow", low: 100, medium: 65, high: 40 },
     { word: "later", low: 0, medium: 20, high: 28 },
@@ -6362,29 +6354,14 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "You just watched a token\u2019s final vector land in its neighborhood on the map. In Vector Space, that landing was about meaning, the model understanding the words you put in. Prediction is the flip side, the output: it takes the position at the end of your text and turns it into the next word."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The model doesn\u2019t just grab the single closest token. It scores ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next token at once and lines them up by probability: a ranked list, with the best fit on top and a long tail of less likely options below it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The model doesn\u2019t just grab the single closest token. It compares that final position against ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next token, scoring each by how closely the two line up on the map. Then it ranks them by probability: the best fit on top, and a long tail of less likely options below."),
   /*#__PURE__*/React.createElement(BodyP, null, "Then it takes one, almost always from the top, adds it to the text, and runs the whole thing again for the token after that. That pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
-  },
-    [
-      { label: "Low temperature", icon: "\u2744\uFE0F", bg: "#3b82f610", border: "#3b82f633", desc: "Repeatable, predictable, less varied." },
-      { label: "Medium temperature", icon: "\u2696\uFE0F", bg: "#6e51ff10", border: "#6e51ff33", desc: "Balanced, natural. Usually best for normal writing and brainstorming." },
-      { label: "High temperature", icon: "\uD83D\uDD25", bg: "#f59e0b10", border: "#f59e0b33", desc: "Surprising, unusual, sometimes weird or incoherent." }
-    ].map(function(card, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { flex: 1, minWidth: 200, background: card.bg, border: "1px solid " + card.border, borderRadius: 10, padding: "14px 18px", textAlign: "center" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, card.icon),
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 4 } }, card.label),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, card.desc));
-    })),
+  /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It changes how much the model sticks to its most likely next choice."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that ranked list for \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
-    headline: "How temperature reshapes the picks",
-    intro: "Here\u2019s that ranked list for \u201CSee you ___\u201D. Watch how the same candidates redistribute as temperature rises. This is a simplified demo: real models use other sampling controls too, and exact numbers vary by model."
+    headline: "How temperature reshapes the picks"
   },
     /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
       /*#__PURE__*/React.createElement("div", {
@@ -6425,80 +6402,8 @@ function PredictionSection(props) {
           }));
       })
     )),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "The Temperature Dial",
-    headline: "One prompt, three settings of the dial"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--mono)", fontSize: 15, fontWeight: 700, color: "var(--primary)", background: "#fff", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 16px", marginBottom: 18 }
-    }, "\u201C", prompt, "...\u201D"),
-    [
-      { tkey: 0, icon: "\u2744\uFE0F", label: "Low", sub: "Repeatable", value: "0.2", color: "#3b82f6", pos: "20%", tint: "#3b82f61a", calloutBg: "#3b82f610", calloutBorder: "#3b82f633", lead: "Nearly the same every time.", body: "At low temperature, the model almost always picks the most probable next word, so the wording barely shifts. Dependable when you need a consistent answer." },
-      { tkey: 0.5, icon: "\u2696\uFE0F", label: "Medium", sub: "Balanced", value: "0.5", color: "#6e51ff", pos: "50%", tint: "#6e51ff1a", calloutBg: "#6e51ff10", calloutBorder: "#6e51ff33", lead: "Each run is different but reasonable.", body: "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." },
-      { tkey: 1, icon: "\uD83D\uDD25", label: "High", sub: "Surprising", value: "1.0", color: "#f59e0b", pos: "100%", tint: "#f59e0b1a", calloutBg: "#f59e0b10", calloutBorder: "#f59e0b33", lead: "Things get weird.", body: "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework." }
-    ].map(function(s, si) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: si,
-        style: { background: "#fff", borderRadius: 14, padding: 20, boxShadow: "var(--shadowSoft)", marginBottom: si < 2 ? 16 : 0 }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, s.icon),
-            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "var(--ink)" } }, s.label),
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, color: "var(--inkSoft)" } }, s.sub)),
-          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--mono)", fontSize: 20, fontWeight: 700, color: s.color } }, s.value)),
-        /*#__PURE__*/React.createElement("div", { style: { position: "relative", height: 6, background: "var(--rule)", borderRadius: 999, marginBottom: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { position: "absolute", left: 0, top: 0, height: "100%", width: s.pos, background: s.color, borderRadius: 999 } }),
-          /*#__PURE__*/React.createElement("div", { style: { position: "absolute", left: s.pos, top: "50%", width: 14, height: 14, marginLeft: -7, marginTop: -7, borderRadius: "50%", background: s.color, boxShadow: "var(--shadowSoft)" } })),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 } },
-          TEMP_OUTPUTS[prompt][s.tkey].map(function(out, oi) {
-            return /*#__PURE__*/React.createElement("div", {
-              key: oi,
-              style: { background: "var(--bg)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--rule)" }
-            },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", marginBottom: 6 } }, "Run #", oi + 1),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } },
-                /*#__PURE__*/React.createElement("span", { style: { background: s.tint, color: s.color, fontWeight: 700, padding: "2px 6px", borderRadius: 4 } }, prompt, " "),
-                out));
-          })),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: s.calloutBg, border: "1px solid " + s.calloutBorder, borderRadius: 10, padding: "12px 14px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
-        }, /*#__PURE__*/React.createElement("strong", null, s.lead + " "), s.body));
-    })
-  ),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
-    "You probably won\u2019t see this dial in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "When you want repeatability vs variety",
-    intro: "Most students won\u2019t touch a temperature slider directly. But you can ask for the effect through prompting.",
-    marginTop: 36
-  },
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 } },
-      [
-        {
-          label: "When you want repeatability",
-          color: "#3b82f6",
-          icon: "\u2744\uFE0F",
-          body: "Ask for \u201Cthe standard answer,\u201D \u201Cthe most likely interpretation,\u201D or \u201Cyour best single answer.\u201D Good for formatting, extracting information, following a template, or getting a stable result you can rely on."
-        },
-        {
-          label: "When you want variety",
-          color: "#f59e0b",
-          icon: "\uD83D\uDD25",
-          body: "Ask for \u201Cten different options,\u201D \u201Csurprise me,\u201D or \u201Cgive me unusual angles.\u201D Good for naming, story ideas, jokes, alternate phrasings, or creative exploration. Regenerate also helps."
-        }
-      ].map(function(card, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { background: "var(--card)", borderRadius: 12, padding: 18, borderTop: "3px solid " + card.color }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, card.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: card.color } }, card.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
-      })
-    )
-  ),
+    "You probably won\u2019t see this dial in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters: you can ask for the effect instead, requesting ", /*#__PURE__*/React.createElement("em", null, "your best single answer"), " for consistency or ", /*#__PURE__*/React.createElement("em", null, "ten different options"), " for range."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature doesn\u2019t mean correct. It means repeatable. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),

@@ -227,12 +227,12 @@ function BodyP(props) {
 const LESSON_VIDEOS = {
   welcome: { src: "videos/welcome.mp4", duration: "3 min", title: "A quick look at what this course is and why it exists." },
   whydeeper: { src: "videos/why-learn-ai.mp4", duration: "4 min", title: "Why understanding AI is the edge that pays off." },
-  aihistory: { src: "videos/how-an-llm-works.mp4", duration: "5 min", title: "How an LLM turns your prompt into an answer." },
+  aihistory: { src: "videos/how-an-llm-works.mp4", duration: "4 min", title: "How an LLM turns your prompt into an answer." },
   llms: { src: "videos/what-is-ai.mp4", duration: "3 min", title: "What AI is, and the two kinds you already use." },
-  doesaithink: { src: "videos/does-ai-think.mp4", duration: "4 min", title: "Whether AI thinks, or just sounds like it does." },
-  whybother: { src: "videos/does-school-matter.mp4", duration: "2 min", title: "Whether school still matters in the age of AI." },
-  control: { src: "videos/what-you-can-control.mp4", duration: "3 min", title: "What about your future with AI is actually in your hands." },
-  studying: { src: "videos/learn-with-ai.mp4", duration: "5 min", title: "How to turn AI into a study tool that actually works." },
+  doesaithink: { src: "videos/does-ai-think.mp4", duration: "3 min", title: "Whether AI thinks, or just sounds like it does." },
+  whybother: { src: "videos/does-school-matter.mp4", duration: "4 min", title: "Whether school still matters in the age of AI." },
+  control: { src: "videos/what-you-can-control.mp4", duration: "4 min", title: "What about your future with AI is actually in your hands." },
+  studying: { src: "videos/learn-with-ai.mp4", duration: "3 min", title: "How to turn AI into a study tool that actually works." },
   openerfoundations: { src: "videos/understand-ai-opener.mp4", duration: "1 min", title: "A quick map of how AI really works, before we dig in.", cta: "Then dig into the lessons in this section." },
   howwegothere: { src: "videos/how-we-got-here.mp4", duration: "3 min", title: "How four ideas became AI." },
   aivscode: { src: "videos/ai-is-different.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
@@ -4996,9 +4996,41 @@ function VectorSpaceSection(props) {
       " means the cat."),
     E("img", {
       src: "illustrations/vector-space-1.jpg",
-      alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is whatever sits closest.",
+      alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is often the one that sits closest.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
+    E(SectionKicker, null, "It’s not just pronouns"),
+    E(BodyP, null,
+      "The pronoun ",
+      E("strong", { style: { color: "var(--primary)" } }, "IT"),
+      " was an easy case to watch, but this isn’t special to ambiguous words. Every token gets rewritten by the ones around it, even a plain, concrete noun. Watch the word ",
+      E("strong", { style: { color: "var(--primary)" } }, "airplane"),
+      " in two different sentences."),
+    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+      [
+        { words: ["She", "folded", "a", "paper", "airplane", "and", "sailed", "it", "across", "the", "room"], near: ["paper", "fold", "toy", "glide"] },
+        { words: ["The", "airplane", "roared", "down", "the", "runway", "and", "lifted", "into", "the", "sky"], near: ["jet", "runway", "pilot", "flight"] }
+      ].map(function(s, si) {
+        return E("div", { key: si, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 16 } },
+          E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: 5, rowGap: 8, marginBottom: 14 } },
+            s.words.map(function(w, i) {
+              var hl = w === "airplane";
+              return E("span", { key: i, style: { background: hl ? "var(--primary)" : "#fff", color: hl ? "#fff" : "var(--inkSoft)", border: hl ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: hl ? 800 : 600 } }, w);
+            })),
+          E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--inkMuted)", marginBottom: 8 } }, "Nearby on the map"),
+          E("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } },
+            s.near.map(function(n, i) {
+              return E("span", { key: i, style: { background: "var(--primaryFaint)", color: "var(--primary)", border: "1px solid rgba(110, 81, 255, 0.25)", borderRadius: 999, padding: "4px 10px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: 700 } }, n);
+            })));
+      })),
+    E(BodyP, null,
+      "Same word, same starting vector. But ",
+      E("em", null, "paper"), ", ", E("em", null, "folded"), ", and ", E("em", null, "room"),
+      " pull it one way, while ",
+      E("em", null, "runway"), ", ", E("em", null, "roared"), ", and ", E("em", null, "sky"),
+      " pull it the other. It isn’t one keyword flipping a switch: the final vector is the ",
+      E("strong", null, "blend of the whole sentence"),
+      ". Change the words around it, and the same token lands somewhere new."),
     E(WhichSitsCloserTryIt, { onComplete: function() { setVsDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: Prediction" }));
@@ -5922,9 +5954,9 @@ function DocumentChatSection(props) {
 }
 const TEMP_OUTPUTS = {
   "The secret to a great pizza is": {
-    0: ["using high-quality ingredients and a hot oven.", "using high-quality ingredients and a hot oven.", "using high-quality ingredients and a hot oven."],
-    0.5: ["letting the dough ferment slowly for at least 24 hours.", "a wood-fired oven and San Marzano tomatoes.", "simplicity; don't overload it with too many toppings."],
-    1: ["whispering encouraging words to the dough while it rises.", "making eye contact with the mozzarella so it knows you're serious.", "putting pineapple on it and watching the world burn."]
+    0: ["using high-quality ingredients and a hot oven.", "using fresh ingredients and a very hot oven."],
+    0.5: ["letting the dough ferment slowly for at least 24 hours.", "a wood-fired oven and San Marzano tomatoes."],
+    1: ["whispering encouraging words to the dough while it rises.", "putting pineapple on it and watching the world burn."]
   },
 };
 
@@ -6317,10 +6349,7 @@ function ChoosingModelSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function PredictionSection(props) {
-  const [temp, setTemp] = useState(0);
   const prompt = "The secret to a great pizza is";
-  const tempKey = temp <= 0.2 ? 0 : temp <= 0.7 ? 0.5 : 1;
-  const outputs = TEMP_OUTPUTS[prompt]?.[tempKey] || [];
   var WORD_DISTRIBUTIONS = [
     { word: "tomorrow", low: 100, medium: 65, high: 40 },
     { word: "later", low: 0, medium: 20, high: 28 },
@@ -6337,7 +6366,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Then it takes one, almost always from the top, adds it to the text, and runs the whole thing again for the token after that. That pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It does not make an answer true. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
+  /*#__PURE__*/React.createElement(BodyP, null, "Temperature is the variation dial. It changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes answers more varied, creative, and sometimes weird."), /*#__PURE__*/React.createElement(BodyP, null, "Temperature does not make the model smarter. It changes how much the model sticks to its most likely next choice."), /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }
   },
     [
@@ -6396,43 +6425,49 @@ function PredictionSection(props) {
           }));
       })
     )),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "The Temperature Dial",
-    lead: "See temperature in action. Move the slider and watch the same prompt produce wildly different answers."
+  /*#__PURE__*/React.createElement(ShowcaseBox, {
+    kicker: "The Temperature Dial",
+    headline: "One prompt, three settings of the dial"
   },
-    /*#__PURE__*/React.createElement(InnerCard, null,
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontFamily: "var(--mono)", fontSize: 15, fontWeight: 700, color: "var(--tryAccent)", background: "#e7f6ee", padding: "8px 14px", borderRadius: 8, marginBottom: 20 }
-      }, "\u201C", prompt, "...\u201D"),
-      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 20 } },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 14, fontWeight: 600, color: "var(--ink)" } }, "Temperature"),
-          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--mono)", fontSize: 20, fontWeight: 700, color: temp <= 0.2 ? "#1f9d5f" : temp <= 0.7 ? "var(--tryAccent)" : "#14502d" } }, temp.toFixed(1))),
-        /*#__PURE__*/React.createElement("input", {
-          type: "range", min: "0", max: "1", step: "0.1", value: temp,
-          onChange: e => setTemp(parseFloat(e.target.value)),
-          style: { width: "100%", accentColor: temp <= 0.2 ? "#1f9d5f" : temp <= 0.7 ? "var(--tryAccent)" : "#14502d" }
-        }),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--inkMuted)", marginTop: 4 } },
-          /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDCA Low (Repeatable)"),
-          /*#__PURE__*/React.createElement("span", null, "Medium (Balanced)"),
-          /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD25 High (Surprising)"))),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        outputs.map((out, i) => /*#__PURE__*/React.createElement("div", {
-          key: `${prompt}-${tempKey}-${i}`,
-          style: { background: "#fff", borderRadius: 10, padding: "16px 20px", border: "1px solid var(--rule)", animation: "fadeIn 0.3s ease", animationDelay: `${i * 0.1}s`, animationFillMode: "both" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", marginBottom: 6 } }, "Run #", i + 1),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", lineHeight: 1.5 } },
-            /*#__PURE__*/React.createElement("span", { style: { background: "#e7f6ee", color: "var(--tryAccent)", fontWeight: 700, padding: "2px 6px", borderRadius: 4 } }, prompt, " "),
-            out)))),
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "#e7f6ee", border: "1px solid #b6e3cd", borderRadius: 10, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6, marginTop: 18 }
-      }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, tempKey === 0 ? "Notice how all three runs are identical? " : tempKey === 0.5 ? "Each run gives a different but reasonable answer. " : "Things get weird! "), tempKey === 0 ? "At temperature 0, the model always picks the single most probable next word, so you get the same output every time. Useful when you need reliable, consistent answers." : tempKey === 0.5 ? "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." : "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework."))),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontFamily: "var(--mono)", fontSize: 15, fontWeight: 700, color: "var(--primary)", background: "#fff", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 16px", marginBottom: 18 }
+    }, "\u201C", prompt, "...\u201D"),
+    [
+      { tkey: 0, icon: "\u2744\uFE0F", label: "Low", sub: "Repeatable", value: "0.2", color: "#3b82f6", pos: "20%", tint: "#3b82f61a", calloutBg: "#3b82f610", calloutBorder: "#3b82f633", lead: "Nearly the same every time.", body: "At low temperature, the model almost always picks the most probable next word, so the wording barely shifts. Dependable when you need a consistent answer." },
+      { tkey: 0.5, icon: "\u2696\uFE0F", label: "Medium", sub: "Balanced", value: "0.5", color: "#6e51ff", pos: "50%", tint: "#6e51ff1a", calloutBg: "#6e51ff10", calloutBorder: "#6e51ff33", lead: "Each run is different but reasonable.", body: "Moderate temperature lets the model explore a range of probable completions. Each is plausible but different. This is the sweet spot for most creative tasks." },
+      { tkey: 1, icon: "\uD83D\uDD25", label: "High", sub: "Surprising", value: "1.0", color: "#f59e0b", pos: "100%", tint: "#f59e0b1a", calloutBg: "#f59e0b10", calloutBorder: "#f59e0b33", lead: "Things get weird.", body: "High temperature means the model is willing to pick low-probability words, leading to unexpected, creative, and sometimes nonsensical outputs. Fun for brainstorming, risky for homework." }
+    ].map(function(s, si) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: si,
+        style: { background: "#fff", borderRadius: 14, padding: 20, boxShadow: "var(--shadowSoft)", marginBottom: si < 2 ? 16 : 0 }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8 } },
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, s.icon),
+            /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 16, color: "var(--ink)" } }, s.label),
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, color: "var(--inkSoft)" } }, s.sub)),
+          /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--mono)", fontSize: 20, fontWeight: 700, color: s.color } }, s.value)),
+        /*#__PURE__*/React.createElement("div", { style: { position: "relative", height: 6, background: "var(--rule)", borderRadius: 999, marginBottom: 16 } },
+          /*#__PURE__*/React.createElement("div", { style: { position: "absolute", left: 0, top: 0, height: "100%", width: s.pos, background: s.color, borderRadius: 999 } }),
+          /*#__PURE__*/React.createElement("div", { style: { position: "absolute", left: s.pos, top: "50%", width: 14, height: 14, marginLeft: -7, marginTop: -7, borderRadius: "50%", background: s.color, boxShadow: "var(--shadowSoft)" } })),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 } },
+          TEMP_OUTPUTS[prompt][s.tkey].map(function(out, oi) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: oi,
+              style: { background: "var(--bg)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--rule)" }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkMuted)", marginBottom: 6 } }, "Run #", oi + 1),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } },
+                /*#__PURE__*/React.createElement("span", { style: { background: s.tint, color: s.color, fontWeight: 700, padding: "2px 6px", borderRadius: 4 } }, prompt, " "),
+                out));
+          })),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: s.calloutBg, border: "1px solid " + s.calloutBorder, borderRadius: 10, padding: "12px 14px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }
+        }, /*#__PURE__*/React.createElement("strong", null, s.lead + " "), s.body));
+    })
+  ),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } },
-    "You probably won\u2019t see this slider in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters."),
+    "You probably won\u2019t see this dial in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "When you want repeatability vs variety",
     intro: "Most students won\u2019t touch a temperature slider directly. But you can ask for the effect through prompting.",
@@ -6469,7 +6504,7 @@ function PredictionSection(props) {
     "Low temperature doesn\u2019t mean correct. It means repeatable. A low-temp model will give you the same answer every time, even when that answer is wrong. Temperature controls variation, not accuracy."),
   /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 28 } }, "These odds didn’t come from nowhere. The model learned every one of them from billions of examples, long before you typed a word. That’s ", /*#__PURE__*/React.createElement("strong", null, "training"), "."),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: temp > 0, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" }));
 }
 
 function HallucinationSection(props) {

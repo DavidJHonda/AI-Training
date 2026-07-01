@@ -310,9 +310,9 @@ function ShowcaseBox(props) {
 function DecodeCards(props) {
   var E = React.createElement;
   return E(ShowcaseBox, { headline: props.headline },
-    E("div", { style: { background: "var(--card)", borderRadius: 16, padding: 16, display: "flex", gap: 16, flexWrap: "wrap" } },
+    E("div", { style: { display: "flex", gap: 16, flexWrap: "wrap" } },
       props.items.map(function(it, i) {
-        return E("div", { key: i, style: { flex: "1 1 220px", background: it.bg, borderRadius: 14, padding: "18px 20px" } },
+        return E("div", { key: i, style: { flex: "1 1 220px", background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
           E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
             E("span", { style: { minWidth: 34, height: 34, padding: "0 9px", borderRadius: 9, background: it.color, color: "#fff", fontWeight: 800, fontSize: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, it.badge),
             E("span", { style: { fontWeight: 800, fontSize: 19, color: it.color } }, it.label)),
@@ -2005,15 +2005,13 @@ function WatchTonightSeeIt() {
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease", alignItems: "start" } },
         predCard,
-        genCard),
-      /*#__PURE__*/React.createElement("div", { style: { animation: "fadeIn 0.4s ease", marginTop: 16 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Recommendation AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and composed something new from it. And it’s still in the conversation."))));
+        genCard)));
 }
 function RecOrGenTryIt(props) {
   var ROWS = [
     { use: "Netflix suggesting your next show", correct: "rec", fb: {
       rec: "Right. It ranks shows that already exist and serves the top match. Nothing new is made.",
-      gen: "Not quite. Netflix doesn’t make a new show, it ranks ones that already exist. That’s recommendation." } },
+      gen: "Not quite. Netflix doesn’t create a new show every time it makes a recommendation. It ranks a show that already exists." } },
     { use: "ChatGPT writing you a birthday poem", correct: "gen", fb: {
       gen: "Right. The poem didn’t exist until you asked. It’s built fresh, word by word.",
       rec: "Not quite. There’s no list of poems to pick from. ChatGPT builds a new one, so it’s generative." } },
@@ -2033,7 +2031,7 @@ function RecOrGenTryIt(props) {
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "What type of AI? Recommendation or Generative?",
-    lead: "You probably use both kinds of AI every day. For each example, decide whether it’s recommendation AI picking from what already exists, or generative AI making something new."},
+    lead: "For each example, decide whether it’s recommendation AI picking from what already exists, or generative AI making something new."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -2091,15 +2089,16 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like on one task."),
     /*#__PURE__*/React.createElement(ShowcaseBox, null,
       /*#__PURE__*/React.createElement(WatchTonightSeeIt, null)),
+    /*#__PURE__*/React.createElement(BodyP, null, "Recommendation AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and composed something new from it. And it’s still in the conversation."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE NAME GAME"),
     /*#__PURE__*/React.createElement(BodyP, null, "You’ll hear a pile of names: AI, generative AI, ChatGPT, LLM. Don’t let the terminology trip you up. For the rest of this course, we’ll usually say AI, and we mean the generative kind that you experience with ChatGPT, Claude, and Gemini."),
     /*#__PURE__*/React.createElement(BodyP, null, "There’s a name for these generative AI tools: LLM, short for ", /*#__PURE__*/React.createElement("strong", null, "Large Language Model"), ". Think of it like this. ChatGPT is the app you use, and the LLM is the engine under the hood doing the work."),
     /*#__PURE__*/React.createElement(DecodeCards, {
       headline: "What’s an LLM?",
       items: [
-        { badge: "L", label: "Large", color: "#3b82f6", bg: "#e8eefb", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "Trained on ", /*#__PURE__*/React.createElement("strong", { style: { color: "#3b82f6" } }, "huge amounts of text"), ": books, websites, even code. That scale is what lets one model handle many different tasks.") },
-        { badge: "L", label: "Language", color: "#10b981", bg: "#e6f4ec", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "Built for human language: ", /*#__PURE__*/React.createElement("strong", { style: { color: "#10b981" } }, "reading, writing, summarizing"), ", translating, explaining. Words in, words out.") },
-        { badge: "M", label: "Model", color: "#f59e0b", bg: "#fcf2e0", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "The trained AI itself. It takes your input and ", /*#__PURE__*/React.createElement("strong", { style: { color: "#f59e0b" } }, "predicts a likely output"), " based on patterns it learned from data.") }
+        { badge: "L", label: "Large", color: "#3b82f6", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "Trained on ", /*#__PURE__*/React.createElement("strong", { style: { color: "#3b82f6" } }, "huge amounts of text"), ": books, websites, even code. That scale is what lets one model handle many different tasks.") },
+        { badge: "L", label: "Language", color: "#10b981", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "Built for human language: ", /*#__PURE__*/React.createElement("strong", { style: { color: "#10b981" } }, "reading, writing, summarizing"), ", translating, explaining. Words in, words out.") },
+        { badge: "M", label: "Model", color: "#f59e0b", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "The trained AI itself. It takes your input and ", /*#__PURE__*/React.createElement("strong", { style: { color: "#f59e0b" } }, "predicts a likely output"), " based on patterns it learned from data.") }
       ]
     }),
     /*#__PURE__*/React.createElement(RecOrGenTryIt, { onComplete: function() { setRgDone(true); } }),
@@ -5344,10 +5343,10 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(DecodeCards, {
     headline: "ChatGPT, decoded",
     items: [
-      { badge: "Chat", label: "Chat", color: "#3b82f6", bg: "#e8eefb", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "A ", /*#__PURE__*/React.createElement("strong", { style: { color: "#3b82f6" } }, "conversational interface"), ". You type, it responds.") },
-      { badge: "G", label: "Generative", color: "#10b981", bg: "#e6f4ec", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "It ", /*#__PURE__*/React.createElement("strong", { style: { color: "#10b981" } }, "creates new content"), " from scratch: text, images, audio, video, and documents.") },
-      { badge: "P", label: "Pre-trained", color: "#f59e0b", bg: "#fcf2e0", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "It learned from ", /*#__PURE__*/React.createElement("strong", { style: { color: "#f59e0b" } }, "billions of pages"), " of text, images, audio, video, and code before you ever used it.") },
-      { badge: "T", label: "Transformer", color: "#8b5cf6", bg: "#efe9fc", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "The architecture that lets it ", /*#__PURE__*/React.createElement("strong", { style: { color: "#8b5cf6" } }, "process all your words at once"), ", not one at a time.") }
+      { badge: "Chat", label: "Chat", color: "#3b82f6", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "A ", /*#__PURE__*/React.createElement("strong", { style: { color: "#3b82f6" } }, "conversational interface"), ". You type, it responds.") },
+      { badge: "G", label: "Generative", color: "#10b981", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "It ", /*#__PURE__*/React.createElement("strong", { style: { color: "#10b981" } }, "creates new content"), " from scratch: text, images, audio, video, and documents.") },
+      { badge: "P", label: "Pre-trained", color: "#f59e0b", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "It learned from ", /*#__PURE__*/React.createElement("strong", { style: { color: "#f59e0b" } }, "billions of pages"), " of text, images, audio, video, and code before you ever used it.") },
+      { badge: "T", label: "Transformer", color: "#8b5cf6", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "The architecture that lets it ", /*#__PURE__*/React.createElement("strong", { style: { color: "#8b5cf6" } }, "process all your words at once"), ", not one at a time.") }
     ]
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "LOCK IN THE PIECES"),

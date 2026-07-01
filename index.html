@@ -1056,7 +1056,12 @@ function CompareRows(props) {
           var right = ci === 1;
           return React.createElement("div", { key: ci, style: { textAlign: right ? "right" : "left" } },
             c.sub ? React.createElement("div", { style: { display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 6 } }, c.emoji ? React.createElement("span", { style: { fontSize: 15, lineHeight: 1 } }, c.emoji) : null, React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: c.color, textTransform: "uppercase", letterSpacing: "0.18em" } }, c.sub)) : null,
-            React.createElement("div", { style: { fontWeight: 800, color: c.color, fontSize: 24, lineHeight: 1.15, letterSpacing: "-0.018em" } }, c.label));
+            (!c.sub && c.emoji)
+              ? React.createElement("div", { style: { display: "inline-flex", alignItems: "center", gap: 10, fontWeight: 800, color: c.color, fontSize: 24, lineHeight: 1.15, letterSpacing: "-0.018em" } },
+                  right ? null : React.createElement("span", { style: { fontSize: 22, lineHeight: 1 } }, c.emoji),
+                  React.createElement("span", null, c.label),
+                  right ? React.createElement("span", { style: { fontSize: 22, lineHeight: 1 } }, c.emoji) : null)
+              : React.createElement("div", { style: { fontWeight: 800, color: c.color, fontSize: 24, lineHeight: 1.15, letterSpacing: "-0.018em" } }, c.label));
         })),
       React.createElement("div", { style: { background: "#fff", borderRadius: 16, padding: "2px 28px", boxShadow: "var(--shadowElevated)" } },
         cols[0].items.map(function(leftItem, j) {
@@ -3075,10 +3080,9 @@ function DoesAIThinkSection(props) {
       color: "#2f4cb8",
       bg: "#d6e2f4",
       items: [
-        "Understand what things actually mean",
-        "Draw on real experience and senses",
+        "Understand what words really mean",
+        "Draw on real experience",
         "Choose words to make a point",
-        "Actually care whether you\u2019re right",
         "Feel when something\u2019s beautiful",
         "Know when you\u2019re unsure"
       ]
@@ -3091,10 +3095,9 @@ function DoesAIThinkSection(props) {
       bg: "#ddd0ef",
       items: [
         "Matches patterns in mountains of text",
-        "Only ever reads about the world",
+        "Only reads about the world",
         "Predicts the next likely word",
-        "Has no stake in being right or wrong",
-        "Echoes what people call beautiful",
+        "Echoes what others call beautiful",
         "Can\u2019t tell when it\u2019s making things up"
       ]
     }
@@ -3102,8 +3105,8 @@ function DoesAIThinkSection(props) {
 
   var ITEMS = [
     { text: "AI understands what your words actually mean.", answer: "illusion", headline: "That just sounds true.",
-      realFeedback: "It reads like understanding, but watch what\u2019s happening underneath. AI is predicting which words tend to follow which. The word \u201Cgrief\u201D comes out perfectly with nothing behind it. Looks like meaning. Isn\u2019t.",
-      illusionFeedback: "Right. AI doesn\u2019t understand meaning, it works out which words tend to go together and predicts from there. It can use the word \u201Cgrief\u201D perfectly with nothing behind it." },
+      realFeedback: "It reads like understanding, but watch what\u2019s happening underneath. AI is predicting which words tend to follow which. Looks like meaning. Isn\u2019t.",
+      illusionFeedback: "Right. AI doesn\u2019t understand meaning, it works out which words tend to go together and predicts from there." },
     { text: "AI feels bad when it gives you a wrong answer.", answer: "illusion", headline: "That just sounds true.",
       realFeedback: "It writes \u201CI\u2019m so sorry\u201D so convincingly that it can feel real. But there\u2019s nobody home to feel anything. Apologies are a pattern it has seen a million times. The words are there. The feeling isn\u2019t.",
       illusionFeedback: "Right. No feelings in there. It writes \u201CI\u2019m so sorry\u201D because apologies are a pattern it has seen a million times, not because anything is bothered." },
@@ -3314,6 +3317,7 @@ function ControlSection(props) {
   var COLUMNS = [
     {
       label: "Out of your hands",
+      emoji: "🤷",
       color: "#2f4cb8",
       bg: "#d6e2f4",
       items: [
@@ -3326,6 +3330,7 @@ function ControlSection(props) {
     },
     {
       label: "In your hands",
+      emoji: "💪",
       color: "#5a3aa6",
       bg: "#ddd0ef",
       items: [
@@ -3371,8 +3376,8 @@ function ControlSection(props) {
       text: "Whether you build skills no one can hand you",
       answer: "can",
       headline: "In your hands.",
-      canFeedback: "Right. You can be handed information. You can be handed answers. Nobody can hand you skill. You build it by doing the thing badly until you do it well.",
-      cantFeedback: "Feels like AI can hand you everything. It can hand you information and answers, but not skill. Skill comes from doing the thing badly until you do it well, and that decision is yours."
+      canFeedback: "Right. You can be handed information. You can be handed answers. Nobody can hand you skill. You build it through learning, practice, and hard work.",
+      cantFeedback: "Feels like AI can hand you everything. It can hand you information and answers, but not skill. Skill comes from learning, practice, and hard work. And that decision is yours."
     }
   ];
 
@@ -3386,7 +3391,7 @@ function ControlSection(props) {
       "And jobs are just the loudest headline. AI is also reshaping who holds power, what it costs the planet to run, and what you can trust online. It\u2019s all real, it\u2019s all moving fast, and almost none of it is in your hands."),
     E(SectionKicker, null, "WHAT IS GOING TO HAPPEN?"),
     E(BodyP, null,
-      "Will it erase millions of jobs or create new ones? Will it wreak havoc on the environment? ",
+      "Will AI erase or create millions of jobs? Will it wreak havoc on the environment? ",
       E("strong", null, "Nobody knows yet, including the people making the predictions.")),
     E(BodyP, null,
       "Right now, there’s a big question worth asking: what’s in your hands, and what isn’t?"),
@@ -3400,23 +3405,19 @@ function ControlSection(props) {
     E(BodyP, null,
       "That right column isn’t a feeling, it’s a to-do list. Three moves worth your energy:"),
     E(NumberedRows, { marginBottom: 32, items: [
-      { icon: "🛠️", title: "Get genuinely good with AI, not just familiar.", body: "Pick one tool and go deep: what it’s great at, where it gets things wrong, how to push it. Depth beats dabbling." },
-      { icon: "🧠", title: "Do the thinking first, then bring AI in.", body: "Form your own take before you ask, then use AI to sharpen it instead of skipping it. That’s the line between getting smarter and getting dependent." },
-      { icon: "🔨", title: "When the hype spikes, close the tab and go build.", body: "You can’t control the headlines. You can control whether you doomscroll them or spend that hour getting better at something real." }
+      { title: "Get genuinely good with AI, not just familiar.", body: "Pick one tool and go deep: what it’s great at, where it gets things wrong, how to push it. Depth beats dabbling." },
+      { title: "Do the thinking first, then bring AI in.", body: "Form your own take before you ask, then use AI to sharpen it instead of skipping it. That’s the line between getting smarter and just getting answers." },
+      { title: "Don’t get caught up in the hype. Close the tab and go learn.", body: "You can’t control the headlines. You can control whether you doomscroll them or spend that hour getting better at something real." }
     ] }),
 
     E(BodyP, null,
       "Controlling your skill and judgment isn’t a consolation prize for the stuff you can’t change. It’s the one lever that actually tilts your odds, even when the big forces aren’t yours."),
 
-    E(KeyInsight, { lead: "The world will change in ways you don’t fully control." },
-      "That doesn’t make you powerless. You control how this actually goes for you, what you learn, and how well you use the tool. That’s where your energy goes."),
-
-
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "In Your Hands or Not?",
-     lead: "Some of what AI does to your future is out of your hands. A lot of it isn\u2019t. For each one, decide whether it\u2019s in your control or not."},
+     lead: "Some of what AI does to your future is out of your hands. A lot of it isn\u2019t. For each one, decide whether it\u2019s in your hands or not."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         ITEMS.map(function(item, i) {
           var answered = answers[i] !== undefined;

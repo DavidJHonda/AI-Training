@@ -6343,6 +6343,7 @@ function ChoosingModelSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("customization"), label: "Next: Customization & Memory" }));
 }
 function PredictionSection(props) {
+  const [tempAnswers, setTempAnswers] = useState({});
   var WORD_DISTRIBUTIONS = [
     { word: "tomorrow", low: 94, medium: 65, high: 40 },
     { word: "later", low: 2, medium: 20, high: 28 },
@@ -6351,14 +6352,22 @@ function PredictionSection(props) {
     { word: "again", low: 1, medium: 1, high: 4 },
     { word: "other words", low: 1, medium: 1, high: 4 }
   ];
+  var TEMP_TASKS = [
+    { task: "Solve a math word problem", answer: "Low", explain: "Low. There’s one right answer, so variety only risks the model wandering off it. Keep variation down and it returns the same clean solution each time." },
+    { task: "Brainstorm 15 names for a new app", answer: "High", explain: "High. The whole point is range and surprise. Turning variation up gives you a wider, more unexpected spread to choose from." },
+    { task: "Reply to a routine “what are your hours?” email", answer: "Medium", explain: "Medium. Everyday writing: you want it natural and a little flexible, not rigid and not wild. The balanced default fits." },
+    { task: "Write a short poem about autumn", answer: "High", explain: "High. Creative writing benefits from variety. A higher setting makes the language more varied and original." },
+    { task: "Convert a recipe from cups to grams", answer: "Low", explain: "Low. This is a fixed conversion with one correct result. Variety adds nothing, so keep it low and repeatable." },
+    { task: "Write a friendly birthday message", answer: "Medium", explain: "Medium. A little warmth and variety is nice, but it still has to read normally. Everyday writing sits at the balanced middle, not the wild end." }
+  ];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "You just watched a token\u2019s final vector land in its neighborhood on the map. In Vector Space, that landing was about meaning, the model understanding the words you put in. Prediction is the flip side, the output: it takes the position at the end of your text and turns it into the next word."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You just watched a token\u2019s final vector land in its neighborhood on the map. In Vector Space, that landing was about meaning: the model understanding the words you put in. Prediction is the flip side, the output: it takes the position at the end of your text and turns it into the next word."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
   /*#__PURE__*/React.createElement(BodyP, null, "The model doesn\u2019t just grab the single closest token. It compares that final position against ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next token, scoring each by how closely the two line up on the map. Then it ranks them by probability: the best fit on top, and a long tail of less likely options below."),
   /*#__PURE__*/React.createElement(BodyP, null, "Then it takes one, almost always from the top, adds it to the text, and runs the whole thing again for the token after that. That pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
-    headline: "See you _______"
+    headline: "How prediction works in the sentence “See you _______”"
   },
     /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
       WORD_DISTRIBUTIONS.map(function(w, i) {
@@ -6387,7 +6396,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that ranked list for \u201CSee you ___\u201D. See how the probabilities shift across temperature levels. The exact numbers are illustrative, and temperature isn’t the only sampling control."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that same ranked list for \u201CSee you ___\u201D. The middle column is the default you just saw; see how the odds shift as temperature rises and falls. The exact numbers are illustrative, and temperature isn’t the only sampling control."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     headline: "How temperature reshapes the picks"
   },
@@ -6435,8 +6444,38 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "What temperature is not"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "Low temperature means repeatable, not correct. A low-temp model will confidently repeat the same wrong answer. Temperature controls variation, not accuracy."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Match the Task to the Temperature",
+    lead: "Some tasks want a steady, repeatable answer; others are better with lots of variety. For each one, pick the temperature that fits: Low, Medium, or High."},
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      TEMP_TASKS.map(function(t, i) {
+        var answered = tempAnswers[i] !== undefined;
+        var picked = tempAnswers[i];
+        var correct = picked === t.answer;
+        function PillButton(mode) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: mode,
+            answered: answered,
+            isCorrect: mode === t.answer,
+            isPicked: picked === mode,
+            label: mode,
+            onClick: function() { setTempAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, mode]])); }); }
+          });
+        }
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: t.task + ".",
+          answered: answered,
+          correct: correct,
+          feedback: t.explain
+        }, [PillButton("Low"), PillButton("Medium"), PillButton("High")]);
+      })
+    )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(tempAnswers).length >= TEMP_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("training"), label: "Next: Training" }));
 }
 
 function HallucinationSection(props) {

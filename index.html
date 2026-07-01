@@ -5943,58 +5943,11 @@ function DocumentChatSection(props) {
 
 function ModelSelectionSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-whichapp-steps", {});
-  var philContainerRef = useRef(null);
-  var philTitleRefs = useRef([]);
-  var philCardRefs = useRef([]);
-  var _philps = useState(null), philPaths = _philps[0], setPhilPaths = _philps[1];
-  var bestForContainerRef = useRef(null);
-  var bestForTitleRefs = useRef([]);
-  var bestForCardRefs = useRef([]);
-  var _bestForps = useState(null), bestForPaths = _bestForps[0], setBestForPaths = _bestForps[1];
-  var _philrs = useLocalStorage("seeit-modelselection-philRevealed", {}), philRevealed = _philrs[0], setPhilRevealed = _philrs[1];
-  var revealPhil = function(i) { setPhilRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  var _bestForrs = useLocalStorage("seeit-modelselection-bestForRevealed", {}), bestForRevealed = _bestForrs[0], setBestForRevealed = _bestForrs[1];
-  var revealBestFor = function(i) { setBestForRevealed(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); };
-  useEffect(function() {
-    function calc() {
-      var c = philContainerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 3; i++) {
-        var t = philTitleRefs.current[i], d = philCardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setPhilPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
-  useEffect(function() {
-    function calc() {
-      var c = bestForContainerRef.current;
-      if (!c) return;
-      var cRect = c.getBoundingClientRect();
-      var p = [];
-      for (var i = 0; i < 3; i++) {
-        var t = bestForTitleRefs.current[i], d = bestForCardRefs.current[i];
-        if (!t || !d) return;
-        var tR = t.getBoundingClientRect(), dR = d.getBoundingClientRect();
-        p.push({ x1: tR.left + tR.width / 2 - cRect.left, y1: tR.bottom - cRect.top, x2: dR.left + dR.width / 2 - cRect.left, y2: dR.top - cRect.top });
-      }
-      setBestForPaths(p);
-    }
-    calc();
-    window.addEventListener("resize", calc);
-    return function() { window.removeEventListener("resize", calc); };
-  }, []);
   const STEPS = [
     { title: "Get Claude", body: "Sign up at claude.ai. It runs right in your browser, nothing to install. A few later lessons do a little light coding, and Claude can write it and run it live on the same screen. Set it up on a computer rather than your phone, so there’s room to work." },
     { title: "Ask Claude about itself", body: "Send it: “What are you good at, and what should I not fully trust you on?” Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word." },
-    { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, or a draft to start. Notice how it feels to use a real AI on a real task." }
+    { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, or a draft to start. Notice how it feels to use a real AI on a real task." },
+    { title: "End with a laugh", body: "Ask Claude to tell you a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
   ];
   var labCheckedCount = STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
@@ -6036,31 +5989,18 @@ function ModelSelectionSection(props) {
         color: "#3b82f6"
       }
     ];
-    var STRENGTHS = {
-      ChatGPT: ["Brainstorming", "Quick drafts", "Varied everyday tasks", "General multimodal work with text, voice, images, files, and data"],
-      Claude: ["Coding and code review", "Analysis and research", "Long-form writing", "Careful critique when the stakes are higher, but still verify"],
-      Gemini: ["Current events", "Live web research", "Summarizing YouTube videos and Drive files", "Drafting in Gmail and Docs"]
-    };
     var secLabel = function(color, mb) { return { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: color, marginBottom: mb }; };
     return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 28 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "The big three, side by side"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "auto auto auto auto", columnGap: 18, rowGap: 0 } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "auto auto auto", columnGap: 18, rowGap: 0 } },
         PHILOSOPHIES.map(function(p, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, boxShadow: "var(--shadowSoft)", overflow: "hidden", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 4" } },
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, boxShadow: "var(--shadowSoft)", overflow: "hidden", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" } },
             /*#__PURE__*/React.createElement("div", { style: { padding: "16px 18px" } },
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.color, marginBottom: 4 } }, p.label),
               /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, p.tagline)),
             /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px", borderTop: "1px solid var(--rule)" } },
               /*#__PURE__*/React.createElement("div", { style: secLabel(p.color, 6) }, "What it is"),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, p.body)),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px", borderTop: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: secLabel(p.color, 8) }, "Best for"),
-              /*#__PURE__*/React.createElement("ul", { style: { listStyle: "none", padding: 0, margin: 0 } },
-                STRENGTHS[p.label].map(function(item, j) {
-                  return /*#__PURE__*/React.createElement("li", { key: j, style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5, marginBottom: 6, paddingLeft: 18, position: "relative" } },
-                    /*#__PURE__*/React.createElement("span", { style: { position: "absolute", left: 0, top: 0, color: p.color, fontWeight: 700 } }, "✓"),
-                    item);
-                }))),
             /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px", borderTop: "1px solid var(--rule)" } },
               /*#__PURE__*/React.createElement("div", { style: secLabel(p.color, 6) }, p.org + " Asks"),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5 } }, p.question)));
@@ -6069,18 +6009,18 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHICH APP SHOULD YOU USE?"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Honest answer: for most of what you\u2019ll do, any of the three works. Don\u2019t agonize over the choice."),
+    "Honest answer: for most of what you\u2019ll do, any of the three works. Don\u2019t agonize over the choice. There\u2019s no single best app, and what\u2019s best today might not be best tomorrow."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Pick one as your home base and learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three. As your AI use grows, branch out to another when a job clearly fits its strength. And expect those strengths to keep moving: the three leapfrog each other, so the gap you remember may already be gone."),
+    "Pick one as your home base and learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "A power move for later: when an answer really matters, ask the same question in a second app. Two differently trained models agreeing is real evidence. If they disagree, you know exactly where to dig."),
+    "A power move for later: when an answer really matters, ask the same question in a second app. Two differently trained apps agreeing is real evidence. If they disagree, you know exactly where to dig."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "A real-world example"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Hi. This is Nate and Luke again. When we built this course, we used different apps for different jobs. Our dad knows the strengths of each, and guided us into the right app for the task at hand."),
   (function() {
     var USES = [
       { name: "ChatGPT", color: "#10b981", items: ["Brainstorming content and TRY ITs", "Illustrations of us in Dallas Stars jerseys"] },
-      { name: "Claude", color: "#8b5cf6", items: ["Claude Code wrote the lessons from plain English", "Claude Design styled the pages"] },
+      { name: "Claude", color: "#8b5cf6", items: ["Claude Code wrote all the code for this course from plain English", "Claude Design styled the pages"] },
       { name: "Gemini", color: "#3b82f6", items: ["Pulling in current information", "Fact-checking what we used"] }
     ];
     return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: "var(--blockGap)" } },
@@ -6111,8 +6051,7 @@ function ModelSelectionSection(props) {
     lead: "Any of the three works, but for the rest of this course we’ll use Claude so the hands-on steps line up. Let’s get it set up and put it to work right now.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: STEPS.length })
   },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         STEPS.map(function(st, i) {
           var done = !!labChecked[i];
           return /*#__PURE__*/React.createElement("button", {
@@ -6125,13 +6064,7 @@ function ModelSelectionSection(props) {
             /*#__PURE__*/React.createElement("span", null,
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
-        })),
-      /*#__PURE__*/React.createElement(Takeaway, {
-        eyebrow: "The payoff",
-        accent: "var(--labAccent)",
-        headline: "You set one up and used it. That’s the whole skill.",
-        body: "There’s no single best app, and the gaps keep shifting. What lasts is being comfortable enough to open one, ask it well, and check what you get. That habit carries to any app, in any year."
-      }))),
+        }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: labCheckedCount >= STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }

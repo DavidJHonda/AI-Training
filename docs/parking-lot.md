@@ -228,3 +228,73 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Possible destination:** Art of Prompting (`prompting`) — five ready-made weak→strong prompt makeovers with graded distractors ("more words, still vague" and "sharp but wrong target" per scenario). Could work as a TRY IT there against the 8 Qualities, or as source material for worked examples.
 - **Verbatim scenarios (weak prompt → the three options each, correct one marked):** in git history at the commit before this one, `UPGRADE_SCENARIOS` in `QuestionsValuableSection` (anchor string for search). The five weak prompts: "What should I do for my project?", "Help me with my essay.", "Give me ideas.", "Should I quit the robotics club?", "What's a good college?". Each has one fully-loaded correct option (e.g. AP Bio genetics project with 3-week timeframe; Gatsby thesis paragraph review; $200 Dallas birthday with 8 friends; robotics club decision framing; 3.7-GPA/$25K/southern-US college list grouped reach/target/safety) and two flawed ones with hint + feedback text.
 - **Markup if restored:** `InteractiveBox` (variant try, mint) + per-scenario `UserBubble` (label "Weak prompt") + mint `QuizBlock` (statement "Which version asks the right question?"). State: `upgradeAnswers` (useState {}), gate `Object.keys(upgradeAnswers).length >= UPGRADE_SCENARIOS.length`. Ended with a Takeaway ("Specific isn’t the same as right.") — house rule now says omit Takeaways when the TRY IT gives per-item feedback.
+
+---
+
+## "Bad Prompt, Better Prompt" — Career cover-letter example
+
+- **Origin:** Art of Prompting lesson (`PromptingSection` region), removed 2026-07-02 when the two-example "Bad Prompt, Better Prompt" opener box was slimmed to one example, retitled "The Qualities at Work", and relocated to after the 8 Qualities overview (so readers can name why the better prompt wins). The Academic (AP US History) example was kept; this Career one was cut to keep the lesson moving.
+- **Possible destination:** back into Art of Prompting if a second worked example is wanted (it shows Context + Constraints where the kept example shows Context + Specificity + Format + One Task), or the planned hands-on prompting LAB as a scripted example students reproduce live.
+- **Verbatim data (`BEFORE_AFTER` entry):**
+  - label: "Career"
+  - bad: "Help me write a cover letter."
+  - good: "I’m 17 applying for a summer internship at a local marketing agency. I have no work experience but I’ve run my school’s Instagram account for two years and grown it from 200 to 1,400 followers. Write me a cover letter that leads with that as my main qualification and keeps it under 200 words."
+  - badOut: "Dear Hiring Manager, I am writing to express my interest in the internship position at your company. I am a hardworking student who is eager to learn and contribute to your team. I have good communication skills and work well with others. Thank you for your consideration."
+  - goodOut: the three-paragraph Instagram-growth letter ("In two years managing my school’s Instagram account, I grew our following from 200 to 1,400...").
+  - callout (never rendered; the box used a shared Takeaway instead): "Same task. One gets a template. The other gets a letter that could actually land the job."
+
+---
+
+## "The 8 Qualities" reveal box + dead `PROMPT_QUALITIES` const
+
+- **Origin:** Art of Prompting, removed 2026-07-02 when the lesson's quality list was unified with Questions Matter's into one numbered framework: qualities 1–4 (Open-Minded / Specific / On Target / Open-Ended, recapped in a compact 2x2 band labeled "From Questions Matter") + 5–10 (Context, Role/Persona, Format Instructions, Constraints, Examples, One Task at a Time) as full cards with Bad/Better prompt pairs. Two of the old eight were dropped as duplicates of the question qualities: **Clarity** ("Say exactly what you mean. Vague prompts get vague answers.") and **Specificity** ("The more specific the ask, the more useful the answer. Narrow the scope to what you actually need.").
+- **What was removed:**
+  - The `QUALITIES_OVERVIEW` RevealSequence ShowcaseBox ("The 8 Qualities", sand surface, "See First Quality ↓" stepper, Takeaway "Eight qualities. One habit." — the takeaway line lives on after the new cards as "Ten qualities. One habit.").
+  - `const PROMPT_QUALITIES` — dead code (defined, never rendered) but content-rich: per-quality `goal` / `bad` / `good` / `why` fields with polished scenarios (vertical-jump clarity, Common App context, chill-math-tutor persona, laptop-comparison table, volleyball-tweet constraints, photography-captions few-shot, Cold War one-task). The bad/good pairs were harvested into the new 5–10 cards; the `goal` and `why` fields were NOT carried over and are strong material for the planned hands-on prompting LAB (students reproduce each pair live and the `why` text explains what changed).
+- **Full source:** in git history at the commit before this one — search `QUALITIES_OVERVIEW` (inside the prompting section's return) and `const PROMPT_QUALITIES` (top level, above `OpenerWorkWithSection`).
+
+---
+
+## "Why Good Prompts Work" — three-reason NumberedRows
+
+- **Origin:** Art of Prompting, removed 2026-07-02. Sat between the lesson intro and the unified ten-qualities framework; cut because the hands-on prompting LAB (planned to replace the TRY IT) will show the effect live, and its internal 1-2-3 numbering competed with the framework's 1-10. The mechanism content is taught properly in the Understand AI section.
+- **Possible destination:** the prompting LAB debrief (each reason explains what students just observed), or Context Window (`prompt`), which already owns the context-window idea.
+- **Verbatim items:** 🧠 "LLMs are pattern completers" — "LLMs run on patterns: specific prompts activate specific patterns, vague ones activate vague patterns. A precise input narrows the model to the best path." / 📋 "Context is everything" — "The model can only work with what's in its context window. A good prompt puts the right information in front of the model." / 🎯 "You're the director" — "Think of prompting as directing. The model fills in whatever you leave blank, sometimes well, sometimes not. A clear prompt replaces its defaults with your specifics."
+- **Markup if restored:** SectionKicker "WHY GOOD PROMPTS WORK" + `NumberedRows` (marginBottom 28) with the three items above.
+
+---
+
+## Six-card "packaging qualities" list (5–10) — superseded same-day by the three moves
+
+- **Origin:** Art of Prompting, built and replaced 2026-07-02. The unified ten-quality framework (question qualities 1–4 + Context, Format Instructions, Constraints, Examples, One Task, Role/Persona as 5–10) proved too deep: students would lose the key points in the detail. Restructured into three packaging moves: "Share your situation" (absorbs Context + who-it’s-for), "Describe the answer you want" (absorbs Format Instructions, Constraints, Examples, Persona as ingredient bullets), "One job at a time" (One Task). The recap band of question qualities 1–4 stayed.
+- **Dropped Bad/Better pairs** (kept pairs live on in the move cards: Common App context, volleyball tweet, Cold War thesis):
+  - Role/Persona: "Explain derivatives." → "You’re a chill math tutor who explains things with sports and video game analogies. Explain what a derivative is to someone who’s fine at algebra but struggling with calculus."
+  - Format Instructions: "Compare the MacBook Air and the Dell XPS 13." → "Compare the MacBook Air and Dell XPS 13 in a table: price, battery life, performance, weight, and best use case for a college student."
+  - Examples: "Write captions for my photos." → "Write Instagram captions for my photography account. Here’s my style: “The sky did all the work. I just pointed the camera.” Now write three more in that voice."
+- **Possible destination:** the planned hands-on prompting LAB (each pair is a ready-made live exercise), or worked examples if a move card ever needs a second pair.
+- **Full source:** git history, search `PACKAGING_QUALITIES`.
+
+---
+
+## "The Moves at Work" — AP History worked example with mock outputs
+
+- **Origin:** Art of Prompting, removed 2026-07-02 (same session as the three-moves restructure). With each move card carrying its own Bad/Better pair, this was the page's fourth contrast, and its mock AI outputs will be superseded by the hands-on LAB where students see real outputs live. Cut for lesson weight.
+- **Possible destination:** the prompting LAB, as the scripted exercise itself (send the bad prompt, then the good one) or as a printed fallback for students without app access. The takeaway line "Same ask. Different prompt. Different answer." is a ready-made LAB headline.
+- **Verbatim `BEFORE_AFTER` data:** bad "Help me study history." with output "Sure! Here are some general tips for studying history: make a timeline, use flashcards, review your notes, and practice with past exams. Good luck!" / good "I have an AP US History exam Friday. Quiz me on the political, economic, and social causes of the Civil War. Give me five questions, then check my answers and explain what I missed." with the five-question Civil War output (Missouri Compromise, Southern economy, Dred Scott, John Brown, Lincoln 1860). Takeaway body counted the moves: situation shared (AP US History, exam Friday), answer described (five questions, then check and explain), one job (quiz me).
+- **Markup if restored:** SectionKicker + intro BodyP + ShowcaseBox of one InnerCard (red bad-prompt box, mono AI Output, green better-prompt box, mono AI Output) + Takeaway. Search git history for `BEFORE_AFTER`.
+
+---
+
+## Prompting diagnostics line — cut from lesson body
+
+- **Origin:** Art of Prompting, removed 2026-07-02 during the lesson slim-down. Verbatim: "Two diagnostic patterns: if answers keep coming back the wrong shape (too long, too formal, too generic), you didn’t describe the answer you want. If they keep missing your situation, you didn’t share it."
+- **Possible destination:** the prompting LAB debrief — it reads best right after a student has watched a wrong-shaped answer come back live.
+
+---
+
+## "Build a Study Prompt" — interactive prompt builder
+
+- **Origin:** Art of Prompting, replaced 2026-07-02 by Lab 03 "Good Prompt, Bad Prompt" (log in to Claude, send a bad prompt, send a loaded one on a different subject, run it on something real). The builder simulated prompt assembly; the lab does it live, which the lesson rework prioritized.
+- **Possible destination:** could return as a pre-lab warm-up if students need scaffolding before typing real prompts, or be adapted into a worksheet. Its five-part structure (subject, test format, what I understand, what confuses me, how to help + what not to do) is a solid study-prompt template independent of the UI.
+- **What it was:** a TRY IT (mint) titled "Build a Study Prompt": chip-select Subject (AP Biology, US History, AP Calc, English Lit, Spanish, Chemistry) and Test format; free-text "What I already understand" / "What I'm confused about"; chip-select "How AI should help" (quiz one at a time, simple analogies, practice problems, mixed difficulty) and "What AI should NOT do" (no instant answers, no textbook voice, no restating, no disclaimer pile); a live "Your Prompt So Far" mono preview assembling the sentence; on completion, a side-by-side compare against a strong AP Biology example with the closing note that both cover the same five things.
+- **Supporting state it needs if restored:** `pSubject/pFormat/pUnderstand/pConfused/pHowHelp/pNotDo/pRevealed` (useState) + `STUDY_FIELDS` const + `pAllFilled`/`pFilledCount` derived values; the lesson's NextLessonGate was gated on `pAllFilled`. Search git history for `STUDY_FIELDS`.

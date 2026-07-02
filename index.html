@@ -238,6 +238,8 @@ const LESSON_VIDEOS = {
   howwegothere: { src: "videos/how-we-got-here.mp4", duration: "3 min", title: "How four ideas became AI." },
   aivscode: { src: "videos/ai-is-different.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
   whatitdoesbest: { src: "videos/where-ai-works-best.mp4", duration: "5 min", title: "The four shapes of work AI is genuinely built for." },
+  modelselection: { src: "videos/which-app.mp4", duration: "5 min", title: "How the big three AI apps differ, and how to pick yours." },
+  questionsvaluable: { src: "videos/questions-matter.mp4", duration: "4 min", title: "Why questions matter more than ever, and what makes one good." },
   aiismath: { src: "videos/ai-is-math.mp4", duration: "3 min", title: "The handful of math ideas underneath everything AI does." },
   tokens: { src: "videos/tokens.mp4", duration: "4 min", title: "How AI breaks your words into pieces and turns them into numbers." },
   embeddings: { src: "videos/embeddings.mp4", duration: "4 min", title: "How AI turns each token into numbers that capture its meaning." },
@@ -6915,79 +6917,6 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length && Object.keys(habitAnswers).length >= CT_CONCEPTS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Check the Results" }));
 }
-const PROMPT_QUALITIES = [{
-  id: "clarity",
-  label: "Clarity",
-  icon: "\uD83D\uDCA1",
-  desc: "Say exactly what you mean. Vague prompts get vague answers.",
-  goal: "You want to find the best exercises to improve your vertical jump before basketball tryouts.",
-  bad: "How do I jump higher?",
-  good: "What are the three best exercises to increase my vertical jump for basketball? I have access to a gym and can train four days a week. I'm 17 and have been playing for two years.",
-  why: "\"How do I jump higher\" could get you trampoline tips, physics explanations, or skydiving advice. The specific version tells the model your sport, your access to equipment, your schedule, and your experience level."
-}, {
-  id: "context",
-  label: "Context",
-  icon: "\uD83D\uDCCB",
-  desc: "Give the model the background it needs. Remember: it can only work with what's in the context window.",
-  goal: "You're writing a college application essay and want feedback on whether your intro hook is strong enough.",
-  bad: "Is my intro good?",
-  good: "I'm writing my Common App essay about how learning to fix cars with my dad taught me patience. Here's my opening paragraph: [paragraph]. Does this hook grab attention, or should I start with a more specific moment?",
-  why: "Without context, the model doesn't know what kind of intro, for what purpose, or what the essay is even about. With the background, it can give targeted feedback on your specific hook."
-}, {
-  id: "specificity",
-  label: "Specificity",
-  icon: "\uD83C\uDFAF",
-  desc: "The more specific your ask, the more useful the response. Narrow the scope.",
-  goal: "You need help studying for your AP US History exam, specifically the causes of the Civil War.",
-  bad: "Help me study for history.",
-  good: "I have an AP US History exam on Friday. Quiz me on the political, economic, and social causes of the Civil War. Give me five questions, then check my answers and explain what I got wrong.",
-  why: "\"Help me study for history\" could mean anything from ancient Rome to last week's lecture. The specific version tells the model exactly which subject, which topic, what format, and how to give feedback."
-}, {
-  id: "role",
-  label: "Role / Persona",
-  icon: "\uD83C\uDFAD",
-  desc: "Tell the model who to be. A persona shapes tone, vocabulary, depth, and perspective.",
-  goal: "You're trying to understand derivatives in calculus in a way that actually makes sense.",
-  bad: "Explain derivatives.",
-  good: "You're a chill math tutor who explains things using sports and video game analogies. Explain what a derivative is and why it matters, like you're talking to someone who's decent at algebra but struggling with calculus.",
-  why: "The persona shifts everything. A chill tutor using sports analogies will explain derivatives as \"the speed of change, like how fast your character accelerates\" instead of jumping straight into limit definitions."
-}, {
-  id: "format",
-  label: "Format Instructions",
-  icon: "\uD83D\uDCDD",
-  desc: "Tell the model how to structure its response. Tables, lists, step-by-step: you choose.",
-  goal: "You're deciding between two laptops for college and need a quick side-by-side comparison.",
-  bad: "Compare the MacBook Air and the Dell XPS 13.",
-  good: "Compare the MacBook Air M3 and Dell XPS 13 in a table with these columns: Feature, MacBook Air, Dell XPS. Cover price, battery life, performance, weight, and best use case for a college student.",
-  why: "Without format instructions, you'll get paragraphs you have to read through. Specifying a table gives you a scannable comparison you can show your parents in 30 seconds."
-}, {
-  id: "constraints",
-  label: "Constraints",
-  icon: "🚧",
-  desc: "Tell the model what NOT to do. Negative instructions shape the output as much as positive ones.",
-  goal: "You're tweeting about your volleyball team winning state, and you want it to sound like a real student, not the school's official account.",
-  bad: "Write a tweet about our volleyball team winning state.",
-  good: "Write a tweet about our volleyball team winning state. Under 200 characters. No hashtags, no exclamation points, no emojis. Don't make it sound corporate or like a press release. Just a natural sentence a senior would actually post.",
-  why: "Without constraints, the default is what the model thinks 'enthusiastic' looks like: 'BIG WIN for the Lions! 🏐🔥 #StateChamps #LionsPride'. Telling it what to avoid (length, hashtags, tone) often shapes the output more than telling it what you want."
-}, {
-  id: "examples",
-  label: "Examples",
-  icon: "\uD83D\uDCD6",
-  desc: "Show the model what you want by giving it examples. This is called \"few-shot prompting.\"",
-  goal: "You want Instagram captions for your photography account that match your minimal, dry-humor style.",
-  bad: "Write captions for my photos.",
-  good: "Write Instagram captions for my photography account. Here's my style:\n\nPhoto: Sunset over the city\nCaption: The sky did all the work. I just pointed the camera.\n\nNow write captions for: A foggy morning trail, A close-up of rain on a window, A crowded street at night.",
-  why: "The example teaches the model your voice (short, understated, slightly funny) way better than trying to describe it. One good example is worth a paragraph of instructions."
-}, {
-  id: "onetask",
-  label: "One Task at a Time",
-  icon: "\u2705",
-  desc: "Break complex work into focused steps. Each prompt should have one clear job.",
-  goal: "You need to plan, research, write, and cite a 5-page history paper on the Cold War.",
-  bad: "Write me a 5-page paper on the Cold War with an outline, thesis, research, citations in MLA format, and a conclusion that ties it all together.",
-  good: "Step 1: Help me come up with a strong thesis statement for a 5-page paper on the Cold War. The paper should focus on how the space race reflected larger political tensions.",
-  why: "Cramming everything into one prompt means the thesis might be weak, the research shallow, and the citations made up. Breaking it into steps lets you nail the thesis first, then build on a solid foundation."
-}];
 function OpenerWorkWithSection(props) {
   var workIllustration = /*#__PURE__*/React.createElement(Illustration, {
     eyebrow: "WHAT MAKES AI USE GOOD?"
@@ -7278,232 +7207,94 @@ function WhatItDoesBestSection(props) {
 }
 
 function PromptingSection(props) {
-  const [pSubject, setPSubject] = useState(null);
-  const [pFormat, setPFormat] = useState(null);
-  const [pUnderstand, setPUnderstand] = useState("");
-  const [pConfused, setPConfused] = useState("");
-  const [pHowHelp, setPHowHelp] = useState(null);
-  const [pNotDo, setPNotDo] = useState(null);
-  const [pRevealed, setPRevealed] = useState(false);
-  const [promptDemo, setPromptDemo] = useLocalStorage("seeit-prompting-promptDemo", "kid");
-  const STUDY_FIELDS = {
-    subjects: ["AP Biology", "US History", "AP Calc", "English Lit", "Spanish", "Chemistry"],
-    formats: [
-      { label: "Multiple choice", value: "The test will be multiple choice" },
-      { label: "Short answer", value: "The test will be short answer" },
-      { label: "Essay", value: "The test will be an essay" },
-      { label: "Mixed", value: "The test has a mix of question types" }
-    ],
-    howHelp: [
-      { label: "Quiz me one question at a time", value: "Quiz me one question at a time and don\u2019t give me the answer until I try first" },
-      { label: "Explain with simple analogies", value: "Explain the concepts I\u2019m confused about using simple analogies a high schooler would get" },
-      { label: "Walk me through practice problems", value: "Walk me through practice problems for the topics I\u2019m confused about, step by step" },
-      { label: "Mix of question types", value: "Give me a mix of easy and hard questions and tell me which topics I should focus on" }
-    ],
-    notDo: [
-      { label: "Don\u2019t just give me the answer", value: "Don\u2019t give me the final answer right away. Give me a hint first and let me try again before explaining." },
-      { label: "Don\u2019t sound like a textbook", value: "Don\u2019t lecture me with paragraphs of definitions. Use plain language and short examples." },
-      { label: "Don\u2019t repeat what I said back", value: "Don\u2019t restate my question in different words before you answer. Just answer." },
-      { label: "Don\u2019t pile on disclaimers", value: "Don\u2019t soften everything with disclaimers. If something is wrong, just say it." }
-    ]
-  };
-  const pAllFilled = pSubject !== null && pFormat !== null && pUnderstand.trim().length > 0 && pConfused.trim().length > 0 && pHowHelp !== null && pNotDo !== null;
-  const pFilledCount = [pSubject, pFormat, pUnderstand.trim() ? pUnderstand : null, pConfused.trim() ? pConfused : null, pHowHelp, pNotDo].filter(function(v) { return v !== null && v !== ""; }).length;
-  const BEFORE_AFTER = [{
-    label: "Academic",
-    bad: "Help me study history.",
-    good: "I have an AP US History exam Friday. Quiz me on the political, economic, and social causes of the Civil War. Give me five questions, then check my answers and explain what I missed.",
-    badOut: "Sure! Here are some general tips for studying history: make a timeline, use flashcards, review your notes, and practice with past exams. Good luck!",
-    goodOut: "Here are 5 questions on the causes of the Civil War:\n1. What was the Missouri Compromise and why did it fail?\n2. How did the economy of the South depend on slavery compared to the industrial North?\n3. What role did the Dred Scott decision play in escalating tensions?\n4. How did John Brown\u2019s raid on Harpers Ferry affect Southern fears?\n5. What was the significance of Lincoln\u2019s election in 1860?\nAnswer when ready and I\u2019ll check your work.",
-    callout: "Same subject. Completely different result. Specificity is everything."
-  }, {
-    label: "Career",
-    bad: "Help me write a cover letter.",
-    good: "I\u2019m 17 applying for a summer internship at a local marketing agency. I have no work experience but I\u2019ve run my school\u2019s Instagram account for two years and grown it from 200 to 1,400 followers. Write me a cover letter that leads with that as my main qualification and keeps it under 200 words.",
-    badOut: "Dear Hiring Manager, I am writing to express my interest in the internship position at your company. I am a hardworking student who is eager to learn and contribute to your team. I have good communication skills and work well with others. Thank you for your consideration.",
-    goodOut: "Dear Hiring Manager,\n\nIn two years managing my school\u2019s Instagram account, I grew our following from 200 to 1,400, not by posting more, but by studying what content our audience actually responded to and adjusting our strategy every month.\n\nI\u2019m looking to bring that same data-driven approach to your team this summer. I don\u2019t have traditional work experience, but I\u2019ve learned to create content on a deadline, read analytics, and adapt when something isn\u2019t working.\n\nI\u2019d love the chance to learn from your agency while contributing real skills from day one.",
-    callout: "Same task. One gets a template. The other gets a letter that could actually land the job."
-  }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "Questions Matter taught you how to frame the problem. Prompting is how you turn that frame into instructions the model can actually use."), /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve learned how LLMs work: how they process tokens, use context, and generate responses word by word. Now here\u2019s the practical payoff: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
-  /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Bad Prompt, Better Prompt" },
-    BEFORE_AFTER.map(function(ex, exi) {
-      return /*#__PURE__*/React.createElement(InnerCard, { key: exi, pad: "snug", style: exi > 0 ? { marginTop: 16 } : null },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(exi + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, ex.label))),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "rgba(239, 68, 68, 0.06)", border: "1px solid rgba(239, 68, 68, 0.25)", borderRadius: 10, padding: "12px 14px", marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#ef4444", marginBottom: 6 } }, "\u2717 Bad Prompt"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, ex.bad)),
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", marginBottom: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "AI Output"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ex.badOut)),
-          /*#__PURE__*/React.createElement("div", { style: { background: "rgba(16, 185, 129, 0.06)", border: "1px solid rgba(16, 185, 129, 0.25)", borderRadius: 10, padding: "12px 14px", marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: "#10b981", marginBottom: 6 } }, "\u2713 Better Prompt"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } }, ex.good)),
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "AI Output"),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, ex.goodOut))));
-    }),
-    /*#__PURE__*/React.createElement(Takeaway, { headline: "Same ask. Different prompt. Different answer.", body: "The model can only answer with what you give it. A specific prompt with your real situation gets a real answer. A vague one gets a template." })),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "WHY GOOD PROMPTS WORK"),
-  /*#__PURE__*/React.createElement(NumberedRows, { marginBottom: 28, items: [
-    { icon: "🧠", title: "LLMs are pattern completers", body: "LLMs run on patterns: specific prompts activate specific patterns, vague ones activate vague patterns. A precise input narrows the model to the best path." },
-    { icon: "📋", title: "Context is everything", body: "The model can only work with what's in its context window. A good prompt puts the right information in front of the model." },
-    { icon: "🎯", title: "You're the director", body: "Think of prompting as directing. The model fills in whatever you leave blank, sometimes well, sometimes not. A clear prompt replaces its defaults with your specifics." }
-  ] }),
+  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-prompting-steps", {});
+  const LAB_STEPS = [
+    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 02. Start a brand-new chat so nothing from an earlier conversation colors the results." },
+    { title: "Send a bad prompt", body: "Type exactly this: \u201CHelp me study history.\u201D Read what comes back. It won\u2019t be wrong. It will be generic: study tips that would fit anyone, because Claude knows nothing about you." },
+    { title: "Send a better prompt", body: "Start another new chat. This time, a different subject with all three moves: \u201CI have a chemistry test Friday on balancing equations. I get the basics but mess up when the coefficients get big. Quiz me with five problems, one at a time, and don\u2019t give me the answer until I try first.\u201D Now compare the two answers. Same AI, same minute, completely different value." },
+    { title: "Run it on something real", body: "Think of something you actually need this week: an essay, a test, a decision. Make the moves: share your situation, describe the answer you want, one job at a time. This is the habit that makes AI useful." }
+  ];
+  var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. And when a person doesn\u2019t understand you, they ask a follow-up before answering. AI does almost none of that. It starts from the words you typed, and instead of asking what you meant, it confidently answers whatever you gave it."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI well takes one more skill on top of a good question: packaging it for something that isn\u2019t a person. That\u2019s prompting, and here\u2019s why it pays off: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Start With a Good Question"),
+  /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned the four qualities of a good question. Nothing about AI changes them. Every strong prompt starts life as a good question."),
   (function() {
-    var QUALITIES_OVERVIEW = [
-      { id: "clarity", icon: "\uD83D\uDCA1", label: "Clarity", lead: "Say exactly what you mean.", detail: "Vague prompts get vague answers." },
-      { id: "context", icon: "\uD83D\uDCCB", label: "Context", lead: "Give the model the background it needs.", detail: "It can only work with what\u2019s in the context window." },
-      { id: "specificity", icon: "\uD83C\uDFAF", label: "Specificity", lead: "The more specific the ask, the more useful the answer.", detail: "Narrow the scope to what you actually need." },
-      { id: "role", icon: "\uD83C\uDFAD", label: "Role / Persona", lead: "Tell the model who to be.", detail: "A persona shapes tone, vocabulary, depth, and perspective." },
-      { id: "format", icon: "\uD83D\uDCDD", label: "Format Instructions", lead: "Tell the model how to shape the output.", detail: "Table, list, step by step: you choose." },
-      { id: "constraints", icon: "\uD83D\uDEA7", label: "Constraints", lead: "Tell the model what not to do.", detail: "What you leave out shapes the answer as much as what you put in." },
-      { id: "examples", icon: "\uD83D\uDCD6", label: "Examples", lead: "Show it, don\u2019t just describe it.", detail: "One example of what you want teaches your style better than a paragraph. This is called few-shot prompting." },
-      { id: "onetask", icon: "\u2705", label: "One Task at a Time", lead: "One prompt, one job.", detail: "Break complex work into focused steps so each part lands." }
+    var QUESTION_QUALITIES = [
+      { n: 1, icon: "\u2696\uFE0F", title: "Open-Minded", line: "You haven\u2019t picked the answer in advance." },
+      { n: 2, icon: "\uD83D\uDD2C", title: "Specific", line: "It asks for exactly what you need." },
+      { n: 3, icon: "\uD83E\uDDED", title: "On Target", line: "It asks about the right thing." },
+      { n: 4, icon: "\uD83D\uDCA1", title: "Open-Ended", line: "It leaves room for an answer you didn\u2019t expect." }
     ];
-    var renderQualityCard = function(item, i, totalShown, animateLast) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: item.id,
-        style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === totalShown - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--seeRule)", animation: animateLast && i === totalShown - 1 ? "fadeIn 0.3s ease" : "none" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, item.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, item.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, item.lead),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, item.detail)));
-    };
-    return /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "The 8 Qualities" },
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "sand",
-        items: QUALITIES_OVERVIEW,
-        currentIdx: 0,
-        started: true,
-        onStart: function() {},
-        onNext: function() {},
-        canAdvance: true,
-        isComplete: true,
-        startLabel: "See First Quality \u2193",
-        nextLabel: "Next Quality \u2193",
-        finishLabel: "All eight qualities \u2193",
-        completionElement: /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement(InnerCard, { pad: "snug", style: { marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-              QUALITIES_OVERVIEW.map(function(item, i) { return renderQualityCard(item, i, QUALITIES_OVERVIEW.length, false); }))),
-          /*#__PURE__*/React.createElement(Takeaway, { headline: "Eight qualities. One habit.", body: "Strong prompting isn\u2019t memorizing a list. It\u2019s the habit of telling the model what it needs to know." }))
-      },
-        null));
+    return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#5a47c9", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 } }, "From Questions Matter \u00B7 The Question"),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
+        QUESTION_QUALITIES.map(function(q) {
+          return React.createElement("div", { key: q.n, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
+              React.createElement("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, q.n),
+              React.createElement("span", { style: { fontSize: 16 } }, q.icon),
+              React.createElement("span", { style: { fontSize: BOX_TEXT, fontWeight: 800, color: "var(--ink)" } }, q.title)),
+            React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, q.line));
+        })));
   }()),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Time to build one. Fill in the fields below. Watch your prompt come together as you go. Then see how it stacks up against a strong example."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Then Add Three Moves"),
+  /*#__PURE__*/React.createElement(BodyP, null, "The packaging comes down to three moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to be smarter than the tool."),
+  (function() {
+    var MOVES = [
+      { tag: "Move 1", icon: "\uD83D\uDCCB", title: "Share your situation", body: "A person already knows this. AI only has what you hand over.", points: ["Who you are, and who the work is for", "What you\u2019re working on and why", "The material itself: your draft, the assignment, the numbers"], bad: "Is my intro good?", better: "I\u2019m writing my Common App essay about how fixing cars with my dad taught me patience. Here\u2019s my opening paragraph: [paragraph]. Does the hook grab attention?" },
+      { tag: "Move 2", icon: "\uD83D\uDCDD", title: "Describe the answer you want", body: "The model fills in every blank you leave, so describe the target.", points: ["The shape: a table, a list, steps", "The limits: length, what to skip, what not to sound like", "An example to match, if you have one", "Who AI should be: a tutor, a coach, an editor"], bad: "Write a tweet about our volleyball team winning state.", better: "Write a tweet about our volleyball team winning state. Under 200 characters. No hashtags, no emojis, nothing corporate. Just a sentence a senior would actually post." },
+      { tag: "Move 3", icon: "\u2705", title: "One job at a time", body: "Big work goes in steps. One prompt, one job, so each part lands and you can check it before you build on it.", points: [], bad: "Write me a 5-page paper on the Cold War with an outline, thesis, research, MLA citations, and a conclusion.", better: "Step 1: Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions." }
+    ];
+    return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
+      MOVES.map(function(m, i) {
+        return React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+          React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+            React.createElement("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, padding: "3px 10px", fontSize: BOX_LABEL, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, flexShrink: 0 } }, m.tag),
+            React.createElement("span", { style: { fontSize: 18 } }, m.icon),
+            React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, m.title)),
+          React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: m.points.length ? 10 : 14 } }, m.body),
+          m.points.length ? React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 5, marginBottom: 14 } },
+            m.points.map(function(pt, j) {
+              return React.createElement("div", { key: j, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } },
+                React.createElement("span", { style: { color: "var(--primary)", fontWeight: 800, flexShrink: 0 } }, "\u2022"),
+                pt);
+            })) : null,
+          React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
+            React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "10px 14px" } },
+              React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Bad"),
+              React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, m.bad)),
+            React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "10px 14px" } },
+              React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Better"),
+              React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, m.better))));
+      }));
+  }()),
   /*#__PURE__*/React.createElement(SectionKicker, null, "You don't need all of these every time"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Eight qualities looks like a lot. You don't need them all. A quick factual question (“who wrote The Great Gatsby”) is fine with just Clarity. A real piece of work might stack four or five. The qualities are tools. Match them to the job. And they aren\u2019t app-specific: the same eight work in ChatGPT, Claude, and Gemini."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Two diagnostic patterns: if you keep getting wrong-shaped responses (too long, too formal, too generic), that's usually missing Constraints or Format. If you keep getting answers that don't fit your situation, that's usually missing Context or Specificity."),
+  /*#__PURE__*/React.createElement(BodyP, null, "How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or studying for a test: share your situation and describe the answer you want. A big project: add steps. The more the result matters, the more you bring."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Build a Study Prompt",
-    lead: "Now build one yourself. Fill in each field, watch the prompt take shape, then see how it stacks up against a strong example.",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: pFilledCount, total: 6 })
+    variant: "lab",
+    surface: "teal",
+    labNumber: "03",
+    title: "Good Prompt, Bad Prompt",
+    hint: "Click the box after you finish each step.",
+    lead: "You\u2019ve read about good and bad prompts. Now feel the difference. In this lab you\u2019ll send Claude a lazy prompt and a loaded one, and watch the same AI turn into a different tool.",
+    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
   },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 22, maxWidth: "60ch" }
-    }, "You\u2019re studying for a test and want AI to actually help, not just hand you answers. Fill in each field below."),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 22 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "Subject"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-        STUDY_FIELDS.subjects.map(function(s) {
-          var sel = pSubject === s;
-          return /*#__PURE__*/React.createElement("button", {
-            key: s,
-            onClick: function() { setPSubject(s); },
-            style: { padding: "9px 16px", borderRadius: 999, background: sel ? "var(--tryAccent)" : "#fff", color: sel ? "#fff" : "var(--ink)", border: sel ? "1px solid var(--tryAccent)" : "1px solid var(--rule)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, transition: "all 0.15s" }
-          }, s);
-        }))),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 22 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "Test format"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-        STUDY_FIELDS.formats.map(function(f) {
-          var sel = pFormat && pFormat.label === f.label;
-          return /*#__PURE__*/React.createElement("button", {
-            key: f.label,
-            onClick: function() { setPFormat(f); },
-            style: { padding: "9px 16px", borderRadius: 999, background: sel ? "var(--tryAccent)" : "#fff", color: sel ? "#fff" : "var(--ink)", border: sel ? "1px solid var(--tryAccent)" : "1px solid var(--rule)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, transition: "all 0.15s" }
-          }, f.label);
-        }))),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 22 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "What I already understand"),
-      /*#__PURE__*/React.createElement("input", {
-        type: "text",
-        className: "build-input",
-        value: pUnderstand,
-        onChange: function(e) { setPUnderstand(e.target.value); },
-        placeholder: "e.g. glycolysis, basic photosynthesis",
-        style: { width: "100%", padding: "10px 14px", borderRadius: 8, border: "1px solid var(--rule)", background: "#fff", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)", outline: "none" }
-      })),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 22 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "What I\u2019m confused about"),
-      /*#__PURE__*/React.createElement("input", {
-        type: "text",
-        className: "build-input",
-        value: pConfused,
-        onChange: function(e) { setPConfused(e.target.value); },
-        placeholder: "e.g. Krebs cycle, electron transport chain",
-        style: { width: "100%", padding: "10px 14px", borderRadius: 8, border: "1px solid var(--rule)", background: "#fff", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)", outline: "none" }
-      })),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 22 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "How AI should help"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-        STUDY_FIELDS.howHelp.map(function(h) {
-          var sel = pHowHelp && pHowHelp.label === h.label;
-          return /*#__PURE__*/React.createElement("button", {
-            key: h.label,
-            onClick: function() { setPHowHelp(h); },
-            style: { padding: "9px 16px", borderRadius: 999, background: sel ? "var(--tryAccent)" : "#fff", color: sel ? "#fff" : "var(--ink)", border: sel ? "1px solid var(--tryAccent)" : "1px solid var(--rule)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, transition: "all 0.15s" }
-          }, h.label);
-        }))),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 22 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "What AI should NOT do"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-        STUDY_FIELDS.notDo.map(function(n) {
-          var sel = pNotDo && pNotDo.label === n.label;
-          return /*#__PURE__*/React.createElement("button", {
-            key: n.label,
-            onClick: function() { setPNotDo(n); },
-            style: { padding: "9px 16px", borderRadius: 999, background: sel ? "var(--tryAccent)" : "#fff", color: sel ? "#fff" : "var(--ink)", border: sel ? "1px solid var(--tryAccent)" : "1px solid var(--rule)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, transition: "all 0.15s" }
-          }, n.label);
-        }))),
-    /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--tryRule)", marginTop: 24, paddingTop: 24 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 10 } }, "Your Prompt So Far"),
-      /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 18, marginTop: 10 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, fontStyle: "italic" } },
-          "\u201CI\u2019m studying ", pSubject || /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[your subject]"),
-          " for an upcoming test. ", pFormat ? pFormat.value : /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[the test format]"),
-          ". I already understand ", pUnderstand.trim() || /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[what you already know]"),
-          ", but I\u2019m confused about ", pConfused.trim() || /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[what trips you up]"),
-          ". ", pHowHelp ? pHowHelp.value : /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[how AI should help]"),
-          ". ", pNotDo ? pNotDo.value : /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkFaint)", fontStyle: "italic" } }, "[what AI should not do]"),
-          "\u201D"))),
-    pAllFilled && !pRevealed ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 22 } },
-      /*#__PURE__*/React.createElement(ActivityButton, { onClick: function() { setPRevealed(true); } }, "Compare to a strong example \u2192")) : null,
-    pRevealed ? /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginTop: 22, flexWrap: "wrap" } },
-        /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 260px", background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 8 } }, "YOUR PROMPT"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontStyle: "italic", fontSize: 13, color: "var(--ink)", lineHeight: 1.6 } },
-            "\u201CI\u2019m studying ", pSubject, " for an upcoming test. ", pFormat.value, ". I already understand ", pUnderstand.trim(), ", but I\u2019m confused about ", pConfused.trim(), ". ", pHowHelp.value, ". ", pNotDo.value, "\u201D")),
-        /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 260px", background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 16 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "var(--tryAccent)", marginBottom: 8 } }, "A STRONG EXAMPLE"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontStyle: "italic", fontSize: 13, color: "var(--ink)", lineHeight: 1.6 } },
-            "\u201CI\u2019m studying AP Biology for an exam Friday. The test will be multiple choice. I already understand glycolysis but I\u2019m confused about the Krebs cycle and electron transport chain. Quiz me one question at a time and don\u2019t give me the answer until I try first. Don\u2019t lecture me with paragraphs of definitions. Use plain language and short examples.\u201D"))),
-      /*#__PURE__*/React.createElement("div", { style: { marginTop: 18, fontFamily: "var(--sans)", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch" } },
-        "Your version probably looks different word for word. The structure is what matters. Both prompts cover the same five things: what you\u2019re studying, your level, where you\u2019re stuck, what you want AI to do, and what you want it to avoid. Skip any one of those and you\u2019re rolling the dice on what comes back.")) : null),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+      LAB_STEPS.map(function(st, i) {
+        var done = !!labChecked[i];
+        return /*#__PURE__*/React.createElement("button", {
+          key: i,
+          "aria-pressed": done,
+          onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); },
+          style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", cursor: "pointer", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+        },
+          /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "\u2713" : ""),
+          /*#__PURE__*/React.createElement("span", null,
+            /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+            /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
+      }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: pAllFilled, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: labCheckedCount >= LAB_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
 }
 function ThinkingTogetherStatic(props) {
   return /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WATCH: THINKING TOGETHER", headline: "Working a summer-plans problem with AI", marginBottom: 24 },

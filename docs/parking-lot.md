@@ -197,3 +197,34 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
   - Claude: Coding and code review / Analysis and research / Long-form writing / Careful critique when the stakes are higher, but still verify
   - Gemini: Current events / Live web research / Summarizing YouTube videos and Drive files / Drafting in Gmail and Docs
 - **Markup if restored:** a fourth subgrid row per card (grid was `auto auto auto auto`, cards `span 4`), rendered as a ✓-list in the app's accent color under a "Best for" `secLabel`. Removed in the same commit: the dead `philContainerRef`/`bestForContainerRef` path-measuring plumbing at the top of `ModelSelectionSection` (never attached to any element; predates this box's current static form).
+
+---
+
+## "Same AI. Different question. Different result." — climate-debate weak/better example
+
+- **Origin:** Questions Matter lesson (`QuestionsValuableSection`), removed 2026-07-02 when the lesson gained the "What Makes a Good Question?" section, whose four quality cards each carry their own Bad/Better example pair — a fifth weak/better comparison immediately after read as repetition. The section's closing disclaimer ("A better question doesn’t make the answer automatically true. It just makes the answer more focused, more useful, and easier to check.") was kept in the lesson.
+- **Possible destination:** Art of Prompting (`prompting`), as a makeover example of a fully-loaded question — the better version stacks audience ("I’m a high school student preparing for a class debate"), format ("the 3 strongest arguments for... against..."), and a success bar ("tell me which side has the stronger evidence") in one ask, which is exactly that lesson’s territory.
+- **Verbatim content:** kicker "Same AI. Different question. Different result."; intro "Two students ask about the same topic. One gets a textbook paragraph. The other gets something they can actually use."; Weak question card "Tell me about climate change."; Better question card "I’m a high school student preparing for a class debate. Give me the 3 strongest arguments for carbon taxes, the 3 strongest arguments against them, and tell me which side has the stronger evidence."; explanation box "The second person gets more value not because the AI is smarter, but because the human asked a better question. It frames the task, takes a real position, and says what a useful answer looks like."
+- **Markup if restored:** two-column grid (`1fr 1fr`, gap 12) of red (#fef2f2 / 2px #fca5a5) and green (#ecfdf5 / 2px #86efac) cards with 11px uppercase labels and italic question text, followed by a full-width `var(--bg)` explanation box. Self-contained JSX, no state.
+
+---
+
+## "What a Better Question Does" — four-things NumberedRows
+
+- **Origin:** Questions Matter lesson (`QuestionsValuableSection`), removed 2026-07-02, same rework session that added the "What Makes a Good Question?" quality cards (Open-Minded / Specific / On Target / Open-Ended). After that addition this list was a second numbered four-item list with heavy overlap: "Frames the problem" ≈ On Target, "Creates the next move" ≈ Open + On Target. The lesson's KeyInsight ("The advantage no longer goes to whoever produces the fastest first answer...") was kept.
+- **Possible destination:** Art of Prompting (`prompting`). The one idea nothing else in the course states this crisply is **"Defines success"** — know what a good answer looks like *before* you ask — a strong pre-prompt habit beat or ninth-quality candidate there (it also foreshadows Check the Results). "Sets constraints" is already covered by the 8 Qualities (Context / Format Instructions / Constraints), so it needs no new home.
+- **Verbatim `VALUABLE` data:**
+  - 🎯 Frames the problem — "Most bad AI output starts with a fuzzy question. Naming what actually needs to be solved is half the work."
+  - 📏 Sets constraints — "“Do it well” isn’t a spec. Deciding the audience, the format, the limits, and what to leave out shapes everything that comes back."
+  - 🏁 Defines success — "Before you ask, know what a good answer looks like. Without that, you can’t tell whether the output is useful or just fluent."
+  - ➡️ Creates the next move — "A good question asks for something you can use, test, revise, or decide from. Not just something fluent to read."
+- **Markup if restored:** SectionKicker "WHAT A BETTER QUESTION DOES" + intro BodyP "You know what a good question looks like. Here’s what one buys you in an AI chat: four things a well-framed question hands the model to work with." + `NumberedRows` (marginBottom 32) fed `VALUABLE.map` to `{icon, title, body}`. Self-contained, no state.
+
+---
+
+## "Pick the Stronger Question" — three-option prompt-upgrade TRY IT
+
+- **Origin:** Questions Matter lesson (`QuestionsValuableSection`), replaced 2026-07-02 by the "What’s Missing?" TRY IT, which has students diagnose which of the lesson's four qualities (Open-Minded / Specific / On Target / Open-Ended) a flawed question lacks. The old activity was pick-the-better-version — a move the lesson's quality cards' Bad/Better pairs now make four times — and its correct answers were really prompt makeovers (context + format + constraints stacked), which belongs to Art of Prompting under the new lesson split.
+- **Possible destination:** Art of Prompting (`prompting`) — five ready-made weak→strong prompt makeovers with graded distractors ("more words, still vague" and "sharp but wrong target" per scenario). Could work as a TRY IT there against the 8 Qualities, or as source material for worked examples.
+- **Verbatim scenarios (weak prompt → the three options each, correct one marked):** in git history at the commit before this one, `UPGRADE_SCENARIOS` in `QuestionsValuableSection` (anchor string for search). The five weak prompts: "What should I do for my project?", "Help me with my essay.", "Give me ideas.", "Should I quit the robotics club?", "What's a good college?". Each has one fully-loaded correct option (e.g. AP Bio genetics project with 3-week timeframe; Gatsby thesis paragraph review; $200 Dallas birthday with 8 friends; robotics club decision framing; 3.7-GPA/$25K/southern-US college list grouped reach/target/safety) and two flawed ones with hint + feedback text.
+- **Markup if restored:** `InteractiveBox` (variant try, mint) + per-scenario `UserBubble` (label "Weak prompt") + mint `QuizBlock` (statement "Which version asks the right question?"). State: `upgradeAnswers` (useState {}), gate `Object.keys(upgradeAnswers).length >= UPGRADE_SCENARIOS.length`. Ended with a Takeaway ("Specific isn’t the same as right.") — house rule now says omit Takeaways when the TRY IT gives per-item feedback.

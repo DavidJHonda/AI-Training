@@ -236,6 +236,7 @@ const LESSON_VIDEOS = {
   openerfoundations: { src: "videos/understand-ai-opener.mp4", duration: "3 min", title: "A quick map of how AI really works, before we dig in.", cta: "Then dig into the lessons in this section." },
   howwegothere: { src: "videos/how-we-got-here.mp4", duration: "3 min", title: "How four ideas became AI." },
   aivscode: { src: "videos/ai-is-different.mp4", duration: "4 min", title: "Why AI learns from patterns instead of following written rules." },
+  whatitdoesbest: { src: "videos/where-ai-works-best.mp4", duration: "5 min", title: "The four shapes of work AI is genuinely built for." },
   aiismath: { src: "videos/ai-is-math.mp4", duration: "3 min", title: "The handful of math ideas underneath everything AI does." },
   tokens: { src: "videos/tokens.mp4", duration: "4 min", title: "How AI breaks your words into pieces and turns them into numbers." },
   embeddings: { src: "videos/embeddings.mp4", duration: "4 min", title: "How AI turns each token into numbers that capture its meaning." },
@@ -1291,7 +1292,7 @@ function QuizBlock(props) {
       }
     };
 
-    var titleRow = React.createElement("div", {
+    var titleRow = (hasNumeral || props.statement) ? React.createElement("div", {
       style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 }
     },
       hasNumeral ? React.createElement("div", {
@@ -1299,10 +1300,12 @@ function QuizBlock(props) {
       }, String(props.questionNumber).padStart(2, "0")) : null,
       React.createElement("div", {
         style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }
-      }, props.statement));
+      }, props.statement)) : null;
 
     var optionsList = React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
+      style: props.optionsRow
+        ? { display: "grid", gridTemplateColumns: "repeat(" + options.length + ", 1fr)", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
+        : { display: "flex", flexDirection: "column", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
     },
       options.map(function(opt, i) {
         var isHovered = hoverIdx === i;
@@ -1334,7 +1337,7 @@ function QuizBlock(props) {
             color: textColor, transition: "all 150ms ease", width: "100%"
           }
         },
-          React.createElement("div", { style: { flex: 1 } }, opt.label),
+          React.createElement("div", { style: { flex: 1, textAlign: props.optionsRow ? "center" : "left" } }, opt.label),
           isResolvedPick ? React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
           isWrong ? React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
         );
@@ -1466,13 +1469,13 @@ function UserBubble(props) {
   var maxWidth = props.maxWidth || "min(82%, 620px)";
   var align = props.align || "right";
   var alignLeft = align === "left";
-  var label = props.label || "You";
+  var label = props.label != null ? props.label : "You";
   var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
   return React.createElement("div", { style: { display: "flex", justifyContent: alignLeft ? "flex-start" : "flex-end", animation: "fadeIn 0.3s ease" } },
     React.createElement("div", { style: { maxWidth: maxWidth } },
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
+      label ? React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--primary)", display: "inline-block", flexShrink: 0 } }),
-        React.createElement("span", { style: { color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
+        React.createElement("span", { style: { color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)) : null,
       React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
         props.children != null ? props.children : text.slice(0, visibleChars),
         props.children == null && showCursor ? cursor : null)));
@@ -3474,7 +3477,7 @@ function AIvsCodeSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "IF-THEN-ELSE"),
       " statements. Here’s what that looks like."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "#d6e2f4", borderRadius: 18, padding: 22, boxShadow: "var(--shadowElevated)", marginBottom: 20 } },
+    /*#__PURE__*/React.createElement("div", { style: { background: "#d6e2f4", borderRadius: 18, padding: 22, boxShadow: "var(--shadowElevated)", margin: "0 36px 20px" } },
       /*#__PURE__*/React.createElement(InnerCard, { style: { marginBottom: 0 } },
       /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.9, color: "var(--ink)" } },
         /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "IF"), " the password matches"),
@@ -5961,7 +5964,7 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both sell cheeseburgers, built from roughly the same ingredients. They\u2019re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth."),
   /*#__PURE__*/React.createElement(BodyP, null, "The big three AI apps work the same way. They\u2019re all Generative AI, trained on much of the same internet. But each company trains its model with different priorities and rules."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Those choices shape much of how each app differs: how it feels, what it\u2019s good at, what it gets wrong. Underneath, each one is built around a different core philosophy."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Those choices shape much of how each app differs: how it feels, what it\u2019s good at, and how it acts when it\u2019s not sure. Underneath, each one is built around a different core philosophy."),
   (function() {
     var PHILOSOPHIES = [
       {
@@ -6020,7 +6023,7 @@ function ModelSelectionSection(props) {
   (function() {
     var USES = [
       { name: "ChatGPT", color: "#10b981", items: ["Brainstorming content and TRY ITs", "Illustrations of us in Dallas Stars jerseys"] },
-      { name: "Claude", color: "#8b5cf6", items: ["Claude Code wrote all the code for this course from plain English", "Claude Design styled the pages"] },
+      { name: "Claude", color: "#8b5cf6", items: ["Claude Code wrote all the code from plain English", "Claude Design styled the pages"] },
       { name: "Gemini", color: "#3b82f6", items: ["Pulling in current information", "Fact-checking what we used"] }
     ];
     return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: "var(--blockGap)" } },
@@ -7016,10 +7019,11 @@ function OpenerWorkWithSection(props) {
     sectionId: "openerworkwith",
     featuredCard: workIllustration,
     whyThisMatters: [
-      "You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it? Here’s what most people miss: the AI is identical for everyone, but the results aren’t. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. AI is exactly like that: what you get out of it comes down to how you use it."
+      "You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?",
+      "Here’s what most people miss: the AI is identical for everyone, but the results aren’t. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. AI is exactly like that: what you get out of it comes down to how you use it."
     ],
     whatYoullLearnIntro: [
-      "First, why AI is different and what that makes it good at, plus which app fits which job. Then the moves that turn a rough request into a useful answer, including what the model actually sees when it reads your prompt. Finally, how to check what comes back. Each lesson answers a question."
+      "First, why AI is different and what that makes it good at, plus how the big apps differ and why picking one and learning it beats hopping between them. Then the moves that turn a rough request into a useful answer, including what the model actually sees when it reads your prompt. Finally, how to check what comes back. Each lesson answers a question."
     ],
     sectionOverview: {
       eyebrow: "In this section",
@@ -7028,7 +7032,7 @@ function OpenerWorkWithSection(props) {
     groups: [
       {
         kicker: "KNOW WHAT IT'S FOR",
-        bridge: "First, why AI works differently from ordinary software, what that makes it good at, and which of the big apps fits which job, so you aim the right tool at the right work.",
+        bridge: "First, why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well.",
         questions: [
           { question: "Why does AI work differently from normal software?", lessonId: "aivscode" },
           { question: "What is AI actually good at, and why?", lessonId: "whatitdoesbest" },
@@ -7045,10 +7049,10 @@ function OpenerWorkWithSection(props) {
         ]
       },
       {
-        kicker: "CHECK WHAT YOU GET",
-        bridge: "Finally, how to tell whether the answer is any good before you trust it.",
+        kicker: "THINK BEFORE YOU TRUST",
+        bridge: "Finally, what to do with the answer that comes back: question it, verify it, and decide whether it’s good enough to use.",
         questions: [
-          { question: "How much should I check, and when?", lessonId: "evaluating" },
+          { question: "How do I question an answer that sounds right?", lessonId: "critical" },
           { question: "Is the answer right, and good enough for what I need?", lessonId: "evaluating" }
         ]
       }
@@ -10391,196 +10395,194 @@ function FullWorkflowSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: wfAllCorrect, onClick: () => props.completeAndNavigate && props.completeAndNavigate("howwegothere"), label: "Next: How We Got Here" }));
 }
 function QuestionsValuableSection(props) {
-  const [upgradeAnswers, setUpgradeAnswers] = useState({});
-  const UPGRADE_SCENARIOS = [{
-    weak: "What should I do for my project?",
+  const [missingAnswers, setMissingAnswers] = useState({});
+  const MISSING_SCENARIOS = [{
+    question: "My English grade dropped from an A to a C+ this semester, and I\u2019m sure it\u2019s because my teacher grades me unfairly. What are all the ways teachers show favoritism, so I can prove to my parents that\u2019s what\u2019s happening?",
     options: [
-      { label: "Give me ideas for a project that's interesting and a good amount of work for a high school student. I want it to be something that I can finish on time and that will get me a good grade.", correct: false, headline: "Longer, still vague.", hint: "Count what's actually new here. 'Interesting' and 'good grade' don't tell the AI the class, the topic, or what counts as good. Does piling on adjectives give it anything concrete to work with?", feedback: "More words, same problem. \u2018Interesting,\u2019 \u2018good amount of work,\u2019 \u2018good grade\u2019 are still vague. The AI doesn\u2019t know what class, what topic area, or what counts as \u2018good.\u2019 You\u2019ll get a list of generic project ideas." },
-      { label: "I have a 3-week project for my AP Biology class. Topic is open as long as it ties to genetics. I want to do something hands-on, not a slideshow. Give me 4 project ideas at different difficulty levels and tell me what each one would actually involve.", correct: true, headline: "Now it has enough to work with.", feedback: "Class, time frame, topic constraint, format preference, and a clear ask (4 ideas, varied difficulty, with actual scope). The AI now has enough to give you something usable." },
-      { label: "What's the easiest project I can do that will still get an A?", correct: false, headline: "Specific, wrong target.", hint: "This one is specific, but look at what it optimizes for: least effort. That's a sharp question pointed the wrong way. Does it set you up to learn anything, or just to do the minimum?", feedback: "Specific in the wrong direction. You\u2019re optimizing for least effort, not for what would actually help you learn or stand out. The AI will recommend something low-effort, and you\u2019ll wonder why it feels lazy." }
+      { label: "Open-Minded", correct: true, headline: "The verdict came pre-loaded.", feedback: "\u201cI\u2019m sure it\u2019s because\u201d gives it away: the question already decided the teacher is unfair, and all it asks for is ammunition. It\u2019s specific and even on target, but it isn\u2019t open-minded. An open-minded version: \u201cMy English grade dropped from an A to a C+ this semester. What are some possible reasons, including things I might be doing differently?\u201d" },
+      { label: "Specific", correct: false, headline: "Specific enough.", hint: "An A to a C+, this semester, one class, one teacher: it\u2019s plenty specific. The problem comes earlier in the question. What has the asker already decided?", feedback: "Specificity isn\u2019t the issue: the grade drop, the timing, and the teacher are all named. The flaw is that the conclusion was reached before the question was asked." },
+      { label: "On Target", correct: false, headline: "Right target, rigged aim.", hint: "The question does aim at what\u2019s really bothering them. Look at whether they actually want an answer, or just agreement.", feedback: "It\u2019s pointed at the real concern. What\u2019s broken is that it only allows one answer: the one the asker already believes." },
+      { label: "Open-Ended", correct: false, headline: "Open in one direction only.", hint: "Examples could go lots of directions, so it\u2019s not closed. The catch is that all of them point the same way. Who chose that direction?", feedback: "There\u2019s plenty of room for detail, but every possible answer supports the same pre-picked conclusion. That\u2019s a leading question, not a closed one." }
     ]
   }, {
-    weak: "Help me with my essay.",
+    question: "I really want to bring my grades up this year, and I\u2019m willing to change anything about how I work. What should I be doing differently?",
     options: [
-      { label: "I'm writing a 5-page essay for AP English on \u2018The Great Gatsby.\u2019 My thesis is that Gatsby's pursuit of Daisy is really a pursuit of a version of himself, not her. I have a draft of paragraph 1 below. Tell me whether the paragraph supports my thesis and where it gets weaker.", correct: true, headline: "Everything it needs is here.", feedback: "Specifies the class, length, topic, the thesis, what the AI is looking at, and exactly what feedback you want. The AI can now actually help instead of generating a generic essay." },
-      { label: "Help me write a 5-page essay on \u2018The Great Gatsby.\u2019 Make sure it's well-organized and uses good evidence and has a strong conclusion.", correct: false, headline: "It writes it, not you.", hint: "Notice this asks the AI to write the whole essay, which means it isn't yours anymore. 'Well-organized' and 'strong conclusion' are vague on top of that. Is having it do the work the kind of help you want?", feedback: "The AI will write the whole thing for you, which means the essay isn\u2019t yours anymore. \u2018Well-organized\u2019 and \u2018strong conclusion\u2019 are vague anyway. The AI uses generic essay structure and you submit something that doesn\u2019t sound like you." },
-      { label: "Help me with my essay. It's about \u2018The Great Gatsby.\u2019 I want it to be really good.", correct: false, headline: "Topic added, still vague.", hint: "This adds the book but not much else. The AI still doesn't know what kind of help you want, your thesis, or what 'really good' means to you. Is that enough for it to do anything but generic?", feedback: "More context, same problem. You\u2019ve added the topic but the AI still doesn\u2019t know what kind of help you want, what your thesis is, or what \u2018really good\u2019 means to you. You\u2019ll get a generic response." }
+      { label: "Open-Minded", correct: false, headline: "Nothing\u2019s been decided.", hint: "\u201cWilling to change anything\u201d is the opposite of a pre-picked answer. The problem is how little the question carries.", feedback: "It\u2019s asked with a completely open mind. The failure is that it says nothing about the situation." },
+      { label: "Specific", correct: true, headline: "Better grades in what?", feedback: "It\u2019s open-minded, it\u2019s the real problem, and it\u2019s wide open. But it names nothing: which class is slipping, what\u2019s going wrong, what\u2019s been tried. A generic question earns generic advice. A specific version: \u201cI have a C in chemistry and quiz scores are the problem. What should I change about how I study for them?\u201d" },
+      { label: "On Target", correct: false, headline: "It's the real goal.", hint: "Grades are genuinely what they care about here, not a symptom of something else. What\u2019s missing before anyone could actually help?", feedback: "It\u2019s pointed at the right problem. It just includes nothing about which class, what\u2019s going wrong, or what\u2019s been tried." },
+      { label: "Open-Ended", correct: false, headline: "Almost too open.", hint: "Nearly any advice would count as an answer, so it isn\u2019t closed. That\u2019s a clue the flaw is somewhere else.", feedback: "Openness isn\u2019t the problem. The question is so unanchored that any generic advice counts as an answer." }
     ]
   }, {
-    weak: "Give me ideas.",
+    question: "My history essay is due Friday, and I only have four pages of the required five. What are my options for fonts, margins, and spacing that would stretch it to five pages?",
     options: [
-      { label: "Give me 10 creative ideas. Mix them up and make them interesting and different from each other.", correct: false, headline: "Ideas for what, though?", hint: "Adding 'creative' and a number doesn't answer the basic question: ideas for what? Without your situation, what would those 10 ideas even be about?", feedback: "Adding \u2018creative\u2019 and \u201810\u2019 doesn\u2019t fix the core problem. Ideas for what? The AI will generate 10 random things that have nothing to do with what you actually need." },
-      { label: "I'm planning my 16th birthday and have a $200 budget. 8 friends will come and we live in Dallas. Give me 5 ideas that are something other than a movie or restaurant. For each one, estimate the cost.", correct: true, headline: "Enough to actually help.", feedback: "Specifies the situation (16th birthday), the budget, the group size, the location, what to avoid, the count, and an extra ask (cost estimate). Now the AI can actually be useful." },
-      { label: "Plan me the cheapest possible party that still looks impressive in photos.", correct: false, headline: "Sharp, wrong target.", hint: "This one is specific, but look at what it optimizes for: low cost and good photos. Is that the real goal of your birthday, or just the part that's easy to measure?", feedback: "Specific, but aimed at the wrong thing. You're optimizing for cheap and photogenic, not for whether you and your friends actually have a good time. The AI gives you exactly what you asked for, and it might still be a bad party." }
+      { label: "Open-Minded", correct: false, headline: "Genuinely asked.", hint: "They truly want this answer; nothing\u2019s been decided for them in advance. The issue is whether this is the question worth asking at all.", feedback: "Asked with an open mind, yes. It\u2019s just aimed at the wrong thing." },
+      { label: "Specific", correct: false, headline: "Painfully specific.", hint: "The class, the deadline, the page count, even the formatting levers: the details are all there. Step back and ask what problem all that specificity is serving.", feedback: "It\u2019s one of the most specific questions on this list. Precision aimed at a symptom is still a miss." },
+      { label: "On Target", correct: true, headline: "Perfect answer, wrong problem.", feedback: "It\u2019s open-minded, specific, and easy to answer. But the real problem is sitting right there in the question: the essay is a page short of content, and formatting tricks won\u2019t write it. Aim at that instead: \u201cWhat\u2019s missing or underdeveloped in my argument that could fill another page?\u201d" },
+      { label: "Open-Ended", correct: false, headline: "Room for options.", hint: "It leaves space for several answers (fonts, margins, spacing), so it isn\u2019t closed. The flaw is the target, not the shape.", feedback: "There\u2019s room for several answers. All of them dodge the actual problem: the essay needs another page of thinking." }
     ]
   }, {
-    weak: "Should I quit the robotics club?",
+    question: "I have an 88% in algebra, the final is worth 20% of our grade, and it\u2019s the only grade left this semester. Is an A still possible for me, yes or no?",
     options: [
-      { label: "I'm a sophomore on the robotics team. I like the building, but the time commitment is hurting my grades, and I'm not sure the club matters for my goals. Help me think through what I'd gain and lose by quitting, and what I should figure out before I decide.", correct: true, headline: "It helps you decide.", feedback: "You gave your situation, named the real tension (time versus grades versus goals), and asked the AI to help you reason instead of deciding for you. You walk away with a better way to think it through, not a verdict to obey." },
-      { label: "List 5 reasons I should quit the robotics club.", correct: false, headline: "You already decided.", hint: "Look at what this asks for: reasons on one side only. If you've quietly made up your mind, what will the AI hand back, and does that actually help you decide?", feedback: "This is a leading question. You asked only for reasons to quit, so reasons to quit are all you get. It feels like research, but it just confirms what you already wanted. A good question doesn't stack the deck before you've thought it through." },
-      { label: "What should I do about my club?", correct: false, headline: "Decide what, exactly?", hint: "The AI knows nothing about the club, why you're asking, or what you care about. What would it even need to start helping?", feedback: "Too little to work with. The AI doesn't know the club, the problem, or what matters to you, so you'll get generic 'follow your passion' advice that fits no one." }
-    ]
-  }, {
-    weak: "What's a good college?",
-    options: [
-      { label: "I'm a junior with a 3.7 GPA, I want to study computer science, my family can pay about $25K a year, and I'd like to stay in the southern US. List 6 colleges that could be a fit and group them into reach, target, and safety based on my GPA.", correct: true, headline: "Specific enough to be useful.", feedback: "GPA, intended major, budget, geography, and the structure you want the answer in. The AI can now give you something genuinely useful instead of \u2018Harvard is good.\u2019" },
-      { label: "What's a good college that has a strong program and isn't too expensive?", correct: false, headline: "Strong and cheap to whom?", hint: "'Strong program' in what field? 'Not too expensive' on what budget? Without those, the AI fills the blanks its own way. What about you would it need to know to narrow this down?", feedback: "More words, no more help. \u2018Strong program\u2019 in what? \u2018Not too expensive\u2019 to whom? The AI fills in the blanks however it wants and you get a generic list." },
-      { label: "Is Harvard a good college?", correct: false, headline: "Specific, wrong question.", hint: "This is specific, but it asks about one school instead of helping you find the right ones for you. Even a clear 'yes' teaches you nothing about your own search. Is that the question that actually helps?", feedback: "Specific but the wrong question. You\u2019re asking about one school instead of getting help finding the right ones for you. AI says \u2018yes Harvard is good\u2019 and you\u2019ve learned nothing about your actual college search." }
+      { label: "Open-Minded", correct: false, headline: "No agenda here.", hint: "No conclusion is smuggled in; they really don\u2019t know. Look at the shape of the answer this question asks for.", feedback: "Completely open-minded. The flaw is that the question only leaves room for one word back." },
+      { label: "Specific", correct: false, headline: "The details are all there.", hint: "The percentage, the weighting, and what\u2019s left are all right there. Ask instead: what kind of answer can this question actually receive?", feedback: "Specificity is covered. The question just closes the door after \u201cyes\u201d or \u201cno.\u201d" },
+      { label: "On Target", correct: false, headline: "It's the right problem.", hint: "The grade is genuinely what they care about. Think about what happens after the answer comes back \u201cyes.\u201d", feedback: "Right target, but the question is closed: after \u201cyes,\u201d you still don\u2019t know what to do about it." },
+      { label: "Open-Ended", correct: true, headline: "Yes or no ends the conversation.", feedback: "It\u2019s open-minded, specific, and exactly the right problem. But it literally asks for a one-word answer, and \u201cyes\u201d teaches you nothing. Open it up: \u201cWhat score do I need on the final for an A, and what should I focus on to get it?\u201d" }
     ]
   }];
-  const VALUE_COLS = [
+  const ERAS = [
     {
-      sub: "Answers were expensive",
-      label: "Old world",
-      items: [
-        "Finding information took time",
-        "Expertise was partly about access",
-        "Producing a first draft was a big part of the job",
-        "Summarizing and rewriting filled hours"
-      ]
+      sub: "Pre-Internet (Grandparents)",
+      label: "📚 The library",
+      color: "#64748b",
+      chipBg: "#f1f5f9",
+      steps: [
+        "Get to a library and search the card catalog",
+        "Track down the right books and periodicals on the shelves",
+        "Read until you find what you need, copying notes by hand"
+      ],
+      time: "Half a Saturday"
     },
     {
-      sub: "Answers are cheap",
-      label: "AI world",
-      items: [
-        "First drafts are instant",
-        "Summaries are instant",
-        "Ideas are abundant",
-        "Information is easier to access"
-      ]
+      sub: "The Internet (Parents)",
+      label: "🔍 Search",
+      color: "#3b82f6",
+      chipBg: "#eff6ff",
+      steps: [
+        "Run search after search, opening tab after tab",
+        "Judge which sites to trust and skim for the useful parts",
+        "Copy and paste the good pieces into a doc"
+      ],
+      time: "An hour or two"
     },
     {
-      sub: "Where value moves",
-      label: "New scarcity",
-      items: [
-        "Framing the problem",
-        "Setting constraints",
-        "Defining what good looks like",
-        "Asking the next question"
-      ]
+      sub: "Now (You)",
+      label: "🤖 AI",
+      color: "var(--primary)",
+      chipBg: "#ece8fd",
+      steps: [
+        "Open your favorite AI app",
+        "Ask",
+        "The answer is on your screen"
+      ],
+      time: "Seconds"
     }
-  ];
-  var VALUABLE = [
-    { icon: "\uD83C\uDFAF", title: "Frames the problem", desc: "Most bad AI output starts with a fuzzy question. Naming what actually needs to be solved is half the work." },
-    { icon: "\uD83D\uDCCF", title: "Sets constraints", desc: "\u201CDo it well\u201D isn\u2019t a spec. Deciding the audience, the format, the limits, and what to leave out shapes everything that comes back." },
-    { icon: "\uD83C\uDFC1", title: "Defines success", desc: "Before you ask, know what a good answer looks like. Without that, you can\u2019t tell whether the output is useful or just fluent." },
-    { icon: "\u27A1\uFE0F", title: "Creates the next move", desc: "A good question asks for something you can use, test, revise, or decide from. Not just something fluent to read." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You’ve set up the tool: the app, the model, the effort dial, even what it remembers about you. None of it pays off until the moment this lesson is about: what you actually ask."
+      "Every conversation with AI starts the same way: you ask it something. That small moment decides more about what you get back than anything else you do."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI makes answers cheap. That does not make humans less valuable. It changes ",
-      /*#__PURE__*/React.createElement("em", null, "where"),
-      " value lives."
+      "Strip it down and there are only two parts: the question and the answer. For decades, technology has been making answers easier and easier to get. And the less time we spend chasing the answer, the more time we have for the half that’s still ours: ",
+      /*#__PURE__*/React.createElement("strong", null, "asking the right question"),
+      "."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "When anyone can get a fast answer, the edge shifts to the person who can ask the better question."
+      "One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at what happened to the process between your grandparents, your parents, and you."
     ),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "THE SHIFT",
+      headline: "How answers got cheap",
       marginBottom: 32
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
-        VALUE_COLS.map(function(c, i) {
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "auto auto auto", columnGap: 12 } },
+        ERAS.map(function(era, i) {
           return /*#__PURE__*/React.createElement("div", {
             key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 18, display: "flex", flexDirection: "column" }
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderTop: "3px solid " + era.color, borderRadius: 12, boxShadow: "var(--shadowSoft)", overflow: "hidden", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" }
           },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 } }, c.sub),
-            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "var(--ink)", marginBottom: 12, fontSize: 18 } }, c.label),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-              c.items.map(function(item, j) {
+            /*#__PURE__*/React.createElement("div", { style: { padding: "16px 18px 12px" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: era.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 } }, era.sub),
+              /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 18, margin: 0 } }, era.label)),
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, padding: "12px 18px", borderTop: "1px solid var(--rule)" } },
+              era.steps.map(function(step, j) {
                 return /*#__PURE__*/React.createElement("div", {
                   key: j,
-                  style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }
+                  style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.5 }
                 },
-                  /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", fontWeight: 700, flexShrink: 0 } }, "•"),
-                  item
+                  /*#__PURE__*/React.createElement("span", { style: { color: era.color, fontWeight: 800, flexShrink: 0 } }, (j + 1) + "."),
+                  step
                 );
               })
+            ),
+            /*#__PURE__*/React.createElement("div", { style: { padding: "12px 18px 16px", borderTop: "1px solid var(--rule)", display: "flex", alignItems: "center", gap: 8 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1 } }, "Time to answer"),
+              /*#__PURE__*/React.createElement("span", { style: { background: era.chipBg, color: era.color, borderRadius: 8, padding: "4px 10px", fontSize: 14, fontWeight: 800 } }, era.time)
             )
           );
         })
       )
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: 32 } },
-      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 } }, "Before AI"),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 600, color: "var(--ink)" } }, "Question"),
-          /*#__PURE__*/React.createElement("span", { style: { color: "#64748b", fontWeight: 700, fontSize: 18 } }, "→"),
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 600, color: "var(--ink)" } }, "Hours of work"),
-          /*#__PURE__*/React.createElement("span", { style: { color: "#64748b", fontWeight: 700, fontSize: 18 } }, "→"),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#fff7ed", border: "1px solid #fdba74", borderRadius: 8, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 700, color: "#9a3412" } }, "Expensive answer")
-        )
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 20 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#3b82f6", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 } }, "With AI"),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" } },
-          /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 8, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 600, color: "var(--ink)" } }, "Question"),
-          /*#__PURE__*/React.createElement("span", { style: { color: "#3b82f6", fontWeight: 700, fontSize: 18 } }, "→"),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 8, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 700, color: "#1e3a8a" } }, "Instant answer")
-        )
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", paddingTop: 16, fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } },
-        /*#__PURE__*/React.createElement("strong", null, "Because answers are cheap, better questions become the advantage.")
-      )
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Half a day, then an hour, now seconds. AI makes answers cheap. That does not make humans less valuable. It changes ",
+      /*#__PURE__*/React.createElement("em", null, "where"),
+      " value lives."
     ),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Same AI. Different question. Different result."),
-    /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", marginBottom: 16, lineHeight: 1.6, fontSize: BOX_TEXT } },
-      "Two students ask about the same topic. One gets a textbook paragraph. The other gets something they can actually use."
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds, but it only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "2px solid #fca5a5", borderRadius: 12, padding: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 } }, "Weak question"),
-        /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 15, lineHeight: 1.5 } }, "\u201CTell me about climate change.\u201D")
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "2px solid #86efac", borderRadius: 12, padding: 18 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 } }, "Better question"),
-        /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: BOX_TEXT, lineHeight: 1.5 } }, "\u201CI\u2019m a high school student preparing for a class debate. Give me the 3 strongest arguments for carbon taxes, the 3 strongest arguments against them, and tell me which side has the stronger evidence.\u201D")
-      )
+    /*#__PURE__*/React.createElement(SectionKicker, null, "What Makes a Good Question?"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Asking good questions is not an AI skill. It’s one of the oldest skills there is. Socrates taught by doing almost nothing but asking. The scientific method doesn’t start with an answer; it starts with a question worth testing. Einstein supposedly said that with an hour to save the world, he’d spend the first 55 minutes finding the right question."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px", marginBottom: 32, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
-      "The second person gets more value not because the AI is smarter, but because the human asked a better question. It frames the task, takes a real position, and says what a useful answer looks like."
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "So what separates a good question from a weak one? Four qualities, and none of them mention AI."
+    ),
+    (function() {
+      var QUALITIES = [
+        { icon: "⚖️", title: "Open-Minded", body: "You haven’t picked the answer in advance. A leading question isn’t research, it’s a request for backup.", bad: "Give me proof that homework doesn’t help students learn.", better: "What does the research actually say about homework and learning?" },
+        { icon: "🔬", title: "Specific", body: "It names your situation, not just the topic. A question you could ask about anything returns an answer that helps with nothing.", bad: "How do I get better at basketball?", better: "I’m a point guard who loses the ball against pressure. What drills fix that?" },
+        { icon: "🧭", title: "On Target", body: "Ask about the thing you’re actually trying to figure out, not a piece on the edge of it. The wrong target gets a perfect answer to the wrong question.", bad: "How do I make my slides look better?", better: "My presentation isn’t landing. Help me figure out whether the problem is my slides or the order of my points." },
+        { icon: "💡", title: "Open-Ended", body: "A yes-or-no question ends the conversation; an open-ended one starts it. Leave room for an answer you didn’t expect.", bad: "Should I join the debate team?", better: "What would joining debate add to my week, and what would I have to give up for it?" }
+      ];
+      return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
+        QUALITIES.map(function(q, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              /*#__PURE__*/React.createElement("span", { style: { width: 24, height: 24, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, i + 1),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, q.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, q.title)),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 14 } }, q.body),
+            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
+              /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "10px 14px" } },
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Bad"),
+                /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, q.bad)),
+              /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "10px 14px" } },
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Better"),
+                /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, q.better))));
+        }));
+    })(),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Notice that AI hasn’t come up yet. These four qualities worked in Socrates’ Athens and they work in a chat window. What changed is the payoff: now that answers are instant, the quality of the question is the whole game."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "A better question doesn\u2019t make the answer automatically true. It just makes the answer more focused, more useful, and easier to check."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT A BETTER QUESTION DOES"),
-    /*#__PURE__*/React.createElement(BodyP, null, "The new-scarcity column deserves a closer look. Not prompt tricks: four things a well-framed question gives the AI to work with."),
-    /*#__PURE__*/React.createElement(NumberedRows, { marginBottom: 32, items: VALUABLE.map(function(s) { return { icon: s.icon, title: s.title, body: s.desc }; }) }),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "The advantage no longer goes to whoever produces the fastest first answer." },
       "It goes to the person who frames the problem, sets the standard, and asks the next better question."),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Pick the Stronger Question",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(upgradeAnswers).length, total: UPGRADE_SCENARIOS.length })
-    , lead: "Your turn. Each one starts with a weak question. Pick the version that actually helps. Some just pile on words. Others are sharp but aimed at the wrong thing. Only one frames the real problem."},
+      title: "What’s Missing?"
+    , lead: "Your turn. Each question below fails exactly one of the four qualities. Read it, then diagnose which one is missing."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        UPGRADE_SCENARIOS.map(function(us, si) {
-          var picked = upgradeAnswers[si];
+        MISSING_SCENARIOS.map(function(ms, si) {
+          var picked = missingAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                /*#__PURE__*/React.createElement(UserBubble, { text: us.weak, align: "left", label: "Weak prompt" }))),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ms.question))),
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",
-              statement: "Which version asks the right question?",
-              totalQuestions: UPGRADE_SCENARIOS.length,
-              options: us.options,
+              optionsRow: true,
+              totalQuestions: MISSING_SCENARIOS.length,
+              options: ms.options,
               picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setUpgradeAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
+              onAnswer: function(idx) { setMissingAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
             }));
         }))),
-    Object.keys(upgradeAnswers).length >= UPGRADE_SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Specific isn’t the same as right.", body: "The strongest questions frame the real problem and define what a good answer looks like. That’s the part AI can’t do for you." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(upgradeAnswers).length >= UPGRADE_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(missingAnswers).length >= MISSING_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
   );
 }
 function HumanEdgeSection(props) {

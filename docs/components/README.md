@@ -29,7 +29,7 @@ The sand-surface demonstration box; interiors are bespoke per demo. Shown mid-in
 ![SEE IT](see-it.png)
 
 ### LAB
-The teal-surface variant for hands-on labs, with a `labNumber` in the eyebrow and checkbox steps. Example: LAB 01 "Build Your Course Notebook" in Learn with AI (`studying`).
+The teal-surface variant for hands-on labs, with a `labNumber` in the eyebrow and checkbox steps. Only the checkbox toggles completion (the row is a plain div so step text can be selected and copied). Example: LAB 01 "Build Your Course Notebook" in Learn with AI (`studying`).
 
 ![LAB](lab.png)
 

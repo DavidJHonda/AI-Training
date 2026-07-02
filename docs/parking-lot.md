@@ -298,3 +298,35 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Possible destination:** could return as a pre-lab warm-up if students need scaffolding before typing real prompts, or be adapted into a worksheet. Its five-part structure (subject, test format, what I understand, what confuses me, how to help + what not to do) is a solid study-prompt template independent of the UI.
 - **What it was:** a TRY IT (mint) titled "Build a Study Prompt": chip-select Subject (AP Biology, US History, AP Calc, English Lit, Spanish, Chemistry) and Test format; free-text "What I already understand" / "What I'm confused about"; chip-select "How AI should help" (quiz one at a time, simple analogies, practice problems, mixed difficulty) and "What AI should NOT do" (no instant answers, no textbook voice, no restating, no disclaimer pile); a live "Your Prompt So Far" mono preview assembling the sentence; on completion, a side-by-side compare against a strong AP Biology example with the closing note that both cover the same five things.
 - **Supporting state it needs if restored:** `pSubject/pFormat/pUnderstand/pConfused/pHowHelp/pNotDo/pRevealed` (useState) + `STUDY_FIELDS` const + `pAllFilled`/`pFilledCount` derived values; the lesson's NextLessonGate was gated on `pAllFilled`. Search git history for `STUDY_FIELDS`.
+
+---
+
+## Customization & Memory — the whole lesson (`CustomizationSection`)
+
+- **Origin:** Build Your Skills section (route id `customization`, between Tune the Model and Ask AI), deleted 2026-07-02. Its two core ideas (custom instructions and saved memory) moved into Context Window (`prompt`) at a lighter level: a four-feeds box, a three-flavor "Make It Yours" row (Personalization / Projects / Memory), an app-vs-model clarification, and LAB 04 "Same Question, Different You" (ask the Luke/Nate car question, add personalization in Settings, ask again, then "What do you know about me?"). Tune the Model's gate now points to Ask AI.
+- **Cut-but-strong pieces, in priority order:**
+  - **"Where should this go?" sort TRY IT** — five snippets sorted into Personalization / Projects / Memory / Current chat / Nowhere ("Call me David." → all chats; Macbeth rubric → project; "I only have 30 minutes tonight." → current chat; cellular-respiration struggle → memory; "Always tell me my work is great." → nowhere, the flattery trap as a setting). Candidate home: Ask AI or Thought Partner if a management-skills beat is ever wanted.
+  - **"Three things can go sideways" KeyInsight** and the conflict rule (more specific wins: project overrides personalization).
+  - **Nate's real personalization example** (first-person walkthrough).
+  - **Animated four-part recap** (CONTEXT_GROUPS_RECAP with connector lines) — superseded by the static feeds box now in Context Window.
+- **Full source:** git history at the commit before this one, `function CustomizationSection` (~780 lines incl. sort TRY IT state `sortAnswers`).
+- **Related survivors:** the Flattery trap lesson's "you can bake the Flattery Trap into your settings" box stands on its own and still works.
+
+---
+
+## "What actually gets sent" — stateless re-read beat (destination: Inference)
+
+- **Origin:** Context Window (`prompt`), removed 2026-07-02. The fact ("the model sees the whole window") stays in Context Window in one sentence; the mechanism moved out because it belongs with Understand AI depth. **Intended destination: the Inference lesson**, where tokens/vectors/layers are already established and it lands as "remember the context window? Here's what actually happens each turn."
+- **Verbatim paragraphs:**
+  1. "It feels like a conversation that remembers you. But the model treats every turn as a one-off: it wakes up, reads the entire window as if for the first time, answers, then starts fresh the next turn. It’s the Chinese Room from Does AI Think? again: a fresh note slides under the door, the model answers from only what’s written on it, and keeps nothing. The window is that note."
+  2. "And everything you learned earlier applies to all of it. The whole window is broken into tokens, each token becomes a vector, and the entire thing runs through the layers together, every single time. That window is the only thing the model can see."
+  3. "It’s also why ChatGPT and Claude can feel slower as a chat gets long: there’s simply more in the window to work through before the model can start answering."
+  Plus the original stronger opener: "It receives the entire context window: your prompt, everything earlier in the chat, your custom instructions, and any saved memory. All of it, every single turn."
+
+---
+
+## "Predict the split" — context-window prediction TRY IT (`PromptSplitTryIt`)
+
+- **Origin:** Context Window (`prompt`), removed 2026-07-02 during the lesson's customization merge and Lab 04 addition (the lab now carries the lesson's hands-on beat). It was a compact TRY IT: everyone asks "What car should I get after college?", only their earlier message differs, and the student predicts which car the AI suggests for each person — reinforcing that the window, not the question, drives the split.
+- **Possible destination:** could return if the lesson ever needs a no-account activity (the lab requires a Claude login; this worked for students without one), or adapt for the Inference lesson when the parked stateless beat lands there.
+- **Full source:** git history at the commit before this one, `function PromptSplitTryIt` (~2.5k chars, self-contained with its own state).

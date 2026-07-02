@@ -5235,7 +5235,7 @@ function InferenceJourneyDiagram() {
   }, []);
   var b = function(t) { return E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, t); };
   var STEPS = [
-    { n: 1, ph: READ, chip: "CONTEXT WINDOW", title: "What the model sees", body: ["Your prompt plus everything else in the window: past messages, AI responses, custom instructions, saved memory."] },
+    { n: 1, ph: READ, chip: "CONTEXT WINDOW", title: "What the model sees", body: ["Your prompt plus everything else in the window: past messages, AI responses, personalization, saved memory."] },
     { n: 2, ph: READ, chip: "TOKENS", title: "Text becomes numbers", body: ["The whole thing is split into tokens, each mapped to a number. ", b("From here on, it’s all numbers.")] },
     { n: 3, ph: READ, chip: "EMBEDDINGS", title: "Starting meaning", body: ["Each token’s number becomes a vector, its starting meaning on the map."] },
     { n: 4, ph: READ, chip: "TRANSFORMER", title: "Reads everything at once", big: true, body: ["The architecture that reads every token at once. Each of ~100 layers runs ", b("attention"), " (which tokens relate), then ", b("transformation"), " (what they mean together), using weights frozen in training. One final vector per token comes out."] },
@@ -5347,17 +5347,6 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
-const CONTEXT_WINDOW_FACTS = [{
-  label: "1st version of ChatGPT (November, 2022)",
-  tokens: "4,096",
-  words: "~3,000",
-  analogy: "About 6 pages"
-}, {
-  label: "Latest Claude models",
-  tokens: "1 Million",
-  words: "~1,000,000",
-  analogy: "About the size of the first 5 Harry Potter novels"
-}];
 
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps", {});
@@ -5400,52 +5389,53 @@ function PromptSection(props) {
       " Think of it almost like the working memory the model uses to answer. And it builds that working memory from several places."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/context-window-1.jpg",
-      alt: "The four parts that feed the context window (your current prompt, earlier in this chat, your custom instructions, and saved memory) flow into a glowing tray labeled The Context Window: all of this is what the model sees right now. The window feeds the model, which produces an answer. Cards for older chats, web pages you didn’t send, notes on your computer, and other apps sit outside the window, out of reach.",
+      alt: "Five cards feed a glowing tray labeled The Context Window: your current prompt, everything earlier in this chat, personalization, saved memory, and a dashed Projects card tagged only in project chats. The tray notes all of this is what the model sees right now, and it feeds the model, which produces an answer. Cards for older chats, web pages you didn’t send, notes on your computer, and other apps sit outside the window, out of reach.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What the model actually sees"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s the part that surprises people. When you hit send, the model doesn’t just see your last message. It sees the entire context window, and it answers from all of it. The illustration above shows everything that feeds it: your prompt, the chat so far, your custom instructions, and saved memory."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Make It Yours"),
+      "Here’s the part that surprises people. When you hit send, the model doesn’t just see your last message. It sees the entire context window, and it answers from all of it. The illustration above shows everything that feeds it: your prompt, everything earlier in the chat, your personalization, and saved memory. And when you work inside a project, its files and instructions ride along too."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "What Follows You Where"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The two feeds beyond the chat are yours to set up, and every major app has some version of them. They usually come in three flavors:"),
+      "The feeds don’t all have the same reach. Two live and die with a single chat. Two follow you everywhere. And projects sit in between. Every major app has some version of these, and the ones beyond the chat are yours to set up:"),
     (function() {
-      var YOURS = [
-        { icon: "👤", title: "Personalization", desc: "Tell it once and it applies to every chat: what to call you, what you’re into, how you like answers." },
-        { icon: "📁", title: "Projects", desc: "Instructions and files scoped to one piece of work, like one class or one essay." },
-        { icon: "🧠", title: "Memory", desc: "Things the app picks up from your chats and saves on its own." }
+      var SCOPES = [
+        { header: "This chat only", color: "#1e40af", cards: [
+          { icon: "💬", title: "Your current prompt", desc: "Everything you sent this turn: what you typed, plus anything attached." },
+          { icon: "🧵", title: "Everything earlier in this chat", desc: "Everything you and the AI said before now. Close the chat, and it stays behind." }
+        ] },
+        { header: "Every chat", color: "#5a47c9", cards: [
+          { icon: "👤", title: "Personalization", desc: "What you told it once: your name, what you’re into, how you like answers." },
+          { icon: "🧠", title: "Saved Memory", desc: "What the app picked up from your chats and saved on its own." }
+        ] },
+        { header: "Chats in a project", color: "#0d9488", cards: [
+          { icon: "📁", title: "Projects", desc: "The project’s files and instructions. Inside the project, always in the window. Outside it, invisible." }
+        ] }
       ];
-      return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
-        YOURS.map(function(f, i) {
-          return React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)" } },
-            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
-              React.createElement("span", { style: { fontSize: 18 } }, f.icon),
-              React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, f.title)),
-            React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, f.desc));
-        }));
+      return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+        React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 } },
+          SCOPES.map(function(g, gi) {
+            return React.createElement("div", { key: gi },
+              React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: g.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 } }, g.header),
+              React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+                g.cards.map(function(c, i) {
+                  return React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)", borderTop: "3px solid " + g.color } },
+                    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
+                      React.createElement("span", { style: { fontSize: 16 } }, c.icon),
+                      React.createElement("span", { style: { fontSize: BOX_TEXT, fontWeight: 800, color: "var(--ink)" } }, c.title)),
+                    React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, c.desc));
+                })));
+          })),
+        React.createElement("div", { style: { marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } },
+          "Project chats get everything: the every-chat feeds plus the project’s own."));
     }()),
     /*#__PURE__*/React.createElement(BodyP, null,
+      "Here’s the test: open a brand-new chat tomorrow. Before you type a single word, your personalization and memory are already in the window. Yesterday’s conversation isn’t, unless the app saved a piece of it to memory."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "One thing to keep straight: these are app features, not the model learning about you. The app stores what you set, then quietly adds it to the context window every time you hit send."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "CONTEXT WINDOW SIZE"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The window has a limit"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The whole window is measured in tokens, the same chunks you met in the Tokens lesson. Pile up enough of them and you hit the context window’s limit."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Before that limit, the model sees everything in the chat. After it, it doesn’t. Some apps summarize the older parts. Others just forget."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "And that limit is growing fast."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 20 },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-        CONTEXT_WINDOW_FACTS.map(function(f, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 16, padding: 16, boxShadow: "0 8px 24px rgba(14, 10, 31, 0.06)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(185px, 1fr))", gap: 12, alignItems: "stretch" } },
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primaryFaint)", borderRadius: 999, padding: "6px 10px", fontSize: 12, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: 10 } },
-                f.tokens + " tokens"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.35 } }, f.label)),
-            /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 14 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, f.words + " words — " + f.analogy))));
-        }))),
-
+      "One more thing worth knowing: the window isn’t infinite. In a long chat, the oldest parts eventually fall out. Some apps summarize them, others just forget. That’s one reason starting a fresh chat for a new task is often the right move."),
     /*#__PURE__*/React.createElement(BodyP, null, "Big or small, what fills the window is what shapes the answer. Same question, different windows."),
   /*#__PURE__*/React.createElement("img", {
     src: "illustrations/context-window-2.jpg",

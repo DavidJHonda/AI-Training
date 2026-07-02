@@ -330,3 +330,12 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Origin:** Context Window (`prompt`), removed 2026-07-02 during the lesson's customization merge and Lab 04 addition (the lab now carries the lesson's hands-on beat). It was a compact TRY IT: everyone asks "What car should I get after college?", only their earlier message differs, and the student predicts which car the AI suggests for each person — reinforcing that the window, not the question, drives the split.
 - **Possible destination:** could return if the lesson ever needs a no-account activity (the lab requires a Claude login; this worked for students without one), or adapt for the Inference lesson when the parked stateless beat lands there.
 - **Full source:** git history at the commit before this one, `function PromptSplitTryIt` (~2.5k chars, self-contained with its own state).
+
+---
+
+## "Context Window Size" — token measurement + growth facts box (destination: Inference)
+
+- **Origin:** Context Window (`prompt`), removed 2026-07-02. Replaced by a two-sentence "The window has a limit" beat (long chats fall out, apps summarize or forget, fresh chats help). Moved out because tokens aren’t taught yet at this point in the course (the copy claimed "the same chunks you met in the Tokens lesson" — a stale forward reference), and the facts box carried a perishable per-app capability claim. **Intended destination: the Inference lesson**, alongside the parked stateless every-turn re-read beat — with tokens established there, window size lands correctly.
+- **Verbatim copy:** "The whole window is measured in tokens, the same chunks you met in the Tokens lesson. Pile up enough of them and you hit the context window’s limit." / "Before that limit, the model sees everything in the chat. After it, it doesn’t. Some apps summarize the older parts. Others just forget." / "And that limit is growing fast."
+- **Verbatim `CONTEXT_WINDOW_FACTS`:** 1st version of ChatGPT (November, 2022): 4,096 tokens, ~3,000 words, "About 6 pages" / Latest Claude models: 1 Million tokens, ~1,000,000 words, "About the size of the first 5 Harry Potter novels" (the "latest" row needs refreshing whenever restored).
+- **Markup if restored:** ShowcaseBox of cards: token-count pill + label on the left, words-and-analogy panel on the right. Search git history for `CONTEXT_WINDOW_FACTS`.

@@ -1638,7 +1638,6 @@ const SECTION_META = {
   prompting: { kicker: "CLEAR IN, CLEAR OUT", label: "Art of Prompting", icon: "\u270D\uFE0F" },
   thoughtpartner: { kicker: "THINK WITH IT, NOT FOR YOU", label: "Thought Partner", icon: "\uD83E\uDD1D" },
   studying: { kicker: "USE IT TO LEARN", label: "Learn with AI", icon: "\uD83D\uDCD3" },
-  verify: { kicker: "TRUST, THEN CHECK", label: "Verify", icon: "\uD83D\uDEE0\uFE0F" },
   evaluating: { kicker: "BEFORE YOU TRUST IT", label: "Check the Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerskills: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -6084,73 +6083,6 @@ function HallucinationSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
-function VerifySection(props) {
-  const VERIFY_STRATEGIES = [{
-    icon: "\uD83D\uDD0D",
-    label: "Cross-reference the claim",
-    desc: "Don't Google the AI's full sentence. Pull out the specific claim and search for that. If AI says \"the first NBA Slam Dunk Contest was in 1976,\" search for \"first NBA Slam Dunk Contest year.\"",
-    aiSays: "The Golden Gate Bridge was completed in 1934 and was the longest suspension bridge in the world for 27 years.",
-    doThis: "Search: \"Golden Gate Bridge completion year.\" You'll find it was actually 1937. The AI was close but wrong, and you'd never catch it without checking the specific fact.",
-    rule: "Extract the fact. Search the fact. Don't trust the sentence."
-  }, {
-    icon: "\uD83D\uDCDA",
-    label: "Verify citations and sources",
-    desc: "When AI gives you an author, journal, study, or statistic, search for that exact source. Hallucinated citations are one of the most common and dangerous failure modes.",
-    aiSays: "According to a 2019 study by Dr. Rachel Kim in the Journal of Behavioral Science, students who study with background music score 23% higher on recall tests.",
-    doThis: "Search: \"Dr. Rachel Kim Journal of Behavioral Science 2019.\" If nothing comes up, the citation is fabricated. Also try searching just the journal name to confirm it exists at all.",
-    rule: "If you can\u2019t find the source after searching, it was likely fabricated. AI frequently invents plausible-sounding citations."
-  }, {
-    icon: "\uD83D\uDD17",
-    label: "Don't trust the source link",
-    desc: "More AI apps now show their work: a footnote, a citation, a clickable link. That\u2019s a step up, but a link is where verification starts, not where it ends. The source can be weak, outdated, misread by the AI, or only half relevant to your question.",
-    aiSays: "According to a 2017 study in the Journal of Adolescent Research [link], teenagers who use social media more than 3 hours a day score 18% lower on reading comprehension tests.",
-    doThis: "Click through. Check three things. Does the source actually say that, or did the AI summarize wrong? Is the source itself solid (the journal article, not a blog quoting it)? Is it still current? A 2017 social media study may describe a totally different app landscape than today.",
-    rule: "A sourced answer is better than an unsourced one, but a link doesn\u2019t make a claim true."
-  }, {
-    icon: "\uD83C\uDFAF",
-    label: "Watch for hallucination triggers",
-    desc: "Certain patterns in AI output should raise your radar: specific numbers, exact dates, named people, and precise statistics. These are the details AI is most likely to fabricate because they make text sound authoritative.",
-    aiSays: "The Treaty of Westphalia in 1648 involved 109 delegations and took 4 years of negotiation, resulting in 128 separate clauses.",
-    doThis: "The date (1648) is well-established and likely correct. But \"109 delegations,\" \"4 years,\" and \"128 clauses\" are suspiciously specific. When AI gets granular with numbers, that's when you verify.",
-    rule: "The more specific the detail, the more skeptical you should be."
-  }, {
-    icon: "\uD83E\uDD14",
-    label: "Ask the model to self-check",
-    desc: "You can ask the AI to flag uncertainty, either upfront in the prompt or as a follow-up after the answer. It won't always catch mistakes, but it often flags uncertainty when directly asked. This works because the prompt creates a different context that can surface different patterns.",
-    aiSays: "The Pythagorean theorem was first proven by Pythagoras around 500 BC.",
-    doThis: "Two ways. Upfront: add 'flag anything I should double-check' to your prompt. After: follow up with \"Are you confident in that? What might be inaccurate?\" The model may then clarify that the theorem was known before Pythagoras and that his authorship is debated.",
-    rule: "\"Are you sure?\" can surface uncertainty or catch mistakes, but it isn\u2019t verification. Treat it as a second pass, then check the claim somewhere real."
-  }, {
-    icon: "\u26A0\uFE0F",
-    label: "Spot the 'almost true' trap",
-    desc: "The sneakiest hallucinations aren't completely wrong. They're adjacent to truth. The model takes something real and drifts slightly: a real journal with a fake study, a real person with a fake quote, a real event with wrong details.",
-    aiSays: "The Zeigarnik Effect, discovered by Bluma Zeigarnik in 1927, shows that people remember interrupted tasks better. A related phenomenon, the Zelkov Effect, describes how emotional valence affects this recall.",
-    doThis: "The Zeigarnik Effect is real. But \"the Zelkov Effect\" is fabricated: the model invented a plausible-sounding extension of a real concept. When AI references something you can verify alongside something you can't, check the unfamiliar part.",
-    rule: "If part of an answer is verifiably true, don't assume the rest is too."
-  }];
-  return /*#__PURE__*/React.createElement("div", null, props.embedded ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "TRUST, THEN CHECK") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this true?"), " Questioning an answer helps you spot a weak claim anywhere. AI hallucinates in specific ways that need their own toolkit. These six strategies will help you verify AI output before you use it."),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "You already made this call in Step 4: brainstorming, summarizing, and first drafts barely need a look, but facts, citations, and anything touching health, money, or another person do. This is the other half. Once you know an answer needs checking, here is how you actually do it."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Confidence is not consistency." },
-    "Two polished AI answers can disagree with each other, and both will sound certain. When you\u2019ve asked twice and gotten different answers, don\u2019t average them. The contradiction is the signal. Find the underlying claim and check it against something real."),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "The strategies below are tools. The judgment is which tool to use for which question."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "THE SIX CHECKS", marginBottom: 20 },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-      VERIFY_STRATEGIES.map(function(s, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 12, alignItems: "flex-start" } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0 } }, s.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, s.label),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.rule)));
-      }))),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Stack them, don\u2019t pick one"),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "In practice, you don\u2019t run one strategy. You run several on the same answer. Cross-reference the specific claim. Check any citations. Watch for suspiciously specific numbers. Ask the model to flag what it\u2019s uncertain about. The strategies above are the tools. Verifying is the workflow."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."),
-  props.embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
-  props.embedded ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluate" }));
-}
 const CT_CONCEPTS = [{
   id: "question",
   label: "Question the Output",
@@ -7334,7 +7266,26 @@ function EvaluatingSection(props) {
     E(SectionKicker, null, "Go deeper: facts that matter"),
     E(BodyP, null,
       "For a factual answer with real stakes, Step 5 is the habit. The strategies below are the skill: how to verify a specific claim when it really counts."),
-    E(VerifySection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
+    (function() {
+      var SIX_CHECKS = [
+        { icon: "\uD83D\uDD0D", label: "Cross-reference the claim", rule: "Extract the fact. Search the fact. Don't trust the sentence." },
+        { icon: "\uD83D\uDCDA", label: "Verify citations and sources", rule: "If you can\u2019t find the source after searching, it was likely fabricated. AI frequently invents plausible-sounding citations." },
+        { icon: "\uD83D\uDD17", label: "Don't trust the source link", rule: "A sourced answer is better than an unsourced one, but a link doesn\u2019t make a claim true." },
+        { icon: "\uD83C\uDFAF", label: "Watch for hallucination triggers", rule: "The more specific the detail, the more skeptical you should be." },
+        { icon: "\uD83E\uDD14", label: "Ask the model to self-check", rule: "\u201CAre you sure?\u201D can surface uncertainty or catch mistakes, but it isn\u2019t verification. Treat it as a second pass, then check the claim somewhere real." },
+        { icon: "\u26A0\uFE0F", label: "Spot the 'almost true' trap", rule: "If part of an answer is verifiably true, don't assume the rest is too." }
+      ];
+      return E(ShowcaseBox, { kicker: "THE SIX CHECKS", marginBottom: 20 },
+        E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+          SIX_CHECKS.map(function(s, i) {
+            return E("div", { key: i, style: { display: "flex", gap: 12, alignItems: "flex-start" } },
+              E("span", { style: { fontSize: 18, flexShrink: 0 } }, s.icon),
+              E("div", null,
+                E("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, s.label),
+                E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.rule)));
+          })));
+    }()),
+    E(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."),
     E(SectionKicker, null, "Go deeper: drafts that matter"),
     E(BodyP, null,
       "A draft or brainstorm doesn’t need a citation trail. But it isn’t exempt from checking, because AI pads generative work with things you never said. For a draft that matters, ask three questions: does it do what I actually asked, does it fit the person who’ll read it, and did AI slip in any “facts” I never gave it? That last one is sneaky: ask for a game recap and it will happily invent the score of the third quarter."),

@@ -1626,7 +1626,6 @@ const SECTION_META = {
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
   agents: { kicker: "PERMISSION MATTERS", label: "The Rise of Agents", icon: "\uD83E\uDD16" },
   openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
-  howmuchtocheck: { kicker: "MATCH THE CHECK TO THE TASK", label: "How Much to Check", icon: "\u2696\uFE0F" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
@@ -2658,90 +2657,24 @@ const WHENNOT_SCENARIOS = [{
 function AIStrengthsSection(props) {
   var SCENARIOS = [
     { prompt: "Find three credible sources on ocean acidification and format them in APA for my research paper.", correct: "careful", tag: "Citations", explain: "This is a citations task, and citations need follow-up. AI frequently invents sources that look perfectly formatted but point to articles, authors, or journals that don\u2019t exist. You can\u2019t tell which are real without checking each one yourself." },
-    { prompt: "Give me 10 possible essay angles on climate policy for a school paper.", correct: "good", tag: "Brainstorming", explain: "This is a brainstorming task, one of AI\u2019s strongest fits. It generates volume and variety fast, and you stay in control because you pick the best idea. AI just gets you unstuck." },
+    { prompt: "Give me 10 possible essay angles on climate policy for a school paper.", correct: "good", tag: "Brainstorming", explain: "This is a brainstorming task: good to go. It generates volume and variety fast, and you stay in control because you pick the best idea. AI just gets you unstuck." },
     { prompt: "I\u2019m taking ibuprofen and amoxicillin. Is it safe to take them together?", correct: "careful", tag: "Medical advice", explain: "This is a medical-advice task, and it needs a real expert. AI can sound confident here, but it can\u2019t account for your dosage, history, allergies, age, or other medications. For a real answer, ask a pharmacist, doctor, parent or guardian, or school nurse." },
-    { prompt: "Explain the chain rule in calculus step by step with examples. I\u2019m stuck.", correct: "good", tag: "Explaining concepts", explain: "This is an explaining-concepts task, a strong fit. AI can rephrase, give analogies, and walk through steps at your level, and you can cross-check the math, which means you can judge whether the answer holds up." },
+    { prompt: "Explain the chain rule in calculus step by step with examples. I\u2019m stuck.", correct: "good", tag: "Explaining concepts", explain: "This is an explaining-concepts task: good to go. AI can rephrase, give analogies, and walk through steps at your level, and you can cross-check the math, which means you can judge whether the answer holds up." },
     { prompt: "My friend is going through a really hard time. What should I say to them?", correct: "careful", tag: "Judgment calls", explain: "This is a judgment call, and it needs you. AI can\u2019t weigh the emotional context, your relationship, or what your friend actually needs to hear. That depends on empathy and values, things only you can bring." },
-    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task, a strong fit. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." },
+    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task: good to go. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." },
     { prompt: "An AI assistant drafted an apology email to your coach and offers to send it for you right now, so you don’t have to.", correct: "careful", tag: "Acting for you", explain: "This one acts under your name. The draft is fine to use, but nothing goes out until you’ve read every word, because the message lands as if you wrote it. Send is irreversible, and you stay accountable for what leaves with your name on it." }
   ];
-  var LABELS = { good: "Good Fit", careful: "Needs Follow-Up" };
+  var LABELS = { good: "Good to go", careful: "Needs Follow-Up" };
   var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
-  // Static (was a Yes/No reveal SEE IT): both answer panels shown.
-  var yesClicked = true, setYesClicked = function() {};
-  var noClicked = true, setNoClicked = function() {};
   var allAnswered = Object.keys(answers).length >= SCENARIOS.length;
   return React.createElement("div", null,
-    props.embedded ? React.createElement(SectionKicker, { size: "large", style: { marginTop: 8 } }, "SET THE DIAL") : React.createElement(LessonHeader, { sectionId: "howmuchtocheck" }),
-    React.createElement(BodyP, null, "How much follow-up does an answer need? Start by naming the ", React.createElement("strong", null, "type of task"), " you asked AI to do. Some task types are easy to judge on your own and need little follow-up. Other task types almost always need follow-up because the answer has to be true, current, safe, sourced, or genuinely yours."),
-    React.createElement(ShowcaseBox, { headline: "How Much to Check" },
-      React.createElement("div", { style: { textAlign: "center", marginBottom: 0 } },
-        React.createElement("div", {
-          style: { display: "inline-block", padding: "20px 32px", borderRadius: 14, background: "var(--card)", border: "2px solid var(--primary)", boxShadow: "0 2px 12px rgba(110, 81, 255, 0.12)" }
-        },
-          React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, "Can you judge the result yourself?"))),
-      React.createElement("div", { style: { display: "flex", justifyContent: "center", position: "relative", height: 128 } },
-        React.createElement("svg", { style: { width: "100%", height: "128", position: "absolute", top: 0, left: 0, overflow: "visible" }, viewBox: "0 0 800 128", preserveAspectRatio: "xMidYMid meet" },
-          React.createElement("defs", null,
-            React.createElement("marker", { id: "arrowhead", markerWidth: "10", markerHeight: "7", refX: "10", refY: "3.5", orient: "auto" },
-              React.createElement("polygon", { points: "0 0, 10 3.5, 0 7", fill: "var(--primary)" }))),
-          React.createElement("line", { x1: "400", y1: "0", x2: "200", y2: "120", stroke: "var(--primary)", strokeWidth: "2", markerEnd: "url(#arrowhead)" }),
-          React.createElement("line", { x1: "400", y1: "0", x2: "600", y2: "120", stroke: "var(--primary)", strokeWidth: "2", markerEnd: "url(#arrowhead)" }))),
-      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 } },
-        React.createElement("div", { style: { textAlign: "center" } },
-          React.createElement("button", { onClick: function() { setYesClicked(true); }, disabled: yesClicked, style: { display: "inline-block", padding: "8px 22px", borderRadius: 10, background: "#ecfdf5", color: "#059669", fontSize: 16, fontWeight: 700, marginBottom: 8, letterSpacing: "0.3px", border: "2px solid #10b981", boxShadow: "0 2px 8px rgba(16, 185, 129, 0.12)", cursor: yesClicked ? "default" : "pointer", pointerEvents: yesClicked ? "none" : "auto", transition: "transform 0.2s ease", animation: yesClicked ? "none" : "softPulse 2s ease-in-out infinite", fontFamily: "inherit" } }, "Yes"),
-          React.createElement("div", {
-            style: { border: "2px solid #10b981", borderRadius: 14, background: "var(--card)", boxShadow: "0 2px 8px rgba(16, 185, 129, 0.12)", overflow: "hidden", visibility: yesClicked ? "visible" : "hidden", animation: yesClicked ? "fadeIn 0.4s ease" : "none" }
-          },
-            React.createElement("div", { style: { background: "#f0fdf4", borderBottom: "1px solid #d1fae5", padding: "16px 20px" } },
-              React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#059669" } }, "\u2705 Good Fit")),
-            React.createElement("div", { style: { padding: "14px 18px" } },
-              React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-                [
-                  { name: "Brainstorming", desc: "Generate options fast. You choose the best." },
-                  { name: "Summarizing", desc: "Compress material you can check." },
-                  { name: "First drafts", desc: "Get a starter version, then rewrite." },
-                  { name: "Explaining concepts", desc: "Ask for a walkthrough at your level." },
-                  { name: "Reformatting", desc: "Change the structure, not the meaning." }
-                ].map(function(item, i) {
-                  return React.createElement("div", { key: "gf" + i, style: { padding: "10px 14px", borderRadius: 12, background: "#ecfdf5", border: "1px solid #d1fae5", textAlign: "left" } },
-                    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#065f46" } },
-                      React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 } }),
-                      item.name),
-                    React.createElement("div", { style: { fontSize: 12, color: "#065f46", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
-                }))),
-            React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Best when you can judge whether the result makes sense."))),
-        React.createElement("div", { style: { textAlign: "center" } },
-          React.createElement("button", { onClick: function() { setNoClicked(true); }, disabled: noClicked, style: { display: "inline-block", padding: "8px 22px", borderRadius: 10, background: "#fef9ec", color: "#b45309", fontSize: 16, fontWeight: 700, marginBottom: 8, letterSpacing: "0.3px", border: "2px solid #f59e0b", boxShadow: "0 2px 8px rgba(245, 158, 11, 0.12)", cursor: noClicked ? "default" : "pointer", pointerEvents: noClicked ? "none" : "auto", transition: "transform 0.2s ease", animation: noClicked ? "none" : "softPulse 2s ease-in-out infinite", fontFamily: "inherit" } }, "No"),
-          React.createElement("div", {
-            style: { border: "2px solid #f59e0b", borderRadius: 14, background: "var(--card)", boxShadow: "0 2px 8px rgba(245, 158, 11, 0.12)", overflow: "hidden", visibility: noClicked ? "visible" : "hidden", animation: noClicked ? "fadeIn 0.4s ease" : "none" }
-          },
-            React.createElement("div", { style: { background: "#fffef5", borderBottom: "1px solid #fde68a", padding: "16px 20px" } },
-              React.createElement("div", { style: { fontWeight: 700, fontSize: 19, color: "#d97706" } }, "\uD83D\uDD0D Needs Follow-Up")),
-            React.createElement("div", { style: { padding: "14px 18px" } },
-              React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-                [
-                  { name: "Citations", desc: "AI can invent sources that look real." },
-                  { name: "Current events", desc: "Facts may have changed. Check a live source." },
-                  { name: "Medical advice", desc: "Safety needs a real expert." },
-                  { name: "Your Original Voice", desc: "AI can polish. You have to own it." },
-                  { name: "Judgment calls", desc: "People, values, and consequences need you." }
-                ].map(function(item, i) {
-                  return React.createElement("div", { key: "lu" + i, style: { padding: "10px 14px", borderRadius: 12, background: "#fef9ec", border: "1px solid #fde68a", textAlign: "left" } },
-                    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#78350f" } },
-                      React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "#f59e0b", flexShrink: 0 } }),
-                      item.name),
-                    React.createElement("div", { style: { fontSize: 12, color: "#78350f", opacity: 0.8, marginTop: 4, marginLeft: 14, lineHeight: 1.45 } }, item.desc));
-                }))),
-            React.createElement("div", { style: { padding: "10px 20px 16px", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, textAlign: "center" } }, "Answer needs truth, safety, sources, or your judgment."))))),
-    React.createElement(BodyP, null, "Good Fit doesn\u2019t mean ready to use. It means the task matches AI\u2019s strengths and you can judge the result. The final call is still yours."),
-    React.createElement(BodyP, null, "Now your turn. Below are prompts you might type. Make the call on each: is it a Good Fit, or does it Need Follow-Up?"),
+    React.createElement(BodyP, null, "Your turn. Below are prompts you might type. For each one, make the Step 4 call: is the answer good to go, or does it need follow-up?"),
     React.createElement(KeyInsight, { lead: "The real question isn’t “Can AI do this?”" }, "It’s “What do I need to check before I use it?” That’s the move judgment makes."),
     React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Make the Call",
-     lead: "Knowing how much to check an answer is the real skill. For each prompt, decide whether it’s a Good Fit or Needs Follow-Up."},
+     lead: "Knowing how much to check an answer is the real skill. For each prompt, decide: good to go, or needs follow-up?"},
       React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, i) {
           var answered = answers[i] !== undefined;
@@ -6283,7 +6216,7 @@ function VerifySection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null, props.embedded ? /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "TRUST, THEN CHECK") : /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "verify" }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this true?"), " Questioning an answer helps you spot a weak claim anywhere. AI hallucinates in specific ways that need their own toolkit. These six strategies will help you verify AI output before you use it."),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "You already learned to match the check to the task in How Much to Check: brainstorming, summarizing, and first drafts barely need a look, but facts, citations, and anything touching health, money, or another person do. This lesson is the other half. Once you know an answer needs checking, here is how you actually do it."),
+    "You already made this call in Step 4: brainstorming, summarizing, and first drafts barely need a look, but facts, citations, and anything touching health, money, or another person do. This is the other half. Once you know an answer needs checking, here is how you actually do it."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "Confidence is not consistency." },
     "Two polished AI answers can disagree with each other, and both will sound certain. When you\u2019ve asked twice and gotten different answers, don\u2019t average them. The contradiction is the signal. Find the underlying claim and check it against something real."),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },

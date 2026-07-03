@@ -1241,15 +1241,15 @@ function QuizBlock(props) {
     try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
     if (isPrintMode) {
       return React.createElement("div", { style: { padding: 0 } },
-        React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 } },
+        React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18, paddingLeft: hasNumeral ? 0 : 66 } },
           hasNumeral ? React.createElement("div", {
-            style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 }
+            style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 }
           }, String(props.questionNumber).padStart(2, "0")) : null,
           React.createElement("div", {
             style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }
           }, props.statement)),
         React.createElement("div", {
-          style: { display: "flex", flexDirection: "column", gap: 18, paddingLeft: hasNumeral ? 66 : 0 }
+          style: { display: "flex", flexDirection: "column", gap: 18, paddingLeft: 66 }
         },
           options.map(function(opt, i) {
             var isCorrect = !!opt.correct;
@@ -1298,8 +1298,12 @@ function QuizBlock(props) {
       }
     };
 
+    // Every mint QuizBlock sits inside a numbered TRY IT item. When the numeral is
+    // drawn by the lesson (no questionNumber prop), indent statement + options 66px
+    // (48px numeral column + 18px gap) so they align with the item text, not the numeral.
+    var extIndent = hasNumeral ? 66 : (props.optionsIndent != null ? props.optionsIndent : 66);
     var titleRow = (hasNumeral || props.statement) ? React.createElement("div", {
-      style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18 }
+      style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18, paddingLeft: hasNumeral ? 0 : extIndent }
     },
       hasNumeral ? React.createElement("div", {
         style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", opacity: numeralOpacity, flexShrink: 0 }
@@ -1311,9 +1315,9 @@ function QuizBlock(props) {
     var optionsList = React.createElement("div", {
       style: props.optionsRow
         ? (props.optionsCompact
-          ? { display: "inline-grid", gridAutoFlow: "column", gridAutoColumns: "1fr", gap: 10, marginLeft: props.optionsIndent != null ? props.optionsIndent : (hasNumeral ? 66 : 0) }
-          : { display: "grid", gridTemplateColumns: "repeat(" + options.length + ", 1fr)", gap: 10, paddingLeft: hasNumeral ? 66 : 0 })
-        : { display: "flex", flexDirection: "column", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
+          ? { display: "inline-grid", gridAutoFlow: "column", gridAutoColumns: "1fr", gap: 10, marginLeft: extIndent }
+          : { display: "grid", gridTemplateColumns: "repeat(" + options.length + ", 1fr)", gap: 10, paddingLeft: extIndent })
+        : { display: "flex", flexDirection: "column", gap: 10, paddingLeft: extIndent }
     },
       options.map(function(opt, i) {
         var isHovered = hoverIdx === i;
@@ -2183,7 +2187,7 @@ function ReachFriendTryIt(props) {
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
         /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(idx + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(idx + 1).padStart(2, "0")),
           /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
             /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: "0 0 14px" } }, step.caption),
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
@@ -3987,7 +3991,7 @@ function BiasQuiz(props) {
           var bsHeadlines = biasHeadlines[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 } },
                   /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, bs.icon),
@@ -5501,7 +5505,7 @@ function DocumentChatSection(props) {
           var picked = scenarioAnswers[si];
           return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               E("div", { style: { flex: 1 } },
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The setup"),
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
@@ -6317,7 +6321,7 @@ function CriticalThinkingSection(props) {
         var picked = problemAnswers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
               /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
                 /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon),
@@ -6393,7 +6397,7 @@ function CriticalThinkingSection(props) {
         var picked = habitAnswers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
               /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
                 /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
@@ -6868,7 +6872,7 @@ function AskAISection(props) {
           var picked = askAnswers[mi];
           return /*#__PURE__*/React.createElement("div", { key: mi, style: { paddingTop: mi === 0 ? 0 : 24, marginTop: mi === 0 ? 0 : 24, borderTop: mi === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, mv.situation)),
             /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which move puts the AI to work?", totalQuestions: ASK_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
         }))),
@@ -6941,7 +6945,7 @@ function ThoughtPartnerSection(props) {
         var picked = tpAnswers[mi];
         return /*#__PURE__*/React.createElement("div", { key: mi, style: { paddingTop: mi === 0 ? 0 : 24, marginTop: mi === 0 ? 0 : 24, borderTop: mi === 0 ? "none" : "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, mv.situation)),
           /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which next message keeps the thinking yours?", totalQuestions: TP_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setTpAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
       }))),
@@ -7390,7 +7394,7 @@ function CreativeThinkingSection(props) {
           var picked = scenarioAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 20 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 } }, sc.setup),
                 /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 20px", marginBottom: 14 } },
@@ -7764,7 +7768,7 @@ function MindTrapSection(props) {
           var picked = spotAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
                 /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
@@ -7932,7 +7936,7 @@ function FlatteryTrapSection(props) {
         var picked = spotAnswers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
               /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "left" }),
               sc.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, sc.essay))),
@@ -8035,7 +8039,7 @@ function EngagementTrapSection(props) {
           var picked = spotAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
                 /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
@@ -9254,7 +9258,7 @@ function WhenAIJudgesSection(props) {
           var picked = permAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
                   /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
@@ -9388,7 +9392,7 @@ function SyntheticMediaSection(props) {
           var picked = permAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
                   /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
@@ -9844,7 +9848,7 @@ function QuestionsValuableSection(props) {
           var picked = missingAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ms.question))),
             /*#__PURE__*/React.createElement(QuizBlock, {
@@ -10081,7 +10085,7 @@ function HumanEdgeSection(props) {
         SCENARIOS.map(function(sk, si) {
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement(UserBubble, { text: sk.situation, align: "left", label: "You" }))),
             /*#__PURE__*/React.createElement("div", { style: { marginTop: 16 } },
@@ -10655,8 +10659,8 @@ function SpotTheWorryTryIt(props) {
       SCENARIOS.map(function(sc, si) {
         var picked = answers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, sc.soundbite)),
           /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", statement: "Which response meets the real worry?", options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); } }));
       })));

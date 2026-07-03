@@ -7415,110 +7415,119 @@ function GoodEnoughTryIt(props) {
       })));
 }
 function EvaluatingSection(props) {
-  const ITERATION_STEPS = [{
-    step: 1,
-    label: "First attempt",
-    prompt: "Write a summary of the game.",
-    response: "The basketball game was exciting and competitive. Both teams played hard and showed great sportsmanship. There were many highlights throughout the game. The final score was close and it was a great experience for everyone involved.",
-    issue: "Completely generic. No teams, no score, no details. Could describe literally any game ever played.",
-    action: "Add specifics: who played, what happened, and the final score."
-  }, {
-    step: 2,
-    label: "Refined prompt",
-    prompt: "Write a recap of our varsity basketball game against Lincoln High. We won 67-62. Cover: key plays (my 3-pointer to take the lead in the 4th quarter), team stats (I had 18 points, Marcus had 14 rebounds), and what we need to work on (free throw shooting was 55%).",
-    response: "Varsity takes down Lincoln High 67-62 in a hard-fought battle that came down to the wire.\n\nThe game was tight through three quarters, with Lincoln holding a slim 51-49 lead heading into the 4th. That changed when a clutch 3-pointer from beyond the arc put us ahead for good. From there, the defense locked in and held Lincoln to just 11 points in the final frame.\n\nKey performers: 18 points from the perimeter, including the go-ahead three. Marcus dominated the glass with 14 rebounds, giving us crucial second-chance opportunities.\n\nArea to improve: Free throw shooting. We shot just 55% from the line, and in a 5-point game, those missed free throws could have cost us. That's the focus in practice this week.",
-    issue: "Good structure, but the AI added stuff we never gave it: a \"51-49 Lincoln lead heading into the 4th\" and \"held Lincoln to just 11 points in the final frame.\" Both made up. Catch the invented details before any polish.",
-    action: "Cut the made-up numbers, then ask for an Instagram-friendly headline and format."
-  }, {
-    step: 3,
-    label: "Final polish",
-    prompt: "Cut anything I didn't give you (the 51-49 lead, the 11-point defensive stat). Then add a bold headline and reformat for Instagram: shorter sentences, line breaks, more energy.",
-    response: "DUB. \uD83D\uDCAA\n\nVarsity 67, Lincoln 62\n\nDown going into the 4th.\nHit the 3 to take the lead.\nNever looked back.\n\n18 pts | Marcus with 14 boards\n\nWork to do: 55% from the line.\nWe finish those? That's a blowout.\n\nOn to the next one. \uD83D\uDD25",
-    issue: null,
-    action: null
-  }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "evaluating" }), /*#__PURE__*/React.createElement(AIStrengthsSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }), /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Is this actually good enough to use?"), " You\u2019ve learned how to verify whether AI output is ", /*#__PURE__*/React.createElement("em", null, "true"), ". This section is about whether it\u2019s ", /*#__PURE__*/React.createElement("em", null, "usable"), ": does it actually solve your problem, match your audience, and meet your standard?"),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHY EVALUATION MATTERS",
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", gap: 14, flexWrap: "wrap" }
-    }, [{
-      icon: "\uD83C\uDFAF",
-      title: "Correct doesn\u2019t mean usable",
-      desc: "A response can be factually right but still miss the mark: wrong tone, wrong format, incomplete, or answering the wrong question."
-    }, {
-      icon: "\uD83D\uDD04",
-      title: "Evaluation tells you what to fix",
-      desc: "It\u2019s not just pass/fail. It tells you exactly how to refine your prompt for a better result on the next round."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4 } }, item.title),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
-    }))
-  ),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Use these six criteria as a checklist every time you evaluate AI output."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "When the output isn\u2019t good enough, don\u2019t start over. Instead, ", /*#__PURE__*/React.createElement("strong", null, "refine and try again"), "."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "HOW TO REFINE",
-    marginBottom: 20
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", gap: 14, flexWrap: "wrap" }
-    }, [{
-      icon: "\u2744\uFE0F",
-      title: "Don't start over",
-      desc: "Build on what worked. If the structure was good but the detail was lacking, ask for more detail. Don't rewrite the whole prompt."
-    }, {
-      icon: "\uD83C\uDFAF",
-      title: "Be specific about what's wrong",
-      desc: "\"Make it better\" is vague. \"Add metrics to each bullet point\" is actionable. Tell the model exactly what to fix."
-    }, {
-      icon: "\uD83D\uDD04",
-      title: "2\u20133 rounds is normal",
-      desc: "Even expert prompt engineers iterate. Think of it like a conversation, not a one-shot command."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px", textAlign: "center" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4 } }, item.title),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
-    }))
-  ),
-  /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Prompt \u2192 Evaluate \u2192 Refine" },
-    ITERATION_STEPS.map(function(s, idx) {
-      return /*#__PURE__*/React.createElement(InnerCard, { key: idx, pad: "snug", style: idx > 0 ? { marginTop: 16 } : null },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0 } }, String(idx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, fontSize: 17, color: "var(--ink)" } }, s.label))),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 14, display: "flex", flexDirection: "column", gap: 10 } },
-          /*#__PURE__*/React.createElement(UserBubble, { text: s.prompt }),
-          /*#__PURE__*/React.createElement(AIBubble, { text: s.response })),
-        s.issue ? /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14, marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\uD83D\uDD0D Evaluation"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6, marginBottom: 14 } }, s.issue),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, "\u2192 Next Step"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, s.action)
-        ) : /*#__PURE__*/React.createElement("div", { style: { borderTop: "2px solid var(--seeRule)", paddingTop: 14 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#1f9d5f", marginBottom: 8 } }, "\u2705 Final result"),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "#3a3550", lineHeight: 1.6 } }, "Three rounds got us from a generic nothing summary to a fire Instagram post. Each round was a small refinement, not a complete rewrite.")));
-    }),
-    /*#__PURE__*/React.createElement(Takeaway, { headline: "Prompt. Evaluate. Refine. Repeat.", body: "Three rounds got us from a generic summary to a real Instagram post. Each round was a small refinement, not a complete rewrite." })),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "True isn\u2019t enough." }, "The real question is whether the answer is good enough for what you\u2019re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
-    /*#__PURE__*/React.createElement(GoodEnoughTryIt, null),
-    /*#__PURE__*/React.createElement(VerifySection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
+  var E = React.createElement;
+  var VALIDATE_CLAIMS = [
+    {
+      label: "YOU CATCH IT",
+      claim: "The American Civil War started in 1083, on the border of England and Argentina.",
+      body: "Everything you’ve ever learned about the Civil War contradicts this: the century, the country, the geography. You don’t need to look anything up. Your own knowledge catches it instantly."
+    },
+    {
+      label: "IT SLIPS PAST",
+      claim: "Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens.",
+      body: "Nothing about this sounds wrong. But the 1932 Games were in Los Angeles, not Athens, and Maria Petronoski doesn’t exist. Unless you happen to know Olympic history, “sounds fine to me” waves it right through."
+    }
+  ];
+  var NEXT_MOVES = [
+    { icon: "✅", title: "Use it", desc: "It passed your checks. Most answers end here. Read, understood, validated, done." },
+    { icon: "🔧", title: "Fix it", desc: "Something’s off and you can name it. Say exactly what’s wrong in a follow-up: “cut the stat I never gave you,” “make it shorter.” Being specific about what’s wrong beats starting over." },
+    { icon: "🚪", title: "Walk away", desc: "Wrong tool, or stakes too high. Do it yourself, or take it to a person who actually knows: a teacher, a doctor, a pro." }
+  ];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "evaluating" }),
+    E(BodyP, null,
+      "By now you’ve seen it yourself: AI makes mistakes. It states wrong facts in the same confident voice it states right ones. So what do you do with an AI answer, knowing it might be wrong?"),
+    E(BodyP, null,
+      "One option is to ignore AI entirely. Nobody who’s made it this far in the course is doing that: AI is too powerful to leave on the shelf. The real move is in between trusting and dismissing. ",
+      E("strong", null, "You evaluate the results"),
+      ", every time, with a process. Here it is."),
+    E(SectionKicker, null, "First, read it"),
+    E(BodyP, null,
+      "This sounds too obvious to write down, and yet: weak AI users take AI’s output and share it without reading it. They paste it into the assignment, drop it in the group chat, hit send. Reading every word is the floor. Every other check in this lesson builds on it."),
+    E(SectionKicker, null, "Understand what it’s saying"),
+    E(BodyP, null,
+      "You’ll never know whether an answer is right if you don’t understand what it says. If a paragraph uses a term you don’t know, or a step you can’t follow, that’s not a reason to skip it. It’s a reason to stop."),
+    E(KeyInsight, { lead: "If something is unclear, ask." },
+      "The fastest explainer of an AI answer is the same AI. “Explain the second paragraph in simpler terms” costs you one message, and now you can actually judge what it said."),
+    E(SectionKicker, null, "Validate it against what you know"),
+    E(BodyP, null,
+      "As you read, hold the answer up against your own knowledge. This is where everything you’ve ever learned pays off. Try it on these two AI statements. Both are false. Watch how differently they fail."),
+    E(ShowcaseBox, { kicker: "TWO FALSE STATEMENTS", marginBottom: 20 },
+      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
+        VALIDATE_CLAIMS.map(function(c, i) {
+          return E("div", {
+            key: i,
+            style: { flex: 1, minWidth: 240, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
+          },
+            E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--seeAccent)", marginBottom: 8 } }, c.label),
+            E("div", { style: { fontFamily: "var(--serif)", fontSize: 17, color: "var(--ink)", lineHeight: 1.5, marginBottom: 10, fontStyle: "italic" } }, "“" + c.claim + "”"),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, c.body));
+        }))),
+    E(BodyP, null,
+      "The first statement shows why learning still matters in the AI era: a well-stocked head is your fastest fact-checker. The second shows its limit. When the topic is beyond what you know, “it sounds fine” isn’t validation, and you’ll need the deeper checks below. Hold that thought; the next lesson comes back to it."),
+    E(SectionKicker, null, "Decide: does it need more?"),
+    E(BodyP, null,
+      "You’ve read it, understood it, and validated what you could. Before going deeper, ask two quick questions."),
+    E(ShowcaseBox, { kicker: "THE TWO-QUESTION GATE", marginBottom: 20 },
+      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
+        [{
+          icon: "📋",
+          title: "1. What kind of task was this?",
+          desc: "Factual work (research, real events, claims about the world) gets checked against the world. Generative work (first drafts, brainstorms) gets checked against what you asked for. Different task, different follow-up."
+        }, {
+          icon: "⚖️",
+          title: "2. How much is riding on it?",
+          desc: "Picking a movie for tonight? If it passed your read-through, you’re done. A college entrance essay, a health question, anything with your name on it? Keep going."
+        }].map(function(item, i) {
+          return E("div", {
+            key: i,
+            style: { flex: 1, minWidth: 240, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
+          },
+            E("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
+            E("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4 } }, item.title),
+            E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+        }))),
+    E(BodyP, null,
+      "Notice what this means: ",
+      E("strong", null, "sometimes read, understand, validate is all you do"),
+      ". Low stakes and it held up? Use it and move on. The deeper checks are for answers that matter."),
+    E(AIStrengthsSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
+    E(SectionKicker, null, "Go deeper: facts that matter"),
+    E(BodyP, null,
+      "A factual answer with real stakes needs evidence, not vibes. Three checks:"),
+    E(BodyP, null,
+      E("strong", null, "Check the citations. "),
+      "AI got its information from somewhere. Reply with: “Give me citations in your response.” The answer comes back with links to the pages behind it. Then, and this is the part people skip, click a link and read the page. Does it actually say what the AI claims?"),
+    E(BodyP, null,
+      E("strong", null, "Check that it’s current. "),
+      "As you’ll learn in the Training lesson, models have a training cut-off date: a point after which they know nothing. For anything recent (prices, standings, versions, news), ask the AI to run a web search and update its answer."),
+    E(BodyP, null,
+      E("strong", null, "Know when it’s not AI’s call. "),
+      "Some questions deserve a professional, not a chatbot: medical symptoms, legal trouble, a mental-health crisis. AI can help you prepare questions for that person. It shouldn’t replace them."),
+    E(BodyP, null,
+      "Those three checks are the habit. The strategies below are the skill: how to verify a specific claim when it really counts."),
+    E(VerifySection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
+    E(SectionKicker, null, "Go deeper: drafts that matter"),
+    E(BodyP, null,
+      "A draft or brainstorm doesn’t need a citation trail. But it isn’t exempt from checking, because AI pads generative work with things you never said. For a draft that matters, ask three questions: does it do what I actually asked, does it fit the person who’ll read it, and did AI slip in any “facts” I never gave it? That last one is sneaky: ask for a game recap and it will happily invent the score of the third quarter."),
+    E(KeyInsight, { lead: "True isn’t enough." }, "The real question is whether the answer is good enough for what you’re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
+    E(SectionKicker, null, "Then make your move"),
+    E(BodyP, null,
+      "Every evaluation ends in one of three moves."),
+    E(ShowcaseBox, { kicker: "THREE MOVES", marginBottom: 20 },
+      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
+        NEXT_MOVES.map(function(item, i) {
+          return E("div", {
+            key: i,
+            style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
+          },
+            E("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
+            E("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4 } }, item.title),
+            E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+        }))),
+    E(GoodEnoughTryIt, null),
+    E(LessonRule, null),
+    E(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
 }
 function CreativeThinkingSection(props) {
   const [scenarioAnswers, setScenarioAnswers] = useState({});

@@ -138,6 +138,27 @@ Content largely survives as-is (Spot the Problem TRY IT, five habits). Changes:
 - The six-criteria "usable" checklist and "correct doesn't mean usable" cards.
 - "2–3 rounds is normal" refine framing.
 
+## Addendum (2026-07-03, during planning)
+
+Planning surfaced two embedded modules inside the current `evaluating` lesson
+that the brainstorm hadn't accounted for. Decisions (made per Claude's
+recommendation; user was away when asked — revisit if disagreed):
+
+- **`VerifySection` is KEPT**, not cut. It's an embeddable "verify the claims"
+  unit (four strategies: cross-reference, citations, suspiciously specific
+  numbers, ask-the-model-what-it's-unsure-of; plus a practice activity and the
+  "If you can't find the source, assume it doesn't exist" KeyInsight). It is
+  exactly the how-to of the new "Go deeper — factual + it matters" step, and the
+  Full Loop capstone's "Verify the specific claims" card depends on it being
+  taught. The spec's citations/currency/professional beats become its lead-in;
+  citation teaching lives in VerifySection, so no duplication.
+- **`GoodEnoughTryIt` and the "True isn't enough" KeyInsight are KEPT** in the
+  draft-branch / next-steps region. The TRY IT practices naming what's wrong
+  with an almost-usable answer — exactly the "Fix it" verdict.
+- The "six criteria" checklist named as a cut in Decisions §4 turns out never to
+  have existed in code — only a sentence referring to it did. The sentence is
+  cut; there is no checklist to park.
+
 ## Out of scope
 
 - The Art of Prompting, Questions Matter, Context Window content (gate label

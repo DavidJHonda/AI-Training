@@ -2654,53 +2654,6 @@ const WHENNOT_SCENARIOS = [{
 
 
 
-function AIStrengthsSection(props) {
-  var SCENARIOS = [
-    { prompt: "Find three credible sources on ocean acidification and format them in APA for my research paper.", correct: "careful", tag: "Citations", explain: "This is a citations task, and citations need follow-up. AI frequently invents sources that look perfectly formatted but point to articles, authors, or journals that don\u2019t exist. You can\u2019t tell which are real without checking each one yourself." },
-    { prompt: "Give me 10 possible essay angles on climate policy for a school paper.", correct: "good", tag: "Brainstorming", explain: "This is a brainstorming task: good to go. It generates volume and variety fast, and you stay in control because you pick the best idea. AI just gets you unstuck." },
-    { prompt: "I\u2019m taking ibuprofen and amoxicillin. Is it safe to take them together?", correct: "careful", tag: "Medical advice", explain: "This is a medical-advice task, and it needs a real expert. AI can sound confident here, but it can\u2019t account for your dosage, history, allergies, age, or other medications. For a real answer, ask a pharmacist, doctor, parent or guardian, or school nurse." },
-    { prompt: "Explain the chain rule in calculus step by step with examples. I\u2019m stuck.", correct: "good", tag: "Explaining concepts", explain: "This is an explaining-concepts task: good to go. AI can rephrase, give analogies, and walk through steps at your level, and you can cross-check the math, which means you can judge whether the answer holds up." },
-    { prompt: "My friend is going through a really hard time. What should I say to them?", correct: "careful", tag: "Judgment calls", explain: "This is a judgment call, and it needs you. AI can\u2019t weigh the emotional context, your relationship, or what your friend actually needs to hear. That depends on empathy and values, things only you can bring." },
-    { prompt: "I have 30 pages of history notes. Condense them into a one-page summary I can study from.", correct: "good", tag: "Summarizing", explain: "This is a summarizing task: good to go. AI compresses material quickly, and because you already know the notes, you can spot if it dropped something important." },
-    { prompt: "An AI assistant drafted an apology email to your coach and offers to send it for you right now, so you don’t have to.", correct: "careful", tag: "Acting for you", explain: "This one acts under your name. The draft is fine to use, but nothing goes out until you’ve read every word, because the message lands as if you wrote it. Send is irreversible, and you stay accountable for what leaves with your name on it." }
-  ];
-  var LABELS = { good: "Good to go", careful: "Needs Follow-Up" };
-  var _ans = useState({}), answers = _ans[0], setAnswers = _ans[1];
-  var allAnswered = Object.keys(answers).length >= SCENARIOS.length;
-  return React.createElement("div", null,
-    React.createElement(BodyP, null, "Your turn. Below are prompts you might type. For each one, make the Step 4 call: is the answer good to go, or does it need follow-up?"),
-    React.createElement(KeyInsight, { lead: "The real question isn’t “Can AI do this?”" }, "It’s “What do I need to check before I use it?” That’s the move judgment makes."),
-    React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Make the Call",
-     lead: "Knowing how much to check an answer is the real skill. For each prompt, decide: good to go, or needs follow-up?"},
-      React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SCENARIOS.map(function(sc, i) {
-          var answered = answers[i] !== undefined;
-          var correct = answered && answers[i] === sc.correct;
-          function JudgmentPill(choice) {
-            return React.createElement(FeedbackPill, {
-              key: choice,
-              answered: answered,
-              isCorrect: choice === sc.correct,
-              isPicked: answers[i] === choice,
-              label: LABELS[choice],
-              onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = choice; return u; }); }
-            });
-          }
-          return React.createElement(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: "\u201C" + sc.prompt + "\u201D",
-            answered: answered,
-            correct: correct,
-            feedback: answered ? ((correct ? "Right. " : "Not quite. ") + sc.explain) : null
-          }, ["good", "careful"].map(function(choice) { return JudgmentPill(choice); }));
-        }))),
-    props.embedded ? null : React.createElement(LessonRule, null),
-    props.embedded ? null : React.createElement(NextLessonGate, { ready: allAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate Results" }));
-}
 function WelcomeSection(props) {
   var E = React.createElement;
   const [answers, setAnswers] = useState({});
@@ -6131,45 +6084,6 @@ function HallucinationSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
-function VerifyChecksActivity(props) {
-  var STRATS = props.strategies;
-  var CLAIMS = [
-    { ai: "According to a 2019 study by Dr. Rachel Kim in the Journal of Behavioral Science, students who study with background music score 23% higher on recall tests.", correct: "citation", explain: "Search that exact author and journal. If nothing comes up, the citation is fabricated, one of AI’s most common failure modes." },
-    { ai: "The Treaty of Westphalia in 1648 involved 109 delegations and took 4 years of negotiation, resulting in 128 separate clauses.", correct: "triggers", explain: "The date is solid, but “109 delegations,” “4 years,” and “128 clauses” are suspiciously specific. Granular numbers are prime fabrication territory." },
-    { ai: "The Zeigarnik Effect, discovered by Bluma Zeigarnik in 1927, shows people remember interrupted tasks better. A related idea, the Zelkov Effect, describes how emotion changes that recall.", correct: "almost", explain: "The Zeigarnik Effect is real; the “Zelkov Effect” is invented. When something checkable sits next to something you can’t find, check the unfamiliar part." }
-  ];
-  var CHOICES = [
-    { id: "crossref", label: "Cross-reference the claim" },
-    { id: "citation", label: "Verify the citation" },
-    { id: "triggers", label: "Watch for fabricated specifics" },
-    { id: "almost", label: "Spot the almost-true trap" }
-  ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "THE SIX CHECKS", marginBottom: 20 },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        STRATS.map(function(s, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 12, alignItems: "flex-start" } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0 } }, s.icon),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, s.label),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.rule)));
-        }))),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try", surface: "mint", title: "Which check catches it?",
-      lead: "Each AI claim below has a flaw. Pick the check that would catch it."},
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        CLAIMS.map(function(cl, i) {
-          var answered = answers[i] !== undefined;
-          var correct = answered && answers[i] === cl.correct;
-          return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: "“" + cl.ai + "”", answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + cl.explain) : null },
-            CHOICES.map(function(c) {
-              return /*#__PURE__*/React.createElement(FeedbackPill, { key: c.id, answered: answered, isCorrect: c.id === cl.correct, isPicked: answers[i] === c.id, label: c.label,
-                onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c.id; return u; }); } });
-            }));
-        }))));
-}
 function VerifySection(props) {
   const VERIFY_STRATEGIES = [{
     icon: "\uD83D\uDD0D",
@@ -6221,11 +6135,19 @@ function VerifySection(props) {
     "Two polished AI answers can disagree with each other, and both will sound certain. When you\u2019ve asked twice and gotten different answers, don\u2019t average them. The contradiction is the signal. Find the underlying claim and check it against something real."),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "The strategies below are tools. The judgment is which tool to use for which question."),
+  /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "THE SIX CHECKS", marginBottom: 20 },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+      VERIFY_STRATEGIES.map(function(s, i) {
+        return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 12, alignItems: "flex-start" } },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0 } }, s.icon),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, s.label),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.rule)));
+      }))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Stack them, don\u2019t pick one"),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "In practice, you don\u2019t run one strategy. You run several on the same answer. Cross-reference the specific claim. Check any citations. Watch for suspiciously specific numbers. Ask the model to flag what it\u2019s uncertain about. The strategies above are the tools. Verifying is the workflow."),
   /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."),
-  /*#__PURE__*/React.createElement(VerifyChecksActivity, { strategies: VERIFY_STRATEGIES }),
   props.embedded ? null : /*#__PURE__*/React.createElement(LessonRule, null),
   props.embedded ? null : /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("evaluating"), label: "Next: Evaluate" }));
 }
@@ -7408,7 +7330,7 @@ function EvaluatingSection(props) {
       "And notice what Step 4 means: ",
       E("strong", null, "sometimes read, understand, validate is all you do"),
       ". Low stakes and it held up? Use it and move on. The deeper checks are for answers that matter."),
-    E(AIStrengthsSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),
+    E(KeyInsight, { lead: "The real question isn’t “Can AI do this?”" }, "It’s “What do I need to check before I use it?” That’s the move judgment makes."),
     E(SectionKicker, null, "Go deeper: facts that matter"),
     E(BodyP, null,
       "For a factual answer with real stakes, Step 5 is the habit. The strategies below are the skill: how to verify a specific claim when it really counts."),

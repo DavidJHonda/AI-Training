@@ -360,3 +360,16 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Possible destination:** Where AI Works Best (`whatitdoesbest`) — the diagram is literally a where-AI-works-well-vs-needs-care map; or any future when-to-use-AI beat.
 - **Supporting state it needs if restored:** none as last shipped (the old Yes/No reveal had been made static: `yesClicked`/`noClicked` hardcoded true; those vars were deleted with it). Restoring the interactive reveal means real useState hooks plus the `softPulse` CSS animation (still in index.html).
 - **Full source:** in git history at the commit before the 2026-07-03 "cut the parallel How Much to Check dial" commit, inside `AIStrengthsSection` — search anchor `Can you judge the result yourself?`. The complete unit: ShowcaseBox headline "How Much to Check"; root question card; SVG fork arrows; Yes → "✅ Good Fit" panel (Brainstorming / Summarizing / First drafts / Explaining concepts / Reformatting, each with a one-liner, footer "Best when you can judge whether the result makes sense."); No → "🔍 Needs Follow-Up" panel (Citations / Current events / Medical advice / Your Original Voice / Judgment calls, footer "Answer needs truth, safety, sources, or your judgment."). Also cut alongside: the "SET THE DIAL" kicker + type-of-task lead paragraph and the "Good Fit doesn't mean ready to use" paragraph.
+
+## "Make the Call" — Good to go / Needs Follow-Up scenario TRY IT
+
+- **Origin:** the `AIStrengthsSection` module embedded in Check the Results (`evaluating`). Removed 2026-07-03 along with the whole module (its last surviving content) when the lesson consolidated on a single closing TRY IT (`GoodEnoughTryIt`); this quiz judged the *prompt* (does this task type need follow-up?), which Step 4's card and its bullets now teach without practice. The lesson kept the module's KeyInsight ("The real question isn't 'Can AI do this?' It's 'What do I need to check before I use it?'") inline.
+- **Possible destination:** Where AI Works Best (`whatitdoesbest`), alongside the parked "How Much to Check" dial — the seven scenarios (citations, brainstorming, medical advice, explaining concepts, judgment calls, summarizing, acting-for-you) are task-type judgment practice.
+- **Supporting state it needs if restored:** `useState({})` answers map; shared `FeedbackPill`, `ScenarioRow`, `InteractiveBox`, `InnerCard` components (all still in `index.html`).
+- **Full source:** in git history at the commit before the 2026-07-03 "delete the first two TRY ITs" commit — the whole `AIStrengthsSection` function; search anchor `Find three credible sources on ocean acidification`.
+
+## "Verify Checks" — match-the-strategy TRY IT in VerifySection
+
+- **Origin:** `VerifySection` (embedded in Check the Results). Removed 2026-07-03: it drilled spotting flaws in AI claims, deeper than the lesson covers. The six verify strategies' teaching cards stay; only the practice activity went.
+- **Supporting state it needs if restored:** whatever `VerifyChecksActivity` held internally (self-contained component taking `{ strategies: VERIFY_STRATEGIES }`).
+- **Full source:** in git history at the commit before the 2026-07-03 "delete the first two TRY ITs" commit — the `VerifyChecksActivity` function plus its one-line call after the "If you can't find the source" KeyInsight.

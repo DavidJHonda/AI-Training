@@ -7442,17 +7442,34 @@ function EvaluatingSection(props) {
       "One option is to ignore AI entirely. Nobody who’s made it this far in the course is doing that: AI is too powerful to leave on the shelf. The real move is in between trusting and dismissing. ",
       E("strong", null, "You evaluate the results"),
       ", every time, with a process. Here it is."),
-    E(SectionKicker, null, "First, read it"),
+    (function() {
+      var STEPS = [
+        { tag: "Step 1", icon: "📖", title: "Read it", body: "This sounds too obvious to write down, and yet: weak AI users take AI’s output and share it without reading it. They paste it into the assignment, drop it in the group chat, hit send. Reading every word is the floor. Every other check builds on it.", points: [] },
+        { tag: "Step 2", icon: "🧠", title: "Understand it", body: "You’ll never know whether an answer is right if you don’t understand what it says. And the fastest explainer of an AI answer is the same AI: “Explain the second paragraph in simpler terms” costs you one message.", points: [] },
+        { tag: "Step 3", icon: "🎯", title: "Validate it", body: "As you read, hold the answer up against your own knowledge. A well-stocked head is your fastest fact-checker, and this is where everything you’ve ever learned pays off.", points: [] },
+        { tag: "Step 4", icon: "⚖️", title: "Decide: does it need more?", body: "Two quick questions before you go deeper.", points: [
+          "What kind of task was this? Factual work gets checked against the world. Drafts and brainstorms get checked against what you asked for.",
+          "How much is riding on it? Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going."
+        ] }
+      ];
+      return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
+        STEPS.map(function(s, i) {
+          return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, padding: "3px 10px", fontSize: BOX_LABEL, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, flexShrink: 0 } }, s.tag),
+              E("span", { style: { fontSize: 18 } }, s.icon),
+              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, s.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: s.points.length ? 10 : 0 } }, s.body),
+            s.points.length ? E("div", { style: { display: "flex", flexDirection: "column", gap: 5 } },
+              s.points.map(function(pt, j) {
+                return E("div", { key: j, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } },
+                  E("span", { style: { color: "var(--primary)", fontWeight: 800, flexShrink: 0 } }, "•"),
+                  pt);
+              })) : null);
+        }));
+    }()),
     E(BodyP, null,
-      "This sounds too obvious to write down, and yet: weak AI users take AI’s output and share it without reading it. They paste it into the assignment, drop it in the group chat, hit send. Reading every word is the floor. Every other check in this lesson builds on it."),
-    E(SectionKicker, null, "Understand what it’s saying"),
-    E(BodyP, null,
-      "You’ll never know whether an answer is right if you don’t understand what it says. If a paragraph uses a term you don’t know, or a step you can’t follow, that’s not a reason to skip it. It’s a reason to stop."),
-    E(KeyInsight, { lead: "If something is unclear, ask." },
-      "The fastest explainer of an AI answer is the same AI. “Explain the second paragraph in simpler terms” costs you one message, and now you can actually judge what it said."),
-    E(SectionKicker, null, "Validate it against what you know"),
-    E(BodyP, null,
-      "As you read, hold the answer up against your own knowledge. This is where everything you’ve ever learned pays off. Try it on these two AI statements. Both are false. Watch how differently they fail."),
+      "Step 3 deserves a closer look, because it’s the one that depends on you. Try it on these two AI statements. Both are false. Watch how differently they fail."),
     E(ShowcaseBox, { kicker: "TWO FALSE STATEMENTS", marginBottom: 20 },
       E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
         VALIDATE_CLAIMS.map(function(c, i) {
@@ -7466,30 +7483,8 @@ function EvaluatingSection(props) {
         }))),
     E(BodyP, null,
       "The first statement shows why learning still matters in the AI era: a well-stocked head is your fastest fact-checker. The second shows its limit. When the topic is beyond what you know, “it sounds fine” isn’t validation, and you’ll need the deeper checks below. Hold that thought; the next lesson comes back to it."),
-    E(SectionKicker, null, "Decide: does it need more?"),
     E(BodyP, null,
-      "You’ve read it, understood it, and validated what you could. Before going deeper, ask two quick questions."),
-    E(ShowcaseBox, { kicker: "THE TWO-QUESTION GATE", marginBottom: 20 },
-      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        [{
-          icon: "📋",
-          title: "1. What kind of task was this?",
-          desc: "Factual work (research, real events, claims about the world) gets checked against the world. Generative work (first drafts, brainstorms) gets checked against what you asked for. Different task, different follow-up."
-        }, {
-          icon: "⚖️",
-          title: "2. How much is riding on it?",
-          desc: "Picking a movie for tonight? If it passed your read-through, you’re done. A college entrance essay, a health question, anything with your name on it? Keep going."
-        }].map(function(item, i) {
-          return E("div", {
-            key: i,
-            style: { flex: 1, minWidth: 240, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            E("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
-            E("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4 } }, item.title),
-            E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
-        }))),
-    E(BodyP, null,
-      "Notice what this means: ",
+      "And notice what Step 4 means: ",
       E("strong", null, "sometimes read, understand, validate is all you do"),
       ". Low stakes and it held up? Use it and move on. The deeper checks are for answers that matter."),
     E(AIStrengthsSection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }),

@@ -1310,7 +1310,9 @@ function QuizBlock(props) {
 
     var optionsList = React.createElement("div", {
       style: props.optionsRow
-        ? { display: "grid", gridTemplateColumns: "repeat(" + options.length + ", 1fr)", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
+        ? (props.optionsCompact
+          ? { display: "inline-grid", gridAutoFlow: "column", gridAutoColumns: "1fr", gap: 10, marginLeft: props.optionsIndent != null ? props.optionsIndent : (hasNumeral ? 66 : 0) }
+          : { display: "grid", gridTemplateColumns: "repeat(" + options.length + ", 1fr)", gap: 10, paddingLeft: hasNumeral ? 66 : 0 })
         : { display: "flex", flexDirection: "column", gap: 10, paddingLeft: hasNumeral ? 66 : 0 }
     },
       options.map(function(opt, i) {
@@ -1336,8 +1338,10 @@ function QuizBlock(props) {
           onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
           style: {
-            display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
-            background: bgColor, border: "1.5px solid " + borderColor, borderRadius: 12,
+            display: "flex", alignItems: "center", gap: 10,
+            padding: props.optionsCompact ? "12px 26px" : "14px 18px",
+            background: bgColor, border: "1.5px solid " + borderColor,
+            borderRadius: props.optionsCompact ? 999 : 12,
             cursor: "pointer", textAlign: "left",
             fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600,
             color: textColor, transition: "all 150ms ease", width: "100%"
@@ -7156,64 +7160,74 @@ const EVAL_CRITERIA = [{
     note: "Entirely one-sided. Doesn't mention potential challenges like coverage gaps, client expectations, or industry-specific constraints. Presents opinion as settled fact."
   }
 }];
-function GoodEnoughTryIt(props) {
-  var GE_SCENARIOS = [
+function DigDeeperTryIt(props) {
+  var DD_SCENARIOS = [
     {
-      task: "Write two sentences on when the first iPhone came out and what was new about it.",
-      response: "The first iPhone launched in 2005 and shipped with the App Store, making it the first phone you could download apps onto.",
-      statement: "It reads cleanly. What stops you from using it as-is?",
+      response: "For tonight’s movie night, you can’t go wrong with The Princess Bride. Sword fights, comedy, romance, and endlessly quotable lines: it plays just as well with four people as with fourteen.",
       options: [
-        { label: "The facts are wrong", correct: true, feedback: "Right. The iPhone launched in 2007, and the App Store didn’t arrive until 2008. Confident phrasing hides a real error. Check Accuracy first." },
-        { label: "The tone is too formal", feedback: "Tone is fine for a quick fact. The deeper problem is that the facts themselves are wrong." },
-        { label: "It’s missing detail", feedback: "It has enough for two sentences. The issue is that some of the detail is made up." },
-        { label: "Nothing, good to go", feedback: "Not quite. It sounds authoritative, but the date and the App Store claim are both wrong." }
+        { label: "Good to go", correct: true, headline: "Right. Low stakes, your call.", feedback: "Run Step 4: what kind of task? A recommendation, and whether a movie is “good” is your call, not a fact to verify. How much is riding on it? One evening. If it sounds fun, press play." },
+        { label: "Dig deeper", headline: "Dig into… what, exactly?", hint: "Run the two Step 4 questions: what kind of task is this, and how much is riding on it?", feedback: "There’s no fact here to check: a movie pick is taste, and the stakes are one Friday night. Digging deeper would cost more than being wrong. Save the checks for answers that matter." }
       ]
     },
     {
-      task: "Write an Instagram caption for our team’s championship win.",
-      response: "We are pleased to announce that our team has achieved victory in the championship final. We extend our sincere gratitude to all supporters for their continued patronage.",
-      statement: "Nothing here is false. What stops you from posting it as-is?",
+      response: "You’re in luck! In-N-Out Burger runs the Animal Style Scholars Program: $20,000 awarded to 50 high-school seniors every year. Applications close March 1, and the essay prompt is about secret menus. Want me to start your draft?",
       options: [
-        { label: "Wrong tone for the audience", correct: true, feedback: "Right. It’s accurate but reads like a corporate press release, not a hype caption for teammates. Match the voice to where it’s going." },
-        { label: "It’s not true", feedback: "Nothing here is false. The problem is the stiff, formal voice." },
-        { label: "It leaves out the score", feedback: "Adding the score could help, but the core miss is the formal tone for a celebration post." },
-        { label: "Nothing, good to go", feedback: "It’s accurate, but the voice is all wrong for Instagram. Tone & Audience matters as much as the facts." }
+        { label: "Good to go", headline: "Would you bet $20,000 on it?", hint: "Look at how specific those details are: a name, a dollar amount, a deadline. What did Step 3 say about very specific details?", feedback: "Every detail here is exactly the kind AI invents: specific, confident, and plausible. If the program doesn’t exist, you’ve written an essay for a burger chain that never asked. High stakes plus specific claims is precisely when you dig." },
+        { label: "Dig deeper", correct: true, headline: "Right. Suspiciously specific.", feedback: "A program name, a dollar amount, a winner count, a deadline: the more specific the detail, the more skeptical you should be. Maybe it’s real, maybe it isn’t, and with college money on the line you don’t guess. Search the program yourself before writing a word of that essay." }
       ]
     },
     {
-      task: "Explain photosynthesis in two sentences for a 9th-grade study guide.",
-      response: "Photosynthesis is how plants use sunlight, water, and carbon dioxide to make glucose (their food) and oxygen. It happens mostly in the leaves, inside tiny structures called chloroplasts.",
-      statement: "You’re adding this to your study guide. What stops you from using it as-is?",
+      response: "For a sprained ankle, follow R.I.C.E.: rest, ice for 20 minutes at a time, compression with an elastic bandage, and elevation above your heart. Stay off it for 48 hours, then ease back in as the pain allows.",
       options: [
-        { label: "Nothing, good to go", correct: true, feedback: "Right. It’s accurate, on-topic, complete enough for a study guide, and pitched at the right level. “Good enough” is a real verdict, so don’t over-polish." },
-        { label: "It’s not accurate", feedback: "The facts check out: sunlight, water, and CO2 become glucose and oxygen, in the chloroplasts." },
-        { label: "Wrong tone", feedback: "The tone is right for a 9th-grade study guide: clear and plain." },
-        { label: "It’s incomplete", feedback: "For a two-sentence study-guide entry, this covers the essentials." }
+        { label: "Good to go", headline: "It’s a health question.", hint: "The advice sounds standard. But run Step 4’s second question: how much is riding on this one?", feedback: "Even good-sounding health advice deserves a real person’s eyes, because “sounds standard” can’t tell a sprain from a fracture. Health, legal, crisis: those always leave the chat." },
+        { label: "Dig deeper", correct: true, headline: "Right. It’s your body.", feedback: "The advice sounds textbook, and it may all be correct. But AI can’t see the swelling or rule out a fracture, and health sits at the top of the stakes ladder. This is the “leave the chat” move: have a parent, trainer, or doctor look at the actual ankle." }
+      ]
+    },
+    {
+      response: "Ten ideas for the team car-wash fundraiser: pre-sell tickets at lunch, add a “coach gets pied” stretch goal, offer a monthly pass, challenge the rival school to a wash-off, film before-and-after clips for the team account… want the other five?",
+      options: [
+        { label: "Good to go", correct: true, headline: "Right. It’s a brainstorm.", feedback: "Nothing here is a fact that can be wrong: they’re options. A brainstorm gets checked against what you asked for, and you’re about to keep two ideas and toss the rest anyway. You are the filter." },
+        { label: "Dig deeper", headline: "There’s no claim to check.", hint: "Step 4’s first question: what kind of task was this? Is there a fact in this answer that could be false?", feedback: "Ideas can’t be fact-checked, only kept or tossed, and picking the keepers is your job, not a verification step. Brainstorms get checked against what you asked for. Save the deep checks for facts with stakes." }
+      ]
+    },
+    {
+      response: "Here’s a strong opener for your essay. As Albert Einstein said, “Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that it is stupid.”",
+      options: [
+        { label: "Good to go", headline: "Einstein never said it.", hint: "A very specific claim about who said what, going into an essay with your name on it. What does Step 4 say about that combination?", feedback: "This quote is a famous misattribution: no record of Einstein saying it exists. Confident wording is not evidence. One search before it goes in the essay saves you from a teacher who knows better." },
+        { label: "Dig deeper", correct: true, headline: "Right. Famous quotes lie.", feedback: "There’s no evidence Einstein ever said this: it’s one of the internet’s most famous misattributions. A quote in an essay with your name on it is a factual claim with real stakes. Ask for the source and click it. If you can’t find it, it doesn’t exist." }
       ]
     }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
+  var allAnswered = Object.keys(answers).length >= DD_SCENARIOS.length;
+  useEffect(function() { if (allAnswered && props.onComplete) props.onComplete(); }, [allAnswered]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Good enough?",
-    lead: "Each answer below looks fine at a glance. For each, decide what (if anything) would stop you from using it as-is."},
+    variant: "try", surface: "mint", title: "Are these AI responses good to go, or do you need to dig deeper?",
+    lead: "Your turn. For each response below, make the Step 4 call."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      GE_SCENARIOS.map(function(sc, si) {
+      DD_SCENARIOS.map(function(sc, si) {
         var picked = answers[si];
         return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 14, marginBottom: 12 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--tryAccent)", marginBottom: 6 } }, "The task"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "#0e0a1f", lineHeight: 1.5 } }, sc.task))),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 14px", marginBottom: 16 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--inkMuted)", marginBottom: 6 } }, "AI output"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, whiteSpace: "pre-line" } }, sc.response)),
-          /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", statement: sc.statement, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); } }));
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.response))),
+          /*#__PURE__*/React.createElement(QuizBlock, {
+            key: si,
+            surface: "mint",
+            optionsRow: true,
+            optionsCompact: true,
+            optionsIndent: 66,
+            totalQuestions: DD_SCENARIOS.length,
+            options: sc.options,
+            picked: picked != null ? picked : undefined,
+            onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
+          }));
       })));
 }
 function EvaluatingSection(props) {
   var E = React.createElement;
+  var _dd = useState(false), ddDone = _dd[0], setDdDone = _dd[1];
   var NEXT_MOVES = [
     { icon: "✅", title: "Use it", desc: "It passed your checks. Most answers end here. Read, understood, validated, done." },
     { icon: "🔧", title: "Fix it", desc: "Something’s off and you can name it. Say exactly what’s wrong in a follow-up: “cut the stat I never gave you,” “make it shorter.” Being specific about what’s wrong beats starting over." },
@@ -7222,27 +7236,30 @@ function EvaluatingSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "evaluating" }),
     E(BodyP, null,
-      "By now you’ve seen it yourself: AI makes mistakes. It states wrong facts in the same confident voice it states right ones. So what do you do with an AI answer, knowing it might be wrong?"),
+      "By now you’ve seen it yourself: AI makes mistakes. It uses the same confident voice whether the facts are right or wrong. So what do you do with an AI answer, knowing it might be wrong?"),
     E(BodyP, null,
-      "One option is to ignore AI entirely. Nobody who’s made it this far in the course is doing that: AI is too powerful to leave on the shelf. The real move is in between trusting and dismissing. ",
-      E("strong", null, "You evaluate the results"),
-      ", every time, with a process. Here it is."),
+      "One option is to ignore AI. Pretend it doesn’t exist. Nobody who’s made it this far in the course is doing that: AI is too powerful to leave on the shelf. To ",
+      E("strong", null, "Be Smarter Than the Tool"),
+      ", you need the right skills to evaluate AI’s results."),
     (function() {
       var STEPS = [
-        { tag: "Step 1", icon: "📖", title: "Read", body: "This sounds too obvious to write down, but weak AI users take AI’s output and share it without reading it. They paste it into the assignment, drop it in the group chat, hit send. Reading every word is the floor.", points: [] },
-        { tag: "Step 2", icon: "🧠", title: "Understand", body: "You’ll never know whether an answer is right if you don’t understand what it says. And the fastest explainer of an AI answer is the same AI: “Explain the second paragraph in simpler terms” costs you one message.", points: [] },
-        { tag: "Step 3", icon: "🎯", title: "Validate", body: "As you read, hold the answer up against your own knowledge. A well-stocked brain is your fastest fact-checker, and this is where everything you’ve ever learned pays off.", body2: "But watch its limit: “Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens” sounds perfectly fine. The 1932 Games were in Los Angeles, and she doesn’t exist. When a topic is beyond what you know, “sounds fine” isn’t validation. That’s what the deeper checks below are for.", points: [] },
-        { tag: "Step 4", icon: "⚖️", title: "Decide: does it need more?", body: "Two quick questions before you go deeper.", points: [
-          "What kind of task was this? Factual work gets checked against the world. Drafts and brainstorms get checked against what you asked for.",
-          "How much is riding on it? Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going."
+        { tag: "Step 1", icon: "📖", title: "Read", body: "This sounds too obvious to write down, but weak AI users take AI’s output and share it without reading it. They share it with co-workers, drop it in a group chat, and hit send. Reading every word is the floor.", points: [] },
+        { tag: "Step 2", icon: "🧠", title: "Understand", body: "You’ll never know whether an answer is right if you don’t understand what it says. Sometimes your own knowledge gives you a complete, deep understanding. Other times it won’t be so clear. And the fastest explainer of an AI answer is often the same AI: “Explain the second paragraph in simpler terms” costs you one message.", points: [] },
+        { tag: "Step 3", icon: "🎯", title: "Validate", body: "As you read, hold the answer up against your own knowledge. A well-stocked brain is your fastest fact-checker, and this is where everything you’ve ever learned pays off.", body2: "But watch its limit: “Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens” sounds perfectly fine. The 1932 Games were in Los Angeles, and she doesn’t exist. The more specific the detail, the more skeptical you should be. When a topic is beyond what you know, “sounds fine” isn’t validation. That’s what the Dig deeper steps below are for.", points: [] },
+        { tag: "Step 4", icon: "⚖️", title: "Decide: do you need to Dig deeper?", body: "Two quick questions:", points: [
+          { lead: "What kind of task was this?", text: "Tasks that involve facts often need more evaluation. Work like a first draft or a brainstorm usually doesn’t: you’re just checking it against what you asked for." },
+          { lead: "How much is riding on it?", text: "Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going." }
         ] },
-        { tag: "Step 5", icon: "🔎", title: "Dig deeper", body: "When Step 4 says it matters, don’t just re-read the answer. Interrogate it:", points: [
-          "Ask for citations, then click them. “Give me citations in your response.” Read whether the page actually says what AI claims.",
-          "Challenge the AI. Ask it to argue the other side, or to flag what it’s least sure of.",
-          "Leave the chat. Search the claim yourself, ask for a live web search on anything recent (AI’s built-in knowledge has a cut-off date), and take health, legal, or crisis questions to a real person."
+        { tag: "Step 5", icon: "🔎", title: "Dig deeper", body: "When Step 4 says to dig deeper, don’t just re-read the answer. Instead, interrogate the AI:", points: [
+          { lead: "Ask AI for citations.", text: "“Give me citations in your response.” You’ll see links within AI’s response that show where it got the information. Click those links. Read whether the page actually says what AI claims. If you can’t find the source, assume it doesn’t exist: AI frequently invents plausible-sounding citations." },
+          { lead: "Challenge the AI.", text: "Ask it to argue the other side, or to flag what it’s least sure of." },
+          { lead: "Ask for a live web search.", text: "AI’s built-in knowledge has a cut-off date, so on anything recent, have it check the live web." },
+          { lead: "Spot the “almost true” trap.", text: "If part of an answer is verifiably true, don’t assume the rest is too." },
+          { lead: "Leave the chat.", text: "Search the claim yourself, and take health, legal, or crisis questions to a real person." }
         ] }
       ];
       return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
+        E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, padding: "4px 4px 0" } }, "How you evaluate the results"),
         STEPS.map(function(s, i) {
           return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
             E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
@@ -7253,61 +7270,36 @@ function EvaluatingSection(props) {
             s.body2 ? E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 8 } }, s.body2) : null,
             s.points.length ? E("div", { style: { display: "flex", flexDirection: "column", gap: 5 } },
               s.points.map(function(pt, j) {
-                return E("div", { key: j, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } },
+                return E("div", { key: j, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.5 } },
                   E("span", { style: { color: "var(--primary)", fontWeight: 800, flexShrink: 0 } }, "•"),
-                  pt);
+                  E("span", null,
+                    E("span", { style: { color: "var(--primary)", fontWeight: 700 } }, pt.lead),
+                    " " + pt.text));
               })) : null);
         }));
     }()),
     E(BodyP, null,
-      "And notice what Step 4 means: ",
-      E("strong", null, "sometimes read, understand, validate is all you do"),
-      ". Low stakes and it held up? Use it and move on. The deeper checks are for answers that matter."),
-    E(KeyInsight, { lead: "The real question isn’t “Can AI do this?”" }, "It’s “What do I need to check before I use it?” That’s the move judgment makes."),
-    E(SectionKicker, null, "Go deeper: facts that matter"),
-    E(BodyP, null,
-      "For a factual answer with real stakes, Step 5 is the habit. The strategies below are the skill: how to verify a specific claim when it really counts."),
-    (function() {
-      var SIX_CHECKS = [
-        { icon: "\uD83D\uDD0D", label: "Cross-reference the claim", rule: "Extract the fact. Search the fact. Don't trust the sentence." },
-        { icon: "\uD83D\uDCDA", label: "Verify citations and sources", rule: "If you can\u2019t find the source after searching, it was likely fabricated. AI frequently invents plausible-sounding citations." },
-        { icon: "\uD83D\uDD17", label: "Don't trust the source link", rule: "A sourced answer is better than an unsourced one, but a link doesn\u2019t make a claim true." },
-        { icon: "\uD83C\uDFAF", label: "Watch for hallucination triggers", rule: "The more specific the detail, the more skeptical you should be." },
-        { icon: "\uD83E\uDD14", label: "Ask the model to self-check", rule: "\u201CAre you sure?\u201D can surface uncertainty or catch mistakes, but it isn\u2019t verification. Treat it as a second pass, then check the claim somewhere real." },
-        { icon: "\u26A0\uFE0F", label: "Spot the 'almost true' trap", rule: "If part of an answer is verifiably true, don't assume the rest is too." }
-      ];
-      return E(ShowcaseBox, { kicker: "THE SIX CHECKS", marginBottom: 20 },
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-          SIX_CHECKS.map(function(s, i) {
-            return E("div", { key: i, style: { display: "flex", gap: 12, alignItems: "flex-start" } },
-              E("span", { style: { fontSize: 18, flexShrink: 0 } }, s.icon),
-              E("div", null,
-                E("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, s.label),
-                E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.rule)));
-          })));
-    }()),
-    E(KeyInsight, { lead: "If you can\u2019t find the source, assume it doesn\u2019t exist." }, "Confident wording is not evidence. Fancy formatting is not evidence. A real link to a real source you can read is evidence."),
-    E(SectionKicker, null, "Go deeper: drafts that matter"),
-    E(BodyP, null,
-      "A draft or brainstorm doesn’t need a citation trail. But it isn’t exempt from checking, because AI pads generative work with things you never said. For a draft that matters, ask three questions: does it do what I actually asked, does it fit the person who’ll read it, and did AI slip in any “facts” I never gave it? That last one is sneaky: ask for a game recap and it will happily invent the score of the third quarter."),
-    E(KeyInsight, { lead: "True isn’t enough." }, "The real question is whether the answer is good enough for what you’re about to do with it. A correct sentence in the wrong tone, at the wrong length, missing the point of your question, still fails."),
+      "If you had to do all five steps on every AI response, your day would be filled with AI-evaluation after AI-evaluation. Not a great way to maximize your time. But that’s not the way it works. Read, understand, validate takes seconds, and ",
+      E("strong", null, "for most chats, you won’t need to dig deeper"),
+      ". You’ll just chat away."),
     E(SectionKicker, null, "Then make your move"),
     E(BodyP, null,
       "Every evaluation ends in one of three moves."),
-    E(ShowcaseBox, { kicker: "THREE MOVES", marginBottom: 20 },
+    E(ShowcaseBox, { marginBottom: 20 },
       E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
         NEXT_MOVES.map(function(item, i) {
           return E("div", {
             key: i,
             style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
           },
-            E("div", { style: { fontSize: 24, marginBottom: 8 } }, item.icon),
-            E("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4 } }, item.title),
-            E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              E("span", { style: { fontSize: 18 } }, item.icon),
+              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
-    E(GoodEnoughTryIt, null),
+    E(DigDeeperTryIt, { onComplete: function() { setDdDone(true); } }),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: true, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
+    E(NextLessonGate, { ready: ddDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
 }
 function CreativeThinkingSection(props) {
   const [scenarioAnswers, setScenarioAnswers] = useState({});

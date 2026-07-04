@@ -6094,103 +6094,12 @@ function HallucinationSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
-const CT_CONCEPTS = [{
-  id: "question",
-  label: "Question the Output",
-  icon: "\u2753",
-  desc: "Your first instinct should always be: is this actually right?",
-  lead: "Your first instinct: is this actually right?",
-  detail: "AI sounds confident whether the answer is correct or not. Smooth writing isn\u2019t proof.",
-  scenario: {
-    prompt: "Who won the first ever NBA Slam Dunk Contest?",
-    response: "The first NBA Slam Dunk Contest was won by Julius Erving (Dr. J) in 1976 at the ABA All-Star Game. The first official NBA Slam Dunk Contest was held in 1984 and won by Larry Nance.",
-    question: "Is this accurate?",
-    options: [
-      { label: "Yes, both names and dates are right", correct: false, headline: "It's not all clean.", hint: "The names and dates do check out, so 'fabricated' is off the table, but 'all correct' is too generous. Read it again for how it labels the 1976 event. Is every part of the framing actually right?", feedback: "Half right. The 1976 ABA dunk contest is real, and Larry Nance did win in 1984. But the model blends two different leagues (ABA vs NBA) without being clear about the distinction. The names are right; the framing isn\u2019t." },
-      { label: "Mostly accurate, but it conflates two different leagues", correct: true, headline: "Right names, blurred line.", feedback: "The 1976 ABA dunk contest is real and Larry Nance did win in 1984. But the model mixes ABA and NBA together without flagging the difference. If you took this at face value for a school paper, you might incorrectly call the 1976 contest an \u2018NBA\u2019 event. Always verify, especially when the answer sounds confident." },
-      { label: "No, the model fabricated the names and dates", correct: false, headline: "The facts are real.", hint: "The names and dates are genuinely real, so 'made up' isn't the problem. The slip is subtler than that. Look at how it ties the two events and their leagues together.", feedback: "The names and dates are actually real. The trap isn\u2019t fabrication, it\u2019s the slip between two different leagues (ABA vs NBA) without the model calling out the distinction. Confident-sounding answers can still mix things up at the edges." }
-    ],
-    analysis: "Partially. The 1976 ABA dunk contest is real, and Larry Nance did win in 1984. But the model blends two different leagues (ABA vs NBA) without being clear about the distinction. If you took this at face value for a school paper, you might incorrectly call the 1976 contest an \"NBA\" event. Always verify, especially when the answer sounds confident."
-  }
-}, {
-  id: "unknowns",
-  label: "Know Your Limits",
-  icon: "\uD83E\uDDD0",
-  desc: "If you can\u2019t evaluate the answer, you\u2019re flying blind.",
-  lead: "If you can\u2019t evaluate it, you\u2019re flying blind.",
-  detail: "The further the topic is from what you know, the more carefully you have to verify. That\u2019s exactly when AI feels most authoritative.",
-  scenario: {
-    prompt: "Explain the offsides rule in soccer.",
-    response: "A player is offside if they are nearer to the opponent's goal line than both the ball and the second-to-last defender when the ball is played to them. The offside is judged at the moment the ball is passed, not when it's received.",
-    question: "Could you spot an error here if there was one?",
-    options: [
-      { label: "Yes, soccer rules are common knowledge", correct: false, headline: "Be honest about what you know.", hint: "Ask yourself honestly: if one detail in that rule were wrong, would you actually catch it? If you don't follow soccer closely, it reads as authoritative either way. What does that tell you about when you can spot errors?", feedback: "If you don\u2019t play or follow soccer, you couldn\u2019t actually spot an error. The answer reads as authoritative whether or not you know the rule. The honest answer is that you\u2019d have to check, which is exactly the point: outside your expertise, verification matters more, not less." },
-      { label: "Only if you actually know soccer well enough to check", correct: true, headline: "Only if you'd know.", feedback: "If you don\u2019t play or watch soccer, this sounds perfectly reasonable, and it is correct. But that\u2019s the point: you had no way to know that without checking. When AI gives you an answer about something outside your expertise, that\u2019s when you need to cross-reference. The less you know about a topic, the more carefully you should verify." },
-      { label: "No, AI never makes errors on rules and definitions", correct: false, headline: "AI does make rule errors.", hint: "AI definitely gets rules and definitions wrong sometimes, especially on edge cases, so 'never wrong' isn't it. The sharper question is whether you'd notice if it were wrong here. Would you?", feedback: "AI definitely makes errors on rules and definitions, especially on edge cases or recent changes. The harder question is whether you\u2019d notice the error if it was there. Outside your expertise, you usually wouldn\u2019t. That\u2019s why verification matters most exactly when you know the topic least." }
-    ],
-    analysis: "If you don't play or watch soccer, this sounds perfectly reasonable, and it is correct. But that's the point: you had no way to know that without checking. When AI gives you an answer about something outside your expertise, that's when you need to cross-reference. The less you know about a topic, the more carefully you should verify."
-  }
-}, {
-  id: "missing",
-  label: "What's Missing?",
-  icon: "\uD83E\uDDE9",
-  desc: "AI tells you what it knows, not what it left out.",
-  lead: "AI tells you what it knows. Not what it left out.",
-  detail: "Look for context, exceptions, perspectives, and counterarguments the answer skipped.",
-  scenario: {
-    prompt: "Did Edison invent the lightbulb?",
-    response: "Yes. Thomas Edison invented the lightbulb in 1879. After testing thousands of materials, he developed a carbon filament that could burn for over 13 hours, which led to the commercial electric lighting that transformed the world.",
-    question: "What's missing from this answer?",
-    options: [
-      { label: "Nothing major. Edison is the inventor, and the answer covers the basics.", correct: false, headline: "There's more to the story.", hint: "The answer isn't wrong, but 'nothing missing' is too quick. When a story credits one person for a big invention, something usually got simplified out. What might that be here?", feedback: "The answer is technically correct, but it tells the clean version. Joseph Swan demonstrated a working bulb in England the year before. Several inventors built bulbs before Edison. Lewis Latimer later improved the filament so it lasted much longer. Edison's real contribution was making the bulb commercially practical and building the electrical system to power it, not inventing the bulb from scratch." },
-      { label: "Other inventors built working bulbs before Edison; his real contribution was making one practical at scale.", correct: true, headline: "It skips the other inventors.", feedback: "Joseph Swan demonstrated a working bulb in England the year before. Lewis Latimer later improved the filament. Several inventors built bulbs before either of them. The answer is correct as far as it goes, but it tells the simple story. AI hands you the clean version unless you ask what got left out." },
-      { label: "The date is wrong; the lightbulb existed long before 1879.", correct: false, headline: "The date is fine.", hint: "1879 is right for Edison's demonstration, so the date isn't the gap. The question is what the answer leaves out, not what it gets wrong. What part of the story is missing?", feedback: "1879 is the right year for Edison's demonstration. The trap here isn't a wrong date, it's a clean story that skips the other inventors and earlier bulbs. The answer is correct as far as it goes, but it leaves out the context that would change what \"invented\" actually means." }
-    ],
-    analysis: "Joseph Swan demonstrated a working bulb in England the year before Edison. Several inventors built bulbs before either of them. Lewis Latimer later improved the filament so the bulb lasted longer. The answer is correct, but it tells the clean version. AI gives you the simple story unless you ask what got left out."
-  }
-}, {
-  id: "automation",
-  label: "Don't Auto-Trust It",
-  icon: "\uD83E\uDD16",
-  desc: "Automation bias: the tendency to trust computer-generated output over your own judgment. AI makes it worse because the output sounds so human.",
-  lead: "Confident isn\u2019t the same as correct.",
-  detail: "Polished output triggers a \u2018must be right\u2019 reflex. That\u2019s a bias, not a verdict.",
-  scenario: {
-    prompt: "Is it okay to eat food that's been left out overnight?",
-    response: "Generally, perishable food left out at room temperature for more than 2 hours should be discarded according to food safety guidelines. This is known as the '2-hour rule' from the USDA.",
-    question: "Would you have trusted this without thinking?",
-    options: [
-      { label: "Yes, the answer sounds confident and cites the USDA", correct: false, headline: "Confidence isn't proof.", hint: "It sounds official and names a source, sure, but those make you want to trust it, not actually verify it. The pull you feel to just accept it is the whole point here. Is that pull something to lean into, or to catch yourself doing?", feedback: "That\u2019s exactly the trap. Confidence and a real-sounding source make you skip your own judgment, which is automation bias in action. This particular answer happens to be correct, but if you\u2019re only trusting it because it sounds official, you\u2019d trust the next confident-sounding answer too, and that one might be wrong." },
-      { label: "Probably, and that reflex is exactly the bias to watch", correct: true, headline: "That reflex is the bias.", feedback: "This answer is actually correct. But notice how tempting it is to just accept it without thinking. What if you asked about something more nuanced, like a specific medication interaction? The smoother and more confident the answer, the more likely you are to skip your own judgment. That\u2019s automation bias." },
-      { label: "No, you should always assume AI is wrong about food safety", correct: false, headline: "Don't flip to the opposite.", hint: "Always assuming AI is wrong is just the opposite bias. The goal isn't to distrust everything, it's to keep your own judgment on. So what's the honest answer about whether you'd have trusted this one?", feedback: "Always-assume-wrong is its own bias in the other direction. The point isn\u2019t to distrust everything, it\u2019s to keep your own judgment switched on. Don\u2019t default to \u2018it sounds confident, must be true,\u2019 but don\u2019t default to \u2018it\u2019s AI, must be wrong\u2019 either." }
-    ],
-    analysis: "This answer is actually correct. But notice how tempting it is to just accept it without thinking. What if you asked about something more nuanced, like whether a specific medication interaction is safe? The smoother and more confident the answer, the more likely you are to skip your own judgment. That's automation bias."
-  }
-}, {
-  id: "tool",
-  label: "Keep Ownership",
-  icon: "\uD83D\uDD28",
-  desc: "AI generates output. You decide what\u2019s worth using, what to change, and what to throw away.",
-  lead: "You decide what to keep, change, or toss.",
-  detail: "AI generates options. The thinking, the call, and the consequences are yours.",
-  scenario: {
-    prompt: "Write my college essay about what matters most to me.",
-    response: "What matters most to me is making a positive impact on the world. From a young age, I've been passionate about helping others and making my community a better place...",
-    question: "Is this your voice? Your story?",
-    options: [
-      { label: "Yes, it covers a real value so it\u2019s good enough", correct: false, headline: "A real value, but whose?", hint: "It does name a real value, but the question was whether it's YOUR voice and YOUR story. 'Making a positive impact' could sit on top of almost anyone's application. Does that sound specifically like you?", feedback: "It covers A real value, but not yours specifically. \u2018Making a positive impact\u2019 is generic enough that it could be written by anyone. A college essay needs your specific experiences and your real voice, not a value statement that fits half the applicants." },
-      { label: "No, it\u2019s generic and could have been written by anyone", correct: true, headline: "It could be anyone's.", feedback: "This is generic, safe, and could be written by anyone. A college essay needs to be yours: your specific experiences, your real voice, your actual perspective. AI can help you brainstorm, outline, or polish, but if you let it do the thinking, you get a forgettable essay that sounds like everyone else\u2019s." },
-      { label: "It\u2019s fine as a starting point, just submit it", correct: false, headline: "Starting point, not submission.", hint: "As a rough starting point it's harmless. The 'just submit it' part is the problem. Read it again and ask whether anything in it is actually, specifically you.", feedback: "It\u2019s fine as a starting point. Submitting it is the problem. AI can help you brainstorm, outline, or polish your own writing, but if you let it do the thinking, you end up with an essay that sounds like everyone else\u2019s." }
-    ],
-    analysis: "This is generic, safe, and could be written by anyone. A college essay needs to be yours: your specific experiences, your real voice, your actual perspective. AI can help you brainstorm, outline, or polish, but if you let it do the thinking, you get a forgettable essay that sounds like everyone else's."
-  }
-}];
 function CriticalThinkingSection(props) {
   const [problemAnswers, setProblemAnswers] = useState({});
   const CT_101 = [{
     label: "Ice cream & drowning",
     icon: "\uD83C\uDF66",
-    claim: "Ice cream sales and drowning deaths both spike in summer. Does ice cream cause drowning?",
+    claim: "Ice cream sales and drowning deaths both spike in summer, so ice cream must cause drowning.",
     options: [
       { label: "There\u2019s a hidden factor causing both", correct: true, headline: "It's a hidden third factor.", feedback: "Hot weather drives both: more people buy ice cream AND more people go swimming. Just because two things happen together doesn\u2019t mean one causes the other. Always ask: is there a third factor driving both?" },
       { label: "The sample size is too small to draw conclusions", correct: false, headline: "Sample size isn't the issue.", hint: "The data here is real and the spike is real, so the amount of data isn't the weak point. The real question is what actually connects these two numbers. Look again at that link.", feedback: "Sample size isn\u2019t the issue here. The data is real and the correlation is real. The issue is what\u2019s causing the correlation. Hot weather is the hidden third factor driving both numbers up." },
@@ -6201,7 +6110,7 @@ function CriticalThinkingSection(props) {
   }, {
     label: "\"9 out of 10 dentists\"",
     icon: "\uD83E\uDDB7",
-    claim: "\"9 out of 10 dentists recommend this toothpaste.\" Sounds convincing, right?",
+    claim: "An ad declares: \"9 out of 10 dentists recommend this toothpaste.\"",
     options: [
       { label: "9 out of 10 sounds high but it\u2019s actually a small majority", correct: false, headline: "9 of 10 really is a lot.", hint: "Nine out of ten genuinely is a strong majority, so the number itself isn't the trick. The weak spot is everything the claim leaves out. What would you need to know before that 90% means anything?", feedback: "9/10 really is a strong majority. The number isn\u2019t the trick. The trick is the missing context: recommend it compared to what? How were the dentists picked? Who paid for the study?" },
       { label: "The stat is missing the context that would make it meaningful", correct: true, headline: "It's missing context.", feedback: "Recommend it over what? Not brushing? A different brand? Who picked the dentists? Who paid for the study? Statistics without context are meaningless. Always ask: compared to what, how was this measured, and who funded it?" },
@@ -6212,7 +6121,7 @@ function CriticalThinkingSection(props) {
   }, {
     label: "I saw it on TikTok",
     icon: "\uD83D\uDCF1",
-    claim: "Your friend texts: \"Did you know Einstein failed math as a kid? Saw it on TikTok, it\u2019s wild.\" Should you take that as a solid fact?",
+    claim: "Your friend texts: \"Einstein failed math as a kid. Saw it on TikTok, it\u2019s wild.\"",
     options: [
       { label: "A famous story like this is widely known, so it\u2019s probably true.", correct: false, headline: "Famous isn't the same as true.", hint: "Plenty of repeated 'facts' get repeated because they sound good, not because they're true. How often you've heard something isn't evidence. What would actually tell you whether it holds up?", feedback: "Famous and true aren\u2019t the same. The Einstein-failed-math story is one of the most repeated \u2018facts\u2019 on the internet, and it\u2019s a myth. He was actually strong at math from a young age. The reason you\u2019d know that isn\u2019t \u2018I\u2019ve heard it a lot,\u2019 it\u2019s tracing the claim back to where it actually came from." },
       { label: "A TikTok creator isn\u2019t the source. They got it from somewhere. The real check is where they got it and whether that source is solid.", correct: true, headline: "Trace it to the real source.", feedback: "\u2018I saw it on TikTok\u2019 is the start of a check, not the end. The creator got the claim from somewhere, and that\u2019s the source you actually need. In this case, the Einstein-failed-math story is a famous myth. He was a strong math student. The story spread because it sounds inspiring, not because it\u2019s true. Always ask: where did this originally come from?" },
@@ -6220,28 +6129,6 @@ function CriticalThinkingSection(props) {
     ],
     reality: "Einstein didn\u2019t fail math. He was actually strong at it from a young age. The myth probably started when people misread his Swiss school grades (where 6 was the top score, not the bottom). It spread because it sounds like a great inspirational story.",
     lesson: "Where the claim shows up isn\u2019t the source. Whoever you\u2019re hearing it from got it from somewhere. Trace it back to the original before you trust it."
-  }, {
-    label: "Stats out of context",
-    icon: "\uD83D\uDCCA",
-    claim: "\"Player X scored more career points than Player Y, so Player X is better.\"",
-    options: [
-      { label: "Career points is a meaningful stat, so the comparison holds", correct: false, headline: "Real stat, wrong conclusion.", hint: "Career points are a real number, but a real number can still mislead. One player might have simply played far longer. What does a raw total quietly leave out?", feedback: "Career points are real, but raw totals don\u2019t mean better. Player X might have played 200 more games. Per-game averages, efficiency, era, and competition all matter. Numbers feel objective, but they can be framed to tell any story." },
-      { label: "Raw totals leave out games played, era, and other context", correct: true, headline: "Raw totals hide context.", feedback: "Player X might have played 200 more games. Per-game averages, efficiency, era, and competition all matter. Numbers feel objective, but they can be framed to tell any story. Always ask: what\u2019s missing from this picture?" },
-      { label: "Sports stats are too subjective to compare across players", correct: false, headline: "Stats can compare fine.", hint: "Stats are actually solid for comparing players, as long as you pick the right ones, so 'too subjective' misses it. The problem is what one specific number leaves out. What's missing from this comparison?", feedback: "Sports stats are actually pretty good for comparison, IF you compare the right ones. The issue isn\u2019t that the numbers are subjective, it\u2019s that raw totals leave out crucial context like games played and era." }
-    ],
-    reality: "But Player X played 200 more games. Per-game averages, efficiency, era, and competition all matter. A raw total without context is misleading.",
-    lesson: "Numbers feel objective, but they can be framed to tell any story. Always ask: what's missing from this picture?"
-  }, {
-    label: "Viral headlines",
-    icon: "\uD83D\uDCF0",
-    claim: "\"Study shows chocolate helps you lose weight!\" Sounds like great news.",
-    options: [
-      { label: "Studies are usually accurate, so the finding probably holds up", correct: false, headline: "'Study shows' isn't a guarantee.", hint: "Some studies are strong and plenty are weak, so 'study shows' proves nothing by itself. Think about what makes a study trustworthy. What would you want to know about this one before you believe the headline?", feedback: "Some studies are great. Many aren\u2019t. The headline says \u2018study shows\u2019 like that\u2019s a guarantee, but a study with 15 people, two weeks, and chocolate-company funding doesn\u2019t prove much. The headline is technically accurate but deeply misleading." },
-      { label: "Headlines are designed to grab clicks, not inform", correct: true, headline: "Headlines chase clicks.", feedback: "The study had 15 participants, ran for two weeks, and was funded by a chocolate company. The headline is technically accurate but deeply misleading. Before sharing or believing, ask: how big was the study, who funded it, and what did they actually measure?" },
-      { label: "Chocolate definitely doesn\u2019t help with weight loss, so the headline is fake news", correct: false, headline: "Not fake, just flimsy.", hint: "The headline probably isn't outright fake. A small study likely did show some narrow result, so 'fake news' isn't quite it. What about how the study was run could make the headline misleading anyway?", feedback: "The headline isn\u2019t technically fake. A small study probably did show some narrow result. The trap isn\u2019t fake news, it\u2019s a real-but-flimsy study packaged as if it settled the question. The fix is asking about study size, funding, and what they actually measured." }
-    ],
-    reality: "The study had 15 participants, ran for two weeks, and was funded by a chocolate company. The headline is technically accurate but deeply misleading.",
-    lesson: "Headlines are designed to get clicks, not to inform. Before sharing or believing, ask: how big was the study? Who funded it? What did they actually measure?"
   }, {
     label: "Phones in bed",
     icon: "\uD83D\uDCF1",
@@ -6264,19 +6151,7 @@ function CriticalThinkingSection(props) {
     ],
     reality: "He had a career night. So did a lot of variables: sleep, food, the defender he was matched against, the shots that happened to fall. Calling the socks the cause is picking one variable out of many and crowning it. One game can\u2019t prove anything caused anything.",
     lesson: "One event isn\u2019t a pattern. Before you call something \u2018the cause,\u2019 ask: how many times did this happen? What else changed? A single coincidence is just a coincidence."
-  }, {
-    label: "95% of members",
-    icon: "\uD83D\uDCAA",
-    claim: "A gym\u2019s ad: \"95% of our members are in peak physical condition. Join us and get fit!\"",
-    options: [
-      { label: "The 95% number is suspicious. Real studies don\u2019t get results that clean.", correct: false, headline: "The number may be real.", hint: "The 95% could be completely accurate, so 'too clean to be true' isn't the flaw. The deeper question is what that number actually proves. Even if it's true, does it show the gym made anyone fit?", feedback: "95% might be totally accurate. The deeper issue isn\u2019t whether the number is real, it\u2019s what the number actually means. Even if 95% of current members are fit, that doesn\u2019t mean the gym made them fit." },
-      { label: "Most gym members get fit eventually, so the percentage is probably accurate.", correct: false, headline: "Accurate, but proves what?", hint: "Even if the 95% is dead accurate, that's not the issue. Picture everyone who ever signed up, not just who's still around today. Does counting only current members tell you the gym is what made them fit?", feedback: "Even if the 95% is accurate, it doesn\u2019t prove the gym is what made anyone fit. People who aren\u2019t getting fit tend to quit. People who are already fit tend to stay. The 95% measures who\u2019s left, not who the gym transformed." },
-      { label: "Fit people are the ones who stay members. Joining doesn\u2019t make you fit, it\u2019s the other way around.", correct: true, headline: "It's selection bias.", feedback: "This is selection bias. The gym counts its current members, not everyone who ever joined. People who fall off the wagon quit. People who are already fit keep paying. The 95% is real, but it measures who self-selected to stay, not who the gym transformed. Same trap shows up everywhere: Ivy League grads earn more (yeah, because Ivy League takes the kids who\u2019d earn more anyway)." }
-    ],
-    reality: "The 95% probably IS accurate. But the gym is measuring its current members, not everyone who ever joined. The people who weren\u2019t getting fit got frustrated and quit. The people who are fit kept paying. The number measures who self-selected to stay, not who got transformed.",
-    lesson: "Watch out for stats that only count who\u2019s left. The sample is filtered. Always ask: who got measured, and who got left out?"
   }];
-  const [habitAnswers, setHabitAnswers] = useState({});
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation."),
   (function() {
     var whiteBox = function(label, extra) {
@@ -6334,20 +6209,49 @@ function CriticalThinkingSection(props) {
   }()),
   /*#__PURE__*/React.createElement(BodyP, null, "Put the words together and you have a process: actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn’t “don’t trust anything,” either. It’s the habit of asking what would have to be true for a claim to hold up."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here’s a real example. In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. “Slim by Chocolate!” ran one front page. Your reaction can go two directions."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking in Action"),
+  /*#__PURE__*/React.createElement(BodyP, null, "In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. ", /*#__PURE__*/React.createElement("strong", null, "Slim by Chocolate!"), " ran one front page. Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions."),
   /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, marginBottom: 20 } },
     /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Reaction 1"),
-      /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 15, lineHeight: 1.55 } }, "“Wow. I can eat all the chocolate I want and still lose ten pounds!”")),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Face Value"),
+      /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 17, lineHeight: 1.55 } }, "Wow. I can eat all the chocolate I want and still lose ten pounds! Nice, pass me the Hershey bars NOW!")),
     /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Reaction 2"),
-      /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 15, lineHeight: 1.55 } }, "“Wait a second. That sounds too good to be true. What’s behind this study?”"))),
-  /*#__PURE__*/React.createElement(BodyP, null, "The second reaction is critical thinking, and anyone who ran that check found quite a story. The study was real, but it was flimsy on purpose: 15 participants, with 18 different things measured, so pure chance guaranteed that something would look like a result. The “research institute” behind it was just a website. The author was a journalist who designed the whole thing to prove a point: that a bad study with a great headline would fly around the world before anyone checked. It did."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Critical Thinking"),
+      /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 17, lineHeight: 1.55 } }, "Wait a second. That sounds too good to be true. What’s behind this study?"))),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The True Story"),
+  /*#__PURE__*/React.createElement(BodyP, null, "The study was real, but it was flimsy on purpose:"),
+  /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "There were only 15 participants, and the study measured 18 different things about them. Track that many things in a group that small, and luck alone guarantees something will look like a finding."),
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "The “research institute” behind it was just a website."),
+    /*#__PURE__*/React.createElement("li", null, "The author was a journalist who designed the whole thing to prove a point: that a bad study with a great headline would fly around the world before anyone checked. It did.")),
   /*#__PURE__*/React.createElement(BodyP, null, "That’s a big part of critical thinking: the ability to read between the lines, especially when the claim is something you’d love to believe."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "There are five habits you can build to sharpen your critical thinking. Each one is a question you ask."),
+  (function() {
+    var HABITS = [
+      { icon: "\u2753", title: "Is it actually right?", body: "Don\u2019t take it at face value. Ask what would have to be true for the claim to hold up." },
+      { icon: "\uD83E\uDDD0", title: "Do I know enough to judge?", body: "The further a claim sits from what you know, the more carefully you have to check. Remember Maria Petronoski\u2019s three gold medals from the last lesson? Perfectly plausible, completely made up. Unfamiliar territory is exactly where everything sounds authoritative." },
+      { icon: "\uD83E\uDDE9", title: "What\u2019s missing?", body: "You\u2019re seeing what got included, not what got left out. Look for context, exceptions, other perspectives, and the counterargument nobody mentioned." },
+      { icon: "\uD83E\uDE9E", title: "Why am I convinced?", body: "Polish and confidence aren\u2019t evidence. The smoother something sounds, the more your guard drops. That pull is the thing to catch." },
+      { icon: "\uD83D\uDD28", title: "What\u2019s my call?", body: "You decide what to keep, change, or toss. Anyone can hand you options. The thinking, the decision, and the consequences are yours." }
+    ];
+    return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
+      HABITS.map(function(h, i) {
+        return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+            /*#__PURE__*/React.createElement("span", { style: { width: 24, height: 24, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, i + 1),
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, h.icon),
+            /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, h.title)),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, h.body));
+      }));
+  }()),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Those five questions work on anything you read or hear. They matter most on AI output: its answers arrive polished, confident, and instant, which is exactly when your guard drops. Run the questions every time, before you trust it."),
+  /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Spot the Problem",
+    title: "What’s the problem with these claims?",
     lead: "This isn’t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_101.map(function(sc, si) {
@@ -6356,14 +6260,10 @@ function CriticalThinkingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, sc.icon),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, sc.label)),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.claim))),
           /*#__PURE__*/React.createElement(QuizBlock, {
             key: si,
             surface: "mint",
-            statement: "What’s the problem with this claim?",
             totalQuestions: CT_101.length,
             options: sc.options,
             picked: picked != null ? picked : undefined,
@@ -6371,89 +6271,9 @@ function CriticalThinkingSection(props) {
           }));
       }))),
   Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught eight shaky claims on instinct. The hard part is using that same instinct when AI’s answer sounds confident and clean." })) : null,
-    /*#__PURE__*/React.createElement(BodyP, null, "You just practiced spotting weak reasoning in any claim. These five habits are how you run that instinct on AI output, every time, before you trust it."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking and AI"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "There are five habits you can build to sharpen your critical thinking with AI."),
-  (function() {
-    var HABITS_OVERVIEW = [
-      { id: "question", icon: "\u2753", label: "Question the Output", lead: "Your first instinct: is this actually right?", detail: "Don’t take the answer at face value. Ask what would have to be true for it to hold up." },
-      { id: "unknowns", icon: "\uD83E\uDDD0", label: "Know Your Limits", lead: "If you can’t evaluate it, you’re flying blind.", detail: "Remember Maria Petronoski’s three gold medals? Perfectly plausible, completely made up. The further the topic is from what you know, the more carefully you have to verify, and that’s exactly when AI feels most authoritative." },
-      { id: "missing", icon: "\uD83E\uDDE9", label: "What’s Missing?", lead: "AI tells you what it knows. Not what it left out.", detail: "Look for context, exceptions, perspectives, and counterarguments the answer skipped." },
-      { id: "automation", icon: "\uD83E\uDD16", label: "Don’t Auto-Trust It", lead: "Confident isn’t the same as correct.", detail: "The smoother the answer reads, the more your guard drops. That pull is the thing to catch." },
-      { id: "tool", icon: "\uD83D\uDD28", label: "Keep Ownership", lead: "You decide what to keep, change, or toss.", detail: "AI generates options. The thinking, the call, and the consequences are yours." }
-    ];
-    var renderHabitCard = function(habit, i, totalShown, animateLast) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: habit.id,
-        style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: i === totalShown - 1 ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--seeRule)", animation: animateLast && i === totalShown - 1 ? "fadeIn 0.3s ease" : "none" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--seeAccent)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
-            /*#__PURE__*/React.createElement("span", { style: { fontSize: 20 } }, habit.icon),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, habit.label)),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16 } }, habit.lead),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6 } }, habit.detail)));
-    };
-    return /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "The 5 Habits" },
-      /*#__PURE__*/React.createElement(RevealSequence, {
-        surface: "sand",
-        items: HABITS_OVERVIEW,
-        currentIdx: 0,
-        started: true,
-        onStart: function() {},
-        onNext: function() {},
-        canAdvance: true,
-        isComplete: true,
-        startLabel: "See First Habit \u2193",
-        nextLabel: "Next Habit \u2193",
-        finishLabel: "All five habits \u2193",
-        completionElement: /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
-            HABITS_OVERVIEW.map(function(habit, i) {
-              return renderHabitCard(habit, i, HABITS_OVERVIEW.length, false);
-            })))
-      },
-        null));
-  }()),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Interrogate the Output",
-    lead: "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      CT_CONCEPTS.map(function(ct, si) {
-        var picked = habitAnswers[si];
-        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-                /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ct.icon),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, ct.label)),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--ink)", marginBottom: 4, fontSize: 16, maxWidth: "56ch" } }, ct.lead),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", color: "#3a3550", fontSize: 15, lineHeight: 1.6, maxWidth: "56ch", marginBottom: 14 } }, ct.detail),
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 } },
-                /*#__PURE__*/React.createElement(UserBubble, { text: ct.scenario.prompt }),
-                /*#__PURE__*/React.createElement(AIBubble, { text: ct.scenario.response })))),
-          /*#__PURE__*/React.createElement(QuizBlock, {
-            key: si,
-            surface: "mint",
-            statement: ct.scenario.question,
-            totalQuestions: CT_CONCEPTS.length,
-            options: ct.scenario.options,
-            picked: picked != null ? picked : undefined,
-            onAnswer: function(idx) { setHabitAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
-          }));
-      }))),
-  Object.keys(habitAnswers).length >= CT_CONCEPTS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "In real life, the trap isn’t labeled.", body: "Each scenario hid one weak spot. AI won’t tell you which habit a given answer needs, so running the checks is on you." })) : null,
-  /*#__PURE__*/React.createElement(BodyP, null, "There’s one more level to this. Every habit on this list gets easier when you know what the machine on the other side is actually doing, because you can’t be fooled by something you understand. That’s exactly where this course goes next."),
+    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught five shaky claims on instinct. The hard part is using that same instinct when AI’s answer sounds confident and clean." })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length && Object.keys(habitAnswers).length >= CT_CONCEPTS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
 }
 function OpenerWorkWithSection(props) {
   var workIllustration = /*#__PURE__*/React.createElement(Illustration, {

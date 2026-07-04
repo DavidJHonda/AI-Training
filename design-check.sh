@@ -17,11 +17,13 @@ chk() {  # label  expected  actual
 echo "Design consistency check on $F"
 echo "----------------------------------------------------"
 
-# baseline 4: 2 counter pills + 1 evidence pill + 1 autoregressive word-chip
-#   (added 2026-06-06; the "It -> is -> going -> to -> rain" generation strip
-#   in AIIsMath "Tying the math together" box). All deliberate, not counters.
+# baseline 3: 1 counter pill (the ActivityCounter component def — still used by
+#   LAB boxes; TRY ITs carry no counters per David 2026-07-03, so the Put It In
+#   Order hand-rolled pill was removed) + 1 evidence pill + 1 autoregressive
+#   word-chip (added 2026-06-06; the "It -> is -> going -> to -> rain" generation
+#   strip in AIIsMath "Tying the math together" box). All deliberate, not counters.
 #   The section-overview "NN / N" badge in renderOverview was removed 2026-06-06.
-chk "hand-built counter pills" 4 \
+chk "hand-built counter pills" 3 \
   "$(grep -oF 'borderRadius: 999, padding: "6px 14px"' "$F" | wc -l | tr -d ' ')"
 chk "Source Serif reintroduced" 0 \
   "$(grep -oE 'Source.Serif' "$F" | wc -l | tr -d ' ')"

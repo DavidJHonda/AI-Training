@@ -2164,7 +2164,6 @@ function ReachFriendTryIt(props) {
   var isLast = idx === STEPS.length - 1;
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Text the right number",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Math.min(idx + (started ? 1 : 0), STEPS.length), total: STEPS.length }),
     lead: "A friend just invited you to tonight’s Dallas Stars game. You cleared your night and need to text back that you’re in. One problem: you only have his number from a group text, and can’t tell which of five it is. Start texting them, and watch how each result changes the odds."
   },
     /*#__PURE__*/React.createElement(RevealSequence, {
@@ -3983,8 +3982,7 @@ function BiasQuiz(props) {
       variant: "try",
       surface: "mint",
       title: "What Did the Model Actually Learn?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(biasAnswers).length, total: biasScenarios.length })
-    , lead: "A model only learns from the data it’s fed, flaws and all. For each case, pick what actually shaped the model."},
+      lead: "A model only learns from the data it’s fed, flaws and all. For each case, pick what actually shaped the model."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         biasScenarios.map(function(bs, si) {
           var picked = biasAnswers[si];
@@ -6058,8 +6056,7 @@ function HallucinationSection(props) {
       variant: "try",
       surface: "mint",
       title: "What’s Real, What’s Made Up?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: flaggedIds.size, total: allClaimIds.length })
-    , lead: "Two AI answers, three sentences each. Click each sentence to see if it’s real or made up."},
+      lead: "Two AI answers, three sentences each. Click each sentence to see if it’s real or made up."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_RESPONSES.map(function(resp, ri) {
           var lastId = lastByResp[ri];
@@ -6275,33 +6272,30 @@ function CriticalThinkingSection(props) {
     lesson: "Watch out for stats that only count who\u2019s left. The sample is filtered. Always ask: who got measured, and who got left out?"
   }];
   const [habitAnswers, setHabitAnswers] = useState({});
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "Here’s the big takeaway from the first part of this course, compressed into one equation. And in the spirit of AI, let’s write it like math."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation."),
   (function() {
-    var chainBox = function(label, variant) {
-      var style;
-      if (variant === "accent") style = { background: "#ece8fd", color: "var(--primary)", border: "1.5px solid #c4b5fd", borderRadius: 10, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 800, lineHeight: 1.3 };
-      else if (variant === "final") style = { background: "var(--primary)", color: "#fff", borderRadius: 12, padding: "12px 22px", fontSize: BOX_CARD_TITLE, fontWeight: 800, lineHeight: 1.3 };
-      else style = { background: "var(--card)", color: "var(--ink)", border: "1px solid var(--rule)", borderRadius: 10, padding: "10px 16px", fontSize: BOX_TEXT, fontWeight: 700, lineHeight: 1.3, boxShadow: "var(--shadowSoft)" };
-      return /*#__PURE__*/React.createElement("span", { style: style }, label);
+    var whiteBox = function(label, extra) {
+      return /*#__PURE__*/React.createElement("span", { style: Object.assign({ background: "var(--card)", color: "var(--ink)", borderRadius: 16, padding: "12px 26px", fontSize: BOX_CARD_TITLE, fontWeight: 800, lineHeight: 1.3, boxShadow: "var(--shadowSoft)" }, extra || {}) }, label);
     };
-    var sym = function(k, ch) {
-      return /*#__PURE__*/React.createElement("span", { key: k, "aria-hidden": "true", style: { color: "var(--primary)", fontWeight: 800, fontSize: 18, flexShrink: 0 } }, ch);
+    var equals = function(k) {
+      return /*#__PURE__*/React.createElement("span", { key: k, "aria-hidden": "true", style: { color: "var(--inkSoft)", fontWeight: 800, fontSize: 20, lineHeight: 1 } }, "=");
     };
-    var rowStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap", fontFamily: "var(--sans)" };
-    return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "22px 20px", marginBottom: 24 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 14, textAlign: "center" } }, "The Equation"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-        /*#__PURE__*/React.createElement("div", { style: rowStyle },
-          chainBox("Learn More"), sym("e1", "="), chainBox("More Knowledge", "accent")),
-        /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", fontFamily: "var(--sans)", fontSize: 13.5, color: "var(--inkSoft)" } },
-          "… and that same ",
-          /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "More Knowledge"),
-          " gives you …"),
-        /*#__PURE__*/React.createElement("div", { style: rowStyle },
-          chainBox("More Knowledge", "accent"), sym("e2", "="), chainBox("Better Questions"), sym("amp", "&"), chainBox("Better Results")),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "2px 0" } }),
-        /*#__PURE__*/React.createElement("div", { style: rowStyle },
-          sym("e3", "="), chainBox("Be Smarter Than the Tool", "final"))));
+    return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "26px 20px 30px", marginBottom: 24, fontFamily: "var(--sans)" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 20, textAlign: "center" } }, "The Equation"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 13 } },
+        whiteBox("Learn More"),
+        equals("e1"),
+        /*#__PURE__*/React.createElement("span", { style: { background: "#ece8fd", color: "var(--primary)", border: "1.5px solid #c4b5fd", borderRadius: 16, padding: "13px 26px", fontSize: 19, fontWeight: 800, lineHeight: 1.3, whiteSpace: "nowrap" } }, "More Knowledge"),
+        equals("e2"),
+        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto minmax(0, 1fr)", alignItems: "center", gap: 12, width: "100%" } },
+          whiteBox("Better Questions", { justifySelf: "end", width: "100%", maxWidth: 210, textAlign: "center" }),
+          /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { color: "var(--inkSoft)", fontWeight: 700, fontSize: 18 } }, "&"),
+          whiteBox("Better Results", { justifySelf: "start", width: "100%", maxWidth: 210, textAlign: "center" })),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, width: "100%", margin: "10px 0 4px" } },
+          /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", height: 1, background: "var(--rule)" } }),
+          /*#__PURE__*/React.createElement("span", { "aria-hidden": "true", style: { color: "var(--primary)", fontSize: 15, fontWeight: 700, lineHeight: 1 } }, "∴"),
+          /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", height: 1, background: "var(--rule)" } })),
+        /*#__PURE__*/React.createElement("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 28, padding: "16px 32px", fontSize: 21, fontWeight: 800, lineHeight: 1.25, textAlign: "center", maxWidth: "100%", boxShadow: "0 14px 30px rgba(110, 81, 255, 0.35)" } }, "Be Smarter Than the Tool")));
   }()),
   /*#__PURE__*/React.createElement(BodyP, null, "Every part of that equation grows with one important skill, and it’s what this lesson is about: ", /*#__PURE__*/React.createElement("strong", null, "critical thinking"), ". The term gets thrown around constantly in the AI world. But what does it actually mean? Take the words one at a time, starting from the back."),
   /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Thinking."), " AI gives you answers, but you must own the thinking. The moment you stop doing it, you’re not using the tool anymore. You’re obeying it."),
@@ -6322,8 +6316,7 @@ function CriticalThinkingSection(props) {
     variant: "try",
     surface: "mint",
     title: "Spot the Problem",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(problemAnswers).length, total: CT_101.length })
-  , lead: "This isn’t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
+    lead: "This isn’t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_101.map(function(sc, si) {
         var picked = problemAnswers[si];
@@ -6398,8 +6391,7 @@ function CriticalThinkingSection(props) {
     variant: "try",
     surface: "mint",
     title: "Interrogate the Output",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(habitAnswers).length, total: CT_CONCEPTS.length })
-  , lead: "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."},
+    lead: "Now try them on real AI output. Each scenario hits one habit. See if you can spot which one."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_CONCEPTS.map(function(ct, si) {
         var picked = habitAnswers[si];
@@ -7093,85 +7085,6 @@ function StudyingWithAISection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );
 }
-const EVAL_CRITERIA = [{
-  id: "accuracy",
-  label: "Accuracy",
-  icon: "\u2705",
-  question: "Is the information correct?",
-  desc: "This is covered in depth on the Verify page. Before evaluating anything else, make sure the basic facts hold up.",
-  checkpoints: ["Do the key facts check out?", "Are any sources, names, or statistics fabricated?", "See the Verify page for a full approach."],
-  example: {
-    prompt: "When was the Eiffel Tower built?",
-    response: "The Eiffel Tower was built in 1889 as the entrance arch for the World's Fair held in Paris. It was designed by Gustave Eiffel's engineering company.",
-    verdict: "pass",
-    note: "Dates, purpose, and designer are all verifiable facts. This checks out."
-  }
-}, {
-  id: "relevance",
-  label: "Relevance",
-  icon: "\uD83C\uDFAF",
-  question: "Does it answer what you actually asked?",
-  desc: "Models sometimes go off-topic, answer an adjacent question, or pad responses with tangentially related information you didn't ask for.",
-  checkpoints: ["Does the response directly address your question?", "Is there filler content that doesn't serve your goal?", "Did the model answer a different question than the one you asked?"],
-  example: {
-    prompt: "What are the tax implications of selling a rental property?",
-    response: "Rental properties can be a great investment! Here are 10 tips for finding the perfect rental property in today's market...",
-    verdict: "fail",
-    note: "The model pivoted to buying advice instead of answering about tax implications of selling. Relevant-sounding but completely off-target."
-  }
-}, {
-  id: "completeness",
-  label: "Completeness",
-  icon: "\uD83D\uDCE6",
-  question: "Did it cover everything you needed?",
-  desc: "A response can be accurate and relevant but still miss key parts of what you asked for. Check that all parts of your prompt were addressed.",
-  checkpoints: ["Were all parts of your multi-part question answered?", "Are there obvious gaps or missing considerations?", "Would you need to ask a follow-up to get what you actually needed?"],
-  example: {
-    prompt: "Compare React and Vue for our team: performance, learning curve, and hiring availability.",
-    response: "React offers excellent performance with its virtual DOM and is widely used. Vue also has great performance with a reactive data-binding system.",
-    verdict: "fail",
-    note: "Only addressed performance. Learning curve and hiring availability (two of the three criteria you asked about) are completely missing."
-  }
-}, {
-  id: "tone",
-  label: "Tone & Audience",
-  icon: "\uD83C\uDFA4",
-  question: "Is the tone right for who will read it?",
-  desc: "The same information needs different packaging for different audiences. A technical explanation for engineers should read differently than one for executives.",
-  checkpoints: ["Is the vocabulary appropriate for the intended reader?", "Is it too formal, too casual, or too technical for the context?", "Would the target audience understand this without extra explanation?"],
-  example: {
-    prompt: "Explain our API outage to customers in a status update.",
-    response: "A cascading failure in the L7 load balancer caused upstream connection pool exhaustion, resulting in 503 errors across the gRPC service mesh.",
-    verdict: "fail",
-    note: "Technically accurate, but customers don't speak infrastructure. This needs to be translated into plain language with a focus on impact and resolution."
-  }
-}, {
-  id: "format",
-  label: "Format",
-  icon: "\uD83D\uDCDD",
-  question: "Is it structured the way you need it?",
-  desc: "Even great content fails if it's in the wrong format. A wall of text when you needed bullet points, or prose when you needed a table, means extra work for you.",
-  checkpoints: ["Is the structure what you asked for (list, table, steps, etc.)?", "Is it scannable and easy to extract what you need?", "Could you use this output directly, or does it need reformatting?"],
-  example: {
-    prompt: "List the top 5 project risks in a table with columns: Risk, Likelihood, Impact, Mitigation.",
-    response: "There are several key risks to consider. First, there's the risk of scope creep, which is quite likely and could have a high impact. You might want to mitigate this by...",
-    verdict: "fail",
-    note: "You asked for a table and got paragraphs. The information may be fine but the format doesn't match. Re-prompt with the format instruction emphasized."
-  }
-}, {
-  id: "bias",
-  label: "Balance",
-  icon: "\u2696\uFE0F",
-  question: "Is it balanced enough for your purpose?",
-  desc: "If you\u2019re building an argument, researching a decision, or writing for an audience, one-sided output will undermine your work.",
-  checkpoints: ["Are multiple perspectives represented where your task requires it?", "Are opinions presented as opinions, not as settled facts?", "Would this hold up if someone pushed back on it?"],
-  example: {
-    prompt: "Should our company adopt a four-day work week?",
-    response: "Absolutely! A four-day work week has been proven to increase productivity, boost morale, and reduce burnout. Every forward-thinking company should adopt this immediately.",
-    verdict: "fail",
-    note: "Entirely one-sided. Doesn't mention potential challenges like coverage gaps, client expectations, or industry-specific constraints. Presents opinion as settled fact."
-  }
-}];
 function DigDeeperTryIt(props) {
   var DD_SCENARIOS = [
     {
@@ -7255,11 +7168,11 @@ function EvaluatingSection(props) {
       ", you need the right skills to evaluate AI’s results."),
     (function() {
       var STEPS = [
-        { tag: "Step 1", icon: "📖", title: "Read", body: "This sounds too obvious to write down, but weak AI users take AI’s output and share it without reading it. They share it with co-workers, drop it in a group chat, and hit send. Reading every word is the floor.", points: [] },
+        { tag: "Step 1", icon: "📖", title: "Read", body: "This sounds too obvious to write down, but weak AI users take AI’s output and pass it along without reading it. They share it with co-workers, drop it in a group chat, and hit send. Reading every word is the floor.", points: [] },
         { tag: "Step 2", icon: "🧠", title: "Understand", body: "You’ll never know whether an answer is right if you don’t understand what it says. Sometimes your own knowledge gives you a complete, deep understanding. Other times it won’t be so clear. And the fastest explainer of an AI answer is often the same AI: “Explain the second paragraph in simpler terms” costs you one message.", points: [] },
         { tag: "Step 3", icon: "🎯", title: "Validate", body: "As you read, hold the answer up against your own knowledge. A well-stocked brain is your fastest fact-checker, and this is where everything you’ve ever learned pays off.", body2: "But watch its limit: “Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens” sounds perfectly fine. The 1932 Games were in Los Angeles, and she doesn’t exist. The more specific the detail, the more skeptical you should be. When a topic is beyond what you know, “sounds fine” isn’t validation. That’s what the Dig deeper steps below are for.", points: [] },
         { tag: "Step 4", icon: "⚖️", title: "Decide: do you need to Dig deeper?", body: "Two quick questions:", points: [
-          { lead: "What kind of task was this?", text: "Tasks that involve facts often need more evaluation. Work like a first draft or a brainstorm usually doesn’t: you’re just checking it against what you asked for." },
+          { lead: "What kind of task was this?", text: "Tasks that involve facts often need more evaluation. Work like a first draft or a brainstorm usually doesn’t: you’re just checking it against what you asked for. Did it cover everything you asked, in the shape you asked for it?" },
           { lead: "How much is riding on it?", text: "Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going." }
         ] },
         { tag: "Step 5", icon: "🔎", title: "Dig deeper", body: "When Step 4 says to dig deeper, don’t just re-read the answer. Instead, interrogate the AI:", points: [
@@ -7291,7 +7204,7 @@ function EvaluatingSection(props) {
         }));
     }()),
     E(BodyP, null,
-      "If you had to do all five steps on every AI response, your day would be filled with AI-evaluation after AI-evaluation. Not a great way to maximize your time. But that’s not the way it works. Read, understand, validate takes seconds, and ",
+      "If you had to do all five steps on every AI response, your day would disappear into evaluation. But that’s not the way it works. Read, understand, validate takes seconds, and ",
       E("strong", null, "for most chats, you won’t need to dig deeper"),
       ". You’ll just chat away."),
     E(SectionKicker, null, "Then make your move"),
@@ -7309,6 +7222,8 @@ function EvaluatingSection(props) {
               E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
             E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
+    E(KeyInsight, { lead: "Most answers pass in seconds." },
+      "Read, understand, validate barely slows you down. The skill isn’t checking everything: it’s knowing which answers deserve the dig."),
     E(DigDeeperTryIt, { onComplete: function() { setDdDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, { ready: ddDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
@@ -9041,8 +8956,7 @@ function PrivacySection(props) {
       variant: "try",
       surface: "mint",
       title: "Redact the Prompt",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: redactedCount, total: totalSensitive })
-    , lead: "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we’ll tell you if you’re right. Redact everything sensitive to reveal a safer rewrite."},
+      lead: "Three prompts. The whole prompt is tappable. Click any part you think should be removed and we’ll tell you if you’re right. Redact everything sensitive to reveal a safer rewrite."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       REDACT_SCENARIOS.map(function(prompt, pi) {
         var lastIdx = lastByPrompt[pi];
@@ -9259,8 +9173,7 @@ function WhenAIJudgesSection(props) {
       variant: "try",
       surface: "mint",
       title: "What’s Your Move?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(permAnswers).length, total: SCENARIOS.length })
-    , lead: "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."},
+      lead: "Time to practice. Each scenario is something you (or someone like you) might already be on the receiving end of. Pick the move that actually uses the five questions."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
@@ -9393,8 +9306,7 @@ function SyntheticMediaSection(props) {
       variant: "try",
       surface: "mint",
       title: "What’s Your Move?",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: Object.keys(permAnswers).length, total: SCENARIOS.length })
-    , lead: "Time to practice. Each scenario shows something that looks convincing. Pick the move you’d actually make."},
+      lead: "Time to practice. Each scenario shows something that looks convincing. Pick the move you’d actually make."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
@@ -9567,12 +9479,7 @@ function FullWorkflowSection(props) {
       variant: "try",
       surface: "mint",
       title: "Put It In Order",
-      lead: "Seven steps. Drop them in order. Tap a step to pick it up, tap a numbered slot to drop it in. A slot turns green when the step is in the right place and red when it isn\u2019t. Move the red ones until all seven are green.",
-      action: /*#__PURE__*/React.createElement("div", {
-        style: { background: "#fff", borderRadius: 999, padding: "6px 14px", fontSize: 13, color: "var(--inkSoft)", boxShadow: "var(--shadowSoft)", display: "inline-flex", alignItems: "baseline", gap: 4 }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, wfCorrectCount),
-        /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + WORKFLOW_CARDS.length + " right"))
+      lead: "Seven steps. Drop them in order. Tap a step to pick it up, tap a numbered slot to drop it in. A slot turns green when the step is in the right place and red when it isn\u2019t. Move the red ones until all seven are green."
     },
       !wfAllCorrect ? /*#__PURE__*/React.createElement("div", null,
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "var(--tryAccent)", marginBottom: 10 } }, "THE STEPS"),
@@ -11623,7 +11530,7 @@ function LLMExplorer() {
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
   }, "\u21BA Reset Progress"),
   activeSection ? /*#__PURE__*/React.createElement("a", {
-    href: "packets/lessons/" + lessonSlug(activeSection) + ".pdf",
+    href: "lessons/" + lessonSlug(activeSection) + ".pdf",
     download: (OPENER_PDF_NAMES[activeSection] || (SECTION_META[activeSection] && SECTION_META[activeSection].label) || activeSection) + ".pdf",
     style: { textDecoration: "none", cursor: "pointer", fontSize: 12.5, color: "var(--primary)", fontWeight: 700, display: "block", textAlign: "center", margin: "10px auto 0" }
   }, "\u2b07 Download this lesson (PDF)") : null));

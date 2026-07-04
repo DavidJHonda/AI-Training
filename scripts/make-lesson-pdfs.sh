@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Export each lesson as a SINGLE continuous-height PDF (no page breaks, so no box is
 # ever split) for feeding to NotebookLM. Content only: TRY IT / LAB / nav are dropped.
-# Text stays selectable. Output: packets/lessons/<id>.pdf
+# Text stays selectable. Output: lessons/<id>.pdf
 #
 # Usage:
 #   bash scripts/make-lesson-pdfs.sh            # all teaching lessons
@@ -11,7 +11,7 @@ cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 PORT="${PORT:-8765}"
 DBG="${DBG:-9333}"
-OUT="packets/lessons"
+OUT="lessons"
 mkdir -p "$OUT"
 
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &

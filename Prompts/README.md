@@ -13,6 +13,10 @@ How to generate a lesson video in NotebookLM (system settled 2026-07-04 after th
 
 welcome, why-learn-ai, what-is-ai, how-an-llm-works, does-ai-think, what-you-can-control, does-school-matter, learn-with-ai — one `<slug>-video-prompt.txt` each.
 
+## Work With AI (8 lessons)
+
+opener-work (the section opener, 2–2.5 min), ai-is-different, where-ai-works-best, which-app, questions-matter, art-of-prompting, context-window, evaluate-the-results, critical-thinking — one `<slug>-video-prompt.txt` each. The opener's lesson PDF is `lessons/Opener-Work.pdf`.
+
 ## Rules learned the hard way
 
 - The **prompt box is the high-authority channel**; source documents are treated as content. Never move the script into a source (tested: it leaks — the video illustrates the spec).

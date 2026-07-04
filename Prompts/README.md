@@ -7,7 +7,7 @@ How to generate a lesson video in NotebookLM (system settled 2026-07-04 after th
    - `lessons/<slug>.pdf` — the lesson itself (narration grounding).
 2. **Prompt box**: paste the full text of `<slug>-video-prompt.txt`. The prompt is the spec — never lighten it. All prompts are kept under NotebookLM's 5,000-character box limit.
 3. After generating: save the video as `videos/<slug>.mp4` and check its `LESSON_VIDEOS` entry in index.html (filename + duration label).
-4. Once the video is finalized and committed, the notebook is disposable — delete it. Everything needed to rebuild one (guidelines, lesson PDF, prompt) lives in this repo, and videos can't be edited in NotebookLM anyway; changes mean a fresh generation.
+4. Once the video passes review and is committed: delete the NotebookLM notebook and any review copy of the video, but KEEP the prompt. The notebook is disposable because the repo can rebuild it; the prompt is what makes that true. Videos can't be edited, so every future change to a lesson means regenerating its video — and the prompt is the source you'll tweak to do it. When a lesson changes substantially, update its prompt in the same pass so they stay in sync.
 
 ## Start Smarter (8 lessons)
 

@@ -25,7 +25,7 @@
 # 4. STRICT VISUAL RULES & ACCESSIBILITY
 
 - **NO SCREENSHOTS:** You are strictly forbidden from generating visuals that look like direct screenshots of paragraphs, text blocks, data charts, tables, or UI boxes from the source lesson text. You must dynamically generate your own modern charts and UI elements.
-- **PURE ILLUSTRATIONS ONLY:** You are only permitted to directly pull through pure, drawn illustrations or visual maps provided in the source material.
+- **DRAW EVERYTHING FRESH:** Do not reproduce any image from the source material. Every visual is generated new, in this document's aesthetic, from the scene descriptions in the individual video instructions.
 - **THE WHITE-INK BAN (STRICT):** You are strictly forbidden from drawing white text or white vector lines directly on the light grid canvas.
 - **TEXT ACCESSIBILITY:** All generated text, including small icon labels and floating words, MUST be rendered in solid, thick black ink (#000000). If text must be white or light-colored, it MUST be safely placed inside a solid, dark-colored UI "pill" or glassmorphism card to guarantee contrast.
 - **TEXT CONTAINMENT:** All generated text MUST be strictly contained within its designated visual holder. You must enforce strict margins and padding. Text bounding boxes cannot overlap, bleed, or overflow the edges of their shapes. Scale the text down dynamically to fit perfectly.
@@ -37,4 +37,4 @@
 - **THE CLOSING BUFFER:** Every single video MUST end with a three-second silent render buffer after the narrator's final sentence, to prevent the closing audio from being clipped.
 - **A/V SYNCHRONIZATION:** Strictly synchronize the visual reveal of on-screen items with the audio narration. The visual animation must never outpace the spoken script. Wait for the audio cue to reveal the next piece of information.
 - **NO LAB SPOILERS:** You are strictly forbidden from mentioning, summarizing, reading, or teasing the interactive "TRY IT" exercises or lab activities located within the source lessons.
-- **ORGANIC CLOSINGS:** The narrator must finish all complete sentences. Do not allow the script or audio to abruptly cut off mid-sentence. The video must end organically on the core lesson content, not on a transition to the lab work.
+- **ORGANIC CLOSINGS:** The narrator must finish all complete sentences. Do not allow the script or audio to abruptly cut off mid-sentence. The video must end organically on the core lesson content. Never end on a transition: no introducing the next lesson, no teasing what comes later in the course, no pointing to the lab work.

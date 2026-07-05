@@ -2420,13 +2420,13 @@ function AIIsMathSection(props) {
             /*#__PURE__*/React.createElement("span", null, "Probability ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--green)" } }, "(50%)"))
           ),
           /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 14, fontSize: 15 } },
-            "The evidence didn’t just rule things out, it moved the probability from ", /*#__PURE__*/React.createElement("strong", null, "25%"), " to ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--green)" } }, "50%"), ". That update is conditional probability."
+            "The evidence didn’t just rule things out, it moved the probability from ", /*#__PURE__*/React.createElement("strong", null, "25%"), " to ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--green)" } }, "50%"), ". That update is ", /*#__PURE__*/React.createElement("strong", null, "conditional probability"), "."
           )
         )
       )
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AUTOREGRESSIVE GENERATION"),
-    /*#__PURE__*/React.createElement(BodyP, null, "That same updating move, sharpening a guess as new information lands, is also how AI writes a sentence. Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. Each new word is its own conditional-probability problem: given everything written so far, which word most likely comes next? That’s how single-word guesses turn into full paragraphs, essays, and explanations."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. Each new word is its own conditional-probability problem: given everything written so far, which word most likely comes next?"),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "Tying the math together",
       intro: /*#__PURE__*/React.createElement(React.Fragment, null, "The same rainy afternoon, ", /*#__PURE__*/React.createElement("strong", null, "three different jobs"), ": estimate the chance of rain, sharpen it with a clue, then write the forecast one word at a time."),
@@ -2473,7 +2473,7 @@ function AIIsMathSection(props) {
                           /*#__PURE__*/React.createElement("div", { style: { width: c.pct + "%", height: "100%", borderRadius: 999, background: c.win ? "linear-gradient(90deg, var(--primary), var(--primaryDeep))" : "var(--inkFaint)" } })),
                         /*#__PURE__*/React.createElement("span", { style: { width: 42, flexShrink: 0, textAlign: "right", fontSize: 14, fontWeight: c.win ? 800 : 600, color: c.win ? "var(--primary)" : "var(--inkMuted)" } }, c.pct + "%"));
                     })),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 } }, r.note))
+                  /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkMuted)", lineHeight: 1.5 } }, r.note))
               : /*#__PURE__*/React.createElement(React.Fragment, null,
                   /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 } },
                     r.pills.map(function(p, j) {
@@ -4283,12 +4283,24 @@ const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#
 function TokenTrueFalseTryIt(props) {
   var E = React.createElement;
   var STATEMENTS = [
-    { text: "A token is always one whole word.", answer: false, why: "A token can be a whole word, part of a word, punctuation, an emoji, or even the space before a word." },
-    { text: "Before the model can read your text, it has to be turned into numbers.", answer: true, why: "Computers work only with numbers. They don’t read text at all, so your words get broken into tokens and then into numbers." },
-    { text: "Common short words often stay one token, while long or rare words get split into pieces.", answer: true, why: "“cat” stays whole as a single token, but “unbreakable” splits into un + break + able." },
-    { text: "A token’s ID number tells the model what the word means.", answer: false, why: "The ID is just an address in the vocabulary. It tells the model which token, not what it means. Meaning comes later, in Embeddings." },
-    { text: "Every model uses the same standard set of tokens.", answer: false, why: "Each model has its own vocabulary. ChatGPT’s holds about 200,000 tokens, Gemini’s about 256,000." },
-    { text: "Even the space before a word can be part of a token.", answer: true, why: "That leading space rides along with the word, which is why a token can start with a space." }
+    { text: "A token is always one whole word.", answer: false,
+      trueFeedback: "It matches how we think about language, but no. A token can be a whole word, part of a word, punctuation, an emoji, or even the space before a word.",
+      falseFeedback: "Right. A token can be a whole word, part of a word, punctuation, an emoji, or even the space before a word." },
+    { text: "Before the model can read your text, it has to be turned into numbers.", answer: true,
+      trueFeedback: "Right. Computers work only with numbers. They don’t read text at all, so your words get broken into tokens and then into numbers.",
+      falseFeedback: "It feels like AI reads your words, but it never does. Computers work only with numbers, so your text gets broken into tokens and then into numbers first." },
+    { text: "Common short words often stay one token, while long or rare words get split into pieces.", answer: true,
+      trueFeedback: "Right. “cat” stays whole as a single token, but “unbreakable” splits into un + break + able.",
+      falseFeedback: "Actually true: the vocabulary keeps common words whole, so “cat” stays one token, while “unbreakable” splits into un + break + able." },
+    { text: "A token’s ID number tells the model what the word means.", answer: false,
+      trueFeedback: "Tempting, because the number is all the model gets. But the ID is just an address in the vocabulary: it tells the model which token, not what it means. Meaning comes later, in Embeddings.",
+      falseFeedback: "Right. The ID is just an address in the vocabulary. It tells the model which token, not what it means. Meaning comes later, in Embeddings." },
+    { text: "ChatGPT, Claude, and Gemini use the same token vocabulary.", answer: false,
+      trueFeedback: "Reasonable guess, since they all read the same internet. But each model has its own vocabulary, and they run different sizes: ChatGPT’s holds about 200,000 tokens, Gemini’s about 256,000.",
+      falseFeedback: "Right. Each model has its own vocabulary, and they run different sizes: ChatGPT’s holds about 200,000 tokens, Gemini’s about 256,000." },
+    { text: "Even the space before a word can be part of a token.", answer: true,
+      trueFeedback: "Right. That leading space rides along with the word, which is why a token can start with a space.",
+      falseFeedback: "It sounds too odd to be true, but it is: the leading space rides along with the word, which is why a token can start with a space." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
@@ -4311,7 +4323,7 @@ function TokenTrueFalseTryIt(props) {
           prompt: s.text,
           answered: answered,
           correct: correct,
-          feedback: answered ? s.why : null
+          feedback: answered ? (picked === "true" ? s.trueFeedback : s.falseFeedback) : null
         }, ["true", "false"].map(function(v) {
           return E(FeedbackPill, {
             key: v,
@@ -4352,10 +4364,7 @@ function TokenSection(props) {
           }))),
         E("div", { style: { color: "var(--inkMuted)", fontSize: 13 } }, ex.note)));
   };
-  var tokenizeBox = E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 36px 36px", marginTop: 32 } },
-    E("div", { style: { marginBottom: 10 } },
-      E("h3", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25, margin: 0 } }, "Here’s how AI splits text into tokens")),
-    E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0" } }, "Each AI does this differently, so this is only an example."),
+  var tokenizeBox = E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 36px 36px", marginTop: 0 } },
     E(InnerCard, { pad: "snug" },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
         staticExamples.map(function(ex, i) { return renderTokenRow(ex, i, i === staticExamples.length - 1); }))));
@@ -4378,7 +4387,7 @@ function TokenSection(props) {
   var navButton = E(NextLessonGate, { ready: tokenTryDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
   var exchange = E(ShowcaseBox, {
       headline: "But that\u2019s not what using AI feels like.",
-      intro: "When you type \u201cwhat\u2019s the best Avengers movie\u201d into ChatGPT, you ask in plain English and get plain English back.",
+      intro: "When you type a question into ChatGPT, you ask in plain English and get plain English back.",
       marginTop: 8
     },
     E(InnerCard, null,
@@ -4407,32 +4416,32 @@ function TokenSection(props) {
       " and instantly picture the movie."),
     E(BodyP, null,
       "A computer can\u2019t do that. Here\u2019s the fact underneath everything: ",
-      E("strong", null, "computers work only with numbers. They don\u2019t read text at all"), "."),
+      E("strong", null, "computers work only with numbers. They don\u2019t read text at all"), ". So before AI can read your question, it must convert all your text to numbers."),
     E(BodyP, null,
-      "So before AI can read your question, somehow it must convert all your text to numbers. The obvious fix: give every word in English its own number."),
-    E(BodyP, null,
-      "That falls apart fast. Counting names, slang, typos, other languages, and code, you\u2019d need ",
+      "An obvious solution is to assign every word in the English language its own number. But, that falls apart fast. Counting names, slang, typos, and code, you\u2019d need ",
       E("strong", null, "millions"),
       " of numbers, and you still couldn\u2019t cover words nobody\u2019s invented yet."),
     E(SectionKicker, null, "THE SOLUTION"),
     E(BodyP, null,
       "Software engineers found a smarter way: break language into ",
       E("strong", null, "reusable chunks"),
-      ". Take every word that starts with ",
+      ". For example, take every word that starts with ",
       E("strong", null, "UN"),
       ": ",
       E("strong", null, "UN"), "believable, ",
       E("strong", null, "UN"), "matchable, ",
       E("strong", null, "UN"), "tied. Thousands of words reuse that one piece, so the vocabulary stores ",
       E("strong", null, "UN"),
-      " once and uses it to help spell all of them."),
+      " once and uses the chunk to help spell all words that use it."),
     reuseBox,
     E(BodyP, null,
-      "Before the model sees your text, a program breaks it into these chunks. The process is called ",
+      "Before your words ever reach the model, a small ordinary program (no AI involved) breaks them into these chunks. The process is called ",
       E("strong", null, "tokenization"),
       ", and the chunks are called ",
       E("strong", null, "tokens"),
-      ". A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word. Each model knows a fixed set of them, called its ",
+      ". A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word."),
+    E(BodyP, null,
+      "Each model knows a fixed set of them, called its ",
       E("strong", null, "vocabulary"),
       ", and these run large: ChatGPT’s holds about ",
       E("strong", null, "200,000"),
@@ -4444,6 +4453,7 @@ function TokenSection(props) {
       E("strong", null, "token ID"),
       ". Think of it as an address in the model\u2019s vocabulary: it tells the model which token, but says nothing about what it means."),
     catCompare,
+    E(BodyP, { style: { marginTop: 24 } }, "Here’s how AI splits text into tokens. Each AI does this differently, so this is only an example."),
     tokenizeBox,
     vocabDeeper,
     E(TokenTrueFalseTryIt, { onComplete: function() { setTokenTryDone(true); } }),

@@ -3558,20 +3558,24 @@ function BeTheAttentionTryIt(props) {
   var ITEMS = [
     { prompt: "“She sat on the BANK and watched the river.” Which word tells AI what BANK means?",
       options: ["RIVER", "SAT", "SHE"], correct: "RIVER",
-      fb: { ok: "RIVER locks BANK to the water’s edge, not the place with a vault. Attention leans hardest on RIVER.",
-            no: "RIVER is the word that settles it: a BANK beside a river is the water’s edge, not the place with a vault." } },
+      fb: { "RIVER": "RIVER locks BANK to the water’s edge, not the place with a vault. Attention leans hardest on RIVER.",
+            "SAT": "SAT says someone settled somewhere, but you can sit in a money bank too. RIVER is the word that locks BANK to the water’s edge.",
+            "SHE": "SHE says who is sitting, but nothing about what kind of BANK she’s on. RIVER is the word that locks BANK to the water’s edge." } },
     { prompt: "“My brother spilled juice on the laptop, and now IT won’t turn on.” What does IT point to?",
       options: ["The laptop", "The juice", "My brother"], correct: "The laptop",
-      fb: { ok: "“Won’t turn on” fits the laptop, so attention links IT there. The juice is doing fine.",
-            no: "Look at the words around IT: “won’t turn on” fits the laptop, so that’s where attention leans." } },
+      fb: { "The laptop": "“Won’t turn on” fits the laptop, so attention links IT there. The juice is doing fine.",
+            "The juice": "The juice is doing fine; it already did its damage. “Won’t turn on” fits the laptop, so that’s where attention links IT.",
+            "My brother": "Your brother may be in trouble, but people don’t “turn on.” That phrase fits the laptop, so that’s where attention links IT." } },
     { prompt: "“The package my aunt mailed from Alaska two weeks before the holidays finally arrived, and IT was damaged.” What does IT point to?",
       options: ["The package", "Alaska", "The holidays"], correct: "The package",
-      fb: { ok: "A dozen words apart, and attention still connects IT straight to the package. Distance doesn’t weaken the link.",
-            no: "IT is the thing that arrived damaged: the package. Attention reaches across the whole sentence, no matter the distance." } },
+      fb: { "The package": "A dozen words apart, and attention still connects IT straight to the package. Distance doesn’t weaken the link.",
+            "Alaska": "Alaska is where the package started, but a state can’t arrive damaged. IT points to the package, a dozen words back.",
+            "The holidays": "The holidays are a time, not a thing that can arrive damaged. IT points to the package, a dozen words back." } },
     { prompt: "“IT rained all night.” What does IT point to?",
       options: ["The rain", "The night", "Nothing at all"], correct: "Nothing at all",
-      fb: { ok: "This is the empty “it”: English needs a subject, so “it” fills the seat. There’s no thing doing the raining.",
-            no: "Tempting, but try the swap: “The rain rained all night”? “The night rained”? Neither works. This “it” points to nothing at all. English just needs a subject in the seat." } }
+      fb: { "Nothing at all": "This is the empty “it”: English needs a subject, so “it” fills the seat. There’s no thing doing the raining.",
+            "The rain": "Try the swap: “The rain rained all night”? Rain can’t rain. This “it” points to nothing at all; English just needs a subject in the seat.",
+            "The night": "Try the swap: “The night rained”? The night isn’t doing the raining. This “it” points to nothing at all; English just needs a subject in the seat." } }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
@@ -3583,7 +3587,7 @@ function BeTheAttentionTryIt(props) {
       ITEMS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.prompt, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.prompt, answered: answered, correct: correct, feedback: answered ? r.fb[answers[i]] : null },
           r.options.map(function(opt) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
               onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = opt; return u; }); } });

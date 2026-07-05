@@ -24,8 +24,9 @@
 
 # 4. STRICT VISUAL RULES & ACCESSIBILITY
 
-- **NO SCREENSHOTS:** You are strictly forbidden from generating visuals that look like direct screenshots of paragraphs, text blocks, data charts, tables, or UI boxes from the source lesson text. You must dynamically generate your own modern charts and UI elements.
+- **NO SCREENSHOTS:** You are strictly forbidden from generating visuals that look like direct screenshots of paragraphs, text blocks, data charts, tables, or UI boxes from the source lesson text. Never show the source lesson document itself on screen — no document pages, no scrolling-page b-roll, no highlighted-page shots. The lesson PDF is for narration grounding only. You must dynamically generate your own modern charts and UI elements.
 - **DRAW EVERYTHING FRESH:** Do not reproduce any image from the source material. Every visual is generated new, in this document's aesthetic, from the scene descriptions in the individual video instructions.
+- **NO PHOTOGRAPHY:** Photographic imagery of any kind is strictly forbidden — no stock photos, no Getty or archival images, no watermarked imagery. Every visual is hand-drawn ink and watercolor or a glassmorphism UI element, in this document's aesthetic.
 - **THE WHITE-INK BAN (STRICT):** You are strictly forbidden from drawing white text or white vector lines directly on the light grid canvas.
 - **TEXT ACCESSIBILITY:** All generated text, including small icon labels and floating words, MUST be rendered in solid, thick black ink (#000000). If text must be white or light-colored, it MUST be safely placed inside a solid, dark-colored UI "pill" or glassmorphism card to guarantee contrast.
 - **TEXT CONTAINMENT:** All generated text MUST be strictly contained within its designated visual holder. You must enforce strict margins and padding. Text bounding boxes cannot overlap, bleed, or overflow the edges of their shapes. Scale the text down dynamically to fit perfectly.

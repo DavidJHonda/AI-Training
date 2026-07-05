@@ -4793,6 +4793,33 @@ function WhichSitsCloserTryIt(props) {
           }));
       })));
 }
+function ItSentenceWalkthrough(props) {
+  var E = React.createElement;
+  var hi = function(w) { return E("strong", { style: { color: "var(--primary)" } }, w); };
+  var cards = [
+    { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", hi("IT"), " is just a pronoun. Its vector could mean almost anything, and certainly not ", hi("CAT"), ".") },
+    { tag: "Through the layers", body: E(React.Fragment, null, "At each layer its numbers shift, as the model reads the surrounding words to work out what ", hi("IT"), " refers to.") },
+    props.revealed ? { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", hi("IT"), " land closer to ", hi("CAT"), " than to any other word in the sentence.") } : null
+  ];
+  return E(React.Fragment, null,
+    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
+      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
+        ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
+          var highlight = w === "cat" || w === "it";
+          return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
+        }))),
+    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px" } },
+      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
+        cards.map(function(node, i) {
+          return E(React.Fragment, { key: i },
+            i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
+            node
+              ? E("div", { style: { flex: "1 1 200px", minWidth: 180, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
+                  E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 6 } }, node.tag),
+                  E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, node.body))
+              : E("div", { style: { flex: "1 1 200px", minWidth: 180, minHeight: 72, border: "2px dashed rgba(110, 81, 255, 0.35)", borderRadius: 12, padding: "16px 18px" } }));
+        }))));
+}
 function VectorSpaceSection(props) {
   var E = React.createElement;
   var _vd = useState(false), vsDone = _vd[0], setVsDone = _vd[1];
@@ -4828,7 +4855,9 @@ function VectorSpaceSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
-      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. Those layers reshape the token’s starting numbers into a new vector: a fresh row of numbers that captures what it means."),
+      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. And you left with a blank box: where do ",
+      E("strong", { style: { color: "var(--primary)" } }, "IT"),
+      "’s numbers finally land? Those layers reshape the token’s starting numbers into a new vector: a fresh row of numbers that captures what it means."),
     E(BodyP, null,
       "In theory, the model could now look that vector up in its full table of token embeddings and see which one it matches. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table."),
     E(SectionKicker, null, "The problem"),
@@ -4851,28 +4880,14 @@ function VectorSpaceSection(props) {
       E("strong", null, "vector space"),
       ": a map where every vector sits somewhere, and similar words share a neighborhood."),
     E(BodyP, null,
-      "Let’s demonstrate with the example from the Transformer lesson. How does AI establish the meaning of the word ",
+      "Now it’s time to fill in the final piece of the puzzle. As ",
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
-      "?"),
-    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
-        ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
-          var highlight = w === "cat" || w === "it";
-          return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
-        }))),
-    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px" } },
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
-      [
-        { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", E("strong", { style: { color: "var(--primary)" } }, "IT"), " is just a pronoun. Its vector could mean almost anything, and certainly not ", E("strong", { style: { color: "var(--primary)" } }, "CAT"), ".") },
-        { tag: "Through the layers", body: E(React.Fragment, null, "At each layer its numbers shift, as the model reads the surrounding words to work out what ", E("strong", { style: { color: "var(--primary)" } }, "IT"), " refers to.") },
-        { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", E("strong", { style: { color: "var(--primary)" } }, "IT"), " land closer to ", E("strong", { style: { color: "var(--primary)" } }, "CAT"), " than to any other word in the sentence.") }
-      ].map(function(node, i) {
-        return E(React.Fragment, { key: i },
-          i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
-          E("div", { style: { flex: "1 1 200px", minWidth: 180, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
-            E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 6 } }, node.tag),
-            E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, node.body)));
-      }))),
+      " flowed through the layers, its numbers kept moving toward ",
+      E("strong", { style: { color: "var(--primary)" } }, "CAT"),
+      ". They never become an exact match. But they land closer to ",
+      E("strong", { style: { color: "var(--primary)" } }, "CAT"),
+      " than to any other word in the sentence."),
+    E(ItSentenceWalkthrough, { revealed: true }),
     E(BodyP, null,
       "In other words, the model has figured out that ",
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
@@ -4966,34 +4981,7 @@ function MatchTermsTryIt(props) {
         }));
       })));
 }
-const LAYER_WORDS = {
-  "bank": {
-    sentence: "I walked along the river bank at sunset",
-    layers: [{
-      label: "Early layers",
-      understanding: "It's a noun",
-      detail: "Early layers figure out basic grammar. \"Bank\" is a noun in this sentence, not a verb (like \"bank the plane\"). The model also notices it comes after \"river,\" which is important.",
-      color: "#60a5fa"
-    }, {
-      label: "Middle layers",
-      understanding: "A physical place",
-      detail: "Attention connects \"bank\" to \"river\" and \"walked along.\" The transformation step then interprets that context: this is the \"edge of water\" meaning, not the financial meaning.",
-      color: "#818cf8"
-    }, {
-      label: "Deeper layers",
-      understanding: "An outdoor scene",
-      detail: "Deeper layers integrate \"sunset\" and \"walked\" to build a richer picture. Attention gathers these distant words, then the transformation builds something closer to meaning: an outdoor scene with a person.",
-      color: "#a78bfa"
-    }, {
-      label: "Final layers",
-      understanding: "Full context understood",
-      detail: "By the final layers, the model has a rich representation: a person walking beside a river at sunset, with \"bank\" fully resolved. Each layer's attention and transformation added a piece. This is what gets used to predict the next word.",
-      color: "#7c3aed"
-    }]
-  },
-};
 function LayersSection(props) {
-  const bankLayers = LAYER_WORDS.bank.layers;
   const [claimsDone, setClaimsDone] = useState(false);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
@@ -5010,39 +4998,46 @@ function LayersSection(props) {
         /*#__PURE__*/React.createElement("strong", null, "Read it a third time:"), " I think I got it now. There was a horse that ran past a barn. And, after running past the barn, the horse fell.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Each pass, your mind updates the meaning until it clicks."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "AI does the same thing"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI does the same thing. It reads your message over and over again, establishing the meaning a little more with each pass. Each pass is called a ",
+      "It reads your message over and over, establishing the meaning a little more with each pass. And because language is full of nuance, it takes dozens of passes to pin the meaning down."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Each pass is called a ",
       /*#__PURE__*/React.createElement("strong", null, "layer"),
-      ", and the Transformer stacks dozens of them. At every layer, it runs the same two moves you just met: ",
+      ", and at every layer AI runs the two moves you just met: ",
       /*#__PURE__*/React.createElement("strong", null, "attention"),
       " (which words matter) and ",
       /*#__PURE__*/React.createElement("strong", null, "transformation"),
       " (update the meaning)."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "A token enters each layer as a vector. At the first layer, that vector is the starting meaning it picked up in Embeddings. Attention finds the words that matter to it, transformation updates the vector to fold that context in, and a richer vector comes out, ready for the next layer to refine."),
+      "And AI does it with math. At each layer, it adjusts the tokens’ numbers, each pass moving them a little closer to what the tokens mean."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The mechanics"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "You saw this sentence in the Transformer lesson. Here’s how the numbers adjust for one word: ",
+      /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
+      ". Notice the last box is blank. That box gets filled in the next lesson."),
+    /*#__PURE__*/React.createElement(ItSentenceWalkthrough, { revealed: false }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "What does this look like inside the model? Like this."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/layers.jpg",
       alt: "Inside one layer: vectors go in, attention finds which words matter, transformation updates the meaning, and richer vectors come out, then feed into the next layer",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "What a layer is made of"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Attention and transformation are carried out by a ",
-      /*#__PURE__*/React.createElement("strong", null, "neural network"),
-      ": the whole stack of layers, where each layer is a row of simple units called nodes. A node takes in numbers, multiplies them by its own adjustable numbers, adds up the result, and passes it forward to the next layer. Those adjustable numbers are the model’s ",
-      /*#__PURE__*/React.createElement("strong", null, "weights"),
-      "."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The design is loosely borrowed from biology, nodes passing signals forward the way neurons do. But that’s where the resemblance ends. It isn’t a brain and it isn’t thinking: it’s the same arithmetic, repeated billions of times, fast."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "What do different layers do?"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Engineers choose the architecture before training: how many layers, how wide each layer is, and how they connect. Training then learns the numbers inside those layers. Different layers often become useful for different kinds of patterns, but they aren’t cleanly labeled jobs like “grammar layer” or “reasoning layer.”"
-    ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Why are there dozens of layers?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Because some meaning is many steps deep. Simple meaning resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. A few layers reach only shallow meaning; stacking dozens leaves room for the deep kind."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "There’s no perfect number, though. More depth adds capacity up to a point, and labs trade that against the cost of running it."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "What do different layers do?"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Engineers choose the architecture before training: how many layers, how wide each layer is, and how they connect. Training then learns the numbers inside those layers. Different layers often become useful for different kinds of patterns, but they aren’t cleanly labeled jobs like “grammar layer” or “reasoning layer.”"
+    ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Neural networks"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "The whole stack of layers is called a ",
+      /*#__PURE__*/React.createElement("strong", null, "neural network"),
+      ". The design is loosely borrowed from biology, simple units passing signals forward the way neurons do. But that’s where the resemblance ends. It isn’t a brain and it isn’t thinking: it’s the same arithmetic, repeated billions of times, fast."),
     /*#__PURE__*/React.createElement(TransformerClaimsTryIt, { onComplete: () => setClaimsDone(true) }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimsDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })

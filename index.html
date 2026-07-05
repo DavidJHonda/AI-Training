@@ -2162,68 +2162,57 @@ function ReachFriendTryIt(props) {
       ]
     }
   ];
-  var _i = useState(0), idx = _i[0], setIdx = _i[1];
-  var _g = useState(null), guess = _g[0], setGuess = _g[1];
-  var _s = useState(true), started = _s[0], setStarted = _s[1];
-  var step = STEPS[Math.min(idx, STEPS.length - 1)];
-  var isLast = idx === STEPS.length - 1;
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Text the right number",
-    lead: "A friend just invited you to tonight’s Dallas Stars game. You cleared your night and need to text back that you’re in. One problem: you only have his number from a group text, and can’t tell which of five it is. Start texting them, and watch how each result changes the odds."
-  },
-    /*#__PURE__*/React.createElement(RevealSequence, {
-      surface: "mint",
-      items: STEPS,
-      currentIdx: idx,
-      started: started,
-      onStart: function() { setStarted(true); },
-      onNext: function() {
-        if (isLast && props && props.onComplete) props.onComplete();
-        setIdx(function(i) { return i + 1; });
-        setGuess(null);
-      },
-      canAdvance: guess !== null,
-      isComplete: idx >= STEPS.length,
-      startLabel: "Send the first text",
-      nextLabel: "Send the next text →",
-      finishLabel: "Wrap it up →",
-      completionElement: /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each miss changed the odds, not the phones.", body: "The numbers never changed. What changed was what you knew. Every miss ruled out a possibility and lifted the odds on what was left, from 1 in 5 to 1 in 4 to 1 in 3. That’s conditional probability: new information reshapes the odds. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })
+  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var answeredCount = Object.keys(answers).length;
+  var visibleCount = Math.min(answeredCount + 1, STEPS.length);
+  var allAnswered = answeredCount >= STEPS.length;
+  useEffect(function() { if (allAnswered && props && props.onComplete) props.onComplete(); }, [allAnswered]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try", surface: "mint", title: "Text the right number",
+      lead: "A friend just invited you to tonight\u2019s Dallas Stars game. You cleared your night and need to text back that you\u2019re in. One problem: you only have his number from a group text, and can\u2019t tell which of five it is. Start texting them, and watch how each result changes the odds."
     },
-      /*#__PURE__*/React.createElement(InnerCard, null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(idx + 1).padStart(2, "0")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
-            /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: "0 0 14px" } }, step.caption),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-              CONTACTS.map(function(num, i) {
-                var out = i < idx;
-                var current = i === idx;
-                return /*#__PURE__*/React.createElement("span", {
-                  key: i,
-                  style: {
-                    display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 999,
-                    padding: "6px 13px", fontSize: 13, fontFamily: "var(--mono)", fontWeight: 600,
-                    border: "1px solid " + (current ? "var(--primary)" : "var(--rule)"),
-                    background: out ? "transparent" : current ? "var(--primaryFaint)" : "var(--card)",
-                    color: out ? "var(--inkFaint)" : current ? "var(--ink)" : "var(--inkMuted)",
-                    textDecoration: out ? "line-through" : "none"
-                  }
-                },
-                  out ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--red)", fontWeight: 800 } }, "✕") : null,
-                  num);
-              })))),
-        /*#__PURE__*/React.createElement(QuizBlock, {
-          key: idx,
-          surface: "mint",
-          statement: step.question,
-          totalQuestions: STEPS.length,
-          options: step.choices.map(function(c, i) {
-            var isCorrect = i === step.correct;
-            return { label: c.label, correct: isCorrect, headline: c.headline, feedback: c.feedback, hint: isCorrect ? undefined : c.feedback };
-          }),
-          picked: guess != null ? guess : undefined,
-          onAnswer: function(i) { setGuess(i); }
-        }))));
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        STEPS.slice(0, visibleCount).map(function(step, si) {
+          var picked = answers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
+                /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: "0 0 14px" } }, step.caption),
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
+                  CONTACTS.map(function(num, i) {
+                    var out = i < si;
+                    var current = i === si;
+                    return /*#__PURE__*/React.createElement("span", {
+                      key: i,
+                      style: {
+                        display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 999,
+                        padding: "6px 13px", fontSize: 13, fontFamily: "var(--mono)", fontWeight: 600,
+                        border: "1px solid " + (current ? "var(--primary)" : "var(--rule)"),
+                        background: out ? "transparent" : current ? "var(--primaryFaint)" : "var(--card)",
+                        color: out ? "var(--inkFaint)" : current ? "var(--ink)" : "var(--inkMuted)",
+                        textDecoration: out ? "line-through" : "none"
+                      }
+                    },
+                      out ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--red)", fontWeight: 800 } }, "\u2715") : null,
+                      num);
+                  })))),
+            /*#__PURE__*/React.createElement(QuizBlock, {
+              key: si,
+              surface: "mint",
+              statement: step.question,
+              totalQuestions: STEPS.length,
+              options: step.choices.map(function(c, ci) {
+                var isCorrect = ci === step.correct;
+                return { label: c.label, correct: isCorrect, headline: c.headline, feedback: c.feedback, hint: isCorrect ? undefined : c.feedback };
+              }),
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(ci) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = ci; return u; }); }
+            }));
+        }))),
+    allAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each miss changed the odds, not the phones.", body: "The numbers never changed. What changed was what you knew. Every miss ruled out a possibility and lifted the odds on what was left, from 1 in 5 to 1 in 4 to 1 in 3. That\u2019s conditional probability: new information reshapes the odds. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })) : null);
 }
 function AIIsMathSection(props) {
   var _nw = useState(false), nwDone = _nw[0], setNwDone = _nw[1];
@@ -4687,20 +4676,19 @@ function EmbeddingsSection(props) {
     style: { display: "inline-flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--tryAccent)", textTransform: "uppercase", letterSpacing: "0.08em", padding: "4px 0" }
   }, E("span", { style: { fontSize: 11 } }, clubTableShown ? "▾" : "▸"), clubTableShown ? "Collapse table" : "Expand table");
   var clubTryIt = E("div", null,
-    E(InteractiveBox, { surface: "mint", title: "Build a Club Vector", lead: "You did this for drinks. Now do it for three clubs you could join at school. Score each one from 0 to 10 on five dimensions. Then we hide the names and you read the meaning back out of the numbers." },
-      E(ActivityInstruction, null, "Give each club a 0 to 10 score on every dimension. When all fifteen are filled, the table hides, and you’ll need to match each row of numbers back to the club."),
+    E(InteractiveBox, { surface: "mint", title: "Build your own vector", lead: "Your taste test turned meaning into numbers for Coke, Pepsi, and Coffee. Now do it for three clubs you could join at school: score each club from 0 to 10 on five dimensions. When you finish, we hide the names, and you\u2019ll guess each club from its vector alone." },
       clubLocked ? null : clubEntryGrid,
       clubLocked ? null : E("div", { style: { marginTop: 18 } },
         E(ActivityButton, { onClick: lockClubs, disabled: !clubAllFilled, style: clubAllFilled ? null : { opacity: 0.4, cursor: "not-allowed" } }, "Hide the names and match →")),
       clubLocked ? E("div", null,
         clubExpandToggle,
         clubTableShown ? E("div", { style: { marginTop: 14 } }, clubEntryGrid) : null) : null,
-      clubLocked ? E("div", { style: { marginTop: 22 } }, clubMysteryRows) : null),
+      clubLocked ? E(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 18 } }, clubMysteryRows) : null),
     clubMatchComplete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "The numbers carried the meaning.", body: "You stripped the names off and still found each club, because the row of values held everything that made it that club. That is exactly what an embedding does for a token: it stores meaning as numbers the model can read." }) : null);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
-    "You\u2019ve learned that AI turns text into token IDs. But that\u2019s just a number. It doesn\u2019t say anything about what it means."),
+    "You\u2019ve learned that text is converted to tokens, and each has a unique identifier called a token ID. But that\u2019s just a number. It doesn\u2019t say anything about what it means."),
   E(BodyP, null,
     "It\u2019s the same as the number assigned to your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
   E("img", {
@@ -4720,7 +4708,7 @@ function EmbeddingsSection(props) {
   E(BodyP, { style: { marginTop: 18 } },
     "If someone asked you, \u201cWhich drink has sweet of 9, bitter of 1, and fizz of 10?\u201d you\u2019d immediately answer Coke."),
   E(BodyP, null,
-    "By rating each drink on those dimensions, you\u2019ve done what AI does on a massive scale: you\u2019ve represented a word with a row of numbers."),
+    "By rating each drink on those dimensions, you\u2019ve done what AI does on a massive scale: you\u2019ve represented a word\u2019s meaning with a row of numbers."),
   E(BodyP, null,
     "A row of numbers in a specific order, like this, is called a ",
     E("strong", null, "Vector"),
@@ -4732,23 +4720,25 @@ function EmbeddingsSection(props) {
   E(SectionKicker, null, "What about Pepsi?"),
   E(BodyP, null, "Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart."),
   pepsiProfile,
-  E(BodyP, null, "To separate them, you added a new dimension, ", E("strong", null, "Citrus"), ". Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ."),
+  E(BodyP, null, "To separate them, you added a new dimension, ", E("strong", null, "Citrus"), ". Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ. Different numbers, different meanings: the rows no longer just name two drinks, they tell them apart."),
   E(BodyP, null,
-    "But AI can\u2019t add a unique dimension like Citrus for every distinction between all the words in a language. So instead of a handful of labeled dimensions, real models give each token ",
+    "But AI can\u2019t add a unique dimension like Citrus for every difference between all the words in the English language. So instead of a handful of labeled dimensions, real models give each token ",
     E("strong", null, "thousands of dimensions"),
     ", learned during training."),
-  E(BodyP, null, "Every token uses those same dimensions. Only the values change."),
+  E(BodyP, null, "Here\u2019s an important point, easy to miss: every token in the vocabulary is scored on the same dimensions. In the taste test, that would mean scoring unrelated words like \u201cmap\u201d and \u201ctruck\u201d on Sweet and Fizz too (they\u2019d sit near zero, and that\u2019s fine). What changes from token to token is the values, never the dimensions. That\u2019s what makes any two rows comparable at all."),
   E(SectionKicker, null, "INSIDE A REAL MODEL"),
   E(BodyP, null,
     "Here’s how it all fits together. The word ",
     E("strong", null, "cat"),
-    " is tokenized and assigned the token ID of 9246, which looks up a row in the ",
+    " is tokenized and assigned the ",
+    E("strong", null, "token ID"),
+    " of 9246, which looks up a row in the ",
     E("strong", null, "embedding table"),
     " (a giant lookup of every token’s numbers). That row is cat’s ",
     E("strong", null, "embedding vector"),
     ": its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called ",
     E("strong", null, "parameters"),
-    ". Notice the dimensions aren’t named: the model decides what each one tracks, and we usually can’t tell."),
+    ". Notice the dimensions aren’t named like in your taste test: during training, the model decides what each one tracks, and we usually can’t tell."),
   E("img", {
     src: "illustrations/embeddings-2.jpg",
     alt: "Inside a real AI model: the token “cat” becomes ID 9246, which looks up a row in the embedding table; that row is its embedding vector of values across dimensions, and parameters are these learned numbers plus many more in the later layers",

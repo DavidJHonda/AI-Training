@@ -3,7 +3,7 @@
 How to generate a lesson video in NotebookLM (system settled 2026-07-04 after the Welcome A/B and illustration tests):
 
 1. **Notebook sources** (per lesson):
-   - `NotebookLM Task-Master Video Guidelines.md` — the master rules. Re-upload whenever it changes; sources are static snapshots.
+   - `Master Prompt.md` — the master rules. Re-upload whenever it changes; sources are static snapshots.
    - `lessons/<slug>.pdf` — the lesson itself (narration grounding).
 2. **Prompt box**: paste the full text of `<slug>-video-prompt.txt`. The prompt is the spec — never lighten it. All prompts are kept under NotebookLM's 5,000-character box limit.
 3. After generating: save the video as `videos/<slug>.mp4` and check its `LESSON_VIDEOS` entry in index.html (filename + duration label).

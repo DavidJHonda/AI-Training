@@ -5,13 +5,13 @@
 - **Course Title:** "Be Smarter Than the Tool"
 - **Audience:** Smart, curious high school students. The tone must be engaging, empowering, and highly relatable without being overly serious or condescending.
 - **Vocabulary:** Always refer to the video asset as a "Lesson." You are strictly forbidden from using the words "explainer," "summary," or "overview."
-- **FULL COVERAGE (CRITICAL):** This video is a complete substitute for reading the lesson, not a companion to it. Every key concept in the source lesson must be taught in the video. The individual video instructions enumerate the required concepts; all of them must appear, in order.
+- **CORE COVERAGE:** This video substitutes for reading the lesson: teach the lesson's core concepts, so a student who only watches leaves with the lesson's main ideas. Do not march through the lesson line-by-line. The individual video instructions enumerate the required concepts; all of them must appear.
 - **USE THE LESSON'S OWN EXAMPLES:** Teach using the analogies, examples, and vocabulary from the source lesson. Do not invent new statistics, facts, or competing analogies not present in the source. A student who watches this video and later rereads the lesson must meet the same examples in both.
 
 # 2. NARRATION & FORMAT
 
 - **SINGLE NARRATOR:** Every video uses exactly one narrator — a single, clear teacher-voice. No co-hosts, no dialogue, no back-and-forth banter.
-- **THE OPENING (STRICT):** After the mandatory 2-second silent delay, the first visual is always the lesson title rendered in a single dark glassmorphism pill on the empty grid canvas. The narrator does NOT say "welcome," does NOT read the title aloud, and does NOT describe what the video will cover. Narration begins directly with the lesson's hook, as specified in the individual video instructions.
+- **THE OPENING:** The video does not need to open on the lesson title — the title sits directly above the video in the app. After the mandatory 2-second silent delay, open on the hook's first visual, drawn on the light grid-paper canvas; this first frame sets the style for the whole video. The narrator does NOT say "welcome," does NOT read a title aloud, and does NOT describe what the video will cover. Narration begins directly with the lesson's hook, as specified in the individual video instructions.
 - **DEFAULT RUNTIME:** Target 3 to 3.5 minutes, unless the individual video instructions specify otherwise.
 
 # 3. CINEMATIC AESTHETIC: "MIXED MEDIA SKETCHBOOK"
@@ -37,5 +37,4 @@
 - **THE MANDATORY DELAY:** Every single video MUST begin with a strict two-second silent delay before any visual animation or audio narration begins to prevent the opening audio from cutting off mid-sentence.
 - **THE CLOSING BUFFER:** Every single video MUST end with a three-second silent render buffer after the narrator's final sentence, to prevent the closing audio from being clipped.
 - **A/V SYNCHRONIZATION:** Strictly synchronize the visual reveal of on-screen items with the audio narration. The visual animation must never outpace the spoken script. Wait for the audio cue to reveal the next piece of information.
-- **NO LAB SPOILERS:** You are strictly forbidden from mentioning, summarizing, reading, or teasing the interactive "TRY IT" exercises or lab activities located within the source lessons.
 - **ORGANIC CLOSINGS:** The narrator must finish all complete sentences. Do not allow the script or audio to abruptly cut off mid-sentence. The video must end organically on the core lesson content. Never end on a transition: no introducing the next lesson, no teasing what comes later in the course, no pointing to the lab work.

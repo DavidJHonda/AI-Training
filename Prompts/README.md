@@ -4,10 +4,10 @@ How to generate a lesson video in NotebookLM (system settled 2026-07-04 after th
 
 1. **Notebook sources** (per lesson):
    - `Master Prompt.md` — the master rules. Re-upload whenever it changes; sources are static snapshots.
-   - `lessons/<slug>.pdf` — the lesson itself (narration grounding).
+   - `lessons/<slug>.md` — the lesson itself (narration grounding). Use the plain-text `.md` export, NOT the `.pdf`: the PDF is a styled page render the video generator can screenshot into blurry document b-roll; the `.md` is content only, so there's nothing to mis-render. (`scripts/make-lesson-texts.sh` regenerates the `.md` files.)
 2. **Prompt box**: paste the full text of `<slug>-video-prompt.txt`. The prompt is the spec — never lighten it. All prompts are kept under NotebookLM's 5,000-character box limit.
 3. After generating: save the video as `videos/<slug>.mp4` and check its `LESSON_VIDEOS` entry in index.html (filename + duration label).
-4. After downloading the video, delete that lesson's notebook right away — one notebook per lesson, gone as soon as its video is saved, so the NotebookLM workspace stays controllable. Nothing is lost: the repo rebuilds any notebook from `Master Prompt.md` + the lesson PDF (+ illustration jpg if the prompt calls for one), which a re-roll does anyway. KEEP the prompt. When a video fails review, update its prompt against the observed failure modes in the same pass, before regenerating. The notebook is disposable because the repo can rebuild it; the prompt is what makes that true. Videos can't be edited, so every future change to a lesson means regenerating its video — and the prompt is the source you'll tweak to do it. When a lesson changes substantially, update its prompt in the same pass so they stay in sync.
+4. After downloading the video, delete that lesson's notebook right away — one notebook per lesson, gone as soon as its video is saved, so the NotebookLM workspace stays controllable. Nothing is lost: the repo rebuilds any notebook from `Master Prompt.md` + the lesson `.md` (+ illustration jpg if the prompt calls for one), which a re-roll does anyway. KEEP the prompt. When a video fails review, update its prompt against the observed failure modes in the same pass, before regenerating. The notebook is disposable because the repo can rebuild it; the prompt is what makes that true. Videos can't be edited, so every future change to a lesson means regenerating its video — and the prompt is the source you'll tweak to do it. When a lesson changes substantially, update its prompt in the same pass so they stay in sync.
 
 ## Start Smarter (8 lessons)
 
@@ -15,7 +15,7 @@ welcome, why-learn-ai, what-is-ai, how-an-llm-works, does-ai-think, what-you-can
 
 ## Work With AI (8 lessons)
 
-opener-work (the section opener, 2–2.5 min), ai-is-different, where-ai-works-best, which-app, questions-matter, art-of-prompting, context-window, evaluate-the-results, critical-thinking — one `<slug>-video-prompt.txt` each. The opener's lesson PDF is `lessons/Opener-Work.pdf`.
+opener-work (the section opener, 2–2.5 min), ai-is-different, where-ai-works-best, which-app, questions-matter, art-of-prompting, context-window, evaluate-the-results, critical-thinking — one `<slug>-video-prompt.txt` each. The opener's lesson file is `lessons/Opener-Work.md`.
 
 ## Status tracking
 

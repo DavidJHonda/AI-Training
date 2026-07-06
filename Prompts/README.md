@@ -26,6 +26,8 @@ truth. Update the sheet at every intake decision.
 
 ## Rules learned the hard way
 
+- **David reviews the scene-by-scene directions before any generation.** Whenever a prompt's SCENE BREAKDOWN changes (new lesson, board swap, hardening), present the scene list for his review before he generates. This catches structural problems automation misses — e.g., a board that already contains content a later scene restates (which-app v1's repetition: the big-three board ends with the three "asks" questions, and the old Scene 3 showed the same three questions again as stickies).
+
 - The **prompt box is the high-authority channel**; source documents are treated as content. Never move the script into a source (tested: it leaks — the video illustrates the spec).
 - **NotebookLM rejects photoreal-people image sources.** Of the staged illustrations, the two painterly ones (chinese-room, context-window-window) uploaded fine; the photorealistic ones with visible faces and brand marks were refused (content filter, not format — the files are byte-identical in structure). Illustrations meant for video sourcing must be drawn/painterly, faces stylized or from behind, no real logos or trade dress. The four affected prompts (questions-matter, ai-is-different, where-ai-works-best, which-app) run in describe-the-scene mode until ChatGPT re-dos exist.
 - **Lesson-box jpgs are the best video source yet** (questions-matter pilot, 2026-07-06): a 1600x900 capture of a lesson card grid, composed on the page-background color with text clear of the 16:9 crop zone, reproduced pixel-crisp — and the engine added narration-synced highlight sweeps over the static grid on its own. Use this for any verbatim-critical scene; capture via headless browser at 2x zoom.

@@ -17,6 +17,13 @@ welcome, why-learn-ai, what-is-ai, how-an-llm-works, does-ai-think, what-you-can
 
 opener-work (the section opener, 2–2.5 min), ai-is-different, where-ai-works-best, which-app, questions-matter, art-of-prompting, context-window, evaluate-the-results, critical-thinking — one `<slug>-video-prompt.txt` each. The opener's lesson PDF is `lessons/Opener-Work.pdf`.
 
+## Status tracking
+
+Per-video status lives in the shared Google Sheet "AI-Training — Video Tracker"
+(https://docs.google.com/spreadsheets/d/16RXfX9awLA8Idu83OBN97bCrMiTzyEOFO4MBpvPWXO8/edit).
+The sheet is the dashboard; the repo and intake commit messages remain the source of
+truth. Update the sheet at every intake decision.
+
 ## Rules learned the hard way
 
 - The **prompt box is the high-authority channel**; source documents are treated as content. Never move the script into a source (tested: it leaks — the video illustrates the spec).

@@ -20,7 +20,7 @@ opener-work (the section opener, 2–2.5 min), ai-is-different, where-ai-works-b
 ## Rules learned the hard way
 
 - The **prompt box is the high-authority channel**; source documents are treated as content. Never move the script into a source (tested: it leaks — the video illustrates the spec).
-- **The generator cannot show a source image as-is.** Four tests, four redraws, under every instruction phrasing including "display AS-IS, do NOT redraw." Don't reference course illustrations at all: DESCRIBE the wanted scene in the prompt (cast, setting, key props) and let it draw fresh.
+- **Illustration-as-source works on the new engine, full-bleed only** (does-ai-think canary, 2026-07-06; supersedes the Jul-4 "four tests, four redraws" finding). Referencing an attached illustration by filename reproduces it with near-perfect fidelity and no leakage into other scenes — but always full-frame: "framed inset on light canvas" and added-label instructions are ignored, and the 3:2 image is cropped to 16:9, clipping edge text mid-word. If an illustration will be a video source, keep critical text out of the outer ~15% or export a 16:9 variant, and put any required caption in the narration, not the scene spec.
 - **Never embed style-reference frames or illustration images in any source**; they get re-rendered as content scenes (a style frame from another lesson showed up mid-video) and induce fake "reference sheet" annotations.
 - **Never ask for text inside a drawing** — it renders as gibberish handwriting. Verbatim text goes in separate pills, stickies, or black-ink printed labels.
 - On-screen text specs are directional: the generator paraphrases labels even when told "verbatim." The narrative arc carries the exact content.

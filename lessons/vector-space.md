@@ -2,9 +2,9 @@
 
 # Vector Space
 
-In the last lesson, you watched a token move through the layers, its numbers changing at every step. Those layers reshape the token’s starting numbers into a new vector: a fresh row of numbers that captures what it means.
+In the last lesson, you watched a token move through the layers, its numbers changing at every step. And you left with a blank box: where do **IT**’s numbers finally land?
 
-In theory, the model could now look that vector up in its full table of token embeddings and see which one it matches. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.
+In theory, the model could look those finished numbers up in its full table of token embeddings and see which token they match. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.
 
 ## The problem
 
@@ -96,7 +96,7 @@ This matters for AI. The model measures closeness with **distance**: how far apa
 
 Now back to that one-of-a-kind token. The model can’t look its numbers up, so it does what we just did with the drinks: it reads the token’s **position**. This is the idea of **vector space**: a map where every vector sits somewhere, and similar words share a neighborhood.
 
-Let’s demonstrate with the example from the Transformer lesson. How does AI establish the meaning of the word **IT**?
+Now it’s time to fill in the final piece of the puzzle. As **IT** flowed through the layers, its numbers kept moving toward **CAT**. They never become an exact match. But they land closer to **CAT** than to any other word in the sentence.
 
 The
 

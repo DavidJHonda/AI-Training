@@ -26,6 +26,8 @@ truth. Update the sheet at every intake decision.
 
 ## Rules learned the hard way
 
+- **The per-lesson .md is REQUIRED — never drop it from the sources** (A/B test, how-an-llm-works, 2026-07-07). Without it the engine backfills vocabulary from its own ML knowledge ("N-Gram Association Map", "Hypothesis/Validation/Adjustment", "Prior Tokens/Context Trigger") and invents MORE statistics, and the video ran longer, not shorter. The .md is what grounds narration in the lesson's vocabulary; repetition is fixed by fewer, longer-held board scenes, not by removing sources.
+
 - **BOARDS BEAT SKETCHES — use as many lesson-box jpgs as the lesson supports** (owner directive, 2026-07-07). Every intake confirms the split: board scenes reproduce verbatim (often with narration-synced highlights for free), while freeform sketch scenes are where the engine drifts — welcome's invented chapter card + b-roll, why-learn-ai's 1:43 morph, critical-thinking's muddled drawn close all happened in non-board scenes. Default scene plan: sketch for the hook, a board for every teaching beat (capture one with `scripts/capture-board.sh` if it doesn't exist), pills/stickies for the close.
 
 - **David reviews the scene-by-scene directions before any generation.** Whenever a prompt's SCENE BREAKDOWN changes (new lesson, board swap, hardening), present the scene list for his review before he generates. This catches structural problems automation misses — e.g., a board that already contains content a later scene restates (which-app v1's repetition: the big-three board ends with the three "asks" questions, and the old Scene 3 showed the same three questions again as stickies).

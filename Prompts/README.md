@@ -26,6 +26,8 @@ truth. Update the sheet at every intake decision.
 
 ## Rules learned the hard way
 
+- **BOARDS BEAT SKETCHES — use as many lesson-box jpgs as the lesson supports** (owner directive, 2026-07-07). Every intake confirms the split: board scenes reproduce verbatim (often with narration-synced highlights for free), while freeform sketch scenes are where the engine drifts — welcome's invented chapter card + b-roll, why-learn-ai's 1:43 morph, critical-thinking's muddled drawn close all happened in non-board scenes. Default scene plan: sketch for the hook, a board for every teaching beat (capture one with `scripts/capture-board.sh` if it doesn't exist), pills/stickies for the close.
+
 - **David reviews the scene-by-scene directions before any generation.** Whenever a prompt's SCENE BREAKDOWN changes (new lesson, board swap, hardening), present the scene list for his review before he generates. This catches structural problems automation misses — e.g., a board that already contains content a later scene restates (which-app v1's repetition: the big-three board ends with the three "asks" questions, and the old Scene 3 showed the same three questions again as stickies).
 
 - The **prompt box is the high-authority channel**; source documents are treated as content. Never move the script into a source (tested: it leaks — the video illustrates the spec).

@@ -6,7 +6,9 @@ When you type a message to ChatGPT, you type real words and it responds the same
 
 Here are two nuances in language that break this idea. In both, the word’s meaning isn’t clear until you read the words around it.
 
-## 1-Different Meanings
+1
+
+Different Meanings
 
 Sometimes a word can mean different things. Look at the word **LIGHT** in these two sentences. It means something different in each, based on the words around it.
 
@@ -16,7 +18,9 @@ The suitcase is **LIGHT** enough to carry.
 
 See the problem? Which meaning of **LIGHT** should AI use?
 
-## 2-Pronouns
+2
+
+Pronouns
 
 Most words are unambiguous: cat means cat and milk means milk. But the sentence can still shift. Watch the word **IT** in these two sentences. We only change the last word.
 

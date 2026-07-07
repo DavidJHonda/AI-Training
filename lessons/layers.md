@@ -11,22 +11,66 @@ Read the following sentence.
 - **Read it a third time:** I think I got it now. There was a horse that ran past a barn. And, after running past the barn, the horse fell.
 Each pass, your mind updates the meaning until it clicks.
 
-AI does the same thing. It reads your message over and over again, establishing the meaning a little more with each pass. Each pass is called a **layer**, and the Transformer stacks dozens of them. At every layer, it runs the same two moves you just met: **attention** (which words matter) and **transformation** (update the meaning).
+## AI does the same thing
 
-A token enters each layer as a vector. At the first layer, that vector is the starting meaning it picked up in Embeddings. Attention finds the words that matter to it, transformation updates the vector to fold that context in, and a richer vector comes out, ready for the next layer to refine.
+It reads your message over and over, establishing the meaning a little more with each pass. And because language is full of nuance, it takes dozens of passes to pin the meaning down.
 
-## What a layer is made of
+Each pass is called a **layer**, and at every layer AI runs the two moves you just met: **attention** (which words matter) and **transformation** (update the meaning).
 
-Attention and transformation are carried out by a **neural network**: the whole stack of layers, where each layer is a row of simple units called nodes. A node takes in numbers, multiplies them by its own adjustable numbers, adds up the result, and passes it forward to the next layer. Those adjustable numbers are the model’s **weights**.
+And AI does it with math. At each layer, it adjusts the tokens’ numbers, each pass moving them a little closer to what the tokens mean.
 
-The design is loosely borrowed from biology, nodes passing signals forward the way neurons do. But that’s where the resemblance ends. It isn’t a brain and it isn’t thinking: it’s the same arithmetic, repeated billions of times, fast.
+## The mechanics
 
-## What do different layers do?
+You saw this sentence in the Transformer lesson. Here’s how the numbers adjust for one word: **IT**. Notice the last box is blank. That box gets filled in the next lesson.
 
-Engineers choose the architecture before training: how many layers, how wide each layer is, and how they connect. Training then learns the numbers inside those layers. Different layers often become useful for different kinds of patterns, but they aren’t cleanly labeled jobs like “grammar layer” or “reasoning layer.”
+The
+
+cat
+
+sat
+
+on
+
+the
+
+mat
+
+during
+
+the
+
+May
+
+rainstorm
+
+because
+
+it
+
+was
+
+tired
+
+## Ambiguous “it”
+
+On its own, **IT** is just a pronoun. Its vector could mean almost anything, and certainly not **CAT**.
+
+→
+
+## Through the layers
+
+At each layer its numbers shift, as the model reads the surrounding words to work out what **IT** refers to.
+
+→
+
+What does this look like inside the model? Like this.
 
 ## Why are there dozens of layers?
 
 Because some meaning is many steps deep. Simple meaning resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. A few layers reach only shallow meaning; stacking dozens leaves room for the deep kind.
 
-There’s no perfect number, though. More depth adds capacity up to a point, and labs trade that against the cost of running it.
+Why not hundreds more? Past a point, extra depth stops helping and just makes the model more expensive to run.
+
+## Neural networks
+
+The whole stack of layers is called a **neural network**. The design is loosely borrowed from biology, simple units passing signals forward the way neurons do. But that’s where the resemblance ends. It isn’t a brain and it isn’t thinking: it’s the same arithmetic, repeated billions of times, fast.

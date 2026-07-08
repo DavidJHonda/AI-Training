@@ -5835,6 +5835,44 @@ function ChoosingModelSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("askai"), label: "Next: Ask AI" }));
 }
+function PhoneTrayStrip() {
+  var E = React.createElement;
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 18 } },
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
+      "See you ______."),
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadowSoft)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" } },
+      ["soon", "tomorrow", "later"].map(function(w, i) {
+        return E("span", { key: i, style: { background: "var(--primaryFaint)", borderRadius: 8, padding: "8px 16px", fontSize: 14.5, fontWeight: 600, color: "var(--ink)" } }, w);
+      })));
+}
+function ThreeChatsBox() {
+  var E = React.createElement;
+  var CHATS = [
+    { n: 1, ctx: "You’re chatting about plans for Saturday night.", rows: [["Saturday", 58], ["tonight", 22], ["there", 9], ["soon", 6], ["other words", 5]] },
+    { n: 2, ctx: "You’re chatting about plans for later today.", rows: [["later", 61], ["soon", 18], ["tonight", 12], ["there", 5], ["other words", 4]] },
+    { n: 3, ctx: "You’re chatting about tomorrow’s BBQ-club meeting at school.", rows: [["tomorrow", 65], ["later", 20], ["soon", 10], ["there", 3], ["again", 1], ["other words", 1]] }
+  ];
+  return E(ShowcaseBox, { headline: "The same blank, three different chats: “See you ______”", marginBottom: 10 },
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      CHATS.map(function(c) {
+        return E(InnerCard, { key: c.n, pad: "snug" },
+          E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+            E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, padding: "3px 10px", fontSize: BOX_LABEL, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, flexShrink: 0 } }, "Chat " + c.n),
+            E("span", { style: { fontSize: 15 } }, "💬"),
+            E("span", { style: { fontSize: BOX_TEXT, fontWeight: 700, fontStyle: "italic", color: "var(--ink)" } }, c.ctx)),
+          c.rows.map(function(r, i) {
+            var isTop = i === 0;
+            return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "110px 1fr", gap: 30, alignItems: "center", paddingTop: 7, paddingBottom: 7, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+              E("div", { style: { fontWeight: isTop ? 700 : 500, fontSize: 14, color: isTop ? "var(--primary)" : "var(--ink)" } }, r[0]),
+              E("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
+                E("div", { style: { flex: 1, background: "var(--rule)", height: 12, borderRadius: 6, overflow: "hidden" } },
+                  E("div", { style: { width: r[1] + "%", minWidth: 2, height: "100%", background: "var(--primary)", borderRadius: 6 } })),
+                E("span", { style: { fontSize: 12, fontWeight: 600, color: "var(--ink)", minWidth: 32, textAlign: "right" } }, r[1] + "%")));
+          }));
+      }),
+      E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)", marginTop: 2 } },
+        "Three chats, three different lists. The odds come from everything the model can see.")));
+}
 function PredictionSection(props) {
   const [tempAnswers, setTempAnswers] = useState({});
   var WORD_DISTRIBUTIONS = [
@@ -5857,35 +5895,25 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Everything so far has been the model reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The model doesn\u2019t just grab the single closest token. It compares that final position against ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next token, scoring each by how closely the two line up on the map. Then it ranks them by probability: the best fit on top, and a long tail of less likely options below."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Then it takes one, almost always from the top, adds it to the text, and runs the whole thing again for the token after that. That pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    headline: "How prediction works in the sentence “See you _______”"
-  },
-    /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
-      WORD_DISTRIBUTIONS.map(function(w, i) {
-        var isTop = i === 0;
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { display: "grid", gridTemplateColumns: "110px 1fr", gap: 50, alignItems: "center", paddingTop: 10, paddingBottom: 10, borderTop: i === 0 ? "none" : "1px solid var(--rule)" }
-        },
-          /*#__PURE__*/React.createElement("div", {
-            style: { fontWeight: isTop ? 700 : 500, fontSize: BOX_TEXT, color: isTop ? "var(--primary)" : "var(--ink)" }
-          }, w.word),
-          /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", alignItems: "center", gap: 8 }
-          },
-            /*#__PURE__*/React.createElement("div", {
-              style: { flex: 1, background: "var(--rule)", height: 14, borderRadius: 7, overflow: "hidden" }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                style: { width: w.medium + "%", minWidth: w.medium > 0 ? 2 : 0, height: "100%", background: "var(--primary)", borderRadius: 7 }
-              })),
-            /*#__PURE__*/React.createElement("span", {
-              style: { fontSize: 12, fontWeight: 600, color: w.medium === 0 ? "var(--inkMuted)" : "var(--ink)", minWidth: 32, textAlign: "right" }
-            }, w.medium + "%")));
-      })
-    )),
+  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
+  /*#__PURE__*/React.createElement(PhoneTrayStrip, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), "."),
+  /*#__PURE__*/React.createElement("ol", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 18px 0", paddingLeft: 26 } },
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
+      "AI compares the final position of the last word you typed against ",
+      /*#__PURE__*/React.createElement("strong", null, "every"),
+      " possible next token, scoring each by how closely the two line up on the map."),
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
+      "Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization."),
+    /*#__PURE__*/React.createElement("li", null,
+      "Then the model takes one, almost always from the top of the list, adds it to the text, and runs the whole thing again for the token after that.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s what that looks like for a very simple sentence."),
+  /*#__PURE__*/React.createElement(ThreeChatsBox, null),
+  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
+    "The exact numbers are illustrative."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The pick in step 3 has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."),

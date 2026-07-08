@@ -15,6 +15,7 @@ How to generate a lesson video in NotebookLM (system settled 2026-07-04 after th
 - **Start Smarter**: complete — all 8 live, no flags, sources retired.
 - **Work With AI**: complete — all 9 live, no flags, sources archived.
 - **Understand AI** (prompt ready, pending scene review): vector-space, ai-is-math, tokens, embeddings, transformer, layers.
+- **transformers-quiz** (special, outside the standard system): the video for the TransformerClaimsTryIt claims quiz (successor to the purged Transformer-2.mp4; see index.html for which lesson currently hosts the quiz). `transformers-quiz-source.md` is a DELIBERATELY FALSE briefing — the video asserts six false claims deadpan, and students debunk them in the TRY IT; the legitimacy is the exercise. Sole notebook source is that fake .md (no Master Prompt, no lesson .md); the prompt inlines the house style. The standing-intake truthfulness audit fails this video by design — David-waived. Embedded in the TRY IT, not the watch-or-read pill.
 
 Retired after shipping clean (recover from git history if a lesson changes): does-ai-think, what-you-can-control, does-school-matter, learn-with-ai, opener-work, where-ai-works-best, questions-matter, critical-thinking, what-is-ai, ai-is-different, which-app, why-learn-ai, art-of-prompting, welcome, how-an-llm-works, opener-understand, evaluate-the-results, context-window.
 

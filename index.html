@@ -5875,6 +5875,15 @@ function ThreeChatsBox() {
 }
 function PredictionSection(props) {
   const [tempAnswers, setTempAnswers] = useState({});
+  const [ctxAnswers, setCtxAnswers] = useState({});
+  var CTX_TASKS = [
+    { task: "The chat is a group project thread, and the work is due Monday morning", options: ["Monday", "tonight", "soon"], answer: "Monday",
+      explain: "Monday. The deadline is sitting right there in the window, so it tilts the odds hard. The model isn’t guessing from the blank; it’s reading the chat." },
+    { task: "Your friend is boarding a flight that lands late tonight", options: ["Saturday", "tonight", "tomorrow"], answer: "tonight",
+      explain: "Tonight. The landing time is in the window, so “See you tonight” scores highest. Change the flight, and the list changes with it." },
+    { task: "A brand-new chat with no history at all", options: ["Monday", "soon", "tonight"], answer: "soon",
+      explain: "Soon. With nothing in the window, only the general pattern is left, so a safe, generic word tops the list. That’s the closest the model ever gets to acting like your phone’s chips." }
+  ];
   var WORD_DISTRIBUTIONS = [
     { word: "tomorrow", low: 94, medium: 65, high: 40 },
     { word: "later", low: 2, medium: 20, high: 28 },
@@ -5893,16 +5902,16 @@ function PredictionSection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Everything so far has been the model reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
+  /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. And Training turned all of that into a fluent sentence-completer, patterns at the ready. Everything so far has been the model learning and reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
   /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
   /*#__PURE__*/React.createElement(PhoneTrayStrip, null),
   /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), "."),
   /*#__PURE__*/React.createElement("ol", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 18px 0", paddingLeft: 26 } },
     /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
-      "AI compares the final position of the last word you typed against ",
+      "AI compares the final position of the last word in the chat so far against ",
       /*#__PURE__*/React.createElement("strong", null, "every"),
-      " possible next token, scoring each by how closely the two line up on the map."),
+      " possible next token (words or pieces of words), scoring each by how closely the two line up on the map."),
     /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
       "Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization."),
     /*#__PURE__*/React.createElement("li", null,
@@ -5911,13 +5920,42 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(ThreeChatsBox, null),
   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
     "The exact numbers are illustrative."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The pick in step 3 has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The pick in step 3 has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat. How the model knows when to stop repeating is a question for the next lesson."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Call the Top Pick",
+    lead: "Same blank, new chats. For each chat, pick the word most likely to top the ranked list for “See you ______”."},
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      CTX_TASKS.map(function(c, i) {
+        var answered = ctxAnswers[i] !== undefined;
+        var picked = ctxAnswers[i];
+        var correct = picked === c.answer;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: c.task + ".",
+          answered: answered,
+          correct: correct,
+          feedback: c.explain
+        }, c.options.map(function(w) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: w,
+            answered: answered,
+            isCorrect: w === c.answer,
+            isPicked: picked === w,
+            label: w,
+            onClick: function() { setCtxAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
+          });
+        }));
+      })
+    )),
   /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that same ranked list for \u201CSee you ___\u201D. The middle column is the default you just saw; see how the odds shift as temperature rises and falls. The exact numbers are illustrative, and temperature isn’t the only sampling control."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that same ranked list for \u201CSee you ___\u201D. The middle column is the default you just saw; see how the odds shift as temperature rises and falls. Temperature isn’t the only sampling control, but it’s the one worth knowing."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     headline: "How temperature reshapes the picks"
   },

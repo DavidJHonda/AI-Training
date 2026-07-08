@@ -52,7 +52,15 @@ const EXTRACT = `(function () {
     if (tag === "P") { s = clean(inline(el)); if (s) out.push({ t: "p", s: s }); return; }
     if (tag === "LI") { s = clean(inline(el)); if (s) out.push({ t: "li", s: s }); return; }
     if (tag === "IMG" || tag === "SVG" || tag === "CANVAS" || tag === "VIDEO") return;
-    if (tag === "UL" || tag === "OL" || tag === "TABLE" || tag === "TBODY" || tag === "TR") {
+    if (tag === "OL") {
+      var n = 0;
+      Array.prototype.forEach.call(el.children, function (c) {
+        if (c.tagName === "LI") { n += 1; var t2 = clean(inline(c)); if (t2) out.push({ t: "oli", n: n, s: t2 }); }
+        else walk(c);
+      });
+      return;
+    }
+    if (tag === "UL" || tag === "TABLE" || tag === "TBODY" || tag === "TR") {
       Array.prototype.forEach.call(el.children, walk); return;
     }
     // Mixed content (text nodes alongside child elements, e.g. KeyInsight): one paragraph.
@@ -73,6 +81,7 @@ const EXTRACT = `(function () {
   out.forEach(function (b) {
     if (b.t === "h") md.push("\\n" + "#".repeat(Math.min(6, b.l)) + " " + b.s + "\\n");
     else if (b.t === "li") md.push("- " + b.s);
+    else if (b.t === "oli") md.push(b.n + ". " + b.s);
     else md.push(b.s + "\\n");
   });
   return md.join("\\n").replace(/(\\d)\\.(?=[A-Za-z])/g, "$1. ").replace(/\\n{3,}/g, "\\n\\n").trim() + "\\n";

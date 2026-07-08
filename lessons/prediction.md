@@ -2,7 +2,7 @@
 
 # Prediction
 
-In Vector Space, you watched a token’s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Everything so far has been the model reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word.
+In Vector Space, you watched a token’s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. And Training turned all of that into a fluent sentence-completer, patterns at the ready. Everything so far has been the model learning and reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word.
 
 ## The ranked list
 
@@ -18,9 +18,9 @@ later
 
 AI follows the same basic logic, but, as you might expect, it goes **way deeper**.
 
-- AI compares the final position of the last word you typed against **every** possible next token, scoring each by how closely the two line up on the map.
-- Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization.
-- Then the model takes one, almost always from the top of the list, adds it to the text, and runs the whole thing again for the token after that.
+1. AI compares the final position of the last word in the chat so far against **every** possible next token (words or pieces of words), scoring each by how closely the two line up on the map.
+2. Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization.
+3. Then the model takes one, almost always from the top of the list, adds it to the text, and runs the whole thing again for the token after that.
 Here’s what that looks like for a very simple sentence.
 
 The same blank, three different chats: “See you ______”
@@ -111,7 +111,7 @@ Three chats, three different lists. The odds come from everything the model can 
 
 The exact numbers are illustrative.
 
-The pick in step 3 has a name: **prediction**. Score every possible next token, choose one, then repeat.
+The pick in step 3 has a name: **prediction**. Score every possible next token, choose one, then repeat. How the model knows when to stop repeating is a question for the next lesson.
 
 And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves.
 
@@ -121,7 +121,7 @@ There’s a control on how boldly the model commits to the top of that ranked li
 
 Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing.
 
-Here’s that same ranked list for “See you ___”. The middle column is the default you just saw; see how the odds shift as temperature rises and falls. The exact numbers are illustrative, and temperature isn’t the only sampling control.
+Here’s that same ranked list for “See you ___”. The middle column is the default you just saw; see how the odds shift as temperature rises and falls. Temperature isn’t the only sampling control, but it’s the one worth knowing.
 
 How temperature reshapes the picks
 

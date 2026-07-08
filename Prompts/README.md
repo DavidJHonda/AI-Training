@@ -13,10 +13,10 @@ How to generate a lesson video in NotebookLM (system settled 2026-07-04 after th
 ## Prompts on hand
 
 - **Start Smarter**: complete — all 8 live, no flags, sources retired.
-- **Work With AI**: context-window (flagged), evaluate-the-results (rejected v1 — regenerate).
+- **Work With AI**: complete — all 9 live; context-window still flagged (re-roll optional, prompt on hand).
 - **Understand AI** (prompt ready, pending scene review): vector-space, ai-is-math, tokens, embeddings, transformer, layers.
 
-Retired after shipping clean (recover from git history if a lesson changes): does-ai-think, what-you-can-control, does-school-matter, learn-with-ai, opener-work, where-ai-works-best, questions-matter, critical-thinking, what-is-ai, ai-is-different, which-app, why-learn-ai, art-of-prompting, welcome, how-an-llm-works, opener-understand.
+Retired after shipping clean (recover from git history if a lesson changes): does-ai-think, what-you-can-control, does-school-matter, learn-with-ai, opener-work, where-ai-works-best, questions-matter, critical-thinking, what-is-ai, ai-is-different, which-app, why-learn-ai, art-of-prompting, welcome, how-an-llm-works, opener-understand, evaluate-the-results.
 
 ## Status tracking
 

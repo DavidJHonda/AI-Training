@@ -11,7 +11,7 @@
 
 - **ONE narrator** — a single, clear teacher-voice. No co-hosts, no banter.
 - **Open directly on Scene 1's visual.** The narrator never says "welcome," never reads a title, and never previews what the video will cover. Narration begins with the hook.
-- **Runtime:** 3 to 3.5 minutes, unless the scene instructions say otherwise.
+- **Runtime:** set per lesson in the scene instructions (the prompt box); follow that number.
 - **End organically** on lesson content, finishing every sentence. Never end on a transition: no teasing the next lesson, no pointing to lab work.
 
 # 3. THE LOOK: "MIXED MEDIA SKETCHBOOK"

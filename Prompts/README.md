@@ -23,7 +23,9 @@ Retired after shipping clean (recover from git history if a lesson changes): doe
 Per-video status lives in the shared Google Sheet "AI-Training — Video Tracker"
 (https://docs.google.com/spreadsheets/d/16RXfX9awLA8Idu83OBN97bCrMiTzyEOFO4MBpvPWXO8/edit).
 The sheet is the dashboard; the repo and intake commit messages remain the source of
-truth. Update the sheet at every intake decision.
+truth. Update the sheet at every intake decision. Workflow: Claude reads the sheet
+directly (Google Drive connector, read-only) and drafts paste-ready updated rows;
+David pastes them into the sheet.
 
 ## Rules learned the hard way
 

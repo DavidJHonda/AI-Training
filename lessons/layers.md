@@ -4,11 +4,20 @@
 
 Read the following sentence.
 
-**The horse raced past the barn fell.**
+The horse raced past the barn fell.
 
-- **First read:** it doesn’t make sense. Did someone forget a word?
-- **Read it again:** wait, did a barn fall? Did the horse race past the barn afterward?
-- **Read it a third time:** I think I got it now. There was a horse that ran past a barn. And, after running past the barn, the horse fell.
+## First read
+
+It doesn’t make sense. Did someone forget a word?
+
+## Read it again
+
+Wait, did a barn fall? Did the horse race past the barn afterward?
+
+## Read it a third time
+
+Got it. A horse ran past a barn. And after running past the barn, the horse fell.
+
 Each pass, your mind updates the meaning until it clicks.
 
 ## AI does the same thing
@@ -64,6 +73,84 @@ At each layer its numbers shift, as the model reads the surrounding words to wor
 →
 
 What does this look like inside the model? Like this.
+
+What happens inside each layer
+
+Each layer refines every token’s vector, then hands it to the next layer.
+
+## Layer 1
+
+## Starting vector
+
+[ 0.42, −1.15, 0.33, 2.08, −0.73, … ]
+
+## Attention
+
+Which words matter?
+
+## Transformation
+
+Update the meaning
+
+## Richer vector out
+
+[ 0.51, −0.87, 0.21, 1.91, −0.26, … ]
+
+## Layer 2
+
+## From layer 1
+
+[ 0.51, −0.87, 0.21, 1.91, −0.26, … ]
+
+## Attention
+
+Which words matter?
+
+## Transformation
+
+Update the meaning
+
+## Richer vector out
+
+[ 0.27, −1.21, 0.67, 2.24, 0.14, … ]
+
+## Layer 3
+
+## From layer 2
+
+[ 0.27, −1.21, 0.67, 2.24, 0.14, … ]
+
+## Attention
+
+Which words matter?
+
+## Transformation
+
+Update the meaning
+
+## Richer vector out
+
+[ 0.31, −0.92, 0.48, 1.74, −0.31, … ]
+
+## Dozens more layers
+
+## From layer 3
+
+[ 0.31, −0.92, 0.48, 1.74, −0.31, … ]
+
+## Attention
+
+Which words matter?
+
+## Transformation
+
+Update the meaning
+
+## Richer vector out
+
+[ 0.19, −1.12, 0.72, 2.13, −0.03, … ]
+
+**Same two moves at every layer.** Each pass, the numbers move closer to what the token means.
 
 ## Why are there dozens of layers?
 

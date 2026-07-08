@@ -10,6 +10,7 @@
 # 2. NARRATION
 
 - **ONE narrator** — a single, clear teacher-voice. No co-hosts, no banter.
+- **NEVER ask anything of the viewer.** This video substitutes for reading the lesson — the narrator never asks the viewer to pause, guess, answer, or interact. When the lesson text poses a question to the reader, narration answers it immediately in the same breath.
 - **Open directly on Scene 1's visual.** The narrator never says "welcome," never reads a title, and never previews what the video will cover. Narration begins with the hook.
 - **Runtime:** set per lesson in the scene instructions (the prompt box); follow that number.
 - **End organically** on lesson content, finishing every sentence. Never end on a transition: no teasing the next lesson, no pointing to lab work.

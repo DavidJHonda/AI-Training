@@ -128,27 +128,7 @@ was
 
 TIRED
 
-## One catch: word order
-
-Reading everything at once creates a problem reading-in-order never had. If all the tokens arrive together, what tells the model that “dog bites man” isn’t “man bites dog”? Same three tokens. Same three vectors. Only the order is different, and the order carries the meaning.
-
-Same tokens. One difference.
-
-dog#1
-
-bites#2
-
-man#3
-
-man#1
-
-bites#2
-
-dog#3
-
-Without the stamps, these two sentences would look identical to the model.
-
-The fix happens before the first layer. Every token’s vector gets a **position stamp**: a second pattern of numbers mixed in that says “I’m token #1,” “I’m token #3.” Same word, different seat, slightly different numbers. Now the sentence can arrive all at once without losing its order. The order rides inside the vectors, and the proper name for the stamp is **positional encoding**.
+One question this raises: if all the words arrive at once, how does the model keep them in order? Hold that thought. The answer comes at the end of the lesson.
 
 Reading your whole message at once was only the start. To turn reading into meaning, AI has to do two things. First, figure out which other words matter. For **IT**, the words that matter are **CAT** and **TIRED**. Second, update **IT**’s vector to lock in the right meaning: the cat, not the mat, May, or the rainstorm.
 
@@ -209,3 +189,25 @@ The cat drank the milk because **IT** was **fresh**.
 **Transformation:**It sets **IT**’s meaning: the cat in one sentence, the milk in the other.
 
 And it goes beyond these examples. Sarcasm, idioms, even an “it” that points to nothing at all (“it was a cold day”): every nuance in language gets resolved the same way, by weighing all the words around it. That’s why eight researchers dared to put such a bold claim in their title. **Attention is all you need.**
+
+## One catch: word order
+
+One promise left to keep: the order question. Reading everything at once creates a problem reading-in-order never had. If all the tokens arrive together, what tells the model that “dog bites man” isn’t “man bites dog”? Same three tokens. Same three vectors. Only the order is different, and the order carries the meaning.
+
+Same tokens. One difference.
+
+dog#1
+
+bites#2
+
+man#3
+
+man#1
+
+bites#2
+
+dog#3
+
+Without the stamps, these two sentences would look identical to the model.
+
+The fix happens before the first layer. Every token’s vector gets a **position stamp**: a second pattern of numbers mixed in that says “I’m token #1,” “I’m token #3.” Same word, different seat, slightly different numbers. Now the sentence can arrive all at once without losing its order. The order rides inside the vectors, and the proper name for the stamp is **positional encoding**.

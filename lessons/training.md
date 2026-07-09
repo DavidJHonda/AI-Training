@@ -2,17 +2,17 @@
 
 # Training
 
-You’ve seen the word **training** come up again and again throughout this course. It’s how a company builds AI: the same guess, check, and nudge loop you saw back in How an LLM Works. It runs billions of times over mountains of data. It’s also where the odds you just watched the model pick from get set in the first place. This lesson is the deep dive, where you finally see how it actually happens.
+You’ve seen the word **training** come up again and again throughout this course. It’s how OpenAI, Anthropic, and Google build AI: the same guess, check, and nudge loop you saw back in How an LLM Works.
 
-When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have **knowledge cutoffs**. They can add live search, files, memory, or tools, but the core model is finished learning.
+Training runs billions of times over mountains of data. It’s also where every number you’ve been watching gets set: the embedding table, attention, the weights in every layer. This lesson is the deep dive, where you finally see how it actually happens.
+
+When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have **knowledge cutoffs**. They can add live search, files, memory, or tools, but the core model is finished learning. So when your app “knows” last night’s Stars score, that isn’t the frozen model: the app ran a web search and read the results into the context window.
 
 ## HOW AI IS TRAINED
 
-Training happens in three phases, each building on the one before.
+Here’s an outline of the training process.
 
-Phase 1 · Pretraining
-
-Teaches the model broad patterns from massive data.
+Before training starts
 
 👤Humans
 
@@ -26,9 +26,13 @@ Gather the data
 
 Teams at the AI company collect huge amounts of training data: books, websites, conversations, and code, plus images, audio, or video for models that handle those. Most of it is messy and unstructured. This becomes the model’s curriculum.
 
+Phase 1 · Pretraining
+
+The name is confusing. This is real training, not a warm-up: the model grinds through that data and learns its broad patterns on its own. The “pre” just means it comes before the phases where humans step in to teach it directly.
+
 🤖AI
 
-Then one loop runs, over and over
+One loop runs, over and over
 
 ## 1 · Reads
 
@@ -66,17 +70,15 @@ jelly
 
 a little more accurate every pass
 
-Repeat that loop billions of times, and that’s training. Each pass nudges the model’s internal numbers, its **weights** (also called its parameters), a little closer to right.
+Repeat that loop billions of times, and that’s the heart of training. Each pass nudges the model’s internal numbers, its **weights** (also called its parameters), a little closer to right. The next two phases run this same loop. What changes is that humans check the answers.
 
 Phase 2 · Instruction tuning
 
-Teaches it to follow instructions and answer your questions.
-
 👤Humans
 
-Teach it to have conversations (SFT)
+Teach it to have conversations (Supervised Fine-Tuning)
 
-Humans write examples of ideal conversations: a question paired with a strong answer, repeated across many topics. The model studies them and learns to respond helpfully instead of just continuing text. This step is called Supervised Fine-Tuning.
+Humans write examples of ideal conversations: a question paired with a strong answer, repeated across many topics. The model studies them and learns to respond helpfully instead of just continuing text.
 
 Phase 3 · Preference tuning
 
@@ -88,14 +90,6 @@ Rank AI’s answers (RLHF)
 
 The model writes multiple answers to the same prompt, and human reviewers rank which are best: this one is helpful, that one misses the point. Over thousands of rankings, the model gets nudged toward more helpful, honest, and safe answers. RLHF (Reinforcement Learning from Human Feedback) is one common version of this.
 
-## HOW DOES THE APP KNOW YESTERDAY’S SCORE?
-
-Last night there was a great game between the Dallas Stars and the New York Rangers, and you missed it. You ask your AI app for the score, and it “knows” the result. It even tells you one of the Stars got a hat trick.
-
-That should feel contradictory. The model is frozen once training ends, with a knowledge cutoff from before the puck ever dropped. The model itself can’t know.
-
-Here’s how it did it. The app, not the model, ran a web search, pulled the results into the context window, and answered from what it just read, often with links.
-
 Watch It Happen
 
 ## You
@@ -106,7 +100,7 @@ After Pretraining (the base model): It can produce fluent text, but it doesn’t
 
 How do I shoot a basketball? The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover the basics of shooting form, including stance, grip, and follow-through...
 
-After Instruction tuning (SFT): Example conversations taught it to answer the person directly instead of just continuing the text. Helpful now, but still a little flat.
+After Instruction tuning (Supervised Fine-Tuning): Example conversations taught it to answer the person directly instead of just continuing the text. Helpful now, but still a little flat.
 
 To shoot a basketball, square your feet to the hoop, put your shooting hand under the ball with your guide hand on the side, bend your knees, and push up, releasing off your fingertips with a follow-through.
 

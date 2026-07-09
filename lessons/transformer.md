@@ -192,22 +192,22 @@ And it goes beyond these examples. Sarcasm, idioms, even an “it” that points
 
 ## One catch: word order
 
-One promise left to keep: the order question. Reading everything at once creates a problem reading-in-order never had. If all the tokens arrive together, what tells the model that “dog bites man” isn’t “man bites dog”? Same three tokens. Same three vectors. Only the order is different, and the order carries the meaning.
+One promise left to keep: the order question. Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: “Dog bites man.” Same three tokens. Same three vectors. But the order carries the meaning.
 
-Same tokens. One difference.
+Reading in order
 
-dog#1
+Dog bites man
 
-bites#2
+It’s clear what happened. A man was bitten by a dog.
 
-man#3
+Reading everything at once
 
-man#1
+Bites man dog
 
-bites#2
+Man bites dog
 
-dog#3
+Dog bites man
 
-Without the stamps, these two sentences would look identical to the model.
+Reading everything at once destroys the meaning.
 
-The fix happens before the first layer. Every token’s vector gets a **position stamp**: a second pattern of numbers mixed in that says “I’m token #1,” “I’m token #3.” Same word, different seat, slightly different numbers. Now the sentence can arrive all at once without losing its order. The order rides inside the vectors, and the proper name for the stamp is **positional encoding**.
+The fix happens before the first layer. Every token’s vector gets a **position stamp**: a second pattern of numbers mixed in that says “I’m token #1,” “I’m token #3.” Now the sentence can arrive all at once without losing its order. The proper name for the stamp is **positional encoding**.

@@ -4328,59 +4328,76 @@ const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#
 
 function TokenTrueFalseTryIt(props) {
   var E = React.createElement;
-  var STATEMENTS = [
-    { text: "A token is always one whole word.", answer: false,
-      trueFeedback: "It matches how we think about language, but no. A token can be a whole word, part of a word, punctuation, an emoji, or even the space before a word.",
-      falseFeedback: "Right. A token can be a whole word, part of a word, punctuation, an emoji, or even the space before a word." },
-    { text: "Before the model can read your text, it has to be turned into numbers.", answer: true,
-      trueFeedback: "Right. Computers work only with numbers. They don’t read text at all, so your words get broken into tokens and then into numbers.",
-      falseFeedback: "It feels like AI reads your words, but it never does. Computers work only with numbers, so your text gets broken into tokens and then into numbers first." },
-    { text: "Common short words often stay one token, while long or rare words get split into pieces.", answer: true,
-      trueFeedback: "Right. “cat” stays whole as a single token, but “unbreakable” splits into un + break + able.",
-      falseFeedback: "Actually true: the vocabulary keeps common words whole, so “cat” stays one token, while “unbreakable” splits into un + break + able." },
-    { text: "A token’s ID number tells the model what the word means.", answer: false,
-      trueFeedback: "Tempting, because the number is all the model gets. But the ID is just an address in the vocabulary: it tells the model which token, not what it means. Meaning comes later, in Embeddings.",
-      falseFeedback: "Right. The ID is just an address in the vocabulary. It tells the model which token, not what it means. Meaning comes later, in Embeddings." },
-    { text: "ChatGPT, Claude, and Gemini use the same token vocabulary.", answer: false,
-      trueFeedback: "Reasonable guess, since they all read the same internet. But each model has its own vocabulary, and they run different sizes: ChatGPT’s holds about 200,000 tokens, Gemini’s about 256,000.",
-      falseFeedback: "Right. Each model has its own vocabulary, and they run different sizes: ChatGPT’s holds about 200,000 tokens, Gemini’s about 256,000." },
-    { text: "Even the space before a word can be part of a token.", answer: true,
-      trueFeedback: "Right. That leading space rides along with the word, which is why a token can start with a space.",
-      falseFeedback: "It sounds too odd to be true, but it is: the leading space rides along with the word, which is why a token can start with a space." }
+  // Every split below is real: verified offline against a GPT-class tokenizer
+  // (tiktoken cl100k_base, 2026-07-08). Do not invent or edit splits by hand.
+  var ROUNDS = [
+    { text: "cat", options: ["1", "2", "3", "4+"], answer: "1", chunks: [["cat", 4719]],
+      explain: "One chunk. The model has seen a lot of cats, so the whole word earned its own token." },
+    { text: "cats", options: ["1", "2", "3", "4+"], answer: "1", chunks: [["cats", 38552]],
+      explain: "Not cat plus s. \u201ccats\u201d is common enough to earn its own separate token, with its own ID." },
+    { text: "homework", options: ["1", "2", "3", "4+"], answer: "2", chunks: [["hom", 35940], ["ework", 2504]],
+      explain: "Not home + work. Splits follow statistics, not meaning: these were the most reusable pieces." },
+    { text: "unbelievable", options: ["1", "2", "3", "4+"], answer: "3", chunks: [["un", 359], ["belie", 32898], ["vable", 24694]],
+      explain: "Close to un-believ-able, but not quite. The machine\u2019s pieces aren\u2019t grammar\u2019s pieces." },
+    { text: "peanut butter and jelly", options: ["2", "4", "5", "7"], answer: "5", chunks: [["pe", 375], ["anut", 38918], [" butter", 14432], [" and", 323], [" jelly", 52441]],
+      explain: "Even the course\u2019s favorite sentence gets carved oddly: pe + anut. And see the spaces riding along with butter, and, and jelly \u2014 the space before a word is part of its token." },
+    { text: "ChatGPT", options: ["1", "2", "3", "4+"], answer: "3", chunks: [["Chat", 16047], ["G", 38], ["PT", 2898]],
+      explain: "Even its own name gets carved up. Brand names are rare in training text, so they rarely earn one token." },
+    { text: "Dallas Stars", options: ["1", "2", "3", "4+"], answer: "2", chunks: [["Dallas", 87614], [" Stars", 25676]],
+      explain: "Two words famous enough to be one token each. The IDs are just addresses in the vocabulary \u2014 they say which tokens these are, not what they mean." },
+    { text: "rizz", options: ["1", "2", "3", "4+"], answer: "2", chunks: [["r", 81], ["izz", 8934]],
+      explain: "Too new for the vocabulary. Slang gets built from spare parts until it shows up in enough training text." },
+    { text: "2026", options: ["1", "2", "3", "4+"], answer: "2", chunks: [["202", 2366], ["6", 21]],
+      explain: "Numbers get chunked too. The model doesn\u2019t see a year; it sees 202 and 6." },
+    { text: "supercalifragilisticexpialidocious", options: ["3", "7", "11", "15"], answer: "11", chunks: [["sup", 13066], ["erc", 3035], ["al", 278], ["if", 333], ["rag", 4193], ["il", 321], ["istic", 4633], ["exp", 4683], ["ial", 532], ["id", 307], ["ocious", 78287]],
+      explain: "Eleven chunks of spare parts. When a word is rare enough, the tokenizer just does its best with the pieces it owns." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
-  var done = answeredCount >= STATEMENTS.length;
+  var done = answeredCount >= ROUNDS.length;
+  var score = ROUNDS.reduce(function(acc, r, i) { return acc + (answers[i] === r.answer ? 1 : 0); }, 0);
   useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
+  function chunkChips(r) {
+    return E("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 } },
+      r.chunks.map(function(c, ci) {
+        return E("span", { key: ci, style: { display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 2 } },
+          E("span", { style: { background: "#262b34", color: "#fff", borderRadius: 8, padding: "5px 10px", fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, whiteSpace: "pre" } }, c[0]),
+          E("span", { style: { fontSize: 10.5, fontWeight: 600, color: "var(--inkMuted)", fontFamily: "var(--mono)" } }, c[1]));
+      }));
+  }
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "True or False?",
-    lead: "Six claims about how tokens work. Decide whether each one is true or false."
+    title: "Beat the Tokenizer",
+    lead: "Ten strings, straight from a real tokenizer. For each one, guess how many tokens it becomes \u2014 then see how the machine actually carved it. The splits are stranger than you think."
   },
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      STATEMENTS.map(function(s, i) {
+      ROUNDS.map(function(r, i) {
         var picked = answers[i];
         var answered = picked !== undefined;
-        var correct = answered && (picked === "true") === s.answer;
+        var correct = answered && picked === r.answer;
         return E(ScenarioRow, {
           key: i,
           index: i + 1,
-          prompt: s.text,
+          kicker: "How many tokens?",
+          prompt: E("span", { style: { fontFamily: "var(--mono)", fontWeight: 600 } }, "\u201c" + r.text + "\u201d"),
           answered: answered,
           correct: correct,
-          feedback: answered ? (picked === "true" ? s.trueFeedback : s.falseFeedback) : null
-        }, ["true", "false"].map(function(v) {
+          headline: answered ? (correct ? "Right." : r.answer + " tokens.") : null,
+          feedback: answered ? E("div", null, chunkChips(r), E("span", null, r.explain)) : null
+        }, r.options.map(function(opt) {
           return E(FeedbackPill, {
-            key: v,
+            key: opt,
             answered: answered,
-            isCorrect: (v === "true") === s.answer,
-            isPicked: picked === v,
-            label: v === "true" ? "True" : "False",
-            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, v]])); }); }
+            isCorrect: opt === r.answer,
+            isPicked: picked === opt,
+            label: opt,
+            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, opt]])); }); }
           });
         }));
-      })));
+      }),
+      done ? E("div", { style: { borderTop: "1px solid var(--tryRule)", paddingTop: 18, textAlign: "center", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--ink)", animation: "fadeIn 0.3s ease" } },
+        "You beat the tokenizer on " + score + " of " + ROUNDS.length + "." + (score >= 7 ? " Impressive radar." : score >= 4 ? " The splits are weirder than they look." : " Nobody sees the splits coming. That\u2019s the point.")) : null));
 }
 function TokenSection(props) {
   const staticExamples = [

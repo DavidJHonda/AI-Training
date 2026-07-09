@@ -4,7 +4,7 @@
 
 In the last lesson, you watched a token move through the layers, its numbers changing at every step. And you left with a blank box: where do **IT**’s numbers finally land?
 
-In theory, the model could look those finished numbers up in its full table of token embeddings and see which token they match. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.
+In theory, the model could look up those finished numbers in its full table of token embeddings and see which token they match. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.
 
 ## The problem
 
@@ -94,9 +94,9 @@ This matters for AI. The model measures closeness with **distance**: how far apa
 
 ## Meaning is a position
 
-Now back to that one-of-a-kind token. The model can’t look its numbers up, so it does what we just did with the drinks: it reads the token’s **position**. This is the idea of **vector space**: a map where every vector sits somewhere, and similar words share a neighborhood.
+Back to that one-of-a-kind token. The model can’t look its numbers up, but it can do what we just did with the drinks: read the token’s **position**. That’s the idea of **vector space**: a map where every vector sits somewhere, and similar words share a neighborhood.
 
-Now it’s time to fill in the final piece of the puzzle. As **IT** flowed through the layers, its numbers kept moving toward **CAT**. They never become an exact match. But they land closer to **CAT** than to any other word in the sentence.
+Time to fill in the blank box. As **IT** flowed through the layers, its numbers kept moving toward **CAT**. Never an exact match, but closer to **CAT** than to any other word in the sentence.
 
 The
 
@@ -134,7 +134,7 @@ On its own, **IT** is just a pronoun. Its vector could mean almost anything, and
 
 ## Through the layers
 
-At each layer its numbers shift, as the model reads the surrounding words to work out what **IT** refers to.
+Each layer reads the surrounding words and shifts the numbers for **IT**. Layer by layer, the model works out what **IT** refers to.
 
 →
 

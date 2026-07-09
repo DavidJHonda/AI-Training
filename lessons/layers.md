@@ -68,7 +68,7 @@ On its own, **IT** is just a pronoun. Its vector could mean almost anything, and
 
 ## Through the layers
 
-At each layer its numbers shift, as the model reads the surrounding words to work out what **IT** refers to.
+Each layer reads the surrounding words and shifts the numbers for **IT**. Layer by layer, the model works out what **IT** refers to.
 
 →
 

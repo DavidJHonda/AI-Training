@@ -1591,7 +1591,7 @@ const SECTION_GROUPS = [{
   sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "questionsvaluable", "prompting", "prompt", "evaluating", "critical"]
 }, {
   label: "Understand AI",
-  sections: ["openerfoundations", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "training", "prediction", "inference"]
+  sections: ["openerfoundations", "training", "aiismath", "tokens", "embeddings", "attention", "layers", "vectorspace", "prediction", "inference"]
 }, {
   label: "Avoid Traps",
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
@@ -1723,6 +1723,10 @@ function OpenerFoundationsSection(props) {
     },
     groups: [
       {
+        kicker: "HOW IT LEARNED",
+        bridge: "Before you open the hood, watch the machine get built: one guess-and-correct loop, run billions of times over mountains of text."
+      },
+      {
         kicker: "IT ALL RUNS ON MATH",
         bridge: "See the math idea underneath it, then watch your words get turned into numbers the machine can work with."
       },
@@ -1736,15 +1740,18 @@ function OpenerFoundationsSection(props) {
       }
     ],
     whatYoullLearnClosing: [],
-    nextLessonId: "aiismath",
-    nextLessonLabel: "Next: AI is Math",
+    nextLessonId: "training",
+    nextLessonLabel: "Next: Training",
     completeAndNavigate: props.completeAndNavigate
   });
 }
 
-function TrainingLoopBox() {
-  return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 10, marginBottom: 16 } },
+function TrainingLoopBox(props) {
+  // bare: skip the lavender panel (for hosts that already sit on a primaryFaint
+  // surface, e.g. the Training phase box); default rendering is unchanged.
+  var bare = props && props.bare;
+  return /*#__PURE__*/React.createElement("div", { style: bare ? { marginBottom: 12 } : { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 } },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 10, marginBottom: bare ? 0 : 16 } },
         /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 200px", background: "#fff", borderRadius: 14, padding: "16px 18px" } },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink)", marginBottom: 12 } }, "1 · Reads"),
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 } },
@@ -4192,7 +4199,15 @@ function TrainingSection(props) {
     model: { icon: "🤖", label: "Model", role: "model" },
     ai: { icon: "🤖", label: "AI", role: "model" }
   };
-  var renderActorBadge = function(actorKey) {
+  // Per-phase accent colors (mirrors the Watch It Happen stage colors for 2/3;
+  // 0 is neutral setup, 1 is the AI-purple pretraining grind).
+  var PHASE_ACCENTS = {
+    0: { color: "#6b7280", faint: "rgba(107, 114, 128, 0.14)", box: "#f1f1f6" },
+    1: { color: "var(--primary)", faint: "rgba(110, 81, 255, 0.12)", box: "var(--primaryFaint)" },
+    2: { color: "#3b82f6", faint: "rgba(59, 130, 246, 0.12)", box: "#e9f1fd" },
+    3: { color: "#10b981", faint: "rgba(16, 185, 129, 0.14)", box: "#e7f6ee" }
+  };
+  var renderActorBadge = function(actorKey, acc) {
     var actor = ACTORS[actorKey];
     if (!actor) return null;
     var isHuman = actor.role === "humans";
@@ -4203,13 +4218,12 @@ function TrainingSection(props) {
         gap: 6,
         padding: "3px 10px",
         borderRadius: 999,
-        background: isHuman ? "rgba(59, 130, 246, 0.12)" : "rgba(110, 81, 255, 0.12)",
-        color: isHuman ? "#3b82f6" : "var(--primary)",
+        background: acc ? acc.faint : (isHuman ? "rgba(59, 130, 246, 0.12)" : "rgba(110, 81, 255, 0.12)"),
+        color: acc ? acc.color : (isHuman ? "#3b82f6" : "var(--primary)"),
         fontSize: 10,
         fontWeight: 800,
         letterSpacing: "0.10em",
-        textTransform: "uppercase",
-        marginBottom: 8
+        textTransform: "uppercase"
       }
     },
       /*#__PURE__*/React.createElement("span", { style: { fontSize: 13 } }, actor.icon),
@@ -4218,14 +4232,22 @@ function TrainingSection(props) {
   };
   var stepCard = function(step) {
     return /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, marginBottom: 12 } },
-      renderActorBadge(step.actor),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, step.title),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, step.text));
   };
-  var phaseLabel = function(n, name, desc) {
+  var phaseLabel = function(n, name, desc, actor) {
+    var acc = PHASE_ACCENTS[n == null ? 0 : n];
+    var isSetup = n == null;
     return /*#__PURE__*/React.createElement("div", { style: { marginBottom: 14 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, n == null ? name : "Phase " + n + " · " + name),
-      desc ? /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5, marginTop: 6 } }, desc) : null);
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" } },
+        /*#__PURE__*/React.createElement("div", {
+          style: Object.assign(
+            { flexShrink: 0, width: 34, height: 34, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800 },
+            isSetup ? { border: "2px dashed #9ca3af", color: "#6b7280", background: "transparent" } : { background: acc.color, color: "#fff" })
+        }, isSetup ? "0" : String(n)),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, name),
+        actor ? renderActorBadge(actor, acc) : null),
+      desc ? /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5, marginTop: 6, marginLeft: 46 } }, desc) : null);
   };
   var seeItQuestion = "How do I shoot a basketball?";
   var seeItStages = [
@@ -4240,7 +4262,7 @@ function TrainingSection(props) {
   const steps = [{
     actor: "humans",
     title: "Set up the system",
-    text: "Engineers set up the architecture you’ve already seen: the token vocabulary, the dimensions, the layers. Every token starts with a random vector that means nothing yet. Training is what fills those with meaning."
+    text: "Engineers set up the model’s architecture: the vocabulary of word-pieces it will read, the dimensions, the layers. You’ll meet each of these later in this section. Every internal number starts out random and means nothing yet. Training is what fills them with meaning."
   }, {
     actor: "humans",
     title: "Gather the data",
@@ -4248,11 +4270,11 @@ function TrainingSection(props) {
   }, {
     actor: "humans",
     title: "Teach it to have conversations (Supervised Fine-Tuning)",
-    text: "Humans write examples of ideal conversations: a question paired with a strong answer, repeated across many topics. The model studies them and learns to respond helpfully instead of just continuing text."
+    text: "Same loop, new curriculum: instead of the raw internet, the model now reads ideal conversations that humans wrote, a question paired with a strong answer, repeated across many topics. Each pass nudges it toward the human’s answer, and it learns to respond helpfully instead of just continuing text."
   }, {
     actor: "humans",
     title: "Rank AI\u2019s answers (RLHF)",
-    text: "The model writes multiple answers to the same prompt, and human reviewers rank which are best: this one is helpful, that one misses the point. Over thousands of rankings, the model gets nudged toward more helpful, honest, and safe answers. RLHF (Reinforcement Learning from Human Feedback) is one common version of this."
+    text: "Same nudge, new signal: now the model writes multiple answers to the same prompt, and human reviewers rank which are best. This one is helpful, that one misses the point. Over thousands of rankings, the nudge follows the winners, steering the model toward more helpful, honest, and safe answers. RLHF (Reinforcement Learning from Human Feedback) is one common version of this."
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "training" }),
@@ -4260,35 +4282,56 @@ function TrainingSection(props) {
       "You’ve seen the word ",
       /*#__PURE__*/React.createElement("strong", null, "training"),
       " come up again and again throughout this course. It’s how OpenAI, Anthropic, and Google build AI: the same guess, check, and nudge loop you saw back in How an LLM Works."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Training runs billions of times over mountains of data. It’s also where every number you’ve been watching gets set: the embedding table, attention, the weights in every layer. This lesson is the deep dive, where you finally see how it actually happens."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have ",
-      /*#__PURE__*/React.createElement("strong", null, "knowledge cutoffs"),
-      ". They can add live search, files, memory, or tools, but the core model is finished learning. So when your app \u201cknows\u201d last night\u2019s Stars score, that isn\u2019t the frozen model: the app ran a web search and read the results into the context window."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "HOW AI IS TRAINED"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Here’s an outline of the training process."),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: 16 } },
-    phaseLabel(null, "Before training starts"),
+    "Training happens in three phases, but it can’t start cold. Think of a basketball coach: before the first practice, they need a court and equipment, and a plan for what the team will actually work on. AI needs the same setup. Engineers build the machine first, then gather everything it will learn from."),
+  /*#__PURE__*/React.createElement("div", { style: { background: "#f1f1f6", borderRadius: 12, padding: 24, marginBottom: 16 } },
+    phaseLabel(null, "Before training starts", null, "humans"),
     stepCard(steps[0]),
     stepCard(steps[1])),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Now, AI is ready to learn. The first phase is called “Pretraining.” Don’t let the name fool you. The “pre” just means it comes before the phases where humans step in to teach it directly."),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: 16 } },
-    phaseLabel(1, "Pretraining", "The name is confusing. This is real training, not a warm-up: the model grinds through that data and learns its broad patterns on its own. The “pre” just means it comes before the phases where humans step in to teach it directly."),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, marginBottom: 12 } },
-      renderActorBadge("ai"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "One loop runs, over and over"),
-      /*#__PURE__*/React.createElement(TrainingLoopBox, null),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
-        "Repeat that loop billions of times, and that’s the heart of training. Each pass nudges the model’s internal numbers, its ",
+    phaseLabel(1, "Pretraining", /*#__PURE__*/React.createElement(React.Fragment, null, "The LLM grinds through the data and learns its broad patterns on its own. ", /*#__PURE__*/React.createElement("strong", null, "It runs this loop billions of times.")), "ai"),
+    /*#__PURE__*/React.createElement(TrainingLoopBox, { bare: true }),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What happened: "),
+        "The model now has knowledge from learned patterns. It knows jelly follows “Peanut butter and,” and that star follows “Twinkle Twinkle Little.” Those patterns live in the internal numbers the loop kept nudging, and they have a name: ",
         /*#__PURE__*/React.createElement("strong", null, "weights"),
-        " (also called its parameters), a little closer to right. The next two phases run this same loop. What changes is that humans check the answers."))),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: 16 } },
-    phaseLabel(2, "Instruction tuning"),
-    stepCard(steps[2])),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 12, padding: 24, marginBottom: "var(--blockGap)" } },
-    phaseLabel(3, "Preference tuning", "Nudges it toward better answers."),
-    stepCard(steps[3])),
+        " (also called parameters)."),
+      /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px dotted var(--rule)", margin: "12px 0" } }),
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What it doesn’t know: "),
+        "It doesn’t know that it’s in a conversation. It can give you data, but not conversation."))),
+  /*#__PURE__*/React.createElement("div", { style: { background: "#e9f1fd", borderRadius: 12, padding: 24, marginBottom: 16 } },
+    phaseLabel(2, "Instruction tuning", null, "humans"),
+    stepCard(steps[2]),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What happened: "),
+        "The model now knows it’s in a conversation. Ask a question and it answers you directly instead of continuing your text. Notice what the examples changed: not what it knows, but how it uses what it knows."),
+      /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px dotted var(--rule)", margin: "12px 0" } }),
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What it doesn’t know: "),
+        "It doesn’t know what makes one answer feel better than another. It can give you a correct answer, but a flat one: no warmth, no analogies, no follow-up. Nobody has told it which answers people actually prefer."))),
+  /*#__PURE__*/React.createElement("div", { style: { background: "#e7f6ee", borderRadius: 12, padding: 24, marginBottom: "var(--blockGap)" } },
+    phaseLabel(3, "Preference tuning", "Nudges it toward better answers.", "humans"),
+    stepCard(steps[3]),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: 16, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What happened: "),
+        "Training is complete. Human rankings gave the model its final layer: a feel for which answers people prefer, so it’s engaging instead of flat. The weights freeze, and the finished model is ready to meet you."),
+      /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px dotted var(--rule)", margin: "12px 0" } }),
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What it doesn’t know: "),
+        "It doesn’t know whether its answers are true. Training taught it to sound fluent, confident, and likable, and none of that guarantees an answer is right. A great-sounding answer and a correct answer are not the same thing."))),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Training runs billions of times over mountains of data. It\u2019s where every number inside the model gets set: billions of learned values that do all the work when you ask it something. The rest of this section shows you what those numbers do with your words. This lesson shows where they come from in the first place."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have ",
+    /*#__PURE__*/React.createElement("strong", null, "knowledge cutoffs"),
+    ". They can add live search, files, memory, or tools, but the core model is finished learning. So when your app \u201cknows\u201d last night\u2019s Stars score, that isn\u2019t the frozen model: the app ran a web search and read the results into the context window."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "You\u2019ll never meet these in-between versions; apps only ship the finished model. But the hidden snapshots explain something you\u2019ve felt: why ChatGPT sounds like ChatGPT. Here\u2019s the same question at each stage."),
   /*#__PURE__*/React.createElement("div", { style: { marginTop: 28 } },
@@ -4318,7 +4361,7 @@ function TrainingSection(props) {
         /*#__PURE__*/React.createElement(Takeaway, { headline: "Fluent came first. Helpful was taught.", body: "By the base-model stage, the model could already produce fluent text about basketball. It took human examples and rankings to turn a sentence-completer into something that answers you: engaging, useful, and ready with a follow-up." })) : null)),
     /*#__PURE__*/React.createElement(TrainingPhaseMatch, { onComplete: function() { setTpmDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpmDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prediction"), label: "Next: Prediction" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpmDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: AI is Math" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 
@@ -5007,7 +5050,7 @@ function VectorSpaceSection(props) {
       ". Change the words around it, and the same token lands somewhere new."),
     E(WhichSitsCloserTryIt, { onComplete: function() { setVsDone(true); } }),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: Training" }));
+    E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: Prediction" }));
 }
 
 function MatchTermsTryIt(props) {
@@ -6048,7 +6091,7 @@ function PredictionSection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. And Training turned all of that into a fluent sentence-completer, patterns at the ready. Everything so far has been the model learning and reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
+  /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. And every number that made it happen was set back in Training, patterns at the ready. Everything so far has been the model learning and reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
   /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
   /*#__PURE__*/React.createElement(PhoneTrayStrip, null),

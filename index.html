@@ -3537,12 +3537,18 @@ function TransformerClaimsTryIt(props) {
     { claim: "Transformation lets AI do things only humans can do, like dance, jump, and play hockey.", answer: false, explain: "Transformation updates a token’s meaning using context. It doesn’t give AI a body or let it play hockey." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var _b = useState(false), showQ = _b[0], setShowQ = _b[1];
   var answeredCount = Object.keys(answers).length;
   useEffect(function() { if (answeredCount >= CLAIMS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Which claims are true?",
-    lead: "The Transformer is the breakthrough that powers every layer you just learned about. Below are 6 claims about it, but they’re not all accurate. Pick which are right and which are wrong."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+    lead: "The Transformer is the breakthrough that powers every layer you just learned about. Now put your new knowledge to work. Watch the short NotebookLM video below: it makes six claims about the Transformer, delivered with total confidence, but not all of them are accurate. When it ends, click Show Questions and call each one: True or False."},
+    /*#__PURE__*/React.createElement(WatchPlayer, { video: { src: "videos/transformers-quiz.mp4", caption: "" } }),
+    !showQ ? /*#__PURE__*/React.createElement("button", {
+      onClick: function() { setShowQ(true); },
+      style: { display: "block", margin: "0 auto", padding: "12px 28px", borderRadius: 8, background: "#0e0a1f", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 700 }
+    }, "Show Questions") : null,
+    showQ ? /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CLAIMS.map(function(c, i) {
         var picked = answers[i];
         var answered = picked !== undefined;
@@ -3552,7 +3558,7 @@ function TransformerClaimsTryIt(props) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt[0], answered: answered, isCorrect: opt[0] === String(c.answer), isPicked: picked === opt[0], label: opt[1],
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt[0]; return u; }); } });
           }));
-      })));
+      })) : null);
 }
 function BeTheAttentionTryIt(props) {
   var B = function(w) { return React.createElement("strong", null, w); };

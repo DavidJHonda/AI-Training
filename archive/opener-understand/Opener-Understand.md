@@ -24,17 +24,23 @@ How AI Really Works
 
 1
 
+## HOW IT LEARNED
+
+Before you open the hood, watch the machine get built: one guess-and-correct loop, run billions of times over mountains of text.
+
+2
+
 ## IT ALL RUNS ON MATH
 
 See the math idea underneath it, then watch your words get turned into numbers the machine can work with.
 
-2
+3
 
 ## INSIDE THE BLACK BOX
 
 AI gets called a “black box.” You’re about to open it and find real, understandable machinery inside, even if parts stay genuinely hard to explain.
 
-3
+4
 
 ## WHERE IT ALL COMES TOGETHER
 

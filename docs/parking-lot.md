@@ -409,3 +409,13 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Possible destination:** the Transformer video (a stamps board would pair well with the positional-encoding beat), or back into the lesson if a visual for the fix itself is ever wanted alongside the problem panels.
 - **What it was:** dark token chips for "dog bites man" and "man bites dog", each chip carrying a purple "#1/#2/#3" position-stamp pill, under the headline "Same tokens. One difference." and the caption "Without the stamps, these two sentences would look identical to the model."
 - **Full source:** in git history at the commit before this one — the `OrderStampsBox` function (anchor string).
+
+---
+
+## "See you ______" — ThreeChatsBox + context TRY IT rows
+
+- **Origin:** Prediction lesson (`PredictionSection`), retired 2026-07-09 when the lesson became "How AI Answers" and unified on the dog-naming example (spec: docs/superpowers/specs/2026-07-09-how-ai-answers-design.md). ThreeChatsBox was replaced by `DogNameChartBox` (single-card name-slot chart); the "Call the Top Pick" TRY IT re-themed to dog names. `PhoneTrayStrip` keeps its own "See you ______" strip as the phone-side example.
+- **Possible destination:** the How AI Answers video (three-contexts-one-blank is a strong board shape), or any lesson needing a second context-steers-the-odds example.
+- **Verbatim ThreeChatsBox data** (headline "The same blank, three different chats: 'See you ______'"): Chat 1 "You're chatting about plans for Saturday night." → Saturday 58, tonight 22, there 9, soon 6, other words 5. Chat 2 "You're chatting about plans for later today." → later 61, soon 18, tonight 12, there 5, other words 4. Chat 3 "You're chatting about tomorrow's BBQ-club meeting at school." → tomorrow 65, later 20, soon 10, there 3, again 1, other words 1. Closing line: "Three chats, three different lists. The odds come from everything the model can see."
+- **Verbatim old CTX_TASKS rows:** (1) "The chat is a group project thread, and the work is due Monday morning" → Monday (over tonight/soon); (2) "Your friend is boarding a flight that lands late tonight" → tonight (over Saturday/tomorrow); (3) "A brand-new chat with no history at all" → soon (over Monday/tonight). Explains referenced the window tilting the odds; the brand-new-chat explain ("the closest the model ever gets to acting like your phone's chips") survives in the dog version.
+- **Full source:** in git history at commit aa4ad3f's parent — the `ThreeChatsBox` function and the old `CTX_TASKS` array in `PredictionSection`.

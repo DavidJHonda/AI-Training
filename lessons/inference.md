@@ -100,36 +100,6 @@ The model doesn’t keep the work it just did; the only record is the text. It a
 
 At the center of that whole journey is the neural network you met in Layers: the stacked nodes and **weights**. Training set those weights; inference just runs them forward, the same machine doing the same arithmetic every time you ask.
 
-## READ THE NAME ON THE BOX
-
-One last payoff before you move on. You've now seen every piece of how an LLM works, and here's the proof: you can read the most famous name in AI like a spec sheet. Every letter is something you just learned.
-
-ChatGPT, decoded
-
-Chat
-
-Chat
-
-A **conversational interface**. You type, it responds.
-
-G
-
-Generative
-
-It **creates new content** from scratch: text, images, audio, video, and documents.
-
-P
-
-Pre-trained
-
-It learned from **billions of pages** of text, images, audio, video, and code before you ever used it.
-
-T
-
-Transformer
-
-The architecture that lets it **process all your words at once**, not one at a time.
-
 ## LOCK IN THE PIECES
 
 You’ve now watched every piece work together as one journey. Here’s a quick checkpoint to lock them in.

@@ -32,6 +32,36 @@ Human Judgment
 
 You set the goal, give the context, check the claims, protect what’s private, and make the final call. AI can help with the work. It can’t own any of that for you.
 
+## READ THE NAME ON THE BOX
+
+And here's the proof of how far you've come: you can read the most famous name in AI like a spec sheet. Every letter is something you learned in this course.
+
+ChatGPT, decoded
+
+Chat
+
+Chat
+
+A **conversational interface**. You type, it responds.
+
+G
+
+Generative
+
+It **creates new content** from scratch: text, images, audio, video, and documents.
+
+P
+
+Pre-trained
+
+It learned from **billions of pages** of text, images, audio, video, and code before you ever used it.
+
+T
+
+Transformer
+
+The architecture that lets it **process all your words at once**, not one at a time.
+
 ## QUESTIONS YOU CAN ANSWER NOW
 
 Here’s the whole course in question form.

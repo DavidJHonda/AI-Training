@@ -90,6 +90,8 @@ Rank AI’s answers (RLHF)
 
 The model writes multiple answers to the same prompt, and human reviewers rank which are best: this one is helpful, that one misses the point. Over thousands of rankings, the model gets nudged toward more helpful, honest, and safe answers. RLHF (Reinforcement Learning from Human Feedback) is one common version of this.
 
+You’ll never meet these in-between versions; apps only ship the finished model. But the hidden snapshots explain something you’ve felt: why ChatGPT sounds like ChatGPT. Here’s the same question at each stage.
+
 Watch It Happen
 
 ## You

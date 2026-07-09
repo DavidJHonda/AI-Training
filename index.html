@@ -3595,6 +3595,26 @@ function BeTheAttentionTryIt(props) {
           }));
       })));
 }
+function OrderStampsBox() {
+  var E = React.createElement;
+  var ROWS = [
+    { words: ["dog", "bites", "man"] },
+    { words: ["man", "bites", "dog"] }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+    E("div", { style: { textAlign: "center", fontSize: BOX_CARD_TITLE + 3, fontWeight: 800, color: "var(--ink)", marginBottom: 14 } }, "Same tokens. One difference."),
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 14 } },
+      ROWS.map(function(r, ri) {
+        return E("div", { key: ri, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" } },
+          r.words.map(function(w, i) {
+            return E("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 8, background: "#262b34", color: "#fff", borderRadius: 10, padding: "8px 14px", fontFamily: "var(--mono)", fontSize: 15, fontWeight: 700 } },
+              w,
+              E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, fontSize: 11, fontWeight: 800, padding: "2px 8px" } }, "#" + (i + 1)));
+          }));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "Without the stamps, these two sentences would look identical to the model."));
+}
 function HowAIReadsSection(props) {
   var E = React.createElement;
   var _pa = useState(false), paDone = _pa[0], setPaDone = _pa[1];
@@ -3797,6 +3817,16 @@ function HowAIReadsSection(props) {
       )
     ),
 
+    E(SectionKicker, null, "One catch: word order"),
+    E(BodyP, null,
+      "Reading everything at once creates a problem reading-in-order never had. If all the tokens arrive together, what tells the model that \u201cdog bites man\u201d isn\u2019t \u201cman bites dog\u201d? Same three tokens. Same three vectors. Only the order is different, and the order carries the meaning."),
+    E(OrderStampsBox, null),
+    E(BodyP, null,
+      "The fix happens before the first layer. Every token\u2019s vector gets a ",
+      E("strong", null, "position stamp"),
+      ": a second pattern of numbers mixed in that says \u201cI\u2019m token #1,\u201d \u201cI\u2019m token #3.\u201d Same word, different seat, slightly different numbers. Now the sentence can arrive all at once without losing its order. The order rides inside the vectors, and the proper name for the stamp is ",
+      E("strong", null, "positional encoding"),
+      "."),
     E(BodyP, null,
       "Reading your whole message at once was only the start. To turn reading into meaning, AI has to do two things. First, figure out which other words matter. For ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"), ", the words that matter are ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "CAT"), " and ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "TIRED"), ". Second, update ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"), "’s vector to lock in the right meaning: the cat, not the mat, May, or the rainstorm."
     ),
@@ -5923,7 +5953,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(ThreeChatsBox, null),
   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
     "The exact numbers are illustrative."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The pick in step 3 has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat. How the model knows when to stop repeating is a question for the next lesson."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves."),
   /*#__PURE__*/React.createElement(InteractiveBox, {

@@ -111,7 +111,7 @@ Three chats, three different lists. The odds come from everything the model can 
 
 The exact numbers are illustrative.
 
-The pick in step 3 has a name: **prediction**. Score every possible next token, choose one, then repeat. How the model knows when to stop repeating is a question for the next lesson.
+The pick has a name: **prediction**. Score every possible next token, choose one, then repeat.
 
 And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves.
 

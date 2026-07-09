@@ -136,6 +136,7 @@
   @keyframes levelDescFade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes softPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
   @keyframes trickFlash { 0%, 100% { color: var(--inkMuted); } 50% { color: #22c55e; } }
+  @keyframes poppinsDrift { 0% { transform: translateY(-14vh) translateX(0) rotate(-10deg); opacity: 0; } 8% { opacity: 1; } 50% { transform: translateY(48vh) translateX(var(--sway)) rotate(8deg); } 100% { transform: translateY(116vh) translateX(0) rotate(-6deg); opacity: 1; } }
   .redact-chunk {
     cursor: pointer;
     border-radius: 3px;
@@ -4353,10 +4354,32 @@ function TokenTrueFalseTryIt(props) {
       explain: "Eleven chunks of spare parts. When a word is rare enough, the tokenizer just does its best with the pieces it owns." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
+  var _p = useState(false), poppins = _p[0], setPoppins = _p[1];
+  var poppinsFired = useRef(false);
   var answeredCount = Object.keys(answers).length;
   var done = answeredCount >= ROUNDS.length;
   var score = ROUNDS.reduce(function(acc, r, i) { return acc + (answers[i] === r.answer ? 1 : 0); }, 0);
   useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
+  useEffect(function() {
+    if (answers[ROUNDS.length - 1] === undefined || poppinsFired.current) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    poppinsFired.current = true;
+    setPoppins(true);
+    var timer = setTimeout(function() { setPoppins(false); }, 5000);
+    return function() { clearTimeout(timer); };
+  }, [answers]);
+  var poppinsOverlay = poppins ? ReactDOM.createPortal(
+    E("div", { style: { position: "fixed", inset: 0, pointerEvents: "none", zIndex: 9999, overflow: "hidden" } },
+      Array.from({ length: 14 }, function(_, i) {
+        var isSparkle = i % 3 === 2;
+        return E("span", { key: i, style: {
+          position: "absolute", top: 0,
+          left: ((i * 137) % 92 + 3) + "%",
+          fontSize: (isSparkle ? 18 : 30) + ((i * 53) % 26) + "px",
+          "--sway": (((i % 2 ? 1 : -1) * ((i * 29) % 70 + 30))) + "px",
+          animation: "poppinsDrift " + (3.6 + ((i * 31) % 22) / 10) + "s ease-in-out " + (((i * 41) % 16) / 10) + "s both"
+        } }, isSparkle ? "\u2728" : "\u2602\ufe0f");
+      })) , document.body) : null;
   function chunkChips(r) {
     return E("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 } },
       r.chunks.map(function(c, ci) {
@@ -4365,7 +4388,7 @@ function TokenTrueFalseTryIt(props) {
           E("span", { style: { fontSize: 10.5, fontWeight: 600, color: "var(--inkMuted)", fontFamily: "var(--mono)" } }, c[1]));
       }));
   }
-  return E(InteractiveBox, {
+  return E(React.Fragment, null, poppinsOverlay, E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Beat the Tokenizer: guess how many tokens are in each.",
@@ -4396,7 +4419,7 @@ function TokenTrueFalseTryIt(props) {
         }));
       }),
       done ? E("div", { style: { borderTop: "1px solid var(--tryRule)", paddingTop: 18, textAlign: "center", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--ink)", animation: "fadeIn 0.3s ease" } },
-        "You beat the tokenizer on " + score + " of " + ROUNDS.length + "." + (score >= 7 ? " Impressive radar." : score >= 4 ? " The splits are weirder than they look." : " Nobody sees the splits coming. That\u2019s the point.")) : null));
+        "You beat the tokenizer on " + score + " of " + ROUNDS.length + "." + (score >= 7 ? " Impressive radar." : score >= 4 ? " The splits are weirder than they look." : " Nobody sees the splits coming. That\u2019s the point.")) : null)));
 }
 function TokenSection(props) {
   const staticExamples = [

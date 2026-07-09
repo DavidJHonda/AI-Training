@@ -3610,26 +3610,6 @@ function BeTheAttentionTryIt(props) {
           }));
       })));
 }
-function OrderStampsBox() {
-  var E = React.createElement;
-  var ROWS = [
-    { words: ["dog", "bites", "man"] },
-    { words: ["man", "bites", "dog"] }
-  ];
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
-    E("div", { style: { textAlign: "center", fontSize: BOX_CARD_TITLE + 3, fontWeight: 800, color: "var(--ink)", marginBottom: 14 } }, "Same tokens. One difference."),
-    E("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 14 } },
-      ROWS.map(function(r, ri) {
-        return E("div", { key: ri, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" } },
-          r.words.map(function(w, i) {
-            return E("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 8, background: "#262b34", color: "#fff", borderRadius: 10, padding: "8px 14px", fontFamily: "var(--mono)", fontSize: 15, fontWeight: 700 } },
-              w,
-              E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, fontSize: 11, fontWeight: 800, padding: "2px 8px" } }, "#" + (i + 1)));
-          }));
-      })),
-    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
-      "Without the stamps, these two sentences would look identical to the model."));
-}
 function HowAIReadsSection(props) {
   var E = React.createElement;
   var _pa = useState(false), paDone = _pa[0], setPaDone = _pa[1];
@@ -3929,12 +3909,29 @@ function HowAIReadsSection(props) {
 
     E(SectionKicker, null, "One catch: word order"),
     E(BodyP, null,
-      "One promise left to keep: the order question. Reading everything at once creates a problem reading-in-order never had. If all the tokens arrive together, what tells the model that \u201cdog bites man\u201d isn\u2019t \u201cman bites dog\u201d? Same three tokens. Same three vectors. Only the order is different, and the order carries the meaning."),
-    E(OrderStampsBox, null),
+      "One promise left to keep: the order question. Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: \u201cDog bites man.\u201d Same three tokens. Same three vectors. But the order carries the meaning."),
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 20, marginBottom: 28 } },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto", columnGap: 14, rowGap: 12 } },
+        E("div", { style: { background: "#fbedd3", borderRadius: 14, padding: "18px 20px", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" } },
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "#d97706" } }, "Reading in order"),
+          E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", display: "grid", gridTemplateRows: "subgrid", gridRow: "2 / span 2" } },
+            E("div", null,
+              E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.85 } }, "Dog bites man")),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6, borderTop: "1px solid var(--rule)", paddingTop: 12, alignSelf: "start" } },
+              "It\u2019s clear what happened. A man was bitten by a dog."))),
+        E("div", { style: { background: "#ece8fd", borderRadius: 14, padding: "18px 20px", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" } },
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--primary)" } }, "Reading everything at once"),
+          E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", display: "grid", gridTemplateRows: "subgrid", gridRow: "2 / span 2" } },
+            E("div", null,
+              ["Bites man dog", "Man bites dog", "Dog bites man"].map(function(s, i) {
+                return E("div", { key: i, style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.85 } }, s);
+              })),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6, borderTop: "1px solid var(--rule)", paddingTop: 12, alignSelf: "start" } },
+              "Reading everything at once destroys the meaning."))))),
     E(BodyP, null,
       "The fix happens before the first layer. Every token\u2019s vector gets a ",
       E("strong", null, "position stamp"),
-      ": a second pattern of numbers mixed in that says \u201cI\u2019m token #1,\u201d \u201cI\u2019m token #3.\u201d Same word, different seat, slightly different numbers. Now the sentence can arrive all at once without losing its order. The order rides inside the vectors, and the proper name for the stamp is ",
+      ": a second pattern of numbers mixed in that says \u201cI\u2019m token #1,\u201d \u201cI\u2019m token #3.\u201d Now the sentence can arrive all at once without losing its order. The proper name for the stamp is ",
       E("strong", null, "positional encoding"),
       "."),
     E(BeTheAttentionTryIt, { onComplete: function() { setPaDone(true); } }),
@@ -4895,7 +4892,7 @@ function ItSentenceWalkthrough(props) {
   var hi = function(w) { return E("strong", { style: { color: "var(--primary)" } }, w); };
   var cards = [
     { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", hi("IT"), " is just a pronoun. Its vector could mean almost anything, and certainly not ", hi("CAT"), ".") },
-    { tag: "Through the layers", body: E(React.Fragment, null, "At each layer its numbers shift, as the model reads the surrounding words to work out what ", hi("IT"), " refers to.") },
+    { tag: "Through the layers", body: E(React.Fragment, null, "Each layer reads the surrounding words and shifts the numbers for ", hi("IT"), ". Layer by layer, the model works out what ", hi("IT"), " refers to.") },
     props.revealed ? { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", hi("IT"), " land closer to ", hi("CAT"), " than to any other word in the sentence.") } : null
   ];
   return E(React.Fragment, null,
@@ -4914,7 +4911,7 @@ function ItSentenceWalkthrough(props) {
               ? E("div", { style: { flex: "1 1 200px", minWidth: 180, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
                   E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 6 } }, node.tag),
                   E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, node.body))
-              : E("div", { style: { flex: "1 1 200px", minWidth: 180, minHeight: 72, border: "2px dashed rgba(110, 81, 255, 0.35)", borderRadius: 12, padding: "16px 18px" } }));
+              : E("div", { style: { flex: "1 1 200px", minWidth: 180, minHeight: 72, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } }));
         }))));
 }
 function VectorSpaceSection(props) {
@@ -4956,7 +4953,7 @@ function VectorSpaceSection(props) {
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
       "’s numbers finally land?"),
     E(BodyP, null,
-      "In theory, the model could look those finished numbers up in its full table of token embeddings and see which token they match. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table."),
+      "In theory, the model could look up those finished numbers in its full table of token embeddings and see which token they match. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table."),
     E(SectionKicker, null, "The problem"),
     E(BodyP, null,
       "So how does AI work out what the token means, when its vector matches nothing on file?"),
@@ -4971,17 +4968,17 @@ function VectorSpaceSection(props) {
       ": how far apart two vectors are when you add up the gap in every dimension. The model has established that Coke is more like Pepsi than like Coffee."),
     E(SectionKicker, null, "Meaning is a position"),
     E(BodyP, null,
-      "Now back to that one-of-a-kind token. The model can’t look its numbers up, so it does what we just did with the drinks: it reads the token’s ",
+      "Back to that one-of-a-kind token. The model can’t look its numbers up, but it can do what we just did with the drinks: read the token’s ",
       E("strong", null, "position"),
-      ". This is the idea of ",
+      ". That’s the idea of ",
       E("strong", null, "vector space"),
       ": a map where every vector sits somewhere, and similar words share a neighborhood."),
     E(BodyP, null,
-      "Now it’s time to fill in the final piece of the puzzle. As ",
+      "Time to fill in the blank box. As ",
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
       " flowed through the layers, its numbers kept moving toward ",
       E("strong", { style: { color: "var(--primary)" } }, "CAT"),
-      ". They never become an exact match. But they land closer to ",
+      ". Never an exact match, but closer to ",
       E("strong", { style: { color: "var(--primary)" } }, "CAT"),
       " than to any other word in the sentence."),
     E(ItSentenceWalkthrough, { revealed: true }),

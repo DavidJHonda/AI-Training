@@ -400,3 +400,12 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Origin:** Training lesson (`TrainingSection`), replaced 2026-07-09 by `TrainingWhoTaughtQuiz` ("How did AI learn to do this?"), a behavior→"Taught itself / Taught by humans" sort. Owner call: the lesson's biggest point is that AI learns on its own AND is taught by humans; labeling phases mattered less. (An intermediate four-source version, `TrainingSourceQuiz`, lived only within the same working session and never shipped.)
 - **Possible destination:** a review/packet exercise if phase-name recall is ever wanted, or quiz-bank material for the Training video's companion activity.
 - **Full source:** in git history at the commit before this one — the `TrainingPhaseMatch` function (anchor string), 5 ScenarioRows matched against Phase 1/2/3 pills with per-row ok/no feedback.
+
+---
+
+## "Same tokens. One difference." — OrderStampsBox position-stamp visual
+
+- **Origin:** Transformer lesson (`HowAIReadsSection`), "One catch: word order" section. Replaced 2026-07-09 by a two-panel "Reading in order / Reading everything at once" comparison in the lesson's standard paired-box format (owner spec via Claude Design). The stamps visual showed the FIX; the new panels show the PROBLEM, with the fix carried by the position-stamp paragraph.
+- **Possible destination:** the Transformer video (a stamps board would pair well with the positional-encoding beat), or back into the lesson if a visual for the fix itself is ever wanted alongside the problem panels.
+- **What it was:** dark token chips for "dog bites man" and "man bites dog", each chip carrying a purple "#1/#2/#3" position-stamp pill, under the headline "Same tokens. One difference." and the caption "Without the stamps, these two sentences would look identical to the model."
+- **Full source:** in git history at the commit before this one — the `OrderStampsBox` function (anchor string).

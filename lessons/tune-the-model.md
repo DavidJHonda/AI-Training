@@ -78,7 +78,7 @@ You’ve chosen your app, and you just chose your model. Now there’s one more 
 
 Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing. Some apps show this as a simple on/off switch, others as a dial with several levels.
 
-You met one dial already: temperature, back in the Prediction lesson. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds.
+Effort changes how hard the model thinks before it commits, not how the answer sounds. The wording has its own dial, and it’s coming up next.
 
 And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models.
 
@@ -153,3 +153,73 @@ Effort
 How long it thinks before it commits: quick for speed, deeper for hard problems.
 
 **A bad answer doesn’t always mean ‘try harder.’**Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes it just needs more effort. Knowing the three decisions means you can fix the right one.
+
+## One more dial: temperature
+
+Back in Prediction, you watched the model build a ranked list of next-word odds and pick from the top. There’s a control on how boldly it commits to the top of that list: **temperature**.
+
+Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing.
+
+Here’s a ranked list for “See you ___”. The middle column is the balanced default; see how the odds shift as temperature rises and falls. Temperature isn’t the only sampling control, but it’s the one worth knowing.
+
+How temperature reshapes the picks
+
+❄️ Low
+
+⚖️ Medium
+
+🔥 High
+
+tomorrow
+
+94%
+
+65%
+
+40%
+
+later
+
+2%
+
+20%
+
+28%
+
+soon
+
+1%
+
+10%
+
+17%
+
+there
+
+1%
+
+3%
+
+7%
+
+again
+
+1%
+
+1%
+
+4%
+
+other words
+
+1%
+
+1%
+
+4%
+
+You probably won’t see this dial in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters: you can ask for the effect instead, requesting “your best single answer” for consistency or “ten different options” for range.
+
+## What temperature is not
+
+Low temperature means repeatable, not correct. A low-temp model will confidently repeat the same wrong answer. Temperature controls variation, not accuracy.

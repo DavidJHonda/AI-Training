@@ -400,7 +400,7 @@ var TERMS = [
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
   { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "prompt" },
-  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "prediction" },
+  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "choosemodel" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
   { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
@@ -5678,6 +5678,24 @@ function ModelSelectionSection(props) {
 function ChoosingModelSection(props) {
   const [pickerAnswers, setPickerAnswers] = useState({});
   const [taskAnswers, setTaskAnswers] = useState({});
+  const [tempAnswers, setTempAnswers] = useState({});
+  var WORD_DISTRIBUTIONS = [
+    { word: "tomorrow", low: 94, medium: 65, high: 40 },
+    { word: "later", low: 2, medium: 20, high: 28 },
+    { word: "soon", low: 1, medium: 10, high: 17 },
+    { word: "there", low: 1, medium: 3, high: 7 },
+    { word: "again", low: 1, medium: 1, high: 4 },
+    { word: "other words", low: 1, medium: 1, high: 4 }
+  ];
+  var TEMP_TASKS = [
+    { task: "Solve a math word problem", answer: "Low", explain: "Low. There’s one right answer, so variety only risks the model wandering off it. Keep variation down and it returns the same clean solution each time." },
+    { task: "Brainstorm 15 names for a new app", answer: "High", explain: "High. The whole point is range and surprise. Turning variation up gives you a wider, more unexpected spread to choose from." },
+    { task: "Reply to a routine “what are your hours?” email", answer: "Medium", explain: "Medium. Everyday writing: you want it natural and a little flexible, not rigid and not wild. The balanced default fits." },
+    { task: "Write a short poem about autumn", answer: "High", explain: "High. Creative writing benefits from variety. A higher setting makes the language more varied and original." },
+    { task: "Convert a recipe from cups to grams", answer: "Low", explain: "Low. This is a fixed conversion with one correct result. Variety adds nothing, so keep it low and repeatable." },
+    { task: "Write a friendly birthday message", answer: "Medium", explain: "Medium. A little warmth and variety is nice, but it still has to read normally. Everyday writing sits at the balanced middle, not the wild end." }
+  ];
+
   const TASKS = [{
     task: "Write 10 ideas for a YouTube channel name",
     answer: "Quick", explain: "Creative brainstorming is about breadth and speed. A quick, low-effort answer generates lots of options fast, which is exactly what you need."
@@ -5796,7 +5814,7 @@ function ChoosingModelSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve chosen your app, and you just chose your model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing. Some apps show this as a simple on/off switch, others as a dial with several levels."),
-  /*#__PURE__*/React.createElement(BodyP, null, "You met one dial already: temperature, back in the Prediction lesson. That one changes how varied the wording comes out. Effort is a different dial. It changes how hard the model thinks before it commits, not how the answer sounds."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Effort changes how hard the model thinks before it commits, not how the answer sounds. The wording has its own dial, and it\u2019s coming up next."),
   /*#__PURE__*/React.createElement(BodyP, null, "And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models."),
   /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 32 },
     [
@@ -5865,130 +5883,10 @@ function ChoosingModelSection(props) {
         }, [PillButton("Quick"), PillButton("Deeper")]);
       })
     )),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("askai"), label: "Next: Ask AI" }));
-}
-function PhoneTrayStrip() {
-  var E = React.createElement;
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 18 } },
-    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
-      "See you ______."),
-    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadowSoft)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" } },
-      ["soon", "tomorrow", "later"].map(function(w, i) {
-        return E("span", { key: i, style: { background: "var(--primaryFaint)", borderRadius: 8, padding: "8px 16px", fontSize: 14.5, fontWeight: 600, color: "var(--ink)" } }, w);
-      })));
-}
-function ThreeChatsBox() {
-  var E = React.createElement;
-  var CHATS = [
-    { n: 1, ctx: "You’re chatting about plans for Saturday night.", rows: [["Saturday", 58], ["tonight", 22], ["there", 9], ["soon", 6], ["other words", 5]] },
-    { n: 2, ctx: "You’re chatting about plans for later today.", rows: [["later", 61], ["soon", 18], ["tonight", 12], ["there", 5], ["other words", 4]] },
-    { n: 3, ctx: "You’re chatting about tomorrow’s BBQ-club meeting at school.", rows: [["tomorrow", 65], ["later", 20], ["soon", 10], ["there", 3], ["again", 1], ["other words", 1]] }
-  ];
-  return E(ShowcaseBox, { headline: "The same blank, three different chats: “See you ______”", marginBottom: 10 },
-    E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-      CHATS.map(function(c) {
-        return E(InnerCard, { key: c.n, pad: "snug" },
-          E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-            E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, padding: "3px 10px", fontSize: BOX_LABEL, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, flexShrink: 0 } }, "Chat " + c.n),
-            E("span", { style: { fontSize: 15 } }, "💬"),
-            E("span", { style: { fontSize: BOX_TEXT, fontWeight: 700, fontStyle: "italic", color: "var(--ink)" } }, c.ctx)),
-          c.rows.map(function(r, i) {
-            var isTop = i === 0;
-            return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "110px 1fr", gap: 30, alignItems: "center", paddingTop: 7, paddingBottom: 7, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
-              E("div", { style: { fontWeight: isTop ? 700 : 500, fontSize: 14, color: isTop ? "var(--primary)" : "var(--ink)" } }, r[0]),
-              E("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-                E("div", { style: { flex: 1, background: "var(--rule)", height: 12, borderRadius: 6, overflow: "hidden" } },
-                  E("div", { style: { width: r[1] + "%", minWidth: 2, height: "100%", background: "var(--primary)", borderRadius: 6 } })),
-                E("span", { style: { fontSize: 12, fontWeight: 600, color: "var(--ink)", minWidth: 32, textAlign: "right" } }, r[1] + "%")));
-          }));
-      }),
-      E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)", marginTop: 2 } },
-        "Three chats, three different lists. The odds come from everything the model can see.")));
-}
-function PredictionSection(props) {
-  const [tempAnswers, setTempAnswers] = useState({});
-  const [ctxAnswers, setCtxAnswers] = useState({});
-  var CTX_TASKS = [
-    { task: "The chat is a group project thread, and the work is due Monday morning", options: ["Monday", "tonight", "soon"], answer: "Monday",
-      explain: "Monday. The deadline is sitting right there in the window, so it tilts the odds hard. The model isn’t guessing from the blank; it’s reading the chat." },
-    { task: "Your friend is boarding a flight that lands late tonight", options: ["Saturday", "tonight", "tomorrow"], answer: "tonight",
-      explain: "Tonight. The landing time is in the window, so “See you tonight” scores highest. Change the flight, and the list changes with it." },
-    { task: "A brand-new chat with no history at all", options: ["Monday", "soon", "tonight"], answer: "soon",
-      explain: "Soon. With nothing in the window, only the general pattern is left, so a safe, generic word tops the list. That’s the closest the model ever gets to acting like your phone’s chips." }
-  ];
-  var WORD_DISTRIBUTIONS = [
-    { word: "tomorrow", low: 94, medium: 65, high: 40 },
-    { word: "later", low: 2, medium: 20, high: 28 },
-    { word: "soon", low: 1, medium: 10, high: 17 },
-    { word: "there", low: 1, medium: 3, high: 7 },
-    { word: "again", low: 1, medium: 1, high: 4 },
-    { word: "other words", low: 1, medium: 1, high: 4 }
-  ];
-  var TEMP_TASKS = [
-    { task: "Solve a math word problem", answer: "Low", explain: "Low. There’s one right answer, so variety only risks the model wandering off it. Keep variation down and it returns the same clean solution each time." },
-    { task: "Brainstorm 15 names for a new app", answer: "High", explain: "High. The whole point is range and surprise. Turning variation up gives you a wider, more unexpected spread to choose from." },
-    { task: "Reply to a routine “what are your hours?” email", answer: "Medium", explain: "Medium. Everyday writing: you want it natural and a little flexible, not rigid and not wild. The balanced default fits." },
-    { task: "Write a short poem about autumn", answer: "High", explain: "High. Creative writing benefits from variety. A higher setting makes the language more varied and original." },
-    { task: "Convert a recipe from cups to grams", answer: "Low", explain: "Low. This is a fixed conversion with one correct result. Variety adds nothing, so keep it low and repeatable." },
-    { task: "Write a friendly birthday message", answer: "Medium", explain: "Medium. A little warmth and variety is nice, but it still has to read normally. Everyday writing sits at the balanced middle, not the wild end." }
-  ];
-  return /*#__PURE__*/React.createElement("div", null,
-  /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. And Training turned all of that into a fluent sentence-completer, patterns at the ready. Everything so far has been the model learning and reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
-  /*#__PURE__*/React.createElement(PhoneTrayStrip, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), "."),
-  /*#__PURE__*/React.createElement("ol", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 18px 0", paddingLeft: 26 } },
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
-      "AI compares the final position of the last word in the chat so far against ",
-      /*#__PURE__*/React.createElement("strong", null, "every"),
-      " possible next token (words or pieces of words), scoring each by how closely the two line up on the map."),
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
-      "Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization."),
-    /*#__PURE__*/React.createElement("li", null,
-      "Then the model takes one, almost always from the top of the list, adds it to the text, and runs the whole thing again for the token after that.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s what that looks like for a very simple sentence."),
-  /*#__PURE__*/React.createElement(ThreeChatsBox, null),
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
-    "The exact numbers are illustrative."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Call the Top Pick",
-    lead: "Same blank, new chats. For each chat, pick the word most likely to top the ranked list for “See you ______”."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      CTX_TASKS.map(function(c, i) {
-        var answered = ctxAnswers[i] !== undefined;
-        var picked = ctxAnswers[i];
-        var correct = picked === c.answer;
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          prompt: c.task + ".",
-          answered: answered,
-          correct: correct,
-          feedback: c.explain
-        }, c.options.map(function(w) {
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: w,
-            answered: answered,
-            isCorrect: w === c.answer,
-            isPicked: picked === w,
-            label: w,
-            onClick: function() { setCtxAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
-          });
-        }));
-      })
-    )),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "One dial on the pick: temperature"),
-  /*#__PURE__*/React.createElement(BodyP, null, "There\u2019s a control on how boldly the model commits to the top of that ranked list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "One more dial: temperature"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Back in Prediction, you watched the model build a ranked list of next-word odds and pick from the top. There\u2019s a control on how boldly it commits to the top of that list: ", /*#__PURE__*/React.createElement("strong", null, "temperature"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that same ranked list for \u201CSee you ___\u201D. The middle column is the default you just saw; see how the odds shift as temperature rises and falls. Temperature isn’t the only sampling control, but it’s the one worth knowing."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s a ranked list for \u201CSee you ___\u201D. The middle column is the balanced default; see how the odds shift as temperature rises and falls. Temperature isn’t the only sampling control, but it’s the one worth knowing."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     headline: "How temperature reshapes the picks"
   },
@@ -6067,7 +5965,110 @@ function PredictionSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(tempAnswers).length >= TEMP_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Inference" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(tempAnswers).length >= TEMP_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("askai"), label: "Next: Ask AI" }));
+}
+function PhoneTrayStrip() {
+  var E = React.createElement;
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 18 } },
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
+      "See you ______."),
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadowSoft)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" } },
+      ["soon", "tomorrow", "later"].map(function(w, i) {
+        return E("span", { key: i, style: { background: "var(--primaryFaint)", borderRadius: 8, padding: "8px 16px", fontSize: 14.5, fontWeight: 600, color: "var(--ink)" } }, w);
+      })));
+}
+function ThreeChatsBox() {
+  var E = React.createElement;
+  var CHATS = [
+    { n: 1, ctx: "You’re chatting about plans for Saturday night.", rows: [["Saturday", 58], ["tonight", 22], ["there", 9], ["soon", 6], ["other words", 5]] },
+    { n: 2, ctx: "You’re chatting about plans for later today.", rows: [["later", 61], ["soon", 18], ["tonight", 12], ["there", 5], ["other words", 4]] },
+    { n: 3, ctx: "You’re chatting about tomorrow’s BBQ-club meeting at school.", rows: [["tomorrow", 65], ["later", 20], ["soon", 10], ["there", 3], ["again", 1], ["other words", 1]] }
+  ];
+  return E(ShowcaseBox, { headline: "The same blank, three different chats: “See you ______”", marginBottom: 10 },
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      CHATS.map(function(c) {
+        return E(InnerCard, { key: c.n, pad: "snug" },
+          E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
+            E("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, padding: "3px 10px", fontSize: BOX_LABEL, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, flexShrink: 0 } }, "Chat " + c.n),
+            E("span", { style: { fontSize: 15 } }, "💬"),
+            E("span", { style: { fontSize: BOX_TEXT, fontWeight: 700, fontStyle: "italic", color: "var(--ink)" } }, c.ctx)),
+          c.rows.map(function(r, i) {
+            var isTop = i === 0;
+            return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "110px 1fr", gap: 30, alignItems: "center", paddingTop: 7, paddingBottom: 7, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+              E("div", { style: { fontWeight: isTop ? 700 : 500, fontSize: 14, color: isTop ? "var(--primary)" : "var(--ink)" } }, r[0]),
+              E("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
+                E("div", { style: { flex: 1, background: "var(--rule)", height: 12, borderRadius: 6, overflow: "hidden" } },
+                  E("div", { style: { width: r[1] + "%", minWidth: 2, height: "100%", background: "var(--primary)", borderRadius: 6 } })),
+                E("span", { style: { fontSize: 12, fontWeight: 600, color: "var(--ink)", minWidth: 32, textAlign: "right" } }, r[1] + "%")));
+          }));
+      }),
+      E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)", marginTop: 2 } },
+        "Three chats, three different lists. The odds come from everything the model can see.")));
+}
+function PredictionSection(props) {
+  const [ctxAnswers, setCtxAnswers] = useState({});
+  var CTX_TASKS = [
+    { task: "The chat is a group project thread, and the work is due Monday morning", options: ["Monday", "tonight", "soon"], answer: "Monday",
+      explain: "Monday. The deadline is sitting right there in the window, so it tilts the odds hard. The model isn’t guessing from the blank; it’s reading the chat." },
+    { task: "Your friend is boarding a flight that lands late tonight", options: ["Saturday", "tonight", "tomorrow"], answer: "tonight",
+      explain: "Tonight. The landing time is in the window, so “See you tonight” scores highest. Change the flight, and the list changes with it." },
+    { task: "A brand-new chat with no history at all", options: ["Monday", "soon", "tonight"], answer: "soon",
+      explain: "Soon. With nothing in the window, only the general pattern is left, so a safe, generic word tops the list. That’s the closest the model ever gets to acting like your phone’s chips." }
+  ];
+  return /*#__PURE__*/React.createElement("div", null,
+  /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. And Training turned all of that into a fluent sentence-completer, patterns at the ready. Everything so far has been the model learning and reading. Prediction is the first move of writing: it takes the position at the end of your text and turns it into the next word."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
+  /*#__PURE__*/React.createElement(PhoneTrayStrip, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), "."),
+  /*#__PURE__*/React.createElement("ol", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 18px 0", paddingLeft: 26 } },
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
+      "AI compares the final position of the last word in the chat so far against ",
+      /*#__PURE__*/React.createElement("strong", null, "every"),
+      " possible next token (words or pieces of words), scoring each by how closely the two line up on the map."),
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
+      "Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization."),
+    /*#__PURE__*/React.createElement("li", null,
+      "Then the model takes one, almost always from the top of the list, adds it to the text, and runs the whole thing again for the token after that.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s what that looks like for a very simple sentence."),
+  /*#__PURE__*/React.createElement(ThreeChatsBox, null),
+  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
+    "The exact numbers are illustrative."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The pick has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, choose one, then repeat."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Call the Top Pick",
+    lead: "Same blank, new chats. For each chat, pick the word most likely to top the ranked list for “See you ______”."},
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      CTX_TASKS.map(function(c, i) {
+        var answered = ctxAnswers[i] !== undefined;
+        var picked = ctxAnswers[i];
+        var correct = picked === c.answer;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: c.task + ".",
+          answered: answered,
+          correct: correct,
+          feedback: c.explain
+        }, c.options.map(function(w) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: w,
+            answered: answered,
+            isCorrect: w === c.answer,
+            isPicked: picked === w,
+            label: w,
+            onClick: function() { setCtxAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
+          });
+        }));
+      })
+    )),
+  /*#__PURE__*/React.createElement(LessonRule, null),
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(ctxAnswers).length >= CTX_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Inference" }));
 }
 
 function HallucinationSection(props) {

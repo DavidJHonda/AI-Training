@@ -1697,7 +1697,7 @@ const SECTION_META = {
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
   prediction: { kicker: "FROM MEANING TO WORDS", label: "How AI Answers", icon: "\uD83D\uDCCA" },
-  inference: { kicker: "THE FULL JOURNEY", label: "Inference: From Prompt to Output", title: "Inference", icon: "\u26A1" },
+  inference: { kicker: "THE PROMISE, KEPT", label: "The Math", title: "The Math", icon: "\uD83E\uDDEE" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "PICK THE MODEL, SET THE EFFORT", label: "Tune the Model", icon: "\uD83E\uDE9C" },
   askai: { kicker: "AI IS THE BEST MANUAL", label: "Ask AI", icon: "🙋" },
@@ -5357,24 +5357,93 @@ function InferenceJourneyDiagram() {
         narrow ? null : rail(READ.deep, "no memory · the whole journey runs again")),
       narrow ? loopCaption : null));
 }
+function BillMeterBox() {
+  var E = React.createElement;
+  var rows = [
+    { label: "One word", sub: "Two calculations for each of 70 billion weights", num: "140 billion" },
+    { label: "One sentence", sub: "“You could name him Spot.” is 7 tokens", num: "≈ 1 trillion" },
+    { label: "One homework answer", sub: "A full reply runs about 300 tokens", num: "≈ 42 trillion" }
+  ];
+  return E("div", { style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", boxShadow: "var(--shadowSoft)", padding: "14px 18px", margin: "8px 0 24px" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: "1fr auto", columnGap: 14, alignItems: "center", paddingBottom: 8 } },
+      E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)" } }, "The bill"),
+      E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)" } }, "Calculations")),
+    rows.map(function(r, i) {
+      return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr auto", columnGap: 14, alignItems: "center", padding: "10px 0", borderTop: "1px solid var(--rule)" } },
+        E("div", null,
+          E("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } }, r.label),
+          E("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginTop: 2 } }, r.sub)),
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 16, fontWeight: 700, color: "var(--primary)", whiteSpace: "nowrap" } }, r.num));
+    }),
+    E("div", { style: { borderTop: "1px solid var(--rule)", padding: "10px 0 3px", fontSize: 13, color: "var(--inkMuted)" } },
+      "Every calculation done fresh, nothing saved. And this is one question, from one student."));
+}
 function InferenceSection(props) {
   var _mc = useState(false), matchComplete = _mc[0], setMatchComplete = _mc[1];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }), /*#__PURE__*/React.createElement(BodyP, null, "You just watched the model pick one token: Spot. And you\u2019ve met every piece that made the pick: tokens, embeddings, layers, the context window. Now watch them run as a single journey from your prompt to a finished answer."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Your prompt runs all the way through the model to make one prediction: a single token. Then it runs again for the next, and again, until the answer is complete. That whole repeating journey has a name: ", /*#__PURE__*/React.createElement("strong", null, "Inference"), "."),
-  /*#__PURE__*/React.createElement(BodyP, null, "It isn\u2019t training again. It\u2019s using what training already built, reading those frozen patterns back out one token at a time."),
+  var _ma = useState({}), meterAnswers = _ma[0], setMeterAnswers = _ma[1];
+  var METER_TASKS = [
+    { prompt: "One word of answer from a 70-billion-weight model. Roughly how many calculations before it can type that word?", options: ["140 thousand", "140 million", "140 billion"], answer: "140 billion",
+      explain: "140 billion. Two calculations per weight, 70 billion weights. That’s the price of a single word." },
+    { prompt: "The full sentence “You could name him Spot.” is 7 tokens. What’s the bill for the whole sentence?", options: ["Still 140 billion", "About 7 billion", "About a trillion"], answer: "About a trillion",
+      explain: "About a trillion. No memory means no discount: the full trip runs for every one of the 7 tokens, and 7 × 140 billion is roughly a trillion calculations to name a dog." },
+    { prompt: "Same question, but asked at the end of a long chat with an essay pasted in. What does the meter do for each new word?", options: ["It drops", "It stays the same", "It climbs"], answer: "It climbs",
+      explain: "It climbs. Everything in the window gets re-read before every new word, so a bigger window means a bigger bill per word. It’s why long chats slow down, and why a fresh chat for a new task is real engineering advice." }
+  ];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "Way back at the start of this section, in AI is Math, we made a claim and asked you to take it on faith: AI isn\u2019t a mind, it\u2019s math. Back then, you had no way to check. Now you do."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Over the last seven lessons, you built the machine yourself. Text becomes tokens. Tokens become vectors. Attention and the layers turn those vectors into meaning, and prediction reads the next word off a ranked list. In How AI Answers, you watched the machine write:"),
+  /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "You even gave the journey its name: inference. And everything you watched was arithmetic, start to finish. But there are a couple of things we didn\u2019t tell you about that table."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "What we didn\u2019t tell you #1: no memory"),
+  /*#__PURE__*/React.createElement(BodyP, null, "When the model typed \u201chim\u201d, it had already forgotten typing \u201cname\u201d. You remember the start of your own sentence while you write the end of it. The model doesn\u2019t. The moment a token is picked, the work that picked it is thrown away. The only record is the text itself."),
+  /*#__PURE__*/React.createElement(BodyP, null, "So \u201cthe reply so far\u201d was the polite version. Before every word, the model re-reads everything it can see: your question, its own reply so far, and the rest of the context window too. Personalization, saved memory, everything earlier in the chat. All of it, tokenized, embedded, and pushed through every layer, for every single word."),
   /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The engine, running frozen"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "What we didn’t tell you #2: the bill"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "At the center of that whole journey is the neural network you met in Layers: the stacked nodes and ",
+      "Now count what that costs. The calculations aren’t a mystery. They’re the ",
       /*#__PURE__*/React.createElement("strong", null, "weights"),
-      ". Training set those weights; inference just runs them forward, the same machine doing the same arithmetic every time you ask."),
+      " you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/inference.jpg",
+      src: "illustrations/the-math.jpg",
       alt: "A hand-drawn diagram: a neural network is layers of math passing numbers forward. Numbers from the prompt enter on the left and pass through Layer 1 to Layer N, where each node multiplies its inputs by weights, sums them, applies an activation, and passes the result forward; a score for every possible next token comes out on the right. Weights are learned in training and frozen during inference.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 16 }
     }),
+  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)"),
+  /*#__PURE__*/React.createElement(BillMeterBox, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "And remember secret #1: the whole window gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Every time you hit send"),
+  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. Every time you hit send, a warehouse of computers spins up, runs hundreds of billions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost."),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "Run the Meter",
+    lead: "Do the math yourself. Three questions, one meter." },
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      METER_TASKS.map(function(c, i) {
+        var answered = meterAnswers[i] !== undefined;
+        var picked = meterAnswers[i];
+        var correct = picked === c.answer;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: c.prompt,
+          answered: answered,
+          correct: correct,
+          feedback: c.explain
+        }, c.options.map(function(w) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: w,
+            answered: answered,
+            isCorrect: w === c.answer,
+            isPicked: picked === w,
+            label: w,
+            onClick: function() { setMeterAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
+          });
+        }));
+      }))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "LOCK IN THE PIECES"),
-  /*#__PURE__*/React.createElement(BodyP, null, "You’ve now watched every piece work together as one journey. Here’s a quick checkpoint to lock them in."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You’ve now seen every piece, and what it costs to run them. One last checkpoint to lock the section in."),
   /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
@@ -6127,26 +6196,75 @@ function DogNameChartBox() {
 function DogRecapStrip() {
   var E = React.createElement;
   var cards = [
-    { tag: "Tokens", from: "Tokens", body: "The question splits into tokens, each mapped to its ID number. From here on, it’s all numbers." },
-    { tag: "Position stamps", from: "Transformer", body: "Each token gets its position mixed in, #1 through #8, so the order arrives with the words." },
-    { tag: "Starting meaning", from: "Embeddings", body: "Each token’s number becomes its vector: its starting position on the map." },
-    { tag: "Through the layers", from: "Layers · Vector Space", body: "Dozens of passes of attention and transformation. The question’s meaning is locked in." }
+    { tag: "Tokens", from: "Tokens", body: "Split into tokens and looks up Token IDs.", color: "#10b981",
+      tokens: [["What", 3923], ["should", 1288], ["I", 358], ["name", 836], ["my", 856], ["new", 502], ["dog", 5679], ["?", 30]] },
+    { tag: "Position stamps", from: "Transformer", body: "Marks each token’s position.", color: "#3b82f6",
+      tokens: [["What", "#1"], ["should", "#2"], ["I", "#3"], ["name", "#4"], ["my", "#5"], ["new", "#6"], ["dog", "#7"], ["?", "#8"]] },
+    { tag: "Starting meaning", from: "Embeddings", body: "Looks up the vector for each token.", color: "#8b5cf6",
+      tokens: [["What", "[0.42,-1.15,0.63,…]"], ["should", "[-0.87,0.21,1.44,…]"], ["I", "[1.33,-0.06,-0.71,…]"], ["name", "[0.27,1.91,-0.38,…]"], ["my", "[-0.52,0.68,0.19,…]"], ["new", "[0.95,-1.24,0.57,…]"], ["dog", "[-1.08,0.74,1.62,…]"], ["?", "[0.11,-0.39,-0.84,…]"]] },
+    { tag: "Through layers", from: "Layers · Vector Space", body: "Runs Attention & Transformation.", color: "#f59e0b",
+      tokens: [["What", "[1.87,0.42,-2.31,…]"], ["should", "[-0.19,2.66,0.85,…]"], ["I", "[2.14,-1.52,0.98,…]"], ["name", "[-2.43,1.17,2.05,…]"], ["my", "[1.29,-0.77,-1.94,…]"], ["new", "[-1.61,2.38,0.44,…]"], ["dog", "[2.72,-2.15,1.83,…]"], ["?", "[-0.96,1.49,-2.58,…]"]] }
   ];
   return E(React.Fragment, null,
-    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14, marginBottom: 14 } },
-        ["What", "should", "I", "name", "my", "new", "dog", "?"].map(function(w, i) {
-          return E("span", { key: i, style: { background: "#fff", color: "var(--inkSoft)", border: "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: 600 } }, w);
-        })),
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
+    E("div", { style: { margin: "8px 0 24px" } },
+      E("div", { style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", boxShadow: "var(--shadowSoft)", padding: "16px 18px", marginBottom: 14, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)" } },
+        "What should I name my new dog?"),
+      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 8 } },
         cards.map(function(c, i) {
           return E(React.Fragment, { key: i },
-            i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
-            E("div", { style: { flex: "1 1 180px", minWidth: 165, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px" } },
-              E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 2 } }, c.tag),
-              E("div", { style: { fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 6 } }, "Review · " + c.from),
-              E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, c.body)));
+            i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--inkMuted)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
+            E("div", { style: { flex: i < 2 ? "0.75 1 135px" : "1.25 1 225px", minWidth: i < 2 ? 125 : 205, background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, boxShadow: "var(--shadowSoft)", padding: i < 2 ? "14px 12px" : "14px 16px" } },
+              E("div", { style: { fontSize: i < 2 ? 11 : 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: i < 2 ? "0.05em" : "0.08em", color: c.color, marginBottom: 6, whiteSpace: "nowrap" } }, c.tag),
+              E("div", { style: { fontSize: c.tokens ? (i < 2 ? 12.5 : 13.5) : BOX_TEXT, lineHeight: 1.5, color: "var(--ink)", minHeight: c.tokens ? 41 : undefined } }, c.body),
+              c.tokens ? E("div", { style: { borderTop: "1px solid var(--rule)", margin: "8px 0 2px" } }) : null,
+              c.tokens ? E("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginTop: 10 } },
+                c.tokens.map(function(t, ti) {
+                  return E("div", { key: ti, style: { display: "flex", alignItems: "center", gap: 8 } },
+                    E("span", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: c.color, background: c.color + "14", border: "1.5px solid " + c.color + "55", borderRadius: 8, padding: "3px 7px" } }, t[0]),
+                    E("span", { style: { fontFamily: "var(--mono)", fontSize: 11.5, fontWeight: 600, color: "var(--ink)", whiteSpace: "nowrap" } }, t[1]));
+                })) : null));
         }))));
+}
+function AnswerBuildStrip() {
+  var E = React.createElement;
+  var steps = [
+    { reply: "", last: "?", hood: "Reply starters", picks: [["You", 18], ["A", 14], ["Great", 9]] },
+    { reply: "You", last: "You", hood: "Ways to suggest", picks: [["could", 24], ["can", 12], ["should", 10]] },
+    { reply: "You could", last: "could", hood: "Naming verbs", picks: [["name", 31], ["call", 19], ["try", 7]] },
+    { reply: "You could name", last: "name", hood: "Who gets named", picks: [["him", 45], ["your", 21], ["the", 8]] },
+    { reply: "You could name him", last: "him", hood: "Dog names", picks: [["Spot", 22], ["Max", 17], ["Buddy", 14]] }
+  ];
+  var cols = "100px minmax(140px, 1fr) 124px 284px";
+  var headCell = { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", whiteSpace: "nowrap" };
+  var sep = { borderRight: "1px solid var(--rule)", paddingRight: 14, alignSelf: "stretch", display: "flex", alignItems: "center", minWidth: 0 };
+  var sepHead = { borderRight: "1px solid var(--rule)", paddingRight: 14, alignSelf: "stretch" };
+  return E("div", { style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", boxShadow: "var(--shadowSoft)", padding: "14px 18px", margin: "8px 0 24px" } },
+    E("div", { style: { overflowX: "auto" } },
+      E("div", { style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", paddingBottom: 8, minWidth: 640 } },
+        E("div", { style: Object.assign({}, headCell, sepHead) }, "Last token"),
+        E("div", { style: Object.assign({}, headCell, sepHead) }, "Reply so far"),
+        E("div", { style: Object.assign({}, headCell, sepHead) }, "Neighborhood"),
+        E("div", { style: Object.assign({}, headCell, { paddingLeft: 10 }) }, "Top predictions")),
+      steps.map(function(s, i) {
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "9px 0", borderTop: "1px solid var(--rule)", minWidth: 640 } },
+          E("div", { style: sep },
+            E("span", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "var(--primary)", background: "#efeafd", border: "1.5px solid #cdbef7", borderRadius: 8, padding: "3px 8px", whiteSpace: "nowrap" } }, s.last)),
+          E("div", { style: sep },
+            E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } },
+              (s.reply ? s.reply + " " : "") + "____")),
+          E("div", { style: sep },
+            E("span", { style: { fontSize: 12.5, fontWeight: 600, color: "var(--inkMuted)" } }, s.hood)),
+          E("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", paddingLeft: 10 } },
+            s.picks.map(function(p, pi) {
+              return E("span", { key: pi, style: pi === 0
+                ? { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "var(--primary)", background: "#efeafd", border: "1.5px solid #cdbef7", borderRadius: 8, padding: "3px 8px", whiteSpace: "nowrap" }
+                : { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 600, color: "var(--inkMuted)", border: "1px solid var(--rule)", borderRadius: 8, padding: "3.5px 8px", whiteSpace: "nowrap" } },
+                p[0] + " " + p[1] + "%");
+            })));
+      }),
+      E("div", { style: { display: "flex", alignItems: "center", gap: 12, padding: "12px 0 3px", borderTop: "1px solid var(--rule)", minWidth: 640 } },
+        E("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
+        E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot."))));
 }
 function PredictionSection(props) {
   const [ctxAnswers, setCtxAnswers] = useState({});
@@ -6161,36 +6279,24 @@ function PredictionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The following statement is confusing right now. By the end of this lesson, it won\u2019t be."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    /*#__PURE__*/React.createElement("strong", null, "AI predicts the next word based on what you already typed.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Let\u2019s take a simple question and watch AI build its answer."),
-  /*#__PURE__*/React.createElement(BodyP, null, "You: “What should I name my new dog?”"),
-  /*#__PURE__*/React.createElement(BodyP, null, "First, the part you already know. The question makes the trip you\u2019ve spent this section learning, and every step here is review."),
-  /*#__PURE__*/React.createElement(DogRecapStrip, null),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The trip ends with a final vector: a position on the map that means the whole question. So how does that become an answer? Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
   /*#__PURE__*/React.createElement(PhoneTrayStrip, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), "."),
-  /*#__PURE__*/React.createElement("ol", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 18px 0", paddingLeft: 26 } },
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
-      "AI compares the final position of the last word in the chat so far against ",
-      /*#__PURE__*/React.createElement("strong", null, "every"),
-      " possible next token (words or pieces of words), scoring each by how closely the two line up on the map."),
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } },
-      "Then it ranks them by probability: the best fit on top, and a long tail of less likely options below. It builds that list fresh every time, from everything in the chat and anything else in the context window, like personalization."),
-    /*#__PURE__*/React.createElement("li", null,
-      "Then the model takes one, almost always from the top of the list, adds it to the text, and runs the whole thing again for the token after that.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s that moment for the dog question. The model has started its reply, and the answer has just reached the name slot."),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic as your phone\u2019s suggestion chips, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), ". Let\u2019s take a simple question and watch AI build its answer."),
+  /*#__PURE__*/React.createElement(DogRecapStrip, null),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Where we stand"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. Meaning: established."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now the detail everything turns on: ", /*#__PURE__*/React.createElement("strong", null, "the last token matters most"), ". Attention doesn’t just sharpen each token in place. Every pass also folds the earlier tokens into the later ones, so the last token’s vector soaks up the entire question. By the final layer, it isn’t really about the ? anymore. The layers have pushed that vector across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The answer, word by word"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now watch it happen. Each row below is one word of the answer. The model reads the vector sitting on the last token (the first column), checks which vector-space neighborhood it landed in, and takes the best-scoring word there. The pick gets typed, joins the context, and becomes the new last token. The next row runs the exact same move from there. That move is called ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
+  /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "Notice the name never came first. The neighborhoods tell the story: the sentence built its way, one slot at a time, to a spot where only a dog name fit. Every row is the same move; the only thing that changes is the context it starts from."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
+  /*#__PURE__*/React.createElement(BodyP, null, "One more layer to be honest about: those three chips per row are just the top of the list. At every slot, the model scores every token it knows, thousands at once, and ranks them all. Here\u2019s step 5 under the microscope: the moment the name arrived."),
   /*#__PURE__*/React.createElement(DogNameChartBox, null),
   /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
     "The exact numbers are illustrative."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot. That move has a name: ", /*#__PURE__*/React.createElement("strong", null, "prediction"), ". Score every possible next token, pick one."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now reread the statement from the top of the lesson: AI predicts the next word based on what you already typed. You can sharpen it yourself now. The “word” is really a token. And “what you already typed” is really everything in the context window."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "And notice where those odds come from. Attention spent dozens of layers blending the whole chat into that final position, so the scores really do come from everything the model can see. It’s why the context window mattered so much back in Work With AI: control the context, and you’re steering the predictions themselves."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "One more thing before you try it yourself: Spot is one token. The answer isn’t finished, and the model doesn’t even remember the work it just did. What turns one pick into a whole reply is the next lesson."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot."),
+  /*#__PURE__*/React.createElement(BodyP, null, "And that’s the whole machine. Everything you just watched, from tokens to vectors to a ranked list to the next word, has a name: ", /*#__PURE__*/React.createElement("strong", null, "inference"), ". It’s what the model does every time it answers you."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -6221,7 +6327,7 @@ function PredictionSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(ctxAnswers).length >= CTX_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Inference" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(ctxAnswers).length >= CTX_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: The Math" }));
 }
 
 function HallucinationSection(props) {
@@ -11049,7 +11155,7 @@ const SECTION_COMPONENTS = {
   talkingai: TalkingAboutAISection,
   buildedge: BuildEdgeSection
 };
-const CHIP_LABELS = { inference: "Inference", embeddings: "Embeddings", critical: "Critical Thinking" };
+const CHIP_LABELS = { embeddings: "Embeddings", critical: "Critical Thinking" };
 function ChipNav(props) {
   var E = React.createElement;
   var _ch = useState(null), chipHover = _ch[0], setChipHover = _ch[1];

@@ -4,7 +4,9 @@
 
 In Vector Space, you watched a token’s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you.
 
-The following statement is confusing right now. By the end of this lesson, it won’t be. **AI predicts the next word based on what you already typed.**
+The following statement is confusing right now. By the end of this lesson, it won’t be.
+
+**AI predicts the next word based on what you already typed.**
 
 Let’s take a simple question and watch AI build its answer.
 

@@ -264,6 +264,34 @@ const LESSON_VIDEOS = {
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
 // that don't end in a TRY IT).
 const WATCH_CTA_DEFAULT = "After watching, put it into practice with the TRY IT at the end of this lesson.";
+// Each lesson's parting statement, shown right before the closing TRY IT / LAB and
+// mirrored as the final frame of the lesson's video. `sticky` is optional (tokens).
+// Welcome has no entry on purpose: its close mirrors the statement card at the top of its page.
+const CLOSE_BOARDS = {
+  whydeeper: { pill: "The information revolution is already here.", sticky: "Not someday. Today." },
+  llms: { pill: "The model predicts a likely output.", sticky: "From patterns it learned in data." },
+  aihistory: { pill: "Not magic. Not a person. Not a truth machine.", sticky: "It’s math working out probabilities." },
+  doesaithink: { pill: "A pattern machine, not a thinker.", sticky: "Once you see that, its weird moments make sense." },
+  control: { pill: "The volume is loud. The dial is yours.", sticky: "Skill and judgment tilt your odds." },
+  whybother: { pill: "Know more than the tool.", sticky: "It starts today, not when you land the job." },
+  studying: { pill: "Use AI to learn, not to skip the learning.", sticky: "Feed it your materials. Trace it back." },
+  openerworkwith: { pill: "Don’t just use AI. Work with it.", sticky: "It doesn’t replace your thinking. It multiplies it." },
+  aivscode: { pill: "Patterns, not rules.", sticky: "Pick the tool that fits the job." },
+  whatitdoesbest: { pill: "“Can try” is not “built for.”", sticky: "That’s why your judgment still matters." },
+  modelselection: { pill: "The skills transfer.", sticky: "The app is just where you practice them." },
+  questionsvaluable: { pill: "The question is the whole game.", sticky: "Frame the problem. Ask the next better question." },
+  prompting: { pill: "A prompt is a briefing, not magic words.", sticky: "That’s the whole art." },
+  prompt: { pill: "With the right context, AI gives better answers.", sticky: "Control the context, control the quality." },
+  evaluating: { pill: "Know which answers deserve the dig.", sticky: "Read. Understand. Validate." },
+  critical: { pill: "AI amplifies whatever you bring to it.", sticky: "Good thinking in, sharper output." },
+  training: { pill: "The finished model is a snapshot.", sticky: "That’s why models have knowledge cutoffs." },
+  aiismath: { pill: "Two ideas, plus the loop.", sticky: "Everything else is engineering." },
+  tokens: { pill: "A token ID is an address, not a meaning." },
+  embeddings: { pill: "Meaning is a row of numbers.", sticky: "Same dimensions for every token. Only the values change." },
+  attention: { pill: "Attention is all you need.", sticky: "The Transformer — the T in ChatGPT." },
+  layers: { pill: "Meaning builds up, layer by layer.", sticky: "The blank box gets filled in the next lesson." },
+  vectorspace: { pill: "Meaning is a position.", sticky: "The final vector is the blend of the whole sentence." }
+};
 function LessonHeader(props) {
   var E = React.createElement;
   var sectionId = props.sectionId;
@@ -389,6 +417,41 @@ function KeyInsight(props) {
     hasLead ? /*#__PURE__*/React.createElement("strong", null, props.lead + " ") : null,
     props.children
   );
+}
+// The lesson's parting statement (dark pill + tilted sticky), the native twin of the
+// composed close boards that end each lesson video. Copy lives in CLOSE_BOARDS; render
+// via closeBoard(sectionId). Content, not chrome: stays in the print/PDF export.
+function CloseBoard(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "close-board",
+    style: {
+      display: "flex", flexDirection: "column", alignItems: "center",
+      padding: "34px 20px 38px",
+      marginTop: props.marginTop != null ? props.marginTop : "var(--blockGap)",
+      marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)"
+    }
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#252a33", color: "#fff", borderRadius: 999,
+        padding: "16px 34px", fontSize: 23, fontWeight: 800,
+        letterSpacing: "-0.02em", lineHeight: 1.3, textAlign: "center"
+      }
+    }, props.pill),
+    props.sticky ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 20, background: "#f9eda6", color: "#4a4426",
+        transform: "rotate(-2.5deg)", padding: "11px 24px",
+        fontSize: 15.5, fontWeight: 600, fontStyle: "italic",
+        boxShadow: "0 10px 24px rgba(14,10,31,0.10)", textAlign: "center", lineHeight: 1.45
+      }
+    }, props.sticky) : null
+  );
+}
+function closeBoard(sectionId) {
+  var copy = CLOSE_BOARDS[sectionId];
+  if (!copy) return null;
+  return /*#__PURE__*/React.createElement(CloseBoard, copy);
 }
 var TERMS = [
   { term: "Attention", definition: "The step inside each layer that figures out which words relate to which other words. Each word weighs every other word. Paired with transformation, this is how the model reads meaning.", source: "attention" },
@@ -834,6 +897,7 @@ function OpenerSection(props) {
           renderParas(props.whatYoullLearnClosing)),
     props.mistake ? E(KeyInsight, { lead: "The common mistake:" }, props.mistake) : null,
     props.question ? E(KeyInsight, { lead: props.questionLead !== undefined ? props.questionLead : "Keep this question in mind:" }, props.question) : null,
+    closeBoard(props.sectionId),
     E(LessonRule, null),
     E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
   );
@@ -1947,6 +2011,7 @@ function AIHistorySection(props) {
         "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a truth machine"), ": it predicts what sounds likely, so a wrong answer can sound just as confident as a right one.")
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "Keep those three straight and much of the confusion falls away."),
+    closeBoard("aihistory"),
     /*#__PURE__*/E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -2137,6 +2202,7 @@ function LLMsSection(props) {
         { badge: "M", label: "Model", color: "#f59e0b", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "The trained AI itself. It takes your input and ", /*#__PURE__*/React.createElement("strong", { style: { color: "#f59e0b" } }, "predicts a likely output"), " based on patterns it learned from data.") }
       ]
     }),
+    closeBoard("llms"),
     /*#__PURE__*/React.createElement(RecOrGenTryIt, { onComplete: function() { setRgDone(true); } }),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: rgDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: How an LLM Works" })
   );
@@ -2498,6 +2564,7 @@ function AIIsMathSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past what’s here. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But two ideas from probability, plus the loop that turns them into language, are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
+    closeBoard("aiismath"),
     /*#__PURE__*/React.createElement(ReachFriendTryIt, { onComplete: function() { setNwDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: nwDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
@@ -2912,7 +2979,7 @@ function WhyDeeperSection(props) {
       cite: "Winning the Race",
       source: "The White House, July 2025"
     }),
-    /*#__PURE__*/E(BodyP, null, "That’s not a forecast for someday. The information revolution is already here. ", /*#__PURE__*/E("strong", null, "Today.")),
+    closeBoard("whydeeper"),
     /*#__PURE__*/E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -3026,7 +3093,8 @@ function DoesAIThinkSection(props) {
     E(CompareRows, { headline: "When you think vs. what AI does", columns: COLUMNS }),
 
     E(BodyP, null,
-      "None of this means AI is dumb or useless. A pattern machine this good is genuinely powerful. It just means it\u2019s not thinking. Once you see that, its weird moments start to make sense."),
+      "None of this means AI is dumb or useless. A pattern machine this good is genuinely powerful. It just means it\u2019s not thinking."),
+    closeBoard("doesaithink"),
 
 
     E(InteractiveBox, {
@@ -3139,12 +3207,13 @@ function WhyBotherSection(props) {
       })
     ),
     E(BodyP, null,
-      "Those two things are your domain. This is where you need to live. And it starts today, not when you land the job. Double down on building your knowledge and skills. And one day you\u2019ll be the CEO at Google."),
+      "Those two things are your domain. This is where you need to live. Double down on building your knowledge and skills. And one day you\u2019ll be the CEO at Google."),
     E("img", {
       src: "illustrations/does-school-matter.jpg",
       alt: "A student imagined as the future CEO at Google",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
+    closeBoard("whybother"),
 
     E(InteractiveBox, {
       variant: "try",
@@ -3278,6 +3347,7 @@ function ControlSection(props) {
 
     E(BodyP, null,
       "Controlling your skill and judgment isn’t a consolation prize for the stuff you can’t change. It’s the one lever that actually tilts your odds, even when the big forces aren’t yours."),
+    closeBoard("control"),
 
     E(InteractiveBox, {
       variant: "try",
@@ -3517,6 +3587,7 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "So when an app refuses something dangerous, that’s the guardrail talking, not the AI making a call of its own."
     ),
+    closeBoard("aivscode"),
     /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of normal software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS, onComplete: function() { setFitDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: fitDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
@@ -3938,6 +4009,7 @@ function HowAIReadsSection(props) {
       ": a second pattern of numbers mixed in that says \u201cI\u2019m token #1,\u201d \u201cI\u2019m token #3.\u201d Now the sentence can arrive all at once without losing its order. The proper name for the stamp is ",
       E("strong", null, "positional encoding"),
       "."),
+    closeBoard("attention"),
     E(BeTheAttentionTryIt, { onComplete: function() { setPaDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, {
@@ -4338,6 +4410,7 @@ function TrainingSection(props) {
     "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have ",
     /*#__PURE__*/React.createElement("strong", null, "knowledge cutoffs"),
     ". They can add live search, files, memory, or tools, but the core model is finished learning."),
+    closeBoard("training"),
     /*#__PURE__*/React.createElement(TrainingWhoTaughtQuiz, { onComplete: function() { setTpmDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpmDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: AI is Math" }));
@@ -4558,6 +4631,7 @@ function TokenSection(props) {
     E(BodyP, { style: { marginTop: 24 } }, "Here’s how AI splits text into tokens. Each AI does this differently, so this is only an example."),
     tokenizeBox,
     vocabDeeper,
+    closeBoard("tokens"),
     E(TokenTrueFalseTryIt, { onComplete: function() { setTokenTryDone(true); } }),
     E(LessonRule, null),
     navButton);
@@ -4859,6 +4933,7 @@ function EmbeddingsSection(props) {
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
+  closeBoard("embeddings"),
   clubTryIt,
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: clubMatchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
@@ -5027,6 +5102,7 @@ function VectorSpaceSection(props) {
       " pull it the other. It isn’t one keyword flipping a switch: the final vector is the ",
       E("strong", null, "blend of the whole sentence"),
       ". Change the words around it, and the same token lands somewhere new."),
+    closeBoard("vectorspace"),
     E(WhichSitsCloserTryIt, { onComplete: function() { setVsDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
@@ -5171,6 +5247,7 @@ function LayersSection(props) {
       "The whole stack of layers is called a ",
       /*#__PURE__*/React.createElement("strong", null, "neural network"),
       ". The design is loosely borrowed from biology, simple units passing signals forward the way neurons do. But that’s where the resemblance ends. It isn’t a brain and it isn’t thinking: it’s the same arithmetic, repeated billions of times, fast."),
+    closeBoard("layers"),
     /*#__PURE__*/React.createElement(TransformerClaimsTryIt, { onComplete: () => setClaimsDone(true) }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimsDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
@@ -5399,6 +5476,7 @@ function PromptSection(props) {
     alt: "Two teens in a car showroom beside a Ford pickup and a Jeep. A screen above shows the model reading thousands of signals about each person, matching patterns, and predicting the vehicle each is most likely to like: Nate’s pick is the rugged Ford, Luke’s is the versatile Jeep. Caption: AI predicts, you choose. It is a helpful guess, not a rule.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "16px auto 28px", borderRadius: 16 }
   }),
+    closeBoard("prompt"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -5702,8 +5780,7 @@ function ModelSelectionSection(props) {
   }()),
   /*#__PURE__*/React.createElement(BodyP, null,
     "We leaned on one more tool: NotebookLM, which is powered by Gemini. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and NotebookLM did the rest."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "The skills transfer. The app is just where you practice them." },
-    "Everything this course teaches, prompting, checking, staying in charge, works the same in all three. Which app you pick matters far less than how well you learn to drive it."),
+  closeBoard("modelselection"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
@@ -6414,7 +6491,8 @@ function CriticalThinkingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, h.body));
       }));
   }()),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI amplifies whatever you bring to it." }, "The five questions work on anything you read or hear. They matter most on AI, where answers arrive smooth, confident, and instant. Good thinking in, sharper output. Lazy thinking in, polished mediocrity. The model doesn’t fix your thinking. It scales it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The five questions work on anything you read or hear. They matter most on AI, where answers arrive smooth, confident, and instant. The model doesn’t fix your thinking. It scales it."),
+  closeBoard("critical"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -6693,7 +6771,8 @@ function WhatItDoesBestSection(props) {
     E(BodyP, null,
       "Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before."),
     E(BodyP, null,
-      "But exposure has a limit. AI is often good at the common version of a task, not necessarily the true, current, personal, safest, or best version. That’s why your judgment still matters."),
+      "But exposure has a limit. AI is often good at the common version of a task, not necessarily the true, current, personal, safest, or best version."),
+  closeBoard("whatitdoesbest"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -6795,8 +6874,7 @@ function PromptingSection(props) {
   }()),
   /*#__PURE__*/React.createElement(SectionKicker, null, "You don't need all of these every time"),
   /*#__PURE__*/React.createElement(BodyP, null, "How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation and describe the answer you want. A big project: add steps. The more the result matters, the more you bring."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "A prompt is a briefing, not magic words." },
-    "Share where you stand, describe what good looks like, and give it one job at a time. That\u2019s the whole art."),
+  closeBoard("prompting"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
@@ -7099,6 +7177,7 @@ function StudyingWithAISection(props) {
       { icon: "🎧", title: "Review on the go", body: "Have NotebookLM make an audio overview, then play it while you drive, walk, or work out. It turns dead time into another pass over the material." },
       { icon: "🔎", title: "Trace it back to learn it", body: "When something doesn’t fully click, click its numbered citation to jump straight to the spot in your materials it came from. Reading the original material is often what makes it land." }
     ] }),
+    closeBoard("studying"),
     E(Lab01CourseNotebook, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
@@ -7241,8 +7320,8 @@ function EvaluatingSection(props) {
               E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
             E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
-    E(KeyInsight, { lead: "Most answers pass in seconds." },
-      "Read, understand, validate barely slows you down. The skill isn’t checking everything: it’s knowing which answers deserve the dig."),
+    E(BodyP, null, "Most answers pass in seconds: read, understand, validate barely slows you down. The skill isn’t checking everything."),
+    closeBoard("evaluating"),
     E(DigDeeperTryIt, { onComplete: function() { setDdDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, { ready: ddDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
@@ -9782,8 +9861,7 @@ function QuestionsValuableSection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "A better question doesn\u2019t make the answer automatically true. It just makes the answer more focused, more useful, and easier to check."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The advantage no longer goes to whoever produces the fastest first answer." },
-      "It goes to the person who frames the problem, sets the standard, and asks the next better question."),
+    closeBoard("questionsvaluable"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",

@@ -46,15 +46,18 @@ chk "near-token lavender #f3f1fa" 0 \
 # (normalized 2026-06-10: HowWeGotHere timeline, Training phases x3, WorkChanges value box).
 chk "page-bg used as outer band" 0 \
   "$(grep -oF 'background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: 24' "$F" | wc -l | tr -d ' ')"
-# 3 = validate() JS comments (not copy). The "words — analogy" context-window-size
-# line left with the CONTEXT_WINDOW_FACTS cut (parked for Inference, 2026-07-02).
+# 6 = 3 validate() JS comments (not copy) + 2 LESSON_VIDEOS pill titles (attention,
+# layers; owner-accepted tracker copy) + 1 CLOSE_BOARDS sticky ("The Transformer — the
+# T in ChatGPT."), kept verbatim so the native close board matches its video's final
+# frame. The "words — analogy" context-window-size line left with the
+# CONTEXT_WINDOW_FACTS cut (parked for Inference, 2026-07-02).
 # (The 3 "not magic / not a person / not a truth machine" myth em-dashes were
 #  converted to colons 2026-06-19; InferenceJourneyDiagram was rewritten em-dash-free
 #  2026-06-18.)
 # The verbatim White House quote in whydeeper carries one more, written as the
 # backslash-u2014 JS escape, so this raw-byte count doesn't see it (quotes from sources
 # keep their original punctuation; our own copy still avoids em-dashes).
-chk "em-dashes in copy" 3 \
+chk "em-dashes in copy" 6 \
   "$(grep -oF '—' "$F" | wc -l | tr -d ' ')"
 
 echo "----------------------------------------------------"

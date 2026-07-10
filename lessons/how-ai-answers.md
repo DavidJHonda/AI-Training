@@ -10,9 +10,7 @@ The following statement is confusing right now. By the end of this lesson, it wo
 
 Let’s take a simple question and watch AI build its answer.
 
-## You
-
-What should I name my new dog?
+You: “What should I name my new dog?”
 
 First, the part you already know. The question makes the trip you’ve spent this section learning, and every step here is review.
 

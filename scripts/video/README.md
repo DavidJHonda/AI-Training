@@ -100,3 +100,21 @@ inside narration pauses, in both videos.
   shift, possible voice/energy mismatch.
 - Long content-bearing flaw spans (the white text IS the scene's meaning) cannot
   be clone-patched — graft or re-roll.
+- **Dissolve-onset rule:** these rolls often dissolve between scenes (frame-diff
+  never spikes). A donor/graft start taken from narration timing can land
+  mid-blend and flash the PREVIOUS scene. Frame-check every donor onset past its
+  dissolve before compositing.
+- **Word-inside-pause rule:** pauses.sh can flag a silence window that lives
+  INSIDE a drawn-out word (a cut there clips mid-word). Verify every planned cut
+  against word-level timestamps (faster-whisper, in the venv:
+  `WhisperModel("base.en", device="cpu", compute_type="int8")` with
+  `word_timestamps=True`), not pauses alone.
+- **Orphan-beat rule:** carrying a sub-2s beat of never-before-seen material
+  across a seam reads to the owner as "a flash of old content," even when the
+  beat itself is clean. Land on the destination board instead (start-clone).
+- **Word-mute recipe:** to delete one wrong spoken word without shifting sync,
+  mute it in place: `volume=enable='between(t,A,B)':volume=0` on the audio leg,
+  with A/B placed in RMS troughs (excise_audio.py --probe). Zero duration change.
+- **Never overwrite a repair candidate in place** — the owner's player may have
+  it open, and an underfoot rewrite plays as a broken file (frozen + silent).
+  Version-suffix every rebuild (-v2, -v3, ...).

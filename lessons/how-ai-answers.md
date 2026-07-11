@@ -4,7 +4,7 @@
 
 In Vector Space, you watched a token’s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you.
 
-Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone.
+Start with your phone. As you type a text, it suggests the next word: three choices above the keyboard, picked from the last word or two. And everyone gets the same suggestions.
 
 See you .
 
@@ -14,7 +14,7 @@ tomorrow
 
 later
 
-AI follows the same basic logic as your phone’s suggestion chips, but, as you might expect, it goes **way deeper**. Let’s take a simple question and watch AI build its answer.
+AI follows the same basic logic as your phone’s suggestions, but, as you might expect, it goes **way deeper**. Let’s take a simple question and watch AI build its answer.
 
 What should I name my new dog?
 
@@ -178,13 +178,15 @@ dog
 
 ## Where we stand
 
-Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. Meaning: established.
+Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. **Meaning: established.**
 
-Now the detail everything turns on: **the last token matters most**. Attention doesn’t just sharpen each token in place. Every pass also folds the earlier tokens into the later ones, so the last token’s vector soaks up the entire question. By the final layer, it isn’t really about the ? anymore. The layers have pushed that vector across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer.
+Now the detail everything turns on: **the last token matters most**. Attention doesn’t just sharpen each token in place. Every pass also folds the earlier tokens into the later ones, so the last token’s vector soaks up the entire question. By the final layer, the last token isn’t really about the question mark (?) anymore. Attention and transformation have pushed its vector across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer.
 
 ## The answer, word by word
 
-Now watch it happen. Each row below is one word of the answer. The model reads the vector sitting on the last token (the first column), checks which vector-space neighborhood it landed in, and takes the best-scoring word there. The pick gets typed, joins the context, and becomes the new last token. The next row runs the exact same move from there. That move is called **prediction**.
+Now watch it happen. Each row below is one word of the answer. The model looks at the last token (the first column), checks which neighborhood its vector landed in, and takes the best-scoring word there. That word gets typed, joins the context, and becomes the new last token. Then the next row repeats the move. That move is called **prediction**.
+
+What should I name my new dog?
 
 ## Last token
 
@@ -256,11 +258,11 @@ Buddy 14%
 
 You could name him Spot.
 
-Notice the name never came first. The neighborhoods tell the story: the sentence built its way, one slot at a time, to a spot where only a dog name fit. Every row is the same move; the only thing that changes is the context it starts from.
+You asked for a name for your new dog. But notice the name never came first. The neighborhoods tell the story: the sentence built its way, one token at a time, to the spot where it suggested Spot. Every row is the same move; the only thing that changes is the context it starts from.
 
 ## The ranked list
 
-One more layer to be honest about: those three chips per row are just the top of the list. At every slot, the model scores every token it knows, thousands at once, and ranks them all. Here’s step 5 under the microscope: the moment the name arrived.
+One more idea to clarify. The table shows three predictions per row, but that’s just the top of the list. In reality, the model assigns a probability to every token in its vocabulary, all 200,000+ of them, and ranks them all. Here’s the name slot under the microscope: the moment Spot arrived.
 
 Score every token: the name slot
 

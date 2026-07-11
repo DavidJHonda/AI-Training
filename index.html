@@ -5283,7 +5283,7 @@ function InferenceJourneyDiagram() {
     { n: 2, ph: READ, chip: "TOKENS", title: "Text becomes numbers", body: ["The whole thing is split into tokens, each mapped to a number. ", b("From here on, it’s all numbers.")] },
     { n: 3, ph: READ, chip: "EMBEDDINGS", title: "Starting meaning", body: ["Each token’s number becomes a vector, its starting meaning on the map."] },
     { n: 4, ph: READ, chip: "TRANSFORMER", title: "Reads everything at once", big: true, body: ["The architecture that reads every token at once. Each of ~100 layers runs ", b("attention"), " (which tokens relate), then ", b("transformation"), " (what they mean together), using weights frozen in training. One final vector per token comes out."] },
-    { n: 5, ph: WRITE, chip: "PROBABILITY", title: "Score every possible next token", body: ["Now the model takes everything it just understood and scores all ~100,000 tokens it knows for what comes next. The better the fit, the higher the probability."] },
+    { n: 5, ph: WRITE, chip: "PROBABILITY", title: "Score every possible next token", body: ["Now the model takes everything it just understood and scores all ~200,000 tokens it knows for what comes next. The better the fit, the higher the probability."] },
     { n: 6, ph: WRITE, chip: "PREDICTION", title: "Pick the next token", body: ["It picks one token, usually a whole word."] },
     { n: 7, ph: WRITE, chip: "OUTPUT", title: "Types it out", body: ["The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream."] },
     { n: 8, ph: WRITE, chip: "LOOP", title: "No memory, so it loops", body: ["The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and ", b("runs the whole journey again"), ", token by token, until the answer is complete."] }
@@ -6216,7 +6216,7 @@ function DogRecapStrip() {
     { tag: "Through layers", body: "Runs Attention & Transformation.",
       vals: ["[1.87,0.42,-2.31,…]", "[-0.19,2.66,0.85,…]", "[2.14,-1.52,0.98,…]", "[-2.43,1.17,2.05,…]", "[1.29,-0.77,-1.94,…]", "[-1.61,2.38,0.44,…]", "[2.72,-2.15,1.83,…]", "[-0.96,1.49,-2.58,…]"],
       hot: true,
-      now: ["every vector knows the ", E("strong", { key: "b" }, "whole question"), "."] }
+      now: ["the numbers changed: every vector now knows the ", E("strong", { key: "b" }, "whole question"), "."] }
   ];
   return E("div", { style: { background: "#ebe5fa", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
     E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 14, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)" } },
@@ -6256,6 +6256,8 @@ function AnswerBuildStrip() {
     return E("span", { style: { display: "inline-block", width: w, borderBottom: "2px solid var(--ink)", marginLeft: 2 } });
   }
   return E("div", { style: { background: "#ebe5fa", borderRadius: 22, padding: 12, margin: "8px 0 24px" } },
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "12px 16px", marginBottom: 10, textAlign: "center", fontFamily: "var(--mono)", fontSize: 17, fontWeight: 600, color: "var(--ink)" } },
+      "What should I name my new dog?"),
     E("div", { style: { overflowX: "auto" } },
       E("div", { style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "6px 16px 10px", minWidth: 640 } },
         E("div", { style: headCell }, "Last token"),
@@ -6289,24 +6291,24 @@ function PredictionSection(props) {
     { task: "The whole chat so far has been about Star Wars movies", options: ["Chewie", "Buddy", "Spot"], answer: "Chewie",
       explain: "Chewie. The chat loads the window with Star Wars, and the name list tilts with it. Change the movie, and the list changes too." },
     { task: "A brand-new chat with no history at all", options: ["Titan", "Chewie", "Buddy"], answer: "Buddy",
-      explain: "Buddy. With nothing in the window, only the general pattern is left, so a safe, popular name tops the list. That’s the closest the model ever gets to acting like your phone’s chips." }
+      explain: "Buddy. With nothing in the window, only the general pattern is left, so a safe, popular name tops the list. That’s the closest the model ever gets to acting like your phone’s suggestions." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests the next word: three choices above the keyboard, picked from the last word or two. And everyone gets the same suggestions."),
   /*#__PURE__*/React.createElement(PhoneTrayStrip, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic as your phone\u2019s suggestion chips, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), ". Let\u2019s take a simple question and watch AI build its answer."),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic as your phone\u2019s suggestions, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), ". Let\u2019s take a simple question and watch AI build its answer."),
   /*#__PURE__*/React.createElement(DogRecapStrip, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Where we stand"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. Meaning: established."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now the detail everything turns on: ", /*#__PURE__*/React.createElement("strong", null, "the last token matters most"), ". Attention doesn’t just sharpen each token in place. Every pass also folds the earlier tokens into the later ones, so the last token’s vector soaks up the entire question. By the final layer, it isn’t really about the ? anymore. The layers have pushed that vector across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. ", /*#__PURE__*/React.createElement("strong", null, "Meaning: established.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now the detail everything turns on: ", /*#__PURE__*/React.createElement("strong", null, "the last token matters most"), ". Attention doesn’t just sharpen each token in place. Every pass also folds the earlier tokens into the later ones, so the last token’s vector soaks up the entire question. By the final layer, the last token isn’t really about the question mark (?) anymore. Attention and transformation have pushed its vector across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The answer, word by word"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now watch it happen. Each row below is one word of the answer. The model reads the vector sitting on the last token (the first column), checks which vector-space neighborhood it landed in, and takes the best-scoring word there. The pick gets typed, joins the context, and becomes the new last token. The next row runs the exact same move from there. That move is called ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now watch it happen. Each row below is one word of the answer. The model looks at the last token (the first column), checks which neighborhood its vector landed in, and takes the best-scoring word there. That word gets typed, joins the context, and becomes the new last token. Then the next row repeats the move. That move is called ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
   /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "Notice the name never came first. The neighborhoods tell the story: the sentence built its way, one slot at a time, to a spot where only a dog name fit. Every row is the same move; the only thing that changes is the context it starts from."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You asked for a name for your new dog. But notice the name never came first. The neighborhoods tell the story: the sentence built its way, one token at a time, to the spot where it suggested Spot. Every row is the same move; the only thing that changes is the context it starts from."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
-  /*#__PURE__*/React.createElement(BodyP, null, "One more layer to be honest about: those three chips per row are just the top of the list. At every slot, the model scores every token it knows, thousands at once, and ranks them all. Here\u2019s step 5 under the microscope: the moment the name arrived."),
+  /*#__PURE__*/React.createElement(BodyP, null, "One more idea to clarify. The table shows three predictions per row, but that\u2019s just the top of the list. In reality, the model assigns a probability to every token in its vocabulary, all 200,000+ of them, and ranks them all. Here\u2019s the name slot under the microscope: the moment Spot arrived."),
   /*#__PURE__*/React.createElement(DogNameChartBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot."),
   /*#__PURE__*/React.createElement(BodyP, null, "And that’s the whole machine. Everything you just watched, from tokens to vectors to a ranked list to the next word, has a name: ", /*#__PURE__*/React.createElement("strong", null, "inference"), ". It’s what the model does every time it answers you."),

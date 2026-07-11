@@ -156,13 +156,13 @@ How long it thinks before it commits: quick for speed, deeper for hard problems.
 
 ## One more dial: temperature
 
-Back in Prediction, you watched the model build a ranked list of next-word odds and pick from the top. There’s a control on how boldly it commits to the top of that list: **temperature**.
+Back in One More Thing, you learned how the model really picks its next token: a weighted drawing, where every token holds tickets equal to its probability. **Temperature** is the dial on that drawing. Low temperature hands the top pick nearly every ticket, so answers become repeatable. High temperature spreads tickets far down the list, so answers get more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing.
 
-Temperature changes how predictable or surprising the model is when choosing words. Low temperature makes answers more repeatable. High temperature makes them more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing.
-
-Here’s a ranked list for “See you ___”. The middle column is the balanced default; see how the odds shift as temperature rises and falls. Temperature isn’t the only sampling control, but it’s the one worth knowing.
+Here’s the dog-name drawing from that lesson at three settings. The middle column is the balanced default; watch the odds sharpen and flatten as the dial moves. And keep an eye on Beowulf: impossible at low, alive at high. Temperature isn’t the only sampling control, but it’s the one worth knowing.
 
 How temperature reshapes the picks
+
+You could name him
 
 ❄️ Low
 
@@ -170,56 +170,60 @@ How temperature reshapes the picks
 
 🔥 High
 
-tomorrow
+Spot
 
-94%
+58%
 
-65%
+22%
 
-40%
+13%
 
-later
+Max
 
-2%
-
-20%
-
-28%
-
-soon
-
-1%
-
-10%
+19%
 
 17%
 
-there
+12%
 
-1%
+Buddy
+
+10%
+
+14%
+
+11%
+
+Rex
+
+5%
+
+9%
+
+9%
+
+Biscuit
+
+2%
+
+6%
+
+8%
+
+Beowulf
+
+0%
 
 3%
 
-7%
+6%
 
-again
+other tokens
 
-1%
+6%
 
-1%
+29%
 
-4%
+41%
 
-other words
-
-1%
-
-1%
-
-4%
-
-You probably won’t see this dial in regular ChatGPT, Claude, or Gemini. The app usually picks the temperature for you. But the idea still matters: you can ask for the effect instead, requesting “your best single answer” for consistency or “ten different options” for range.
-
-## What temperature is not
-
-Low temperature means repeatable, not correct. A low-temp model will confidently repeat the same wrong answer. Temperature controls variation, not accuracy.
+You won’t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you; the dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request “your best single answer” for consistency, or “ten different options” for range.

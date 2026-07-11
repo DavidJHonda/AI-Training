@@ -469,7 +469,7 @@ var TERMS = [
   { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
   { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
   { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "prompt" },
-  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "inference" },
+  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "choosemodel" },
   { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
   { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
   { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
@@ -5125,7 +5125,7 @@ function MatchTermsTryIt(props) {
     { prompt: "Everything the model can see at once: your prompt, the conversation, and instructions.", answer: "Context window", choices: ["Embedding", "Context window", "Training"], feedback: "The context window is the model’s field of view. Anything outside it is invisible to the model." },
     { prompt: "The process AI uses to generate an answer, one token at a time.", answer: "Inference", choices: ["Training", "Inference", "Transformer"], feedback: "Inference is answer-time: the model uses what it learned to generate, token by token. It isn’t learning now." },
     { prompt: "Choosing the next token from the model’s ranked list of possibilities.", answer: "Prediction", choices: ["Inference", "Attention", "Prediction"], feedback: "Prediction is the pick: the model scores every possible next token, chooses one, then repeats." },
-    { prompt: "The dial that controls how boldly the model commits to the top of its ranked list.", answer: "Temperature", choices: ["Temperature", "Prediction", "Attention"], feedback: "Temperature controls variation: low is repeatable, high is varied. It changes how the model picks, not what it knows." },
+    { prompt: "Why the exact same question in two brand-new chats can come back with two different answers.", answer: "Randomness", choices: ["Randomness", "No memory", "The context window"], feedback: "The pick is a weighted drawing. Same tickets both times, but the draw can land differently, and once one word differs, the replies diverge." },
     { prompt: "One word of answer from a 70-billion-weight model: roughly how many calculations?", answer: "140 billion", choices: ["140 thousand", "140 million", "140 billion"], feedback: "Two calculations per weight, 70 billion weights. That’s the price of one word, and the whole transcript gets re-read for every one." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
@@ -5389,14 +5389,13 @@ function InferenceSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
   /*#__PURE__*/React.createElement(BodyP, null, "One more thing. Actually, three more things. Across this section you built the whole machine: text becomes tokens, tokens become vectors, attention and the layers turn those vectors into meaning, and prediction reads the answer off a ranked list, one token at a time. But three facts about the machine never fit any single piece. They go here."),
   /*#__PURE__*/React.createElement(BodyP, null, "They\u2019re worth the stop. Understand these three, and you\u2019ll know more about what actually happens when you hit send than almost anyone who uses AI every day."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Randomness"),
   /*#__PURE__*/React.createElement(BodyP, null, "Start with a confession. In How AI Answers, we told you the model takes the top of the list and types it: Spot. We should have said ", /*#__PURE__*/React.createElement("strong", null, "usually"), ". You\u2019ve seen the evidence yourself: ask the exact same question in two brand-new chats, and the answers come back different. Same model, same question, same everything the model can see, and still two different replies."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too. That drawing is why two identical chats come back with two different replies."),
-  /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Temperature"), " is the dial on that drawing. Low temperature hands the top pick nearly every ticket, so answers become repeatable. High temperature spreads tickets far down the list, so answers get more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here\u2019s the name slot from last lesson at three settings. The middle column is the balanced list you already know; watch the odds sharpen and flatten as the dial moves. And keep an eye on Beowulf: impossible at low, alive at high. Temperature isn\u2019t the only sampling control, but it\u2019s the one worth knowing."),
-  /*#__PURE__*/React.createElement(DogTempBox, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "You won\u2019t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you; the dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request \u201cyour best single answer\u201d for consistency, or \u201cten different options\u201d for range."),  /*#__PURE__*/React.createElement(SectionKicker, null, "No memory"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The second thing sounds like it can\u2019t be true: ", /*#__PURE__*/React.createElement("strong", null, "AI has no memory."), " None. To see it, go back to the prompt about naming your new dog, and imagine it came at the end of a longer chat. You\u2019d been debating whether to get a dog or a cat at all, brainstorming with AI, and after plenty of typing and reading, you settled on the dog. Then you asked: \u201cWhat should I name my new dog?\u201d"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too."),
+  /*#__PURE__*/React.createElement(FiveDrawsBox, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "That drawing is why two identical chats come back with two different replies. And once the first word differs, everything after it starts from a different context, so the replies don’t just differ by a word. They diverge."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "No memory"),
+  /*#__PURE__*/React.createElement(BodyP, null, "The second thing sounds like it can\u2019t be true: ", /*#__PURE__*/React.createElement("strong", null, "AI has no memory."), " None. Let’s assume your question about naming your new dog came at the end of a long chat. You\u2019d been debating whether to get a dog or a cat at all, brainstorming with AI, and after plenty of typing and reading, you settled on the dog. Then you asked: \u201cWhat should I name my new dog?\u201d"),
   /*#__PURE__*/React.createElement(BodyP, null, "Here’s what happened each time you typed a message. AI ran ", /*#__PURE__*/React.createElement("strong", null, "everything"), ", all your messages and its own responses, through the full process: tokens, positions, attention and transformation through the layers. Think about it like this: every word of the chat is written on one long transcript, and AI re-reads the full transcript every time you send a message."),
   /*#__PURE__*/React.createElement(CompareBox, { kicker: "TWO SIDES OF THE SAME CHAT", marginBottom: 24 },
     [
@@ -5427,12 +5426,7 @@ function InferenceSection(props) {
       "Now count what that costs. The calculations aren’t a mystery. They’re the ",
       /*#__PURE__*/React.createElement("strong", null, "weights"),
       " you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/one-more-thing.jpg",
-      alt: "A hand-drawn diagram: a neural network is layers of math passing numbers forward. Numbers from the prompt enter on the left and pass through Layer 1 to Layer N, where each node multiplies its inputs by weights, sums them, applies an activation, and passes the result forward; a score for every possible next token comes out on the right. Weights are learned in training and frozen during inference.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 16 }
-    }),
-  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)"),
+  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight: a multiply and an add. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)"),
   /*#__PURE__*/React.createElement(BillMeterBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Every time you hit send"),
@@ -6029,6 +6023,11 @@ function ChoosingModelSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null,
     /*#__PURE__*/React.createElement("strong", null, "A bad answer doesn’t always mean ‘try harder.’ "),
     "Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes it just needs more effort. Knowing the three decisions means you can fix the right one."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "One more dial: temperature"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Back in One More Thing, you learned how the model really picks its next token: a weighted drawing, where every token holds tickets equal to its probability. ", /*#__PURE__*/React.createElement("strong", null, "Temperature"), " is the dial on that drawing. Low temperature hands the top pick nearly every ticket, so answers become repeatable. High temperature spreads tickets far down the list, so answers get more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here’s the dog-name drawing from that lesson at three settings. The middle column is the balanced default; watch the odds sharpen and flatten as the dial moves. And keep an eye on Beowulf: impossible at low, alive at high. Temperature isn’t the only sampling control, but it’s the one worth knowing."),
+  /*#__PURE__*/React.createElement(DogTempBox, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "You won’t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you; the dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request “your best single answer” for consistency, or “ten different options” for range."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -6096,6 +6095,36 @@ function DogNameChartBox() {
     E("div", { style: { marginTop: 12, fontSize: 13, lineHeight: 1.55 } },
       E("strong", { style: { color: "var(--ink)" } }, "Why is “other tokens” the biggest?"),
       E("span", { style: { color: "var(--inkMuted)" } }, " It’s the rest of the vocabulary sharing that 32%; no single one of them comes close to Spot. The exact numbers are illustrative.")));
+}
+function FiveDrawsBox() {
+  var E = React.createElement;
+  var ROWS = [["Spot", 22], ["Max", 17], ["Buddy", 14], ["Rex", 9], ["Biscuit", 6], ["other tokens", 32]];
+  var MAX = 32;
+  var DRAWS = ["Spot", "Spot", "Max", "Spot", "Buddy"];
+  return E(ShowcaseBox, { headline: "Same list, five draws" },
+    E(InnerCard, { pad: "snug" },
+      E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "12px 16px", margin: "4px 0 14px", textAlign: "center", fontFamily: "var(--mono)", fontSize: 15, fontWeight: 600, color: "var(--ink)" } },
+        "You could name him ",
+        E("span", { style: { display: "inline-block", width: 64, borderBottom: "2px solid var(--ink)", marginLeft: 2 } })),
+      ROWS.map(function(r, i) {
+        var isTop = i === 0;
+        var isOther = r[0] === "other tokens";
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "110px 1fr 168px", columnGap: 14, alignItems: "center", padding: "7px 10px", borderRadius: 8, background: isTop ? "#e9e1fa" : "transparent" } },
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 13, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 } }, r[0]),
+          E("div", { style: { height: isTop ? 14 : 12, width: (r[1] / MAX * 100) + "%", borderRadius: 999, background: isTop ? "linear-gradient(90deg, #9d7bff, var(--primary))" : isOther ? "repeating-linear-gradient(-45deg, #ded5f6 0px, #ded5f6 5px, #f2edfc 5px, #f2edfc 10px)" : "#e2dbf6", border: isOther ? "1px solid #d9cff4" : "none" } }),
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 13, fontWeight: 700, color: "var(--ink)", textAlign: "right" } },
+            r[1] + "%",
+            E("span", { style: { color: "var(--inkMuted)", fontWeight: 600 } }, " · " + r[1] + " tickets")));
+      }),
+      E("div", { style: { borderTop: "1px dashed var(--inkFaint)", marginTop: 12, paddingTop: 14 } },
+        E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkSoft)", marginBottom: 10 } }, "Five draws, same tickets every time"),
+        E("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" } },
+          DRAWS.map(function(w, i) {
+            return E("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 7 } },
+              E("span", { style: { fontSize: 12, fontWeight: 700, color: "var(--inkMuted)" } }, (i + 1) + "."),
+              E("span", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "#fff", background: "var(--primary)", borderRadius: 999, padding: "4px 12px", whiteSpace: "nowrap" } }, w));
+          })),
+        E("div", { style: { marginTop: 12, fontSize: 13, lineHeight: 1.55, color: "var(--inkMuted)" } }, "Same odds in every drawing. Different winners."))));
 }
 function DogTempBox() {
   var E = React.createElement;

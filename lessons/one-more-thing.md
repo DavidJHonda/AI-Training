@@ -6,87 +6,69 @@ One more thing. Actually, three more things. Across this section you built the w
 
 They’re worth the stop. Understand these three, and you’ll know more about what actually happens when you hit send than almost anyone who uses AI every day.
 
-## Temperature
+## Randomness
 
 Start with a confession. In How AI Answers, we told you the model takes the top of the list and types it: Spot. We should have said **usually**. You’ve seen the evidence yourself: ask the exact same question in two brand-new chats, and the answers come back different. Same model, same question, same everything the model can see, and still two different replies.
 
-Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too. That drawing is why two identical chats come back with two different replies.
+Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too.
 
-**Temperature** is the dial on that drawing. Low temperature hands the top pick nearly every ticket, so answers become repeatable. High temperature spreads tickets far down the list, so answers get more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing.
-
-Here’s the name slot from last lesson at three settings. The middle column is the balanced list you already know; watch the odds sharpen and flatten as the dial moves. And keep an eye on Beowulf: impossible at low, alive at high. Temperature isn’t the only sampling control, but it’s the one worth knowing.
-
-How temperature reshapes the picks
+Same list, five draws
 
 You could name him
 
-❄️ Low
-
-⚖️ Medium
-
-🔥 High
-
 Spot
 
-58%
-
-22%
-
-13%
+22% · 22 tickets
 
 Max
 
-19%
-
-17%
-
-12%
+17% · 17 tickets
 
 Buddy
 
-10%
-
-14%
-
-11%
+14% · 14 tickets
 
 Rex
 
-5%
-
-9%
-
-9%
+9% · 9 tickets
 
 Biscuit
 
-2%
-
-6%
-
-8%
-
-Beowulf
-
-0%
-
-3%
-
-6%
+6% · 6 tickets
 
 other tokens
 
-6%
+32% · 32 tickets
 
-29%
+## Five draws, same tickets every time
 
-41%
+1.
 
-You won’t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you; the dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request “your best single answer” for consistency, or “ten different options” for range.
+Spot
+
+2.
+
+Spot
+
+3.
+
+Max
+
+4.
+
+Spot
+
+5.
+
+Buddy
+
+Same odds in every drawing. Different winners.
+
+That drawing is why two identical chats come back with two different replies. And once the first word differs, everything after it starts from a different context, so the replies don’t just differ by a word. They diverge.
 
 ## No memory
 
-The second thing sounds like it can’t be true: **AI has no memory.** None. To see it, go back to the prompt about naming your new dog, and imagine it came at the end of a longer chat. You’d been debating whether to get a dog or a cat at all, brainstorming with AI, and after plenty of typing and reading, you settled on the dog. Then you asked: “What should I name my new dog?”
+The second thing sounds like it can’t be true: **AI has no memory.** None. Let’s assume your question about naming your new dog came at the end of a long chat. You’d been debating whether to get a dog or a cat at all, brainstorming with AI, and after plenty of typing and reading, you settled on the dog. Then you asked: “What should I name my new dog?”
 
 Here’s what happened each time you typed a message. AI ran **everything**, all your messages and its own responses, through the full process: tokens, positions, attention and transformation through the layers. Think about it like this: every word of the chat is written on one long transcript, and AI re-reads the full transcript every time you send a message.
 
@@ -126,7 +108,7 @@ AI really doesn’t have a memory. And it goes further: it doesn’t even rememb
 
 Now count what that costs. The calculations aren’t a mystery. They’re the **weights** you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask.
 
-So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)
+So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight: a multiply and an add. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)
 
 ## The bill
 

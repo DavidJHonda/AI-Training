@@ -4,7 +4,7 @@
 
 In Vector Space, you watched a token’s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you.
 
-Start with your phone. As you type a text, it suggests the next word: three choices above the keyboard, picked from the last word or two. And everyone gets the same suggestions.
+Start with your phone. As you type a text, it suggests the next word: three choices above the keyboard, picked from the last word or two. And everyone gets pretty much the same suggestions.
 
 See you .
 
@@ -134,7 +134,7 @@ dog
 
 [0.11,-0.39,-0.84,…]
 
-**Now:** each token carries its dictionary meaning.
+**Now:** each token carries its dictionary meaning, the same vector in every sentence.
 
 →
 
@@ -174,17 +174,19 @@ dog
 
 [-0.96,1.49,-2.58,…]
 
-**Now:** every vector knows the **whole question**.
+**Now:** the numbers changed: every vector now knows the **question so far**.
 
 ## Where we stand
 
 Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. **Meaning: established.**
 
-Now the detail everything turns on: **the last token matters most**. Attention doesn’t just sharpen each token in place. Every pass also folds the earlier tokens into the later ones, so the last token’s vector soaks up the entire question. By the final layer, the last token isn’t really about the question mark (?) anymore. Attention and transformation have pushed its vector across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer.
+Now, one detail changes everything: **the last token matters most**. Why? The model is about to write, and the next word goes in exactly one place: right after the last token. So that’s the vector the model reads to pick it. And the layers have been preparing that vector all along: in every layer, attention folds the earlier tokens into the later ones, so **the last token’s vector carries the entire question**.
 
-## The answer, word by word
+By the final layer, the last token isn’t really about the question mark (?) anymore. Its job has changed. Remember what the model practiced during training: predicting the next word, over and over, billions of times. **Training tuned the layers to turn what the text *means* into where the next word *lives*.** So the vector carrying the question gets pushed across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer.
 
-Now watch it happen. Each row below is one word of the answer. The model looks at the last token (the first column), checks which neighborhood its vector landed in, and takes the best-scoring word there. That word gets typed, joins the context, and becomes the new last token. Then the next row repeats the move. That move is called **prediction**.
+## The answer, token by token
+
+Now watch it happen. Each row below is one token of the answer, and in this example every token is a whole word. The model looks at the last token (the first column), checks which neighborhood its vector landed in, and takes the best-scoring word there. That word gets typed, joins the context, and becomes the new last token. Then the next row repeats the move. That move is called **prediction**.
 
 What should I name my new dog?
 
@@ -258,11 +260,11 @@ Buddy 14%
 
 You could name him Spot.
 
-You asked for a name for your new dog. But notice the name never came first. The neighborhoods tell the story: the sentence built its way, one token at a time, to the spot where it suggested Spot. Every row is the same move; the only thing that changes is the context it starts from.
+You asked for a name for your new dog, but the model didn’t start with a name. It started with You, the most likely first word of a reply. Read the Neighborhood column from top to bottom and you can watch the sentence close in: reply starters, ways to suggest, naming verbs, who gets named, and only then dog names. The name arrived when the sentence had built a slot that only a name could fill. Five rows, one move, and a context that grew by one word each time.
 
 ## The ranked list
 
-One more idea to clarify. The table shows three predictions per row, but that’s just the top of the list. In reality, the model assigns a probability to every token in its vocabulary, all 200,000+ of them, and ranks them all. Here’s the name slot under the microscope: the moment Spot arrived.
+One more idea to clarify. The table shows three predictions per row, but that’s just the top of the list. In reality, the model assigns a probability to every token in its vocabulary, hundreds of thousands of them, and ranks them all. That’s what “landing in a neighborhood” really is: the neighborhood is the top of the ranking. Here’s the name slot under the microscope: the moment Spot arrived.
 
 Score every token: the name slot
 
@@ -294,7 +296,7 @@ other tokens
 
 Why is “other tokens” the biggest?
 
-It’s thousands of words sharing 32%; no single one comes close to Spot. The exact numbers are illustrative.
+It’s the rest of the vocabulary sharing that 32%; no single one of them comes close to Spot. The exact numbers are illustrative.
 
 The model takes the top of the list and types it: Spot.
 

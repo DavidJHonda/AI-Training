@@ -231,3 +231,5 @@ training
 Once it’s built, the model uses that same fixed vocabulary of tokens every time it reads text.
 
 A token ID is an address, not a meaning.
+
+Turning that number into meaning comes next.

@@ -1,0 +1,93 @@
+# Video-edit toolkit
+
+Tools and recipes for repairing NotebookLM lesson videos — splice/composite is a
+standing repair option, so a bad section no longer forces a re-roll. Every recipe
+here shipped on real videos (learn-with-ai, what-you-can-control, does-ai-think,
+how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
+composite, and the Work With AI challenger round).
+
+## Setup (once per machine)
+
+```
+bash scripts/video/env.sh
+```
+
+Builds `.video-venv/` (gitignored) with opencv + the imageio-ffmpeg wheel — the
+wheel ships a full ffmpeg binary, no system ffmpeg needed — and self-tests `tpad`
+(silently broken in some wheel builds: zero padding, no error; the scripts here
+use the loop substitute regardless).
+
+All NotebookLM mp4s are format-identical (h264 1280×720 30fps + AAC 44.1kHz mono),
+so any splice needs exactly ONE re-encode pass:
+`-c:v libx264 -crf 18 -preset medium -pix_fmt yuv420p -c:a aac -b:a 128k`.
+
+## Tools
+
+`PY=.video-venv/bin/python`
+
+| Tool | Job |
+|---|---|
+| `ffmpeg.sh -i in.mp4 ...` | run the bundled ffmpeg (for hand-written graphs below) |
+| `$PY frames.py in.mp4 outdir` | frame audit: quick pass (default), `--every N`, or `--sheet` contact sheets with red timestamps |
+| `$PY scenes.py in.mp4` | scene cuts (frame-diff > 12 on 160×90 downscales); `--seam A B` prints per-frame diffs to catch leaked frames |
+| `pauses.sh in.mp4` | narration pauses via silencedetect (-30dB, 0.25s) = safe audio cut points |
+| `$PY freeze_finisher.py` | standard end repair: cut post-close junk, freeze the close board under trailing narration |
+| `$PY patch_visual.py` | mid-video visual patch: freeze a good frame over a junk span, audio untouched, duration identical |
+| `$PY excise_audio.py` | remove a stray spoken word from audio only (`--probe` RMS map first, then `--cut`) |
+
+## Hard-won gotchas
+
+- **cv2 `CAP_PROP_POS_MSEC` seeks return WRONG frames on these mp4s.** All mapping
+  must be sequential decode (`cap.read()` loop). frames.py and scenes.py already
+  comply — include this warning in every mapping-agent prompt.
+- **Time-based `trim` can leak the boundary frame** (float compare let an exact
+  frame-PTS end time through → 1-frame flash of the removed scene, caught by eye).
+  Always cut seams with `trim=start_frame=A:end_frame=B` (end exclusive) and verify
+  with `scenes.py --seam` — a clean freeze shows diff ≈ 0; any spike is a leak.
+- **`tpad` may be silently broken** in the wheel build (env.sh reports). Working
+  freeze substitute — loop the exact frame:
+  `trim=start_frame=F:end_frame=F+1,setpts=PTS-STARTPTS,loop=loop=N-1:size=1:start=0,setpts=N/(30*TB)`
+  then concat. The same trick replaces `tpad=start_mode=clone`.
+
+## Recipes without a dedicated script (hand-written graphs via ffmpeg.sh)
+
+**Cut-point discovery:** cut video at a scene cut (scenes.py) that falls inside a
+narration pause (pauses.sh).
+
+**START-CLONE** — destination board visible from the seam instant while its audio
+starts earlier (fixes "board flashes in late"). Shipped example (why-learn-ai,
+incumbent body + challenger close; use the loop substitute if tpad is broken):
+
+```
+ffmpeg -y -t 223.76 -i videos/why-learn-ai.mp4 -i Prompts/why-learn-ai-2.mp4 \
+  -filter_complex "[1:v]trim=211.8:218.73,setpts=PTS-STARTPTS,tpad=start_mode=clone:start_duration=2.9[v1];[1:a]atrim=208.9:218.73,asetpts=PTS-STARTPTS[a1];[0:v][0:a][v1][a1]concat=n=2:v=1:a=1[v][a]" \
+  -map "[v]" -map "[a]" -c:v libx264 -crf 18 -preset medium -pix_fmt yuv420p -c:a aac -b:a 128k out.mp4
+```
+
+**MULTI-SOURCE CONCAT:** `-t`/`-ss` as INPUT options per source +
+`filter_complex concat=n=N:v=1:a=1`.
+
+**FREEZE-EXTEND** (too-short close: hold the last frame longer and pad audio with
+silence via `apad`) — see which-app ship for the pattern.
+
+## Composite workflow (multi-source best-of; first shipped: what-is-ai from 3 sources)
+
+1. Parallel agents map EACH source: scene ranges + GOOD/TOLERATED/BAD flags, board
+   map, silence list, sequential-decode-verified ending. Agent prompts must include
+   the seek gotcha and: **white-on-light text = BAD, always** (an agent once graded
+   it "GOOD (minor)"; David rejected the composite).
+2. Plan seams on measured narration pauses.
+3. One-pass concat re-encode.
+4. Verify: waveform continuity + `scenes.py --seam` across each seam.
+5. **David ear-tests every seam before ship** — waveforms are verifiable, audio
+   content is not. Never skip this.
+
+## Seam and grafting rules (owner preferences, learned the hard way)
+
+- At a seam, land ON the destination board immediately — no transitional flash
+  frames (a 1.5s bridge card was rejected; start-clone fixed it).
+- Close grafts are the safe kind (one seam, nothing after it). Mid-video grafts
+  across different rolls are the risky kind: topic hand-off both directions, style
+  shift, possible voice/energy mismatch.
+- Long content-bearing flaw spans (the white text IS the scene's meaning) cannot
+  be clone-patched — graft or re-roll.

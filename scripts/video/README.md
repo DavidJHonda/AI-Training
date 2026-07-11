@@ -34,6 +34,7 @@ so any splice needs exactly ONE re-encode pass:
 | `$PY freeze_finisher.py` | standard end repair: cut post-close junk, freeze the close board under trailing narration |
 | `$PY patch_visual.py` | mid-video visual patch: freeze a good frame over a junk span, audio untouched, duration identical |
 | `$PY excise_audio.py` | remove a stray spoken word from audio only (`--probe` RMS map first, then `--cut`) |
+| `$PY graft_scene.py` | move a scene between videos: `--insert` (full graft, incl. replace-the-ending via `--resume-at` past the end) or `--replace-visual` (donor visuals over a base span, audio untouched, auto trim/freeze-fill) |
 
 ## Hard-won gotchas
 
@@ -81,6 +82,14 @@ silence via `apad`) — see which-app ship for the pattern.
 4. Verify: waveform continuity + `scenes.py --seam` across each seam.
 5. **David ear-tests every seam before ship** — waveforms are verifiable, audio
    content is not. Never skip this.
+
+## Donor library
+
+Every video in `videos/` plus every rejected challenger in `Prompts/` is a
+potential scene donor for graft_scene.py. Rejected rolls often contain one great
+scene (the close-graft pattern was born that way); `--replace-visual` harvests
+them without touching the base narration. Pick all cut points at scene cuts
+inside narration pauses, in both videos.
 
 ## Seam and grafting rules (owner preferences, learned the hard way)
 

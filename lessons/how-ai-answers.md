@@ -6,7 +6,7 @@ In Vector Space, you watched a token’s final vector land in its neighborhood o
 
 Start with your phone. As you type a text, it suggests the next word: three chips above the keyboard, picked from the last word or two, the same for everyone.
 
-See you ______.
+See you .
 
 soon
 
@@ -20,7 +20,7 @@ What should I name my new dog?
 
 ## Tokens
 
-Split into tokens and looks up Token IDs.
+Chops the text into tokens and looks up Token IDs.
 
 What
 
@@ -54,9 +54,11 @@ dog
 
 30
 
+**Now:** the text is pieces the model can look up.
+
 →
 
-## Position stamps
+## Positions
 
 Marks each token’s position.
 
@@ -91,6 +93,8 @@ dog
 ?
 
 #8
+
+**Now:** word order can’t get lost.
 
 →
 
@@ -130,6 +134,8 @@ dog
 
 [0.11,-0.39,-0.84,…]
 
+**Now:** each token carries its dictionary meaning.
+
 →
 
 ## Through layers
@@ -168,6 +174,8 @@ dog
 
 [-0.96,1.49,-2.58,…]
 
+**Now:** every vector knows the **whole question**.
+
 ## Where we stand
 
 Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. Meaning: established.
@@ -188,8 +196,6 @@ Now watch it happen. Each row below is one word of the answer. The model reads t
 
 ?
 
-____
-
 Reply starters
 
 You 18%
@@ -200,7 +206,7 @@ Great 9%
 
 You
 
-You ____
+You
 
 Ways to suggest
 
@@ -212,7 +218,7 @@ should 10%
 
 could
 
-You could ____
+You could
 
 Naming verbs
 
@@ -224,7 +230,7 @@ try 7%
 
 name
 
-You could name ____
+You could name
 
 Who gets named
 
@@ -236,7 +242,7 @@ the 8%
 
 him
 
-You could name him ____
+You could name him
 
 Dog names
 
@@ -258,7 +264,7 @@ One more layer to be honest about: those three chips per row are just the top of
 
 Score every token: the name slot
 
-You could name him ______
+You could name him
 
 Spot
 
@@ -284,7 +290,9 @@ other tokens
 
 32%
 
-The exact numbers are illustrative.
+Why is “other tokens” the biggest?
+
+It’s thousands of words sharing 32%; no single one comes close to Spot. The exact numbers are illustrative.
 
 The model takes the top of the list and types it: Spot.
 

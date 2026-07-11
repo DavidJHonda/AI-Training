@@ -6169,61 +6169,77 @@ function ChoosingModelSection(props) {
 function PhoneTrayStrip() {
   var E = React.createElement;
   return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 18 } },
-    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
-      "See you ______."),
-    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadowSoft)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" } },
-      ["soon", "tomorrow", "later"].map(function(w, i) {
-        return E("span", { key: i, style: { background: "var(--primaryFaint)", borderRadius: 8, padding: "8px 16px", fontSize: 14.5, fontWeight: 600, color: "var(--ink)" } }, w);
-      })));
+    E("div", { style: { borderRadius: 14, overflow: "hidden", boxShadow: "var(--shadowSoft)" } },
+      E("div", { style: { background: "var(--card)", padding: "18px 18px", textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)" } },
+        "See you ",
+        E("span", { style: { display: "inline-block", width: 88, borderBottom: "2.5px solid var(--ink)", marginRight: 2 } }),
+        "."),
+      E("div", { style: { background: "#dcd9e6", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" } },
+        ["soon", "tomorrow", "later"].map(function(w, i) {
+          return E("span", { key: i, style: { background: "var(--card)", borderRadius: 8, padding: "8px 16px", fontSize: 14.5, fontWeight: 600, color: "var(--ink)", boxShadow: "0 1px 2px rgba(14, 10, 31, 0.12)" } }, w);
+        }))));
 }
 function DogNameChartBox() {
   var E = React.createElement;
   var ROWS = [["Spot", 22], ["Max", 17], ["Buddy", 14], ["Rex", 9], ["Biscuit", 6], ["other tokens", 32]];
-  return E(ShowcaseBox, { headline: "Score every token: the name slot", marginBottom: 10 },
-    E(InnerCard, { pad: "snug" },
-      E("div", { style: { fontFamily: "var(--mono)", fontSize: 15, color: "var(--ink)", marginBottom: 12 } },
-        "You could name him ______"),
-      ROWS.map(function(r, i) {
-        var isTop = i === 0;
-        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "110px 1fr", gap: 30, alignItems: "center", paddingTop: 7, paddingBottom: 7, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
-          E("div", { style: { fontWeight: isTop ? 700 : 500, fontSize: 14, color: isTop ? "var(--primary)" : "var(--ink)" } }, r[0]),
-          E("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-            E("div", { style: { flex: 1, background: "var(--rule)", height: 12, borderRadius: 6, overflow: "hidden" } },
-              E("div", { style: { width: r[1] + "%", minWidth: 2, height: "100%", background: "var(--primary)", borderRadius: 6 } })),
-            E("span", { style: { fontSize: 12, fontWeight: 600, color: "var(--ink)", minWidth: 32, textAlign: "right" } }, r[1] + "%")));
-      })));
+  var MAX = 32;
+  return E("div", { style: { background: "#fbfaff", border: "2px solid var(--primary)", borderRadius: 16, padding: "18px 20px", marginBottom: 18 } },
+    E("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--ink)", marginBottom: 14 } }, "Score every token: the name slot"),
+    E("div", { style: { background: "var(--card)", borderRadius: 10, boxShadow: "var(--shadowSoft)", padding: "12px 16px", marginBottom: 16, textAlign: "center", fontFamily: "var(--mono)", fontSize: 15, fontWeight: 600, color: "var(--ink)" } },
+      "You could name him ",
+      E("span", { style: { display: "inline-block", width: 64, borderBottom: "2px solid var(--ink)", marginLeft: 2 } })),
+    ROWS.map(function(r, i) {
+      var isTop = i === 0;
+      var isOther = r[0] === "other tokens";
+      return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "84px 1fr 44px", columnGap: 14, alignItems: "center", padding: "8px 10px", borderRadius: 8, background: isTop ? "#e9e1fa" : "transparent" } },
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 13, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 } }, r[0]),
+        E("div", { style: { height: isTop ? 14 : 12, width: (r[1] / MAX * 100) + "%", borderRadius: 999, background: isTop ? "linear-gradient(90deg, #9d7bff, var(--primary))" : isOther ? "repeating-linear-gradient(-45deg, #ded5f6 0px, #ded5f6 5px, #f2edfc 5px, #f2edfc 10px)" : "#e2dbf6", border: isOther ? "1px solid #d9cff4" : "none" } }),
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 13, fontWeight: 700, color: "var(--ink)", textAlign: "right" } }, r[1] + "%"));
+    }),
+    E("div", { style: { marginTop: 12, fontSize: 13, lineHeight: 1.55 } },
+      E("strong", { style: { color: "var(--ink)" } }, "Why is “other tokens” the biggest?"),
+      E("span", { style: { color: "var(--inkMuted)" } }, " It’s thousands of words sharing 32%; no single one comes close to Spot. The exact numbers are illustrative.")));
 }
 function DogRecapStrip() {
   var E = React.createElement;
+  var TOKENS = ["What", "should", "I", "name", "my", "new", "dog", "?"];
   var cards = [
-    { tag: "Tokens", from: "Tokens", body: "Split into tokens and looks up Token IDs.", color: "#10b981",
-      tokens: [["What", 3923], ["should", 1288], ["I", 358], ["name", 836], ["my", 856], ["new", 502], ["dog", 5679], ["?", 30]] },
-    { tag: "Position stamps", from: "Transformer", body: "Marks each token’s position.", color: "#3b82f6",
-      tokens: [["What", "#1"], ["should", "#2"], ["I", "#3"], ["name", "#4"], ["my", "#5"], ["new", "#6"], ["dog", "#7"], ["?", "#8"]] },
-    { tag: "Starting meaning", from: "Embeddings", body: "Looks up the vector for each token.", color: "#8b5cf6",
-      tokens: [["What", "[0.42,-1.15,0.63,…]"], ["should", "[-0.87,0.21,1.44,…]"], ["I", "[1.33,-0.06,-0.71,…]"], ["name", "[0.27,1.91,-0.38,…]"], ["my", "[-0.52,0.68,0.19,…]"], ["new", "[0.95,-1.24,0.57,…]"], ["dog", "[-1.08,0.74,1.62,…]"], ["?", "[0.11,-0.39,-0.84,…]"]] },
-    { tag: "Through layers", from: "Layers · Vector Space", body: "Runs Attention & Transformation.", color: "#f59e0b",
-      tokens: [["What", "[1.87,0.42,-2.31,…]"], ["should", "[-0.19,2.66,0.85,…]"], ["I", "[2.14,-1.52,0.98,…]"], ["name", "[-2.43,1.17,2.05,…]"], ["my", "[1.29,-0.77,-1.94,…]"], ["new", "[-1.61,2.38,0.44,…]"], ["dog", "[2.72,-2.15,1.83,…]"], ["?", "[-0.96,1.49,-2.58,…]"]] }
+    { tag: "Tokens", body: "Chops the text into tokens and looks up Token IDs.",
+      vals: ["3923", "1288", "358", "836", "856", "502", "5679", "30"],
+      now: ["the text is pieces the model can look up."] },
+    { tag: "Positions", body: "Marks each token’s position.",
+      vals: ["#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8"],
+      now: ["word order can’t get lost."] },
+    { tag: "Starting meaning", body: "Looks up the vector for each token.",
+      vals: ["[0.42,-1.15,0.63,…]", "[-0.87,0.21,1.44,…]", "[1.33,-0.06,-0.71,…]", "[0.27,1.91,-0.38,…]", "[-0.52,0.68,0.19,…]", "[0.95,-1.24,0.57,…]", "[-1.08,0.74,1.62,…]", "[0.11,-0.39,-0.84,…]"],
+      now: ["each token carries its dictionary meaning."] },
+    { tag: "Through layers", body: "Runs Attention & Transformation.",
+      vals: ["[1.87,0.42,-2.31,…]", "[-0.19,2.66,0.85,…]", "[2.14,-1.52,0.98,…]", "[-2.43,1.17,2.05,…]", "[1.29,-0.77,-1.94,…]", "[-1.61,2.38,0.44,…]", "[2.72,-2.15,1.83,…]", "[-0.96,1.49,-2.58,…]"],
+      hot: true,
+      now: ["every vector knows the ", E("strong", { key: "b" }, "whole question"), "."] }
   ];
-  return E(React.Fragment, null,
-    E("div", { style: { margin: "8px 0 24px" } },
-      E("div", { style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", boxShadow: "var(--shadowSoft)", padding: "16px 18px", marginBottom: 14, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)" } },
-        "What should I name my new dog?"),
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 8 } },
-        cards.map(function(c, i) {
-          return E(React.Fragment, { key: i },
-            i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--inkMuted)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
-            E("div", { style: { flex: i < 2 ? "0.75 1 135px" : "1.25 1 225px", minWidth: i < 2 ? 125 : 205, background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + c.color, boxShadow: "var(--shadowSoft)", padding: i < 2 ? "14px 12px" : "14px 16px" } },
-              E("div", { style: { fontSize: i < 2 ? 11 : 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: i < 2 ? "0.05em" : "0.08em", color: c.color, marginBottom: 6, whiteSpace: "nowrap" } }, c.tag),
-              E("div", { style: { fontSize: c.tokens ? (i < 2 ? 12.5 : 13.5) : BOX_TEXT, lineHeight: 1.5, color: "var(--ink)", minHeight: c.tokens ? 41 : undefined } }, c.body),
-              c.tokens ? E("div", { style: { borderTop: "1px solid var(--rule)", margin: "8px 0 2px" } }) : null,
-              c.tokens ? E("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginTop: 10 } },
-                c.tokens.map(function(t, ti) {
-                  return E("div", { key: ti, style: { display: "flex", alignItems: "center", gap: 8 } },
-                    E("span", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: c.color, background: c.color + "14", border: "1.5px solid " + c.color + "55", borderRadius: 8, padding: "3px 7px" } }, t[0]),
-                    E("span", { style: { fontFamily: "var(--mono)", fontSize: 11.5, fontWeight: 600, color: "var(--ink)", whiteSpace: "nowrap" } }, t[1]));
-                })) : null));
-        }))));
+  return E("div", { style: { background: "#ebe5fa", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 14, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)" } },
+      "What should I name my new dog?"),
+    E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 8 } },
+      cards.map(function(c, i) {
+        var narrow = i < 2;
+        var shade = ["var(--card)", "#faf8fe", "#f3eefd", "#e7dcfb"][i];
+        return E(React.Fragment, { key: i },
+          i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 21, fontWeight: 800, flexShrink: 0 } }, "→") : null,
+          E("div", { style: { flex: narrow ? "0.6 1 130px" : "1.4 1 230px", minWidth: narrow ? 128 : 210, display: "flex", flexDirection: "column", background: shade, borderRadius: 16, padding: narrow ? "14px 12px" : "14px 16px" } },
+            E("div", { style: { minHeight: 102 } },
+              E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--primary)", marginBottom: 6 } }, c.tag),
+              E("div", { style: { fontSize: 13, lineHeight: 1.5, color: "var(--inkSoft)" } }, c.body)),
+            E("div", { style: { display: "flex", flexDirection: "column", gap: 6, marginTop: 12, marginBottom: 12 } },
+              TOKENS.map(function(t, ti) {
+                return E("div", { key: ti, style: { display: "grid", gridTemplateColumns: "64px 1fr", columnGap: 8, alignItems: "center" } },
+                  E("span", { style: { justifySelf: "center", fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "var(--ink)", background: i === 0 ? "#f1eef9" : "var(--card)", border: i === 0 ? "1px solid transparent" : "1px solid var(--rule)", borderRadius: 8, padding: "3px 7px", whiteSpace: "nowrap" } }, t),
+                  E("span", { style: { fontFamily: "var(--mono)", fontSize: 11.5, fontWeight: c.hot ? 700 : 600, color: c.hot ? "var(--primary)" : "var(--ink)", whiteSpace: "nowrap" } }, c.vals[ti]));
+              })),
+            E("div", { style: { borderTop: "1px dashed var(--inkFaint)", paddingTop: 10, fontSize: 12.5, lineHeight: 1.5, color: "var(--inkSoft)" } },
+              E("strong", { style: { color: "var(--ink)" } }, "Now:"), " ", c.now)));
+      })));
 }
 function AnswerBuildStrip() {
   var E = React.createElement;
@@ -6234,37 +6250,36 @@ function AnswerBuildStrip() {
     { reply: "You could name", last: "name", hood: "Who gets named", picks: [["him", 45], ["your", 21], ["the", 8]] },
     { reply: "You could name him", last: "him", hood: "Dog names", picks: [["Spot", 22], ["Max", 17], ["Buddy", 14]] }
   ];
-  var cols = "100px minmax(140px, 1fr) 124px 284px";
-  var headCell = { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", whiteSpace: "nowrap" };
-  var sep = { borderRight: "1px solid var(--rule)", paddingRight: 14, alignSelf: "stretch", display: "flex", alignItems: "center", minWidth: 0 };
-  var sepHead = { borderRight: "1px solid var(--rule)", paddingRight: 14, alignSelf: "stretch" };
-  return E("div", { style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", boxShadow: "var(--shadowSoft)", padding: "14px 18px", margin: "8px 0 24px" } },
+  var cols = "88px minmax(150px, 1fr) 118px 296px";
+  var headCell = { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkSoft)", whiteSpace: "nowrap" };
+  function blank(w) {
+    return E("span", { style: { display: "inline-block", width: w, borderBottom: "2px solid var(--ink)", marginLeft: 2 } });
+  }
+  return E("div", { style: { background: "#ebe5fa", borderRadius: 22, padding: 12, margin: "8px 0 24px" } },
     E("div", { style: { overflowX: "auto" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", paddingBottom: 8, minWidth: 640 } },
-        E("div", { style: Object.assign({}, headCell, sepHead) }, "Last token"),
-        E("div", { style: Object.assign({}, headCell, sepHead) }, "Reply so far"),
-        E("div", { style: Object.assign({}, headCell, sepHead) }, "Neighborhood"),
-        E("div", { style: Object.assign({}, headCell, { paddingLeft: 10 }) }, "Top predictions")),
+      E("div", { style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "6px 16px 10px", minWidth: 640 } },
+        E("div", { style: headCell }, "Last token"),
+        E("div", { style: headCell }, "Reply so far"),
+        E("div", { style: headCell }, "Neighborhood"),
+        E("div", { style: headCell }, "Top predictions")),
       steps.map(function(s, i) {
-        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "9px 0", borderTop: "1px solid var(--rule)", minWidth: 640 } },
-          E("div", { style: sep },
-            E("span", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "var(--primary)", background: "#efeafd", border: "1.5px solid #cdbef7", borderRadius: 8, padding: "3px 8px", whiteSpace: "nowrap" } }, s.last)),
-          E("div", { style: sep },
-            E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } },
-              (s.reply ? s.reply + " " : "") + "____")),
-          E("div", { style: sep },
-            E("span", { style: { fontSize: 12.5, fontWeight: 600, color: "var(--inkMuted)" } }, s.hood)),
-          E("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", paddingLeft: 10 } },
+        var isLast = i === steps.length - 1;
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "13px 16px", background: isLast ? "#f5f1fd" : "var(--card)", borderRadius: 12, marginBottom: isLast ? 0 : 8, minWidth: 640 } },
+          E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, fontWeight: 700, color: "var(--ink)", whiteSpace: "nowrap" } }, s.last),
+          E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } },
+            s.reply ? s.reply + " " : "", blank(26)),
+          E("span", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkSoft)", whiteSpace: "nowrap" } }, s.hood),
+          E("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
             s.picks.map(function(p, pi) {
               return E("span", { key: pi, style: pi === 0
-                ? { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "var(--primary)", background: "#efeafd", border: "1.5px solid #cdbef7", borderRadius: 8, padding: "3px 8px", whiteSpace: "nowrap" }
-                : { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 600, color: "var(--inkMuted)", border: "1px solid var(--rule)", borderRadius: 8, padding: "3.5px 8px", whiteSpace: "nowrap" } },
+                ? { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "#fff", background: "var(--primary)", borderRadius: 999, padding: "4px 11px", whiteSpace: "nowrap" }
+                : { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 600, color: "var(--ink)", background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 999, padding: "3.5px 10px", whiteSpace: "nowrap" } },
                 p[0] + " " + p[1] + "%");
             })));
-      }),
-      E("div", { style: { display: "flex", alignItems: "center", gap: 12, padding: "12px 0 3px", borderTop: "1px solid var(--rule)", minWidth: 640 } },
-        E("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
-        E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot."))));
+      })),
+    E("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", border: "2px solid var(--primary)", borderRadius: 12, padding: "10px 14px", marginTop: 10 } },
+      E("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
+      E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot.")));
 }
 function PredictionSection(props) {
   const [ctxAnswers, setCtxAnswers] = useState({});
@@ -6293,8 +6308,6 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "The ranked list"),
   /*#__PURE__*/React.createElement(BodyP, null, "One more layer to be honest about: those three chips per row are just the top of the list. At every slot, the model scores every token it knows, thousands at once, and ranks them all. Here\u2019s step 5 under the microscope: the moment the name arrived."),
   /*#__PURE__*/React.createElement(DogNameChartBox, null),
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", margin: "0 0 18px 0" } },
-    "The exact numbers are illustrative."),
   /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot."),
   /*#__PURE__*/React.createElement(BodyP, null, "And that’s the whole machine. Everything you just watched, from tokens to vectors to a ranked list to the next word, has a name: ", /*#__PURE__*/React.createElement("strong", null, "inference"), ". It’s what the model does every time it answers you."),
   /*#__PURE__*/React.createElement(InteractiveBox, {

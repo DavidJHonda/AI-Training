@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- One-off capture page: progressive states of the How AI Answers word-by-word table.
+     The states exist on no app page (the lesson shows the finished table), so this page
+     renders the strip at each build step for 1600x900 board capture.
+     URL params: ?rows=1..5 (rows shown), &bar=1 (include the finish bar; close frame).
+     Frames for the video kit: rows=1 .. rows=5 (boards 3-7), rows=5&bar=1 (close). -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f6f5fb; --card: #ffffff; --primary: #6e51ff; --primaryFaint: #f7f4ff;
+    --ink: #0e0a1f; --inkSoft: #3a3550; --inkMuted: #6e6986; --rule: #e7e3f2;
+    --green: #1f9d5f;
+    --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  body { width: 1600px; height: 900px; overflow: hidden; position: relative; background: var(--bg); font-family: var(--sans); }
+  .stage { position: absolute; left: 50%; top: 140px; transform: translateX(-50%) scale(1.6); transform-origin: top center; width: 900px; }
+  .wrap { background: #ebe5fa; border-radius: 22px; padding: 12px; }
+  .head, .row { display: grid; grid-template-columns: 88px minmax(150px, 1fr) 118px 296px; column-gap: 14px; align-items: center; }
+  .head { padding: 6px 16px 10px; }
+  .head div { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--inkSoft); white-space: nowrap; }
+  .row { padding: 13px 16px; background: var(--card); border-radius: 12px; margin-bottom: 8px; }
+  .row.hot { background: #f5f1fd; margin-bottom: 0; }
+  .last { font-family: var(--mono); font-size: 13.5px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .reply { font-family: var(--mono); font-size: 13.5px; color: var(--ink); white-space: nowrap; }
+  .blank { display: inline-block; width: 26px; border-bottom: 2px solid var(--ink); margin-left: 2px; }
+  .hood { font-size: 13px; font-style: italic; color: var(--inkSoft); white-space: nowrap; }
+  .picks { display: flex; gap: 6px; }
+  .picks span { font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--rule); border-radius: 999px; padding: 3.5px 10px; white-space: nowrap; }
+  .picks span.top { font-weight: 700; color: #fff; background: var(--primary); border: none; padding: 4px 11px; }
+  .bar { display: flex; align-items: center; gap: 12px; background: var(--card); border: 2px solid var(--primary); border-radius: 12px; padding: 10px 14px; margin-top: 10px; }
+  .bar .check { width: 22px; height: 22px; border-radius: 50%; background: var(--green); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .bar .text { font-family: var(--mono); font-size: 14.5px; font-weight: 700; color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="wrap">
+    <div class="head"><div>Last token</div><div>Reply so far</div><div>Neighborhood</div><div>Top predictions</div></div>
+    <div id="rows"></div>
+    <div class="bar" id="bar"><span class="check">&#10003;</span><span class="text">You could name him Spot.</span></div>
+  </div>
+</div>
+<script>
+  var STEPS = [
+    { last: "?", reply: "", hood: "Reply starters", picks: [["You", 18], ["A", 14], ["Great", 9]] },
+    { last: "You", reply: "You", hood: "Ways to suggest", picks: [["could", 24], ["can", 12], ["should", 10]] },
+    { last: "could", reply: "You could", hood: "Naming verbs", picks: [["name", 31], ["call", 19], ["try", 7]] },
+    { last: "name", reply: "You could name", hood: "Who gets named", picks: [["him", 45], ["your", 21], ["the", 8]] },
+    { last: "him", reply: "You could name him", hood: "Dog names", picks: [["Spot", 22], ["Max", 17], ["Buddy", 14]] }
+  ];
+  var p = new URLSearchParams(location.search);
+  var n = Math.min(5, Math.max(1, parseInt(p.get("rows") || "5", 10)));
+  var showBar = p.get("bar") === "1";
+  var html = "";
+  for (var i = 0; i < n; i++) {
+    var s = STEPS[i];
+    var pills = s.picks.map(function(pk, pi) {
+      return '<span class="' + (pi === 0 ? "top" : "") + '">' + pk[0] + " " + pk[1] + "%</span>";
+    }).join("");
+    html += '<div class="row' + (i === 4 ? " hot" : "") + '">' +
+      '<span class="last">' + s.last + "</span>" +
+      '<span class="reply">' + (s.reply ? s.reply + " " : "") + '<span class="blank"></span></span>' +
+      '<span class="hood">' + s.hood + "</span>" +
+      '<div class="picks">' + pills + "</div></div>";
+  }
+  document.getElementById("rows").innerHTML = html;
+  if (!showBar) document.getElementById("bar").remove();
+  if (n < 5) document.querySelectorAll(".row")[n - 1].style.marginBottom = "0";
+</script>
+</body>
+</html>

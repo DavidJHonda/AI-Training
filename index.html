@@ -4946,33 +4946,103 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: clubMatchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
-function WhichSitsCloserTryIt(props) {
+// Rock, Paper, Patterns — the Vector Space fun-beat TRY IT (spec:
+// docs/superpowers/specs/2026-07-12-rps-learner-tryit-design.md). A tiny pattern-learner
+// (order-1 Markov with frequency fallback) predicts the player's next throw and counters
+// it. The always-on reveal line is the teaching beat: watch confidence climb as habits
+// accumulate. Fun beat, not an assessment; students rebuild this with Claude in a later lab.
+function RPSLearnerTryIt(props) {
   var E = React.createElement;
-  var ROWS = [
-    { prompt: "Which sits closer to ocean?", choices: ["sea", "desert"], answer: "sea", feedback: "Ocean and sea share a neighborhood: both are large bodies of water. Desert sits far across the map." },
-    { prompt: "Which sits closer to furious?", choices: ["angry", "calm"], answer: "angry", feedback: "Furious is just angry turned all the way up, so the two sit close together. Calm is on the opposite side." },
-    { prompt: "Which sits closer to whisper?", choices: ["mumble", "shout"], answer: "mumble", feedback: "Whisper and mumble are both quiet, low ways of speaking. Shout is loud, far across the space." },
-    { prompt: "In “Flowers bloom every spring,” which sits closer to spring?", choices: ["summer", "wire"], answer: "summer", feedback: "The words around it, flowers and bloom, pull spring into the season neighborhood, near summer. Wire belongs to the coiled-metal meaning." },
-    { prompt: "In “The bat flew out of the cave at dusk,” which sits closer to bat?", choices: ["owl", "baseball"], answer: "owl", feedback: "Cave, flew, and dusk set bat’s position in the animal neighborhood, near owl, not the baseball kind." }
-  ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  var done = answeredCount >= ROWS.length;
-  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
-  return E(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Which sits closer?",
-    lead: "Meaning is a position, and similar words sit close together. For each one, pick the word that lands in the same neighborhood." },
-    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      ROWS.map(function(r, i) {
-        var picked = answers[i];
-        var answered = picked !== undefined;
-        var correct = answered && picked === r.answer;
-        return E(ScenarioRow, { key: i, index: i + 1, prompt: r.prompt, answered: answered, correct: correct, feedback: answered ? ((correct ? "Right. " : "Not quite. ") + r.feedback) : null },
-          r.choices.map(function(opt) {
-            return E(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.answer, isPicked: picked === opt, label: opt,
-              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = opt; return u; }); } });
-          }));
-      })));
+  var THROWS = ["rock", "paper", "scissors"];
+  var EMOJI = { rock: "✊", paper: "✋", scissors: "✌️" };
+  var COUNTER = { rock: "paper", paper: "scissors", scissors: "rock" };
+  var GATE_ROUNDS = 10, WARMUP = 3, CONF = 0.45, ROW_MIN = 2;
+  var _g = useState({
+    history: [],
+    freq: { rock: 0, paper: 0, scissors: 0 },
+    trans: {
+      rock: { rock: 0, paper: 0, scissors: 0 },
+      paper: { rock: 0, paper: 0, scissors: 0 },
+      scissors: { rock: 0, paper: 0, scissors: 0 }
+    },
+    you: 0, ai: 0, ties: 0,
+    last: null
+  }), game = _g[0], setGame = _g[1];
+  var rounds = game.history.length;
+  var done = rounds >= GATE_ROUNDS;
+  useEffect(function() { if (done && props.onComplete) props.onComplete(); }, [done]);
+  function pickAmong(counts) {
+    var total = counts.rock + counts.paper + counts.scissors;
+    var max = Math.max(counts.rock, counts.paper, counts.scissors);
+    var best = THROWS.filter(function(t) { return counts[t] === max; });
+    return { guess: best[Math.floor(Math.random() * best.length)], confidence: total > 0 ? max / total : 0 };
+  }
+  function playRound(playerThrow) {
+    var g = game;
+    var n = g.history.length;
+    var predicted = null, confidence = 0, wasRandom = true;
+    if (n >= WARMUP) {
+      var prev = g.history[n - 1];
+      var row = g.trans[prev];
+      var rowTotal = row.rock + row.paper + row.scissors;
+      var pick = pickAmong(rowTotal >= ROW_MIN ? row : g.freq);
+      predicted = pick.guess;
+      confidence = pick.confidence;
+      wasRandom = confidence < CONF;
+    }
+    var aiThrow = wasRandom ? THROWS[Math.floor(Math.random() * 3)] : COUNTER[predicted];
+    var result = playerThrow === aiThrow ? "tie" : (COUNTER[aiThrow] === playerThrow ? "you" : "ai");
+    var freq = Object.assign({}, g.freq);
+    freq[playerThrow] += 1;
+    var trans = {
+      rock: Object.assign({}, g.trans.rock),
+      paper: Object.assign({}, g.trans.paper),
+      scissors: Object.assign({}, g.trans.scissors)
+    };
+    if (n > 0) trans[g.history[n - 1]][playerThrow] += 1;
+    setGame({
+      history: g.history.concat([playerThrow]),
+      freq: freq,
+      trans: trans,
+      you: g.you + (result === "you" ? 1 : 0),
+      ai: g.ai + (result === "ai" ? 1 : 0),
+      ties: g.ties + (result === "tie" ? 1 : 0),
+      last: { playerThrow: playerThrow, aiThrow: aiThrow, result: result, predicted: predicted, confidence: confidence, wasRandom: wasRandom }
+    });
+  }
+  var last = game.last;
+  var resultCopy = last ? (last.result === "you" ? "You win the round." : last.result === "ai" ? "AI wins the round." : "Tie.") : null;
+  var resultColor = last ? (last.result === "you" ? "#1f9d5f" : last.result === "ai" ? "#d4334a" : "var(--inkMuted)") : null;
+  return E(React.Fragment, null,
+    E(InteractiveBox, {
+      variant: "try", surface: "mint", title: "Rock, Paper, Patterns",
+      lead: "One game before you go. Play at least ten rounds of rock-paper-scissors against a tiny AI. It starts out guessing. Watch what happens once it has seen a few of your throws." },
+      E(InnerCard, null,
+        E("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 18, flexWrap: "wrap", gap: 8 } },
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "var(--ink)" } },
+            "You " + game.you + " · AI " + game.ai + " · Ties " + game.ties),
+          E("div", { style: { fontSize: 13, color: "var(--inkMuted)" } },
+            rounds < GATE_ROUNDS ? "Round " + (rounds + 1) + " of " + GATE_ROUNDS : rounds + " rounds played — keep going if you dare")),
+        E("div", { style: { display: "flex", gap: 12, marginBottom: last ? 18 : 0 } },
+          THROWS.map(function(t) {
+            return E("button", {
+              key: t,
+              onClick: function() { playRound(t); },
+              style: { flex: 1, background: "#fff", border: "1px solid var(--tryRule)", borderRadius: 12, padding: "16px 10px", cursor: "pointer", boxShadow: "var(--shadowSoft)", fontFamily: "var(--sans)" } },
+              E("div", { style: { fontSize: 30, lineHeight: 1, marginBottom: 6 } }, EMOJI[t]),
+              E("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkSoft)" } }, t));
+          })),
+        last ? E("div", { style: { borderTop: "1px dashed var(--tryRule)", paddingTop: 16, animation: "fadeIn 0.3s ease" } },
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: resultColor, marginBottom: 6 } },
+            "You threw " + EMOJI[last.playerThrow] + " · AI threw " + EMOJI[last.aiThrow] + " — " + resultCopy),
+          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", fontFamily: "var(--mono)" } },
+            last.wasRandom
+              ? "AI: No pattern yet — that one was random."
+              : "AI: I predicted " + EMOJI[last.predicted] + " (" + Math.round(last.confidence * 100) + "%) — so I threw " + EMOJI[last.aiThrow] + ".")) : null)),
+    done ? E("div", { style: { marginTop: 18 } },
+      E(Takeaway, {
+        headline: "It counted, then it predicted.",
+        body: "It never read your mind. It counted your throws, spotted your habits, and predicted what comes next. Hold that thought — predicting what comes next is exactly how AI writes. That’s the next lesson." })) : null);
 }
 function ItSentenceWalkthrough(props) {
   var E = React.createElement;
@@ -5110,8 +5180,9 @@ function VectorSpaceSection(props) {
       " pull it the other. It isn’t one keyword flipping a switch: the final vector is the ",
       E("strong", null, "blend of the whole sentence"),
       ". Change the words around it, and the same token lands somewhere new."),
+    E(KeyInsight, null, "A machine that predicts your next move isn’t reading your mind. It’s counting your habits."),
     closeBoard("vectorspace"),
-    E(WhichSitsCloserTryIt, { onComplete: function() { setVsDone(true); } }),
+    E(RPSLearnerTryIt, { onComplete: function() { setVsDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
 }

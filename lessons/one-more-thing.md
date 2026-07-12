@@ -10,7 +10,7 @@ They’re worth the stop. Understand these three, and you’ll know more about w
 
 Start with a confession. In How AI Answers, we told you the model takes the top of the list and types it: Spot. We should have said **usually**. You’ve seen the evidence yourself: ask the exact same question in two brand-new chats, and the answers come back different. Same model, same question, same everything the model can see, and still two different replies.
 
-Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too. Why run a drawing at all? Because text built from only the safest word at every step turns out repetitive and lifeless. The randomness is what makes the writing sound human.
+Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot wins more drawings than any other single name. But with 78 tickets spread across everyone else, most drawings go to someone who isn’t Spot. Why run a drawing at all? Because text built from only the safest word at every step turns out repetitive and lifeless. The randomness is what keeps the writing from sounding robotic.
 
 Same list, five draws
 
@@ -44,7 +44,7 @@ other tokens
 
 1.
 
-Spot
+Max
 
 2.
 
@@ -52,17 +52,17 @@ Spot
 
 3.
 
-Max
+Buddy
 
 4.
 
-Spot
+Rex
 
 5.
 
-Buddy
+Max
 
-Same odds in every drawing. Different winners.
+Same odds every time. The favorite won just once.
 
 That drawing is why two identical chats come back with two different replies. And once the first word differs, everything after it starts from a different context, so the replies don’t just differ by a word. They diverge.
 

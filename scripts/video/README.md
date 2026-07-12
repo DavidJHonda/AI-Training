@@ -45,8 +45,13 @@ so any splice needs exactly ONE re-encode pass:
   frame-PTS end time through → 1-frame flash of the removed scene, caught by eye).
   Always cut seams with `trim=start_frame=A:end_frame=B` (end exclusive) and verify
   with `scenes.py --seam` — a clean freeze shows diff ≈ 0; any spike is a leak.
-- **`tpad` may be silently broken** in the wheel build (env.sh reports). Working
-  freeze substitute — loop the exact frame:
+- **`tpad` may be silently broken** in the wheel build (env.sh reports). Worse:
+  the env.sh self-test can PASS while `tpad=stop_mode=clone` inside a concat
+  graph still pads ZERO frames with no error (hit 2026-07-12 on the which-app
+  burger patch — container duration looked right because audio carried it, but
+  the video stream ran 4s short and desynced everything downstream; caught by
+  counting decoded frames). Never trust tpad in a graph you haven't
+  frame-counted. Working freeze substitute — loop the exact frame:
   `trim=start_frame=F:end_frame=F+1,setpts=PTS-STARTPTS,loop=loop=N-1:size=1:start=0,setpts=N/(30*TB)`
   then concat. The same trick replaces `tpad=start_mode=clone`.
 

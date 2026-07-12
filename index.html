@@ -4978,7 +4978,7 @@ function RPSLearnerTryIt(props) {
     return { guess: best[Math.floor(Math.random() * best.length)], confidence: total > 0 ? max / total : 0 };
   }
   function playRound(playerThrow) {
-    var g = game;
+    var g = game; // snapshot read, not a functional updater: keeps Math.random() out of setGame (updater purity); clicks are discrete events so no stale-closure window
     var n = g.history.length;
     var predicted = null, confidence = 0, wasRandom = true;
     if (n >= WARMUP) {
@@ -5041,6 +5041,7 @@ function RPSLearnerTryIt(props) {
               : "AI: I predicted " + EMOJI[last.predicted] + " (" + Math.round(last.confidence * 100) + "%), so I threw " + EMOJI[last.aiThrow] + ".")) : null)),
     done ? E("div", { style: { marginTop: 18 } },
       E(Takeaway, {
+        accent: "var(--tryAccent)",
         headline: "It counted, then it predicted.",
         body: "It never read your mind. It counted your throws, spotted your habits, and predicted what comes next. Hold that thought: predicting what comes next is exactly how AI writes. That’s the next lesson." })) : null);
 }

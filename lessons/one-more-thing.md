@@ -141,3 +141,7 @@ And remember: no memory. The whole transcript gets re-read for every word. The l
 So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture.
 
 Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost.
+
+Not a mind. Math, at a scale nobody can picture.
+
+Every time you hit send.

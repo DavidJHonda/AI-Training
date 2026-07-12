@@ -251,14 +251,15 @@ const LESSON_VIDEOS = {
   prompt: { src: "videos/context-window.mp4", duration: "3 min", title: "What the model can see when it answers you." },
   evaluating: { src: "videos/evaluate-the-results.mp4", duration: "4 min", title: "Five steps to know which answers deserve the dig." },
   critical: { src: "videos/critical-thinking.mp4", duration: "4 min", title: "Five questions that keep the thinking yours." },
-  openerfoundations: { src: "videos/opener-understand.mp4", duration: "2 min", title: "Not magic, not a person, not normal software. Time to open the hood.", cta: "After watching, continue below to see where this section takes you." },
+  openerfoundations: { src: "videos/opener-understand.mp4", duration: "4 min", title: "Not magic, not a person, not normal software. Time to open the hood.", cta: "After watching, continue below to see where this section takes you." },
   training: { src: "videos/training.mp4", duration: "5 min", title: "Watch the machine get built: one loop, three phases." },
   aiismath: { src: "videos/ai-is-math.mp4", duration: "4 min", title: "Two ideas from probability, plus the loop that makes language." },
-  tokens: { src: "videos/tokens.mp4", duration: "3 min", title: "How your words become chunks the model can work with." },
-  embeddings: { src: "videos/embeddings.mp4", duration: "4 min", title: "How a token's meaning becomes a row of numbers." },
+  tokens: { src: "videos/tokens.mp4", duration: "4 min", title: "How your words become chunks the model can work with." },
+  embeddings: { src: "videos/embeddings.mp4", duration: "3 min", title: "How a token's meaning becomes a row of numbers." },
   attention: { src: "videos/transformer.mp4", duration: "4 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "videos/layers.mp4", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
-  vectorspace: { src: "videos/vector-space.mp4", duration: "3 min", title: "The blank box, filled: where a token's numbers finally land." }
+  vectorspace: { src: "videos/vector-space.mp4", duration: "3 min", title: "The blank box, filled: where a token's numbers finally land." },
+  prediction: { src: "videos/how-ai-answers.mp4", duration: "4 min", title: "How the answer builds itself, one token at a time." }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
@@ -291,7 +292,9 @@ const CLOSE_BOARDS = {
   embeddings: { pill: "Meaning is a row of numbers.", sticky: "Same dimensions for every token. Only the values change." },
   attention: { pill: "Attention is all you need.", sticky: "The Transformer — the T in ChatGPT." },
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "The blank box gets filled in the next lesson." },
-  vectorspace: { pill: "Meaning is a position.", sticky: "The final vector is the blend of the whole sentence." }
+  vectorspace: { pill: "Meaning is a position.", sticky: "The final vector is the blend of the whole sentence." },
+  prediction: { pill: "Every answer is built one token at a time.", sticky: "The whole run is called inference." },
+  inference: { pill: "Not a mind. Math, at a scale nobody can picture.", sticky: "Every time you hit send." }
 };
 function LessonHeader(props) {
   var E = React.createElement;
@@ -5447,7 +5450,9 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Every time you hit send"),
   /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost."),  /*#__PURE__*/React.createElement(InteractiveBox, {
+  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost."),
+  closeBoard("inference"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "How Big Is 2 Quadrillion?",
@@ -6311,6 +6316,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "One more idea to clarify. The table shows three predictions per row, but that\u2019s just the top of the list. In reality, the model assigns a probability to every token in its vocabulary, hundreds of thousands of them, and ranks them all. That\u2019s what \u201clanding in a neighborhood\u201d really is: the neighborhood is the top of the ranking. Here\u2019s the name slot under the microscope: the moment Spot arrived."),
   /*#__PURE__*/React.createElement(DogNameChartBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot."),  /*#__PURE__*/React.createElement(BodyP, null, "And that’s the whole machine. Everything you just watched, from tokens to vectors to a ranked list to the next word, has a name: ", /*#__PURE__*/React.createElement("strong", null, "inference"), ". It’s what the model does every time it answers you."),
+  closeBoard("prediction"),
   /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));

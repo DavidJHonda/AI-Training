@@ -10,7 +10,7 @@ They’re worth the stop. Understand these three, and you’ll know more about w
 
 Start with a confession. In How AI Answers, we told you the model takes the top of the list and types it: Spot. We should have said **usually**. You’ve seen the evidence yourself: ask the exact same question in two brand-new chats, and the answers come back different. Same model, same question, same everything the model can see, and still two different replies.
 
-Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too.
+Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too. Why run a drawing at all? Because text built from only the safest word at every step turns out repetitive and lifeless. The randomness is what makes the writing sound human.
 
 Same list, five draws
 
@@ -108,40 +108,36 @@ AI really doesn’t have a memory. And it goes further: it doesn’t even rememb
 
 Now count what that costs. The calculations aren’t a mystery. They’re the **weights** you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask.
 
-So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight: a multiply and an add. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)
+So here’s the arithmetic on the arithmetic. Nobody outside OpenAI knows how big ChatGPT’s model really is; the companies stopped publishing sizes. So let’s make an honest guess and call it one trillion weights. Each word takes roughly two calculations per weight: a multiply and an add. That’s about 2 trillion calculations before ChatGPT can type one word.
 
-## The bill
+The Bill
 
-## Calculations
+## One word
 
-One word
+Two calculations for each of a trillion weights
 
-Two calculations for each of 70 billion weights
+≈ 2 trillion
 
-140 billion
-
-One sentence
+## One sentence
 
 “You could name him Spot.” is 7 tokens
 
-≈ 1 trillion
+≈ 14 trillion
 
-One homework answer
+## Your complete chat about your new dog
 
-A full reply runs about 300 tokens
+2,000 words back and forth, about half of them typed by ChatGPT
 
-≈ 42 trillion
+≈ 2 quadrillion
 
-Every calculation done fresh, nothing saved. And this is one question, from one student.
+The calculations required to name your dog Spot? 2 quadrillion.
+
+2,000,000,000,000,000
 
 And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering.
 
 ## Every time you hit send
 
-So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs hundreds of billions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture.
+So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture.
 
 Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost.
-
-## LOCK IN THE PIECES
-
-You’ve now seen every piece, and what it costs to run them. One last checkpoint to lock the section in.

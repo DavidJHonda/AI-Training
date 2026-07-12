@@ -5124,9 +5124,7 @@ function MatchTermsTryIt(props) {
     { prompt: "Learning patterns from billions of examples, once, before you ever use the model.", answer: "Training", choices: ["Training", "Inference", "Parameter"], feedback: "Training is the one-time build where the model learns its patterns. Afterward the weights are frozen." },
     { prompt: "Everything the model can see at once: your prompt, the conversation, and instructions.", answer: "Context window", choices: ["Embedding", "Context window", "Training"], feedback: "The context window is the model’s field of view. Anything outside it is invisible to the model." },
     { prompt: "The process AI uses to generate an answer, one token at a time.", answer: "Inference", choices: ["Training", "Inference", "Transformer"], feedback: "Inference is answer-time: the model uses what it learned to generate, token by token. It isn’t learning now." },
-    { prompt: "Choosing the next token from the model’s ranked list of possibilities.", answer: "Prediction", choices: ["Inference", "Attention", "Prediction"], feedback: "Prediction is the pick: the model scores every possible next token, chooses one, then repeats." },
-    { prompt: "Why the exact same question in two brand-new chats can come back with two different answers.", answer: "Randomness", choices: ["Randomness", "No memory", "The context window"], feedback: "The pick is a weighted drawing. Same tickets both times, but the draw can land differently, and once one word differs, the replies diverge." },
-    { prompt: "One word of answer from a 70-billion-weight model: roughly how many calculations?", answer: "140 billion", choices: ["140 thousand", "140 million", "140 billion"], feedback: "Two calculations per weight, 70 billion weights. That’s the price of one word, and the whole transcript gets re-read for every one." }
+    { prompt: "Choosing the next token from the model’s ranked list of possibilities.", answer: "Prediction", choices: ["Inference", "Attention", "Prediction"], feedback: "Prediction is the pick: the model scores every possible next token, chooses one, then repeats." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
@@ -5136,7 +5134,7 @@ function MatchTermsTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name the Piece",
-   lead: "Read each one and pick the piece it describes. For the last one, do the math."},
+   lead: "You’ve now met every piece of the machine. Read each definition and name the piece."},
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       QUESTIONS.map(function(q, i) {
         var picked = answers[i];
@@ -5366,32 +5364,50 @@ function InferenceJourneyDiagram() {
 function BillMeterBox() {
   var E = React.createElement;
   var rows = [
-    { label: "One word", sub: "Two calculations for each of 70 billion weights", num: "140 billion" },
-    { label: "One sentence", sub: "“You could name him Spot.” is 7 tokens", num: "≈ 1 trillion" },
-    { label: "One homework answer", sub: "A full reply runs about 300 tokens", num: "≈ 42 trillion" }
+    { label: "One word", sub: "Two calculations for each of a trillion weights", num: "≈ 2 trillion" },
+    { label: "One sentence", sub: "“You could name him Spot.” is 7 tokens", num: "≈ 14 trillion" },
+    { label: "Your complete chat about your new dog", sub: "2,000 words back and forth, about half of them typed by ChatGPT", num: "≈ 2 quadrillion" }
   ];
-  return E("div", { style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", boxShadow: "var(--shadowSoft)", padding: "14px 18px", margin: "8px 0 24px" } },
-    E("div", { style: { display: "grid", gridTemplateColumns: "1fr auto", columnGap: 14, alignItems: "center", paddingBottom: 8 } },
-      E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)" } }, "The bill"),
-      E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)" } }, "Calculations")),
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 24, padding: 32, margin: "8px 0 24px" } },
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.58px", color: "var(--ink)", lineHeight: 1.12, marginBottom: 20 } }, "The Bill"),
     rows.map(function(r, i) {
-      return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr auto", columnGap: 14, alignItems: "center", padding: "10px 0", borderTop: "1px solid var(--rule)" } },
+      return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr auto", columnGap: 18, alignItems: "center", background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12 } },
         E("div", null,
-          E("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } }, r.label),
-          E("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginTop: 2 } }, r.sub)),
-        E("div", { style: { fontFamily: "var(--mono)", fontSize: 16, fontWeight: 700, color: "var(--primary)", whiteSpace: "nowrap" } }, r.num));
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_CARD_TITLE, fontWeight: 700, letterSpacing: "1.8px", textTransform: "uppercase", color: "#5a47c9", marginBottom: 6 } }, r.label),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, fontWeight: 400, color: "var(--inkSoft)", lineHeight: 1.5 } }, r.sub)),
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--primary)", whiteSpace: "nowrap" } }, r.num));
     }),
-    E("div", { style: { borderTop: "1px solid var(--rule)", padding: "10px 0 3px", fontSize: 13, color: "var(--inkMuted)" } },
-      "Every calculation done fresh, nothing saved. And this is one question, from one student."));
+    E("div", { style: { paddingTop: 6 } },
+      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } },
+        "The calculations required to name your dog Spot? 2 quadrillion."),
+      E("div", { style: { fontFamily: "var(--mono)", fontSize: 20, fontWeight: 700, color: "var(--primary)", marginTop: 6 } },
+        "2,000,000,000,000,000")));
 }
 function InferenceSection(props) {
-  var _mc = useState(false), matchComplete = _mc[0], setMatchComplete = _mc[1];
+  var _ba = useState({}), bigAnswers = _ba[0], setBigAnswers = _ba[1];
+  var BIG_TASKS = [
+    { task: "In-N-Out double cheeseburgers stacked on top of each other, without their wrappers. How tall is the stack?", options: ["About 3 feet", "Past Pluto, twenty times over"], answer: "Past Pluto, twenty times over",
+      right: "A double cheeseburger is about two and a half inches tall. Two quadrillion of them stack to roughly 80 billion miles. Pluto sits about 3.7 billion miles away, so the stack blows past it twenty times over.",
+      wrong: "For two quadrillion burgers to stack just 3 feet, each burger would have to be thinner than a proton. The real stack runs about 80 billion miles: past Pluto, twenty times over." },
+    { task: "Coins stacked on top of each other, every one showing heads. How far do they reach?", options: ["To your school", "To the Sun and back, ten times"], answer: "To the Sun and back, ten times",
+      right: "A coin is about a millimeter and a half thick. Two quadrillion of them reach roughly 1.9 billion miles: about ten round trips between Earth and the Sun.",
+      wrong: "Seriously? We don’t know where you live, or where your school is. But unless your school is 1.9 billion miles away, it’s not this one. The stack reaches the Sun and back about ten times." },
+    { task: "You empty 2 quadrillion cans of Coke. How much liquid is that?", options: ["Enough to keep you up late", "Enough to fill Lake Erie, one and a half times"], answer: "Enough to fill Lake Erie, one and a half times",
+      right: "At 12 ounces a can, that’s enough Coke to fill Lake Erie about one and a half times. A whole Great Lake of Coke, plus a refill.",
+      wrong: "Technically correct: it would keep you up late. For the rest of your life. It’s also enough to fill Lake Erie about one and a half times." },
+    { task: "If you live to be 100 years old, how many Cokes would you need to drink each day to reach 2 quadrillion in your lifetime?", options: ["I don’t like Coke", "About 55 billion a day"], answer: "About 55 billion a day",
+      right: "That’s 55 billion cans a day, every day, for a hundred years: about 634,000 cans every second of your life. Bring friends.",
+      wrong: "Fair, and technically that does get you out of it. We’re marking it wrong anyway. The answer is about 55 billion cans a day, which works out to 634,000 cans every second, for a hundred years." },
+    { task: "The weight of 2 quadrillion horses that ran past the barn and fell.", options: ["Roughly 500 times all life on Earth", "Lots, and who cares?"], answer: "Lots, and who cares?",
+      right: "Correct. Though the other answer is technically true. How do we know this? AI told us. We hope it didn’t hallucinate.",
+      wrong: "True, actually: two quadrillion horses do weigh about 500 times all life on Earth. But the answer we were looking for is: lots, and who cares. (Also: why did they fall?)" }
+  ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
   /*#__PURE__*/React.createElement(BodyP, null, "One more thing. Actually, three more things. Across this section you built the whole machine: text becomes tokens, tokens become vectors, attention and the layers turn those vectors into meaning, and prediction reads the answer off a ranked list, one token at a time. But three facts about the machine never fit any single piece. They go here."),
   /*#__PURE__*/React.createElement(BodyP, null, "They\u2019re worth the stop. Understand these three, and you\u2019ll know more about what actually happens when you hit send than almost anyone who uses AI every day."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Randomness"),
   /*#__PURE__*/React.createElement(BodyP, null, "Start with a confession. In How AI Answers, we told you the model takes the top of the list and types it: Spot. We should have said ", /*#__PURE__*/React.createElement("strong", null, "usually"), ". You\u2019ve seen the evidence yourself: ask the exact same question in two brand-new chats, and the answers come back different. Same model, same question, same everything the model can see, and still two different replies."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot usually wins, but Max wins his share of drawings too. Why run a drawing at all? Because text built from only the safest word at every step turns out repetitive and lifeless. The randomness is what makes the writing sound human."),
   /*#__PURE__*/React.createElement(FiveDrawsBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "That drawing is why two identical chats come back with two different replies. And once the first word differs, everything after it starts from a different context, so the replies don’t just differ by a word. They diverge."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "No memory"),
@@ -5426,17 +5442,42 @@ function InferenceSection(props) {
       "Now count what that costs. The calculations aren’t a mystery. They’re the ",
       /*#__PURE__*/React.createElement("strong", null, "weights"),
       " you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask."),
-  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the arithmetic on the arithmetic. A mid-size open model carries about 70 billion weights, and each token takes roughly two calculations per weight: a multiply and an add. That’s about 140 billion calculations before the model can type one word. (Frontier models are bigger. The companies don’t say how much bigger.)"),
+  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the arithmetic on the arithmetic. Nobody outside OpenAI knows how big ChatGPT’s model really is; the companies stopped publishing sizes. So let’s make an honest guess and call it one trillion weights. Each word takes roughly two calculations per weight: a multiply and an add. That’s about 2 trillion calculations before ChatGPT can type one word."),
   /*#__PURE__*/React.createElement(BillMeterBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Every time you hit send"),
-  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs hundreds of billions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "LOCK IN THE PIECES"),
-  /*#__PURE__*/React.createElement(BodyP, null, "You’ve now seen every piece, and what it costs to run them. One last checkpoint to lock the section in."),
-  /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
+  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost."),  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "How Big Is 2 Quadrillion?",
+    lead: "To name your dog Spot, AI made 2 quadrillion math calculations. That’s a big number. But how big? You tell us."},
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      BIG_TASKS.map(function(c, i) {
+        var answered = bigAnswers[i] !== undefined;
+        var picked = bigAnswers[i];
+        var correct = picked === c.answer;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: c.task,
+          answered: answered,
+          correct: correct,
+          feedback: answered ? (correct ? c.right : c.wrong) : null
+        }, c.options.map(function(w) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: w,
+            answered: answered,
+            isCorrect: w === c.answer,
+            isPicked: picked === w,
+            label: w,
+            onClick: function() { setBigAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
+          });
+        }));
+      })
+    )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(bigAnswers).length >= BIG_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
 
 function PromptSection(props) {
@@ -6250,15 +6291,7 @@ function AnswerBuildStrip() {
       E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot.")));
 }
 function PredictionSection(props) {
-  const [ctxAnswers, setCtxAnswers] = useState({});
-  var CTX_TASKS = [
-    { task: "Earlier in the chat, you said he’s a Great Dane puppy with paws like oven mitts", options: ["Titan", "Spot", "Buddy"], answer: "Titan",
-      explain: "Titan. The size is sitting right there in the window, so it tilts the odds hard. The model isn’t guessing from the blank; it’s reading the chat." },
-    { task: "The whole chat so far has been about Star Wars movies", options: ["Chewie", "Buddy", "Spot"], answer: "Chewie",
-      explain: "Chewie. The chat loads the window with Star Wars, and the name list tilts with it. Change the movie, and the list changes too." },
-    { task: "A brand-new chat with no history at all", options: ["Titan", "Chewie", "Buddy"], answer: "Buddy",
-      explain: "Buddy. With nothing in the window, only the general pattern is left, so a safe, popular name tops the list. That’s the closest the model ever gets to acting like your phone’s suggestions." }
-  ];
+  const [matchComplete, setMatchComplete] = useState(false);
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you."),
@@ -6278,37 +6311,9 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "One more idea to clarify. The table shows three predictions per row, but that\u2019s just the top of the list. In reality, the model assigns a probability to every token in its vocabulary, hundreds of thousands of them, and ranks them all. That\u2019s what \u201clanding in a neighborhood\u201d really is: the neighborhood is the top of the ranking. Here\u2019s the name slot under the microscope: the moment Spot arrived."),
   /*#__PURE__*/React.createElement(DogNameChartBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot."),  /*#__PURE__*/React.createElement(BodyP, null, "And that’s the whole machine. Everything you just watched, from tokens to vectors to a ranked list to the next word, has a name: ", /*#__PURE__*/React.createElement("strong", null, "inference"), ". It’s what the model does every time it answers you."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Call the Top Pick",
-    lead: "Same blank, different chats. For each chat, pick the name most likely to top the list for “You could name him ______”."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      CTX_TASKS.map(function(c, i) {
-        var answered = ctxAnswers[i] !== undefined;
-        var picked = ctxAnswers[i];
-        var correct = picked === c.answer;
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          prompt: c.task + ".",
-          answered: answered,
-          correct: correct,
-          feedback: c.explain
-        }, c.options.map(function(w) {
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: w,
-            answered: answered,
-            isCorrect: w === c.answer,
-            isPicked: picked === w,
-            label: w,
-            onClick: function() { setCtxAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
-          });
-        }));
-      })
-    )),
+  /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(ctxAnswers).length >= CTX_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
 }
 
 function HallucinationSection(props) {

@@ -738,13 +738,10 @@ function NextCardUnlocked(props) {
           fontSize: 10, fontWeight: 700, color: "var(--primary)",
           textTransform: "uppercase", letterSpacing: "0.10em"
         }
-      }, "Next Lesson"),
+      }, props.kicker || "Next Lesson"),
       React.createElement("div", {
         style: { fontSize: 15, fontWeight: 600, color: "var(--ink)", lineHeight: 1.25 }
-      }, props.label),
-      props.hint ? React.createElement("div", {
-        style: { fontSize: 11.5, fontWeight: 600, color: "#b45309", lineHeight: 1.4, marginTop: 1 }
-      }, props.hint) : null
+      }, props.label)
     ),
     React.createElement("div", {
       style: {
@@ -795,7 +792,7 @@ function NextLessonGate(props) {
   var ctx = useContext(LessonContext) || {};
   var activeSection = ctx.activeSection;
   var onNavigate = ctx.onNavigate;
-  var isReady = props.ready === undefined ? true : !!props.ready;
+  var isNav = !!props.nav;
 
   var prevId = activeSection ? getPreviousSectionId(activeSection) : null;
   var prevMeta = prevId && typeof SECTION_META !== "undefined" ? SECTION_META[prevId] : null;
@@ -815,9 +812,9 @@ function NextLessonGate(props) {
     : React.createElement("div", { style: { flex: "0 1 340px" } });
 
   var nextCard = React.createElement(NextCardUnlocked, {
-    label: nextLabel,
-    onClick: props.onClick,
-    hint: isReady ? null : "You can keep going, but the activity above is the point."
+    kicker: isNav ? "Next Lesson" : "Mark as complete",
+    label: isNav ? nextLabel : ("Next up: " + nextLabel),
+    onClick: props.onClick
   });
 
   return React.createElement("div", {
@@ -904,7 +901,7 @@ function OpenerSection(props) {
     props.question ? E(KeyInsight, { lead: props.questionLead !== undefined ? props.questionLead : "Keep this question in mind:" }, props.question) : null,
     closeBoard(props.sectionId),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
+    E(NextLessonGate, { nav: true, ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
   );
 }
 
@@ -2598,7 +2595,7 @@ function HowWeGotHereSection(props) {
     /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
     /*#__PURE__*/React.createElement(HistoryMatchTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" })
   );
 }
 function ConvergenceDiagram(props) {

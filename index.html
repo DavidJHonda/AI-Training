@@ -2212,91 +2212,101 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: rgDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: How an LLM Works" })
   );
 }
-function ReachFriendTryIt(props) {
-  var CONTACTS = ["972‑555‑0182", "469‑555‑4470", "214‑555‑7193", "972‑555‑6628", "469‑555‑3051"];
-  var STEPS = [
-    {
-      caption: "Game’s tonight, so this can’t wait. One of these five numbers is Sam’s, you just don’t know which.",
-      question: "You send to the first number. Before it goes through, what’s the chance it reaches Sam?",
-      correct: 0,
-      choices: [
-        { label: "1 in 5 (20%)", headline: "One of five.", feedback: "Right. Five numbers, one is Sam’s, and no reason to favor any. That’s 1 in 5, or 20%. Plain probability: list the equally likely outcomes and count." },
-        { label: "1 in 4 (25%)", headline: "Nothing’s ruled out yet.", feedback: "You haven’t missed anyone yet, so all five are still in play. That makes it 1 in 5." },
-        { label: "1 in 2 (50%)", headline: "Not a coin flip.", feedback: "There are five numbers, not two. With nothing ruled out, each has a 1 in 5 shot." }
-      ]
-    },
-    {
-      caption: "“Who is this?” Wrong number. You cross it off and text the next one.",
-      question: "One number is ruled out. Now what’s the chance this text reaches Sam?",
-      correct: 0,
-      choices: [
-        { label: "1 in 4 (25%)", headline: "The miss told you something.", feedback: "Right. One number is gone, so it’s now 1 in 4, or 25%. The phones didn’t change; what you know did. That’s conditional probability: new information updates the odds." },
-        { label: "1 in 5 (20%)", headline: "The odds moved.", feedback: "1 in 5 was true before the first miss. Now that you’ve ruled one out, four remain, so it’s 1 in 4." },
-        { label: "1 in 3 (33%)", headline: "One miss, not two.", feedback: "You’ve only ruled out one number so far. Four are still in play, so it’s 1 in 4." }
-      ]
-    },
-    {
-      caption: "“Sorry, wrong number.” Two down, three left.",
-      question: "Two numbers are ruled out. What’s the chance the next text reaches Sam?",
-      correct: 0,
-      choices: [
-        { label: "1 in 3 (33%)", headline: "The odds keep climbing.", feedback: "Right. Two are gone, three remain: 1 in 3, or 33%. Each miss is new information that lifts the odds on what’s left." },
-        { label: "1 in 5 (20%)", headline: "You’ve learned a lot since then.", feedback: "1 in 5 was the starting point. Two misses later, only three numbers remain, so it’s 1 in 3." },
-        { label: "1 in 2 (50%)", headline: "Not down to two yet.", feedback: "Three numbers are still in play, so it’s 1 in 3. One more miss and it would be 1 in 2." }
-      ]
+function BayesianMindReaderTryIt(props) {
+  var N = 200, RELIABILITY = 0.95;
+  var _p = useState(function () { var a = new Array(N); for (var i = 0; i < N; i++) a[i] = 1 / N; return a; });
+  var probs = _p[0], setProbs = _p[1];
+  var _g = useState(0), guessesUsed = _g[0], setGuessesUsed = _g[1];
+  var _f = useState(false), finished = _f[0], setFinished = _f[1];
+
+  // Posterior median: the value that splits the belief mass closest to 50/50 is
+  // the information-optimal guess.
+  function median(p) { var cum = 0; for (var i = 0; i < N; i++) { cum += p[i]; if (cum >= 0.5) return i + 1; } return N; }
+  var guess = median(probs);
+
+  // Bayes update: reweight every hypothesis by how likely the observed hint is,
+  // then renormalize. "higher" means the secret sits above the current guess.
+  function applyHint(kind) {
+    if (finished) return;
+    var g = guess, r = RELIABILITY, next = new Array(N), total = 0;
+    for (var i = 0; i < N; i++) {
+      var h = i + 1;
+      var truthfulRegion = (kind === "higher") ? h > g : h < g;
+      var like = truthfulRegion ? r : (1 - r);
+      next[i] = probs[i] * like; total += next[i];
     }
-  ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  var visibleCount = Math.min(answeredCount + 1, STEPS.length);
-  var allAnswered = answeredCount >= STEPS.length;
-  useEffect(function() { if (allAnswered && props && props.onComplete) props.onComplete(); }, [allAnswered]);
+    if (total > 1e-12) { for (var j = 0; j < N; j++) next[j] /= total; }
+    setProbs(next); setGuessesUsed(guessesUsed + 1);
+  }
+  function markCorrect() {
+    if (finished) return;
+    var one = new Array(N); for (var i = 0; i < N; i++) one[i] = (i + 1 === guess) ? 1 : 0;
+    setProbs(one); setFinished(true);
+  }
+  function reset() {
+    var a = new Array(N); for (var i = 0; i < N; i++) a[i] = 1 / N;
+    setProbs(a); setGuessesUsed(0); setFinished(false);
+  }
+  useEffect(function () { if (finished && props && props.onComplete) props.onComplete(); }, [finished]);
+
+  var maxP = 0; for (var i = 0; i < N; i++) if (probs[i] > maxP) maxP = probs[i];
+  if (maxP <= 0) maxP = 1;
+  var conf = probs[guess - 1] || 0;
+  var totalGuesses = guessesUsed + 1;
+
+  function actionBtn(label, kind, tone) {
+    var border = tone === "up" ? "var(--green)" : tone === "down" ? "var(--red)" : "var(--primary)";
+    var color = tone === "primary" ? "#fff" : tone === "up" ? "var(--green)" : "var(--red)";
+    var bg = tone === "primary" ? "var(--primary)" : "var(--card)";
+    return /*#__PURE__*/React.createElement("button", {
+      key: kind, onClick: kind === "correct" ? markCorrect : function () { applyHint(kind); },
+      style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", borderRadius: 12, padding: "13px 20px", border: "1.5px solid " + border, background: bg, color: color, display: "inline-flex", alignItems: "center", gap: 7 }
+    }, label);
+  }
+
+  var bars = [];
+  for (var k = 0; k < N; k++) {
+    bars.push(/*#__PURE__*/React.createElement("div", {
+      key: k, title: "Number " + (k + 1) + ": " + (100 * probs[k]).toFixed(1) + "%",
+      style: { flex: 1, minWidth: 0, alignSelf: "flex-end", background: (k + 1 === guess ? "var(--primary)" : "rgba(110,81,255,0.28)"), borderRadius: "2px 2px 0 0", height: (100 * probs[k] / maxP) + "%", transition: "height 0.5s cubic-bezier(0.22,1,0.36,1), background 0.3s" }
+    }));
+  }
+
+  var numStyle = { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--primary)", fontSize: "clamp(3rem, 15vw, 4.6rem)", lineHeight: 1.02, margin: "2px 0 4px" };
+  var hero = finished
+    ? /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15 } }, "Read your mind 🎯"),
+        /*#__PURE__*/React.createElement("div", { style: numStyle }, guess),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15 } }, "Nailed it in ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, totalGuesses), totalGuesses === 1 ? " guess." : " guesses."))
+    : /*#__PURE__*/React.createElement("div", { style: { textAlign: "center" } },
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15 } }, "Guess ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, totalGuesses), " is…"),
+        /*#__PURE__*/React.createElement("div", { style: numStyle }, guess),
+        /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15 } }, "About ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, (100 * conf).toFixed(1) + "%"), " sure it’s this exact number."));
+
+  var controls = finished
+    ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "center", marginTop: 20 } },
+        /*#__PURE__*/React.createElement("button", { onClick: reset, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", borderRadius: 12, padding: "13px 22px", border: "1.5px solid var(--primary)", background: "var(--primary)", color: "#fff" } }, "Play again"))
+    : /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 20 } },
+        actionBtn("↑ Higher", "higher", "up"),
+        actionBtn("🎯 Correct!", "correct", "primary"),
+        actionBtn("↓ Lower", "lower", "down"));
+
   return /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try", surface: "mint", title: "Text the right number",
-      lead: "A friend just invited you to tonight\u2019s Dallas Stars game. You cleared your night and need to text back that you\u2019re in. One problem: you only have his number from a group text, and can\u2019t tell which of five it is. Start texting them, and watch how each result changes the odds."
+      variant: "try", surface: "mint", title: "Bayesian Mind Reader",
+      lead: "Think of a number between 1 and 200 and keep it secret. To the model every number is equally likely, so its belief starts perfectly flat. Give it one clue at a time, higher or lower, and watch the distribution collapse toward your number as the evidence piles up."
     },
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        STEPS.slice(0, visibleCount).map(function(step, si) {
-          var picked = answers[si];
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px" } },
-                /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 14, lineHeight: 1.7, margin: "0 0 14px" } }, step.caption),
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } },
-                  CONTACTS.map(function(num, i) {
-                    var out = i < si;
-                    var current = i === si;
-                    return /*#__PURE__*/React.createElement("span", {
-                      key: i,
-                      style: {
-                        display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 999,
-                        padding: "6px 13px", fontSize: 13, fontFamily: "var(--mono)", fontWeight: 600,
-                        border: "1px solid " + (current ? "var(--primary)" : "var(--rule)"),
-                        background: out ? "transparent" : current ? "var(--primaryFaint)" : "var(--card)",
-                        color: out ? "var(--inkFaint)" : current ? "var(--ink)" : "var(--inkMuted)",
-                        textDecoration: out ? "line-through" : "none"
-                      }
-                    },
-                      out ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--red)", fontWeight: 800 } }, "\u2715") : null,
-                      num);
-                  })))),
-            /*#__PURE__*/React.createElement(QuizBlock, {
-              key: si,
-              surface: "mint",
-              statement: step.question,
-              totalQuestions: STEPS.length,
-              options: step.choices.map(function(c, ci) {
-                var isCorrect = ci === step.correct;
-                return { label: c.label, correct: isCorrect, headline: c.headline, feedback: c.feedback, hint: isCorrect ? undefined : c.feedback };
-              }),
-              picked: picked != null ? picked : undefined,
-              onAnswer: function(ci) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = ci; return u; }); }
-            }));
-        }))),
-    allAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each miss changed the odds, not the phones.", body: "The numbers never changed. What changed was what you knew. Every miss ruled out a possibility and lifted the odds on what was left, from 1 in 5 to 1 in 4 to 1 in 3. That\u2019s conditional probability: new information reshapes the odds. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })) : null);
+      /*#__PURE__*/React.createElement(InnerCard, null,
+        hero,
+        controls,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, textTransform: "uppercase", letterSpacing: "1.6px", color: "var(--inkMuted)", fontWeight: 700, margin: "26px 0 12px" } }, "The model’s belief"),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "flex-end", gap: 1, height: 200 } }, bars),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", color: "var(--inkMuted)", fontSize: 12, marginTop: 10 } },
+          /*#__PURE__*/React.createElement("span", null, "1"),
+          /*#__PURE__*/React.createElement("span", null, "← taller = more likely →"),
+          /*#__PURE__*/React.createElement("span", null, "200")))),
+    finished ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each clue reshaped the odds, not your number.", body: "Your number never changed. What changed was what the model knew. Every higher or lower ruled out possibilities and lifted the odds on what was left, until one number towered over the rest. That’s conditional probability: new evidence reshapes the odds. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })) : null);
 }
 function AIIsMathSection(props) {
   var _nw = useState(false), nwDone = _nw[0], setNwDone = _nw[1];
@@ -2570,7 +2580,7 @@ function AIIsMathSection(props) {
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past what’s here. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But two ideas from probability, plus the loop that turns them into language, are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
     closeBoard("aiismath"),
-    /*#__PURE__*/React.createElement(ReachFriendTryIt, { onComplete: function() { setNwDone(true); } }),
+    /*#__PURE__*/React.createElement(BayesianMindReaderTryIt, { onComplete: function() { setNwDone(true); } }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { ready: nwDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
   );

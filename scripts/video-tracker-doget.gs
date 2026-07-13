@@ -1,0 +1,84 @@
+/**
+ * doGet — READ endpoint for the "AI-Training — Video Tracker" sheet.
+ *
+ * The Video Tracker Apps Script web app only had doPost (write). This adds a
+ * read path so the repo/Claude can verify grades via curl instead of the
+ * Google Drive connector (which is absent in headless/cron runs).
+ *
+ * NOT auto-deployed: this file is the paste source. To install:
+ *   1. Open the Video Tracker Apps Script project (script.google.com).
+ *   2. Paste this doGet() ALONGSIDE the existing doPost() (do not remove doPost).
+ *   3. Set SECRET below to match whatever your doPost checks (the write recipe
+ *      sends {"secret":"CHANGE-ME"} — use the same value).
+ *   4. Deploy > Manage deployments > (edit the existing web app) > Version: New
+ *      version > Deploy. The /exec URL stays the same.
+ *
+ * Usage (same /exec URL as the write recipe):
+ *   curl -sSL '<exec-url>?secret=CHANGE-ME'
+ *     -> {"ok":true,"count":N,"rows":[{"Lesson":"tokens","Grade":93,...}, ...]}
+ *   curl -sSL '<exec-url>?secret=CHANGE-ME&lesson=tokens'
+ *     -> just that row
+ *   curl -sSL '<exec-url>?secret=CHANGE-ME&fields=Lesson,Grade,Updated'
+ *     -> only those columns (great for a quick grade audit)
+ *
+ * Rows with a blank Lesson cell are skipped, so stray/typo rows don't appear.
+ */
+function doGet(e) {
+  var params = (e && e.parameter) || {};
+
+  // Secret gate — match this to the same secret your doPost enforces.
+  var SECRET = 'CHANGE-ME';
+  if (params.secret !== SECRET) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: 'bad secret' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var values = sheet.getDataRange().getValues();
+
+  // Find the header row (the one that has both 'Lesson' and 'Grade').
+  var headerIdx = -1;
+  for (var r = 0; r < values.length; r++) {
+    var cells = values[r].map(function (c) { return String(c).trim(); });
+    if (cells.indexOf('Lesson') !== -1 && cells.indexOf('Grade') !== -1) {
+      headerIdx = r;
+      break;
+    }
+  }
+  if (headerIdx === -1) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: 'no header row' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var headers = values[headerIdx].map(function (c) { return String(c).trim(); });
+  var lessonCol = headers.indexOf('Lesson');
+  var wantLesson = params.lesson ? String(params.lesson).trim() : null;
+  var wantFields = params.fields
+    ? params.fields.split(',').map(function (s) { return s.trim(); })
+    : null;
+
+  var rows = [];
+  for (var i = headerIdx + 1; i < values.length; i++) {
+    var raw = values[i];
+    var lessonVal = String(raw[lessonCol]).trim();
+    if (!lessonVal) continue;                              // skip blank/stray rows
+    if (wantLesson && lessonVal !== wantLesson) continue;
+
+    var obj = {};
+    for (var c = 0; c < headers.length; c++) {
+      var key = headers[c];
+      if (!key) continue;
+      if (wantFields && wantFields.indexOf(key) === -1) continue;
+      var val = raw[c];
+      obj[key] = (val instanceof Date) ? Utilities.formatDate(
+        val, Session.getScriptTimeZone(), 'yyyy-MM-dd') : val;
+    }
+    rows.push(obj);
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true, count: rows.length, rows: rows }))
+    .setMimeType(ContentService.MimeType.JSON);
+}

@@ -4955,104 +4955,270 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { ready: clubMatchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
-// Rock, Paper, Patterns: the Vector Space fun-beat TRY IT (spec:
-// docs/superpowers/specs/2026-07-12-rps-learner-tryit-design.md). A tiny pattern-learner
-// (order-1 Markov with frequency fallback) predicts the player's next throw and counters
-// it. The always-on reveal line is the teaching beat: watch confidence climb as habits
-// accumulate. Fun beat, not an assessment; students rebuild this with Claude in a later lab.
-function RPSLearnerTryIt(props) {
+// 2048: the Vector Space fun-beat TRY IT. A self-contained sliding-tile puzzle
+// (reach the 2048 tile). React renders ONE empty container; the engine builds and
+// owns 100% of the DOM inside it, so React never reconciles (and never fights) the
+// imperative tile/score mutations. Completion follows the app's standard pattern:
+// the engine flips a React `done` state after a few real moves, and a useEffect
+// fires onComplete the React way.
+function Game2048TryIt(props) {
   var E = React.createElement;
-  var THROWS = ["rock", "paper", "scissors"];
-  var EMOJI = { rock: "✊", paper: "✋", scissors: "✌️" };
-  var COUNTER = { rock: "paper", paper: "scissors", scissors: "rock" };
-  var GATE_ROUNDS = 10, WARMUP = 3, CONF = 0.45, ROW_MIN = 2;
-  var _g = useState({
-    history: [],
-    freq: { rock: 0, paper: 0, scissors: 0 },
-    trans: {
-      rock: { rock: 0, paper: 0, scissors: 0 },
-      paper: { rock: 0, paper: 0, scissors: 0 },
-      scissors: { rock: 0, paper: 0, scissors: 0 }
-    },
-    you: 0, ai: 0, ties: 0,
-    last: null
-  }), game = _g[0], setGame = _g[1];
-  var rounds = game.history.length;
-  var done = rounds >= GATE_ROUNDS;
-  useEffect(function() { if (done && props.onComplete) props.onComplete(); }, [done]);
-  function pickAmong(counts) {
-    var total = counts.rock + counts.paper + counts.scissors;
-    var max = Math.max(counts.rock, counts.paper, counts.scissors);
-    var best = THROWS.filter(function(t) { return counts[t] === max; });
-    return { guess: best[Math.floor(Math.random() * best.length)], confidence: total > 0 ? max / total : 0 };
-  }
-  function playRound(playerThrow) {
-    var g = game; // snapshot read, not a functional updater: keeps Math.random() out of setGame (updater purity); clicks are discrete events so no stale-closure window
-    var n = g.history.length;
-    var predicted = null, confidence = 0, wasRandom = true;
-    if (n >= WARMUP) {
-      var prev = g.history[n - 1];
-      var row = g.trans[prev];
-      var rowTotal = row.rock + row.paper + row.scissors;
-      var pick = pickAmong(rowTotal >= ROW_MIN ? row : g.freq);
-      predicted = pick.guess;
-      confidence = pick.confidence;
-      wasRandom = confidence < CONF;
+  var rootRef = useRef(null);
+  var _done = useState(false), done = _done[0], setDone = _done[1];
+
+  useEffect(function () { if (done && props.onComplete) props.onComplete(); }, [done]);
+
+  useEffect(function () {
+    var root = rootRef.current;
+    if (!root || root.__g2048built) return;
+    root.__g2048built = true;
+    var SIZE = 4, GAP = "12px";
+
+    // ---- tiny DOM builders ----
+    function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+    function bold(t) { return el("b", null, t); }
+    function chip(k) { return el("span", "g2048-key", k); }
+    function li() { var e = el("li"); for (var i = 0; i < arguments.length; i++) { var a = arguments[i]; e.appendChild(typeof a === "string" ? document.createTextNode(a) : a); } return e; }
+
+    var CSS =
+      ".g2048{font-family:var(--sans)}" +
+      ".g2048 .g2048-layout{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}" +
+      ".g2048 .g2048-left{flex:1 1 380px;max-width:480px;min-width:280px}" +
+      ".g2048 .g2048-right{flex:1 1 300px;min-width:260px}" +
+      ".g2048 .g2048-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}" +
+      ".g2048 .g2048-scores{display:flex;gap:10px}" +
+      ".g2048 .g2048-score{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:6px 14px;text-align:center;min-width:70px;position:relative}" +
+      ".g2048 .g2048-score .lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--inkMuted);font-weight:700}" +
+      ".g2048 .g2048-score .val{font-family:var(--serif);font-size:24px;font-weight:700;line-height:1.15;color:var(--ink)}" +
+      ".g2048 .g2048-gain{position:absolute;left:0;right:0;top:6px;color:var(--tryAccent);font-weight:800;font-size:17px;pointer-events:none;opacity:0}" +
+      "@keyframes g2048FloatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-24px)}}" +
+      ".g2048 .g2048-btn{background:var(--primary);color:#fff;border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:14px;padding:10px 16px;border-radius:10px;white-space:nowrap}" +
+      ".g2048 .g2048-btn:hover{background:var(--primaryDeep,#5a3fe0)}" +
+      ".g2048 .g2048-board-wrap{position:relative;max-width:460px;margin:0 auto}" +
+      ".g2048 .g2048-board{background:#e7e3f2;border-radius:12px;padding:12px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:12px;position:relative;aspect-ratio:1/1;width:100%;outline:none;touch-action:none}" +
+      ".g2048 .g2048-board:focus-visible{box-shadow:0 0 0 3px rgba(110,81,255,0.35)}" +
+      ".g2048 .g2048-cell{background:#d9d1f2;border-radius:10px}" +
+      ".g2048 .g2048-tiles{position:absolute;inset:12px;pointer-events:none}" +
+      ".g2048 .g2048-tile{position:absolute;transition:transform 0.12s ease-in-out;will-change:transform}" +
+      ".g2048 .g2048-tile .inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;font-family:var(--serif);font-weight:700;background:#f6f3fc;color:var(--ink)}" +
+      ".g2048 .t2{background:#f6f3fc;color:#2b2640}.g2048 .t4{background:#ece5f9;color:#2b2640}.g2048 .t8{background:#dcd0f5;color:#2b2640}" +
+      ".g2048 .t16{background:#c8b6ef;color:#2b2640}.g2048 .t32{background:#b49ce8;color:#fff}.g2048 .t64{background:#9f81e0;color:#fff}" +
+      ".g2048 .t128{background:#8a67d6;color:#fff}.g2048 .t256{background:#7650cc;color:#fff}.g2048 .t512{background:#6139c0;color:#fff}" +
+      ".g2048 .t1024{background:#4f2bb0;color:#fff}.g2048 .t2048{background:#3d1f96;color:#fff}.g2048 .tbig{background:#2a1570;color:#fff}" +
+      ".g2048 .g2048-overlay{position:absolute;inset:0;border-radius:12px;background:rgba(246,245,251,0.82);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:5;text-align:center}" +
+      ".g2048 .g2048-overlay.show{display:flex}" +
+      ".g2048 .g2048-overlay .msg{font-family:var(--serif);font-size:38px;font-weight:700;color:var(--ink)}" +
+      ".g2048 .g2048-overlay.win .msg{color:var(--primary)}" +
+      ".g2048 .g2048-overlay .btns{display:flex;gap:10px}" +
+      ".g2048 .g2048-pad{display:grid;grid-template-columns:repeat(3,46px);grid-auto-rows:46px;gap:8px;justify-content:center;margin-top:16px}" +
+      ".g2048 .g2048-pad button{border:1px solid var(--rule);background:var(--card);border-radius:10px;font-size:18px;color:var(--ink);cursor:pointer}" +
+      ".g2048 .g2048-pad button:hover{background:var(--primaryFaint)}" +
+      ".g2048 .g2048-pad span{display:block}" +
+      ".g2048 .g2048-howto{border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:var(--card)}" +
+      ".g2048 .g2048-howto-head{background:#eaf3ea;padding:12px 18px;font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--inkMuted)}" +
+      ".g2048 .g2048-howto ul{list-style:none;margin:0;padding:16px 20px 18px}" +
+      ".g2048 .g2048-howto li{position:relative;padding-left:22px;margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--inkSoft)}" +
+      ".g2048 .g2048-howto li:last-child{margin-bottom:0}" +
+      ".g2048 .g2048-howto li:before{content:'';position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--tryAccent)}" +
+      ".g2048 .g2048-howto b{color:var(--ink);font-weight:700}" +
+      ".g2048 .g2048-key{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 6px;margin:0 2px;vertical-align:-6px;border:1px solid var(--rule);border-radius:7px;background:var(--bg);font-family:var(--sans);font-size:13px;font-weight:700;color:var(--inkSoft)}";
+
+    var styleEl = el("style"); styleEl.textContent = CSS; root.appendChild(styleEl);
+
+    // ---- shell ----
+    var wrap = el("div", "g2048");
+    var layout = el("div", "g2048-layout");
+    var leftCol = el("div", "g2048-left");
+    var rightCol = el("div", "g2048-right");
+
+    var top = el("div", "g2048-top");
+    var scores = el("div", "g2048-scores");
+    var scoreBox = el("div", "g2048-score"); scoreBox.appendChild(el("div", "lbl", "Score"));
+    var scoreEl = el("div", "val g2048-scoreval", "0"); scoreBox.appendChild(scoreEl);
+    var gainEl = el("div", "g2048-gain"); scoreBox.appendChild(gainEl);
+    var bestBox = el("div", "g2048-score"); bestBox.appendChild(el("div", "lbl", "Best"));
+    var bestEl = el("div", "val g2048-bestval", "0"); bestBox.appendChild(bestEl);
+    scores.appendChild(scoreBox); scores.appendChild(bestBox);
+    var newBtn = el("button", "g2048-btn g2048-new", "New game"); newBtn.type = "button";
+    top.appendChild(scores); top.appendChild(newBtn); leftCol.appendChild(top);
+
+    var boardWrap = el("div", "g2048-board-wrap");
+    var boardEl = el("div", "g2048-board"); boardEl.setAttribute("tabindex", "0");
+    for (var cc = 0; cc < SIZE * SIZE; cc++) boardEl.appendChild(el("div", "g2048-cell"));
+    var tilesEl = el("div", "g2048-tiles"); boardEl.appendChild(tilesEl);
+    var overlayEl = el("div", "g2048-overlay");
+    var overlayMsg = el("div", "g2048-ovmsg msg"); var overlayBtns = el("div", "g2048-ovbtns btns");
+    overlayEl.appendChild(overlayMsg); overlayEl.appendChild(overlayBtns); boardEl.appendChild(overlayEl);
+    boardWrap.appendChild(boardEl); leftCol.appendChild(boardWrap);
+
+    var pad = el("div", "g2048-pad");
+    function padBtn(dir, label) { var b = el("button", null, label); b.type = "button"; b.setAttribute("data-dir", dir); return b; }
+    var padBtns = [padBtn("0", "↑"), padBtn("3", "←"), padBtn("2", "↓"), padBtn("1", "→")];
+    pad.appendChild(el("span")); pad.appendChild(padBtns[0]); pad.appendChild(el("span"));
+    pad.appendChild(padBtns[1]); pad.appendChild(padBtns[2]); pad.appendChild(padBtns[3]);
+    leftCol.appendChild(pad);
+
+    var howto = el("div", "g2048-howto");
+    howto.appendChild(el("div", "g2048-howto-head", "How to play"));
+    var ul = el("ul");
+    ul.appendChild(li("Slide every tile one direction with the ", chip("↑"), chip("↓"), chip("←"), chip("→"), " arrow keys."));
+    ul.appendChild(li("Two tiles with the ", bold("same number"), " merge into one worth ", bold("double"), "."));
+    ul.appendChild(li("Every move drops a new ", bold("2"), " (sometimes a ", bold("4"), ") on a random empty square."));
+    ul.appendChild(li("The game ends when the board is full and no neighboring tiles match."));
+    ul.appendChild(li(bold("Tip:"), " keep your biggest tile in a corner and build down from it."));
+    howto.appendChild(ul); rightCol.appendChild(howto);
+
+    layout.appendChild(leftCol); layout.appendChild(rightCol); wrap.appendChild(layout);
+    root.appendChild(wrap);
+
+    // ---- engine ----
+    var grid, disappearing = [], tileEls = {};
+    var score = 0, best = 0, idSeq = 1, moveTally = 0;
+    var won = false, keepGoing = false, over = false, busy = false;
+
+    function emptyGrid() { var g = []; for (var r = 0; r < SIZE; r++) { g.push([]); for (var c = 0; c < SIZE; c++) g[r].push(null); } return g; }
+    function emptyCells() { var list = []; for (var r = 0; r < SIZE; r++) for (var c = 0; c < SIZE; c++) if (!grid[r][c]) list.push({ r: r, c: c }); return list; }
+    function spawn() {
+      var cells = emptyCells(); if (!cells.length) return;
+      var pick = cells[Math.floor(Math.random() * cells.length)];
+      grid[pick.r][pick.c] = { id: idSeq++, value: Math.random() < 0.9 ? 2 : 4, r: pick.r, c: pick.c, isNew: true, animated: false, justMerged: false, popped: true };
     }
-    var aiThrow = wasRandom ? THROWS[Math.floor(Math.random() * 3)] : COUNTER[predicted];
-    var result = playerThrow === aiThrow ? "tie" : (COUNTER[aiThrow] === playerThrow ? "you" : "ai");
-    var freq = Object.assign({}, g.freq);
-    freq[playerThrow] += 1;
-    var trans = {
-      rock: Object.assign({}, g.trans.rock),
-      paper: Object.assign({}, g.trans.paper),
-      scissors: Object.assign({}, g.trans.scissors)
-    };
-    if (n > 0) trans[g.history[n - 1]][playerThrow] += 1;
-    setGame({
-      history: g.history.concat([playerThrow]),
-      freq: freq,
-      trans: trans,
-      you: g.you + (result === "you" ? 1 : 0),
-      ai: g.ai + (result === "ai" ? 1 : 0),
-      ties: g.ties + (result === "tie" ? 1 : 0),
-      last: { playerThrow: playerThrow, aiThrow: aiThrow, result: result, predicted: predicted, confidence: confidence, wasRandom: wasRandom }
-    });
-  }
-  var last = game.last;
-  var resultCopy = last ? (last.result === "you" ? "You win the round." : last.result === "ai" ? "AI wins the round." : "Tie.") : null;
-  var resultColor = last ? (last.result === "you" ? "#1f9d5f" : last.result === "ai" ? "#d4334a" : "var(--inkMuted)") : null;
+    function newGame() {
+      grid = emptyGrid(); disappearing = []; tilesEl.innerHTML = ""; tileEls = {};
+      score = 0; won = false; keepGoing = false; over = false; idSeq = 1;
+      spawn(); spawn(); hideOverlay(); updateScore(0); render();
+    }
+    function inBounds(p) { return p.r >= 0 && p.r < SIZE && p.c >= 0 && p.c < SIZE; }
+
+    function move(dir) {
+      if (busy || over) return;
+      var moved = false, gained = 0;
+      for (var r = 0; r < SIZE; r++) for (var c = 0; c < SIZE; c++) { if (grid[r][c]) { grid[r][c].isNew = false; grid[r][c].justMerged = false; } }
+      var vectors = { 0: { r: -1, c: 0 }, 1: { r: 0, c: 1 }, 2: { r: 1, c: 0 }, 3: { r: 0, c: -1 } };
+      var v = vectors[dir];
+      var rowOrder = [], colOrder = [];
+      for (var i = 0; i < SIZE; i++) { rowOrder.push(i); colOrder.push(i); }
+      if (v.r === 1) rowOrder.reverse();
+      if (v.c === 1) colOrder.reverse();
+      for (var ri = 0; ri < SIZE; ri++) {
+        for (var ci = 0; ci < SIZE; ci++) {
+          var r0 = rowOrder[ri], c0 = colOrder[ci];
+          var tile = grid[r0][c0];
+          if (!tile) continue;
+          var pos = { r: r0, c: c0 };
+          var next = { r: r0 + v.r, c: c0 + v.c };
+          while (inBounds(next) && !grid[next.r][next.c]) { pos = next; next = { r: pos.r + v.r, c: pos.c + v.c }; }
+          var target = inBounds(next) ? grid[next.r][next.c] : null;
+          if (target && target.value === tile.value && !target.justMerged) {
+            grid[r0][c0] = null; target.value *= 2; target.justMerged = true; target.popped = false;
+            tile.removing = true; tile.r = next.r; tile.c = next.c; disappearing.push(tile);
+            score += target.value; gained += target.value;
+            if (target.value === 2048 && !won) won = true;
+            moved = true;
+          } else {
+            if (pos.r !== r0 || pos.c !== c0) moved = true;
+            grid[r0][c0] = null; tile.r = pos.r; tile.c = pos.c; grid[pos.r][pos.c] = tile;
+          }
+        }
+      }
+      if (!moved) return;
+      busy = true; render(); updateScore(gained);
+      setTimeout(function () {
+        disappearing.forEach(function (t) { var e = tileEls[t.id]; if (e) { tilesEl.removeChild(e); delete tileEls[t.id]; } });
+        disappearing = []; spawn(); render(); busy = false; checkState();
+      }, 120);
+      moveTally++;
+      if (moveTally >= 6) setDone(true);
+    }
+
+    function movesAvailable() {
+      if (emptyCells().length) return true;
+      for (var r = 0; r < SIZE; r++) for (var c = 0; c < SIZE; c++) {
+        var v = grid[r][c].value;
+        if (r + 1 < SIZE && grid[r + 1][c].value === v) return true;
+        if (c + 1 < SIZE && grid[r][c + 1].value === v) return true;
+      }
+      return false;
+    }
+    function checkState() {
+      if (won && !keepGoing) { showWin(); return; }
+      if (!movesAvailable()) { over = true; showOver(); }
+    }
+    function tileClass(v) { return v > 2048 ? "tbig" : "t" + v; }
+    function fontSize(v) {
+      var d = ("" + v).length;
+      if (d <= 2) return "clamp(1.6rem, 9vw, 2.6rem)";
+      if (d === 3) return "clamp(1.3rem, 7.5vw, 2.1rem)";
+      if (d === 4) return "clamp(1.05rem, 6vw, 1.7rem)";
+      return "clamp(0.85rem, 5vw, 1.4rem)";
+    }
+    function sizeTile(e) { e.style.width = "calc((100% - " + (SIZE - 1) + " * " + GAP + ") / " + SIZE + ")"; e.style.height = e.style.width; }
+    function positionTile(e, r, c) { e.style.transform = "translate(calc(" + c + " * (100% + " + GAP + ")), calc(" + r + " * (100% + " + GAP + ")))"; }
+    function render() {
+      var seen = {}, list = [];
+      for (var r = 0; r < SIZE; r++) for (var c = 0; c < SIZE; c++) if (grid[r][c]) list.push(grid[r][c]);
+      list = list.concat(disappearing);
+      list.forEach(function (t) {
+        seen[t.id] = true;
+        var e = tileEls[t.id], inner;
+        if (!e) {
+          e = el("div", "g2048-tile"); inner = el("div"); e.appendChild(inner); tilesEl.appendChild(e);
+          tileEls[t.id] = e; sizeTile(e); positionTile(e, t.r, t.c);
+        } else { inner = e.firstChild; }
+        sizeTile(e); positionTile(e, t.r, t.c);
+        inner.className = "inner " + tileClass(t.value); inner.style.fontSize = fontSize(t.value); inner.textContent = t.value;
+        e.style.zIndex = t.justMerged ? 3 : (t.removing ? 1 : 2);
+        if (t.isNew && !t.animated && e.animate) { inner.animate([{ transform: "scale(0)" }, { transform: "scale(1)" }], { duration: 150, easing: "ease" }); t.animated = true; }
+        if (t.justMerged && !t.popped && e.animate) { inner.animate([{ transform: "scale(1)" }, { transform: "scale(1.18)" }, { transform: "scale(1)" }], { duration: 160, easing: "ease" }); t.popped = true; }
+      });
+      for (var id in tileEls) { if (!seen[id]) { tilesEl.removeChild(tileEls[id]); delete tileEls[id]; } }
+    }
+    function updateScore(gained) {
+      scoreEl.textContent = score;
+      if (score > best) { best = score; bestEl.textContent = best; }
+      if (gained > 0) { gainEl.textContent = "+" + gained; gainEl.style.animation = "none"; void gainEl.offsetWidth; gainEl.style.animation = "g2048FloatUp 0.6s ease-out"; }
+      else { gainEl.textContent = ""; }
+    }
+    function mkBtn(label, fn) { var b = el("button", "g2048-btn", label); b.type = "button"; b.addEventListener("click", fn); return b; }
+    function showWin() { overlayEl.className = "g2048-overlay win show"; overlayMsg.textContent = "You win! 🎉"; overlayBtns.innerHTML = ""; overlayBtns.appendChild(mkBtn("Keep going", function () { keepGoing = true; hideOverlay(); boardEl.focus(); })); overlayBtns.appendChild(mkBtn("New game", newGame)); }
+    function showOver() { overlayEl.className = "g2048-overlay show"; overlayMsg.textContent = "Game over"; overlayBtns.innerHTML = ""; overlayBtns.appendChild(mkBtn("Try again", newGame)); }
+    function hideOverlay() { overlayEl.className = "g2048-overlay"; }
+
+    var KEYMAP = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3, w: 0, d: 1, s: 2, a: 3, W: 0, D: 1, S: 2, A: 3 };
+    // Listen on window so keys work as soon as the game is on screen (no click-to-focus
+    // needed), but only act while the board is in view and focus isn't in a text field,
+    // so arrow-key page scrolling still works everywhere else.
+    function editableTarget() { var a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.isContentEditable)); }
+    function boardInView() { var r = boardEl.getBoundingClientRect(); var vh = window.innerHeight || document.documentElement.clientHeight; return r.bottom > 0 && r.top < vh; }
+    function onKey(e) {
+      if (!(e.key in KEYMAP)) return;
+      if (editableTarget()) return;
+      if (document.activeElement !== boardEl && !boardInView()) return;
+      e.preventDefault(); move(KEYMAP[e.key]);
+    }
+    window.addEventListener("keydown", onKey);
+    boardEl.addEventListener("pointerdown", function () { boardEl.focus(); });
+    var touchStart = null;
+    boardEl.addEventListener("touchstart", function (e) { if (e.touches.length !== 1) return; touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
+    boardEl.addEventListener("touchend", function (e) {
+      if (!touchStart) return; var t = e.changedTouches[0]; var dx = t.clientX - touchStart.x, dy = t.clientY - touchStart.y; touchStart = null;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+      if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 1 : 3); else move(dy > 0 ? 2 : 0);
+    }, { passive: true });
+    padBtns.forEach(function (b) { b.addEventListener("click", function () { boardEl.focus(); move(parseInt(b.getAttribute("data-dir"), 10)); }); });
+    newBtn.addEventListener("click", newGame);
+
+    newGame();
+    return function () { window.removeEventListener("keydown", onKey); };
+  }, []);
+
   return E(React.Fragment, null,
     E(InteractiveBox, {
-      variant: "try", surface: "mint", title: "Rock, Paper, Patterns",
-      lead: "One game before you go. Play at least ten rounds of rock-paper-scissors against a tiny AI. It starts out guessing. Watch what happens once it has seen a few of your throws." },
+      variant: "try", surface: "mint", title: "How high can you score?",
+      lead: "Time to give your brain a rest with a game. You’ll be building your own game in the next section of the course."
+    },
       E(InnerCard, null,
-        E("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 18, flexWrap: "wrap", gap: 8 } },
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "var(--ink)" } },
-            "You " + game.you + " · AI " + game.ai + " · Ties " + game.ties),
-          E("div", { style: { fontSize: 13, color: "var(--inkMuted)" } },
-            rounds < GATE_ROUNDS ? "Round " + (rounds + 1) + " of " + GATE_ROUNDS : rounds + " rounds played. Keep going if you dare.")),
-        E("div", { style: { display: "flex", gap: 12, marginBottom: last ? 18 : 0 } },
-          THROWS.map(function(t) {
-            return E("button", {
-              key: t,
-              onClick: function() { playRound(t); },
-              style: { flex: 1, background: "#fff", border: "1px solid var(--tryRule)", borderRadius: 12, padding: "16px 10px", cursor: "pointer", boxShadow: "var(--shadowSoft)", fontFamily: "var(--sans)" } },
-              E("div", { style: { fontSize: 30, lineHeight: 1, marginBottom: 6 } }, EMOJI[t]),
-              E("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkSoft)" } }, t));
-          })),
-        last ? E("div", { style: { borderTop: "1px dashed var(--tryRule)", paddingTop: 16, animation: "fadeIn 0.3s ease" } },
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: resultColor, marginBottom: 6 } },
-            "You threw " + EMOJI[last.playerThrow] + " · AI threw " + EMOJI[last.aiThrow] + ". " + resultCopy),
-          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", fontFamily: "var(--mono)" } },
-            last.wasRandom
-              ? "AI: No pattern yet. That one was random."
-              : "AI: I predicted " + EMOJI[last.predicted] + " (" + Math.round(last.confidence * 100) + "%), so I threw " + EMOJI[last.aiThrow] + ".")) : null)),
-    done ? E("div", { style: { marginTop: 18 } },
-      E(Takeaway, {
-        accent: "var(--tryAccent)",
-        headline: "It counted, then it predicted.",
-        body: "It never read your mind. It counted your throws, spotted your habits, and predicted what comes next. Hold that thought: predicting what comes next is exactly how AI writes. That’s the next lesson." })) : null);
+        E("div", { ref: rootRef }))));
 }
 function ItSentenceWalkthrough(props) {
   var E = React.createElement;
@@ -5192,7 +5358,7 @@ function VectorSpaceSection(props) {
       ". Change the words around it, and the same token lands somewhere new."),
     E(KeyInsight, null, "A machine that predicts your next move isn’t reading your mind. It’s counting your habits."),
     closeBoard("vectorspace"),
-    E(RPSLearnerTryIt, { onComplete: function() { setVsDone(true); } }),
+    E(Game2048TryIt, { onComplete: function() { setVsDone(true); } }),
     E(LessonRule, null),
     E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
 }

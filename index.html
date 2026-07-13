@@ -2913,6 +2913,247 @@ function WelcomeSection(props) {
     }));
 }
 
+// AI Multiplier TRY IT: a self-contained fun-beat game (like Game2048TryIt). The
+// student picks a goal, taps a button for 12s "just you", then replays the exact
+// same round with an AI multiplier on. The payoff is the ratio and the line the
+// whole activity exists for: it never tapped the button for you. Built imperatively
+// into a ref container; a React `done` state fires onComplete for the lesson gate.
+// All CSS classes / keyframes are scoped under `aim-` so the generic names
+// (card, box, effort, pulse, ...) can't collide with page-level styles.
+function AIMultiplierTryIt(props) {
+  var E = React.createElement;
+  var rootRef = useRef(null);
+  var _done = useState(false), done = _done[0], setDone = _done[1];
+
+  useEffect(function () { if (done && props.onComplete) props.onComplete(); }, [done]);
+
+  useEffect(function () {
+    var root = rootRef.current;
+    if (!root || root.__aimBuilt) return;
+    root.__aimBuilt = true;
+
+    var CSS =
+      ".aim{font-family:var(--sans);color:var(--inkSoft)}" +
+      ".aim .aim-eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tryAccent);margin:0 0 14px}" +
+      ".aim .aim-eyebrow::before{content:'';width:24px;height:2px;background:var(--tryAccent);border-radius:2px}" +
+      ".aim .aim-lead{font-size:17px;line-height:1.65;color:var(--inkSoft);margin:0 0 24px;max-width:60ch}" +
+      ".aim .aim-lead b{color:var(--ink)}" +
+      ".aim .aim-box{background:var(--tryBand);border-radius:16px;padding:22px}" +
+      ".aim .aim-card{background:var(--card);border-radius:14px;box-shadow:var(--shadowSoft);padding:30px 32px 34px}" +
+      ".aim .aim-h{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:34px;line-height:1.05;margin:0 0 22px;letter-spacing:.005em}" +
+      ".aim .aim-goals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}" +
+      ".aim .aim-goal{background:#fff;border:1.5px solid var(--rule);border-radius:14px;padding:22px 16px 18px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s,transform .12s;display:flex;flex-direction:column;align-items:center;gap:12px;font-family:var(--sans)}" +
+      ".aim .aim-goal:hover{border-color:var(--inkFaint);transform:translateY(-2px)}" +
+      ".aim .aim-goal.aim-sel{border-color:var(--primary);background:var(--primaryFaint)}" +
+      ".aim .aim-goal .aim-emoji{font-size:38px;line-height:1}" +
+      ".aim .aim-goal .aim-name{font-size:17px;font-weight:700;color:var(--ink);line-height:1.25}" +
+      ".aim .aim-goal .aim-mult{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--tryAccent);background:var(--tryBand);border-radius:999px;padding:6px 12px;white-space:nowrap}" +
+      ".aim .aim-goal.aim-sel .aim-mult{background:#e4dcfa;color:var(--primaryDeep)}" +
+      ".aim .aim-strip{background:var(--primaryFaint);border-radius:12px;padding:16px 20px;margin-top:18px;font-size:16px;line-height:1.55;color:var(--inkSoft)}" +
+      ".aim .aim-strip b{color:var(--ink)}" +
+      ".aim .aim-center{text-align:center;margin-top:22px}" +
+      ".aim .aim-btn-dark{font-family:var(--sans);font-size:16px;font-weight:700;color:#fff;background:var(--ink);border:none;border-radius:12px;padding:15px 30px;cursor:pointer;transition:background .14s,transform .12s}" +
+      ".aim .aim-btn-dark:hover{background:#241d3d;transform:translateY(-1px)}" +
+      ".aim .aim-btn-outline{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);background:#fff;border:1.5px solid var(--rule);border-radius:10px;padding:12px 22px;cursor:pointer;transition:border-color .14s}" +
+      ".aim .aim-btn-outline:hover{border-color:var(--inkFaint)}" +
+      ".aim .aim-hud{display:flex;align-items:center;gap:12px;margin-bottom:6px}" +
+      ".aim .aim-counter{background:#fff;border:1.5px solid var(--rule);border-radius:12px;padding:8px 18px;text-align:center;min-width:96px}" +
+      ".aim .aim-counter .aim-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--inkMuted)}" +
+      ".aim .aim-counter .aim-val{font-family:var(--serif);font-size:34px;line-height:1;color:var(--ink);margin-top:1px}" +
+      ".aim .aim-aipill{margin-left:auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;border-radius:999px;padding:9px 18px;font-size:13px;font-weight:700;letter-spacing:.04em}" +
+      ".aim .aim-aipill .aim-x{background:rgba(255,255,255,.22);border-radius:999px;padding:1px 8px}" +
+      ".aim .aim-subtap{text-align:center;font-size:16px;color:var(--inkMuted);margin:22px 0 16px}" +
+      ".aim .aim-subtap b{color:var(--ink)}" +
+      ".aim .aim-effort{width:100%;font-family:var(--sans);font-size:26px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--primary);border:none;border-radius:14px;padding:34px 0;cursor:pointer;user-select:none;-webkit-user-select:none;transition:transform .06s ease,background .12s}" +
+      ".aim .aim-effort:active{transform:scale(.985);background:var(--primaryDeep)}" +
+      ".aim .aim-effort.aim-plain{background:var(--ink)}" +
+      ".aim .aim-effort.aim-plain:active{background:#241d3d}" +
+      ".aim .aim-effort:disabled{background:#d8d6e0;color:var(--inkMuted);cursor:not-allowed;transform:none}" +
+      ".aim .aim-tapwrap{position:relative}" +
+      ".aim .aim-cd{position:absolute;inset:0;z-index:5;border-radius:14px;background:rgba(255,255,255,.85);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:64px;color:var(--primary);pointer-events:none}" +
+      ".aim .aim-cd.aim-pop{animation:aimCdPop .35s ease-out}" +
+      "@keyframes aimCdPop{0%{transform:scale(1.5);opacity:.35}100%{transform:scale(1);opacity:1}}" +
+      ".aim .aim-gain{position:absolute;font-weight:800;font-size:20px;color:var(--tryAccent);pointer-events:none;animation:aimFloatUp .7s ease-out forwards}" +
+      "@keyframes aimFloatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-42px)}}" +
+      ".aim .aim-aipill.aim-locked{background:#e9e6f2;color:var(--inkMuted)}" +
+      ".aim .aim-aipill.aim-pulse{animation:aimPulse 1.2s ease-in-out infinite}" +
+      "@keyframes aimPulse{0%,100%{box-shadow:0 0 0 0 rgba(110,81,255,.45)}50%{box-shadow:0 0 0 8px rgba(110,81,255,0)}}" +
+      ".aim .aim-resrow{margin-bottom:18px}" +
+      ".aim .aim-resrow .aim-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}" +
+      ".aim .aim-resrow .aim-rl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--inkMuted)}" +
+      ".aim .aim-resrow .aim-pts{font-family:var(--serif);font-size:24px;color:var(--ink)}" +
+      ".aim .aim-track{height:20px;background:var(--primaryFaint);border-radius:999px;overflow:hidden}" +
+      ".aim .aim-fill{height:100%;border-radius:999px;width:0;transition:width .7s cubic-bezier(.2,.7,.3,1)}" +
+      ".aim .aim-fill.aim-you{background:#b8b1d6}" +
+      ".aim .aim-fill.aim-ai{background:var(--primary)}" +
+      ".aim .aim-verdict{font-family:var(--serif);font-size:34px;line-height:1.08;color:var(--ink);margin:26px 0 12px}" +
+      ".aim .aim-rbody{font-size:16px;line-height:1.6;color:var(--inkSoft);margin:0 0 24px;max-width:62ch}" +
+      ".aim .aim-rbody b{color:var(--ink)}";
+
+    var styleEl = document.createElement("style");
+    styleEl.textContent = CSS;
+    root.appendChild(styleEl);
+
+    var host = document.createElement("div");
+    host.className = "aim";
+    host.innerHTML =
+      '<p class="aim-eyebrow">TRY IT</p>' +
+      '<p class="aim-lead">AI multiplies your effort. Pick a goal that resonates with you. Then see how AI supercharges it.</p>' +
+      '<div class="aim-box"><div class="aim-card" data-stage></div></div>';
+    root.appendChild(host);
+    var stage = host.querySelector("[data-stage]");
+
+    var DURATION = 12;
+    var GOALS = [
+      { id: "guitar", emoji: "🎸", name: "Learn guitar", mult: 2,
+        strip: "<b>x2 for this goal.</b> Instant tabs, riffs slowed to any speed, and feedback on every take &mdash; but your fingers still do the reps." },
+      { id: "class", emoji: "📚", name: "Ace your hardest class", mult: 5,
+        strip: "<b>x5 for this goal.</b> A tutor with infinite patience that drills exactly what you keep getting wrong." },
+      { id: "app", emoji: "📱", name: "Build your own app", mult: 10,
+        strip: "<b>x10 for this goal.</b> It writes boilerplate, explains every error, and scaffolds features you couldn&rsquo;t alone &mdash; but you still decide what to build." }
+    ];
+
+    var state = { goal: null, r1: 0, r2: 0 };
+    var timer = null;
+
+    function goalCards(selId) {
+      return '<div class="aim-goals">' + GOALS.map(function (g) {
+        return '<button class="aim-goal' + (g.id === selId ? " aim-sel" : "") + '" data-goal="' + g.id + '">' +
+          '<span class="aim-emoji">' + g.emoji + '</span>' +
+          '<span class="aim-name">' + g.name + '</span>' +
+          '<span class="aim-mult">AI Multiplier: x' + g.mult + '</span></button>';
+      }).join("") + '</div>';
+    }
+
+    function renderPick() {
+      var sel = state.goal;
+      var html = '<div class="aim-h">AI Multiplier</div>' + goalCards(sel ? sel.id : null);
+      if (sel) {
+        html += '<div class="aim-strip">' + sel.strip + '</div>' +
+          '<div class="aim-center"><button class="aim-btn-dark" id="aim-startBtn">Round 1: Just you</button></div>';
+      }
+      stage.innerHTML = html;
+      stage.querySelectorAll(".aim-goal").forEach(function (el) {
+        el.addEventListener("click", function () {
+          state.goal = GOALS.find(function (g) { return g.id === el.getAttribute("data-goal"); });
+          renderPick();
+        });
+      });
+      if (sel) { stage.querySelector("#aim-startBtn").addEventListener("click", function () { runRound(1); }); }
+    }
+
+    function runRound(round) {
+      var score = 0, taps = 0, remaining = DURATION, countdown = 3;
+      var mult = round === 2 ? state.goal.mult : 1;
+      var heading = round === 1 ? "Round 1: Just you" : "Round 2: AI has your back";
+      var sub = round === 1
+        ? "Tap the button as fast as you can. Every tap counts <b>once</b>."
+        : "Same button. Every tap now counts <b>x" + mult + "</b>.";
+      var pill = round === 2
+        ? '<span class="aim-aipill aim-pulse">AI: ON <span class="aim-x">x' + mult + '</span></span>'
+        : '<span class="aim-aipill aim-locked">AI: locked until round 2</span>';
+      stage.innerHTML =
+        '<div class="aim-h">' + heading + '</div>' +
+        '<div class="aim-hud">' +
+          '<div class="aim-counter"><div class="aim-lbl">Progress</div><div class="aim-val" id="aim-prog">0</div></div>' +
+          '<div class="aim-counter"><div class="aim-lbl">Seconds</div><div class="aim-val" id="aim-secs">' + remaining + '</div></div>' +
+          pill +
+        '</div>' +
+        '<p class="aim-subtap">' + sub + '</p>' +
+        '<div class="aim-tapwrap">' +
+          '<div class="aim-cd aim-pop" id="aim-cd">3</div>' +
+          '<button class="aim-effort' + (round === 1 ? " aim-plain" : "") + '" id="aim-effort" disabled>YOUR EFFORT</button>' +
+        '</div>';
+      var progEl = stage.querySelector("#aim-prog");
+      var secsEl = stage.querySelector("#aim-secs");
+      var eff = stage.querySelector("#aim-effort");
+      var wrap = eff.parentNode;
+      var cd = stage.querySelector("#aim-cd");
+
+      function tap(ev) {
+        taps++; score = taps * mult; progEl.textContent = score;
+        if (mult > 1) {
+          var g = document.createElement("div"); g.className = "aim-gain"; g.textContent = "+" + mult;
+          var r = wrap.getBoundingClientRect();
+          var x = (ev.clientX || r.left + r.width / 2) - r.left - 10;
+          var y = (ev.clientY || r.top + r.height / 2) - r.top - 30;
+          g.style.left = x + "px"; g.style.top = y + "px";
+          wrap.appendChild(g); setTimeout(function () { g.remove(); }, 700);
+        }
+      }
+
+      function beginTimer() {
+        eff.disabled = false; eff.addEventListener("click", tap);
+        timer = setInterval(function () {
+          remaining--; secsEl.textContent = Math.max(remaining, 0);
+          if (remaining <= 0) {
+            clearInterval(timer); timer = null; eff.disabled = true; eff.removeEventListener("click", tap);
+            if (round === 1) { state.r1 = score; intermission(); } else { state.r2 = score; results(); }
+          }
+        }, 1000);
+      }
+
+      function tickCountdown() {
+        setTimeout(function () {
+          countdown--;
+          if (countdown > 0) { cd.textContent = countdown; cd.classList.remove("aim-pop"); void cd.offsetWidth; cd.classList.add("aim-pop"); tickCountdown(); }
+          else if (countdown === 0) { cd.textContent = "GO!"; cd.classList.remove("aim-pop"); void cd.offsetWidth; cd.classList.add("aim-pop"); tickCountdown(); }
+          else { cd.remove(); beginTimer(); }
+        }, countdown === 0 ? 600 : 800);
+      }
+      tickCountdown();
+    }
+
+    function intermission() {
+      stage.innerHTML =
+        '<div class="aim-h">Round 1 done.</div>' +
+        '<div class="aim-strip">You racked up <b>' + state.r1 + ' pts</b> on your own. Now play the exact same round &mdash; same button, same 12 seconds &mdash; with AI switched on.</div>' +
+        '<div class="aim-center"><button class="aim-btn-dark" id="aim-r2btn">Round 2: AI has your back</button></div>';
+      stage.querySelector("#aim-r2btn").addEventListener("click", function () { runRound(2); });
+    }
+
+    function results() {
+      setDone(true);
+      var max = Math.max(state.r1, state.r2, 1);
+      var ratio = state.r1 > 0 ? (state.r2 / state.r1) : state.r2;
+      var rtxt = (ratio >= 10 ? ratio.toFixed(0) : ratio.toFixed(1)) + "×";
+      var body;
+      if (state.r2 <= 0) {
+        stage.innerHTML =
+          '<div class="aim-h">The results</div>' +
+          '<div class="aim-verdict">' + state.goal.mult + '× zero is still zero.</div>' +
+          '<p class="aim-rbody">AI is the best multiplier ever built &mdash; but it&rsquo;s waiting on you to give it something to multiply. <b>It never tapped the button for you.</b></p>' +
+          '<button class="aim-btn-outline" id="aim-retry">Try another goal</button>';
+        stage.querySelector("#aim-retry").addEventListener("click", function () { state = { goal: null, r1: 0, r2: 0 }; renderPick(); });
+        return;
+      }
+      body = ratio >= 1
+        ? 'Round 2 gave you <b>' + rtxt + ' the progress</b>. Obviously these aren&rsquo;t scientifically proven numbers, but they demonstrate what AI does: it multiplies your human effort. And notice the one thing it never did. <b>It never tapped the button for you.</b>'
+        : 'Round 2 gave you just <b>' + rtxt + ' the progress</b> &mdash; because you eased off, expecting AI to carry you. It can&rsquo;t. The multiplier only multiplies effort you actually put in. Notice the one thing it never did: <b>it never tapped the button for you.</b>';
+      stage.innerHTML =
+        '<div class="aim-h">The results</div>' +
+        '<div class="aim-resrow"><div class="aim-top"><span class="aim-rl">Round 1: Just you</span><span class="aim-pts">' + state.r1 + ' pts</span></div>' +
+          '<div class="aim-track"><div class="aim-fill aim-you" id="aim-f1"></div></div></div>' +
+        '<div class="aim-resrow"><div class="aim-top"><span class="aim-rl">Round 2: With AI</span><span class="aim-pts">' + state.r2 + ' pts</span></div>' +
+          '<div class="aim-track"><div class="aim-fill aim-ai" id="aim-f2"></div></div></div>' +
+        '<div class="aim-verdict">Same thumb. Same 12 seconds.</div>' +
+        '<p class="aim-rbody">' + body + '</p>' +
+        '<button class="aim-btn-outline" id="aim-retry">Try another goal</button>';
+      requestAnimationFrame(function () {
+        stage.querySelector("#aim-f1").style.width = (state.r1 / max * 100) + "%";
+        stage.querySelector("#aim-f2").style.width = (state.r2 / max * 100) + "%";
+      });
+      stage.querySelector("#aim-retry").addEventListener("click", function () { state = { goal: null, r1: 0, r2: 0 }; renderPick(); });
+    }
+
+    renderPick();
+
+    return function () { if (timer) { clearInterval(timer); timer = null; } };
+  }, []);
+
+  return E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } });
+}
+
 function WhyDeeperSection(props) {
   var E = React.createElement;
   var EVERYDAY_AI_USES = [
@@ -2922,25 +3163,7 @@ function WhyDeeperSection(props) {
     { icon: "\ud83d\udde3\ufe0f", label: "Voice assistants", prediction: "Turns your speech into words.", examples: "Siri, Alexa, Hey Google" },
     { icon: "💬", label: "Chatbots", prediction: "Carries on a conversation with you.", examples: "ChatGPT, Claude, Gemini" }
   ];
-  const [storeAnswers, setStoreAnswers] = useState({});
-  var STORE_TASKS = [
-    { text: "Starting a business, like an online store selling jerseys of the greatest hockey team in the world, the Dallas Stars.", answer: "ai",
-      aiFeedback: "Right. Creating a business used to mean months of grunt work: a business plan, product descriptions, marketing, cash-flow analysis. AI drafts all of it in an afternoon, so you launch in days, not seasons.",
-      youFeedback: "Actually this is where AI shines. The business plan, product descriptions, marketing, cash-flow math: AI drafts all of it fast. It supercharges the whole launch." },
-    { text: "Getting good at a hard subject fast, like calculus or a new language.", answer: "ai",
-      aiFeedback: "Right. AI is a tutor with infinite patience: it explains a concept ten different ways, quizzes you, and catches exactly what you got wrong. The learning curve gets a lot shorter.",
-      youFeedback: "Actually AI supercharges this. It explains a concept ten ways, quizzes you, and pinpoints what you missed. The learning curve gets a lot shorter." },
-    { text: "Improving your workouts to get stronger and fitter.", answer: "you",
-      aiFeedback: "Not really. AI can write the perfect program and track your progress, but it can’t do the reps. The gains barely move without you.",
-      youFeedback: "Right. AI can build the plan, but it can’t lift for you. The muscle, the wind, the calluses come from you showing up, week after week." },
-    { text: "Making a short film, a song, or a design from scratch.", answer: "ai",
-      aiFeedback: "Right. AI generates drafts, storyboards, beats, and concepts in seconds. The blank page, usually the hardest part, basically disappears.",
-      youFeedback: "Actually AI supercharges the start. It spins up drafts, storyboards, and concepts in seconds, so the blank page basically disappears." },
-    { text: "Getting good at skating and your slapshot.", answer: "you",
-      aiFeedback: "Not really. AI can break down your form frame by frame, but it can’t put you on the ice. The hours are yours to skate.",
-      youFeedback: "Right. AI can analyze your form all day, but the edges, the balance, the shot only come from reps on the ice. That part’s all you." }
-  ];
-  var storeAllAnswered = Object.keys(storeAnswers).length >= STORE_TASKS.length;
+  const [goalDone, setGoalDone] = useState(false);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/E(BodyP, null,
@@ -2997,40 +3220,9 @@ function WhyDeeperSection(props) {
       source: "The White House, July 2025"
     }),
     closeBoard("whydeeper"),
-    /*#__PURE__*/E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Will AI help you reach these goals faster?",
-      lead: "AI can help you reach your goals faster than was ever possible. For each one, decide whether AI supercharges it or barely moves the needle.",
-    },
-      /*#__PURE__*/E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        STORE_TASKS.map(function(item, i) {
-          var answered = storeAnswers[i] !== undefined;
-          var picked = storeAnswers[i];
-          var correct = answered && picked === item.answer;
-          function PillButton(value, label) {
-            return /*#__PURE__*/E(FeedbackPill, {
-              key: value,
-              answered: answered,
-              isCorrect: value === item.answer,
-              isPicked: picked === value,
-              label: label,
-              onClick: function() { setStoreAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
-            });
-          }
-          return /*#__PURE__*/E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: item.text,
-            answered: answered,
-            correct: correct,
-            feedback: answered ? (picked === "ai" ? item.aiFeedback : item.youFeedback) : null
-          },
-            PillButton("ai", "AI supercharges it"),
-            PillButton("you", "AI barely moves the needle"));
-        }))),
+    /*#__PURE__*/E(AIMultiplierTryIt, { onComplete: function() { setGoalDone(true); } }),
     /*#__PURE__*/E(LessonRule, null),
-    /*#__PURE__*/E(NextLessonGate, { ready: storeAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
+    /*#__PURE__*/E(NextLessonGate, { ready: goalDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
 }
 function DoesAIThinkSection(props) {
   var E = React.createElement;

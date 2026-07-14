@@ -901,7 +901,7 @@ function OpenerSection(props) {
     props.question ? E(KeyInsight, { lead: props.questionLead !== undefined ? props.questionLead : "Keep this question in mind:" }, props.question) : null,
     closeBoard(props.sectionId),
     E(LessonRule, null),
-    E(NextLessonGate, { nav: true, ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
+    E(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
   );
 }
 
@@ -1932,7 +1932,6 @@ function AIHistorySection(props) {
       trueFeedback: "Not quite. It doesn’t map out the whole sentence first. AI builds it one predicted word at a time.",
       falseFeedback: "Right. It doesn’t write the whole thing in advance. It predicts one word, looks again, predicts the next, all the way to the end." }
   ];
-  var quizAllAnswered = Object.keys(quizAnswers).length >= WHATQUIZ.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "You’ve met the two kinds of AI and named the generative one: a Large Language Model, or LLM. So how does an LLM actually turn your words into an answer?"),
@@ -2046,7 +2045,7 @@ function AIHistorySection(props) {
             PillButton("false", "False"));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: quizAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
 }
 function TypeOut(props) {
@@ -2147,7 +2146,6 @@ function RecOrGenTryIt(props) {
       })));
 }
 function LLMsSection(props) {
-  var _rg = useState(false), rgDone = _rg[0], setRgDone = _rg[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
     /*#__PURE__*/React.createElement(BodyP, null, "You hear about AI constantly. So what is it, really? The useful starting point: AI is software built to do things that used to take a human brain. And it comes in two kinds."),
@@ -2205,8 +2203,8 @@ function LLMsSection(props) {
       ]
     }),
     closeBoard("llms"),
-    /*#__PURE__*/React.createElement(RecOrGenTryIt, { onComplete: function() { setRgDone(true); } }),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: rgDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: How an LLM Works" })
+    /*#__PURE__*/React.createElement(RecOrGenTryIt, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: How an LLM Works" })
   );
 }
 function BayesianMindReaderTryIt(props) {
@@ -2305,7 +2303,6 @@ function BayesianMindReaderTryIt(props) {
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each clue reshaped the odds, not your number.", body: "Your number never changed. What changed was what the model knew. Every higher or lower ruled out possibilities and lifted the odds on what was left, until one number towered over the rest. That’s conditional probability: new evidence reshapes the odds. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })) : null);
 }
 function AIIsMathSection(props) {
-  var _nw = useState(false), nwDone = _nw[0], setNwDone = _nw[1];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aiismath" }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 },
@@ -2576,9 +2573,9 @@ function AIIsMathSection(props) {
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "The real math behind LLMs goes way past what’s here. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But two ideas from probability, plus the loop that turns them into language, are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering."),
     closeBoard("aiismath"),
-    /*#__PURE__*/React.createElement(BayesianMindReaderTryIt, { onComplete: function() { setNwDone(true); } }),
+    /*#__PURE__*/React.createElement(BayesianMindReaderTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: nwDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("tokens"); }, label: "Next: Tokens" })
   );
 }
 
@@ -2595,7 +2592,7 @@ function HowWeGotHereSection(props) {
     /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
     /*#__PURE__*/React.createElement(HistoryMatchTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" })
   );
 }
 function ConvergenceDiagram(props) {
@@ -2904,7 +2901,6 @@ function WelcomeSection(props) {
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: allAnswered,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whydeeper"); },
       label: "Next: Why Learn AI?"
     }));
@@ -3160,7 +3156,6 @@ function WhyDeeperSection(props) {
     { icon: "\ud83d\udde3\ufe0f", label: "Voice assistants", prediction: "Turns your speech into words.", examples: "Siri, Alexa, Hey Google" },
     { icon: "💬", label: "Chatbots", prediction: "Carries on a conversation with you.", examples: "ChatGPT, Claude, Gemini" }
   ];
-  const [goalDone, setGoalDone] = useState(false);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/E(BodyP, null,
@@ -3217,9 +3212,9 @@ function WhyDeeperSection(props) {
       source: "The White House, July 2025"
     }),
     closeBoard("whydeeper"),
-    /*#__PURE__*/E(AIMultiplierTryIt, { onComplete: function() { setGoalDone(true); } }),
+    /*#__PURE__*/E(AIMultiplierTryIt, null),
     /*#__PURE__*/E(LessonRule, null),
-    /*#__PURE__*/E(NextLessonGate, { ready: goalDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
+    /*#__PURE__*/E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
 }
 function DoesAIThinkSection(props) {
   var E = React.createElement;
@@ -3339,7 +3334,6 @@ function DoesAIThinkSection(props) {
 
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: allAnswered,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); },
       label: "Next: What You Can Control"
     }));
@@ -3454,7 +3448,6 @@ function WhyBotherSection(props) {
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: allAnswered,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
       label: "Next: Learn with AI"
     }));
@@ -3591,13 +3584,11 @@ function ControlSection(props) {
 
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: allAnswered,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); },
       label: "Next: Does School Matter?"
     }));
 }
 function AIvsCodeSection(props) {
-  const [fitDone, setFitDone] = useState(false);
   // Fixed Rules vs Patterns box renders fully revealed (was a click-through SEE IT).
   var revealStep = 2, setRevealStep = function() {};
   var askCount = 2, setAskCount = function() {};
@@ -3794,9 +3785,9 @@ function AIvsCodeSection(props) {
       "So when an app refuses something dangerous, that’s the guardrail talking, not the AI making a call of its own."
     ),
     closeBoard("aivscode"),
-    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of normal software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS, onComplete: function() { setFitDone(true); } }),
+    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of normal software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS }),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: fitDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
 }
 function TypingAICard(props) {
@@ -3893,7 +3884,6 @@ function BeTheAttentionTryIt(props) {
 }
 function HowAIReadsSection(props) {
   var E = React.createElement;
-  var _pa = useState(false), paDone = _pa[0], setPaDone = _pa[1];
   var sentenceWords = ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"];
 
   return E("div", null,
@@ -4216,10 +4206,9 @@ function HowAIReadsSection(props) {
       E("strong", null, "positional encoding"),
       "."),
     closeBoard("attention"),
-    E(BeTheAttentionTryIt, { onComplete: function() { setPaDone(true); } }),
+    E(BeTheAttentionTryIt, null),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: paDone,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); },
       label: "Next: Layers"
     })
@@ -4346,7 +4335,6 @@ function BiasQuiz(props) {
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or carries biased labels, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
 }
 function TrainingBiasSection(props) {
-  const [biasComplete, setBiasComplete] = useState(false);
   const MECHANISMS = [
     { icon: "📈", term: "Overrepresentation", line1: "Some cases appear too often in the data.", line2: "The model treats them as the default." },
     { icon: "📉", term: "Underrepresentation", line1: "Some cases appear too rarely.", line2: "The model performs worse when those cases come up." },
@@ -4428,9 +4416,9 @@ function TrainingBiasSection(props) {
     ),
     /*#__PURE__*/React.createElement(KeyInsight, null,
       "Common is not neutral. Frequent is not fair. Questioning the default is the skill."),
-    /*#__PURE__*/React.createElement(BiasQuiz, { onComplete: function() { setBiasComplete(true); } }),
+    /*#__PURE__*/React.createElement(BiasQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: biasComplete, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Document Trap" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Document Trap" })
   );
 }
 function TrainingWhoTaughtQuiz(props) {
@@ -4474,7 +4462,6 @@ function TrainingWhoTaughtQuiz(props) {
       })));
 }
 function TrainingSection(props) {
-  var _tpm = useState(false), tpmDone = _tpm[0], setTpmDone = _tpm[1];
   const ACTORS = {
     engineers: { icon: "👷", label: "Engineers", role: "humans" },
     humans: { icon: "👤", label: "Humans", role: "humans" },
@@ -4617,9 +4604,9 @@ function TrainingSection(props) {
     /*#__PURE__*/React.createElement("strong", null, "knowledge cutoffs"),
     ". They can add live search, files, memory, or tools, but the core model is finished learning."),
     closeBoard("training"),
-    /*#__PURE__*/React.createElement(TrainingWhoTaughtQuiz, { onComplete: function() { setTpmDone(true); } }),
+    /*#__PURE__*/React.createElement(TrainingWhoTaughtQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: tpmDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: AI is Math" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: AI is Math" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 
@@ -4726,7 +4713,6 @@ function TokenSection(props) {
     { word: "https://www.quickbookstraining.com", tokens: [{t: "https", id: 5765}, {t: "://", id: 1358}, {t: "www", id: 2185}, {t: ".quick", id: 23489}, {t: "books", id: 12483}, {t: "training", id: 6573}, {t: ".com", id: 916}], note: "7 tokens (URLs split into known pieces)" }
   ];
   var E = React.createElement;
-  const [tokenTryDone, setTokenTryDone] = useState(false);
   var renderTokenRow = function(ex, i, isLast) {
     return E("div", {
       key: i,
@@ -4765,7 +4751,7 @@ function TokenSection(props) {
           E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.5, marginTop: "auto" } }, "The tokenizer turns it into a token ID. The exact number varies by model; either way, it\u2019s a number, not meaning yet.")))));
   var vocabDeeper = E(BodyP, { style: { marginTop: 24 } },
     "Once it\u2019s built, the model uses that same fixed vocabulary of tokens every time it reads text.");
-  var navButton = E(NextLessonGate, { ready: tokenTryDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
+  var navButton = E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
   var exchange = E(ShowcaseBox, {
       headline: "But that\u2019s not what using AI feels like.",
       intro: "When you type a question into ChatGPT, you ask in plain English and get plain English back.",
@@ -4838,7 +4824,7 @@ function TokenSection(props) {
     tokenizeBox,
     vocabDeeper,
     closeBoard("tokens"),
-    E(TokenTrueFalseTryIt, { onComplete: function() { setTokenTryDone(true); } }),
+    E(TokenTrueFalseTryIt, null),
     E(LessonRule, null),
     navButton);
 }
@@ -5142,7 +5128,7 @@ function EmbeddingsSection(props) {
   closeBoard("embeddings"),
   clubTryIt,
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: clubMatchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
 // 2048: the Vector Space fun-beat TRY IT. A self-contained sliding-tile puzzle
 // (reach the 2048 tile). React renders ONE empty container; the engine builds and
@@ -5438,7 +5424,6 @@ function ItSentenceWalkthrough(props) {
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
-  var _vd = useState(false), vsDone = _vd[0], setVsDone = _vd[1];
   var vsDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark", "Citrus"];
   var vsDrinks = [
     { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
@@ -5547,9 +5532,9 @@ function VectorSpaceSection(props) {
       ". Change the words around it, and the same token lands somewhere new."),
     E(KeyInsight, null, "A machine that predicts your next move isn’t reading your mind. It’s counting your habits."),
     closeBoard("vectorspace"),
-    E(Game2048TryIt, { onComplete: function() { setVsDone(true); } }),
+    E(Game2048TryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: vsDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
 }
 
 function MatchTermsTryIt(props) {
@@ -5653,7 +5638,6 @@ function LayersStackBox() {
       " Each pass, the numbers move closer to what the token means."));
 }
 function LayersSection(props) {
-  const [claimsDone, setClaimsDone] = useState(false);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -5692,9 +5676,9 @@ function LayersSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "neural network"),
       ". The design is loosely borrowed from biology, simple units passing signals forward the way neurons do. But that’s where the resemblance ends. It isn’t a brain and it isn’t thinking: it’s the same arithmetic, repeated billions of times, fast."),
     closeBoard("layers"),
-    /*#__PURE__*/React.createElement(TransformerClaimsTryIt, { onComplete: () => setClaimsDone(true) }),
+    /*#__PURE__*/React.createElement(TransformerClaimsTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: claimsDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
   );
 }
 function InferenceJourneyDiagram() {
@@ -5919,7 +5903,7 @@ function InferenceSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(bigAnswers).length >= BIG_TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
 
 function PromptSection(props) {
@@ -6041,7 +6025,7 @@ function PromptSection(props) {
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: labCheckedCount >= LAB_STEPS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate the Results" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate the Results" }));
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
@@ -6106,7 +6090,6 @@ function DocumentChatSection(props) {
       ]
     }
   ];
-  var scenariosAllAnswered = Object.keys(scenarioAnswers).length >= SCENARIOS.length;
 
   const CHUNK_STEPS = [
     { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting." },
@@ -6215,7 +6198,6 @@ function DocumentChatSection(props) {
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: scenariosAllAnswered,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
       label: "Next: Mind Trap"
     })
@@ -6345,7 +6327,7 @@ function ModelSelectionSection(props) {
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
         }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: labCheckedCount >= STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function ChoosingModelSection(props) {
   const [pickerAnswers, setPickerAnswers] = useState({});
@@ -6543,7 +6525,7 @@ function ChoosingModelSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("askai"), label: "Next: Ask AI" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("askai"), label: "Next: Ask AI" }));
 }
 function PhoneTrayStrip() {
   var E = React.createElement;
@@ -6733,7 +6715,6 @@ function AnswerBuildStrip() {
       E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot.")));
 }
 function PredictionSection(props) {
-  const [matchComplete, setMatchComplete] = useState(false);
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "In Vector Space, you watched a token\u2019s final vector land in its neighborhood on the map. That landing was about meaning: the model understanding the words you put in. Now we move to the next step: how AI answers you."),
@@ -6754,9 +6735,9 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(DogNameChartBox, null),
   /*#__PURE__*/React.createElement(BodyP, null, "The model takes the top of the list and types it: Spot."),  /*#__PURE__*/React.createElement(BodyP, null, "And that’s the whole machine. Everything you just watched, from tokens to vectors to a ranked list to the next word, has a name: ", /*#__PURE__*/React.createElement("strong", null, "inference"), ". It’s what the model does every time it answers you."),
   closeBoard("prediction"),
-  /*#__PURE__*/React.createElement(MatchTermsTryIt, { onComplete: function() { setMatchComplete(true); } }),
+  /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: matchComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
 }
 
 function HallucinationSection(props) {
@@ -6782,7 +6763,6 @@ function HallucinationSection(props) {
     ]
   }];
   var allClaimIds = SPOT_RESPONSES.reduce(function(acc, r) { return acc.concat(r.segments.filter(function(s) { return s.id; }).map(function(s) { return s.id; })); }, []);
-  var spotComplete = allClaimIds.every(function(id) { return flaggedIds.has(id); });
   function flagClaim(ri, seg) {
     setLastByResp(function(prev) { return Object.assign({}, prev, Object.fromEntries([[ri, seg.id]])); });
     if (!flaggedIds.has(seg.id)) {
@@ -6873,7 +6853,7 @@ function HallucinationSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, lastSeg.note.replace(/^(Real|Made up twice|Made up)\.\s*/, "")))) : null);
         }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: spotComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
 function CriticalThinkingSection(props) {
   const [problemAnswers, setProblemAnswers] = useState({});
@@ -7053,7 +7033,7 @@ function CriticalThinkingSection(props) {
   Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
     /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught five shaky claims on instinct. The hard part is using that same instinct when AI’s answer sounds confident and clean." })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(problemAnswers).length >= CT_101.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
 }
 function OpenerWorkWithSection(props) {
   var workIllustration = /*#__PURE__*/React.createElement(Illustration, {
@@ -7339,7 +7319,6 @@ function WhatItDoesBestSection(props) {
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {
-      ready: Object.keys(taskAnswers).length >= CLAIMS.length,
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("modelselection"); },
       label: "Next: Which App?"
     }));
@@ -7432,7 +7411,7 @@ function PromptingSection(props) {
             /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
       }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: labCheckedCount >= LAB_STEPS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
 }
 function ThinkingTogetherStatic(props) {
   return /*#__PURE__*/React.createElement(ShowcaseBox, { kicker: "WATCH: THINKING TOGETHER", headline: "Working a summer-plans problem with AI", marginBottom: 24 },
@@ -7511,7 +7490,7 @@ function AskAISection(props) {
     /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 24 } },
       "Asking AI how to start gets you unstuck. The next step is staying in the driver’s seat once the conversation gets going."),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(askAnswers).length >= ASK_MOVES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
   const [tpAnswers, setTpAnswers] = useState({});
@@ -7582,7 +7561,7 @@ function ThoughtPartnerSection(props) {
           /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which next message keeps the thinking yours?", totalQuestions: TP_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setTpAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
       }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(tpAnswers).length >= TP_MOVES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("humanedge"), label: "Next: Skills That Matter" }));
 }
 function Lab01CourseNotebook() {
   var E = React.createElement;
@@ -7715,7 +7694,7 @@ function StudyingWithAISection(props) {
     closeBoard("studying"),
     E(Lab01CourseNotebook, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );
 }
 function DigDeeperTryIt(props) {
@@ -7785,7 +7764,6 @@ function DigDeeperTryIt(props) {
 }
 function EvaluatingSection(props) {
   var E = React.createElement;
-  var _dd = useState(false), ddDone = _dd[0], setDdDone = _dd[1];
   var NEXT_MOVES = [
     { icon: "✅", title: "Use it", desc: "It passed your checks. Most answers end here. Read, understood, validated, done." },
     { icon: "🔧", title: "Fix it", desc: "Something’s off and you can name it. Say exactly what’s wrong in a follow-up: “cut the stat I never gave you,” “make it shorter.” Being specific about what’s wrong beats starting over." },
@@ -7857,9 +7835,9 @@ function EvaluatingSection(props) {
         }))),
     E(BodyP, null, "Most answers pass in seconds: read, understand, validate barely slows you down. The skill isn’t checking everything."),
     closeBoard("evaluating"),
-    E(DigDeeperTryIt, { onComplete: function() { setDdDone(true); } }),
+    E(DigDeeperTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: ddDone, onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
+    E(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
 }
 function CreativeThinkingSection(props) {
   const [scenarioAnswers, setScenarioAnswers] = useState({});
@@ -7902,7 +7880,6 @@ function CreativeThinkingSection(props) {
       ]
     }
   ];
-  const scenariosAllAnswered = Object.keys(scenarioAnswers).length >= SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "creativethinking", subtitle: "Same AI. Better angle." }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -7962,7 +7939,7 @@ function CreativeThinkingSection(props) {
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: scenariosAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Be Curious" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Be Curious" }));
 }
 function BeCuriousSection(props) {
   var E = React.createElement;
@@ -7974,7 +7951,6 @@ function BeCuriousSection(props) {
     { prompt: "Stuck on the first sentence of a lab report, a student has AI write the whole thing and moves on", answer: "Outsourcing the work", explain: "The blank-page problem is real, but handing over the whole report means the next blank page will be just as blank. Asking for three possible openings and writing your own would have been the curious move." },
     { prompt: "A student hears an AI app added a new voice mode and spends ten minutes finding out what it's good for", answer: "Building experience", explain: "Ten minutes of poking at a new feature, with nobody assigning it, is exactly how you stay current. That's the habit." }
   ];
-  const sortAllAnswered = Object.keys(sortAnswers).length >= SORTS.length;
   return E("div", null,
     E(LessonHeader, { sectionId: "becurious" }),
     E(BodyP, null,
@@ -8028,7 +8004,7 @@ function BeCuriousSection(props) {
         })
       )),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: sortAllAnswered, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("buildedge"); }, label: "Next: Your Edge" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("buildedge"); }, label: "Next: Your Edge" }));
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;
@@ -8099,7 +8075,6 @@ function WhenAIActsSection(props) {
       feedback: "Never. On top of being hard to undo, this is an integrity line: submitting your work has to be you, not AI clicking on your behalf, even if it asks first."
     }
   ];
-  const permAllAnswered = Object.keys(permAnswers).length >= PERM_ITEMS.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -8189,11 +8164,10 @@ function WhenAIActsSection(props) {
             item.options.map(function(opt) { return PillButton(opt); }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: permAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("aijudges"), label: "Next: When AI Judges You" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aijudges"), label: "Next: When AI Judges You" }));
 }
 function MindTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
-  const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
   const SPOT_EXERCISES = [{
     prompt: "Why does my code keep crashing?",
     reply: "Your code is trying to do too much at once. It\u2019s basically panicking.",
@@ -8328,10 +8302,10 @@ function MindTrapSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
                 /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
@@ -8499,11 +8473,10 @@ function FlatteryTrapSection(props) {
           /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
       }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(spotAnswers).length >= SPOT_EXERCISES.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: Engagement Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: Engagement Trap" }));
 }
 function EngagementTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
-  const [hasAnsweredAny, setHasAnsweredAny] = useState(false);
   const SPOT_EXERCISES = [{
     prompt: "Can you give me a quick pesto recipe?",
     reply: "Here you go: blend basil, garlic, pine nuts, parmesan, and olive oil until smooth. Want me to suggest variations, adjust it for allergies, or scale it for a crowd?",
@@ -8599,10 +8572,10 @@ function EngagementTrapSection(props) {
               /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
                 /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); setHasAnsweredAny(true); } }));
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: hasAnsweredAny, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }
 
 function SupportTrapSection(props) {
@@ -8808,7 +8781,7 @@ function SupportTrapSection(props) {
         }))),
 
     E(LessonRule, null),
-    E(NextLessonGate, { ready: Object.keys(supportAnswers).length >= SUPPORT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("faketrap"); }, label: "Next: The Fake Trap" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("faketrap"); }, label: "Next: The Fake Trap" }));
 }
 
 const INTEGRITY_SCENARIOS = [{
@@ -9279,7 +9252,7 @@ function IntegritySection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "You've thought through the gray areas."),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Most integrity calls aren't between right and wrong. They're between using AI to learn and using AI to skip the learning.")) : null)),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: integrityAllAnswered, onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("privacy"), label: "Next: Privacy" }));
 }
 function PrivacySection(props) {
   const [redacted, setRedacted] = useState({});
@@ -9630,7 +9603,7 @@ function PrivacySection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Privacy is a reflex, not a rule."),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Once you start asking ‘what does the AI actually need to answer this?’ the redaction happens automatically.")) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { ready: redactComplete, onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow"), label: "Next: The Full Loop" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow"), label: "Next: The Full Loop" }));
 }
 function WhenAIJudgesSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
@@ -9831,7 +9804,7 @@ function WhenAIJudgesSection(props) {
     Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Five questions. Every system. Every time.", body: "You won’t always get clear answers. The questions still work. A system that won’t tell you who’s responsible is telling you something." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(permAnswers).length >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("computecost"), label: "Next: The Hidden Cost" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("computecost"), label: "Next: The Hidden Cost" }));
 }
 function SyntheticMediaSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
@@ -9964,7 +9937,7 @@ function SyntheticMediaSection(props) {
     Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Source. Context. Corroboration.", body: "Run anything you’re about to react to through the three checks. Slowing down by a minute is almost always the right call." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(permAnswers).length >= SCENARIOS.length, onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
 }
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
@@ -10227,7 +10200,7 @@ function FullWorkflowSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)" } }, item.desc));
             }))))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: wfAllCorrect, onClick: () => props.completeAndNavigate && props.completeAndNavigate("howwegothere"), label: "Next: How We Got Here" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("howwegothere"), label: "Next: How We Got Here" }));
 }
 function QuestionsValuableSection(props) {
   const [missingAnswers, setMissingAnswers] = useState({});
@@ -10421,7 +10394,7 @@ function QuestionsValuableSection(props) {
             }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(missingAnswers).length >= MISSING_SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
   );
 }
 function HumanEdgeSection(props) {
@@ -10532,8 +10505,6 @@ function HumanEdgeSection(props) {
     { icon: "\uD83D\uDD0D", title: "Check what matters", body: "AI can sound confident when it is wrong. The better it sounds, the more important it becomes to know what needs verification." },
     { icon: "\uD83E\uDDED", title: "Make the human call", body: "AI can generate options. It cannot own your judgment, your values, your reputation, or the consequences of what you choose." }
   ];
-  const skillAllSolved = Object.keys(skillSolved).length >= SCENARIOS.length;
-  const missingAllAnswered = Object.keys(missingAnswers).length >= MISSING_SCENARIOS.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "humanedge" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -10651,7 +10622,7 @@ function HumanEdgeSection(props) {
               /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which is the stronger use of AI?", totalQuestions: SCENARIOS.length, options: sk.options, onAnswer: function(idx, correct) { if (correct) setSkillSolved(function(prev) { var next = Object.assign({}, prev); next[si] = true; return next; }); } })));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: missingAllAnswered && skillAllSolved, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("creativethinking"); }, label: "Next: Creative Thinking" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("creativethinking"); }, label: "Next: Creative Thinking" })
   );
 }
 function WorkChangesSection(props) {
@@ -10932,7 +10903,7 @@ function WorkChangesSection(props) {
         }))),
 
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: Object.keys(taskAnswers).length >= TASKS.length && Object.keys(splitAnswers).length >= SPLIT_TASKS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" })
   );
 }
 function CostClaimsTryIt(props) {
@@ -10970,7 +10941,6 @@ function TheHiddenCostSection(props) {
   var E = React.createElement;
   // Static (was a single-reveal SEE IT): the cost is always shown.
   var revealed = true, setRevealed = function() {};
-  var _cc = useState(false), ccDone = _cc[0], setCcDone = _cc[1];
   var AMBER = "#b45309", AMBER_BG = "#fbedd3";
   var chip = function(v, l) {
     return E("div", { style: { background: AMBER_BG, borderRadius: 10, padding: "8px 14px", textAlign: "center", minWidth: 72 } },
@@ -11009,9 +10979,9 @@ function TheHiddenCostSection(props) {
     E(SectionKicker, null, "THE FOOTPRINT"),
     E(BodyP, null, "All that hardware draws real electricity, and cooling it takes real water. As more people use AI, that footprint grows. It isn’t unique to AI; every big technology has one, from streaming video to the cars outside, and engineers are racing to make the chips far more efficient. But it is real, and most people never picture it."),
     E(KeyInsight, { lead: "Now you know what’s behind the magic." }, "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
-    E(CostClaimsTryIt, { onComplete: function() { setCcDone(true); } }),
+    E(CostClaimsTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: ccDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
 }
 function AiFutureMatchTryIt(props) {
   var cards = props.cards;
@@ -11179,7 +11149,7 @@ function AIFutureSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "That’s how you weigh a claim yourself. But you’ll also be the one friends and family ask about AI. That’s next."),
     /*#__PURE__*/React.createElement(AiFutureMatchTryIt, { cards: ALL_CARDS }),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { ready: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
 }
 function SpotTheWorryTryIt(props) {
   var SCENARIOS = [
@@ -11226,7 +11196,6 @@ function SpotTheWorryTryIt(props) {
 }
 function TalkingAboutAISection(props) {
   var E = React.createElement;
-  var _sw = useState(false), swDone = _sw[0], setSwDone = _sw[1];
   return E("div", null,
     E(LessonHeader, { sectionId: "talkingai" }),
     E(BodyP, null, "You can weigh a claim for yourself now. But you’ll also be the person friends, family, and teachers ask about AI, often with a worry sitting under the question. The move is to meet the worry, not the soundbite."),
@@ -11249,9 +11218,9 @@ function TalkingAboutAISection(props) {
         }))),
     E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren’t the ones who panic or worship."),
     E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They’re the ones who can judge."),
-    E(SpotTheWorryTryIt, { onComplete: function() { setSwDone(true); } }),
+    E(SpotTheWorryTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { ready: swDone, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
 function BuildEdgeSection(props) {
   var E = React.createElement;
@@ -11524,7 +11493,7 @@ function BuildEdgeSection(props) {
         }))),
 
     E(LessonRule, null),
-    E(NextLessonGate, { ready: Object.keys(scenarioAnswers).length >= SCENARIOS.length, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }
 const SECTION_COMPONENTS = {
   welcome: WelcomeSection,

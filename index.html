@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#15315a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@1,600;1,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap">
 <style>
   :root {
@@ -108,6 +108,40 @@
   .course-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .course-cta-arrow { transition: transform .16s; }
   .course-cta:hover .course-cta-arrow { transform: translateX(3px); }
+  /* Welcome gate: implements the "Course Opener" design (claude.ai/design, 2026-07-14) */
+  .gate-screen{ position:relative; overflow:hidden; min-height:100vh; padding:64px 24px 80px; background:radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%); font-family:var(--sans); color:#c7d0f0; }
+  .gate-watermark{ position:absolute; right:-160px; bottom:-140px; width:560px; max-width:70vw; opacity:.05; pointer-events:none; }
+  .gate-col{ position:relative; max-width:720px; margin:0 auto; }
+  .gate-crest{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .gate-plate{ width:120px; height:120px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 6px rgba(255,210,74,.18), 0 18px 40px -14px rgba(0,0,0,.6); margin-bottom:26px; }
+  .gate-plate img{ width:104px; height:104px; border-radius:50%; display:block; }
+  .gate-eyebrow{ font-size:15px; font-weight:800; letter-spacing:.28em; text-transform:uppercase; color:#ffd24a; margin:0 0 20px; }
+  .gate-title{ margin:0; line-height:.96; color:#fff; }
+  .gate-title .l1{ display:block; font-weight:800; font-size:clamp(52px,9vw,88px); letter-spacing:-.02em; }
+  .gate-title .l2{ display:block; font-family:"Playfair Display",Georgia,serif; font-style:italic; font-weight:700; font-size:clamp(54px,9.4vw,92px); margin-top:2px; }
+  .gate-tagline{ margin:22px 0 0; font-weight:800; font-size:clamp(22px,3.4vw,30px); color:#ffd24a; letter-spacing:-.01em; }
+  .gate-rule{ height:1px; background:linear-gradient(90deg,transparent,rgba(199,208,240,.35),transparent); margin:46px 0 40px; }
+  .gate-lede{ font-size:19px; line-height:1.62; color:#e4e9fb; margin:0 0 26px; }
+  .gate-outro{ font-size:19px; line-height:1.62; color:#e4e9fb; margin:0 0 30px; }
+  .gate-lede b, .gate-notes b{ color:#fff; }
+  .gate-notes{ list-style:none; margin:0 0 30px; padding:0; display:flex; flex-direction:column; gap:20px; }
+  .gate-notes li{ position:relative; padding-left:26px; font-size:17px; line-height:1.6; color:#d5dcf6; }
+  .gate-notes li::before{ content:""; position:absolute; left:4px; top:11px; width:7px; height:7px; border-radius:50%; background:#ffd24a; }
+  .gate-notes a{ color:#ffd24a; } .gate-notes a:hover{ color:#ffe08a; }
+  .gate-red{ color:#ff8a8a; font-weight:700; }
+  .gate-sig{ font-family:"Caveat",cursive; font-size:52px; color:#ffd24a; line-height:1; margin:6px 0 0; }
+  .gate-ask{ text-align:center; margin-top:64px; }
+  .gate-ask h2{ font-weight:800; font-size:28px; color:#fff; margin:0 0 26px; letter-spacing:-.01em; }
+  .gate-field{ display:block; width:100%; max-width:640px; margin:0 auto; background:rgba(255,255,255,.06); border:2px solid #ffd24a; border-radius:999px; padding:20px 30px; font-family:var(--sans); font-size:19px; color:#fff; outline:none; transition:border-color .15s, background .15s; }
+  .gate-field::placeholder{ color:rgba(199,208,240,.6); }
+  .gate-field:focus{ background:rgba(255,255,255,.1); border-color:#ffe08a; }
+  .gate-field:focus-visible{ outline:none; }
+  .gate-hint{ text-align:center; font-size:14px; color:#aab6e6; margin:16px 0 34px; }
+  .gate-go{ display:flex; justify-content:center; }
+  .gate-go button{ font-family:var(--sans); font-weight:800; font-size:19px; color:#152563; background:#ffd24a; border:none; border-radius:999px; padding:18px 44px; cursor:pointer; transition:transform .12s, background .12s; }
+  .gate-go button:hover{ transform:translateY(-2px); background:#ffe08a; }
+  .gate-go button:active{ transform:translateY(0); }
+  .gate-go button:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
   @media (max-width: 760px) {
     .sticky-sub, .sticky-navtext { display: none !important; }
   }
@@ -11686,6 +11720,9 @@ function StickyLessonBar(props) {
   var posInGroup = group ? group.sections.indexOf(props.activeSection) + 1 : 1;
   var groupLen = group ? group.sections.length : 1;
   var lessonTitle = section.title || section.label || "";
+  // First three sections are complete; everything after is a first draft, shown
+  // in red per the welcome-screen note ("You'll see them in red text in the title bar").
+  var isDraft = group && ["Start Smarter", "Work With AI", "Understand AI"].indexOf(group.label) === -1;
   var prevId = activeIdx > 0 ? SECTIONS[activeIdx - 1].id : null;
   var nextId = activeIdx < SECTIONS.length - 1 ? SECTIONS[activeIdx + 1].id : null;
 
@@ -11720,7 +11757,7 @@ function StickyLessonBar(props) {
       E("div", { style: { display: "flex", alignItems: "center", gap: 11, minWidth: 0 } },
         E("span", { "aria-hidden": "true", style: { fontSize: 22, lineHeight: 1, flex: "0 0 auto" } }, section.icon),
         E("div", { style: { minWidth: 0 } },
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, lessonTitle),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 800, color: isDraft ? "#d4334a" : "var(--ink)", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, isDraft ? lessonTitle + " · Draft" : lessonTitle),
           E("div", { className: "sticky-sub", style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: "var(--inkMuted)", lineHeight: 1.3, whiteSpace: "nowrap" } }, groupLabel))),
       E("div", { style: { display: "flex", alignItems: "center", gap: 8, flex: "0 0 auto" } },
         navBtn(prevId, false),
@@ -11859,41 +11896,53 @@ function LLMExplorer() {
       setHasName(true);
       setProgress(prev => ({ ...prev, activeSection: "welcome", visited: (prev.visited || []).includes("welcome") ? prev.visited : [...(prev.visited || []), "welcome"] }));
     };
-    var arcArrow = function() { return /*#__PURE__*/React.createElement("span", { style: { color: "#ffe08a", margin: "0 12px" }, "aria-hidden": "true" }, "\u2192"); };
-    return /*#__PURE__*/React.createElement("div", {
-      style: { background: "#0f2e7a", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 28 }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: { textAlign: "center", maxWidth: 600, animation: "fadeIn 0.4s ease" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 800, color: "#ffe08a", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 22 } }, "PRACTICAL AI COURSE"),
-      /*#__PURE__*/React.createElement("h1", { style: { fontFamily: "var(--sans)", fontSize: "clamp(44px, 9vw, 64px)", fontWeight: 800, color: "#ffffff", lineHeight: 1.04, letterSpacing: "-0.035em", margin: 0 } },
-        "Be Smarter ",
-        /*#__PURE__*/React.createElement("span", { className: "title-em", style: { display: "block" } }, "Than the Tool")),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: "#ffe08a", lineHeight: 1.3, marginTop: 16 } }, COURSE_SUBTITLE),
-      /*#__PURE__*/React.createElement("p", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 500, color: "rgba(255,255,255,0.72)", lineHeight: 1.65, maxWidth: 520, margin: "26px auto 0" } },
-        "In six moves, you\u2019ll learn to ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "#ffffff", fontWeight: 800 } }, "understand"), " the machine, ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "#ffffff", fontWeight: 800 } }, "work"), " with it on purpose, ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "#ffffff", fontWeight: 800 } }, "check"), " what it gives you, ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "#ffffff", fontWeight: 800 } }, "avoid"), " the traps, ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "#ffffff", fontWeight: 800 } }, "embrace"), " what\u2019s coming, and ",
-        /*#__PURE__*/React.createElement("strong", { style: { color: "#ffffff", fontWeight: 800 } }, "build"), " your edge."),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "#ffffff", marginTop: 24 } },
-        "Understand", arcArrow(), "Work", arcArrow(), "Check", arcArrow(), "Avoid", arcArrow(), "Embrace", arcArrow(), "Build"),
-      /*#__PURE__*/React.createElement("div", { style: { width: 64, height: 1, background: "rgba(255,255,255,0.22)", margin: "34px auto" } }),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "#ffffff", marginBottom: 18 } }, "What should we call you?"),
-      /*#__PURE__*/React.createElement("input", {
-        type: "text",
-        value: nameInput,
-        onChange: function(e) { setNameInput(e.target.value); },
-        onKeyDown: function(e) { if (e.key === "Enter") submitName(); },
-        placeholder: "First name or nickname",
-        autoFocus: true,
-        className: "welcome-input",
-        style: { display: "block", width: "min(440px, 100%)", margin: "0 auto", padding: "16px 24px", borderRadius: 999, border: "2px solid rgba(255,255,255,0.22)", background: "rgba(255,255,255,0.08)", color: "#ffffff", fontSize: 16, fontFamily: "var(--sans)", textAlign: "center", outline: "none", boxSizing: "border-box" }
-      }),
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 14 } }, "Used only to personalize this course."),
-      /*#__PURE__*/React.createElement("button", { className: "course-cta", onClick: submitName, style: { marginTop: 26 } }, "Let\u2019s go", /*#__PURE__*/React.createElement("span", { className: "course-cta-arrow", "aria-hidden": "true" }, "\u2192"))));
+    return /*#__PURE__*/React.createElement("div", { className: "gate-screen" },
+      /*#__PURE__*/React.createElement("img", { className: "gate-watermark", src: "icons/logo-disc.png", alt: "", "aria-hidden": "true" }),
+      /*#__PURE__*/React.createElement("div", { className: "gate-col", style: { animation: "fadeIn 0.4s ease" } },
+        /*#__PURE__*/React.createElement("div", { className: "gate-crest" },
+          /*#__PURE__*/React.createElement("div", { className: "gate-plate" },
+            /*#__PURE__*/React.createElement("img", { src: "icons/logo-disc.png", alt: "AI Leadership Society" })),
+          /*#__PURE__*/React.createElement("p", { className: "gate-eyebrow" }, "AI for High Schoolers"),
+          /*#__PURE__*/React.createElement("h1", { className: "gate-title" },
+            /*#__PURE__*/React.createElement("span", { className: "l1" }, "Be Smarter"),
+            /*#__PURE__*/React.createElement("span", { className: "l2" }, "Than the Tool")),
+          /*#__PURE__*/React.createElement("p", { className: "gate-tagline" }, COURSE_SUBTITLE)),
+        /*#__PURE__*/React.createElement("div", { className: "gate-rule" }),
+        /*#__PURE__*/React.createElement("p", { className: "gate-lede" },
+          "We\u2019re building this course for high school students like us. AI is here to stay, and the more kids our age understand AI, the more successful we can be. A few notes about our course:"),
+        /*#__PURE__*/React.createElement("ul", { className: "gate-notes" },
+          /*#__PURE__*/React.createElement("li", null, "We would love your feedback. Send an email to ",
+            /*#__PURE__*/React.createElement("a", { href: "mailto:BeSmarterThanTheTool@gmail.com" },
+              /*#__PURE__*/React.createElement("b", null, "BeSmarterThanTheTool"), "@gmail.com"),
+            " with any and all comments."),
+          /*#__PURE__*/React.createElement("li", null, "We\u2019re still building the class, and have completed the first 3 sections: ",
+            /*#__PURE__*/React.createElement("b", null, "Start Smarter"), ", ",
+            /*#__PURE__*/React.createElement("b", null, "Work With AI"), ", and ",
+            /*#__PURE__*/React.createElement("b", null, "Understand AI"), "."),
+          /*#__PURE__*/React.createElement("li", null, "The remaining sections are first drafts. Feel free to review those lessons, but they\u2019re not final. You\u2019ll see them in ",
+            /*#__PURE__*/React.createElement("span", { className: "gate-red" }, "red text"),
+            " in the title bar."),
+          /*#__PURE__*/React.createElement("li", null, "We want to track how many people use this course. A few questions below will help us do this. We\u2019ll never email you or give your email address to anyone. The last thing any of us needs is more SPAM."),
+          /*#__PURE__*/React.createElement("li", null, "This course will always be ",
+            /*#__PURE__*/React.createElement("b", null, "free to everyone"),
+            ". That\u2019s how committed we are to giving our generation AI knowledge.")),
+        /*#__PURE__*/React.createElement("p", { className: "gate-outro" }, "Understanding AI is making all the difference for us. We hope you get value. And, enjoy the course!"),
+        /*#__PURE__*/React.createElement("p", { className: "gate-sig" }, "Luke and Nate"),
+        /*#__PURE__*/React.createElement("div", { className: "gate-ask" },
+          /*#__PURE__*/React.createElement("h2", null, "What should we call you?"),
+          /*#__PURE__*/React.createElement("input", {
+            type: "text",
+            value: nameInput,
+            onChange: function(e) { setNameInput(e.target.value); },
+            onKeyDown: function(e) { if (e.key === "Enter") submitName(); },
+            placeholder: "First name or nickname",
+            autoFocus: true,
+            className: "gate-field",
+            "aria-label": "First name or nickname"
+          }),
+          /*#__PURE__*/React.createElement("p", { className: "gate-hint" }, "Used only to personalize this course."),
+          /*#__PURE__*/React.createElement("div", { className: "gate-go" },
+            /*#__PURE__*/React.createElement("button", { type: "button", onClick: submitName }, "Let\u2019s go\u00a0\u00a0\u2192")))));
   }
   return /*#__PURE__*/React.createElement("div", {
     style: {

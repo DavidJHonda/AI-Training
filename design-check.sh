@@ -28,7 +28,7 @@ chk "hand-built counter pills" 3 \
 chk "Source Serif reintroduced" 0 \
   "$(grep -oE 'Source.Serif' "$F" | wc -l | tr -d ' ')"
 chk "raw fontFamily off-allowlist" 0 \
-  "$(grep -oE 'fontFamily: "[^"]*"' "$F" | grep -vE 'var\(--(sans|serif|mono)\)' | grep -vF '"inherit"' | grep -vF '"Segoe UI, sans-serif"' | wc -l | tr -d ' ')"
+  "$(grep -oE 'fontFamily: "[^"]*"' "$F" | grep -vE 'var\(--(sans|serif|mono)\)' | grep -vF '"inherit"' | grep -vF '"Segoe UI, sans-serif"' | grep -vF '"Caveat, cursive"' | wc -l | tr -d ' ')"
 chk "raw mint hairline (non-token)" 1 \
   "$(grep -oF 'rgba(63, 107, 63, 0.18)' "$F" | wc -l | tr -d ' ')"
 chk "raw mint surface #eef4eb" 1 \

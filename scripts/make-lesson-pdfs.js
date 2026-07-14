@@ -2,8 +2,12 @@
 // (content only: no TRY IT / LAB / nav) and prints it to a SINGLE continuous-height
 // PDF page so no box is ever split across a page break. Text stays selectable for
 // NotebookLM. Usage (via the .sh wrapper): node make-lesson-pdfs.js PORT DBG OUT [id...]
+// An id of group:<slug> (e.g. group:start-smarter) expands to that SECTION_GROUPS
+// entry's lessons. With env PACKET=<path>, the rendered PDFs are also merged, in
+// order, into that one file (via scripts/join-pdfs.js) — used by make-packet.sh.
 const http = require("http");
 const fs = require("fs");
+const { execFileSync } = require("child_process");
 const PORT = process.argv[2] || "8765";
 const DBG = process.argv[3] || "9333";
 const OUT = process.argv[4] || "lessons";
@@ -32,9 +36,19 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // distinct PDF name via lessonSlug's OPENER_PDF_NAMES map).
   await send("Page.navigate", { url: BASE }); await sleep(2500);
   let ids = JSON.parse(await ev("JSON.stringify(SECTION_GROUPS.flatMap(function(g){return g.sections;}))"));
-  if (only.length) ids = only;
+  if (only.length) {
+    const groups = JSON.parse(await ev("JSON.stringify(SECTION_GROUPS)"));
+    const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    ids = only.flatMap((a) => {
+      if (a.indexOf("group:") !== 0) return [a];
+      const g = groups.find((g) => slug(g.label) === a.slice(6));
+      if (!g) { console.error("Unknown group: " + a.slice(6)); process.exit(1); }
+      return g.sections;
+    });
+  }
   console.log("Generating " + ids.length + " lesson PDF(s) into " + OUT + " ...");
 
+  const made = [];
   for (const lid of ids) {
     await send("Page.navigate", { url: BASE + "?print=lesson:" + lid }); await sleep(2200);
     await send("Emulation.setEmulatedMedia", { media: "print" });
@@ -54,8 +68,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const pdf = await send("Page.printToPDF", { printBackground: true, marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0, paperWidth: WIDTH / 96, paperHeight: H / 96, preferCSSPageSize: false });
     var fname = (await ev('lessonSlug("' + lid + '")')) || lid; // filename = lesson title slug
     fs.writeFileSync(OUT + "/" + fname + ".pdf", Buffer.from(pdf.result.data, "base64"));
+    made.push(OUT + "/" + fname + ".pdf");
     await send("Emulation.setEmulatedMedia", { media: "" });
     console.log("  " + fname + ".pdf  (" + H + "px tall)");
+  }
+  if (process.env.PACKET) {
+    const pages = execFileSync("osascript", ["-l", "JavaScript", "scripts/join-pdfs.js", process.env.PACKET, ...made], { encoding: "utf8" }).trim();
+    console.log("Merged into " + process.env.PACKET + " (" + pages + ")");
   }
   ws.close();
   process.exit(0);

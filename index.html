@@ -595,7 +595,9 @@ function ActivityLead(props) {
   var accent = variant === "lab" ? "var(--labAccent)" : "var(--tryAccent)";
   var label = variant === "lab" ? ("LAB" + (props.labNumber ? " " + props.labNumber : "")) : "TRY IT";
   return /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(SectionKicker, { style: { color: accent } }, label),
+    /*#__PURE__*/React.createElement(SectionKicker, { style: { color: accent, display: "flex", alignItems: "center", gap: 10 } },
+      /*#__PURE__*/React.createElement("span", { style: { width: 24, height: 2, background: accent, borderRadius: 2, flexShrink: 0 } }),
+      label),
     /*#__PURE__*/React.createElement(BodyP, null, props.children));
 }
 function LessonRule() {
@@ -1066,7 +1068,7 @@ function ScenarioRow(props) {
       borderTop: isFirst ? "none" : "1px solid var(--tryRule)"
     }
   },
-    React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 16 } },
+    React.createElement("div", { style: { display: "flex", gap: 22, alignItems: props.alignTop ? "flex-start" : "center", marginBottom: 16 } },
       React.createElement("div", {
         style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", opacity: numeralOpacity, flexShrink: 0 }
       }, String(props.index).padStart(2, "0")),
@@ -1567,7 +1569,7 @@ function UserBubble(props) {
       label ? React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--primary)", display: "inline-block", flexShrink: 0 } }),
         React.createElement("span", { style: { color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)) : null,
-      React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6 } },
+      React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } },
         props.children != null ? props.children : text.slice(0, visibleChars),
         props.children == null && showCursor ? cursor : null)));
 }
@@ -1586,7 +1588,7 @@ function AIBubble(props) {
       React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--tryAccent)", display: "inline-block", flexShrink: 0 } }),
         React.createElement("span", { style: { color: "var(--tryAccent)", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
-      React.createElement("div", { style: { background: "#eef4eb", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 14, color: "var(--ink)", lineHeight: 1.6, minHeight: 48 } },
+      React.createElement("div", { style: { background: "#eef4eb", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 15, color: "var(--ink)", lineHeight: 1.6, minHeight: 48 } },
         props.children != null ? props.children : words.slice(0, visibleWords).join(" "),
         props.children == null && showCursor ? cursor : null)));
 }
@@ -1913,7 +1915,7 @@ function AIHistorySection(props) {
     { text: "AI learns by reading mountains of text and nudging itself every time it guesses the next word wrong.", answer: "true",
       trueFeedback: "Right. Read, guess the next word, check, nudge, billions of times. That’s training.",
       falseFeedback: "Actually true: that guess-check-nudge loop, run billions of times, is exactly how AI learns." },
-    { text: "There are people in a dark data center typing out the answers.", answer: "false",
+    { text: "AI uses humans to type your answers, word by word. They all just type fast!", answer: "false",
       trueFeedback: "Nope. Nobody’s typing for it. AI builds every answer itself, one predicted word at a time.",
       falseFeedback: "Right. No humans in the loop. AI generates each answer on its own from patterns it learned." },
     { text: "AI memorizes the exact answer to every question and looks it up later.", answer: "false",
@@ -1922,9 +1924,9 @@ function AIHistorySection(props) {
     { text: "AI has read more text than any person could in a thousand lifetimes.", answer: "true",
       trueFeedback: "Right. Training feeds it more books, sites, and chats than anyone could read in a thousand lifetimes.",
       falseFeedback: "Actually true: AI trains on more text than a person could read in a thousand lifetimes." },
-    { text: "When AI picks the next word, it scores every option, and the surrounding text changes those scores.", answer: "true",
-      trueFeedback: "Right. Add “banana” and jelly’s odds fall from 41% to 2%. Context reshapes the scores.",
-      falseFeedback: "Actually true: AI scores every candidate word, and the surrounding text shifts those odds." },
+    { text: "When AI picks the next word, it ranks every option based on probability, and the surrounding text changes those odds.", answer: "true",
+      trueFeedback: "Right. Add “banana” and jelly’s odds fall from 41% to 2%. Context reshapes the ranking.",
+      falseFeedback: "Actually true: AI ranks every candidate word by probability, and the surrounding text shifts those odds." },
     { text: "AI knows hockey rules because it grew up in Canada.", answer: "false",
       trueFeedback: "Ha, no. AI has no childhood and no home country. It picked up hockey from the text it trained on.",
       falseFeedback: "Right. AI didn’t grow up anywhere. It learned hockey, and everything else, from patterns in text." },
@@ -2927,7 +2929,7 @@ function AIMultiplierTryIt(props) {
 
     var CSS =
       ".aim{font-family:var(--sans);color:var(--inkSoft)}" +
-      ".aim .aim-eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tryAccent);margin:0 0 14px}" +
+      ".aim .aim-eyebrow{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--tryAccent);margin:0 0 14px}" +
       ".aim .aim-eyebrow::before{content:'';width:24px;height:2px;background:var(--tryAccent);border-radius:2px}" +
       ".aim .aim-lead{font-size:17px;line-height:1.65;color:var(--inkSoft);margin:0 0 24px;max-width:60ch}" +
       ".aim .aim-lead b{color:var(--ink)}" +
@@ -2999,11 +3001,11 @@ function AIMultiplierTryIt(props) {
     var DURATION = 12;
     var GOALS = [
       { id: "guitar", emoji: "🎸", name: "Learn guitar", mult: 2,
-        strip: "<b>x2 for this goal.</b> Instant tabs, riffs slowed to any speed, and feedback on every take &mdash; but your fingers still do the reps." },
+        strip: "<b>x2 for this goal.</b> Instant tabs, riffs slowed to any speed, and feedback on every take. Your fingers still do the reps." },
       { id: "class", emoji: "📚", name: "Ace your hardest class", mult: 5,
         strip: "<b>x5 for this goal.</b> A tutor with infinite patience that drills exactly what you keep getting wrong." },
       { id: "app", emoji: "📱", name: "Build your own app", mult: 10,
-        strip: "<b>x10 for this goal.</b> It writes boilerplate, explains every error, and scaffolds features you couldn&rsquo;t alone &mdash; but you still decide what to build." }
+        strip: "<b>x10 for this goal.</b> It writes boilerplate, explains every error, and scaffolds features you couldn&rsquo;t manage alone. You still decide what to build." }
     ];
 
     var state = { goal: null, r1: 0, r2: 0 };
@@ -3100,7 +3102,7 @@ function AIMultiplierTryIt(props) {
     function intermission() {
       stage.innerHTML =
         '<div class="aim-h">Round 1 done.</div>' +
-        '<div class="aim-strip">You racked up <b>' + state.r1 + ' pts</b> on your own. Now play the exact same round &mdash; same button, same 12 seconds &mdash; with AI switched on.</div>' +
+        '<div class="aim-strip">You racked up <b>' + state.r1 + ' pts</b> on your own. Now play the exact same round with AI switched on: same button, same 12 seconds.</div>' +
         '<div class="aim-center"><button class="aim-btn-dark" id="aim-r2btn">Round 2: AI has your back</button></div>';
       stage.querySelector("#aim-r2btn").addEventListener("click", function () { runRound(2); });
     }
@@ -3115,14 +3117,14 @@ function AIMultiplierTryIt(props) {
         stage.innerHTML =
           '<div class="aim-h">The results</div>' +
           '<div class="aim-verdict">' + state.goal.mult + '× zero is still zero.</div>' +
-          '<p class="aim-rbody">AI is the best multiplier ever built &mdash; but it&rsquo;s waiting on you to give it something to multiply. <b>It never tapped the button for you.</b></p>' +
+          '<p class="aim-rbody">AI is the best multiplier ever built, but it&rsquo;s waiting on you to give it something to multiply. <b>It never tapped the button for you.</b></p>' +
           '<button class="aim-btn-outline" id="aim-retry">Try another goal</button>';
         stage.querySelector("#aim-retry").addEventListener("click", function () { state = { goal: null, r1: 0, r2: 0 }; renderPick(); });
         return;
       }
       body = ratio >= 1
         ? 'Round 2 gave you <b>' + rtxt + ' the progress</b>. Obviously these aren&rsquo;t scientifically proven numbers, but they demonstrate what AI does: it multiplies your human effort. And notice the one thing it never did. <b>It never tapped the button for you.</b>'
-        : 'Round 2 gave you just <b>' + rtxt + ' the progress</b> &mdash; because you eased off, expecting AI to carry you. It can&rsquo;t. The multiplier only multiplies effort you actually put in. Notice the one thing it never did: <b>it never tapped the button for you.</b>';
+        : 'Round 2 gave you just <b>' + rtxt + ' the progress</b> because you eased off, expecting AI to carry you. It can&rsquo;t. The multiplier only multiplies effort you actually put in. Notice the one thing it never did: <b>it never tapped the button for you.</b>';
       stage.innerHTML =
         '<div class="aim-h">The results</div>' +
         '<div class="aim-resrow"><div class="aim-top"><span class="aim-rl">Round 1: Just you</span><span class="aim-pts">' + state.r1 + ' pts</span></div>' +
@@ -3261,6 +3263,9 @@ function DoesAIThinkSection(props) {
     { text: "AI knows when it doesn\u2019t know something.", answer: "illusion", headline: "That just sounds true.",
       realFeedback: "If only. When AI hits something it doesn\u2019t know, it doesn\u2019t go quiet. It predicts confident-sounding words anyway. That\u2019s how it invents facts without flinching.",
       illusionFeedback: "Right. When it has no good answer, it doesn\u2019t go quiet. It predicts confident-sounding words anyway. That\u2019s how it can invent a fact and never flinch." },
+    { text: "AI knows when something you create is truly beautiful.", answer: "illusion", headline: "That just sounds true.",
+      realFeedback: "It can praise your work in glowing detail, but it has never been moved by a song or a painting. It\u2019s matching your creation against patterns of what people have called beautiful. The compliment is borrowed.",
+      illusionFeedback: "Right. AI has no taste of its own. It echoes what people in its training data called beautiful. Whether your work is truly beautiful is a judgment only a human can make." },
     { text: "AI can sound completely sure and be completely wrong.", answer: "real", headline: "That\u2019s real.",
       realFeedback: "True, and it\u2019s most of why this course exists. Sounding sure and being right are different things. Telling them apart is your job, not the tool\u2019s.",
       illusionFeedback: "Wish it were. Sounding sure is a pattern it learned from human writing, not a sign it knows anything. The fluency is the trick, and catching that is your job, not the tool\u2019s." }
@@ -3343,31 +3348,41 @@ function WhyBotherSection(props) {
   const [catchAnswers, setCatchAnswers] = useState({});
 
   var CATCH_ITEMS = [{
-    claim: "You ask AI the price of a $60 hoodie that\u2019s 20% off. It answers, instantly: 20% of $60 is $12, so the hoodie costs $52.",
+    claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      E(UserBubble, { text: "What\u2019s the price of a $60 hoodie that\u2019s 20% off?", align: "right" }),
+      E(AIBubble, { text: "20% of $60 is $12, so the hoodie costs $52.", align: "left" })),
     options: [
       { label: "I know enough to catch it", correct: true, feedback: "Right, and you can prove it: $60 minus $12 is $48, not $52. The arithmetic you already own just caught AI in a confident mistake." },
       { label: "I\u2019d have to trust it", correct: false, feedback: "You\u2019ve got this one already. $60 minus 20% ($12) is $48, not $52. Basic arithmetic was all it took, and you have it." }
     ]
   }, {
-    claim: "You ask AI when World War I began. It answers, with total confidence: World War I started in 1739.",
+    claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      E(UserBubble, { text: "When did World War I begin?", align: "right" }),
+      E(AIBubble, { text: "World War I started in 1739.", align: "left" })),
     options: [
       { label: "I know enough to catch it", correct: true, feedback: "Right. World War I began in 1914, not 1739. A date from history class just caught an answer AI delivered without blinking." },
       { label: "I\u2019d have to trust it", correct: false, feedback: "You likely knew this one. World War I began in 1914; 1739 isn\u2019t close. History already handed you the tool to catch it." }
     ]
   }, {
-    claim: "You ask AI about the US government. It answers: it has four branches, the Legislative, the Judicial, the Executive, and the Provincial.",
+    claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      E(UserBubble, { text: "How many branches does the US government have?", align: "right" }),
+      E(AIBubble, { text: "It has four branches, the Legislative, the Judicial, the Executive, and the Provincial.", align: "left" })),
     options: [
       { label: "I know enough to catch it", correct: true, feedback: "Right. There are three branches: Legislative, Executive, and Judicial. 'Provincial' is invented. Civics already gave you what you need to catch it." },
       { label: "I\u2019d have to trust it", correct: false, feedback: "You may know more than you think. The US government has three branches; 'Provincial' is made up. That\u2019s a civics fact, and it\u2019s catchable." }
     ]
   }, {
-    claim: "You ask AI where modern chatbots come from. It answers: the Transformer, the design behind every modern chatbot, was invented by OpenAI in their 2017 paper, Attention Is All You Need.",
+    claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      E(UserBubble, { text: "Where did modern chatbots come from?", align: "right" }),
+      E(AIBubble, { text: "The Transformer, the design behind every modern chatbot, was invented by OpenAI in their 2017 paper, Attention Is All You Need.", align: "left" })),
     options: [
       { label: "I know enough to catch it", correct: false, feedback: "If you knew it was Google, not OpenAI, you\u2019re ahead. Most people haven\u2019t learned this yet, and you will, in the Transformer lesson later in this course." },
       { label: "I\u2019d have to trust it", correct: true, feedback: "Honest call. The paper and the year are real, but it came from eight researchers at Google, not OpenAI. The payoff is close: you\u2019ll learn the whole story in the Transformer lesson." }
     ]
   }, {
-    claim: "You ask AI about a handshake deal. It answers: a spoken agreement is never legally binding, it only counts if it\u2019s in writing.",
+    claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      E(UserBubble, { text: "Is a handshake deal legally binding?", align: "right" }),
+      E(AIBubble, { text: "A spoken agreement is never legally binding, it only counts if it\u2019s in writing.", align: "left" })),
     options: [
       { label: "I know enough to catch it", correct: false, feedback: "Trickier than it looks. Many spoken agreements are binding; only certain kinds need to be in writing. This is the sort of thing further education hands you." },
       { label: "I\u2019d have to trust it", correct: true, feedback: "Exactly right to be unsure. Plenty of spoken agreements are legally binding; only certain kinds must be written. Most people don\u2019t learn this until much later. More education, more you can catch." }
@@ -3441,6 +3456,7 @@ function WhyBotherSection(props) {
             key: i,
             index: i + 1,
             prompt: s.claim,
+            alignTop: true,
             answered: answered,
             correct: correct,
             feedback: pickedOpt ? pickedOpt.feedback : null
@@ -3483,7 +3499,7 @@ function ControlSection(props) {
 
   var ITEMS = [
     {
-      text: "Whether the company you want to work for uses AI",
+      text: "How much any company you work for uses AI",
       answer: "cant",
       headline: "Out of your hands.",
       canFeedback: "You don\u2019t set that policy; companies decide based on industry, leadership, and budget. What\u2019s in your hands is being good enough to be useful either way.",
@@ -3497,21 +3513,21 @@ function ControlSection(props) {
       cantFeedback: "Easy to feel that way when every headline screams. But you choose what you read, what you share, and how long you sit with it. The volume is loud. The dial is still yours."
     },
     {
-      text: "Whether AI replaces entry-level work in your field",
+      text: "Whether AI replaces entry-level work in your chosen career",
       answer: "cant",
       headline: "Out of your hands.",
       canFeedback: "You don\u2019t set that. Whether AI takes the first rung is an economic call other people make, based on what pays off when automated. What you can decide is how strong your skills are when you arrive.",
       cantFeedback: "Right. Some fields will absorb AI faster than others, and that\u2019s an economic call other people make. What is in your hands: how much real skill you\u2019ve built by the time you get there."
     },
     {
-      text: "Whether you skip the thinking and let AI do it for you",
+      text: "Whether you own your thinking or let AI do it for you",
       answer: "can",
       headline: "In your hands.",
       canFeedback: "Right. Every prompt is a choice. Use it to think faster, or use it to think less. Same tool, two different futures.",
       cantFeedback: "It can feel automatic, but it isn\u2019t. Every time you open AI you choose whether you\u2019re using it as a shortcut or a sparring partner. The keystrokes are yours."
     },
     {
-      text: "Whether you build skills no one can hand you",
+      text: E(React.Fragment, null, "Whether you work hard and become ", E("strong", null, "Smarter Than the Tool")),
       answer: "can",
       headline: "In your hands.",
       canFeedback: "Right. You can be handed information. You can be handed answers. Nobody can hand you skill. You build it through learning, practice, and hard work.",
@@ -3603,9 +3619,9 @@ function AIvsCodeSection(props) {
     { prompt: "A website checks that your new password has at least 8 characters and a number before it lets you create your account.", options: [
       { label: "Normal Software", correct: true, headline: "It’s a rule.", feedback: "A precise, fixed check with a clear yes or no. Count the characters, look for a digit, done. No judgment or learning needed, so written rules nail it every time." },
       { label: "AI Software", correct: false, headline: "Patterns are overkill here.", feedback: "You could ask AI, but the check never changes and must be exact on every signup. When the rule is this clear, normal software is faster and always consistent." } ] },
-    { prompt: "Your mom asks you to send her every photo you’ve taken of your dog, Tei-Tie. Your camera roll has thousands of pictures, none of them labeled.", options: [
-      { label: "Normal Software", correct: false, headline: "No rule fits this.", feedback: "Normal software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tie in a pile of unlabeled images is exactly AI’s kind of job." },
-      { label: "AI Software", correct: true, headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tie in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes her across angles and lighting and pulls every shot. Just glance before you send: it can only find her where she actually appears, and a look-alike could sneak in." } ] }
+    { prompt: "Your mom asks you to send her every photo you’ve taken of your dogs, Tei-Tei and Gei-Gei. Your camera roll has thousands of pictures, none of them labeled.", options: [
+      { label: "Normal Software", correct: false, headline: "No rule fits this.", feedback: "Normal software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tei and Gei-Gei in a pile of unlabeled images is exactly AI’s kind of job." },
+      { label: "AI Software", correct: true, headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tei or Gei-Gei in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes them across angles and lighting and pulls every shot. Just glance before you send: it can only find them where they actually appear, and a look-alike could sneak in." } ] }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
@@ -3785,7 +3801,7 @@ function AIvsCodeSection(props) {
       "So when an app refuses something dangerous, that’s the guardrail talking, not the AI making a call of its own."
     ),
     closeBoard("aivscode"),
-    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of normal software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS }),
+    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This Better?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of normal software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
@@ -6193,7 +6209,7 @@ function DocumentChatSection(props) {
               E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               E("div", { style: { flex: 1 } },
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)", marginBottom: 8 } }, "🎯 The setup"),
-                E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.prompt))),
+                E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.prompt))),
             E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     E(LessonRule, null),
@@ -6208,7 +6224,7 @@ function DocumentChatSection(props) {
 function ModelSelectionSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-whichapp-steps", {});
   const STEPS = [
-    { title: "Get Claude", body: "Sign up at claude.ai. It runs right in your browser, nothing to install. A few later lessons do a little light coding, and Claude can write it and run it live on the same screen. Set it up on a computer rather than your phone, so there’s room to work." },
+    { title: "Get Claude", body: "Sign up at claude.ai. It runs right in your browser, nothing to install. You’ll use Claude later in the course when you start coding. Set it up on a computer rather than your phone, so there’s room to work." },
     { title: "Ask Claude about itself", body: "Send it: “What are you good at, and what should I not fully trust you on?” Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word." },
     { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, or a draft to start. Notice how it feels to use a real AI on a real task." },
     { title: "End with a laugh", body: "Ask Claude to tell you a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
@@ -6871,7 +6887,7 @@ function CriticalThinkingSection(props) {
   }, {
     label: "\"9 out of 10 dentists\"",
     icon: "\uD83E\uDDB7",
-    claim: "An ad declares: \"9 out of 10 dentists recommend this toothpaste.\"",
+    claim: "A commercial on television claims: \"9 out of 10 dentists recommend this toothpaste.\"",
     options: [
       { label: "9 out of 10 sounds high but it\u2019s actually a small majority", correct: false, headline: "9 of 10 really is a lot.", hint: "Nine out of ten genuinely is a strong majority, so the number itself isn't the trick. The weak spot is everything the claim leaves out. What would you need to know before that 90% means anything?", feedback: "9/10 really is a strong majority. The number isn\u2019t the trick. The trick is the missing background information: recommend it compared to what? How were the dentists picked? Who paid for the study?" },
       { label: "The stat is missing the background information that would make it meaningful", correct: true, headline: "It's missing background information.", feedback: "Recommend it over what? Not brushing? A different brand? Who picked the dentists? Who paid for the study? Statistics without background information are meaningless. Always ask: compared to what, how was this measured, and who funded it?" },
@@ -6882,7 +6898,7 @@ function CriticalThinkingSection(props) {
   }, {
     label: "I saw it on TikTok",
     icon: "\uD83D\uDCF1",
-    claim: "Your friend texts: \"Einstein failed math as a kid. Saw it on TikTok, it\u2019s wild.\"",
+    claim: "Your friend is doing poorly in math. He texts you: \"Einstein failed math as a kid, too. I saw it on TikTok.\"",
     options: [
       { label: "A famous story like this is widely known, so it\u2019s probably true.", correct: false, headline: "Famous isn't the same as true.", hint: "Plenty of repeated 'facts' get repeated because they sound good, not because they're true. How often you've heard something isn't evidence. What would actually tell you whether it holds up?", feedback: "Famous and true aren\u2019t the same. The Einstein-failed-math story is one of the most repeated \u2018facts\u2019 on the internet, and it\u2019s a myth. He was actually strong at math from a young age. The reason you\u2019d know that isn\u2019t \u2018I\u2019ve heard it a lot,\u2019 it\u2019s tracing the claim back to where it actually came from." },
       { label: "A TikTok creator isn\u2019t the source. The real check is where they got it.", correct: true, headline: "Trace it to the real source.", feedback: "\u2018I saw it on TikTok\u2019 is the start of a check, not the end. The creator got the claim from somewhere, and that\u2019s the source you actually need. In this case, the Einstein-failed-math story is a famous myth. He was a strong math student. The story spread because it sounds inspiring, not because it\u2019s true. Always ask: where did this originally come from?" },
@@ -6971,7 +6987,8 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Put the words together and you have a process: actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn’t “don’t trust anything,” either. It’s the habit of asking what would have to be true for a claim to hold up."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking in Action"),
-  /*#__PURE__*/React.createElement(BodyP, null, "In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. ", /*#__PURE__*/React.createElement("strong", null, "Slim by Chocolate!"), " ran one front page. Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions."),
+  /*#__PURE__*/React.createElement(BodyP, null, "In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. ", /*#__PURE__*/React.createElement("strong", null, "Slim by Chocolate!"), " ran one front page."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions."),
   /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, marginBottom: 20 } },
     /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Face Value"),
@@ -7012,7 +7029,7 @@ function CriticalThinkingSection(props) {
     variant: "try",
     surface: "mint",
     title: "What’s the problem with these claims?",
-    lead: "This isn’t a new skill. You already use it every day. See if you can spot the problem in each of these scenarios."},
+    lead: "This isn’t a new skill. You already use it every day. Use your critical thinking skills to spot the problems in each of these scenarios."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_101.map(function(sc, si) {
         var picked = problemAnswers[si];
@@ -7020,7 +7037,7 @@ function CriticalThinkingSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.claim))),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.claim))),
           /*#__PURE__*/React.createElement(QuizBlock, {
             key: si,
             surface: "mint",
@@ -7327,10 +7344,16 @@ function WhatItDoesBestSection(props) {
 function PromptingSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-prompting-steps", {});
   const LAB_STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 02. Start a brand-new chat so nothing from an earlier conversation colors the results." },
-    { title: "Send a bad prompt", body: "Type exactly this: \u201CWhat should I get my mom for her birthday?\u201D Read what comes back. It won\u2019t be wrong. It will be generic: a candle, a photo frame, a nice card, because Claude knows nothing about your mom." },
-    { title: "Send a better prompt", body: "Start another new chat. This time, a different person with all three moves: \u201CMy dad\u2019s birthday is Saturday. He\u2019s into AI, eating too much steak, and the Dallas Stars, I have $25, and he jokes that he owns enough caps. Give me five gift ideas I could actually get by Friday.\u201D Now compare the two answers. Same AI, same minute, completely different value." },
-    { title: "Run it on something real", body: "Think of something you actually need this week: an essay, a plan, a decision. Make the moves: share your situation, describe the answer you want, one job at a time. This is the habit that makes AI useful." }
+    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 02." },
+    { title: "Send a bad prompt", body: /*#__PURE__*/React.createElement(React.Fragment, null,
+      "Start a brand-new chat so nothing from an earlier conversation colors the results. Type exactly this:",
+      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8, fontStyle: "italic" } }, "What should I get my mom for her birthday?"),
+      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8 } }, "Read what comes back. It won\u2019t be wrong. It will be generic: a candle, a photo frame, a nice card, because Claude knows nothing about your mom.")) },
+    { title: "Send a better prompt", body: /*#__PURE__*/React.createElement(React.Fragment, null,
+      "Start a new chat. This time, ask about a different person, using all three moves of a good prompt:",
+      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8, fontStyle: "italic" } }, "My dad\u2019s birthday is Saturday. He\u2019s into AI, eating too much steak, and the Dallas Stars, I have $25, and he jokes that he owns enough caps. Give me five gift ideas I could actually get by Friday."),
+      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8 } }, "Now compare the two answers. Same AI, same minute, completely different value.")) },
+    { title: "Run it on something real", body: "Think of something you actually need this week: an essay, a plan, a decision. Make the moves: share your situation, describe the answer you want, one job at a time. This habit is what separates you from everyone else just typing into the box." }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. And when a person doesn\u2019t understand you, they ask a follow-up before answering. AI does almost none of that. It starts from the words you typed, and instead of asking what you meant, it confidently answers whatever you gave it."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: packaging it for something that isn\u2019t a person. That\u2019s prompting, and here\u2019s why it pays off: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
@@ -7356,7 +7379,7 @@ function PromptingSection(props) {
         })));
   }()),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Then Add Three Moves"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Packaging your question for AI comes down to three moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to be smarter than the tool."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Packaging your question for AI comes down to three moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to ", /*#__PURE__*/React.createElement("strong", null, "Be Smarter Than the Tool"), "."),
   (function() {
     var MOVES = [
       { tag: "Move 1", icon: "\uD83D\uDCCB", title: "Share your situation", body: "A person already knows this. AI only has what you hand over.", points: ["Who you are, and who the work is for", "What you\u2019re working on and why", "The material itself: your draft, the assignment, the numbers"], bad: "Is my intro good?", better: "I\u2019m writing my Common App essay about how fixing cars with my dad taught me patience. Here\u2019s my opening paragraph: [paragraph]. Does the hook grab attention?" },
@@ -7484,7 +7507,7 @@ function AskAISection(props) {
           return /*#__PURE__*/React.createElement("div", { key: mi, style: { paddingTop: mi === 0 ? 0 : 24, marginTop: mi === 0 ? 0 : 24, borderTop: mi === 0 ? "none" : "1px solid var(--rule)" } },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, mv.situation)),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, mv.situation)),
             /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which move puts the AI to work?", totalQuestions: ASK_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
         }))),
     /*#__PURE__*/React.createElement(BodyP, { style: { marginTop: 24 } },
@@ -7557,7 +7580,7 @@ function ThoughtPartnerSection(props) {
         return /*#__PURE__*/React.createElement("div", { key: mi, style: { paddingTop: mi === 0 ? 0 : 24, marginTop: mi === 0 ? 0 : 24, borderTop: mi === 0 ? "none" : "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, mv.situation)),
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, mv.situation)),
           /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which next message keeps the thinking yours?", totalQuestions: TP_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setTpAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
       }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -7700,7 +7723,7 @@ function StudyingWithAISection(props) {
 function DigDeeperTryIt(props) {
   var DD_SCENARIOS = [
     {
-      response: "For tonight’s movie night, you can’t go wrong with The Princess Bride. Sword fights, comedy, romance, and endlessly quotable lines: it plays just as well with four people as with fourteen.",
+      response: "For tonight’s movie night, you can’t go wrong with Avengers: Endgame. Epic battles, big laughs, and the payoff to a decade of movies: it plays just as well with four people as with fourteen.",
       options: [
         { label: "Good to go", correct: true, headline: "Right. Low stakes, your call.", feedback: "Run Step 4: what kind of task? A recommendation, and whether a movie is “good” is your call, not a fact to verify. How much is riding on it? One evening. If it sounds fun, press play." },
         { label: "Dig deeper", headline: "Dig into… what, exactly?", hint: "Run the two Step 4 questions: what kind of task is this, and how much is riding on it?", feedback: "There’s no fact here to check: a movie pick is taste, and the stakes are one Friday night. Digging deeper would cost more than being wrong. Save the checks for answers that matter." }
@@ -7748,7 +7771,7 @@ function DigDeeperTryIt(props) {
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, sc.response))),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.response))),
           /*#__PURE__*/React.createElement(QuizBlock, {
             key: si,
             surface: "mint",
@@ -7833,7 +7856,6 @@ function EvaluatingSection(props) {
               E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
             E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
-    E(BodyP, null, "Most answers pass in seconds: read, understand, validate barely slows you down. The skill isn’t checking everything."),
     closeBoard("evaluating"),
     E(DigDeeperTryIt, null),
     E(LessonRule, null),
@@ -9790,7 +9812,7 @@ function WhenAIJudgesSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
                   /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, ps.setup))),
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",
@@ -9923,7 +9945,7 @@ function SyntheticMediaSection(props) {
                 /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
                   /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
                   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ps.setup))),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, ps.setup))),
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",
@@ -10278,15 +10300,15 @@ function QuestionsValuableSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Every conversation with AI starts the same way: you ask it something. That small moment decides more about what you get back than anything else you do."
+      "Every conversation with AI happens the same way: you ask a question, and AI gives an answer."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Strip it down and there are only two parts: the question and the answer. For decades, technology has been making answers easier and easier to get. And the less time we spend chasing the answer, the more time we have for the half that’s still ours: ",
+      "For decades, technology has been making it easier and easier to get answers. And the less time we spend chasing the answer, the more time we have for the half that’s still 100% ours: ",
       /*#__PURE__*/React.createElement("strong", null, "asking the right question"),
       "."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at what happened to the process between your grandparents, your parents, and you."
+      "One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at how this changed between your grandparents, your parents, and you."
     ),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       headline: "How answers got cheap",
@@ -10321,9 +10343,8 @@ function QuestionsValuableSection(props) {
       )
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Half a day, then an hour, now seconds. AI makes answers cheap. That does not make humans less valuable. It changes ",
-      /*#__PURE__*/React.createElement("em", null, "where"),
-      " value lives."
+      "Half a day, then an hour, now seconds. AI makes answers cheap to get. That does not make humans less valuable. ",
+      /*#__PURE__*/React.createElement("strong", null, "It changes where value lives.")
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds, but it only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question."
@@ -10335,7 +10356,7 @@ function QuestionsValuableSection(props) {
     }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What Makes a Good Question?"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Asking good questions is not an AI skill. It’s one of the oldest skills there is. Socrates taught by doing almost nothing but asking. The scientific method doesn’t start with an answer; it starts with a question worth testing. Einstein supposedly said that with an hour to save the world, he’d spend the first 55 minutes finding the right question."
+      "Asking good questions is one of humanity’s oldest skills. Socrates taught by doing almost nothing but asking. The scientific method doesn’t start with an answer; it starts with a question worth testing. Einstein supposedly said that with an hour to save the world, he’d spend the first 55 minutes finding the right question."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "So what separates a good question from a weak one? Four qualities, and none of them mention AI."
@@ -10374,7 +10395,10 @@ function QuestionsValuableSection(props) {
       variant: "try",
       surface: "mint",
       title: "Which quality is missing from the question?"
-    , lead: "Your turn. Each question below fails exactly one of the four qualities. Read it, then diagnose which one is missing."},
+    , lead: /*#__PURE__*/React.createElement(React.Fragment, null,
+        "Your turn. Each question below fails exactly one of the four qualities. Read it, then diagnose which one is missing. ",
+        /*#__PURE__*/React.createElement("strong", null, "HINT"),
+        ": Some of these are difficult. A good approach is to rule out the qualities the question does have; the one left over is the missing quality.")},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         MISSING_SCENARIOS.map(function(ms, si) {
           var picked = missingAnswers[si];
@@ -10382,7 +10406,7 @@ function QuestionsValuableSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.55, maxWidth: "56ch" } }, ms.question))),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, ms.question))),
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",

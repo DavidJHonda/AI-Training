@@ -112,7 +112,7 @@ The terracotta display band that frames opener art and serif display phrases. Ex
 ![Illustration](illustration.png)
 
 ### UserBubble / AIBubble
-The chat-mockup bubbles for prompt/response examples. Example: the "What should we cover next?" exchange in Customization & Memory (`customization`).
+The chat-mockup bubbles for prompt/response examples. Example: the "what's the best Avengers movie?" exchange in Tokens (`tokens`). Recaptured 2026-07-14 (bubble text bumped 14px → 15px; the former source lesson, Customization & Memory, was retired).
 
 ![UserBubble and AIBubble](user-ai-bubbles.png)
 

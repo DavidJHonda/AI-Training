@@ -135,7 +135,12 @@
   .gate-field{ display:block; width:100%; max-width:640px; margin:0 auto; background:rgba(255,255,255,.06); border:2px solid #ffd24a; border-radius:999px; padding:20px 30px; font-family:var(--sans); font-size:19px; color:#fff; outline:none; transition:border-color .15s, background .15s; }
   .gate-field::placeholder{ color:rgba(199,208,240,.6); }
   .gate-field:focus{ background:rgba(255,255,255,.1); border-color:#ffe08a; }
-  .gate-field:focus-visible{ outline:none; }
+  .gate-field:focus-visible{ outline:none; border-radius:999px; }
+  .gate-form{ display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:640px; margin:0 auto; }
+  .gate-form .gate-field{ width:100%; max-width:none; margin:0; }
+  .gate-span2{ grid-column:1 / -1; }
+  @media (max-width:560px){ .gate-form{ grid-template-columns:1fr; } .gate-span2{ grid-column:auto; } }
+  .gate-go button:disabled{ background:rgba(255,255,255,.14); color:rgba(199,208,240,.55); cursor:not-allowed; transform:none; }
   .gate-hint{ text-align:center; font-size:14px; color:#aab6e6; margin:16px 0 34px; }
   .gate-go{ display:flex; justify-content:center; }
   .gate-go button{ font-family:var(--sans); font-weight:800; font-size:19px; color:#152563; background:#ffd24a; border:none; border-radius:999px; padding:18px 44px; cursor:pointer; transition:transform .12s, background .12s; }
@@ -227,6 +232,9 @@ function getName() {
 }
 const COURSE_TITLE = "Be Smarter Than the Tool";
 const COURSE_SUBTITLE = "AI Predicts. You Decide.";
+// Apps Script web app on the course Google account; appends each signup to the
+// Course Users sheet and emails besmarterthanthetool@gmail.com. See doPost there.
+const SIGNUP_ENDPOINT = "https://script.google.com/macros/s/AKfycbzk24DQcbSZ-QKgwCk_g8wQbtuQaTDgs0c31Gg8cD3oKOYp4_S4SWoIOAk3kjIerhbV/exec";
 // Typography tokens for static content boxes (not SEE IT / TRY IT activities).
 // BOX_CARD_TITLE: headline of a mini-card inside a showcase box.
 // BOX_TEXT: body/value text inside explainer boxes. BOX_LABEL: small uppercase labels.
@@ -11787,7 +11795,28 @@ class LessonErrorBoundary extends React.Component {
 }
 function LLMExplorer() {
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
-  const [nameInput, setNameInput] = useState("");
+  const [signup, setSignup] = useState({ firstName: "", lastName: "", email: "", city: "", state: "" });
+  // Fail-open signup delivery: the queued payload is retried on each visit (max 3
+  // attempts) until the endpoint confirms with "ok". A send failure never blocks entry.
+  var sendSignup = function(payload) {
+    try {
+      fetch(SIGNUP_ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+        .then(function(r) { return r.text(); })
+        .then(function(t) { if (t.trim() === "ok") { try { localStorage.removeItem("llm-signup-pending"); } catch (e) {} } })
+        .catch(function() {});
+    } catch (e) {}
+  };
+  useEffect(function() {
+    try {
+      var pending = localStorage.getItem("llm-signup-pending");
+      if (!pending) return;
+      var p = JSON.parse(pending);
+      p.attempts = (p.attempts || 0) + 1;
+      if (p.attempts > 3) { localStorage.removeItem("llm-signup-pending"); return; }
+      localStorage.setItem("llm-signup-pending", JSON.stringify(p));
+      sendSignup(p);
+    } catch (e) {}
+  }, []);
   const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
     activeSection: "welcome",
     visited: ["welcome"],
@@ -11890,9 +11919,14 @@ function LLMExplorer() {
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
   if (!hasName) {
+    var signupValid = signup.firstName.trim() && signup.lastName.trim() && /^\S+@\S+\.\S+$/.test(signup.email.trim()) && signup.city.trim() && signup.state.trim();
+    var setField = function(k) { return function(e) { var v = e.target.value; setSignup(function(prev) { var next = Object.assign({}, prev); next[k] = v; return next; }); }; };
     var submitName = function() {
-      var n = nameInput.trim() || "Friend";
-      try { localStorage.setItem("llm-user-name", n); } catch(ex) {}
+      if (!signupValid) return;
+      var payload = { firstName: signup.firstName.trim(), lastName: signup.lastName.trim(), email: signup.email.trim(), city: signup.city.trim(), state: signup.state.trim() };
+      try { localStorage.setItem("llm-user-name", payload.firstName); } catch(ex) {}
+      try { localStorage.setItem("llm-signup-pending", JSON.stringify(payload)); } catch(ex) {}
+      sendSignup(payload);
       setHasName(true);
       setProgress(prev => ({ ...prev, activeSection: "welcome", visited: (prev.visited || []).includes("welcome") ? prev.visited : [...(prev.visited || []), "welcome"] }));
     };
@@ -11915,34 +11949,27 @@ function LLMExplorer() {
             /*#__PURE__*/React.createElement("a", { href: "mailto:BeSmarterThanTheTool@gmail.com" },
               /*#__PURE__*/React.createElement("b", null, "BeSmarterThanTheTool"), "@gmail.com"),
             " with any and all comments."),
-          /*#__PURE__*/React.createElement("li", null, "We\u2019re still building the class, and have completed the first 3 sections: ",
-            /*#__PURE__*/React.createElement("b", null, "Start Smarter"), ", ",
-            /*#__PURE__*/React.createElement("b", null, "Work With AI"), ", and ",
-            /*#__PURE__*/React.createElement("b", null, "Understand AI"), "."),
-          /*#__PURE__*/React.createElement("li", null, "The remaining sections are first drafts. Feel free to review those lessons, but they\u2019re not final. You\u2019ll see them in ",
+          /*#__PURE__*/React.createElement("li", null, "We\u2019re still building the class, so some sections are first drafts. Feel free to review those lessons, but they\u2019re not final. You\u2019ll see them in ",
             /*#__PURE__*/React.createElement("span", { className: "gate-red" }, "red text"),
             " in the title bar."),
           /*#__PURE__*/React.createElement("li", null, "We want to track how many people use this course. A few questions below will help us do this. We\u2019ll never email you or give your email address to anyone. The last thing any of us needs is more SPAM."),
+          /*#__PURE__*/React.createElement("li", null, "For now, the course is built for a computer. Phones and tablets will work for reading, but the activities aren\u2019t optimized for them yet."),
           /*#__PURE__*/React.createElement("li", null, "This course will always be ",
             /*#__PURE__*/React.createElement("b", null, "free to everyone"),
             ". That\u2019s how committed we are to giving our generation AI knowledge.")),
         /*#__PURE__*/React.createElement("p", { className: "gate-outro" }, "Understanding AI is making all the difference for us. We hope you get value. And, enjoy the course!"),
         /*#__PURE__*/React.createElement("p", { className: "gate-sig" }, "Luke and Nate"),
         /*#__PURE__*/React.createElement("div", { className: "gate-ask" },
-          /*#__PURE__*/React.createElement("h2", null, "What should we call you?"),
-          /*#__PURE__*/React.createElement("input", {
-            type: "text",
-            value: nameInput,
-            onChange: function(e) { setNameInput(e.target.value); },
-            onKeyDown: function(e) { if (e.key === "Enter") submitName(); },
-            placeholder: "First name or nickname",
-            autoFocus: true,
-            className: "gate-field",
-            "aria-label": "First name or nickname"
-          }),
-          /*#__PURE__*/React.createElement("p", { className: "gate-hint" }, "Used only to personalize this course."),
+          /*#__PURE__*/React.createElement("h2", null, "A few quick questions"),
+          /*#__PURE__*/React.createElement("div", { className: "gate-form" },
+            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), placeholder: "First name", autoFocus: true, className: "gate-field", "aria-label": "First name", autoComplete: "given-name" }),
+            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.lastName, onChange: setField("lastName"), placeholder: "Last name", className: "gate-field", "aria-label": "Last name", autoComplete: "family-name" }),
+            /*#__PURE__*/React.createElement("input", { type: "email", value: signup.email, onChange: setField("email"), placeholder: "Email address", className: "gate-field gate-span2", "aria-label": "Email address", autoComplete: "email" }),
+            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.city, onChange: setField("city"), placeholder: "City", className: "gate-field", "aria-label": "City", autoComplete: "address-level2" }),
+            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.state, onChange: setField("state"), onKeyDown: function(e) { if (e.key === "Enter") submitName(); }, placeholder: "State", className: "gate-field", "aria-label": "State", autoComplete: "address-level1" })),
+          /*#__PURE__*/React.createElement("p", { className: "gate-hint" }, "Your first name personalizes the course. The rest is only for our usage tracking. You’ll only be asked once on this device."),
           /*#__PURE__*/React.createElement("div", { className: "gate-go" },
-            /*#__PURE__*/React.createElement("button", { type: "button", onClick: submitName }, "Let\u2019s go\u00a0\u00a0\u2192")))));
+            /*#__PURE__*/React.createElement("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let\u2019s go\u00a0\u00a0\u2192")))));
   }
   return /*#__PURE__*/React.createElement("div", {
     style: {

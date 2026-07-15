@@ -12119,6 +12119,12 @@ function LLMExplorer() {
           transition: width .2s ease;
         }
         .section-tab.is-complete .section-tab-fill { background: #ffd24a; }
+        /* Parts that aren't complete yet: red label + red lead word. */
+        .section-tab.is-incomplete .section-tab-label { color: #d92d20; }
+        .section-tab.is-incomplete .lead { color: #d92d20; }
+        .section-tab.is-incomplete:not(.is-active):hover .lead { color: #b42318; }
+        .section-tab.is-incomplete.is-active .section-tab-label { background: #d92d20; color: rgba(255,255,255,.82); }
+        .section-tab.is-incomplete.is-active .lead { color: #fff; }
         .section-tab:focus-visible { outline: 2px solid #6e51ff; outline-offset: 3px; border-radius: 6px; }
         @media (max-width: 760px) {
           .course-header { padding: 24px 20px; border-radius: 18px; }
@@ -12207,9 +12213,11 @@ function LLMExplorer() {
           // First word bold + dark; the rest stays muted.
           var leadWord = group.label.split(" ")[0];
           var rest = group.label.slice(leadWord.length);
+          // These parts aren't complete yet; flag them red in the nav.
+          var isIncomplete = ["Avoid Traps", "Embrace the Future", "Build Your Skills", "Finish Smarter"].indexOf(group.label) !== -1;
           return /*#__PURE__*/React.createElement("button", {
             key: gi,
-            className: "section-tab" + (isActiveGroup ? " is-active" : "") + (isComplete ? " is-complete" : ""),
+            className: "section-tab" + (isActiveGroup ? " is-active" : "") + (isComplete ? " is-complete" : "") + (isIncomplete ? " is-incomplete" : ""),
             onClick: function() { setActiveSection(group.sections[0]); },
             "aria-current": isActiveGroup ? "true" : undefined,
             "aria-label": group.label + (isActiveGroup ? ", current section" : isComplete ? ", section complete" : "")

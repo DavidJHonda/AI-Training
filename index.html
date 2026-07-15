@@ -526,95 +526,19 @@ function Callout(props) {
     props.children);
 }
 
-// Auto-fit grid of icon + title + body cards. Reproduces the WhatItDoesBest /
-// WhyDeeper grid card (white InnerCard-style tile).
-function IconCardGrid(props) {
-  var minWidth = props.minWidth || 220;
-  return React.createElement("div", {
-    style: Object.assign({
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(" + minWidth + "px, 1fr))",
-      gap: props.gap != null ? props.gap : 12
-    }, props.style || {})
-  }, props.cards.map(function(c, i) {
-    return React.createElement("div", { key: i, style: { background: "#fff", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
-      c.icon ? React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, c.icon) : null,
-      React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: c.color || "var(--ink)", marginBottom: 6 } }, c.title),
-      React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, c.body));
-  }));
-}
-
-// Traffic-light status cards. Reproduces the red/amber/green panels.
-var STATUS_PALETTE = {
-  stop: { bg: "#fef2f2", border: "#fca5a5" },
-  caution: { bg: "#fffbeb", border: "#fcd34d" },
-  go: { bg: "#ecfdf5", border: "#86efac" }
-};
-function StatusCards(props) {
-  var layout = props.layout || "stack";
-  var wrap = layout === "cols"
-    ? { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(" + (props.minWidth || 240) + "px, 1fr))", gap: 12 }
-    : { display: "flex", flexDirection: "column", gap: 12 };
-  return React.createElement("div", { style: wrap },
-    props.items.map(function(it, i) {
-      var p = STATUS_PALETTE[it.tone] || STATUS_PALETTE.caution;
-      return React.createElement("div", { key: i, style: { background: p.bg, border: "1px solid " + p.border, borderRadius: 12, padding: "14px 16px" } },
-        it.label ? React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)", marginBottom: it.body ? 6 : 0 } }, it.label) : null,
-        it.body ? React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, it.body) : null);
-    }));
-}
-
-// Colored borderLeft "Label N" card stack. Reproduces WhenAIJudges / SyntheticMedia.
+// Colored borderLeft card stack: accent-colored eyebrow + bold headline + body.
+// items: [{eyebrow, headline?, body?, accent}]. Reproduces WhenAIJudges / SyntheticMedia.
 function LabeledCardStack(props) {
   return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
     props.items.map(function(it, i) {
-      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + (it.accent || props.accent || "var(--primary)"), borderRadius: 10, padding: "14px 18px" } },
-        React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)", marginBottom: it.body ? 6 : 0 } }, it.label),
-        it.body ? React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, it.body) : null);
+      var accent = it.accent || props.accent || "var(--primary)";
+      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + accent, borderRadius: 10, padding: "14px 18px" } },
+        React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: accent, marginBottom: 6 } }, it.eyebrow),
+        it.headline ? React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, it.headline) : null,
+        it.body ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.body) : null);
     }));
 }
 
-// "Definition" card. Reproduces the MindTrap "Two related words" card.
-function DefinitionCard(props) {
-  return React.createElement("div", {
-    style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)",
-      marginTop: props.marginTop != null ? props.marginTop : 0,
-      marginBottom: props.marginBottom != null ? props.marginBottom : 24 }
-  },
-    React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 12 } }, (props.icon || "📖") + " " + props.title),
-    props.terms.map(function(t, i) {
-      return React.createElement(React.Fragment, { key: i },
-        React.createElement("div", { style: { marginTop: i === 0 ? 0 : 18, marginBottom: 6 } },
-          React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)" } }, t.name),
-          t.kind ? React.createElement("span", { style: { fontStyle: "italic", fontSize: BOX_TEXT, color: "var(--inkMuted)", marginLeft: 8 } }, t.kind) : null),
-        React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: t.examples ? 10 : 0 } }, t.definition),
-        t.examples ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.7 } },
-          t.examples.map(function(ex, j) {
-            return React.createElement(React.Fragment, { key: j }, "• " + ex, j < t.examples.length - 1 ? React.createElement("br", null) : null);
-          })) : null);
-    }));
-}
-
-// Small presentational pill. NOTE: `padding` is intentionally before `borderRadius`
-// so the design-check counter-pill substring never matches.
-function Chip(props) {
-  var tones = {
-    primary: { bg: "var(--primary)", color: "#fff" },
-    faint: { bg: "var(--primaryFaint)", color: "var(--primary)" },
-    neutral: { bg: "var(--bg)", color: "var(--inkSoft)" }
-  };
-  var t = tones[props.tone] || tones.faint;
-  return React.createElement("span", {
-    style: { display: "inline-block", padding: "6px 14px", borderRadius: 999, fontSize: 13, fontWeight: 700, background: props.bg || t.bg, color: props.color || t.color }
-  }, props.children);
-}
-
-// In-card uppercase micro-label (distinct from the big purple SectionKicker).
-function Eyebrow(props) {
-  return React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: props.color || "var(--inkMuted)", marginBottom: props.marginBottom != null ? props.marginBottom : 8 }
-  }, props.children);
-}
 // ── end shared design kit ──────────────────────────────────────────────────
 
 var TERMS = [
@@ -9861,27 +9785,11 @@ function WhenAIJudgesSection(props) {
       kicker: "THREE MODES TO RECOGNIZE",
       marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", flexDirection: "column", gap: 12 }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Mode 1 \u00B7 What you see"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Algorithms rank what lands in front of you."),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "TikTok\u2019s For You feed, YouTube recommendations, Instagram Explore, search results, the order of your inbox. The system shapes your day before you even tap.")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Mode 2 \u00B7 What you can do"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Filters and flags decide whether you can post, comment, apply, or stay logged in."),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Content moderation, school plagiarism flags, account suspensions, automated rejections. Lines you can hit without seeing them coming.")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #ef4444", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#ef4444", marginBottom: 6 } }, "Mode 3 \u00B7 What gets attached to your name"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Scores and classifications follow you."),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Hiring screen ratings, college admissions tools, credit scores, plagiarism scores, fraud risk flags. A number or label that decides whether a human even looks at your case.")))
+      /*#__PURE__*/React.createElement(LabeledCardStack, { items: [
+        { eyebrow: "Mode 1 \u00B7 What you see", headline: "Algorithms rank what lands in front of you.", body: "TikTok\u2019s For You feed, YouTube recommendations, Instagram Explore, search results, the order of your inbox. The system shapes your day before you even tap.", accent: "#10b981" },
+        { eyebrow: "Mode 2 \u00B7 What you can do", headline: "Filters and flags decide whether you can post, comment, apply, or stay logged in.", body: "Content moderation, school plagiarism flags, account suspensions, automated rejections. Lines you can hit without seeing them coming.", accent: "#f59e0b" },
+        { eyebrow: "Mode 3 \u00B7 What gets attached to your name", headline: "Scores and classifications follow you.", body: "Hiring screen ratings, college admissions tools, credit scores, plagiarism scores, fraud risk flags. A number or label that decides whether a human even looks at your case.", accent: "#ef4444" }
+      ] })
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "The modes tell you what the system is doing. The other half of reading a deployment is who\u2019s in the picture. Every system has more seats than yours, and naming the seats tells you who has power, who has risk, and who gets a say."),
@@ -9891,34 +9799,12 @@ function WhenAIJudgesSection(props) {
       intro: "The same AI looks different depending on which side of it you\u2019re on. Name the side, and you can read the deployment.",
       marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", flexDirection: "column", gap: 12 }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #6e51ff", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#6e51ff", marginBottom: 6 } }, "Role 1 \u00b7 User"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The person using the tool"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Usually got what the deployment was designed to deliver. Faster work, easier access, a quicker decision. Most of the benefit is theirs. A lot of public discussion of AI focuses on them.")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Role 2 \u00b7 Subject"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The person the output is about"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Often not the user. When AI scores a college application, the school is the user and the applicant is the subject. The subject usually has the most at stake and the least control.")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #3b82f6", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#3b82f6", marginBottom: 6 } }, "Role 3 \u00b7 Operator"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The company or institution running it"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Could be a tech company, a school district, an employer, a hospital, or a platform. Either way, it made the deployment choice and is responsible for how the tool affects people. Their incentives are not neutral. Knowing what they were optimizing for tells you most of the story.")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Role 4 \u00b7 Bystander"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Everyone else who\u2019s affected"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Wasn\u2019t part of the design, wasn\u2019t asked, often doesn\u2019t know the system exists. Easiest group to forget. Often where the deepest costs land."))
-      )
+      /*#__PURE__*/React.createElement(LabeledCardStack, { items: [
+        { eyebrow: "Role 1 \u00b7 User", headline: "The person using the tool", body: "Usually got what the deployment was designed to deliver. Faster work, easier access, a quicker decision. Most of the benefit is theirs. A lot of public discussion of AI focuses on them.", accent: "#6e51ff" },
+        { eyebrow: "Role 2 \u00b7 Subject", headline: "The person the output is about", body: "Often not the user. When AI scores a college application, the school is the user and the applicant is the subject. The subject usually has the most at stake and the least control.", accent: "#f59e0b" },
+        { eyebrow: "Role 3 \u00b7 Operator", headline: "The company or institution running it", body: "Could be a tech company, a school district, an employer, a hospital, or a platform. Either way, it made the deployment choice and is responsible for how the tool affects people. Their incentives are not neutral. Knowing what they were optimizing for tells you most of the story.", accent: "#3b82f6" },
+        { eyebrow: "Role 4 \u00b7 Bystander", headline: "Everyone else who\u2019s affected", body: "Wasn\u2019t part of the design, wasn\u2019t asked, often doesn\u2019t know the system exists. Easiest group to forget. Often where the deepest costs land.", accent: "#10b981" }
+      ] })
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Whichever mode it is, and whichever seat you\u2019re in, you have one tool. A short list of questions to ask any system that\u2019s judging you. Memorize them."),
@@ -10063,27 +9949,11 @@ function SyntheticMediaSection(props) {
       intro: "Run any image, clip, voicemail, or screenshot through these before you react, share, or believe.",
       marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", flexDirection: "column", gap: 12 }
-      },
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #6e51ff", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#6e51ff", marginBottom: 6 } }, "Check 1 \u00B7 Source"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Where did this come from?"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Did this come from somewhere with a reason to know? A direct news source. A person you actually know. A verified account. Or did it come from \u2018a friend forwarded it,\u2019 which is the digital version of \u2018I heard from a guy.\u2019")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #f59e0b", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#f59e0b", marginBottom: 6 } }, "Check 2 \u00B7 Context"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Does the surrounding info hold up?"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Look around the thing, not just at it. Date, location, what else was happening. A clip of your principal saying something wild on Tuesday afternoon: was your principal even in that meeting on Tuesday? Does the room match where they actually were?")),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid #10b981", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#10b981", marginBottom: 6 } }, "Check 3 \u00B7 Corroboration"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "Does anywhere else show the same thing?"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "The biggest filter. Real news shows up in multiple places. Real events get talked about by people who weren\u2019t coordinating. If a clip is everywhere on TikTok but nowhere on Google News, that\u2019s information."))),
+      /*#__PURE__*/React.createElement(LabeledCardStack, { items: [
+        { eyebrow: "Check 1 \u00B7 Source", headline: "Where did this come from?", body: "Did this come from somewhere with a reason to know? A direct news source. A person you actually know. A verified account. Or did it come from \u2018a friend forwarded it,\u2019 which is the digital version of \u2018I heard from a guy.\u2019", accent: "#6e51ff" },
+        { eyebrow: "Check 2 \u00B7 Context", headline: "Does the surrounding info hold up?", body: "Look around the thing, not just at it. Date, location, what else was happening. A clip of your principal saying something wild on Tuesday afternoon: was your principal even in that meeting on Tuesday? Does the room match where they actually were?", accent: "#f59e0b" },
+        { eyebrow: "Check 3 \u00B7 Corroboration", headline: "Does anywhere else show the same thing?", body: "The biggest filter. Real news shows up in multiple places. Real events get talked about by people who weren\u2019t coordinating. If a clip is everywhere on TikTok but nowhere on Google News, that\u2019s information.", accent: "#10b981" }
+      ] }),
       /*#__PURE__*/React.createElement("div", {
         style: { marginTop: 14, paddingTop: 14, borderTop: "1px dashed var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 }
       },

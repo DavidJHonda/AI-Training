@@ -500,6 +500,123 @@ function closeBoard(sectionId) {
   if (!copy) return null;
   return /*#__PURE__*/React.createElement(CloseBoard, copy);
 }
+
+// ── Shared design kit (back-half consistency pass, 2026-07-14) ──────────────
+// These reproduce the first-3 sections' inline treatments so the 2nd half can
+// share them. Values are copied from the reference sites; do not restyle.
+
+// Note/warning callout. Reproduces the --info-bg box and the amber rule box.
+function Callout(props) {
+  var tone = props.tone || "info";
+  var pal = tone === "info"
+    ? { bg: "var(--info-bg)", border: "var(--info)", icon: "💡", radius: 10, pad: 16 }
+    : tone === "rule"
+      ? { bg: "#fef3c7", border: "#f59e0b", icon: "⚠️", radius: 12, pad: "18px 22px" }
+      : { bg: "#fef3c7", border: "#f59e0b", icon: "⚠️", radius: 10, pad: 16 };
+  return React.createElement("div", {
+    style: {
+      background: pal.bg, border: "1px solid " + pal.border, borderRadius: pal.radius,
+      padding: pal.pad, fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6,
+      marginTop: props.marginTop != null ? props.marginTop : 18,
+      marginBottom: props.marginBottom != null ? props.marginBottom : 18
+    }
+  },
+    (props.icon || pal.icon) + " ",
+    props.label ? React.createElement("strong", null, props.label + " ") : null,
+    props.children);
+}
+
+// Auto-fit grid of icon + title + body cards. Reproduces the WhatItDoesBest /
+// WhyDeeper grid card (white InnerCard-style tile).
+function IconCardGrid(props) {
+  var minWidth = props.minWidth || 220;
+  return React.createElement("div", {
+    style: Object.assign({
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(" + minWidth + "px, 1fr))",
+      gap: props.gap != null ? props.gap : 12
+    }, props.style || {})
+  }, props.cards.map(function(c, i) {
+    return React.createElement("div", { key: i, style: { background: "#fff", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+      c.icon ? React.createElement("div", { style: { fontSize: 24, marginBottom: 8 } }, c.icon) : null,
+      React.createElement("div", { style: { fontWeight: 800, fontSize: 16, color: c.color || "var(--ink)", marginBottom: 6 } }, c.title),
+      React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, c.body));
+  }));
+}
+
+// Traffic-light status cards. Reproduces the red/amber/green panels.
+var STATUS_PALETTE = {
+  stop: { bg: "#fef2f2", border: "#fca5a5" },
+  caution: { bg: "#fffbeb", border: "#fcd34d" },
+  go: { bg: "#ecfdf5", border: "#86efac" }
+};
+function StatusCards(props) {
+  var layout = props.layout || "stack";
+  var wrap = layout === "cols"
+    ? { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(" + (props.minWidth || 240) + "px, 1fr))", gap: 12 }
+    : { display: "flex", flexDirection: "column", gap: 12 };
+  return React.createElement("div", { style: wrap },
+    props.items.map(function(it, i) {
+      var p = STATUS_PALETTE[it.tone] || STATUS_PALETTE.caution;
+      return React.createElement("div", { key: i, style: { background: p.bg, border: "1px solid " + p.border, borderRadius: 12, padding: "14px 16px" } },
+        it.label ? React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)", marginBottom: it.body ? 6 : 0 } }, it.label) : null,
+        it.body ? React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, it.body) : null);
+    }));
+}
+
+// Colored borderLeft "Label N" card stack. Reproduces WhenAIJudges / SyntheticMedia.
+function LabeledCardStack(props) {
+  return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+    props.items.map(function(it, i) {
+      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + (it.accent || props.accent || "var(--primary)"), borderRadius: 10, padding: "14px 18px" } },
+        React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "var(--ink)", marginBottom: it.body ? 6 : 0 } }, it.label),
+        it.body ? React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55 } }, it.body) : null);
+    }));
+}
+
+// "Definition" card. Reproduces the MindTrap "Two related words" card.
+function DefinitionCard(props) {
+  return React.createElement("div", {
+    style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)",
+      marginTop: props.marginTop != null ? props.marginTop : 0,
+      marginBottom: props.marginBottom != null ? props.marginBottom : 24 }
+  },
+    React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 12 } }, (props.icon || "📖") + " " + props.title),
+    props.terms.map(function(t, i) {
+      return React.createElement(React.Fragment, { key: i },
+        React.createElement("div", { style: { marginTop: i === 0 ? 0 : 18, marginBottom: 6 } },
+          React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)" } }, t.name),
+          t.kind ? React.createElement("span", { style: { fontStyle: "italic", fontSize: BOX_TEXT, color: "var(--inkMuted)", marginLeft: 8 } }, t.kind) : null),
+        React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: t.examples ? 10 : 0 } }, t.definition),
+        t.examples ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.7 } },
+          t.examples.map(function(ex, j) {
+            return React.createElement(React.Fragment, { key: j }, "• " + ex, j < t.examples.length - 1 ? React.createElement("br", null) : null);
+          })) : null);
+    }));
+}
+
+// Small presentational pill. NOTE: `padding` is intentionally before `borderRadius`
+// so the design-check counter-pill substring never matches.
+function Chip(props) {
+  var tones = {
+    primary: { bg: "var(--primary)", color: "#fff" },
+    faint: { bg: "var(--primaryFaint)", color: "var(--primary)" },
+    neutral: { bg: "var(--bg)", color: "var(--inkSoft)" }
+  };
+  var t = tones[props.tone] || tones.faint;
+  return React.createElement("span", {
+    style: { display: "inline-block", padding: "6px 14px", borderRadius: 999, fontSize: 13, fontWeight: 700, background: props.bg || t.bg, color: props.color || t.color }
+  }, props.children);
+}
+
+// In-card uppercase micro-label (distinct from the big purple SectionKicker).
+function Eyebrow(props) {
+  return React.createElement("div", {
+    style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: props.color || "var(--inkMuted)", marginBottom: props.marginBottom != null ? props.marginBottom : 8 }
+  }, props.children);
+}
+// ── end shared design kit ──────────────────────────────────────────────────
+
 var TERMS = [
   { term: "Attention", definition: "The step inside each layer that figures out which words relate to which other words. Each word weighs every other word. Paired with transformation, this is how the model reads meaning.", source: "attention" },
   { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "prompt" },

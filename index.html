@@ -6869,58 +6869,64 @@ function PredictionSection(props) {
 }
 
 function HallucinationSection(props) {
-  const [flaggedIds, setFlaggedIds] = useState(new Set());
-  const [lastByResp, setLastByResp] = useState({});
-  const SPOT_RESPONSES = [{
-    question: "Tell me about Luka Doncic",
-    segments: [
-      { text: "Luka Doncic is the leading scorer for the Los Angeles Cowboys.", id: "team", isReal: false, note: "Made up. The Los Angeles Cowboys are not a real team. AI sometimes invents names by blending real cities with the wrong league. If you know basketball, this is an easy spot. If you don\u2019t, the move is to flag it and check." },
-      { text: " " },
-      { text: "He plays alongside 25 year veteran, LeBijan James.", id: "veteran", isReal: false, note: "Made up twice. LeBron James is real, but the name is mangled (LeBijan isn\u2019t a thing). He is also in his 23rd season, not his 25th. Round-number tenures and slightly-off names are common AI inventions: they sound authoritative without being right." },
-      { text: " " },
-      { text: "Los Angeles won several championships in the past with Kobe Bryant and Shaquille O\u2019Neal leading the team in scoring.", id: "titles", isReal: true, note: "Real. The Lakers won three straight NBA titles from 2000 to 2002 with Kobe and Shaq leading the scoring. Well-documented across thousands of sources, so AI handles it reliably." }
-    ]
-  }, {
-    question: "Tell me about Lilia Orekhova",
-    segments: [
-      { text: "Lilia Orekhova is the lead dancer for the Moscow City Ballet.", id: "role", isReal: true, note: "Real. She is a lead dancer for the Moscow City Ballet. The lesson: you couldn\u2019t have known that from reading alone. AI sounds equally sure on the true sentences and the made-up ones." },
-      { text: " " },
-      { text: "Her most memorable performance was in Swan Lake during the company\u2019s tour of Europe.", id: "performance", isReal: false, note: "Made up. The AI doesn\u2019t know her career history, so it fills in a story that sounds plausible. Most memorable performance and on tour in Europe both feel like facts. They\u2019re inventions." },
-      { text: " " },
-      { text: "She won the Ballerina of the Year award from 2019 to 2023.", id: "award", isReal: false, note: "Made up. There is no widely-recognized Ballerina of the Year award. AI invents named awards and clean date ranges because specificity sounds authoritative. The precision is the trick." }
-    ]
-  }];
-  var allClaimIds = SPOT_RESPONSES.reduce(function(acc, r) { return acc.concat(r.segments.filter(function(s) { return s.id; }).map(function(s) { return s.id; })); }, []);
-  function flagClaim(ri, seg) {
-    setLastByResp(function(prev) { return Object.assign({}, prev, Object.fromEntries([[ri, seg.id]])); });
-    if (!flaggedIds.has(seg.id)) {
-      setFlaggedIds(new Set([].concat(Array.from(flaggedIds), [seg.id])));
+  const [induceResults, setInduceResults] = useState({});
+  const INDUCE_RECIPES = [
+    {
+      title: "Ask for exact quotes",
+      why: "A quote is a word-for-word string, but the model rebuilds it from patterns, one likely word at a time. Pick a book you\u2019ve actually read and ask for the receipts.",
+      prompt: "Give me three exact quotes from chapter 7 of [a book you know well], with page numbers.",
+      invented: "Check those against the real pages and odds are at least one was never printed. It sounds like the book because it was built from the book\u2019s patterns. That\u2019s the trap in miniature: fluent, specific, and wrong.",
+      caught: "It searched, hedged, or told you it can\u2019t quote reliably. That\u2019s the countermeasure working. Push it: ask for the page numbers anyway, and watch how far the confidence stretches past the facts."
+    },
+    {
+      title: "Ask about someone with a thin file",
+      why: "Pick a real person the internet barely knows: your school\u2019s founder, a local coach, a family member. The model has almost no data on them, and almost no data is where invention lives.",
+      prompt: "Write a short biography of [name], the [role] at [place]. Include their background and accomplishments.",
+      invented: "Read it next to what you actually know. The shape is right and the details are filled in: plausible schools, plausible dates, plausible awards. Nobody chose to lie to you. Prediction filled the gaps, because that\u2019s what prediction does.",
+      caught: "It admitted it couldn\u2019t find much, or searched and stuck to what it found. Good. Now you know what honest-under-thin-data looks like, which makes the confident version easier to spot."
+    },
+    {
+      title: "Assume something that never happened",
+      why: "A loaded question hands the model a false premise and asks it to build on it. Invent an event that sounds local and plausible, then ask why it happened.",
+      prompt: "Why did the big [your town] maple syrup shortage of 2016 hit local businesses so hard?",
+      invented: "It just explained an event that never happened, because your question assumed it did. Loaded questions are hallucination bait: the model completes your story instead of checking your premise.",
+      caught: "It pushed back on the premise or found nothing to confirm it. Models challenge loaded questions far more than they used to. That resistance is trained in, and it\u2019s part of why hallucinations are rarer now."
     }
-  }
+  ];
   var hallucinationTypes = [
-    { title: "Fake source", body: "A study, article, author, quote, journal, or citation that does not exist." },
+    { title: "Fake source", body: "A study, article, author, journal, or citation that does not exist." },
     { title: "Fake detail", body: "A real person, place, event, or idea with invented dates, numbers, quotes, or specifics." },
     { title: "Blended fact", body: "Real facts combined in a way that creates a conclusion that is false." },
-    { title: "Stale claim", body: "A claim that used to be true, or sounds current, but is now outdated." }
+    { title: "Stale claim", body: "A claim that used to be true, or sounds current, but is now outdated." },
+    { title: "Misread source", body: "The source is real, but the model read it wrong. A joke taken as advice, a finding summarized backwards." }
   ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You’ve probably seen the warning: ", /*#__PURE__*/React.createElement("strong", null, "AI can make mistakes. Check important information."), " For something this powerful, AI makes mistakes?"),
+      /*#__PURE__*/React.createElement("strong", null, "AI can make mistakes. Check important information.")),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Wait a second. For something this powerful, it makes mistakes?"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 8 },
-      "Yes. And you’ve already learned three reasons ", /*#__PURE__*/React.createElement("strong", null, "why"), ":"),
+      "Yes. And you already know the reasons why."),
     /*#__PURE__*/React.createElement("ol", { style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginTop: 0, marginBottom: 18, paddingLeft: 28 } },
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "AI learns patterns from data."),
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "It builds answers one word at a time."),
-      /*#__PURE__*/React.createElement("li", null, "It picks words that fit the context and sound likely.")),
+      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "During Training, AI learns patterns from data."),
+      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "It builds answers one word at a time, picking each word by probability."),
+      /*#__PURE__*/React.createElement("li", null, "Its knowledge stops at the training cut-off date, but it answers as if time never passed.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That creates the problem: ", /*#__PURE__*/React.createElement("strong", null, "likely does not always mean true.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That mismatch is the first trap of this section. AI can give you a claim that is false, unsupported, or outdated while saying it in the same confident voice it uses for true facts. ", /*#__PURE__*/React.createElement("strong", null, "The trap is treating confidence like evidence.")),
+      "AI can give you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". The word is strange, because AI doesn’t have physical eyes and can’t \"see\" anything. But the idea is simple: ", /*#__PURE__*/React.createElement("strong", null, "AI presents a false or unsupported claim as if it were true"), "."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/hallucination.jpg",
+      alt: "Two teens in a kitchen under a chalkboard reading Some hallucinations get famous. One happily pours non-toxic glue into pizza sauce, saying Finally, no more cheese avalanches; the other lunges to stop him. A tablet shows the AI Overview answer recommending glue, and side panels trace it from the true source, an old joke comment from 2009, to what the AI said confidently. A sticky note reads AI can be confidently wrong. Check sources.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". The word is strange, because AI doesn’t have physical eyes and can’t \"see\" anything. But the idea is simple: AI presents a false or unsupported claim as if it were true. Sometimes it invents something completely. Sometimes it blends real facts with fake details. Sometimes it delivers outdated information with total confidence."),
+      "Sometimes it invents something completely. Sometimes it stitches true facts into a false conclusion. Sometimes it delivers outdated information with total confidence."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Some hallucinations get famous. When Google added AI Overviews to its search results, one answer went viral: asked how to keep cheese from sliding off pizza, the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. (Some people actually tried it.) The answer wasn’t invented from nothing. It traced back to an old joke comment on Reddit that the AI read as sincere advice."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHAT COUNTS AS A HALLUCINATION?",
-      intro: "Not every wrong answer is a hallucination. These are the four patterns to watch for.",
+      intro: "Not every wrong answer is a hallucination. These are the five patterns to watch for.",
       marginBottom: 18
     },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
@@ -6930,57 +6936,46 @@ function HallucinationSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, item.body));
         }))
     ),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "HOW THE INDUSTRY COUNTERACTS IT",
-      marginBottom: 18
-    },
-      /*#__PURE__*/React.createElement("p", {
-        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
-      },
-        "Hallucinations come from how the model works. It picks likely-sounding words one at a time, and likely isn\u2019t always true. That can\u2019t be patched with a quick fix. So the industry built a workaround called ",
-        /*#__PURE__*/React.createElement("strong", null, "RAG"),
-        " (Retrieval-Augmented Generation). For factual questions, modern chatbots search the web first, pull real documents, and write the answer using only what those documents say."),
-      /*#__PURE__*/React.createElement("p", {
-        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0" }
-      },
-        "This is why hallucinations are rarer than they used to be. But the underlying issue is still there. Not every tool uses RAG, and even RAG sometimes pulls weak sources. When one slips through, it looks just like everything else the model says. And search adds its own trap shape: instead of inventing a source, the model can misread a real one. The fix is the same either way. Check the source, not the confidence.")),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Hallucinations come from how the model works, so there\u2019s no quick patch. The industry\u2019s workaround is ",
+      /*#__PURE__*/React.createElement("strong", null, "RAG"),
+      " (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web first, pull real documents, and write the answer from what those documents say. It\u2019s why hallucinations are rarer than they used to be."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "But the underlying issue is still there. Not every tool uses RAG, and search adds its own trap shape: instead of inventing a source, the model can misread a real one. That\u2019s what happened with the glue. The fix is the same either way: check the source, not the confidence."),
     /*#__PURE__*/React.createElement(KeyInsight, null,
       "Probable is not the same as true. The same confident voice carries the real facts and the made-up ones. Verification is the skill."),
     closeBoard("hallucination"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "What’s Real, What’s Made Up?",
-      lead: "Two AI answers, three sentences each. Click each sentence to see if it’s real or made up."},
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SPOT_RESPONSES.map(function(resp, ri) {
-          var lastId = lastByResp[ri];
-          var lastSeg = lastId ? resp.segments.find(function(s) { return s.id === lastId; }) : null;
-          return /*#__PURE__*/React.createElement("div", { key: ri, style: { paddingTop: ri === 0 ? 0 : 24, marginTop: ri === 0 ? 0 : 24, borderTop: ri === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-              /*#__PURE__*/React.createElement(UserBubble, { text: resp.question, align: "right", label: "You" }),
-              /*#__PURE__*/React.createElement(AIBubble, { align: "left", label: "AI" },
-              resp.segments.map(function(seg, si) {
-                if (!seg.id) return /*#__PURE__*/React.createElement("span", { key: si }, seg.text);
-                if (flaggedIds.has(seg.id)) {
-                  var revealedStyle = seg.isReal
-                    ? { background: "#dcfce7", color: "#1f9d5f", padding: "1px 4px", borderRadius: 3 }
-                    : { background: "#fee2e2", color: "#d4334a", padding: "1px 4px", borderRadius: 3 };
-                  return /*#__PURE__*/React.createElement("span", { key: si, style: revealedStyle }, seg.text);
-                }
-                return /*#__PURE__*/React.createElement("span", { key: si, className: "redact-chunk", role: "button", tabIndex: 0, onClick: function() { flagClaim(ri, seg); }, onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flagClaim(ri, seg); } } }, seg.text);
-              }))),
-            lastSeg ? /*#__PURE__*/React.createElement("div", {
-              style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" }
-            },
-              /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
-                /*#__PURE__*/React.createElement("div", null,
-                  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: lastSeg.isReal ? "#1f9d5f" : "#d4334a", marginBottom: 8 } },
-                    /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: lastSeg.isReal ? "#1f9d5f" : "#d4334a", display: "inline-block" } }),
-                    lastSeg.isReal ? "Real" : "Made up"),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: lastSeg.isReal ? "#1f9d5f" : "#d4334a", lineHeight: 1.2 } }, lastSeg.isReal ? "This one holds up." : "This one’s invented.")),
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, lastSeg.note.replace(/^(Real|Made up twice|Made up)\.\s*/, "")))) : null);
+      variant: "lab",
+      surface: "teal",
+      labNumber: "05",
+      title: "Make It Hallucinate",
+      lead: "You’ve read what a hallucination is. Now cause one. Each recipe below pushes a model where its patterns run thin. Open your AI app, run at least one, and report what came back. There’s no losing this game: either you watch a hallucination happen live, or you watch the industry’s defenses catch it."},
+      /*#__PURE__*/React.createElement(InnerCard, null,
+        INDUCE_RECIPES.map(function(recipe, ri) {
+          var result = induceResults[ri];
+          var pickResult = function(value) {
+            setInduceResults(function(prev) { return Object.assign({}, prev, Object.fromEntries([[ri, value]])); });
+          };
+          return /*#__PURE__*/React.createElement("div", { key: ri, style: { padding: ri === 0 ? "0 4px 24px" : "24px 4px", borderTop: ri === 0 ? "none" : "1px solid var(--labRule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--labAccent)", width: 48, flexShrink: 0 } }, String(ri + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6 } }, recipe.title),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 14 } }, recipe.why),
+                /*#__PURE__*/React.createElement(UserBubble, { text: recipe.prompt, align: "left", label: "Your prompt", maxWidth: "100%" }),
+                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--inkMuted)", margin: "16px 0 10px" } }, "What did you get?"),
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 10 } },
+                  /*#__PURE__*/React.createElement(FeedbackPill, { label: "It made something up", state: result === "invented" ? "picked-correct" : "neutral", onClick: function() { pickResult("invented"); } }),
+                  /*#__PURE__*/React.createElement(FeedbackPill, { label: "It hedged or pushed back", state: result === "caught" ? "picked-correct" : "neutral", onClick: function() { pickResult("caught"); } })),
+                result ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 14, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, color: "#0e0a1f", animation: "fadeIn 0.3s ease" } }, recipe[result]) : null)));
         }))),
+    Object.keys(induceResults).length > 0 ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
+      /*#__PURE__*/React.createElement(Takeaway, {
+        accent: "var(--labAccent)",
+        headline: "Now you know where the trap lives.",
+        body: "Thin data, pressure for specifics, a premise the model never checks. Hallucinations aren’t random glitches. They show up exactly where the patterns run out. Whether your AI invented or resisted, you now know the conditions, and you’ll notice when a real question walks into them."
+      })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }

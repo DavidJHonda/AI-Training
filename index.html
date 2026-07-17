@@ -1800,7 +1800,7 @@ const SECTION_META = {
   insidethemodel: { kicker: "WHAT’S ACTUALLY INSIDE", label: "Black Box", title: "Black Box", icon: "\uD83D\uDD0D" },
   attention: { kicker: "ALL AT ONCE", label: "Transformer", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
-  trainingbias: { kicker: "SKEWED AND STALE", label: "Training Data Trap", title: "Training Data Trap", icon: "\u2696\uFE0F" },
+  trainingbias: { kicker: "SKEWED AND STALE", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
@@ -4357,18 +4357,6 @@ function BiasQuiz(props) {
       ]
     },
     {
-      icon: "\uD83D\uDC04",
-      title: "Cows on the Beach",
-      scenario: "An image recognition model could identify cows in farm photos with high accuracy, but completely failed when shown photos of cows standing on a beach or walking down a city street.",
-      question: "Why did the model fail to recognize cows in unusual locations?",
-      correct: 0,
-      choices: [
-        { text: "The training data almost only showed cows on green grass, so the model associated grass with being a cow", explain: "The model took a shortcut: it learned \"green grass background = cow\" instead of learning what a cow actually looks like. No grass, no cow, as far as the model was concerned." },
-        { text: "The model was only designed to work in farm settings", explain: "The model wasn't limited to any setting. It was supposed to recognize cows anywhere. The limitation came from the training data, not the design." },
-        { text: "Beach and city photos have too much visual noise for AI to process", explain: "AI can process complex scenes just fine. The issue was that it never learned what a cow looks like without grass, not that the scenes were too complicated." }
-      ]
-    },
-    {
       icon: "\uD83D\uDE97",
       title: "Self-Driving at Night",
       scenario: "Early pedestrian detection systems often performed worse in conditions that were underrepresented in their training data: low light, rain, and unusual angles. The same systems handled bright, daytime driving well.",
@@ -4419,7 +4407,6 @@ function BiasQuiz(props) {
   ];
   const biasHeadlines = [
     ["Not the shortcut it took.", "Simpler than size.", "It learned the snow, not the wolf."],
-    ["It learned the grass, not the cow.", "Not a design limit.", "AI handles complex scenes fine."],
     ["Not a hardware problem.", "No special night rules.", "It barely saw the dark."],
     ["The data wasn\u2019t representative.", "Nobody designed it that way.", "Not harder, just unseen."],
     ["Biased labels became the rule.", "No one wrote that rule.", "Pattern fit, not merit."],
@@ -4477,11 +4464,15 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Imagine the only driving advice online came from professional race car drivers. If you asked, \u201CWhat\u2019s the best way to drive?\u201D the model might tell you to drive 180 miles per hour on a closed track."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "That answer wouldn\u2019t come from evil intent. It would come from a narrow slice of data treated like the whole picture. ",
-      /*#__PURE__*/React.createElement("strong", null, "The trap is treating common as neutral.")),
+      "That answer wouldn\u2019t come from evil intent. It would come from a narrow slice of data treated like the whole picture."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Cows on the beach"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots. No idea."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "The training photos almost all showed cows on green pasture, so the model had quietly learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background. Take away the grass, and the cows disappeared."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "How bias gets in"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Not one mechanism. Four overlapping ones, all rooted in the data the model saw."),
+      "Not one mechanism. Four overlapping ones, all rooted in the data the model was trained on."),
     /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 32 },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
         MECHANISMS.map(function(m, i) {
@@ -4538,10 +4529,11 @@ function TrainingBiasSection(props) {
         })
       )
     ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Stale information"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "There’s one more way the data traps you, and it has nothing to do with skew. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed."),
+      "There’s one more way the data traps you, and it isn’t bias. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Notice that this isn’t a hallucination. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search."),
+      "Notice that this isn’t a hallucination either. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search."),
     /*#__PURE__*/React.createElement(KeyInsight, null,
       "Common is not neutral. Frequent is not fair. Current-sounding is not current. Questioning the default is the skill."),
     closeBoard("trainingbias"),
@@ -6246,7 +6238,7 @@ function DocumentChatSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "documenttrap" }),
     E(BodyP, null,
-      "Hallucination was a fake claim. The Training Data Trap was a skewed, stale picture. The third accuracy trap is different again."),
+      "Hallucination was a fake claim. Training Bias was a skewed, stale picture. The third accuracy trap is different again."),
     E(BodyP, null,
       "You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. ",
       E("strong", null, "The trap is thinking ‘uploaded’ means ‘fully read.’")),
@@ -6954,7 +6946,7 @@ function HallucinationSection(props) {
               st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
         }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Data Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
 }
 function CriticalThinkingSection(props) {
   const [problemAnswers, setProblemAnswers] = useState({});

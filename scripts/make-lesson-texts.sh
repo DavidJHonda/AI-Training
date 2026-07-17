@@ -20,7 +20,11 @@ SERVER_PID=$!
 "$CHROME" --headless=new --disable-gpu --remote-debugging-port="$DBG" about:blank >/dev/null 2>&1 &
 CHROME_PID=$!
 trap 'kill "$SERVER_PID" "$CHROME_PID" 2>/dev/null || true' EXIT
-sleep 2
+# Chrome's debug port can take several seconds to come up; poll instead of a fixed sleep.
+for i in $(seq 1 30); do
+  curl -s -o /dev/null "http://127.0.0.1:$DBG/json/version" && break
+  sleep 0.5
+done
 
 node scripts/make-lesson-texts.js "$PORT" "$DBG" "$OUT" "$@"
 echo "Done. Markdown lesson texts in $OUT/"

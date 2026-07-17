@@ -1,6 +1,6 @@
 ## AVOID TRAPS
 
-# Training Data Trap
+# Training Bias Trap
 
 Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
 
@@ -8,11 +8,17 @@ That’s training bias. The model learns whatever patterns are in the data it sa
 
 Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” the model might tell you to drive 180 miles per hour on a closed track.
 
-That answer wouldn’t come from evil intent. It would come from a narrow slice of data treated like the whole picture. **The trap is treating common as neutral.**
+That answer wouldn’t come from evil intent. It would come from a narrow slice of data treated like the whole picture.
+
+## Cows on the beach
+
+Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots. No idea.
+
+The training photos almost all showed cows on green pasture, so the model had quietly learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background. Take away the grass, and the cows disappeared.
 
 ## How bias gets in
 
-Not one mechanism. Four overlapping ones, all rooted in the data the model saw.
+Not one mechanism. Four overlapping ones, all rooted in the data the model was trained on.
 
 📈
 
@@ -74,9 +80,11 @@ Slow down for decisions about people.
 
 Hiring, grading, discipline, medical, legal. AI is a starting point, not the final word. Humans review.
 
-There’s one more way the data traps you, and it has nothing to do with skew. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed.
+## Stale information
 
-Notice that this isn’t a hallucination. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search.
+There’s one more way the data traps you, and it isn’t bias. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed.
+
+Notice that this isn’t a hallucination either. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search.
 
 🔑 Common is not neutral. Frequent is not fair. Current-sounding is not current. Questioning the default is the skill.
 

@@ -4,19 +4,15 @@
 
 **AI can make mistakes. Check important information.**
 
-Wait a second. For something this powerful, it makes mistakes?
+Wait a second. For something this powerful, it makes mistakes? And you already know the reasons why:
 
-Yes. And you already know the reasons why.
-
-1. During Training, AI learns patterns from data.
-2. It builds answers one word at a time, picking each word by probability.
-That creates the problem: **likely does not always mean true.**
+- During Training, AI learns patterns from data.
+- It builds answers one word at a time, picking each word by probability.
+That creates the problem: **probable doesn’t always mean true.**
 
 AI can give you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a **hallucination**. The word is strange, because AI doesn’t have physical eyes and can’t "see" anything. But the idea is simple: **AI presents a false or unsupported claim as if it were true**.
 
-Sometimes it invents something completely. Sometimes it stitches true facts into a false conclusion. Sometimes it misreads a real source.
-
-Some hallucinations get famous. When Google added AI Overviews to its search results, one answer went viral: asked how to keep cheese from sliding off pizza, the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. (Some people actually tried it.) The answer wasn’t invented from nothing. It traced back to an old joke comment on Reddit that the AI read as sincere advice.
+Some hallucinations are famous. When Google added AI Overviews to its search results, one answer went viral. When users asked “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. (Some people actually tried it.) AI didn’t invent this answer. It traced back to an old joke comment on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. Nothing in the math flags a joke as a joke. Text that looks like advice gets treated as advice.
 
 ## WHAT COUNTS AS A HALLUCINATION?
 

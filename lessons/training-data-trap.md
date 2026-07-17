@@ -1,6 +1,6 @@
 ## AVOID TRAPS
 
-# Training Bias Trap
+# Training Data Trap
 
 That was the first accuracy trap. The second one is different. Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
 
@@ -46,8 +46,6 @@ The labels come from past human decisions.
 
 If those decisions were biased, the model learns the bias.
 
-Some of these are real cases. Some are simplified versions of a real pattern. In each one, the question is the same: what did the model actually learn?
-
 ## FIGHT THE TRAP
 
 Four moves when the answer feels too clean.
@@ -84,4 +82,12 @@ Slow down for decisions about people.
 
 Hiring, grading, discipline, medical, legal. AI is a starting point, not the final word. Humans review.
 
-🔑 Common is not neutral. Frequent is not fair. Questioning the default is the skill.
+There’s one more way the data traps you, and it has nothing to do with skew. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed.
+
+Notice that this isn’t a hallucination. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search.
+
+🔑 Common is not neutral. Frequent is not fair. Current-sounding is not current. Questioning the default is the skill.
+
+The model learned our shortcuts.
+
+Including the ones we’d rather it didn’t.

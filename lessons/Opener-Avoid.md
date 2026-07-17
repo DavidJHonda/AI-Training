@@ -2,23 +2,21 @@
 
 # Opener
 
-## WHERE DO THE TRAPS HIDE?
+## THE TRAPS AHEAD
 
-In the answer.
+Spot the trap.
 
-In the chat.
+Name the trap.
 
-In your habits.
+Avoid the trap.
 
-In what you see.
+every one looks fine from the inside.
 
-every trap looks fine from the inside.
+You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI useful also fails in specific, predictable ways. And when it fails, nothing looks broken. A made-up fact reads exactly like a real one. Flattery feels exactly like insight. The trap that catches you won't announce itself. It will look fine.
 
-You know how to check an answer. This part names what you are checking for: the traps. Every one of them has the same shape. Something looks fine, feels fine, reads fine, and is quietly wrong.
+Think about a rip current. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves. That calm is the trap. Lifeguards are strong swimmers, sure. But strength isn't what spots a rip. Recognition is. They know the shape a rip makes in the water, so the calm patch never fools them. This section teaches you to read the water.
 
-Some traps live in the answer itself: invented facts, bias soaked up from training data, a summary of a document the model barely read. Some live in you: a tool built to be helpful, agreeable, and engaging can feel like a mind, talk you up, and keep you in the conversation longer than you meant.
-
-And some come from the world. Other people's AI puts convincing fakes in front of you every day. Naming each trap is most of the defense; once you can spot the shape, the pull loses its grip.
+And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way. Hallucination is prediction doing what prediction does. Flattery is a model trained to please, pleasing.
 
 ## In this section
 
@@ -28,18 +26,16 @@ Avoid Traps
 
 ## TRAPS IN THE ANSWER
 
-First, the ways an answer goes wrong all on its own.
+First, the ways an answer goes wrong all on its own: facts invented with total confidence, bias and stale knowledge soaked up from the training data, and summaries of documents the model never really read.
 
 2
 
 ## TRAPS IN YOU
 
-Then, the pulls built into a tool designed to please and to keep you engaged.
+Then, the pulls built into the tool itself. Something built to be helpful, agreeable, and engaging can feel like a mind, cheer on your worst ideas, hold your attention longer than you meant to give it, and stand in for support it can't actually provide.
 
 3
 
 ## TRAPS FROM THE WORLD
 
-Finally, what other people’s AI puts in front of you.
-
-🔑 **Keep this question in mind:**What looks fine here that isn’t?
+Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof.

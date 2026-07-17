@@ -1800,7 +1800,7 @@ const SECTION_META = {
   insidethemodel: { kicker: "WHAT’S ACTUALLY INSIDE", label: "Black Box", title: "Black Box", icon: "\uD83D\uDD0D" },
   attention: { kicker: "ALL AT ONCE", label: "Transformer", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
-  trainingbias: { kicker: "SHORTCUTS THE MODEL TAKES", label: "Training Bias Trap", title: "Training Bias Trap", icon: "\u2696\uFE0F" },
+  trainingbias: { kicker: "SKEWED AND STALE", label: "Training Data Trap", title: "Training Data Trap", icon: "\u2696\uFE0F" },
   openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
@@ -4539,8 +4539,12 @@ function TrainingBiasSection(props) {
         })
       )
     ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "There’s one more way the data traps you, and it has nothing to do with skew. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Notice that this isn’t a hallucination. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search."),
     /*#__PURE__*/React.createElement(KeyInsight, null,
-      "Common is not neutral. Frequent is not fair. Questioning the default is the skill."),
+      "Common is not neutral. Frequent is not fair. Current-sounding is not current. Questioning the default is the skill."),
     closeBoard("trainingbias"),
     /*#__PURE__*/React.createElement(BiasQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -6243,7 +6247,7 @@ function DocumentChatSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "documenttrap" }),
     E(BodyP, null,
-      "Hallucination was a fake claim. Training Bias was a distorted picture. The third accuracy trap is different again."),
+      "Hallucination was a fake claim. The Training Data Trap was a skewed, stale picture. The third accuracy trap is different again."),
     E(BodyP, null,
       "You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. ",
       E("strong", null, "The trap is thinking ‘uploaded’ means ‘fully read.’")),
@@ -6897,7 +6901,6 @@ function HallucinationSection(props) {
     { title: "Fake source", body: "A study, article, author, journal, or citation that does not exist." },
     { title: "Fake detail", body: "A real person, place, event, or idea with invented dates, numbers, quotes, or specifics." },
     { title: "Blended fact", body: "Real facts combined in a way that creates a conclusion that is false." },
-    { title: "Stale claim", body: "A claim that used to be true, or sounds current, but is now outdated." },
     { title: "Misread source", body: "The source is real, but the model read it wrong. A joke taken as advice, a finding summarized backwards." }
   ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
@@ -6909,24 +6912,23 @@ function HallucinationSection(props) {
       "Yes. And you already know the reasons why."),
     /*#__PURE__*/React.createElement("ol", { style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginTop: 0, marginBottom: 18, paddingLeft: 28 } },
       /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "During Training, AI learns patterns from data."),
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "It builds answers one word at a time, picking each word by probability."),
-      /*#__PURE__*/React.createElement("li", null, "Its knowledge stops at the training cut-off date, but it answers as if time never passed.")),
+      /*#__PURE__*/React.createElement("li", null, "It builds answers one word at a time, picking each word by probability.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That creates the problem: ", /*#__PURE__*/React.createElement("strong", null, "likely does not always mean true.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI can give you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), ". The word is strange, because AI doesn’t have physical eyes and can’t \"see\" anything. But the idea is simple: ", /*#__PURE__*/React.createElement("strong", null, "AI presents a false or unsupported claim as if it were true"), "."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/hallucination.jpg",
-      alt: "Two teens in a kitchen under a chalkboard reading Some hallucinations get famous. One happily pours non-toxic glue into pizza sauce, saying Finally, no more cheese avalanches; the other lunges to stop him. A tablet shows the AI Overview answer recommending glue, and side panels trace it from the true source, an old joke comment from 2009, to what the AI said confidently. A sticky note reads AI can be confidently wrong. Check sources.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Sometimes it invents something completely. Sometimes it stitches true facts into a false conclusion. Sometimes it delivers outdated information with total confidence."),
+      "Sometimes it invents something completely. Sometimes it stitches true facts into a false conclusion. Sometimes it misreads a real source."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Some hallucinations get famous. When Google added AI Overviews to its search results, one answer went viral: asked how to keep cheese from sliding off pizza, the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. (Some people actually tried it.) The answer wasn’t invented from nothing. It traced back to an old joke comment on Reddit that the AI read as sincere advice."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/hallucination.jpg",
+      alt: "Two teens in hockey jerseys in a kitchen under a chalkboard reading Some hallucinations get famous. One happily pours non-toxic glue into pizza sauce; the other lunges to stop him. A tablet shows the AI Overview answer recommending glue, and side panels trace it from the true source, an old joke comment from 2009, to what the AI said confidently. A sticky note reads AI can be confidently wrong. Check sources.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "WHAT COUNTS AS A HALLUCINATION?",
-      intro: "Not every wrong answer is a hallucination. These are the five patterns to watch for.",
+      intro: "Not every wrong answer is a hallucination. These are the four patterns to watch for.",
       marginBottom: 18
     },
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
@@ -6977,7 +6979,7 @@ function HallucinationSection(props) {
         body: "Thin data, pressure for specifics, a premise the model never checks. Hallucinations aren’t random glitches. They show up exactly where the patterns run out. Whether your AI invented or resisted, you now know the conditions, and you’ll notice when a real question walks into them."
       })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias Trap" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Data Trap" }));
 }
 function CriticalThinkingSection(props) {
   const [problemAnswers, setProblemAnswers] = useState({});
@@ -7286,10 +7288,10 @@ function OpenerProtectSection(props) {
     groups: [
       {
         kicker: "TRAPS IN THE ANSWER",
-        bridge: "First, the ways an answer goes wrong all on its own: facts invented with total confidence, bias soaked up from the training data, and summaries of documents the model never really read.",
+        bridge: "First, the ways an answer goes wrong all on its own: facts invented with total confidence, bias and stale knowledge soaked up from the training data, and summaries of documents the model never really read.",
         questions: [
           { question: "Why does AI state false things so confidently?", lessonId: "hallucination" },
-          { question: "How do the model’s training shortcuts skew its answers?", lessonId: "trainingbias" },
+          { question: "What goes wrong when the training data is skewed or stale?", lessonId: "trainingbias" },
           { question: "Why can’t I trust a summary of a document it barely read?", lessonId: "documenttrap" }
         ]
       },

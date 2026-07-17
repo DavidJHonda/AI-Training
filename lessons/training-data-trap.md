@@ -2,7 +2,7 @@
 
 # Training Data Trap
 
-That was the first accuracy trap. The second one is different. Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
+Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
 
 That’s training bias. The model learns whatever patterns are in the data it saw. If the data is uneven, incomplete, or full of shortcuts, the model can treat a narrow slice of reality as the default.
 
@@ -10,7 +10,7 @@ Imagine the only driving advice online came from professional race car drivers. 
 
 That answer wouldn’t come from evil intent. It would come from a narrow slice of data treated like the whole picture. **The trap is treating common as neutral.**
 
-## HOW BIAS GETS IN
+## How bias gets in
 
 Not one mechanism. Four overlapping ones, all rooted in the data the model saw.
 
@@ -18,33 +18,25 @@ Not one mechanism. Four overlapping ones, all rooted in the data the model saw.
 
 Overrepresentation
 
-Some cases appear too often in the data.
-
-The model treats them as the default.
+Some cases appear too often in the data. The model treats them as the default.
 
 📉
 
 Underrepresentation
 
-Some cases appear too rarely.
-
-The model performs worse when those cases come up.
+Some cases appear too rarely. The model performs worse when those cases come up.
 
 🪤
 
 Shortcuts
 
-A wrong clue happens to work in training.
-
-The model learns the clue instead of the real concept.
+A wrong clue happens to work in training. The model learns the clue instead of the real concept.
 
 🏷️
 
 Biased labels
 
-The labels come from past human decisions.
-
-If those decisions were biased, the model learns the bias.
+The labels come from past human decisions. If those decisions were biased, the model learns the bias.
 
 ## FIGHT THE TRAP
 

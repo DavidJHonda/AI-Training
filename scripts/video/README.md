@@ -111,6 +111,27 @@ spikes), mid-span per-frame diffs small and CONTINUOUS (~0.7–4.5 = smooth
 motion; a 0.0 means the zoom didn't take, a spike means jitter), and eyeball
 the LAST span frame for text still fully in frame at max zoom.
 
+**CLOSE-BOARD VARIANT (the standard for composed closes; retrofit shipped
+2026-07-18 across tokens, opener-understand, embeddings, does-school-matter,
+how-ai-answers, one-more-thing).** Composed close stills used to render as a
+small white card (pill ~39% of frame width); NotebookLM's native closes run the
+pill at ~56% pushing to ~67% (measured on transformer). Recipe:
+
+1. `make_close_board.py --pill "..." --sticky "..." --bg <corner-sampled color
+   of the existing close> --out board.png` — renders 3840×2160 in the app's
+   CloseBoard style (Plus Jakarta Sans) and auto-sizes the pill toward 56%
+   (short texts hit the font cap and land narrower, matching engine behavior).
+2. Find the frozen close span (walk backward from the last frame while
+   successive diffs < ~0.35) and replace exactly that span; audio untouched.
+3. Zoom endpoint scales with span length to keep transformer's push rate:
+   z_end = 1 + 0.2 × span_frames/210, capped at 1.2.
+4. Board leg pts must be INTEGER ticks (`fps=30` + `setpts=N/(30*TB)`) —
+   fractional per-frame pts get one frame dropped at concat (bit us twice).
+
+Shell gotcha: this session shell is zsh — `$var:s=...` inside a filtergraph
+string triggers zsh's `:s` history modifier and silently eats the graph up to
+the next `=`; always write `${var}:s=...`.
+
 ## Composite workflow (multi-source best-of; first shipped: what-is-ai from 3 sources)
 
 1. Parallel agents map EACH source: scene ranges + GOOD/TOLERATED/BAD flags, board

@@ -16,7 +16,7 @@ Sometimes AI gives you a false claim delivered in the same confident voice it us
 
 This actually happened. When users asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. And some people actually tried it! Yuck!
 
-AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch. Text that looks like advice gets treated as advice.
+AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch.
 
 ## What counts as a hallucination?
 
@@ -46,7 +46,9 @@ Misread source
 
 The source is real, but the model read it wrong.
 
-Hallucinations come from how the model works, so there’s no quick patch. The industry’s workaround is **RAG** (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web first, pull real documents, and write the answer from what those documents say. It’s why hallucinations are rarer than they used to be.
+## Retrieval-Augmented Generation
+
+The industry’s workaround is **RAG** (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web first, pull real documents, and write the answer from what those documents say. It’s why hallucinations are rarer than they used to be.
 
 But rarer isn’t zero. Not every tool uses RAG, and the glue-on-pizza advice happened with RAG on.
 

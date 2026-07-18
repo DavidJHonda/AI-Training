@@ -2,9 +2,9 @@
 
 # Document Trap
 
-Hallucination was a fake claim. Training Bias was a distorted picture. The third accuracy trap is different again.
+Hallucination was a fake claim. Training Bias was a skewed, stale picture. The third accuracy trap is different again.
 
-You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways teens use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
+You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
 
 ## WHAT IT LOOKS LIKE
 
@@ -36,7 +36,7 @@ How Chunks Get Picked
 
 Your document gets split into chunks
 
-Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting.
+Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. A few hundred chunks total. The chunks sit in a database, waiting.
 
 2
 
@@ -66,11 +66,19 @@ Point to the section by name
 
 Include keywords from the document in your question. The system uses them to find matching chunks.
 
+VagueWhat are the rules on flagrant fouls?
+
+PointedWhat does the technical fouls chapter say about flagrant fouls?
+
 2
 
 Ask one question at a time
 
 Multi-part questions force the system to retrieve different chunks for different parts. Break it up. One focused question per turn gives retrieval the best shot.
+
+Combo questionSummarize the policy, list the exceptions, and tell me what to do.
+
+One thing at a timeWhat does the policy say about late assignments? Quote the line.
 
 3
 
@@ -78,11 +86,19 @@ Paste the section directly into your prompt
 
 If you already know the paragraphs that matter, paste them into your message. That puts them in context with no retrieval lottery.
 
+Retrieval lotteryDoes my technical fouls clause apply if both players are involved?
+
+Pasted in directlyHere’s the clause: ‘A technical foul is assessed when…’ Does this apply if both players are involved?
+
 4
 
 Upload only what’s relevant
 
-Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the whiteboard.
+Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the cut.
+
+Whole rulebook[Uploads the entire 100-page rulebook] What does it say about flagrant fouls?
+
+Just the chapter[Uploads only the 3-page fouls chapter] What does it say about flagrant fouls?
 
 5
 
@@ -90,6 +106,14 @@ Ask the AI to quote
 
 Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
 
+No receiptsWhat does the rulebook say about flagrant fouls?
+
+Ask for the quoteWhat does the rulebook say about flagrant fouls? Quote the exact line you’re basing it on.
+
 **All five share one idea:**make the right chunks easy to find. The more specific your question, the more reliable the answer.
 
 🔑 Uploaded does not mean understood. Confident does not mean complete. Asking for evidence is the skill.
+
+It answers from what it retrieved.
+
+Not from having read the whole thing.

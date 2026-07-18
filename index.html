@@ -1315,6 +1315,12 @@ function NumberedRows(props) {
               item.icon ? React.createElement("span", { style: { marginRight: 7 } }, item.icon) : null,
               item.title),
             item.body ? React.createElement("div", { style: { fontSize: BOX_TEXT + 1, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.body) : null,
+            item.examples ? React.createElement("div", { style: { marginTop: 12, display: "flex", flexDirection: "column", gap: 8 } },
+              item.examples.map(function(ex, j) {
+                return React.createElement("div", { key: j, style: { background: "var(--primaryFaint)", borderRadius: 10, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 13, color: "var(--ink)", lineHeight: 1.55, borderLeft: "3px solid " + (ex.good ? "var(--primary)" : "var(--inkFaint)") } },
+                  React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: ex.good ? "var(--primary)" : "var(--inkMuted)", display: "block", marginBottom: 4 } }, ex.label),
+                  ex.text);
+              })) : null,
             item.prompt ? React.createElement("div", { style: { marginTop: 12, background: "var(--primaryFaint)", borderRadius: 10, padding: "12px 16px", fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", lineHeight: 1.6 } }, "“" + item.prompt + "”") : null,
             item.after ? React.createElement("div", { style: { marginTop: 10, fontSize: BOX_TEXT + 1, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.after) : null));
       })));
@@ -6153,8 +6159,8 @@ function DocumentChatSection(props) {
     },
     {
       name: "Upload only what’s relevant",
-      body: "Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the whiteboard.",
-      before: { label: "Whole rulebook", text: "[Uploads the entire 80-page handbook] What does it say about flagrant fouls?" },
+      body: "Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the cut.",
+      before: { label: "Whole rulebook", text: "[Uploads the entire 100-page rulebook] What does it say about flagrant fouls?" },
       after: { label: "Just the chapter", text: "[Uploads only the 3-page fouls chapter] What does it say about flagrant fouls?" }
     },
     {
@@ -6175,11 +6181,11 @@ function DocumentChatSection(props) {
       ]
     },
     {
-      prompt: "You only care about the fouls rules, but the full 80-page handbook is what you have.",
+      prompt: "You only care about the fouls rules, but the full 100-page rulebook is what you have.",
       statement: "Which move gives retrieval the best shot?",
       options: [
-        { label: "Upload only the 3-page fouls chapter, then ask what it says about flagrant fouls.", correct: true, eyebrow: "Smart", headline: "Fewer chunks, better odds.", feedback: "With only the fouls chapter loaded, the right chunks are not competing with 77 other pages for the few retrieval slots." },
-        { label: "Upload the entire 80-page handbook, then ask what it says about flagrant fouls.", correct: false, hint: "More pages means more chunks fighting for the same few slots.", feedback: "The whole handbook splits into a lot of chunks. The fouls chunks now compete with everything else, and the right one may not make the cut." }
+        { label: "Upload only the 3-page fouls chapter, then ask what it says about flagrant fouls.", correct: true, eyebrow: "Smart", headline: "Fewer chunks, better odds.", feedback: "With only the fouls chapter loaded, the right chunks are not competing with 97 other pages for the few retrieval slots." },
+        { label: "Upload the entire 100-page rulebook, then ask what it says about flagrant fouls.", correct: false, hint: "More pages means more chunks fighting for the same few slots.", feedback: "The whole rulebook splits into a lot of chunks. The fouls chunks now compete with everything else, and the right one may not make the cut." }
       ]
     },
     {
@@ -6193,7 +6199,7 @@ function DocumentChatSection(props) {
   ];
 
   const CHUNK_STEPS = [
-    { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. Maybe 80 chunks total. The chunks sit in a database, waiting." },
+    { title: "Your document gets split into chunks", body: "Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. A few hundred chunks total. The chunks sit in a database, waiting." },
     { title: "Each chunk gets a meaning vector", body: "Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. The chunk about technical fouls ends up close in meaning to other rulebook chunks about penalties, referee calls, and player conduct." },
     { title: "Your question becomes a vector too. The closest chunks get loaded.", body: "Now you ask: \u201CCan a player call a timeout during a free throw?\u201D Your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole rulebook) get loaded. The model answers based on what got retrieved." }
   ];
@@ -6246,35 +6252,26 @@ function DocumentChatSection(props) {
     E(BodyP, null,
       "Say you upload your basketball league\u2019s 100-page rulebook and ask one question. The system can\u2019t always load the whole thing, so it searches for the pieces that match."),
     E(ShowcaseBox, { headline: "How Chunks Get Picked" },
-      E(RevealSequence, {
-        surface: "sand",
-        items: CHUNK_STEPS,
-        currentIdx: 0,
-        started: true,
-        onStart: function() {},
-        onNext: function() {},
-        canAdvance: true,
-        isComplete: true,
-        startLabel: "Show me how \u2192",
-        nextLabel: "Next step \u2193",
-        finishLabel: "See the takeaway \u2193",
-        completionElement: E(InnerCard, { pad: "snug" },
-          renderChunkLadder(CHUNK_STEPS.length, false),
-          E(Takeaway, {
-            merged: true,
-            eyebrow: "What got loaded",
-            headline: "The model never saw the whole rulebook.",
-            body: "It answered from only the chunks that matched your question. If the chunk that mattered didn\u2019t get pulled, the answer still sounds confident. It is just missing what it never loaded."
-          }))
-      },
-        null)
+      E(InnerCard, { pad: "snug" },
+        renderChunkLadder(CHUNK_STEPS.length, false),
+        E(Takeaway, {
+          merged: true,
+          eyebrow: "What got loaded",
+          headline: "The model never saw the whole rulebook.",
+          body: "It answered from only the chunks that matched your question. If the chunk that mattered didn\u2019t get pulled, the answer still sounds confident. It is just missing what it never loaded."
+        }))
     ),
     E(BodyP, { marginTop: 24 },
       "You can\u2019t always tell what got retrieved. But you can steer it. Five moves help."),
     E(NumberedRows, {
       headline: "The five moves",
       marginBottom: 24,
-      items: TACTICS.map(function(t) { return { title: t.name, body: t.body }; })
+      items: TACTICS.map(function(t) {
+        return { title: t.name, body: t.body, examples: [
+          { label: t.before.label, text: t.before.text },
+          { label: t.after.label, text: t.after.text, good: true }
+        ] };
+      })
     }),
     E(BodyP, null,
       E("strong", null, "All five share one idea: "),
@@ -7343,11 +7340,11 @@ function OpenerProtectSection(props) {
     featuredCard: protectIllustration,
     whyThisMatters: [
       "You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.",
-      "And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one. Flattery feels exactly like insight.",
+      "And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.",
       "Think about a rip current in the ocean. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves.",
       "Swim into that calm, and you'll be pulled far from shore. The skill isn't out-swimming a rip. It's recognizing one before you're in it. Lifeguards spot rips all day, not because they're strong swimmers, but because they know the shape a rip makes in the water.",
       "AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.",
-      "And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way. Hallucination is prediction doing what prediction does. A skewed answer is data doing what data does. Flattery is a model trained to please, pleasing.",
+      "And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way.",
       /*#__PURE__*/React.createElement("img", {
         src: "illustrations/opener-avoid.jpg",
         alt: "Two teens in CEO caps on a beach where arrows mark a rip current, the calm patch between breaking waves. One carries a towel and swim ring and points at the calm patch, saying Best spot on the beach! The other holds binoculars and points at a beach-safety board reading Read the Water: calm patch, gap in breaking waves, water moving outward, looks safe isn't safe",
@@ -7380,7 +7377,7 @@ function OpenerProtectSection(props) {
       },
       {
         kicker: "TRAPS FROM THE WORLD",
-        bridge: "Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof. Named traps are avoidable traps.",
+        bridge: "Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof.",
         questions: [
           { question: "How do I think clearly when seeing is no longer proof?", lessonId: "faketrap" }
         ]
@@ -8491,13 +8488,12 @@ function MindTrapSection(props) {
             "\u2022 The words reflect patterns, context, training, and probabilities.", /*#__PURE__*/React.createElement("br", null),
             "\u2022 You can use the answer, but you shouldn\u2019t assume there\u2019s an inner life behind it.")))
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The danger isn\u2019t that AI sounds nice." },
-      "The danger is that nice makes you lower your guard. Warmth is not accuracy. Confidence is not understanding. \u201CI think\u201D is not proof there is an I."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When this matters most"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can\u2019t notice what you\u2019re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can\u2019t notice what you\u2019re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it. That trap gets a lesson of its own later in this section."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
     /*#__PURE__*/React.createElement(BodyP, null, "Once you see the trap, it\u2019s tempting to flip the other way and tell yourself AI is \u201Cjust math, nothing interesting going on.\u201D That\u2019s also a bias. These systems are weird, powerful, and genuinely new. They\u2019re not minds the way you are. They\u2019re also not calculators. The practical stance is humility: don\u2019t assume a mind, don\u2019t assume magic, and don\u2019t turn your brain off."),
-    /*#__PURE__*/React.createElement(KeyInsight, null, "The words can be useful. The warmth can feel real. Human-sounding language is not evidence of a mind."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "The danger isn’t that AI sounds nice." },
+      "It’s that nice makes you lower your guard. Warmth is not accuracy. Confidence is not understanding. “I think” is not proof there is an I."),
     closeBoard("mindtrap"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",

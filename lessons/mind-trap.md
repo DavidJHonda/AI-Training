@@ -62,14 +62,16 @@ Phrases like “I feel,” “I want,” “I’m excited,” “I find this fas
 
 • There’s output behind the words. • The words reflect patterns, context, training, and probabilities. • You can use the answer, but you shouldn’t assume there’s an inner life behind it.
 
-🔑 **The danger isn’t that AI sounds nice.**The danger is that nice makes you lower your guard. Warmth is not accuracy. Confidence is not understanding. “I think” is not proof there is an I.
-
 ## When this matters most
 
-This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can’t notice what you’re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it.
+This matters most when the conversation feels personal: stress, conflict, loneliness, fear, or a big decision. AI can help you organize thoughts or find the words. But it can’t notice what you’re not saying, follow up tomorrow, or sit with you while you wait. For anything serious, use AI to prepare for real support, not replace it. That trap gets a lesson of its own later in this section.
 
 ## Don’t Overcorrect
 
 Once you see the trap, it’s tempting to flip the other way and tell yourself AI is “just math, nothing interesting going on.” That’s also a bias. These systems are weird, powerful, and genuinely new. They’re not minds the way you are. They’re also not calculators. The practical stance is humility: don’t assume a mind, don’t assume magic, and don’t turn your brain off.
 
-🔑 The words can be useful. The warmth can feel real. Human-sounding language is not evidence of a mind.
+🔑 **The danger isn’t that AI sounds nice.**It’s that nice makes you lower your guard. Warmth is not accuracy. Confidence is not understanding. “I think” is not proof there is an I.
+
+Human-sounding isn’t a mind.
+
+The words are real. Nobody’s home.

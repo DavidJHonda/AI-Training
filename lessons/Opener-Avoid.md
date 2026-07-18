@@ -14,7 +14,7 @@ every one looks fine from the inside.
 
 You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.
 
-And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one. Flattery feels exactly like insight.
+And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.
 
 Think about a rip current in the ocean. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves.
 
@@ -22,7 +22,7 @@ Swim into that calm, and you'll be pulled far from shore. The skill isn't out-sw
 
 AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.
 
-And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way. Hallucination is prediction doing what prediction does. A skewed answer is data doing what data does. Flattery is a model trained to please, pleasing.
+And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way.
 
 ## In this section
 
@@ -44,4 +44,4 @@ Then, the traps that work on you instead of the answer. A tool built to be helpf
 
 ## TRAPS FROM THE WORLD
 
-Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof. Named traps are avoidable traps.
+Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof.

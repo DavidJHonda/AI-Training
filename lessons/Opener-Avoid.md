@@ -18,7 +18,9 @@ And here's the catch. When it fails, nothing looks broken. A made-up fact reads 
 
 Think about a rip current in the ocean. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves.
 
-That calm is the trap. Lifeguards are strong swimmers, sure. But strength isn't what spots a rip. Recognition is. They know the shape a rip makes in the water, so the calm patch never fools them. This section teaches you to read the water.
+Swim into that calm, and you'll be pulled far from shore. The skill isn't out-swimming a rip. It's recognizing one before you're in it. Lifeguards spot rips all day, not because they're strong swimmers, but because they know the shape a rip makes in the water.
+
+AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.
 
 And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way. Hallucination is prediction doing what prediction does. A skewed answer is data doing what data does. Flattery is a model trained to please, pleasing.
 

@@ -12,7 +12,9 @@ Avoid the trap.
 
 every one looks fine from the inside.
 
-You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways. And when it fails, nothing looks broken. A made-up fact reads exactly like a real one. Flattery feels exactly like insight. The trap that catches you won't announce itself. It will look fine.
+You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.
+
+And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one. Flattery feels exactly like insight. The trap that catches you won't announce itself. It will look fine.
 
 Think about a rip current. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves. That calm is the trap. Lifeguards are strong swimmers, sure. But strength isn't what spots a rip. Recognition is. They know the shape a rip makes in the water, so the calm patch never fools them. This section teaches you to read the water.
 

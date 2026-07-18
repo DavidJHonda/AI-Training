@@ -6863,11 +6863,137 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
 }
 
+// Playable dino game shown at the top of LAB 05, so students see the finished
+// product before the steps. Built to the exact spec of the lab's starter prompt:
+// run, jump on spacebar/tap, speed up over time, keep score, desktop and phone.
+function DinoGameDemo() {
+  const canvasRef = useRef(null);
+  const wrapRef = useRef(null);
+  useEffect(function() {
+    var canvas = canvasRef.current, wrap = wrapRef.current;
+    if (!canvas || !wrap) return;
+    var ctx = canvas.getContext("2d");
+    var H = 180, W = 0, dpr = window.devicePixelRatio || 1;
+    function resize() {
+      W = Math.max(280, wrap.clientWidth);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    var groundY = H - 34;
+    var state = "idle", dino = { x: 52, y: groundY, vy: 0 };
+    var obstacles = [], clouds = [{ x: 140, y: 40 }, { x: 460, y: 64 }, { x: 760, y: 30 }];
+    var speed = 4.4, score = 0, hi = 0, nextGap = 0, last = 0, raf = 0;
+    function reset() { obstacles = []; dino.y = groundY; dino.vy = 0; speed = 4.4; score = 0; nextGap = 0; }
+    function jump() {
+      if (state === "run") { if (dino.y >= groundY - 0.5) dino.vy = -11.4; }
+      else { if (state === "over") reset(); state = "run"; }
+    }
+    function step(k) {
+      dino.vy += 0.62 * k;
+      dino.y = Math.min(groundY, dino.y + dino.vy * k);
+      speed = Math.min(12, speed + 0.0022 * k);
+      score += speed * k * 0.022;
+      nextGap -= speed * k;
+      if (nextGap <= 0) {
+        obstacles.push({ x: W + 40, s: 24 + Math.random() * 12 });
+        nextGap = 300 + Math.random() * 320 + speed * 14;
+      }
+      for (var i = obstacles.length - 1; i >= 0; i--) {
+        var ob = obstacles[i];
+        ob.x -= speed * k;
+        if (ob.x < -60) { obstacles.splice(i, 1); continue; }
+        if (Math.abs(ob.x - dino.x) < 6 + ob.s * 0.34 && dino.y > groundY - ob.s - 4) {
+          state = "over";
+          hi = Math.max(hi, Math.floor(score));
+        }
+      }
+      for (var c = 0; c < clouds.length; c++) {
+        clouds[c].x -= speed * 0.22 * k;
+        if (clouds[c].x < -40) clouds[c].x = W + 40 + Math.random() * 120;
+      }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.font = "20px sans-serif";
+      ctx.textAlign = "center";
+      for (var c = 0; c < clouds.length; c++) ctx.fillText("☁️", clouds[c].x, clouds[c].y);
+      ctx.strokeStyle = "#c9c5dd";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, groundY + 6);
+      ctx.lineTo(W, groundY + 6);
+      ctx.stroke();
+      for (var i = 0; i < obstacles.length; i++) {
+        ctx.font = Math.round(obstacles[i].s) + "px sans-serif";
+        ctx.fillText("🌵", obstacles[i].x, groundY + 2);
+      }
+      ctx.save();
+      ctx.translate(dino.x, dino.y);
+      ctx.scale(-1, 1);
+      ctx.font = "32px sans-serif";
+      ctx.fillText("🦖", 0, 2);
+      ctx.restore();
+      ctx.font = "700 13px var(--mono, monospace)";
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#6b6787";
+      ctx.fillText((hi ? "HI " + hi + "   " : "") + Math.floor(score), W - 14, 24);
+      ctx.fillStyle = "#24243a";
+      ctx.textAlign = "center";
+      if (state === "idle") {
+        ctx.font = "700 15px var(--sans, sans-serif)";
+        ctx.fillText("Tap or press Space to play", W / 2, H / 2 - 8);
+      } else if (state === "over") {
+        ctx.font = "700 15px var(--sans, sans-serif)";
+        ctx.fillText("Game over at " + Math.floor(score) + ".", W / 2, H / 2 - 16);
+        ctx.font = "400 13px var(--sans, sans-serif)";
+        ctx.fillText("Tap or press Space to run it back.", W / 2, H / 2 + 6);
+      }
+    }
+    function loop(t) {
+      var k = Math.min(3, Math.max(0.2, (t - last) / 16.667));
+      last = t;
+      if (state === "run") step(k);
+      draw();
+      raf = requestAnimationFrame(loop);
+    }
+    function onKey(e) {
+      if (e.code === "Space" || e.code === "ArrowUp") { e.preventDefault(); jump(); }
+    }
+    function onPress(e) { e.preventDefault(); canvas.focus(); jump(); }
+    canvas.addEventListener("keydown", onKey);
+    canvas.addEventListener("mousedown", onPress);
+    canvas.addEventListener("touchstart", onPress, { passive: false });
+    window.addEventListener("resize", resize);
+    raf = requestAnimationFrame(function(t) { last = t; loop(t); });
+    return function() {
+      cancelAnimationFrame(raf);
+      canvas.removeEventListener("keydown", onKey);
+      canvas.removeEventListener("mousedown", onPress);
+      canvas.removeEventListener("touchstart", onPress);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+  return /*#__PURE__*/React.createElement("div", {
+    style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px 10px", boxShadow: "var(--shadowSoft)", marginBottom: 14 }
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 8 } },
+      "Here’s the finished product, built from the exact prompt in step 2. ",
+      /*#__PURE__*/React.createElement("strong", null, "Spacebar or tap to jump.")),
+    /*#__PURE__*/React.createElement("div", { ref: wrapRef },
+      /*#__PURE__*/React.createElement("canvas", {
+        ref: canvasRef, tabIndex: 0, "aria-label": "Playable dinosaur runner game demo",
+        style: { display: "block", borderRadius: 8, background: "var(--bg)", outline: "none", touchAction: "none", cursor: "pointer" }
+      })));
+}
 function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
     { title: "Open Claude in a new chat", body: "A fresh conversation, nothing else in it. You\u2019re about to direct software into existence." },
-    { title: "Paste the starter prompt", body: "Send this, word for word or with your own twist. Claude writes the whole game as a single file you can play right in the chat.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A character that runs, jumps over obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone." },
+    { title: "Paste the starter prompt", body: "Send this, word for word or with your own twist. Claude writes the whole game as a single file you can play right in the chat.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone." },
     { title: "Play your game", body: "Give it a few runs. Chase a high score. Then note the first thing you\u2019d change." },
     { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, sound effects. Specific asks beat \u201cmake it better.\u201d" },
     { title: "Make it yours", body: "Keep going until it feels like your game. Then ask Claude to explain how the jump physics works, and read the answer." }
@@ -6895,7 +7021,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "This actually happened. When users asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. And some people actually tried it! Yuck!"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch. Text that looks like advice gets treated as advice."),
+      "AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/hallucination.jpg",
       alt: "Two teens in hockey jerseys in a kitchen under a chalkboard reading Some hallucinations get famous. One happily pours non-toxic glue into pizza sauce; the other lunges to stop him. A tablet shows the AI Overview answer recommending glue, and side panels trace it from the true source, an old joke comment from 2009, to what the AI said confidently. A sticky note reads AI can be confidently wrong. Check sources.",
@@ -6916,8 +7042,9 @@ function HallucinationSection(props) {
               /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
             /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.body));
         }))),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Retrieval-Augmented Generation"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Hallucinations come from how the model works, so there\u2019s no quick patch. The industry\u2019s workaround is ",
+      "The industry\u2019s workaround is ",
       /*#__PURE__*/React.createElement("strong", null, "RAG"),
       " (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web first, pull real documents, and write the answer from what those documents say. It\u2019s why hallucinations are rarer than they used to be."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -6932,6 +7059,7 @@ function HallucinationSection(props) {
       lead: "You’ve spent this lesson catching AI when it’s wrong. Now see the other side: what it builds when you steer it. You’re going to make your own version of the classic no-wifi dinosaur game, without writing a single line of code.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: dinoCheckedCount, total: DINO_STEPS.length })
     },
+      /*#__PURE__*/React.createElement(DinoGameDemo, null),
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         DINO_STEPS.map(function(st, i) {
           var done = !!dinoChecked[i];

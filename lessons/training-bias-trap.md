@@ -4,7 +4,7 @@
 
 Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
 
-That’s training bias. The model learns whatever patterns are in the data it saw. If the data is uneven, incomplete, or full of shortcuts, the model can treat a narrow slice of reality as the default.
+One big cause is training bias. The model learns whatever patterns are in the data it saw. If the data is uneven, incomplete, or full of shortcuts, the model can treat a narrow slice of reality as the default.
 
 Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” the model might tell you to drive 180 miles per hour on a closed track.
 
@@ -14,7 +14,7 @@ That answer wouldn’t come from evil intent. It would come from a narrow slice 
 
 Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots. No idea.
 
-The training photos almost all showed cows on green pasture, so the model had quietly learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background. Take away the grass, and the cows disappeared.
+The training photos almost all showed cows on green pasture, so the model had quietly learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
 
 ## How bias gets in
 
@@ -42,7 +42,7 @@ A wrong clue happens to work in training. The model learns the clue instead of t
 
 Biased labels
 
-The labels come from past human decisions. If those decisions were biased, the model learns the bias.
+The labels come from past human decisions. Train a hiring model on ten years of biased hiring, and it learns the bias as the right answer.
 
 ## Fight the trap
 
@@ -78,7 +78,7 @@ Try: “When you say “typical,” what assumptions are you making?”
 
 One more way the data traps you, and it isn’t bias. Even perfect data ages. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed.
 
-This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date, or ask for a live web search. That’s RAG from the Hallucination lesson doing its second job: patching stale answers, not just invented ones.
+This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date, or ask for a live web search.
 
 The model learned our shortcuts.
 

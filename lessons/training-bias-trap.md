@@ -44,11 +44,11 @@ Biased labels
 
 The labels come from past human decisions. If those decisions were biased, the model learns the bias.
 
-## FIGHT THE TRAP
-
-Three moves when the answer feels too clean.
+## Fight the trap
 
 Spotting the trap is half the work. Pushing back is the other half. When an AI answer feels suspiciously default, here are the moves to try.
+
+Three moves when the answer feels too clean.
 
 🔍
 
@@ -76,9 +76,9 @@ Try: “When you say “typical,” what assumptions are you making?”
 
 ## Stale information
 
-There’s one more way the data traps you, and it isn’t bias. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed.
+One more way the data traps you, and it isn’t bias. Even perfect data ages. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed.
 
-Notice that this isn’t a hallucination either. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search. That live search is RAG from the Hallucination lesson, doing its second job: patching stale answers, not just invented ones.
+This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date, or ask for a live web search. That’s RAG from the Hallucination lesson doing its second job: patching stale answers, not just invented ones.
 
 The model learned our shortcuts.
 

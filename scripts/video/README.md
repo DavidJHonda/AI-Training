@@ -76,6 +76,41 @@ ffmpeg -y -t 223.76 -i videos/why-learn-ai.mp4 -i Prompts/why-learn-ai-2.mp4 \
 **FREEZE-EXTEND** (too-short close: hold the last frame longer and pad audio with
 silence via `apad`) — see which-app ship for the pattern.
 
+**ILLUSTRATION INSERT (Ken Burns — the STANDARD for every still we add to a
+video; owner call 2026-07-18, first shipped: ai-is-math Pascal & Fermat).** Drop
+a lesson illustration over a span between two original scene cuts, audio
+untouched, with a slow push-in so the still reads as a scene, not a freeze:
+
+1. Pick the span: original scene cuts (scenes.py) bracketing the narration the
+   illustration belongs to; both should sit inside narration pauses (pauses.sh).
+2. Fit: our illustrations are 1200×800 vs the 1280×720 frame. NEVER crop-to-fill
+   (clips headings/captions at the edges). Fit full-height, fill the side bars
+   with a blurred darkened spill of the same image.
+3. Ken Burns: zoom 1.00→1.08 across the span, anchored at y 40% (protects top
+   headings; tune per image so no text leaves frame at full zoom). Upscale the
+   composite 3× (lanczos) BEFORE zoompan or integer rounding makes it jitter.
+4. Feed the jpg as a bare single-frame input and let zoompan mint the frames
+   (`d=N:fps=30`) — a `-loop 1` image input runs at the demuxer's 25fps default
+   and comes out short (bit us on the first ai-is-math build: 41 frames gone).
+
+```
+ffmpeg -y -i base.mp4 -i illo.jpg -filter_complex "
+[1:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,boxblur=32:2,eq=brightness=-0.15[bg];
+[1:v]scale=-2:720[fg];
+[bg][fg]overlay=(W-w)/2:0[comp];
+[comp]scale=3840:2160:flags=lanczos,zoompan=z='1+0.08*on/(N-1)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)*0.40':d=N:s=1280x720:fps=30,format=yuv420p,setsar=1,settb=1/30,setpts=N/(30*TB),trim=start_frame=0:end_frame=N,setpts=PTS-STARTPTS[mid];
+[0:v]trim=start_frame=0:end_frame=A,setpts=PTS-STARTPTS[pre];
+[0:v]trim=start_frame=B,setpts=PTS-STARTPTS[post];
+[pre][mid][post]concat=n=3:v=1:a=0[v]" \
+  -map "[v]" -c:v libx264 -crf 18 -preset medium -pix_fmt yuv420p \
+  -map 0:a -c:a copy out.mp4     # N = B - A frames
+```
+
+Verify: output frame count == input, `--seam` at both cuts (expect exactly two
+spikes), mid-span per-frame diffs small and CONTINUOUS (~0.7–4.5 = smooth
+motion; a 0.0 means the zoom didn't take, a spike means jitter), and eyeball
+the LAST span frame for text still fully in frame at max zoom.
+
 ## Composite workflow (multi-source best-of; first shipped: what-is-ai from 3 sources)
 
 1. Parallel agents map EACH source: scene ranges + GOOD/TOLERATED/BAD flags, board

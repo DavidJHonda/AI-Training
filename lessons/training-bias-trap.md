@@ -46,7 +46,7 @@ The labels come from past human decisions. If those decisions were biased, the m
 
 ## FIGHT THE TRAP
 
-Four moves when the answer feels too clean.
+Three moves when the answer feels too clean.
 
 Spotting the trap is half the work. Pushing back is the other half. When an AI answer feels suspiciously default, here are the moves to try.
 
@@ -74,19 +74,11 @@ Question the default.
 
 Try: “When you say “typical,” what assumptions are you making?”
 
-⚠️
-
-Slow down for decisions about people.
-
-Hiring, grading, discipline, medical, legal. AI is a starting point, not the final word. Humans review.
-
 ## Stale information
 
 There’s one more way the data traps you, and it isn’t bias. Even perfect data ages. Training ended on a cut-off date, the weights froze, and the model has been answering from that snapshot ever since. Ask about anything that changed after the cut-off, and it answers as if time never passed.
 
-Notice that this isn’t a hallucination either. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search.
-
-🔑 Common is not neutral. Frequent is not fair. Current-sounding is not current. Questioning the default is the skill.
+Notice that this isn’t a hallucination either. The model isn’t inventing anything. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true. It sounds current because nothing in the model’s voice marks it as old. The fix is simple: for anything that can change, check the date, or ask for a live web search. That live search is RAG from the Hallucination lesson, doing its second job: patching stale answers, not just invented ones.
 
 The model learned our shortcuts.
 

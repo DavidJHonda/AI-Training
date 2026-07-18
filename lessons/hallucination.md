@@ -4,17 +4,17 @@
 
 **AI can make mistakes. Check important information.**
 
-Wait a second. For something this powerful, it makes mistakes? And you already know the reasons why:
+That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? And you already know the reasons why:
 
 - Training taught it patterns, not facts.
-- It builds answers one word at a time, picking each word by probability.
+- It builds answers one token at a time, picking each token by probability.
 The combination causes the problem: **probable doesn’t always mean true.**
 
 Sometimes AI gives you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a **hallucination**.
 
 ## A Famous Hallucination
 
-This actually happened. When users asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. And some people actually tried it! Yuck!
+This actually happened. When users asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. And some people actually tried it.
 
 AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch.
 

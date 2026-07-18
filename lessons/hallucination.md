@@ -4,7 +4,7 @@
 
 **AI can make mistakes. Check important information.**
 
-That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? And you already know the reasons why:
+That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? Yes. And you already know the reasons why:
 
 - Training taught it patterns, not facts.
 - It builds answers one token at a time, picking each token by probability.
@@ -48,7 +48,7 @@ The source is real, but the model read it wrong.
 
 ## Retrieval-Augmented Generation
 
-The industry’s workaround is **RAG** (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web first, pull real documents, and write the answer from what those documents say. It’s why hallucinations are rarer than they used to be.
+The industry’s workaround is **RAG** (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web and write the answer from the real documents they find. It’s why hallucinations are rarer than they used to be.
 
 But rarer isn’t zero. Not every tool uses RAG, and the glue-on-pizza advice happened with RAG on.
 

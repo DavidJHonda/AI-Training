@@ -302,7 +302,8 @@ const LESSON_VIDEOS = {
   layers: { src: "videos/layers.mp4", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
   vectorspace: { src: "videos/vector-space.mp4", duration: "3 min", title: "The blank box, filled: where a token's numbers finally land." },
   prediction: { src: "videos/how-ai-answers.mp4", duration: "4 min", title: "How the answer builds itself, one token at a time." },
-  inference: { src: "videos/one-more-thing.mp4", duration: "4 min", title: "Three more things: the lottery, the transcript, and the bill." }
+  inference: { src: "videos/one-more-thing.mp4", duration: "4 min", title: "Three more things: the lottery, the transcript, and the bill." },
+  openerprotect: { src: "videos/opener-avoid.mp4", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "After watching, continue below to see where this section takes you." }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
@@ -339,6 +340,7 @@ const CLOSE_BOARDS = {
   prediction: { pill: "Every answer is built one token at a time.", sticky: "The whole run is called inference." },
   inference: { pill: "Not a mind. Math, at a scale nobody can picture.", sticky: "Every time you hit send." },
   // Avoid Traps
+  openerprotect: { pill: "When it fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
   hallucination: { pill: "Probable isn’t true.", sticky: "And it sounds the same when it’s wrong." },
   trainingbias: { pill: "The model learned our shortcuts.", sticky: "Including the ones we’d rather it didn’t." },
   documenttrap: { pill: "It answers from what it retrieved.", sticky: "Not from having read the whole thing." },
@@ -4385,7 +4387,7 @@ function BiasQuiz(props) {
       question: "A tech company trained a resume screener on ten years of its own hires. It downgraded resumes that said \u201Cwomen\u2019s,\u201D and the company scrapped it. Why did it penalize women?",
       correct: 0,
       choices: [
-        { text: "Ten years of hires were mostly men, so \u201Cgood resume\u201D came to mean \u201Clooks like the men\u2019s\u201D", explain: "The labels were past human decisions. Years of biased hiring became the model\u2019s definition of good." },
+        { text: "Ten years of hires were mostly men, so \u201Cgood resume\u201D came to mean \u201Clooks like the men\u2019s\u201D", explain: "The \u201cright answers\u201d were past human decisions. Years of biased hiring became the model\u2019s definition of good." },
         { text: "Someone coded a rule against women", explain: "No such rule existed. The bias came from the data, not the code. That\u2019s what makes it sneaky: it hides until someone tests for it." },
         { text: "The women\u2019s resumes were weaker", explain: "The model never judged qualifications. It matched patterns, and a strong resume that looked different from past hires read as worse." }
       ]
@@ -4405,7 +4407,7 @@ function BiasQuiz(props) {
     ["Not the shortcut it took.", "Simpler than size.", "It learned the snow, not the wolf."],
     ["Not a hardware problem.", "No special night rules.", "It barely saw the dark."],
     ["The data wasn\u2019t representative.", "Nobody designed it that way.", "Not harder, just unseen."],
-    ["Biased labels became the rule.", "No one wrote that rule.", "Pattern fit, not merit."],
+    ["Past hires became the answer key.", "No one wrote that rule.", "Pattern fit, not merit."],
     ["Not a coded rule.", "Most documented became default.", "That\u2019s the bias talking."]
   ];
   var biasAllAnswered = Object.keys(biasAnswers).length >= biasScenarios.length;
@@ -4436,14 +4438,14 @@ function BiasQuiz(props) {
             }));
         }))),
     biasAllAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or carries biased labels, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or comes with a biased answer key, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
 }
 function TrainingBiasSection(props) {
   const MECHANISMS = [
     { icon: "📈", term: "Overrepresentation", body: "Some cases appear too often in the data. The model treats them as the default." },
     { icon: "📉", term: "Underrepresentation", body: "Some cases appear too rarely. The model performs worse when those cases come up." },
     { icon: "🪤", term: "Shortcuts", body: "A wrong clue happens to work in training. The model learns the clue instead of the real concept." },
-    { icon: "🏷️", term: "Biased labels", body: "The labels come from past human decisions. Train a hiring model on ten years of biased hiring, and it learns the bias as the right answer." }
+    { icon: "🏷️", term: "Biased answer key", body: "For judgment calls like hiring, the model learns from past human decisions treated as the right answers. Ten years of biased hiring becomes its definition of a good hire." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
@@ -4457,7 +4459,7 @@ function TrainingBiasSection(props) {
       "That answer wouldn\u2019t come from evil intent. It would come from a narrow slice of data treated like the whole picture."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Cows on the beach"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots. No idea."),
+      "Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "The training photos almost all showed cows on green pasture, so the model had quietly learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "How bias gets in"),
@@ -4477,9 +4479,9 @@ function TrainingBiasSection(props) {
         }))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Fight the trap"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Spotting the trap is half the work. Pushing back is the other half. When an AI answer feels suspiciously default, here are the moves to try."),
+      "Spotting this trap is the hard part, because most of the time there’s nothing to spot. A distorted answer reads exactly like a solid one, and the bias hides until someone tests for it. And no, nobody tests every answer. You won’t either, and you don’t need to. Save these moves for answers that matter: anything about people, anything you’re about to act on. Run them a few times and something better happens: you start seeing the default without testing for it."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "Three moves when the answer feels too clean.",
+      headline: "Three moves that flush the bias out.",
       marginBottom: 20
     },
       /*#__PURE__*/React.createElement("div", {
@@ -4517,9 +4519,9 @@ function TrainingBiasSection(props) {
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Stale information"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One more way the data traps you, and it isn’t bias. Even perfect data ages. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed."),
+      "One more data trap, and it isn’t bias: even perfect data ages. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date, or ask for a live web search."),
+      "This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself."),
     closeBoard("trainingbias"),
     /*#__PURE__*/React.createElement(BiasQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -6985,18 +6987,24 @@ function HallucinationSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "AI can make mistakes. Check important information.")),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 8 },
       "That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? Yes. And you already know the reasons why:"),
-    /*#__PURE__*/React.createElement("ul", { style: { color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65, marginTop: 0, marginBottom: 18, paddingLeft: 28 } },
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 4 } }, "Training taught it patterns, not facts."),
-      /*#__PURE__*/React.createElement("li", null, "It builds answers one token at a time, picking each token by probability.")),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The combination causes the problem: ", /*#__PURE__*/React.createElement("strong", null, "probable doesn’t always mean true.")),
+    /*#__PURE__*/React.createElement("img", {
+      src: "lessons/hallucination-1-why-card.jpg",
+      alt: "The two reasons: 1. Training taught it patterns, not facts. 2. It builds answers one token at a time, picking each token by probability. The combination causes the problem: probable doesn’t always mean true.",
+      style: { display: "block", width: "100%", maxWidth: 744, margin: "4px auto 10px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("ul", null,
+        /*#__PURE__*/React.createElement("li", null, "Training taught it patterns, not facts."),
+        /*#__PURE__*/React.createElement("li", null, "It builds answers one token at a time, picking each token by probability.")),
+      /*#__PURE__*/React.createElement(BodyP, null,
+        "The combination causes the problem: ", /*#__PURE__*/React.createElement("strong", null, "probable doesn’t always mean true."))),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Sometimes AI gives you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), "."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "A Famous Hallucination"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "This actually happened. When users asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. And some people actually tried it."),
+      "This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce. And some people actually tried it."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch."),
+      "AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability. It can often spot a joke, but only when the joke looks like one. But this one didn’t look like a joke. It was written as sincere advice."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/hallucination.jpg",
       alt: "Two teens in hockey jerseys in a kitchen under a chalkboard reading Some hallucinations get famous. One happily pours non-toxic glue into pizza sauce; the other lunges to stop him. A tablet shows the AI Overview answer recommending glue, and side panels trace it from the true source, an old joke comment from 2009, to what the AI said confidently. A sticky note reads AI can be confidently wrong. Check sources.",
@@ -7005,25 +7013,25 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "What counts as a hallucination?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Not every wrong answer is a hallucination. These are the four patterns to watch for."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 18 },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        hallucinationTypes.map(function(item, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, item.icon),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.body));
-        }))),
+    /*#__PURE__*/React.createElement("img", {
+      src: "lessons/hallucination-2-patterns-card.jpg",
+      alt: "The four patterns. Fake source: a study, article, author, journal, or citation that does not exist. Fake detail: a real person, place, event, or idea with invented dates, numbers, quotes, or specifics. Blended fact: real facts combined in a way that creates a conclusion that is false. Misread source: the source is real, but the model read it wrong.",
+      style: { display: "block", width: "100%", maxWidth: 744, margin: "4px auto 10px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      hallucinationTypes.map(function(item, i) {
+        return /*#__PURE__*/React.createElement("p", { key: i },
+          item.icon, " ",
+          /*#__PURE__*/React.createElement("strong", null, item.title), " ",
+          item.body);
+      })),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Retrieval-Augmented Generation"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "The industry\u2019s workaround is ",
       /*#__PURE__*/React.createElement("strong", null, "RAG"),
-      " (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web and write the answer from the real documents they find. It\u2019s why hallucinations are rarer than they used to be."),
+      " (Retrieval-Augmented Generation). For factual questions, modern chatbots search the web and write the answer from the real documents they find. It\u2019s why hallucinations are rarer than they used to be."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "But rarer isn\u2019t zero. Not every tool uses RAG, and the glue-on-pizza advice happened with RAG on."),
+      "But rarer isn\u2019t zero. Even the big three don\u2019t search for every answer, plenty still come straight from the model\u2019s memory, and the glue-on-pizza advice happened with RAG on."),
     closeBoard("hallucination"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
@@ -7327,14 +7335,14 @@ function OpenerProtectSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
     },
-      /*#__PURE__*/React.createElement("div", null, "Spot the trap."),
-      /*#__PURE__*/React.createElement("div", null, "Name the trap."),
-      /*#__PURE__*/React.createElement("div", null, "Avoid the trap."),
+      /*#__PURE__*/React.createElement("div", null, "The false fact sounds sure."),
+      /*#__PURE__*/React.createElement("div", null, "The flattery feels good."),
+      /*#__PURE__*/React.createElement("div", null, "The fake looks real."),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
       },
         /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "every one looks fine from the inside."))));
+        /*#__PURE__*/React.createElement("span", null, "every trap looks fine from the inside."))));
   return React.createElement(OpenerSection, {
     sectionId: "openerprotect",
     featuredCard: protectIllustration,
@@ -7342,7 +7350,7 @@ function OpenerProtectSection(props) {
       "You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.",
       "And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.",
       "Think about a rip current in the ocean. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves.",
-      "Swim into that calm, and you'll be pulled far from shore. The skill isn't out-swimming a rip. It's recognizing one before you're in it. Lifeguards spot rips all day, not because they're strong swimmers, but because they know the shape a rip makes in the water.",
+      "Swim into that calm, and you'll be pulled far from shore. The skill isn't out-swimming a rip current. It's recognizing one before you're in it. Lifeguards spot them all day, not because they're strong swimmers, but because they know the shape a rip current makes in the water.",
       "AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.",
       "And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way.",
       /*#__PURE__*/React.createElement("img", {

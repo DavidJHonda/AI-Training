@@ -12,7 +12,7 @@ That answer wouldn’t come from evil intent. It would come from a narrow slice 
 
 ## Cows on the beach
 
-Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots. No idea.
+Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots.
 
 The training photos almost all showed cows on green pasture, so the model had quietly learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
 
@@ -40,15 +40,15 @@ A wrong clue happens to work in training. The model learns the clue instead of t
 
 🏷️
 
-Biased labels
+Biased answer key
 
-The labels come from past human decisions. Train a hiring model on ten years of biased hiring, and it learns the bias as the right answer.
+For judgment calls like hiring, the model learns from past human decisions treated as the right answers. Ten years of biased hiring becomes its definition of a good hire.
 
 ## Fight the trap
 
-Spotting the trap is half the work. Pushing back is the other half. When an AI answer feels suspiciously default, here are the moves to try.
+Spotting this trap is the hard part, because most of the time there’s nothing to spot. A distorted answer reads exactly like a solid one, and the bias hides until someone tests for it. And no, nobody tests every answer. You won’t either, and you don’t need to. Save these moves for answers that matter: anything about people, anything you’re about to act on. Run them a few times and something better happens: you start seeing the default without testing for it.
 
-Three moves when the answer feels too clean.
+Three moves that flush the bias out.
 
 🔍
 
@@ -76,9 +76,9 @@ Try: “When you say “typical,” what assumptions are you making?”
 
 ## Stale information
 
-One more way the data traps you, and it isn’t bias. Even perfect data ages. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed.
+One more data trap, and it isn’t bias: even perfect data ages. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed.
 
-This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date, or ask for a live web search.
+This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. That’s what makes a stale claim dangerous: it was true, and it still sounds current. The fix: for anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself.
 
 The model learned our shortcuts.
 

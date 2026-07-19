@@ -46,7 +46,9 @@ const EXTRACT = `(function () {
   function walk(el) {
     if (el.nodeType !== 1 || skippable(el)) return;
     var cs = getComputedStyle(el);
-    if (cs.display === "none" || cs.visibility === "hidden") return;
+    // .md-source: display:none in the app, but its text is the .md stand-in for a
+    // board jpg shown in its place (images are dropped from this export).
+    if ((cs.display === "none" || cs.visibility === "hidden") && !(el.classList && el.classList.contains("md-source"))) return;
     var tag = el.tagName, s;
     if (/^H[1-6]$/.test(tag)) { s = clean(inline(el)); if (s) out.push({ t: "h", l: +tag[1], s: s }); return; }
     if (tag === "P") { s = clean(inline(el)); if (s) out.push({ t: "p", s: s }); return; }

@@ -14,43 +14,27 @@ Sometimes AI gives you a false claim delivered in the same confident voice it us
 
 ## A Famous Hallucination
 
-This actually happened. When users asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about an eighth of a cup of non-toxic glue into the sauce. And some people actually tried it.
+This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce. And some people actually tried it.
 
-AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability, not meaning. It can often spot a joke, but only when the joke looks like one. This one was deadpan, written in the exact shape of real advice, so the patterns had nothing to catch.
+AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability. It can often spot a joke, but only when the joke looks like one. But this one didn’t look like a joke. It was written as sincere advice.
 
 ## What counts as a hallucination?
 
 Not every wrong answer is a hallucination. These are the four patterns to watch for.
 
-📚
+📚 **Fake source** A study, article, author, journal, or citation that does not exist.
 
-Fake source
+🔢 **Fake detail** A real person, place, event, or idea with invented dates, numbers, quotes, or specifics.
 
-A study, article, author, journal, or citation that does not exist.
+🧩 **Blended fact** Real facts combined in a way that creates a conclusion that is false.
 
-🔢
-
-Fake detail
-
-A real person, place, event, or idea with invented dates, numbers, quotes, or specifics.
-
-🧩
-
-Blended fact
-
-Real facts combined in a way that creates a conclusion that is false.
-
-🔀
-
-Misread source
-
-The source is real, but the model read it wrong.
+🔀 **Misread source** The source is real, but the model read it wrong.
 
 ## Retrieval-Augmented Generation
 
-The industry’s workaround is **RAG** (Retrieval-Augmented Generation): for factual questions, modern chatbots search the web and write the answer from the real documents they find. It’s why hallucinations are rarer than they used to be.
+The industry’s workaround is **RAG** (Retrieval-Augmented Generation). For factual questions, modern chatbots search the web and write the answer from the real documents they find. It’s why hallucinations are rarer than they used to be.
 
-But rarer isn’t zero. Not every tool uses RAG, and the glue-on-pizza advice happened with RAG on.
+But rarer isn’t zero. Even the big three don’t search for every answer, plenty still come straight from the model’s memory, and the glue-on-pizza advice happened with RAG on.
 
 Probable isn’t true.
 

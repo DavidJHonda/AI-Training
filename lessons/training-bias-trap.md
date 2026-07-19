@@ -42,37 +42,11 @@ A wrong clue happens to work in training. The model learns the clue instead of t
 
 Biased answer key
 
-For judgment calls like hiring, the model learns from past human decisions treated as the right answers. Ten years of biased hiring becomes its definition of a good hire.
+Even balanced data can be graded wrong. If biased human decisions were the answer key, the model learns that bias as correct.
 
 ## Fight the trap
 
-Spotting this trap is the hard part, because most of the time there’s nothing to spot. A distorted answer reads exactly like a solid one, and the bias hides until someone tests for it. And no, nobody tests every answer. You won’t either, and you don’t need to. Save these moves for answers that matter: anything about people, anything you’re about to act on. Run them a few times and something better happens: you start seeing the default without testing for it.
-
-Three moves that flush the bias out.
-
-🔍
-
-Ask who’s missing.
-
-The AI gives you what’s most documented. Push it to surface what isn’t.
-
-Try: “Whose perspective isn’t in this answer?”
-
-🔀
-
-Ask for variation.
-
-The default is rarely the full range. Asking for variety forces the model past the top of the distribution.
-
-Try: “Give me examples from different backgrounds, regions, and time periods.”
-
-🎯
-
-Question the default.
-
-“Typical” often means “most common in the data,” which isn’t the same as “normal in the world.”
-
-Try: “When you say “typical,” what assumptions are you making?”
+Spotting this trap is the hard part, because most of the time there’s nothing to spot. A distorted answer reads exactly like a solid one, and the bias hides until someone tests for it. And no, nobody tests every answer. You won’t either, and you don’t need to. When an answer matters, anything about people, anything you’re about to act on, one push is enough: ask it who’s missing. Do that a few times and something better happens: you start spotting narrow answers on your own.
 
 ## Stale information
 

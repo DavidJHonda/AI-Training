@@ -48,9 +48,9 @@ There’s no fact-check for this trap: every fact in a distorted answer can chec
 
 ## Stale information
 
-One more data trap, and it isn’t bias. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed.
+One more data trap, and this one isn’t bias or hallucination. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed. It isn’t inventing. It’s remembering, and the memory is out of date.
 
-This isn’t a hallucination either. The model isn’t inventing. It’s remembering, and the memory is out of date. The fix: for anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself.
+The fix: for anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself.
 
 The model learned our shortcuts.
 

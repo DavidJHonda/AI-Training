@@ -6136,17 +6136,31 @@ function DocumentChatSection(props) {
       ]
     },
     {
-      prompt: "You only care about the fouls rules, but the full 200-page rulebook is what you have. Which move gives retrieval the best shot?",
+      prompt: "Your first apartment lease is 40 pages, and you have questions: pets, guests, and getting your deposit back. Which message gives retrieval the best shot?",
       options: [
-        { label: "Upload only the 3-page fouls chapter, then ask what it says about flagrant fouls.", correct: true, eyebrow: "Smart", headline: "Fewer chunks, better odds.", feedback: "With only the fouls chapter loaded, the right chunks are not competing with 97 other pages for the few retrieval slots." },
-        { label: "Upload the entire 200-page rulebook, then ask what it says about flagrant fouls.", correct: false, hint: "More pages means more chunks fighting for the same few slots.", feedback: "The whole rulebook splits into a lot of chunks. The fouls chunks now compete with everything else, and the right one may not make the cut." }
+        { label: "Summarize the lease, list my responsibilities, and tell me the rules on pets, guests, and deposits.", correct: false, hint: "How many different chunks does this one message need?", feedback: "That one message needs chunks about pets, guests, deposits, and responsibilities all at once, and they compete for the same few slots. Any of them can come back thin." },
+        { label: "What does the lease say about getting my security deposit back?", correct: true, eyebrow: "Focused", headline: "One question, one retrieval.", feedback: "Asked alone, your deposit question gets the system’s full attention. Pets can have the next turn." }
       ]
     },
     {
-      prompt: "The AI answers your fouls question, but you are not sure it actually came from the rulebook. Which prompt lets you check that retrieval worked?",
+      prompt: "Your first job comes with a 60-page employee handbook. You only care about sick days, and you’ve found the two paragraphs that cover them. What’s the better move?",
       options: [
-        { label: "What does the rulebook say about flagrant fouls?", correct: false, hint: "This gets an answer, but how would you know it came from the document?", feedback: "You get a confident answer with no way to check it. Adding a request for the exact quote turns a claim into something you can verify." },
-        { label: "What does the rulebook say about flagrant fouls? Quote the exact line you are basing it on.", correct: true, eyebrow: "Receipts", headline: "Now you can verify it.", feedback: "If the quote is missing or does not match the document, retrieval probably failed. The quote is your proof the answer came from the file." }
+        { label: "Paste the two paragraphs into your message, then ask your question.", correct: true, eyebrow: "No lottery", headline: "Pasted text can’t get missed.", feedback: "What you paste is already in the context window. Nothing to retrieve, nothing to lose. When you know the paragraphs, hand them over." },
+        { label: "Upload the whole handbook, then ask about sick days.", correct: false, hint: "You already found the paragraphs. Why gamble?", feedback: "It can work. But your two sick-day paragraphs now compete with 60 pages of dress code and parking rules for the retrieval slots. You had them in hand: skip the lottery." }
+      ]
+    },
+    {
+      prompt: "You upload your car insurance policy and ask if a cracked windshield is covered. The AI says yes, no deductible. What’s the better follow-up?",
+      options: [
+        { label: "Are you sure?", correct: false, hint: "What will the model do with this, other than answer again?", feedback: "The model doesn’t reread the policy. It restates the answer in the same confident voice, and you’ve learned nothing new." },
+        { label: "Quote the exact section you’re basing that on.", correct: true, eyebrow: "Receipts", headline: "Now you can check it.", feedback: "If the quote matches the policy, you’re covered. If it’s missing or doesn’t match, retrieval probably failed, and you caught it before it cost you." }
+      ]
+    },
+    {
+      prompt: "Your scholarship’s terms run 25 pages. The AI says your award renews every year. What’s the smarter next message?",
+      options: [
+        { label: "Great. When does each payment arrive?", correct: false, hint: "You’re building on an answer you haven’t checked.", feedback: "That’s the rulebook mistake again: the general rule came back, and you moved on. The renewal exception, if there is one, may never have loaded." },
+        { label: "Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.", correct: true, eyebrow: "Exception hunt", headline: "Send the system to the back pages.", feedback: "The clause that changes everything is usually an exception near the back. Asking for it by name, with quotes, makes retrieval go find it. That habit will save you real money someday." }
       ]
     }
   ];
@@ -6204,7 +6218,7 @@ function DocumentChatSection(props) {
       variant: "try",
       surface: "mint",
       title: "Pick the Better Prompt",
-     lead: "Your turn. Three uploads, three questions. Pick the prompt that gives retrieval the best shot."},
+     lead: "Your turn. Five documents, five questions. Pick the move that gives retrieval the best shot."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];

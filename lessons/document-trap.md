@@ -10,17 +10,11 @@ Wait a second. In last year’s tournament, you remember a player picking up fiv
 
 The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete. **The trap is thinking ‘uploaded’ means ‘fully read.’**
 
-## What Happened?
+## It’s about the Context Window
 
-It would be nice if AI worked like this: you upload a document, the model reads the whole thing top to bottom, then answers your question with the whole document in mind.
+As you learned earlier in the course, the model reads its full context window every time you chat. Your two-hundred-page rulebook comes out around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
 
-That’s not always what happens. Sometimes the whole document fits in the context window. Often it doesn’t. And even when a lot fits, the system may search, summarize, or prioritize parts of the file rather than read it cover to cover.
-
-There’s a name for what’s often happening: **retrieval**. When the system can’t load everything, it tries to retrieve the pieces that match your question. Done well, this lets you find a specific answer in a 50-page document in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
-
-Back to the rulebook.
-
-Two hundred pages at a few hundred words a page comes out around 100,000 tokens. That’s more than many systems will load at once, and even when it fits, the system still needs room for your conversation and its answer. So it doesn’t read the whole book. It searches for the pieces that match.
+So when a long document doesn’t fit, and many don’t, the system runs a process on it instead:
 
 How Chunks Get Picked
 
@@ -47,6 +41,8 @@ Now you ask: “Can a player call a timeout during a free throw?” Your questio
 The model never saw the whole rulebook.
 
 It answered from only the chunks that matched your question. If the chunk that mattered didn’t get pulled, the answer still sounds confident. It is just missing what it never loaded.
+
+There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
 
 You can’t always tell what got retrieved. But you can steer it. Five moves help.
 

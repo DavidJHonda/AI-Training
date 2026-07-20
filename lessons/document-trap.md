@@ -16,8 +16,6 @@ As you learned earlier in the course, the model reads its full context window ev
 
 So when a long document doesn’t fit, and many don’t, the system runs a process on it instead:
 
-How Chunks Get Picked
-
 1
 
 Your document gets split into chunks

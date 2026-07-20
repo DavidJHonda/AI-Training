@@ -44,9 +44,7 @@ Biased answer key
 
 Even balanced data can be graded wrong. If biased human decisions were the answer key, the model learns that bias as correct.
 
-## Fight the trap
-
-Spotting this trap is the hard part, because most of the time there’s nothing to spot. Every fact in a distorted answer can check out: nothing false to catch, nothing to fix. That’s why one question on your Evaluate the Results dig list isn’t a fact-check at all: ask it who’s missing. Fact-checks cover what’s on the page; this trap hides in what never made the page. So when an answer matters, anything about people, anything you’re about to act on, that one push is enough. Do it a few times and something better happens: you start spotting narrow answers on your own.
+There’s no fact-check for this trap: every fact in a distorted answer can check out. That’s why your Evaluate the Results dig list asks who’s missing. Fact-checks cover what’s on the page; bias hides in what never made the page.
 
 ## Stale information
 

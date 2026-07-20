@@ -28,7 +28,7 @@ Each chunk gets a meaning vector. Same idea you saw in the Embeddings lesson.
 
 Your question becomes a vector too. The closest chunks get loaded.
 
-Now you know what happened with the rulebook. It became a few hundred chunks. Your question pulled the chunks closest to it in meaning, and “how many fouls until I’m out of the game?” sits right next to the regular-season foul rules. The tournament section near the back is about tournaments first and fouls second, so it didn’t make the cut. The model answered from the chunks it got: five fouls. The answer still sounds confident. It’s just missing what it never loaded.
+Now you know what happened with the rulebook. It became a few hundred chunks. Your question pulled the chunks closest to it in meaning, and “how many fouls until I’m out of the game?” sits right next to the regular-season foul rules. The tournament section near the back is about tournaments first and fouls second, so it didn’t make the cut. The model answered from the chunks it got: five fouls.
 
 There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
 

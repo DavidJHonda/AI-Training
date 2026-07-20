@@ -1,6 +1,6 @@
 ## AVOID TRAPS
 
-# Training Bias Trap
+# Training Bias
 
 Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
 

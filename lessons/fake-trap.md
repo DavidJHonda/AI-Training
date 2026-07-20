@@ -1,10 +1,10 @@
 ## AVOID TRAPS
 
-# The Fake Trap
+# Fake Trap
 
-The first traps lived in the answer. The next four lived in you. This last one comes from everywhere else: other people’s AI, pointed at what you see.
+Three traps lived in the answer. Four lived in you. This last one comes from everywhere else: other people’s AI, pointed at what you see.
 
-AI now makes fake text cheap. Fake images cheap. Fake voices cheap. Fake video is real now, especially in short clips, bad lighting, or anything you scroll past in three seconds. The price of generating something convincing has collapsed, and it’s only going one direction.
+AI now makes fake text cheap. Fake images cheap. Fake voices cheap. And fake video passes now, especially in short clips, bad lighting, or anything you scroll past in three seconds. The price of generating something convincing has collapsed, and it’s only going one direction.
 
 Which means the old test you grew up with, ‘does this look real?’, doesn’t work anymore. Looking real is no longer the bar. The new question is harder and more useful: **where did this come from?**
 
@@ -49,3 +49,7 @@ Ask where it came from. Look at what surrounds it. Check if anyone else has the 
 🔑 **A detector is not a truth machine.**Once your eyes stop working, the next move people reach for is a tool. A detector is another AI making another prediction, with its own blind spots. And since the generation tools keep improving, detection is always playing catch-up. Treat a detector as one clue, never the final word. Whatever the detector says, the next move is still the same: source, context, corroboration.
 
 🔑 **Don’t overclaim in either direction.**Calling something fake without checking is just as wrong as believing it without checking. Both are confident answers without evidence. “Unverified” is the honest position until corroboration shows up.
+
+Seeing isn’t proof anymore.
+
+Ask where it came from before you believe it.

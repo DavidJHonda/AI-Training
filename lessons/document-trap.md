@@ -2,9 +2,9 @@
 
 # Document Trap
 
-Your season-end basketball tournament starts next week, so you want to brush up on the rules.
+Your season-end basketball tournament starts next week, so you want to brush up on the rules. You upload your league’s 100-page rulebook and ask: “How many fouls until I’m out of the game?”
 
-You upload your league’s 100-page rulebook and ask: “How many fouls until I’m out of the game?” The AI answers: “Five fouls and you foul out.” But page 47 says that in tournament games, players foul out on the sixth foul. The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete.
+The AI answers: “Five fouls and you foul out.” But page 47 says that in tournament games, players foul out on the sixth foul. The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete.
 
 You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
 

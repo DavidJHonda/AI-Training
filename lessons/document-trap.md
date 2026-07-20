@@ -62,6 +62,8 @@ Ask the AI to quote
 
 Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
 
+This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says will be the natural move, and it’s a good one. Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn’t make the cut.
+
 It answers from what it retrieved.
 
 Not from having read the whole thing.

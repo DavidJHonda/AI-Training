@@ -2,21 +2,9 @@
 
 # Document Trap
 
+You upload your basketball league’s 100-page rulebook and ask: “How many fouls until I’m out of the game?” The AI answers: “Five fouls and you foul out.” But page 47 says that in tournament games, players foul out on the sixth foul. The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete.
+
 You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
-
-## WHAT IT LOOKS LIKE
-
-You upload your league’s 100-page rulebook and ask: *“How many fouls until I’m out of the game?”*
-
-## AI ANSWER
-
-“Five fouls and you foul out.”
-
-## ALSO IN THE RULEBOOK, PAGE 47
-
-“In tournament games, players foul out on the sixth foul.”
-
-The AI pulled the standard foul limit and missed the tournament exception. The answer wasn’t made up. It was incomplete.
 
 ## What’s actually happening
 
@@ -26,7 +14,7 @@ That’s not always what happens. Sometimes the whole document fits in the conte
 
 There’s a name for what’s often happening: **retrieval**. When the system can’t load everything, it tries to retrieve the pieces that match your question. Done well, this lets you find a specific answer in a 50-page document in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
 
-Say you upload your basketball league’s 100-page rulebook and ask one question. The system can’t always load the whole thing, so it searches for the pieces that match.
+Back to the rulebook. The system can’t always load the whole thing, so it searches for the pieces that match.
 
 How Chunks Get Picked
 

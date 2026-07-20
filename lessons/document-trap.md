@@ -38,8 +38,6 @@ There’s a name for what just happened: **retrieval**. When the system can’t 
 
 You can’t always tell what got retrieved. But you can steer it. Four moves help.
 
-The four moves
-
 1
 
 Point to the section by name

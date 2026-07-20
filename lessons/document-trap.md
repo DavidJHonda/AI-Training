@@ -18,21 +18,15 @@ So when a long document doesn’t fit, and many don’t, the system runs a proce
 
 1
 
-Your document gets split into chunks
-
-Before you ever ask a question, the rulebook gets cut into smaller pieces, each a paragraph or two long. A few hundred chunks total. The chunks sit in a database, waiting.
+The document gets split into chunks, each a paragraph or two long.
 
 2
 
-Each chunk gets a meaning vector
-
-Same idea you saw in the Embeddings lesson. Every chunk gets translated into a meaning profile, a list of numbers that captures what the chunk is about. The chunk about technical fouls ends up close in meaning to other rulebook chunks about penalties, referee calls, and player conduct.
+Each chunk gets a meaning vector. Same idea you saw in the Embeddings lesson.
 
 3
 
 Your question becomes a vector too. The closest chunks get loaded.
-
-Now you ask: “Can a player call a timeout during a free throw?” Your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole rulebook) get loaded. The model answers based on what got retrieved.
 
 The model never saw the whole rulebook. If the chunk that mattered didn’t get pulled, the answer still sounds confident. It’s just missing what it never loaded.
 

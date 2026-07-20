@@ -2,8 +2,6 @@
 
 # Document Trap
 
-Hallucination was a fake claim. Training Bias was a skewed, stale picture. The third accuracy trap is different again.
-
 You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
 
 ## WHAT IT LOOKS LIKE

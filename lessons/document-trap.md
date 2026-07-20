@@ -46,19 +46,11 @@ Point to the section by name
 
 Include keywords from the document in your question. The system uses them to find matching chunks.
 
-VagueWhat are the rules on flagrant fouls?
-
-PointedWhat does the technical fouls chapter say about flagrant fouls?
-
 2
 
 Ask one question at a time
 
-Multi-part questions force the system to retrieve different chunks for different parts. Break it up. One focused question per turn gives retrieval the best shot.
-
-Combo questionSummarize the policy, list the exceptions, and tell me what to do.
-
-One thing at a timeWhat does the policy say about late assignments? Quote the line.
+Multi-part questions force the system to retrieve different chunks for different parts. One focused question per turn gives retrieval the best shot.
 
 3
 
@@ -76,19 +68,11 @@ Upload only what’s relevant
 
 Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the cut.
 
-Whole rulebook[Uploads the entire 200-page rulebook] What does it say about flagrant fouls?
-
-Just the chapter[Uploads only the 3-page fouls chapter] What does it say about flagrant fouls?
-
 5
 
 Ask the AI to quote
 
 Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
-
-No receiptsWhat does the rulebook say about flagrant fouls?
-
-Ask for the quoteWhat does the rulebook say about flagrant fouls? Quote the exact line you’re basing it on.
 
 **All five share one idea:**make the right chunks easy to find. The more specific your question, the more reliable the answer.
 

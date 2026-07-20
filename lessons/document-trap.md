@@ -36,7 +36,7 @@ There’s a name for what just happened: **retrieval**. When the system can’t 
 
 ## What you can do
 
-You can’t always tell what got retrieved. But you can steer it. Four moves help.
+You can’t always tell what got retrieved. But you can steer it. Four moves help, and all four share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer.
 
 1
 
@@ -61,8 +61,6 @@ Paste the paragraphs that matter into your message, or upload just the chapter i
 Ask the AI to quote
 
 Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
-
-**All four share one idea:**make the right chunks easy to find. The more specific your question, the more reliable the answer.
 
 It answers from what it retrieved.
 

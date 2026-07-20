@@ -18,7 +18,9 @@ That’s not always what happens. Sometimes the whole document fits in the conte
 
 There’s a name for what’s often happening: **retrieval**. When the system can’t load everything, it tries to retrieve the pieces that match your question. Done well, this lets you find a specific answer in a 50-page document in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
 
-Back to the rulebook. Two hundred pages at a few hundred words a page comes out around 100,000 tokens. That’s more than many systems will load at once, and even when it fits, the system still needs room for your conversation and its answer. So it doesn’t read the whole book. It searches for the pieces that match.
+Back to the rulebook.
+
+Two hundred pages at a few hundred words a page comes out around 100,000 tokens. That’s more than many systems will load at once, and even when it fits, the system still needs room for your conversation and its answer. So it doesn’t read the whole book. It searches for the pieces that match.
 
 How Chunks Get Picked
 

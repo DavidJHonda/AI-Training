@@ -14,7 +14,7 @@ That answer wouldn’t come from evil intent. It would come from a narrow slice 
 
 Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots.
 
-The model was training with photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
+The model was training on photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
 
 ## How bias gets in
 

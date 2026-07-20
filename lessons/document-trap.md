@@ -34,11 +34,7 @@ Your question becomes a vector too. The closest chunks get loaded.
 
 Now you ask: “Can a player call a timeout during a free throw?” Your question gets its own meaning vector. The system finds the chunks whose vectors are closest. Those chunks (not the whole rulebook) get loaded. The model answers based on what got retrieved.
 
-## What got loaded
-
-The model never saw the whole rulebook.
-
-It answered from only the chunks that matched your question. If the chunk that mattered didn’t get pulled, the answer still sounds confident. It is just missing what it never loaded.
+The model never saw the whole rulebook. If the chunk that mattered didn’t get pulled, **the answer still sounds confident. It’s just missing what it never loaded.**
 
 There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
 

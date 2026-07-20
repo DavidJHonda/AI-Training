@@ -92,8 +92,6 @@ Ask for the quoteWhat does the rulebook say about flagrant fouls? Quote the exac
 
 **All five share one idea:**make the right chunks easy to find. The more specific your question, the more reliable the answer.
 
-🔑 Uploaded does not mean understood. Confident does not mean complete. Asking for evidence is the skill.
-
 It answers from what it retrieved.
 
 Not from having read the whole thing.

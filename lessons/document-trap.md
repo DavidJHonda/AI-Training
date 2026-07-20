@@ -36,9 +36,9 @@ There’s a name for what just happened: **retrieval**. When the system can’t 
 
 ## What you can do
 
-You can’t always tell what got retrieved. But you can steer it. Five moves help.
+You can’t always tell what got retrieved. But you can steer it. Four moves help.
 
-The five moves
+The four moves
 
 1
 
@@ -54,23 +54,17 @@ Multi-part questions force the system to retrieve different chunks for different
 
 3
 
-Paste the section directly into your prompt
+Share only what’s relevant
 
-If you already know the paragraphs that matter, paste them into your message. That puts them in context with no retrieval lottery.
+Paste the paragraphs that matter into your message, or upload just the chapter instead of the whole book. Less to search means the right chunks are more likely to make the cut, and a pasted section skips the retrieval lottery entirely.
 
 4
-
-Upload only what’s relevant
-
-Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the cut.
-
-5
 
 Ask the AI to quote
 
 Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
 
-**All five share one idea:**make the right chunks easy to find. The more specific your question, the more reliable the answer.
+**All four share one idea:**make the right chunks easy to find. The more specific your question, the more reliable the answer.
 
 It answers from what it retrieved.
 

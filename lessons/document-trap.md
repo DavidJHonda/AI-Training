@@ -2,7 +2,7 @@
 
 # Document Trap
 
-Your season-end basketball tournament starts next week, so you want to brush up on the rules. You upload your league’s 100-page rulebook and ask: “How many fouls until I’m out of the game?”
+Your season-end basketball tournament starts next week, so you want to brush up on the rules. You upload your league’s 200-page rulebook and ask: “How many fouls until I’m out of the game?”
 
 ChatGPT answers: “Five fouls and you foul out.”
 
@@ -86,7 +86,7 @@ Upload only what’s relevant
 
 Instead of the whole rulebook, upload just the chapter you need. Fewer chunks competing for retrieval slots means the right ones are more likely to make the cut.
 
-Whole rulebook[Uploads the entire 100-page rulebook] What does it say about flagrant fouls?
+Whole rulebook[Uploads the entire 200-page rulebook] What does it say about flagrant fouls?
 
 Just the chapter[Uploads only the 3-page fouls chapter] What does it say about flagrant fouls?
 

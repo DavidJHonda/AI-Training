@@ -12,7 +12,7 @@ The AI pulled the standard limit and missed the exception. The answer wasn’t m
 
 You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
 
-## What’s actually happening
+## What Happened?
 
 It would be nice if AI worked like this: you upload a document, the model reads the whole thing top to bottom, then answers your question with the whole document in mind.
 

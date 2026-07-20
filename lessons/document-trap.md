@@ -58,10 +58,6 @@ Paste the section directly into your prompt
 
 If you already know the paragraphs that matter, paste them into your message. That puts them in context with no retrieval lottery.
 
-Retrieval lotteryDoes my technical fouls clause apply if both players are involved?
-
-Pasted in directlyHere’s the clause: ‘A technical foul is assessed when…’ Does this apply if both players are involved?
-
 4
 
 Upload only what’s relevant

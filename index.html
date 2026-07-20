@@ -1434,13 +1434,13 @@ function QuizBlock(props) {
     try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
     if (isPrintMode) {
       return React.createElement("div", { style: { padding: 0 } },
-        React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18, paddingLeft: hasNumeral ? 0 : 66 } },
+        (hasNumeral || props.statement) ? React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18, paddingLeft: hasNumeral ? 0 : 66 } },
           hasNumeral ? React.createElement("div", {
             style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 }
           }, String(props.questionNumber).padStart(2, "0")) : null,
           React.createElement("div", {
             style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }
-          }, props.statement)),
+          }, props.statement)) : null,
         React.createElement("div", {
           style: { display: "flex", flexDirection: "column", gap: 18, paddingLeft: 66 }
         },
@@ -6129,24 +6129,21 @@ function DocumentChatSection(props) {
 
   const SCENARIOS = [
     {
-      prompt: "You uploaded the 200-page rulebook and want the rule on flagrant fouls.",
-      statement: "Which prompt is more likely to pull the right chunk?",
+      prompt: "You uploaded the 200-page rulebook and want the rule on flagrant fouls. Which prompt is more likely to pull the right chunk?",
       options: [
         { label: "What are the rules on flagrant fouls?", correct: false, hint: "Which one tells the search where to look?", feedback: "Not wrong, just unaimed. With no section to match, the search can grab loosely related chunks and skip the exact rule." },
         { label: "What does the technical fouls chapter say about flagrant fouls?", correct: true, eyebrow: "Aimed", headline: "That points the search right at it.", feedback: "Naming the chapter hands retrieval real keywords to match, so the chunks from that section are the ones that get loaded." }
       ]
     },
     {
-      prompt: "You only care about the fouls rules, but the full 200-page rulebook is what you have.",
-      statement: "Which move gives retrieval the best shot?",
+      prompt: "You only care about the fouls rules, but the full 200-page rulebook is what you have. Which move gives retrieval the best shot?",
       options: [
         { label: "Upload only the 3-page fouls chapter, then ask what it says about flagrant fouls.", correct: true, eyebrow: "Smart", headline: "Fewer chunks, better odds.", feedback: "With only the fouls chapter loaded, the right chunks are not competing with 97 other pages for the few retrieval slots." },
         { label: "Upload the entire 200-page rulebook, then ask what it says about flagrant fouls.", correct: false, hint: "More pages means more chunks fighting for the same few slots.", feedback: "The whole rulebook splits into a lot of chunks. The fouls chunks now compete with everything else, and the right one may not make the cut." }
       ]
     },
     {
-      prompt: "The AI answers your fouls question, but you are not sure it actually came from the rulebook.",
-      statement: "Which prompt lets you check that retrieval worked?",
+      prompt: "The AI answers your fouls question, but you are not sure it actually came from the rulebook. Which prompt lets you check that retrieval worked?",
       options: [
         { label: "What does the rulebook say about flagrant fouls?", correct: false, hint: "This gets an answer, but how would you know it came from the document?", feedback: "You get a confident answer with no way to check it. Adding a request for the exact quote turns a claim into something you can verify." },
         { label: "What does the rulebook say about flagrant fouls? Quote the exact line you are basing it on.", correct: true, eyebrow: "Receipts", headline: "Now you can verify it.", feedback: "If the quote is missing or does not match the document, retrieval probably failed. The quote is your proof the answer came from the file." }
@@ -6216,7 +6213,7 @@ function DocumentChatSection(props) {
               E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               E("div", { style: { flex: 1 } },
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.prompt))),
-            E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+            E(QuizBlock, { key: si, surface: "mint", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {

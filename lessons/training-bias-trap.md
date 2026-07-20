@@ -46,7 +46,7 @@ Even balanced data can be graded wrong. If biased human decisions were the answe
 
 ## Fight the trap
 
-Spotting this trap is the hard part, because most of the time there’s nothing to spot. A distorted answer reads exactly like a solid one, and the bias hides until someone tests for it. And no, nobody tests every answer. You won’t either, and you don’t need to. When an answer matters, anything about people, anything you’re about to act on, one push is enough: ask it who’s missing. Do that a few times and something better happens: you start spotting narrow answers on your own.
+Spotting this trap is the hard part, because most of the time there’s nothing to spot. Every fact in a distorted answer can check out. Run it through Evaluate the Results and it passes: nothing false to catch, nothing to fix. That’s because those five steps check what’s on the page, and this trap hides in what never made the page. So when an answer matters, anything about people, anything you’re about to act on, add one question to your dig: ask it who’s missing. Do that a few times and something better happens: you start spotting narrow answers on your own.
 
 ## Stale information
 

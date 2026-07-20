@@ -8,9 +8,7 @@ ChatGPT answers: “Five fouls and you foul out.”
 
 Wait a second. In last year’s tournament, you remember a player picking up five fouls and staying in the game. So you dig through the rulebook yourself. Regular season: five fouls, exactly what ChatGPT said. But near the end there’s a special section for tournaments, and in those games players get six.
 
-The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete.
-
-You can drag in a PDF, paste a Google Doc, or upload a worksheet, and the AI will answer questions about it. It’s one of the most common ways you’ll use AI for school, and one of the easiest places to get a confident wrong answer. **The trap is thinking ‘uploaded’ means ‘fully read.’**
+The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete. **The trap is thinking ‘uploaded’ means ‘fully read.’**
 
 ## What Happened?
 

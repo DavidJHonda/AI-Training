@@ -134,6 +134,20 @@ the next `=`; always write `${var}:s=...`.
 
 ## Composite workflow (multi-source best-of; first shipped: what-is-ai from 3 sources)
 
+**Single-pass rule (training-bias ship, 2026-07-21):** when a build needs many
+patches (training-bias took 7 visual patches + a close swap), build ONE
+filter_complex concat graph from the pristine sources rather than chaining
+patch passes — every leg stays one encode generation from the original, and a
+late extra patch means re-running the graph with one more leg, not stacking a
+second generation. 16 legs is fine.
+
+**Profanity-in-gibberish rule (2026-07-21):** engine gibberish text can contain
+real profanity — one roll batch shipped "fucking" in a highlighted opener
+paragraph and a crude word in a phone chat mock-up, both graded "tolerated
+pseudo-text" at first glance. During mapping, READ every legible or
+semi-legible text span at full resolution; this is a course for 16-year-olds.
+
+
 1. Parallel agents map EACH source: scene ranges + GOOD/TOLERATED/BAD flags, board
    map, silence list, sequential-decode-verified ending. Agent prompts must include
    the seek gotcha and: **white-on-light text = BAD, always** (an agent once graded

@@ -6,9 +6,11 @@ The next four traps are different from the first three. They’re not about whet
 
 You settled the question back in Does AI Think?: nobody’s home. This lesson is why it keeps feeling like somebody is anyway, and what that feeling does to you.
 
-In Moby Dick, Melville describes a ship: *“A noble craft, but somehow a most melancholy!”* A ship can’t be melancholy. Melville used the words anyway because that’s how language works. There’s a name for the move: personification.
+Think about picking a college. Your parents have been through it: they remember the dorms, the debt, the major they switched out of, and they’ve known you your whole life. When one of them says “I think you’d thrive there,” there’s a lifetime behind that sentence. That’s what human words are: a person vouching, with memory and stakes behind the vouch.
 
-Now consider how AI talks. *“I find this fascinating.”* *“I’d love to help.”* *“I think you’re onto something.”* Same move, with a difference that matters. When Melville does it, there’s a writer behind the line making a choice. When AI does it, there’s no conscious speaker behind this specific reply, just output using the same words a writer would have used. The trick is that “I find this fascinating” makes you trust the answer more, like a thoughtful person stayed up late thinking about it. **Mind Trap is treating those words as testimony: nobody said them, so they can’t vouch for anything.**
+Now listen to AI talk. *“I find this fascinating.”* *“I’d love to help.”* *“I think you’re onto something.”* Same shape as your parents’ sentence, and nothing behind it: no memory of you, no lived experience, no stake in how your life turns out. The trick is that the shape alone makes you trust it. **Mind Trap is treating those words as testimony: nobody said them, so they can’t vouch for anything.**
+
+There’s a name for talking about non-human things as if they were people, and you do it every day:
 
 ## 📖 Two related words
 

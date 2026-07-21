@@ -12,7 +12,7 @@ The AI pulled the standard limit and missed the exception. The answer wasn’t m
 
 ## It’s about the Context Window
 
-As you learned earlier in the course, the model reads its full context window every time you send a message. Your 200-page rulebook comes out around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
+As you learned earlier in the course, the model reads its full context window every time you send a message. Your 200-page rulebook equals around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
 
 So when a long document doesn’t fit, and often even when it does, the system runs a process on it instead:
 

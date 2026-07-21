@@ -34,7 +34,9 @@ Now you know what happened with the rulebook. It became a few hundred chunks. Yo
 
 ## Retrieval
 
-There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence. And you’ve met it before: this is the R in RAG from the Hallucination lesson, searching your file instead of the web.
+There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
+
+And you’ve met it before: this is the R in RAG from the Hallucination lesson, searching your file instead of the web.
 
 ## What you can do
 

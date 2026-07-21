@@ -372,6 +372,17 @@ const CLOSE_BOARDS = {
   privacy: { pill: "What you type travels.", sticky: "Assume it doesn’t stay with you." },
   howwegothere: { pill: "None of this was magic.", sticky: "It was steps, stacked over time." }
 };
+// Lessons after Document Trap are first drafts: red lesson title, and the
+// sticky title bar adds "· Draft". Section title pages (each group's first
+// lesson) are never marked as drafts.
+function isDraftLesson(sectionId) {
+  var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
+  if (!group || group.sections[0] === sectionId) return false;
+  var idx = SECTIONS.findIndex(function(s) { return s.id === sectionId; });
+  var boundary = SECTIONS.findIndex(function(s) { return s.id === "documenttrap"; });
+  return boundary !== -1 && idx > boundary;
+}
+
 function LessonHeader(props) {
   var E = React.createElement;
   var sectionId = props.sectionId;
@@ -11683,7 +11694,7 @@ function ChipNav(props) {
     var dotBg = isActive ? "#0f2e7a" : isDone ? "#ffd24a" : "#fff";
     var dotBorder = "2px solid " + (isActive ? "#0f2e7a" : isDone ? "#ffd24a" : "#dcd7ec");
     var iconOpacity = isActive ? 1 : isDone ? 1 : 0.62;
-    var labelColor = isActive ? "#0f2e7a" : "var(--inkMuted)";
+    var labelColor = isDraftLesson(sid) ? "#d4334a" : isActive ? "#0f2e7a" : "var(--inkMuted)";
     return E("button", {
       key: sid,
       className: "course-path-node",
@@ -11744,9 +11755,7 @@ function StickyLessonBar(props) {
   var posInGroup = group ? group.sections.indexOf(props.activeSection) + 1 : 1;
   var groupLen = group ? group.sections.length : 1;
   var lessonTitle = section.title || section.label || "";
-  // First three sections are complete; everything after is a first draft, shown
-  // in red per the welcome-screen note ("You'll see them in red text in the title bar").
-  var isDraft = group && ["Start Smarter", "Work With AI", "Understand AI"].indexOf(group.label) === -1;
+  var isDraft = isDraftLesson(props.activeSection);
   var prevId = activeIdx > 0 ? SECTIONS[activeIdx - 1].id : null;
   var nextId = activeIdx < SECTIONS.length - 1 ? SECTIONS[activeIdx + 1].id : null;
 
@@ -11965,7 +11974,7 @@ function LLMExplorer() {
             /*#__PURE__*/React.createElement("a", { href: "mailto:BeSmarterThanTheTool@gmail.com" },
               /*#__PURE__*/React.createElement("b", null, "BeSmarterThanTheTool"), "@gmail.com"),
             " with any and all comments."),
-          /*#__PURE__*/React.createElement("li", null, "We\u2019re still building the class, so some sections are first drafts. Feel free to review those lessons, but they\u2019re not final. You\u2019ll see them in ",
+          /*#__PURE__*/React.createElement("li", null, "We\u2019re still building the class, so some lessons are first drafts. Feel free to review those lessons, but they\u2019re not final. You\u2019ll see them in ",
             /*#__PURE__*/React.createElement("span", { className: "gate-red" }, "red text"),
             " in the title bar."),
           /*#__PURE__*/React.createElement("li", null, "We want to track how many people use this course. A few questions below will help us do this. We\u2019ll never email you or give your email address to anyone. The last thing any of us needs is more SPAM."),
@@ -12136,11 +12145,6 @@ function LLMExplorer() {
         }
         .section-tab.is-complete .section-tab-fill { background: #ffd24a; }
         /* Parts that aren't complete yet: red label + red lead word. */
-        .section-tab.is-incomplete .section-tab-label { color: #d92d20; }
-        .section-tab.is-incomplete .lead { color: #d92d20; }
-        .section-tab.is-incomplete:not(.is-active):hover .lead { color: #b42318; }
-        .section-tab.is-incomplete.is-active .section-tab-label { background: #d92d20; color: rgba(255,255,255,.82); }
-        .section-tab.is-incomplete.is-active .lead { color: #fff; }
         .section-tab:focus-visible { outline: 2px solid #6e51ff; outline-offset: 3px; border-radius: 6px; }
         @media (max-width: 760px) {
           .course-header { padding: 24px 20px; border-radius: 18px; }
@@ -12229,11 +12233,9 @@ function LLMExplorer() {
           // First word bold + dark; the rest stays muted.
           var leadWord = group.label.split(" ")[0];
           var rest = group.label.slice(leadWord.length);
-          // These parts aren't complete yet; flag them red in the nav.
-          var isIncomplete = ["Avoid Traps", "Embrace the Future", "Build Your Skills", "Finish Smarter"].indexOf(group.label) !== -1;
           return /*#__PURE__*/React.createElement("button", {
             key: gi,
-            className: "section-tab" + (isActiveGroup ? " is-active" : "") + (isComplete ? " is-complete" : "") + (isIncomplete ? " is-incomplete" : ""),
+            className: "section-tab" + (isActiveGroup ? " is-active" : "") + (isComplete ? " is-complete" : ""),
             onClick: function() { setActiveSection(group.sections[0]); },
             "aria-current": isActiveGroup ? "true" : undefined,
             "aria-label": group.label + (isActiveGroup ? ", current section" : isComplete ? ", section complete" : "")

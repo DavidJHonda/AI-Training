@@ -6,31 +6,27 @@ The next four traps are different from the first three. They’re not about whet
 
 You settled the question back in Does AI Think?: nobody’s home. This lesson is why it keeps feeling like somebody is anyway, and what that feeling does to you.
 
-Think about picking a college. Your parents have been through it: they remember the dorms, the debt, the major they switched out of, and they’ve known you your whole life. When one of them says “I think you’d thrive there,” there’s a lifetime behind that sentence. That’s what human words are: a person vouching, with memory and stakes behind the vouch.
+Think about picking a college. Your parents have been through it: they remember the dorms, the debt, the major they switched out of, and they’ve known you your whole life. When one of them says “I think you’d thrive at the University of Michigan,” there’s a lifetime behind that sentence. That’s what human words are: a person vouching, with memory and stakes behind the vouch.
 
-Now listen to AI talk. *“I find this fascinating.”* *“I’d love to help.”* *“I think you’re onto something.”* Same shape as your parents’ sentence, and nothing behind it: no memory of you, no lived experience, no stake in how your life turns out. The trick is that the shape alone makes you trust it. **Mind Trap is treating those words as testimony: nobody said them, so they can’t vouch for anything.**
+Now listen to AI talk. *“I find this fascinating.”* *“I’d love to help.”* *“I think you’re onto something with the University of Michigan.”* Same shape as your parents’ sentence, and nothing behind it: no memory of you, no lived experience, no stake in how your life turns out. The trick is that the shape alone makes you trust it. **Mind Trap is treating those words as testimony: nobody said them, so they can’t vouch for anything.**
 
-There’s a name for talking about non-human things as if they were people, and you do it every day:
+There’s a name for treating non-human things as if they were people: anthropomorphism. And it starts with something you do every day:
 
-## 📖 Two related words
+## TWO RELATED WORDS
+
+## The linguistic move
 
 Personification
 
-the linguistic move
+Using language that gives human qualities to something that isn’t human. Writers do it on purpose. We all do it casually: “My car doesn’t want to start.” “The printer hates me.”
 
-Using language that gives human qualities to something that isn’t human. Writers do it on purpose. We all do it casually.
-
-• “My car doesn’t want to start.” • “The storm is angry.” • “The printer hates me.”
+## The cognitive trap
 
 Anthropomorphism
 
-the cognitive trap
+Actually treating the non-human thing as if it has a mind. The language stops being a figure of speech and starts being a belief: apologizing to your Roomba when you bump it, believing ChatGPT is excited about your idea.
 
-Actually treating the non-human thing as if it has a mind. The language stops being a figure of speech and starts being a belief.
-
-• Apologizing to your Roomba when you bump it. • Feeling bad because you think you hurt ChatGPT’s feelings. • Believing ChatGPT is excited about your idea.
-
-**Not a new problem.**In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the *ELIZA effect*.
+📜 **Not a new problem.**In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the *ELIZA effect*.
 
 None of those things have feelings. You know that. Your brain does it anyway, because detecting minds is a survival instinct. With AI, that instinct fires harder than it ever has.
 

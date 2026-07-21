@@ -8,7 +8,7 @@ You settled the question back in Does AI Think?: nobody’s home. This trap is w
 
 In Moby Dick, Melville describes a ship: *“A noble craft, but somehow a most melancholy.”* A ship can’t be melancholy. Melville used the words anyway because that’s how language works. There’s a name for the move: personification.
 
-Now consider how AI talks. *“I find this fascinating.”* *“I’d love to help.”* *“I think you’re onto something.”* Same move, with a difference that matters. When Melville does it, there’s a writer behind the line making a choice. When AI does it, there’s no conscious speaker behind this specific reply, just output using the same words a writer would have used. The trick is that “I find this fascinating” makes you trust the answer more, like a thoughtful person stayed up late thinking about it. **The trap is mistaking human-sounding language for a mind.**
+Now consider how AI talks. *“I find this fascinating.”* *“I’d love to help.”* *“I think you’re onto something.”* Same move, with a difference that matters. When Melville does it, there’s a writer behind the line making a choice. When AI does it, there’s no conscious speaker behind this specific reply, just output using the same words a writer would have used. The trick is that “I find this fascinating” makes you trust the answer more, like a thoughtful person stayed up late thinking about it. **Mind Trap is treating those words as testimony: nobody said them, so they can’t vouch for anything.**
 
 ## 📖 Two related words
 

@@ -6159,9 +6159,9 @@ function DocumentChatSection(props) {
   ];
 
   const CHUNK_STEPS = [
-    "The document gets split into chunks, each a paragraph or two long.",
-    "Each chunk becomes tokens, and the tokens boil down to one meaning vector for the whole chunk. Same idea you saw in the Embeddings lesson.",
-    "Your question becomes a vector too. The closest chunks get loaded."
+    { title: "The document gets split into chunks, each a paragraph or two long." },
+    { title: "Each chunk becomes tokens, then one meaning vector.", body: "The chunk’s text splits into tokens, just like every message you send. The model reads all of those tokens together and boils what the chunk is about down to one list of numbers: a single meaning vector for the whole chunk. In the Embeddings lesson, every token got its own point in meaning-space. Here, the whole passage shares one." },
+    { title: "Your question becomes a vector too. The closest chunks get loaded." }
   ];
 
 
@@ -6183,9 +6183,11 @@ function DocumentChatSection(props) {
       "So when a long document doesn’t fit, and often even when it does, the system runs a process on it instead:"),
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, display: "flex", flexDirection: "column", gap: 12 } },
       CHUNK_STEPS.map(function(step, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)", display: "flex", gap: 14, alignItems: "center" } },
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)", display: "flex", gap: 14, alignItems: step.body ? "flex-start" : "center" } },
           E("div", { style: { background: "var(--primary)", color: "#fff", borderRadius: 10, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, flexShrink: 0 } }, String(i + 1)),
-          E("div", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 16, lineHeight: 1.45 } }, step));
+          E("div", null,
+            E("div", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 16, lineHeight: 1.45 } }, step.title),
+            step.body ? E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, step.body) : null));
       })
     ),
     E(BodyP, { marginTop: 24 },

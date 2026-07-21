@@ -22,7 +22,9 @@ The document gets split into chunks, each a paragraph or two long.
 
 2
 
-Each chunk becomes tokens, and the tokens boil down to one meaning vector for the whole chunk. Same idea you saw in the Embeddings lesson.
+Each chunk becomes tokens, then one meaning vector.
+
+The chunk’s text splits into tokens, just like every message you send. The model reads all of those tokens together and boils what the chunk is about down to one list of numbers: a single meaning vector for the whole chunk. In the Embeddings lesson, every token got its own point in meaning-space. Here, the whole passage shares one.
 
 3
 

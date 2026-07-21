@@ -6131,29 +6131,29 @@ function DocumentChatSection(props) {
     {
       prompt: "Your first apartment lease is 75 pages and has lots of fine print and legal terminology. You have specific questions about pets and getting your deposit back. Which approach gives retrieval the best shot?",
       options: [
-        { label: "Ask ChatGPT to summarize the lease, list your responsibilities, and explain the rules on pets and deposits.", correct: false, hint: "How many different chunks does this one message need?", feedback: "That one message needs chunks about pets, deposits, and responsibilities all at once, and they compete for the same few slots. Any of them can come back thin." },
-        { label: "Ask two questions in two messages: pets first, then the deposit.", correct: true, eyebrow: "Focused", headline: "One question, one retrieval.", feedback: "Each question gets its own retrieval and the system’s full attention. Two clean asks beat one crowded one." }
+        { label: "Ask ChatGPT to summarize the lease, list your responsibilities, and explain the rules on pets and deposits.", correct: false, hint: "Every part of this message has to win its own retrieval, and they’re all competing for the same few slots.", feedback: "The model doesn’t read the lease and then answer. It loads only the chunks that match your message, and a message about three things splits the search three ways. The pet chunks might load while the deposit clause stays behind, and the answer sounds complete either way." },
+        { label: "Ask two questions in two messages: pets first, then the deposit.", correct: true, eyebrow: "Focused", headline: "One question, one retrieval.", feedback: "One question means retrieval has one target. The pet chunks load for the pet question, the deposit chunks load for the deposit question, and each answer comes from the pages that actually matter." }
       ]
     },
     {
       prompt: "Your first job at Anthropic comes with a 300-page employee handbook. You care deeply about one thing: whether you can keep building your own apps on the side. You’ve found the two paragraphs that cover it. What’s the better move?",
       options: [
-        { label: "Paste the two paragraphs into your message, then ask your question.", correct: true, eyebrow: "No lottery", headline: "Pasted text can’t get missed.", feedback: "What you paste is already in the context window. Nothing to retrieve, nothing to lose. When you know the paragraphs, hand them over." },
-        { label: "Upload the whole handbook, then ask about side projects.", correct: false, hint: "You already found the paragraphs. Why gamble?", feedback: "It can work. But your two side-project paragraphs now compete with 300 pages of dress code and parking rules for the retrieval slots. You had them in hand: skip the lottery." }
+        { label: "Paste the two paragraphs into your message, then ask your question.", correct: true, eyebrow: "No lottery", headline: "Pasted text can’t get missed.", feedback: "Pasted text goes straight into the context window. No chunking, no searching, no chance the wrong pieces load. When you already have the paragraphs, retrieval has nothing left to get wrong." },
+        { label: "Upload the whole handbook, then ask about side projects.", correct: false, hint: "Uploading brings back the retrieval lottery: 300 pages of chunks competing for a few slots.", feedback: "It can work. But the model won’t read all 300 pages. It splits them into chunks and loads only the ones closest to your question, so your two side-project paragraphs are now competing with dress code and parking rules. You had the exact text in hand: skip the lottery." }
       ]
     },
     {
       prompt: "You notice your car has a cracked windshield. So you upload the 150-page insurance policy into ChatGPT and ask if insurance covers the damage. The answer comes back: “Great question. Yes. And there’s no deductible.” What’s the best next prompt?",
       options: [
-        { label: "Are you sure?", correct: false, hint: "What will the model do with this, other than answer again?", feedback: "The model doesn’t reread the policy. It restates the answer in the same confident voice, and you’ve learned nothing new." },
-        { label: "Quote the exact section you’re basing that on.", correct: true, eyebrow: "Receipts", headline: "Now you can check it.", feedback: "If the quote matches the policy, you’re covered. If it’s missing or doesn’t match, retrieval probably failed, and you caught it before it cost you." }
+        { label: "Are you sure?", correct: false, hint: "What would the model reread to answer this? Nothing.", feedback: "The model doesn’t go back to the policy. It answers from the chunks it already retrieved, in the same confident voice, and if the deductible clause never loaded, “Are you sure?” won’t load it now." },
+        { label: "Quote the exact section you’re basing that on.", correct: true, eyebrow: "Receipts", headline: "Now you can check it.", feedback: "A quote forces the answer back to the document. If the exact section appears and matches, you’re covered. If it’s missing or doesn’t match, retrieval pulled the wrong chunks, and you caught it before it cost you." }
       ]
     },
     {
       prompt: "Your scholarship’s terms run 25 pages. The AI says your award renews every year. What’s the smarter next message?",
       options: [
-        { label: "Great. When does each payment arrive?", correct: false, hint: "You’re building on an answer you haven’t checked.", feedback: "That’s the rulebook mistake again: the general rule came back, and you moved on. The renewal exception, if there is one, may never have loaded." },
-        { label: "Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.", correct: true, eyebrow: "Exception hunt", headline: "Send the system to the back pages.", feedback: "The clause that changes everything is usually an exception near the back. Asking for it by name, with quotes, makes retrieval go find it. That habit will save you real money someday." }
+        { label: "Great. When does each payment arrive?", correct: false, hint: "The renewal rule made it into the context window. Did the exceptions?", feedback: "That’s the rulebook mistake again. Retrieval pulled the general renewal rule because it matched your question best. An exception buried near the back matches worse, so it may never have loaded, and the answer sounds just as confident without it." },
+        { label: "Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.", correct: true, eyebrow: "Exception hunt", headline: "Send the system to the back pages.", feedback: "The clause that changes everything is usually an exception near the back, exactly the kind of chunk that loses the retrieval race. Asking for exceptions by name, with quotes, sends the search straight at them. That habit will save you real money someday." }
       ]
     }
   ];

@@ -36,7 +36,7 @@ There’s a name for what just happened: **retrieval**. When the system can’t 
 
 ## What you can do
 
-You can’t always tell what got retrieved. But you can steer it. Four moves help, and all four share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer.
+You can steer what the model retrieves. Four moves help, and all four share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer.
 
 1
 

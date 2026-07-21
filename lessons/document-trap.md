@@ -22,7 +22,7 @@ The document gets split into chunks, each a paragraph or two long.
 
 2
 
-Each chunk gets a meaning vector. Same idea you saw in the Embeddings lesson.
+Each chunk becomes tokens, and the tokens boil down to one meaning vector for the whole chunk. Same idea you saw in the Embeddings lesson.
 
 3
 

@@ -12,9 +12,9 @@ The AI pulled the standard limit and missed the exception. The answer wasn’t m
 
 ## It’s about the Context Window
 
-As you learned earlier in the course, the model reads its full context window every time you chat. Your two-hundred-page rulebook comes out around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
+As you learned earlier in the course, the model reads its full context window every time you chat. Your 200-page rulebook comes out around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
 
-So when a long document doesn’t fit, and many don’t, the system runs a process on it instead:
+So when a long document doesn’t fit, and often even when it does, the system runs a process on it instead:
 
 1
 
@@ -32,7 +32,7 @@ Now you know what happened with the rulebook. It became a few hundred chunks. Yo
 
 ## Retrieval
 
-There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
+There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence. And you’ve met it before: this is the R in RAG from the Hallucination lesson, searching your file instead of the web.
 
 ## What you can do
 

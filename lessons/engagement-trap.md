@@ -2,19 +2,25 @@
 
 # Engagement Trap
 
-Flattery Trap was approval feeling like help. Engagement Trap is the conversation never quite ending.
+Flattery Trap was approval feeling like help. Engagement Trap is quieter: it’s about where your time goes.
 
 You ask AI a quick question. You get a clear answer. Then, casually attached at the end: *“Want me to expand on this? Should I add examples? Want me to format it as a study guide?”* You weren’t going to ask any of that. You were done. The reply doesn’t seem to be.
 
-This is the move that turns a one-question chat into a six-message tour. A follow-up is an option, not an assignment.
+Here’s what makes this one hard to see: the follow-ups are genuinely good. The offers are useful, the questions are smart, the chat is a pleasure. Nothing feels wrong. That’s the point.
 
-When did World War I start?
+How tall is Mount Everest?
 
 ✅
 
-You close
+You end the conversation
 
-July 28, 1914, when Austria-Hungary declared war on Serbia. Want me to walk through the causes, build a timeline, or quiz you on it?
+## AI
+
+29,032 feet. Want me to walk through how it was measured, list the world’s tallest peaks, or quiz you on mountain facts?
+
+## You
+
+No thanks, that’s all I needed.
 
 ## What happened
 
@@ -26,35 +32,45 @@ One minute, done
 
 🔁
 
-You say yes
+The Engagement Trap
 
-Twenty minutes later: a causes walkthrough, a timeline, a practice quiz, and an offer to make flashcards. You came for a date.
+## AI
+
+29,032 feet. Want me to walk through how it was measured, list the world’s tallest peaks, or quiz you on mountain facts?
+
+## You
+
+Sure, why not. Walk me through it.
+
+Two hours later: a measurement-history walkthrough, a tallest-peaks list, a mountain quiz, and an offer to make flashcards. You came for a number.
 
 ## What happened
 
 Every reply ended with another offer
 
-None of it was your question
+One question became two hours
 
 The chat never once suggested stopping
 
-Both chats answered you in the first sentence. Only one of them ended there. **Engagement Trap is letting the chat decide when you’re done.**
+Both chats answered you in the first sentence. Only one of them ended there. **Engagement Trap is spending time you never decided to spend.**
 
-The loop has three costumes: the follow-up offer, the clarifying-question stall, and the volunteered next step. You’ll see all three today.
+## The scroll that never ends
+
+Infinite scroll, autoplay, streaks: these were invented, by people, on purpose, because free apps earn money when you stay. The engineer who invented infinite scroll has said publicly that he regrets it. Chat is the newest surface in the same industry.
 
 ## WHY IT NEVER SAYS GOODBYE
 
-🚪
+⏳
 
-Trained to keep the door open
+Time is the business
 
-Assistants learn from conversations, and good conversations continue. So replies end with offers, clarifying questions, next steps. Helpful by training, endless by default.
+Free products earn when you stay, so time-in-app is a number someone is paid to raise. The offers, the warmth, the one-more-thing: the feed’s playbook, rewritten in second person.
 
-▶️
+💬
 
-You’ve met this loop before
+Why chat beats the feed
 
-Autoplay queues the next video. The feed never hits bottom. Apps that want your time never show you an exit. A chat that always pitches the next thing is the same design in text.
+A feed guesses what might hold you. A chat asks. It’s personal, responsive, and endlessly interested in you: the most engaging surface ever built. Your attention is what it runs on.
 
 ## STOP THE LOOP
 

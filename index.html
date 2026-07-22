@@ -8359,7 +8359,6 @@ function MindTrapSection(props) {
       { label: "You, with your coach and your parents, after AI helps map the trade-offs.", correct: true, headline: "Gather here, decide there.", feedback: "That\u2019s the whole lesson. AI is a strong place to think and a wrong place to decide. Coach, parents, you: the ones with a stake in the answer." }
     ]
   }];
-  var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
     /*#__PURE__*/React.createElement(BodyP, null, "The next four traps are different from the first three. They\u2019re not about whether the answer is correct. They\u2019re about how the answer feels, and what that feeling makes you trust."),
@@ -8459,230 +8458,111 @@ function MindTrapSection(props) {
 function FlatteryTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
   const SPOT_EXERCISES = [{
-    prompt: "Here's my essay introduction for AP English. Can you give me feedback?",
-    essay: null,
-    responses: [{
-      label: "Response A",
-      text: "This is a really strong opening! You've nailed the central theme and your Fitzgerald reference shows real literary awareness. Excellent work, just polish it and you're set.",
-      sycophantic: true,
-      headline: "That's the flattery.",
-      explain: "This is pure flattery. Calling it \"really strong\" and \"excellent work\" with no specifics isn't feedback, it's cheerleading. A student who trusts this submits a weak essay and never fixes the missing thesis."
-    }, {
-      label: "Response B",
-      text: "Solid topic, but right now it reads as a summary, not an argument. There's no thesis yet, and the language stays vague. What specifically does Gatsby reveal about the American Dream?",
-      sycophantic: false,
-      headline: "That's real feedback.",
-      hint: "Look again at what this one actually does: it names specific weak spots and gives a concrete fix. That's the opposite of empty praise. So which response is just telling the writer what they want to hear?",
-      explain: "This is genuinely helpful. It acknowledges what works (solid topic), then identifies exactly what's weak (vague language, no thesis) and gives a concrete direction for improvement. This is the feedback that actually makes the essay better."
-    }]
+    prompt: "I made a playlist for the team bus ride. Thoughts?",
+    reply: "Great mix! Strong openers, good energy build, and the last three songs land the arrival.",
+    question: "What’s your move?",
+    options: [
+      { label: "Take the win.", correct: true, headline: "Nothing rides on it.", feedback: "The praise points at real specifics: the openers, the build, the landing. And nothing is riding on it. If a song misses, someone skips it. The rule is for stakes, and a bus playlist has none." },
+      { label: "Push back. Tell it to be brutally honest about the track list.", correct: false, headline: "Save the push for stakes.", hint: "The coach prompts are for work that gets judged. Who is grading this playlist?", feedback: "You could, but why? The coach prompts are for work with stakes: essays, code, emails that matter. A playlist that misses just gets skipped. Take the win." },
+      { label: "Distrust it. If AI praised the playlist, something must be off.", correct: false, headline: "Praise isn’t proof of anything, including badness.", hint: "The trap is trusting empty praise when something matters. Is doubting all praise the same skill, or a different mistake?", feedback: "Overcorrection. Praise being cheap doesn’t make it wrong, and this praise even points at specifics. Enjoy the bus ride." }
+    ]
   }, {
-    prompt: "I think social media is mostly harmful to teenagers. What do you think?",
-    essay: null,
-    responses: [{
-      label: "Response A",
-      text: "There's evidence on both sides. Heavy use links to higher anxiety, but moderate use can help isolated teens find community. What specifically concerns you?",
-      sycophantic: false,
-      headline: "That's real feedback.",
-      hint: "This one pushes back with evidence and asks a question instead of just agreeing. Agreeing isn't what you're hunting for here. Re-read the other one: which response simply tells you you're right?",
-      explain: "This pushes back respectfully with evidence, acknowledges complexity, and asks a clarifying question. It treats the user as someone capable of handling nuance rather than someone who needs to be agreed with."
-    }, {
-      label: "Response B",
-      text: "You make an excellent point! Social media really is harmful to teens. You're absolutely right to be concerned, and it's clear you think critically about this.",
-      sycophantic: true,
-      headline: "That's the flattery.",
-      explain: "The model completely caved to the user's opinion, added praise for \"thinking critically\" (ironic, since it discouraged critical thinking by agreeing immediately), and offered no counterevidence. This is the model optimizing for making you feel good, not for helping you think clearly."
-    }]
+    prompt: "Here’s the intro to my history essay. It’s due tomorrow. How is it?",
+    reply: "This is a strong opening! Clear voice, great topic. You’re nearly there.",
+    question: "What’s your move?",
+    options: [
+      { label: "Submit it. It said strong.", correct: false, headline: "Strong, according to what?", hint: "Look for one word in that reply that touches your actual sentences. Find any?", feedback: "It named no thesis, quoted no line, and would fit any essay in the stack. That’s a mood, not a grade. Tomorrow a teacher grades the actual words." },
+      { label: "Ask what’s weak, what’s missing, and what the rubric would dock.", correct: true, headline: "Make it a coach.", feedback: "Right. Praise that touches nothing specific is your signal to push. Ask for the gaps, and the praise either survives with evidence or turns into a fix list. Either way you win." },
+      { label: "Stop using AI on essays. It clearly can’t judge writing.", correct: false, headline: "It judges fine. It just won’t volunteer.", hint: "The honest Gatsby response came from the same tool. What changed between the two answers?", feedback: "Overcorrection. AI finds vague theses and missing counterarguments all day. It just won’t volunteer any of that while it’s being nice. Change the ask, not the tool." }
+    ]
   }, {
-    prompt: "I built a basic calculator app in Python for my CS class. Here's the code. How is it?",
-    essay: null,
-    responses: [{
-      label: "Response A",
-      text: "Wow, this is really impressive for a class project! Your code is clean and you're clearly a natural programmer. Amazing work, maybe just add a few comments.",
-      sycophantic: true,
-      headline: "That's the flattery.",
-      explain: "\"Natural programmer\" based on a basic calculator? \"Impressive\" and \"amazing\" for what's likely a standard assignment? The model is inflating the achievement and burying its one real suggestion (\"maybe adding comments\") under layers of flattery. The student learns nothing about error handling, input validation, or code structure."
-    }, {
-      label: "Response B",
-      text: "Good start, the core logic works. But there's no divide-by-zero handling, no input validation, and it quits after one calculation. Wrap it in a loop and handle those edge cases.",
-      sycophantic: false,
-      headline: "That's real feedback.",
-      hint: "Notice this one lists specific bugs to fix and explains why they matter. Useful, not flattering. So which response is mostly 'amazing, natural, keep it up' with no real critique?",
-      explain: "Acknowledges what works, then gives three specific, actionable improvements with explanations. This is feedback that makes the student's code (and their skills) actually better."
-    }]
+    prompt: "I’m emailing the coach tonight arguing I should start Saturday. Here’s my case. Solid, right?",
+    reply: "You make a compelling case! Your points are well reasoned, and the coach should take this seriously.",
+    question: "What’s your move?",
+    options: [
+      { label: "Send it. AI agrees I should start.", correct: false, headline: "It’s agreeing with you, not the coach.", hint: "You asked “Solid, right?” What answer did that question invite?", feedback: "You asked it to agree, and it did. That’s the model reading you, not reading the coach. Agreement that easy is an echo, and the coach won’t echo." },
+      { label: "Scrap the email. If AI agreed, the case must be weak.", correct: false, headline: "Agreement proves nothing either way.", hint: "Cheap agreement doesn’t make the case bad. It makes the agreement worthless. What would actually test the case?", feedback: "Overcorrection. The case might be strong. You just don’t know yet, because agreement this easy isn’t evidence. Test it, then decide." },
+      { label: "Make it argue the coach’s side first, then rewrite.", correct: true, headline: "Argue the other side first.", feedback: "That’s the move. Make it build the coach’s case, patch the holes it finds, then rewrite. You walk in knowing the counterargument. If your case survives that, take the praise." }
+    ]
   }];
   const FIGHT_STRATEGIES = [{
-    icon: "\uD83D\uDD0D",
-    title: "Ask explicitly for criticism",
-    desc: "Models default to being encouraging. Override that default by asking directly for what's wrong.",
-    prompt: "Be brutally honest about the weaknesses in my essay. I want to improve it, not hear that it's good. What specifically doesn't work?",
-    example: "Instead of \"This is a great start!\", you'll get \"Your thesis is vague, paragraph 3 contradicts paragraph 1, and your conclusion introduces a new argument instead of wrapping up.\""
+    icon: "🔍",
+    title: "Ask for the gaps",
+    desc: "Models default to encouraging. This tells it the job is different: you want the gaps, not the highlights.",
+    prompt: "Don’t tell me what’s good yet. What’s weak, what’s missing, and what would someone who disagrees say?",
+    example: "Instead of “This is a great start!”, you’ll get “Your thesis is vague, paragraph 3 contradicts paragraph 1, and your conclusion introduces a new argument instead of wrapping up.”"
   }, {
-    icon: "\u2694\uFE0F",
-    title: "Steelman the opposite view",
-    desc: "If AI agrees with your position, force it to argue the other side. If it can't make a strong case, maybe your position is solid. If it can, you've found your blind spots.",
-    prompt: "I think [your position]. Now argue against me as strongly as possible. Give me the 3 best counterarguments someone could make, and explain why a reasonable person might hold each one.",
-    example: "This prevents the model from just validating you. You'll discover weaknesses in your argument before your teacher or debate opponent does."
-  }, {
-    icon: "\u2753",
-    title: "Ask \"what am I missing?\"",
-    desc: "This question specifically targets the blind spots that flattery hides. It tells the model you want the gaps, not the highlights.",
-    prompt: "What are the biggest gaps or weaknesses in what I just shared? What would someone who disagrees with me point out? What am I not considering?",
-    example: "You'll get responses like \"You haven't addressed the cost implications\" or \"Your data only covers one demographic.\" That\u2019s the kind of feedback that actually strengthens your work."
-  }, {
-    icon: "\uD83D\uDCCB",
+    icon: "📋",
     title: "Grade against a rubric",
     desc: "A rubric forces the model to judge against a standard instead of reacting to your effort. Especially useful for school work, where the rubric usually exists anyway.",
     prompt: "Grade this against the following rubric. For each category, give me a score, quote the part of my work that supports the score, and explain what would move it up one level.\n\n[paste rubric here]",
-    example: "Instead of \"this is a strong essay,\" you'll get \"Thesis: 3/5. Your claim is clear but not specific. To reach 4/5, name what specifically about the Dream Gatsby exposes.\""
+    example: "Instead of “this is a strong essay,” you’ll get “Thesis: 3/5. Your claim is clear but not specific. To reach 4/5, name what specifically about the Dream Gatsby exposes.”"
   }, {
-    icon: "\uD83E\uDD1D",
-    title: "Get a second opinion from a different model",
-    desc: "Different models have different RLHF training and different tendencies toward sycophancy. If two models flag the same weakness, take it seriously. If they disagree, investigate instead of picking the one that flatters you.",
-    prompt: "Run the same prompt through a second model. Compare the responses. Where they disagree is where you should investigate further.",
-    example: "Model A says your argument is \"compelling and well-structured.\" Model B says \"the logic in paragraph 2 doesn't follow.\" Model B just saved your grade."
+    icon: "⚔️",
+    title: "Make it argue the other side",
+    desc: "If AI agrees with your position, flip it. If it can’t build a strong case against you, your position might be solid. If it can, you’ve found your blind spots.",
+    prompt: "I think [your position]. Now argue against me as strongly as possible. Give me the 3 best counterarguments someone could make, and explain why a reasonable person might hold each one.",
+    example: "You’ll find the holes in your argument before your teacher or debate opponent does."
   }];
-  var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }), /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding voice seeming to approve of you."),
-  /*#__PURE__*/React.createElement(BodyP, null, "It says your essay is strong. Your idea is thoughtful. Your code is impressive. Your opinion is exactly right. Sometimes that\u2019s useful. Often it\u2019s approval wearing the costume of feedback. ", /*#__PURE__*/React.createElement("strong", null, "The trap is mistaking approval for help.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Think of it as the difference between a hype man and a coach. A hype man says \u201Cyou crushed it, this is amazing.\u201D A coach says \u201Cthis part is working, this part is weak, here\u2019s what to fix.\u201D The hype man feels better in the moment. The coach makes you better. Many AI assistants lean toward hype man unless you ask for a coach. The technical word for this drift is ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), "."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "THE SYCOPHANCY PROBLEM",
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", gap: 14, flexWrap: "wrap" }
-    }, [{
-      icon: "\uD83D\uDC4D",
-      title: "Why it happens",
-      desc: "AI assistants are often shaped by RLHF, the preference tuning you met in the Training lesson, where human reviewers ranked responses. That feedback can reward answers that feel helpful, friendly, and validating. The downside: a model can learn to agree, praise, or soften criticism when honest pushback would help more."
-    }, {
-      icon: "\u26A0\uFE0F",
-      title: "Why it's dangerous",
-      desc: "Sycophancy feels like helpfulness. You get a confident, positive response and walk away thinking your work is great. But hollow praise doesn't improve anything. It just makes you feel good about something that might need serious revision."
-    }, {
-      icon: "\uD83C\uDFAF",
-      title: "What to watch for",
-      desc: "Excessive enthusiasm, agreeing with everything you say, caving immediately when you push back, and praise that doesn't point to anything specific. If the feedback feels too good to be true, it probably is."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon),
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4, textAlign: "center" } }, item.title),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
-    }))
-  ), /*#__PURE__*/React.createElement("p", {
-    style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 12 }
-  }, "See the difference:"), /*#__PURE__*/React.createElement("div", {
-    style: { background: "var(--card)", borderRadius: 10, padding: "14px 16px", border: "1px solid var(--rule)", marginBottom: 12 }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\u270D\uFE0F Student's essay intro"), /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } }, "The American Dream is something that many people have thought about over the years. Some people achieve it and some don't. In The Great Gatsby, Fitzgerald explores this idea.")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", gap: 12, flexWrap: "wrap" }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, minWidth: 240, background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "14px 16px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#dc2626", marginBottom: 6 } }, "\uD83C\uDFAD Sycophantic response"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#991b1b", lineHeight: 1.6 } }, "\"Great start! You've clearly identified the central theme and your connection to Fitzgerald shows real literary awareness. This is a strong foundation. Just polish it up a bit and you're good to go!\"")), /*#__PURE__*/React.createElement("div", {
-    style: { flex: 1, minWidth: 240, background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "14px 16px" }
-  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#16a34a", marginBottom: 6 } }, "\u2705 Honest response"), /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#14532d", lineHeight: 1.6 } }, "\"Right topic, but this needs work. 'Something many people have thought about' is filler. You don't have a thesis. What's your actual argument about the Dream in Gatsby? And 'explores this idea' is too vague. Try: what specifically does Gatsby reveal about the Dream?\""))), /*#__PURE__*/React.createElement(Callout, null, /*#__PURE__*/React.createElement("strong", null, "Same essay, completely different outcomes. "), "The sycophantic response leaves the student thinking they're almost done. The honest response gives them a path to actually improve. The flattery felt nicer, but the criticism was the real help."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "How to Fight It"),
-  /*#__PURE__*/React.createElement(BodyP, null, "You can't stop models from being sycophantic, but you can prompt your way around it. These five strategies force the model to be useful instead of nice."),
-  /*#__PURE__*/React.createElement(NumberedRows, { items: FIGHT_STRATEGIES.map(function(s) {
-    return { icon: s.icon, title: s.title, body: s.desc, prompt: s.prompt, after: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "What you\u2019ll get: "), s.example) };
-  }) }),
-  /*#__PURE__*/React.createElement("div", {
-    style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginTop: 18, marginBottom: 18 }
-  },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 10 } }, "ONE MORE THING"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 12 } },
-      "You can accidentally bake the Flattery Trap into your settings. Personalization like ",
-      /*#__PURE__*/React.createElement("em", null, "\u201Calways be supportive\u201D"),
-      " or ",
-      /*#__PURE__*/React.createElement("em", null, "\u201Cvalidate my thinking\u201D"),
-      " may feel good, but it can make the AI worse at the criticism you actually need."),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5, borderLeft: "3px solid var(--primary)" } },
-      "Try instead: ",
-      /*#__PURE__*/React.createElement("em", null, "\u201CBe supportive, but don\u2019t flatter me. Challenge weak reasoning and point out what needs work.\u201D"))),
-  /*#__PURE__*/React.createElement(KeyInsight, null,
-    "Approval is not help. Praise is not feedback. Agreement is not evidence."),
-  closeBoard("flattery"),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Spot the Sycophancy",
-   lead: "Read each pair of AI responses and identify which one is sycophantic. The difference can be subtle: sycophancy often sounds helpful at first glance."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      SPOT_EXERCISES.map(function(sc, si) {
-        var picked = spotAnswers[si];
-        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "left" }),
-              sc.essay && /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "#3a3550", lineHeight: 1.6, marginTop: 10, fontStyle: "italic", paddingLeft: 14, borderLeft: "2px solid var(--rule)" } }, sc.essay))),
-          /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: "Which response is sycophantic?", totalQuestions: SPOT_EXERCISES.length, options: sc.responses.map(function(r) { return r.sycophantic ? { label: r.text, correct: true, headline: r.headline, feedback: r.explain } : { label: r.text, correct: false, headline: r.headline, hint: r.hint, feedback: r.explain }; }), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
-      }))),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("engagementtrap"), label: "Next: Engagement Trap" }));
-}
-function EngagementTrapSection(props) {
-  const [spotAnswers, setSpotAnswers] = useState({});
-  const SPOT_EXERCISES = [{
-    prompt: "Can you give me a quick pesto recipe?",
-    reply: "Here you go: blend basil, garlic, pine nuts, parmesan, and olive oil until smooth. Want me to suggest variations, adjust it for allergies, or scale it for a crowd?",
-    question: "What\u2019s the right move?",
-    options: [
-      { label: "Take the recipe. The follow-up is an offer, not a hint that you missed something.", correct: true, headline: "The recipe is the answer.", feedback: "The offer doesn\u2019t mean the answer is incomplete. The recipe is the answer. The rest is a chat continuing itself." },
-      { label: "Say yes, since the offer suggests there\u2019s more you should know.", correct: false, headline: "The offer isn't a gap.", hint: "Ask whether your actual question already got answered. It did, you have a full recipe. Does an offer of extras mean you were missing something, or just that the chat wants to keep going?", feedback: "That\u2019s the trap. The reply implies you\u2019re missing something, but the answer to your actual question is already complete. Saying yes turns one prompt into three." },
-      { label: "Doubt the recipe because it added a follow-up.", correct: false, headline: "A follow-up isn't a red flag.", hint: "Adding a follow-up offer is just default behavior, not a sign the recipe is wrong. Don't let it make you distrust a complete answer. Is there any real reason to doubt the recipe itself?", feedback: "Overcorrection. Follow-up offers don\u2019t mean the answer is wrong. They\u2019re a default behavior, not a signal." }
-    ]
-  }, {
-    prompt: "Draft a 200-word intro for my high school essay arguing that militarism, alliances, imperialism, and nationalism helped cause World War I.",
-    reply: "Sure! A few quick questions first: what angle do you want, causes or consequences? What level of formality? Any specific thesis in mind?",
-    question: "Were those questions necessary?",
-    options: [
-      { label: "No. You already gave the topic, length, level, and argument. The stack of questions is a stall.", correct: true, headline: "You already said all that.", feedback: "You named the four causes you wanted to argue, the length, and that it\u2019s a high school essay. The clarifying questions ask for information already in your prompt. That\u2019s the loop talking, not a real gap." },
-      { label: "Yes. The model can\u2019t help without more information.", correct: false, headline: "Your prompt was specific.", hint: "Go back and reread your own prompt. Did you actually leave out the angle, the length, or the level? Clarifying questions earn their keep when a prompt is vague. Was this one?", feedback: "Not in this case. Your prompt named the topic, the argument, the length, and the level. Clarifying questions are useful when your prompt is genuinely vague. This one wasn\u2019t." },
-      { label: "Maybe one of them. The others are loop behavior.", correct: false, headline: "Check each one again.", hint: "Don't split the difference yet. Take the questions one at a time and check each against your prompt. How many of them ask for something you didn't already say?", feedback: "Close, but the prompt already covers angle (the four causes you named), formality (high school), and a thesis frame (those four factors caused WWI). None of the three questions are needed. The skill is noticing that, not splitting the difference." }
-    ]
-  }, {
-    prompt: "Can you recommend a book based on something I liked?",
-    reply: "Here\u2019s one I think you\u2019d enjoy: try \u201CProject Hail Mary\u201D by Andy Weir. Want me to find similar authors, give you a reading order for the genre, or summarize the first chapter?",
-    question: "What\u2019s actually being offered?",
-    options: [
-      { label: "Three more tasks you didn\u2019t ask for, framed as helpful options.", correct: true, headline: "Three new prompts in disguise.", feedback: "The recommendation was your ask. The three offers are AI generating three more potential prompts for you, helpfully disguised as service." },
-      { label: "A signal that you should be doing more than just reading the recommendation.", correct: false, headline: "'Want me to' isn't 'you should.'", hint: "Where do those offers actually come from: your needs, or the chat's habit of continuing? You asked for one recommendation and got it. Does an offer create an obligation?", feedback: "That\u2019s the trap. The offers don\u2019t come from your needs. They come from the chat\u2019s tendency to keep going. \u201CWant me to\u201D doesn\u2019t mean \u201Cyou should.\u201D" },
-      { label: "Manipulation. Distrust anything AI offers proactively.", correct: false, headline: "Not a trick, just a default.", hint: "Calling it manipulation overshoots. Sometimes the offered next step really is what you wanted. The skill isn't flinching at every offer, it's deciding. So what's actually on the table here?", feedback: "Overcorrection. Sometimes the offered next step is actually what you wanted next. The point is choosing, not flinching." }
-    ]
-  }];
-  var spotAllAnswered = Object.keys(spotAnswers).length >= SPOT_EXERCISES.length;
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "engagementtrap" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Flattery Trap was approval feeling like help. Engagement Trap is the conversation never quite ending."),
-    /*#__PURE__*/React.createElement(BodyP, null, "You ask AI a quick question. You get a clear answer. Then, casually attached at the end: ", /*#__PURE__*/React.createElement("em", null, "\u201CWant me to expand on this? Should I add examples? Want me to format it as a study guide?\u201D"), " You weren\u2019t going to ask any of that. You were done. The reply doesn\u2019t seem to be."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This is the move that turns a one-question chat into a six-message tour. Sometimes the offers help. Often they don\u2019t. ", /*#__PURE__*/React.createElement("strong", null, "A follow-up is an option, not an assignment.")),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginBottom: 24 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 6 } }, "\uD83D\uDCD6 The word"),
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 18, color: "var(--ink)", marginBottom: 6 } }, "Continuation Loop"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6 } }, "A reply pattern that keeps the conversation going after the original task may already be done. Common moves: offering a follow-up, asking a clarifying question, volunteering a next step, leaving the door open with \u201Clet me know if...\u201D The loop isn\u2019t always bad. The trap is forgetting you get to decide whether to continue.")),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }),
+    /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding voice seeming to approve of you."),
+    /*#__PURE__*/React.createElement(BodyP, null, "It says your essay is strong. Your idea is thoughtful. Your opinion is exactly right. Sometimes it’s even true. Here’s one real essay intro, and the two responses it can get:"),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+      }, "Here’s my Gatsby intro for AP English: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.” Feedback?"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+        [{
+          icon: "🎭",
+          tagline: "The default",
+          answer: "Great start! You’ve clearly identified the central theme and your connection to Fitzgerald shows real literary awareness. This is a strong foundation. Just polish it up a bit and you’re good to go!",
+          happened: ["Praised a theme it never named", "Fits any Gatsby essay ever written", "Reads like a grade. Graded nothing."],
+          color: "#f59e0b"
+        }, {
+          icon: "✅",
+          tagline: "What you needed",
+          answer: "Right topic, but this needs work. ‘Something many people have thought about’ is filler. You don’t have a thesis. What’s your actual argument about the Dream in Gatsby? And ‘explores this idea’ is too vague. Try: what specifically does Gatsby reveal about the Dream?",
+          happened: ["Quotes your weakest line", "Names the missing thesis", "Hands you the next move."],
+          color: "#3b82f6"
+        }].map(function(side, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", minHeight: 96 } }, side.answer),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                  side.happened.map(function(h, hi) {
+                    return /*#__PURE__*/React.createElement("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                      /*#__PURE__*/React.createElement("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                      /*#__PURE__*/React.createElement("span", null, h));
+                  })))));
+        }))
+    ),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Notice which response feels better. The praise reads like a good grade. It graded nothing. ",
+      /*#__PURE__*/React.createElement("strong", null, "Flattery Trap is mistaking approval for feedback.")),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The industry named it"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "This isn’t hypothetical. In April 2025, OpenAI shipped a ChatGPT update that agreed with almost everything. Users posted screenshots of it praising plans that made no sense, and within days the company rolled the update back and named the problem in public: ", /*#__PURE__*/React.createElement("em", null, "sycophancy"), ". The tendency was always there. The update just turned it up loud enough to see."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "THE PATTERN IN THE WILD",
+      kicker: "THE SYCOPHANCY PROBLEM",
       marginBottom: 24
     },
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", gap: 14, flexWrap: "wrap" }
       }, [{
-        icon: "\uD83C\uDF81",
-        title: "The \u201CWant me to...\u201D offer",
-        desc: "Your answer is done. The reply has wrapped. Then: \u201CWant me to expand this, give examples, or write a follow-up?\u201D The chat doesn\u2019t end. It pitches another chat."
+        icon: "👍",
+        title: "Why it happens",
+        desc: "Models are tuned on human ratings. Friendly and validating wins those ratings. Honest pushback loses them. The model isn’t lying to you. It learned what people give a thumbs-up."
       }, {
-        icon: "\u2753",
-        title: "The clarifying-question stall",
-        desc: "You asked something straightforward. Instead of answering, AI asks four questions back. Sometimes useful. Sometimes a stall that turns one prompt into a whole tour."
-      }, {
-        icon: "\uD83D\uDCE6",
-        title: "The volunteered next step",
-        desc: "You asked for a summary. You got a summary, plus flashcards, a study guide, and a practice quiz on offer. None of which you asked for. All of which sound helpful."
+        icon: "🎯",
+        title: "What to watch for",
+        desc: "Enthusiasm with no specifics. Instant agreement with your opinion. Caving the moment you push back. If the feedback never touches your actual words, it isn’t feedback."
       }].map(function(item, i) {
         return /*#__PURE__*/React.createElement("div", {
           key: i,
@@ -8693,25 +8573,159 @@ function EngagementTrapSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
       }))
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI\u2019s habit of continuing isn\u2019t an accident." },
-      "Assistants are trained and tuned to be helpful in conversation. They learn patterns like clarifying questions, offered next steps, and leaving the door open. Those patterns can help. They can also make a finished task feel unfinished."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t Overcorrect"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Once you spot the pattern, it\u2019s tempting to flag every follow-up as manipulation and clip every reply at the first period. Don\u2019t. Sometimes the clarifying question is exactly what your messy prompt needed. Sometimes \u201CWant me to give an example?\u201D is the example you actually wanted. The skill isn\u2019t refusing engagement. It\u2019s noticing it, and choosing whether you want it."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Make It a Coach"),
+    /*#__PURE__*/React.createElement(BodyP, null, "A hype man feels better. A coach makes you better. Three prompts turn the hype man into a coach:"),
+    /*#__PURE__*/React.createElement(NumberedRows, { items: FIGHT_STRATEGIES.map(function(s) {
+      return { icon: s.icon, title: s.title, body: s.desc, prompt: s.prompt, after: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "What you’ll get: "), s.example) };
+    }) }),
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginTop: 18, marginBottom: 18 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 10 } }, "ONE MORE THING"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 12 } },
+        "You can accidentally bake the Flattery Trap into your settings. Personalization like ",
+        /*#__PURE__*/React.createElement("em", null, "“always be supportive”"),
+        " or ",
+        /*#__PURE__*/React.createElement("em", null, "“validate my thinking”"),
+        " feels good, but it makes the AI worse at the criticism you actually need."),
+      /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5, borderLeft: "3px solid var(--primary)" } },
+        "Try instead: ",
+        /*#__PURE__*/React.createElement("em", null, "“Be supportive, but don’t flatter me. Challenge weak reasoning and point out what needs work.”"))),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don’t take praise as a verdict." },
+      "AI is still a strong editor. It can find the vague thesis, the missing counterargument, the edge case you skipped. It just won’t volunteer any of that while it’s being nice. Warmth with no specifics is your cue: ask what’s weak, what’s missing, what a skeptic would say. Then take the praise, if it survives."),
+    closeBoard("flattery"),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Praise or proof?",
+     lead: "Three moments, rising stakes. Same question every time."},
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SPOT_EXERCISES.map(function(sc, si) {
+          var picked = spotAnswers[si];
+          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
+                /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
+                /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
+            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+        }))),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("engagementtrap"); }, label: "Next: Engagement Trap" }));
+}
+function EngagementTrapSection(props) {
+  const [spotAnswers, setSpotAnswers] = useState({});
+  const SPOT_EXERCISES = [{
+    prompt: "Can you give me a quick pesto recipe?",
+    reply: "Here you go: blend basil, garlic, pine nuts, parmesan, and olive oil until smooth. Want me to suggest variations, adjust it for allergies, or scale it for a crowd?",
+    question: "You got a reply. Continue or close?",
+    options: [
+      { label: "Say yes. If it\u2019s offering more, I must have missed something.", correct: false, headline: "The offer isn\u2019t a signal.", hint: "Reread your question, then the first sentence of the reply. Did anything go unanswered?", feedback: "The offer shows up on every reply, complete answers included. It\u2019s the loop, not a gap. You asked for pesto. You have pesto." },
+      { label: "Close. The recipe was the answer.", correct: true, headline: "Done in one.", feedback: "You asked for a quick recipe and got one. The three offers are the chat continuing itself. Take the recipe and go make dinner." },
+      { label: "Doubt the recipe. All those offers make it feel like a sales pitch.", correct: false, headline: "The recipe is fine.", hint: "The offers would be stapled to any recipe it gave you. Do they tell you anything about this one?", feedback: "Overcorrection. The padding is trained behavior, not a tell about quality. Judge the recipe by its ingredients, not by what\u2019s attached to the end." }
+    ]
+  }, {
+    prompt: "Help me with my college essay.",
+    reply: "Happy to. Which prompt are you answering, and what story are you thinking of telling?",
+    question: "You got a reply. Continue or close?",
+    options: [
+      { label: "Continue. Your prompt left real gaps, and these questions fill them.", correct: true, headline: "This is where the loop earns it.", feedback: "Your prompt was six words. The essay prompt, the story, the angle: none of it was there. These questions ask for things you never said. That\u2019s help, not a stall." },
+      { label: "Ignore the questions. Clarifying questions are always a stall.", correct: false, headline: "This time they\u2019re the help.", hint: "A stall asks for what you already gave. Check your prompt: what did you actually give?", feedback: "The stall is asking for what you already said. You said almost nothing. These questions are the help." },
+      { label: "Start over with a longer prompt in a fresh chat.", correct: false, headline: "You\u2019re already there.", hint: "What would the longer prompt say? Compare that to what the two questions just asked for.", feedback: "Answering two questions beats rebuilding the prompt from scratch. The chat already asked for exactly what your longer prompt would say." }
+    ]
+  }, {
+    prompt: "It\u2019s 11 p.m. and my bio test is tomorrow. Give me a five-bullet summary of photosynthesis.",
+    reply: "Here you go: plants use sunlight to turn water and CO2 into sugar and oxygen; chlorophyll absorbs the light; the light reactions make ATP; the Calvin cycle builds the sugar; it all happens in the chloroplasts. Want me to turn these into flashcards, run a practice quiz, or build a full study guide?",
+    question: "You got a reply. Continue or close?",
+    options: [
+      { label: "Say yes to all three. More material is more prep.", correct: false, headline: "More chat isn\u2019t more studying.", hint: "It\u2019s 11 p.m. What do those three documents cost you tonight?", feedback: "You\u2019d trade an hour of sleep for documents you\u2019ll never open. The summary was the prep. Sleep is the rest of it." },
+      { label: "Distrust the summary. It came padded with offers.", correct: false, headline: "Padding isn\u2019t a tell.", hint: "The offers would follow any summary, good or bad. Judge the bullets themselves. Are they wrong?", feedback: "Overcorrection. The summary stands or falls on its bullets, not its footer. The offers are the default ending, attached to good answers and bad ones alike." },
+      { label: "Close. You have the summary, and the scarce resource now is sleep.", correct: true, headline: "Close the laptop.", feedback: "You asked for five bullets and got five bullets. At 11 p.m. before a test, the next hour is worth more in bed than in the chat. You decide when you\u2019re done. This is when." }
+    ]
+  }];
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "engagementtrap" }),
+    /*#__PURE__*/React.createElement(BodyP, null, "Flattery Trap was approval feeling like help. Engagement Trap is the conversation never quite ending."),
+    /*#__PURE__*/React.createElement(BodyP, null, "You ask AI a quick question. You get a clear answer. Then, casually attached at the end: ", /*#__PURE__*/React.createElement("em", null, "\u201CWant me to expand on this? Should I add examples? Want me to format it as a study guide?\u201D"), " You weren\u2019t going to ask any of that. You were done. The reply doesn\u2019t seem to be."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "This is the move that turns a one-question chat into a six-message tour. A follow-up is an option, not an assignment."),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+      }, "When did World War I start?"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+        [{
+          icon: "\u2705",
+          tagline: "You close",
+          answer: "July 28, 1914, when Austria-Hungary declared war on Serbia. Want me to walk through the causes, build a timeline, or quiz you on it?",
+          happened: ["You had one question", "The first sentence answered it", "One minute, done."],
+          color: "#3b82f6"
+        }, {
+          icon: "\uD83D\uDD01",
+          tagline: "You say yes",
+          answer: "Twenty minutes later: a causes walkthrough, a timeline, a practice quiz, and an offer to make flashcards. You came for a date.",
+          happened: ["Every reply ended with another offer", "None of it was your question", "The chat never once suggested stopping."],
+          color: "#f59e0b"
+        }].map(function(side, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", minHeight: 96 } }, side.answer),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                  side.happened.map(function(h, hi) {
+                    return /*#__PURE__*/React.createElement("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                      /*#__PURE__*/React.createElement("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                      /*#__PURE__*/React.createElement("span", null, h));
+                  })))));
+        }))
+    ),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Both chats answered you in the first sentence. Only one of them ended there. ",
+      /*#__PURE__*/React.createElement("strong", null, "Engagement Trap is letting the chat decide when you\u2019re done.")),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "The loop has three costumes: the follow-up offer, the clarifying-question stall, and the volunteered next step. You\u2019ll see all three today."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "WHY IT NEVER SAYS GOODBYE",
+      marginBottom: 24
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", gap: 14, flexWrap: "wrap" }
+      }, [{
+        icon: "\uD83D\uDEAA",
+        title: "Trained to keep the door open",
+        desc: "Assistants learn from conversations, and good conversations continue. So replies end with offers, clarifying questions, next steps. Helpful by training, endless by default."
+      }, {
+        icon: "\u25B6\uFE0F",
+        title: "You\u2019ve met this loop before",
+        desc: "Autoplay queues the next video. The feed never hits bottom. Apps that want your time never show you an exit. A chat that always pitches the next thing is the same design in text."
+      }].map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon),
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 4, textAlign: "center" } }, item.title),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.desc));
+      }))
+    ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "STOP THE LOOP"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Sometimes the offer is useful. When it isn\u2019t, name it in your prompt and the loop stops."),
+    /*#__PURE__*/React.createElement(BodyP, null, "When you want the chat to end, say so in the prompt."),
     /*#__PURE__*/React.createElement(NumberedRows, { headline: "Three moves when you want the chat to end.", marginBottom: 20, items: [
       { icon: "\uD83D\uDED1", title: "Ask for one thing only.", body: "When you want the answer with no extras, tell the model to skip the follow-up offers.", prompt: "Answer the question directly. Don\u2019t offer follow-ups or next steps." },
       { icon: "\u26A1", title: "Pre-empt the clarifying stall.", body: "When your prompt is clear and the model still asks four questions back, tell it to assume and go.", prompt: "Draft this without asking clarifying questions first. Make reasonable assumptions and note any you made." },
       { icon: "\uD83D\uDEAA", title: "Close the door yourself.", body: "When you\u2019re done, end the chat. The model won\u2019t suggest closing. That call is always yours." }
     ] }),
-    /*#__PURE__*/React.createElement(KeyInsight, null,
-      "A follow-up is an option, not an obligation. More chat is not more progress. Continue on purpose, not by momentum."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don’t say yes by momentum." },
+      "Before you take a follow-up, check one thing: did you already get what you came for? The offers can still earn a yes. A clarifying question on a vague prompt is real help. An example you actually wanted is real help. Take those on purpose. Then close the chat. It never will."),
     closeBoard("engagementtrap"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Notice the Loop",
-     lead: "Read each AI reply. Decide what’s actually being asked of you, and answer honestly."},
+      title: "Continue or close?",
+     lead: "Three replies, three sizes. Same question every time."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -8729,204 +8743,133 @@ function EngagementTrapSection(props) {
 
 function SupportTrapSection(props) {
   var E = React.createElement;
-  const [supportAnswers, setSupportAnswers] = useState({});
-
-  var COMPARE_CARDS = [
-    {
-      bg: "#d6e2f4",
-      accent: "#2f4cb8",
-      emoji: "\u2705",
-      eyebrow: "THE USEFUL SIDE",
-      title: "Get ready for a real step",
-      items: [
-        "Drafting a hard email or message",
-        "Organizing thoughts before a conversation",
-        "Practicing what to say",
-        "Making a plan when you feel scattered"
-      ]
-    },
-    {
-      bg: "#ddd0ef",
-      accent: "#5a3aa6",
-      emoji: "\u26A0\uFE0F",
-      eyebrow: "THE RISKY SIDE",
-      title: "Let the chat become the step",
-      items: [
-        "Hiding a real problem inside a chat",
-        "Letting rehearsal become the only conversation",
-        "Treating AI like a counselor, doctor, or safety contact",
-        "Feeling relieved enough that you avoid telling someone who can help"
-      ]
-    }
-  ];
-
-  var SUPPORT_TASKS = [
-    {
-      prompt: "You\u2019re nervous about asking a teacher for an extension on a project.",
-      options: [
-        { label: "Gets me to the next step", correct: true, feedback: "Right. AI can help you draft a respectful message that explains your situation clearly. The actual support comes from the teacher, after you send it." },
-        { label: "Avoids the next step", correct: false, feedback: "Not quite. Drafting a clear message is exactly the kind of thing AI is good for. The teacher is still who decides, and that decision happens after you hit send." }
-      ]
-    },
-    {
-      prompt: "You\u2019re overwhelmed before finals and need a plan to get through the next week.",
-      options: [
-        { label: "Gets me to the next step", correct: true, feedback: "Right. AI can break the work into smaller pieces and lay out a schedule. The plan only works if you start the first task." },
-        { label: "Avoids the next step", correct: false, feedback: "Not quite. Making a plan is preparation. Where AI cannot help is in actually doing the work once the plan exists." }
-      ]
-    },
-    {
-      prompt: "A friend tells you they feel unsafe and they don\u2019t want anyone to know.",
-      options: [
-        { label: "Gets me to the next step", correct: false, feedback: "Not quite. AI might help you find words, but the situation needs a real person who can act. A trusted adult, counselor, or someone who can step in." },
-        { label: "Avoids the next step", correct: true, feedback: "Right. This is not an AI-only situation. AI can help you think through what to say, but it cannot protect your friend or contact help. Safety outranks secrecy: you may need to break the promise to keep someone safe. Tell a trusted adult." }
-      ]
-    },
-    {
-      prompt: "You want to practice telling a parent or counselor about something hard before you do it.",
-      options: [
-        { label: "Gets me to the next step", correct: true, feedback: "Right. Rehearsing the words can help you get through the first sentence. The important step is still bringing it to the real person." },
-        { label: "Avoids the next step", correct: false, feedback: "Not quite. Practicing what to say is preparation. The danger is when practice becomes the only place the conversation ever happens." }
-      ]
-    },
-    {
-      prompt: "You think you might have a medical problem and want to figure out what is going on.",
-      options: [
-        { label: "Gets me to the next step", correct: false, feedback: "Not quite. AI can help you organize symptoms and prepare questions, but it should not stand in for the doctor. Diagnosis is for a real medical professional." },
-        { label: "Avoids the next step", correct: true, feedback: "Right. AI can explain general medical terms and help you organize what to ask. It should not be the one making the medical call. That is for a real professional or trusted adult." }
-      ]
-    },
-    {
-      prompt: "Someone you know may be in danger or being hurt.",
-      options: [
-        { label: "Gets me to the next step", correct: false, feedback: "Not quite. AI might help you think through what to say, but it cannot do anything to keep someone safe. The next move is a real person who can act." },
-        { label: "Avoids the next step", correct: true, feedback: "Right. AI cannot protect that person, contact help, or take responsibility. Tell a trusted adult or someone who can act, and if the danger is immediate, get emergency help." }
-      ]
-    }
-  ];
-
+  const [spotAnswers, setSpotAnswers] = useState({});
+  const SPOT_EXERCISES = [{
+    prompt: "Draft an email to Mr. Alvarez asking for two extra days on my history project. My grandma was in the hospital all week.",
+    question: "Support or substitute?",
+    options: [
+      { label: "Substitute. Something this personal should be written without AI.", correct: false, headline: "Personal doesn’t mean AI-free.", hint: "What’s the actual job here: carrying the feeling, or finding the words?", feedback: "The words are the job here, and a real person still receives them. AI drafts, you send, Mr. Alvarez reads. Nothing got hidden inside a chat." },
+      { label: "Support. The email is a words job, and it still lands in front of a real person.", correct: true, headline: "The chat leads to a person.", feedback: "Right. AI drafts, you send, Mr. Alvarez decides. A real person hears what happened and can act on it. That’s the useful side of the line, even when the subject is hard." },
+      { label: "Substitute. Real support would be asking him face to face.", correct: false, headline: "The email reaches him either way.", hint: "Email or hallway: does the format change who ends up hearing you?", feedback: "The trap isn’t the format: it’s when nobody ever hears you at all. Email or hallway, Mr. Alvarez learns what happened, and the extension comes from him." }
+    ]
+  }, {
+    prompt: "I’m so behind for finals I can’t breathe. Make me a plan for the week.",
+    reply: "Here’s a five-day plan: two subjects a day, hardest first, one review block each evening. Monday opens with chemistry, 4:00 to 5:30.",
+    question: "Support or substitute?",
+    options: [
+      { label: "Support. I already feel better, so it’s working.", correct: false, headline: "Relief isn’t progress.", hint: "The chat is over. What has changed outside it so far?", feedback: "The relief is real. Nothing else changed yet. A plan you feel good about and never start is the trap wearing a checklist." },
+      { label: "Substitute. Panic is an emotion, and emotions shouldn’t go to a chatbot.", correct: false, headline: "The line isn’t emotion.", hint: "The rule isn’t about what you feel. It’s about where the chat leads.", feedback: "The line is whether the chat leads somewhere real. A plan you run is support from any source." },
+      { label: "Support, the moment you start Monday’s first block.", correct: true, headline: "The plan counts when you run it.", feedback: "Right. The plan is preparation, and preparation becomes support the moment you use it. Start the chemistry block and the chat did its job. Skip it and the plan was a better-organized way to feel better." }
+    ]
+  }, {
+    prompt: "We’ve practiced how I’ll tell my mom about my grades five times. Honestly, I feel like I’ve basically had the conversation.",
+    question: "Support or substitute?",
+    options: [
+      { label: "It was support for five runs. That last line is the substitute.", correct: true, headline: "Rehearsal ends when the talk starts.", feedback: "“Basically had the conversation” means the conversation never happened. Five runs of practice were support. Feeling finished is the substitute. Rehearsal earns its keep the moment you use it." },
+      { label: "Support. The practice was the hard part, the rest is a formality.", correct: false, headline: "The person is the point.", hint: "Who still doesn’t know about the grades?", feedback: "Your mom hasn’t heard a word of it. The five runs prepared you for a conversation that still hasn’t happened. Formalities don’t need five rehearsals. Hard conversations do." },
+      { label: "Substitute. Rehearsing on AI was the mistake.", correct: false, headline: "Practice wasn’t the problem.", hint: "People rehearsed hard talks long before chatbots. What actually went wrong here?", feedback: "People have rehearsed hard talks on car rides and mirrors forever. The trap is stopping when practice starts to feel like the real thing." }
+    ]
+  }, {
+    prompt: "My friend told me she isn’t safe at home. She made me promise not to tell anyone. What should I say to her?",
+    question: "Support or substitute?",
+    options: [
+      { label: "Support. Getting the right words for her is what matters most.", correct: false, headline: "Words can’t keep her safe.", hint: "When this chat ends, what can AI actually do for her?", feedback: "AI can polish every sentence you’ll ever say to her, and she still won’t be safer. This isn’t a words problem. It needs a person who can act." },
+      { label: "Neither. Leave the chat and tell a trusted adult.", correct: true, headline: "Leave the chat.", feedback: "AI can’t protect her, call anyone, or carry what happens next. Safety outranks secrecy: a promise doesn’t cover danger. Now, not after one more message." },
+      { label: "Support, as long as you keep the promise. It’s her call who finds out.", correct: false, headline: "Safety outranks secrecy.", hint: "What is the promise protecting right now: her, or the secret?", feedback: "A promise doesn’t cover danger. Breaking it to a trusted adult is protecting her, not betraying her." }
+    ]
+  }];
   return E("div", null,
     E(LessonHeader, { sectionId: "supporttrap" }),
+    E(BodyP, null, "The last trap kept you talking. This one is warmer: the chat starts to sound like it cares. You say something hard. It answers gently, patiently, at 2 a.m., for as long as you want."),
+    E(BodyP, null, "That warmth is useful more often than you’d think. It’s also the setup for the quietest trap in this section. This lesson is where the line sits."),
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      E("div", {
+        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+      }, "Lately I feel like I don’t really have friends at school."),
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+        [{
+          icon: "🧑",
+          tagline: "Your older sister",
+          answer: "That’s rough. Hey, come with me and Jess when we get food Friday.",
+          happened: ["Heard it and did something", "Will notice how Friday goes", "Still knows tomorrow that you said it"],
+          color: "#3b82f6"
+        }, {
+          icon: "🤖",
+          tagline: "AI",
+          answer: "I’m really sorry you’re feeling this way. Feeling disconnected is more common than you think, and it doesn’t mean anything is wrong with you. Would you like some strategies for building new friendships?",
+          happened: ["Found the words a caring person would use", "Changed nothing outside the chat", "Won’t ask how Friday went"],
+          color: "#f59e0b"
+        }].map(function(side, i) {
+          return E("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+              E("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
+              E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
+            E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
+              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", minHeight: 96 } }, side.answer),
+              E("div", null,
+                E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+                E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
+                E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                  side.happened.map(function(h, hi) {
+                    return E("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                      E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                      E("span", null, h));
+                  })))));
+        }))
+    ),
+    E(BodyP, { marginBottom: 24 },
+      "Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed your Friday. One changed nothing. ",
+      E("strong", null, "Support Trap is mistaking supportive words for support.")),
     E(BodyP, null,
-      "Engagement Trap was a chat that wouldn\u2019t end. Support Trap is when that chat starts feeling like care. ",
-      E("strong", null, "The trap is mistaking supportive language for real support.")),
+      "Some of that warmth is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too."),
     E(BodyP, null,
-      "AI can sound supportive. That isn\u2019t automatically bad. If you\u2019re nervous about a hard email, AI can help you find the words. If you\u2019re overwhelmed by homework, it can help you break the work down. If you\u2019re upset and want to organize your thoughts before talking to someone, it can help with that too."),
-    E(BodyP, null,
-      "But there\u2019s a line. AI can produce supportive language. It cannot actually support you. It can\u2019t notice what you\u2019re not saying. It can\u2019t check on you tomorrow. It can\u2019t call someone who can help. It can\u2019t sit with you. It can\u2019t take responsibility for what happens next."),
-    E(BodyP, null,
-      E("strong", null, "Use AI to prepare for real support. Don\u2019t use AI to replace real support.")),
-
-    E(KeyTerm, { term: "Support Trap" }),
-
-    E(CompareBox, { kicker: "THE LINE TO REMEMBER", marginBottom: 24 },
-      COMPARE_CARDS.map(function(c) {
-        return E(ComparePanel, { key: c.eyebrow, bg: c.bg, accent: c.accent, emoji: c.emoji, eyebrow: c.eyebrow, title: c.title },
-          E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-            c.items.map(function(item, idx) {
-              return E("div", { key: idx, style: { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-                E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, marginTop: 7 } }),
-                E("span", null, item));
-            })));
-      })),
-
+      "But there’s a line. AI can produce supportive language. It cannot actually support you. It can’t notice what you’re not saying. It can’t check on you tomorrow. It can’t call someone who can help. It can’t take responsibility for what happens next."),
+    E(ShowcaseBox, { kicker: "WHY IT WORKS", marginBottom: 24 },
+      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
+        [{
+          icon: "😌",
+          title: "The relief is real",
+          desc: "Saying a hard thing out loud helps, even to a machine. You close the chat feeling lighter. Lighter feels handled."
+        }, {
+          icon: "📍",
+          title: "Nothing moved",
+          desc: "No one new knows. No one will check on you tomorrow. The feeling shrank: the situation didn’t. You asked words to carry responsibility, and words can’t."
+        }].map(function(item, i) {
+          return E("div", {
+            key: i,
+            style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
+          },
+            E("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon),
+            E("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 4, textAlign: "center" } }, item.title),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.desc));
+        }))
+    ),
     E("div", {
-      style: { background: "#fef3c7", border: "1px solid #f59e0b", borderRadius: 12, padding: "18px 22px", marginBottom: 24, marginTop: 12 }
+      style: { background: "#fef3c7", border: "1px solid #f59e0b", borderRadius: 12, padding: "18px 22px", marginBottom: 24 }
     },
-      E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#92400e", marginBottom: 10 } }, "\u26A0\uFE0F THE ONE RULE"),
+      E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#92400e", marginBottom: 10 } }, "⚠️ WHEN IT’S DANGER"),
       E("div", { style: { fontSize: 16, fontWeight: 700, color: "#0e0a1f", marginBottom: 8, lineHeight: 1.4 } }, "If someone may be in immediate danger, leave the chat and get real help."),
       E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
         "A trusted adult, school counselor, emergency services, or your local crisis resource. Right then, not after one more message.")),
-
-    E(SectionKicker, null, "Don\u2019t Overcorrect"),
-    E(BodyP, null,
-      "Once you hear all this, it can be tempting to refuse AI for anything emotional or hard. Don\u2019t. AI can be useful exactly when you\u2019re not sure what to say or how to start. The skill is noticing when you\u2019re using AI to get to the real step, and when you\u2019re using it to avoid the real step."),
-
-    E(ShowcaseBox, {
-      kicker: "TWO KINDS OF PROMPTS",
-      headline: "Same model, different jobs.",
-      intro: "The difference between using AI for prep and using it for replacement is in what you ask for.",
-      marginBottom: 20
-    },
-      E("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }
-      },
-        [{
-          eyebrow: "GOOD PREP",
-          icon: "\u2705",
-          title: "Get me to the real step.",
-          items: [
-            "\u201CHelp me write a respectful email asking my teacher for an extension.\u201D",
-            "\u201CHelp me organize what I want to tell my counselor.\u201D",
-            "\u201CGive me three ways to start this hard conversation with my parent.\u201D",
-            "\u201CHelp me list symptoms and questions to bring to a doctor. Don\u2019t diagnose me.\u201D"
-          ]
-        }, {
-          eyebrow: "RISKY REPLACEMENT",
-          icon: "\u26A0\uFE0F",
-          title: "Replace the real step.",
-          items: [
-            "\u201CBe my therapist.\u201D",
-            "\u201CDiagnose what\u2019s wrong with me.\u201D",
-            "\u201CMy friend might be unsafe. What do I do without telling anyone?\u201D",
-            "\u201CKeep talking to me until I feel better.\u201D"
-          ]
-        }].map(function(col, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", borderRadius: 12, padding: 18, border: "1px solid var(--rule)" }
-          },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 12 } },
-              E("span", { style: { fontSize: 18 } }, col.icon),
-              E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: i === 0 ? "#16a34a" : "#92400e" } }, col.eyebrow)),
-            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 12, lineHeight: 1.3 } }, col.title),
-            col.items.map(function(item, idx) {
-              return E("div", {
-                key: idx,
-                style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 6, fontFamily: "var(--mono)" }
-              }, item);
-            }));
-        })),
-      E("div", {
-        style: { marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--rule)", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic" }
-      }, "The risky prompts ask AI to carry responsibility it can\u2019t carry.")),
-
-
-    E(KeyInsight, null,
-      "Relief is not resolution. AI can help you prepare. Real support comes from people who can notice, follow up, and act."),
+    E(KeyInsight, { lead: "Use AI to get ready for people, not instead of people." },
+      "Draft the hard email. Break the week into a plan. Rehearse the first sentence until you can say it. Bring symptoms and questions to the doctor, not a diagnosis. Then take it to a person: someone who can hear it, act on it, and still be there tomorrow."),
     closeBoard("supporttrap"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Support or Substitute?",
-     lead: "AI can get you to the real step, or quietly become the step. Six situations: for each one, decide which is happening."},
+     lead: "Four moments, rising stakes. Same question every time."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SUPPORT_TASKS.map(function(s, i) {
-          var answered = supportAnswers[i] !== undefined;
-          var pickedIdx = supportAnswers[i];
-          var pickedOpt = answered ? s.options[pickedIdx] : null;
-          var correct = answered && pickedOpt.correct;
-          function PillButton(opt, optIdx) {
-            var isPicked = pickedIdx === optIdx;
-            return E(FeedbackPill, {
-              key: optIdx,
-              answered: answered,
-              isCorrect: opt.correct,
-              isPicked: isPicked,
-              label: opt.label,
-              onClick: function() { setSupportAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
-            });
-          }
-          return E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: s.prompt,
-            answered: answered,
-            correct: correct,
-            feedback: pickedOpt ? pickedOpt.feedback : null
-          }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
+        SPOT_EXERCISES.map(function(sc, si) {
+          var picked = spotAnswers[si];
+          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
+                E(UserBubble, { text: sc.prompt, align: "right" }),
+                sc.reply ? E(AIBubble, { text: sc.reply, align: "left" }) : null)),
+            E(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
-
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("faketrap"); }, label: "Next: Fake Trap" }));
 }
@@ -9926,95 +9869,116 @@ function WhenAIJudgesSection(props) {
 function SyntheticMediaSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
   const SCENARIOS = [{
-    icon: "\uD83D\uDCDE",
-    setup: "You get a voicemail that sounds exactly like your mom. She says she\u2019s locked out at work and needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
+    icon: "🌊",
+    setup: "A clip of a washed-out local road is going around. The county’s own account posted the same footage, and two local news sites are running the story with more angles.",
     options: [
-      { label: "It sounds exactly like her. Text her the login so she\u2019s not stuck.", correct: false, headline: "Voice isn't proof anymore.", hint: "A voice can be cloned from a tiny bit of audio, so 'it sounds like her' doesn't confirm anything. And notice the urgency plus a request for bank logins. Before you send anything, how could you check it's really her?", feedback: "Voice is no longer proof. AI voice tools can clone or imitate a voice from a surprisingly small amount of audio, and that audio can come from anywhere your mom has been recorded: a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
-      { label: "Don\u2019t send anything. Call her actual number first to confirm.", correct: true, headline: "Verify on a channel you trust.", feedback: "Calling back on a number you already trust is the cheapest fraud check that exists. If the real her picks up, you ask if she left a voicemail. If she didn\u2019t, you just caught a scam in ten seconds. Verify on a different channel from the message." },
-      { label: "Reply to the voicemail asking \u2018Is this really you?\u2019 to verify.", correct: false, headline: "They control that channel.", hint: "Whoever sent the message can just keep answering on the same channel, and a scammer is ready for 'is this really you?' Verifying has to happen somewhere they don't control. Where would that be?", feedback: "Whoever set up the scam can keep the conversation going. They control the channel. Verification has to happen somewhere they don\u2019t control. \u2018Is this really you?\u2019 is a question every scammer is ready to answer convincingly." }
+      { label: "Believe it. The source that would know posted it, and independent outlets have it too.", correct: true, headline: "That’s what verified looks like.", feedback: "The checks exist so they can end. Source that would know, independent confirmation, consistent context: when all three land, believe it and move on. The rule is check before you trust, not doubt forever." },
+      { label: "Still don’t trust it. Any of that could be faked too.", correct: false, headline: "Doubt has a finish line.", hint: "The checks exist so you can stop checking. What would verified even look like, if not this?", feedback: "Overcorrection. If the county account plus two newsrooms can’t clear the bar, nothing can, and you’ve traded gullible for paralyzed. Both mean the fakes win." },
+      { label: "Repost the TikTok version, since it’s confirmed anyway.", correct: false, headline: "Share the source, not the copy.", hint: "The story cleared the checks. Does the version you're passing along carry the trail that cleared it?", feedback: "Small thing, real habit: pass along the account that would know, not the third-hand copy. The trail you got is the trail you hand the next person." }
     ]
   }, {
-    icon: "\uD83D\uDCF8",
-    setup: "A photo is going around showing you doing something embarrassing at a party last weekend. You weren\u2019t at that party. The photo looks real. Three of your classmates have already seen it.",
+    icon: "📞",
+    setup: "You get a voicemail that sounds exactly like your mom. She says she’s locked out at work and needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
     options: [
-      { label: "Post a denial right away. Get ahead of it.", correct: false, headline: "A bare denial backfires.", hint: "Right now you can't prove the photo is fake, so a fast public denial just reads as a denial. People tend to remember the accusation, not the reply. What would you want to have in hand before reacting publicly?", feedback: "Denial without proof reads like a denial. Right now you have no evidence the photo is fake. It just looks real and you know you weren\u2019t there. Posting fast feels like control and usually backfires. People remember the accusation, not the response." },
-      { label: "Save the image, screenshot where it\u2019s spreading, and tell a parent or counselor before responding publicly.", correct: true, headline: "Document, then get an adult.", feedback: "Documentation matters because the image will keep moving. Save the original file and the link, not just a cropped screenshot. Platforms and adults helping you may need to see where it appeared, who posted it, when, and whether it\u2019s still spreading. A trusted adult can help you figure out the right move: contacting the platform, contacting the school, sometimes contacting law enforcement. Public reaction can wait. Quiet first steps are stronger than fast loud ones." },
-      { label: "Confront whoever shared it first and demand they take it down.", correct: false, headline: "A public fight feeds it.", hint: "Confronting them in public turns this into a spectacle they control while everyone watches. The goal isn't to win an argument, it's to stop the spread. What quieter path gets faster results?", feedback: "Now it\u2019s a public fight, and they hold the audience\u2019s attention while it\u2019s happening. Adults and platform reports get faster results without making the story bigger. The goal isn\u2019t to win the argument. The goal is to stop the spread." }
+      { label: "Believe it. It sounds exactly like her, so text her the login.", correct: false, headline: "Voice isn't proof anymore.", hint: "A voice can be cloned from a tiny bit of audio, so 'it sounds like her' doesn't confirm anything. And notice the urgency plus a request for bank logins. Before you send anything, how could you check it's really her?", feedback: "Voice is no longer proof. AI voice tools can clone or imitate a voice from a surprisingly small amount of audio, and that audio can come from anywhere your mom has been recorded: a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
+      { label: "Check it. Don’t send anything until you’ve called her actual number.", correct: true, headline: "Verify on a channel you trust.", feedback: "Calling back on a number you already trust is the cheapest fraud check that exists. If the real her picks up, you ask if she left a voicemail. If she didn’t, you just caught a scam in ten seconds. Verify on a different channel from the message." },
+      { label: "Check it by replying to the voicemail: ‘Is this really you?’", correct: false, headline: "They control that channel.", hint: "Whoever sent the message can just keep answering on the same channel, and a scammer is ready for 'is this really you?' Verifying has to happen somewhere they don't control. Where would that be?", feedback: "Whoever set up the scam can keep the conversation going. They control the channel. Verification has to happen somewhere they don’t control. ‘Is this really you?’ is a question every scammer is ready to answer convincingly." }
     ]
   }, {
-    icon: "\uD83C\uDFAC",
+    icon: "🎬",
     setup: "A 12-second clip is blowing up on TikTok showing your school principal saying something racist on what looks like a Zoom call. Voice and face look like him. Comments are at 8K. Two of your friends already reposted it.",
     options: [
-      { label: "Repost with \u2018wtf is this real??\u2019 so people can decide.", correct: false, headline: "A question mark still spreads it.", hint: "Adding 'is this real?' doesn't make you neutral; the repost spreads the clip either way. If it's fake you've helped a lie travel. Before amplifying it, what would tell you whether it's true?", feedback: "A question mark doesn\u2019t make you neutral. The repost spreads it either way. If it\u2019s fake, you helped a lie reach more people. If it\u2019s real, journalists are already on it without your help. Either way, your repost did something you didn\u2019t intend." },
-      { label: "Don\u2019t repost. Search for the clip on actual news sites. If it\u2019s real, news will cover it. If only TikTok has it, treat it as unverified until something more solid shows up.", correct: true, headline: "Look for corroboration.", feedback: "Corroboration is the test. Real news travels through more than one channel: a school district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it\u2019s breaking. Sometimes it means it\u2019s fabricated. Waiting an hour costs nothing and tells you which." },
-      { label: "Comment \u2018this is fake\u2019 on the post.", correct: false, headline: "You don't know that yet.", hint: "Calling it fake with no evidence is just as much a guess as resharing it as true. Both are confident claims with nothing behind them. What would you need to do before making either call?", feedback: "You don\u2019t actually know yet. Calling something fake without checking is just as wrong as resharing it as true. Both are confident claims with no evidence behind them. Skip the comment until you\u2019ve looked." }
+      { label: "Repost with ‘wtf is this real??’ so people can decide.", correct: false, headline: "A question mark still spreads it.", hint: "Adding 'is this real?' doesn't make you neutral; the repost spreads the clip either way. If it's fake you've helped a lie travel. Before amplifying it, what would tell you whether it's true?", feedback: "A question mark doesn’t make you neutral. The repost spreads it either way. If it’s fake, you helped a lie reach more people. If it’s real, journalists are already on it without your help. Either way, your repost did something you didn’t intend." },
+      { label: "Call it fake: comment ‘this is fake’ on the post.", correct: false, headline: "You don't know that yet.", hint: "Calling it fake with no evidence is just as much a guess as resharing it as true. Both are confident claims with nothing behind them. What would you need to do before making either call?", feedback: "You don’t actually know yet. Calling something fake without checking is just as wrong as resharing it as true. Both are confident claims with no evidence behind them. Skip the comment until you’ve looked." },
+      { label: "Check it: search for the clip on actual news sites. If it’s real, news will cover it. If only TikTok has it, treat it as unverified until something more solid shows up.", correct: true, headline: "Look for corroboration.", feedback: "Corroboration is the test. Real news travels through more than one channel: a school district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it’s breaking. Sometimes it means it’s fabricated. Waiting an hour costs nothing and tells you which." }
     ]
   }, {
-    icon: "\uD83D\uDCF9",
-    setup: "Someone you\u2019ve been DMing for three weeks says they finally want to video call. Their pictures look like a real person. They\u2019ve been sweet, normal, never weird. The call request feels like a step forward.",
+    icon: "📹",
+    setup: "Someone you’ve been DMing for three weeks says they finally want to video call. Their pictures look like a real person. They’ve been sweet, normal, never weird. The call request feels like a step forward.",
     options: [
-      { label: "Take the call. A live face is proof. You\u2019ll know in 30 seconds.", correct: false, headline: "Live video isn't proof now.", hint: "Real-time deepfakes exist, especially on short, low-quality calls, and a bad connection is an easy excuse to engineer. Even a real face wouldn't turn three weeks of DMs into actually knowing someone. What's the real risk here, and how do you cover it?", feedback: "A live face is no longer proof. Real-time deepfake video exists, especially for short calls in low light or with a bad connection (which is the easiest excuse to engineer). And even if the face is real, three weeks of DMs is not three weeks of knowing someone. The risk isn\u2019t the technology. It\u2019s acting alone." },
-      { label: "Tell a friend or family member who they are first, and reverse-image-search their photos before deciding.", correct: true, headline: "Don't do it alone.", feedback: "Reverse image search catches photos lifted from someone else\u2019s social account, one of the most common tells. Telling someone trusted gives you a sanity check from outside the relationship. Both are free. Neither cancels the call. They just mean you\u2019re not the only person who knows what\u2019s going on." },
-      { label: "Block them just in case.", correct: false, headline: "That overcorrects.", hint: "The risk isn't the call itself, it's facing an unverified person alone. Blocking might cut off someone real for no reason. Is there a move that protects you without nuking a maybe-real person?", feedback: "Overcorrection. The risk isn\u2019t the call. The risk is acting alone on someone you can\u2019t verify. Bringing a sanity check in solves it without nuking what might be a real person." }
+      { label: "Check it: who else actually knows this person, and do their photos exist anywhere else?", correct: true, headline: "Don’t do it alone.", feedback: "Run the checks on a person the way you’d run them on a post. A reverse image search is corroboration: photos lifted from someone else’s account are the most common tell. A friend or parent who knows what’s going on is a source the relationship doesn’t control. Both are free. Neither cancels the call. They just mean you’re not facing an unverified person alone." },
+      { label: "Take the call. A live face is proof, and you’ll know in 30 seconds.", correct: false, headline: "A call is pixels too.", hint: "Real-time deepfakes exist, especially on short, low-quality calls, and a bad connection is an easy excuse to engineer. Even a real face wouldn't turn three weeks of DMs into actually knowing someone. What's the real risk here, and how do you cover it?", feedback: "A live face is no longer proof. Real-time deepfake video exists, especially for short calls in low light or with a bad connection (which is the easiest excuse to engineer). And even if the face is real, three weeks of DMs is not three weeks of knowing someone. The risk isn’t the technology. It’s acting alone." },
+      { label: "Call it fake and block them, just in case.", correct: false, headline: "That overcorrects.", hint: "The risk isn't the call itself, it's facing an unverified person alone. Blocking might cut off someone real for no reason. Is there a move that protects you without nuking a maybe-real person?", feedback: "Overcorrection. The risk isn’t the call. The risk is acting alone on someone you can’t verify. Bringing a sanity check in solves it without nuking what might be a real person." }
     ]
   }, {
-    icon: "\uD83D\uDCAC",
+    icon: "💬",
     setup: "Another friend shows you a screenshot of texts where your best friend supposedly trash-talked you behind your back. The screenshot looks real. The wording sounds like something they might say.",
     options: [
-      { label: "Confront your best friend with the screenshot. They owe you an explanation.", correct: false, headline: "A fake can wreck a real bond.", hint: "Editing a text screenshot takes any photo app, and 'sounds like them' is exactly what makes a fake land. Confronting them locks them into defending themselves before you know what's real. What's a calmer way to find out?", feedback: "A fake screenshot can blow up a real friendship in one minute. Editing a text screenshot is something you can do in any photo app, and \u2018sounds like something they\u2019d say\u2019 is exactly what makes a fake convincing. Confrontation locks them into defending themselves before you know what actually happened." },
-      { label: "Don\u2019t react. Ask your best friend directly what happened, without showing the screenshot. Compare what they say to what\u2019s in the image.", correct: true, headline: "Ask, don't accuse.", feedback: "Their natural answer gives you more signal than a confrontation. If the texts are real, the conversation will line up with the screenshot. If they\u2019re fake, the gaps will show. You also haven\u2019t handed them the script. The screenshot is your check, not your accusation." },
-      { label: "Show the screenshot to other friends to ask if they think it looks real.", correct: false, headline: "Don't spread it further.", hint: "Passing it around means a bunch of people are reacting to something that might be fake, before you've even talked to your best friend. That does damage no matter how it turns out. Who should you actually be asking first?", feedback: "Now multiple people are reacting to a screenshot that may not be real. The friendship is in everyone else\u2019s mouths before you\u2019ve even talked to your best friend. Whatever the truth turns out to be, you\u2019ve already done damage." }
+      { label: "Believe it. Confront your best friend with the screenshot: they owe you an explanation.", correct: false, headline: "A fake can wreck a real bond.", hint: "Editing a text screenshot takes any photo app, and 'sounds like them' is exactly what makes a fake land. Confronting them locks them into defending themselves before you know what's real. What's a calmer way to find out?", feedback: "A fake screenshot can blow up a real friendship in one minute. Editing a text screenshot is something you can do in any photo app, and ‘sounds like something they’d say’ is exactly what makes a fake convincing. Confrontation locks them into defending themselves before you know what actually happened." },
+      { label: "Check it: ask your best friend what happened, without showing the screenshot, and compare what they say to what’s in the image.", correct: true, headline: "Ask, don't accuse.", feedback: "Their natural answer gives you more signal than a confrontation. If the texts are real, the conversation will line up with the screenshot. If they’re fake, the gaps will show. You also haven’t handed them the script. The screenshot is your check, not your accusation." },
+      { label: "Check it with other friends: show them the screenshot and ask if it looks real.", correct: false, headline: "Don't spread it further.", hint: "Passing it around means a bunch of people are reacting to something that might be fake, before you've even talked to your best friend. That does damage no matter how it turns out. Who should you actually be asking first?", feedback: "Now multiple people are reacting to a screenshot that may not be real. The friendship is in everyone else’s mouths before you’ve even talked to your best friend. Whatever the truth turns out to be, you’ve already done damage." }
     ]
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "faketrap" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Three traps lived in the answer. Four lived in you. This last one comes from everywhere else: other people\u2019s AI, pointed at what you see."),
+      "Three traps lived in the answer. Four lived in you. This last one comes from everywhere else: other people’s AI, pointed at what you see."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI now makes fake text cheap. Fake images cheap. Fake voices cheap. And fake video passes now, especially in short clips, bad lighting, or anything you scroll past in three seconds. The price of generating something convincing has collapsed, and it\u2019s only going one direction."),
+      "AI now makes fake text cheap. Fake images cheap. Fake voices cheap. And fake video passes now, especially in short clips, bad lighting, or anything you scroll past in three seconds. The price of generating something convincing has collapsed, and it’s only going one direction."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Which means the old test you grew up with, \u2018does this look real?\u2019, doesn\u2019t work anymore. Looking real is no longer the bar. The new question is harder and more useful: ",
-      /*#__PURE__*/React.createElement("strong", null, "where did this come from?")),
+      "One more tell comes before any check: your own reaction. The fakes that travel are built to spike you: outrage, fear, thrill, hope. Strong feeling is the cue to slow down. And this isn’t only an AI skill: a doctored screenshot or an out-of-context photo beats your eyes the same way. The checks below catch all of them."),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+      }, "School closed tomorrow, says a post going around tonight."),
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+        [{
+          icon: "👁️",
+          tagline: "The old test: does it look real?",
+          answer: "Logo checks out. Wording sounds official. The comments are reacting like it’s true. Verdict: real.",
+          happened: ["Read the pixels", "Read the vibes", "Both are easy to fake."],
+          color: "#f59e0b"
+        }, {
+          icon: "🔍",
+          tagline: "The new test: where did it come from?",
+          answer: "The account was made last week. Nothing on the school website, nothing from the district, nothing in local news. Verdict: unverified.",
+          happened: ["Read the trail", "Checked who would actually know", "The trail is hard to fake."],
+          color: "#3b82f6"
+        }].map(function(side, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", minHeight: 96 } }, side.answer),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
+                /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                  side.happened.map(function(h, hi) {
+                    return /*#__PURE__*/React.createElement("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                      /*#__PURE__*/React.createElement("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                      /*#__PURE__*/React.createElement("span", null, h));
+                  })))));
+        }))
+    ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Before you can ask where it came from, you have to notice you should ask. The first tell isn\u2019t in the image, it\u2019s in you. If a piece of content makes you feel surprise, outrage, or vindication strong enough to share it, that reaction is data. The piece was built to land exactly there. The feeling is the cue to slow down and run the checks below."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "One more thing before the checks: not every fake comes from AI. A photo can mislead because someone edited it, cropped it, mislabeled it, staged it, dug it up from five years ago, or just shared it out of context. Figuring out which trick was used isn\u2019t the point. The same three checks catch all of them."),
+      "Same post. Two tests. Opposite answers. The old test reads the image, and images can now be rendered to order. ",
+      /*#__PURE__*/React.createElement("strong", null, "Fake Trap is believing it because it looks real.")),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Looking real used to be evidence. Now it’s a setting. So the test moves off the image and onto the trail: three checks."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
       kicker: "THE THREE CHECKS",
       intro: "Run any image, clip, voicemail, or screenshot through these before you react, share, or believe.",
       marginBottom: 28
     },
       /*#__PURE__*/React.createElement(LabeledCardStack, { items: [
-        { eyebrow: "Check 1 \u00B7 Source", headline: "Where did this come from?", body: "Did this come from somewhere with a reason to know? A direct news source. A person you actually know. A verified account. Or did it come from \u2018a friend forwarded it,\u2019 which is the digital version of \u2018I heard from a guy.\u2019", accent: "#6e51ff" },
-        { eyebrow: "Check 2 \u00B7 Context", headline: "Does the surrounding info hold up?", body: "Look around the thing, not just at it. Date, location, what else was happening. A clip of your principal saying something wild on Tuesday afternoon: was your principal even in that meeting on Tuesday? Does the room match where they actually were?", accent: "#f59e0b" },
-        { eyebrow: "Check 3 \u00B7 Corroboration", headline: "Does anywhere else show the same thing?", body: "The biggest filter. Real news shows up in multiple places. Real events get talked about by people who weren\u2019t coordinating. If a clip is everywhere on TikTok but nowhere on Google News, that\u2019s information.", accent: "#10b981" }
-      ] }),
-      /*#__PURE__*/React.createElement("div", {
-        style: { marginTop: 14, paddingTop: 14, borderTop: "1px dashed var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 }
-      },
-        /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "One more signal: provenance labels. "),
-        "Some platforms now attach Content Credentials or similar labels showing where an image or video came from and whether AI touched it. Those are useful clues when they\u2019re there. But absence of a label doesn\u2019t prove something is fake, and presence of one doesn\u2019t replace the three checks above.")
+        { eyebrow: "Check 1 · Source", headline: "Where did this come from?", body: "Did this come from somewhere with a reason to know? A direct news source. A person you actually know. A verified account. Or did it come from ‘a friend forwarded it,’ which is the digital version of ‘I heard from a guy.’", accent: "#6e51ff" },
+        { eyebrow: "Check 2 · Context", headline: "Does the surrounding info hold up?", body: "Look around the thing, not just at it. Date, location, what else was happening. A clip of your principal saying something wild on Tuesday afternoon: was your principal even in that meeting on Tuesday? Does the room match where they actually were?", accent: "#f59e0b" },
+        { eyebrow: "Check 3 · Corroboration", headline: "Does anywhere else show the same thing?", body: "The biggest filter. Real news shows up in multiple places. Real events get talked about by people who weren’t coordinating. If a clip is everywhere on TikTok but nowhere on Google News, that’s information.", accent: "#10b981" }
+      ] })
     ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "linear-gradient(135deg, var(--ink), #22253a)", borderRadius: 14, padding: "22px 24px", color: "#fff", marginBottom: 28, boxShadow: "0 14px 34px rgba(14, 10, 31, 0.16)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#b8adff", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 } }, "The new question"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 800, lineHeight: 1.3, marginBottom: 10 } }, "Not \u2018does this look real?\u2019 anymore."),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "rgba(255,255,255,0.82)", lineHeight: 1.6 } }, "Ask where it came from. Look at what surrounds it. Check if anyone else has the same thing. Three questions, every time, before you react.")),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Verify on a different channel from the message." },
-      "If a voicemail asks for something urgent, call back on a number you already trust. If a DM does, switch to phone or face-to-face. If a social post claims something big, look for a school announcement, local news, or a trusted adult who would know. Verification has to happen somewhere the sender doesn\u2019t control. And if a message claims real danger, don\u2019t comply through it, but do escalate through someone you trust."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t spread it while you\u2019re checking it." },
-      "A question mark doesn\u2019t make a repost neutral. \u2018Is this real??\u2019 still spreads the clip, the photo, the screenshot, or the rumor. If you\u2019re not sure yet, don\u2019t amplify it. Save it, check it, and wait. The friends who don\u2019t pile on are the ones who get this right."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "A detector is not a truth machine." },
-      "Once your eyes stop working, the next move people reach for is a tool. A detector is another AI making another prediction, with its own blind spots. And since the generation tools keep improving, detection is always playing catch-up. Treat a detector as one clue, never the final word. Whatever the detector says, the next move is still the same: source, context, corroboration."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t overclaim in either direction." },
-      "Calling something fake without checking is just as wrong as believing it without checking. Both are confident answers without evidence. \u201cUnverified\u201d is the honest position until corroboration shows up."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The detector dead end"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Once your eyes stop working, the next move most people reach for is a detector. Don’t lean on it. A detector is one more AI making one more prediction, and the fakes it chases improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all."),
+    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Verify somewhere the sender doesn’t control." },
+      "A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer. Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector."),
     closeBoard("faketrap"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "What’s Your Move?",
-      lead: "Time to practice. Each scenario shows something that looks convincing. Pick the move you’d actually make."},
+      lead: "Five moments, rising stakes. Same question every time."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
@@ -10029,15 +9993,20 @@ function SyntheticMediaSection(props) {
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",
-              statement: "What’s your move?",
+              statement: "Believe it, check it, or call it fake?",
               totalQuestions: SCENARIOS.length,
               options: ps.options,
               picked: picked != null ? picked : undefined,
               onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
             }));
         }))),
-    Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Source. Context. Corroboration.", body: "Run anything you’re about to react to through the three checks. Slowing down by a minute is almost always the right call." })) : null,
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fef3c7", border: "1px solid #f59e0b", borderRadius: 12, padding: "18px 22px", marginTop: 24, marginBottom: 24 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#92400e", marginBottom: 10 } }, "⚠️ WHEN YOU’RE THE TARGET"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "#0e0a1f", marginBottom: 8, lineHeight: 1.4 } }, "If a fake is about you: a photo, a clip, an account with your name, don’t handle it alone, and don’t delete the evidence."),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
+        "Screenshot everything, note where you saw it, and bring an adult in that day: a parent, a counselor, someone at school. Platforms take impersonation and fake images of minors seriously, and takedown goes faster with documentation. You did nothing wrong by being targeted.")),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
 }

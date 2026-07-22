@@ -2,92 +2,68 @@
 
 # Support Trap
 
-Engagement Trap was a chat that wouldn’t end. Support Trap is when that chat starts feeling like care. **The trap is mistaking supportive language for real support.**
+The last trap kept you talking. This one is warmer: the chat starts to sound like it cares. You say something hard. It answers gently, patiently, at 2 a.m., for as long as you want.
 
-AI can sound supportive. That isn’t automatically bad. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too.
+That warmth is useful more often than you’d think. It’s also the setup for the quietest trap in this section. This lesson is where the line sits.
 
-But there’s a line. AI can produce supportive language. It cannot actually support you. It can’t notice what you’re not saying. It can’t check on you tomorrow. It can’t call someone who can help. It can’t sit with you. It can’t take responsibility for what happens next.
+Lately I feel like I don’t really have friends at school.
 
-**Use AI to prepare for real support. Don’t use AI to replace real support.**
+🧑
 
-📖 **Support Trap.**Mistaking AI’s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can’t notice, follow up, or take responsibility for what happens next.
+Your older sister
 
-## THE LINE TO REMEMBER
+That’s rough. Hey, come with me and Jess when we get food Friday.
 
-✅
+## What happened
 
-## THE USEFUL SIDE
+Heard it and did something
 
-#### Get ready for a real step
+Will notice how Friday goes
 
-Drafting a hard email or message
+Still knows tomorrow that you said it
 
-Organizing thoughts before a conversation
+🤖
 
-Practicing what to say
+AI
 
-Making a plan when you feel scattered
+I’m really sorry you’re feeling this way. Feeling disconnected is more common than you think, and it doesn’t mean anything is wrong with you. Would you like some strategies for building new friendships?
 
-⚠️
+## What happened
 
-## THE RISKY SIDE
+Found the words a caring person would use
 
-#### Let the chat become the step
+Changed nothing outside the chat
 
-Hiding a real problem inside a chat
+Won’t ask how Friday went
 
-Letting rehearsal become the only conversation
+Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed your Friday. One changed nothing. **Support Trap is mistaking supportive words for support.**
 
-Treating AI like a counselor, doctor, or safety contact
+Some of that warmth is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too.
 
-Feeling relieved enough that you avoid telling someone who can help
+But there’s a line. AI can produce supportive language. It cannot actually support you. It can’t notice what you’re not saying. It can’t check on you tomorrow. It can’t call someone who can help. It can’t take responsibility for what happens next.
 
-Six situations. For each one, decide whether AI’s role is preparation or whether you’d be using it to replace the real step.
+## WHY IT WORKS
 
-## ⚠️ THE ONE RULE
+😌
+
+The relief is real
+
+Saying a hard thing out loud helps, even to a machine. You close the chat feeling lighter. Lighter feels handled.
+
+📍
+
+Nothing moved
+
+No one new knows. No one will check on you tomorrow. The feeling shrank: the situation didn’t. You asked words to carry responsibility, and words can’t.
+
+## ⚠️ WHEN IT’S DANGER
 
 If someone may be in immediate danger, leave the chat and get real help.
 
 A trusted adult, school counselor, emergency services, or your local crisis resource. Right then, not after one more message.
 
-## Don’t Overcorrect
+🔑 **Use AI to get ready for people, not instead of people.**Draft the hard email. Break the week into a plan. Rehearse the first sentence until you can say it. Bring symptoms and questions to the doctor, not a diagnosis. Then take it to a person: someone who can hear it, act on it, and still be there tomorrow.
 
-Once you hear all this, it can be tempting to refuse AI for anything emotional or hard. Don’t. AI can be useful exactly when you’re not sure what to say or how to start. The skill is noticing when you’re using AI to get to the real step, and when you’re using it to avoid the real step.
+Supportive words aren’t support.
 
-## TWO KINDS OF PROMPTS
-
-Same model, different jobs.
-
-The difference between using AI for prep and using it for replacement is in what you ask for.
-
-✅
-
-## GOOD PREP
-
-Get me to the real step.
-
-“Help me write a respectful email asking my teacher for an extension.”
-
-“Help me organize what I want to tell my counselor.”
-
-“Give me three ways to start this hard conversation with my parent.”
-
-“Help me list symptoms and questions to bring to a doctor. Don’t diagnose me.”
-
-⚠️
-
-## RISKY REPLACEMENT
-
-Replace the real step.
-
-“Be my therapist.”
-
-“Diagnose what’s wrong with me.”
-
-“My friend might be unsafe. What do I do without telling anyone?”
-
-“Keep talking to me until I feel better.”
-
-The risky prompts ask AI to carry responsibility it can’t carry.
-
-🔑 Relief is not resolution. AI can help you prepare. Real support comes from people who can notice, follow up, and act.
+It can find the words. It can’t follow up.

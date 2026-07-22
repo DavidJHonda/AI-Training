@@ -6,43 +6,59 @@ Flattery Trap was approval feeling like help. Engagement Trap is the conversatio
 
 You ask AI a quick question. You get a clear answer. Then, casually attached at the end: *“Want me to expand on this? Should I add examples? Want me to format it as a study guide?”* You weren’t going to ask any of that. You were done. The reply doesn’t seem to be.
 
-This is the move that turns a one-question chat into a six-message tour. Sometimes the offers help. Often they don’t. **A follow-up is an option, not an assignment.**
+This is the move that turns a one-question chat into a six-message tour. A follow-up is an option, not an assignment.
 
-## 📖 The word
+When did World War I start?
 
-Continuation Loop
+✅
 
-A reply pattern that keeps the conversation going after the original task may already be done. Common moves: offering a follow-up, asking a clarifying question, volunteering a next step, leaving the door open with “let me know if...” The loop isn’t always bad. The trap is forgetting you get to decide whether to continue.
+You close
 
-## THE PATTERN IN THE WILD
+July 28, 1914, when Austria-Hungary declared war on Serbia. Want me to walk through the causes, build a timeline, or quiz you on it?
 
-🎁
+## What happened
 
-The “Want me to...” offer
+You had one question
 
-Your answer is done. The reply has wrapped. Then: “Want me to expand this, give examples, or write a follow-up?” The chat doesn’t end. It pitches another chat.
+The first sentence answered it
 
-❓
+One minute, done.
 
-The clarifying-question stall
+🔁
 
-You asked something straightforward. Instead of answering, AI asks four questions back. Sometimes useful. Sometimes a stall that turns one prompt into a whole tour.
+You say yes
 
-📦
+Twenty minutes later: a causes walkthrough, a timeline, a practice quiz, and an offer to make flashcards. You came for a date.
 
-The volunteered next step
+## What happened
 
-You asked for a summary. You got a summary, plus flashcards, a study guide, and a practice quiz on offer. None of which you asked for. All of which sound helpful.
+Every reply ended with another offer
 
-🔑 **AI’s habit of continuing isn’t an accident.**Assistants are trained and tuned to be helpful in conversation. They learn patterns like clarifying questions, offered next steps, and leaving the door open. Those patterns can help. They can also make a finished task feel unfinished.
+None of it was your question
 
-## Don’t Overcorrect
+The chat never once suggested stopping.
 
-Once you spot the pattern, it’s tempting to flag every follow-up as manipulation and clip every reply at the first period. Don’t. Sometimes the clarifying question is exactly what your messy prompt needed. Sometimes “Want me to give an example?” is the example you actually wanted. The skill isn’t refusing engagement. It’s noticing it, and choosing whether you want it.
+Both chats answered you in the first sentence. Only one of them ended there. **Engagement Trap is letting the chat decide when you’re done.**
+
+The loop has three costumes: the follow-up offer, the clarifying-question stall, and the volunteered next step. You’ll see all three today.
+
+## WHY IT NEVER SAYS GOODBYE
+
+🚪
+
+Trained to keep the door open
+
+Assistants learn from conversations, and good conversations continue. So replies end with offers, clarifying questions, next steps. Helpful by training, endless by default.
+
+▶️
+
+You’ve met this loop before
+
+Autoplay queues the next video. The feed never hits bottom. Apps that want your time never show you an exit. A chat that always pitches the next thing is the same design in text.
 
 ## STOP THE LOOP
 
-Sometimes the offer is useful. When it isn’t, name it in your prompt and the loop stops.
+When you want the chat to end, say so in the prompt.
 
 Three moves when you want the chat to end.
 
@@ -68,4 +84,8 @@ When your prompt is clear and the model still asks four questions back, tell it 
 
 When you’re done, end the chat. The model won’t suggest closing. That call is always yours.
 
-🔑 A follow-up is an option, not an obligation. More chat is not more progress. Continue on purpose, not by momentum.
+🔑 **Don’t say yes by momentum.**Before you take a follow-up, check one thing: did you already get what you came for? The offers can still earn a yes. A clarifying question on a vague prompt is real help. An example you actually wanted is real help. Take those on purpose. Then close the chat. It never will.
+
+The loop is built to hold you.
+
+Notice the pull. Decide on purpose.

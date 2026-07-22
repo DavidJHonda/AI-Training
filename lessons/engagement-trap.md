@@ -56,49 +56,11 @@ Both chats answered you in the first sentence. Only one of them ended there. **E
 
 ## The scroll that never ends
 
-Infinite scroll, autoplay, streaks: these were invented, by people, on purpose, because free apps earn money when you stay. The engineer who invented infinite scroll has said publicly that he regrets it. Chat is the newest surface in the same industry.
+In 2006, a designer named Aza Raskin invented infinite scroll. The goal was friendly: clicking “next page” was friction, and good design removes friction. So the page just keeps loading as you reach the bottom. No clicks, no waiting, no end.
 
-## WHY IT NEVER SAYS GOODBYE
+Years later, Raskin said he regrets it, and his reason is the real lesson. The page break he removed wasn’t just friction. It was a decision point: the pause where your brain catches up with your impulses and asks, do I want more of this? Delete the pause, and people don’t decide to keep scrolling. They just keep scrolling. By his own estimate, infinite scroll now wastes half a million human lifetimes a month.
 
-⏳
-
-Time is the business
-
-Free products earn when you stay, so time-in-app is a number someone is paid to raise. The offers, the warmth, the one-more-thing: the feed’s playbook, rewritten in second person.
-
-💬
-
-Why chat beats the feed
-
-A feed guesses what might hold you. A chat asks. It’s personal, responsive, and endlessly interested in you: the most engaging surface ever built. Your attention is what it runs on.
-
-## STOP THE LOOP
-
-When you want the chat to end, say so in the prompt.
-
-Three moves when you want the chat to end.
-
-1
-
-🛑Ask for one thing only.
-
-When you want the answer with no extras, tell the model to skip the follow-up offers.
-
-“Answer the question directly. Don’t offer follow-ups or next steps.”
-
-2
-
-⚡Pre-empt the clarifying stall.
-
-When your prompt is clear and the model still asks four questions back, tell it to assume and go.
-
-“Draft this without asking clarifying questions first. Make reasonable assumptions and note any you made.”
-
-3
-
-🚪Close the door yourself.
-
-When you’re done, end the chat. The model won’t suggest closing. That call is always yours.
+Once you see it, you see it everywhere: autoplay counting down to the next episode, streaks that punish a day off, games built for one more round. The stopping points get engineered out. Chat is the newest surface in the same industry, and its version is the friendliest yet: the offer that asks. The skill, with AI and every other app, is knowing when to stop. And the right stopping point comes earlier than the people who built it want.
 
 🔑 **Don’t say yes by momentum.**Before you take a follow-up, check one thing: did you already get what you came for? The offers can still earn a yes. A clarifying question on a vague prompt is real help. An example you actually wanted is real help. Take those on purpose. Then close the chat. It never will.
 

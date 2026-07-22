@@ -374,14 +374,15 @@ const CLOSE_BOARDS = {
   privacy: { pill: "What you type travels.", sticky: "Assume it doesn’t stay with you." },
   howwegothere: { pill: "None of this was magic.", sticky: "It was steps, stacked over time." }
 };
-// Lessons after Document Trap are first drafts: red lesson title, and the
-// sticky title bar adds "· Draft". Section title pages (each group's first
-// lesson) are never marked as drafts.
+// Lessons after the boundary id are first drafts: red label in the chip nav,
+// and the sticky title bar adds "· Draft". Section title pages (each group's
+// first lesson) are never marked as drafts. Move the boundary id as lessons
+// graduate; every draft indicator updates together.
 function isDraftLesson(sectionId) {
   var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
   if (!group || group.sections[0] === sectionId) return false;
   var idx = SECTIONS.findIndex(function(s) { return s.id === sectionId; });
-  var boundary = SECTIONS.findIndex(function(s) { return s.id === "documenttrap"; });
+  var boundary = SECTIONS.findIndex(function(s) { return s.id === "flattery"; });
   return boundary !== -1 && idx > boundary;
 }
 
@@ -8783,19 +8784,19 @@ function SupportTrapSection(props) {
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
       E("div", {
         style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
-      }, "Lately I feel like I don’t really have friends at school."),
+      }, "I’ve been eating lunch alone for like two weeks."),
       E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
         [{
           icon: "🧑",
           tagline: "Your older sister",
-          answer: "That’s rough. Hey, come with me and Jess when we get food Friday.",
-          happened: ["Heard it and did something", "Will notice how Friday goes", "Still knows tomorrow that you said it"],
+          answer: "That’s rough. Come sit with me and Jess tomorrow. We’re at the table by the windows. We’ll introduce you to some people I think you’ll like.",
+          happened: ["Heard it and did something", "Will look for you tomorrow", "Tomorrow’s lunch is already different"],
           color: "#3b82f6"
         }, {
           icon: "🤖",
           tagline: "AI",
-          answer: "I’m really sorry you’re feeling this way. Feeling disconnected is more common than you think, and it doesn’t mean anything is wrong with you. Would you like some strategies for building new friendships?",
-          happened: ["Found the words a caring person would use", "Changed nothing outside the chat", "Won’t ask how Friday went"],
+          answer: "I’m really sorry you’re going through this. Eating alone can feel isolating, and it’s more common than you think. Would you like some strategies for connecting with classmates at lunch?",
+          happened: ["Found the words a caring person would use", "Changed nothing about tomorrow’s lunch", "Won’t know if you’re still alone next week"],
           color: "#f59e0b"
         }].map(function(side, i) {
           return E("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
@@ -8816,7 +8817,7 @@ function SupportTrapSection(props) {
         }))
     ),
     E(BodyP, { marginBottom: 24 },
-      "Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed your Friday. One changed nothing. ",
+      "Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. One changed nothing. ",
       E("strong", null, "Support Trap is mistaking supportive words for support.")),
     E(BodyP, null,
       "Some of that warmth is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too."),

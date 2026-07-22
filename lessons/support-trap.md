@@ -6,37 +6,37 @@ The last trap kept you talking. This one is warmer: the chat starts to sound lik
 
 That warmth is useful more often than you’d think. It’s also the setup for the quietest trap in this section. This lesson is where the line sits.
 
-Lately I feel like I don’t really have friends at school.
+I’ve been eating lunch alone for like two weeks.
 
 🧑
 
 Your older sister
 
-That’s rough. Hey, come with me and Jess when we get food Friday.
+That’s rough. Come sit with me and Jess tomorrow. We’re at the table by the windows. We’ll introduce you to some people I think you’ll like.
 
 ## What happened
 
 Heard it and did something
 
-Will notice how Friday goes
+Will look for you tomorrow
 
-Still knows tomorrow that you said it
+Tomorrow’s lunch is already different
 
 🤖
 
 AI
 
-I’m really sorry you’re feeling this way. Feeling disconnected is more common than you think, and it doesn’t mean anything is wrong with you. Would you like some strategies for building new friendships?
+I’m really sorry you’re going through this. Eating alone can feel isolating, and it’s more common than you think. Would you like some strategies for connecting with classmates at lunch?
 
 ## What happened
 
 Found the words a caring person would use
 
-Changed nothing outside the chat
+Changed nothing about tomorrow’s lunch
 
-Won’t ask how Friday went
+Won’t know if you’re still alone next week
 
-Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed your Friday. One changed nothing. **Support Trap is mistaking supportive words for support.**
+Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. One changed nothing. **Support Trap is mistaking supportive words for support.**
 
 Some of that warmth is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too.
 

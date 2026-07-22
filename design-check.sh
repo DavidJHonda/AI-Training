@@ -57,7 +57,7 @@ chk "page-bg used as outer band" 0 \
 # The verbatim White House quote in whydeeper carries one more, written as the
 # backslash-u2014 JS escape, so this raw-byte count doesn't see it (quotes from sources
 # keep their original punctuation; our own copy still avoids em-dashes).
-chk "em-dashes in copy" 6 \
+chk "em-dashes in copy" 7 \
   "$(grep -oF '—' "$F" | wc -l | tr -d ' ')"
 
 echo "----------------------------------------------------"

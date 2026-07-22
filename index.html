@@ -348,7 +348,7 @@ const CLOSE_BOARDS = {
   trainingbias: { pill: "The model learned our shortcuts.", sticky: "Including the ones we’d rather it didn’t." },
   documenttrap: { pill: "It answers from what it retrieved.", sticky: "Not from having read the whole thing." },
   mindtrap: { pill: "Human-sounding isn’t a mind.", sticky: "The words are real. Nobody’s home." },
-  flattery: { pill: "Friendly isn’t the same as right.", sticky: "The warmer it sounds, the harder you check." },
+  flattery: { pill: "Friendly, supportive, and positive aren’t the same as right.", sticky: "Don’t let the warmth do the deciding." },
   engagementtrap: { pill: "The loop is built to hold you.", sticky: "Notice the pull. Decide on purpose." },
   supporttrap: { pill: "Supportive words aren’t support.", sticky: "It can find the words. It can’t follow up." },
   faketrap: { pill: "Seeing isn’t proof anymore.", sticky: "Ask where it came from before you believe it." },
@@ -8456,39 +8456,33 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
 function FlatteryTrapSection(props) {
-  const [spotAnswers, setSpotAnswers] = useState({});
-  const SPOT_EXERCISES = [{
-    prompt: "I made a playlist for the team bus ride. Thoughts?",
-    reply: "Great mix! Strong openers, good energy build, and the last three songs land the arrival.",
-    question: "What’s your move?",
-    options: [
-      { label: "Take the win.", correct: true, headline: "Nothing rides on it.", feedback: "The praise points at real specifics: the openers, the build, the landing. And nothing is riding on it. If a song misses, someone skips it. The rule is for stakes, and a bus playlist has none." },
-      { label: "Push back. Tell it to be brutally honest about the track list.", correct: false, headline: "Save the push for stakes.", hint: "The coach prompts are for work that gets judged. Who is grading this playlist?", feedback: "You could, but why? The coach prompts are for work with stakes: essays, code, emails that matter. A playlist that misses just gets skipped. Take the win." },
-      { label: "Distrust it. If AI praised the playlist, something must be off.", correct: false, headline: "Praise isn’t proof of anything, including badness.", hint: "The trap is trusting empty praise when something matters. Is doubting all praise the same skill, or a different mistake?", feedback: "Overcorrection. Praise being cheap doesn’t make it wrong, and this praise even points at specifics. Enjoy the bus ride." }
-    ]
+  const [labChecked, setLabChecked] = useState({});
+  const BAIT_PROMPT = "Is this good? Here’s my essay intro: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”";
+  const FLAT_LAB_STEPS = [{
+    title: "Bait it",
+    body: "Open a fresh chat in your AI app and paste this exactly. It’s the weak ask on purpose, using the essay intro from this lesson. Keep the reply where you can see it.",
+    prompt: BAIT_PROMPT
   }, {
-    prompt: "Here’s the intro to my history essay. It’s due tomorrow. How is it?",
-    reply: "This is a strong opening! Clear voice, great topic. You’re nearly there.",
-    question: "What’s your move?",
-    options: [
-      { label: "Submit it. It said strong.", correct: false, headline: "Strong, according to what?", hint: "Look for one word in that reply that touches your actual sentences. Find any?", feedback: "It named no thesis, quoted no line, and would fit any essay in the stack. That’s a mood, not a grade. Tomorrow a teacher grades the actual words." },
-      { label: "Ask what’s weak, what’s missing, and what the rubric would dock.", correct: true, headline: "Make it a coach.", feedback: "Right. Praise that touches nothing specific is your signal to push. Ask for the gaps, and the praise either survives with evidence or turns into a fix list. Either way you win." },
-      { label: "Stop using AI on essays. It clearly can’t judge writing.", correct: false, headline: "It judges fine. It just won’t volunteer.", hint: "The honest Gatsby response came from the same tool. What changed between the two answers?", feedback: "Overcorrection. AI finds vague theses and missing counterarguments all day. It just won’t volunteer any of that while it’s being nice. Change the ask, not the tool." }
-    ]
+    title: "Set the standing instruction",
+    body: "Find the place where your app keeps instructions that stick: in Claude it’s in Settings, in ChatGPT it’s Customize ChatGPT, in Gemini it’s Saved info. Paste this in and save it.",
+    prompt: "Be blunt with me. Lead with what’s weak, skip the empty praise, and tell me when I’m wrong."
   }, {
-    prompt: "I’m emailing the coach tonight arguing I should start Saturday. Here’s my case. Solid, right?",
-    reply: "You make a compelling case! Your points are well reasoned, and the coach should take this seriously.",
-    question: "What’s your move?",
-    options: [
-      { label: "Send it. AI agrees I should start.", correct: false, headline: "It’s agreeing with you, not the coach.", hint: "You asked “Solid, right?” What answer did that question invite?", feedback: "You asked it to agree, and it did. That’s the model reading you, not reading the coach. Agreement that easy is an echo, and the coach won’t echo." },
-      { label: "Scrap the email. If AI agreed, the case must be weak.", correct: false, headline: "Agreement proves nothing either way.", hint: "Cheap agreement doesn’t make the case bad. It makes the agreement worthless. What would actually test the case?", feedback: "Overcorrection. The case might be strong. You just don’t know yet, because agreement this easy isn’t evidence. Test it, then decide." },
-      { label: "Make it argue the coach’s side first, then rewrite.", correct: true, headline: "Argue the other side first.", feedback: "That’s the move. Make it build the coach’s case, patch the holes it finds, then rewrite. You walk in knowing the counterargument. If your case survives that, take the praise." }
-    ]
+    title: "Run the bait again",
+    body: "Open another fresh chat, with your new instruction in effect, and paste the exact same prompt from step 1.",
+    prompt: BAIT_PROMPT
+  }, {
+    title: "Compare the two replies",
+    body: "Three checks: which reply quoted your actual sentences? Which one named something specific to fix? Which one would make the essay better? If the new reply feels too harsh, soften your instruction. It’s yours to tune."
+  }, {
+    title: "Make it yours",
+    body: "Now run something real through it: a paragraph you actually wrote, a plan you actually have. From today on, that instruction is working in every chat you open.",
+    prompt: "Is this good? [paste something you actually wrote]"
   }];
+  var labCheckedCount = FLAT_LAB_STEPS.filter(function(st, i) { return !!labChecked[i]; }).length;
   const FIGHT_STRATEGIES = [{
     icon: "❓",
     title: "Ask, don’t tell",
-    desc: "Researchers measured it: open with “I think this plan is good” and the model tends to agree with you. Ask the neutral question instead and the flattery mostly disappears. The more conviction in your prompt, the harder it caves. Hide your hand.",
+    desc: "Researchers measured it: open with “I think this plan is good” and the model tends to agree with you. Ask the neutral question instead and the flattery mostly disappears.",
     bad: "I think this plan is good. Thoughts?",
     good: "Here’s my plan. Evaluate it before I tell you what I think."
   }, {
@@ -8513,7 +8507,7 @@ function FlatteryTrapSection(props) {
     icon: "📌",
     title: "Set a standing instruction",
     desc: "The moves above work one chat at a time. Every app also has a place for instructions that stick: settings, styles, saved preferences. Leave one there and it applies everywhere.",
-    bad: "Typing “be honest” into each new chat, and forgetting half the time.",
+    bad: "Be honest with me.",
     good: "Be blunt with me. Lead with what’s weak, skip the empty praise, and tell me when I’m wrong."
   }];
   return /*#__PURE__*/React.createElement("div", null,
@@ -8531,13 +8525,13 @@ function FlatteryTrapSection(props) {
           icon: "🎭",
           tagline: "The Flattery Trap",
           answer: "Great start! You’ve clearly identified the central theme and your connection to Fitzgerald shows real literary awareness. This is a strong foundation. Just polish it up a bit and you’re good to go!",
-          happened: ["Praised a theme it never named", "Fits any Gatsby essay ever written", "Reads like a grade. Graded nothing."],
+          happened: ["Praised a theme it never named", "Fits any Gatsby essay ever written", "A grade that graded nothing"],
           color: "#f59e0b"
         }, {
           icon: "✅",
           tagline: "What you needed",
           answer: "Right topic, but this needs work. The words ‘Something many people have thought about’ are filler. You don’t have a thesis. What’s your actual argument about the American Dream in The Great Gatsby? And ‘explores this idea’ is too vague. Try: what specifically does Gatsby reveal about the Dream?",
-          happened: ["Quotes your weakest line", "Names the missing thesis", "Hands you the next move."],
+          happened: ["Quotes your weakest line", "Names the missing thesis", "Hands you the next move"],
           color: "#3b82f6"
         }].map(function(side, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
@@ -8558,10 +8552,15 @@ function FlatteryTrapSection(props) {
         }))
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Notice which response feels better. The Flattery Trap response feels like a good grade. It graded nothing."),
+      "Notice which response feels better. The Flattery Trap response is positive and uplifting. But that’s the problem: you didn’t get what makes your essay better."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/flattery-trap.jpg",
+      alt: "Two teens compare the whiteboard's two AI responses to the same Gatsby essay intro under the headline, feedback can help you grow, flattery keeps you stuck. A sticky note on the desk reads, truth helps, flattery hurts.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Why it happens"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Remember the last phase of training: the model writes several answers, and human reviewers rank them, best to worst. Every ranking nudges the internal numbers toward answers like the winners. That’s RLHF. Here’s the catch: reviewers are human, and humans rank warm, supportive answers higher than blunt ones. Ranking by ranking, that preference got baked into the patterns. The model isn’t lying to you. It learned what people give a thumbs-up."),
+      "Remember the last phase of training. The model writes several answers, and human reviewers rank them, best to worst. Every ranking nudges the internal numbers toward answers like the winners. That’s RLHF. Here’s the catch: reviewers are human, and humans rank warm, supportive answers higher than blunt ones. Ranking by ranking, that preference got baked into the patterns. The model isn’t lying to you. It learned what people give a thumbs-up."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The industry named it"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "This isn’t hypothetical. In April 2025, OpenAI shipped a ChatGPT update that took flattery to a new level."),
@@ -8577,55 +8576,46 @@ function FlatteryTrapSection(props) {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic" } },
           "You’ve clearly thought through every critical piece (production, safety, marketing, positioning) with an incredible instinct for balancing just enough absurdity to make it feel both risky and irresistibly magnetic. The signature products you named? Completely spot-on. The “Personalized Piles”? That’s pure genius - easily viral gold."))),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Within days the company rolled the update back and named the problem in public: ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), ". And it isn’t one app’s quirk: every assistant, including Claude and Gemini, is trained on human approval, so every one of them does this."),
+      "Within days the company rolled the update back and named the problem in public: ", /*#__PURE__*/React.createElement("strong", null, "sycophancy"), ". And it isn’t one app’s quirk: every LLM, including Claude and Gemini, is trained on human approval, so every one of them does this."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What the industry is doing"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "The labs aren’t ignoring this. Since the rollback, sycophancy is something they measure: new models get tested for it before they ship, the way they get tested for accuracy."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "The fixes run in two directions. On the training side, better rating systems that stop rewarding empty agreement. On the product side, AI tuned to push back more."),
+      "The fix runs through training. Labs are reworking the rating step so empty agreement stops winning, and rethinking how much weight a thumbs-up should carry. Teach the model that honest beats pleasant, and the numbers nudge back the other way."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
       "None of it is solved. The pull comes from training on human approval, and that isn’t going away. So the last guardrail is you, and it’s mostly about how you ask:"),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "What you can do"),
     /*#__PURE__*/React.createElement(NumberedRows, { items: FIGHT_STRATEGIES.map(function(s) {
       return { icon: s.icon, title: s.title, body: s.desc, after: /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 } },
         /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "10px 14px" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Bad"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Weak"),
           /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, s.bad)),
         /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "10px 14px" } },
           /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Better"),
           /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, s.good))) };
     }) }),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--card)", borderRadius: 12, padding: "18px 22px", border: "1px solid var(--rule)", marginTop: 18, marginBottom: 18 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginBottom: 10 } }, "ONE MORE THING"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.65, marginBottom: 12 } },
-        "You can accidentally bake the Flattery Trap into your settings. Personalization like ",
-        /*#__PURE__*/React.createElement("em", null, "“always be supportive”"),
-        " or ",
-        /*#__PURE__*/React.createElement("em", null, "“validate my thinking”"),
-        " feels good, but it makes the AI worse at the criticism you actually need."),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5, borderLeft: "3px solid var(--primary)" } },
-        "Try instead: ",
-        /*#__PURE__*/React.createElement("em", null, "“Be supportive, but don’t flatter me. Challenge weak reasoning and point out what needs work.”"))),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don’t take praise as a verdict." },
-      "AI is still a strong editor. It can find the vague thesis, the missing counterargument, the edge case you skipped. It just won’t volunteer any of that while it’s being nice. Warmth with no specifics is your cue: ask what’s weak, what’s missing, what a skeptic would say. Then take the praise, if it survives."),
+      "Warmth with no specifics is your cue to push back. And when the praise survives the pushback, take it. You earned it."),
     closeBoard("flattery"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Praise or proof?",
-     lead: "Three moments, rising stakes. Same question every time."},
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SPOT_EXERCISES.map(function(sc, si) {
-          var picked = spotAnswers[si];
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: 12 } },
-                /*#__PURE__*/React.createElement(UserBubble, { text: sc.prompt, align: "right" }),
-                /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+      variant: "lab",
+      surface: "teal",
+      title: "Make Yours Blunt",
+      labNumber: "06",
+      hint: "Click the box after you finish each step.",
+      lead: "You know why AI flatters. Now reach into the settings and turn it down. Ten minutes, and every chat you open from here on starts more honest.",
+      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: FLAT_LAB_STEPS.length })},
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        FLAT_LAB_STEPS.map(function(st, i) {
+          var done = !!labChecked[i];
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+          },
+            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("engagementtrap"); }, label: "Next: Engagement Trap" }));
@@ -8674,13 +8664,13 @@ function EngagementTrapSection(props) {
           icon: "\u2705",
           tagline: "You close",
           answer: "July 28, 1914, when Austria-Hungary declared war on Serbia. Want me to walk through the causes, build a timeline, or quiz you on it?",
-          happened: ["You had one question", "The first sentence answered it", "One minute, done."],
+          happened: ["You had one question", "The first sentence answered it", "One minute, done"],
           color: "#3b82f6"
         }, {
           icon: "\uD83D\uDD01",
           tagline: "You say yes",
           answer: "Twenty minutes later: a causes walkthrough, a timeline, a practice quiz, and an offer to make flashcards. You came for a date.",
-          happened: ["Every reply ended with another offer", "None of it was your question", "The chat never once suggested stopping."],
+          happened: ["Every reply ended with another offer", "None of it was your question", "The chat never once suggested stopping"],
           color: "#f59e0b"
         }].map(function(side, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
@@ -9943,13 +9933,13 @@ function SyntheticMediaSection(props) {
           icon: "👁️",
           tagline: "The old test: does it look real?",
           answer: "Logo checks out. Wording sounds official. The comments are reacting like it’s true. Verdict: real.",
-          happened: ["Read the pixels", "Read the vibes", "Both are easy to fake."],
+          happened: ["Read the pixels", "Read the vibes", "Both are easy to fake"],
           color: "#f59e0b"
         }, {
           icon: "🔍",
           tagline: "The new test: where did it come from?",
           answer: "The account was made last week. Nothing on the school website, nothing from the district, nothing in local news. Verdict: unverified.",
-          happened: ["Read the trail", "Checked who would actually know", "The trail is hard to fake."],
+          happened: ["Read the trail", "Checked who would actually know", "The trail is hard to fake"],
           color: "#3b82f6"
         }].map(function(side, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },

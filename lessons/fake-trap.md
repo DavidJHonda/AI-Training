@@ -22,7 +22,7 @@ Read the pixels
 
 Read the vibes
 
-Both are easy to fake.
+Both are easy to fake
 
 🔍
 
@@ -36,7 +36,7 @@ Read the trail
 
 Checked who would actually know
 
-The trail is hard to fake.
+The trail is hard to fake
 
 Same post. Two tests. Opposite answers. The old test reads the image, and images can now be rendered to order. **Fake Trap is believing it because it looks real.**
 

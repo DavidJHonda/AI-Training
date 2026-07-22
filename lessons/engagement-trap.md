@@ -22,7 +22,7 @@ You had one question
 
 The first sentence answered it
 
-One minute, done.
+One minute, done
 
 🔁
 
@@ -36,7 +36,7 @@ Every reply ended with another offer
 
 None of it was your question
 
-The chat never once suggested stopping.
+The chat never once suggested stopping
 
 Both chats answered you in the first sentence. Only one of them ended there. **Engagement Trap is letting the chat decide when you’re done.**
 

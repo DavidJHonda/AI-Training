@@ -22,7 +22,7 @@ Searched eighteen years of knowing you
 
 Knows how you act when you’re stuck
 
-Stakes the answer on all of it
+Has a stake in how it turns out
 
 🤖
 

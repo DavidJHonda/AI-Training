@@ -42,7 +42,9 @@ The Engagement Trap
 
 Sure, why not. Walk me through it.
 
-Two hours later: a measurement-history walkthrough, a tallest-peaks list, a mountain quiz, and an offer to make flashcards. You came for a number.
+## ⏱️ Two hours later
+
+A measurement-history walkthrough, a tallest-peaks list, a mountain quiz, and an offer to make flashcards. You came for a number.
 
 ## What happened
 

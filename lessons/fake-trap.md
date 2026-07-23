@@ -40,6 +40,10 @@ The trail is hard to fake
 
 Same post. Two tests. Opposite answers. The old test reads the image, and images can now be rendered to order. **Fake Trap is believing it because it looks real.**
 
+## The detector dead end
+
+Once your eyes stop working, the next move most people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool. Don’t lean on it. A detector is one more AI making one more prediction, and the fakes it chases improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all.
+
 Looking real used to be evidence. Now it’s a setting. So the test moves off the image and onto the trail: three checks.
 
 ## THE THREE CHECKS
@@ -63,10 +67,6 @@ Look around the thing, not just at it. Date, location, what else was happening. 
 Does anywhere else show the same thing?
 
 The biggest filter. Real news shows up in multiple places. Real events get talked about by people who don’t know each other. If a clip is everywhere on TikTok but nowhere on Google News, that’s information.
-
-## The detector dead end
-
-Once your eyes stop working, the next move most people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool. Don’t lean on it. A detector is one more AI making one more prediction, and the fakes it chases improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all.
 
 🔑 **Verify somewhere the sender doesn’t control.**A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer. Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector.
 

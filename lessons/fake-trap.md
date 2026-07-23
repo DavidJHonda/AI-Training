@@ -62,7 +62,7 @@ Look around the thing, not just at it. Date, location, what else was happening. 
 
 Does anywhere else show the same thing?
 
-The biggest filter. Real news shows up in multiple places. Real events get talked about by people who weren’t coordinating. If a clip is everywhere on TikTok but nowhere on Google News, that’s information.
+The biggest filter. Real news shows up in multiple places. Real events get talked about by people who don’t know each other. If a clip is everywhere on TikTok but nowhere on Google News, that’s information.
 
 ## The detector dead end
 

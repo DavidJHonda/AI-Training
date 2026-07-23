@@ -66,7 +66,7 @@ The biggest filter. Real news shows up in multiple places. Real events get talke
 
 ## The detector dead end
 
-Once your eyes stop working, the next move most people reach for is a detector. Don’t lean on it. A detector is one more AI making one more prediction, and the fakes it chases improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all.
+Once your eyes stop working, the next move most people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool. Don’t lean on it. A detector is one more AI making one more prediction, and the fakes it chases improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all.
 
 🔑 **Verify somewhere the sender doesn’t control.**A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer. Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector.
 

@@ -58,7 +58,9 @@ It isn’t “don’t trust anything,” either. It’s the habit of asking what
 
 ## Critical Thinking in Action
 
-In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. **Slim by Chocolate!** ran one front page. Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions.
+In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. **Slim by Chocolate!** ran one front page.
+
+Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions.
 
 ## Face Value
 

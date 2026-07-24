@@ -40,7 +40,7 @@ The source is hard to fake
 
 Verdict: unverified.
 
-**The Fake Trap is believing it because it looks real.** And this trap has two jaws: believing a lie because it looks real, and dismissing the truth because it could be a fake.
+**The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
 
 ## Why would someone make a fake?
 
@@ -92,7 +92,7 @@ Did it come from somewhere with a reason to know? ‘A friend forwarded it’ is
 
 🧭Context: does the surrounding info hold up?
 
-Look around the clip, not just at it. Was your principal even at that meeting on Tuesday?
+Look around the clip, not just at it. Was your principal even at school on Tuesday?
 
 3
 

@@ -54,6 +54,11 @@ so any splice needs exactly ONE re-encode pass:
   frame-counted. Working freeze substitute — loop the exact frame:
   `trim=start_frame=F:end_frame=F+1,setpts=PTS-STARTPTS,loop=loop=N-1:size=1:start=0,setpts=N/(30*TB)`
   then concat. The same trick replaces `tpad=start_mode=clone`.
+- **Never put `fps=30` after `loop`** — loop's cloned frames carry duplicate
+  pts, and the fps filter silently DROPS every clone (same failure signature
+  as broken tpad: container duration right, video stream short; hit 2026-07-24
+  on the support-trap-v2 build, 322 frames gone, caught by frame count).
+  Re-stamp with `settb=1/30,setpts=N/(30*TB)` directly after loop instead.
 
 ## Recipes without a dedicated script (hand-written graphs via ffmpeg.sh)
 

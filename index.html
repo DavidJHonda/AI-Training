@@ -355,7 +355,7 @@ const CLOSE_BOARDS = {
   flattery: { pill: "Friendly, supportive, and positive aren’t the same as right.", sticky: "Don’t let the warmth do the deciding." },
   engagementtrap: { pill: "The chat is built to hold you.", sticky: "It will never quit for you." },
   supporttrap: { pill: "AI’s supportive words are math, not support.", sticky: "Real support comes from people." },
-  faketrap: { pill: "Seeing isn’t proof anymore.", sticky: "Ask where it came from before you believe it." },
+  faketrap: { pill: "Seeing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Embrace the Future
   workchanges: { pill: "The jobs reshuffle. They don’t vanish.", sticky: "The edge goes to whoever works with it." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
@@ -9891,70 +9891,65 @@ function WhenAIJudgesSection(props) {
 function SyntheticMediaSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
   const SCENARIOS = [{
-    icon: "🌊",
     setup: "A clip of a washed-out local road is going around. The county’s own account posted the same footage, and two local news sites are running the story with more angles.",
     options: [
-      { label: "Believe it. The source that would know posted it, and independent outlets have it too.", correct: true, headline: "That’s what verified looks like.", feedback: "The checks exist so they can end. Source that would know, independent confirmation, consistent context: when all three land, believe it and move on. The rule is check before you trust, not doubt forever." },
-      { label: "Still don’t trust it. Any of that could be faked too.", correct: false, headline: "Doubt has a finish line.", hint: "The checks exist so you can stop checking. What would verified even look like, if not this?", feedback: "Overcorrection. If the county account plus two newsrooms can’t clear the bar, nothing can, and you’ve traded gullible for paralyzed. Both mean the fakes win." },
-      { label: "Repost the TikTok version, since it’s confirmed anyway.", correct: false, headline: "Share the source, not the copy.", hint: "The story cleared the checks. Does the version you're passing along carry the trail that cleared it?", feedback: "Small thing, real habit: pass along the account that would know, not the third-hand copy. The trail you got is the trail you hand the next person." }
+      { label: "Believe it", correct: true, headline: "That’s what verified looks like.", feedback: "The checks exist so they can end. Source that would know, independent confirmation, consistent context: when all three land, believe it and move on. And if you share it, share the county’s post, not the third-hand copy: pass along the trail that cleared it." },
+      { label: "Check it", correct: false, headline: "It’s already checked.", hint: "Read the setup again: the source that would know posted it, and two independent outlets have it. What would another round of checking add?", feedback: "The checks already landed. The county account is the source that would know, and two newsrooms corroborate it. Running the checks forever is how careful turns into paralyzed. When they land, believe it and move on." },
+      { label: "Call it fake", correct: false, headline: "Doubt has a finish line.", hint: "If the county account plus two newsrooms can’t clear the bar, what could?", feedback: "Overcorrection. If the source that would know plus two independent newsrooms can’t clear the bar, nothing can, and you’ve traded gullible for paralyzed. Both mean the fakes win." }
     ]
   }, {
-    icon: "📞",
     setup: "You get a voicemail that sounds exactly like your mom. She says she’s locked out at work and needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
     options: [
-      { label: "Believe it. It sounds exactly like her, so text her the login.", correct: false, headline: "Voice isn't proof anymore.", hint: "A voice can be cloned from a tiny bit of audio, so 'it sounds like her' doesn't confirm anything. And notice the urgency plus a request for bank logins. Before you send anything, how could you check it's really her?", feedback: "Voice is no longer proof. AI voice tools can clone or imitate a voice from a surprisingly small amount of audio, and that audio can come from anywhere your mom has been recorded: a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
-      { label: "Check it. Don’t send anything until you’ve called her actual number.", correct: true, headline: "Verify on a channel you trust.", feedback: "Calling back on a number you already trust is the cheapest fraud check that exists. If the real her picks up, you ask if she left a voicemail. If she didn’t, you just caught a scam in ten seconds. Verify on a different channel from the message." },
-      { label: "Check it by replying to the voicemail: ‘Is this really you?’", correct: false, headline: "They control that channel.", hint: "Whoever sent the message can just keep answering on the same channel, and a scammer is ready for 'is this really you?' Verifying has to happen somewhere they don't control. Where would that be?", feedback: "Whoever set up the scam can keep the conversation going. They control the channel. Verification has to happen somewhere they don’t control. ‘Is this really you?’ is a question every scammer is ready to answer convincingly." }
+      { label: "Believe it", correct: false, headline: "Voice isn’t proof anymore.", hint: "A voice can be cloned from a tiny bit of audio, so ‘it sounds like her’ doesn’t confirm anything. And notice the pairing: urgency plus a request for bank logins. Before you send anything, how could you make sure it’s really her?", feedback: "Voice is no longer proof. AI tools can clone a voice from a surprisingly small amount of audio, and that audio can come from anywhere your mom has been recorded: a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
+      { label: "Check it", correct: true, headline: "Verify on a channel you trust.", feedback: "Call her actual number, the one already in your phone. If the real her picks up, you ask about the voicemail. If she didn’t send it, you just caught a scam in ten seconds. One warning: don’t ‘check’ by replying to the voicemail. Whoever sent it controls that channel, and a scammer is ready for ‘is this really you?’ Verify somewhere the sender doesn’t control." },
+      { label: "Call it fake", correct: false, headline: "You might be hanging up on your mom.", hint: "It could be a clone, or she could really be locked out. Is there a move that covers both?", feedback: "Maybe it is fake. But if she’s really locked out and you ignored her, that’s its own mess. Calling it fake is still a guess. A ten-second call to her real number settles it either way, and it costs you nothing." }
     ]
   }, {
-    icon: "🎬",
     setup: "A 12-second clip is blowing up on TikTok showing your school principal saying something racist on what looks like a Zoom call. Voice and face look like him. Comments are at 8K. Two of your friends already reposted it.",
     options: [
-      { label: "Repost with ‘wtf is this real??’ so people can decide.", correct: false, headline: "A question mark still spreads it.", hint: "Adding 'is this real?' doesn't make you neutral; the repost spreads the clip either way. If it's fake you've helped a lie travel. Before amplifying it, what would tell you whether it's true?", feedback: "A question mark doesn’t make you neutral. The repost spreads it either way. If it’s fake, you helped a lie reach more people. If it’s real, journalists are already on it without your help. Either way, your repost did something you didn’t intend." },
-      { label: "Call it fake: comment ‘this is fake’ on the post.", correct: false, headline: "You don't know that yet.", hint: "Calling it fake with no evidence is just as much a guess as resharing it as true. Both are confident claims with nothing behind them. What would you need to do before making either call?", feedback: "You don’t actually know yet. Calling something fake without checking is just as wrong as resharing it as true. Both are confident claims with no evidence behind them. Skip the comment until you’ve looked." },
-      { label: "Check it: search for the clip on actual news sites. If it’s real, news will cover it. If only TikTok has it, treat it as unverified until something more solid shows up.", correct: true, headline: "Look for corroboration.", feedback: "Corroboration is the test. Real news travels through more than one channel: a school district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it’s breaking. Sometimes it means it’s fabricated. Waiting an hour costs nothing and tells you which." }
+      { label: "Believe it", correct: false, headline: "8K comments isn’t evidence.", hint: "The clip looks and sounds like him, but looking real stopped being proof. What would tell you whether it actually happened?", feedback: "Comments and reposts measure how fast it’s traveling, not whether it’s true. If it’s real, journalists are already on it without your help. If it’s fake, every repost helps a lie reach more people, and ‘wtf is this real??’ spreads it exactly as far as sharing it straight." },
+      { label: "Check it", correct: true, headline: "Look for corroboration.", feedback: "Search for the clip on actual news sites. Real news travels through more than one channel: a district statement, a local paper, a TV station. A clip that exists only on social is a clip nobody else has confirmed yet. Sometimes that means it’s breaking. Sometimes it means it’s fabricated. Waiting an hour costs nothing and tells you which." },
+      { label: "Call it fake", correct: false, headline: "You don’t know that yet.", hint: "Calling it fake with no evidence is a guess, same as believing it. What would you need to do before making either call?", feedback: "Calling something fake without checking is just as much a guess as resharing it as true. Both are confident claims with nothing behind them. Skip the verdict until you’ve looked." }
     ]
   }, {
-    icon: "📹",
     setup: "Someone you’ve been DMing for three weeks says they finally want to video call. Their pictures look like a real person. They’ve been sweet, normal, never weird. The call request feels like a step forward.",
     options: [
-      { label: "Check it: who else actually knows this person, and do their photos exist anywhere else?", correct: true, headline: "Don’t do it alone.", feedback: "Run the checks on a person the way you’d run them on a post. A reverse image search is corroboration: photos lifted from someone else’s account are the most common tell. A friend or parent who knows what’s going on is a source the relationship doesn’t control. Both are free. Neither cancels the call. They just mean you’re not facing an unverified person alone." },
-      { label: "Take the call. A live face is proof, and you’ll know in 30 seconds.", correct: false, headline: "A call is pixels too.", hint: "Real-time deepfakes exist, especially on short, low-quality calls, and a bad connection is an easy excuse to engineer. Even a real face wouldn't turn three weeks of DMs into actually knowing someone. What's the real risk here, and how do you cover it?", feedback: "A live face is no longer proof. Real-time deepfake video exists, especially for short calls in low light or with a bad connection (which is the easiest excuse to engineer). And even if the face is real, three weeks of DMs is not three weeks of knowing someone. The risk isn’t the technology. It’s acting alone." },
-      { label: "Call it fake and block them, just in case.", correct: false, headline: "That overcorrects.", hint: "The risk isn't the call itself, it's facing an unverified person alone. Blocking might cut off someone real for no reason. Is there a move that protects you without nuking a maybe-real person?", feedback: "Overcorrection. The risk isn’t the call. The risk is acting alone on someone you can’t verify. Bringing a sanity check in solves it without nuking what might be a real person." }
+      { label: "Believe it", correct: false, headline: "A call is pixels too.", hint: "Real-time deepfakes exist, especially on short, low-quality calls, and a bad connection is an easy excuse to engineer. Even a real face wouldn’t turn three weeks of DMs into actually knowing someone. What’s the real risk here, and how do you cover it?", feedback: "A live face is no longer proof. Real-time deepfake video exists, especially for short calls in low light or with a bad connection (which is the easiest excuse to engineer). And even if the face is real, three weeks of DMs is not three weeks of knowing someone. The risk isn’t the technology. It’s acting alone." },
+      { label: "Check it", correct: true, headline: "Don’t do it alone.", feedback: "Run the checks on a person the way you’d run them on a post. A reverse image search is corroboration: photos lifted from someone else’s account are the most common tell. A friend or parent who knows what’s going on is a source the relationship doesn’t control. Both are free. Neither cancels the call. They just mean you’re not facing an unverified person alone." },
+      { label: "Call it fake", correct: false, headline: "That overcorrects.", hint: "The risk isn’t the call itself, it’s facing an unverified person alone. Is there a move that protects you without nuking a maybe-real person?", feedback: "Overcorrection. The risk isn’t the call. The risk is acting alone on someone you can’t verify. Bringing a sanity check in solves it without cutting off what might be a real person." }
     ]
   }, {
-    icon: "💬",
     setup: "Another friend shows you a screenshot of texts where your best friend supposedly trash-talked you behind your back. The screenshot looks real. The wording sounds like something they might say.",
     options: [
-      { label: "Believe it. Confront your best friend with the screenshot: they owe you an explanation.", correct: false, headline: "A fake can wreck a real bond.", hint: "Editing a text screenshot takes any photo app, and 'sounds like them' is exactly what makes a fake land. Confronting them locks them into defending themselves before you know what's real. What's a calmer way to find out?", feedback: "A fake screenshot can blow up a real friendship in one minute. Editing a text screenshot is something you can do in any photo app, and ‘sounds like something they’d say’ is exactly what makes a fake convincing. Confrontation locks them into defending themselves before you know what actually happened." },
-      { label: "Check it: ask your best friend what happened, without showing the screenshot, and compare what they say to what’s in the image.", correct: true, headline: "Ask, don't accuse.", feedback: "Their natural answer gives you more signal than a confrontation. If the texts are real, the conversation will line up with the screenshot. If they’re fake, the gaps will show. You also haven’t handed them the script. The screenshot is your check, not your accusation." },
-      { label: "Check it with other friends: show them the screenshot and ask if it looks real.", correct: false, headline: "Don't spread it further.", hint: "Passing it around means a bunch of people are reacting to something that might be fake, before you've even talked to your best friend. That does damage no matter how it turns out. Who should you actually be asking first?", feedback: "Now multiple people are reacting to a screenshot that may not be real. The friendship is in everyone else’s mouths before you’ve even talked to your best friend. Whatever the truth turns out to be, you’ve already done damage." }
+      { label: "Believe it", correct: false, headline: "A fake can wreck a real bond.", hint: "Editing a text screenshot takes any photo app, and ‘sounds like them’ is exactly what makes a fake land. Marching in with the screenshot locks them into defending themselves before you know what’s real. What’s a calmer way to find out?", feedback: "A fake screenshot can blow up a real friendship in one minute. Editing one takes any photo app, and ‘sounds like something they’d say’ is exactly what makes a fake convincing. Confrontation locks them into defending themselves before you know what actually happened." },
+      { label: "Check it", correct: true, headline: "Ask, don’t accuse.", feedback: "Ask your best friend what happened, without showing the screenshot, and compare what they say to what’s in the image. If the texts are real, the conversation will line up. If they’re fake, the gaps will show. And keep it between you two: passing the screenshot around for opinions spreads the damage before you know what’s real. The screenshot is your check, not your accusation." },
+      { label: "Call it fake", correct: false, headline: "Loyalty isn’t evidence either.", hint: "You want it to be fake, and that wanting is its own kind of bias. What would actually tell you?", feedback: "Maybe it is fake. But deciding that because you want it to be true is the same trap in reverse: a verdict from feelings instead of a check. One calm conversation tells you more than either guess." }
     ]
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "faketrap" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Three traps lived in the answer. Four lived in you. This last one comes from everywhere else: other people’s AI, pointed at what you see."),
+      "Here’s the strange thing about this one: you already know it. AI can fake a voice, a face, a video, a screenshot, cheaply and convincingly, and it’s only getting better. So why do smart people still get fooled?"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s the strange thing about this one: you already know it. AI can fake a voice, a face, a video, a screenshot, cheaply and convincingly, and it’s only getting better. Nobody taking this course needs convincing. So why do smart people still get fooled?"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. And this trap has two jaws: believing a lie because it looks real, and dismissing the truth because it could be faked. Watch one video go through two different tests:"),
+      "Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:"),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
       /*#__PURE__*/React.createElement("div", {
         style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
-      }, "A friend sends you a video: your principal announcing that a pipe burst, the school flooded, and it’s closed all next week."),
+      }, "A friend sends you a video: your principal announcing that a pipe burst, the school flooded, and school is closed all next week."),
       /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
         [{
           icon: "👁️",
-          tagline: "The old test: does it look real?",
-          answer: "His face, his voice, the hallway outside the gym. The comments are already celebrating. Verdict: real.",
-          happened: ["Read the pixels", "Read the vibes", "Both are easy to fake"],
+          tagline: "Pre-AI: does it look real?",
+          answer: "You study the clip: his face, his voice, the hallway outside the gym.",
+          verdict: "Verdict: real.",
+          happened: ["Recognized the face and the voice", "Matched how he talks", "All of it is easy to fake"],
           color: "#f59e0b"
         }, {
           icon: "🔍",
-          tagline: "The new test: where did it come from?",
-          answer: "Your friend got it from a group chat. Nothing on the school website, nothing from the district, nothing in local news. Verdict: unverified.",
-          happened: ["Read the trail", "Checked who would actually know", "The trail is hard to fake"],
+          tagline: "The AI test: where did it come from?",
+          answer: "You ignore the clip and check the trail: nothing on the school website.",
+          verdict: "Verdict: unverified.",
+          happened: ["Skipped the face and the voice", "Went to the source that would know", "The source is hard to fake"],
           color: "#3b82f6"
         }].map(function(side, i) {
           return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
@@ -9971,30 +9966,63 @@ function SyntheticMediaSection(props) {
                     return /*#__PURE__*/React.createElement("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
                       /*#__PURE__*/React.createElement("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
                       /*#__PURE__*/React.createElement("span", null, h));
-                  })))));
+                  })),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", fontWeight: 700, marginTop: 14 } }, side.verdict))));
         }))
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      /*#__PURE__*/React.createElement("strong", null, "The Fake Trap is believing it because it looks real.")),
+      /*#__PURE__*/React.createElement("strong", null, "The Fake Trap is believing it because it looks real."),
+      " And this trap has two jaws: believing a lie because it looks real, and dismissing the truth because it could be a fake."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Why would someone make a fake?"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. Sometimes it’s just fun: a friend fakes a shot of your hockey buddy hoisting the Stanley Cup, and everyone’s in on the joke. The fakes that matter aren’t that friendly. Most of them trace to four reasons:"),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 32 },
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
+        [
+          { icon: "💰", term: "Money", body: "Outrage gets clicks, and clicks pay." },
+          { icon: "🗳️", term: "Power", body: "Change what people believe and you change how they vote, protest, and spend." },
+          { icon: "📈", term: "Clout", body: "A viral clip means followers, and it doesn’t have to be true to travel." },
+          { icon: "😠", term: "Cruelty", body: "Some fakes exist to humiliate one person, and that’s the version most likely to show up at your school." }
+        ].map(function(m, i) {
+          return /*#__PURE__*/React.createElement("div", {
+            key: i,
+            style: { flex: 1, minWidth: 300, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, m.icon),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, m.term)),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.body));
+        }))),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The detector dead end"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Once your eyes stop working, the next move most people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool. Don’t lean on it. A detector is one more AI making one more prediction, and the fakes it chases improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all."),
+      "If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Looking real used to be evidence. Now it’s a setting. So the test moves off the image and onto the source, no matter how the fake was made."),
+      "Don’t lean on it. A detector is one more AI making one more prediction, and the fakes improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "So what do you do?"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "The test moves off the image and onto the source, no matter how the fake was made."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "The fakes that travel are built to spike your emotions: outrage, fear, thrill, hope. Strong feeling is your cue to stop and run three checks before you react, share, or believe."),
     /*#__PURE__*/React.createElement(NumberedRows, { marginBottom: 28, items: [
-      { icon: "📡", title: "Source: where did this come from?", body: "Did this come from somewhere with a reason to know? A direct news source. A person you actually know. A verified account. Or did it come from ‘a friend forwarded it,’ which is the digital version of ‘I heard from a guy.’" },
-      { icon: "🧭", title: "Context: does the surrounding info hold up?", body: "Look around the thing, not just at it. Date, location, what else was happening. A clip of your principal saying something wild on Tuesday afternoon: was your principal even in that meeting on Tuesday? Does the room match where they actually were?" },
-      { icon: "🔁", title: "Corroboration: does anywhere else show the same thing?", body: "The biggest filter. Real news shows up in multiple places. Real events get talked about by people who don’t know each other. If a clip is everywhere on TikTok but nowhere on Google News, that’s information." }
+      { icon: "📡", title: "Source: where did this come from?", body: "Did it come from somewhere with a reason to know? ‘A friend forwarded it’ is the digital version of ‘I heard from a guy.’" },
+      { icon: "🧭", title: "Context: does the surrounding info hold up?", body: "Look around the clip, not just at it. Was your principal even at that meeting on Tuesday?" },
+      { icon: "🔁", title: "Corroboration: does anywhere else show the same thing?", body: "Real news shows up in more than one place. Everywhere on TikTok but nowhere on Google News is an answer." }
     ] }),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Verify somewhere the sender doesn’t control." },
-      "A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer. Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "One rule under all three checks"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "If the fake is about you"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "A photo, a clip, an account with your name: don’t handle it alone, and don’t delete the evidence. Screenshot everything, note where you saw it, and bring an adult in that day: a parent, a counselor, someone at school."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Platforms take impersonation and fake images of minors seriously, and takedown goes faster with documentation. You did nothing wrong by being targeted."),
     closeBoard("faketrap"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "What’s Your Move?",
+      title: "Believe It, Check It, or Call It Fake?",
       lead: "Five moments, rising stakes. Same question every time."},
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
@@ -10003,27 +10031,19 @@ function SyntheticMediaSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 8 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, ps.icon),
-                  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--tryAccent)" } }, "The scenario")),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, ps.setup))),
             /*#__PURE__*/React.createElement(QuizBlock, {
               key: si,
               surface: "mint",
-              statement: "Believe it, check it, or call it fake?",
+              optionsRow: true,
+              optionsCompact: true,
+              optionsIndent: 66,
               totalQuestions: SCENARIOS.length,
               options: ps.options,
               picked: picked != null ? picked : undefined,
               onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
             }));
         }))),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "#fef3c7", border: "1px solid #f59e0b", borderRadius: 12, padding: "18px 22px", marginTop: 24, marginBottom: 24 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#92400e", marginBottom: 10 } }, "⚠️ WHEN YOU’RE THE TARGET"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "#0e0a1f", marginBottom: 8, lineHeight: 1.4 } }, "If a fake is about you: a photo, a clip, an account with your name, don’t handle it alone, and don’t delete the evidence."),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
-        "Screenshot everything, note where you saw it, and bring an adult in that day: a parent, a counselor, someone at school. Platforms take impersonation and fake images of minors seriously, and takedown goes faster with documentation. You did nothing wrong by being targeted.")),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
 }

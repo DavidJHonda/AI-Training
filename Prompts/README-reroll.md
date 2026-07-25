@@ -12,10 +12,15 @@ Rejected challenger rolls kept as graft donors live in `donors/`.
 3. Make sure `Master Prompt.md` is still a source in the notebook.
 4. Paste the prompt text into the video box and generate.
 
-11 of the 26 have kit boards; the other 15 are written board-free on purpose —
-`vector-space` (90), `one-more-thing` (85), `context-window` (83) and
-`what-you-can-control` (83) all score well with no staged boards, because their
-`.md` carries the structured content and the engine renders it.
+All 26 have kit boards — 98 jpgs total, 2 to 10 per lesson. 39 were captured on
+2026-07-25 for the 12 lessons that had none; the specs are in
+`scripts/video/board-specs.tsv` so they can be re-cut after a lesson edit.
+
+Board capture gotcha: `capture-board.sh --find` matches the INNERMOST element
+containing all the strings, so a single string usually grabs just the heading.
+Always pass two or more strings from opposite ends of the board (a title plus a
+value from the last row) to force the right ancestor, and eyeball the result —
+a heading-only capture lands around 40KB, a real board 80-240KB.
 
 ## What changed in this set
 

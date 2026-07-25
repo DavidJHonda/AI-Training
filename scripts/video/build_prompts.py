@@ -65,8 +65,10 @@ def add(slug, **kw):
 
 
 # ---------------------------------------------------------------- Start Smarter
-add("does-school-matter", title="Does School Matter?", lo=3, hi="3.5", boards=False,
+add("does-school-matter", title="Does School Matter?", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 the two skills, 2 the close.
+
 Focus: if AI can answer anything, do you still need school? Open on that question in the viewer's own words — a lot of people your age are quietly asking it — then answer it with the lesson's thought experiment, in the lesson's plain voice.
 
 Fast forward a few years: you've landed your dream job, and AI sits right next to you all day cranking out drafts, code, and plans. Your coworker at the next desk is doing exactly the same, same job, same AI. Then the catch: ask AI a similar question and it hands back a similar answer — to you, to your coworker, to everyone. So what makes you more valuable? Not the answer itself. What you already know, which shapes the question you ask and what you do with the answer. Give that sentence its own beat.
@@ -81,13 +83,15 @@ Close on the lesson's own escalation: double down on building your knowledge and
     extra=("Keep the narration in the lesson's plain, second-person voice for a 16-year-old — never substitute corporate register such as \"loses its professional value\", \"becomes a commodity\", \"director of the input\", or \"strictly human domains\".",))
 
 # ------------------------------------------------------------------ Work With AI
-add("which-app", title="Which App?", lo=3.5, hi=4, boards=False,
+add("which-app", title="Which App?", lo=3.5, hi=4, boards=True,
     body="""
+Attached boards in order: 1 the big three side by side, 2 how we used each app, 3 the close.
+
 Focus: three apps dominate — ChatGPT from OpenAI, Claude from Anthropic, Gemini from Google — they all chat, write, code and answer questions, so why does the choice matter? Because each company trains its model with different priorities.
 
 Lead with the lesson's own analogy, named: In-N-Out and McDonald's both sell cheeseburgers built from roughly the same ingredients, and they are still completely different experiences, because each company has a different idea of what a burger place should be — one a tiny menu made fresh, the other engineered for speed, scale and being exactly the same in every city on Earth. Then map it: the big three are all generative AI trained on much of the same internet, but each is built around a different core philosophy.
 
-Then the side-by-side board, drawn with all three columns in their real wording: ChatGPT, The Anything Box, a general-purpose app for a wide audience, OpenAI asking how do we put capable AI in everyone's hands. Claude, The Thinking Partner, built with an explicit safety-and-behavior philosophy, strong when careful reasoning matters, Anthropic asking how do we build powerful AI we can actually trust. Gemini, Built Into Google, strongest when the task connects to Google tools you already use. Hold the board, walk one column at a time, then land the three strengths: breadth, depth, context.
+Then board 1, held while you walk one column at a time: ChatGPT the Anything Box, Claude the Thinking Partner, Gemini Built Into Google, each with what it is and the question its company asks. Then land the three strengths: breadth, depth, context.
 
 Then the honest answer: for most of what you'll do, any of the three works, so don't agonize. Pick one as your home base and learn it well — its settings, features and quirks — because knowing one app deeply beats dabbling in all three. Then the power move: when an answer really matters, ask the same question in a second app; two differently trained apps agreeing is real evidence, and if they disagree you know exactly where to dig.
 
@@ -100,8 +104,10 @@ Close on the real-world example in the authors' own voice: Nate and Luke used di
            "Never depict a real, recognizable person and never draw a branded lectern, podium, company stage or officer of any company; keep every character an invented hand-drawn person."))
 
 # ----------------------------------------------------------------- Understand AI
-add("ai-is-math", title="AI is Math", lo=4, hi="4.5", boards=False,
+add("ai-is-math", title="AI is Math", lo=4, hi="4.5", boards=True,
     body="""
+Attached boards in order: 1 update with new evidence, 2 tying the math together, 3 the close.
+
 Focus: the magic behind every AI you have used is math — two ideas from probability plus the loop that turns them into language. Open by saying the viewer already met these by name in How an LLM Works, and now gets to see each one work.
 
 Where it began: in 1654 two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling, and that correspondence is where standard probability is usually dated from. Name them both aloud.
@@ -120,8 +126,10 @@ Close honestly, in the lesson's own words: the real math goes way past what is h
     props="No readable or pseudo-readable text in drawn props — never draw equation walls, chalkboards, notebooks or code with visible writing; real words and numbers belong only on the drawn boards and in clean dark-ink labels.",
     required='the narrator must use the phone-keyboard suggestion as the way into autoregressive generation, must name Pascal, Fermat and Bayes aloud, must name "Bayes\' Theorem", and must speak the closing admission that linear algebra moves the numbers and calculus tunes the model during training before landing "Everything else is engineering."')
 
-add("transformer", title="Transformer", lo=4, hi="4.5", boards=False,
+add("transformer", title="Transformer", lo=4, hi="4.5", boards=True,
     body="""
+Attached boards in order: 1 the two problems, 2 how AI used to read, 3 the two steps, 4 the close.
+
 Focus: tokens and vectors are not enough, because a word's meaning is not clear until you read the words around it. Open on the two nuances the lesson names.
 
 One, different meanings: the word LIGHT in "Please turn on the LIGHT" and "The suitcase is LIGHT enough to carry." Two, pronouns: "The cat drank the milk because IT was thirsty" against "The cat drank the milk because IT was fresh" — only the last word changes, and IT switches from the cat to the milk. Show both pairs as clean drawn boards and let the problem land before moving on.
@@ -140,8 +148,10 @@ Close board: "Attention is all you need." over "The Transformer — the T in Cha
     props="No readable or pseudo-readable text in drawn props or backgrounds; every readable word on screen must be one the lesson actually uses, in clean dark ink.",
     required='the narrator must say "in 2017, eight researchers at Google published a paper called Attention Is All You Need", must say "the T in ChatGPT" aloud, must name "positional encoding", and must spend real explanatory time on Attention and Transformation rather than naming them.')
 
-add("layers", title="Layers", lo=3, hi="3.5", boards=False,
+add("layers", title="Layers", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 the three reads, 2 inside each layer, 3 the close.
+
 Focus: meaning builds up over repeated passes, and each pass is a layer.
 
 Open on the garden-path sentence exactly as the lesson does: "The horse raced past the barn fell." Then the three reads as three drawn cards — first read, it doesn't make sense, did someone forget a word; read it again, wait, did a barn fall, did the horse race past the barn afterward; read it a third time, got it, a horse ran past a barn and after running past the barn the horse fell. Then the point: each pass, your mind updates the meaning until it clicks.
@@ -162,8 +172,10 @@ Close board: "Meaning builds up, layer by layer." over "The blank box gets fille
     props="No readable or pseudo-readable text in drawn props; every readable word on screen must be one the lesson uses, in clean dark ink.",
     required='the narrator must say out loud, over the cat/mat/May/rainstorm visual, that attention leans hardest on CAT and that layer by layer the model works out that IT refers to the cat — not merely that the numbers shift. Keep the plain register: never substitute phrasing like "the system resolves linguistic ambiguity by calculating mathematical relationships".')
 
-add("embeddings", title="Embeddings", lo=3, hi="3.5", boards=False,
+add("embeddings", title="Embeddings", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 the Coke/Coffee taste table, 2 the three-drink table with Citrus, 3 the close.
+
 Focus: a token ID is just a number; embedding is how AI turns it into meaning.
 
 Open on the student-ID analogy in the lesson's own words: an ID might let you in the building, but it doesn't tell anyone whether you're funny, into hockey, or the person who steals fries at lunch.
@@ -184,8 +196,10 @@ Close board: "Meaning is a row of numbers." over "Same dimensions for every toke
     props="No readable or pseudo-readable text in drawn props, and never letter a misspelled word into a drawing; every readable word must be one the lesson uses.",
     required='the narrator must say that combining the piece-vectors produces the meaning of the whole WORD (never "the full sentence"), and must describe Coke and Pepsi as close or nearly identical on those six dimensions — never as having the same meaning.')
 
-add("how-an-llm-works", title="How an LLM Works", lo=3, hi="3.5", boards=False,
+add("how-an-llm-works", title="How an LLM Works", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 the four-ideas map, 2 training, 3 patterns are everywhere, 4 same word different odds, 5 the close.
+
 Focus: an LLM runs math to predict likely next words — it is not looking up what your words mean, it is working out which words tend to follow which. Two phases: it learns once by soaking up patterns from mountains of text, then every time you chat it uses those patterns to build your answer one word at a time.
 
 Say up front that we follow ONE example, peanut butter, through all four ideas — and then actually do that.
@@ -206,8 +220,10 @@ Close board: "Not magic. Not a person. Not a truth machine." over "It's math wor
     props="No readable or pseudo-readable text in drawn props — no letter tiles, no pseudo-words, no invented app screens; every readable word must be one the lesson uses.",
     required='the narrator must speak all three myths aloud in the lesson\'s own wording — "not magic", "not a person", "not a truth machine" — and must keep peanut butter as the example in the Patterns section rather than substituting twinkle-twinkle for it.')
 
-add("what-you-can-control", title="What You Can Control", lo=3, hi="3.5", boards=False,
+add("what-you-can-control", title="What You Can Control", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 out of/in your hands, 2 the three moves, 3 the close.
+
 Focus: what's in your hands, and what isn't.
 
 Open exactly where the lesson opens: you're hearing it constantly, AI is taking jobs — that headline used to be a prediction, now it's news. Then the other three fronts, in the lesson's own plain words and no others: AI is also reshaping who holds power, what it costs the planet, and what you can trust online. Say those three clauses as written. Then: which way it all goes, nobody knows yet, including the people making the predictions — and almost none of it is in your hands. Say that last clause; it is the hinge into the question.
@@ -223,8 +239,10 @@ Close in the lesson's own words: controlling your skill and judgment isn't a con
     required='the narrator must say the lesson\'s three consequences in its own plain words — "who holds power, what it costs the planet, and what you can trust online" — must say "almost none of it is in your hands", and must close on "skill and judgment tilt your odds" with the word skill, not scale.',
     extra=("Write for a 16-year-old in the lesson's plain voice; never substitute policy-brief register such as \"institutional power\", \"how global resources are allocated\", \"the environmental cost of the digital world\", or \"an operational shift\".",))
 
-add("opener-work", title="Work With AI — Opener", lo=2.5, hi=3, boards=False,
+add("opener-work", title="Work With AI — Opener", lo=2.5, hi=3, boards=True,
     body="""
+Attached boards in order: 1 the refrain, 2 in this section, 3 the close.
+
 Focus: this is a short section opener. Everything it needs is in the lesson file and nothing else belongs in it.
 
 Open on the refrain, and SPEAK it, don't just show it: Don't just ask. Aim. Don't just copy. Check. Don't just use AI. Work with it. It doesn't replace your thinking. It multiplies it. Draw those lines as a clean board and let the narrator say every one of them out loud.
@@ -242,13 +260,15 @@ This lesson is about 250 words. Do not pad it. Every scene must come from the te
     required='the narrator must speak all four refrain lines verbatim — "Don\'t just ask. Aim.", "Don\'t just copy. Check.", "Don\'t just use AI. Work with it.", "It doesn\'t replace your thinking. It multiplies it."',
     extra=("Never add material the lesson does not contain — specifically no Industrial-Revolution or history digression, no essay/devil's-advocate example, and no \"director of the machine\" framing.",))
 
-add("questions-matter", title="Questions Matter", lo=3, hi="3.5", boards=False,
+add("questions-matter", title="Questions Matter", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 how answers got cheap, 2 the four qualities, 3 the close.
+
 Focus: answers got cheap, so the edge moved to the question.
 
 Open on the shape of every AI conversation: you ask, it answers. For decades technology has made answers easier to get, and the less time we spend chasing the answer, the more time we have for the half that is still one hundred percent ours — asking the right question.
 
-Then the research-assignment example across three generations, drawn as a three-column board with the lesson's real steps. Grandparents, the library: get to a library and search the card catalog, track down books and periodicals on the shelves, read until you find what you need copying notes by hand — half a Saturday. Parents, search: run search after search opening tab after tab, judge which sites to trust and skim for the useful parts, copy and paste the good pieces into a doc — an hour or two. You, AI: open your favorite AI app, ask, the answer is on your screen — seconds. Land the line: half a day, then an hour, now seconds.
+Then board 1, the research assignment across three generations, held and walked column by column: grandparents at the library, half a Saturday; parents running search after search, an hour or two; you, open the app and ask, seconds. Land the line: half a day, then an hour, now seconds.
 
 Then the hinge, and say it as written because the whole argument turns on it: AI makes answers cheap to get, that does not make humans less valuable, it changes where value lives. AI just did the hunting in seconds, but it only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question.
 
@@ -265,8 +285,10 @@ Close board: "The question is the whole game." over "Frame the problem. Ask the 
     required='the narrator must say "it only answered the question it was given", must include the scientific method as one of the three anchors alongside Socrates and Einstein, and must speak the caveat "a better question doesn\'t make the answer automatically true."',
     extra=("Write in the lesson's plain second-person voice; never substitute management register such as \"the construction of the question\", \"effective inquiry\", \"situational context\", or \"set the intellectual standard\".",))
 
-add("context-window", title="Context Window", lo=3, hi="3.5", boards=False,
+add("context-window", title="Context Window", lo=3, hi="3.5", boards=True,
     body="""
+Attached boards in order: 1 Luke and Nate's two answers, 2 what follows you where, 3 the close.
+
 Focus: with the right context, AI gives better answers.
 
 Open on the calculator: type 2 + 2 on your phone and you always get 4, same input, same answer, every time. AI doesn't work that way. Then Luke and Nate — the same prompt, "What car should I buy after I graduate from college?", typed into the same app, and ChatGPT tells Luke a Jeep Cherokee and Nate a Ford Raptor. Do not reveal the two answers before the question has been asked; let the puzzle sit for a beat first.
@@ -363,17 +385,19 @@ Last narration before the close: in Sophie's story, the only one who knew was a 
     required='"the world\'s greatest calculator"; Sophie Rottenberg and Harry by name; "safety outranks secrecy"; "bring symptoms and questions to the doctor, not a diagnosis"; and the final line "In Sophie\'s story, the only one who knew was a chatbot. Be the one who knows instead."',
     extra=("Restraint, absolute: never depict self-harm, a death, a body, a hospital scene, blood or red-staining, and never depict Sophie or the Florida man. Carry both cases in narration over calm, non-literal scenes — an empty chair, a phone face-down, a closed door.",))
 
-add("one-more-thing", title="One More Thing", lo=4, hi="4.5", boards=False,
+add("one-more-thing", title="One More Thing", lo=4, hi="4.5", boards=True,
     body="""
+Attached boards in order: 1 the five draws, 2 two sides of the same chat, 3 The Bill, 4 the close.
+
 Focus: three facts about the machine that never fit any single piece.
 
 Open on the section framing, not the confession: across this section you built the whole machine — text becomes tokens, tokens become vectors, attention and the layers turn those into meaning, prediction reads the answer off a ranked list one token at a time. Three facts never fit any single piece, so they go here.
 
-One, randomness. Start with the confession: in How AI Answers we said the model takes the top of the list and types it, Spot. We should have said usually. Ask the same question in two brand-new chats and the answers come back different. The missing piece: the model runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot at 22% holds 22 tickets out of 100, so Spot wins more drawings than any other single name — but with 78 tickets spread across everyone else, most drawings go to someone who isn't Spot. Draw the ticket board: Spot 22, Max 17, Buddy 14, Rex 9, Biscuit 6, other 32. Then five draws — Max, Spot, Buddy, Rex, Max — and: same odds every time, the favorite won just once. Then why draw at all: text built from only the safest word is repetitive and lifeless.
+One, randomness. Start with the confession: in How AI Answers we said the model takes the top of the list and types it, Spot. We should have said usually. Ask the same question in two brand-new chats and the answers come back different. The missing piece: the model runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot at 22% holds 22 tickets out of 100, so Spot wins more drawings than any other single name — but with 78 tickets spread across everyone else, most drawings go to someone who isn't Spot. Hold board 1 and walk it: Spot 22, Max 17, Buddy 14, Rex 9, Biscuit 6, other 32, then the five draws, then the line — same odds every time, the favorite won just once. Then why draw at all: text built from only the safest word is repetitive and lifeless.
 
-Two, no memory. AI has no memory, none — it doesn't even remember the last word it typed. Every word of the chat lives on one long transcript, re-read every time. Enumerate what gets re-run, because this beat usually gets skipped: before every single word, all of it — your question, its own reply so far, personalization, saved memory, everything earlier in the chat — is tokenized, embedded, and pushed through every layer. Draw the two-column board: you carry the chat in your head; AI carries nothing and re-reads the whole transcript in milliseconds, so you never notice.
+Two, no memory. AI has no memory, none — it doesn't even remember the last word it typed. Every word lives on one long transcript, re-read every time. Enumerate what gets re-run, because this beat usually gets skipped: before every single word, all of it — your question, its own reply so far, personalization, saved memory, everything earlier in the chat — is tokenized, embedded, pushed through every layer. Board 2: you carry the chat in your head; AI carries nothing and re-reads the transcript in milliseconds, so you never notice.
 
-Three, the scale. The calculations are the weights from Layers and Training, frozen since training day. Call ChatGPT one trillion weights; each word takes about two calculations per weight, a multiply and an add. Draw The Bill: one word about 2 trillion; one sentence, "You could name him Spot." at 7 tokens, about 14 trillion; a 2,000-word chat about 2 quadrillion. Say it clearly: two quadrillion. Then: the longer the chat, the more gets re-read — a fresh chat isn't tidiness, it's engineering.
+Three, the scale. The calculations are the weights from Layers and Training, frozen since training day. Call ChatGPT one trillion weights; each word takes about two calculations per weight. Board 3, The Bill: one word about 2 trillion; one sentence at 7 tokens, about 14 trillion; a 2,000-word chat about 2 quadrillion. Say it clearly: two quadrillion. Then: the longer the chat, the more gets re-read — a fresh chat isn't tidiness, it's engineering.
 
 Close on the payoff, which is the point of the whole section: way back in AI is Math we made a claim and asked you to take it on faith — AI isn't a mind, it's math. Now you've counted it. Then the handoff: somebody pays for all that arithmetic, in electricity, in water and in money, and we'll count that bill later in the course, in The Hidden Cost.
 

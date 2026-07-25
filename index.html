@@ -1867,7 +1867,7 @@ const SECTION_META = {
   privacy: { kicker: "WHAT YOU TYPE TRAVELS", label: "Privacy", icon: "\uD83D\uDD12" },
   aijudges: { kicker: "DECISIONS ABOUT YOU", label: "When AI Judges You", title: "When AI Judges You", icon: "\u2696\uFE0F" },
   faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "Fake Trap", title: "Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
-  bigupside: { kicker: "THE UPSIDE IS REAL", label: "The Big Upside", title: "The Big Upside", icon: "\uD83E\uDDEC" },
+  bigupside: { kicker: "THE UPSIDE IS REAL", label: "The Big Upside", title: "The Big Upside", icon: "\uD83D\uDD2C" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
   computecost: { kicker: "WHAT AN ANSWER COSTS", label: "The Hidden Cost", title: "The Hidden Cost", icon: "\uD83D\uDD0C" },
   aifuture: { kicker: "WHAT COMES NEXT", label: "Judging AI\u2019s Future", title: "Judging AI\u2019s Future", icon: "\uD83D\uDD2D" },
@@ -2048,32 +2048,37 @@ function SectionBadge(props) {
       E("span", { style: { fontFamily: "var(--sans)", fontWeight: 800, fontSize: 18, color: "#fff" } }, NAME[props.active])),
     E("span", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: color } }, learn ? "Learn once" : "Every word"));
 }
+// LAB 02, in How an LLM Works. The lesson explains predict-a-word-then-run-it-again;
+// this is that loop at a size a student can watch. Step 4 is the whole lab: same
+// opening line, brand new chat, different story.
+function ContinueTheStoryLab(props) {
+  var E = React.createElement;
+  var _c = useLocalStorage("llm-lab-story-steps", {}), checked = _c[0], setChecked = _c[1];
+  var STEPS = [
+    { title: "Set the rule", body: "Open Claude and send it this. The one-sentence limit is the whole point, so hold it to that.", prompt: "We’re going to write a story together, one sentence at a time. I write a sentence, then you write exactly one sentence back. Never more than one. Don’t try to finish the story unless I tell you to." },
+    { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let Claude take the next one." },
+    { title: "Go ten rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
+    { title: "Now run it again from the same line", body: "Start a brand new chat, send the same setup, and paste the exact same opening sentence. Go another ten rounds. Same start, and you will not get the same story." },
+    { title: "Put the two side by side", body: "The first sentence was identical, so every difference after it came from one thing: at each turn the model picked a likely next sentence, not the right one. It never knew the ending, because there was no ending to know yet. That’s the loop from this lesson, running slow enough to watch." }
+  ];
+  var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    labNumber: "02",
+    title: "Continue the Story",
+    hint: "Click the box after you finish each step.",
+    lead: "You just followed the loop: predict a word, add it on, run the whole thing again. Here it is at a size you can actually watch. You and Claude are going to write a story, one sentence each.",
+    action: E(ActivityCounter, { count: count, total: STEPS.length })
+  },
+    E(LabStepList, {
+      steps: STEPS,
+      checked: checked,
+      onToggle: function(i) { setChecked(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
+    }));
+}
 function AIHistorySection(props) {
   var E = React.createElement;
-  const [quizAnswers, setQuizAnswers] = useState({});
-  var WHATQUIZ = [
-    { text: "AI learns by reading mountains of text and nudging itself every time it guesses the next word wrong.", answer: "true",
-      trueFeedback: "Right. Read, guess the next word, check, nudge, billions of times. That’s training.",
-      falseFeedback: "Actually true: that guess-check-nudge loop, run billions of times, is exactly how AI learns." },
-    { text: "AI uses humans to type your answers, word by word. They all just type fast!", answer: "false",
-      trueFeedback: "Nope. Nobody’s typing for it. AI builds every answer itself, one predicted word at a time.",
-      falseFeedback: "Right. No humans in the loop. AI generates each answer on its own from patterns it learned." },
-    { text: "AI memorizes the exact answer to every question and looks it up later.", answer: "false",
-      trueFeedback: "Not quite. AI doesn’t store answers to look up. It learns patterns and builds a new answer each time.",
-      falseFeedback: "Right. It doesn’t look anything up. It absorbs patterns like “peanut butter and ___” and predicts from them." },
-    { text: "AI has read more text than any person could in a thousand lifetimes.", answer: "true",
-      trueFeedback: "Right. Training feeds it more books, sites, and chats than anyone could read in a thousand lifetimes.",
-      falseFeedback: "Actually true: AI trains on more text than a person could read in a thousand lifetimes." },
-    { text: "When AI picks the next word, it ranks every option based on probability, and the surrounding text changes those odds.", answer: "true",
-      trueFeedback: "Right. Add “banana” and jelly’s odds fall from 41% to 2%. Context reshapes the ranking.",
-      falseFeedback: "Actually true: AI ranks every candidate word by probability, and the surrounding text shifts those odds." },
-    { text: "AI knows hockey rules because it grew up in Canada.", answer: "false",
-      trueFeedback: "Ha, no. AI has no childhood and no home country. It picked up hockey from the text it trained on.",
-      falseFeedback: "Right. AI didn’t grow up anywhere. It learned hockey, and everything else, from patterns in text." },
-    { text: "AI plans out the whole sentence before it writes the first word.", answer: "false",
-      trueFeedback: "Not quite. It doesn’t map out the whole sentence first. AI builds it one predicted word at a time.",
-      falseFeedback: "Right. It doesn’t write the whole thing in advance. It predicts one word, looks again, predicts the next, all the way to the end." }
-  ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     /*#__PURE__*/React.createElement(BodyP, null, "You’ve met the two kinds of AI and named the generative one: a Large Language Model, or LLM. So how does an LLM actually turn your words into an answer?"),
@@ -2155,37 +2160,7 @@ function AIHistorySection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null, "Keep those three straight and much of the confusion falls away."),
     closeBoard("aihistory"),
-    /*#__PURE__*/E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "True or false?",
-     lead: "You just saw what AI really is: math predicting the next word, and not magic, a person, or a truth machine. For each statement, decide whether it’s true or false."},
-      /*#__PURE__*/E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        WHATQUIZ.map(function(item, i) {
-          var answered = quizAnswers[i] !== undefined;
-          var picked = quizAnswers[i];
-          var correct = answered && picked === item.answer;
-          function PillButton(value, label) {
-            return /*#__PURE__*/E(FeedbackPill, {
-              key: value,
-              answered: answered,
-              isCorrect: value === item.answer,
-              isPicked: picked === value,
-              label: label,
-              onClick: function() { setQuizAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
-            });
-          }
-          return /*#__PURE__*/E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: item.text,
-            answered: answered,
-            correct: correct,
-            feedback: answered ? (picked === "true" ? item.trueFeedback : item.falseFeedback) : null
-          },
-            PillButton("true", "True"),
-            PillButton("false", "False"));
-        }))),
+    /*#__PURE__*/E(ContinueTheStoryLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
@@ -2251,41 +2226,58 @@ function WatchTonightSeeIt() {
         predCard,
         genCard)));
 }
-function RecOrGenTryIt(props) {
-  var ROWS = [
-    { use: "Netflix suggesting your next show", correct: "rec", fb: {
-      rec: "Right. It ranks shows that already exist and serves the top match. Nothing new is made.",
-      gen: "Not quite. Netflix doesn’t create a new show every time it makes a recommendation. It ranks a show that already exists." } },
-    { use: "ChatGPT writing you a birthday poem", correct: "gen", fb: {
-      gen: "Right. The poem didn’t exist until you asked. It’s built fresh, word by word.",
-      rec: "Not quite. There’s no list of poems to pick from. ChatGPT builds a new one, so it’s generative." } },
-    { use: "Spotify building you a playlist of songs you might like", correct: "rec", fb: {
-      rec: "Right. It’s choosing from songs that already exist and ordering them for you.",
-      gen: "Not quite. Spotify isn’t writing new music, it’s ranking songs that already exist. That’s recommendation." } },
-    { use: "Gemini writing your Instagram caption", correct: "gen", fb: {
-      gen: "Right. The caption is written fresh for your post. There was nothing to pick from.",
-      rec: "Not quite. It isn’t choosing from existing captions, it’s generating new text. That’s generative." } },
-    { use: "TikTok choosing which videos to show you next", correct: "rec", fb: {
-      rec: "Right. It ranks videos that already exist to predict what you’ll watch. It never makes a video.",
-      gen: "Not quite. TikTok doesn’t create videos, it picks which existing ones to show you. That’s recommendation." } }
+// Shared step list for the hands-on labs: a checkbox row per step, plus an optional
+// starter-prompt card in mono. Lifted verbatim from the Build the Dino Game markup.
+// The five older labs still inline their own copy; converge them when one is next touched.
+function LabStepList(props) {
+  var E = React.createElement;
+  var steps = props.steps || [];
+  return E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+    steps.map(function(st, i) {
+      var done = !!props.checked[i];
+      return E("div", {
+        key: i,
+        style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+      },
+        E("button", {
+          "aria-pressed": done,
+          "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"),
+          onClick: function() { props.onToggle(i); },
+          style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }
+        }, done ? "✓" : ""),
+        E("span", { style: { flex: 1, minWidth: 0 } },
+          E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+          E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+          st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+    }));
+}
+
+// LAB 01, in What Is AI?. Moved here from Which App? so every later lesson can assume
+// the student has Claude open. Nothing before this lesson sends anyone to an app.
+function SetUpClaudeLab(props) {
+  var E = React.createElement;
+  var _c = useLocalStorage("llm-lab-setup-steps", {}), checked = _c[0], setChecked = _c[1];
+  var STEPS = [
+    { title: "Get Claude", body: "Sign up at claude.ai. It runs right in your browser, nothing to install. Set it up on a computer rather than your phone, so there’s room to work." },
+    { title: "Ask Claude about itself", body: "Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word.", prompt: "What are you good at, and what should I not fully trust you on?" },
+    { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, a draft to start. Notice how it feels to use a real AI on a real task." },
+    { title: "End with a laugh", body: "Ask Claude for a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
   ];
-  var LABELS = { rec: "Recommendation", gen: "Generative" };
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "What type of AI? Recommendation or Generative?",
-    lead: "For each example, decide whether it’s recommendation AI picking from what already exists, or generative AI making something new."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      ROWS.map(function(r, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.use, answered: answered, correct: correct, feedback: answered ? r.fb[answers[i]] : null },
-          ["rec", "gen"].map(function(c) {
-            return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
-              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
-          }));
-      })));
+  var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    labNumber: "01",
+    title: "Set It Up and Use It",
+    hint: "Click the box after you finish each step.",
+    lead: "You know what AI is now. Go get one. Any of the big three works, but the rest of this course uses Claude so the hands-on steps line up.",
+    action: E(ActivityCounter, { count: count, total: STEPS.length })
+  },
+    E(LabStepList, {
+      steps: STEPS,
+      checked: checked,
+      onToggle: function(i) { setChecked(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
+    }));
 }
 function LLMsSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -2345,7 +2337,8 @@ function LLMsSection(props) {
       ]
     }),
     closeBoard("llms"),
-    /*#__PURE__*/React.createElement(RecOrGenTryIt, null),
+    /*#__PURE__*/React.createElement(SetUpClaudeLab, null),
+    /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: How an LLM Works" })
   );
 }
@@ -3359,9 +3352,38 @@ function WhyDeeperSection(props) {
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
 }
+// LAB 03, in Does AI Think?. The game manufactures exactly the illusion this lesson
+// exists to puncture, so the last two steps do the puncturing. Step 4 is deliberately
+// written so both outcomes are interesting: no lab in this course may depend on
+// getting the model to fail on demand.
+function TwentyQuestionsLab(props) {
+  var E = React.createElement;
+  var _c = useLocalStorage("llm-lab-twenty-steps", {}), checked = _c[0], setChecked = _c[1];
+  var STEPS = [
+    { title: "Write your word down first", body: "One everyday object. Put it in your notes or on paper before you start. Lock it in, because once the questions get close it is very tempting to drift." },
+    { title: "Set up the game", body: "Send this to Claude, then answer only yes or no. No hints, no hedging, no “sort of.”", prompt: "I’m thinking of one everyday object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
+    { title: "Watch the first four questions", body: "Those are the tell. Alive or not. Man-made or not. Bigger than a microwave or not. Each one throws away about half of everything still possible, which is how twenty questions can pin down one object out of roughly a million." },
+    { title: "Play again with something that isn’t an object", body: "Try jealousy, or Tuesday, or the number seven. Watch whether the questions stay as sharp. Concrete things sit in neat piles. Abstract ones sit in messier ones, and either way you learn something about the map it’s using." },
+    { title: "Name what actually happened", body: "It never knew your word and it never guessed at random. It walked a map of how things relate to each other and cut that map in half, over and over. That is genuinely impressive. It is also pattern work all the way down, and nobody in there was wondering what you were thinking." }
+  ];
+  var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    labNumber: "03",
+    title: "Twenty Questions",
+    hint: "Click the box after you finish each step.",
+    lead: "This lesson says AI runs on patterns, not thought. Here is the hardest version of that to believe: let it read your mind, then look at how it actually did it.",
+    action: E(ActivityCounter, { count: count, total: STEPS.length })
+  },
+    E(LabStepList, {
+      steps: STEPS,
+      checked: checked,
+      onToggle: function(i) { setChecked(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
+    }));
+}
 function DoesAIThinkSection(props) {
   var E = React.createElement;
-  const [answers, setAnswers] = useState({});
 
   var COLUMNS = [
     {
@@ -3394,25 +3416,7 @@ function DoesAIThinkSection(props) {
     }
   ];
 
-  var ITEMS = [
-    { text: "AI understands what your words actually mean.", answer: "illusion", headline: "That just sounds true.",
-      realFeedback: "It reads like understanding, but watch what\u2019s happening underneath. AI is predicting which words tend to follow which. Looks like meaning. Isn\u2019t.",
-      illusionFeedback: "Right. AI doesn\u2019t understand meaning, it works out which words tend to go together and predicts from there." },
-    { text: "AI feels bad when it gives you a wrong answer.", answer: "illusion", headline: "That just sounds true.",
-      realFeedback: "It writes \u201CI\u2019m so sorry\u201D so convincingly that it can feel real. But there\u2019s nobody home to feel anything. Apologies are a pattern it has seen a million times. The words are there. The feeling isn\u2019t.",
-      illusionFeedback: "Right. No feelings in there. It writes \u201CI\u2019m so sorry\u201D because apologies are a pattern it has seen a million times, not because anything is bothered." },
-    { text: "AI knows when it doesn\u2019t know something.", answer: "illusion", headline: "That just sounds true.",
-      realFeedback: "If only. When AI hits something it doesn\u2019t know, it doesn\u2019t go quiet. It predicts confident-sounding words anyway. That\u2019s how it invents facts without flinching.",
-      illusionFeedback: "Right. When it has no good answer, it doesn\u2019t go quiet. It predicts confident-sounding words anyway. That\u2019s how it can invent a fact and never flinch." },
-    { text: "AI knows when something you create is truly beautiful.", answer: "illusion", headline: "That just sounds true.",
-      realFeedback: "It can praise your work in glowing detail, but it has never been moved by a song or a painting. It\u2019s matching your creation against patterns of what people have called beautiful. The compliment is borrowed.",
-      illusionFeedback: "Right. AI has no taste of its own. It echoes what people in its training data called beautiful. Whether your work is truly beautiful is a judgment only a human can make." },
-    { text: "AI can sound completely sure and be completely wrong.", answer: "real", headline: "That\u2019s real.",
-      realFeedback: "True, and it\u2019s most of why this course exists. Sounding sure and being right are different things. Telling them apart is your job, not the tool\u2019s.",
-      illusionFeedback: "Wish it were. Sounding sure is a pattern it learned from human writing, not a sign it knows anything. The fluency is the trick, and catching that is your job, not the tool\u2019s." }
-  ];
 
-  const allAnswered = Object.keys(answers).length >= ITEMS.length;
 
   return E("div", null,
     E(LessonHeader, { sectionId: "doesaithink" }),
@@ -3444,40 +3448,7 @@ function DoesAIThinkSection(props) {
     closeBoard("doesaithink"),
 
 
-    E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "True, or Just Sounds True?",
-     lead: "AI can sound like it thinks, feels, and understands. For each statement, decide whether it\u2019s something AI really does, or something that just sounds true."},
-      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        ITEMS.map(function(item, i) {
-          var answered = answers[i] !== undefined;
-          var picked = answers[i];
-          var correct = answered && picked === item.answer;
-          function PillButton(value, label) {
-            var isPicked = picked === value;
-            return E(FeedbackPill, {
-              key: value,
-              answered: answered,
-              isCorrect: value === item.answer,
-              isPicked: isPicked,
-              label: label,
-              onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
-            });
-          }
-          return E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: item.text,
-            answered: answered,
-            correct: correct,
-            headline: item.headline,
-            feedback: answered ? (picked === "real" ? item.realFeedback : item.illusionFeedback) : null
-          },
-            PillButton("real", "True"),
-            PillButton("illusion", "Just sounds true"));
-        }))),
-
+    E(TwentyQuestionsLab, null),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("control"); },
@@ -6104,7 +6075,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "04",
+      labNumber: "05",
       title: "Set Up Your Context",
       hint: "Click the box after you finish each step.",
       lead: "Time to build your own context. In a few minutes you’ll tell Claude who you are and create your first project. Everything you set up here follows you through the rest of the course.",
@@ -6262,14 +6233,29 @@ function DocumentChatSection(props) {
 
 
 function ModelSelectionSection(props) {
-  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-whichapp-steps", {});
-  const STEPS = [
-    { title: "Get Claude", body: "Sign up at claude.ai. It runs right in your browser, nothing to install. You’ll use Claude later in the course when you start coding. Set it up on a computer rather than your phone, so there’s room to work." },
-    { title: "Ask Claude about itself", body: "Send it: “What are you good at, and what should I not fully trust you on?” Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word." },
-    { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, or a draft to start. Notice how it feels to use a real AI on a real task." },
-    { title: "End with a laugh", body: "Ask Claude to tell you a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
+  const [reachAnswers, setReachAnswers] = useState({});
+  // Priming activity: no correct answer. Every pill passes isCorrect:true, so the
+  // pick greens and the others stay neutral. The lesson's own honest answer is that
+  // any of the three works, so scoring one as right would contradict it.
+  const REACH = [
+    { job: "Your history essay is due Friday, and you want something to argue back at your thesis before your teacher does.", opts: {
+      chatgpt: { headline: "The Anything Box.", fb: "It’ll do it, and it’s the default for a reason: no setup, no deciding, just ask." },
+      claude: { headline: "Plays to its philosophy.", fb: "Arguing carefully with you about an argument is the thing it’s tuned for. Push it to disagree, not to agree." },
+      gemini: { headline: "Reasonable.", fb: "And if the essay already lives in Google Docs, having the AI sitting in the same place is worth real time." } } },
+    { job: "You need the three key dates pulled out of a 40-page PDF your teacher posted.", opts: {
+      chatgpt: { headline: "Works fine.", fb: "Upload and ask. This is bread-and-butter work for all three of them." },
+      claude: { headline: "Works fine.", fb: "Long documents are comfortable territory, so 40 pages isn’t a stretch." },
+      gemini: { headline: "Works fine.", fb: "And it’s the shortest path of the three if that PDF is already sitting in your Drive." } } },
+    { job: "You want to know what actually happened in the news this week, with links you can click and check.", opts: {
+      chatgpt: { headline: "Good instinct.", fb: "It searches and it cites. Now click the links. A citation you never opened isn’t a check." },
+      claude: { headline: "It’ll search.", fb: "Same rule though: click the links. A citation you never opened isn’t a check." },
+      gemini: { headline: "Home turf.", fb: "Search is what Google does. Still click the links, for exactly the same reason." } } },
+    { job: "It’s 11pm, you’re on your phone, and you want one confusing paragraph from tonight’s reading explained simply.", opts: {
+      chatgpt: { headline: "Sure.", fb: "And this is the case where the choice matters least. Any of the three explains a paragraph." },
+      claude: { headline: "Sure.", fb: "And this is the case where the choice matters least. Any of the three explains a paragraph." },
+      gemini: { headline: "Sure.", fb: "And this is the case where the choice matters least. Any of the three explains a paragraph." } } }
   ];
-  var labCheckedCount = STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
+  const REACH_LABELS = { chatgpt: "ChatGPT", claude: "Claude", gemini: "Gemini" };
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to download and use. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
@@ -6362,26 +6348,33 @@ function ModelSelectionSection(props) {
     "We leaned on one more tool: NotebookLM, which is powered by Gemini. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and NotebookLM did the rest."),
   closeBoard("modelselection"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "lab",
-    surface: "teal",
-    labNumber: "02",
-    title: "Set It Up and Use It",
-    hint: "Click the box after you finish each step.",
-    lead: "Any of the three works, but for the rest of this course we’ll use Claude so the hands-on steps line up. Let’s get it set up and put it to work right now.",
-    action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: STEPS.length })
+    variant: "try",
+    surface: "mint",
+    title: "Which One Would You Reach For?",
+    lead: "No right answers here. For each job, pick the app you’d actually open, then see what that choice buys you."
   },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        STEPS.map(function(st, i) {
-          var done = !!labChecked[i];
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-          },
-            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            /*#__PURE__*/React.createElement("span", null,
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
-        }))),
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      REACH.map(function(r, i) {
+        var picked = reachAnswers[i];
+        var answered = picked !== undefined;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: r.job,
+          answered: answered,
+          correct: true,
+          alignTop: true,
+          eyebrow: "Your pick",
+          headline: answered ? r.opts[picked].headline : null,
+          feedback: answered ? r.opts[picked].fb : null
+        },
+          ["chatgpt", "claude", "gemini"].map(function(k) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, {
+              key: k, answered: answered, isCorrect: true, isPicked: picked === k, label: REACH_LABELS[k],
+              onClick: function() { setReachAnswers(function(p) { var u = Object.assign({}, p); u[i] = k; return u; }); }
+            });
+          }));
+      }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
@@ -6991,7 +6984,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "05",
+      labNumber: "06",
       title: "Build the Dino Game",
       hint: "Click the box after you finish each step.",
       lead: "You’ve spent this lesson catching AI when it’s wrong. Now see the other side: what it builds when you steer it. You’re going to make your own version of the classic no-wifi dinosaur game, without writing a single line of code.",
@@ -7568,7 +7561,7 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "03",
+    labNumber: "04",
     title: "Good Prompt, Bad Prompt",
     hint: "Click the box after you finish each step.",
     lead: "You\u2019ve read about good and bad prompts. Now feel the difference. In this lab you\u2019ll send Claude a lazy prompt and a loaded one, and watch the same AI turn into a different tool.",
@@ -7762,7 +7755,7 @@ function Lab01CourseNotebook() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "01",
+    labNumber: "08",
     title: "Build Your Course Notebook",
     hint: "Click the box after you complete each step.",
     lead: "Your first lab. In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a NotebookLM study notebook and use it to quiz yourself.",
@@ -8608,7 +8601,7 @@ function FlatteryTrapSection(props) {
       variant: "lab",
       surface: "teal",
       title: "Make Yours Blunt",
-      labNumber: "06",
+      labNumber: "07",
       hint: "Click the box after you finish each step.",
       lead: "You know why AI flatters. Now reach into the settings and turn it down. Ten minutes, and every chat you open from here on starts more honest.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: FLAT_LAB_STEPS.length })},

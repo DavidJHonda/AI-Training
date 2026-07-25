@@ -358,6 +358,7 @@ const CLOSE_BOARDS = {
   supporttrap: { pill: "AI’s supportive words are math, not support.", sticky: "Real support comes from people." },
   faketrap: { pill: "Seeing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Embrace the Future
+  bigupside: { pill: "The upside is real, and it already happened.", sticky: "Judge the good news like you judge the bad." },
   workchanges: { pill: "The jobs reshuffle. They don’t vanish.", sticky: "The edge goes to whoever works with it." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
   aijudges: { pill: "Sometimes AI decides about you.", sticky: "Ask for the paper trail." },
@@ -1802,7 +1803,7 @@ const SECTION_GROUPS = [{
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
 }, {
   label: "Embrace the Future",
-  sections: ["openerrealworld", "workchanges", "agents", "aijudges", "computecost", "aifuture", "talkingai"]
+  sections: ["openerrealworld", "bigupside", "workchanges", "agents", "aijudges", "computecost", "aifuture", "talkingai"]
 }, {
   label: "Build Your Skills",
   sections: ["openerskills", "choosemodel", "askai", "thoughtpartner", "humanedge", "creativethinking", "becurious", "buildedge"]
@@ -1866,6 +1867,7 @@ const SECTION_META = {
   privacy: { kicker: "WHAT YOU TYPE TRAVELS", label: "Privacy", icon: "\uD83D\uDD12" },
   aijudges: { kicker: "DECISIONS ABOUT YOU", label: "When AI Judges You", title: "When AI Judges You", icon: "\u2696\uFE0F" },
   faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "Fake Trap", title: "Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
+  bigupside: { kicker: "THE UPSIDE IS REAL", label: "The Big Upside", title: "The Big Upside", icon: "\uD83E\uDDEC" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
   computecost: { kicker: "WHAT AN ANSWER COSTS", label: "The Hidden Cost", title: "The Hidden Cost", icon: "\uD83D\uDD0C" },
   aifuture: { kicker: "WHAT COMES NEXT", label: "Judging AI\u2019s Future", title: "Judging AI\u2019s Future", icon: "\uD83D\uDD2D" },
@@ -9004,8 +9006,9 @@ function OpenerRealWorldSection(props) {
     groups: [
       {
         kicker: "THE BIG SHIFTS",
-        bridge: "First, the changes already underway in work and in what AI can do on its own.",
+        bridge: "First, what AI is already doing in the world, and the changes underway in work and in what AI can do on its own.",
         questions: [
+          { question: "What is AI actually good for?", lessonId: "bigupside" },
           { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
           { question: "What happens when AI stops answering and starts doing things?", lessonId: "agents" }
         ]
@@ -9025,8 +9028,8 @@ function OpenerRealWorldSection(props) {
       "By the end, you\u2019ll read AI news the way you read AI answers: clearly, without panic and without hype. You\u2019ll know what is actually changing and what to do when the change points at you."
     ],
     question: "What\u2019s actually coming, and what do I do about it?",
-    nextLessonId: "workchanges",
-    nextLessonLabel: "Next: Work Changes",
+    nextLessonId: "bigupside",
+    nextLessonLabel: "Next: The Big Upside",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -10737,6 +10740,113 @@ function HumanEdgeSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("creativethinking"); }, label: "Next: Creative Thinking" })
   );
 }
+function BigUpsideSection(props) {
+  var E = React.createElement;
+  var TRACK = [
+    { icon: "🧬", era: "1972", transformed: "The problem gets named" },
+    { icon: "🔬", era: "Next 50 years", transformed: "About 200,000 shapes solved in labs" },
+    { icon: "🏆", era: "2020", transformed: "AlphaFold matches the lab" },
+    { icon: "🌍", era: "2022", transformed: "200 million released, free" }
+  ];
+  var MORE = [
+    {
+      eyebrow: "MEDICINE",
+      headline: "New antibiotics",
+      body: "Bacteria are learning to survive our drugs faster than we find new ones. In 2023, MIT researchers used AI to screen thousands of compounds and found one that kills a superbug that shrugs off almost everything else. They named it abaucin."
+    },
+    {
+      eyebrow: "WEATHER",
+      headline: "Weather you can plan around",
+      body: "DeepMind built a weather model that runs a 10-day global forecast in about a minute on a single machine. The old way takes hours on a supercomputer. Better storm warnings means more time to get people out."
+    },
+    {
+      eyebrow: "MATERIALS",
+      headline: "Materials that don’t exist yet",
+      body: "Better batteries, solar panels, and chips all wait on someone finding the right crystal. DeepMind’s GNoME predicted about 2.2 million new ones, including roughly 380,000 stable enough to be worth making. Researchers called it centuries of discovery, done at once."
+    }
+  ];
+  var DONE_OR_PREDICTED = [
+    {
+      prompt: "AI has predicted the 3D shape of nearly every protein known to science.",
+      options: [
+        { label: "Already happened", correct: true, headline: "Done in 2022.", feedback: "About 200 million structures, released free to anyone. That is a finished result you can go look up right now." },
+        { label: "Still a prediction", correct: false, headline: "This one is history.", feedback: "Not a forecast. DeepMind released the structures in 2022 and more than two million users in 190 countries have pulled from them since." }
+      ]
+    },
+    {
+      prompt: "AI will help cure all disease within about ten years.",
+      options: [
+        { label: "Already happened", correct: false, headline: "Nowhere close.", feedback: "This is a claim about the future made by someone with a real track record. A good track record is still not the same as a result." },
+        { label: "Still a prediction", correct: true, headline: "A prediction, from a credible person.", feedback: "Hassabis has said this and he has earned some credibility. It remains a claim about the future, and drug trials take years no matter who designed the drug." }
+      ]
+    },
+    {
+      prompt: "AI found a new antibiotic that kills a superbug our existing drugs can’t.",
+      options: [
+        { label: "Already happened", correct: true, headline: "MIT, 2023.", feedback: "They named it abaucin. Worth noting: it still has to clear years of trials before a doctor can prescribe it to anyone." },
+        { label: "Still a prediction", correct: false, headline: "It happened.", feedback: "AI narrowed thousands of candidate compounds down to a short list, and the lab work confirmed one of them worked." }
+      ]
+    },
+    {
+      prompt: "AI will design drugs start to finish with no human scientists involved.",
+      options: [
+        { label: "Already happened", correct: false, headline: "Not even close.", feedback: "Every AI-designed drug in trials today had teams of humans picking the target, running the lab work, and signing off on the results." },
+        { label: "Still a prediction", correct: true, headline: "And a shaky one.", feedback: "Same shape as everything else you’ve learned. AI does the part that scales. Humans pick the problem and own the outcome." }
+      ]
+    }
+  ];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "bigupside" }),
+    E(BodyP, null,
+      "You just spent a whole section on what goes wrong. Hallucinations, bias, flattery, fakes. All of it real, all of it worth knowing. Now here is the other half, which is just as real: this same technology solved a problem that had beaten biology for fifty years."),
+    E(SectionKicker, null, "A 50-YEAR-OLD PROBLEM"),
+    E(BodyP, null,
+      "Your body runs on proteins. Think of them as tiny machines. They digest your food, carry oxygen, fight off infections, and build muscle. Each one starts as a long string of chemical beads, and then that string folds itself into a specific 3D shape in a fraction of a second."),
+    E(BodyP, null,
+      "The shape is the whole thing. What a protein does depends entirely on how it folds. Which means how a disease works comes down to shapes, and whether a drug can block it comes down to shapes."),
+    E(BodyP, null,
+      "Reading the string was easy. Predicting the shape it folds into was brutal. One protein could take a scientist years of lab work and a pile of expensive equipment. In fifty years of trying, humans had worked out roughly 200,000 shapes. There are hundreds of millions of proteins."),
+    E(Callout, { label: "Why it’s so hard:" },
+      "A medium-sized protein has more possible shapes than there are atoms in the universe. It finds the right one almost instantly, almost every time. Scientists named this Levinthal’s paradox and stared at it for decades."),
+    E(SectionKicker, null, "THE GUY WHO SOLVED IT"),
+    E(BodyP, null,
+      "Demis Hassabis hit chess master level at 13. At 17 he was co-designing a video game called Theme Park that sold millions of copies. Then he went and got a PhD in neuroscience, because he wanted to understand how the brain works well enough to build one. In 2010 he started an AI company called DeepMind. Google bought it four years later."),
+    E(BodyP, null,
+      "In 2020 his team entered a system called AlphaFold into CASP, the contest scientists run every two years to see who can predict protein shapes best. AlphaFold’s predictions came back about as accurate as real lab experiments. The organizers said the fifty-year problem was essentially solved."),
+    E(BodyP, null,
+      "Then DeepMind did the part that actually mattered. In 2022 they released the predicted shape of around 200 million proteins, close to every protein known to science, free to anybody who wants them. More than two million users in 190 countries have pulled from that database. In 2024, Hassabis and his colleague John Jumper shared the Nobel Prize in Chemistry for it."),
+    E(Timeline, { items: TRACK, headline: "Fifty years, then two." }),
+    E(PullQuote, {
+      quote: "I’ve dedicated my career to advancing AI because of its unparalleled potential to improve the lives of billions of people.",
+      cite: "Demis Hassabis",
+      source: "On winning the 2024 Nobel Prize in Chemistry"
+    }),
+    E(ShowcaseBox, {
+      kicker: "IT’S NOT JUST PROTEINS",
+      intro: "Same pattern each time. A problem with too many possibilities for humans to search by hand, and a model that can search it anyway.",
+      marginBottom: 24
+    },
+      E(LabeledCardStack, { items: MORE })),
+    E(BodyP, null,
+      "Notice that none of this is a chatbot. Same core idea you learned in Understand AI, which is a model finding patterns in enormous amounts of data, just pointed at a different kind of problem. “AI” is a much bigger thing than the app on your phone."),
+    E(SectionKicker, null, "NOW THE HONEST PART"),
+    E(BodyP, null,
+      "Hassabis thinks this is only the start. He founded a second company, Isomorphic Labs, to use this kind of AI to design actual medicines, and he has said he believes AI can help cure all disease within about a decade."),
+    E(BodyP, null,
+      "That is a prediction, not a result. Knowing a protein’s shape is not the same as having a drug. A medicine still has to be designed, tested in a dish, tested in animals, tested in people across three rounds of trials, and approved by regulators. Isomorphic’s first candidates are only now reaching human trials, and that timeline has already slipped once. Ten years is aggressive."),
+    E(BodyP, null,
+      "See what just happened there. You gave the good news exactly the same treatment you gave the bad news in the last section. That is the skill. Hype comes in both flavors, and “AI will fix everything” deserves the same check as “AI will ruin everything.”"),
+    E(ChoiceQuiz, {
+      title: "Done, or Predicted?",
+      instruction: "Four claims about AI and science. Some already happened. Some are still somebody’s forecast. Tell them apart.",
+      scenarios: DONE_OR_PREDICTED
+    }),
+    E(KeyInsight, { lead: "The upside is real, and it’s checkable." },
+      "AlphaFold already happened. Curing all disease is still a prediction. Learn to tell those two apart and you can be genuinely excited about AI without being sold anything."),
+    closeBoard("bigupside"),
+    E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("workchanges"); }, label: "Next: Work Changes" }));
+}
 function WorkChangesSection(props) {
   var E = React.createElement;
   const [taskAnswers, setTaskAnswers] = useState({});
@@ -11661,6 +11771,7 @@ const SECTION_COMPONENTS = {
   humanedge: HumanEdgeSection,
   creativethinking: CreativeThinkingSection,
   becurious: BeCuriousSection,
+  bigupside: BigUpsideSection,
   workchanges: WorkChangesSection,
   computecost: TheHiddenCostSection,
   aifuture: AIFutureSection,

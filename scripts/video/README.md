@@ -60,6 +60,34 @@ so any splice needs exactly ONE re-encode pass:
   on the support-trap-v2 build, 322 frames gone, caught by frame count).
   Re-stamp with `settb=1/30,setpts=N/(30*TB)` directly after loop instead.
 
+## A cut count is NOT a strobe measure (learned the hard way, 2026-07-25)
+
+`scenes.py` flags a frame whenever the 160x90 mean-abs-diff exceeds 12. On
+content that pans slowly across high-contrast detail — handwritten numbers,
+textured paper, dense boards — ordinary smooth motion clears 12 on *every*
+frame, so a 7-second pan reports ~150 "cuts". Three spans were frozen on this
+mistake and had to be reverted.
+
+**These rolls are 24fps content in a 30fps container**, so the giveaway is a
+repeating 5-frame cycle: four frames of real change, then one near-zero
+duplicate.
+
+Diagnose by DISTRIBUTION, never by count:
+
+| | smooth motion misread | real strobe |
+|---|---|---|
+| diff magnitude | tight 12-20 band | 40-100+ |
+| max diff | under ~25 | well over 40 |
+| periodicity | regular ~0 dup every 5th frame | none |
+
+```
+# the check, before ever calling something a strobe
+.video-venv/bin/python scripts/video/scenes.py in.mp4 --seam A B | head -20
+```
+If max diff < 25 and you can see the every-fifth-frame duplicates, it is a pan
+or a build. Leave it alone — and remember r3 does not score animation, so there
+is nothing to win by freezing motion anyway.
+
 ## Recipes without a dedicated script (hand-written graphs via ffmpeg.sh)
 
 **Cut-point discovery:** cut video at a scene cut (scenes.py) that falls inside a

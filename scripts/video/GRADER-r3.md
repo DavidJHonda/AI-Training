@@ -141,3 +141,29 @@ NOTES: <at most two lines, or "none">
 ```
 
 Your final message is the return value and must be that block alone.
+
+## Grade against THIS file, never against the prompt (added 2026-07-26)
+
+The per-lesson prompts in `Prompts/` are **steering for generation**. They are
+deliberately stricter than the rubric, because it is cheap to over-fence a
+generator and expensive to repair a roll. They are NOT the grading standard.
+
+Grading a roll against its prompt inflates the defect count and makes good rolls
+look rejectable. This happened on the does-school-matter re-roll: five "rule
+violations" were logged, and on re-check under the rubric, three of them were
+not scoreable at all.
+
+The two that catch people out:
+
+- **Gibberish.** The rubric forgives incidental b-roll props outright. A phone
+  with nonsense on it while the narration says "a draft appears in seconds" is
+  incidental — the teaching point is that a draft appeared, not what it says.
+  Gibberish costs points only on a visual the narration is teaching FROM.
+- **Marks on boards.** There is no marks dimension in r3. Zero. An engine
+  highlight that tracks the narration through a board is a teaching aid, and on
+  the layers re-roll it was correctly read as evidence the board was working.
+  The original complaint that produced the blanket ban was close-board-specific
+  ("fine on content boards, not on the close").
+
+If a prompt rule is broken but the rubric does not score it, note it under SPEC
+and move on. It does not touch the number.

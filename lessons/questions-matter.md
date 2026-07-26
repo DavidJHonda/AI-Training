@@ -136,6 +136,6 @@ Notice that AI hasn’t come up yet. These four qualities worked in Socrates’ 
 
 A better question doesn’t make the answer automatically true. It just makes the answer more focused, more useful, and easier to check.
 
-The question is the whole game.
+Answers got cheap. Questions didn’t.
 
 Frame the problem. Ask the next better question.

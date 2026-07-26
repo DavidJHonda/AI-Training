@@ -32,6 +32,6 @@ Read it, judge if it’s right, push back, and make it better. AI can’t do thi
 
 Those two things are your domain. This is where you need to live. Double down on building your knowledge and skills. And one day you’ll be the CEO at Google.
 
-Know more than the tool.
+The tool brings answers. You bring judgment.
 
 It starts today, not when you land the job.

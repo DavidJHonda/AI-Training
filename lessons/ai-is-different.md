@@ -208,6 +208,6 @@ It’s called a **guardrail**, and its job is to block, redirect, or limit speci
 
 So when an app refuses something dangerous, that’s the guardrail talking, not the AI making a call of its own.
 
-Patterns, not rules.
-
 Pick the tool that fits the job.
+
+Patterns handle the mess. Rules stay consistent.

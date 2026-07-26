@@ -176,4 +176,4 @@ The whole stack of layers is called a **neural network**. The design is loosely 
 
 Meaning builds up, layer by layer.
 
-The blank box gets filled in the next lesson.
+Attention, then transformation. Dozens of times.

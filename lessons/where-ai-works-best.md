@@ -92,4 +92,4 @@ But exposure has a limit. AI is often good at the common version of a task, not 
 
 “Can try” is not “built for.”
 
-That’s why your judgment still matters.
+Fluent with the common version, not always the best.

@@ -206,6 +206,6 @@ No outside clue this time, the words it already wrote are the clue. Given “It 
 
 The real math behind LLMs goes way past what’s here. Linear algebra moves the numbers. Calculus tunes the model during training. Plenty of other math is in there too. But two ideas from probability, plus the loop that turns them into language, are the foundation. Once you understand them, you understand the shape of how AI works. Everything else is engineering.
 
-Two ideas, plus the loop.
+A chance. A clue. One word at a time.
 
 Everything else is engineering.

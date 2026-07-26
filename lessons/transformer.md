@@ -214,4 +214,4 @@ The fix happens before the first layer. Every token’s vector gets a **position
 
 Attention is all you need.
 
-The Transformer — the T in ChatGPT.
+Every nuance resolved by weighing the words around it.

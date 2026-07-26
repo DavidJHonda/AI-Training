@@ -78,6 +78,6 @@ Gemini
 - ✓Fact-checking what we used
 We leaned on one more tool: NotebookLM, which is powered by Gemini. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and NotebookLM did the rest.
 
-The skills transfer.
+Pick a home base. Learn it deeply.
 
-The app is just where you practice them.
+The skills transfer. The app is just where you practice them.

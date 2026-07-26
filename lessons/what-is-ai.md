@@ -130,6 +130,6 @@ Model
 
 The trained AI itself. It takes your input and **predicts a likely output** based on patterns it learned from data.
 
-The model predicts a likely output.
+Two kinds. One picks, one makes.
 
-From patterns it learned in data.
+This course is about the one that makes.

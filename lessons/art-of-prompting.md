@@ -118,4 +118,4 @@ How much packaging does a prompt need? A quick factual question: none, just ask.
 
 A prompt is a briefing, not magic words.
 
-That’s the whole art.
+The more the result matters, the more you bring.

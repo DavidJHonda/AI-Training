@@ -48,6 +48,6 @@ The glue-on-pizza advice happened with RAG on.
 
 It’s why hallucinations are rarer than they used to be. But rarer isn’t zero.
 
-Probable isn’t true.
+Probable isn’t always true.
 
 And it sounds the same when it’s wrong.

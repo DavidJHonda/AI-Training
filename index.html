@@ -108,6 +108,17 @@
   .course-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .course-cta-arrow { transition: transform .16s; }
   .course-cta:hover .course-cta-arrow { transform: translateX(3px); }
+  /* NumberedColumns, capped at 3 across. Five items read better as 3+2 than as
+     five narrow strips, and 3+2 is the only layout that fits a 16:9 video board
+     without cropping — the page and lessons/*.jpg must render the same shape.
+     Breakpoints sit at 700/500 so the 800px board-capture viewport still gets 3.
+     Flex rather than grid: a short final row must centre, and grid can only
+     start-align it. flex-grow stays 0 so the orphan row centres at its natural
+     width instead of stretching to fill. */
+  .numcols-3{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+  .numcols-3 > *{ flex:0 1 calc((100% - 24px) / 3); }
+  @media (max-width:700px){ .numcols-3 > *{ flex-basis:calc((100% - 12px) / 2); } }
+  @media (max-width:500px){ .numcols-3 > *{ flex-basis:100%; } }
   /* Welcome gate: implements the "Course Opener" design (claude.ai/design, 2026-07-14) */
   .gate-screen{ position:relative; overflow:hidden; min-height:100vh; padding:64px 24px 80px; background:radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%); font-family:var(--sans); color:#c7d0f0; }
   .gate-watermark{ position:absolute; right:-160px; bottom:-140px; width:560px; max-width:70vw; opacity:.05; pointer-events:none; }
@@ -1351,7 +1362,11 @@ function NumberedRows(props) {
 }
 
 function NumberedColumns(props) {
-  return React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(125px, 1fr))", gap: 12 } },
+  // cap3: three across, wrapping to 3+2 for five items. Opt-in, because it also
+  // governs how the board captures for the video (see .numcols-3).
+  return React.createElement("div", props.cap3
+    ? { className: "numcols-3" }
+    : { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(125px, 1fr))", gap: 12 } },
     props.items.map(function(item, i) {
       return React.createElement("div", {
         key: i,
@@ -2974,6 +2989,7 @@ function WelcomeSection(props) {
       marginBottom: 28
     },
       E(NumberedColumns, {
+        cap3: true,
         items: [
           { label: "Work", body: "Learn when and how to use AI." },
           { label: "Understand", body: "Open the hood and see how AI does its magic." },

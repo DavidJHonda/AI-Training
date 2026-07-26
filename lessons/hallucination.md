@@ -32,9 +32,21 @@ Not every wrong answer is a hallucination. These are the four patterns to watch 
 
 ## Retrieval-Augmented Generation
 
-The industry’s workaround is **RAG** (Retrieval-Augmented Generation). For factual questions, modern chatbots search the web and write the answer from the real documents they find. It’s why hallucinations are rarer than they used to be.
+The industry’s workaround is **RAG** (Retrieval-Augmented Generation).
 
-But rarer isn’t zero. Even the big three don’t search for every answer, plenty still come straight from the model’s memory, and the glue-on-pizza advice happened with RAG on.
+## Why it helps
+
+For factual questions, modern chatbots search the web and write the answer from the real documents they find.
+
+## Why it isn’t enough
+
+Even the big three don’t search for every answer. Plenty still come straight from the model’s memory.
+
+## And it still happens
+
+The glue-on-pizza advice happened with RAG on.
+
+It’s why hallucinations are rarer than they used to be. But rarer isn’t zero.
 
 Probable isn’t true.
 

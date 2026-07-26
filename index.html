@@ -2093,6 +2093,23 @@ function ContinueTheStoryLab(props) {
       onToggle: function(i) { setChecked(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
     }));
 }
+function ThreeMythsBox() {
+  var E = React.createElement;
+  var MYTHS = [
+    { h: "Not magic", body: "It’s math working out probabilities." },
+    { h: "Not a person", body: "No thoughts, no understanding, even when it sounds like it has both." },
+    { h: "Not a truth machine", body: "It predicts what sounds likely, so a wrong answer can sound just as confident as a right one." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
+      MYTHS.map(function(m, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, m.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, m.body));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "Keep those three straight and much of the confusion falls away."));
+}
 function AIHistorySection(props) {
   var E = React.createElement;
   return /*#__PURE__*/React.createElement("div", null,
@@ -2166,15 +2183,7 @@ function AIHistorySection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "That clears up three big myths:"),
-    /*#__PURE__*/React.createElement("ul", { style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7, margin: "0 0 24px 0", paddingLeft: 22 } },
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        "AI isn’t ", /*#__PURE__*/React.createElement("strong", null, "magic"), ": it’s math working out probabilities."),
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } },
-        "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a person"), ": no thoughts, no understanding, even when it sounds like it has both."),
-      /*#__PURE__*/React.createElement("li", null,
-        "It isn’t ", /*#__PURE__*/React.createElement("strong", null, "a truth machine"), ": it predicts what sounds likely, so a wrong answer can sound just as confident as a right one.")
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null, "Keep those three straight and much of the confusion falls away."),
+    /*#__PURE__*/React.createElement(ThreeMythsBox, null),
     closeBoard("aihistory"),
     /*#__PURE__*/E(ContinueTheStoryLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -4452,6 +4461,21 @@ function BiasQuiz(props) {
     biasAllAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or comes with a biased answer key, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
 }
+function StaleInfoBox() {
+  var E = React.createElement;
+  var CARDS = [
+    { h: "What happens", body: "Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed." },
+    { h: "Why it isn’t a hallucination", body: "It isn’t inventing. It’s remembering, and the memory is out of date." },
+    { h: "The fix", body: "For anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12 } },
+      CARDS.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })));
+}
 function TrainingBiasSection(props) {
   const MECHANISMS = [
     { icon: "📈", term: "Overrepresentation", body: "Some cases appear too often in the data. The model treats them as the default." },
@@ -4498,9 +4522,8 @@ function TrainingBiasSection(props) {
       "There’s no fact-check for this trap: every fact in a distorted answer can check out. That’s why your Evaluate the Results dig list asks who’s missing. Fact-checks cover what’s on the page; bias hides in what never made the page."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Stale information"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One more data trap, and this one isn’t bias or hallucination. Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed. It isn’t inventing. It’s remembering, and the memory is out of date."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The fix: for anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself."),
+      "One more data trap, and this one isn’t bias or hallucination."),
+    /*#__PURE__*/React.createElement(StaleInfoBox, null),
     closeBoard("trainingbias"),
     /*#__PURE__*/React.createElement(BiasQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -5724,6 +5747,23 @@ function LayersStackBox() {
       E("strong", { style: { color: "var(--ink)" } }, "Same two moves at every layer."),
       " Each pass, the numbers move closer to what the token means."));
 }
+function WhyDozensBox() {
+  var E = React.createElement;
+  var CASES = [
+    { h: "A few passes", body: "Simple meaning resolves early. The plain sense of a sentence is settled in a handful of passes." },
+    { h: "Dozens of passes", body: "Catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more." },
+    { h: "Why not hundreds?", body: "Past a point, extra depth stops helping. It just makes the model more expensive to run." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
+      CASES.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "A few layers reach only shallow meaning. Stacking dozens leaves room for the deep kind."));
+}
 function LayersSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
@@ -5754,9 +5794,8 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(LayersStackBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Why are there dozens of layers?"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Because some meaning is many steps deep. Simple meaning resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. A few layers reach only shallow meaning; stacking dozens leaves room for the deep kind."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Why not hundreds more? Past a point, extra depth stops helping and just makes the model more expensive to run."),
+      "Because some meaning is many steps deep."),
+    /*#__PURE__*/React.createElement(WhyDozensBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Neural networks"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "The whole stack of layers is called a ",
@@ -6933,6 +6972,23 @@ function DinoGameDemo() {
         style: { display: "block", borderRadius: 8, background: "var(--bg)", outline: "none", touchAction: "none", cursor: "pointer" }
       })));
 }
+function RagLimitsBox() {
+  var E = React.createElement;
+  var CARDS = [
+    { h: "Why it helps", body: "For factual questions, modern chatbots search the web and write the answer from the real documents they find." },
+    { h: "Why it isn’t enough", body: "Even the big three don’t search for every answer. Plenty still come straight from the model’s memory." },
+    { h: "And it still happens", body: "The glue-on-pizza advice happened with RAG on." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
+      CARDS.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "It’s why hallucinations are rarer than they used to be. But rarer isn’t zero."));
+}
 function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
@@ -6996,9 +7052,8 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "The industry\u2019s workaround is ",
       /*#__PURE__*/React.createElement("strong", null, "RAG"),
-      " (Retrieval-Augmented Generation). For factual questions, modern chatbots search the web and write the answer from the real documents they find. It\u2019s why hallucinations are rarer than they used to be."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "But rarer isn\u2019t zero. Even the big three don\u2019t search for every answer, plenty still come straight from the model\u2019s memory, and the glue-on-pizza advice happened with RAG on."),
+      " (Retrieval-Augmented Generation)."),
+    /*#__PURE__*/React.createElement(RagLimitsBox, null),
     closeBoard("hallucination"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
@@ -10326,6 +10381,20 @@ function FullWorkflowSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("howwegothere"), label: "Next: How We Got Here" }));
 }
+function WhereValueLivesBox() {
+  var E = React.createElement;
+  var CARDS = [
+    { h: "Finding the answer", body: "For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds." },
+    { h: "Asking the question", body: "AI only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 } },
+      CARDS.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })));
+}
 function QuestionsValuableSection(props) {
   const [missingAnswers, setMissingAnswers] = useState({});
   const MISSING_SCENARIOS = [{
@@ -10448,9 +10517,7 @@ function QuestionsValuableSection(props) {
       "Half a day, then an hour, now seconds. AI makes answers cheap to get. That does not make humans less valuable. ",
       /*#__PURE__*/React.createElement("strong", null, "It changes where value lives.")
     ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds, but it only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question."
-    ),
+    /*#__PURE__*/React.createElement(WhereValueLivesBox, null),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/questions-matter.jpg",
       alt: "Three-panel scene of the same research assignment across generations: a grandfather in a Dallas Stars jersey searches a library card catalog over hours, a teen in a Stars jersey filters search results about the French Revolution for an hour or two, and two teens get an instant AI answer in seconds",

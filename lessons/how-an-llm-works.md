@@ -206,9 +206,18 @@ A full paragraph runs this loop many times, fast enough to look like thought.
 
 That clears up three big myths:
 
-- AI isn’t **magic**: it’s math working out probabilities.
-- It isn’t **a person**: no thoughts, no understanding, even when it sounds like it has both.
-- It isn’t **a truth machine**: it predicts what sounds likely, so a wrong answer can sound just as confident as a right one.
+## Not magic
+
+It’s math working out probabilities.
+
+## Not a person
+
+No thoughts, no understanding, even when it sounds like it has both.
+
+## Not a truth machine
+
+It predicts what sounds likely, so a wrong answer can sound just as confident as a right one.
+
 Keep those three straight and much of the confusion falls away.
 
 Not magic. Not a person. Not a truth machine.

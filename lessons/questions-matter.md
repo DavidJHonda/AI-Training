@@ -54,7 +54,13 @@ Seconds
 
 Half a day, then an hour, now seconds. AI makes answers cheap to get. That does not make humans less valuable. **It changes where value lives.**
 
-For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds, but it only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question.
+## Finding the answer
+
+For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds.
+
+## Asking the question
+
+AI only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question.
 
 ## What Makes a Good Question?
 

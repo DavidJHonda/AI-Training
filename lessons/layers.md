@@ -154,9 +154,21 @@ Update the meaning
 
 ## Why are there dozens of layers?
 
-Because some meaning is many steps deep. Simple meaning resolves in a few passes. But catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. A few layers reach only shallow meaning; stacking dozens leaves room for the deep kind.
+Because some meaning is many steps deep.
 
-Why not hundreds more? Past a point, extra depth stops helping and just makes the model more expensive to run.
+## A few passes
+
+Simple meaning resolves early. The plain sense of a sentence is settled in a handful of passes.
+
+## Dozens of passes
+
+Catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more.
+
+## Why not hundreds?
+
+Past a point, extra depth stops helping. It just makes the model more expensive to run.
+
+A few layers reach only shallow meaning. Stacking dozens leaves room for the deep kind.
 
 ## Neural networks
 

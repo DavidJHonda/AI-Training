@@ -153,6 +153,46 @@ puts the complete image on the LAST frame, which is the one that hands off to
 the next scene. Same motion rate, and it reads as deliberate when the scene it
 replaces was itself a push-in.
 
+**MULTI-REGION PATH (`ken_burns_path.py`) — for a dense illustration whose
+REGIONS answer successive narration beats** (first shipped: ai-is-different
+2026-07-27, 31s of Getty-watermarked stock replaced by one illustration). The
+single-region recipe above shows a still whole; this one tours it. The camera
+crops 16:9 windows straight out of the image and glides between them, so the
+frame is full-bleed the whole time — **no letterbox bars, because you never need
+the entire image at once.** Beats are `(cx, cy, w)` in the image's own pixels;
+height is derived from the output aspect, so windows stay 16:9 whatever shape
+the source is.
+
+1. Take the beat boundaries from the **original's own scene cuts** (scenes.py)
+   where they already bracket the narration. Inheriting the roll's cut rhythm
+   beats inventing one, and the region changes then land where the video always
+   changed scene.
+2. End each beat with a short **transit** (~24 frames) into the next region, so
+   the camera ARRIVES as the narration reaches it. Without it, consecutive beats
+   jump-cut between overlapping crops of one image, which reads as an editing
+   error, not a cut.
+3. Motion is smoothstepped per beat, so it settles at every narration boundary.
+   Long beats with small moves go sub-pixel near the ends — check the near-zero
+   run length, not just the max diff.
+4. `--preview` writes every keyframe as a still. **Always eyeball those before
+   rendering** — the failure mode is a window edge slicing through a heading
+   ("AI Software" cut in half). Fix by moving the edge into a gap between rows.
+
+```
+.video-venv/bin/python scripts/video/ken_burns_path.py spec.json --preview DIR
+.video-venv/bin/python scripts/video/ken_burns_path.py spec.json leg.mkv   # lossless FFV1
+ffmpeg -i base.mp4 -i leg.mkv -filter_complex \
+  "[0:v]trim=start_frame=0:end_frame=A,setpts=PTS-STARTPTS[v1];
+   [1:v]settb=1/30,setpts=N/(30*TB)[mid];
+   [0:v]trim=start_frame=B,setpts=PTS-STARTPTS[v3];
+   [v1][mid][v3]concat=n=3:v=1:a=0[v]" \
+  -map "[v]" -map 0:a -c:v libx264 -crf 18 -preset medium -pix_fmt yuv420p -c:a copy out.mp4
+```
+
+The FFV1 intermediate keeps the leg one lossy generation from the source, and
+`-c:a copy` means the audio comes out **bit-identical** — verify it with
+`-map 0:a -f md5 -` on both files, which is a stronger check than a waveform.
+
 **CLOSE-BOARD VARIANT (the standard for composed closes; retrofit shipped
 2026-07-18 across tokens, opener-understand, embeddings, does-school-matter,
 how-ai-answers, one-more-thing).** Composed close stills used to render as a

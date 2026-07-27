@@ -77,7 +77,7 @@ Then the counterintuitive turn: in the AI era, learning is more important than e
 
 Close on the lesson's own escalation: double down on building your knowledge and skills, and one day you'll be the CEO at Google. Then the close board: "Know more than the tool." over "It starts today, not when you land the job."
 """,
-    numbers="Do not invent numbers, percentages, or statistics, and draw no charts, graphs, axes, timers or counters of any kind — this lesson contains no data whatsoever.",
+    numbers="Do not invent numbers, percentages, or statistics, and draw charts only as wordless background — this lesson contains no data whatsoever.",
     props="No readable or pseudo-readable text in drawn props — never draw code editors, research papers, equations or document pages with visible writing; real words belong only on the drawn boards and in clean dark-ink labels.",
     required='the narrator must speak "Be Smarter Than the Tool" as the name of this course, the line "one day you\'ll be the CEO at Google," and the close "Know more than the tool. It starts today, not when you land the job."',
     extra=("Keep the narration in the lesson's plain, second-person voice for a 16-year-old — never substitute corporate register such as \"loses its professional value\", \"becomes a commodity\", \"director of the input\", or \"strictly human domains\".",))
@@ -97,7 +97,7 @@ Then the honest answer: for most of what you'll do, any of the three works, so d
 
 Close on the real-world example in the authors' own voice: Nate and Luke used different apps for different jobs, guided by their dad — ChatGPT for brainstorming and the Dallas Stars illustrations, Claude Code for the code and Claude Design for the pages, Gemini for current information and fact-checking, and Gemini Notebook, which is powered by Gemini, for the videos in this course. Then the close board: "The skills transfer." over "The app is just where you practice them."
 """,
-    numbers="Do not invent numbers, percentages, statistics, benchmarks or scores, and draw no charts, graphs, axes or gauges — this lesson contains no data.",
+    numbers="Do not invent numbers, percentages, statistics, benchmarks or scores, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props, and no invented app screens, menus or interfaces; real words belong only on the drawn boards and in clean dark-ink labels.",
     required='the narrator must name "In-N-Out" and "McDonald\'s" out loud, must say that Gemini Notebook is powered by Gemini and made the videos in this course, must name Nate and Luke as the builders, and must close on "The skills transfer. The app is just where you practice them."',
     extra=("Never state or imply anything about how the three apps refuse, restrict, gate or guardrail requests — no claims about one model refusing more readily than another; the lesson makes no such claim and it must not be invented.",
@@ -122,7 +122,7 @@ Then tie the three together on one rainy afternoon: standard probability gives t
 
 Close honestly, in the lesson's own words: the real math goes way past what is here — linear algebra moves the numbers, calculus tunes the model during training, and plenty of other math is in there too. But two ideas from probability plus the loop are the foundation. Then the close board: "Two ideas, plus the loop." over "Everything else is engineering."
 """,
-    numbers="The only numbers allowed anywhere are the lesson's own: 1654, 50%, 25%, the 25-to-50 update, 40%, 90%, 60%, and rain 71% / pour 18% / stay 7%. Never invent a percentage, never animate a counter through values the lesson does not contain, and draw no chart the lesson does not describe.",
+    numbers="The only numbers allowed anywhere are the lesson's own: 1654, 50%, 25%, the 25-to-50 update, 40%, 90%, 60%, and rain 71% / pour 18% / stay 7%. Never invent a percentage, never animate a counter through values the lesson does not contain, and draw charts only as wordless background the lesson does not describe.",
     props="No readable or pseudo-readable text in drawn props — never draw equation walls, chalkboards, notebooks or code with visible writing; real words and numbers belong only on the drawn boards and in clean dark-ink labels.",
     required='the narrator must use the phone-keyboard suggestion as the way into autoregressive generation, must name Pascal, Fermat and Bayes aloud, must name "Bayes\' Theorem", and must speak the closing admission that linear algebra moves the numbers and calculus tunes the model during training before landing "Everything else is engineering."')
 
@@ -144,7 +144,7 @@ Then the catch the lesson promised: if all the words arrive at once, how does th
 
 Close board: "Attention is all you need." over "The Transformer — the T in ChatGPT."
 """,
-    numbers="The only numbers allowed anywhere are the lesson's own: 2017 and eight researchers. Invent no percentages, scores or statistics, and draw no charts or axes.",
+    numbers="The only numbers allowed anywhere are the lesson's own: 2017 and eight researchers. Invent no percentages, scores or statistics, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props or backgrounds; every readable word on screen must be one the lesson actually uses, in clean dark ink.",
     required='the narrator must say "in 2017, eight researchers at Google published a paper called Attention Is All You Need", must say "the T in ChatGPT" aloud, must name "positional encoding", and must spend real explanatory time on Attention and Transformation rather than naming them.')
 
@@ -168,7 +168,7 @@ Then neural networks: the whole stack is called a neural network, loosely borrow
 
 Close board: "Meaning builds up, layer by layer." over "The blank box gets filled in the next lesson."
 """,
-    numbers="Use only the lesson's own vector values where you show them. Invent no percentages, statistics, layer counts or benchmarks, and draw no charts or axes.",
+    numbers="Use only the lesson's own vector values where you show them. Invent no percentages, statistics, layer counts or benchmarks, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props; every readable word on screen must be one the lesson uses, in clean dark ink.",
     required='the narrator must say out loud, over the cat/mat/May/rainstorm visual, that attention leans hardest on CAT and that layer by layer the model works out that IT refers to the cat — not merely that the numbers shift. Keep the plain register: never substitute phrasing like "the system resolves linguistic ambiguity by calculating mathematical relationships".')
 
@@ -192,7 +192,7 @@ Last beat, stated precisely: unbelievable became three tokens, un, believ, able,
 
 Close board: "Meaning is a row of numbers." over "Same dimensions for every token. Only the values change."
 """,
-    numbers="The only numbers allowed are the lesson's own token IDs (24317, 38106, 51820, 9246) and its taste-table values. Invent no percentages or extra rows, and draw no chart the lesson does not describe.",
+    numbers="The only numbers allowed are the lesson's own token IDs (24317, 38106, 51820, 9246) and its taste-table values. Invent no percentages or extra rows, and draw charts only as wordless background the lesson does not describe.",
     props="No readable or pseudo-readable text in drawn props, and never letter a misspelled word into a drawing; every readable word must be one the lesson uses.",
     required='the narrator must say that combining the piece-vectors produces the meaning of the whole WORD (never "the full sentence"), and must describe Coke and Pepsi as close or nearly identical on those six dimensions — never as having the same meaning.')
 
@@ -234,7 +234,7 @@ Then the turn: that right column isn't a feeling, it's a to-do list. Three moves
 
 Close in the lesson's own words: controlling your skill and judgment isn't a consolation prize for the stuff you can't change, it's the one lever that actually tilts your odds, even when the big forces aren't yours. Then the close board: "The volume is loud. The dial is yours." over "Skill and judgment tilt your odds."
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs, axes or counters — this lesson contains no data.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props — never draw a chart-shaped page, a research notebook or a document with visible writing; real words belong only on the drawn boards and in clean dark-ink labels.",
     required='the narrator must say the lesson\'s three consequences in its own plain words — "who holds power, what it costs the planet, and what you can trust online" — must say "almost none of it is in your hands", and must close on "skill and judgment tilt your odds" with the word skill, not scale.',
     extra=("Write for a 16-year-old in the lesson's plain voice; never substitute policy-brief register such as \"institutional power\", \"how global resources are allocated\", \"the environmental cost of the digital world\", or \"an operational shift\".",))
@@ -255,7 +255,7 @@ Close board: "Don't just use AI. Work with it." over "It doesn't replace your th
 
 This lesson is about 250 words. Do not pad it. Every scene must come from the text above — no invented examples, no extra analogies, no digressions.
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs or axes — this lesson contains no data.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props — no lorem-style filler on a drawn tablet, page or screen; real words belong only on the drawn boards.",
     required='the narrator must speak all four refrain lines verbatim — "Don\'t just ask. Aim.", "Don\'t just copy. Check.", "Don\'t just use AI. Work with it.", "It doesn\'t replace your thinking. It multiplies it."',
     extra=("Never add material the lesson does not contain — specifically no Industrial-Revolution or history digression, no essay/devil's-advocate example, and no \"director of the machine\" framing.",))
@@ -280,7 +280,7 @@ Then the closing caveat, said plainly: a better question doesn't make the answer
 
 Close board: "The question is the whole game." over "Frame the problem. Ask the next better question."
 """,
-    numbers="The only number allowed is Einstein's 55 minutes. Invent no percentages or statistics and draw no charts, graphs or axes.",
+    numbers="The only number allowed is Einstein's 55 minutes. Invent no percentages or statistics and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props; every readable word on screen must be one the lesson uses, in clean dark ink.",
     required='the narrator must say "it only answered the question it was given", must include the scientific method as one of the three anchors alongside Socrates and Einstein, and must speak the caveat "a better question doesn\'t make the answer automatically true."',
     extra=("Write in the lesson's plain second-person voice; never substitute management register such as \"the construction of the question\", \"effective inquiry\", \"situational context\", or \"set the intellectual standard\".",))
@@ -307,7 +307,7 @@ Then the forgetting problem: the window isn't infinite, and when a chat gets lon
 
 Close board: "With the right context, AI gives better answers." over "Control the context, control the quality."
 """,
-    numbers="The only numbers allowed are the lesson's own: 2 + 2 = 4, five places, and two minutes. Invent no percentages or statistics and draw no charts or axes.",
+    numbers="The only numbers allowed are the lesson's own: 2 + 2 = 4, five places, and two minutes. Invent no percentages or statistics and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props or invented app screens; every readable word must be one the lesson uses.",
     required='the narrator must give Personalization its own beat including "set it up in two minutes, and a generic tool becomes yours" tied back to Luke and Nate, and must speak both closing lines including "Control the context, control the quality."')
 
@@ -330,7 +330,7 @@ Then RAG: the industry's workaround is retrieval-augmented generation — say th
 
 End on board 3: "Probable isn't true." over "And it sounds the same when it's wrong."
 """,
-    numbers="The only number allowed is one-eighth of a cup. Invent no percentages or statistics, and draw no charts, graphs or axes — this lesson contains no data.",
+    numbers="The only number allowed is one-eighth of a cup. Invent no percentages or statistics, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props — never draw notebooks, journals, tablets, code blocks or document pages with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must say "retrieval-augmented generation" in full, must attribute the case to Google and say that some people actually tried it, and must state the nuance exactly — that AI can often spot a joke but only when the joke looks like one.',
     extra=("Never say or imply that AI is blind to sarcasm, humour or context in general; the lesson's point is the opposite and stating it that way inverts the teaching.",))
@@ -355,7 +355,7 @@ Then the close: AI chat is the newest surface in the same industry and its versi
 
 End on board 2: "The chat is built to hold you." over "It will never quit for you."
 """,
-    numbers="The only numbers allowed are the lesson's own: 29,032 feet, 2006, two hours, and half a million human lifetimes a month. Invent no other figures and draw no charts or axes.",
+    numbers="The only numbers allowed are the lesson's own: 29,032 feet, 2006, two hours, and half a million human lifetimes a month. Invent no other figures and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props or invented app screens; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must speak Raskin\'s estimate — "half a million human lifetimes a month" — and must close on the verbatim line "the right stopping point comes earlier than the people who built it want."',
     extra=("Never soften the lesson with a caveat it does not contain — in particular, never say that a long session is fine as long as you are learning something.",))
@@ -429,7 +429,7 @@ Then the key line: don't take praise as a verdict — warmth with no specifics i
 
 End on the close board: "Friendly, supportive, and positive aren't the same as right." over "Don't let the warmth do the deciding."
 """,
-    numbers="Only the lesson's own: April 2025 and the five numbered moves. Invent no statistics and draw no charts.",
+    numbers="Only the lesson's own: April 2025 and the five numbered moves. Invent no statistics and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props or invented chat screens; real words belong only on the attached boards and in clean dark-ink labels.",
     required='all ten Weak/Better prompt pairs must be SPOKEN, not merely displayed; "RLHF" and "sycophancy" named; the move-4 payoff about blind spots; and the labs-now-test-for-sycophancy beat.',
     extra=("The gag product is referred to only by the lesson's sanitised name; never show or say a cruder version, and keep any depiction of it an abstract wrapped box.",))
@@ -456,7 +456,7 @@ Then the calibration: a quick factual question needs none of this, real work nee
 
 End on board 5: "A prompt is a briefing, not magic words." over "That's the whole art."
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs or axes — this lesson contains no data.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props, and never draw your own prompt-anatomy diagram, labelled framework or chat window — the attached boards are the only structured visuals.",
     required='the narrator must say "You\'re not training to be a prompt engineer. You\'re learning to Be Smarter Than the Tool", and must speak each of the four qualities WITH its gloss, not just the four names.')
 
@@ -476,7 +476,7 @@ Then: it's the longest and most complicated section in the course, because AI wo
 
 End on board 3: "The machine won't feel like magic anymore." over "Take it a piece at a time." Speak both lines.
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs or axes.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background.",
     props="Drawn scenes carry NO text: when you draw the car, the engine or any machine, keep the drawing entirely wordless — no labels, callouts or lettering; real words belong only on the attached boards and in clean dark-ink pills.",
     required='the four negations plus "it\'s its own kind of thing"; "Smarter Than the Tool"; "each one builds on the last"; item four\'s payoff "you\'ll never look at a reply the same way again"; and the spoken close "The machine won\'t feel like magic anymore."')
 
@@ -496,7 +496,7 @@ Then board 2, the section map, walked one row at a time. One, TRAPS IN THE ANSWE
 
 End on board 3: "When it fails, nothing looks broken." over "This section teaches you to read the water."
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs or axes.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props; real words belong only on the attached boards and in clean dark-ink labels.",
     required='"every trap looks fine from the inside"; the lifeguard line including "not because they\'re strong swimmers"; and, as a named beat before the close, "a rip current isn\'t the ocean malfunctioning — it\'s just waves doing what waves do, and every AI trap ahead works the same way."',
     extra=("Never invent a numbered framework, checklist or set of steps the lesson does not contain — in particular no verify/audit/question triad.",))
@@ -519,7 +519,7 @@ Then board 3: LLM is short for Large Language Model — ChatGPT is the app you u
 
 End on board 4: "The model predicts a likely output." over "From patterns it learned in data."
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs or axes — this lesson contains no data.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props, and no stray invented labels, fragments or acronyms anywhere on screen; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must speak the course naming convention in full — "for the rest of this course we\'ll usually say AI, and we mean the generative kind you experience with ChatGPT, Claude and Gemini" — must say the twin-boys prompt made the picture on the welcome page, and must say the app-versus-engine analogy.',
     extra=("Never say or imply anything about predicting the next word or next token; that is the next lesson's material and does not belong in this one.",))
@@ -544,7 +544,7 @@ Then: the five questions work on anything you read or hear, and they matter most
 
 End on board 5: "AI amplifies whatever you bring to it." over "Good thinking in, sharper output."
 """,
-    numbers="The only numbers allowed are the lesson's own: 2015, 15 participants, 18 things measured, and the grades B and A+. Draw no scatter plots, charts, graphs or axes of any kind.",
+    numbers="The only numbers allowed are the lesson's own: 2015, 15 participants, 18 things measured, and the grades B and A+. Draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props — never draw notebooks, newspapers, studies or document pages with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must say "Maria Petronoski" aloud with "perfectly plausible, completely made up"; must say the nuance "it isn\'t \'don\'t trust anything\'"; must read both reactions from board 3 in their own words; and must close on "The model doesn\'t fix your thinking. It scales it."')
 
@@ -566,7 +566,7 @@ Then board 3, five best practices, each with its reason and none rushed. One, on
 
 End on board 4: "Use AI to learn, not to skip the learning." over "Feed it your materials. Trace it back."
 """,
-    numbers="The only numbers allowed are the lesson's own: 1am and the 10-question quiz. Invent no statistics and draw no charts or axes.",
+    numbers="The only numbers allowed are the lesson's own: 1am and the 10-question quiz. Invent no statistics and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props — never draw notebook pages, documents, chat windows or app screens with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must teach the Gemini Notebook column before the general-tutor column, must say "the clue is in the name: it was built for learning", must speak Gemini Notebook\'s best-use list, and must state both catches.',
     extra=("Write in the lesson's plain voice for a 16-year-old; never substitute academic register such as \"pedagogy\", \"architecture\", \"ecosystem of materials\", \"ground truth\", or \"magnifier of cognitive effort\".",))
@@ -619,7 +619,7 @@ Then if the fake is about you: don't handle it alone, don't delete the evidence,
 
 End on board 4: "Seeing isn't proof anymore." over "Check the source, not the pixels."
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs, axes or counters.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background.",
     props="Drawn phones, feeds and screens may appear but keep them blank or abstract — no readable or pseudo-readable text on any drawn screen or prop; real words belong only on the attached boards and in clean dark-ink labels.",
     required='both jaws — "believing it because it looks real" AND "dismissing the truth because it could be a fake"; "verify somewhere the sender doesn\'t control"; "You did nothing wrong by being targeted."',
     extra=("Restraint on the cruelty and if-it's-about-you beats: never show the humiliating fake itself, no crying or distressed victims, no alarm-red imagery — keep those scenes calm, like a teen and a trusted adult looking at a phone together.",
@@ -643,7 +643,7 @@ Then what you'll need: the course runs in your browser, nothing to install, and 
 
 End on board 3.
 """,
-    numbers="Do not invent numbers, percentages or statistics, and draw no charts, graphs, axes or counters — this lesson contains no data.",
+    numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background — this lesson contains no data.",
     props="No readable text inside drawn props or backgrounds, and no invented app screens, menus or interfaces; real words belong only on the attached boards and in clean dark-ink labels.",
     required='first-person authorship — "We\'re Luke and Nate, and yeah, we\'re still in high school"; the paradox "the better AI gets, the more it pays to be the person who actually understands it"; the jersey aside spoken aloud; and "Be Smarter Than the Tool."',
     extra=("Never add material the lesson does not contain — no apps-change-but-principles-stay digression, no passenger/driver metaphor, and no claim that progress depends on your curiosity.",))
@@ -666,7 +666,7 @@ Then the limit, and state it exactly as the lesson does, with the hedge intact: 
 
 End on board 5: "'Can try' is not 'built for.'" over "That's why your judgment still matters."
 """,
-    numbers="The only grades anywhere are the lesson's own A+ and C-. Invent no percentages or statistics, and draw no bell curves, charts, graphs or axes.",
+    numbers="The only grades anywhere are the lesson's own A+ and C-. Invent no percentages or statistics, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props — never draw code editors, terminals, notebooks or document pages with visible writing; real words belong only on the attached boards, the two report-card grades, and clean dark-ink labels.",
     required='all four strength names in full, including "semantic compression and retrieval"; each board\'s examples spoken, not just displayed; and the limit stated with its hedge — "often good at the common version, not necessarily the true, current, personal, safest, or best version."',
     extra=("Never claim AI is locked into averages or that it will never produce the exceptional version; the lesson deliberately hedges this and the harder claim must not be invented.",))

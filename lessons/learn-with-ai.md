@@ -12,7 +12,7 @@ Which study tool for the job?
 
 📒
 
-## NotebookLM
+## Gemini Notebook
 
 #### Source-grounded Tutor
 
@@ -56,11 +56,11 @@ It can occasionally make things up, or explain a concept differently than how yo
 
 ## Start here
 
-Use NotebookLM as your main study tool. The clue is in the name: it was built for learning.
+Use Gemini Notebook as your main study tool. The clue is in the name: it was built for learning.
 
 ChatGPT or Claude can do most of the same things, but it’s more difficult because they weren’t designed with the goal of learning.
 
-## How NotebookLM works
+## How Gemini Notebook works
 
 Feed it your own study materials, and it turns them into the kind of study tool that fits you best: audio to listen to, quizzes to test yourself, and more. You choose.
 
@@ -94,7 +94,7 @@ YouTube videos
 
 📓
 
-NotebookLM
+Gemini Notebook
 
 →
 
@@ -130,7 +130,7 @@ Video overview
 
 ## Best practices
 
-Here’s how to use NotebookLM to its full potential.
+Here’s how to use Gemini Notebook to its full potential.
 
 1
 
@@ -142,7 +142,7 @@ Keep AP History and Chemistry in separate notebooks. Mixing sources confuses the
 
 📚Feed it a few angles, not one
 
-For a big test, give it everything your teacher handed you: your class notes (so it keeps your teacher’s wording), the slides, and any video or link the teacher shared. NotebookLM reads a video’s transcript and blends it with your notes, so everything it gives back stays true to your class.
+For a big test, give it everything your teacher handed you: your class notes (so it keeps your teacher’s wording), the slides, and any video or link the teacher shared. Gemini Notebook reads a video’s transcript and blends it with your notes, so everything it gives back stays true to your class.
 
 3
 
@@ -156,7 +156,7 @@ Re-reading notes feels productive, but that’s recognition, not recall. Generat
 
 🎧Review on the go
 
-Have NotebookLM make an audio overview, then play it while you drive, walk, or work out. It turns dead time into another pass over the material.
+Have Gemini Notebook make an audio overview, then play it while you drive, walk, or work out. It turns dead time into another pass over the material.
 
 5
 

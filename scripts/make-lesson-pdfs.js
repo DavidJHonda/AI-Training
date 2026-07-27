@@ -1,7 +1,7 @@
 // Driven by scripts/make-lesson-pdfs.sh. Renders each lesson at ?print=lesson:<id>
 // (content only: no TRY IT / LAB / nav) and prints it to a SINGLE continuous-height
 // PDF page so no box is ever split across a page break. Text stays selectable for
-// NotebookLM. Usage (via the .sh wrapper): node make-lesson-pdfs.js PORT DBG OUT [id...]
+// Gemini Notebook. Usage (via the .sh wrapper): node make-lesson-pdfs.js PORT DBG OUT [id...]
 // An id of group:<slug> (e.g. group:start-smarter) expands to that SECTION_GROUPS
 // entry's lessons. With env PACKET=<path>, the rendered PDFs are also merged, in
 // order, into that one file (via scripts/join-pdfs.js) — used by make-packet.sh.

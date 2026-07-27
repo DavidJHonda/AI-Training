@@ -1,6 +1,6 @@
 # r3 grading instructions — read fully before scoring
 
-You are grading ONE NotebookLM lesson-overview video for an AI literacy course
+You are grading ONE Gemini Notebook lesson-overview video for an AI literacy course
 aimed at 16-year-olds, under rubric r3. Your assignment names the slug, the
 lesson file, and the bundle directory.
 

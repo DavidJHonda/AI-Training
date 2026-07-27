@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Scene-cut detection and seam verification by sequential frame diff.
 (Sequential decode only — CAP_PROP_POS_MSEC seeks return wrong frames on
-NotebookLM mp4s.)
+Gemini Notebook mp4s.)
 
 Default: list scene cuts — mean abs diff of consecutive 160x90 grayscale
 int32 downscales > threshold (12). Cut video at a scene cut that falls

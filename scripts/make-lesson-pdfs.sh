@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Export each lesson as a SINGLE continuous-height PDF (no page breaks, so no box is
-# ever split) for feeding to NotebookLM. Content only: TRY IT / LAB / nav are dropped.
+# ever split) for feeding to Gemini Notebook. Content only: TRY IT / LAB / nav are dropped.
 # Text stays selectable. Output: lessons/<id>.pdf
 #
 # Usage:

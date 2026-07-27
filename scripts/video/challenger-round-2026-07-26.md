@@ -19,7 +19,7 @@ Result: **1 composite shipped, 11 incumbents hold. 0 straight replacements.**
 | how-an-llm-works | 3:18 | 2:58 | HOLD — challenger adds the "thousand lifetimes" figure and the four-idea map but is heavily register-drifted ("ingestion at massive scale", "micro execution", "cold probability math") and ends on an outro, not the close board. |
 | questions-matter | 3:27 | 3:24 | HOLD — challenger garbles the lesson's thesis at 0:20 ("the part that is still entirely ours, which is, open dozens of tabs…") and skips the pre-Internet library row. |
 | transformer | 3:20 | 3:31 | HOLD — challenger names Google + the paper title but drops the pronoun payoff (thirsty→cat / fresh→milk) and ends on an overclaim: AI reads "with the same contextual speed and accuracy that humans do." |
-| learn-with-ai | 4:34 | 4:33 | HOLD — challenger has the lesson's order right (NotebookLM first) but loses the verbatim quiz prompt and ends on register, not the close board. |
+| learn-with-ai | 4:34 | 4:33 | HOLD — challenger has the lesson's order right (Gemini Notebook first) but loses the verbatim quiz prompt and ends on register, not the close board. |
 | one-more-thing | 4:20 | 4:40 | HOLD — challenger lands the close pill but bridges FORWARD to the next lesson first ("a physical toll we will tally up next"), against the transitions-at-the-beginning rule. |
 | support-trap | 4:19 | 4:19 | HOLD — incumbent is the curated 93 composite; challenger ends "Be the person who knows instead", missing the close board's own line. |
 

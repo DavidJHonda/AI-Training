@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Frame audit for NotebookLM mp4s — SEQUENTIAL decode only (CAP_PROP_POS_MSEC
+"""Frame audit for Gemini Notebook mp4s — SEQUENTIAL decode only (CAP_PROP_POS_MSEC
 seeks return wrong frames on these files; never seek).
 
 Modes:

@@ -60,7 +60,7 @@ What you will do to turn AI into your personal edge.
 
 ## WHAT YOU'LL NEED
 
-The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: **NotebookLM**, which is free with a Google account, and the free version of **Claude**.
+The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: **Gemini Notebook**, which is free with a Google account, and the free version of **Claude**.
 
 Be Smarter Than the Tool.
 

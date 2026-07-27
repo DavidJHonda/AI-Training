@@ -5,7 +5,7 @@ One shared rules block so every kit is calibrated identically, plus a per-lesson
 body (focus + scene walk) and per-lesson bans/required narration targeted at that
 video's r3 deducts.
 
-Hard limit: the NotebookLM prompt box truncates at 5,000 characters (UTF-16-ish).
+Hard limit: the Gemini Notebook prompt box truncates at 5,000 characters (UTF-16-ish).
 Aim <= 4,800. The builder refuses to write anything over 4,950.
 """
 import os, sys
@@ -95,11 +95,11 @@ Then board 1, held while you walk one column at a time: ChatGPT the Anything Box
 
 Then the honest answer: for most of what you'll do, any of the three works, so don't agonize. Pick one as your home base and learn it well — its settings, features and quirks — because knowing one app deeply beats dabbling in all three. Then the power move: when an answer really matters, ask the same question in a second app; two differently trained apps agreeing is real evidence, and if they disagree you know exactly where to dig.
 
-Close on the real-world example in the authors' own voice: Nate and Luke used different apps for different jobs, guided by their dad — ChatGPT for brainstorming and the Dallas Stars illustrations, Claude Code for the code and Claude Design for the pages, Gemini for current information and fact-checking, and NotebookLM, which is powered by Gemini, for the videos in this course. Then the close board: "The skills transfer." over "The app is just where you practice them."
+Close on the real-world example in the authors' own voice: Nate and Luke used different apps for different jobs, guided by their dad — ChatGPT for brainstorming and the Dallas Stars illustrations, Claude Code for the code and Claude Design for the pages, Gemini for current information and fact-checking, and Gemini Notebook, which is powered by Gemini, for the videos in this course. Then the close board: "The skills transfer." over "The app is just where you practice them."
 """,
     numbers="Do not invent numbers, percentages, statistics, benchmarks or scores, and draw no charts, graphs, axes or gauges — this lesson contains no data.",
     props="No readable or pseudo-readable text in drawn props, and no invented app screens, menus or interfaces; real words belong only on the drawn boards and in clean dark-ink labels.",
-    required='the narrator must name "In-N-Out" and "McDonald\'s" out loud, must say that NotebookLM is powered by Gemini and made the videos in this course, must name Nate and Luke as the builders, and must close on "The skills transfer. The app is just where you practice them."',
+    required='the narrator must name "In-N-Out" and "McDonald\'s" out loud, must say that Gemini Notebook is powered by Gemini and made the videos in this course, must name Nate and Luke as the builders, and must close on "The skills transfer. The app is just where you practice them."',
     extra=("Never state or imply anything about how the three apps refuse, restrict, gate or guardrail requests — no claims about one model refusing more readily than another; the lesson makes no such claim and it must not be invented.",
            "Never depict a real, recognizable person and never draw a branded lectern, podium, company stage or officer of any company; keep every character an invented hand-drawn person."))
 
@@ -556,9 +556,9 @@ Focus: used the right way, AI doesn't just help you finish the work, it makes yo
 
 Open on the patient tutor: it'll quiz you at 1am, never sigh when you ask again, and meet you exactly where you're stuck. Then the guiding question: do you want to learn from materials you already have, or learn something new?
 
-Then board 1 — walk the NOTEBOOKLM column FIRST, in the lesson's order, before the general tutor. NotebookLM, the source-grounded tutor: it learns from your materials and only knows what you give it, the ultimate exam-prep machine. Read its best use aloud: the materials the test covers — class notes, screenshots, study guides, even a webpage or YouTube video. Then its catch: it doesn't know what you didn't give it. Then the general tutor, ChatGPT, Claude and Gemini: trained on massive data, it can explain or quiz you on almost anything; best when you lack the materials or want a concept explained a new way; its catch, it can make things up or explain a concept differently than your teacher expects.
+Then board 1 — walk the NOTEBOOKLM column FIRST, in the lesson's order, before the general tutor. Gemini Notebook, the source-grounded tutor: it learns from your materials and only knows what you give it, the ultimate exam-prep machine. Read its best use aloud: the materials the test covers — class notes, screenshots, study guides, even a webpage or YouTube video. Then its catch: it doesn't know what you didn't give it. Then the general tutor, ChatGPT, Claude and Gemini: trained on massive data, it can explain or quiz you on almost anything; best when you lack the materials or want a concept explained a new way; its catch, it can make things up or explain a concept differently than your teacher expects.
 
-Then Start here, with the lesson's own line: use NotebookLM as your main study tool — the clue is in the name, it was built for learning.
+Then Start here, with the lesson's own line: use Gemini Notebook as your main study tool — the clue is in the name, it was built for learning.
 
 Then board 2: feed it notes and PDFs, slides, images, websites and articles, YouTube videos — and get back a quiz, flashcards, a study guide, an audio overview, a mind map, a video overview. Name the outputs, not just the inputs.
 
@@ -568,7 +568,7 @@ End on board 4: "Use AI to learn, not to skip the learning." over "Feed it your 
 """,
     numbers="The only numbers allowed are the lesson's own: 1am and the 10-question quiz. Invent no statistics and draw no charts or axes.",
     props="No readable or pseudo-readable text in drawn props — never draw notebook pages, documents, chat windows or app screens with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
-    required='the narrator must teach the NotebookLM column before the general-tutor column, must say "the clue is in the name: it was built for learning", must speak NotebookLM\'s best-use list, and must state both catches.',
+    required='the narrator must teach the Gemini Notebook column before the general-tutor column, must say "the clue is in the name: it was built for learning", must speak Gemini Notebook\'s best-use list, and must state both catches.',
     extra=("Write in the lesson's plain voice for a 16-year-old; never substitute academic register such as \"pedagogy\", \"architecture\", \"ecosystem of materials\", \"ground truth\", or \"magnifier of cognitive effort\".",))
 
 add("how-ai-answers", title="How AI Answers", lo=3.5, hi=4, boards=True,
@@ -639,7 +639,7 @@ Then the jersey aside, spoken not just shown: you'll even catch us in a few of t
 
 Then board 2, the five-part path, held while the narration walks all five with their real glosses: Work, learn when and how to use AI; Understand, open the hood and see how AI does its magic; Avoid, AI isn't perfect and neither are you, things to watch out for; Embrace, AI is changing the world and you'll be ready for it; Build, what you'll do to turn AI into your personal edge.
 
-Then what you'll need: the course runs in your browser, nothing to install, and the labs use two free tools, NotebookLM and Claude.
+Then what you'll need: the course runs in your browser, nothing to install, and the labs use two free tools, Gemini Notebook and Claude.
 
 End on board 3.
 """,

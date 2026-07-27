@@ -1,7 +1,7 @@
 // Driven by scripts/make-lesson-texts.sh. Renders each lesson at ?print=lesson:<id>
 // and serializes the DOM to plain markdown (headings, paragraphs, lists) instead of
 // printing a styled PDF. TRY IT / LAB / nav / video pill are skipped, so the file is
-// pure lesson information for NotebookLM. Usage: node make-lesson-texts.js PORT DBG OUT [id...]
+// pure lesson information for Gemini Notebook. Usage: node make-lesson-texts.js PORT DBG OUT [id...]
 const http = require("http");
 const fs = require("fs");
 const PORT = process.argv[2] || "8766";

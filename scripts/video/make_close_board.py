@@ -3,7 +3,7 @@
 (owner standard 2026-07-18; first shipped: tokens, then the composed-close
 retrofit). Reproduces the app's CloseBoard (index.html) at 3840x2160 — 3x of
 frame size, so zoompan up to 1.2x never upscales — with the pill auto-sized
-toward the NotebookLM native close scale (pill ~56% of frame width, measured
+toward the Gemini Notebook native close scale (pill ~56% of frame width, measured
 from the transformer close). Short pill texts hit the font cap first and land
 narrower, matching how the engine renders its own short closes (which-app).
 

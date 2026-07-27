@@ -82,7 +82,7 @@ def main():
     dfps, dtotal, dw, dh = probe(args.donor)
     if (w, h) != (dw, dh) or abs(fps - dfps) > 0.1:
         sys.exit(f"base ({w}x{h} @ {fps:.2f}) and donor ({dw}x{dh} @ {dfps:.2f}) "
-                 "don't match — NotebookLM mp4s should be format-identical")
+                 "don't match — Gemini Notebook mp4s should be format-identical")
     d1, d2 = args.donor_frames
     if not 0 <= d1 < d2 <= dtotal:
         sys.exit(f"--donor-frames must satisfy 0 <= D1 < D2 <= {dtotal}")

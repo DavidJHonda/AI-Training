@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Export each lesson as a PLAIN-TEXT markdown file (lessons/<id>.md) for feeding to
-# NotebookLM as a source. Unlike the PDF export (a styled page render the video
+# Gemini Notebook as a source. Unlike the PDF export (a styled page render the video
 # generator can screenshot), this is just the information: headings, paragraphs,
 # lists. Content only — TRY IT / LAB / nav / video pill are dropped.
 #

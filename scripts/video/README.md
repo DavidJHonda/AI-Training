@@ -1,6 +1,6 @@
 # Video-edit toolkit
 
-Tools and recipes for repairing NotebookLM lesson videos — splice/composite is a
+Tools and recipes for repairing Gemini Notebook lesson videos — splice/composite is a
 standing repair option, so a bad section no longer forces a re-roll. Every recipe
 here shipped on real videos (learn-with-ai, what-you-can-control, does-ai-think,
 how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
@@ -17,7 +17,7 @@ wheel ships a full ffmpeg binary, no system ffmpeg needed — and self-tests `tp
 (silently broken in some wheel builds: zero padding, no error; the scripts here
 use the loop substitute regardless).
 
-All NotebookLM mp4s are format-identical (h264 1280×720 30fps + AAC 44.1kHz mono),
+All Gemini Notebook mp4s are format-identical (h264 1280×720 30fps + AAC 44.1kHz mono),
 so any splice needs exactly ONE re-encode pass:
 `-c:v libx264 -crf 18 -preset medium -pix_fmt yuv420p -c:a aac -b:a 128k`.
 
@@ -147,7 +147,7 @@ the LAST span frame for text still fully in frame at max zoom.
 **CLOSE-BOARD VARIANT (the standard for composed closes; retrofit shipped
 2026-07-18 across tokens, opener-understand, embeddings, does-school-matter,
 how-ai-answers, one-more-thing).** Composed close stills used to render as a
-small white card (pill ~39% of frame width); NotebookLM's native closes run the
+small white card (pill ~39% of frame width); Gemini Notebook's native closes run the
 pill at ~56% pushing to ~67% (measured on transformer). Recipe:
 
 1. `make_close_board.py --pill "..." --sticky "..." --bg <corner-sampled color

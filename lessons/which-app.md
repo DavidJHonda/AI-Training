@@ -76,7 +76,7 @@ Gemini
 
 - ✓Pulling in current information
 - ✓Fact-checking what we used
-We leaned on one more tool: NotebookLM, which is powered by Gemini. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and NotebookLM did the rest.
+We leaned on one more tool: Gemini Notebook. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and Gemini Notebook did the rest.
 
 Pick a home base. Learn it deeply.
 

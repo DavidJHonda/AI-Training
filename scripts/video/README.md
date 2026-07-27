@@ -235,6 +235,53 @@ Shell gotcha: this session shell is zsh — `$var:s=...` inside a filtergraph
 string triggers zsh's `:s` history modifier and silently eats the graph up to
 the next `=`; always write `${var}:s=...`.
 
+## NotebookLM watermark removal (catalogue-wide, 2026-07-27)
+
+**31 of 37 videos shipped with Google's NotebookLM corner mark burned in**, most
+over 54-98% of their runtime. The six clean ones were the most recent rolls, so
+the engine appears to have stopped adding it around late July. It is grey on
+whatever it sits over, ~110px wide in a 1280px frame, bottom-right — small enough
+that scrubbing does not reveal it.
+
+```
+$PY scripts/video/watermark_scan.py              # which videos, what % of runtime
+$PY scripts/video/watermark_remove.py in.mp4 out.mp4 --auto
+```
+
+**Use the stroke mask, not `delogo`.** delogo interpolates inward from the box
+border and discards everything inside. That is invisible on featureless paper
+and wrong everywhere else — it smeared ai-is-math's chalkboard into vertical
+bands and turned context-window's dot grid into stripes. `watermark_remove.py`
+masks the logo's glyph pixels and inpaints only those, so background between and
+around the glyphs survives.
+
+Rejected, so nobody retries them: a fixed-offset clone patch (drags real content
+in — the donor region carries chalk lines), and full alpha-inversion (the mark
+IS alpha-blended, ~0.76 over a ~132 grey, but inversion leaves a readable ghost
+because compression already destroyed the precision it needs). Also rejected: a
+background-roughness triage meant to sort videos into delogo-safe and not. It
+rated context-window flat, and delogo promptly striped it. **Roughness does not
+predict the artefact; a regular pattern crossing the box does.**
+
+### Three traps this pass fell into
+
+- **Never derive the detector's reference from a file the pipeline edits.**
+  watermark_scan.py originally extracted its template live from
+  `videos/ai-is-math.mp4` frame 900. Repairing that video blanked the template,
+  every video then scored 0 hits, `--auto` patched 0 frames, and the batch
+  runner read "0 before -> 0 after" as a pass and installed re-encoded originals
+  over good repairs. The template is now a committed `.npy`.
+- **Guard the batch on a non-zero "before".** Every video in a repair list is
+  known-defective, so a zero starting measurement means the detector broke, not
+  that the video is clean. That one check catches the whole class.
+- **Verify frame counts by DECODE, not `CAP_PROP_FRAME_COUNT`.** It reads
+  container metadata and lies: what-you-can-control claims 5227 frames and
+  decodes 5226, so a correct repair was rejected for losing a frame that never
+  existed.
+
+Verification per video is objective — decoded frame count identical, audio MD5
+bit-identical (the stream is copied, never re-encoded), detector hits to zero.
+
 ## Composite workflow (multi-source best-of; first shipped: what-is-ai from 3 sources)
 
 **Single-pass rule (training-bias ship, 2026-07-21):** when a build needs many

@@ -47,8 +47,21 @@ def score(f, tpl):
     return float(cv2.matchTemplate(r, tpl, cv2.TM_CCOEFF_NORMED).max())
 
 
+TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "notebooklm-template.npy")
+
+
 def build():
-    return roi(grab(os.path.join(REPO, "videos/ai-is-math.mp4"), 900))
+    """Load the template from a COMMITTED asset.
+
+    It used to be extracted live from videos/ai-is-math.mp4 frame 900. That was a
+    landmine: the moment that video's watermark was removed, the template became
+    blank, the detector matched nothing, and every video scored 0 hits. The batch
+    runner then "verified" 0-hits-before -> 0-hits-after as a pass and installed
+    re-encoded originals over good repairs. Never derive the reference from a file
+    the pipeline also edits.
+    """
+    return np.load(TEMPLATE)
 
 
 def scan(path, tpl):
@@ -68,7 +81,7 @@ def scan(path, tpl):
 if __name__ == "__main__":
     tpl = build()
     if sys.argv[1:2] == ["--validate"]:
-        for label, slug, fr in [("POS dark  ai-is-math f1200", "ai-is-math", 1200),
+        for label, slug, fr in [("POS dark  ai-is-math incumbent", "../Prompts/donors/2026-07-27/ai-is-math-incumbent-watermarked", 1200),
                                 ("POS pale  art-of-prompting f1220", "art-of-prompting", 1220),
                                 ("NEG       layers f900", "layers", 900),
                                 ("NEG       welcome f600", "welcome", 600)]:

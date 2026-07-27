@@ -251,3 +251,7 @@ If your school provides an AI account, assume it's monitored. For personal use, 
 🔑 **Privacy risk grows the more AI can see.**The moment AI can read more than your message (files, email, photos, calendars, documents, web pages), the surface area expands. The hijack risks (prompt injection) come up later, in The Rise of Agents lesson.
 
 🔑 **Privacy isn’t secrecy.**It’s only sharing the information the task actually requires. Once it’s in the chat, you can’t take it back.
+
+What you type travels.
+
+Assume it doesn’t stay with you.

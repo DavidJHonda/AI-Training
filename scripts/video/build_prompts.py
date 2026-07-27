@@ -72,7 +72,16 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
 LESSONS = {}
 
 
+# Lessons marked Final & Done on the tracker: their kits were retired 2026-07-27, so
+# no prompt is written for them. Without this, regenerating silently RESURRECTS the
+# deleted files (it did, on 3 of them). how-an-llm-works is deliberately not here --
+# its why-board kit was restored on request.
+RETIRED = {"does-school-matter", "ai-is-different", "transformer", "hallucination"}
+
+
 def add(slug, **kw):
+    if slug in RETIRED:
+        return
     LESSONS[slug] = kw
 
 

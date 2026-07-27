@@ -4,7 +4,7 @@
 
 You’ve already learned to choose your app. Now comes something normal apps never ask of you. Spotify doesn’t ask which Spotify you want. AI apps do: inside each one is a family of models, and a picker to choose between them.
 
-Think of a hockey team changing its lines. The first line has the most skill, but you can’t play them every shift; their minutes are limited. The third line is fast and steady, and it takes the everyday shifts. The coach’s job is matching the line to the moment. Inside an AI app, you’re the coach.
+Think of a hockey team changing its lines. The first line has the most skill, but you can’t play them every shift. Their minutes are limited. The third line is fast and steady, and it takes the everyday shifts. The coach’s job is matching the line to the moment. Inside an AI app, you’re the coach.
 
 And the lines are real. The models in a family aren’t the same brain dialed up or down. They’re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start.
 
@@ -68,8 +68,6 @@ When in doubt, search
 
 A ten-second search like ‘which ChatGPT model should I use for an essay’ gets you a current answer. The lineup changes; the search works every time.
 
-Your turn. Below is the model picker from an app that doesn’t exist, with four made-up models. The names are useless on purpose. The labels are everything.
-
 🔑 **The default is a choice someone else made.**Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it.
 
 One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can.
@@ -128,7 +126,7 @@ Look near the model picker. Some apps give effort its own switch, with a label l
 
 💡 Same dial, different labels in every app. Once you understand what it does, you can find it anywhere.
 
-Some tasks need speed. Others need depth. And the dial turns both ways: deeper is slower, and on a simple ask it buys you nothing. For each task below, decide how much effort fits.
+Some tasks need speed. Others need depth. And the dial turns both ways: deeper is slower, and on a simple ask it buys you nothing.
 
 App. Model. Effort.
 
@@ -226,4 +224,8 @@ other tokens
 
 41%
 
-You won’t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you; the dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request “your best single answer” for consistency, or “ten different options” for range.
+You won’t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you. The dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request “your best single answer” for consistency, or “ten different options” for range.
+
+Pick the model, set the effort.
+
+Same dials, different labels everywhere.

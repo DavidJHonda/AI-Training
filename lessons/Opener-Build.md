@@ -28,7 +28,7 @@ Build Your Skills
 
 ## SET UP THE TOOL
 
-First, the setup choices you make inside your app: which model, and how hard it should think.
+First, working the tool: which model, how hard it should think, and what to do when you’re not sure how to ask.
 
 2
 

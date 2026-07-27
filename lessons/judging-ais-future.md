@@ -14,7 +14,7 @@ ASI (Artificial Super Intelligence): a hypothetical AI smarter than any human, a
 
 Neither has clearly emerged yet, and the definitions are still contested. Both shape how people argue about AI today. The vocabulary matters, but it isn’t the real skill. The real skill is judging the claims people make in either direction. The rest of this lesson teaches three tests for doing exactly that.
 
-History does not say ignore big predictions. It says ask what gets ignored between possibility and reality.
+History doesn’t say ignore big predictions. It says ask what gets ignored between possibility and reality.
 
 The pattern: predictions fail on friction.
 
@@ -118,4 +118,6 @@ With ChatGPT, Claude, and Gemini, you don’t see the full model, training data,
 
 A confident explanation isn’t the same as evidence. Outside-the-model evidence is what tells you whether a future claim is real.
 
-That’s how you weigh a claim yourself. But you’ll also be the one friends and family ask about AI. That’s next.
+Predictions are cheap. Reality has friction.
+
+Judge the claim by what it leaves out.

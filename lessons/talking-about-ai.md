@@ -20,7 +20,7 @@ They’re probably worried about work changing faster than people can adapt. Tha
 
 “AI is just hype, it’ll pass.”
 
-They may be reacting against exaggerated claims, which is understandable: there’s a lot of overclaiming on the optimist side. But hype cycles end while the technology doesn’t. The internet was overhyped in 1999, and it’s also still here.
+They may be reacting against exaggerated claims, which is understandable: there’s a lot of overclaiming on the optimist side. But hype cycles end while the technology doesn’t. The internet was overhyped in 1999, and it’s still here.
 
 “Kids these days just use AI to cheat.”
 
@@ -29,3 +29,7 @@ They’re worried about whether you’re actually learning. Same tool, different
 The smartest people aren’t the ones who panic or worship.
 
 They’re the ones who can judge.
+
+You can talk about AI clearly.
+
+Meet the worry with what you know.

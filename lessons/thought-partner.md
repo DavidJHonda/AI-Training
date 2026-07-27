@@ -2,7 +2,7 @@
 
 # Thought Partner
 
-Prompting got you a good answer in one shot. Thought partnership is for the messier work where one answer isn’t the end of the conversation.
+A good prompt gets you an answer in one shot. Thought partnership is for the messier work, where one answer isn’t the end of the conversation.
 
 AI can help you explore ideas, pressure-test your thinking, and get unstuck. But the thinking still has to be yours. The best use of AI as a thought partner is when **you** drive the conversation and **you** make the decisions.
 
@@ -63,4 +63,6 @@ The conversation above used a few specific moves. Here are five worth keeping:
 - “Where might I be fooling myself?”
 Different problems take different moves. The pattern is the same: you stay in the work, AI helps you see what you’re not seeing.
 
-Your turn. Three moments mid-conversation, each one a fork. Pick the next message that keeps the thinking yours.
+Think with it, not for you.
+
+It’s a partner, not the author.

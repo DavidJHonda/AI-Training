@@ -2,7 +2,7 @@
 
 # Be Curious
 
-Here's a fact worth sitting with. ChatGPT launched in late 2022. Every expert you will ever compete with started learning these tools at almost the same moment you did. In most fields, adults have decades of experience on you. In AI, nobody has a ten-year head start, because the tools aren't ten years old.
+Here's a fact worth sitting with. ChatGPT launched in late 2022. Every expert you’ll ever compete with started learning these tools at almost the same moment you did. In most fields, adults have decades of experience on you. In AI, nobody has a ten-year head start, because the tools aren't ten years old.
 
 That means the only seniority in AI is reps: hours spent actually using the tools, on real things, noticing what worked and what didn't. And reps are free. You don't need permission, a budget, or a job title. You need curiosity.
 
@@ -44,6 +44,8 @@ Keep a list of what surprised you
 
 Both directions. The time it nailed something hard, and the time it confidently botched something easy. The second list is the one that builds your when-not-to-trust-it instinct.
 
-There's a line to watch, though. More AI isn't automatically more experience. It depends on which side of the work the AI is on.
-
 Most of this course will age. Models will change, the traps will mutate, and the prompt advice will go stale. The habit of being curious about the new thing is the one part that doesn't expire. Keep it.
+
+Curiosity compounds.
+
+The questions you chase become your edge.

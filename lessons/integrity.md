@@ -155,3 +155,7 @@ AI policies vary by school, class, and assignment. If the rules aren't clear, as
 In group work, agree on AI use before anyone uses it. If one person silently AI-drafts a section, the others can’t review it the way they would human work, can’t catch mistakes, and didn’t get to weigh in on whether to use AI at all. Hidden AI use changes the work for everyone.
 
 🔑 **AI can help you learn, draft, debug, and revise.**But your name goes on the work only when you understand it, can defend it, and followed the rules.
+
+Use it, and own it.
+
+Your name goes on the work.

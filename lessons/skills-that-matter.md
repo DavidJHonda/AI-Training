@@ -131,3 +131,7 @@ AI can generate options. It cannot own your judgment, your values, your reputati
 Each of these weird AI results really happened. See if you can spot the human move that was missing.
 
 🔑 **AI makes production cheaper.**That makes direction, judgment, and ownership more valuable. The skills above don’t replace AI. They’re what makes AI worth using.
+
+Some skills stay yours.
+
+That’s where your value compounds.

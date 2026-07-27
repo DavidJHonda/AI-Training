@@ -4,7 +4,7 @@
 
 You just saw which parts of work AI takes over first. Underneath that is a bigger shift: AI is moving from answering your questions to taking actions for you.
 
-It can search, open files, draft messages, run tools, fill forms, and click buttons, increasingly taking whole steps on its own. That is what people mean by agents, and it changes the stakes.
+It can search, open files, draft messages, run tools, fill forms, and click buttons, increasingly taking whole steps on its own. That’s what people mean by agents, and it changes the stakes.
 
 A bad answer can be deleted. A bad action may already be in someone’s inbox, on your account, charged to your card, or submitted under your name. **So the real question with an agent is not what it says, it’s what you let it do.**
 
@@ -42,6 +42,8 @@ Don’t give an AI permission to do any of these without your review. They’re 
 
 These five words are examples, not the whole list. Anything that submits, shares, schedules, signs, charges, or changes a setting deserves the same fresh check.
 
-Time to set the dashboard. Eight actions, two plausible settings each. Some of these calls are closer than they look.
-
 🔑 When AI answers, check the answer. When AI acts, check the permission.
+
+When AI acts, check the permission.
+
+You’re the one who lets it through.

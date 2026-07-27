@@ -2,7 +2,9 @@
 
 # Work Changes
 
-AI does not hit all work equally. Before it changes whole jobs, it changes specific tasks inside those jobs. A job is a bundle of tasks, and the useful question isn’t “is my job safe?” It’s three questions: which tasks can AI handle, which need a human in the loop, and which still need a human to own. The parts that are repeatable, digital, and easy to verify are absorbed first. The parts that depend on real-world action, responsibility, and judgment are absorbed much more slowly, if at all.
+AI doesn’t hit all work equally. Before it changes whole jobs, it changes specific tasks inside those jobs. A job is a bundle of tasks, and the useful question isn’t “is my job safe?” It’s three questions: which tasks can AI handle, which need a human in the loop, and which still need a human to own.
+
+The parts that are repeatable, digital, and easy to verify are absorbed first. The parts that depend on real-world action, responsibility, and judgment are absorbed much more slowly, if at all.
 
 ## EXPOSED VS. PROTECTED
 
@@ -138,8 +140,6 @@ Status updates, scheduling, meeting summaries.
 
 Getting humans to do things, navigating politics, deciding what to cut.
 
-For each task, choose the bucket that fits best. Use the framework above as your guide.
-
 ## HOW AI ABSORBS WORK
 
 Change rarely happens at the level of a whole job all at once. It moves in stages.
@@ -223,3 +223,7 @@ AI summarizes 200 lines of employee feedback into themes. The manager reads the 
 The pattern: AI does the part that scales (volume, speed, drafts, summarization). The human does the part that doesn’t scale (judgment, taste, accountability). Most jobs that survive AI will have this shape. The skill, in any career, is being the human in the loop, not the input.
 
 🔑 **Don’t ask only whether a job is safe.**Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split.
+
+The jobs reshuffle. They don’t vanish.
+
+The edge goes to whoever works with it.

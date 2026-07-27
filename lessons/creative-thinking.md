@@ -79,3 +79,7 @@ Pick the angle and own it.
 Creative thinking ends in a choice. Commit to one and back it.
 
 🔑 **AI does the task.**You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up.
+
+AI widens the options.
+
+You still pick the better angle.

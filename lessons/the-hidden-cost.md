@@ -34,7 +34,7 @@ parameters
 
 ops each
 
-Every token re-runs the whole network: all of the model’s parameters, each doing a couple of operations. That’s the loop you watched in Inference, and it is why a one-line answer still adds up to trillions.
+Every token re-runs the whole network: all of the model’s parameters, each doing a couple of operations. That’s the loop you watched in Inference, and it’s why a one-line answer still adds up to trillions.
 
 ## HARD TO PICTURE? STACK IT UP
 
@@ -52,10 +52,14 @@ Rough numbers: the exact count depends on the model’s size and how long the an
 
 ## WHY DATA CENTERS EXIST
 
-No single computer can do that fast, for millions of people at the same time. So AI companies build **data centers**: warehouses packed with thousands of specialized chips, called GPUs, running around the clock.
+No single computer can do that fast for millions of people at once. So AI companies build **data centers**: warehouses packed with thousands of specialized chips, called GPUs, running around the clock.
 
 ## THE FOOTPRINT
 
-All that hardware draws real electricity, and cooling it takes real water. As more people use AI, that footprint grows. It isn’t unique to AI; every big technology has one, from streaming video to the cars outside, and engineers are racing to make the chips far more efficient. But it is real, and most people never picture it.
+All that hardware draws real electricity, and cooling it takes real water. As more people use AI, that footprint grows. It isn’t unique to AI. Every big technology has one, from streaming video to the cars outside, and engineers are racing to make the chips far more efficient. But it is real, and most people never picture it.
 
 🔑 **Now you know what’s behind the magic.**An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using.
+
+Every answer costs something real.
+
+Cheap to type isn’t free to run.

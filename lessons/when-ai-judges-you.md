@@ -66,11 +66,11 @@ Whichever mode it is, and whichever seat you’re in, you have one tool. A short
 
 Run these on any AI that’s running on you.
 
-- Who is responsible?What person, school, company, platform, or institution chose to use the system?
-- What data was used?What information, behavior, score, document, or profile did the system rely on?
-- Can you push back?Is there an appeal, a moderator, a teacher, an admissions office, an employer, or some other support path?
-- What happens if it’s wrong?Is the cost small, or could it affect your grade, account, application, reputation, money, or safety?
-- Who is this helping, and who is it hurting?Who gets the benefit when this works, and who carries the cost when it doesn’t?
+1. Who is responsible?What person, school, company, platform, or institution chose to use the system?
+2. What data was used?What information, behavior, score, document, or profile did the system rely on?
+3. Can you push back?Is there an appeal, a moderator, a teacher, an admissions office, an employer, or some other support path?
+4. What happens if it’s wrong?Is the cost small, or could it affect your grade, account, application, reputation, money, or safety?
+5. Who is this helping, and who is it hurting?Who gets the benefit when this works, and who carries the cost when it doesn’t?
 Notice the first question is who, not what. AI systems score, rank, flag, recommend, and sometimes act on their own. But a person or an institution chose to deploy that system, set the rules, and decide what happens when it flags someone. That’s where responsibility lives, and that’s who you push back on.
 
 ## Ask for the paper trail
@@ -94,8 +94,12 @@ Stakes scale with reach. A 99.9%-accurate system still gets a thousand wrong for
 
 A system can claim it doesn’t use race, gender, disability, or income to make decisions. That can be true and still produce unfair outcomes.
 
-Other data the system DOES use often correlates with what it claims it doesn’t. A zip code can be a proxy for race and income. A school name can be a proxy for class. A pattern in someone’s name can be a proxy for ethnicity. Even small details (gaps in a resume, the speed someone fills out a form) can correlate with things that shouldn’t be the basis of any decision. These are called **proxy variables**: data points that stand in for something else, even when the system never names that thing directly.
+Other data the system *does* use often correlates with what it claims it doesn’t. A zip code can be a proxy for race and income. A school name can be a proxy for class. A pattern in someone’s name can be a proxy for ethnicity. Even small details (gaps in a resume, the speed someone fills out a form) can correlate with things that shouldn’t be the basis of any decision. These are called **proxy variables**: data points that stand in for something else, even when the system never names that thing directly.
 
 When you ask “what data was used,” the follow-up question is “what does that data correlate with?” A system that uses neighborhood, school, name, and timing patterns can be making decisions based on race and class without ever naming them.
 
 🔑 **When AI judges you, don’t argue with the machine.**Find the human, ask what data was used, and learn how to appeal.
+
+Sometimes AI decides about you.
+
+Ask for the paper trail.

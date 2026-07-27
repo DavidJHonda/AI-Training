@@ -32,7 +32,7 @@ Knows enough to use AI. Doesn’t know enough to catch what’s missing. Easy to
 
 The edge
 
-Spots what AI gets wrong. Pushes past the first answer. Knows enough about something to direct AI instead of just borrowing from it. The leverage shows up here.
+Spots what AI gets wrong. Pushes past the first answer. Knows enough about something to direct AI instead of just borrowing from it. The payoff shows up here.
 
 Read this the wrong way and it sounds like “wait until you’re an expert.” That’s the trap. The whole point of the expert paradox is that AI rewards anyone who keeps building depth, and the years you’re in right now are the most valuable years of your life to be building.
 
@@ -82,7 +82,7 @@ Philosophy, ethics, history. The disciplines that train you for hard calls and t
 
 Hands-on action
 
-Trades, sports, craft, building things. Working with your body in the real world. AI doesn’t have hands. It can guide, explain, and simulate; it can’t do the reps for you. The whole physical economy still runs on people who can.
+Trades, sports, craft, building things. Working with your body in the real world. AI doesn’t have hands. It can guide, explain, and simulate. It can’t do the reps for you. The whole physical economy still runs on people who can.
 
 👥
 
@@ -99,8 +99,6 @@ Science, medicine, law, code, music, anything. Going far past the surface in one
 Depth isn’t the same as prestige. You can build it in writing, welding, debate, caregiving, coding, music, sports, design, science, cooking, leadership, repair, or anything else that rewards real reps and real feedback. The category matters less than the commitment.
 
 Here’s how AI fits while you’re building. Use it to create reps, reveal gaps, explain mistakes, generate practice, and widen your feedback. Don’t use it as proof that you can do the thing. The proof is doing the thing.
-
-Five moments where AI handed back something fluent. Pick the depth that catches what’s missing.
 
 ## Pick one, not five.
 
@@ -165,3 +163,7 @@ This is the question behind every job, every application, every team that picks 
 The answer has to be the thing AI can’t hand them: you can actually do it, you catch what’s wrong, and you stand behind the result. So keep the proof. The notebooks, the builds, the drafts, the reps, the record of real work. That’s how you show the depth is real instead of just claiming it.
 
 🔑 **Anyone can sound smart now. Get good at something anyway.**Five calls, one move underneath them: pick the thing you’d build anyway, get good at it, and keep the proof. Average is free now. Be the reason someone picks you over it.
+
+Your move now.
+
+The tool is ready. Are you?

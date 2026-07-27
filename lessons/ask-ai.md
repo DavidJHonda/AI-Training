@@ -18,6 +18,6 @@ The pattern is the same each time: instead of guessing how to use the tool, you 
 
 🔑 **It’s still AI, so keep the call yours.**Asking AI how to ask gets you unstuck faster, but its advice can be wrong like any other answer. Use it to start, then check what comes back and decide for yourself.
 
-Your turn. Three moments where you’re stuck on the how. Pick the move that puts the AI to work figuring it out.
+AI is the best manual you’ve got.
 
-Asking AI how to start gets you unstuck. The next step is staying in the driver’s seat once the conversation gets going.
+Ask it how to use it.

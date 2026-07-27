@@ -84,6 +84,18 @@ Diagnose by DISTRIBUTION, never by count:
 # the check, before ever calling something a strobe
 .video-venv/bin/python scripts/video/scenes.py in.mp4 --seam A B | head -20
 ```
+
+**Measuring trap (hit twice on 2026-07-27):** `--seam` appends `  <-- SPIKE` to
+any line over threshold, so `awk '{d=$NF}'` reads the word `SPIKE` as 0 and
+every real spike silently counts as *no motion*. It reported "0 frames over 12"
+and a "180-frame near-zero run" on a span that was in fact panning the whole
+time. Always `sed 's/  <-- SPIKE//'` first, or take `$6`, before computing any
+max / near-zero statistic.
+
+Note too that a slow pan over **high-contrast line art** legitimately reaches
+diffs of 25-30 — thick black strokes moving 2px change a lot of pixels. Judge it
+by the shape of the curve (a smooth 6 → 13 → 25 → 30 → 25 → 18 → 6 ramp is an
+ease-in/ease-out pan), not by the magnitude alone.
 If max diff < 25 and you can see the every-fifth-frame duplicates, it is a pan
 or a build. Leave it alone — and remember r3 does not score animation, so there
 is nothing to win by freezing motion anyway.
@@ -177,6 +189,15 @@ the source is.
 4. `--preview` writes every keyframe as a still. **Always eyeball those before
    rendering** — the failure mode is a window edge slicing through a heading
    ("AI Software" cut in half). Fix by moving the edge into a gap between rows.
+
+**The source does not have to be an illustration — a frame of THIS VIDEO works**
+(ai-is-different's second Getty span, replaced by a pan down the lesson's own
+drawn spreadsheet grabbed from its static scene 90s later). Check the donor
+scene is static first (`--seam`, mean diff under ~0.05) — then a still grab
+loses nothing and you get to reframe. That reframing is the point: it crops out
+the half of the donor you don't want (gibberish annotations, an unrelated phone
+chat) and makes the reuse not read as a repeat. A 2x blow-up of a 640-wide
+region of a 720p frame holds up fine on flat line art; it would not on a photo.
 
 ```
 .video-venv/bin/python scripts/video/ken_burns_path.py spec.json --preview DIR

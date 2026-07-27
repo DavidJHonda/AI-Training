@@ -36,16 +36,16 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
     rules = [NOSTOCK]
     if boards:
         rules += ["Show the attached images exactly as provided — never redraw, restyle or replace them.",
-                  "Never draw on the attached images — no highlights, underlines, circles, arrows "
-                  "or marks of any kind."]
+                  "Underline or highlight each row as you speak it, keeping the text readable. "
+                  "Leave the close board unmarked."]
     else:
         rules += ["Never show the lesson document itself as a page on screen; draw the boards fresh "
                   "in clean dark ink."]
     rules += [WHITE, numbers, props, STYLE_LEAK]
     rules += list(extra)
     rules += [f"Required narration: {required}", NOASK,
-              MOTION.format(board_clause=("On an attached image the only legal motion is a slow "
-                                          "camera move, never a mark (rule 3). " if boards else "")),
+              MOTION.format(board_clause=("On an attached image, move the camera slowly and mark the "
+                                          "row you are speaking (rule 3). " if boards else "")),
               DECK,
               ("The close image is the final frame — nothing plays after it, no outro or summary."
                if boards else

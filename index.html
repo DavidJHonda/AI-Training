@@ -429,7 +429,7 @@ function LessonHeader(props) {
         style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: 0, flex: "1 1 auto", minWidth: 0 }
       }, resolvedTitle)
     ),
-    video ? E(WatchOverview, { video: video }) : null,
+    (video && !props.noWatch) ? E(WatchOverview, { video: video }) : null,
     props.subtitle ? E("p", {
       style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.5, color: "var(--inkSoft)", maxWidth: 640, textWrap: "pretty", margin: "0 0 32px 0" }
     }, props.subtitle) : null
@@ -2920,13 +2920,6 @@ function WelcomeSection(props) {
   ];
   const PATTERNS = [
     {
-      eyebrow: "\uD83D\uDD11 KEY INSIGHT",
-      title: "The principle to remember",
-      body: "When you see this, slow down. It’s the idea the lesson is built around.",
-      bg: "var(--info-bg)",
-      accent: "var(--info)"
-    },
-    {
       eyebrow: "\u270E TRY IT",
       title: "You’ll do something",
       body: "Activities where you click, sort, pick, or answer. Each lesson ends with one.",
@@ -2967,7 +2960,12 @@ function WelcomeSection(props) {
     }, value === "yes" ? "Yes" : "No");
   }
   return E("div", null,
-    E(LessonHeader, { sectionId: "welcome" }),
+    E(LessonHeader, { sectionId: "welcome", noWatch: true }),
+    E(BodyP, null,
+      "Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery."),
+    E(BodyP, null,
+      "Two ways to take this course: read each lesson, or press play to see the video version. Same material, your choice."),
+    E(WatchOverview, { video: LESSON_VIDEOS.welcome }),
     E(Illustration, { eyebrow: "WHY GO DEEPER?" },
       E("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" } },
         E("div", null, "Everyone has AI."),
@@ -2976,8 +2974,6 @@ function WelcomeSection(props) {
         E("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" } },
           E("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
           E("span", null, "be smarter than the tool.")))),
-    E(BodyP, null,
-      "Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery."),
     E(SectionKicker, null, "WHY WE BUILT THIS"),
     E(BodyP, null,
       "We\u2019re Luke and Nate, and yeah, we\u2019re still in high school. This started at our kitchen table. AI is in every headline now, and it’s going to be in every career, including ours. We’re the ones who’ll be applying for those jobs, so we’d rather understand it now than scramble to catch up later."),
@@ -3010,9 +3006,9 @@ function WelcomeSection(props) {
     ),
     E("div", { className: "lesson-mechanics" },
     E(SectionKicker, null, "HOW YOU’LL LEARN"),
-    E(BodyP, null, "Two ways to take this course: read or watch. Same material, your choice. And, you’ll see these three elements throughout the course."),
+    E(BodyP, null, "You’ll see these two elements throughout the course."),
     E("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 14, maxWidth: 680, marginLeft: "auto", marginRight: "auto", marginBottom: 8 }
+      style: { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 14, maxWidth: 520, marginLeft: "auto", marginRight: "auto", marginBottom: 8 }
     },
       PATTERNS.map(function(p, i) {
         return E("div", {
@@ -3822,6 +3818,11 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That’s the split. Normal software follows fixed rules, so it hands back the same preset list no matter who asks or why. AI is built from patterns, so it does the opposite: it builds a fresh answer every time, shaped to your exact question."
     ),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-different.jpg",
+      alt: "Two teens in Dallas Stars jerseys compare answers to “What’s the best game for my new PS5?”. Normal Software, following fixed rules, returns the same preset top-five list every time. AI Software, built from patterns, returns a different game on each regenerate: Spider-Man 2, NHL 26, God of War Ragnarök, Elden Ring, Astro Bot, Baldur’s Gate 3. A caption reads: Software follows rules, same input to same output. AI follows patterns, same input to many good outputs.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "STRUCTURED VS UNSTRUCTURED DATA"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here’s another AI superpower. What you give it, and what it returns, doesn’t have to follow a set structure."
@@ -3887,11 +3888,6 @@ function AIvsCodeSection(props) {
       )
       )
     ),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different.jpg",
-      alt: "Rules-based software following a fixed script beside AI recognizing patterns it was never explicitly taught",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE RIGHT TOOL FOR THE JOB"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here’s the catch: a superpower isn’t the same as the right tool. When a job is exact, runs the same way every time, and has to stay consistent, like calculating a GPA or checking a password, normal software wins. It’s faster, it never drifts, and you can always see exactly why it did what it did."

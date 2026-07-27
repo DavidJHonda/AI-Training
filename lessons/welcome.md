@@ -2,6 +2,10 @@
 
 # Welcome
 
+Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
+
+Two ways to take this course: read each lesson, or press play to see the video version. Same material, your choice.
+
 ## WHY GO DEEPER?
 
 Everyone has AI.
@@ -11,8 +15,6 @@ Most just press go.
 Few understand it.
 
 be smarter than the tool.
-
-Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
 
 ## WHY WE BUILT THIS
 

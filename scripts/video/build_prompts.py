@@ -46,7 +46,11 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
     # point, and the props rule's only genuine risk was profanity, which is caught at
     # evaluation instead. Both kwargs are still accepted so the per-lesson text is not
     # lost if either is ever revived.
-    rules += [WHITE, STYLE_LEAK]
+    # style-prompt leakage retired 2026-07-27 on David's call. It was in every kit and
+    # violated anyway (training-bias, how-an-llm-works, flattery-trap), so the wording
+    # was not preventing it. It is unpatchable once rolled -- the words are inside the
+    # artwork -- so it becomes a re-roll trigger at intake, not a prompt rule.
+    rules += [WHITE]
     rules += list(extra)
     rules += [f"Required narration: {required}",
               MOTION.format(board_clause=("On an attached image, move the camera slowly and mark the "

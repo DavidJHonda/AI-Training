@@ -35,9 +35,10 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
            f"lesson's tables, lists and cards as clean drawn boards with their exact wording.")
     rules = [NOSTOCK]
     if boards:
-        rules += ["Show the attached images exactly as provided — never redraw, restyle or replace them.",
-                  "Underline or highlight each row as you speak it, keeping the text readable. "
-                  "Leave the close board unmarked."]
+        # "underline the row you are speaking" retired 2026-07-27: the engine already
+        # does it. In one batch, 7 of 7 rolls marked kit boards while the prompt
+        # explicitly BANNED marking, so there is nothing here to instruct.
+        rules += ["Show the attached images exactly as provided — never redraw, restyle or replace them."]
     else:
         rules += ["Never show the lesson document itself as a page on screen; draw the boards fresh "
                   "in clean dark ink."]
@@ -53,13 +54,15 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
     rules += [WHITE]
     rules += list(extra)
     rules += [f"Required narration: {required}",
-              MOTION.format(board_clause=("On an attached image, move the camera slowly and mark the "
-                                          "row you are speaking (rule 3). " if boards else "")),
+              MOTION.format(board_clause=("On an attached image, move the camera slowly. " if boards else "")),
               DECK,
-              ("The close image is the final frame — nothing plays after it, no outro or summary."
-               if boards else
-               "End on the lesson's own closing lines as a clean drawn close board, and let it be "
-               "the final frame — nothing after it, no outro or summary.")]
+              # close-board-as-final-frame retired 2026-07-27: 5 of 12 rolls in one
+              # round appended an outro anyway, and freeze_finisher.py cuts post-close
+              # junk and freezes the board under trailing narration in about two minutes.
+              ]
+    if not boards:
+        rules += ["End on the lesson's own closing lines as a clean drawn close board, and let it be "
+                  "the final frame — nothing after it, no outro or summary."]
     head = (f'Create a video overview of the attached lesson "{title}", between {lo} and {hi} '
             f'minutes long — do not come in under {lo}. {src}\n\n')
     txt = head + body.strip() + "\n\nRules:\n" + "\n".join(f"{i+1}. {r}" for i, r in enumerate(rules)) + "\n"

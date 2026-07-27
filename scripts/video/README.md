@@ -144,6 +144,15 @@ spikes), mid-span per-frame diffs small and CONTINUOUS (~0.7–4.5 = smooth
 motion; a 0.0 means the zoom didn't take, a spike means jitter), and eyeball
 the LAST span frame for text still fully in frame at max zoom.
 
+**SETTLE variant — run the zoom BACKWARDS on edge-to-edge dense illustrations**
+(`z='1.06-0.06*on/(N-1)'`; first shipped: how-an-llm-works 2026-07-27). Fitting
+full-height leaves side bars, so a push-in never clips left/right — the crop
+always lands on the TOP and BOTTOM. On a dense infographic that means the title
+and the bottom panel, and no y-anchor saves both at once. Settling out instead
+puts the complete image on the LAST frame, which is the one that hands off to
+the next scene. Same motion rate, and it reads as deliberate when the scene it
+replaces was itself a push-in.
+
 **CLOSE-BOARD VARIANT (the standard for composed closes; retrofit shipped
 2026-07-18 across tokens, opener-understand, embeddings, does-school-matter,
 how-ai-answers, one-more-thing).** Composed close stills used to render as a

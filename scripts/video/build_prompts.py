@@ -41,9 +41,14 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
     else:
         rules += ["Never show the lesson document itself as a page on screen; draw the boards fresh "
                   "in clean dark ink."]
-    rules += [WHITE, numbers, props, STYLE_LEAK]
+    # numbers/charts and no-readable-text-in-props were retired 2026-07-27 on David's
+    # call: the numbers rule was policing form when the real concern is the teaching
+    # point, and the props rule's only genuine risk was profanity, which is caught at
+    # evaluation instead. Both kwargs are still accepted so the per-lesson text is not
+    # lost if either is ever revived.
+    rules += [WHITE, STYLE_LEAK]
     rules += list(extra)
-    rules += [f"Required narration: {required}", NOASK,
+    rules += [f"Required narration: {required}",
               MOTION.format(board_clause=("On an attached image, move the camera slowly and mark the "
                                           "row you are speaking (rule 3). " if boards else "")),
               DECK,

@@ -12,7 +12,7 @@ Per-video numbers in `challenger-round-2026-07-28.csv`.
 | training-bias | 84 | 80 | +4 | **REJECTED by David 7/28** |
 | which-app | 86 | 83 | +3 | **SHIPPED 7/28** |
 | fake-trap | 89 | 87 | +2 | **SHIPPED 7/28** |
-| flattery-trap | 89 | 87 | +2 | SWAP |
+| flattery-trap | 89 | 87 | +2 | **SHIPPED 7/28** |
 | questions-matter | 81 | 86 | −5 | REJECT |
 
 Nothing has been moved. Challenger re-runs get a recommendation, not an automatic
@@ -108,7 +108,27 @@ and its board work is the reason it was rejected.
   FINAL, grade 89. **Transcription correction:** the "Ask the source" and "hits your feet" garbles
   flagged in the notes above were whisper errors, not defects - the audio says "Check the source"
   and "hits your feed". "Cloud" for clout at 1:54 still wants an ear check.
-- flattery-trap — still standing as a swap recommendation, unshipped.
+- **flattery-trap — SHIPPED.** Three owner-directed edits: deleted 4:10-4:31.8 (a recap), rebuilt
+  the close board at full scale (the engine's was inset at roughly half the house scale with a
+  stray line struck through the pill), and Ken Burns over 0:52-1:06.7 using the lesson's own
+  illustration. Runtime 4:39.9 -> 4:18.1. Sheet row FINAL & DONE, grade 92.
+
+### Final grades, re-scored 2026-07-28 after the repairs
+
+All three shipped rows were re-scored **targeted, not fully re-watched**: dimensions the repairs
+demonstrably touched were re-scored, untouched ones carried forward from the as-rolled grade in the
+same sitting. Same convention as the 7/27 watermark partial re-score.
+
+| lesson | as-rolled | shipped | what moved |
+|---|---|---|---|
+| which-app | 86 | **89** | material +1, cleanliness +1, pacing +1 |
+| fake-trap | 89 | **91** | pacing +2 |
+| flattery-trap | 89 | **92** | board +1, material +1, cleanliness +1, pacing +1, **coverage -1** |
+
+**flattery-trap carries a real coverage loss.** The deleted 4:10-4:31.8 span held the "never take
+praise as the final word, only accept it if it survives your challenge" beat. The close message
+still lands the thesis, but that beat is gone. Restorable by audio graft from the incumbent, which
+states it at 3:49-4:05.
 - questions-matter — rejected on the merits; two harvest spans nominated above.
 
 ### ⚠️ Open consequence of the training-bias reject

@@ -118,3 +118,41 @@ what-you-can-control, where-ai-works-best, why-learn-ai
 
 Roughly 110 of 192 sheets read. Sheets remain on disk at scratchpad/sweep/ so
 the rest can be picked up without regenerating anything.
+
+# Second pass, 2026-07-28: the 12 videos the first sweep never read
+
+Sheets regenerated from the CURRENT files (all had been watermark-repaired since
+the first pass, so the old sheets were stale). 54 sheets, all read.
+
+Covered: welcome, opener-avoid, opener-understand, opener-work, questions-matter,
+tokens, transformers-quiz, vector-space, what-is-ai, what-you-can-control,
+where-ai-works-best, why-learn-ai. (transformer excluded -- David's own work.)
+
+## Clean
+All 12 end on their close board. No watermarks left, no stock or credit-bar
+imagery, no white-on-light text, no dead frames.
+
+## Findings
+- opener-work 1:44-1:48 -- STYLE LEAKAGE, new instance. The dark panel behind the
+  robot arm is filled with body text reading "Felt-tip pen scribbls sed all...".
+  Same class as flattery-trap 2:12 and training-bias 3:28. Unpatchable: the words
+  are inside the artwork.
+- why-learn-ai 0:08-0:12 -- the known gibberish-scribe-letter: pseudo-Latin
+  handwriting ("Lorem dolor sit ting, will grow in enting...") on the quill prop.
+  Semi-legible by design; the rule that targeted this class was retired 7/27.
+- opener-understand 0:20 -- one gibberish label, "CHAT BARLK", on the merge
+  diagram. Minor.
+- welcome 1:16-1:36 -- the "Here's your path" board pans with cards cut at the
+  frame edges. This is the legacy 3.4:1 strip board; the page was later reshaped
+  to 3+2 and re-captured, but the video predates that fix. Known, not new.
+
+## FALSE ALARM CAUGHT -- worth recording, it is the second today
+tokens 1:36-1:40 appeared to show a chart headlined "Gemini Vocabulary Exceeds
+ChatGPT" asserting ChatGPT 200,000 vs Gemini 240,000, against the lesson's own
+200,000 / 256,000. Checked the settled frame at t=101.8: the counters rest on
+200,000 and 256,000, exactly the lesson's figures. The 240,000 was mid-animation.
+This is the documented "counters resting on the right values" class -- NEVER call
+a number wrong from a contact sheet; find the frame where the animation stops.
+
+## Catalogue coverage is now complete
+All 37 videos have had a full contact-sheet read.

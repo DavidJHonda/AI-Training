@@ -60,6 +60,12 @@ const BOARDS = [
   // shrinking it to 0.50 and leaving the portrait shape that makes the engine pan.
   { section: "aiismath", out: "ai-is-math-5-tying.jpg", width: 1180, vw: 1280,
     find: ["It’s May 21st", "Autoregressive Generation", "Picking the next word"] },
+
+  // learn-with-ai, 2026-07-28: the kit's 3-habits board was TITLES ONLY, so the video
+  // recited five habit names and taught none of them. This is the extended block with
+  // each habit's reason. It runs wide rather than tall, so it needs the roomier stage.
+  { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 1180, vw: 1280,
+    find: ["One notebook per subject", "Trace it back to learn it", "Reading the original material"] },
 ];
 
 const compose = (preds, width, vw) => `(function(){

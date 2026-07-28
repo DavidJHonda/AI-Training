@@ -574,7 +574,7 @@ End on board 5: "AI amplifies whatever you bring to it." over "Good thinking in,
     props="No readable or pseudo-readable text in drawn props — never draw notebooks, newspapers, studies or document pages with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must say "Maria Petronoski" aloud with "perfectly plausible, completely made up"; must say the nuance "it isn\'t \'don\'t trust anything\'"; must read both reactions from board 3 in their own words; and must close on "The model doesn\'t fix your thinking. It scales it."')
 
-add("learn-with-ai", title="Learn with AI", lo=4, hi="4.5", boards=True,
+add("learn-with-ai", title="Learn with AI", lo=3.5, hi="4.5", boards=True,
     body="""
 Attached boards in order: 1 the two study tools, 2 feed-in / get-out, 3 the five best practices, 4 the close.
 
@@ -588,14 +588,15 @@ Then Start here, with the lesson's own line: use Gemini Notebook as your main st
 
 Then board 2: feed it notes and PDFs, slides, images, websites and articles, YouTube videos — and get back a quiz, flashcards, a study guide, an audio overview, a mind map, a video overview. Name the outputs, not just the inputs.
 
-Then board 3, five best practices, each with its reason and none rushed. One, one notebook per subject: keep AP History and Chemistry separate, treat each like its own binder. Two, feed it a few angles: class notes so it keeps your teacher's wording, the slides, and any video or link the teacher shared. Three, quiz yourself blind: re-reading feels productive but that's recognition, not recall — generate a quiz, close everything, take it cold, and read the prompt out loud. Four, review on the go: have it make an audio overview and play it while you drive, walk or work out; it turns dead time into another pass. Five, trace it back: click the numbered citation to jump to the spot in your materials, because reading the original is often what makes it land. Give four and five the same room as three.
+Then board 3, and give it the most time of anything in this video. It carries all five best practices WITH the reason written under each one. Hold it and walk the five in order, and under every single one speak the reason printed on the board, in the board's own words: one notebook per subject and why mixing sources muddles the study guide; feed it a few angles and why your class notes keep your teacher's wording; quiz yourself blind, because re-reading is recognition and not recall, and read the quiz prompt out loud; review on the go, because it turns dead time into another pass over the material; trace it back, because reading the original is often what makes it land. Never read the five headings and move on — a heading without its reason teaches nothing, and that is exactly what the last roll did.
 
 End on board 4: "Use AI to learn, not to skip the learning." over "Feed it your materials. Trace it back."
 """,
-    numbers="The only numbers allowed are the lesson's own: 1am and the 10-question quiz. Invent no statistics and draw charts only as wordless background.",
-    props="No readable or pseudo-readable text in drawn props — never draw notebook pages, documents, chat windows or app screens with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
-    required='the narrator must teach the Gemini Notebook column before the general-tutor column, must say "the clue is in the name: it was built for learning", must speak Gemini Notebook\'s best-use list, and must state both catches.',
-    extra=("Write in the lesson's plain voice for a 16-year-old; never substitute academic register such as \"pedagogy\", \"architecture\", \"ecosystem of materials\", \"ground truth\", or \"magnifier of cognitive effort\".",))
+    numbers="The only numbers allowed are the lesson's own: 1am and the 10-question quiz.",
+    props="No readable or pseudo-readable text in drawn props; real words belong only on the attached boards and in clean dark-ink labels.",
+    required='the narrator must teach the Gemini Notebook column before the general-tutor column, must say "the clue is in the name: it was built for learning", must speak Gemini Notebook\'s best-use list, must state both catches, and must speak the REASON under each of the five best practices, not just their headings.',
+    extra=("Write in the lesson's plain voice for a 16-year-old; never substitute academic register such as \"pedagogy\", \"architecture\", \"ecosystem of materials\", \"ground truth\", or \"magnifier of cognitive effort\".",
+           "Never invent a chart, a graph, a statistic or a measured claim. The last roll ended on a fabricated bar chart reading \"AI AMPLIFIES STUDENT EFFORT, student input 10, AI amplification 30, 3X AMPLIFIED\"; no such numbers exist anywhere in this lesson and nothing like them may appear.",))
 
 add("how-ai-answers", title="How AI Answers", lo=3.5, hi=4, boards=True,
     body="""

@@ -66,6 +66,13 @@ const BOARDS = [
   // each habit's reason. It runs wide rather than tall, so it needs the roomier stage.
   { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 1180, vw: 1280,
     find: ["One notebook per subject", "Trace it back to learn it", "Reading the original material"] },
+
+  // opener-work close: the old spec matched "replace your thinking||multiplies it",
+  // which ALSO appears inside the refrain Illustration, so the capture grabbed that
+  // instead and shipped a kit board with no pill at all. Leading with the PILL text
+  // (one contiguous string, only present in the CloseBoard) forces the right element.
+  { section: "openerworkwith", out: "opener-work-3-close.jpg", width: 560, vw: 704,
+    find: ["Don\u2019t just use AI. Work with it.", "It doesn\u2019t replace your thinking. It multiplies it."] },
 ];
 
 const compose = (preds, width, vw) => `(function(){

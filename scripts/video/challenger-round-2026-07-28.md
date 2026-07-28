@@ -9,9 +9,9 @@ Per-video numbers in `challenger-round-2026-07-28.csv`.
 | lesson | new | old | Δ | verdict |
 |---|---|---|---|---|
 | ai-is-math | 87 | 83 | +4 | SWAP |
-| training-bias | 84 | 80 | +4 | SWAP, then patch |
-| which-app | 86 | 83 | +3 | SWAP |
-| fake-trap | 89 | 87 | +2 | SWAP |
+| training-bias | 84 | 80 | +4 | **REJECTED by David 7/28** |
+| which-app | 86 | 83 | +3 | **SHIPPED 7/28** |
+| fake-trap | 89 | 87 | +2 | **SHIPPED 7/28** |
 | flattery-trap | 89 | 87 | +2 | SWAP |
 | questions-matter | 81 | 86 | −5 | REJECT |
 
@@ -91,3 +91,37 @@ the incumbent's card-catalog sequence already covers that beat — not worth the
 
 Nothing else nominated: the four-qualities section is where the challenger is weakest,
 and its board work is the reason it was rejected.
+
+---
+
+## Decisions (updated 2026-07-28)
+
+- **which-app — SHIPPED.** Installed after two repairs: the ending freeze (it was
+  ending on b-roll mid-sentence) and a Ken Burns graft of the lesson's own
+  illustration over 2:42-2:54. Sheet row set to FINAL & DONE. Commit 6492f65.
+- **training-bias — REJECTED** (David's call). The "towels" mis-say was patched to
+  "cows" first, so the file in `Prompts/` is the corrected version and stays as a
+  graft donor.
+- **fake-trap — SHIPPED.** Two owner-directed edits first: deleted 0:06.6-0:14.2 ("We know the
+  technology exists...still falling for these clips every day"), and froze the close board through
+  the end, which was being replaced by unrelated images at 4:02. Runtime 4:15 -> 4:07. Sheet row
+  FINAL, grade 89. **Transcription correction:** the "Ask the source" and "hits your feet" garbles
+  flagged in the notes above were whisper errors, not defects - the audio says "Check the source"
+  and "hits your feed". "Cloud" for clout at 1:54 still wants an ear check.
+- flattery-trap — still standing as a swap recommendation, unshipped.
+- questions-matter — rejected on the merits; two harvest spans nominated above.
+
+### ⚠️ Open consequence of the training-bias reject
+
+The challenger was watermark-clean; the incumbent is not. `videos/training-bias.mp4`
+still has the NotebookLM corner mark burned into **112 of 146 sampled frames**
+(detector max 0.995, present from frame 0). It is the only video in the catalogue of
+37 still carrying it — the 7/27 removal pass covered 31 videos and missed this one.
+
+The tracker is wrong about this. The sheet's Reason cell for `training-bias` ends
+with *"No Getty or watermark found."*, written during the 7/27 re-grade. That claim
+is false and will mislead the next grader.
+
+Fix is the standard one already proven on 31 videos:
+`scripts/video/watermark_remove.py --auto`. Not run — rejecting the challenger was a
+decision about the challenger, and editing a live video is a separate call.

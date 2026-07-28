@@ -2462,6 +2462,25 @@ function BayesianMindReaderTryIt(props) {
     finished ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Each clue reshaped the odds, not your number.", body: "Your number never changed. What changed was what the model knew. Every higher or lower ruled out possibilities and lifted the odds on what was left, until one number towered over the rest. That’s conditional probability: new evidence reshapes the odds. AI writes the very same way. Every word it has already chosen rules out possibilities and shifts the odds on the next word, one update at a time." })) : null);
 }
+// The worked-example prompt that opens each "Possible Outcomes" box: a purple
+// THE QUESTION eyebrow over a serif line, with the outcome being counted set in
+// purple italic. Rules flank the eyebrow as spans, not dash characters: the course
+// style avoids em-dashes in copy and design-check counts them.
+function QuestionCard(lead, accent, tail) {
+  var E = React.createElement;
+  var rule = { flexShrink: 0, width: 18, height: 2, borderRadius: 1, background: "var(--primary)", opacity: 0.5 };
+  return E("div", {
+    style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", marginBottom: 16, textAlign: "center", boxShadow: "var(--shadowSoft)" }
+  },
+    E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 10 } },
+      E("span", { style: rule }),
+      E("span", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)" } }, "The Question"),
+      E("span", { style: rule })),
+    E("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(20px, 3.2vw, 26px)", lineHeight: 1.32, letterSpacing: "-0.01em", color: "var(--ink)" } },
+      lead,
+      E("em", { style: { color: "var(--primary)" } }, accent),
+      tail || "?"));
+}
 function AIIsMathSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aiismath" }),
@@ -2476,12 +2495,41 @@ function AIIsMathSection(props) {
       alt: "Mathematicians Blaise Pascal and Pierre de Fermat trading letters about a game of chance",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where ", /*#__PURE__*/React.createElement("strong", null, "standard probability"), " is usually dated from. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "STANDARD PROBABILITY"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Take a simple example. If you toss a coin in the air, what\u2019s the probability it lands on heads?"),
+    /*#__PURE__*/React.createElement(BodyP, null, "In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where ", /*#__PURE__*/React.createElement("strong", null, "standard probability"), " is usually dated from. The math was clean: list every possible outcome, confirm they’re equally likely, and you can calculate the chance of each one."),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "List Possible Outcomes"
+      headline: "The Math"
     },
+      /*#__PURE__*/React.createElement("div", {
+        style: {
+          background: "#fff",
+          border: "1px solid var(--rule)",
+          borderRadius: 8,
+          padding: "16px 18px"
+        }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)" }
+          },
+            /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
+              /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens"),
+              /*#__PURE__*/React.createElement("div", { style: { padding: "3px 12px 0", borderTop: "1.5px solid var(--ink)" } }, "Total outcomes")
+            ),
+            /*#__PURE__*/React.createElement("span", null, "="),
+            /*#__PURE__*/React.createElement("span", null, "Probability")
+          )
+        )
+      )
+    ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "ONE COIN, TWO OUTCOMES"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Take a simple example."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, null,
+      QuestionCard("Toss a coin. How likely is it to land on ", "heads"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
+      }, "Possible Outcomes"),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }
       },
@@ -2519,11 +2567,8 @@ function AIIsMathSection(props) {
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
         },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
-            "How do we calculate the probability the coin lands on ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--green)", fontWeight: 700 } }, "HEADS"), "? Here\u2019s the formula."
-          ),
           /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", marginTop: 4 }
+            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)" }
           },
             /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
               /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
@@ -2535,10 +2580,13 @@ function AIIsMathSection(props) {
         )
       )
     ),
-    /*#__PURE__*/React.createElement(BodyP, null, "Now make it a little harder. If you toss 2 coins in the air, what\u2019s the probability that both land on heads?"),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "List Possible Outcomes"
-    },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "TWO COINS, FOUR OUTCOMES"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Now make it a little harder."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, null,
+      QuestionCard("Toss 2 coins. How likely is it that ", "both", " land on heads?"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
+      }, "Possible Outcomes"),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }
       },
@@ -2578,11 +2626,8 @@ function AIIsMathSection(props) {
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
         },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
-            "How do we calculate the probability that both coins land on ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--green)", fontWeight: 700 } }, "HEADS"), "? Here’s the formula."
-          ),
           /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", marginTop: 4 }
+            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)" }
           },
             /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
               /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
@@ -2596,12 +2641,11 @@ function AIIsMathSection(props) {
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "CONDITIONAL PROBABILITY"),
     /*#__PURE__*/React.createElement(BodyP, null, "Standard probability could count what you could see, like the coins, but it couldn’t tell you how much to change your mind when fresh evidence arrived. Thomas Bayes worked that part out. A minister, mathematician, and philosopher, he found the math for updating a belief as new evidence arrives, now known as Bayes’ Theorem."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "Update With New Evidence"
-    },
-      /*#__PURE__*/React.createElement("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" } },
-        "A moment ago, two coins gave you a 25% chance of both landing heads. Now someone peeks and tells you the ", /*#__PURE__*/React.createElement("strong", null, "first coin landed on heads"), ". That new evidence rules out every outcome where the first coin was tails, so we cross those out and recount."
-      ),
+    /*#__PURE__*/React.createElement(ShowcaseBox, null,
+      QuestionCard("Toss 2 coins. Someone peeks and says the first coin landed heads. How likely is it that both are heads ", "now"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
+      }, "Possible Outcomes"),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }
       },
@@ -2613,9 +2657,17 @@ function AIIsMathSection(props) {
         ].map(function(o, i) {
           return /*#__PURE__*/React.createElement("div", {
             key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, opacity: o.out ? 0.35 : 1, position: "relative" }
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, position: "relative", overflow: "hidden" }
           },
-            o.out ? /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: "50%", left: 8, right: 8, height: 2, background: "var(--inkMuted)" } }) : null,
+            // Ruled out by the peek. Struck through rather than faded: the outcome is
+            // still real and still legible, it just can't happen any more.
+            o.out ? /*#__PURE__*/React.createElement("svg", {
+              viewBox: "0 0 100 100", preserveAspectRatio: "none",
+              style: { position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }
+            },
+              /*#__PURE__*/React.createElement("line", { x1: 8, y1: 8, x2: 92, y2: 92, stroke: "var(--red)", strokeWidth: 3, strokeLinecap: "round", vectorEffect: "non-scaling-stroke", opacity: 0.85 }),
+              /*#__PURE__*/React.createElement("line", { x1: 92, y1: 8, x2: 8, y2: 92, stroke: "var(--red)", strokeWidth: 3, strokeLinecap: "round", vectorEffect: "non-scaling-stroke", opacity: 0.85 })
+            ) : null,
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: o.bold ? 800 : 700, color: o.result ? "var(--green)" : "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center", lineHeight: 1.3, height: 40, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", whiteSpace: "nowrap" } }, o.lines.map(function(ln, k) { return /*#__PURE__*/React.createElement("div", { key: k }, ln); })),
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6 } },
               o.coins.map(function(c, j) {
@@ -2642,11 +2694,8 @@ function AIIsMathSection(props) {
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.7 }
         },
-          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10 } },
-            "With the first coin known to be heads, only 2 outcomes are still possible. How likely is both ", /*#__PURE__*/React.createElement("span", { style: { color: "var(--green)", fontWeight: 700 } }, "HEADS"), " now?"
-          ),
           /*#__PURE__*/React.createElement("div", {
-            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)", marginTop: 4 }
+            style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 12, fontFamily: "var(--mono)", color: "var(--ink)" }
           },
             /*#__PURE__*/React.createElement("div", { style: { display: "inline-flex", flexDirection: "column", alignItems: "stretch", textAlign: "center" } },
               /*#__PURE__*/React.createElement("div", { style: { padding: "0 12px 3px" } }, "Ways it happens ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, "(1)")),
@@ -2654,35 +2703,30 @@ function AIIsMathSection(props) {
             ),
             /*#__PURE__*/React.createElement("span", null, "="),
             /*#__PURE__*/React.createElement("span", null, "Probability ", /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--green)" } }, "(50%)"))
-          ),
-          /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 14, fontSize: 15 } },
-            "The evidence didn’t just rule things out, it moved the probability from ", /*#__PURE__*/React.createElement("strong", null, "25%"), " to ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--green)" } }, "50%"), ". That update is ", /*#__PURE__*/React.createElement("strong", null, "conditional probability"), "."
           )
         )
       )
     ),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "The evidence didn’t just rule things out, it moved the probability that both coins are heads from ", /*#__PURE__*/React.createElement("strong", null, "25%"), " to ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--green)" } }, "50%"), ". That update is ", /*#__PURE__*/React.createElement("strong", null, "conditional probability"), "."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AUTOREGRESSIVE GENERATION"),
     /*#__PURE__*/React.createElement(BodyP, null, "Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. Each new word is its own conditional-probability problem: given everything written so far, which word most likely comes next?"),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "Tying the math together",
-      intro: /*#__PURE__*/React.createElement(React.Fragment, null, "The same rainy afternoon, ", /*#__PURE__*/React.createElement("strong", null, "three different jobs"), ": estimate the chance of rain, sharpen it with a clue, then write the forecast one word at a time."),
       marginBottom: 28
     },
-      /*#__PURE__*/React.createElement(InnerCard, null,
+      QuestionCard("It’s May 21st. How likely is rain, and what word comes ", "next"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
         [
           { title: "Standard Probability", subtitle: "Base rate from past years", pct: 40,
             pills: [{ text: "Over the last 100 years, it rained 40 times on May 21st.", highlight: true }] },
-          { title: "Conditional Probability", subtitle: "Updated with a clue", pct: 60,
-            pills: [{ text: "Rained 40 of the last 100 May 21sts." }, { text: "Humidity is 90% right now.", isNew: true }] },
+          { title: "Conditional Probability", subtitle: "Updated with new evidence", pct: 60,
+            pills: [{ text: "Over the last 100 years, it rained 40 times on May 21st." }, { text: "Humidity is 90% right now.", isNew: true }] },
           { title: "Autoregressive Generation", subtitle: "Conditional probability on every word",
             generate: ["It", "is", "going", "to"],
             candidates: [{ word: "rain", pct: 71, win: true }, { word: "pour", pct: 18 }, { word: "stay", pct: 7 }],
             note: "No outside clue this time, the words it already wrote are the clue. Given “It is going to,” it picks the most probable next word, then feeds that back in and does it all over again." }
         ].map(function(r, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { paddingTop: i === 0 ? 0 : 22, marginTop: i === 0 ? 0 : 22, borderTop: i === 0 ? "none" : "1px solid var(--rule)" }
-          },
+          return /*#__PURE__*/React.createElement(InnerCard, { key: i },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 12 } },
               /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" } },
                 /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2 } }, r.title),
@@ -3004,6 +3048,24 @@ function WelcomeSection(props) {
         ]
       })
     ),
+    E(ShowcaseBox, {
+      headline: "What you’ll need",
+      intro: "The course runs in your browser. Nothing to install. The labs use two outside tools, both free:",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 } },
+        [
+          { name: "Gemini Notebook", note: "free with a Google account" },
+          { name: "Claude", note: "free version" }
+        ].map(function(t, i) {
+          return E("div", {
+            key: i,
+            style: { background: "var(--primary)", color: "rgba(255,255,255,0.88)", borderRadius: 999, padding: "14px 26px", fontSize: 17, lineHeight: 1.3, boxShadow: "0 6px 18px rgba(110, 81, 255, 0.22)" }
+          },
+            E("strong", { style: { fontWeight: 800, color: "#fff" } }, t.name),
+            ", " + t.note);
+        }))
+    ),
     E("div", { className: "lesson-mechanics" },
     E(SectionKicker, null, "HOW YOU’LL LEARN"),
     E(BodyP, null, "You’ll see these two elements throughout the course."),
@@ -3019,13 +3081,6 @@ function WelcomeSection(props) {
           E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.25 } }, p.title),
           E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, p.body));
       }))),
-    E(SectionKicker, null, "WHAT YOU'LL NEED"),
-    E(BodyP, null,
-      "The course itself runs in your browser. Nothing to install. The labs use two outside tools, both free: ",
-      E("strong", null, "Gemini Notebook"),
-      ", which is free with a Google account, and the free version of ",
-      E("strong", null, "Claude"),
-      "."),
     closeBoard("welcome"),
 
     E(InteractiveBox, {

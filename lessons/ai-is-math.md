@@ -6,13 +6,27 @@ What’s the magic that powers ChatGPT, Claude, and every other AI you’ve used
 
 ## WHERE PROBABILITY MATH BEGAN
 
-In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where **standard probability** is usually dated from. The math was clean: if you can list all possible outcomes, you can calculate the chance of each one.
+In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where **standard probability** is usually dated from. The math was clean: list every possible outcome, confirm they’re equally likely, and you can calculate the chance of each one.
 
-## STANDARD PROBABILITY
+The Math
 
-Take a simple example. If you toss a coin in the air, what’s the probability it lands on heads?
+Ways it happens
 
-List Possible Outcomes
+Total outcomes
+
+=
+
+Probability
+
+## ONE COIN, TWO OUTCOMES
+
+Take a simple example.
+
+## The Question
+
+Toss a coin. How likely is it to land on *heads*?
+
+Possible Outcomes
 
 ## Heads
 
@@ -24,8 +38,6 @@ T
 
 The Math
 
-How do we calculate the probability the coin lands on HEADS? Here’s the formula.
-
 Ways it happens (1)
 
 Total outcomes (2)
@@ -34,9 +46,15 @@ Total outcomes (2)
 
 Probability (50%)
 
-Now make it a little harder. If you toss 2 coins in the air, what’s the probability that both land on heads?
+## TWO COINS, FOUR OUTCOMES
 
-List Possible Outcomes
+Now make it a little harder.
+
+## The Question
+
+Toss 2 coins. How likely is it that *both* land on heads?
+
+Possible Outcomes
 
 ## 1st Heads
 
@@ -71,8 +89,6 @@ T
 T
 
 The Math
-
-How do we calculate the probability that both coins land on HEADS? Here’s the formula.
 
 Ways it happens (1)
 
@@ -86,9 +102,11 @@ Probability (25%)
 
 Standard probability could count what you could see, like the coins, but it couldn’t tell you how much to change your mind when fresh evidence arrived. Thomas Bayes worked that part out. A minister, mathematician, and philosopher, he found the math for updating a belief as new evidence arrives, now known as Bayes’ Theorem.
 
-Update With New Evidence
+## The Question
 
-A moment ago, two coins gave you a 25% chance of both landing heads. Now someone peeks and tells you the **first coin landed on heads**. That new evidence rules out every outcome where the first coin was tails, so we cross those out and recount.
+Toss 2 coins. Someone peeks and says the first coin landed heads. How likely is it that both are heads *now*?
+
+Possible Outcomes
 
 ## 1st Heads
 
@@ -124,8 +142,6 @@ T
 
 The Math
 
-With the first coin known to be heads, only 2 outcomes are still possible. How likely is both HEADS now?
-
 Ways it happens (1)
 
 Total outcomes (2)
@@ -134,15 +150,15 @@ Total outcomes (2)
 
 Probability (50%)
 
-The evidence didn’t just rule things out, it moved the probability from **25%** to **50%**. That update is **conditional probability**.
+The evidence didn’t just rule things out, it moved the probability that both coins are heads from **25%** to **50%**. That update is **conditional probability**.
 
 ## AUTOREGRESSIVE GENERATION
 
 Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. Each new word is its own conditional-probability problem: given everything written so far, which word most likely comes next?
 
-Tying the math together
+## The Question
 
-The same rainy afternoon, **three different jobs**: estimate the chance of rain, sharpen it with a clue, then write the forecast one word at a time.
+It’s May 21st. How likely is rain, and what word comes *next*?
 
 Standard Probability
 
@@ -154,11 +170,11 @@ Over the last 100 years, it rained 40 times on May 21st.
 
 Conditional Probability
 
-Updated with a clue
+Updated with new evidence
 
 60%
 
-Rained 40 of the last 100 May 21sts.
+Over the last 100 years, it rained 40 times on May 21st.
 
 + NEW
 

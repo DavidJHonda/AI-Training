@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Recapture the Welcome lesson's two content boards at 1600x900 (video-source shape),
-# composed on the page background like lessons/welcome-3-close.jpg.
+# Recapture the full-bleed page boards at 1600x900 (video-source shape), composed on
+# the page background so they keep the band and eyebrow the reader sees. The generic
+# capture-board.sh wraps its target in a white card, which silently drops both.
 #
-# Run this after ANY edit to the Welcome lesson's quote card or five-step path, so the
-# boards the video engine gets still match what a reader sees on the page.
+# Covers: welcome (quote card, five-step path, what-you'll-need) and opener-work
+# (the refrain). Run after ANY edit to one of those blocks, so the boards the video
+# engine gets still match the page. Add new ones to BOARDS in the .js.
 #
-#   bash scripts/capture-welcome-boards.sh
+#   bash scripts/capture-page-boards.sh
 #
 # Uses its own --user-data-dir: the shared profile refuses to attach while David's
 # Chrome is running (ECONNREFUSED).
@@ -25,7 +27,7 @@ SERVER_PID=$!
 CHROME_PID=$!
 sleep 3
 
-node scripts/capture-welcome-boards.js "$PORT" "$DBG" "$TMP"
+node scripts/capture-page-boards.js "$PORT" "$DBG" "$TMP"
 
 for png in "$TMP"/*.png; do
   out="lessons/$(basename "${png%.png}").jpg"

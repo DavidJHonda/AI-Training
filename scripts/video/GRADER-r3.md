@@ -38,7 +38,33 @@ Six numbers. **Do not compute a total** — totals are assembled centrally.
 | TEACHING_TEACHES_VS_RECITES | 15 | The why lands. A viewer could explain the idea back in their own words. Reciting correct lines with no explanatory work is the MIDDLE of this band, not the top. |
 | TEACHING_BOARD_CONTENT | 10 | Whether the kit boards' points get taught — not whether the jpg appears pixel-exact. Canon: why-learn-ai's everyday-apps board redrawn as five scenes = no deduction, because the content landed. If NO kit boards exist on disk, grade instead whether the lesson's key structured content (its tables, frameworks, enumerated lists) reaches the screen in some form, and say `board-source: none on disk` in your evidence. |
 | CLEANLINESS | 20 | Gibberish/pseudo-text costs points ONLY on content-carrying visuals (a garbled label on a teaching chart); incidental b-roll props are forgiven. Also legibility, text containment, and white-on-light text (hard visual fail). |
-| PACING | 20 | Runtime fit and flow: no padding, no final-scene starvation, no dead time. |
+| PACING | 20 | ALLOCATION and flow. Runtime is NOT scored. Is the time budget spent where the LESSON puts its weight? Charged both ways: dwelling past a beat's content, and rushing a beat the lesson dwells on. Plus no padding, no final-scene starvation, no dead time. |
+
+### Pacing is allocation, not length (redefined 2026-07-29)
+
+**Total runtime is not scored.** A lesson with more to teach should produce a
+longer video, and one that earns its length takes full marks. The minute range
+in `Prompts/` is generation steering; scoring against it is the exact thing the
+"never grade against the prompt" rule below forbids, and it is where that rule
+kept leaking.
+
+What you are scoring is whether the time budget matches the lesson's own
+weighting. Keep it distinct from Coverage:
+
+- **Coverage** asks whether every beat reached the viewer *at all*.
+- **Pacing** asks whether the *proportions* match.
+
+A video can land every beat and still spend 60% of itself on the opening
+anecdote while rattling through the four core moves. Nothing is missing, so
+Coverage is intact, but the shape lies about what matters. That is charged here,
+and it is charged in both directions: dwelling past a beat's content, and
+rushing a beat the lesson dwells on.
+
+**Read `sections.txt` in the bundle before scoring this.** It gives each beat's
+share of the video's seconds against that beat's share of the lesson's words, so
+"felt rushed" becomes a number. Treat it as evidence, not a verdict: a worked
+example legitimately takes longer to say than to write, and a board that is
+being walked row by row is doing its job.
 
 ### The dead-time rule (pacing)
 

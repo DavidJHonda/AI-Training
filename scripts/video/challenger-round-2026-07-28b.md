@@ -33,3 +33,33 @@ never says the names "Luke and Nate", only "we".
 **learn-with-ai's ending repair also removed a fabricated chart** ("AI AMPLIFIES STUDENT
 EFFORT / Student Input 10 -> AI Amplification 30 / 3X AMPLIFIED"). The lesson contains no
 such numbers.
+
+
+## Round closed 2026-07-29
+
+Six of seven shipped. Final grades after repairs: training-bias 92,
+where-ai-works-best 90, learn-with-ai 91 (re-rolled on the rebuilt board kit),
+ai-is-math 90, what-is-ai 87, opener-work 86.
+
+**welcome REJECTED, re-roll pending.** It fixed the only spine failure in the
+catalogue - first person at last, "Gemini Notebook", the paradox and the jersey
+aside all present - but David rejected it on two defects the grade had not
+weighted heavily enough:
+
+1. **An invented job-market graph, unreadable.** A rising purple curve on pale
+   cream, labelled "Strategic Understanding" and "Value Gap" in thin light purple
+   and red. The lesson contains no data at all, so the chart should not exist;
+   that it was also illegible made it worse. The prompt now bans graphs, charts,
+   axes and plotted curves outright for this video.
+2. **Board 2's five steps out of sync.** The camera drifted across the five path
+   cards on its own timing rather than the narration's, so the step being spoken
+   was not the step on screen, and cards sat half-cropped mid-pan. The prompt now
+   carries this as a rule, explicitly overriding the shared slow-camera
+   instruction for that board.
+
+Also folded into the re-roll prompt: the names "Luke and Nate" were never spoken,
+only "we"; and the jersey aside is pinned to the end of the builders beat where
+the lesson puts it, rather than dropped mid-argument.
+
+Not fixed and worth watching: this roll carried SEVEN deck-referential lines,
+the most of anything graded in the catalogue.

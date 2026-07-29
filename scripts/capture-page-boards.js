@@ -73,6 +73,15 @@ const BOARDS = [
   // (one contiguous string, only present in the CloseBoard) forces the right element.
   { section: "openerworkwith", out: "opener-work-3-close.jpg", width: 560, vw: 704,
     find: ["Don\u2019t just use AI. Work with it.", "It doesn\u2019t replace your thinking. It multiplies it."] },
+
+  // training + where-ai-works-best closes: correct boards, but captured through
+  // capture-board.sh's white composition card, which insets them and shrank the pill
+  // to 43-45% of frame against a 56% catalogue median. Recomposed on the page
+  // background. Stage width is what sets the pill fraction, not the slot width.
+  { section: "training", out: "training-close.jpg", width: 560, vw: 704,
+    find: ["Fluent, confident, likable.", "None of that guarantees an answer is right."] },
+  { section: "whatitdoesbest", out: "where-ai-works-best-5-close.jpg", width: 560, vw: 704,
+    find: ["\u201cCan try\u201d is not \u201cbuilt for.\u201d", "Fluent with the common version, not always the best."] },
 ];
 
 const compose = (preds, width, vw) => `(function(){

@@ -84,6 +84,16 @@ const BOARDS = [
     find: ["\u201cCan try\u201d is not \u201cbuilt for.\u201d", "Fluent with the common version, not always the best."] },
 
 
+  // tokens: the UN grid, the lesson's own answer to "why chunks at all". It was
+  // never captured, so the video argued for reusable chunks with nothing on screen.
+  // "Plus thousands more" is the only string unique to the box — the un/believable
+  // pairs also appear in the body paragraph just above it.
+  // Narrow slot on the default stage on purpose: at the roomy 1180/1280 used by the
+  // tall boards, twelve short chips land in one row and the block fills barely half
+  // the frame. Forcing the wrap to three rows fills it the way the other kit boards do.
+  { section: "tokens", out: "tokens-1-chunks.jpg", width: 640,
+    find: ["One chunk, thousands of words", "Plus thousands more", "unplug"] },
+
   // critical-thinking: the kit board was titles-only ("Five habits. Each one is a
   // question you ask.") so the video recited five question names and taught none of
   // them. This is the lesson's own block, each habit with the reason under it.

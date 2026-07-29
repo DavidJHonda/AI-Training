@@ -386,6 +386,35 @@ End on board 2: "The chat is built to hold you." over "It will never quit for yo
     required='the narrator must speak Raskin\'s estimate — "half a million human lifetimes a month" — and must close on the verbatim line "the right stopping point comes earlier than the people who built it want."',
     extra=("Never soften the lesson with a caveat it does not contain — in particular, never say that a long session is fine as long as you are learning something.",))
 
+add("document-trap", title="Document Trap", lo=3.5, hi=4, boards=True,
+    body="""
+Attached boards in order: 1 how AI handles a long document, 2 the four moves, 3 the close.
+
+Focus: uploading a document is not the same as the model reading it.
+
+Open on the lesson's own story and give it real time, because everything else hangs off it. Your season-end basketball tournament starts next week, so you upload your league's 200-page rulebook and ask how many fouls until you're out of the game. ChatGPT answers: five fouls and you foul out. But you remember a player last year picking up five and staying in, so you dig through the rulebook yourself. Regular season, five fouls, exactly what it said. Near the end there's a special section for tournaments, and in those games players get six.
+
+Then land the point in the lesson's own words: the AI pulled the standard limit and missed the exception. The answer wasn't made up. It was incomplete. Document Trap is thinking 'uploaded' means 'fully read.'
+
+Then why it happens: the model reads its full context window every time you send a message, and 200 pages is around 100,000 tokens. That is more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
+
+Then board 1, held and walked in order, speaking the reason printed under each step in the board's own words. The document gets split into chunks, each a paragraph or two. Each chunk becomes tokens, then one meaning vector, including the Embeddings callback the board spells out. Then your question becomes a vector too, and the closest chunks get loaded.
+
+Then cash the story back out with it: the rulebook became a few hundred chunks, and "how many fouls until I'm out of the game?" sits right next to the regular-season foul rules. The tournament section near the back is about tournaments first and fouls second, so it didn't make the cut. That sentence is the whole lesson; do not rush it.
+
+Then name it: there's a name for what just happened, retrieval. Done well it finds a specific answer in a 200-page rulebook in seconds. Done poorly the wrong pieces get pulled and the model answers from incomplete evidence. Then the callback, and say the phrase in full: this is the retrieval in Retrieval-Augmented Generation, the RAG from the Hallucination lesson, searching your file instead of the web.
+
+Then board 2, the four moves, held while the narration walks all four with the reason written under each. Say the idea they share first: all four make the right chunks easy to find, and the more specific your question, the more reliable the answer. Point to the section by name; ask one question at a time; share only what's relevant; ask the AI to quote. Never read the four headings and move on.
+
+Then the ending the lesson gives it: this trap doesn't stay in basketball. The documents that run your life only get longer from here — apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking what it says will be the natural move, and it's a good one. Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn't make the cut.
+
+End on board 3.
+""",
+    numbers="The only numbers in this lesson are 200 pages, about 100,000 tokens, five fouls and six. Invent no others, and draw charts only as wordless background.",
+    props="No readable or pseudo-readable text in drawn props — never draw rulebook pages, contracts or chat windows with legible writing; real words belong only on the attached boards and in clean dark-ink labels.",
+    required='"Retrieval-Augmented Generation" spoken IN FULL, not just RAG; "The answer wasn\'t made up. It was incomplete."; the definition "Document Trap is thinking uploaded means fully read"; the reason why the tournament section missed the cut; and the reason under each of the four moves.',
+    extra=("The basketball rulebook is one continuous worked example, not decoration: the tournament exception that the retrieval missed must be stated when the story opens AND cashed out again after the chunking board. A roll that tells the story once and never explains why that section lost has missed the lesson.",))
+
 add("support-trap", title="Support Trap", lo=4, hi="4.5", boards=True,
     body="""
 Attached boards in order: 1 lunch two-column, 2 why-it-feels-real, 3 danger-line warning, 4 close.
@@ -564,7 +593,7 @@ Then 2015 and the chocolate study: headlines around the world announced that eat
 
 Then the true story: the study was real but flimsy on purpose — only 15 participants with 18 things measured, so luck alone guarantees something looks like a finding; the research institute was just a website; and the author was a journalist proving that a bad study with a great headline would fly around the world before anyone checked. It did.
 
-Then board 4, the five questions, each with its reason. Is it actually right? Do I know enough to judge — say the callback aloud: remember Maria Petronoski's three gold medals from the last lesson, perfectly plausible, completely made up; unfamiliar territory is where everything sounds authoritative. What's missing? Why am I convinced — polish isn't evidence. What's my call — you decide what to keep, change or toss.
+Then board 4, and give it the most time of anything in this video. It now carries all five questions WITH the reason written under each one, so hold it and speak the reason under every single one, in the board's own words. Never read the five question headings and move on — a heading without its reason teaches nothing. Is it actually right? Do I know enough to judge — say the callback aloud: remember Maria Petronoski's three gold medals from the last lesson, perfectly plausible, completely made up; unfamiliar territory is where everything sounds authoritative. What's missing? Why am I convinced — polish isn't evidence. What's my call — you decide what to keep, change or toss.
 
 Then: the five questions work on anything you read or hear, and they matter most on AI, where answers arrive smooth, confident and instant. The model doesn't fix your thinking. It scales it.
 

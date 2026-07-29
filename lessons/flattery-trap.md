@@ -6,22 +6,6 @@ Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding v
 
 It says your essay is strong. Your idea is thoughtful. Your opinion is exactly right. **The Flattery Trap is treating AI’s praise as the truth about your work.**
 
-What it says about your work
-
-## Your draft
-
-“Strong.” Said before it names one thing you actually did well.
-
-## Your idea
-
-“Thoughtful.” Said whether or not it has any thought behind it.
-
-## Your opinion
-
-“Exactly right.” Said to whoever is asking, on either side of the argument.
-
-The Flattery Trap is treating AI’s praise as the truth about your work.
-
 You ask AI for feedback on your essay intro to The Great Gatsby.
 
 The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.

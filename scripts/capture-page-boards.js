@@ -82,9 +82,26 @@ const BOARDS = [
     find: ["Fluent, confident, likable.", "None of that guarantees an answer is right."] },
   { section: "whatitdoesbest", out: "where-ai-works-best-5-close.jpg", width: 560, vw: 704,
     find: ["\u201cCan try\u201d is not \u201cbuilt for.\u201d", "Fluent with the common version, not always the best."] },
+
+
+  // critical-thinking: the kit board was titles-only ("Five habits. Each one is a
+  // question you ask.") so the video recited five question names and taught none of
+  // them. This is the lesson's own block, each habit with the reason under it.
+  { section: "critical", out: "critical-thinking-4-five-questions.jpg", width: 1180, vw: 1280,
+    find: ["Is it actually right?", "What\u2019s my call?", "the consequences are yours"] },
+
+  // evaluate-the-results: same problem, but the lesson block is too tall for one
+  // frame, so it splits the way the lesson reads. Steps 1-3 are the seconds-long
+  // tier; step 4 is the decision gate; step 5 already exists as 2-dig.
+  { section: "evaluating", out: "evaluate-the-results-1-steps.jpg", width: 1180, vw: 1280,
+    keep: [0, 4],
+    find: ["How you evaluate the results", "This might sound obvious", "Leave the chat."] },
+  { section: "evaluating", out: "evaluate-the-results-2-decide.jpg", width: 1180, vw: 1280,
+    keep: [4, 5],
+    find: ["How you evaluate the results", "This might sound obvious", "Leave the chat."] },
 ];
 
-const compose = (preds, width, vw) => `(function(){
+const compose = (preds, width, vw, keep) => `(function(){
   var host = document.getElementById("__boardwrap");
   if (host) host.remove();
   var preds = ${JSON.stringify(preds)};
@@ -97,6 +114,15 @@ const compose = (preds, width, vw) => `(function(){
   var best = cands.filter(function(c){ return c.textContent.length === min; });
   best.sort(function(a,b){ return depth(b)-depth(a); });
   var el = best[0];
+  // Optional child slice: some lesson blocks are one tall flex column of cards that
+  // has to become two boards (a heading plus N cards each). keep:[a,b] drops every
+  // child outside that range so the halves keep full-size text instead of being
+  // scaled down to fit one frame. Indices are into the matched element's children.
+  var keep = ${JSON.stringify(keep || null)};
+  if (keep) {
+    var kids = Array.prototype.slice.call(el.children);
+    kids.forEach(function(c, i){ if (i < keep[0] || i >= keep[1]) c.remove(); });
+  }
   var pageBg = getComputedStyle(document.body).backgroundColor || "#f2f1f7";
   var slot = document.createElement("div");
   slot.style.cssText = "width:${width}px;";
@@ -131,7 +157,7 @@ const compose = (preds, width, vw) => `(function(){
     const vw = b.vw || 800;
     await send("Emulation.setDeviceMetricsOverride", { width: vw, height: Math.round(vw * 9 / 16), deviceScaleFactor: 1600 / vw, mobile: false });
     await sleep(400);
-    const r = await send("Runtime.evaluate", { expression: compose(b.find, b.width, vw), returnByValue: true });
+    const r = await send("Runtime.evaluate", { expression: compose(b.find, b.width, vw, b.keep), returnByValue: true });
     const msg = r.result && r.result.result && r.result.result.value;
     console.log(`  ${b.out}: ${msg}`);
     if (msg === "NOT FOUND") { ws.close(); process.exit(1); }

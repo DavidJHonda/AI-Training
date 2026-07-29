@@ -82,22 +82,6 @@ Spot the “almost true” trap. If part of an answer is verifiably true, don’
 
 Leave the chat. Search the claim yourself, and take health, legal, or crisis questions to a real person.
 
-Same voice, either way
-
-## Verified fact
-
-The 1932 Summer Olympics were held in Los Angeles.
-
-True, and checkable in one search.
-
-## Hallucination
-
-Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens.
-
-The Games weren’t in Athens, and she doesn’t exist.
-
-Nothing in the writing tells you which is which. The tell was never the tone.
-
 If you had to do all five steps on every AI response, your day would disappear into evaluation. But that’s not the way it works. Read, understand, validate takes seconds, and **for most chats, you won’t need to dig deeper**. You’ll just chat away.
 
 ## Then make your move

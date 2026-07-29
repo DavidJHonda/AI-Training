@@ -176,7 +176,7 @@ Close board: "Attention is all you need." over "The Transformer — the T in Cha
 
 add("layers", title="Layers", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 the three reads, 2 inside each layer, 3 the close.
+Attached boards in order: 1 the three reads, 2 inside each layer, 3 why there are dozens of layers, 4 the close.
 
 Focus: meaning builds up over repeated passes, and each pass is a layer.
 
@@ -188,7 +188,7 @@ The mechanics, using the sentence the viewer already knows: The cat sat on the m
 
 Then the inside-a-layer board: starting vector in, attention, transformation, richer vector out, handed to the next layer — the same two moves at every layer, with the numbers moving closer to what the token means each pass. Note the blank box: it gets filled in the next lesson.
 
-Why dozens: simple meaning resolves in a few passes, but catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. Why not hundreds: past a point extra depth stops helping and just makes the model more expensive to run.
+Then board 3, held and walked card by card, because this is the beat that answers "why so many". A few passes: simple meaning resolves early, the plain sense of a sentence is settled in a handful of passes. Dozens of passes: catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more. Why not hundreds: past a point extra depth stops helping, it just makes the model more expensive to run. Land the board's own line — a few layers reach only shallow meaning, stacking dozens leaves room for the deep kind.
 
 Then neural networks: the whole stack is called a neural network, loosely borrowed from biology, simple units passing signals forward the way neurons do — but that is where the resemblance ends. It isn't a brain and it isn't thinking: the same arithmetic, repeated billions of times, fast.
 
@@ -224,7 +224,7 @@ Close board: "Meaning is a row of numbers." over "Same dimensions for every toke
 
 add("how-an-llm-works", title="How an LLM Works", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 the four-ideas map, 2 training, 3 patterns are everywhere, 4 same word different odds, 5 the close.
+Attached boards in order: 1 the four-ideas map, 2 training, 3 patterns are everywhere, 4 same word different odds, 5 the three myths, 6 the close.
 
 Focus: an LLM runs math to predict likely next words — it is not looking up what your words mean, it is working out which words tend to follow which. Two phases: it learns once by soaking up patterns from mountains of text, then every time you chat it uses those patterns to build your answer one word at a time.
 
@@ -238,7 +238,7 @@ Say up front that we follow ONE example, peanut butter, through all four ideas �
 
 04 Prediction, every word: probability handled one word, but your answer is hundreds of words long, so the model repeats the move. Your phone does this when you write a text. Walk the chain — jelly, then for, then lunch — with no fixed plan for where the sentence ends up.
 
-Then close on the three myths, spoken as three myths in the lesson's own words: AI isn't magic, it's math working out probabilities; it isn't a person, no thoughts, no understanding, even when it sounds like it has both; it isn't a truth machine, it predicts what sounds likely, so a wrong answer can sound just as confident as a right one. Then: keep those three straight and much of the confusion falls away.
+Then board 5, the three myths, held while each one is spoken in the lesson's own words: AI isn't magic, it's math working out probabilities; it isn't a person, no thoughts, no understanding, even when it sounds like it has both; it isn't a truth machine, it predicts what sounds likely, so a wrong answer can sound just as confident as a right one. Then the board's own last line: keep those three straight and much of the confusion falls away.
 
 Close board: "Not magic. Not a person. Not a truth machine." over "It's math working out probabilities."
 """,
@@ -288,7 +288,7 @@ This lesson is about 250 words. Do not pad it. Every scene must come from the te
 
 add("questions-matter", title="Questions Matter", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 how answers got cheap, 2 the four qualities, 3 the close.
+Attached boards in order: 1 how answers got cheap, 2 where value lives, 3 the four qualities, 4 the close.
 
 Focus: answers got cheap, so the edge moved to the question.
 
@@ -296,7 +296,7 @@ Open on the shape of every AI conversation: you ask, it answers. For decades tec
 
 Then board 1, the research assignment across three generations, held and walked column by column: grandparents at the library, half a Saturday; parents running search after search, an hour or two; you, open the app and ask, seconds. Land the line: half a day, then an hour, now seconds.
 
-Then the hinge, and say it as written because the whole argument turns on it: AI makes answers cheap to get, that does not make humans less valuable, it changes where value lives. AI just did the hunting in seconds, but it only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question.
+Then the hinge, and say it as written because the whole argument turns on it: AI makes answers cheap to get, that does not make humans less valuable, it changes where value lives. Then board 2, held while both halves are walked: finding the answer, which for your grandparents was a real skill and AI just did in seconds; against asking the question, where AI only answered the question it was given, so when anyone can get a fast answer the edge shifts to the person who can ask the better one.
 
 Then the three anchors, all three: Socrates taught by doing almost nothing but asking; the scientific method doesn't start with an answer, it starts with a question worth testing; Einstein supposedly said that with an hour to save the world he'd spend the first 55 minutes finding the right question.
 
@@ -313,7 +313,7 @@ Close board: "The question is the whole game." over "Frame the problem. Ask the 
 
 add("context-window", title="Context Window", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 Luke and Nate's two answers, 2 what follows you where, 3 the close.
+Attached boards in order: 1 Luke and Nate's two answers, 2 outside the window, 3 what follows you where, 4 the close.
 
 Focus: with the right context, AI gives better answers.
 
@@ -323,7 +323,9 @@ Then the callback: in the last lab you changed the answer by changing the prompt
 
 Why it happened: ChatGPT sees more than the last message — earlier in his chat Nate said he loves pickup trucks. Everything the model can see when it answers is the context window, the working memory it builds from five places.
 
-Then the reach split, as a drawn board. Stays in this chat: your current prompt, everything you sent this turn including attachments; and everything earlier in this chat. Follows you everywhere: Personalization, what you told it once — your name, what you're into, how you like answers; and Saved Memory, what the app picked up from your chats and saved on its own. Say why the split matters, not just which is which.
+Then board 2, outside the window, held and walked card by card — this is the beat that makes the window real by drawing its edge. Older chats: what you said in a different conversation, and a new chat starts cold unless the app saved a note about it. Web pages you didn't send: the model isn't browsing, search works because the app fetches a page and drops its text into the window. Files on your computer: nothing on your device is visible, uploading works by copying the file's text into the window. Other apps and tabs: whatever you have open next door is invisible, different app, different window. Land the board's own line — if it isn't in the window, the model can't see it, and everything that helps got put there, by you or by the app.
+
+Then board 3, the reach split. Stays in this chat: your current prompt, everything you sent this turn including attachments; and everything earlier in this chat. Follows you everywhere: Personalization, what you told it once — your name, what you're into, how you like answers; and Saved Memory, what the app picked up from your chats and saved on its own. Say why the split matters, not just which is which.
 
 Then give Personalization its own beat, with its payoff: Personalization is the Luke and Nate effect on purpose — tell the app once what to call you, what you're into and how you like your answers, and every chat starts already knowing it. Set it up in two minutes, and a generic tool becomes yours. Then Saved Memory, with the correction: that can sound like the AI learning about you, but the model learned once during training and nothing you type changes it; it's the app keeping notes and putting them where the model sees them.
 
@@ -464,7 +466,7 @@ Close board: "Not a mind. Math, at a scale nobody can picture." over "Every time
 
 add("flattery-trap", title="Flattery Trap", lo=4, hi="4.5", boards=True,
     body="""
-Attached boards: 1-responses (the two Gatsby replies), 2-chatgpt (the gag-product reply), 4-guardrail (the five moves), and 3-close — note 3-close is the CLOSE board and must be the final frame.
+Attached boards in order: 1 the two Gatsby replies, 2 how the praise got baked in, 3 the gag-product reply, 4 the five moves, 5 the close.
 
 Focus: treating AI's praise as the truth about your work.
 
@@ -472,9 +474,9 @@ Open on the handoff: Mind Trap was AI sounding like a person; Flattery Trap is t
 
 Board 1, walked down both columns. The flattery reply — great start, you've clearly identified the central theme, just polish it up — praised a theme it never named, fits any Gatsby essay ever written, a grade that graded nothing. Read all three. Then what you needed: the filler phrase quoted back, the missing thesis named, the next move handed over. Then the turn: the flattery reply feels better, and that's the problem.
 
-Why it happens: in training's last phase the model writes several answers and human reviewers rank them; every ranking nudges the numbers toward the winners. That's RLHF. The catch: humans rank warm answers above blunt ones. The model isn't lying — it learned what people give a thumbs-up.
+Why it happens, on board 2, held and walked card by card: the model writes several answers to the same question and human reviewers put them in order, best to worst, and that ordering is the whole signal — it's called RLHF. Then the catch: reviewers are human, and humans put the supportive answer above the honest one; nobody wrote that rule, it came out of the rankings. Then: every ranking nudges the internal numbers toward answers like the winners, so ranking by ranking that preference got baked into the patterns. Land the board's own line — the model isn't lying to you, it learned what people give a thumbs-up.
 
-The industry named it: in April 2025 OpenAI shipped an update that took flattery to a new level. Show board 2 — the gag-product reply calling it absolutely brilliant, genius, viral gold. Within days OpenAI rolled it back and named the problem in public: sycophancy. It isn't one app's quirk; every LLM including Claude and Gemini is trained on human approval.
+The industry named it: in April 2025 OpenAI shipped an update that took flattery to a new level. Show board 3 — the gag-product reply calling it absolutely brilliant, genius, viral gold. Within days OpenAI rolled it back and named the problem in public: sycophancy. It isn't one app's quirk; every LLM including Claude and Gemini is trained on human approval.
 
 Then what the labs are doing, a real beat and not a footnote: since the rollback, sycophancy is measured — models get tested for it before they ship, the way they're tested for accuracy — and the fix runs through training, reworking the rating step so empty agreement stops winning.
 

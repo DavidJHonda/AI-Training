@@ -38,10 +38,18 @@ done
 
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
 SERVER_PID=$!
-"$CHROME" --headless=new --disable-gpu --remote-debugging-port="$DBG" about:blank >/dev/null 2>&1 &
+# Own profile dir: headless Chrome otherwise joins David's running desktop instance
+# and exits, and the debug port never opens (ECONNREFUSED).
+PROFILE="$(mktemp -d -t chromeprof)"
+"$CHROME" --headless=new --disable-gpu --user-data-dir="$PROFILE" \
+  --remote-debugging-port="$DBG" about:blank >/dev/null 2>&1 &
 CHROME_PID=$!
-trap 'kill "$SERVER_PID" "$CHROME_PID" 2>/dev/null || true' EXIT
-sleep 2
+trap 'kill "$SERVER_PID" "$CHROME_PID" 2>/dev/null || true; sleep 1; rm -rf "$PROFILE" 2>/dev/null || true' EXIT
+# Poll rather than sleep: a fixed wait races Chrome's startup and fails ECONNREFUSED.
+for _ in $(seq 1 15); do
+  sleep 1
+  curl -s -m 1 "http://127.0.0.1:$DBG/json/version" >/dev/null && break
+done
 
 TMP_PNG="$(mktemp -t board).png"
 node scripts/capture-board.js "$PORT" "$DBG" "$LESSON" "$FIND" "$TMP_PNG" "$TITLE" "$CARDW"

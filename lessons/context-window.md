@@ -40,6 +40,28 @@ ChatGPT sees more than just the last message Luke and Nate typed. For example, e
 
 What do you call everything the model can see when it answers your question? The **context window.** Think of it almost like the working memory the model uses to answer. And it builds that working memory from five places.
 
+That’s what gets in. Here’s what doesn’t.
+
+Outside the window
+
+## Older chats
+
+What you said in a different conversation. A new chat starts cold, unless the app saved a note about it.
+
+## Web pages you didn’t send
+
+The model isn’t browsing. Search works because the app fetches a page and drops its text into the window.
+
+## Files on your computer
+
+Nothing on your device is visible. Uploading works by copying the file’s text into the window.
+
+## Other apps and tabs
+
+Whatever you have open next door is invisible. Different app, different window.
+
+If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app.
+
 ## What Follows You Where
 
 Those five pieces don’t all behave the same way. Each has a different reach: how far it follows you as you open new chats. Two live and die with a single chat. Two follow you everywhere. (The fifth, Projects, gets its own section below.)

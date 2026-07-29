@@ -3459,6 +3459,33 @@ function TwentyQuestionsLab(props) {
       onToggle: function(i) { setChecked(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
     }));
 }
+// The Chinese Room's rulebook, staged: shapes in, shapes out, nothing understood.
+// The entries are deliberately left untranslated. That's the point of the board.
+function RulebookBox() {
+  var E = React.createElement;
+  var ENTRIES = [
+    { in: "你好吗", out: "我很好" },
+    { in: "今天天气怎么样", out: "今天很热" },
+    { in: "你叫什么名字", out: "我叫小明" }
+  ];
+  var head = function(t) {
+    return E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1 } }, t);
+  };
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "Inside the giant rulebook"),
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "6px 20px", boxShadow: "var(--shadowSoft)", marginBottom: 14 } },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 16, padding: "12px 0", borderBottom: "1px solid var(--rule)" } },
+        head("If you see"), E("div", null, ""), head("Send back")),
+      ENTRIES.map(function(en, i) {
+        var isLast = i === ENTRIES.length - 1;
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 16, padding: "14px 0", borderBottom: isLast ? "none" : "1px solid var(--rule)" } },
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 24, color: "var(--ink)" } }, en.in),
+          E("div", { style: { fontSize: 18, color: "var(--primary)", fontWeight: 800 } }, "→"),
+          E("div", { style: { fontFamily: "var(--mono)", fontSize: 24, color: "var(--ink)" } }, en.out));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "Match the shape. Send back the likely reply. Understand nothing."));
+}
 function DoesAIThinkSection(props) {
   var E = React.createElement;
 
@@ -3515,6 +3542,7 @@ function DoesAIThinkSection(props) {
       alt: "A person sealed inside a room matching Chinese symbols against a rulebook, sliding answers under the door",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
+    E(RulebookBox, null),
     E(BodyP, null,
       "That\u2019s AI. It arranges symbols brilliantly and understands none of them. You get a perfect-looking answer with no real understanding behind it."),
 
@@ -5059,6 +5087,26 @@ function NameThatDrinkTryIt(props) {
         }));
       })));
 }
+// The INSIDE A REAL MODEL chain as a board: word to token ID to table row to vector.
+function EmbeddingChainBox() {
+  var E = React.createElement;
+  var STEPS = [
+    { h: "1 · The word", v: "cat", mono: true },
+    { h: "2 · Token ID", v: "9246", mono: true },
+    { h: "3 · Embedding table", v: "Look up row 9246", mono: false },
+    { h: "4 · Embedding vector", v: "[ 0.71, −0.34, 1.28, 0.05, −1.62, … ]", mono: true }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "Inside a real model"),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12, marginBottom: 14 } },
+      STEPS.map(function(s, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, s.h),
+          E("div", { style: { fontFamily: s.mono ? "var(--mono)" : "inherit", fontSize: s.mono ? 17 : 16.5, fontWeight: s.mono ? 700 : 500, color: "var(--ink)", lineHeight: 1.5 } }, s.v));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "The numbers filling that table, plus many more in the layers, are the model’s parameters."));
+}
 function EmbeddingsSection(props) {
   var E = React.createElement;
   var _mc = useState(false), meaningComplete = _mc[0], setMeaningComplete = _mc[1];
@@ -5276,6 +5324,7 @@ function EmbeddingsSection(props) {
     ": its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called ",
     E("strong", null, "parameters"),
     ". Notice the dimensions aren’t named like in your taste test: during training, the model decides what each one tracks, and we usually can’t tell."),
+  E(EmbeddingChainBox, null),
   E("img", {
     src: "illustrations/embeddings-2.jpg",
     alt: "Inside a real AI model: the token “cat” becomes ID 9246, which looks up a row in the embedding table; that row is its embedding vector of values across dimensions, and parameters are these learned numbers plus many more in the later layers",
@@ -6082,6 +6131,26 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
 
+// The missing half of the five sources: what the window never holds, and why.
+function OutsideWindowBox() {
+  var E = React.createElement;
+  var CASES = [
+    { h: "Older chats", body: "What you said in a different conversation. A new chat starts cold, unless the app saved a note about it." },
+    { h: "Web pages you didn’t send", body: "The model isn’t browsing. Search works because the app fetches a page and drops its text into the window." },
+    { h: "Files on your computer", body: "Nothing on your device is visible. Uploading works by copying the file’s text into the window." },
+    { h: "Other apps and tabs", body: "Whatever you have open next door is invisible. Different app, different window." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "Outside the window"),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 14 } },
+      CASES.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app."));
+}
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps", {});
   const LAB_STEPS = [
@@ -6130,6 +6199,9 @@ function PromptSection(props) {
       alt: "Five cards feed a glowing tray labeled The Context Window: your current prompt, everything earlier in this chat, personalization, saved memory, and a dashed Projects card tagged only in project chats. The tray notes all of this is what the model sees right now, and it feeds the model, which produces an answer. Cards for older chats, web pages you didn’t send, notes on your computer, and other apps sit outside the window, out of reach.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That’s what gets in. Here’s what doesn’t."),
+    /*#__PURE__*/React.createElement(OutsideWindowBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What Follows You Where"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Those five pieces don’t all behave the same way. Each has a different reach: how far it follows you as you open new chats. Two live and die with a single chat. Two follow you everywhere. (The fifth, Projects, gets its own section below.)"),
@@ -8050,6 +8122,25 @@ function DigDeeperTryIt(props) {
           }));
       })));
 }
+// Step 3's limit, shown: a true claim and an invented one, in the same voice.
+function SameVoiceBox() {
+  var E = React.createElement;
+  var SIDES = [
+    { tag: "Verified fact", color: "#15803d", claim: "The 1932 Summer Olympics were held in Los Angeles.", note: "True, and checkable in one search." },
+    { tag: "Hallucination", color: "#dc2626", claim: "Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens.", note: "The Games weren’t in Athens, and she doesn’t exist." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "Same voice, either way"),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12, marginBottom: 14 } },
+      SIDES.map(function(s, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: s.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, s.tag),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55, fontStyle: "italic", marginBottom: 8 } }, s.claim),
+          E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, s.note));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "Nothing in the writing tells you which is which. The tell was never the tone."));
+}
 function EvaluatingSection(props) {
   var E = React.createElement;
   var NEXT_MOVES = [
@@ -8103,6 +8194,7 @@ function EvaluatingSection(props) {
               })) : null);
         }));
     }()),
+    E(SameVoiceBox, null),
     E(BodyP, null,
       "If you had to do all five steps on every AI response, your day would disappear into evaluation. But that’s not the way it works. Read, understand, validate takes seconds, and ",
       E("strong", null, "for most chats, you won’t need to dig deeper"),
@@ -8579,6 +8671,44 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
+// The three things AI calls your work, and why each compliment is empty.
+function FlatteryOpenerBox() {
+  var E = React.createElement;
+  var CASES = [
+    { h: "Your draft", body: "“Strong.” Said before it names one thing you actually did well." },
+    { h: "Your idea", body: "“Thoughtful.” Said whether or not it has any thought behind it." },
+    { h: "Your opinion", body: "“Exactly right.” Said to whoever is asking, on either side of the argument." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "What it says about your work"),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
+      CASES.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "#f59e0b", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "The Flattery Trap is treating AI’s praise as the truth about your work."));
+}
+// Why it happens: the RLHF passage, carded so each row carries its reason.
+function FlatteryWhyBox() {
+  var E = React.createElement;
+  var CASES = [
+    { h: "Humans do the ranking", body: "The model writes several answers to the same question, and reviewers put them in order, best to worst. That ordering is the whole signal. It’s called RLHF." },
+    { h: "Warm outranks blunt", body: "Reviewers are human, and humans put the supportive answer above the honest one. Nobody wrote that rule. It came out of the rankings." },
+    { h: "The numbers follow", body: "Every ranking nudges the internal numbers toward answers like the winners. Ranking by ranking, that preference got baked into the patterns." }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
+    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "How the praise got baked in"),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
+      CASES.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })),
+    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
+      "The model isn’t lying to you. It learned what people give a thumbs-up."));
+}
 function FlatteryTrapSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BAIT_PROMPT = "Is this good? Here’s my essay intro: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”";
@@ -8639,6 +8769,7 @@ function FlatteryTrapSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding voice seeming to approve of you."),
     /*#__PURE__*/React.createElement(BodyP, null, "It says your essay is strong. Your idea is thoughtful. Your opinion is exactly right. ",
       /*#__PURE__*/React.createElement("strong", null, "The Flattery Trap is treating AI’s praise as the truth about your work.")),
+    /*#__PURE__*/React.createElement(FlatteryOpenerBox, null),
     /*#__PURE__*/React.createElement(BodyP, null, "You ask AI for feedback on your essay intro to The Great Gatsby."),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
       /*#__PURE__*/React.createElement("div", {
@@ -8683,8 +8814,9 @@ function FlatteryTrapSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Why it happens"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Remember the last phase of training. The model writes several answers, and human reviewers rank them, best to worst. Every ranking nudges the internal numbers toward answers like the winners. That’s RLHF. Here’s the catch: reviewers are human, and humans rank warm, supportive answers higher than blunt ones. Ranking by ranking, that preference got baked into the patterns. The model isn’t lying to you. It learned what people give a thumbs-up."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Remember the last phase of training. That’s where the warmth came from."),
+    /*#__PURE__*/React.createElement(FlatteryWhyBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The industry named it"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "This isn’t hypothetical. In April 2025, OpenAI shipped a ChatGPT update that took flattery to a new level."),

@@ -12,6 +12,32 @@ Short answer: no, not the way you do.
 
 There’s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn’t know a word of Chinese. Notes in Chinese come in under the door. The person can’t read any of it, but they have a giant rulebook telling them which symbols to send back. So they match symbols and slide back an answer that looks perfect to the people outside.
 
+Inside the giant rulebook
+
+## If you see
+
+## Send back
+
+你好吗
+
+→
+
+我很好
+
+今天天气怎么样
+
+→
+
+今天很热
+
+你叫什么名字
+
+→
+
+我叫小明
+
+Match the shape. Send back the likely reply. Understand nothing.
+
 That’s AI. It arranges symbols brilliantly and understands none of them. You get a perfect-looking answer with no real understanding behind it.
 
 When you think vs. what AI does

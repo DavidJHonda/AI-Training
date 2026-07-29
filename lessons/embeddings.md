@@ -160,6 +160,26 @@ Here’s an important point, easy to miss: every token in the vocabulary is scor
 
 Here’s how it all fits together. The word **cat** is tokenized and assigned the **token ID** of 9246, which looks up a row in the **embedding table** (a giant lookup of every token’s numbers). That row is cat’s **embedding vector**: its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called **parameters**. Notice the dimensions aren’t named like in your taste test: during training, the model decides what each one tracks, and we usually can’t tell.
 
+Inside a real model
+
+## 1 · The word
+
+cat
+
+## 2 · Token ID
+
+9246
+
+## 3 · Embedding table
+
+Look up row 9246
+
+## 4 · Embedding vector
+
+[ 0.71, −0.34, 1.28, 0.05, −1.62, … ]
+
+The numbers filling that table, plus many more in the layers, are the model’s parameters.
+
 ## Does every token get its own vector?
 
 Yes. Remember how ‘unbelievable’ became three tokens? Each one (‘un’, ‘believ’, ‘able’) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers.

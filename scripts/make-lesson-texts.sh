@@ -17,9 +17,13 @@ mkdir -p "$OUT"
 
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
 SERVER_PID=$!
-"$CHROME" --headless=new --disable-gpu --remote-debugging-port="$DBG" about:blank >/dev/null 2>&1 &
+# Own profile dir: headless Chrome otherwise joins a running desktop instance and
+# exits, and the debug port never opens (ECONNREFUSED).
+PROFILE="$(mktemp -d -t chromeprof)"
+"$CHROME" --headless=new --disable-gpu --user-data-dir="$PROFILE" \
+  --remote-debugging-port="$DBG" about:blank >/dev/null 2>&1 &
 CHROME_PID=$!
-trap 'kill "$SERVER_PID" "$CHROME_PID" 2>/dev/null || true' EXIT
+trap 'kill "$SERVER_PID" "$CHROME_PID" 2>/dev/null || true; sleep 1; rm -rf "$PROFILE" 2>/dev/null || true' EXIT
 # Chrome's debug port can take several seconds to come up; poll instead of a fixed sleep.
 for i in $(seq 1 30); do
   curl -s -o /dev/null "http://127.0.0.1:$DBG/json/version" && break

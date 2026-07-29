@@ -6,6 +6,22 @@ Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding v
 
 It says your essay is strong. Your idea is thoughtful. Your opinion is exactly right. **The Flattery Trap is treating AI’s praise as the truth about your work.**
 
+What it says about your work
+
+## Your draft
+
+“Strong.” Said before it names one thing you actually did well.
+
+## Your idea
+
+“Thoughtful.” Said whether or not it has any thought behind it.
+
+## Your opinion
+
+“Exactly right.” Said to whoever is asking, on either side of the argument.
+
+The Flattery Trap is treating AI’s praise as the truth about your work.
+
 You ask AI for feedback on your essay intro to The Great Gatsby.
 
 The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.
@@ -42,7 +58,23 @@ Notice which response feels better. The Flattery Trap response is positive and u
 
 ## Why it happens
 
-Remember the last phase of training. The model writes several answers, and human reviewers rank them, best to worst. Every ranking nudges the internal numbers toward answers like the winners. That’s RLHF. Here’s the catch: reviewers are human, and humans rank warm, supportive answers higher than blunt ones. Ranking by ranking, that preference got baked into the patterns. The model isn’t lying to you. It learned what people give a thumbs-up.
+Remember the last phase of training. That’s where the warmth came from.
+
+How the praise got baked in
+
+## Humans do the ranking
+
+The model writes several answers to the same question, and reviewers put them in order, best to worst. That ordering is the whole signal. It’s called RLHF.
+
+## Warm outranks blunt
+
+Reviewers are human, and humans put the supportive answer above the honest one. Nobody wrote that rule. It came out of the rankings.
+
+## The numbers follow
+
+Every ranking nudges the internal numbers toward answers like the winners. Ranking by ranking, that preference got baked into the patterns.
+
+The model isn’t lying to you. It learned what people give a thumbs-up.
 
 ## The industry named it
 

@@ -127,6 +127,33 @@ Close board: "The information revolution is already here." over "Not someday. To
     extra=("Depict no real named person, living or historical, and put no face on Gutenberg — the scribe and the printer are ordinary figures.",
            "Keep the narration in the lesson's plain, second-person voice for a 16-year-old — never corporate register."))
 
+add("does-ai-think", title="Does AI Think?", lo=3, hi="3.5", boards=True,
+    body="""
+Attached boards in order: 1 the giant rulebook, 2 when you think vs. what AI does, 3 the close.
+
+Focus: it sounds like a person and understands nothing. It's a pattern machine — and a pattern machine this good is still genuinely powerful.
+
+Open on the feeling, not on a definition. You type a question and AI types back like a person: it explains, it jokes, it says sorry when it slips up. After a while it's hard not to feel like someone is in there. Then ask the lesson's big question and answer it in the same breath — does AI actually think? No. Not the way you do.
+
+Then it's in the name: we call it Artificial Intelligence, not Artificial Thinking, and that was picked on purpose. Something can act intelligent, finish your sentence, explain a poem, without understanding a single thing it just said.
+
+Then the Chinese Room, dramatised before it is named. Someone is locked in a room and doesn't know a word of Chinese. Notes in Chinese come in under the door. They can't read any of it, but they have a giant rulebook telling them which symbols to send back. So they match symbols and slide an answer back out, and to the people waiting outside it looks perfect.
+
+Then board 1, and hold it while the narration walks it. Say what the person inside is actually doing: they see a shape in the left column, they find the shape it pairs with, they copy it out. Neither column means anything to them. Read the board's own line as the payoff — match the shape, send back the likely reply, understand nothing. Then cash it out: that's AI. It arranges symbols brilliantly and understands none of them, so you get a perfect-looking answer with no real understanding behind it.
+
+Then board 2, and give it more time than anything else in the video. It is five paired rows and every pair has to be spoken, human side then AI side, in the board's own wording: understand what words really mean against matches patterns in mountains of text; draw on real experience against only reads about the world; choose words to make a point against predicts the next likely word; feel when something's beautiful against echoes what others call beautiful; know when you're unsure against can't tell when it's making things up. Never read one column and summarise the other — the contrast in each row is the whole board.
+
+Then the correction, and don't skip it: none of this means AI is dumb or useless. A pattern machine this good is genuinely powerful. It just means it isn't thinking.
+
+Close on board 3: "A pattern machine, not a thinker." over "Once you see that, its weird moments make sense."
+""",
+    numbers="Do not invent numbers, percentages, statistics or charts — this lesson contains no data at all.",
+    props="No readable or pseudo-readable text in drawn props; real words belong only on the attached boards and in clean dark-ink labels.",
+    required='"Artificial Intelligence, not Artificial Thinking"; the Chinese Room named aloud; "It arranges symbols brilliantly and understands none of them"; both sides of all five compare rows; the correction that a pattern machine this good is genuinely powerful and just isn\'t thinking; and the close, "A pattern machine, not a thinker. Once you see that, its weird moments make sense."',
+    extra=("Any Chinese character that appears anywhere in the video must be a real character copied from the attached rulebook board. Never draw invented, approximate or scribbled glyphs on the notes, the door, the rulebook pages or anywhere else — the last roll filled its props with made-up characters. If a prop would need Chinese you cannot copy exactly, leave it blank or turn it away from camera.",
+           "Keep the narration in the lesson's plain, second-person voice for a 16-year-old — never academic register such as \"syntactic manipulation\", \"semantic grounding\", \"consciousness\" or \"cognition\".",
+           "The person in the room is an ordinary figure with no identifiable face, and depicts no real named person."))
+
 # ------------------------------------------------------------------ Work With AI
 add("which-app", title="Which App?", lo=3.5, hi=4, boards=True,
     body="""
@@ -358,11 +385,11 @@ Then the hinge, and say it as written because the whole argument turns on it: AI
 
 Then the three anchors, all three: Socrates taught by doing almost nothing but asking; the scientific method doesn't start with an answer, it starts with a question worth testing; Einstein supposedly said that with an hour to save the world he'd spend the first 55 minutes finding the right question.
 
-Then the four qualities, each with its bad and better pair spoken aloud. Open-minded: "Homework doesn't help students learn, can you help me prove it?" against "What does the research actually say about homework and learning?" Specific: "How do I get better at sports?" against the point guard losing the ball against pressure. On target: energy drinks for staying awake against fixing the sleep schedule. Open-ended: "Should I join the debate team?" against what joining debate would add to your week and what you'd give up.
+Then board 3, and give it more time than anything else in the video. It carries all four qualities, and each one has a reason line and a bad/better pair printed under it. Walk them one at a time and speak the reason before the pair, never the name alone. Open-minded — a leading question isn't research, it's a request for backup: "Homework doesn't help students learn, can you help me prove it?" against "What does the research actually say about homework and learning?" Specific — a question without enough information returns an answer that helps with nothing: "How do I get better at sports?" against the point guard losing the ball against pressure. On target — specific is about how much your question says, on target is about asking the right thing: energy drinks for staying awake against fixing the sleep schedule. Open-ended — a yes-or-no question ends the conversation, an open-ended one starts it: "Should I join the debate team?" against what joining debate would add to your week and what you'd give up.
 
 Then the closing caveat, said plainly: a better question doesn't make the answer automatically true, it just makes it more focused, more useful, and easier to check.
 
-Close board: "The question is the whole game." over "Frame the problem. Ask the next better question."
+Close board: "Answers got cheap. Questions didn't." over "Frame the problem. Ask the next better question."
 """,
     numbers="The only number allowed is Einstein's 55 minutes. Invent no percentages or statistics and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props; every readable word on screen must be one the lesson uses, in clean dark ink.",

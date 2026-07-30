@@ -12,8 +12,6 @@ AI isn’t something you go visit. It’s already in the apps on your phone, the
 
 AI is already in the apps you use every day
 
-Most of the time, it's making a prediction: what you might tap, say, watch, search for, or need next.
-
 🎧
 
 Recommends

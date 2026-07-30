@@ -103,6 +103,30 @@ Close on the lesson's own escalation: double down on building your knowledge and
     required='the narrator must speak "Be Smarter Than the Tool" as the name of this course, the line "one day you\'ll be the CEO at Google," and the close "Know more than the tool. It starts today, not when you land the job."',
     extra=("Keep the narration in the lesson's plain, second-person voice for a 16-year-old — never substitute corporate register such as \"loses its professional value\", \"becomes a commodity\", \"director of the input\", or \"strictly human domains\".",))
 
+add("why-learn-ai", title="Why Learn AI?", lo=3.5, hi=4, boards=True,
+    body="""
+Attached boards in order: 1 AI in the apps you use, 2 why you'll thrive, 3 the White House quote, 4 the close.
+
+Focus: AI is early, it is already everywhere, and being young is the advantage.
+
+Open on the scribe. It is the year 1500 and you hand-copy the king's proclamations all day. Good work, steady job. Then you hear a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn't happening, or learn the machine well enough to run it. Then land the line on its own: AI is the press. Run it, or someone else will.
+
+Then AI is everywhere. It isn't something you go visit — it's already in the apps on your phone, the search results you read, and the tools your first job hands you on day one. Most of what it does today it will do better tomorrow. Then the everyday-apps board, held while the narration walks its five cards and says what each one predicts. Say the thread out loud — most of the time AI is making a prediction about what you might tap, say, watch, search for, or need next.
+
+Then the part that matters most to a 16-year-old, and give it the most room: AI is new for everyone, and that is your advantage. Hold the thrive board and walk all three rows — this is YOUR time, you'll move faster, nothing to unlearn — speaking the reason written under each, in the board's own words. Never read the headings and move on; the reasons are the point of that board.
+
+Then this has happened before. Becoming a designer once meant years at a drafting table learning the craft by hand. Then desktop publishing showed up and a teenager with a Mac could turn out professional work in an afternoon. Say what that means: the tool didn't replace skill, it shortened the distance between wanting to do the work and actually doing it. Then the rule, not the exception — the steam engine for physical labor, electricity for the factory, the internet for information. AI is that, for almost everything.
+
+Then the quote board, introduced as evidence rather than hype: in July 2025 the White House released a national strategy document, Winning the Race: America's AI Action Plan. Show the attached quote card and read it exactly as written: "An industrial revolution, an information revolution, and a renaissance — all at once. This is the potential that AI presents." Attribute it aloud to the White House, July 2025.
+
+Close board: "The information revolution is already here." over "Not someday. Today."
+""",
+    numbers="Do not invent numbers, percentages or statistics; the lesson's only figures are the year 1500 and July 2025.",
+    props="No readable or pseudo-readable text in drawn props — never draw proclamations, printed pages or phone screens with legible writing; real words belong only on the attached boards and in clean dark-ink labels.",
+    required='"AI is the press. Run it, or someone else will."; all three thrive reasons spoken, not just their headings; the White House and July 2025 named aloud when the quote appears, with the quote read exactly as written; and "the tool didn\'t replace skill, it shortened the distance between wanting to do the work and actually doing it."',
+    extra=("Depict no real named person, living or historical, and put no face on Gutenberg — the scribe and the printer are ordinary figures.",
+           "Keep the narration in the lesson's plain, second-person voice for a 16-year-old — never corporate register."))
+
 # ------------------------------------------------------------------ Work With AI
 add("which-app", title="Which App?", lo=3.5, hi=4, boards=True,
     body="""
@@ -396,6 +420,34 @@ End on board 3: "Probable isn't true." over "And it sounds the same when it's wr
     props="No readable or pseudo-readable text in drawn props — never draw notebooks, journals, tablets, code blocks or document pages with visible writing; real words belong only on the attached boards and in clean dark-ink labels.",
     required='the narrator must say "retrieval-augmented generation" in full, must attribute the case to Google and say that some people actually tried it, and must state the nuance exactly — that AI can often spot a joke but only when the joke looks like one.',
     extra=("Never say or imply that AI is blind to sarcasm, humour or context in general; the lesson's point is the opposite and stating it that way inverts the teaching.",))
+
+add("mind-trap", title="Mind Trap", lo=3.5, hi=4, boards=True,
+    body="""
+Attached boards in order: 1 the two answers, 2 the close.
+
+Focus: you already know AI isn't a person. This is why it keeps feeling like one anyway, and what that feeling does to you.
+
+Open on the lesson's own turn: the next four traps are different from the first three. They're not about whether the answer is correct, but about how it feels and what that feeling makes you trust. Then the promise: you know AI isn't a person and doesn't think, so this is why it keeps feeling like somebody is anyway.
+
+Then the college question, asked twice — once at the dinner table, once in a chat window: should I go to the University of Michigan or Indiana University? Then the two-answers board, held while the narration walks both columns, speaking the reason written under each row, in the board's own words.
+
+Speak both answers as written — Mom's Indiana answer about going quiet in 300-person lectures, then the AI's smoother Michigan answer about world-class academics and a vibrant campus community. Then walk what happened under each: eighteen years of knowing you against a million college-advice pages, a stake in the outcome against nobody behind the words.
+
+Then the point, and do not rush it: notice which answer sounds better. The AI's is smoother, more confident, easier to like — and it could have been written for anyone. Then name the trap as the lesson names it: Mind Trap is accepting AI's words as human advice.
+
+Then this isn't a new problem. In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the ELIZA effect.
+
+Then the two reasons it works on you. Why your brain does this: detecting minds kept your ancestors alive, so the detector fires constantly — you see faces in toast and personalities in cars. Why AI sets it off harder: it's the most mind-shaped thing you've ever talked to. Say the tells aloud — "I think", "I feel", "I find this fascinating" — then the correction: your brain hears a person, but they're tokens a probability process landed on.
+
+Then the takeaway, stated as the instruction it is: don't let AI make the decisions that matter. It doesn't think, it doesn't know you, and it can't care how your life turns out. Let it gather the facts, lay out the options, pressure-test your thinking. Then take the decision to people, the ones with a stake in the answer.
+
+Close board: "Human-sounding isn't a mind." over "The words are real. Nobody's home."
+""",
+    numbers="Do not invent numbers, percentages or statistics; the lesson's only figures are the 300-person lectures, a million college-advice pages, and the 1960s.",
+    props="No readable or pseudo-readable text in drawn props — never draw chat windows or message bubbles with legible writing; real words belong only on the attached boards and in clean dark-ink labels.",
+    required='both answers spoken as written; "Mind Trap is accepting AI\'s words as human advice"; "the ELIZA effect" by name; "they\'re tokens a probability process landed on"; and "don\'t let AI make the decisions that matter".',
+    extra=("Mom is an ordinary figure with no fixed likeness, and the student is never in distress. Give the AI no face, no avatar, no eyes, no robot body — the lesson is that nobody is behind the words, so never draw somebody.",
+           'Keep the lesson\'s plain, second-person voice — never corporate register such as "anthropomorphic projection".'))
 
 add("engagement-trap", title="Engagement Trap", lo=3.5, hi=4, boards=True,
     body="""

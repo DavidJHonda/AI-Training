@@ -329,6 +329,14 @@ inside narration pauses, in both videos.
   never spikes). A donor/graft start taken from narration timing can land
   mid-blend and flash the PREVIOUS scene. Frame-check every donor onset past its
   dissolve before compositing.
+- **Room-tone cliff + trailing sibilant (why-learn-ai 2026-07-30, three passes
+  to get right):** never butt narration audio against digital-zero silence
+  (anullsrc) — the noise-floor drop reads as a held-breath edit even when no
+  content is clipped. Fade the tone out ~0.15s after speech, and fade the next
+  leg's room tone back in. And whisper word-end times UNDERSHOOT trailing /s/:
+  "once." marked ending 215.36 actually carried its sibilant 215.48-215.62
+  after a ~100ms nasal dip — a cut in that dip turns "once" into "one". Cut
+  after the sibilant (verify on the 5ms peak profile), never in the dip.
 - **Word-inside-pause rule:** pauses.sh can flag a silence window that lives
   INSIDE a drawn-out word (a cut there clips mid-word). Verify every planned cut
   against word-level timestamps (faster-whisper, in the venv:

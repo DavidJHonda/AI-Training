@@ -329,6 +329,16 @@ inside narration pauses, in both videos.
   never spikes). A donor/graft start taken from narration timing can land
   mid-blend and flash the PREVIOUS scene. Frame-check every donor onset past its
   dissolve before compositing.
+- **Single-word splices: cut by phoneme profile, never by whisper stamps
+  (what-you-can-control 2026-07-30):** whisper word boundaries ran ~200ms late
+  around a stop consonant — its "skill" span actually held "[Develop]ing-sk",
+  and splicing it produced a chirp/beep. Map the region in 5ms windows
+  (fricative = dominant FFT bin >3.5kHz, voiced = <800Hz) and cut at the /s/
+  onset and the next word's consonant onset. Watch for liaison: both narrators
+  fuse word+"and" into continuous voicing, so the swappable unit was
+  "scale and"→"skill and", not the word alone. Verify the landed splice by
+  sliding cross-correlation AND by the output's phoneme shape — ASR cannot
+  adjudicate a single spliced word (it re-hears it from phrase context).
 - **Room-tone cliff + trailing sibilant (why-learn-ai 2026-07-30, three passes
   to get right):** never butt narration audio against digital-zero silence
   (anullsrc) — the noise-floor drop reads as a held-breath edit even when no

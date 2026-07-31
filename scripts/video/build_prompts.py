@@ -251,7 +251,7 @@ Close board: "Meaning builds up, layer by layer." over "The blank box gets fille
 
 add("tokens", title="Tokens", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 one chunk, thousands of words, 2 how a human sees a cat vs AI, 3 how AI splits text into tokens, 4 the close.
+Attached boards in order: 1 one chunk, thousands of words, 2 tokenization defined, 3 how a human sees a cat vs AI, 4 how AI splits text into tokens, 5 the close.
 
 Focus: before AI can read anything, an ordinary program chops your text into chunks and swaps each for a number — and that number is an address, not a meaning.
 
@@ -263,15 +263,15 @@ Then the obvious solution and why it collapses: give every English word its own 
 
 Then the fix, on board 1, held while the chips are read: engineers break language into reusable chunks. Take every word starting with UN — unbelievable, unmatchable, untied, unlock, unfair, and thousands more. The vocabulary stores UN once and reuses that one piece to help spell all of them. Read enough of them aloud that the reuse is obvious.
 
-Then name it, and keep the ordinariness: before your words ever reach the model, a small ordinary program with no AI in it breaks them into these chunks. That is tokenization, and the chunks are tokens. A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word.
+Then board 2, held while its three cards are walked in order, in the board's own words and keeping the ordinariness: the small ordinary program with no AI in it, the two names, and every form a token might take, down to the space before a word.
 
 Then the vocabulary: each model knows a fixed set, and they run large — ChatGPT's holds about 200,000 and Gemini's about 256,000. Say that Anthropic hasn't published Claude's.
 
 Then the token ID: each token gets a number, an address in the model's vocabulary — it tells the model which token, and says nothing about what it means.
 
-Then board 2, held while both sides are walked: a human reads cat and instantly knows what it means, soft fur, whiskers, sits on your keyboard; the tokenizer turns cat into 9246, either way it's a number, not meaning yet.
+Then board 3, held while both sides are walked: a human reads cat and instantly knows what it means, soft fur, whiskers, sits on your keyboard; the tokenizer turns cat into 9246, either way it's a number, not meaning yet.
 
-Then board 3, held and walked row by row, saying first that each AI does this differently so this is only an example: unbelievable into un, believ, able, three tokens broken into known parts; basketball into basket and ball; ChatGPT into Chat, G, PT, because brand names get split; "I heart AI" into three, where the marker shows a leading space; and the quickbookstraining URL into seven, because URLs split into known pieces too.
+Then board 4, held and walked row by row, saying first that each AI does this differently so this is only an example: unbelievable into un, believ, able, three tokens broken into known parts; basketball into basket and ball; ChatGPT into Chat, G, PT, because brand names get split; "I heart AI" into three, where the marker shows a leading space; and the quickbookstraining URL into seven, because URLs split into known pieces too.
 
 Then: once it's built, the model uses that same fixed vocabulary every time it reads text.
 

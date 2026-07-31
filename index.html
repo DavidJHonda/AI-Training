@@ -4889,6 +4889,26 @@ function TokenTrueFalseTryIt(props) {
       done ? E("div", { style: { borderTop: "1px solid var(--tryRule)", paddingTop: 18, textAlign: "center", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--ink)", animation: "fadeIn 0.3s ease" } },
         "You beat the tokenizer on " + score + " of " + ROUNDS.length + "." + (score >= 7 ? " Impressive radar." : score >= 4 ? " The splits are weirder than they look." : " Nobody sees the splits coming. That\u2019s the point.")) : null)));
 }
+// Tokenization defined on its own board. The video's narration for this beat is
+// strong while its screen shows junk, so the definition paragraph becomes a board
+// the kit can carry. Same format as the horse-reads board in Layers.
+function TokenizationBox() {
+  var E = React.createElement;
+  var CARDS = [
+    { h: "Before the model", body: E("span", null, "Before your words ever reach the model, a small ordinary program (no AI involved) breaks them into these chunks.") },
+    { h: "Two names", body: E("span", null, "The process is called ", E("strong", null, "tokenization"), ", and the chunks are called ", E("strong", null, "tokens"), ".") },
+    { h: "A token might be", body: E("span", null, "A whole word, part of a word, punctuation, an emoji, or even the space before a word.") }
+  ];
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
+      "your words → small ordinary program → tokens"),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12 } },
+      CARDS.map(function(c, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
+          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
+      })));
+}
 function TokenSection(props) {
   const staticExamples = [
     { word: "unbelievable", tokens: [{t: "un", id: 359}, {t: "believ", id: 81928}, {t: "able", id: 481}], note: "3 tokens (broken into known parts)" },
@@ -4986,12 +5006,7 @@ function TokenSection(props) {
       E("strong", null, "UN"),
       " once and uses the chunk to help spell all words that use it."),
     reuseBox,
-    E(BodyP, null,
-      "Before your words ever reach the model, a small ordinary program (no AI involved) breaks them into these chunks. The process is called ",
-      E("strong", null, "tokenization"),
-      ", and the chunks are called ",
-      E("strong", null, "tokens"),
-      ". A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word."),
+    E(TokenizationBox, null),
     E(BodyP, null,
       "Each model knows a fixed set of them, called its ",
       E("strong", null, "vocabulary"),

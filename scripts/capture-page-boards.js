@@ -92,6 +92,12 @@ const BOARDS = [
   { section: "tokens", out: "tokens-1-chunks.jpg", width: 640,
     find: ["One chunk, thousands of words", "Plus thousands more", "unplug"] },
 
+  // tokens: tokenization defined. The video's 1:26-1:47 narration beat is strong
+  // but its screen shows junk lettering; the definition paragraph became this board
+  // so the kit can put the real content under the real words. Board 2 in the kit order.
+  { section: "tokens", out: "tokens-2-tokenization.jpg", width: 640,
+    find: ["your words → small ordinary program → tokens", "no AI involved", "the space before a word"] },
+
   // critical-thinking: the kit board was titles-only ("Five habits. Each one is a
   // question you ask.") so the video recited five question names and taught none of
   // them. This is the lesson's own block, each habit with the reason under it.

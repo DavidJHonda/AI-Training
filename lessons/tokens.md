@@ -78,7 +78,19 @@ seen
 
 Plus thousands more
 
-Before your words ever reach the model, a small ordinary program (no AI involved) breaks them into these chunks. The process is called **tokenization**, and the chunks are called **tokens**. A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word.
+your words → small ordinary program → tokens
+
+## Before the model
+
+Before your words ever reach the model, a small ordinary program (no AI involved) breaks them into these chunks.
+
+## Two names
+
+The process is called **tokenization**, and the chunks are called **tokens**.
+
+## A token might be
+
+A whole word, part of a word, punctuation, an emoji, or even the space before a word.
 
 Each model knows a fixed set of them, called its **vocabulary**, and these run large: ChatGPT’s holds about **200,000** tokens and Gemini’s about **256,000**. Anthropic hasn’t published Claude’s.
 

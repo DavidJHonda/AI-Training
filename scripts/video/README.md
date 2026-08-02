@@ -224,6 +224,20 @@ Two extensions (what-is-ai, 2026-08-02):
   Mirror-tile a clean ~0.35s pause for the tone (never anullsrc — room-tone
   cliff), 10ms fades at every joint. Works any time a board walk ends with no
   air; total video frames removed must equal audio seconds removed at fps.
+- **OPEN FULL SCREEN (owner rule, what-you-can-control 2026-08-02):** every
+  highlight tour STARTS on the whole board at full frame and only then zooms
+  into sections. Early highlight states (e.g. two column intros) play at the
+  wide framing with just the highlight switching; the first camera dive waits
+  for the first item-level narration beat. A tour that opens pre-zoomed was
+  rejected for exactly this.
+- **CLOSE-BOARD REBUILD (same session):** when a roll's close is an engine
+  redraw (marker strokes, off proportions), capture the app's closeBoard() at
+  dsf4 (one state, `{"states":[{}]}`, LABELS = the sticky text) and replace the
+  close span with a single-beat full-frame slow push-in (~5s). Buy the timing
+  with mirror-tiled room tone on BOTH sides — ~1s before the close line (silent
+  board pre-hold) and ~1s after (settled hold, 0.2s fade at the absolute end).
+  Verify the insert by silencedetect: the pause must read as ONE continuous
+  window, no blip at the joins.
 
 **The source does not have to be an illustration — a frame of THIS VIDEO works**
 (ai-is-different's second Getty span, replaced by a pan down the lesson's own

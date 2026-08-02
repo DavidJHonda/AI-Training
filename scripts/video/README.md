@@ -190,6 +190,41 @@ the source is.
    rendering** — the failure mode is a window edge slicing through a heading
    ("AI Software" cut in half). Fix by moving the edge into a gap between rows.
 
+**HIGHLIGHT-STATE VARIANT — N items on one board, each lighting up as it is
+named** (first shipped: welcome five-step path, 2026-08-02). Capture the SAME
+board N+1 times via CDP at deviceScaleFactor 4 (compose on a fixed wrapper,
+inject per-state styles: 3px primary ring on the card + `#6e51ff22` chip behind
+the label; export card rects for camera targets). Then run ken_burns_path ONCE
+PER STATE, threading the camera across runs — each run's first beat carries an
+explicit "from" equal to the previous run's final "to" — and concat the FFV1
+legs with the concat demuxer (`-c copy`). Junction frames share the exact same
+camera window, so the only change is the highlight popping on: reads as motion
+graphics, not a cut (junction diffs land ~8-12, well under the cut threshold).
+Time each junction to the narration onset of its item ("Step two is…") from
+whisper word stamps, and put a ~30-frame transit + slow drift-hold inside each
+state's run. Total leg frames must equal the replaced span exactly — plan the
+per-run frame budget from the word stamps first.
+
+Two extensions (what-is-ai, 2026-08-02):
+
+- **ELEMENT STATES** — pass a states JSON as the script's 10th arg to highlight
+  arbitrary sub-elements (chips, bubbles, list rows, single lines) per state:
+  `{"states":[{"panels":["Label"],"elements":["exact textContent"]},...]}`.
+  Elements get a 2.5px purple ring via box-shadow (zero layout shift, so pops
+  are seam-free — junction diffs land 1-5), panels keep the card ring + chip.
+  rects.json gains an "elements" map for camera targeting. One camera glide +
+  many quick element states reads as the board lighting up as it is spoken.
+  **Granularity rule (owner, 2026-08-02): one ring per point being made.** Use
+  element states only when the narration walks sub-elements of the board; when
+  each card/row IS the point (welcome's steps, why-learn-ai's rows), card-level
+  highlighting is complete — finer rings add nothing.
+- **BUY THE ZOOM-OUT** — when the pause before the exit cut is too short for a
+  pullback (LLM board had 0.41s), INSERT 40-60 frames of room tone into the
+  audio at the cut point and give the leg a pullback of the same length.
+  Mirror-tile a clean ~0.35s pause for the tone (never anullsrc — room-tone
+  cliff), 10ms fades at every joint. Works any time a board walk ends with no
+  air; total video frames removed must equal audio seconds removed at fps.
+
 **The source does not have to be an illustration — a frame of THIS VIDEO works**
 (ai-is-different's second Getty span, replaced by a pan down the lesson's own
 drawn spreadsheet grabbed from its static scene 90s later). Check the donor

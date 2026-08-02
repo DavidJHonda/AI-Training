@@ -4,7 +4,7 @@
 
 Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
 
-Two ways to take this course: read each lesson, or press play to see the video version. Same material, your choice.
+Two ways to take this course: read each lesson, or press play to see the video version. Same material, your choice. Either way, each lesson ends with an activity. Complete it before you move to the next lesson.
 
 ## WHY GO DEEPER?
 

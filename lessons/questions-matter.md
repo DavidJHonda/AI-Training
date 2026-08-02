@@ -132,10 +132,6 @@ Should I join the debate team?
 
 What would joining debate add to my week, and what would I have to give up for it?
 
-Notice that AI hasn’t come up yet. These four qualities worked in Socrates’ Athens and they work in a chat window. What changed is the payoff: now that answers are instant, the quality of the question is the whole game.
-
-A better question doesn’t make the answer automatically true. It just makes the answer more focused, more useful, and easier to check.
-
 Answers got cheap. Questions didn’t.
 
 Frame the problem. Ask the next better question.

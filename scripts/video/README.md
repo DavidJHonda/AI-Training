@@ -396,3 +396,43 @@ inside narration pauses, in both videos.
 - **Never overwrite a repair candidate in place** — the owner's player may have
   it open, and an underfoot rewrite plays as a broken file (frozen + silent).
   Version-suffix every rebuild (-v2, -v3, ...).
+- **Breath-onset rule (questions-matter 2026-08-02):** when a cut deletes a
+  sentence, the narrator's INHALE for that sentence starts inside the preceding
+  pause — up to ~450ms before the whisper word onset. A cut placed after the
+  breath onset ships a truncated inhale (the held-breath artifact with no
+  anullsrc involved). Detect: silencedetect shows the planned pause SPLIT into
+  two windows with a short energy blip ending exactly at your seam. Fix: move
+  both A/V cuts before the blip. Confirming signal: whisper hallucinates a
+  leading function word at the join ("Answers" heard as "Their answers") —
+  re-transcribe after the fix and the phantom word disappears.
+- **Deleting a mid-scene narration span (the sentence-cut recipe):** cut video
+  and audio at the SAME frame-boundary timestamps, each end inside a measured
+  silence, and check the re-entry frame for the source's own scene cuts —
+  resuming 0.3s before one ships an orphan beat (found by a SECOND spike right
+  after the seam in the output). If the source scene the audio resumes in
+  started earlier than the audio cut allows, reconcile with a start-clone
+  freeze of the destination's first settled frame (n_freeze = video span
+  removed minus audio span removed).
+- **EOF frame-count quirk:** an assembly can encode N frames (mux log says N)
+  while BOTH cv2 and ffmpeg decode N-1. Before diagnosing, dump showinfo pts:
+  if spacing is uniform 1/30 from 0, the loss is the terminal frame only —
+  benign when the video ends on a freeze (hit twice, 2026-08-02). Any internal
+  gap is a real drop: find it and rebuild.
+- **zsh word-splitting trap:** `--seam $w` with `w="A B"` passes ONE argument
+  in zsh (no implicit splitting) — argparse dies, stderr is easy to swallow in
+  a pipe, and the check "passes" with empty output. Expand values literally or
+  use explicit arrays; never loop measurement commands over unquoted vars.
+
+## Highlight-state capture notes (see the variant recipe above)
+
+- **Band disambiguation:** the innermost-div search can match a TRY IT quiz
+  that reuses the board's item labels as options. Pass a HEADLINE string that
+  exists only in the board (any unique body-text phrase works — questions-matter
+  used "request for backup"); the quiz block fails the every-predicate filter.
+- Whole-card solo states (ring moves card to card) measured junction pops of
+  2.7-4.9 on the 160x90 diff — even gentler than welcome's 8-12. The pop can be
+  small enough that a coarse threshold scan reports nothing; verify the junction
+  by extracting the exact boundary frames, not by diff magnitude alone.
+- The span being replaced does not need its own scene cuts at the junction
+  times — only the OUTER edges must land on the original's cuts. Junctions are
+  free to sit wherever the narration onsets are.

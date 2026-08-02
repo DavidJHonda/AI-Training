@@ -98,6 +98,11 @@ const COMPOSE = `(function(){
       it.card.style.padding = "18px 16px";
       it.card.style.margin = "0 -16px";
       it.card.style.borderBottom = "none";
+      // Paint above later siblings: a following row's white background can
+      // otherwise cover the ring's bottom edge (learn-with-ai feed-in header,
+      // owner-flagged 2026-08-02). relative+zIndex shifts no layout.
+      it.card.style.position = "relative";
+      it.card.style.zIndex = "3";
     }
     var lc = it.leaf.style.color;
     var chipColor = "#6e51ff", chipBg = "#6e51ff22";
@@ -122,7 +127,13 @@ const COMPOSE = `(function(){
       (s.elements || []).forEach(function(en){ var t = (typeof en === "string") ? en : en.text;
         var e = window.__elems[t];
         var rc = ringColors[t] || "#6e51ff";
-        e.el.style.boxShadow = (e.el.style.boxShadow ? e.el.style.boxShadow + ", " : "") + "0 0 0 2.5px " + rc; });
+        // outline+offset, not box-shadow: the shadow ring hugs the text box so
+        // glyphs touch the line (owner-flagged 2026-08-02). outline-offset
+        // paints the ring outside the bounds with breathing room, zero layout
+        // shift; borderRadius on a bg-less div shifts nothing either.
+        e.el.style.outline = "2.5px solid " + rc;
+        e.el.style.outlineOffset = "6px";
+        e.el.style.borderRadius = "6px"; });
     } else if (k > 0) {
       applyPanel(window.__items[k-1]);
     }

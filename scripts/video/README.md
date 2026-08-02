@@ -230,6 +230,23 @@ Two extensions (what-is-ai, 2026-08-02):
   wide framing with just the highlight switching; the first camera dive waits
   for the first item-level narration beat. A tour that opens pre-zoomed was
   rejected for exactly this.
+- **COMPACT BOARDS GET NO DIVES (owner rule, learn-with-ai feed-in board,
+  2026-08-02):** when every item on the board reads comfortably at the full
+  view, camera dives are "actually distracting" — stay at the full framing the
+  entire span (an imperceptible ~4%-per-30s push keeps it alive) and let the
+  rings alone walk the narration. Judge by legibility at 720p, not by item
+  count. Dives are for boards whose items need the zoom to be read.
+- **Element rings are outline+offset, panel pills carry zIndex** (both in
+  capture_board_states.js, owner-flagged 2026-08-02): a box-shadow element
+  ring hugs the text box so glyphs touch the line, and a white panel pill can
+  be painted over by the next sibling's background. Both fixed in the script —
+  if a highlight ever renders crowded or half-hidden again, look there first.
+- **Capture preflight for the full-screen open:** before picking CANW/BANDW,
+  check band aspect ≥ ~16:10 at the planned band width — a taller-than-wide
+  board cannot fit a 16:9 window at any zoom, and a wide-flat board leaves no
+  camera travel for dives. Tune BANDW (narrower = taller/more travel) together
+  with CANW (wider canvas = room for the wide open); learn-with-ai's habits
+  board needed 900-wide band on a 1360-wide canvas to get both.
 - **CLOSE-BOARD REBUILD (same session):** when a roll's close is an engine
   redraw (marker strokes, off proportions), capture the app's closeBoard() at
   dsf4 (one state, `{"states":[{}]}`, LABELS = the sticky text) and replace the

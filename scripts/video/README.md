@@ -258,6 +258,15 @@ Two extensions (what-is-ai, 2026-08-02):
   camera travel for dives. Tune BANDW (narrower = taller/more travel) together
   with CANW (wider canvas = room for the wide open); learn-with-ai's habits
   board needed 900-wide band on a 1360-wide canvas to get both.
+- **2×2 grids: one uniform card window, sized to the gaps** (where-ai-works-best
+  element retrofit, 2026-08-03): on a two-row grid the card window's top edge
+  must clear the headline for TOP cards and land in the inter-row gap for BOTTOM
+  cards — and the vertical space from headline-bottom to row-gap bounds the
+  window height. A wider window that fits the rows alone will slice the other
+  row's tagline. Solve once: pick the largest w whose 16:9 height fits between
+  headline and row gap (there, w=3040 on a 6400×3600 dsf4 canvas, band 1000 on
+  1600×900) and use it for all four cards — uniform zoom is also what reads as
+  one camera.
 - **CLOSE-BOARD REBUILD (same session):** when a roll's close is an engine
   redraw (marker strokes, off proportions), capture the app's closeBoard() at
   dsf4 (one state, `{"states":[{}]}`, LABELS = the sticky text) and replace the

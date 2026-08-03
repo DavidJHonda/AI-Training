@@ -14,6 +14,9 @@
 // An element entry may be {"text": "...", "ring": "#color"} — owner rule
 // 2026-08-02: inside an accent-colored container the ring adopts the
 // container's accent; bare-string entries keep the purple default.
+// A panel entry may likewise be {"label": "...", "ring": "#color"} — owner rule
+// 2026-08-03 (which-app): a card with its own accent color gets its accent as
+// the ring, not the primary purple; bare-string panels keep the default.
 //
 // Item detection: for each label, the innermost element with that exact text is
 // the label leaf; the highlight target ("card") is the highest ancestor that
@@ -87,14 +90,15 @@ const COMPOSE = `(function(){
     window.__elems[t] = { el: els[0], style: els[0].getAttribute("style") || "" };
   });
   if (missing.length) return "ELEMENT NOT FOUND: " + missing.join(" // ");
-  function applyPanel(it) {
+  function applyPanel(it, ringColor) {
+    var ring = ringColor || "#6e51ff";
     var isCard = (it.card.style.background || "").length > 0;
     if (isCard) {
-      it.card.style.boxShadow = (it.card.style.boxShadow ? it.card.style.boxShadow + ", " : "") + "0 0 0 3px #6e51ff";
+      it.card.style.boxShadow = (it.card.style.boxShadow ? it.card.style.boxShadow + ", " : "") + "0 0 0 3px " + ring;
     } else {
       it.card.style.background = "#fff";
       it.card.style.borderRadius = "12px";
-      it.card.style.boxShadow = "0 0 0 3px #6e51ff";
+      it.card.style.boxShadow = "0 0 0 3px " + ring;
       it.card.style.padding = "18px 16px";
       it.card.style.margin = "0 -16px";
       it.card.style.borderBottom = "none";
@@ -110,7 +114,13 @@ const COMPOSE = `(function(){
     else if (lc && lc.indexOf("rgb(") === 0) { chipColor = lc; chipBg = lc.replace("rgb(", "rgba(").replace(")", ", 0.13)"); }
     it.leaf.style.background = chipBg;
     it.leaf.style.color = chipColor;
+    // Padding fully offset by negative margin so the chip NEVER changes the
+    // label's outer box. Without this, subgrid boards share the label row's
+    // height across all cards, so one chip re-flowed every card AND re-centered
+    // the flex-centered band — a board-wide 2-3px text shift at every panel
+    // junction (owner-flagged 2026-08-03, which-app big-three board).
     it.leaf.style.padding = "2px 10px";
+    it.leaf.style.margin = "-2px -10px";
     it.leaf.style.borderRadius = "7px";
     it.leaf.style.display = "inline-block";
     it.leaf.style.alignSelf = "flex-start";
@@ -123,7 +133,10 @@ const COMPOSE = `(function(){
     Object.keys(window.__elems).forEach(function(t){ window.__elems[t].el.setAttribute("style", window.__elems[t].style); });
     if (stateSpec) {
       var s = stateSpec[k] || {};
-      (s.panels || []).forEach(function(lb){ var i = labels.indexOf(lb); if (i >= 0) applyPanel(window.__items[i]); });
+      (s.panels || []).forEach(function(pn){
+        var lb = (typeof pn === "string") ? pn : pn.label;
+        var i = labels.indexOf(lb);
+        if (i >= 0) applyPanel(window.__items[i], (typeof pn === "string") ? null : pn.ring); });
       (s.elements || []).forEach(function(en){ var t = (typeof en === "string") ? en : en.text;
         var e = window.__elems[t];
         var rc = ringColors[t] || "#6e51ff";

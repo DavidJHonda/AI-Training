@@ -236,6 +236,24 @@ Two extensions (what-is-ai, 2026-08-02):
   entire span (an imperceptible ~4%-per-30s push keeps it alive) and let the
   rings alone walk the narration. Judge by legibility at 720p, not by item
   count. Dives are for boards whose items need the zoom to be read.
+- **Accent-colored boxes ring in their own accent, never the primary purple**
+  (owner rule 2026-08-03, which-app big-three + how-we-built boards): when a
+  card carries its own color (top border, colored label), pass panels as
+  `{"label": "...", "ring": "#accent"}` in the states JSON — a purple ring on a
+  green ChatGPT card was rejected. Element entries already took `ring`; panel
+  entries now do too. Chips self-adopt the leaf's inline color as before.
+- **Subgrid boards: capture ONE clean state, composite the rings in post**
+  (which-app 2026-08-03). Cards that share row heights (`subgrid`) re-flow
+  EVERY card when a chip pads one label, and the flex-centered band re-centers
+  on top — a board-wide 2-3px text shift at every panel junction (read by the
+  owner as "the image redraws / line wrap changes"). The chip now carries
+  negative-margin compensation, but Chrome still drifts ~1px between repeated
+  screenshots of a session, so DOM states can never be trusted pixel-stable:
+  screenshot state-0 once, harvest rects (labels via a dummy element state),
+  and draw card rings, element rings, and label-chip tints in post (cv2
+  rounded rects at 4x). States are then identical-outside-the-highlight by
+  construction — junction diffs land 1-3. Same idea as hallucination's
+  rings-on-JPG composite.
 - **Element rings are outline+offset, panel pills carry zIndex** (both in
   capture_board_states.js, owner-flagged 2026-08-02): a box-shadow element
   ring hugs the text box so glyphs touch the line, and a white panel pill can

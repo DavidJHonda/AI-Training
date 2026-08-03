@@ -259,6 +259,13 @@ Two extensions (what-is-ai, 2026-08-02):
   ring hugs the text box so glyphs touch the line, and a white panel pill can
   be painted over by the next sibling's background. Both fixed in the script —
   if a highlight ever renders crowded or half-hidden again, look there first.
+- **Bullet-row rings enclose the dot (owner rule, evaluate-the-results
+  2026-08-03): ring the ROW, not the inner text span.** When a list row is
+  `[• span][content span]`, matching the content span's text rings the text
+  alone and leaves the bullet outside the boundary — rejected. Match the row
+  div by prefixing "•" to the concatenated text (rows whose bullet span has no
+  text can't be targeted this way — the innermost-match rule picks the text
+  span; those need the capture script if it ever matters).
 - **Adjacent element rings that would overlap: ring the PARENT via its
   concatenated textContent** (ai-is-different acts-lines, 2026-08-02). Two
   stacked lines 6px apart each got an offset ring and the rings collided; the

@@ -241,6 +241,17 @@ Two extensions (what-is-ai, 2026-08-02):
   ring hugs the text box so glyphs touch the line, and a white panel pill can
   be painted over by the next sibling's background. Both fixed in the script —
   if a highlight ever renders crowded or half-hidden again, look there first.
+- **Adjacent element rings that would overlap: ring the PARENT via its
+  concatenated textContent** (ai-is-different acts-lines, 2026-08-02). Two
+  stacked lines 6px apart each got an offset ring and the rings collided; the
+  fix needs no script change — the element matcher takes exact textContent, and
+  a container's textContent is its children's text concatenated with no
+  separator ("Ask it twice: ...When it's wrong: ..."). One entry, one boundary.
+- **When a lesson is prose-first, tour only what the lesson actually has**
+  (ai-is-different, 2026-08-02): drawn engine scenes that visualize the page's
+  PROSE are the video doing its job, not inconsistencies — do not invent app
+  boards to replace them. The treatment applies only to spans rendering a real
+  lesson component (there, one side-by-side board of eight scenes).
 - **Capture preflight for the full-screen open:** before picking CANW/BANDW,
   check band aspect ≥ ~16:10 at the planned band width — a taller-than-wide
   board cannot fit a 16:9 window at any zoom, and a wide-flat board leaves no

@@ -6379,29 +6379,26 @@ function DocumentChatSection(props) {
 
 
 function ModelSelectionSection(props) {
-  const [reachAnswers, setReachAnswers] = useState({});
-  // Priming activity: no correct answer. Every pill passes isCorrect:true, so the
-  // pick greens and the others stay neutral. The lesson's own honest answer is that
-  // any of the three works, so scoring one as right would contradict it.
-  const REACH = [
-    { job: "Your history essay is due Friday, and you want something to argue back at your thesis before your teacher does.", opts: {
-      chatgpt: { headline: "The Anything Box.", fb: "It’ll do it, and it’s the default for a reason: no setup, no deciding, just ask." },
-      claude: { headline: "Plays to its philosophy.", fb: "Arguing carefully with you about an argument is the thing it’s tuned for. Push it to disagree, not to agree." },
-      gemini: { headline: "Reasonable.", fb: "And if the essay already lives in Google Docs, having the AI sitting in the same place is worth real time." } } },
-    { job: "You need the three key dates pulled out of a 40-page PDF your teacher posted.", opts: {
-      chatgpt: { headline: "Works fine.", fb: "Upload and ask. This is bread-and-butter work for all three of them." },
-      claude: { headline: "Works fine.", fb: "Long documents are comfortable territory, so 40 pages isn’t a stretch." },
-      gemini: { headline: "Works fine.", fb: "And it’s the shortest path of the three if that PDF is already sitting in your Drive." } } },
-    { job: "You want to know what actually happened in the news this week, with links you can click and check.", opts: {
-      chatgpt: { headline: "Good instinct.", fb: "It searches and it cites. Now click the links. A citation you never opened isn’t a check." },
-      claude: { headline: "It’ll search.", fb: "Same rule though: click the links. A citation you never opened isn’t a check." },
-      gemini: { headline: "Home turf.", fb: "Search is what Google does. Still click the links, for exactly the same reason." } } },
-    { job: "It’s 11pm, you’re on your phone, and you want one confusing paragraph from tonight’s reading explained simply.", opts: {
-      chatgpt: { headline: "Sure.", fb: "And this is the case where the choice matters least. Any of the three explains a paragraph." },
-      claude: { headline: "Sure.", fb: "And this is the case where the choice matters least. Any of the three explains a paragraph." },
-      gemini: { headline: "Sure.", fb: "And this is the case where the choice matters least. Any of the three explains a paragraph." } } }
+  const [nameAnswers, setNameAnswers] = useState({});
+  // Claude/Shannon is the widely-reported tribute, not a formal Anthropic
+  // statement, so keep the "named as a tribute" hedge in that feedback line.
+  const NAME_ORIGINS = [
+    { clue: "The least romantic name of the three. It’s a plain description of the technology: a chat interface on top of a “Generative Pre-trained Transformer.” The name is the spec sheet.",
+      options: [
+        { label: "ChatGPT", correct: true, feedback: "Right. Chat plus GPT, an engineering label from the engineering-first company. The Anything Box doesn’t need a fancy name; it needs everyone to find it." },
+        { label: "Claude", correct: false, feedback: "Claude is the opposite move: a warm human name picked so the tool feels like a colleague, not a spec sheet." },
+        { label: "Gemini", correct: false, feedback: "Gemini is Latin with a story behind it. The name we’re after here is pure abbreviation, no story at all." } ] },
+    { clue: "This app honors a person: the mathematician whose 1948 paper invented information theory, the math of storing and sending information that everything digital is built on.",
+      options: [
+        { label: "ChatGPT", correct: false, feedback: "There’s no person hiding in ChatGPT. GPT stands for Generative Pre-trained Transformer, which nobody has ever named a child." },
+        { label: "Claude", correct: true, feedback: "Right. It’s named as a tribute to Claude Shannon, the father of information theory. A thinker’s name from the company obsessed with how its AI thinks and behaves." },
+        { label: "Gemini", correct: false, feedback: "Gemini commemorates a merger, not a mathematician. The name you want belonged to the man who invented the bit." } ] },
+    { clue: "Latin for “twins.” The name marks two famous AI labs becoming one team, with a nod to the NASA program whose two-seat capsules rehearsed the Moon landing.",
+      options: [
+        { label: "ChatGPT", correct: false, feedback: "OpenAI didn’t merge with anyone to build ChatGPT, and “Generative Pre-trained Transformer” is many things, but Latin isn’t one of them." },
+        { label: "Claude", correct: false, feedback: "Claude is one person’s name, a single mathematician, no twin in sight. The twins here are two AI labs that became one team." },
+        { label: "Gemini", correct: true, feedback: "Right. Google Brain and DeepMind merged into one team, and the twins name fit, NASA nod included. A name about two things working as one, from the company whose philosophy is integration." } ] }
   ];
-  const REACH_LABELS = { chatgpt: "ChatGPT", claude: "Claude", gemini: "Gemini" };
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to download and use. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
@@ -6496,28 +6493,27 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Which One Would You Reach For?",
-    lead: "No right answers here. For each job, pick the app you’d actually open, then see what that choice buys you."
+    title: "It’s in the Name",
+    lead: "The names aren’t random. Each one quietly tells you the philosophy you just learned. Read where the name came from, then pick the app it belongs to."
   },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      REACH.map(function(r, i) {
-        var picked = reachAnswers[i];
+      NAME_ORIGINS.map(function(r, i) {
+        var picked = nameAnswers[i];
         var answered = picked !== undefined;
+        var pickedOpt = answered ? r.options[picked] : null;
         return /*#__PURE__*/React.createElement(ScenarioRow, {
           key: i,
           index: i + 1,
-          prompt: r.job,
-          answered: answered,
-          correct: true,
+          prompt: r.clue,
           alignTop: true,
-          eyebrow: "Your pick",
-          headline: answered ? r.opts[picked].headline : null,
-          feedback: answered ? r.opts[picked].fb : null
+          answered: answered,
+          correct: answered && pickedOpt.correct,
+          feedback: pickedOpt ? pickedOpt.feedback : null
         },
-          ["chatgpt", "claude", "gemini"].map(function(k) {
+          r.options.map(function(opt, optIdx) {
             return /*#__PURE__*/React.createElement(FeedbackPill, {
-              key: k, answered: answered, isCorrect: true, isPicked: picked === k, label: REACH_LABELS[k],
-              onClick: function() { setReachAnswers(function(p) { var u = Object.assign({}, p); u[i] = k; return u; }); }
+              key: optIdx, answered: answered, isCorrect: opt.correct, isPicked: picked === optIdx, label: opt.label,
+              onClick: function() { setNameAnswers(function(p) { var u = Object.assign({}, p); u[i] = optIdx; return u; }); }
             });
           }));
       }))),

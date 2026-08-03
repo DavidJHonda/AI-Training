@@ -258,6 +258,13 @@ Two extensions (what-is-ai, 2026-08-02):
   camera travel for dives. Tune BANDW (narrower = taller/more travel) together
   with CANW (wider canvas = room for the wide open); learn-with-ai's habits
   board needed 900-wide band on a 1360-wide canvas to get both.
+- **Camera scope tracks the narration's referent** (owner, where-ai-works-best
+  2026-08-03): when a line spans multiple cards ("In both of these cases…"),
+  pull back far enough to show them — with a ring on each card named — rather
+  than holding the last card's zoom. And the closing pullback waits for the
+  words that actually widen the frame ("These *four* specific strengths…"); a
+  wrap-up line that is still about the current card ("…synthesizes your
+  constraints into a logical plan") keeps the card zoom and its ring.
 - **2×2 grids: one uniform card window, sized to the gaps** (where-ai-works-best
   element retrofit, 2026-08-03): on a two-row grid the card window's top edge
   must clear the headline for TOP cards and land in the inter-row gap for BOTTOM

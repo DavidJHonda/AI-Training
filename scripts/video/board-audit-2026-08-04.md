@@ -70,12 +70,12 @@ already-shipped catalogue.
 | 2 | questions-matter | SHIPPED (owner-approved) |
 | 3 | what-you-can-control | SHIPPED (owner-approved) |
 | 4 | learn-with-ai | SHIPPED (owner-approved) |
-| 5 | which-app | next — NOTE: both boards are SUBGRID boards (capture one clean state, rings composited in post per the subgrid rule); spans dissolve in/out, boundaries need frame-level work (no cuts > 8 at ~99-105 or ~170-178; transit run at 114.05; later cuts 192.3 / 198.9 / 229.8) |
-| 6 | what-is-ai | queued — "What's an LLM?" DecodeCards span ~190-222, lesson id whatisai(?) |
-| 7 | ai-is-different | queued — stories board span ~182-198 |
-| 8 | does-school-matter | queued — two-skills board span ~70-114 |
-| 9 | opener-work | queued — section board ~94-114, page treatment to confirm first |
-| 10 | why-learn-ai | queued — thrive board ~102-146, NumberedRows |
+| 5 | which-app | SHIPPED (owner-approved) — subgrid rings composited in post |
+| 6 | what-is-ai | SHIPPED (owner-approved) — accent-ring L/L/M dives |
+| 7 | ai-is-different | SHIPPED (owner-approved) — wide-with-rings |
+| 8 | does-school-matter | SHIPPED (owner-approved) — wide-with-rings |
+| 9 | opener-work | SHIPPED (owner-approved) — page header included; content drift also fixed |
+| 10 | why-learn-ai | SHIPPED (owner-approved) — NumberedRows band + headline |
 
 Build pattern per item (proven on 1-4): intake span boundaries (scenes.py,
 --seam for dissolves) + transcript for junction onsets; capture with

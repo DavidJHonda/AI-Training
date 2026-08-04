@@ -426,3 +426,13 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Possible destination:** a review/packet exercise on app strengths, or the What It Does Best lesson if a task-matching activity is ever wanted where per-task choice IS the point.
 - **What it was:** four jobs (history-essay counterargument, three dates from a 40-page PDF, this week's news with clickable links, 11pm paragraph explainer), each answered with ChatGPT/Claude/Gemini pills; every pick greened and returned a per-app headline + feedback line ("The Anything Box." / "Home turf." / "And this is the case where the choice matters least...").
 - **Full source:** in git history at the commit before this one — the `REACH` array and its `InteractiveBox` in `ModelSelectionSection` (anchor string "Which One Would You Reach For?").
+
+---
+
+## Maria Petronoski — invented-Olympian validation example
+
+- **Origin:** Evaluate the Results lesson (`EvaluatingSection`), Step 3 "Validate" `body2` of the old five-step box. Cut 2026-08-04 when the lesson restructured into quick pass (Read/Understand/Validate columns) → three-question dig decision → dig-deeper card menu. Owner call: the fabricated-athlete example front-loads hallucination complexity that the Avoid group covers later. What it taught survives without her: "the more specific the detail, the more skeptical" moved into the Validate column, and "sounds fine isn't validation" became the gate's first question ("Could you actually validate it?").
+- **Possible destination:** the hallucinations lesson (a ready-made "every word sounds plausible, nothing is real" specimen), or the Evaluate the Results video if a validation-limit beat ever needs a concrete example.
+- **Verbatim:** "But watch its limit: “Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens” sounds perfectly fine. The 1932 Games were in Los Angeles, and she doesn’t exist. The more specific the detail, the more skeptical you should be. When a topic is beyond what you know, “sounds fine” isn’t validation. That’s what the Dig deeper steps below are for."
+- **Note:** the Critical Thinking lesson's "Do I know enough to judge?" habit used to call back to Maria; it now references the gate's first question instead.
+- **Full source:** in git history at the commit before this one — `EvaluatingSection` STEPS array, Step 3 `body2`.

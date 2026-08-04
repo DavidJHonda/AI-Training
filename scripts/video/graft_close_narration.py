@@ -62,9 +62,22 @@ def fade(a, ms_in=10, ms_out=10):
 
 def mirror_tone(base, t0, t1, need):
     seg = base[int(t0 * SR):int(t1 * SR)]
+    # the tone window must be pure room tone: a window that clips a word tail
+    # gets mirror-tiled into an audible echo (evaluate's "professional", 8/4)
+    if speech_rms_all(seg) > 0.012:
+        sys.exit(f"tone window {t0:.2f}-{t1:.2f} is not silent "
+                 f"(rms {speech_rms_all(seg):.4f}) — pick a window inside a "
+                 f"measured silence")
     tile = np.concatenate([seg, seg[::-1]])
     reps = int(np.ceil(need * SR / len(tile)))
     return np.tile(tile, reps)[:int(need * SR)]
+
+
+def speech_rms_all(a):
+    hop = SR // 50
+    n = max(len(a) // hop, 1)
+    r = np.sqrt((a[:n * hop].reshape(-1, hop) ** 2).mean(axis=1)) if len(a) >= hop else np.array([np.sqrt((a ** 2).mean())])
+    return float(r.max())
 
 
 def trough_cut(ad, t, direction, thresh=0.01, run_ms=40):
@@ -106,11 +119,16 @@ def build(name, base, donor, out, board, arrival_frame, cut_t, donor_t0,
         head = np.concatenate([fade(ab[:int(d0 * SR)], 0, 8),
                                fade(ab[int(d1 * SR):int(cut_t * SR)], 8, 0)])
     tw = tone_win or (cut_t - 0.42, cut_t - 0.05)
+    # tail: tone faded to zero across its WHOLE length — a held-level tone tile
+    # after the donor's last word exposes the donor->base room-tone shift and
+    # the tile's own periodicity (tokens, 8/4); a full-length fade masks both
+    tail_tone = mirror_tone(ab, tw[0], tw[1], tail)
+    tail_tone *= np.linspace(1.0, 0.0, len(tail_tone)) ** 1.5
     audio = np.concatenate([
         fade(head, 0, 8),
         fade(mirror_tone(ab, tw[0], tw[1], gap), 8, 8),
-        span,
-        fade(mirror_tone(ab, tw[0], tw[1], tail), 8, 200),
+        fade(span, 10, 40),
+        tail_tone,
     ])
     total = int(round(len(audio) / SR * 30))
     audio = np.resize(audio, int(total / 30 * SR))

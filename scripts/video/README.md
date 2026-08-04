@@ -95,6 +95,15 @@ so any splice needs exactly ONE re-encode pass:
   frame-counted. Working freeze substitute — loop the exact frame:
   `trim=start_frame=F:end_frame=F+1,setpts=PTS-STARTPTS,loop=loop=N-1:size=1:start=0,setpts=N/(30*TB)`
   then concat. The same trick replaces `tpad=start_mode=clone`.
+- **Never `-c copy` concat FFV1 legs from different builders** (evaluate-the-results
+  v6, 2026-08-04): ken_burns_path legs are bgr0, a zoompan-built leg is yuv420p —
+  the concat DEMUXER joins them without error, then every frame after the junction
+  decodes against the wrong stream parameters (full-frame macroblock garbage,
+  caught by the owner in playback, not by frame counts or diff scans — the flicker
+  even reads as plausible "transit motion" in a seam scan). Join mixed-builder
+  legs through the concat FILTER (or feed them as separate inputs to the final
+  graph) so pixel formats are negotiated; verify by EYEBALLING frames after the
+  junction, never by count alone.
 - **Never put `fps=30` after `loop`** — loop's cloned frames carry duplicate
   pts, and the fps filter silently DROPS every clone (same failure signature
   as broken tpad: container duration right, video stream short; hit 2026-07-24

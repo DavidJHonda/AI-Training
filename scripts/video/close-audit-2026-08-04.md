@@ -122,3 +122,15 @@ reads the new lines with no leaked syllables, silence continuity at joins,
 new board on final frame. Known ASR note: whisper mishears the vector-space
 sticky ("close in states") out of context — the donor span decodes correctly
 in context; ear-check it anyway.
+
+## Close-copy pass — FINAL (all shipped)
+
+All ten targets shipped by end of day: why-learn-ai, ai-is-math, layers,
+vector-space, training-bias, fake-trap, engagement-trap, tokens (grafts),
+training (graft + frozen-core diagram tour replacing the mid-video fake-close
+board at 4:23), and evaluate-the-results (superseded by the other session's
+full lesson-restructure re-cut, 8ed82b3, which carries the new close copy via
+its updated prompt). Ear-test fixes along the way: tone windows moved inside
+measured silences (echo class), donor-span trough cuts both directions (leaked
+syllables), full-tail fade to silence (tokens' room-tone shift + tile
+periodicity).

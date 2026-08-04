@@ -72,6 +72,7 @@ so any splice needs exactly ONE re-encode pass:
 | `pauses.sh in.mp4` | narration pauses via silencedetect (-30dB, 0.25s) = safe audio cut points |
 | `$PY freeze_finisher.py` | standard end repair: cut post-close junk, freeze the close board under trailing narration |
 | `$PY add_close_motion.py` | standard-close enforcement: replace a frozen (or `--span-start` any) close span with the Ken Burns push-in, from the span's own frame or a `--board` render; verifies frames/audio/motion itself |
+| `$PY graft_close_narration.py` | close-copy retrofit: swap the closing narration for a donor span (loudness-matched, trough-cut boundaries, mirror-tiled room tone) and rebuild the close as a board leg; duration may change. Donor spans with NO pause before/after the target words are the trap — the trough finder handles them, but always re-transcribe the tail (first batch leaked next-sentence syllables on 6 of 9) |
 | `$PY patch_visual.py` | mid-video visual patch: freeze a good frame over a junk span, audio untouched, duration identical |
 | `$PY excise_audio.py` | remove a stray spoken word from audio only (`--probe` RMS map first, then `--cut`) |
 | `$PY graft_scene.py` | move a scene between videos: `--insert` (full graft, incl. replace-the-ending via `--resume-at` past the end) or `--replace-visual` (donor visuals over a base span, audio untouched, auto trim/freeze-fill) |

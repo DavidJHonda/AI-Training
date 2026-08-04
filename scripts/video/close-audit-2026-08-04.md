@@ -96,3 +96,29 @@ Both open items resolved (owner, 2026-08-04):
   settle-out board from 3:51 with the close dissolving in over its last ~2s;
   the full span from the 3:51 cut (frame 6933) to the end is now the standard
   close board with the push-in.
+
+## Close-copy narration grafts (same day) — -v2 builds awaiting ear test
+
+New closing copy (owner rewrite, commit 068c63a) grafted into 9 videos from
+donor `Prompts/closing-messages-2.mp4` (roll 2 of the closing-lines recital;
+roll 1 paraphrased and was discarded). Each graft is ONE contiguous donor
+span — roll 2's connective sentences are on-message. Structure per video:
+original narration to a measured pause, mirror-tiled room tone, loudness-
+matched donor span, tone tail + fade; close rebuilt as the standard board leg
+with the new-copy board. training got a board-only swap (its close narration
+never spoke the old couplet). Durations changed by a few seconds each.
+
+Parameters (arrival frame / audio cut s / donor span s):
+why-learn-ai 6656/222.20/8.70-15.80 · tokens 6692/223.20/74.00-80.90 ·
+layers 4878/161.70/88.60-99.00 · vector-space 4387/151.40/104.50-114.60 ·
+evaluate-the-results 7229/239.80/22.60-34.90 · ai-is-math
+7203/244.20/56.40-67.50 · engagement-trap 6933/232.80/135.90-145.40 ·
+training-bias 6228/228.90/122.50-130.70 + mid-delete 207.60-215.10 (old
+couplet excised, post-couplet content kept, donor appended at end) ·
+fake-trap 7022/241.60/151.80-160.40 · training board-only span 8576.
+
+Verified per build: decoded frames == audio ticks, tail re-transcription
+reads the new lines with no leaked syllables, silence continuity at joins,
+new board on final frame. Known ASR note: whisper mishears the vector-space
+sticky ("close in states") out of context — the donor span decodes correctly
+in context; ear-check it anyway.

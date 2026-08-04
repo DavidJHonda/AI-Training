@@ -6,6 +6,45 @@ here shipped on real videos (learn-with-ai, what-you-can-control, does-ai-think,
 how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
 composite, and the Work With AI challenger round).
 
+## The standard close (owner rule, 2026-08-04 — applies to EVERY video)
+
+**Every video ends on the APP's close board, inserted in post with the standard
+Ken Burns push-in. The engine's own rendering of the close is ALWAYS replaced,
+even when it looks close.** Gemini Notebook approximates the CloseBoard
+differently every roll, so an engine close is an inconsistency by definition;
+the post insert is what makes the catalogue read as one course. **`welcome.mp4`
+is the reference experience.** `critical-thinking.mp4` was the counterexample
+that triggered this rule (engine redraw: red marker underline on the sticky,
+off pill proportions, white canvas).
+
+Quiz videos are exempt (owner, 2026-08-04: transformers-quiz keeps its
+illustration ending). And when a pre-close board runs a settle-out right into
+a dissolved-in close (engagement-trap), the standard close takes over the
+WHOLE span from that board's arrival cut — one board, one push-in, no
+dissolve stack at the end.
+
+Wrong-format tells — any ONE means the close gets replaced:
+
+- hand-drawn/marker strokes anywhere on the board (underlines, circles, arrows)
+- pill or sticky proportions off the app render (engine pills drift wide/narrow)
+- white/off-white canvas instead of the app page-background color
+- fonts that aren't the app's (Plus Jakarta Sans pill, the sticky's italic)
+- a dead-static freeze — the standard close MOVES: slow push-in, settled hold
+
+How to do it — two shipped recipes, pick by situation:
+
+- **CLOSE-BOARD REBUILD** (board exists in the app): capture `closeBoard()` at
+  dsf4 and insert a ~5s single-beat full-frame push-in, buying timing with
+  mirror-tiled room tone. Full recipe in the highlight-state bullet list below.
+- **CLOSE-BOARD VARIANT** (compose the still from text): `make_close_board.py`
+  renders the board in CloseBoard style; replace the frozen close span, zoom
+  rate scaled to span length. Full recipe below under the Ken Burns section.
+
+Prompt side: each video prompt still attaches a close board and requires the
+narrator to speak both closing lines — that anchors the closing NARRATION
+verbatim. But the engine's rendering of that board is expendable; the shipped
+close visual always comes from this insert (see `Prompts/README.md`).
+
 ## Setup (once per machine)
 
 ```
@@ -32,6 +71,7 @@ so any splice needs exactly ONE re-encode pass:
 | `$PY scenes.py in.mp4` | scene cuts (frame-diff > 12 on 160×90 downscales); `--seam A B` prints per-frame diffs to catch leaked frames |
 | `pauses.sh in.mp4` | narration pauses via silencedetect (-30dB, 0.25s) = safe audio cut points |
 | `$PY freeze_finisher.py` | standard end repair: cut post-close junk, freeze the close board under trailing narration |
+| `$PY add_close_motion.py` | standard-close enforcement: replace a frozen (or `--span-start` any) close span with the Ken Burns push-in, from the span's own frame or a `--board` render; verifies frames/audio/motion itself |
 | `$PY patch_visual.py` | mid-video visual patch: freeze a good frame over a junk span, audio untouched, duration identical |
 | `$PY excise_audio.py` | remove a stray spoken word from audio only (`--probe` RMS map first, then `--cut`) |
 | `$PY graft_scene.py` | move a scene between videos: `--insert` (full graft, incl. replace-the-ending via `--resume-at` past the end) or `--replace-visual` (donor visuals over a base span, audio untouched, auto trim/freeze-fill) |

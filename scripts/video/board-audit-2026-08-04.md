@@ -97,3 +97,33 @@ evaluate-the-results post pattern — recapture the board (WRAP_UP=1, BANDW 0),
 re-derive camera windows from the new rects, re-render that board's runs, and
 swap the leg in a single re-encode. Estimate: one board ≈ the L2 rebuild done
 today. Suggested order = the violations table order (worst spans first).
+
+# Final-batch audit — 2026-08-04 evening (critical-thinking → fake-trap, 21 videos)
+
+Same two rules, same method (6 parallel frame audits). transformers-quiz has no
+boards (by design, exempt). Compliant throughout: opener-understand, training,
+transformer, layers, embeddings, mind-trap, engagement-trap, opener-avoid.
+
+## Rebuild queue (clear violations — bare cards / no wrapper / no title)
+
+| # | Video | Board | Span | Notes |
+|---|---|---|---|---|
+| 1 | critical-thinking | five-habits checklist | ~154-216s | page: primaryFaint HABITS box; bare cards, no title in video |
+| 2 | flattery-trap | five-move playbook | ~156-252s | video's core span; bare card, no title, WEAK/BETTER sub-cards |
+| 3 | document-trap | four-step retrieval list | ~198-262s | bare card, no title |
+| 4 | fake-trap | Source/Context/Corroboration | ~138-196s | bare card, no title |
+| 5 | training-bias | four bias-type cards | ~106-130s | bare cards, no title |
+| 6 | tokens | tokenization 3-card board + tokenizer examples 01-05 | ~86-106s, ~182-214s | both bare, no title |
+| 7 | support-trap | "Why AI feels like real support" | ~78-88s | bare cards w/ title |
+
+## Page-check-needed (possible partial violations)
+
+- one-more-thing: "Same list, five draws" (~90-116s) and "The Bill" (~222-258s)
+- how-ai-answers: "Score every token" (~148-184s)
+- vector-space: airplane token board (~110-131s, no title)
+- ai-is-math: probability boards (composed-capture style; check lesson elements)
+- hallucination: failure-modes board title, RAG board width; glue-recipe cards
+  (likely prose-visualizing scenes, exempt)
+
+Candidates land as videos/<name>-v2.mp4 for owner review; nothing installed
+without approval.

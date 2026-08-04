@@ -58,7 +58,17 @@ const COMPOSE = `(function(){
   for (var u = 0; u < up; u++) {
     if (band.parentElement && band.parentElement !== document.body) band = band.parentElement;
   }
-  band.style.width = ${Number(BANDW)} + "px";
+  // BANDW 0 = NATURAL width (owner rule 2026-08-04): pin the width the lesson
+  // actually renders. The print page this script captures from has no shell, so
+  // clamp the measured width to the app column every student sees: the course
+  // root caps at maxWidth 1080 with 32px side padding, and #main-content adds
+  // 56px padding + 1px border => 1080 - 64 - 112 - 2 = 902. If the shell's
+  // widths change in index.html, update APP_COLUMN here. Overriding to any
+  // other width re-wraps the text and ships a board that differs from the
+  // lesson's (owner-flagged, evaluate-the-results 2026-08-04).
+  var APP_COLUMN = 902;
+  var bw = ${Number(BANDW)} > 0 ? ${Number(BANDW)} : Math.min(band.getBoundingClientRect().width, APP_COLUMN);
+  band.style.width = bw + "px";
   band.style.boxSizing = "border-box";
   band.style.marginBottom = "0";
   var wrap = document.createElement("div");

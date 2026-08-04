@@ -50,6 +50,14 @@ const COMPOSE = `(function(){
   var best = cands.filter(function(c){ return c.textContent.length === min; });
   best.sort(function(a, b){ return depth(b) - depth(a); });
   var band = best[0];
+  // WRAP_UP: walk N ancestors up from the innermost match, so the capture keeps
+  // the lesson's own wrapper (e.g. the ShowcaseBox lavender band) instead of
+  // lifting the inner grid onto the canvas — owner rule 2026-08-04: source
+  // boards are the actual lesson boards, no reformatting.
+  var up = ${Number(process.env.WRAP_UP || 0)};
+  for (var u = 0; u < up; u++) {
+    if (band.parentElement && band.parentElement !== document.body) band = band.parentElement;
+  }
   band.style.width = ${Number(BANDW)} + "px";
   band.style.boxSizing = "border-box";
   band.style.marginBottom = "0";

@@ -30,4 +30,4 @@ worth a look before deciding whether they warrant rebuilds:
 - hallucination: failure-modes board title; RAG board column width; glue-recipe
   cards are likely prose-visualizing scenes (exempt)
 
-Also standing: how-an-llm-works engine-era drift (from the first audit).
+Also standing: how-an-llm-works engine-era drift (from the first audit) — owner-confirmed 2026-08-05: excluded from the exact-parity queue, gets its own dedicated full-video pass.

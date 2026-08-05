@@ -7,6 +7,16 @@ re-cut, against the two owner rules established on evaluate-the-results:
   (same wrapper, same headline situation, no reformatting).
 - **Rule 2:** boards are never resized — a different band width re-wraps every
   text line and ships a different experience than the lesson.
+- **Rule 3 (made explicit 2026-08-05):** the board in the video must match the
+  page's CURRENT CONTENT, not just its design. A shipped video board goes stale
+  the moment its lesson box is edited; format-compliant boards can still fail
+  this (caught twice by accident in these audits: critical-thinking's Maria
+  callback, opener-work's bridge copy). Auditing a video means diffing its board
+  text against today's page, and editing a lesson box means flagging its video.
+
+NOTE: the 2026-08-04 audits below checked rules 1-2 systematically; rule 3 only
+incidentally. "Compliant" verdicts below mean format-compliant — their content
+parity has NOT been verified against the current page.
 
 Method: frame sweeps of every video (5 parallel audits, frames retained in the
 session scratchpad), board compositions compared against the live components in

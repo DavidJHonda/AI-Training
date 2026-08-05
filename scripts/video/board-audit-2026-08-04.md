@@ -94,6 +94,11 @@ and an ITEM ring (elements: boundary around a row/section/line) the moment the
 narration names a part. If the narration walks a card's sections, the ring
 walks them too; a card ring held across spoken sub-sections is the failure mode.
 
+Framing (owner rules 2026-08-05): a dive frames the WHOLE card — never crop
+or pan inside it (four-shapes redo). And on a sequential steps board (training
+loop, phase walks), skip dives entirely: hold the full board and let the ring
+walk the steps as they're named (how-an-llm-works loop redo).
+
 Highlight treatment (owner rules 2026-08-05, how-an-llm-works pass): the ring
 adopts the accent of the box it wraps — a purple ring on a purple-themed board,
 the card's own border color on an accent card (`{"label","ring":"#f59e0b"}`),

@@ -87,6 +87,13 @@ already-shipped catalogue.
 | 9 | opener-work | SHIPPED (owner-approved) — page header included; content drift also fixed |
 | 10 | why-learn-ai | SHIPPED (owner-approved) — NumberedRows band + headline |
 
+Highlight grammar (owner rule 2026-08-05, learn-with-ai comparison span): the
+effect has two granularities, chosen per narration beat — a BOARD ring (panels:
+boundary around the card/box) when the narration addresses the box as a whole,
+and an ITEM ring (elements: boundary around a row/section/line) the moment the
+narration names a part. If the narration walks a card's sections, the ring
+walks them too; a card ring held across spoken sub-sections is the failure mode.
+
 Highlight treatment (owner rules 2026-08-05, how-an-llm-works pass): the ring
 adopts the accent of the box it wraps — a purple ring on a purple-themed board,
 the card's own border color on an accent card (`{"label","ring":"#f59e0b"}`),

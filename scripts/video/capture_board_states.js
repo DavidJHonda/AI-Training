@@ -171,7 +171,12 @@ const COMPOSE = `(function(){
         // shift; borderRadius on a bg-less div shifts nothing either.
         e.el.style.outline = "2.5px solid " + rc;
         e.el.style.outlineOffset = "6px";
-        e.el.style.borderRadius = "6px"; });
+        e.el.style.borderRadius = "6px";
+        // Same paint-order fix as panels: the offset pushes the ring outside
+        // the element's bounds, where a following sibling's background can
+        // cover it (owner-flagged 2026-08-05, tutor-card section ring).
+        e.el.style.position = "relative";
+        e.el.style.zIndex = "3"; });
     } else if (k > 0) {
       applyPanel(window.__items[k-1]);
     }

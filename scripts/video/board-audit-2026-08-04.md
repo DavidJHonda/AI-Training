@@ -87,6 +87,15 @@ already-shipped catalogue.
 | 9 | opener-work | SHIPPED (owner-approved) — page header included; content drift also fixed |
 | 10 | why-learn-ai | SHIPPED (owner-approved) — NumberedRows band + headline |
 
+Highlight treatment (owner rules 2026-08-05, how-an-llm-works pass): the ring
+adopts the accent of the box it wraps — a purple ring on a purple-themed board,
+the card's own border color on an accent card (`{"label","ring":"#f59e0b"}`),
+and an explicit ring override recolors the label chip too. And on a box with
+few words the boundary IS the highlight: pass `{"chip": false}` so the ring
+draws with no pill behind the spoken words — owner showed three examples
+(training-loop step card, patterns row, odds card) and the whole video went
+ring-only.
+
 Build pattern per item (proven on 1-4): intake span boundaries (scenes.py,
 --seam for dissolves) + transcript for junction onsets; capture with
 capture_board_states.js (BANDW 0 always; WRAP_UP=1 only when the innermost

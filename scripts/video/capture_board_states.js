@@ -108,7 +108,7 @@ const COMPOSE = `(function(){
     window.__elems[t] = { el: els[0], style: els[0].getAttribute("style") || "" };
   });
   if (missing.length) return "ELEMENT NOT FOUND: " + missing.join(" // ");
-  function applyPanel(it, ringColor) {
+  function applyPanel(it, ringColor, noChip) {
     var ring = ringColor || "#6e51ff";
     var isCard = (it.card.style.background || "").length > 0;
     if (isCard) {
@@ -126,8 +126,14 @@ const COMPOSE = `(function(){
       it.card.style.position = "relative";
       it.card.style.zIndex = "3";
     }
+    // Panel entry {"chip": false} rings the card but leaves the label text
+    // untouched (owner rule 2026-08-05: on a box with few words the boundary
+    // IS the highlight — no pill behind the spoken words).
+    if (noChip) return;
     var lc = it.leaf.style.color;
-    var chipColor = "#6e51ff", chipBg = "#6e51ff22";
+    // An explicit ring override also recolors the chip (owner rule 2026-08-05,
+    // amber odds cards): the leaf's own concrete color still wins below.
+    var chipColor = ringColor || "#6e51ff", chipBg = (ringColor || "#6e51ff") + "22";
     if (lc && lc.charAt(0) === "#" && lc.length === 7) { chipColor = lc; chipBg = lc + "22"; }
     else if (lc && lc.indexOf("rgb(") === 0) { chipColor = lc; chipBg = lc.replace("rgb(", "rgba(").replace(")", ", 0.13)"); }
     it.leaf.style.background = chipBg;
@@ -154,7 +160,8 @@ const COMPOSE = `(function(){
       (s.panels || []).forEach(function(pn){
         var lb = (typeof pn === "string") ? pn : pn.label;
         var i = labels.indexOf(lb);
-        if (i >= 0) applyPanel(window.__items[i], (typeof pn === "string") ? null : pn.ring); });
+        if (i >= 0) applyPanel(window.__items[i], (typeof pn === "string") ? null : pn.ring,
+          (typeof pn !== "string") && pn.chip === false); });
       (s.elements || []).forEach(function(en){ var t = (typeof en === "string") ? en : en.text;
         var e = window.__elems[t];
         var rc = ringColors[t] || "#6e51ff";

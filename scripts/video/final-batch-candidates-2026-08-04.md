@@ -9,7 +9,7 @@ Watch the listed span; nothing else in each video changed.
 
 | Candidate | Changed span | What was wrong → what it is now |
 |---|---|---|
-| critical-thinking-v2 | 2:34–3:43 | Five-habits checklist floated bare with no title, and habit 2 still carried the Maria Petronoski callback cut from the lesson this morning. Now the actual lavender board with current copy; ring walks habits 1–5 on their narration onsets, wide open and close. |
+| ~~critical-thinking-v2~~ | — | SUPERSEDED and SHIPPED 2026-08-05 (7023d49): the exact-parity queue rebuilt all four boards (equations, chocolate, habits) in one owner-approved pass under the current ring-only rules. |
 | flattery-trap-v2 | 2:40–4:10 | Five-move playbook was a bare white card. Now the NumberedRows band at page width; ring walks all five moves (WEAK/BETTER sub-cards inside each ringed row). |
 | document-trap-v2 | 3:23–4:22 | Four retrieval tactics floated bare with no title. Now the NumberedRows band; ring walks tactics 1–4. |
 | fake-trap-v2 | 2:20–3:20 | Source/Context/Corroboration checklist was a bare card. Now the banded board; ring walks the three checks, wide out for "all three checks follow one rule." |

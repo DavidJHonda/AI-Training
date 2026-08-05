@@ -137,3 +137,32 @@ transformer, layers, embeddings, mind-trap, engagement-trap, opener-avoid.
 
 Candidates land as videos/<name>-v2.mp4 for owner review; nothing installed
 without approval.
+
+# Content-parity sweep (Rule 3) — 2026-08-05
+
+Seven parallel agents transcribed every non-rebuilt lesson board (~44 boards
+across 24 videos) and diffed word-by-word against the current index.html.
+
+**Result: ZERO content drift.** Every body line, data value, token ID, vector,
+and percentage on every checked board matches today's page. The two drift cases
+caught during the format audits (critical-thinking's Maria callback,
+opener-work's bridge copy) were already fixed by their rebuilds, so the
+catalogue is content-current everywhere.
+
+Cosmetic, video-side findings (capture-era composition, not drift — low
+severity, fix only if strict Rule-1 conformance is wanted; each is a leg swap):
+
+| Video | Finding |
+|---|---|
+| transformer | 2 video-only board titles ("Two problems the words around a word have to solve", "The two steps inside every layer") — page carries the framing in adjacent prose |
+| context-window | video-only headline "Same prompt. Different answers. On purpose." on the Luke/Nate board |
+| fake-trap | video-only title "Same clip, two tests" |
+| document-trap | video-only title "How AI handles a long document" |
+| why-learn-ai | White House quote card shows the cite as a bold header |
+| critical-thinking | equation board missing the page's THE EQUATION eyebrow; "Slim by Chocolate! Two reactions" is a video-only composite title |
+| does-ai-think | left badge 🧠 vs page 🧑 |
+| support-trap | sister-panel icon 👥 vs page 🧑 |
+| training | GUESS/CHECK/NUDGE pill hook is video-only (composed hook diagram; compose exemption likely applies) |
+| layers | takeaway line placed above cards in video, below on page (layout nuance) |
+
+All other checked boards: exact match, no orphans.

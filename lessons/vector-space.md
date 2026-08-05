@@ -2,9 +2,7 @@
 
 # Vector Space
 
-In the last lesson, you watched a token move through the layers, its numbers changing at every step. And you left with a blank box: where do **IT**’s numbers finally land?
-
-In theory, the model could look up those finished numbers in its full table of token embeddings and see which token they match. But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.
+In the last lesson, you watched a token move through the layers, its numbers changing at every step. In theory, the model could look up those finished numbers in its full table of token embeddings and see which token they match. **But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.**
 
 ## The problem
 
@@ -90,13 +88,13 @@ Taste Profile · Coke vs. Pepsi vs. Coffee
 
 Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee.
 
-This matters for AI. The model measures closeness with **distance**: how far apart two vectors are when you add up the gap in every dimension. The model has established that Coke is more like Pepsi than like Coffee.
+This matters for AI. The model measures closeness with **distance**: how far apart two vectors are when you add up the gap in every dimension. The model has established that Coke is closer to Pepsi than it is to Coffee.
 
 ## Meaning is a position
 
 Back to that one-of-a-kind token. The model can’t look its numbers up, but it can do what we just did with the drinks: read the token’s **position**. That’s the idea of **vector space**: a map where every vector sits somewhere, and similar words share a neighborhood.
 
-Time to fill in the blank box. As **IT** flowed through the layers, its numbers kept moving toward **CAT**. Never an exact match, but closer to **CAT** than to any other word in the sentence.
+Now, back to our sentence from the last lesson. As **IT** flowed through the layers, its numbers kept moving toward **CAT**. Never an exact match, but closer to **CAT** than to any other word in the sentence.
 
 The
 
@@ -214,8 +212,6 @@ flight
 
 Same word, same starting vector. But *paper*, *folded*, and *room* pull it one way, while *runway*, *roared*, and *sky* pull it the other. It isn’t one keyword flipping a switch: the final vector is the **blend of the whole sentence**. Change the words around it, and the same token lands somewhere new.
 
-🔑 A machine that predicts your next move isn’t reading your mind. It’s counting your habits.
-
 Meaning is a position.
 
-The final vector is the blend of the whole sentence.
+Close in space is close in meaning.

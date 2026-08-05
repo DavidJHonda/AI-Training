@@ -436,3 +436,14 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 - **Verbatim:** "But watch its limit: “Maria Petronoski won 3 gold medals at the 1932 Olympics in Athens” sounds perfectly fine. The 1932 Games were in Los Angeles, and she doesn’t exist. The more specific the detail, the more skeptical you should be. When a topic is beyond what you know, “sounds fine” isn’t validation. That’s what the Dig deeper steps below are for."
 - **Note:** the Critical Thinking lesson's "Do I know enough to judge?" habit used to call back to Maria; it now references the gate's first question instead.
 - **Full source:** in git history at the commit before this one — `EvaluatingSection` STEPS array, Step 3 `body2`.
+
+## Vector Space — Key Insight aphorism (cut 2026-08-05)
+
+Closing KeyInsight removed from the lesson (owner call: ended the lesson on
+a detour rather than the blend-of-the-whole-sentence point):
+
+> A machine that predicts your next move isn't reading your mind. It's
+> counting your habits.
+
+Reusable anywhere prediction-vs-mind-reading comes up (how-ai-answers,
+engagement-trap).

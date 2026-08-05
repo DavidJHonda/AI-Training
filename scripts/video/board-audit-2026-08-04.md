@@ -166,3 +166,20 @@ severity, fix only if strict Rule-1 conformance is wanted; each is a leg swap):
 | layers | takeaway line placed above cards in video, below on page (layout nuance) |
 
 All other checked boards: exact match, no orphans.
+
+## Exact-parity verdict (owner bar restated 2026-08-05: design + size + word-wrap + content)
+
+Spot-checks against fresh 902px page captures confirm what the capture history
+implies: boards from every pre-rule era FAIL exact wrap parity even where
+wrapper and words match — welcome's path board wraps "neither are / you" on the
+page but "you. Things / to" in the video; training's Pretraining intro is one
+line on the page but wraps after "It" in the video. Every board captured before
+the BANDW-0/902px rule (2026-08-04) rendered at some other width, so its line
+breaks differ from the page by construction.
+
+Bottom line: exact parity currently holds ONLY for the boards rebuilt on
+2026-08-04/05 (the ten shipped re-works + the seven pending -v2 candidates).
+Bringing the rest of the catalogue to the exact bar means leg-swap rebuilds of
+roughly 45-50 remaining board spans across ~20 videos — the same routine
+pipeline, batched. The cosmetic findings above (video-only titles, icon
+substitutions) resolve automatically in those rebuilds.

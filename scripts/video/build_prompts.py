@@ -263,7 +263,7 @@ Then the obvious solution and why it collapses: give every English word its own 
 
 Then the fix, on board 1, held while the chips are read: engineers break language into reusable chunks. Take every word starting with UN — unbelievable, unmatchable, untied, unlock, unfair, and thousands more. The vocabulary stores UN once and reuses that one piece to help spell all of them. Read enough of them aloud that the reuse is obvious.
 
-Then board 2, held while its three cards are walked in order, in the board's own words and keeping the ordinariness: the small ordinary program with no AI in it, the two names, and every form a token might take, down to the space before a word.
+Then board 2, held while its three cards are walked in order, in the board's own words and keeping the ordinariness: the small ordinary program called a tokenizer with no AI in it, the two names, and every form a token might take, down to the space before a word.
 
 Then the vocabulary: each model knows a fixed set, and they run large — ChatGPT's holds about 200,000 and Gemini's about 256,000. Say that Anthropic hasn't published Claude's.
 

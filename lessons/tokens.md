@@ -82,7 +82,7 @@ Here’s how it works:
 
 ## Before the model
 
-Before your words ever reach the model, a small ordinary program (no AI involved) breaks them into these chunks.
+Before your words ever reach the model, a small ordinary program called a **tokenizer** (no AI involved) breaks them into these chunks.
 
 ## Two names
 

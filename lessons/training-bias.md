@@ -70,10 +70,6 @@ Claude was wrong to doubt it. Flagg went to the Mavericks with the first pick of
 
 Training stopped on a cut-off date. Ask about anything newer, and the model answers as if time never passed.
 
-## Why it isn’t a hallucination
-
-It isn’t inventing. It’s remembering, and the memory is out of date.
-
 ## The fix
 
 For anything that can change, check the date. The model doesn’t always search the web on its own. When it matters, ask it to search.

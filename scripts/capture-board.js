@@ -26,6 +26,15 @@ const COMPOSE = `(function(){
   var best = cands.filter(function(c){ return c.textContent.length === min; });
   best.sort(function(a, b){ return depth(b) - depth(a); });
   var el = best[0];
+  // WRAP_UP: walk N ancestors up so the capture keeps the lesson's own wrapper
+  // (e.g. the ShowcaseBox/NumberedRows lavender band) instead of lifting the
+  // inner grid onto the card — same owner rule and same fix as
+  // capture_board_states.js got 2026-08-04; this tool missed it until a kit
+  // board shipped without its band (training-bias mechanisms, 2026-08-06).
+  var up = ${Number(process.env.WRAP_UP || 0)};
+  for (var u = 0; u < up; u++) {
+    if (el.parentElement && el.parentElement !== document.body) el = el.parentElement;
+  }
   var card = document.createElement("div");
   // flex-shrink:0 — without it the card is a shrinkable flex item in the 800px
   // wrap, so any --card-width above ~800 silently lays out at viewport width and

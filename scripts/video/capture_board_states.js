@@ -14,6 +14,19 @@
 // An element entry may be {"text": "...", "ring": "#color"} — owner rule
 // 2026-08-02: inside an accent-colored container the ring adopts the
 // container's accent; bare-string entries keep the purple default.
+// An element entry may add {"row": true}: the ring target walks UP from the
+// innermost text match to the outermost ancestor with the SAME textContent —
+// the bullet-row case where a CSS-dot span carries no text, so the row div and
+// its text span match identically and innermost-wins rings the text alone,
+// leaving the dot outside the boundary (owner-rejected, evaluate-the-results
+// 2026-08-03; flagged as "needs the capture script" in README).
+// An element entry may add {"mark": true}: the target is a SENTENCE (or any
+// substring) inside a paragraph, not a DOM element. At compose time the text
+// node containing it is split and the match wrapped in a neutral inline span
+// (no style — zero visual change, zero layout shift); the state then paints a
+// soft tinted background (ring color at ~20% alpha, rounded, box-decoration
+// clone for multi-line) behind the words instead of drawing a ring — the
+// as-spoken sentence-highlight treatment (flattery ChatGPT reply, 2026-08-06).
 // A panel entry may likewise be {"label": "...", "ring": "#color"} — owner rule
 // 2026-08-03 (which-app): a card with its own accent color gets its accent as
 // the ring, not the primary purple; bare-string panels keep the default.
@@ -95,17 +108,38 @@ const COMPOSE = `(function(){
              cardStyle: card.getAttribute("style") || "" };
   });
   var stateSpec = ${JSON.stringify(STATES)};
-  var elemTexts = []; var ringColors = {};
+  var elemTexts = []; var ringColors = {}; var rowFlags = {}; var markFlags = {};
   if (stateSpec) stateSpec.forEach(function(s){ (s.elements||[]).forEach(function(e){
     var t = (typeof e === "string") ? e : e.text;
     if (typeof e !== "string" && e.ring) ringColors[t] = e.ring;
+    if (typeof e !== "string" && e.row) rowFlags[t] = true;
+    if (typeof e !== "string" && e.mark) markFlags[t] = true;
     if (elemTexts.indexOf(t) < 0) elemTexts.push(t); }); });
   window.__elems = {}; var missing = [];
   elemTexts.forEach(function(t){
+    if (markFlags[t]) {
+      var walker = document.createTreeWalker(band, NodeFilter.SHOW_TEXT);
+      var node = null, at = -1, n;
+      while ((n = walker.nextNode())) {
+        var i = n.textContent.indexOf(t);
+        if (i >= 0) { node = n; at = i; break; }
+      }
+      if (!node) { missing.push(t); return; }
+      var range = document.createRange();
+      range.setStart(node, at); range.setEnd(node, at + t.length);
+      var span = document.createElement("span");
+      range.surroundContents(span);
+      window.__elems[t] = { el: span, style: "" };
+      return;
+    }
     var els = Array.prototype.slice.call(band.querySelectorAll("*")).filter(function(d){
       return d.textContent === t && !Array.prototype.some.call(d.children, function(c){ return c.textContent === t; }); });
     if (!els.length) { missing.push(t); return; }
-    window.__elems[t] = { el: els[0], style: els[0].getAttribute("style") || "" };
+    var el = els[0];
+    if (rowFlags[t]) {
+      while (el.parentElement && el.parentElement !== band && el.parentElement.textContent === t) el = el.parentElement;
+    }
+    window.__elems[t] = { el: el, style: el.getAttribute("style") || "" };
   });
   if (missing.length) return "ELEMENT NOT FOUND: " + missing.join(" // ");
   function applyPanel(it, ringColor, noChip) {
@@ -165,6 +199,13 @@ const COMPOSE = `(function(){
       (s.elements || []).forEach(function(en){ var t = (typeof en === "string") ? en : en.text;
         var e = window.__elems[t];
         var rc = ringColors[t] || "#6e51ff";
+        if (markFlags[t]) {
+          e.el.style.background = rc + "33";
+          e.el.style.borderRadius = "5px";
+          e.el.style.boxDecorationBreak = "clone";
+          e.el.style.webkitBoxDecorationBreak = "clone";
+          return;
+        }
         // outline+offset, not box-shadow: the shadow ring hugs the text box so
         // glyphs touch the line (owner-flagged 2026-08-02). outline-offset
         // paints the ring outside the bounds with breathing room, zero layout

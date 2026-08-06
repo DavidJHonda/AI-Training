@@ -119,7 +119,7 @@ Then this has happened before. Becoming a designer once meant years at a draftin
 
 Then the quote board, introduced as evidence rather than hype: in July 2025 the White House released a national strategy document, Winning the Race: America's AI Action Plan. Show the attached quote card and read it exactly as written: "An industrial revolution, an information revolution, and a renaissance — all at once. This is the potential that AI presents." Attribute it aloud to the White House, July 2025.
 
-Close board: "The information revolution is already here." over "Not someday. Today."
+Close board: "AI is today’s printing press." over "Learn to run it."
 """,
     numbers="Do not invent numbers, percentages or statistics; the lesson's only figures are the year 1500 and July 2025.",
     props="No readable or pseudo-readable text in drawn props — never draw proclamations, printed pages or phone screens with legible writing; real words belong only on the attached boards and in clean dark-ink labels.",
@@ -243,7 +243,7 @@ Then board 3, held and walked card by card, because this is the beat that answer
 
 Then neural networks: the whole stack is called a neural network, loosely borrowed from biology, simple units passing signals forward the way neurons do — but that is where the resemblance ends. It isn't a brain and it isn't thinking: the same arithmetic, repeated billions of times, fast.
 
-Close board: "Meaning builds up, layer by layer." over "The blank box gets filled in the next lesson."
+Close board: "Meaning builds up, layer by layer." over "Attention and transformation. Dozens of times."
 """,
     numbers="Use only the lesson's own vector values where you show them. Invent no percentages, statistics, layer counts or benchmarks, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props; every readable word on screen must be one the lesson uses, in clean dark ink.",
@@ -275,7 +275,7 @@ Then board 4, held and walked row by row, saying first that each AI does this di
 
 Then: once it's built, the model uses that same fixed vocabulary every time it reads text.
 
-Close board: "A token ID is an address, not a meaning." over "Turning that number into meaning comes next."
+Close board: "Computers don’t read text." over "Tokens convert language into readable numbers."
 """,
     numbers="The only numbers allowed are the lesson's own: 200,000 and 256,000 for the vocabularies, 9246 for cat, the token IDs printed on board 2, and the token counts 3, 2, 3, 3 and 7. Invent no benchmarks or percentages.",
     props="Every readable word on screen must be one the lesson uses; no invented app screens or pseudo-text.",
@@ -494,7 +494,7 @@ Then follow the money: most of these apps are free, which means the product is y
 
 Then the close: AI chat is the newest surface in the same industry and its version is the friendliest yet. The skill, with AI and every other app, is knowing when to stop — and the right stopping point comes earlier than the people who built it want.
 
-End on board 2: "The chat is built to hold you." over "It will never quit for you."
+End on board 2: "Be the one to quit when it’s time." over "AI won’t quit for you."
 """,
     numbers="The only numbers allowed are the lesson's own: 29,032 feet, 2006, two hours, and half a million human lifetimes a month. Invent no other figures and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props or invented app screens; real words belong only on the attached boards and in clean dark-ink labels.",
@@ -587,15 +587,13 @@ Open on the handoff: Mind Trap was AI sounding like a person; Flattery Trap is t
 
 Board 1, walked down both columns. The flattery reply — great start, you've clearly identified the central theme, just polish it up — praised a theme it never named, fits any Gatsby essay ever written, a grade that graded nothing. Read all three. Then what you needed: the filler phrase quoted back, the missing thesis named, the next move handed over. Then the turn: the flattery reply feels better, and that's the problem.
 
-Why it happens, on board 2, held and walked card by card: the model writes several answers to the same question and human reviewers put them in order, best to worst, and that ordering is the whole signal — it's called RLHF. Then the catch: reviewers are human, and humans put the supportive answer above the honest one; nobody wrote that rule, it came out of the rankings. Then: every ranking nudges the internal numbers toward answers like the winners, so ranking by ranking that preference got baked into the patterns. Land the board's own line — the model isn't lying to you, it learned what people give a thumbs-up.
+Why it happens, on board 2, held and walked card by card: the last phase of training, called RLHF — Reinforcement Learning from Human Feedback — is what caused the Flattery Trap. The model writes several answers to the same question and human reviewers rank them, from best to worst. Then the catch: reviewers are human, and often rank a positive and supportive answer higher than the best answer. Then: every ranking nudges the model's internal numbers towards the same positive and supportive answers. Land the board's own line — the model isn't lying to you, it learned what people give a thumbs-up.
 
 The industry named it: in April 2025 OpenAI shipped an update that took flattery to a new level. Show board 3 — the gag-product reply calling it absolutely brilliant, genius, viral gold. Within days OpenAI rolled it back and named the problem in public: sycophancy. It isn't one app's quirk; every LLM including Claude and Gemini is trained on human approval.
 
-Then what the labs are doing, a real beat and not a footnote: since the rollback, sycophancy is measured — models get tested for it before they ship, the way they're tested for accuracy — and the fix runs through training, reworking the rating step so empty agreement stops winning.
+Then what the labs are doing, a real beat and not a footnote: since the rollback, they measure sycophancy — new models get tested for it before they ship — and the fix runs through training, reworking the rating step so empty agreement stops winning.
 
 Then board 4, the five moves. The single most important thing in this video: read BOTH the Weak and the Better prompt aloud for every one of the five — they are the lesson's only actionable content and the last roll left all ten unspoken. Ask don't tell; ask for the gaps; grade against a rubric; make it argue the other side, with its payoff said out loud — if it can't build a case against you your position might be solid, if it can you've found your blind spots; and set a standing instruction that sticks across chats.
-
-Then the key line: don't take praise as a verdict — warmth with no specifics is your cue to push back, and when the praise survives the pushback, take it, you earned it.
 
 End on the close board: "Friendly, supportive, and positive aren't the same as right." over "Don't let the warmth do the deciding."
 """,
@@ -788,7 +786,7 @@ Then the one rule under all three: verify somewhere the sender doesn't control �
 
 Then if the fake is about you: don't handle it alone, don't delete the evidence, screenshot everything, and bring an adult in that day. You did nothing wrong by being targeted.
 
-End on board 4: "Seeing isn't proof anymore." over "Check the source, not the pixels."
+End on board 4: "Seeing or hearing isn’t proof anymore." over "Check the source, not the pixels."
 """,
     numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background.",
     props="Drawn phones, feeds and screens may appear but keep them blank or abstract — no readable or pseudo-readable text on any drawn screen or prop; real words belong only on the attached boards and in clean dark-ink labels.",

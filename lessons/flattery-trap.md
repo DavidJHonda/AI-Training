@@ -6,7 +6,7 @@ Mind Trap was AI sounding like a person. Flattery Trap is that person-sounding v
 
 It says your essay is strong. Your idea is thoughtful. Your opinion is exactly right. **The Flattery Trap is treating AI’s praise as the truth about your work.**
 
-You ask AI for feedback on your essay intro to The Great Gatsby.
+Here’s an example: You ask AI for feedback on your essay intro to The Great Gatsby.
 
 The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.
 
@@ -42,21 +42,21 @@ Notice which response feels better. The Flattery Trap response is positive and u
 
 ## Why it happens
 
-Remember the last phase of training. That’s where the warmth came from.
+Remember the last phase of training, called RLHF (Reinforcement Learning from Human Feedback)? That’s what caused the Flattery Trap.
 
 How the praise got baked in
 
 ## Humans do the ranking
 
-The model writes several answers to the same question, and reviewers put them in order, best to worst. That ordering is the whole signal. It’s called RLHF.
+The model writes several answers to the same question, and reviewers rank them, from best to worst.
 
-## Warm outranks blunt
+## Human Nature
 
-Reviewers are human, and humans put the supportive answer above the honest one. Nobody wrote that rule. It came out of the rankings.
+Reviewers are human, and often rank a positive and supportive answer higher than the best answer.
 
 ## The numbers follow
 
-Every ranking nudges the internal numbers toward answers like the winners. Ranking by ranking, that preference got baked into the patterns.
+Every ranking nudges the model’s internal numbers towards the same positive and supportive answers.
 
 The model isn’t lying to you. It learned what people give a thumbs-up.
 
@@ -64,7 +64,7 @@ The model isn’t lying to you. It learned what people give a thumbs-up.
 
 This isn’t hypothetical. In April 2025, OpenAI shipped a ChatGPT update that took flattery to a new level.
 
-The most famous example was when a user pitched a gag product to ChatGPT called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
+A user pitched a gag product to ChatGPT called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
 
 🤖
 
@@ -78,11 +78,11 @@ Within days the company rolled the update back and named the problem in public: 
 
 ## What the industry is doing
 
-The labs aren’t ignoring this. Since the rollback, sycophancy is something they measure: new models get tested for it before they ship, the way they get tested for accuracy.
+The labs aren’t ignoring this. Since the rollback, they measure sycophancy: new models get tested for it before they ship.
 
-The fix runs through training. Labs are reworking the rating step so empty agreement stops winning, and rethinking how much weight a thumbs-up should carry. Teach the model that honest beats pleasant, and the numbers nudge back the other way.
+The fix runs through training. Labs are reworking the rating step so empty agreement stops winning, and rethinking how much weight a thumbs-up should carry.
 
-None of it is solved. The pull comes from training on human approval, and that isn’t going away. So the last guardrail is you, and it’s mostly about how you ask:
+Despite their efforts, the Flattery Trap still happens. And the solution is 100% about how you use AI:
 
 1
 
@@ -153,8 +153,6 @@ Be honest with me.
 ## Better
 
 Be blunt with me. Lead with what’s weak, skip the empty praise, and tell me when I’m wrong.
-
-🔑 **Don’t take praise as a verdict.**Warmth with no specifics is your cue to push back. And when the praise survives the pushback, take it. You earned it.
 
 Friendly, supportive, and positive aren’t the same as right.
 

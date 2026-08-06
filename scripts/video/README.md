@@ -86,6 +86,14 @@ so any splice needs exactly ONE re-encode pass:
   frame-PTS end time through → 1-frame flash of the removed scene, caught by eye).
   Always cut seams with `trim=start_frame=A:end_frame=B` (end exclusive) and verify
   with `scenes.py --seam` — a clean freeze shows diff ≈ 0; any spike is a leak.
+- **MKV legs carry a 1/1000 timebase — normalize BEFORE concat or the mux ships
+  jittery video timestamps** (flattery-trap 2026-08-06: ms-rounded pts on every
+  leg frame, audio perfectly uniform → players stalled the NARRATION at a
+  different spot each play; frame count and audio MD5 were both clean, so the
+  standard battery missed it). In any concat-filter assembly give EVERY input
+  `settb=1/30004,setpts=N*1000` (frame duration = exactly 1000 ticks at 30.004
+  fps) and mux with `-video_track_timescale 30004`. Verify with showinfo: the
+  pts-delta histogram must be a single value; 33000/34000 mixtures are the bug.
 - **`tpad` may be silently broken** in the wheel build (env.sh reports). Worse:
   the env.sh self-test can PASS while `tpad=stop_mode=clone` inside a concat
   graph still pads ZERO frames with no error (hit 2026-07-12 on the which-app

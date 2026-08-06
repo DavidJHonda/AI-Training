@@ -447,3 +447,20 @@ a detour rather than the blend-of-the-whole-sentence point):
 
 Reusable anywhere prediction-vs-mind-reading comes up (how-ai-answers,
 engagement-trap).
+
+## Flattery Trap — Key Insight + trimmed passages (cut 2026-08-06)
+
+Closing KeyInsight removed from the lesson (owner call, same-day trim pass
+that also tightened the RLHF box and the industry section):
+
+> **Don't take praise as a verdict.** Warmth with no specifics is your cue to
+> push back. And when the praise survives the pushback, take it. You earned it.
+
+The flattery-trap video (and its re-roll prompt before 2026-08-06) speaks this
+key line near its close — reusable there if it ever needs a text anchor again.
+
+Also trimmed the same day (smaller, less reusable): "Nobody wrote that rule.
+It came out of the rankings." (Warm-outranks-blunt card); "Teach the model
+that honest beats pleasant, and the numbers nudge back the other way."
+(industry-fix paragraph); "the way they get tested for accuracy" (testing
+sentence).

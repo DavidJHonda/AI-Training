@@ -78,7 +78,7 @@ seen
 
 Plus thousands more
 
-your words → small ordinary program → tokens
+Here’s how it works:
 
 ## Before the model
 
@@ -242,6 +242,6 @@ training
 
 Once it’s built, the model uses that same fixed vocabulary of tokens every time it reads text.
 
-A token ID is an address, not a meaning.
+Computers don’t read text.
 
-Turning that number into meaning comes next.
+Tokens convert language into readable numbers.

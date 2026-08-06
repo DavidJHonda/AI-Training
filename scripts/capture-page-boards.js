@@ -95,8 +95,11 @@ const BOARDS = [
   // tokens: tokenization defined. The video's 1:26-1:47 narration beat is strong
   // but its screen shows junk lettering; the definition paragraph became this board
   // so the kit can put the real content under the real words. Board 2 in the kit order.
-  { section: "tokens", out: "tokens-2-tokenization.jpg", width: 640,
-    find: ["your words → small ordinary program → tokens", "no AI involved", "the space before a word"] },
+  // wrapUp 1: the "your words → …" header row was cut 2026-08-06, so the innermost
+  // match is now the card grid — walk up to keep the lavender band (owner rule:
+  // boards match the page design).
+  { section: "tokens", out: "tokens-2-tokenization.jpg", width: 640, wrapUp: 1,
+    find: ["no AI involved", "the space before a word"] },
 
   // critical-thinking: the kit board was titles-only ("Five habits. Each one is a
   // question you ask.") so the video recited five question names and taught none of
@@ -138,7 +141,7 @@ const BOARDS = [
     find: ["Homework doesn’t help students learn", "Should I join the debate team?", "On Target"] },
 ];
 
-const compose = (preds, width, vw, keep, card) => `(function(){
+const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){
   var host = document.getElementById("__boardwrap");
   if (host) host.remove();
   var preds = ${JSON.stringify(preds)};
@@ -151,6 +154,12 @@ const compose = (preds, width, vw, keep, card) => `(function(){
   var best = cands.filter(function(c){ return c.textContent.length === min; });
   best.sort(function(a,b){ return depth(b)-depth(a); });
   var el = best[0];
+  // wrapUp: walk N ancestors up so the capture keeps the lesson's own wrapper
+  // (same owner rule as the other two capture tools, 2026-08-04/06).
+  var up = ${Number(wrapUp || 0)};
+  for (var u = 0; u < up; u++) {
+    if (el.parentElement && el.parentElement !== document.body) el = el.parentElement;
+  }
   // Optional child slice: some lesson blocks are one tall flex column of cards that
   // has to become two boards (a heading plus N cards each). keep:[a,b] drops every
   // child outside that range so the halves keep full-size text instead of being
@@ -201,13 +210,15 @@ const compose = (preds, width, vw, keep, card) => `(function(){
   await send("Page.enable"); await send("Runtime.enable");
 
   for (const b of BOARDS) {
+    // BOARD_FILTER=<out-name substring> recaptures just the matching boards.
+    if (process.env.BOARD_FILTER && !b.out.includes(process.env.BOARD_FILTER)) continue;
     // Reload per board: composing moves the element out of the document.
     await send("Page.navigate", { url: `http://127.0.0.1:${PORT}/index.html?print=lesson:${b.section}` });
     await sleep(2800);
     const vw = b.vw || 800;
     await send("Emulation.setDeviceMetricsOverride", { width: vw, height: Math.round(vw * 9 / 16), deviceScaleFactor: 1600 / vw, mobile: false });
     await sleep(400);
-    const r = await send("Runtime.evaluate", { expression: compose(b.find, b.width, vw, b.keep, b.card), returnByValue: true });
+    const r = await send("Runtime.evaluate", { expression: compose(b.find, b.width, vw, b.keep, b.card, b.wrapUp), returnByValue: true });
     const msg = r.result && r.result.result && r.result.result.value;
     console.log(`  ${b.out}: ${msg}`);
     if (msg === "NOT FOUND") { ws.close(); process.exit(1); }

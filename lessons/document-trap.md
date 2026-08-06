@@ -18,17 +18,21 @@ So when a long document doesn’t fit, and often even when it does, the system r
 
 1
 
-The document gets split into chunks, each a paragraph or two long.
+The document gets split into chunks
+
+Each chunk is a paragraph or two long. The model never works from the whole file at once. Everything that follows happens chunk by chunk.
 
 2
 
-Each chunk becomes tokens, then one meaning vector.
+Each chunk becomes one meaning vector
 
-The chunk’s text splits into tokens, just like every message you send. The model reads all of those tokens together and boils what the chunk is about down to one list of numbers: a single meaning vector for the whole chunk. It’s the Embeddings idea, one size up: a point in meaning-space for a whole passage instead of a single token.
+The chunk’s text splits into tokens, just like every message you send, and the model boils what the chunk is about down to one list of numbers: a single meaning vector. It’s the Embeddings idea, one size up.
 
 3
 
-Your question becomes a vector too. The closest chunks get loaded.
+Your question becomes a vector too
+
+The system measures which chunk vectors sit closest to your question’s vector, and only those few chunks get loaded into the context window. Everything else stays outside.
 
 Now you know what happened with the rulebook. It became a few hundred chunks. Your question pulled the chunks closest to it in meaning, and “how many fouls until I’m out of the game?” sits right next to the regular-season foul rules. The tournament section near the back is about tournaments first and fouls second, so it didn’t make the cut.
 
@@ -36,11 +40,11 @@ Now you know what happened with the rulebook. It became a few hundred chunks. Yo
 
 There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
 
-And you’ve met it before: this is the retrieval in Retrieval-Augmented Generation, the RAG from the Hallucination lesson, searching your file instead of the web.
+And you’ve met it before: this is the retrieval in Retrieval-Augmented Generation, RAG. There it searched the web. Here it searches your file.
 
 ## What you can do
 
-You can steer what the model retrieves. Four moves help, and all four share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer.
+You can steer what the model retrieves. Four moves help, and all four share one idea: **make the right chunks easy to find.**
 
 1
 
@@ -66,7 +70,9 @@ Ask the AI to quote
 
 Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
 
-This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says will be the natural move, and it’s a good one. Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn’t make the cut.
+This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says is the natural move, and a good one.
+
+Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn’t make the cut.
 
 It answers from what it retrieved.
 

@@ -302,9 +302,9 @@ const LESSON_VIDEOS = {
   questionsvaluable: { src: "videos/questions-matter.mp4", duration: "3 min", title: "Why the question is the half that still belongs to you." },
   prompting: { src: "videos/art-of-prompting.mp4", duration: "4 min", title: "How to package a question so AI can actually deliver." },
   prompt: { src: "videos/context-window.mp4", duration: "4 min", title: "What the model can see when it answers you." },
-  evaluating: { src: "videos/evaluate-the-results.mp4", duration: "5 min", title: "The quick pass, the dig decision, and the moves that end every evaluation." },
+  evaluating: { src: "videos/evaluate-the-results.mp4", duration: "5 min", title: "The quick pass, the dig decision, the final moves." },
   critical: { src: "videos/critical-thinking.mp4", duration: "4 min", title: "Five questions that keep the thinking yours." },
-  openerfoundations: { src: "videos/opener-understand.mp4", duration: "3 min", title: "Not magic, not a person, not normal software. Time to open the hood.", cta: "After watching, continue below to see where this section takes you." },
+  openerfoundations: { src: "videos/opener-understand.mp4", duration: "3 min", title: "Not magic, not a person, not normal software.", cta: "After watching, continue below to see where this section takes you." },
   training: { src: "videos/training.mp4", duration: "5 min", title: "Watch the machine get built: one loop, three phases." },
   aiismath: { src: "videos/ai-is-math.mp4", duration: "4 min", title: "Two ideas from probability, plus the loop that makes language." },
   tokens: { src: "videos/tokens.mp4", duration: "4 min", title: "How your words become chunks the model can work with." },
@@ -316,13 +316,13 @@ const LESSON_VIDEOS = {
   inference: { src: "videos/one-more-thing.mp4", duration: "5 min", title: "Three more things: the lottery, the transcript, and the bill." },
   openerprotect: { src: "videos/opener-avoid.mp4", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "After watching, continue below to see where this section takes you." },
   hallucination: { src: "videos/hallucination.mp4", duration: "3 min", title: "Why AI is confidently wrong, and the four patterns to catch it.", cta: "After watching, put it into practice with the LAB at the end of this lesson." },
-  trainingbias: { src: "videos/training-bias.mp4", duration: "3 min", title: "Every fact checks out, and the picture is still distorted: how bias gets in.", cta: "After watching, continue below to see the four mechanisms up close." },
-  documenttrap: { src: "videos/document-trap.mp4", duration: "5 min", title: "Uploaded doesn’t mean read: how AI really handles a long document." },
-  mindtrap: { src: "videos/mind-trap.mp4", duration: "4 min", title: "Why it feels like somebody’s there, and which decisions to keep human." },
+  trainingbias: { src: "videos/training-bias.mp4", duration: "3 min", title: "Every fact checks out. The picture is still distorted.", cta: "After watching, continue below to see the four mechanisms up close." },
+  documenttrap: { src: "videos/document-trap.mp4", duration: "5 min", title: "Uploaded doesn’t mean read." },
+  mindtrap: { src: "videos/mind-trap.mp4", duration: "4 min", title: "Why it feels like somebody’s there." },
   flattery: { src: "videos/flattery-trap.mp4", duration: "4 min", title: "AI gives you praise, even when it shouldn’t.", cta: "After watching, put it into practice with the LAB at the end of this lesson." },
-  engagementtrap: { src: "videos/engagement-trap.mp4", duration: "4 min", title: "The quietest trap: where your time goes, and knowing when to stop." },
-  supporttrap: { src: "videos/support-trap.mp4", duration: "4 min", title: "Supportive words aren’t support: where the line sits, and when to get a human." },
-  faketrap: { src: "videos/fake-trap.mp4", duration: "4 min", title: "Seeing isn’t proof anymore: the test that moved off the image and onto the source." }
+  engagementtrap: { src: "videos/engagement-trap.mp4", duration: "4 min", title: "The quietest trap: knowing when to stop." },
+  supporttrap: { src: "videos/support-trap.mp4", duration: "4 min", title: "Supportive words aren’t support." },
+  faketrap: { src: "videos/fake-trap.mp4", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
@@ -6279,16 +6279,16 @@ function DocumentChatSection(props) {
 
   const SCENARIOS = [
     {
-      prompt: "Your first apartment lease is 75 pages and has lots of fine print and legal terminology. You have specific questions about pets and getting your deposit back. Which approach gives retrieval the best shot?",
+      prompt: "Your first apartment lease is 75 pages. You upload it because you have specific questions about pets and getting your deposit back. Which approach gives retrieval the best shot?",
       options: [
         { label: "Ask ChatGPT to summarize the lease, list your responsibilities, and explain the rules on pets and deposits.", correct: false, hint: "Every part of this message has to win its own retrieval, and they’re all competing for the same few slots.", feedback: "The model doesn’t read the lease and then answer. It loads only the chunks that match your message, and a message about three things splits the search three ways. The pet chunks might load while the deposit clause stays behind, and the answer sounds complete either way." },
-        { label: "Ask two questions in two messages: pets first, then the deposit.", correct: true, eyebrow: "Focused", headline: "One question, one retrieval.", feedback: "One question means retrieval has one target. The pet chunks load for the pet question, the deposit chunks load for the deposit question, and each answer comes from the pages that actually matter." }
+        { label: "Ask two questions in two messages: pets first, then the deposit.", correct: true, headline: "One question, one retrieval.", feedback: "One question means retrieval has one target. The pet chunks load for the pet question, the deposit chunks load for the deposit question, and each answer comes from the pages that actually matter." }
       ]
     },
     {
       prompt: "Your first job at Anthropic comes with a 300-page employee handbook. You care deeply about one thing: whether you can keep building your own apps on the side. You’ve found the two paragraphs that cover it. What’s the better move?",
       options: [
-        { label: "Paste the two paragraphs into your message, then ask your question.", correct: true, eyebrow: "No lottery", headline: "Pasted text can’t get missed.", feedback: "Pasted text goes straight into the context window. No chunking, no searching, no chance the wrong pieces load. When you already have the paragraphs, retrieval has nothing left to get wrong." },
+        { label: "Paste the two paragraphs into your message, then ask your question.", correct: true, headline: "Pasted text can’t get missed.", feedback: "Pasted text goes straight into the context window. No chunking, no searching, no chance the wrong pieces load. When you already have the paragraphs, retrieval has nothing left to get wrong." },
         { label: "Upload the whole handbook, then ask about side projects.", correct: false, hint: "Uploading brings back the retrieval lottery: 300 pages of chunks competing for a few slots.", feedback: "It can work. But the model won’t read all 300 pages. It splits them into chunks and loads only the ones closest to your question, so your two side-project paragraphs are now competing with dress code and parking rules. You had the exact text in hand: skip the lottery." }
       ]
     },
@@ -6296,22 +6296,22 @@ function DocumentChatSection(props) {
       prompt: "You notice your car has a cracked windshield. So you upload the 150-page insurance policy into ChatGPT and ask if insurance covers the damage. The answer comes back: “Great question. Yes. And there’s no deductible.” What’s the best next prompt?",
       options: [
         { label: "Are you sure?", correct: false, hint: "What would the model reread to answer this? Nothing.", feedback: "The model doesn’t go back to the policy. It answers from the chunks it already retrieved, in the same confident voice, and if the deductible clause never loaded, “Are you sure?” won’t load it now." },
-        { label: "Quote the exact section you’re basing that on.", correct: true, eyebrow: "Receipts", headline: "Now you can check it.", feedback: "A quote forces the answer back to the document. If the exact section appears and matches, you’re covered. If it’s missing or doesn’t match, retrieval pulled the wrong chunks, and you caught it before it cost you." }
+        { label: "Quote the exact section you’re basing that on.", correct: true, headline: "Now you can check it.", feedback: "A quote forces the answer back to the document. If the exact section appears and matches, you’re covered. If it’s missing or doesn’t match, retrieval pulled the wrong chunks, and you caught it before it cost you." }
       ]
     },
     {
       prompt: "Congratulations on your full scholarship to Stanford. The Scholarship Agreement lists all the legal terms and conditions. You upload it and ask AI, “Does it renew every year?” The AI says yes, every year. What’s the smarter next message?",
       options: [
         { label: "Great. That’s what I wanted to know.", correct: false, hint: "The renewal rule made it into the context window. Did the exceptions?", feedback: "That’s the rulebook mistake again. Retrieval pulled the general renewal rule because it matched your question best. An exception buried near the back matches worse, so it may never have loaded, and the answer sounds just as confident without it." },
-        { label: "Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.", correct: true, eyebrow: "Exception hunt", headline: "Send the system to the back pages.", feedback: "The clause that changes everything is usually an exception near the back, exactly the kind of chunk that loses the retrieval race. Asking for exceptions by name, with quotes, sends the search straight at them. That habit will save you real money someday." }
+        { label: "Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.", correct: true, headline: "Send the system to the back pages.", feedback: "The clause that changes everything is usually an exception near the back, exactly the kind of chunk that loses the retrieval race. Asking for exceptions by name, with quotes, sends the search straight at them. That habit will save you real money someday." }
       ]
     }
   ];
 
   const CHUNK_STEPS = [
-    { title: "The document gets split into chunks, each a paragraph or two long." },
-    { title: "Each chunk becomes tokens, then one meaning vector.", body: "The chunk’s text splits into tokens, just like every message you send. The model reads all of those tokens together and boils what the chunk is about down to one list of numbers: a single meaning vector for the whole chunk. It’s the Embeddings idea, one size up: a point in meaning-space for a whole passage instead of a single token." },
-    { title: "Your question becomes a vector too. The closest chunks get loaded." }
+    { title: "The document gets split into chunks", body: "Each chunk is a paragraph or two long. The model never works from the whole file at once. Everything that follows happens chunk by chunk." },
+    { title: "Each chunk becomes one meaning vector", body: "The chunk’s text splits into tokens, just like every message you send, and the model boils what the chunk is about down to one list of numbers: a single meaning vector. It’s the Embeddings idea, one size up." },
+    { title: "Your question becomes a vector too", body: "The system measures which chunk vectors sit closest to your question’s vector, and only those few chunks get loaded into the context window. Everything else stays outside." }
   ];
 
 
@@ -6353,10 +6353,11 @@ function DocumentChatSection(props) {
       E("strong", null, "retrieval"),
       ". When the system can\u2019t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence."),
     E(BodyP, { marginBottom: 24 },
-      "And you\u2019ve met it before: this is the retrieval in Retrieval-Augmented Generation, the RAG from the Hallucination lesson, searching your file instead of the web."),
+      "And you\u2019ve met it before: this is the retrieval in Retrieval-Augmented Generation, RAG. There it searched the web. Here it searches your file."),
     E(SectionKicker, null, "What you can do"),
     E(BodyP, null,
-      "You can steer what the model retrieves. Four moves help, and all four share one idea: make the right chunks easy to find. The more specific your question, the more reliable the answer."),
+      "You can steer what the model retrieves. Four moves help, and all four share one idea: ",
+      E("strong", null, "make the right chunks easy to find.")),
     E(NumberedRows, {
       marginBottom: 24,
       items: TACTICS.map(function(t) {
@@ -6364,12 +6365,14 @@ function DocumentChatSection(props) {
       })
     }),
     E(BodyP, null,
-      "This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says will be the natural move, and it’s a good one. Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn’t make the cut."),
+      "This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says is the natural move, and a good one."),
+    E(BodyP, null,
+      "Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn’t make the cut."),
     closeBoard("documenttrap"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Pick the Better Prompt",
+      title: "Pick the Better Move",
      lead: "Your turn. Four documents, four questions. Pick the move that gives retrieval the best shot."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {

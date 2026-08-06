@@ -2,57 +2,73 @@
 
 # Training Bias
 
-Sometimes AI doesn’t invent anything. Every fact in the answer is real, but the picture is still distorted.
+Sometimes AI doesn’t invent anything. Every fact is real, but the picture is still distorted.
 
-One big cause is training bias. The model learns whatever patterns are in the data it saw. If the data is uneven, incomplete, or full of shortcuts, the model can treat a narrow slice of reality as the default.
+Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” Claude or ChatGPT might tell you to drive 180 miles per hour on a closed track.
 
-Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” the model might tell you to drive 180 miles per hour on a closed track.
-
-That answer wouldn’t come from evil intent. It would come from a narrow slice of data treated like the whole picture.
+This is called Training Bias. The data the model learned from during training was uneven, incomplete, or full of shortcuts, so AI treats a narrow slice of reality as the whole picture.
 
 ## Cows on the beach
 
 Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots.
 
-The model was training on photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
+The model trained on photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
 
-## How bias gets in
+## How Training Bias gets in
 
-Not one mechanism. Four overlapping ones, all rooted in the data the model was trained on.
+Not one mechanism. Three overlapping ones, all rooted in the data the model was trained on.
 
 📈
 
-Overrepresentation
+Defaults
 
 Some cases appear too often in the data. The model treats them as the default.
 
 📉
 
-Underrepresentation
+Blind Spots
 
 Some cases appear too rarely. The model performs worse when those cases come up.
 
 🪤
 
-Shortcuts
+Wrong Patterns
 
 A wrong clue happens to work in training. The model learns the clue instead of the real concept.
 
-🏷️
+You can’t fact-check your way out of this trap: every fact in a distorted answer can check out. The tell is sameness: **when every example looks alike, you’re seeing the model’s default, not the world.** When you spot it, three questions crack the picture open:
 
-Biased answer key
+1
 
-Even balanced data can be graded wrong. If biased human decisions were the answer key, the model learns that bias as correct.
+“What’s missing from this answer?”
 
-There’s no fact-check for this trap: every fact in a distorted answer can check out. That’s why your Evaluate the Results dig list asks who’s missing. Fact-checks cover what’s on the page; bias hides in what never made the page.
+2
+
+“Show me examples that don’t fit the pattern you just gave.”
+
+3
+
+“Answer again, leaving out the most famous examples.”
+
+The model usually has the rest of the picture. It just doesn’t lead with it.
 
 ## Stale information
 
-One more data trap, and this one isn’t bias or hallucination.
+One more data trap, and this one isn’t bias or hallucination. We hit it ourselves while building this course. We asked Claude to check an example sentence for the Tokens lesson:
+
+## You
+
+What about “Cooper Flagg is an amazing basketball player for the Dallas Mavericks”?
+
+## Claude
+
+One flag though: is Cooper Flagg actually on the Mavericks? I believe he was drafted by a different team. You’d want to verify that before committing it to the course.
+
+Claude was wrong to doubt it. Flagg went to the Mavericks with the first pick of the 2025 draft. But Claude’s training ended before draft night, so a true sentence looked wrong to it. Notice what it did right, though: it flagged its doubt and asked us to verify instead of asserting. When the date matters, that’s your move too.
 
 ## What happens
 
-Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed.
+Training stopped on a cut-off date. Ask about anything newer, and the model answers as if time never passed.
 
 ## Why it isn’t a hallucination
 
@@ -60,8 +76,8 @@ It isn’t inventing. It’s remembering, and the memory is out of date.
 
 ## The fix
 
-For anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself.
+For anything that can change, check the date. The model doesn’t always search the web on its own. When it matters, ask it to search.
 
-The model learned our shortcuts.
+AI learned from what we wrote.
 
-Including the ones we’d rather it didn’t.
+Flaws in the data become flaws in the answers.

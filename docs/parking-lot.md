@@ -486,3 +486,21 @@ deepfake calls and not acting alone:
 Possible destinations: a review packet, or the support-trap/agents lessons if
 an online-stranger verification beat is ever wanted. Full source in git history
 (SyntheticMediaSection SCENARIOS, commit before this one).
+
+## Training Bias — "Biased answer key" mechanism + resume-screener TRY IT (cut 2026-08-06)
+
+Owner call after a prior keep decision: the mechanism expands the lesson beyond
+LLM data bias into biased human labeling decisions — too big a concept for this
+lesson. Cut as a pair:
+
+- **Mechanisms card:** "🏷️ Biased answer key — Even balanced data can be graded
+  wrong. If biased human decisions were the answer key, the model learns that
+  bias as correct." (board went 4 cards → 3)
+- **TRY IT Q4 (resume screener):** tech company trained a screener on ten years
+  of its own hires; it downgraded resumes that said "women's." Correct answer:
+  "Ten years of hires were mostly men, so 'good resume' came to mean 'looks
+  like the men's'" — headlines "Past hires became the answer key. / No one
+  wrote that rule. / Pattern fit, not merit."
+
+Possible destination: a future work/agents-adjacent lesson on AI in decisions
+(hiring, lending), where label bias IS the point. Full source in git history.

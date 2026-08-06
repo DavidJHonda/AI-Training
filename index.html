@@ -4454,16 +4454,6 @@ function BiasQuiz(props) {
       ]
     },
     {
-      icon: "\uD83D\uDCC4",
-      question: "A tech company trained a resume screener on ten years of its own hires. It downgraded resumes that said \u201Cwomen\u2019s,\u201D and the company scrapped it. Why did it penalize women?",
-      correct: 0,
-      choices: [
-        { text: "Ten years of hires were mostly men, so \u201Cgood resume\u201D came to mean \u201Clooks like the men\u2019s\u201D", explain: "The \u201cright answers\u201d were past human decisions. Years of biased hiring became the model\u2019s definition of good." },
-        { text: "Someone coded a rule against women", explain: "No such rule existed. The bias came from the data, not the code. That\u2019s what makes it sneaky: it hides until someone tests for it." },
-        { text: "The women\u2019s resumes were weaker", explain: "The model never judged qualifications. It matched patterns, and a strong resume that looked different from past hires read as worse." }
-      ]
-    },
-    {
       icon: "\uD83D\uDCAC",
       question: "You ask for examples of successful entrepreneurs. All ten names are men, and eight are American tech founders. Why so narrow?",
       correct: 1,
@@ -4478,7 +4468,6 @@ function BiasQuiz(props) {
     ["Not the shortcut it took.", "Simpler than size.", "It learned the snow, not the wolf."],
     ["Not a hardware problem.", "No special night rules.", "It barely saw the dark."],
     ["The data wasn\u2019t representative.", "Nobody designed it that way.", "Not harder, just unseen."],
-    ["Past hires became the answer key.", "No one wrote that rule.", "Pattern fit, not merit."],
     ["Not a coded rule.", "Most documented became default.", "That\u2019s the bias talking."]
   ];
   var biasAllAnswered = Object.keys(biasAnswers).length >= biasScenarios.length;
@@ -4509,14 +4498,14 @@ function BiasQuiz(props) {
             }));
         }))),
     biasAllAnswered ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data overrepresents some cases, misses others, or comes with a biased answer key, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
+      /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "It never asked whether the data was fair.", body: "In every case, the model had no opinions or prejudices. It learned patterns from data. When the data treats some cases as the default, misses others, or teaches the wrong pattern, the model repeats those patterns. It isn’t asking “is this fair?” It’s asking “what pattern fits?” So your job is to ask who is missing, what assumption is hiding, and whether the default answer is the whole picture." })) : null);
 }
 function StaleInfoBox() {
   var E = React.createElement;
   var CARDS = [
-    { h: "What happens", body: "Training stopped on a cut-off date, and the model has been answering from that snapshot ever since. Ask about anything newer, and it answers as if time never passed." },
+    { h: "What happens", body: "Training stopped on a cut-off date. Ask about anything newer, and the model answers as if time never passed." },
     { h: "Why it isn’t a hallucination", body: "It isn’t inventing. It’s remembering, and the memory is out of date." },
-    { h: "The fix", body: "For anything that can change, check the date. The model often runs a live search on its own, but not every time, so when it matters, ask for the search yourself." }
+    { h: "The fix", body: "For anything that can change, check the date. The model doesn’t always search the web on its own. When it matters, ask it to search." }
   ];
   return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
     E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12 } },
@@ -4528,40 +4517,37 @@ function StaleInfoBox() {
 }
 function TrainingBiasSection(props) {
   const MECHANISMS = [
-    { icon: "📈", term: "Overrepresentation", body: "Some cases appear too often in the data. The model treats them as the default." },
-    { icon: "📉", term: "Underrepresentation", body: "Some cases appear too rarely. The model performs worse when those cases come up." },
-    { icon: "🪤", term: "Shortcuts", body: "A wrong clue happens to work in training. The model learns the clue instead of the real concept." },
-    { icon: "🏷️", term: "Biased answer key", body: "Even balanced data can be graded wrong. If biased human decisions were the answer key, the model learns that bias as correct." }
+    { icon: "📈", term: "Defaults", body: "Some cases appear too often in the data. The model treats them as the default." },
+    { icon: "📉", term: "Blind Spots", body: "Some cases appear too rarely. The model performs worse when those cases come up." },
+    { icon: "🪤", term: "Wrong Patterns", body: "A wrong clue happens to work in training. The model learns the clue instead of the real concept." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Sometimes AI doesn\u2019t invent anything. Every fact in the answer is real, but the picture is still distorted."),
+      "Sometimes AI doesn\u2019t invent anything. Every fact is real, but the picture is still distorted."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One big cause is training bias. The model learns whatever patterns are in the data it saw. If the data is uneven, incomplete, or full of shortcuts, the model can treat a narrow slice of reality as the default."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Imagine the only driving advice online came from professional race car drivers. If you asked, \u201CWhat\u2019s the best way to drive?\u201D the model might tell you to drive 180 miles per hour on a closed track."),
+      "Imagine the only driving advice online came from professional race car drivers. If you asked, \u201CWhat\u2019s the best way to drive?\u201D Claude or ChatGPT might tell you to drive 180 miles per hour on a closed track."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "That answer wouldn\u2019t come from evil intent. It would come from a narrow slice of data treated like the whole picture."),
+      "This is called Training Bias. The data the model learned from during training was uneven, incomplete, or full of shortcuts, so AI treats a narrow slice of reality as the whole picture."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Cows on the beach"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The model was training on photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background."),
+      "The model trained on photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/training-bias.jpg",
       alt: "Two teens in Google and Claude hoodies at a whiteboard titled AI learns patterns, the wrong pattern leads to the wrong answer. Four steps walk the cow example: training photos of a cow on green grass, the accidental pattern green grass = cow, a test photo of a cow on a beach, and the AI's answer, I don't know. Side panels show the problem, it focused on the background instead of what matters, and what it should have learned, cow = cow. A note below reads: good AI doesn't just need lots of examples, it needs the right patterns.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "How bias gets in"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "How Training Bias gets in"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Not one mechanism. Four overlapping ones, all rooted in the data the model was trained on."),
+      "Not one mechanism. Three overlapping ones, all rooted in the data the model was trained on."),
     /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 32 },
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
         MECHANISMS.map(function(m, i) {
           return /*#__PURE__*/React.createElement("div", {
             key: i,
-            style: { flex: 1, minWidth: 300, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
+            style: { flex: 1, minWidth: 250, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
           },
             /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
               /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, m.icon),
@@ -4569,10 +4555,27 @@ function TrainingBiasSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.body));
         }))),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "There’s no fact-check for this trap: every fact in a distorted answer can check out. That’s why your Evaluate the Results dig list asks what’s missing. Fact-checks cover what’s on the page; bias hides in what never made the page."),
+      "You can’t fact-check your way out of this trap: every fact in a distorted answer can check out. The tell is sameness: ",
+      /*#__PURE__*/React.createElement("strong", null, "when every example looks alike, you’re seeing the model’s default, not the world."),
+      " When you spot it, three questions crack the picture open:"),
+    /*#__PURE__*/React.createElement(NumberedRows, {
+      marginBottom: 24,
+      items: [
+        { title: "“What’s missing from this answer?”" },
+        { title: "“Show me examples that don’t fit the pattern you just gave.”" },
+        { title: "“Answer again, leaving out the most famous examples.”" }
+      ]
+    }),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "The model usually has the rest of the picture. It just doesn’t lead with it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Stale information"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One more data trap, and this one isn’t bias or hallucination."),
+      "One more data trap, and this one isn’t bias or hallucination. We hit it ourselves while building this course. We asked Claude to check an example sentence for the Tokens lesson:"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, margin: "0 0 20px" } },
+      /*#__PURE__*/React.createElement(UserBubble, { text: "What about “Cooper Flagg is an amazing basketball player for the Dallas Mavericks”?", align: "right" }),
+      /*#__PURE__*/React.createElement(AIBubble, { label: "Claude", text: "One flag though: is Cooper Flagg actually on the Mavericks? I believe he was drafted by a different team. You’d want to verify that before committing it to the course.", align: "left" })),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "Claude was wrong to doubt it. Flagg went to the Mavericks with the first pick of the 2025 draft. But Claude’s training ended before draft night, so a true sentence looked wrong to it. Notice what it did right, though: it flagged its doubt and asked us to verify instead of asserting. When the date matters, that’s your move too."),
     /*#__PURE__*/React.createElement(StaleInfoBox, null),
     closeBoard("trainingbias"),
     /*#__PURE__*/React.createElement(BiasQuiz, null),

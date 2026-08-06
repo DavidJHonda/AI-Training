@@ -27,7 +27,11 @@ const COMPOSE = `(function(){
   best.sort(function(a, b){ return depth(b) - depth(a); });
   var el = best[0];
   var card = document.createElement("div");
-  card.style.cssText = "background:#fff;border-radius:14px;box-shadow:0 8px 22px rgba(14,10,31,0.05);width:${Number(CARDW)}px;padding:24px 28px;box-sizing:border-box;";
+  // flex-shrink:0 — without it the card is a shrinkable flex item in the 800px
+  // wrap, so any --card-width above ~800 silently lays out at viewport width and
+  // re-wraps multi-column content (caught 2026-08-06, training-bias mechanisms:
+  // page showed one row of three cards, capture showed 2+1).
+  card.style.cssText = "background:#fff;border-radius:14px;box-shadow:0 8px 22px rgba(14,10,31,0.05);width:${Number(CARDW)}px;padding:24px 28px;box-sizing:border-box;flex-shrink:0;";
   var title = ${JSON.stringify(TITLE || "")};
   if (title) {
     var h = document.createElement("div");
@@ -42,9 +46,10 @@ const COMPOSE = `(function(){
   wrap.appendChild(card);
   document.body.appendChild(wrap);
   window.scrollTo(0, 0);
-  var rh = card.getBoundingClientRect().height;
-  if (rh > 434) card.style.zoom = String(434 / rh);
-  return "OK card-height=" + Math.round(rh) + (rh > 434 ? " (zoomed to fit — consider a wider card or a one-off page)" : "");
+  var r = card.getBoundingClientRect();
+  var z = Math.min(434 / r.height, 776 / r.width, 1);
+  if (z < 1) card.style.zoom = String(z);
+  return "OK card=" + Math.round(r.width) + "x" + Math.round(r.height) + (z < 1 ? " (zoomed " + z.toFixed(2) + " to fit)" : "");
 })()`;
 
 (async () => {

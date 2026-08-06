@@ -464,3 +464,25 @@ It came out of the rankings." (Warm-outranks-blunt card); "Teach the model
 that honest beats pleasant, and the numbers nudge back the other way."
 (industry-fix paragraph); "the way they get tested for accuracy" (testing
 sentence).
+
+## Fake Trap — video-call/romance scenario (TRY IT, cut 2026-08-06)
+
+Question 4 of "Believe It, Check It, or Call It Fake?" removed in the owner's
+lesson pass (five moments → four). A complete teaching unit on real-time
+deepfake calls and not acting alone:
+
+- **Setup:** "Someone you've been DMing for three weeks says they finally want
+  to video call. Their pictures look like a real person. They've been sweet,
+  normal, never weird. The call request feels like a step forward."
+- **Believe it (wrong) — "A call is pixels too.":** live faces can be deepfaked
+  in real time, low quality/bad connection is an easy excuse to engineer, and
+  three weeks of DMs isn't knowing someone. The risk is acting alone.
+- **Check it (right) — "Don't do it alone.":** reverse image search as
+  corroboration; a friend or parent as a source the relationship doesn't
+  control; neither cancels the call.
+- **Call it fake (wrong) — "That overcorrects.":** the risk isn't the call,
+  it's facing an unverified person alone.
+
+Possible destinations: a review packet, or the support-trap/agents lessons if
+an online-stranger verification beat is ever wanted. Full source in git history
+(SyntheticMediaSection SCENARIOS, commit before this one).

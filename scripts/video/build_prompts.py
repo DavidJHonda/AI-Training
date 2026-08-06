@@ -772,11 +772,11 @@ Focus: seeing isn't proof anymore, and the test moved off the image onto the sou
 
 Open on the strange thing: you already know AI can fake a voice, a face, a video — so why do smart people still get fooled? Because knowing fakes exist isn't a skill; it doesn't tell you what to do in the ten seconds after a clip hits your feed.
 
-Then the scenario: a friend sends a video of your principal announcing a pipe burst and school closed all next week. Board 1, both columns. Pre-AI, does it look real: you study the face, the voice, the hallway — and all of it is easy to fake. Verdict: real. The AI test, where did it come from: you ignore the clip and check the trail, nothing on the school website — you went to the source that would know, and the source is hard to fake. Verdict: unverified.
+Then the scenario: a friend sends a video of your principal announcing a pipe burst and school closed all next week. Board 1, both columns. Pre-AI, does it look real: you study the face, the voice, the hallway. Verdict: real. The AI test, where is it from: you ignore the clip and check the trail, nothing on the school website — you went to the source that would know. Verdict: unverified.
 
 Then the definition AND its second jaw, which the last roll missed entirely and which must be its own beat: the Fake Trap is believing it because it looks real — and its second jaw, dismissing the truth because it could be a fake. Say both halves.
 
-Then board 2, the four reasons: money, outrage gets clicks and clicks pay; power, change what people believe and you change how they vote; clout, a viral clip means followers and needn't be true to travel; cruelty, some fakes exist to humiliate one person, the version most likely to show up at your school.
+Then why fakes get made, opening with the harmless case, REQUIRED: sometimes it's just fun — a friend fakes a picture of your hockey buddies hoisting the Stanley Cup, and everyone's in on the joke, no harm. But some fakes aren't friendly: a fake doesn't just happen, someone made it, and making it costs effort, so ask what they get back. Then board 2, the four reasons: money, outrage gets clicks and clicks pay; power, change what people believe and you change how they vote; fame, a viral clip means followers and needn't be true to travel; cruelty, some fakes exist to humiliate one person, the version most likely to show up at your school.
 
 Then the detector dead end: a detector is one more AI making one more prediction, and fakes improve faster than it does — a clue, never a ruling.
 
@@ -790,7 +790,7 @@ End on board 4: "Seeing or hearing isn’t proof anymore." over "Check the sourc
 """,
     numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background.",
     props="Drawn phones, feeds and screens may appear but keep them blank or abstract — no readable or pseudo-readable text on any drawn screen or prop; real words belong only on the attached boards and in clean dark-ink labels.",
-    required='both jaws — "believing it because it looks real" AND "dismissing the truth because it could be a fake"; "verify somewhere the sender doesn\'t control"; "You did nothing wrong by being targeted."',
+    required='both jaws — "believing it because it looks real" AND "dismissing the truth because it could be a fake"; the harmless-fun fake beat (the Stanley Cup joke) before the four reasons; "verify somewhere the sender doesn\'t control"; "You did nothing wrong by being targeted."',
     extra=("Restraint on the cruelty and if-it's-about-you beats: never show the humiliating fake itself, no crying or distressed victims, no alarm-red imagery — keep those scenes calm, like a teen and a trusted adult looking at a phone together.",
            "Never depict a real, recognizable person; every character is an invented hand-drawn person."))
 

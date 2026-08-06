@@ -2,7 +2,7 @@
 
 # Fake Trap
 
-Here’s the strange thing about this one: you already know it. AI can fake a voice, a face, a video, a screenshot, cheaply and convincingly, and it’s only getting better. So why do smart people still get fooled?
+Here’s the strange thing about this trap: you already know it. AI can fake a voice, a face, a video, a screenshot, cheaply and convincingly, and it’s only getting better. So why do smart people still get fooled?
 
 Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:
 
@@ -20,13 +20,11 @@ Recognized the face and the voice
 
 Matched how he talks
 
-All of it is easy to fake
-
 Verdict: real.
 
 🔍
 
-The AI test: where did it come from?
+AI test: where is it from?
 
 You ignore the clip and check the trail: nothing on the school website.
 
@@ -36,15 +34,17 @@ Skipped the face and the voice
 
 Went to the source that would know
 
-The source is hard to fake
-
 Verdict: unverified.
 
 **The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
 
-## Why would someone make a fake?
+## Sometimes it’s just fun
 
-A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. Sometimes it’s just fun: a friend fakes a shot of your hockey buddy hoisting the Stanley Cup, and everyone’s in on the joke. The fakes that matter aren’t that friendly. Most of them trace to four reasons:
+A friend fakes a picture of your hockey buddies hoisting the Stanley Cup, and everyone’s in on the joke. No harm.
+
+## But some fakes aren’t friendly
+
+A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. The fakes that matter trace to four reasons:
 
 💰
 
@@ -60,7 +60,7 @@ Change what people believe and you change how they vote, protest, and spend.
 
 📈
 
-Clout
+Fame
 
 A viral clip means followers, and it doesn’t have to be true to travel.
 
@@ -112,6 +112,6 @@ A photo, a clip, an account with your name: don’t handle it alone, and don’t
 
 Platforms take impersonation and fake images of minors seriously, and takedown goes faster with documentation. You did nothing wrong by being targeted.
 
-Seeing isn’t proof anymore.
+Seeing or hearing isn’t proof anymore.
 
 Check the source, not the pixels.

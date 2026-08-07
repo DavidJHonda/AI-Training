@@ -85,13 +85,50 @@ def pill_frac(png):
     return (x1 - x0) / img.shape[1]
 
 
+INDEX = Path(__file__).resolve().parents[2] / "index.html"
+
+
+def close_board_copy(section_id):
+    """Pill/sticky for a lesson, read straight out of index.html CLOSE_BOARDS.
+
+    Hand-typing these into --pill/--sticky is how seven shipped closes ended up
+    with STRAIGHT apostrophes where the app renders curly ones (caught
+    2026-08-07, catalogue-wide audit). Typing the copy is the bug; quote the
+    lesson id instead and the glyphs can never drift from the page.
+    """
+    import re
+    src = INDEX.read_text(encoding="utf-8")
+    m = re.search(r"CLOSE_BOARDS\s*=\s*\{(.*?)\n\};", src, re.S)
+    if not m:
+        sys.exit("could not locate CLOSE_BOARDS in index.html")
+    row = re.search(
+        r'\b%s:\s*\{\s*pill:\s*"(.*?)"\s*,\s*sticky:\s*"(.*?)"\s*\}' % re.escape(section_id),
+        m.group(1))
+    if not row:
+        sys.exit(f"no CLOSE_BOARDS entry for '{section_id}'")
+    return row.group(1), row.group(2)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--pill", required=True)
+    ap.add_argument("--lesson", help="lesson id: take pill/sticky verbatim from "
+                                     "index.html CLOSE_BOARDS (preferred — never retype copy)")
+    ap.add_argument("--pill")
     ap.add_argument("--sticky", default="")
     ap.add_argument("--bg", default="#f6f5fb")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
+
+    if args.lesson:
+        args.pill, args.sticky = close_board_copy(args.lesson)
+        print(f"copy from CLOSE_BOARDS[{args.lesson}]:\n  pill:   {args.pill}\n"
+              f"  sticky: {args.sticky}")
+    elif not args.pill:
+        ap.error("either --lesson (preferred) or --pill is required")
+    elif "'" in args.pill or "'" in args.sticky:
+        print("WARNING: straight apostrophe (') in hand-typed copy — the app uses "
+              "curly (\u2019). Use --lesson <id> to take the copy verbatim from the page.",
+              file=sys.stderr)
 
     font = BASE_FONT
     for i in range(3):

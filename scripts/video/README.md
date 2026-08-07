@@ -396,10 +396,22 @@ how-ai-answers, one-more-thing).** Composed close stills used to render as a
 small white card (pill ~39% of frame width); Gemini Notebook's native closes run the
 pill at ~56% pushing to ~67% (measured on transformer). Recipe:
 
-1. `make_close_board.py --pill "..." --sticky "..." --bg <corner-sampled color
-   of the existing close> --out board.png` — renders 3840×2160 in the app's
-   CloseBoard style (Plus Jakarta Sans) and auto-sizes the pill toward 56%
-   (short texts hit the font cap and land narrower, matching engine behavior).
+1. `make_close_board.py --lesson <sectionId> --bg <corner-sampled color of the
+   existing close> --out board.png` — renders 3840×2160 in the app's CloseBoard
+   style (Plus Jakarta Sans) and auto-sizes the pill toward 56% (short texts hit
+   the font cap and land narrower, matching engine behavior).
+
+   **Always pass `--lesson`, never hand-type `--pill`/`--sticky`.** Typing the
+   copy is how SEVEN shipped closes ended up with straight apostrophes (') where
+   the app renders curly ones (’) — why-learn-ai, ai-is-math, tokens, training,
+   hallucination, flattery-trap, engagement-trap, caught 2026-08-07 by a
+   catalogue-wide audit of every close whose copy contains an apostrophe. The
+   flag reads pill+sticky verbatim out of `index.html`'s `CLOSE_BOARDS`, so the
+   glyphs cannot drift from the page; the manual flags still exist for one-off
+   boards and now warn when they see a straight apostrophe. Audit method, if it
+   is ever needed again: grab the final frame, crop the apostrophe word, upscale
+   ~8x with INTER_LANCZOS4 and look — a curly mark is comma-like and tapered, a
+   straight one is a vertical tick.
 2. Find the frozen close span (walk backward from the last frame while
    successive diffs < ~0.35) and replace exactly that span; audio untouched.
 3. Zoom endpoint scales with span length to keep transformer's push rate:

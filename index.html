@@ -5586,6 +5586,15 @@ function Game2048TryIt(props) {
       E(InnerCard, null,
         E("div", { ref: rootRef }))));
 }
+function ItSentenceStrip() {
+  var E = React.createElement;
+  return E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
+    E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
+      ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
+        var highlight = w === "cat" || w === "it";
+        return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
+      })));
+}
 function ItSentenceWalkthrough(props) {
   var E = React.createElement;
   var hi = function(w) { return E("strong", { style: { color: "var(--primary)" } }, w); };
@@ -5595,12 +5604,7 @@ function ItSentenceWalkthrough(props) {
     props.revealed ? { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", hi("IT"), " land closer to ", hi("CAT"), " than to any other word in the sentence.") } : null
   ];
   return E(React.Fragment, null,
-    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
-        ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
-          var highlight = w === "cat" || w === "it";
-          return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
-        }))),
+    E(ItSentenceStrip, null),
     E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px" } },
       E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
         cards.filter(Boolean).map(function(node, i) {
@@ -5642,80 +5646,179 @@ function VectorSpaceSection(props) {
             return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: dr.pillFg } }, v);
           }));
       })));
+  // Coordinate maps: the SVG's own units ARE degrees (viewBox spans 127W-64W,
+  // 23N-51N with latitude negated for screen y), so a city is placed by its real
+  // latitude and longitude rather than by eye.
+  var usOutline = "-124.7,-48.4 -124.0,-46.3 -124.1,-43.3 -124.4,-40.4 -122.5,-37.8 -120.6,-34.6 -118.4,-33.7 -117.1,-32.5 -114.7,-32.7 -111.0,-31.3 -108.2,-31.3 -106.5,-31.8 -104.0,-29.3 -102.3,-29.9 -101.4,-29.8 -99.1,-26.4 -97.4,-25.9 -97.2,-28.0 -95.0,-29.2 -93.8,-29.7 -91.0,-29.2 -89.2,-29.1 -88.0,-30.3 -86.5,-30.4 -84.3,-29.9 -82.8,-27.8 -81.1,-25.2 -80.1,-25.8 -80.5,-28.5 -81.4,-30.7 -80.9,-32.0 -79.0,-33.5 -77.9,-34.2 -75.5,-35.2 -76.3,-37.0 -75.0,-38.5 -74.0,-40.5 -71.9,-41.3 -70.0,-41.7 -70.8,-43.1 -67.0,-44.8 -69.2,-47.5 -71.5,-45.0 -74.7,-45.0 -76.5,-44.0 -79.0,-43.3 -82.4,-41.7 -83.1,-42.3 -82.5,-45.3 -84.8,-46.5 -87.6,-46.0 -90.0,-46.7 -92.3,-46.7 -95.2,-49.0 -104.0,-49.0 -117.0,-49.0 -122.8,-49.0";
+  var starAt = function(lon, lat) {
+    var pts = [];
+    for (var i = 0; i < 10; i++) {
+      var a = -Math.PI / 2 + i * Math.PI / 5;
+      var rad = i % 2 === 0 ? 1.9 : 0.78;
+      pts.push((lon + rad * Math.cos(a)).toFixed(2) + "," + (-lat + rad * Math.sin(a)).toFixed(2));
+    }
+    return "M " + pts.join(" L ") + " Z";
+  };
+  var cityPct = function(lon, lat) {
+    return { left: (lon + 127) / 63 * 100, top: (51 - lat) / 28 * 100 };
+  };
+  var cityChip = function(name, coords, lon, lat, shiftPct, dropPct, color) {
+    var p = cityPct(lon, lat);
+    return E("div", { key: name, style: {
+      position: "absolute", left: p.left.toFixed(1) + "%", top: (p.top + dropPct).toFixed(1) + "%",
+      transform: "translateX(" + shiftPct + "%)", textAlign: "center", whiteSpace: "nowrap",
+      background: "var(--card)", border: "1px solid " + color, borderRadius: 10,
+      padding: "4px 9px", boxShadow: "var(--shadowSoft)"
+    } },
+      E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--ink)" } }, name),
+      E("div", { style: { fontFamily: "var(--mono)", fontSize: 9.5, fontWeight: 600, color: color, marginTop: 1 } }, coords));
+  };
+  var usMap = function(inner) {
+    return E("svg", { viewBox: "-127 -51 63 28", style: { display: "block", width: "100%", height: "auto" }, "aria-hidden": "true" },
+      E("polygon", { points: usOutline, fill: "var(--card)", stroke: "rgba(110, 81, 255, 0.45)", strokeWidth: 0.35, strokeLinejoin: "round" }),
+      inner);
+  };
+  var mapBox = function(children) {
+    return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 18, padding: 16, marginBottom: 24, maxWidth: 500, marginLeft: "auto", marginRight: "auto" } },
+      E("div", { style: { position: "relative" } }, children));
+  };
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
-      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. In theory, the model could look up those finished numbers in its full table of token embeddings and see which token they match. ",
+      "In the last lesson, you watched a token move through the layers, its numbers changing at every step. In theory, AI could look up those finished numbers in its full table of token embeddings and see which token they match. ",
       E("strong", null, "But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.")),
-    E(SectionKicker, null, "The problem"),
     E(BodyP, null,
-      "So how does AI work out what the token means, when its vector matches nothing on file?"),
+      "So how does AI work out what the token means, when its vector matches nothing on file? It finds the closest match. That sounds simple, but there’s more to it."),
+    E(SectionKicker, null, "AI uses a map (kind of)"),
     E(BodyP, null,
-      "To see the answer, go back to the taste test from Embeddings, where Pepsi looked almost exactly like Coke until a Citrus dimension finally told them apart."),
+      "A regular map works like this. You can find any place by knowing two things: the latitude and the longitude. Want to find Dallas, Texas? Just give it a north latitude of 33 and a west longitude of 97."),
+    mapBox([
+      usMap([
+        E("line", { key: "lat", x1: -126, y1: -32.78, x2: -96.8, y2: -32.78, stroke: "#e6394d", strokeWidth: 0.25, strokeDasharray: "1 0.8", opacity: 0.75 }),
+        E("line", { key: "lon", x1: -96.8, y1: -24.4, x2: -96.8, y2: -32.78, stroke: "#e6394d", strokeWidth: 0.25, strokeDasharray: "1 0.8", opacity: 0.75 }),
+        E("path", { key: "star", d: starAt(-96.8, 32.78), fill: "#e6394d" })
+      ]),
+      cityChip("Dallas, Texas", "33 N, 97 W", -96.8, 32.78, -50, -23, "#e6394d")
+    ]),
+    E(BodyP, null,
+      "But what if we want to find New York City and Mountain View, California? No worries. They track the same dimensions."),
+    mapBox([
+      usMap([
+        E("path", { key: "nyc", d: starAt(-74.01, 40.71), fill: "#2f6fd6" }),
+        E("path", { key: "mtv", d: starAt(-122.08, 37.39), fill: "#0f8a66" }),
+        E("path", { key: "dal", d: starAt(-96.8, 32.78), fill: "#e6394d" })
+      ]),
+      cityChip("New York City", "41 N, 74 W", -74.01, 40.71, -8, 10, "#2f6fd6"),
+      cityChip("Mountain View, CA", "37 N, 122 W", -122.08, 37.39, 15, -12, "#0f8a66"),
+      cityChip("Dallas, Texas", "33 N, 97 W", -96.8, 32.78, -50, -23, "#e6394d")
+    ]),
+    E(BodyP, null,
+      "Now turn it around. Say all you have is those two numbers for each city. If I give you 38 N and 120 W, could you tell which city it\u2019s closest to? You could: Mountain View. What about 39 N and 70 W? Of course, New York City."),
+    E(BodyP, null,
+      "Notice what you just did there. Neither of those pairs is a city. They\u2019re just positions, matching nothing on file. You found the closest one anyway."),
+    E(SectionKicker, null, "How AI does it"),
+    E(BodyP, null,
+      "In the Embeddings lesson, you learned how meaning is represented by values crossed against thousands of dimensions. You saw a simple example of Coke vs. Pepsi vs. Coffee."),
     vsTasteProfile,
     E(BodyP, null,
-      "Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee."),
+      "Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this."),
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 22, marginBottom: 8 } },
+      E("div", { style: {
+        fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+        color: "var(--inkMuted)", textAlign: "center", marginBottom: 16
+      } }, "Sweet \u00b7 Bitter \u00b7 Fizz \u00b7 Heat \u00b7 Caffeine \u00b7 Dark \u00b7 Citrus"),
+      E("div", { style: { overflowX: "auto" } },
+        // Same seven dimensions as the Taste Profile, in the same order, so the
+        // pair in each neighborhood is visibly near-identical: Coke and Pepsi
+        // differ on Citrus alone, exactly as the Embeddings lesson showed.
+        E("div", { style: { position: "relative", height: 400, minWidth: 516 } },
+          [{ label: "Soft drinks neighborhood", left: "2%", top: "1%", drinks: [
+              { emoji: "\uD83E\uDD64", name: "Coke", pillBg: "#fbdfe2", pillFg: "#e6394d", vals: [9, 1, 10, 2, 3, 8, 1] },
+              { emoji: "\uD83E\uDD64", name: "Pepsi", pillBg: "#dbe6fb", pillFg: "#2f6fd6", vals: [9, 1, 10, 2, 3, 8, 10] }] },
+           { label: "Sports and energy neighborhood", left: "58%", top: "1%", drinks: [
+              { name: "Gatorade", vals: [7, 1, 0, 1, 0, 1, 6] },
+              { name: "Powerade", vals: [7, 1, 0, 1, 0, 1, 5] }] },
+           { label: "Juices neighborhood", left: "2%", top: "57%", drinks: [
+              { name: "lemonade", vals: [8, 1, 0, 1, 0, 0, 10] },
+              { name: "orange juice", vals: [7, 1, 0, 1, 0, 1, 10] }] },
+           { label: "Hot drinks neighborhood", left: "58%", top: "57%", drinks: [
+              { emoji: "\u2615", name: "Coffee", pillBg: "#e7dcf4", pillFg: "#7b3aa6", vals: [1, 9, 0, 9, 8, 10, 0] },
+              { name: "espresso", vals: [0, 10, 0, 9, 10, 10, 0] }] }].map(function(zone, zi) {
+            return E("div", { key: "zone-" + zi, style: {
+              position: "absolute", left: zone.left, top: zone.top, width: "40%",
+              background: "var(--card)", border: "2px dotted rgba(110, 81, 255, 0.35)", borderRadius: 18,
+              boxShadow: "var(--shadowSoft)", padding: "10px 12px 8px", boxSizing: "border-box"
+            } },
+              E("div", { style: {
+                fontSize: 10, fontWeight: 800, textTransform: "uppercase",
+                letterSpacing: "1.2px", color: "var(--inkMuted)", marginBottom: 10
+              } }, zone.label),
+              E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2, marginBottom: 7 } },
+                ["SWE", "BIT", "FIZ", "HEA", "CAF", "DAR", "CIT"].map(function(h, hi) {
+                  return E("div", { key: "h-" + hi, style: {
+                    textAlign: "center", fontSize: 8, fontWeight: 800, color: "var(--inkMuted)"
+                  } }, h);
+                })),
+              zone.drinks.map(function(d, di) {
+                var accent = !!d.pillFg;
+                return E("div", { key: "d-" + di, style: { marginBottom: di === 0 ? 10 : 0 } },
+                  E("div", { style: { textAlign: "center", marginBottom: 5 } },
+                    E("span", { style: {
+                      background: accent ? d.pillBg : "var(--card)",
+                      color: accent ? d.pillFg : "var(--inkSoft)",
+                      border: accent ? "none" : "1px solid var(--rule)",
+                      fontWeight: accent ? 700 : 600, fontSize: 13,
+                      padding: "5px 10px", borderRadius: 999, display: "inline-flex",
+                      alignItems: "center", gap: 6, whiteSpace: "nowrap"
+                    } }, d.emoji || null, d.name)),
+                  E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2 } },
+                    d.vals.map(function(v, vi) {
+                      return E("div", { key: "v-" + vi, style: {
+                        textAlign: "center", fontFamily: "var(--mono)", fontSize: 11, fontWeight: 700,
+                        color: accent ? d.pillFg : "var(--inkSoft)"
+                      } }, v);
+                    })));
+              }));
+          })))),
+    E(BodyP, { marginTop: 24 },
+      "On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood."),
     E(BodyP, null,
-      "This matters for AI. The model measures closeness with ",
+      "Now ask the same question you just answered with cities. If the numbers were 9, 1, 10, 2, 3, 8, 9, which drink would that be closest to? A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It matches nothing on file exactly, and it does not have to."),
+    E(SectionKicker, null, "Distance"),
+    E(BodyP, null,
+      "Here’s what you just did. Add up the gap between two sets of numbers across every dimension, and you get their ",
       E("strong", null, "distance"),
-      ": how far apart two vectors are when you add up the gap in every dimension. The model has established that Coke is closer to Pepsi than it is to Coffee."),
+      ". That is how AI measures closeness."),
+    E(BodyP, null,
+      "AI does the same thing, just on a massive scale. Every token carries thousands of dimensions, not seven, and AI learned every one of those values during training. And just like on our maps, tokens that mean similar things sit close together."),
+    E(BodyP, null,
+      "That closeness is no accident. Training nudged every token\u2019s numbers until words used in similar ways ended up in similar places. So landing near a token is not a near miss. It is how the meaning gets read."),
     E(SectionKicker, null, "Meaning is a position"),
     E(BodyP, null,
-      "Back to that one-of-a-kind token. The model can’t look its numbers up, but it can do what we just did with the drinks: read the token’s ",
+      "Back to that one-of-a-kind token. AI can’t look its numbers up, but it can do what we just did with the drinks: read the token’s ",
       E("strong", null, "position"),
-      ". That’s the idea of ",
+      " on a map where similar meanings sit close together. That’s ",
       E("strong", null, "vector space"),
-      ": a map where every vector sits somewhere, and similar words share a neighborhood."),
+      "."),
+    E(BodyP, null, "Now, back to our sentence from the last lesson."),
+    E(ItSentenceStrip, null),
     E(BodyP, null,
-      "Now, back to our sentence from the last lesson. As ",
+      "On its own, ",
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
-      " flowed through the layers, its numbers kept moving toward ",
+      " could have pointed at almost anything. As it flowed through the layers, its numbers kept moving toward ",
       E("strong", { style: { color: "var(--primary)" } }, "CAT"),
-      ". Never an exact match, but closer to ",
+      ". By the end they matched no token exactly, but of every meaning AI knows, they sat closest to ",
       E("strong", { style: { color: "var(--primary)" } }, "CAT"),
-      " than to any other word in the sentence."),
-    E(ItSentenceWalkthrough, { revealed: true }),
+      "."),
     E(BodyP, null,
-      "In other words, the model has figured out that ",
+      "In other words, AI has figured out that ",
       E("strong", { style: { color: "var(--primary)" } }, "IT"),
       " means the cat."),
     E("img", {
-      src: "illustrations/vector-space-1.jpg",
-      alt: "A glowing map of vector space: the word “IT” starts as an ambiguous vector, and a lit path moves it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, rested; rainstorm near storm, rain), until it lands in its final position closest to “cat.” Meaning is a position, and the next word the model picks is often the one that sits closest.",
+      src: "illustrations/vector-space.jpg",
+      alt: "A map of vector space on a desk: the word “IT” starts as an ambiguous vector and a lit path carries it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, exhausted, rested; rainstorm near storm, rain, thunder, weather), until it lands in its final position closest to “cat.” Notes around the map read: meaning is a position, similar words live in the same neighborhood, AI doesn’t store answers, it reads positions, and the meaning it reads is whatever sits closest.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
-    E(SectionKicker, null, "It’s not just pronouns"),
-    E(BodyP, null,
-      "The pronoun ",
-      E("strong", { style: { color: "var(--primary)" } }, "IT"),
-      " was an easy case to watch, but this isn’t special to ambiguous words. Every token gets rewritten by the ones around it, even a plain, concrete noun. Watch the word ",
-      E("strong", { style: { color: "var(--primary)" } }, "airplane"),
-      " in two different sentences."),
-    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
-      [
-        { words: ["She", "folded", "a", "paper", "airplane", "and", "sailed", "it", "across", "the", "room"], near: ["paper", "fold", "toy", "glide"] },
-        { words: ["The", "airplane", "roared", "down", "the", "runway", "and", "lifted", "into", "the", "sky"], near: ["jet", "runway", "pilot", "flight"] }
-      ].map(function(s, si) {
-        return E("div", { key: si, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: 16 } },
-          E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: 5, rowGap: 8, marginBottom: 14 } },
-            s.words.map(function(w, i) {
-              var hl = w === "airplane";
-              return E("span", { key: i, style: { background: hl ? "var(--primary)" : "#fff", color: hl ? "#fff" : "var(--inkSoft)", border: hl ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: hl ? 800 : 600 } }, w);
-            })),
-          E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--inkMuted)", marginBottom: 8 } }, "Nearby on the map"),
-          E("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } },
-            s.near.map(function(n, i) {
-              return E("span", { key: i, style: { background: "var(--primaryFaint)", color: "var(--primary)", border: "1px solid rgba(110, 81, 255, 0.25)", borderRadius: 999, padding: "4px 10px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: 700 } }, n);
-            })));
-      })),
-    E(BodyP, null,
-      "Same word, same starting vector. But ",
-      E("em", null, "paper"), ", ", E("em", null, "folded"), ", and ", E("em", null, "room"),
-      " pull it one way, while ",
-      E("em", null, "runway"), ", ", E("em", null, "roared"), ", and ", E("em", null, "sky"),
-      " pull it the other. It isn’t one keyword flipping a switch: the final vector is the ",
-      E("strong", null, "blend of the whole sentence"),
-      ". Change the words around it, and the same token lands somewhere new."),
     closeBoard("vectorspace"),
     E(Game2048TryIt, null),
     E(LessonRule, null),

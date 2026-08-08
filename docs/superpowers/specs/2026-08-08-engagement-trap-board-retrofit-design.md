@@ -1,12 +1,13 @@
 # engagement-trap-v3: current board, our rings, and two narration excisions — SHIPPED as v4
 
-Owner AV review passed ("ship it"). Installed as ;  and 
-both deleted after install. The  label stays "4 min" — 4:03.90 → 3:47.00 still
-rounds there — so  needed no edit.
+Owner AV review passed ("ship it"). Installed as `videos/engagement-trap.mp4`; the `-v4` and
+`-v2` files were both deleted after install. The `LESSON_VIDEOS` label stays "4 min" —
+4:03.90 → 3:47.00 still rounds there — so `index.html` needed no edit.
 
 **Date:** 2026-08-08
 **Base:** `videos/engagement-trap-v2.mp4` — 7,317 frames, 4:03.90 (the 8/07 close-apostrophe candidate)
-**Output:** `videos/engagement-trap-v3.mp4` — **7,197 frames, 3:59.90**
+**Shipped:** `videos/engagement-trap.mp4` — **6,810 frames, 3:47.00**
+(v3 was the 7,197-frame intermediate: board retrofit only, before the v4 opening cut.)
 
 ## What "the old board" actually was
 
@@ -99,7 +100,7 @@ more quietly. It targets your time, rather than your ego." The owner asked for 1
 
 | Gate | Measured |
 |---|---|
-| Frame count | **7,197**, exact |
+| Frame count | v3 **7,197** / shipped v4 **6,810**, both exact |
 | Excised phrases | "top scenario" 1→0, "bottom half" 1→0 |
 | Audio joins | both read clean by transcript |
 | Seams | leg-in 18.5, leg-out 80.3 — one spike each, neighbours ≤ 0.92 |

@@ -129,6 +129,31 @@
     .oay-row{ grid-template-columns:1fr; gap:2px; }
     .oay-row > .oay-figure{ text-align:left; font-size:26px; }
   }
+  /* Be the Attention TRY IT: every word in the sentence is clickable, and an arc
+     is drawn from the marked word to the one it depends on. Hover, wrapping and
+     the draw-in stroke all need real CSS, so the sentence lives here rather than
+     as inline styles. The arc path carries pathLength="1", which lets the dash
+     animate without measuring the curve. */
+  .bta-sent{ position:relative; background:var(--bg); border:1.5px solid var(--rule); border-radius:12px; padding:52px 16px 16px; line-height:2.15; }
+  /* Answered words dim by colour rather than opacity, and keep an opaque fill
+     matching the surface, so the arc's halo reads against a solid ground instead
+     of muddying against half-transparent text. */
+  .bta-w{ position:relative; display:inline-block; font-family:var(--mono); font-size:15px; color:var(--ink); padding:4px 6px; border-radius:7px; cursor:pointer; border:none; background:transparent; transition:background .13s, color .13s; }
+  .bta-w:hover{ background:#6e51ff14; }
+  .bta-w.bta-target, .bta-w.bta-target:hover{ font-weight:800; color:var(--primaryDeep); background:#6e51ff1f; cursor:default; }
+  .bta-sent.bta-done .bta-w{ color:var(--inkFaint); background:var(--bg); cursor:default; }
+  .bta-sent.bta-done .bta-w.bta-target{ color:var(--primaryDeep); background:#6e51ff1f; }
+  .bta-sent.bta-done .bta-w.bta-right{ background:#e7f6ee; color:#15683f; font-weight:800; }
+  .bta-sent.bta-done .bta-w.bta-wrong{ background:#fbe9ec; color:var(--red); font-weight:800; text-decoration:line-through; }
+  .bta-arc{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:2; }
+  .bta-arc path{ stroke-dasharray:1; stroke-dashoffset:1; animation:btaDraw .55s ease-out forwards; }
+  @keyframes btaDraw{ to{ stroke-dashoffset:0; } }
+  .bta-none{ font-family:var(--sans); font-size:13.5px; font-weight:700; color:var(--inkSoft); background:var(--card); border:1.5px solid var(--rule); border-radius:999px; padding:9px 16px; margin-top:12px; cursor:pointer; transition:border-color .14s; }
+  .bta-none:hover:not(:disabled){ border-color:var(--inkFaint); }
+  .bta-none:disabled{ cursor:default; opacity:.5; }
+  .bta-none.bta-right:disabled{ opacity:1; border-color:#b6e3cd; background:#e7f6ee; color:#15683f; }
+  .bta-none.bta-wrong:disabled{ opacity:1; border-color:#f0b8c1; background:#fbe9ec; color:var(--red); }
+  @media (max-width:640px){ .bta-w{ font-size:14px; } .bta-sent{ line-height:2.3; } }
   /* Welcome gate: implements the "Course Opener" design (claude.ai/design, 2026-07-14) */
   .gate-screen{ position:relative; overflow:hidden; min-height:100vh; padding:64px 24px 80px; background:radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%); font-family:var(--sans); color:#c7d0f0; }
   .gate-watermark{ position:absolute; right:-160px; bottom:-140px; width:560px; max-width:70vw; opacity:.05; pointer-events:none; }
@@ -4327,45 +4352,276 @@ function TransformerClaimsTryIt(props) {
           }));
       })) : null);
 }
+// Be the Attention: the Transformer TRY IT. Every word in the sentence is
+// clickable and the student picks the one the marked word depends on, so the
+// interaction is the thing attention actually does rather than a multiple
+// choice about it. Item 5 is a Winograd schema: one word swaps at the end and
+// the link jumps to the other noun.
+//
+// Plain React. Only the arc needs imperative work, because a curve between two
+// words can only be drawn after layout tells us where those words landed, and
+// those positions move whenever the sentence rewraps. BTAArc handles that with
+// a measuring effect plus a ResizeObserver; everything else is ordinary state.
+var BTA_ITEMS = [
+  {
+    q: ["Which word tells AI what ", "BANK", " means?"],
+    words: ["She", "sat", "on", "the", "BANK", "and", "watched", "the", "river."],
+    target: 4, correct: 8,
+    fb: {
+      ok: "“River” locks BANK to the water’s edge, not the place with a vault. Attention leans hardest right here.",
+      0: "“She” says who is sitting, but nothing about what kind of BANK she’s on. “River” is the word that locks BANK to the water’s edge.",
+      1: "“Sat” says someone settled somewhere, but you can sit in a money bank too. “River” is the word that locks BANK to the water’s edge.",
+      6: "Close. “Watched” tells you she’s looking at something, but not at what. The word that settles BANK is “river.”",
+      none: "There’s a word here that settles it. Look for the one that could only be true at the water’s edge.",
+      any: "Not that one. Look for the word that could only be true at one kind of bank."
+    }
+  },
+  {
+    q: ["What does ", "IT", " point to?"],
+    words: ["My", "brother", "spilled", "juice", "on", "the", "laptop,", "and", "now", "IT", "won’t", "turn", "on."],
+    target: 9, correct: 6,
+    fb: {
+      ok: "“Won’t turn on” fits the laptop, so attention links IT there. The juice is doing fine.",
+      1: "Your brother may be in trouble, but people don’t “turn on.” That phrase fits the laptop, so that’s where attention links IT.",
+      3: "The juice is doing fine; it already did its damage. “Won’t turn on” fits the laptop, so that’s where attention links IT.",
+      none: "This IT points at something real. Ask which thing in the sentence could fail to turn on.",
+      any: "Try the swap. Which one of these would you say “won’t turn on” about? The laptop."
+    }
+  },
+  {
+    q: ["What does ", "IT", " point to?"],
+    words: ["The", "package", "my", "aunt", "mailed", "from", "Alaska", "two", "weeks", "before", "the", "holidays", "finally", "arrived,", "and", "IT", "was", "damaged."],
+    target: 15, correct: 1,
+    fb: {
+      ok: "A dozen words apart, and attention still connects IT straight to the package. Distance doesn’t weaken the link.",
+      3: "Your aunt mailed it. She isn’t the one that arrived damaged. IT points to the package.",
+      6: "Alaska is where the package started, but a state can’t arrive damaged. IT points to the package, a dozen words back.",
+      11: "The holidays are a time, not a thing that can arrive damaged. IT points to the package, a dozen words back.",
+      none: "There’s an answer here, and it’s a long way back. Ask what could arrive damaged.",
+      any: "Ask what could arrive damaged. Only one thing in this sentence can, and it’s a dozen words back."
+    }
+  },
+  {
+    q: ["What does ", "IT", " point to?"],
+    words: ["IT", "rained", "all", "night."],
+    target: 0, correct: null,
+    fb: {
+      ok: "This is the empty “it”: English needs a subject, so “it” fills the seat. There’s no thing doing the raining.",
+      1: "Try the swap: “The rain rained all night”? Rain can’t rain. This “it” points to nothing at all; English just needs a subject in the seat.",
+      3: "Try the swap: “The night rained”? The night isn’t doing the raining. This “it” points to nothing at all; English just needs a subject in the seat.",
+      any: "Try the swap on any word here and the sentence falls apart. This “it” points to nothing at all; English just needs a subject in the seat."
+    }
+  },
+  {
+    q: ["What does ", "IT", " point to?"],
+    words: ["The", "trophy", "didn’t", "fit", "in", "the", "suitcase", "because", "IT", "was", "too", "big."],
+    target: 8, correct: 1,
+    fb: {
+      ok: "Too big to fit is the trophy’s problem, so IT points to the trophy.",
+      6: "If the suitcase were the problem here, everything would fit. Being too big belongs to the trophy.",
+      none: "This one does point somewhere. Ask which thing being too big would stop the fit.",
+      any: "Ask which one being too big would stop the fit. The trophy."
+    },
+    // The swap carries its own answer rather than a hardcoded index, so changing
+    // the sentence cannot silently leave the correct word pointing somewhere else.
+    swap: {
+      at: 11, to: "small.", correct: 6,
+      label: "Now change “big” to “small”",
+      fb: {
+        ok: "One word changed and the link moved. Too small to hold it is the suitcase’s problem now.",
+        1: "A trophy being too small would slide right in. Now that the last word is “small,” IT points to the suitcase.",
+        none: "It still points somewhere. Ask which thing being too small would stop the fit.",
+        any: "Ask which one being too small would stop the fit. The suitcase."
+      },
+      take: ["Same twelve words, one swap at the end, and the link jumps to the other noun. Sentences built exactly like this were used for years as a test AI kept failing. ", "Attention is how it started passing."]
+    }
+  }
+];
+
+function BTAArc(props) {
+  var E = React.createElement;
+  var _d = useState(null), arc = _d[0], setArc = _d[1];
+  var boxRef = props.boxRef, wordRefs = props.wordRefs;
+  var from = props.from, to = props.to;
+
+  useEffect(function () {
+    if (to == null) { setArc(null); return; }
+    function measure() {
+      var box = boxRef.current, a = wordRefs.current[from], b = wordRefs.current[to];
+      if (!box || !a || !b) return;
+      var boxR = box.getBoundingClientRect();
+      var aR = a.getBoundingClientRect(), bR = b.getBoundingClientRect();
+      var x1 = aR.left - boxR.left + aR.width / 2, y1 = aR.top - boxR.top;
+      var x2 = bR.left - boxR.left + bR.width / 2, y2 = bR.top - boxR.top;
+      // Bow perpendicular to the line between the two words rather than always
+      // lifting above the higher one. On one line that still arcs upward; when
+      // the sentence has wrapped and the words sit lines apart, it swings out
+      // sideways instead of looping over the start and plunging down.
+      var vx = x2 - x1, vy = y2 - y1;
+      var len = Math.sqrt(vx * vx + vy * vy) || 1;
+      var bow = Math.min(46, 18 + len * 0.12);
+      var cx = (x1 + x2) / 2 + (vy / len) * bow;
+      var cy = (y1 + y2) / 2 - (vx / len) * bow;
+      var next = {
+        d: "M " + x1 + " " + y1 + " Q " + cx + " " + cy + " " + x2 + " " + y2,
+        x2: x2, y2: y2
+      };
+      // Only commit when the geometry actually moved: the observer fires on every
+      // layout pass, and setting a fresh object each time would re-render forever.
+      setArc(function (prev) { return prev && prev.d === next.d ? prev : next; });
+    }
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    var ro = new ResizeObserver(measure);
+    ro.observe(boxRef.current);
+    return function () { ro.disconnect(); };
+  }, [from, to, props.redrawKey]);
+
+  if (!arc) return null;
+  // The arc rides above the words, with a surface-coloured underlay stroked wider
+  // than the line itself. A long arc across a wrapped sentence would otherwise
+  // either strike through the text or, if tucked behind it, break into fragments
+  // and stop reading as one link.
+  return E("svg", { className: "bta-arc", "aria-hidden": "true" },
+    E("path", { d: arc.d, pathLength: "1", fill: "none", stroke: "var(--bg)", strokeWidth: 7, strokeLinecap: "round" }),
+    E("path", { d: arc.d, pathLength: "1", fill: "none", stroke: "var(--primary)", strokeWidth: 2.5, strokeLinecap: "round" }),
+    E("circle", { cx: arc.x2, cy: arc.y2, r: 4.5, fill: "var(--primary)" }));
+}
+
+function BTAItem(props) {
+  var E = React.createElement;
+  var item = props.item;
+  var _sw = useState(false), swapped = _sw[0], setSwapped = _sw[1];
+  var _pk = useState(null), pick = _pk[0], setPick = _pk[1];
+  var _ng = useState(false), nudge = _ng[0], setNudge = _ng[1];
+  var boxRef = useRef(null);
+  var wordRefs = useRef([]);
+
+  var swap = swapped ? item.swap : null;
+  var words = swap ? item.words.map(function (w, i) { return i === swap.at ? swap.to : w; }) : item.words;
+  var correct = swap ? swap.correct : item.correct;
+  var fb = swap ? swap.fb : item.fb;
+
+  var answered = pick !== null;
+  var isRight = answered && (pick === "none" ? correct === null : pick === correct);
+  // The arc only ever points at the true answer, and there is no arc at all when
+  // the honest answer is that the word points nowhere.
+  var arcTo = answered && correct !== null ? correct : null;
+
+  function choose(v) {
+    if (answered) return;
+    setNudge(false);
+    setPick(v);
+  }
+
+  var feedback = null;
+  if (answered) {
+    var key = pick === "none" ? "none" : pick;
+    feedback = isRight ? fb.ok : (fb[key] || fb.any);
+  }
+
+  return E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", paddingTop: props.index === 0 ? 0 : 26, marginTop: props.index === 0 ? 0 : 26, borderTop: props.index === 0 ? "none" : "1px solid var(--rule)" } },
+    E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } },
+      String(props.index + 1).padStart(2, "0")),
+    E("div", { style: { flex: 1, minWidth: 0 } },
+      E("div", { style: { fontSize: 16.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.45, marginBottom: 14 } },
+        item.q[0],
+        E("span", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", fontWeight: 800, color: "var(--primaryDeep)", background: "#6e51ff1f", padding: "2px 7px", borderRadius: 5 } }, item.q[1]),
+        item.q[2]),
+
+      E("div", { className: "bta-sent" + (answered ? " bta-done" : ""), ref: boxRef },
+        E(BTAArc, { boxRef: boxRef, wordRefs: wordRefs, from: item.target, to: arcTo, redrawKey: swapped ? "b" : "a" }),
+        words.map(function (w, wi) {
+          var cls = "bta-w";
+          if (wi === item.target) cls += " bta-target";
+          if (answered) {
+            if (wi === correct) cls += " bta-right";
+            else if (pick === wi) cls += " bta-wrong";
+          }
+          return E(React.Fragment, { key: wi },
+            E("button", {
+              type: "button",
+              className: cls,
+              ref: function (el) { wordRefs.current[wi] = el; },
+              onClick: function () {
+                if (answered) return;
+                // Clicking the marked word is not a wrong answer, it is a
+                // misunderstanding of the task, so it nudges instead of scoring.
+                if (wi === item.target) { setNudge(true); return; }
+                choose(wi);
+              }
+            }, w),
+            " ");
+        })),
+
+      E("button", {
+        type: "button",
+        className: "bta-none" + (answered && correct === null ? " bta-right" : "") + (answered && pick === "none" && correct !== null ? " bta-wrong" : ""),
+        disabled: answered,
+        onClick: function () { choose("none"); }
+      }, "No word in this sentence"),
+
+      nudge && !answered ? E("div", { style: { marginTop: 14, fontSize: 15.5, lineHeight: 1.6, color: "var(--inkMuted)" } },
+        "That’s the word we’re resolving. Find what it points to.") : null,
+
+      answered ? E("div", { style: { marginTop: 14, fontSize: 15.5, lineHeight: 1.6 } },
+        E("span", { style: { fontWeight: 800, marginRight: 6, color: isRight ? "var(--green)" : "var(--red)" } },
+          isRight ? "Right." : "Not quite."),
+        E("span", { style: { color: "var(--inkSoft)" } }, feedback)) : null,
+
+      // The swap only appears once the first reading is committed, so the student
+      // has an answer of their own to watch move.
+      answered && item.swap && !swapped ? E("div", { style: { marginTop: 16 } },
+        E(ActivityButton, { onClick: function () { setSwapped(true); setPick(null); setNudge(false); } }, item.swap.label)) : null,
+
+      answered && swapped && item.swap.take ? E("div", { style: { marginTop: 16, background: "var(--primaryFaint)", borderRadius: 12, padding: "16px 18px", fontSize: 15.5, lineHeight: 1.6, color: "var(--inkSoft)" } },
+        item.swap.take[0],
+        E("b", { style: { color: "var(--ink)" } }, item.swap.take[1])) : null));
+}
+
 function BeTheAttentionTryIt(props) {
-  var B = function(w) { return React.createElement("strong", null, w); };
-  var ITEMS = [
-    { prompt: ["“She sat on the ", B("BANK"), " and watched the river.” Which word tells AI what ", B("BANK"), " means?"],
-      options: ["River", "Sat", "She"], correct: "River",
-      fb: { "River": "“River” locks BANK to the water’s edge, not the place with a vault. Attention leans hardest on “River.”",
-            "Sat": "“Sat” says someone settled somewhere, but you can sit in a money bank too. “River” is the word that locks BANK to the water’s edge.",
-            "She": "“She” says who is sitting, but nothing about what kind of BANK she’s on. “River” is the word that locks BANK to the water’s edge." } },
-    { prompt: ["“My brother spilled juice on the laptop, and now ", B("IT"), " won’t turn on.” What does ", B("IT"), " point to?"],
-      options: ["Laptop", "Juice", "My brother"], correct: "Laptop",
-      fb: { "Laptop": "“Won’t turn on” fits the laptop, so attention links IT there. The juice is doing fine.",
-            "Juice": "The juice is doing fine; it already did its damage. “Won’t turn on” fits the laptop, so that’s where attention links IT.",
-            "My brother": "Your brother may be in trouble, but people don’t “turn on.” That phrase fits the laptop, so that’s where attention links IT." } },
-    { prompt: ["“The package my aunt mailed from Alaska two weeks before the holidays finally arrived, and ", B("IT"), " was damaged.” What does ", B("IT"), " point to?"],
-      options: ["Package", "Alaska", "Holidays"], correct: "Package",
-      fb: { "Package": "A dozen words apart, and attention still connects IT straight to the package. Distance doesn’t weaken the link.",
-            "Alaska": "Alaska is where the package started, but a state can’t arrive damaged. IT points to the package, a dozen words back.",
-            "Holidays": "The holidays are a time, not a thing that can arrive damaged. IT points to the package, a dozen words back." } },
-    { prompt: ["“", B("IT"), " rained all night.” What does ", B("IT"), " point to?"],
-      options: ["Rain", "Night", "Nothing at all"], correct: "Nothing at all",
-      fb: { "Nothing at all": "This is the empty “it”: English needs a subject, so “it” fills the seat. There’s no thing doing the raining.",
-            "Rain": "Try the swap: “The rain rained all night”? Rain can’t rain. This “it” points to nothing at all; English just needs a subject in the seat.",
-            "Night": "Try the swap: “The night rained”? The night isn’t doing the raining. This “it” points to nothing at all; English just needs a subject in the seat." } }
-  ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  useEffect(function() { if (answeredCount >= ITEMS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Be the Attention",
-    lead: "Attention’s job is to work out, for each word, which other words matter. Your turn to do that job. Four sentences, one question each." },
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      ITEMS.map(function(r, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.prompt, answered: answered, correct: correct, feedback: answered ? r.fb[answers[i]] : null },
-          r.options.map(function(opt) {
-            return /*#__PURE__*/React.createElement(FeedbackPill, { key: opt, answered: answered, isCorrect: opt === r.correct, isPicked: answers[i] === opt, label: opt,
-              onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = opt; return u; }); } });
-          }));
+  var E = React.createElement;
+
+  // The PDF has no clickable words, so printing the live activity would put a row
+  // of dead buttons in the document. Print each sentence with its answer already
+  // marked and the explanation underneath, which is what the reader needs anyway.
+  var isPrintMode = false;
+  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
+
+  if (isPrintMode) {
+    var printRow = function (words, target, correct, ok, key) {
+      return E("div", { key: key },
+        E("div", { style: { fontFamily: "var(--mono)", fontSize: 15, lineHeight: 1.8, color: "var(--ink)", marginBottom: 8 } },
+          words.map(function (w, wi) {
+            var mark = wi === target || wi === correct;
+            return E("span", { key: wi, style: mark ? { fontWeight: 800, color: "var(--primaryDeep)" } : null }, w + " ");
+          })),
+        E("div", { style: { fontSize: 15.5, lineHeight: 1.6, color: "var(--inkSoft)" } },
+          E("span", { style: { fontWeight: 800, color: "var(--green)", marginRight: 8 } },
+            correct === null ? "No word in this sentence." : "Answer: " + words[correct].replace(/[.,]$/, "") + "."),
+          E("span", null, ok)));
+    };
+    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the Attention" },
+      E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
+        BTA_ITEMS.map(function (item, i) {
+          var sw = item.swap;
+          return E("div", { key: i, style: { paddingTop: i === 0 ? 0 : 22, marginTop: i === 0 ? 0 : 22, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+            printRow(item.words, item.target, item.correct, item.fb.ok, "a"),
+            // The swap is the payoff of the whole activity, so the PDF gets both
+            // readings rather than only the one the student would have seen first.
+            sw ? E("div", { style: { marginTop: 14 } },
+              printRow(item.words.map(function (w, wi) { return wi === sw.at ? sw.to : w; }), item.target, sw.correct, sw.fb.ok, "b")) : null,
+            sw && sw.take ? E("div", { style: { marginTop: 14, background: "var(--primaryFaint)", borderRadius: 12, padding: "16px 18px", fontSize: 15.5, lineHeight: 1.6, color: "var(--inkSoft)" } },
+              sw.take[0], E("b", { style: { color: "var(--ink)" } }, sw.take[1])) : null);
+        })));
+  }
+
+  return E(InteractiveBox, {
+    variant: "try", surface: "mint", primed: true
+  },
+    E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
+      BTA_ITEMS.map(function (item, i) {
+        return E(BTAItem, { key: i, item: item, index: i });
       })));
 }
 function HowAIReadsSection(props) {

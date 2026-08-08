@@ -34,12 +34,14 @@ the section bridge, and the runtime are all preserved by construction.
 | Base span | frames **3092–3267** (1:43.07–1:48.90), 175 frames |
 | Narration | "Lifeguards spot these currents all day because they know the specific shape a rip current makes in the water." |
 | Replaces | thin sketched tower on dotted-grid cream |
-| Donor source | frames **4005–4180** (2:13.50–2:19.33), 175 frames — the TAIL of the donor's tower shot (full span 3963–4180) |
-| Build | `graft_scene.py --replace-visual`. The shot carries its own motion (mean per-frame diff 2.28, only 47/217 frames near-zero: camera drift plus animating swimmers), so it needs no Ken Burns. |
+| Donor source | frames **3963–4138** (2:12.10–2:17.93), 175 frames — the HEAD of the donor's tower shot (full span 3963–4180) |
+| Build | donor visuals over the base span, base audio untouched. The shot carries its own motion (mean per-frame diff 2.28, only 47/217 frames near-zero: camera drift plus animating swimmers), so it needs no Ken Burns. |
 
-Taking the tail rather than the head lands the span on the donor shot's own settle and
-gives the most developed swimmer motion. Verify by eye; if the head reads better,
-use 3963–4138 instead — either is frame-exact.
+**Head, not tail — settled by eye at build time.** The shot is a slow push-in. The head
+is wide and shows roughly ten swimmers across the whole beach, which is what makes the
+lifeguard's scanning read as scanning; by the tail the push has cropped most of them out
+and enlarged the grey wall shadow. Both framings are frame-exact; the head is the one
+that serves the line.
 
 Known cosmetic flaw, accepted: a hard grey wall shadow behind the tower on the right
 third reads as studio lighting rather than sky.
@@ -85,6 +87,28 @@ Every item is a gate, not a nice-to-have. Report each with its measured value.
    — do not apply the 30004 recipe from the flattery-trap note.
 7. **Eyeball** frames on both sides of all four junctions. Frame counts alone have
    missed pixel-format garbage before.
+
+## Build result (2026-08-08)
+
+Built as `videos/opener-avoid-v2.mp4` in a single crf-18 pass — both grafts in one
+concat graph, so the untouched 92% of the video takes exactly one re-encode generation,
+not two.
+
+| Gate | Measured |
+|---|---|
+| Frame count | **5340**, exact |
+| Audio MD5 | `9079ff06c2e7444334281a35381e5b2a` — **identical** to the shipped base |
+| Junction spikes | f3092 **91.4**, f3267 **77.6**, f3512 **66.4**, f3723 **102.3** — one each |
+| Next-highest diff in any junction window | **3.68** (threshold is 12) — no leaked frames |
+| Tower leg interior | min 0.01 / mean 2.11 / max 5.58, no internal cut |
+| Ken Burns leg interior | min 0.26 / mean 0.84 / max 2.07, **zero** frames below 0.05 |
+| Span C first frame (z=1.06) | crossbar and figure both in frame with margin |
+| Span C last frame (z=1.00) | complete image, shape whole on the handoff |
+| pts-delta histogram | **identical** to the shipped base |
+| Untouched regions vs base | max diff 1.16 (re-encode noise) — nothing shifted |
+
+The untouched-region comparison is the check that proves no off-by-one: a single-frame
+shift anywhere would read in the tens, not at 1.16.
 
 ## Risks
 

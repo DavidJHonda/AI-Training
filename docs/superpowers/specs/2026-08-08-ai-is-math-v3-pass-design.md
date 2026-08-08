@@ -144,6 +144,44 @@ move in the video and the thing to watch on review.
 
 Review frames: `/tmp/retrofit-review/ai-is-math/`.
 
+## Follow-up: a 2-second break at the new-concept join (v5)
+
+Owner: *"At 1:29, it needs a 2 second pause before the narration starts again. It's a new
+concept, so need a break in the video."*
+
+In v4 the two sentences butted together — "…alters the environment." ended and "We toss the
+two coins again" began in the same tenth of a second.
+
+**The 60 frames came back from the cut, not from a freeze.** The board before the join is
+moving (max per-frame delta 92 at full resolution — the earlier near-zero readings were the
+160×90 downscale hiding sub-pixel motion), so holding a frame for two seconds would have
+read as a stall. Instead the C-cut was narrowed from 398 frames to 338, giving back the two
+seconds of the conditional board's own leg that had been removed. The leg therefore still
+runs continuously into the surviving footage — no camera discontinuity anywhere.
+
+**Room tone, not silence.** 0.35s was lifted from the pause at v3 99.513 — the join's own
+acoustic environment — and mirror-tiled (forward/reversed ×3) to exactly 2.0s with 10ms
+fades. Measures mean −57.4 dB, max −35.5 dB. `anullsrc` would have produced a room-tone
+cliff.
+
+Result: the conditional board arrives at 1:28.5, the viewer gets two quiet seconds to read
+it, then the narration explains it. **7,043 frames, 3:54.78.**
+
+| Gate | Measured |
+|---|---|
+| Frame count | **7,043**, exact |
+| Silence at the join | starts 88.411, **2.059s** |
+| Narration resumes | 90.48 (was 88.64) |
+| Board during the pause | 60 frames, **zero** frozen, max delta 91 |
+| Seams | 372 / 622 / 845 / 5888 / 6537 single-spike; 2654 = 11.12 board-state change |
+| pts histogram | matches the base |
+
+**Trade-off, flagged:** the board now changes 2s *before* the narration rather than landing
+on "someone peeks". For a new-concept beat that reads as better pedagogy — see it, then hear
+it — but it does give up the sync noted in the v4 build.
+
+`ai-is-math-v4.mp4` deleted as superseded; it was never reviewed.
+
 ## Verification
 
 1. Output frame count **== 6,983** exactly.

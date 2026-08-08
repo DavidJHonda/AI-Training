@@ -311,7 +311,7 @@ const LESSON_VIDEOS = {
   embeddings: { src: "videos/embeddings.mp4", duration: "3 min", title: "How a token's meaning becomes a row of numbers." },
   attention: { src: "videos/transformer.mp4", duration: "5 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "videos/layers.mp4", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
-  vectorspace: { src: "videos/vector-space-v4.mp4", duration: "3 min", title: "Where a token's numbers finally land." },
+  vectorspace: { src: "videos/vector-space-v5.mp4", duration: "3 min", title: "Where a token's numbers finally land." },
   prediction: { src: "videos/how-ai-answers.mp4", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "videos/one-more-thing.mp4", duration: "5 min", title: "Three more things: the lottery, the transcript, and the bill." },
   openerprotect: { src: "videos/opener-avoid.mp4", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "After watching, continue below to see where this section takes you." },
@@ -6022,10 +6022,14 @@ function VectorSpaceSection(props) {
         // Same seven dimensions as the Taste Profile, in the same order, so the
         // pair in each neighborhood is visibly near-identical: Coke and Pepsi
         // differ on Citrus alone, exactly as the Embeddings lesson showed.
-        E("div", { style: { position: "relative", height: 400, minWidth: 516 } },
+        E("div", { style: { position: "relative", height: 450, minWidth: 516 } },
+          // The mystery row sits inside Soft drinks on purpose: the exercise below
+          // asks which drink 9,1,10,2,3,8,9 refers to, and the answer is readable
+          // only when those numbers sit in the same column grid as Coke and Pepsi.
           [{ label: "Soft drinks neighborhood", left: "2%", top: "1%", drinks: [
               { emoji: "\uD83E\uDD64", name: "Coke", pillBg: "#fbdfe2", pillFg: "#e6394d", vals: [9, 1, 10, 2, 3, 8, 1] },
-              { emoji: "\uD83E\uDD64", name: "Pepsi", pillBg: "#dbe6fb", pillFg: "#2f6fd6", vals: [9, 1, 10, 2, 3, 8, 10] }] },
+              { emoji: "\uD83E\uDD64", name: "Pepsi", pillBg: "#dbe6fb", pillFg: "#2f6fd6", vals: [9, 1, 10, 2, 3, 8, 10] },
+              { name: "?", mystery: true, vals: [9, 1, 10, 2, 3, 8, 9] }] },
            { label: "Sports and energy neighborhood", left: "58%", top: "1%", drinks: [
               { name: "Gatorade", vals: [7, 1, 0, 1, 0, 1, 6] },
               { name: "Powerade", vals: [7, 1, 0, 1, 0, 1, 5] }] },
@@ -6052,13 +6056,18 @@ function VectorSpaceSection(props) {
                 })),
               zone.drinks.map(function(d, di) {
                 var accent = !!d.pillFg;
-                return E("div", { key: "d-" + di, style: { marginBottom: di === 0 ? 10 : 0 } },
+                var valColor = accent ? d.pillFg : (d.mystery ? "var(--primary)" : "var(--inkSoft)");
+                return E("div", { key: "d-" + di, style: {
+                  marginBottom: di === zone.drinks.length - 1 ? 0 : 10,
+                  borderTop: d.mystery ? "1px dashed rgba(110, 81, 255, 0.45)" : "none",
+                  paddingTop: d.mystery ? 9 : 0
+                } },
                   E("div", { style: { textAlign: "center", marginBottom: 5 } },
                     E("span", { style: {
                       background: accent ? d.pillBg : "var(--card)",
-                      color: accent ? d.pillFg : "var(--inkSoft)",
-                      border: accent ? "none" : "1px solid var(--rule)",
-                      fontWeight: accent ? 700 : 600, fontSize: 13,
+                      color: valColor,
+                      border: accent ? "none" : (d.mystery ? "1px dashed var(--primary)" : "1px solid var(--rule)"),
+                      fontWeight: accent || d.mystery ? 700 : 600, fontSize: 13,
                       padding: "5px 10px", borderRadius: 999, display: "inline-flex",
                       alignItems: "center", gap: 6, whiteSpace: "nowrap"
                     } }, d.emoji || null, d.name)),
@@ -6066,7 +6075,7 @@ function VectorSpaceSection(props) {
                     d.vals.map(function(v, vi) {
                       return E("div", { key: "v-" + vi, style: {
                         textAlign: "center", fontFamily: "var(--mono)", fontSize: 11, fontWeight: 700,
-                        color: accent ? d.pillFg : "var(--inkSoft)"
+                        color: valColor
                       } }, v);
                     })));
               }));

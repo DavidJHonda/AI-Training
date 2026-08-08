@@ -113,6 +113,43 @@ not two.
 The untouched-region comparison is the check that proves no off-by-one: a single-frame
 shift anywhere would read in the tens, not at 1.16.
 
+## Follow-up: THE TRAPS AHEAD board retrofit (2026-08-08)
+
+Flagged at the end of the rip-graft pass, then requested by the owner. The board at
+**0:46.8–1:12.8** (frames 1403–2185, 782) is the `Illustration` component in
+`OpenerProtectSection` (lesson `openerprotect`) — and the engine painted a **yellow wash**
+across "every trap looks fine from the inside." at 1:04. That is the engine treatment the
+retrofit program replaces everywhere else in the catalogue.
+
+**Rings are terracotta `#b5532f`, not primary purple.** The band is `--illoBand` with
+`--illoAccent`, and the owner rule is that an accent-colored box rings in its own accent.
+
+**Compact board, so no camera dives.** Every line reads at 720p in the 90%-band framing, and
+the house rule is that dives are only for boards whose text needs the zoom. One continuous
+~3.5% push across the whole 26s span; the rings alone walk the narration.
+
+States, timed to whisper word onsets:
+
+| State | Frames | Ring | Narration |
+|---|---|---|---|
+| 0 | 1403–1506 (103) | none | "These invisible failures manifest specifically." |
+| 1 | 1506–1570 (64) | line 1 | "A false fact sounds sure." |
+| 2 | 1570–1621 (51) | line 2 | "Flattery feels good." |
+| 3 | 1621–1672 (51) | line 3 | "A fake looks real." |
+| 4 | 1672–1927 (255) | none | "They're designed to be helpful… that safety is a trap." |
+| 5 | 1927–2185 (258) | dash row | "Every trap looks fine from the inside." |
+
+State 4 returns to a clean board because the narration leaves the list and generalises across
+all three lines; the rule is not to leave a ring up after the narration has passed it.
+State 5 uses `row: true` so the ring walks up to the flex row and **encloses the accent dash**
+— the bullet-row rule from evaluate-the-results, where ringing the text span alone left the
+dot outside and was rejected.
+
+Battery: 5340 frames exact; audio MD5 unchanged; both splice seams single-spike (56.1 and
+58.7, neighbours 5.3 and 0.2); ring pops 0.18–2.33 against a cut threshold of 12; pts
+histogram identical to the shipped base; longest motionless run inside the leg **1 frame**,
+so the slow push never freezes. Review frames in `/tmp/retrofit-review/opener-avoid/`.
+
 ## Risks
 
 - **Register.** With both grafts in, 1:31–2:04 runs cream schematic → paper-craft →

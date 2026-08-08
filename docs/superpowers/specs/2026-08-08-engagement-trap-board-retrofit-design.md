@@ -1,4 +1,8 @@
-# engagement-trap-v3: current board, our rings, and two narration excisions
+# engagement-trap-v3: current board, our rings, and two narration excisions — SHIPPED as v4
+
+Owner AV review passed ("ship it"). Installed as ;  and 
+both deleted after install. The  label stays "4 min" — 4:03.90 → 3:47.00 still
+rounds there — so  needed no edit.
 
 **Date:** 2026-08-08
 **Base:** `videos/engagement-trap-v2.mp4` — 7,317 frames, 4:03.90 (the 8/07 close-apostrophe candidate)

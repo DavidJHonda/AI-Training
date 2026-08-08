@@ -3658,9 +3658,346 @@ function WhyBotherSection(props) {
       label: "Next: Learn with AI"
     }));
 }
+// The AI Stress Game: the What You Can Control TRY IT. Statements fly at the
+// student on a tightening clock and they click only the ones actually theirs.
+// Built imperatively (injected <style> + innerHTML stages) on the same pattern
+// as AIMultiplierTryIt, because a timed game repaints far too often to drive
+// through React state. The eyebrow and lead stay real React (ActivityLead) so
+// they inherit the house tokens and the ?print behaviour; only the game box is
+// hand-built DOM, and it is no-print because a reflex game cannot print.
+function ControlStressGame() {
+  var E = React.createElement;
+  var rootRef = useRef(null);
+
+  useEffect(function () {
+    var root = rootRef.current;
+    if (!root || root.__cclBuilt) return;
+    root.__cclBuilt = true;
+
+    var CSS =
+      ".ccl{font-family:var(--sans);color:var(--inkSoft)}" +
+      ".ccl .ccl-box{background:var(--tryBand);border-radius:16px;padding:22px}" +
+      ".ccl .ccl-card{background:var(--card);border-radius:14px;box-shadow:var(--shadowSoft);padding:26px 26px 30px}" +
+      ".ccl .ccl-h{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:34px;line-height:1.06;margin:0 0 14px;letter-spacing:.005em}" +
+      ".ccl .ccl-p{font-size:16px;line-height:1.6;color:var(--inkSoft);margin:0 0 18px;max-width:62ch}" +
+      ".ccl .ccl-p b{color:var(--ink)}" +
+      ".ccl .ccl-center{text-align:center}" +
+      ".ccl .ccl-meter{margin-bottom:20px}" +
+      ".ccl .ccl-mtop{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px}" +
+      ".ccl .ccl-ml{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--inkMuted)}" +
+      ".ccl .ccl-mv{font-family:var(--serif);font-size:22px;line-height:1;color:var(--ink)}" +
+      ".ccl .ccl-track{height:16px;background:var(--primaryFaint);border-radius:999px;overflow:hidden}" +
+      ".ccl .ccl-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#e8837c,var(--red));transition:width .45s cubic-bezier(.2,.7,.3,1)}" +
+      ".ccl .ccl-meter.ccl-bump{animation:cclBump .32s ease-out}" +
+      "@keyframes cclBump{0%{transform:scale(1)}40%{transform:scale(1.035)}100%{transform:scale(1)}}" +
+      ".ccl .ccl-stage{position:relative;height:320px;background:var(--bg);border:1.5px solid var(--rule);border-radius:14px;overflow:hidden}" +
+      ".ccl .ccl-hint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--inkFaint)}" +
+      ".ccl .ccl-chip{position:absolute;max-width:62%;background:var(--card);border:1.5px solid var(--rule);border-radius:14px;padding:13px 16px 15px;cursor:pointer;box-shadow:var(--shadowSoft);font-family:var(--sans);font-size:16px;font-weight:700;color:var(--ink);line-height:1.3;text-align:left;animation:cclIn .28s ease-out;user-select:none;-webkit-user-select:none}" +
+      "@keyframes cclIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}" +
+      ".ccl .ccl-chip:hover{border-color:var(--inkFaint)}" +
+      ".ccl .ccl-bar{position:absolute;left:14px;right:14px;bottom:7px;height:3px;background:#e9e6f2;border-radius:999px;overflow:hidden}" +
+      ".ccl .ccl-bar i{display:block;height:100%;width:100%;background:var(--inkFaint);border-radius:999px}" +
+      ".ccl .ccl-chip.ccl-good{border-color:#5a3aa6;background:#ddd0ef;animation:cclPop .3s ease-out forwards}" +
+      ".ccl .ccl-chip.ccl-bad{border-color:var(--red);background:#fdeaec;animation:cclShake .32s ease-out}" +
+      ".ccl .ccl-chip.ccl-gone{animation:cclFade .5s ease-out forwards}" +
+      ".ccl .ccl-chip.ccl-slip{border-color:#2f4cb8;background:#d6e2f4;animation:cclSlip .6s ease-out forwards}" +
+      "@keyframes cclPop{0%{transform:scale(1)}45%{transform:scale(1.06)}100%{transform:scale(.9);opacity:0}}" +
+      "@keyframes cclShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}" +
+      "@keyframes cclFade{to{opacity:0;transform:translateY(-8px)}}" +
+      "@keyframes cclSlip{0%{opacity:1}100%{opacity:0;transform:translateY(16px)}}" +
+      ".ccl .ccl-float{position:absolute;font-family:var(--sans);font-size:14px;font-weight:800;pointer-events:none;animation:cclUp .9s ease-out forwards;white-space:nowrap;z-index:6}" +
+      "@keyframes cclUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-34px)}}" +
+      ".ccl .ccl-cd{position:absolute;inset:0;z-index:9;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:76px;color:var(--primary)}" +
+      ".ccl .ccl-cd.ccl-pop{animation:cclCdPop .35s ease-out}" +
+      "@keyframes cclCdPop{0%{transform:scale(1.5);opacity:.35}100%{transform:scale(1);opacity:1}}" +
+      ".ccl .ccl-btn-dark{font-family:var(--sans);font-size:16px;font-weight:700;color:#fff;background:var(--ink);border:none;border-radius:12px;padding:15px 30px;cursor:pointer;transition:background .14s,transform .12s}" +
+      ".ccl .ccl-btn-dark:hover{background:#241d3d;transform:translateY(-1px)}" +
+      ".ccl .ccl-btn-outline{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);background:var(--card);border:1.5px solid var(--rule);border-radius:10px;padding:12px 22px;cursor:pointer;transition:border-color .14s}" +
+      ".ccl .ccl-btn-outline:hover{border-color:var(--inkFaint)}" +
+      ".ccl .ccl-verdict{font-family:var(--serif);font-size:34px;line-height:1.08;color:var(--ink);margin:24px 0 12px}" +
+      ".ccl .ccl-recap{margin-top:26px;border-top:1.5px solid var(--rule)}" +
+      ".ccl .ccl-row{display:grid;grid-template-columns:20px 168px 1fr;gap:14px;padding:11px 2px;border-bottom:1px solid var(--rule);align-items:start}" +
+      ".ccl .ccl-mark{font-size:14px;font-weight:800;line-height:1.75;text-align:center}" +
+      ".ccl .ccl-mark.ccl-ok{color:var(--green)}" +
+      ".ccl .ccl-mark.ccl-no{color:var(--red)}" +
+      ".ccl .ccl-tag{width:100%;text-align:center;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:6px 10px;border-radius:999px;white-space:nowrap;margin-top:2px}" +
+      ".ccl .ccl-tag.ccl-noise{background:#d6e2f4;color:#2f4cb8}" +
+      ".ccl .ccl-tag.ccl-yours{background:#ddd0ef;color:#5a3aa6}" +
+      ".ccl .ccl-rt{font-size:16px;font-weight:700;color:var(--ink);line-height:1.35}" +
+      ".ccl .ccl-row.ccl-right .ccl-rt{font-weight:600;color:var(--inkSoft)}" +
+      ".ccl .ccl-rb{font-size:14.5px;line-height:1.55;color:var(--inkMuted);margin-top:3px}" +
+      "@media (max-width:640px){" +
+        ".ccl .ccl-chip{max-width:82%;font-size:15px}" +
+        ".ccl .ccl-stage{height:340px}" +
+        ".ccl .ccl-h{font-size:28px}" +
+        ".ccl .ccl-verdict{font-size:28px}" +
+        ".ccl .ccl-row{grid-template-columns:18px 128px 1fr;gap:10px}" +
+        ".ccl .ccl-tag{font-size:9px;letter-spacing:.04em;padding:6px 6px}" +
+      "}";
+
+    var styleEl = document.createElement("style");
+    styleEl.textContent = CSS;
+    root.appendChild(styleEl);
+
+    var host = document.createElement("div");
+    host.className = "ccl";
+    host.innerHTML = '<div class="ccl-box"><div class="ccl-card" data-stage></div></div>';
+    root.appendChild(host);
+    var card = host.querySelector("[data-stage]");
+
+    var CHIPS = [
+      // Out of your hands.
+      { t: "If AI takes your future job", own: false, teach: "A headline built to get clicked. You can’t vote on it, so don’t pay it rent." },
+      { t: "How fast AI gets smarter", own: false, teach: "Labs with billions of dollars set that pace. Your job is to keep up, not to slow it down." },
+      { t: "If your school bans AI", own: false, teach: "That’s a policy meeting you’re not in. What you do inside the rules is still yours." },
+      { t: "If your future boss uses AI", own: false, teach: "They make that call before you walk in. Be good enough to be useful either way." },
+      { t: "Which careers get automated first", own: false, teach: "An economic call other people make. What you decide is how strong your skills are when you arrive." },
+      { t: "What AI experts predict next", own: false, teach: "Nobody knows, including them. A prediction isn’t a plan." },
+      // In your hands.
+      { t: "How good you get with AI", own: true, teach: "Depth beats dabbling. Pick one tool and learn where it breaks." },
+      { t: "Whether you do your own thinking", own: true, teach: "Every prompt is a choice. Think faster, or think less." },
+      { t: "How long you doomscroll", own: true, teach: "The volume is loud. The dial is still yours." },
+      { t: "Whether you check what AI tells you", own: true, teach: "Confident and correct are two different things. Checking is free." },
+      { t: "If you get <strong>Smarter Than the Tool</strong>", own: true, teach: "You can be handed information. You can be handed answers. Nobody can hand you skill." },
+      { t: "Asking a better question", own: true, teach: "The question is the half that still belongs to you." },
+      { t: "How much real skill you build", own: true, teach: "It only comes from practice and reps. Nobody else gets a vote on how hard you work." }
+    ];
+
+    // All 13 statements play every round. Stress is scaled per side so the two
+    // ways to fail both land on 100: click everything (6 chases) or click
+    // nothing (7 misses). Changing the 6/7 split means changing these.
+    var NOISE_COUNT = 6, OWN_COUNT = 7;
+    var CHASE_STRESS = 100 / NOISE_COUNT, MISS_STRESS = 100 / OWN_COUNT;
+
+    var timers = [], state = null;
+
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+    function later(fn, ms) { var id = setTimeout(fn, ms); timers.push(id); return id; }
+
+    function shuffle(a) {
+      a = a.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    // Stress is tracked unbounded and only clamped for display, so a run is not
+    // dependent on the order the statements happened to arrive in.
+    function clamp(v) { return Math.max(0, Math.min(100, v)); }
+
+    // Shuffle, then repair any stretch of three clickable statements in a row by
+    // swapping the third back with the next not-yours, and re-roll if the repair
+    // did not take. Three in a row lets a student fall into a rhythm of clicking,
+    // which is the opposite of what this is testing. Long runs of not-yours are
+    // left alone: that stretch is what the noise actually feels like, and sitting
+    // through it is the skill.
+    function orderDeck() {
+      for (var attempt = 0; attempt < 40; attempt++) {
+        var d = shuffle(CHIPS);
+        for (var i = 2; i < d.length; i++) {
+          if (d[i].own && d[i - 1].own && d[i - 2].own) {
+            for (var j = i + 1; j < d.length; j++) {
+              if (!d[j].own) { var t = d[i]; d[i] = d[j]; d[j] = t; break; }
+            }
+          }
+        }
+        var bad = false;
+        for (var k = 2; k < d.length; k++) { if (d[k].own && d[k - 1].own && d[k - 2].own) bad = true; }
+        if (!bad) return d;
+      }
+      return shuffle(CHIPS);
+    }
+
+    function meterHTML() {
+      return '<div class="ccl-meter" data-meter>' +
+        '<div class="ccl-mtop"><span class="ccl-ml">Your stress</span><span class="ccl-mv" data-stress>0</span></div>' +
+        '<div class="ccl-track"><div class="ccl-fill" data-fill></div></div></div>';
+    }
+
+    function paintMeter(bump) {
+      var st = Math.round(clamp(state.stress));
+      var fill = card.querySelector("[data-fill]");
+      if (!fill) return;
+      fill.style.width = st + "%";
+      card.querySelector("[data-stress]").textContent = st;
+      if (bump) {
+        var m = card.querySelector("[data-meter]");
+        if (m) { m.classList.remove("ccl-bump"); void m.offsetWidth; m.classList.add("ccl-bump"); }
+      }
+    }
+
+    function renderIntro() {
+      clearTimers();
+      card.innerHTML =
+        '<div class="ccl-h">The AI Stress Game</div>' +
+        '<p class="ccl-p">13 statements are about to come at you. <b>Click only the ones that are in your hands.</b> Let the rest go by, and don’t take too long. They don’t stick around.</p>' +
+        '<div class="ccl-center" style="margin-top:26px"><button class="ccl-btn-dark" data-go>Start the round</button></div>';
+      card.querySelector("[data-go]").addEventListener("click", startRound);
+    }
+
+    function startRound() {
+      clearTimers();
+      state = { stress: 0, log: [], deck: orderDeck() };
+
+      card.innerHTML = meterHTML() +
+        '<div class="ccl-stage" data-stage-play><div class="ccl-hint">Click only what’s in your hands</div>' +
+        '<div class="ccl-cd ccl-pop" data-cd>3</div></div>';
+      paintMeter();
+
+      var cd = card.querySelector("[data-cd]");
+      function tick(n) { cd.textContent = n; cd.classList.remove("ccl-pop"); void cd.offsetWidth; cd.classList.add("ccl-pop"); }
+      later(function () { tick("2"); }, 800);
+      later(function () { tick("1"); }, 1600);
+      later(function () { cd.remove(); runDeck(); }, 2400);
+    }
+
+    function runDeck() {
+      var stage = card.querySelector("[data-stage-play]");
+      var gap = 2400, t = 0, lane = 0, N = state.deck.length;
+      state.deck.forEach(function (chip, i) {
+        // Statements start at a 5.5s lifetime and tighten to 3.2s. Three lanes
+        // rotate, and a chip's life always stays under the three gaps it takes
+        // for its own lane to come round again, so lanes never double up.
+        var life = 5500 - (2300 * (i / (N - 1)));
+        var myLane = lane; lane = (lane + 1) % 3;
+        later(function () { spawn(stage, chip, i, myLane, life); }, t);
+        if (i === N - 1) later(finish, t + life + 900);
+        t += gap;
+        gap = Math.max(1650, gap * 0.945);
+      });
+    }
+
+    function spawn(stage, chip, idx, lane, life) {
+      if (!stage) return;
+      var el = document.createElement("button");
+      el.className = "ccl-chip";
+      el.type = "button";
+      el.style.top = (18 + lane * 98 + Math.round(Math.random() * 14)) + "px";
+      el.style.left = (4 + Math.round(Math.random() * 26)) + "%";
+      el.innerHTML = chip.t + '<span class="ccl-bar"><i></i></span>';
+      stage.appendChild(el);
+
+      // Force the first style computation so the lifetime bar has a real 100%
+      // starting width to transition from. Without this the fresh node's first
+      // computed width is already 0% and the countdown never animates at all.
+      var bar = el.querySelector("i");
+      void bar.offsetWidth;
+      bar.style.transition = "width " + life + "ms linear";
+      bar.style.width = "0%";
+
+      var settled = false;
+      function settle(result) {
+        settled = true;
+        state.log[idx] = { chip: chip, result: result };
+      }
+
+      var expire = later(function () {
+        if (settled) return;
+        if (chip.own) {
+          state.stress += MISS_STRESS;
+          settle("missed");
+          el.className = "ccl-chip ccl-slip";
+          floatUp(stage, el, "You had that one", "#2f4cb8");
+          paintMeter(true);
+        } else {
+          settle("letgo");
+          el.className = "ccl-chip ccl-gone";
+        }
+        later(function () { el.remove(); }, 600);
+      }, life);
+
+      el.addEventListener("click", function () {
+        if (settled) return;
+        clearTimeout(expire);
+        if (chip.own) {
+          settle("caught");
+          el.className = "ccl-chip ccl-good";
+          floatUp(stage, el, "Yours", "#5a3aa6");
+        } else {
+          state.stress += CHASE_STRESS;
+          settle("chased");
+          el.className = "ccl-chip ccl-bad";
+          floatUp(stage, el, "Not yours", "var(--red)");
+          paintMeter(true);
+        }
+        later(function () { el.remove(); }, 400);
+      });
+    }
+
+    function floatUp(stage, el, text, color) {
+      var f = document.createElement("div");
+      f.className = "ccl-float";
+      f.textContent = text;
+      f.style.color = color;
+      f.style.left = el.style.left;
+      f.style.top = (parseInt(el.style.top, 10) - 6) + "px";
+      stage.appendChild(f);
+      later(function () { f.remove(); }, 900);
+    }
+
+    function finish() {
+      clearTimers();
+      var st = Math.round(clamp(state.stress));
+      var log = state.log.filter(Boolean);
+      var chased = log.filter(function (r) { return r.result === "chased"; }).length;
+      var missed = log.filter(function (r) { return r.result === "missed"; }).length;
+
+      // The score is everything handled correctly, catches and let-gos together,
+      // because ignoring the noise is as much a right answer as claiming what is
+      // yours. The endings speak to the stress number, not the individual round.
+      var right = log.length - chased - missed;
+      var total = log.length;
+      var verdict, body;
+      if (st <= 20) {
+        verdict = "You ran the dial.";
+        body = "You got <b>" + right + " of " + total + "</b> right, and your stress meter barely moved. That’s the whole skill right there. The headlines are going to keep coming, and they’re going to get louder, and none of that has to land on you. Hold onto that attitude no matter what AI does next.";
+      } else if (st <= 50) {
+        verdict = "Pretty steady.";
+        body = "You got <b>" + right + " of " + total + "</b> right, and your stress meter landed in the middle. That’s a good place to be. A few things still got to you, which is completely normal, and it’s also something you can get better at. The cleaner you sort the noise from the stuff you actually control, the lower that number goes.";
+      } else {
+        verdict = "Let’s get that number down.";
+        body = "You got <b>" + right + " of " + total + "</b> right, and your stress meter climbed. Here’s the good part: that’s fixable, and it’s fixable fast. Nothing on that list moved one inch because you worried about it. Put your energy on the ones you can actually change, let the rest float by, and watch what happens to that number.";
+      }
+
+      // Two separate signals, because one pill carrying both was unreadable: the
+      // check or cross says whether they handled it right, and the pill names the
+      // column the statement actually belonged to, in the same blue and purple
+      // the CompareRows board above the activity uses.
+      var rows = log.map(function (r) {
+        var ok = (r.result === "caught" || r.result === "letgo");
+        return '<div class="ccl-row' + (ok ? " ccl-right" : "") + '">' +
+          '<span class="ccl-mark ' + (ok ? "ccl-ok" : "ccl-no") + '">' + (ok ? "✓" : "✗") + '</span>' +
+          '<span class="ccl-tag ' + (r.chip.own ? "ccl-yours" : "ccl-noise") + '">' +
+            (r.chip.own ? "In your hands" : "Out of your hands") + '</span>' +
+          '<div><div class="ccl-rt">' + r.chip.t + '</div>' +
+          (ok ? "" : '<div class="ccl-rb">' + r.chip.teach + '</div>') + '</div></div>';
+      }).join("");
+
+      card.innerHTML = meterHTML() +
+        '<div class="ccl-verdict">' + verdict + '</div>' +
+        '<p class="ccl-p">' + body + '</p>' +
+        '<div class="ccl-recap">' + rows + '</div>' +
+        '<div class="ccl-center" style="margin-top:24px"><button class="ccl-btn-outline" data-again>Run it again</button></div>';
+      paintMeter();
+      card.querySelector("[data-again]").addEventListener("click", renderIntro);
+    }
+
+    renderIntro();
+
+    // A round leaves up to a dozen spawn, expire and cleanup timers pending.
+    // Every one of them is routed through later(), so unmounting mid-round
+    // cannot fire a callback against a torn-down stage.
+    return clearTimers;
+  }, []);
+
+  return E(React.Fragment, null,
+    E(ActivityLead, { variant: "try" },
+      "Where do you stand today? Can you focus on what’s in your hands, or will you let the world stress you out? Find out."),
+    E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } }));
+}
 function ControlSection(props) {
   var E = React.createElement;
-  const [answers, setAnswers] = useState({});
 
   var COLUMNS = [
     {
@@ -3686,46 +4023,6 @@ function ControlSection(props) {
       ]
     }
   ];
-
-  var ITEMS = [
-    {
-      text: "How much any company you work for uses AI",
-      answer: "cant",
-      headline: "Out of your hands.",
-      canFeedback: "You don\u2019t set that policy; companies decide based on industry, leadership, and budget. What\u2019s in your hands is being good enough to be useful either way.",
-      cantFeedback: "Right. They make that call before you walk in. What\u2019s in your hands is being good enough that you\u2019d be useful either way."
-    },
-    {
-      text: "How worked up you get by every AI doom prediction",
-      answer: "can",
-      headline: "In your hands.",
-      canFeedback: "Right. AI predictions get loud for a reason: that\u2019s what gets clicks. The choice to spiral on them, or tune them out and get back to work, is yours.",
-      cantFeedback: "Easy to feel that way when every headline screams. But you choose what you read, what you share, and how long you sit with it. The volume is loud. The dial is still yours."
-    },
-    {
-      text: "Whether AI replaces entry-level work in your chosen career",
-      answer: "cant",
-      headline: "Out of your hands.",
-      canFeedback: "You don\u2019t set that. Whether AI takes the first rung is an economic call other people make, based on what pays off when automated. What you can decide is how strong your skills are when you arrive.",
-      cantFeedback: "Right. Some fields will absorb AI faster than others, and that\u2019s an economic call other people make. What is in your hands: how much real skill you\u2019ve built by the time you get there."
-    },
-    {
-      text: "Whether you own your thinking or let AI do it for you",
-      answer: "can",
-      headline: "In your hands.",
-      canFeedback: "Right. Every prompt is a choice. Use it to think faster, or use it to think less. Same tool, two different futures.",
-      cantFeedback: "It can feel automatic, but it isn\u2019t. Every time you open AI you choose whether you\u2019re using it as a shortcut or a sparring partner. The keystrokes are yours."
-    },
-    {
-      text: E(React.Fragment, null, "Whether you work hard and become ", E("strong", null, "Smarter Than the Tool")),
-      answer: "can",
-      headline: "In your hands.",
-      canFeedback: "Right. You can be handed information. You can be handed answers. Nobody can hand you skill. You build it through learning, practice, and hard work.",
-      cantFeedback: "Feels like AI can hand you everything. It can hand you information and answers, but not skill. Skill comes from learning, practice, and hard work. And that decision is yours."
-    }
-  ];
-
-  const allAnswered = Object.keys(answers).length >= ITEMS.length;
 
   return E("div", null,
     E(LessonHeader, { sectionId: "control" }),
@@ -3759,39 +4056,7 @@ function ControlSection(props) {
       "Controlling your skill and judgment isn’t a consolation prize for the stuff you can’t change. It’s the one lever that actually tilts your odds, even when the big forces aren’t yours."),
     closeBoard("control"),
 
-    E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "In Your Hands or Not?",
-     lead: "Some of what AI does to your future is out of your hands. A lot of it isn\u2019t. For each one, decide whether it\u2019s in your hands or not."},
-      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        ITEMS.map(function(item, i) {
-          var answered = answers[i] !== undefined;
-          var picked = answers[i];
-          var correct = answered && picked === item.answer;
-          function PillButton(value, label) {
-            var isPicked = picked === value;
-            return E(FeedbackPill, {
-              key: value,
-              answered: answered,
-              isCorrect: value === item.answer,
-              isPicked: isPicked,
-              label: label,
-              onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, value]])); }); }
-            });
-          }
-          return E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: item.text,
-            answered: answered,
-            correct: correct,
-            headline: item.headline,
-            feedback: answered ? (picked === "can" ? item.canFeedback : item.cantFeedback) : null
-          },
-            PillButton("cant", "Out of your hands"),
-            PillButton("can", "In your hands"));
-        }))),
+    E(ControlStressGame, null),
 
     E(LessonRule, null),
     E(NextLessonGate, {

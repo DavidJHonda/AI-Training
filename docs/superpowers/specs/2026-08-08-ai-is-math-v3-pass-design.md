@@ -101,6 +101,49 @@ rendering: the failure mode is a window edge slicing a heading.
 **Hard stop at frame 7203.** That is where the standard close board begins, and it runs to
 the end. The owner's "3:38–4:12" would have overwritten it; the tour stops at 4:00.1.
 
+## Build result (2026-08-08) — awaiting AV review
+
+Built as `videos/ai-is-math-v4.mp4` in one crf-18 pass. **6,983 frames, 3:52.78.**
+
+| Gate | Measured |
+|---|---|
+| Frame count | **6,983**, exact |
+| Audio join 1 | "…birthed standard probability." → "This image displays that mathematical relationship." — no clipping |
+| Audio join 2 | "…suddenly alters the environment." → "We toss the two coins again, but this time someone peeks…" — no clipping |
+| Removed terms | Thomas 2→0, Bays 1→0, three-step 1→0, "his logic" 1→0, "updated graphic" 1→0 |
+| Seams | 372 **183.1**, 622 **130.7**, 845 **71.4**, 5828 **163.1**, 6477 **164.8** — one spike each, neighbours ≤ 8.8 |
+| Illustration open | complete image, `Pascal   Fermat` fully readable |
+| Illustration close | at 1.05, names and both faces still in frame |
+| pts histogram | matches the base |
+
+**The C-join at frame 2654 measures 11.34 — below the cut threshold, and that is correct.**
+It joins the unconditioned two-coin board (25%) to the conditional one (50%, tails crossed
+out), so the board *updates* exactly as the narration says "someone peeks". Verified by
+eye rather than trusting the number.
+
+### Four deviations from this spec, all found during the build
+
+1. **The shelf-books beat was dropped.** The spec listed five regions; the build uses the
+   four the owner actually approved. The five-region path zig-zagged left → far right →
+   centre → far left, and measured **mean per-frame motion 20.9** against the house band of
+   ~0.7–4.5. Dropping it also removed a window that clipped the illustration's caption.
+2. **Restructured to transit-then-hold.** One beat per region means `ken_burns_path`
+   interpolates across the *whole* beat, so the camera never rests. Split into 3 holds +
+   2 transits + the settle. Result: holds now measure **1.60 / 2.73 / 5.72** mean — inside
+   the band — with motion concentrated in two transits of 40 and 45 frames, both longer than
+   the 24–30 the recipe prescribes. Overall tour mean fell 20.9 → 11.0.
+3. **Settle anchored at cy=340**, not centre. A 3:2 image cannot fill a 16:9 window, and a
+   centred pull-back sliced the "TYING THE MATH TOGETHER" title in half.
+4. **Student window pulled left** (cx 235→205, w 540→478). The first framing sliced the
+   board's `CONDITIONAL PROBABILITY` and `AUTOREGRESSIVE GENERATION` headings at the right
+   edge — the exact failure the recipe warns about.
+
+**Known, accepted:** the settle averages 24.7 per-frame diff over its 131 frames. It is one
+smooth eased pull-back revealing the whole illustration, not a whip, but it is the fastest
+move in the video and the thing to watch on review.
+
+Review frames: `/tmp/retrofit-review/ai-is-math/`.
+
 ## Verification
 
 1. Output frame count **== 6,983** exactly.

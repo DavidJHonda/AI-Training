@@ -9373,6 +9373,24 @@ function OneAppOneYearTryIt(props) {
     ]
   };
 
+  // The PDF export has no way to enter a number, so printing the live form would
+  // put a dead "Do the math" button at the end of the lesson. Print the premise
+  // as prose instead, then hand beat 3 to QuizBlock, which has its own print
+  // branch that lays out every option with its answer and feedback.
+  var isPrintMode = false;
+  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
+  if (isPrintMode) {
+    return E(InteractiveBox, { variant: "try", surface: "mint", title: "One app, one year" },
+      E(InnerCard, { style: { marginBottom: 0 } },
+        E("p", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 22px", maxWidth: "62ch" } },
+          "In the lesson, you name the app you’re on the most and how long you’re in it on a normal day. It works out the hours a year, the days a year, and what those hours could have bought instead. Then it runs the same arithmetic on your AI time, because that number is smaller today and climbing for exactly the same reasons."),
+        E(QuizBlock, {
+          surface: "mint",
+          statement: STOP_QUESTION.statement,
+          options: STOP_QUESTION.options
+        })));
+  }
+
   function submitApp(e) {
     if (e) e.preventDefault();
     var name = appName.trim();

@@ -63,7 +63,17 @@ screen is CSS.
 Three states, timed to word onsets: clean (74), rows-through-Dark (350), Citrus-cells (204).
 Compact board, so no dives — one continuous 4% push at the 90%-band framing.
 
-## D — hold the card stacks
+## D — hold the card stacks (corrected in v4)
+
+**v3 ended the hold 38 frames too early and the bad image came back at 3:03.** The owner
+caught it. The broken sequence does not end where v3 assumed (base 5822, chosen because it
+was the withdrawn deletion's start) — it runs to a hard cut at base frame **5860** (195.33),
+after which the good dark-wash torn-paper image begins. The hold is now 384 frames covering
+base 5476–5860, and the base resumes at 5860.
+
+Lesson for the next pass: when a deletion is withdrawn, re-derive every boundary that was
+chosen to meet it. 5822 was only ever the *deletion's* edge, never the bad image's.
+
 
 The span degraded into small brown boxes that covered the letters they were labelling; two
 frames in, the visible text was "b" and "v".

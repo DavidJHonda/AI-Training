@@ -113,7 +113,12 @@ not two.
 The untouched-region comparison is the check that proves no off-by-one: a single-frame
 shift anywhere would read in the tens, not at 1.16.
 
-## Follow-up: THE TRAPS AHEAD board retrofit (2026-08-08)
+## Follow-up: THE TRAPS AHEAD board retrofit (2026-08-08) — SHIPPED
+
+Owner AV review passed ("ship-it"). Installed as `videos/opener-avoid.mp4`; the `-v2`
+candidate deleted after install. With this, opener-avoid carries no engine-drawn highlight,
+board or close anywhere in its runtime.
+
 
 Flagged at the end of the rip-graft pass, then requested by the owner. The board at
 **0:46.8–1:12.8** (frames 1403–2185, 782) is the `Illustration` component in

@@ -173,6 +173,30 @@ Set the coordinate and vector sequences in `var(--mono)` inline — `38 N`, `120
 and tie back to the Taste Profile table, which is already mono. This is an addition to the
 owner's outline, flagged here so it can be dropped on review.
 
+## Owner revisions after first render (2026-08-08)
+
+1. **Bullets indented and split across two lines.** They were getting lost against the body
+   column. Dot at 34px, text at 62px, and each item is now `{ lead, body }` — the mono
+   coordinates on their own line, the answer on the next starting at the same x, so the
+   numbers stay a scannable column. All three leads take a `?`: once stacked, the outline's
+   period-on-the-first, question-mark-on-the-second read as a mistake rather than a choice.
+2. **`Distance` opener reworded**: "AI does the same thing, just on a massive scale." →
+   "Of course, AI does it on a massive scale."
+3. **The closeness paragraph folded up, not deleted.** The owner asked whether "That
+   closeness is no accident…" could go. Two of its four sentences did restate the paragraph
+   above ("Training nudged every token's numbers" against "AI learned every one of those
+   values during training"; "words used in similar ways ended up in similar places" against
+   "tokens that mean similar things sit close together"). But the `c1f0abb` rebuild added
+   this beat on purpose — two independent reads had found that "closest" was never made
+   legitimate, that nearness reads as a fallback trick. So the paragraph is gone as a
+   paragraph and its one non-redundant idea rides on the end of the previous one:
+   "…tokens that mean similar things sit close together, so landing near a token is not a
+   near miss. It is how the meaning gets read." `Distance` is now two paragraphs.
+
+**Known echo, accepted:** "Of course," now opens both the `How AI does it` paragraph and the
+second `Distance` paragraph, four paragraphs apart, and both are about the way AI does it.
+Flagged for a later copy pass rather than fixed, since the wording is the owner's.
+
 ## Verification
 
 1. `bash design-check.sh` and reconcile every FLAG before committing `index.html`.

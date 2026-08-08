@@ -5685,16 +5685,19 @@ function VectorSpaceSection(props) {
   // Body-scale bullets: prose that happens to be listed, not a box. Matches BodyP
   // typography so the worked answers read at the same weight as the paragraphs
   // around them. Local to this lesson; promote it if a second lesson needs it.
+  // Each item is { lead, body }: the coordinates on their own line, the answer on
+  // the next one starting at the same x, so the numbers stay a scannable column.
   var bulletList = function(items) {
     return E("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 18px" } },
       items.map(function(item, i) {
         return E("li", { key: i, style: {
           color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65,
-          marginBottom: i === items.length - 1 ? 0 : 10,
-          paddingLeft: 22, position: "relative"
+          marginBottom: i === items.length - 1 ? 0 : 16,
+          paddingLeft: 62, position: "relative"
         } },
-          E("span", { style: { position: "absolute", left: 4, top: 0, color: "var(--primary)", fontWeight: 700 } }, "•"),
-          item);
+          E("span", { style: { position: "absolute", left: 34, top: 0, color: "var(--primary)", fontWeight: 700 } }, "•"),
+          E("div", null, item.lead),
+          E("div", null, item.body));
       }));
   };
   // Coordinates and vectors set in mono, so they read as positions rather than
@@ -5729,8 +5732,8 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Now, let\u2019s pretend those are the only three cities in the United States. Your job is simple. You get the coordinates and have to match them to the closest city."),
     bulletList([
-      E(React.Fragment, null, mono("38 N, 120 W"), ". That\u2019s right. The closest match is Mountain View."),
-      E(React.Fragment, null, mono("39 N, 70 W"), "? Of course, New York City.")
+      { lead: E(React.Fragment, null, mono("38 N, 120 W"), "?"), body: "That\u2019s right. The closest match is Mountain View." },
+      { lead: E(React.Fragment, null, mono("39 N, 70 W"), "?"), body: "Of course, New York City." }
     ]),
     E(BodyP, null,
       "You did exactly what AI does. There was no match for the numbers, so you found the closest match."),
@@ -5805,7 +5808,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Let’s try the same exercise you used on a real map. Here are coordinates you need to match to a drink. Those numbers don’t exist on the table, so you need to figure out which drink these numbers mean."),
     bulletList([
-      E(React.Fragment, null, mono("9, 1, 10, 2, 3, 8, 9"), ". A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It doesn’t match anything on file exactly, and it doesn’t have to. You know it refers to Pepsi.")
+      { lead: E(React.Fragment, null, mono("9, 1, 10, 2, 3, 8, 9"), "?"), body: "A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It doesn’t match anything on file exactly, and it doesn’t have to. You know it refers to Pepsi." }
     ]),
     E(SectionKicker, null, "Distance"),
     E(BodyP, null,
@@ -5813,9 +5816,7 @@ function VectorSpaceSection(props) {
       E("strong", null, "distance"),
       ". That is how AI measures closeness."),
     E(BodyP, null,
-      "AI does the same thing, just on a massive scale. Every token carries thousands of dimensions, not seven, and AI learned every one of those values during training. And just like on our maps, tokens that mean similar things sit close together."),
-    E(BodyP, null,
-      "That closeness is no accident. Training nudged every token\u2019s numbers until words used in similar ways ended up in similar places. So landing near a token is not a near miss. It is how the meaning gets read."),
+      "Of course, AI does it on a massive scale. Every token carries thousands of dimensions, not seven, and AI learned every one of those values during training. And just like on our maps, tokens that mean similar things sit close together, so landing near a token is not a near miss. It is how the meaning gets read."),
     E(SectionKicker, null, "Meaning is a position"),
     E(BodyP, null,
       "Back to that one-of-a-kind token. AI can’t look its numbers up, but it can do what we just did with the drinks: read the token’s ",

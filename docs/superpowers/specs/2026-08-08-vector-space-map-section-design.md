@@ -193,9 +193,20 @@ owner's outline, flagged here so it can be dropped on review.
    "…tokens that mean similar things sit close together, so landing near a token is not a
    near miss. It is how the meaning gets read." `Distance` is now two paragraphs.
 
-**Known echo, accepted:** "Of course," now opens both the `How AI does it` paragraph and the
-second `Distance` paragraph, four paragraphs apart, and both are about the way AI does it.
-Flagged for a later copy pass rather than fixed, since the wording is the owner's.
+4. **Map 25% larger**: `mapBox` maxWidth 500 → 625. Safe now that only one map remains. The
+   SVG is width-100% and the city chips are positioned in percentages, so everything scales;
+   the chip label sizes are fixed px, so they now read proportionally smaller against the
+   larger map, which helps. Narrow viewports are unaffected — this is a max, and they were
+   already below 500.
+5. **`How AI does it` → `AI is way more complicated`**, and its paragraph opener "Of course,
+   the way AI does it is much more complicated, because" → "You've learned". The complication
+   moves into the kicker so the paragraph can go straight to the reversal: "You've learned
+   there are many more dimensions than two. But the core idea is the same: it establishes
+   meaning based on distance."
+
+This also resolved the "Of course," echo logged in the previous pass. Two remain in the
+lesson and they do not collide: one is a bullet answer ("Of course, New York City."), the
+other opens the second `Distance` paragraph.
 
 ## Verification
 

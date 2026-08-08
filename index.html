@@ -311,7 +311,7 @@ const LESSON_VIDEOS = {
   embeddings: { src: "videos/embeddings.mp4", duration: "3 min", title: "How a token's meaning becomes a row of numbers." },
   attention: { src: "videos/transformer.mp4", duration: "5 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "videos/layers.mp4", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
-  vectorspace: { src: "videos/vector-space-v5.mp4", duration: "3 min", title: "Where a token's numbers finally land." },
+  vectorspace: { src: "videos/vector-space-v6.mp4", duration: "3 min", title: "Where a token's numbers finally land." },
   prediction: { src: "videos/how-ai-answers.mp4", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "videos/one-more-thing.mp4", duration: "5 min", title: "Three more things: the lottery, the transcript, and the bill." },
   openerprotect: { src: "videos/opener-avoid.mp4", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "After watching, continue below to see where this section takes you." },
@@ -9229,44 +9229,293 @@ function FlatteryTrapSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("engagementtrap"); }, label: "Next: Engagement Trap" }));
 }
-function EngagementTrapSection(props) {
-  const [spotAnswers, setSpotAnswers] = useState({});
-  const WHY_QUESTIONS = [{
-    question: "Why did Aza Raskin design infinite scroll?",
-    options: [
-      { label: "To trap people on websites longer.", correct: false, headline: "The intent was friendly.", hint: "Think about what the lesson said his goal was. Was harm the plan, or a side effect?", feedback: "He wasn’t trying to hook anyone. He was removing friction, and the trap came later, when the industry saw what deleted pauses do. That’s the real lesson: ease and good-for-you aren’t the same thing." },
-      { label: "To remove friction. Clicking “next page” was a pause, and good design removes pauses.", correct: true, headline: "Friendly goal, big consequences.", feedback: "Right. The goal was ease of use. Nothing sinister, just one less click. The harm came from what the click turned out to be: the moment you decided whether to continue." },
-      { label: "To make pages load faster.", correct: false, headline: "Not a speed feature.", hint: "Infinite scroll changed what happens at the bottom of the page. Was the problem speed, or the click?", feedback: "Pages didn’t load faster. They just never ended. The design removed the click, not the wait." }
-    ]
-  }, {
-    question: "What is the danger of infinite scroll?",
-    options: [
-      { label: "The content gets worse the longer you scroll.", correct: false, headline: "Quality isn’t the issue.", hint: "The danger works even on your best day of content. What disappeared from the page?", feedback: "The content might be great, and the danger still works. Nothing on the page ever asks if you want to keep going. That’s the problem." },
-      { label: "It drains your battery and data.", correct: false, headline: "The cost isn’t in your phone.", hint: "Raskin’s regret wasn’t about hardware. What does he say the scroll wastes?", feedback: "The real cost is time. By Raskin’s own estimate, half a million human lifetimes a month." },
-      { label: "The natural decision point is gone. Nothing ever asks if you want more.", correct: true, headline: "The pause was the point.", feedback: "That’s it. The page break was where your brain caught up and decided. Delete the pause, and you don’t decide to keep scrolling. You just keep scrolling." }
-    ]
-  }, {
-    question: "Why do the companies that build the apps want infinite scroll?",
-    options: [
-      { label: "More time in the app means more money: more ads seen, more things bought, more habit built.", correct: true, headline: "Time is the business.", feedback: "Right. Free apps earn when you stay, so time-in-app is a number someone is paid to raise. The design serves the number." },
-      { label: "Users asked for it.", correct: false, headline: "Nobody asked for no exits.", hint: "Users wanted less clicking. Is that the same as wanting no end?", feedback: "Users asked for easier. They got endless. The difference between those two is the business model." },
-      { label: "It’s cheaper to build than separate pages.", correct: false, headline: "It’s not about the engineering.", hint: "Follow the money, not the code. What does an extra minute of your time earn them?", feedback: "Cost isn’t the driver. Your minutes are. An app that holds you longer earns more, and that’s why the exits keep disappearing." }
-    ]
-  }, {
-    question: "How do you know it’s time to stop an AI chat?",
+// One app, one year: the Engagement Trap TRY IT. Three beats in a single box.
+// The student's own screen time becomes hours a year and a list of what those
+// hours could have bought (beat 1), then the same arithmetic runs on their AI
+// time (beat 2), then one judgment question closes on the move rather than the
+// damage (beat 3). Unlike ControlStressGame and AIMultiplierTryIt this is plain
+// React: it is two forms, a list and a number, so it can use QuizBlock and the
+// rest of the house components directly instead of hand-building them.
+//
+// Nothing here is stored or transmitted. Both numbers live in component state,
+// so leaving the lesson clears them.
+var OAY_COMPARISONS = [
+  { hrs: 1, money: true, txt: "dollars earned", note: "at a part-time job paying $15 an hour" },
+  { invest: true, txt: "dollars twenty years later", note: "if you put that same money in an index fund at 7 percent a year and never touched it" },
+  { hrs: 6, txt: "books", note: "at 6 hours a book" },
+  { hrs: 2.5, txt: "Dallas Stars games", note: "start to finish, 2 hours 30 minutes a game. A full regular season is 82." },
+  { hrs: 42, txt: "round trips from Dallas to Los Angeles", note: "21 hours of driving each way" },
+  { hrs: 8, txt: "full nights of sleep", note: "8 hours a night" }
+];
+// Matched against the beat-1 app name so a student who already named an AI app
+// is not asked for it twice. A near miss ("cgpt") falls through to the two-input
+// path, which is the safe default: they still get the turn, just without the nod.
+var OAY_AI_APPS = ["chatgpt", "gpt", "openai", "claude", "anthropic", "gemini", "bard", "copilot", "perplexity", "grok", "metaai", "characterai", "cai", "deepseek", "llama"];
+var OAY_WAGE = 15, OAY_RETURN = 0.07, OAY_YEARS = 20;
+
+function oayCommas(n) {
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function oayIsAIApp(name) {
+  var k = (name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  if (!k) return false;
+  return OAY_AI_APPS.indexOf(k) !== -1;
+}
+// Returns null when the entry is not a usable normal day, with the reason as the
+// error string. Hours and minutes arrive as free text so the fields can be
+// inputMode numeric: a real number input draws a spinner over the unit label and
+// changes value on the scroll wheel.
+function oayParseTime(hRaw, mRaw) {
+  var h = parseFloat(String(hRaw).replace(/[^0-9.]/g, "")) || 0;
+  var m = parseFloat(String(mRaw).replace(/[^0-9.]/g, "")) || 0;
+  if (h > 24 || m > 59) return { error: "Try a real number of hours and minutes." };
+  var perDay = h + m / 60;
+  if (perDay <= 0) return { error: "Put in some time. Even ten minutes counts." };
+  if (perDay > 16) return { error: "More than 16 hours a day is not a normal day. Try again." };
+  return { h: h, m: m, perDay: perDay, hoursYear: perDay * 365 };
+}
+function oayTimeLabel(h, m) {
+  var s = (h ? h + " hr " : "") + (m ? m + " min" : "");
+  return s.trim() || "0 min";
+}
+function oayDaysLabel(hoursYear) {
+  var d = hoursYear / 24;
+  return d < 10 ? d.toFixed(1) : oayCommas(d);
+}
+
+function OAYCountUp(props) {
+  var ref = useRef(null);
+  useEffect(function () {
+    var el = ref.current;
+    if (!el) return;
+    var target = props.value;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { el.textContent = oayCommas(target); return; }
+    var start = null, raf = null, dur = 1100;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      el.textContent = oayCommas(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) raf = requestAnimationFrame(step);
+    }
+    raf = requestAnimationFrame(step);
+    return function () { if (raf) cancelAnimationFrame(raf); };
+  }, [props.value]);
+  return React.createElement("div", {
+    ref: ref,
+    style: { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--ink)", fontSize: "clamp(58px, 12vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.01em" }
+  }, "0");
+}
+
+// A bordered shell holding a borderless input plus a static unit label, rather
+// than one input with reserved right padding: the padding approach leaves the
+// browser free to draw its spinner on top of the label.
+function OAYTimeField(props) {
+  var E = React.createElement;
+  return E("div", {
+    style: { flex: 1, display: "flex", alignItems: "center", gap: 8, background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 12, padding: "0 16px" }
+  },
+    E("input", {
+      type: "text", inputMode: "numeric", maxLength: 2, placeholder: "0",
+      value: props.value,
+      "aria-label": props.unit,
+      onChange: function (e) { props.onChange(e.target.value); },
+      style: { flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: "var(--ink)", padding: "14px 0", textAlign: "right" }
+    }),
+    E("span", { style: { fontSize: 14, fontWeight: 700, color: "var(--inkMuted)", flexShrink: 0 } }, props.unit));
+}
+
+function OAYFieldLabel(props) {
+  return React.createElement("div", {
+    style: { fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 9 }
+  }, props.children);
+}
+
+function OAYBigStat(props) {
+  var E = React.createElement;
+  return E("div", null,
+    props.animate
+      ? E(OAYCountUp, { value: props.hours })
+      : E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--ink)", fontSize: "clamp(58px, 12vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.01em" } }, oayCommas(props.hours)),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--inkMuted)", marginTop: 6 } }, "hours a year"));
+}
+
+function OneAppOneYearTryIt(props) {
+  var E = React.createElement;
+  var _app = useState(""), appName = _app[0], setAppName = _app[1];
+  var _h = useState(""), hVal = _h[0], setHVal = _h[1];
+  var _m = useState(""), mVal = _m[0], setMVal = _m[1];
+  var _err = useState(""), err = _err[0], setErr = _err[1];
+  var _res = useState(null), res = _res[0], setRes = _res[1];
+  var _ah = useState(""), aiH = _ah[0], setAiH = _ah[1];
+  var _am = useState(""), aiM = _am[0], setAiM = _am[1];
+  var _aerr = useState(""), aiErr = _aerr[0], setAiErr = _aerr[1];
+  var _ares = useState(null), aiRes = _ares[0], setAiRes = _ares[1];
+  var _qd = useState(false), quizDone = _qd[0], setQuizDone = _qd[1];
+
+  var STOP_QUESTION = {
+    statement: "How do you know it’s time to stop an AI chat?",
     options: [
       { label: "When the AI stops offering follow-ups.", correct: false, headline: "It never will.", hint: "Recall the demo: how many replies ended without an offer?", feedback: "Waiting for the chat to wind down is waiting forever. It’s built to continue. The stopping point is yours to call." },
       { label: "When you got what you came for.", correct: true, headline: "That’s the whole rule.", feedback: "You came with a question. You have the answer. Everything offered after that is the app’s wish, not yours. Say yes only if you actually want it." },
       { label: "After 30 minutes, no matter what.", correct: false, headline: "It’s not a timer.", hint: "Sometimes two minutes is right. Sometimes an hour is. What’s the real test?", feedback: "The clock isn’t the test. The answer is. A two-minute chat can run long, and an hour of real learning can be exactly right." }
     ]
-  }, {
-    question: "When are long AI chats a good thing?",
-    options: [
-      { label: "When you have free time to fill.", correct: false, headline: "Free time is still time.", hint: "Is ‘nothing better to do’ a decision, or a drift?", feedback: "That’s how two hours vanish. Even free time deserves a decision. Choose the chat, don’t fall into it." },
-      { label: "Never. Long AI chats are always the trap.", correct: false, headline: "Long isn’t the trap.", hint: "Is length the problem, or drift?", feedback: "Overcorrection. A deep hour where you wanted to learn is the tool at its best. Drifting is the trap. Depth on purpose isn’t." },
-      { label: "When it’s expanding your learning: each follow-up teaches you something you actually want.", correct: true, headline: "Deciding, not drifting.", feedback: "That’s the boundary. The offers can earn a yes. Take the ones that teach you what you wanted to know, and close the chat when they stop." }
-    ]
-  }];
+  };
+
+  function submitApp(e) {
+    if (e) e.preventDefault();
+    var name = appName.trim();
+    if (!name) { setErr("Name the app first."); return; }
+    var t = oayParseTime(hVal, mVal);
+    if (t.error) { setErr(t.error); return; }
+    setErr("");
+    setRes({ app: name, h: t.h, m: t.m, hoursYear: t.hoursYear, isAI: oayIsAIApp(name) });
+  }
+
+  function submitAI(e) {
+    if (e) e.preventDefault();
+    var t = oayParseTime(aiH, aiM);
+    if (t.error) { setAiErr(t.error); return; }
+    setAiErr("");
+    setAiRes({ h: t.h, m: t.m, hoursYear: t.hoursYear });
+  }
+
+  var divider = { borderTop: "1px solid var(--rule)", marginTop: 30, paddingTop: 26 };
+  var turnKicker = { fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--tryAccent)", marginBottom: 10 };
+
+  // Beat 1: the form, or the number and the list.
+  var beatOne;
+  if (!res) {
+    beatOne = E("form", { onSubmit: submitApp },
+      E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--ink)", fontSize: 34, lineHeight: 1.06, marginBottom: 12, letterSpacing: "0.005em" } }, "One app, one year"),
+      E("p", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 20px", maxWidth: "62ch" } },
+        "Pick the app you’re on the most. Not the one you’d like to say. The real one."),
+      E("div", { style: { marginBottom: 20 } },
+        E("label", { htmlFor: "oay-app" }, E(OAYFieldLabel, null, "The app")),
+        E("input", {
+          id: "oay-app", type: "text", maxLength: 28,
+          placeholder: "TikTok, YouTube, Instagram, whatever it is",
+          value: appName,
+          onChange: function (e) { setAppName(e.target.value); },
+          style: { width: "100%", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: "var(--ink)", background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 12, padding: "14px 16px", outline: "none" }
+        })),
+      E("div", { style: { marginBottom: 20 } },
+        E(OAYFieldLabel, null, "On a normal day, how long are you in it?"),
+        E("div", { style: { display: "flex", gap: 12 } },
+          E(OAYTimeField, { value: hVal, unit: "hours", onChange: setHVal }),
+          E(OAYTimeField, { value: mVal, unit: "mins", onChange: setMVal })),
+        E("p", { style: { fontSize: 13.5, lineHeight: 1.5, color: "var(--inkMuted)", marginTop: 9 } },
+          "If you can find the real number in your phone settings, use that. If you can’t, your honest guess is fine. Most people guess low.")),
+      err ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginBottom: 12 } }, err) : null,
+      E("div", { style: { textAlign: "center", marginTop: 6 } },
+        E(ActivityButton, { size: "large", onClick: submitApp }, "Do the math")));
+  } else {
+    var daysTxt = oayDaysLabel(res.hoursYear);
+    var earned = res.hoursYear * OAY_WAGE;
+    beatOne = E("div", null,
+      E(OAYBigStat, { hours: res.hoursYear, animate: true }),
+      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: "22px 0 0", maxWidth: "60ch" } },
+        "You spend ", E("b", { style: { color: "var(--ink)" } }, oayTimeLabel(res.h, res.m) + " a day"), " on ", res.app,
+        ". That’s ", E("b", { style: { color: "var(--ink)" } }, daysTxt + " days a year"),
+        ". Not " + daysTxt + " days of spare time. " + daysTxt + " entire days, awake and asleep, gone out of your year."),
+      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: "14px 0 0", maxWidth: "60ch" } },
+        "Some of that you’d spend again exactly the same way, and that’s fine. The question is ",
+        E("b", { style: { color: "var(--ink)" } }, "how much of it you actually chose"), "."),
+      E("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--tryAccent)", margin: "30px 0 4px" } }, "What you could have done"),
+      E("div", { style: { borderTop: "1.5px solid var(--rule)" } },
+        OAY_COMPARISONS.map(function (c, i) {
+          var count = c.money ? earned
+            : c.invest ? earned * Math.pow(1 + OAY_RETURN, OAY_YEARS)
+            : res.hoursYear / c.hrs;
+          if (count < 1) return null;
+          var dollars = !!(c.money || c.invest);
+          return E("div", {
+            key: i,
+            style: { display: "grid", gridTemplateColumns: "150px 1fr", gap: 18, alignItems: "center", padding: "15px 2px", borderBottom: "1px solid var(--rule)" }
+          },
+            E("div", { style: { fontFamily: "var(--serif)", fontSize: 30, lineHeight: 1.05, color: "var(--primaryDeep)", whiteSpace: "nowrap", textAlign: "right" } },
+              (dollars ? "$" : "") + oayCommas(count)),
+            E("div", { style: { fontSize: 16, lineHeight: 1.45, color: "var(--ink)", fontWeight: 600 } },
+              c.txt,
+              E("span", { style: { display: "block", fontSize: 13.5, fontWeight: 400, color: "var(--inkMuted)", marginTop: 3 } }, c.note)));
+        })));
+  }
+
+  // Beat 2: the turn. A student who already named an AI app is not asked twice.
+  var beatTwo = null;
+  if (res && res.isAI) {
+    beatTwo = E("div", { style: divider },
+      E("div", { style: turnKicker }, "The one nobody warns you about"),
+      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: 0, maxWidth: "60ch" } },
+        "You picked the AI one. Almost nobody does, which is exactly why it works. ",
+        E("b", { style: { color: "var(--ink)" } }, "AI chat is the newest surface in the same industry"),
+        ", running the same business model, and this is the friendliest version of it anyone has built."));
+  } else if (res && !aiRes) {
+    beatTwo = E("div", { style: divider },
+      E("div", { style: turnKicker }, "Now the one nobody warns you about"),
+      E("form", { onSubmit: submitAI },
+        E(OAYFieldLabel, null, "On a normal day, how long are you in ChatGPT, Claude, or whichever AI you use?"),
+        E("div", { style: { display: "flex", gap: 12, maxWidth: 420 } },
+          E(OAYTimeField, { value: aiH, unit: "hours", onChange: setAiH }),
+          E(OAYTimeField, { value: aiM, unit: "mins", onChange: setAiM })),
+        aiErr ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginTop: 12 } }, aiErr) : null,
+        E("div", { style: { marginTop: 18 } },
+          E(ActivityButton, { onClick: submitAI }, "Run the same math"))));
+  } else if (res && aiRes) {
+    var appDays = oayDaysLabel(res.hoursYear);
+    var aiDays = oayDaysLabel(aiRes.hoursYear);
+    // The copy never compares the two sizes. Most students will enter a small AI
+    // number, and "AI is smaller, so AI is fine" is the one reading that would
+    // undo the lesson. The comparison is trajectory and awareness instead.
+    var closeLine = aiRes.hoursYear < res.hoursYear / 4
+      ? E(React.Fragment, null,
+          "Your AI number is the smaller one. That’s the part worth sitting with. ",
+          res.app + " was a small number once too, and nobody set out to hand it " + appDays + " days. ",
+          E("b", { style: { color: "var(--ink)" } }, "The design that got it there is the same design running inside every AI chat"),
+          ", and this is the friendliest version of it anyone has built.")
+      : E(React.Fragment, null,
+          "Those two numbers are close. ",
+          E("b", { style: { color: "var(--ink)" } }, "AI chat is the newest surface in the same industry"),
+          ", and you’re already in it about as deep as the app everyone warns you about.");
+    beatTwo = E("div", { style: divider },
+      E("div", { style: turnKicker }, "The one nobody warns you about"),
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))", gap: 14, marginBottom: 20 } },
+        [{ label: res.app, hours: res.hoursYear, days: appDays, color: "#f59e0b" },
+         { label: "AI chat", hours: aiRes.hoursYear, days: aiDays, color: "var(--primary)" }].map(function (side, i) {
+          return E("div", { key: i, style: { background: "var(--primaryFaint)", borderRadius: 16, padding: "18px 20px" } },
+            E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8, overflowWrap: "anywhere" } }, side.label),
+            E("div", { style: { fontFamily: "var(--serif)", fontSize: 40, lineHeight: 1, color: "var(--ink)" } }, oayCommas(side.hours)),
+            E("div", { style: { fontSize: 13.5, color: "var(--inkMuted)", marginTop: 6 } }, "hours a year, or " + side.days + " days"));
+        })),
+      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: 0, maxWidth: "60ch" } }, closeLine));
+  }
+
+  // Beat 3: the judgment rep. The felt cost is not a decision, and this is the
+  // one thing the quiz this replaced was actually doing.
+  var beatThree = null;
+  if (res && (res.isAI || aiRes)) {
+    beatThree = E("div", { style: divider },
+      E("div", { style: turnKicker }, "So when do you close it?"),
+      E(QuizBlock, {
+        surface: "mint",
+        optionsIndent: 0,
+        statement: STOP_QUESTION.statement,
+        options: STOP_QUESTION.options,
+        onAnswer: function (idx, correct) { if (correct) setQuizDone(true); }
+      }),
+      quizDone ? E("div", { style: { marginTop: 24, background: "var(--primaryFaint)", borderRadius: 12, padding: "18px 20px", fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } },
+        "You came with a question. You have the answer. Everything offered after that is the app’s wish, not yours. ",
+        E("b", { style: { color: "var(--ink)" } }, "The number at the top of this box is what happens when nobody asks.")) : null);
+  }
+
+  return E(React.Fragment, null,
+    E(ActivityLead, { variant: "try" },
+      "Half a million human lifetimes a month is a number nobody can actually feel. Here’s the version you can feel, because it’s yours."),
+    E(InteractiveBox, { variant: "try", surface: "mint", primed: true },
+      E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
+        beatOne, beatTwo, beatThree)));
+}
+function EngagementTrapSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "engagementtrap" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Flattery Trap was approval feeling like help. Engagement Trap is quieter: it’s about where your time goes."),
@@ -9336,20 +9585,7 @@ function EngagementTrapSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "The skill, with AI and every other app, is knowing when to stop."),
       " And the right stopping point comes earlier than the people who built it want."),
     closeBoard("engagementtrap"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Why it never ends",
-     lead: "Five questions. Answer these, and you can spot the design anywhere."},
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        WHY_QUESTIONS.map(function(sc, si) {
-          var picked = spotAnswers[si];
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-                /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", statement: sc.question, totalQuestions: WHY_QUESTIONS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }))));
-        }))),
+    /*#__PURE__*/React.createElement(OneAppOneYearTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }

@@ -208,6 +208,39 @@ This also resolved the "Of course," echo logged in the previous pass. Two remain
 lesson and they do not collide: one is a bullet answer ("Of course, New York City."), the
 other opens the second `Distance` paragraph.
 
+## Considered and rejected: a rendered image in place of the SVG map
+
+The owner offered a generated classroom image — the twins presenting the three-city map on
+a screen — as a replacement for the drawn map, optionally without the people. Decision:
+**keep the SVG.** Reasons, in the order that decided it:
+
+1. **The lesson's illustration slot is already spent, and already on a map.**
+   `illustrations/vector-space.jpg` is the desk map with the word-neighborhoods and the lit
+   path to "cat", displayed at 880px about two screens below this beat. It works because it
+   is the first time the lesson goes wide and warm. A second photo-real map above it spends
+   that entrance early.
+2. **Bigger labels, smaller map.** Measured rather than assumed: at the 880px illustration
+   width the chip text lands around 13–14px against the SVG's current 9.5px, so the labels
+   improve. But the map outline itself comes out around 487px wide against roughly 593px in
+   today's 625px box. This beat asks the reader to compare distances between three stars, so
+   the map is the part that needs the room.
+3. **The render has an accuracy defect the SVG cannot have.** In the proposed image the
+   crosshairs do not meet Dallas: the horizontal dashed line sits above the star and the
+   vertical descends from it without joining. Two lines converging on the city is the whole
+   point of keeping them. The SVG's units are degrees, so a star sits where its coordinates
+   put it.
+4. Three fixable-but-real conflicts: the baked-in title duplicates the `AI uses a map (kind
+   of)` kicker directly above it; the subtitle restates the body paragraph and uses an
+   em-dash, which design-check counts against house style; and the degree symbols diverge
+   from the page's `33 N, 97 W` chips and the bullets' `38 N, 120 W`.
+5. **The people-free variant is the weakest of the three.** Strip the people and the title
+   and it is a picture of a map, which is what the SVG already is, minus scalability and
+   correct-by-construction placement. The people are the only thing the raster adds.
+
+Not promoted to a house rule. If "precision diagrams stay SVG, and a lesson gets one warm
+illustration" should be standing policy rather than this lesson's call, it belongs in
+`briefing.md` — which today documents illustration format and sizing but no such rule.
+
 ## Verification
 
 1. `bash design-check.sh` and reconcile every FLAG before committing `index.html`.

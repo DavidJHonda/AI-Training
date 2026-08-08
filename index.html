@@ -5682,6 +5682,26 @@ function VectorSpaceSection(props) {
     return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 18, padding: 16, marginBottom: 24, maxWidth: 500, marginLeft: "auto", marginRight: "auto" } },
       E("div", { style: { position: "relative" } }, children));
   };
+  // Body-scale bullets: prose that happens to be listed, not a box. Matches BodyP
+  // typography so the worked answers read at the same weight as the paragraphs
+  // around them. Local to this lesson; promote it if a second lesson needs it.
+  var bulletList = function(items) {
+    return E("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 18px" } },
+      items.map(function(item, i) {
+        return E("li", { key: i, style: {
+          color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65,
+          marginBottom: i === items.length - 1 ? 0 : 10,
+          paddingLeft: 22, position: "relative"
+        } },
+          E("span", { style: { position: "absolute", left: 4, top: 0, color: "var(--primary)", fontWeight: 700 } }, "•"),
+          item);
+      }));
+  };
+  // Coordinates and vectors set in mono, so they read as positions rather than
+  // sentence text and tie back to the Taste Profile table.
+  var mono = function(text) {
+    return E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.92em", fontWeight: 700, color: "var(--ink)" } }, text);
+  };
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
@@ -5692,18 +5712,12 @@ function VectorSpaceSection(props) {
     E(SectionKicker, null, "AI uses a map (kind of)"),
     E(BodyP, null,
       "A regular map works like this. You can find any place by knowing two things: the latitude and the longitude. Want to find Dallas, Texas? Just give it a north latitude of 33 and a west longitude of 97."),
+    E(BodyP, null,
+      "Can we add New York City and Mountain View, California? Yep. They track the same dimensions."),
     mapBox([
       usMap([
         E("line", { key: "lat", x1: -126, y1: -32.78, x2: -96.8, y2: -32.78, stroke: "#e6394d", strokeWidth: 0.25, strokeDasharray: "1 0.8", opacity: 0.75 }),
         E("line", { key: "lon", x1: -96.8, y1: -24.4, x2: -96.8, y2: -32.78, stroke: "#e6394d", strokeWidth: 0.25, strokeDasharray: "1 0.8", opacity: 0.75 }),
-        E("path", { key: "star", d: starAt(-96.8, 32.78), fill: "#e6394d" })
-      ]),
-      cityChip("Dallas, Texas", "33 N, 97 W", -96.8, 32.78, -50, -23, "#e6394d")
-    ]),
-    E(BodyP, null,
-      "But what if we want to find New York City and Mountain View, California? No worries. They track the same dimensions."),
-    mapBox([
-      usMap([
         E("path", { key: "nyc", d: starAt(-74.01, 40.71), fill: "#2f6fd6" }),
         E("path", { key: "mtv", d: starAt(-122.08, 37.39), fill: "#0f8a66" }),
         E("path", { key: "dal", d: starAt(-96.8, 32.78), fill: "#e6394d" })
@@ -5713,15 +5727,21 @@ function VectorSpaceSection(props) {
       cityChip("Dallas, Texas", "33 N, 97 W", -96.8, 32.78, -50, -23, "#e6394d")
     ]),
     E(BodyP, null,
-      "Now turn it around. Say all you have is those two numbers for each city. If I give you 38 N and 120 W, could you tell which city it\u2019s closest to? You could: Mountain View. What about 39 N and 70 W? Of course, New York City."),
+      "Now, let\u2019s pretend those are the only three cities in the United States. Your job is simple. You get the coordinates and have to match them to the closest city."),
+    bulletList([
+      E(React.Fragment, null, mono("38 N, 120 W"), ". That\u2019s right. The closest match is Mountain View."),
+      E(React.Fragment, null, mono("39 N, 70 W"), "? Of course, New York City.")
+    ]),
     E(BodyP, null,
-      "Notice what you just did there. Neither of those pairs is a city. They\u2019re just positions, matching nothing on file. You found the closest one anyway."),
+      "You did exactly what AI does. There was no match for the numbers, so you found the closest match."),
     E(SectionKicker, null, "How AI does it"),
     E(BodyP, null,
-      "In the Embeddings lesson, you learned how meaning is represented by values crossed against thousands of dimensions. You saw a simple example of Coke vs. Pepsi vs. Coffee."),
+      "Of course, the way AI does it is much more complicated, because there are many more dimensions than two. But the core idea is the same: it establishes meaning based on distance."),
+    E(BodyP, null,
+      "This is how you learned a token’s meaning with numbers: a taste profile of Coke vs. Pepsi vs. Coffee."),
     vsTasteProfile,
     E(BodyP, null,
-      "Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this."),
+      "Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this."),
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 22, marginBottom: 8 } },
       E("div", { style: {
         fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
@@ -5783,7 +5803,10 @@ function VectorSpaceSection(props) {
     E(BodyP, { marginTop: 24 },
       "On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood."),
     E(BodyP, null,
-      "Now ask the same question you just answered with cities. If the numbers were 9, 1, 10, 2, 3, 8, 9, which drink would that be closest to? A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It matches nothing on file exactly, and it does not have to."),
+      "Let’s try the same exercise you used on a real map. Here are coordinates you need to match to a drink. Those numbers don’t exist on the table, so you need to figure out which drink these numbers mean."),
+    bulletList([
+      E(React.Fragment, null, mono("9, 1, 10, 2, 3, 8, 9"), ". A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It doesn’t match anything on file exactly, and it doesn’t have to. You know it refers to Pepsi.")
+    ]),
     E(SectionKicker, null, "Distance"),
     E(BodyP, null,
       "Here’s what you just did. Add up the gap between two sets of numbers across every dimension, and you get their ",

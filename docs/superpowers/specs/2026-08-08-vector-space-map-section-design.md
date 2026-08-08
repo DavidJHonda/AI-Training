@@ -55,8 +55,15 @@ Paragraph 3 — **replaces** "Now turn it around…":
 
 Bullets — **new**:
 
-> - `38 N` and `120 W`. That's right. The closest match is Mountain View.
-> - `39 N` and `70 W`? Of course, New York City.
+> - `38 N, 120 W`. That's right. The closest match is Mountain View.
+> - `39 N, 70 W`? Of course, New York City.
+
+**Comma, not "and" — forced by the mono treatment, changed during the build.** The outline
+reads "38 N and 120 W". Rendered, that put a monospace word-space inside `38 N` that is
+visibly *wider* than the proportional space before "and", so the line read as "38 Nand
+120 W". Making each pair a single mono unit removes the artifact and matches the map's own
+city chips, which already read `37 N, 122 W`. Revert to "and" only by also dropping the
+mono on these two bullets.
 
 Paragraph 4 — **replaces** "Notice what you just did there…":
 

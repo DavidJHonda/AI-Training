@@ -182,7 +182,13 @@ it — but it does give up the sync noted in the v4 build.
 
 `ai-is-math-v4.mp4` deleted as superseded; it was never reviewed.
 
-## Owner reversal (2026-08-08): v6 is the shipping configuration
+## Owner reversal (2026-08-08): v6 is the shipping configuration — SHIPPED
+
+Owner AV review passed ("ship v6. It works."). Installed as `videos/ai-is-math.mp4`;
+`-v6` and `-v3` both deleted after install. The `LESSON_VIDEOS` duration label was
+re-checked and stays "4 min" — 4:16.97 → 4:06.04 does not cross the boundary, so
+`index.html` needed no edit.
+
 
 The owner asked to ship v3 because **"that one mentions Thomas Bayes, and that's
 important."** Shipping v3 unchanged would have reverted all four changes, so on clarification

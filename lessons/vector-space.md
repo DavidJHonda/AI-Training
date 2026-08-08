@@ -10,11 +10,7 @@ So how does AI work out what the token means, when its vector matches nothing on
 
 A regular map works like this. You can find any place by knowing two things: the latitude and the longitude. Want to find Dallas, Texas? Just give it a north latitude of 33 and a west longitude of 97.
 
-Dallas, Texas
-
-33 N, 97 W
-
-But what if we want to find New York City and Mountain View, California? No worries. They track the same dimensions.
+Can we add New York City and Mountain View, California? Yep. They track the same dimensions.
 
 New York City
 
@@ -28,13 +24,17 @@ Dallas, Texas
 
 33 N, 97 W
 
-Now turn it around. Say all you have is those two numbers for each city. If I give you 38 N and 120 W, could you tell which city it’s closest to? You could: Mountain View. What about 39 N and 70 W? Of course, New York City.
+Now, let’s pretend those are the only three cities in the United States. Your job is simple. You get the coordinates and have to match them to the closest city.
 
-Notice what you just did there. Neither of those pairs is a city. They’re just positions, matching nothing on file. You found the closest one anyway.
+- **38 N, 120 W**? That’s right. The closest match is Mountain View.
+- **39 N, 70 W**? Of course, New York City.
+You did exactly what AI does. There was no match for the numbers, so you found the closest match.
 
-## How AI does it
+## AI is way more complicated
 
-In the Embeddings lesson, you learned how meaning is represented by values crossed against thousands of dimensions. You saw a simple example of Coke vs. Pepsi vs. Coffee.
+You’ve learned there are many more dimensions than two. But the core idea is the same: it establishes meaning based on distance.
+
+This is how you learned a token’s meaning with numbers: a taste profile of Coke vs. Pepsi vs. Coffee.
 
 Taste Profile · Coke vs. Pepsi vs. Coffee
 
@@ -112,7 +112,7 @@ Taste Profile · Coke vs. Pepsi vs. Coffee
 
 0
 
-Notice how Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this.
+Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this.
 
 ## Sweet · Bitter · Fizz · Heat · Caffeine · Dark · Citrus
 
@@ -310,15 +310,15 @@ espresso
 
 On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood.
 
-Now ask the same question you just answered with cities. If the numbers were 9, 1, 10, 2, 3, 8, 9, which drink would that be closest to? A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It matches nothing on file exactly, and it does not have to.
+Let’s try the same exercise you used on a real map. Here are coordinates you need to match to a drink. Those numbers don’t exist on the table, so you need to figure out which drink these numbers mean.
+
+- **9, 1, 10, 2, 3, 8, 9**? A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It doesn’t match anything on file exactly, and it doesn’t have to. You know it refers to Pepsi.
 
 ## Distance
 
 Here’s what you just did. Add up the gap between two sets of numbers across every dimension, and you get their **distance**. That is how AI measures closeness.
 
-AI does the same thing, just on a massive scale. Every token carries thousands of dimensions, not seven, and AI learned every one of those values during training. And just like on our maps, tokens that mean similar things sit close together.
-
-That closeness is no accident. Training nudged every token’s numbers until words used in similar ways ended up in similar places. So landing near a token is not a near miss. It is how the meaning gets read.
+Of course, AI does it on a massive scale. Every token carries thousands of dimensions, not seven, and AI learned every one of those values during training. And just like on our maps, tokens that mean similar things sit close together, so landing near a token is not a near miss. It is how the meaning gets read.
 
 ## Meaning is a position
 

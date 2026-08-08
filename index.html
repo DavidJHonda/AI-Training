@@ -5688,16 +5688,19 @@ function VectorSpaceSection(props) {
   // Each item is { lead, body }: the coordinates on their own line, the answer on
   // the next one starting at the same x, so the numbers stay a scannable column.
   var bulletList = function(items) {
-    return E("ul", { style: { listStyle: "none", padding: 0, margin: "0 0 18px" } },
+    return E("ul", { style: { listStyle: "disc", padding: 0, margin: "0 0 18px" } },
       items.map(function(item, i) {
+        // The li's own color drives ::marker and the inner divs carry the reading
+        // color, so the dot is primary WITHOUT a text-node bullet. A literal "•"
+        // span renders identically but the .md export emits it on top of its own
+        // list marker ("- •38 N, 120 W"), which then feeds the video generator.
         return E("li", { key: i, style: {
-          color: "var(--inkSoft)", fontSize: 17, lineHeight: 1.65,
+          color: "var(--primary)", fontSize: 17, lineHeight: 1.65,
           marginBottom: i === items.length - 1 ? 0 : 16,
-          paddingLeft: 62, position: "relative"
+          marginLeft: 62, listStylePosition: "outside"
         } },
-          E("span", { style: { position: "absolute", left: 34, top: 0, color: "var(--primary)", fontWeight: 700 } }, "•"),
-          E("div", null, item.lead),
-          E("div", null, item.body));
+          E("div", { style: { color: "var(--inkSoft)" } }, item.lead),
+          E("div", { style: { color: "var(--inkSoft)" } }, item.body));
       }));
   };
   // Coordinates and vectors set in mono, so they read as positions rather than

@@ -62,6 +62,35 @@ slicing into the right panel. **Panel states now sit at w=4600 on the board cent
 whole panel and its ring are enclosed. Element states keep their tight dives, which work well —
 the ring encloses its target and the text is large.
 
+## v4: the opening transition cut, and the 0:52 blip diagnosed
+
+**The blip was my own fades.** Owner heard "a very slight glip" at 0:52 — the E1 joint. Cause
+found by measuring the noise floor in 5ms windows: the joint bottomed at **RMS 2**, effectively
+digital silence, against a natural pause floor of ~23. The 60ms `afade` on each side was pulling
+continuous room tone down to absolute zero and back, punching a hole in the ambience.
+
+Three splices were compared at both joints:
+
+| Fades | joint floor (5ms RMS) | max sample step |
+|---|---|---|
+| 60ms (v3) | **2** — a hole | — |
+| 10ms | 10 — still under natural | — |
+| **none (v4)** | **14 and 27** — *above* an ordinary pause's 7 | 3,486 and 9,136 — *below* speech's own 15,442 |
+
+**No fades won on both counts.** Both sides of each joint are the same room tone at the same
+level, so cutting straight keeps the ambience continuous, and the waveform step is smaller than
+steps that occur naturally within the speech — no hole, no click. The recipe's "10ms fades at
+every joint" is for joining *mismatched* material; splicing a pause into its own room tone
+wants no fade at all.
+
+**Opening transition cut.** Frames 0–387 (0–12.90) removed: "We previously looked at how AI can
+capture your attention by playing on your need for approval. This next dynamic operates much
+more quietly. It targets your time, rather than your ego." The owner asked for 14 seconds, but
+"When you ask an AI a question" starts at **13.16**, so a full 14s clips it; 12.90 leaves a
+0.26s breath. The video now opens on that line.
+
+**6,810 frames, 3:47.00.**
+
 ## Verification
 
 | Gate | Measured |

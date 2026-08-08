@@ -182,6 +182,47 @@ it — but it does give up the sync noted in the v4 build.
 
 `ai-is-math-v4.mp4` deleted as superseded; it was never reviewed.
 
+## Owner reversal (2026-08-08): v6 is the shipping configuration
+
+The owner asked to ship v3 because **"that one mentions Thomas Bayes, and that's
+important."** Shipping v3 unchanged would have reverted all four changes, so on clarification
+the wanted set is: **Bayes kept, double explanation cut, no closing tour, v5's Pascal &
+Fermat treatment.**
+
+`videos/ai-is-math-v6.mp4` = v3 + edit A + edit B. **7,381 frames, 4:06.04.**
+
+- **Edit C reversed.** The Bayes beat, the PRIOR PROBABILITY card and the "Let's apply his
+  logic / as shown in this updated graphic" hand-off are all back, exactly as v3 has them.
+  The dangling-antecedent and deck-referential notes above no longer apply — nothing was cut
+  there.
+- **Edit D reversed.** The closing matrix grid and Loop/Condition/Probability orbit stay;
+  `illustrations/ai-is-math-2.jpg` is not used. The tour spec is kept above as a record, and
+  the `ken_burns_path` json survives in the session scratch if it is ever wanted.
+- **The 2-second break was NOT carried over.** It existed to fix a join that edit C created;
+  with Bayes restored there is no join, and the natural 0.84s pause before "Thomas Bayes"
+  returns. Widening it to a full 2s would need ~35 frames of video that no longer exist to
+  restore, so it would mean a freeze or a re-timed leg — worth asking for explicitly rather
+  than assuming.
+
+| Gate | Measured |
+|---|---|
+| Frame count | **7,381**, exact |
+| Seams | 372 **183.1**, 622 **130.7**, 845 **71.4** — one spike each, neighbours ≤ 2.7 |
+| Audio join | "…birthed standard probability." → "This image displays that mathematical relationship." |
+| Bayes present | yes, 88.96 |
+| Closing intact | yes, engine sketches and their narration unchanged |
+| Illustration | opens on the complete image, `Pascal   Fermat` readable |
+| pts_time deltas | 4921/2459 at 0.033333/0.033334 — matches v3's 5140/2568 |
+
+`ai-is-math-v5.mp4` deleted as superseded. `v3` kept as the base.
+
+**Toolkit finding, recorded in `scripts/video/README.md`:** `-video_track_timescale` silently
+dropped the final frame at 15360, 30000 and 90000; `-frames:v`, `apad`, `-shortest` and
+`-fps_mode passthrough` all failed to prevent it. Dropping the flag fixed it. The diagnosis
+that worked was checking the output's seam positions first — all three were exactly where
+predicted, which proved no segment was short and sent the search to the output flags instead
+of the filter graph.
+
 ## Verification
 
 1. Output frame count **== 6,983** exactly.

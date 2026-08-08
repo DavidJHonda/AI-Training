@@ -117,6 +117,22 @@ so any splice needs exactly ONE re-encode pass:
   as broken tpad: container duration right, video stream short; hit 2026-07-24
   on the support-trap-v2 build, 322 frames gone, caught by frame count).
   Re-stamp with `settb=1/30,setpts=N/(30*TB)` directly after loop instead.
+- **`-video_track_timescale` can silently eat the LAST frame** (ai-is-math v6,
+  2026-08-08). A concat graph that measured 7,381 frames through `-f null -`
+  muxed to 7,380 in the mp4 — every seam landed on its expected frame, so the
+  loss was the tail, not a segment. Reproduced at timescale 15360, 30000 and
+  90000; dropping the flag entirely gave 7,381. `-frames:v`, `apad`, `-shortest`
+  and `-fps_mode passthrough` all failed to save it. **Diagnosis order that
+  works: locate the seams first** (`scenes.py` on the output) — if they are all
+  where you predicted, no segment is short and the frame went off the end, so
+  stop auditing the filter and start removing output flags.
+  You do not need the flag: without it these builds inherit a 1/1000000
+  timebase whose `pts_time` deltas alternate 0.033333/0.033334, and **so do the
+  source files** (ai-is-math-v3: 5140/2568; the shipped ai-is-math.mp4 is worse,
+  with 166 frames at 0.033000). That microsecond alternation is NOT the
+  flattery-trap bug — that one was millisecond rounding at 30.004 fps, a 1000×
+  larger error. Compare the output's `pts_time` histogram against its own source
+  before concluding anything about jitter.
 
 ## A cut count is NOT a strobe measure (learned the hard way, 2026-07-25)
 

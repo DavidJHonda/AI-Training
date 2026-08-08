@@ -504,3 +504,32 @@ lesson. Cut as a pair:
 
 Possible destination: a future work/agents-adjacent lesson on AI in decisions
 (hiring, lending), where label bias IS the point. Full source in git history.
+
+## Engagement Trap — "Why it never ends" 5-question TRY IT (cut 2026-08-08)
+
+Replaced by the One App, One Year calculator, because one TRY IT per page is the
+rule (the video close sends students to the bottom of the page) and the lesson
+needed an activity that makes the cost personal rather than one that checks
+reading. Design spec:
+`docs/superpowers/specs/2026-08-08-engagement-trap-tryit-design.md`.
+
+Q4 ("How do you know it's time to stop an AI chat?") survives verbatim as beat 3
+of the new activity. The other four are parked:
+
+- **Q1 Why did Aza Raskin design infinite scroll?** Correct: "To remove friction.
+  Clicking 'next page' was a pause, and good design removes pauses." Recall of the
+  paragraph directly above it.
+- **Q2 What is the danger of infinite scroll?** Correct: "The natural decision
+  point is gone. Nothing ever asks if you want more." Headline "The pause was the
+  point." The strongest of the four and the one worth restoring first if the
+  calculator ever needs a conceptual partner.
+- **Q3 Why do the companies that build the apps want infinite scroll?** Correct:
+  "More time in the app means more money." Recall of the "Why tech companies do
+  this" section.
+- **Q5 When are long AI chats a good thing?** Correct: "When it's expanding your
+  learning: each follow-up teaches you something you actually want." Headline
+  "Deciding, not drifting." Genuinely good content whose point is now carried by
+  the lesson's own closing prose.
+
+Full source in git history (EngagementTrapSection WHY_QUESTIONS, commit before
+this one).

@@ -119,6 +119,16 @@
   .numcols-3 > *{ flex:0 1 calc((100% - 24px) / 3); }
   @media (max-width:700px){ .numcols-3 > *{ flex-basis:calc((100% - 12px) / 2); } }
   @media (max-width:500px){ .numcols-3 > *{ flex-basis:100%; } }
+  /* Engagement Trap "what you could have done" rows: a big right-aligned figure
+     beside its label. Needs a media query (the number stacks above the label on
+     narrow, rather than squeezing the label to one word per line), so it lives
+     here rather than as an inline style on the row. */
+  .oay-row{ display:grid; grid-template-columns:150px 1fr; gap:18px; align-items:center; padding:15px 2px; }
+  .oay-row > .oay-figure{ font-family:var(--serif); font-size:30px; line-height:1.05; color:var(--primaryDeep); white-space:nowrap; text-align:right; }
+  @media (max-width:560px){
+    .oay-row{ grid-template-columns:1fr; gap:2px; }
+    .oay-row > .oay-figure{ text-align:left; font-size:26px; }
+  }
   /* Welcome gate: implements the "Course Opener" design (claude.ai/design, 2026-07-14) */
   .gate-screen{ position:relative; overflow:hidden; min-height:100vh; padding:64px 24px 80px; background:radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%); font-family:var(--sans); color:#c7d0f0; }
   .gate-watermark{ position:absolute; right:-160px; bottom:-140px; width:560px; max-width:70vw; opacity:.05; pointer-events:none; }
@@ -9318,7 +9328,8 @@ function OAYTimeField(props) {
     E("input", {
       type: "text", inputMode: "numeric", maxLength: 2, placeholder: "0",
       value: props.value,
-      "aria-label": props.unit,
+      name: props.name,
+      "aria-label": props.label || props.unit,
       onChange: function (e) { props.onChange(e.target.value); },
       style: { flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: "var(--ink)", padding: "14px 0", textAlign: "right" }
     }),
@@ -9402,8 +9413,8 @@ function OneAppOneYearTryIt(props) {
       E("div", { style: { marginBottom: 20 } },
         E(OAYFieldLabel, null, "On a normal day, how long are you in it?"),
         E("div", { style: { display: "flex", gap: 12 } },
-          E(OAYTimeField, { value: hVal, unit: "hours", onChange: setHVal }),
-          E(OAYTimeField, { value: mVal, unit: "mins", onChange: setMVal })),
+          E(OAYTimeField, { value: hVal, unit: "hours", name: "oay-app-hours", label: "Hours a day on this app", onChange: setHVal }),
+          E(OAYTimeField, { value: mVal, unit: "mins", name: "oay-app-mins", label: "Minutes a day on this app", onChange: setMVal })),
         E("p", { style: { fontSize: 13.5, lineHeight: 1.5, color: "var(--inkMuted)", marginTop: 9 } },
           "If you can find the real number in your phone settings, use that. If you can’t, your honest guess is fine. Most people guess low.")),
       err ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginBottom: 12 } }, err) : null,
@@ -9423,18 +9434,23 @@ function OneAppOneYearTryIt(props) {
         E("b", { style: { color: "var(--ink)" } }, "how much of it you actually chose"), "."),
       E("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--tryAccent)", margin: "30px 0 4px" } }, "What you could have done"),
       E("div", { style: { borderTop: "1.5px solid var(--rule)" } },
-        OAY_COMPARISONS.map(function (c, i) {
+        // Rows are resolved before rendering so the last visible one can drop its
+        // bottom rule: the beat-2 divider draws its own, and the two together read
+        // as a stray double line. Small inputs can filter a row out, so "last"
+        // has to mean last visible, not last in OAY_COMPARISONS.
+        OAY_COMPARISONS.map(function (c) {
           var count = c.money ? earned
             : c.invest ? earned * Math.pow(1 + OAY_RETURN, OAY_YEARS)
             : res.hoursYear / c.hrs;
-          if (count < 1) return null;
-          var dollars = !!(c.money || c.invest);
+          return { c: c, count: count, dollars: !!(c.money || c.invest) };
+        }).filter(function (r) { return r.count >= 1; }).map(function (r, i, all) {
+          var c = r.c, count = r.count, dollars = r.dollars;
           return E("div", {
             key: i,
-            style: { display: "grid", gridTemplateColumns: "150px 1fr", gap: 18, alignItems: "center", padding: "15px 2px", borderBottom: "1px solid var(--rule)" }
+            className: "oay-row",
+            style: { borderBottom: i === all.length - 1 ? "none" : "1px solid var(--rule)" }
           },
-            E("div", { style: { fontFamily: "var(--serif)", fontSize: 30, lineHeight: 1.05, color: "var(--primaryDeep)", whiteSpace: "nowrap", textAlign: "right" } },
-              (dollars ? "$" : "") + oayCommas(count)),
+            E("div", { className: "oay-figure" }, (dollars ? "$" : "") + oayCommas(count)),
             E("div", { style: { fontSize: 16, lineHeight: 1.45, color: "var(--ink)", fontWeight: 600 } },
               c.txt,
               E("span", { style: { display: "block", fontSize: 13.5, fontWeight: 400, color: "var(--inkMuted)", marginTop: 3 } }, c.note)));
@@ -9456,8 +9472,8 @@ function OneAppOneYearTryIt(props) {
       E("form", { onSubmit: submitAI },
         E(OAYFieldLabel, null, "On a normal day, how long are you in ChatGPT, Claude, or whichever AI you use?"),
         E("div", { style: { display: "flex", gap: 12, maxWidth: 420 } },
-          E(OAYTimeField, { value: aiH, unit: "hours", onChange: setAiH }),
-          E(OAYTimeField, { value: aiM, unit: "mins", onChange: setAiM })),
+          E(OAYTimeField, { value: aiH, unit: "hours", name: "oay-ai-hours", label: "Hours a day on AI", onChange: setAiH }),
+          E(OAYTimeField, { value: aiM, unit: "mins", name: "oay-ai-mins", label: "Minutes a day on AI", onChange: setAiM })),
         aiErr ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginTop: 12 } }, aiErr) : null,
         E("div", { style: { marginTop: 18 } },
           E(ActivityButton, { onClick: submitAI }, "Run the same math"))));

@@ -1,4 +1,10 @@
-# embeddings-v3: illustration, two rebuilds, one cut, one hold
+# embeddings-v3: illustration, two rebuilds, one cut, one hold — SHIPPED as v4
+
+Owner AV review passed ("ship it"). Installed as `videos/embeddings.mp4`; `-v4` and `-v2`
+both deleted after install. The `LESSON_VIDEOS` duration label was re-checked and stays
+"3 min" — 3:41.20 → 3:30.24 does not cross the boundary, so `index.html` needed no edit
+(which also kept this pass clear of the file the concurrent session is working in).
+
 
 **Date:** 2026-08-08
 **Base:** `videos/embeddings-v2.mp4` — 6,636 frames, 3:41.20

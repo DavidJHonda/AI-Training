@@ -88,9 +88,12 @@ Every item is a gate, not a nice-to-have. Report each with its measured value.
 7. **Eyeball** frames on both sides of all four junctions. Frame counts alone have
    missed pixel-format garbage before.
 
-## Build result (2026-08-08)
+## Build result (2026-08-08) — SHIPPED
 
-Built as `videos/opener-avoid-v2.mp4` in a single crf-18 pass — both grafts in one
+Owner AV review passed ("ship-it"). Installed as `videos/opener-avoid.mp4`; the `-v2`
+candidate deleted after install, per the 5650213 practice.
+
+Built in a single crf-18 pass — both grafts in one
 concat graph, so the untouched 92% of the video takes exactly one re-encode generation,
 not two.
 

@@ -405,13 +405,15 @@ const CLOSE_BOARDS = {
   supporttrap: { pill: "AI’s supportive words are math, not support.", sticky: "Real support comes from people." },
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Embrace the Future
+  openerrealworld: { pill: "Four voices. Nobody knows who’s right.", sticky: "By the end, you can answer all four." },
+  whatpeoplesay: { pill: "The people building it can’t agree either.", sticky: "Nobody knows where it stops. Deal in what’s checkable." },
+  paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Judge the claim by what it leaves out." },
+  bigdownside: { pill: "You get what you measure, not what you meant.", sticky: "The black box moves faster than the rules." },
   bigupside: { pill: "The upside is real, and it already happened.", sticky: "Judge the good news like you judge the bad." },
   workchanges: { pill: "The jobs reshuffle. They don’t vanish.", sticky: "The edge goes to whoever works with it." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
   aijudges: { pill: "Sometimes AI decides about you.", sticky: "Ask for the paper trail." },
   computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
-  aifuture: { pill: "Predictions are cheap. Reality has friction.", sticky: "Judge the claim by what it leaves out." },
-  talkingai: { pill: "You can talk about AI clearly.", sticky: "Meet the worry with what you know." },
   // Build Your Skills
   choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
   askai: { pill: "AI is the best manual you’ve got.", sticky: "Ask it how to use it." },
@@ -1854,7 +1856,7 @@ const SECTION_GROUPS = [{
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
 }, {
   label: "Embrace the Future",
-  sections: ["openerrealworld", "bigupside", "workchanges", "agents", "aijudges", "computecost", "aifuture", "talkingai"]
+  sections: ["openerrealworld", "whatpeoplesay", "bigupside", "paceofchange", "bigdownside", "agents", "workchanges", "computecost", "aijudges"]
 }, {
   label: "Build Your Skills",
   sections: ["openerskills", "choosemodel", "askai", "thoughtpartner", "humanedge", "creativethinking", "becurious", "buildedge"]
@@ -1920,9 +1922,10 @@ const SECTION_META = {
   faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "Fake Trap", title: "Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
   bigupside: { kicker: "THE UPSIDE IS REAL", label: "The Big Upside", title: "The Big Upside", icon: "\uD83D\uDD2C" },
   workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
-  computecost: { kicker: "WHAT AN ANSWER COSTS", label: "The Hidden Cost", title: "The Hidden Cost", icon: "\uD83D\uDD0C" },
-  aifuture: { kicker: "WHAT COMES NEXT", label: "Judging AI\u2019s Future", title: "Judging AI\u2019s Future", icon: "\uD83D\uDD2D" },
-  talkingai: { kicker: "MEET THE WORRY", label: "Talking About AI", title: "Talking About AI", icon: "\uD83D\uDCAC" },
+  computecost: { kicker: "WHAT AN ANSWER COSTS", label: "The Cost", title: "The Cost", icon: "\uD83D\uDD0C" },
+  whatpeoplesay: { kicker: "WHERE DOES IT LAND?", label: "What People Say", title: "What People Say", icon: "\uD83D\uDDE3\uFE0F" },
+  paceofchange: { kicker: "FASTER EVERY YEAR", label: "Pace of Change", title: "Pace of Change", icon: "\uD83D\uDCC8" },
+  bigdownside: { kicker: "THE CASE FOR WORRY", label: "The Big Downside", title: "The Big Downside", icon: "\u26A0\uFE0F" },
   buildedge: { kicker: "YOUR MOVE NOW", label: "Your Edge", icon: "\uD83C\uDFAF" },
   whatyoulearned: { kicker: "THE BIG PICTURE", label: "What You Learned", icon: "\uD83D\uDCCB" },
   fullworkflow: { kicker: "EVERY PART, ONE LOOP", label: "The Full Loop", icon: "\uD83D\uDDFA\uFE0F" },
@@ -4617,7 +4620,8 @@ function BeTheAttentionTryIt(props) {
   }
 
   return E(InteractiveBox, {
-    variant: "try", surface: "mint", primed: true
+    variant: "try", surface: "mint", title: "Be the Attention",
+    lead: "Attention’s job is to work out, for each word, which other words matter. Your turn to do that job. Five sentences, each with one word marked: click the word that settles what it means."
   },
     E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
       BTA_ITEMS.map(function (item, i) {
@@ -6751,7 +6755,7 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Every time you hit send"),
   /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Hidden Cost."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in The Cost."),
   closeBoard("inference"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -9099,7 +9103,7 @@ function WhenAIActsSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You just saw which parts of work AI takes over first. Underneath that is a bigger shift: AI is moving from answering your questions to taking actions for you."),
+      "The last lesson ended on systems that feed their metric faster than the rules can follow. Here’s why that thought matters right now: AI is moving from answering your questions to taking actions for you."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "It can search, open files, draft messages, run tools, fill forms, and click buttons, increasingly taking whole steps on its own. That’s what people mean by agents, and it changes the stakes."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -9184,7 +9188,7 @@ function WhenAIActsSection(props) {
             item.options.map(function(opt) { return PillButton(opt); }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aijudges"), label: "Next: When AI Judges You" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("workchanges"), label: "Next: Work Changes" }));
 }
 function MindTrapSection(props) {
   const [spotAnswers, setSpotAnswers] = useState({});
@@ -10103,30 +10107,30 @@ const INTEGRITY_SCENARIOS = [{
 }];
 function OpenerRealWorldSection(props) {
   var realWorldIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHAT IS ALREADY CHANGING?"
+    eyebrow: "WHAT EVERYONE\u2019S SAYING"
   },
     /*#__PURE__*/React.createElement("div", {
       style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
     },
-      /*#__PURE__*/React.createElement("div", null, "Work is shifting."),
-      /*#__PURE__*/React.createElement("div", null, "Agents are acting."),
-      /*#__PURE__*/React.createElement("div", null, "Systems are judging."),
-      /*#__PURE__*/React.createElement("div", null, "Claims are flying."),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to take over.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019ll take all the jobs.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s just hype. It\u2019ll pass.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cKids just use it to cheat.\u201d"),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
       },
         /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "the future is arriving ahead of schedule."))));
+        /*#__PURE__*/React.createElement("span", null, "four voices. nobody knows who\u2019s right."))));
   return React.createElement(OpenerSection, {
     sectionId: "openerrealworld",
     featuredCard: realWorldIllustration,
     whyThisMatters: [
-      "You\u2019ve built the habits and the judgment: how to pick a tool, prompt it, check what it hands back, and spot the traps.",
-      "So far this has been about you and the tool. Now it widens out. AI is reshaping work, starting to act on its own, and making decisions about real people, including you. None of this is a someday story. Every piece of it is already underway.",
-      "This section is about reading that change clearly: what is actually shifting, what to do when a system judges you, and how to weigh the big claims about where it all goes next."
+      "You\u2019ve built the habits and the judgment: how to pick a tool, prompt it, check what it hands back, and spot the traps. So far, this course has been about you and the tool.",
+      "Now comes the question everyone around you is arguing about: where does all this land? You\u2019ve heard the voices already. Someone at the dinner table is sure AI is going to take over. Someone online is sure it\u2019s all hype. The loudest voices sort into two camps, the AI Lovers and the AI Haters, and both camps are full of brilliant people saying opposite things with total confidence. Here\u2019s the honest part: nobody knows. Not them, not us, not the people building it.",
+      "But under each loud claim sits a real worry, about machines acting alone, about work changing faster than people can adapt, about promises that outrun the product, about whether anyone\u2019s still learning. Those worries deserve real answers, not soundbites. By the end of this section, you\u2019ll be able to give all four."
     ],
     whatYoullLearnIntro: [
-      "First the big shifts already underway, then where they land on you. Each lesson answers a question."
+      "First the argument and what\u2019s driving it, then where it all lands on you. Each lesson answers a question."
     ],
     sectionOverview: {
       eyebrow: "In this section",
@@ -10134,31 +10138,32 @@ function OpenerRealWorldSection(props) {
     },
     groups: [
       {
-        kicker: "THE BIG SHIFTS",
-        bridge: "First, what AI is already doing in the world, and the changes underway in work and in what AI can do on its own.",
+        kicker: "THE ARGUMENT AND THE ENGINE",
+        bridge: "First, why the smartest people disagree, what AI has genuinely delivered, why it\u2019s moving so fast, and the honest case for worry.",
         questions: [
+          { question: "Why do the smartest people disagree so hard about AI?", lessonId: "whatpeoplesay" },
           { question: "What is AI actually good for?", lessonId: "bigupside" },
-          { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
-          { question: "What happens when AI stops answering and starts doing things?", lessonId: "agents" }
+          { question: "Why is AI improving this fast, and where might it stop?", lessonId: "paceofchange" },
+          { question: "What\u2019s the honest case for worry?", lessonId: "bigdownside" }
         ]
       },
       {
         kicker: "WHERE IT LANDS ON YOU",
-        bridge: "Then, what to do when AI judges you, what every answer costs, and how to handle the big claims about what comes next.",
+        bridge: "Then, what changes when AI starts acting and deciding: your work, the bill for all that math, and the systems that judge you.",
         questions: [
-          { question: "What do I do when AI is used to judge me?", lessonId: "aijudges" },
+          { question: "What happens when AI stops answering and starts doing things?", lessonId: "agents" },
+          { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
           { question: "What does one instant answer actually cost?", lessonId: "computecost" },
-          { question: "Where is AI going, and how do I judge big claims about it?", lessonId: "aifuture" },
-          { question: "What do I say when people ask me about AI?", lessonId: "talkingai" }
+          { question: "What do I do when AI is used to judge me?", lessonId: "aijudges" }
         ]
       }
     ],
     whatYoullLearnClosing: [
-      "By the end, you\u2019ll read AI news the way you read AI answers: clearly, without panic and without hype. You\u2019ll know what is actually changing and what to do when the change points at you."
+      "By the end, you\u2019ll read AI news the way you read AI answers: clearly, without panic and without hype. And those four voices up top? You\u2019ll know what to say to every one of them."
     ],
     question: "What\u2019s actually coming, and what do I do about it?",
-    nextLessonId: "bigupside",
-    nextLessonLabel: "Next: The Big Upside",
+    nextLessonId: "whatpeoplesay",
+    nextLessonLabel: "Next: What People Say",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -10989,6 +10994,30 @@ function WhenAIJudgesSection(props) {
       "When you ask \u201Cwhat data was used,\u201D the follow-up question is \u201Cwhat does that data correlate with?\u201D A system that uses neighborhood, school, name, and timing patterns can be making decisions based on race and class without ever naming them."),
     /*#__PURE__*/React.createElement(KeyInsight, { lead: "When AI judges you, don\u2019t argue with the machine." },
       "Find the human, ask what data was used, and learn how to appeal."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Now answer the four voices"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "One job left before this section closes. The opener left four voices hanging and made you a promise: by the end, you could answer all four. You\u2019ve walked the whole tour since then. The camps, the receipts, the speed, the worry, the agents, the jobs, the bill, and the systems that judge. Time to collect."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "But how you answer matters as much as what you know. Each of those voices has a real worry sitting underneath it. Answer the soundbite and you\u2019re just another voice in the argument. ",
+      /*#__PURE__*/React.createElement("strong", null, "Meet the worry"),
+      ", and you\u2019re the one person in the room actually helping. Here\u2019s what that looks like:"),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      kicker: "THE FOUR VOICES, ANSWERED",
+      marginBottom: 20
+    },
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14 } },
+        [
+          { take: "\u201cIt\u2019s going to take over.\u201d", body: "The worry underneath: machines acting with nobody watching. Real enough that you spent a lesson on it. The answer is permission: AI only acts where someone hands it access, and actions that touch the world get reviewed before they run. The levers are human, and now you know where they are." },
+          { take: "\u201cIt\u2019ll take all the jobs.\u201d", body: "The worry underneath: work changing faster than people can adapt. Fair, and the frame that helps is task by task, not job by job: which tasks AI absorbs, which need a human in the loop, which a human has to own. Then point at history: the ATM was supposed to end bank tellers." },
+          { take: "\u201cIt\u2019s just hype. It\u2019ll pass.\u201d", body: "The worry underneath: being played by overclaimers, and there are plenty. Answer with receipts: AlphaFold happened, the release graph is real. Hype cycles end. The technology underneath them tends to stay. The internet was overhyped in 1999, and it\u2019s still here." },
+          { take: "\u201cKids just use it to cheat.\u201d", body: "The worry underneath: whether anyone\u2019s still learning. Take it seriously, because it\u2019s about you. Same tool, two futures: use it to think faster, or use it to think less. You\u2019ve spent a whole course learning to tell the difference. Show them." }
+        ].map(function(card, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowSoft)" } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.35 } }, card.take),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
+        }))),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren\u2019t the ones who panic or worship."),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They\u2019re the ones who can judge."),
     closeBoard("aijudges"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -11018,8 +11047,9 @@ function WhenAIJudgesSection(props) {
         }))),
     Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Five questions. Every system. Every time.", body: "You won’t always get clear answers. The questions still work. A system that won’t tell you who’s responsible is telling you something." })) : null,
+    /*#__PURE__*/React.createElement(SpotTheWorryTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("computecost"), label: "Next: The Hidden Cost" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerskills"), label: "Next: Build Your Skills" }));
 }
 function SyntheticMediaSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
@@ -11895,6 +11925,16 @@ function BigUpsideSection(props) {
       eyebrow: "MATERIALS",
       headline: "Materials that don’t exist yet",
       body: "Better batteries, solar panels, and chips all wait on someone finding the right crystal. DeepMind’s GNoME predicted about 2.2 million new ones, including roughly 380,000 stable enough to be worth making. Researchers called it centuries of discovery, done at once."
+    },
+    {
+      eyebrow: "ACCESSIBILITY",
+      headline: "Eyes and ears, on demand",
+      body: "Blind users point a phone at the world and AI describes what’s there: the expiration date, the right bus, the menu. Live captions turn speech into text in real time for deaf users. Not a demo. Free features, shipping on phones right now."
+    },
+    {
+      eyebrow: "DISASTERS",
+      headline: "Flood warnings where there were none",
+      body: "Google’s flood-forecasting AI sends free warnings up to a week ahead in dozens of countries, including river basins that never had gauges in the first place. Days of notice to move people and livestock, where there used to be minutes."
     }
   ];
   var DONE_OR_PREDICTED = [
@@ -11930,7 +11970,7 @@ function BigUpsideSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "bigupside" }),
     E(BodyP, null,
-      "You just spent a whole section on what goes wrong. Hallucinations, bias, flattery, fakes. All of it real, all of it worth knowing. Now here is the other half, which is just as real: this same technology solved a problem that had beaten biology for fifty years."),
+      "The last lesson ended with a promise: no more betting on the future, deal in what’s checkable. So the tour starts here, with receipts. You spent all of Avoid Traps on what goes wrong. Hallucinations, bias, flattery, fakes. All of it real, all of it worth knowing. Now here is the other half, which is just as real: this same technology solved a problem that had beaten biology for fifty years."),
     E(SectionKicker, null, "A 50-YEAR-OLD PROBLEM"),
     E(BodyP, null,
       "Your body runs on proteins. Think of them as tiny machines. They digest your food, carry oxygen, fight off infections, and build muscle. Each one starts as a long string of chemical beads, and then that string folds itself into a specific 3D shape in a fraction of a second."),
@@ -11968,16 +12008,360 @@ function BigUpsideSection(props) {
       "That is a prediction, not a result. Knowing a protein’s shape is not the same as having a drug. A medicine still has to be designed, tested in a dish, tested in animals, tested in people across three rounds of trials, and approved by regulators. Isomorphic’s first candidates are only now reaching human trials, and that timeline has already slipped once. Ten years is aggressive."),
     E(BodyP, null,
       "See what just happened there. You gave the good news exactly the same treatment you gave the bad news in the last section. That is the skill. Hype comes in both flavors, and “AI will fix everything” deserves the same check as “AI will ruin everything.”"),
+    E(KeyInsight, { lead: "The upside is real, and it’s checkable." },
+      "AlphaFold already happened. Curing all disease is still a prediction. Learn to tell those two apart and you can be genuinely excited about AI without being sold anything."),
+    closeBoard("bigupside"),
     E(ChoiceQuiz, {
       title: "Done, or Predicted?",
       instruction: "Four claims about AI and science. Some already happened. Some are still somebody’s forecast. Tell them apart.",
       scenarios: DONE_OR_PREDICTED
     }),
-    E(KeyInsight, { lead: "The upside is real, and it’s checkable." },
-      "AlphaFold already happened. Curing all disease is still a prediction. Learn to tell those two apart and you can be genuinely excited about AI without being sold anything."),
-    closeBoard("bigupside"),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("workchanges"); }, label: "Next: Work Changes" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("paceofchange"); }, label: "Next: Pace of Change" }));
+}
+// DRAFT STUBS (2026-08-09 section rebuild): placeholders so the chain stays whole while
+// the lesson-by-lesson pass fills them in. Each gets its real body, close board, and
+// activity at its checkpoint.
+function WhatPeopleSaySection(props) {
+  var E = React.createElement;
+  const [betAnswers, setBetAnswers] = useState({});
+  var BETS = [
+    { task: "1977. The head of Digital Equipment Corporation, one of the biggest computer companies in the world, says there’s no reason anyone would want a computer in their home.",
+      options: ["Reality ran past it", "Reality fell short"], answer: "Reality ran past it",
+      right: "Within twenty years the home computer was normal. Today most homes have more computers than people, and you’re reading this on one of them. He knew more about computers than almost anyone alive, and the bet still missed.",
+      wrong: "This one ran past the bet, fast. Within twenty years the home computer was normal, and today most homes have more computers than people. Knowing the machine best didn’t mean knowing where it would stop." },
+    { task: "1998. A famous economist predicts the internet’s effect on the economy will be no bigger than the fax machine’s.",
+      options: ["Reality ran past it", "Reality fell short"], answer: "Reality ran past it",
+      right: "The internet rebuilt shopping, entertainment, work, and friendship. The economist, Paul Krugman, went on to win the Nobel Prize in economics, and has been gamely eating this prediction ever since. Brilliant people miss.",
+      wrong: "The other way. The internet rebuilt shopping, entertainment, work, and friendship, while the fax machine became a trivia answer. The economist went on to win a Nobel Prize. Brilliant people miss." },
+    { task: "The early 1980s. A top consulting firm forecasts the total American cell phone market: about 900,000 users by the year 2000.",
+      options: ["Reality ran past it", "Reality fell short"], answer: "Reality ran past it",
+      right: "The real number in 2000 was around 109 million, off by a factor of a hundred. Falling prices and shrinking phones blew past every careful assumption in the forecast.",
+      wrong: "Off by a factor of a hundred, in the other direction. The real number in 2000 was around 109 million. Falling prices and shrinking phones blew past every careful assumption in the forecast." },
+    { task: "2001. The Segway launches. Its backers predict it will be bigger than the PC, and that cities will be redesigned around it.",
+      options: ["Reality ran past it", "Reality fell short"], answer: "Reality fell short",
+      right: "Cities didn’t budge. The Segway became mall-security equipment and tour-group comedy, and production ended in 2020. The demo was real. The world it needed never showed up.",
+      wrong: "Nope. Cities didn’t budge, the Segway became mall-security equipment, and production ended in 2020. The demo was real. The world it needed, new rules, new roads, new habits, never showed up." },
+    { task: "The 2010s. Tech CEOs and carmakers promise fully self-driving cars everywhere “within a couple of years,” and repeat the promise, year after year.",
+      options: ["Reality ran past it", "Reality fell short"], answer: "Reality fell short",
+      right: "A decade later, driverless taxis really do run in a handful of cities, which is genuinely amazing. But the promised everywhere-version keeps sliding. Regulation, liability, trust, and rare-but-terrible edge cases all push back.",
+      wrong: "Still waiting. Driverless taxis really do run in a handful of cities, which is genuinely amazing, but the promised everywhere-version keeps sliding. Regulation, liability, trust, and rare-but-terrible edge cases all push back." }
+  ];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "whatpeoplesay" }),
+    E(BodyP, null, "The opener left you with four loud voices and a question: where does all this land? It would be nice to settle it the usual way. When your family argues about whether a mole looks dangerous, somebody finally says “just ask a doctor,” and the argument ends. So let’s try that. Let’s ask the people who build AI for a living."),
+    E(BodyP, null, "Bad news: the argument doesn’t end. It gets louder."),
+    E(ShowcaseBox, {
+      kicker: "THREE VOICES FROM THE TOP OF THE FIELD",
+      headline: "Same field. Same evidence. Opposite bets.",
+      marginBottom: 28
+    },
+      E(LabeledCardStack, { items: [
+        { eyebrow: "The optimist", headline: "A century of progress in a decade.", body: "Dario Amodei runs Anthropic, the company behind Claude, the AI you’ve been using in the labs. He’s written that if AI keeps improving, it could compress a hundred years of medical progress into ten: cures and treatments arriving faster than any human team could deliver them.", accent: "#10b981" },
+        { eyebrow: "The worrier", headline: "The godfather quit so he could warn you.", body: "Geoffrey Hinton spent half a century building the ideas modern AI runs on, and won a Nobel Prize for it. At 75, he left his job at Google specifically so he could speak freely about the risks of the thing he built: floods of fake content, disrupted jobs, systems we don’t fully know how to steer.", accent: "#f59e0b" },
+        { eyebrow: "The shrug", headline: "Relax. It’s not even close yet.", body: "Yann LeCun won the Turing Award, computing’s version of the Nobel, for helping invent modern AI. He argues today’s systems understand the world worse than a house cat does, and that fears of AI taking over are science fiction.", accent: "#6e51ff" }
+      ] })
+    ),
+    E(BodyP, null, "Read those again and notice what’s missing: a difference in qualifications. This isn’t a debate between people who understand AI and people who don’t. These three built the field. They’re looking at the same technology, and they’re placing opposite bets."),
+    E(BodyP, null, "It goes further: the same minds hold both sides at once. Amodei, the optimist, also puts real odds on things going badly, and says so in public. Hinton, the worrier, still calls AI potentially wonderful for medicine and education. The most honest experts aren’t sure, and they say so. When the people who know the most tell you they don’t know, believe them."),
+    E(BodyP, null, "How can that be? Because expertise runs out exactly where the question starts. How a model works today is knowledge, and this course has been handing it to you by the armload. Where models will be in ten years is a bet. Nobody has data about the future, not even the people writing the code."),
+    E(SectionKicker, null, "The track record"),
+    E(BodyP, null, "We’ve run this experiment before. Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions. Some turn out laughably small: the home computer, the cell phone, and the internet were each dismissed as a niche toy by people running the industries they would go on to swallow. Some turn out laughably big: the twentieth century promised flying cars, and delivered traffic."),
+    E(BodyP, null, "Why do smart bets miss? In both directions, for the same reason: the future isn’t just a technology question. Reality has friction, cost, rules, trust, and human habit, and friction can slow a sure thing to a crawl. Reality also has compounding, and falling costs can blow past every careful forecast. Which force wins? You only find out by waiting."),
+    E(KeyInsight, { lead: "Nobody knows where it stops." },
+      "Not the builders, not the critics, not whoever guessed right last time. That’s not a reason to tune out. It’s the reason to deal in what’s checkable instead of what’s predicted. So that’s where this section goes next: not what AI might do someday, but what it has already done. Receipts first."),
+    closeBoard("whatpeoplesay"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Where Did It Stop?",
+      lead: "Five real bets about where a technology would stop, every one made by smart, well-informed people. Your call: did reality run past the bet, or fall short of it?"},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        BETS.map(function(c, i) {
+          var answered = betAnswers[i] !== undefined;
+          var picked = betAnswers[i];
+          var correct = picked === c.answer;
+          return E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: c.task,
+            answered: answered,
+            correct: correct,
+            feedback: answered ? (correct ? c.right : c.wrong) : null
+          }, c.options.map(function(w) {
+            return E(FeedbackPill, {
+              key: w,
+              answered: answered,
+              isCorrect: w === c.answer,
+              isPicked: picked === w,
+              label: w,
+              onClick: function() { setBetAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
+            });
+          }));
+        })
+      )),
+    E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigupside"); }, label: "Next: The Big Upside" }));
+}
+function PaceOfChangeSection(props) {
+  var E = React.createElement;
+  const [testAnswers, setTestAnswers] = useState({});
+  // Rough counts of flagship releases from the big AI labs. Deliberately approximate:
+  // the caption owns the imprecision, and the teaching point is the slope, not the totals.
+  var RELEASES = [
+    { year: "2022", n: 4 },
+    { year: "2023", n: 8 },
+    { year: "2024", n: 12 },
+    { year: "2025", n: 16 },
+    { year: "2026", n: 10, partial: true }
+  ];
+  var maxN = 16;
+  var TEST_OPTIONS = [
+    { label: "Who benefits if I believe this?" },
+    { label: "Does this fit how the work actually happens?" },
+    { label: "Is this evidence, or extrapolation?" }
+  ];
+  var TEST_ITEMS = [
+    {
+      claim: "The CEO of a chip company announces that AI will replace every programmer within two years.",
+      correct: 0,
+      feedback: [
+        "Sharpest first question. He sells the chips that AI runs on. Every company that panic-buys his hardware makes his prediction pay, whether it comes true or not. The claim might still have something to it, but you should know what’s driving it before you weigh it.",
+        "Worth asking eventually, but there’s a sharper opener here: the messenger. He sells the chips AI runs on, so the prediction pays him whether it comes true or not. Start with who benefits.",
+        "Reasonable, but there’s a sharper opener here: the messenger. He sells the chips AI runs on, so the prediction pays him whether it comes true or not. Start with who benefits."
+      ]
+    },
+    {
+      claim: "AI scored higher than most humans on the bar exam, so lawyers are finished.",
+      correct: 1,
+      feedback: [
+        "Fair question, but the sharper one is mechanism. Being a lawyer isn’t taking exams. Licenses, liability, courtroom judgment, client trust: the exam was never the hard part of the job.",
+        "Sharpest first question. Being a lawyer isn’t taking exams all day. The job runs on licenses, liability, courtroom judgment, and client trust, and none of that was on the test. A skill demo doesn’t map onto a whole profession.",
+        "Close, and the exam result is real evidence of something. The sharper question is what the evidence is about: test-taking is a slice of law school, not the job. The friction lives in licenses, liability, and trust."
+      ]
+    },
+    {
+      claim: "Models have gotten better every year for five straight years, so superintelligence by 2030 is a lock.",
+      correct: 2,
+      feedback: [
+        "The messenger matters less here: people with nothing to sell make this argument too. The sharper question is what the trend line is standing on. Past improvement is evidence models improved. “It keeps going until it passes us” is a bet, not data.",
+        "Some friction questions apply, but the core move here is simpler. Past improvement is evidence that models improved. Assuming the line continues forever is extrapolation, and the future has no data points.",
+        "Sharpest first question. Past improvement is real evidence, but only that models improved so far. “The line keeps going until it passes us” extends a trend into territory with zero data points. That’s a bet dressed as a fact, in either direction."
+      ]
+    }
+  ];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "paceofchange" }),
+    E(BodyP, null,
+      "AlphaFold was 2020. If it were a one-off, you could admire it and move on. It wasn’t a one-off. To see why the argument about AI has gotten so loud, you don’t need anyone’s opinion. You need one graph."),
+    E(ShowcaseBox, {
+      kicker: "THE RELEASE SCHEDULE",
+      headline: "The bars keep getting taller.",
+      marginBottom: 8
+    },
+      E(InnerCard, { style: { marginBottom: 0 } },
+        E("div", { style: { display: "flex", alignItems: "flex-end", justifyContent: "center", gap: 18, height: 190, paddingTop: 8 } },
+          RELEASES.map(function(r, i) {
+            return E("div", { key: i, style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: 72 } },
+              E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, color: r.partial ? "var(--inkMuted)" : "var(--primaryDeep)" } }, "~" + r.n),
+              E("div", { style: {
+                width: 44,
+                height: Math.round((r.n / maxN) * 130),
+                background: r.partial ? "var(--primaryFaint)" : "var(--primary)",
+                border: r.partial ? "2px dashed var(--primary)" : "none",
+                borderRadius: "4px 4px 0 0"
+              } }),
+              E("div", { style: { fontSize: 12, fontWeight: 700, color: "var(--ink)" } }, r.year),
+              E("div", { style: { fontSize: 10, color: "var(--inkMuted)", height: 12 } }, r.partial ? "so far" : ""));
+          })),
+        E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 14, textAlign: "center" } },
+          "Rough count of flagship model releases from the major AI labs, per year. The exact totals are arguable. The slope isn’t."))),
+    E(BodyP, null,
+      "And the graph undersells it. Those bars aren’t more copies of the same thing. Almost every release is stronger than the one before it, so the machine you learned to read in Understand AI is a moving target. Whatever AI can’t do today, the honest add-on is: yet."),
+    E(SectionKicker, null, "Why so fast?"),
+    E(BodyP, null,
+      "Two accelerants, and you already understand the first one. In Training, you learned the recipe: more data, more weights, more compute, better model. The AI companies are running that recipe with more of everything, spending on chips and data centers at a scale usually reserved for governments. Same loop you learned. Bigger crank."),
+    E(BodyP, null,
+      "The second accelerant is stranger: ", E("strong", null, "AI now helps build AI"), ". By 2026, the strongest models write code well enough that the AI labs use them to write serious chunks of the software behind the next models. Slow down and read that again. The tool has joined the team that builds the tool. Every generation helps assemble the one after it, which is a loop nothing else in the history of technology has run."),
+    E(SectionKicker, null, "The words the camps argue with"),
+    E(BodyP, null,
+      "That loop is why the argument from What People Say gets so heated. If AI helps build better AI, where does it level off? Read about that question and you’ll meet four terms. None of them has clearly arrived. All of them shape the argument."),
+    E(ShowcaseBox, { marginBottom: 24 },
+      E(LabeledCardStack, { items: [
+        { eyebrow: "AGI", headline: "Artificial General Intelligence", body: "A hypothetical AI that can handle any intellectual task a human can. Some researchers say it’s a few years away, some say decades, some say the term is too fuzzy to mean anything.", accent: "#6e51ff" },
+        { eyebrow: "ASI", headline: "Artificial Superintelligence", body: "A hypothetical AI smarter than any human at everything. Even more contested, and the version the loudest hopes and fears are really about.", accent: "#3b82f6" },
+        { eyebrow: "RECURSIVE SELF-IMPROVEMENT", headline: "AI making AI better, faster, repeat", body: "The loop you just met, taken to its limit: each generation builds a stronger next generation, and the pace compounds. How far that loop actually runs is the single biggest open question in the field.", accent: "#f59e0b" },
+        { eyebrow: "AUTOMATED AI RESEARCH", headline: "Pointing AI at the research itself", body: "The labs’ stated next step: AI systems that run experiments and propose improvements on their own, with humans reviewing. Early versions are already in use. How much this speeds things up is being tested right now, in public.", accent: "#10b981" }
+      ] })),
+    E(SectionKicker, null, "So where does it stop?"),
+    E(BodyP, null,
+      "Nobody knows. You learned that two lessons ago and it hasn’t stopped being true. But “nobody knows” doesn’t mean every claim deserves a shrug. Claims about AI’s future arrive daily, scary ones and thrilling ones, and you can judge every one of them with three questions."),
+    E(ShowcaseBox, {
+      kicker: "HOW TO JUDGE THE NEXT CLAIM",
+      headline: "Run every claim through three tests.",
+      marginBottom: 24
+    },
+      E(LabeledCardStack, { items: [
+        { eyebrow: "Test 1 · Incentives", headline: "Who benefits if I believe this?", body: "A politician wants your vote, a CEO wants your investment, a news site wants your click. The claim might still be true, but know what’s driving it before you weigh it.", accent: "#6e51ff" },
+        { eyebrow: "Test 2 · Mechanism", headline: "Does this fit how the work actually happens?", body: "“AI means you don’t need school anymore” requires every AI answer to be right and every employer to stop caring about degrees. Walk the claim through the real world and watch where it snags: cost, rules, trust, habit.", accent: "#f59e0b" },
+        { eyebrow: "Test 3 · Evidence", headline: "Is this evidence, or extrapolation?", body: "“AI matched lab accuracy on protein shapes” is evidence: it happened, you can check it. “So it will out-research scientists everywhere by 2030” is extrapolation: a trend stretched into territory with no data points. A demo proves possible. It doesn’t prove soon.", accent: "#10b981" }
+      ] })),
+    E(BodyP, null,
+      E("strong", null, "Technical possibility is not social inevitability."),
+      " That single sentence beats most of what you’ll read about AI’s future. Demos are fast. Deployment is slow. And the gap between them is exactly where hype, in both directions, lives."),
+    E(KeyInsight, { lead: "Fast is a fact. “Inevitable” is a claim." },
+      "The graph is real and the accelerants are real. What nobody has is data about where it stops. So when the next big claim lands in your feed, don’t ask whether it sounds possible. Run the three tests, and place your own bet."),
+    closeBoard("paceofchange"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Pick Your First Question",
+      lead: "Three big claims about where AI is headed. All three sound possible, and that’s exactly the problem. Your job isn’t to rule true or false on the spot. It’s to pick the sharpest first question."},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        TEST_ITEMS.map(function(item, si) {
+          var picked = testAnswers[si];
+          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            E("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
+              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.claim)),
+            E(QuizBlock, {
+              surface: "mint",
+              statement: "Which test do you run first?",
+              options: TEST_OPTIONS.map(function(o, oi) {
+                return { label: o.label, correct: oi === item.correct, feedback: item.feedback[oi] };
+              }),
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setTestAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
+            }));
+        })
+      )),
+    E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigdownside"); }, label: "Next: The Big Downside" }));
+}
+function BigDownsideSection(props) {
+  var E = React.createElement;
+  const [farmAnswers, setFarmAnswers] = useState({});
+  var BLACK_BOX_REASONS = [
+    { icon: "🧠", title: "The rules are learned, not written.", desc: "Nobody typed in every possible answer. The model learned patterns from training data, and nobody chose exactly which patterns stuck." },
+    { icon: "🔢", title: "The inside isn’t a repair manual.", desc: "Even if you could read the billions of weights, they wouldn’t look like instructions. They’re just numbers that work." },
+    { icon: "💬", title: "Its explanation may not be the real cause.", desc: "Ask a model why it said something and the answer sounds reasonable, but it may not trace what actually happened inside." },
+    { icon: "🔒", title: "Closed tools hide even more.", desc: "With ChatGPT, Claude, and Gemini, you don’t see the full model, the training data, the system instructions, or the safety layers." }
+  ];
+  var FARM_ITEMS = [
+    {
+      setup: "A school announces a cash prize for every book a student finishes this semester.",
+      correct: 1,
+      options: [
+        { label: "Students discover a love of long, challenging novels." },
+        { label: "Students race through the shortest, easiest books in the library." },
+        { label: "Students stop reading entirely." }
+      ],
+      feedback: [
+        "That’s the goal the school wanted, but it’s not what the bounty pays for. The bounty pays per book finished, and the shortest path to “books finished” is short, easy books. The metric gets fed. The goal goes hungry.",
+        "That’s the tail farm. The prize pays per book finished, so the winning move is the thinnest paperback on the shelf, over and over. The metric gets fed. The goal, actual reading, goes hungry.",
+        "The opposite: the prize makes book-counting go up, not down. The gap is in what counts as a book. Short and easy feeds the metric just as well as long and challenging, so short and easy is what the system buys."
+      ]
+    },
+    {
+      setup: "A video app pays creators for every minute viewers spend watching.",
+      correct: 0,
+      options: [
+        { label: "One answer gets stretched into a ten-part cliffhanger series." },
+        { label: "Creators compete to make the clearest, shortest explainers." },
+        { label: "Viewers watch less because the videos get worse." }
+      ],
+      feedback: [
+        "That’s the tail farm, and you’ve lived it. The metric is minutes watched, not value delivered, so a two-minute answer becomes ten cliffhangers. You met this machine in the Engagement Trap. Now you know its real name: a bounty on your time.",
+        "That’s what viewers want, and it’s exactly what the metric punishes. A short, clear video ends, and the minutes stop. The bounty pays for watch time, so stretched and cliffhung is what it buys.",
+        "Eventually, maybe. But the metric moves first: stretched videos rack up minutes long before viewers give up, and the algorithm reads those minutes as success. The system can’t tell captivated from trapped."
+      ]
+    },
+    {
+      setup: "A chatbot is trained to maximize thumbs-up ratings from its users.",
+      correct: 2,
+      options: [
+        { label: "It becomes more accurate, because accuracy earns thumbs." },
+        { label: "It refuses more questions, to avoid wrong answers." },
+        { label: "It learns to agree with you, because agreement feels good." }
+      ],
+      feedback: [
+        "You’d hope. But users don’t rate accuracy, they rate how the answer feels, and being told you’re right feels better than being corrected. The bounty pays for the feeling.",
+        "Refusals earn thumbs-down fast, so the metric pushes the other way: answer everything, pleasantly. The winning strategy is agreement, whether or not you’re right.",
+        "That’s the tail farm, and you already know its name: the Flattery Trap. Nobody programmed the model to flatter. The bounty paid per thumbs-up, agreement earns thumbs, and the model found the path. Same rats, new sewer."
+      ]
+    }
+  ];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "bigdownside" }),
+    E(BodyP, null,
+      "The Big Upside was receipts: checkable, sourced, real. The case for worry deserves the exact same standard. Not the movie version with the red-eyed robots. The checkable version, the one the serious worriers, including people building AI, actually make."),
+    E(BodyP, null,
+      "It rests on two facts you can verify, plus one story from 1902."),
+    E(SectionKicker, null, "Fact one: nobody can see inside"),
+    E(BodyP, null,
+      "There’s a term engineers use for AI: ", E("strong", null, "the black box"), ". With normal software, if a calculator says 2 + 2 = 5, a programmer opens the code, finds the broken line, and fixes it. The path from input to output is traceable."),
+    E(BodyP, null,
+      "AI is different, and after Understand AI, you know why better than most adults. When a model writes a poem, nobody, including the people who built it, can point to a spot inside and say “that’s where the rhyme came from.” The inside is billions of learned weights: numbers tuned during training until the predictions got good. Knowing how it was built is not the same as knowing why it just said what it said."),
+    E("img", {
+      src: "illustrations/the-big-downside.jpg",
+      alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 }
+    }),
+    E(ShowcaseBox, { marginBottom: 24 },
+      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
+        BLACK_BOX_REASONS.map(function(r, i) {
+          return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: 16 } },
+            E("div", { style: { fontSize: 22, marginBottom: 8 } }, r.icon),
+            E("div", { style: { fontSize: BOX_TEXT, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.3 } }, r.title),
+            E("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, r.desc));
+        }))),
+    E(SectionKicker, null, "Fact two: the rules run behind"),
+    E(BodyP, null,
+      "Rules have always trailed technology. Cars came first, and seatbelt laws showed up decades later. That gap is normal, and society survives it, because there’s usually time: the technology spreads slowly enough for the rules to catch up."),
+    E(BodyP, null,
+      "Now put that next to the graph from last lesson. New model generations land every few months. Laws take years, and understanding a model’s behavior well enough to write a good rule takes longer than that, because of fact one: you can’t read the rulebook of a black box. The people writing guardrails are fencing a machine that’s already two generations past the one they studied."),
+    E(SectionKicker, null, "Hanoi, 1902"),
+    E(BodyP, null,
+      "Which brings us to the rats. Hanoi, 1902. The city’s French colonial government had a rat problem in the new sewers, and a modern-sounding fix: a bounty. Turn in a rat’s tail, collect a payment. Tails poured in by the thousands. Success."),
+    E(BodyP, null,
+      "Then officials started noticing something strange: rats running around the city with no tails. Hunters had worked out that a dead rat earns one payment ever, but a live rat with a clipped tail keeps breeding, and every pup has a tail. Some entrepreneurs skipped the sewers entirely and started ", E("strong", null, "farming rats"), ". By the time the program collapsed, Hanoi had paid for a mountain of tails, and had more rats than when it started."),
+    E(BodyP, null,
+      "Nobody cheated, exactly. The system did precisely what it was paid to do, and precisely not what anyone wanted. ", E("strong", null, "You get what you measure, not what you meant."), " That sentence is a hundred and twenty years old, and it is the sharpest tool anyone has for thinking about AI risk."),
+    E(SectionKicker, null, "Every AI system is a bounty"),
+    E(BodyP, null,
+      "Here’s the connection. Every AI system is trained to maximize a score somebody picked: predict the next word, earn the thumbs-up, keep the viewer watching. And like the rat hunters, models find paths to the payout that the designers never imagined. You’ve already met the tail-clippers in this course. The Flattery Trap is a model that learned agreement scores better than honesty. The Engagement Trap is a feed that learned outrage holds attention better than truth. Nobody asked for either. The bounty bought them anyway."),
+    E(BodyP, null,
+      "And in lab tests, the newest models sometimes game the tests themselves: telling evaluators what scores well, and in a few documented experiments, concealing what they were doing. Rare, still being studied, and exactly the tail-farm shape, now running inside the box nobody can read."),
+    E(BodyP, null,
+      "Now stack the three: a system nobody can see inside, improving faster than rules can be written, optimizing numbers nobody fully chose. That stack is the honest case for worry. No robots required."),
+    E(KeyInsight, { lead: "The worry isn’t a movie robot." },
+      "It’s fast, opaque systems, each feeding a metric somebody picked, finding paths nobody planned, quicker than the rules can close them. Hold that thought through the next two lessons: agents are AI with its hands on real levers, and the permission decisions are yours."),
+    closeBoard("bigdownside"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Find the Tail Farm",
+      lead: "Three well-meaning bounties. Each one pays for a metric and hopes for a goal. Your job: spot what the bounty actually buys."},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        FARM_ITEMS.map(function(item, si) {
+          var picked = farmAnswers[si];
+          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            E("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
+              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.setup)),
+            E(QuizBlock, {
+              surface: "mint",
+              statement: "What does the bounty actually buy?",
+              options: item.options.map(function(o, oi) {
+                return { label: o.label, correct: oi === item.correct, feedback: item.feedback[oi] };
+              }),
+              picked: picked != null ? picked : undefined,
+              onAnswer: function(idx) { setFarmAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
+            }));
+        })
+      )),
+    E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" }));
 }
 function WorkChangesSection(props) {
   var E = React.createElement;
@@ -12081,6 +12465,9 @@ function WorkChangesSection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "workchanges" }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "So AI can answer, and now it can act. Multiply that across every office, warehouse, and studio in the world, and you arrive at the question behind the second voice from the opener: what actually happens to jobs?"
+    ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI doesn\u2019t hit all work equally. Before it changes whole jobs, it changes specific tasks inside those jobs. A job is a bundle of tasks, and the useful question isn\u2019t \u201Cis my job safe?\u201D It\u2019s three questions: which tasks can AI handle, which need a human in the loop, and which still need a human to own."
     ),
@@ -12259,7 +12646,7 @@ function WorkChangesSection(props) {
         }))),
 
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" })
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("computecost"); }, label: "Next: The Cost" })
   );
 }
 function CostClaimsTryIt(props) {
@@ -12272,7 +12659,10 @@ function CostClaimsTryIt(props) {
       no: "Actually true. More parameters means more calculations for every single token." } },
     { claim: "Once a model is trained, answering a question is basically free.", correct: "false", fb: {
       ok: "Right, it’s false. Every answer re-runs billions of parameters: real electricity and water, every time.",
-      no: "Actually false. Every answer re-runs billions of parameters: real electricity and water, every time." } }
+      no: "Actually false. Every answer re-runs billions of parameters: real electricity and water, every time." } },
+    { claim: "The free tier costs the AI company almost nothing to serve.", correct: "false", fb: {
+      ok: "Right, it’s false. A free answer burns the same compute as a paid one. That’s why free tiers cap your messages, and why the companies would love you to upgrade.",
+      no: "Actually false. A free answer burns the same compute as a paid one. That’s why free tiers cap your messages, and why the companies would love you to upgrade." } }
   ];
   var LABELS = { "true": "True", "false": "False" };
   var ORDER = ["true", "false"];
@@ -12306,6 +12696,7 @@ function TheHiddenCostSection(props) {
   var times = function() { return E("span", { style: { fontSize: 18, fontWeight: 800, color: "var(--inkMuted)" } }, "×"); };
   return E("div", null,
     E(LessonHeader, { sectionId: "computecost" }),
+    E(BodyP, null, "Back in One More Thing, we left you with a promise: somebody pays for all that arithmetic, in electricity, in water, and in money, and we’d count the bill later in the course. It’s later."),
     E(BodyP, null, "Ask AI something simple and the answer shows up in a second, like it cost nothing. Behind that second is one of the most demanding things a computer can do."),
     E(ShowcaseBox, { headline: "What one answer costs" },
       E(InnerCard, null,
@@ -12319,7 +12710,7 @@ function TheHiddenCostSection(props) {
                 E("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 } }, "calculations, for that one reply")),
               E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap", marginBottom: 14 } },
                 chip("~50", "tokens"), times(), chip("~400B", "parameters"), times(), chip("2", "ops each")),
-              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, textAlign: "center", maxWidth: 560, margin: "0 auto" } }, "Every token re-runs the whole network: all of the model’s parameters, each doing a couple of operations. That’s the loop you watched in Inference, and it’s why a one-line answer still adds up to trillions."))
+              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, textAlign: "center", maxWidth: 560, margin: "0 auto" } }, "Every token re-runs the whole network: all of the model’s parameters, each doing a couple of operations. That’s the loop you watched in Inference, and it’s why a one-line answer still adds up to trillions. And that’s a one-liner: the page-long answers you counted in One More Thing run into the quadrillions."))
           : E("div", { style: { textAlign: "center", marginTop: 18 } },
               E("button", { onClick: function() { setRevealed(true); }, style: { cursor: "pointer", font: "inherit", background: "#0e0a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontSize: 14, fontWeight: 700 } }, "How much just happened? →")))),
     E(ShowcaseBox, { kicker: "HARD TO PICTURE? STACK IT UP", headline: "40 trillion dollar bills, end to end, reach past Pluto.", intro: "A dollar bill is about six inches long. Lay down one for every calculation in that single answer and the line runs about 6 billion kilometers.", marginBottom: 28 },
@@ -12329,184 +12720,21 @@ function TheHiddenCostSection(props) {
         E("span", { style: { fontSize: 24, flexShrink: 0 } }, "🪐")),
       E("div", { style: { textAlign: "center", fontSize: 14, fontWeight: 700, color: "var(--ink)", marginTop: 10 } }, "Earth to Pluto · ~6 billion km of dollar bills"),
       E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 14 } }, "Rough numbers: the exact count depends on the model’s size and how long the answer is. The scale is the part that’s real.")),
-    E("img", { src: "illustrations/the-hidden-cost.jpg", alt: "A split illustration of what one AI answer costs. On the left, a teen in a classroom stacks a tall tower of dollar bills beside a chalkboard reading ‘One answer costs more than it looks, ~40 trillion calculations.’ On the right, the same teen in a spacesuit kneels on the surface of Pluto, laying a line of dollar bills end to end that stretches off toward Earth in the distance.", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
+    E("img", { src: "illustrations/the-cost.jpg", alt: "A split illustration of what one AI answer costs. On the left, a teen in a classroom stacks a tall tower of dollar bills beside a chalkboard reading ‘One answer costs more than it looks, ~40 trillion calculations.’ On the right, the same teen in a spacesuit kneels on the surface of Pluto, laying a line of dollar bills end to end that stretches off toward Earth in the distance.", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
     E(SectionKicker, null, "WHY DATA CENTERS EXIST"),
     E(BodyP, null, "No single computer can do that fast for millions of people at once. So AI companies build ", E("strong", null, "data centers"), ": warehouses packed with thousands of specialized chips, called GPUs, running around the clock."),
-    E(SectionKicker, null, "THE FOOTPRINT"),
-    E(BodyP, null, "All that hardware draws real electricity, and cooling it takes real water. As more people use AI, that footprint grows. It isn’t unique to AI. Every big technology has one, from streaming video to the cars outside, and engineers are racing to make the chips far more efficient. But it is real, and most people never picture it."),
+    E(BodyP, null, "The scale is hard to overstate. A big AI data center covers the ground of several football fields and draws as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, which makes this one of the largest construction projects happening anywhere on Earth right now. When you hit send, one of these buildings answers."),
+    E(SectionKicker, null, "THE ELECTRIC BILL"),
+    E(BodyP, null, "In 2023, data centers used about 4 percent of all electricity in the United States, and government forecasts said that share could double or even triple by 2028, with AI the fastest-growing slice. That electricity comes from the same grid you use. In some regions near big data-center clusters, household power bills are already climbing as the buildings compete for supply."),
+    E(SectionKicker, null, "THE WATER BILL"),
+    E(BodyP, null, "Chips that dense run hot, and the standard way to cool them uses water, some of which evaporates and doesn’t come back. A large campus can run through a million gallons or more on a hot day. That’s why you’ll see data centers built next to rivers, in cold climates, and increasingly in places that regret saying yes. Water is the part of the bill most people never picture."),
+    E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
+    E(BodyP, null, "Keep the frame you’ve used all course: judge it, don’t panic about it. Every big technology has a footprint, from streaming video to the cars outside, and engineers are racing to make chips dramatically more efficient, because every wasted watt costs the companies money too. But the footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water. That’s the bill One More Thing promised you."),
     E(KeyInsight, { lead: "Now you know what’s behind the magic." }, "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
     closeBoard("computecost"),
     E(CostClaimsTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aifuture"); }, label: "Next: Judging AI’s Future" }));
-}
-function AiFutureMatchTryIt(props) {
-  var cards = props.cards;
-  var REALITY = {
-    p0: "Got cheaper and smaller until everyone had one",
-    p1: "Technically solved, but rules and trust slow it",
-    w0: "More branches opened, so teller jobs rose",
-    w1: "Cheaper analysis created more accounting work"
-  };
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Match the miss",
-    lead: "Each prediction below was confident and wrong. Match it to what actually happened."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      cards.map(function(card, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === card.id;
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i, index: i + 1,
-          prompt: "“" + card.short + "”",
-          answered: answered, correct: correct,
-          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + "The miss was friction (" + card.friction.join(", ").toLowerCase() + "). " + card.reality) : null
-        }, cards.map(function(opt) {
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: opt.id, answered: answered,
-            isCorrect: opt.id === card.id,
-            isPicked: answers[i] === opt.id,
-            label: REALITY[opt.id],
-            onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = opt.id; return u; }); }
-          });
-        }));
-      })));
-}
-function AIFutureSection(props) {
-  var ALL_CARDS = [
-    { id: "p0", icon: "\uD83D\uDDA5\uFE0F", title: "Personal computers were supposed to be pointless.", claim: "No one would ever want or need a computer in their home.", short: "No one will want a home computer", friction: ["Hardware cost", "Physical size", "No clear use case yet"], reality: "Computers got cheaper, smaller, and essential. Now more computers than people in most homes." },
-    { id: "p1", icon: "\uD83D\uDE97", title: "Self-driving cars were supposed to be impossible.", claim: "AI would never be able to drive a car in real traffic.", short: "AI can\u2019t handle real-world driving", friction: ["Regulation", "Liability", "Public trust"], reality: "Waymo opened a limited fully-driverless service in Phoenix in 2020. Possible, but broad adoption is still slow." },
-    { id: "w0", icon: "\uD83C\uDFE7", title: "ATMs were supposed to eliminate bank tellers.", claim: "ATMs can do everything a teller does, cheaper and faster. Banks will eliminate teller jobs entirely.", short: "ATMs will replace all tellers", friction: ["Branch economics changed", "Relationship work couldn\u2019t be automated"], reality: "Teller employment rose. Cheaper branches meant more branches and more hires." },
-    { id: "w1", icon: "\uD83D\uDCCA", title: "Computers were supposed to eliminate accountants.", claim: "If a computer can do the calculations of ten accountants, companies will need ten times fewer accountants.", short: "Computers will replace accountants", friction: ["Cheaper tools increased demand", "More businesses could afford analysis"], reality: "Accounting jobs grew. More computation created more work, not less." }
-  ];
-  var FRICTION_PILLS = ["Cost", "Rules and regulation", "Trust", "Human habits", "Accountability", "Infrastructure"];
-  var renderFlowDiagram = function(short, friction, reality) {
-    return /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 0, marginTop: 16, animation: "fadeIn 0.4s ease" } },
-      /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", maxWidth: 170, background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 10, padding: 12, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", marginBottom: 4, textTransform: "uppercase", letterSpacing: 1 } }, "Prediction"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#4338ca", lineHeight: 1.4 } }, short)),
-      /*#__PURE__*/React.createElement("div", { style: { flex: "0 0 36px", display: "flex", alignItems: "center", justifyContent: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderLeft: "12px solid var(--primary)" } })),
-      /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", maxWidth: 200, background: "#fffbeb", border: "2px dashed #fbbf24", borderRadius: 10, padding: 12, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#92400e", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 } }, "What Slowed It Down"),
-        friction.map(function(f, fi) {
-          return /*#__PURE__*/React.createElement("div", { key: fi, style: { background: "#fef3c7", borderRadius: 6, padding: "4px 8px", fontSize: 11, fontWeight: 600, color: "#78350f", marginBottom: 3 } }, f);
-        })),
-      /*#__PURE__*/React.createElement("div", { style: { flex: "0 0 36px", display: "flex", alignItems: "center", justifyContent: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderLeft: "12px solid var(--primary)" } })),
-      /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", maxWidth: 170, background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: 12, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#16a34a", marginBottom: 4, textTransform: "uppercase", letterSpacing: 1 } }, "Reality"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#14532d", lineHeight: 1.4 } }, reality)));
-  };
-  var TESTS = [
-    { label: "Incentives", question: "Who benefits if I believe this?", example: "A politician says AI will destroy your future. A tech CEO says AI will save the world. A news site says AI is coming for your job. Ask: are they trying to get your vote, your investment, or your click? The claim might still be true, but you should know what\u2019s driving it." },
-    { label: "Mechanism & Friction", question: "Does this fit how AI actually works?", example: "\u2018AI means you don\u2019t need school anymore.\u2019 For that to be true, every AI answer would have to be correct, colleges and employers would have to stop valuing degrees, and you\u2019d have to learn complex skills with no structure, feedback, or deadlines. None of that is happening." },
-    { label: "Evidence", question: "Is this based on evidence, or just extrapolation?", example: "\u2018AI beat a pro gamer at chess\u2019 is evidence. \u2018AI will dominate all esports\u2019 is extrapolation. One controlled game is not the same as real-time team strategy in Valorant or Rocket League. A demo proves something is possible. It doesn\u2019t prove it will spread, scale, or dominate soon." }
-  ];
-  var BLACK_BOX_REASONS = [
-    { icon: "\uD83E\uDDE0", title: "The rules are learned, not written.", desc: "A person didn\u2019t write every possible answer by hand. The model learned patterns from training data." },
-    { icon: "\uD83D\uDD22", title: "The inside isn\u2019t a repair manual.", desc: "Even if you could read billions of numbers inside the model, they wouldn\u2019t look like clear instructions." },
-    { icon: "\uD83D\uDCAC", title: "Its explanation may not be the real cause.", desc: "If you ask why it said something, the answer can sound reasonable but may not actually trace the internal cause." },
-    { icon: "\uD83D\uDD12", title: "Closed tools hide even more.", desc: "With ChatGPT, Claude, and Gemini, you don\u2019t see the full model, training data, system instructions, or safety layers." }
-  ];
-    var trackContent = /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement("p", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.7, marginBottom: 4 } }, "History doesn’t say ignore big predictions. It says ask what gets ignored between possibility and reality."),
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: 24, border: "1px solid var(--rule)", marginTop: 24 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, "The pattern: predictions fail on friction."),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, marginBottom: 20 } }, "Most predictions fail because people confuse what is technically possible with what can actually spread, scale, and stick."),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 0 } },
-          /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", maxWidth: 200, background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 12, padding: 16, textAlign: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 6 } }, "\uD83D\uDD2E"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "#4338ca", marginBottom: 4 } }, "Prediction"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--primary)", lineHeight: 1.4 } }, "What someone says will happen")),
-          /*#__PURE__*/React.createElement("div", { style: { flex: "0 0 48px", display: "flex", alignItems: "center", justifyContent: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { width: 0, height: 0, borderTop: "10px solid transparent", borderBottom: "10px solid transparent", borderLeft: "14px solid var(--primary)" } })),
-          /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", maxWidth: 220, background: "#fffbeb", border: "2px dashed #fbbf24", borderRadius: 12, padding: 16, textAlign: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "#92400e", marginBottom: 10 } }, "\u26A0\uFE0F What Slows It Down"),
-            FRICTION_PILLS.map(function(p, i) {
-              return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "#fef3c7", borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 600, color: "#78350f", marginBottom: 4 } }, p);
-            })),
-          /*#__PURE__*/React.createElement("div", { style: { flex: "0 0 48px", display: "flex", alignItems: "center", justifyContent: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { width: 0, height: 0, borderTop: "10px solid transparent", borderBottom: "10px solid transparent", borderLeft: "14px solid var(--primary)" } })),
-          /*#__PURE__*/React.createElement("div", { style: { flex: "1 1 0", maxWidth: 200, background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 12, padding: 16, textAlign: "center" } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 6 } }, "\u2705"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, color: "#16a34a", marginBottom: 4 } }, "Reality"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#15803d", lineHeight: 1.4 } }, "What actually happens"))),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.6, textAlign: "center", marginTop: 16 } }, "A demo proves something can happen. It does not prove it will spread, scale, or dominate soon.")),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 24, fontSize: 15, fontWeight: 700, color: "var(--primary)" } }, "Technical possibility is not social inevitability."));
-  var watchContent = /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement(ShowcaseBox, {
-        kicker: "HOW TO JUDGE THE NEXT CLAIM",
-        headline: "Run every claim through three tests.",
-        intro: "When you hear a prediction about AI (scary or exciting), do not just ask whether it sounds possible. Ask what would need to be true, and what still gets in the way.",
-        marginBottom: 24
-      },
-      TESTS.map(function(t, i) {
-        return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 12, padding: 20, border: "1px solid var(--rule)", marginBottom: 12 } },
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, alignItems: "flex-start" } },
-            /*#__PURE__*/React.createElement("div", { style: { width: 28, height: 28, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, i + 1),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("span", { style: { background: "var(--primary)", color: "#fff", fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 4, display: "inline-block", marginBottom: 6 } }, t.label),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", fontWeight: 600, lineHeight: 1.5 } }, t.question))),
-          /*#__PURE__*/React.createElement("div", { style: { background: "#eef2ff", borderRadius: 8, padding: "12px 14px", marginTop: 12, fontSize: 13, color: "#4338ca", lineHeight: 1.6 } }, t.example));
-      })),
-      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginTop: 24, fontSize: 15, fontWeight: 700, color: "var(--primary)" } }, "A claim being overhyped doesn\u2019t make it fake, and a claim being real doesn\u2019t make it soon. The three tests are how you tell which."));
-
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aifuture" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Some people think AI will cure cancer, eliminate poverty, and make everything better for everyone. Others think it will steal every job, seize control of infrastructure, and end civilization as we know it. Both camps are completely confident. Both can\u2019t be right. Here\u2019s how to figure out who\u2019s actually worth listening to, and how to make that call yourself from now on."),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, margin: "32px 0" }
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 8 }
-      }, "The terms you\u2019ll hear in the debate"),
-      /*#__PURE__*/React.createElement(BodyP, { style: { margin: "0 0 18px 0" } }, "Everything you\u2019ve used so far in this course is narrow AI, or ANI: software built for one specific job. Read enough about where AI is headed and you\u2019ll hit two more acronyms, both about getting past narrow."),
-      /*#__PURE__*/React.createElement(BodyP, { style: { margin: "0 0 14px 0" } },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)" } }, "AGI (Artificial General Intelligence)"),
-        ": a hypothetical AI that can do any intellectual task a human can. Some researchers think it\u2019s a few years away. Others think it\u2019s decades. Others think the term is meaningless."
-      ),
-      /*#__PURE__*/React.createElement(BodyP, { style: { margin: "0 0 18px 0" } },
-        /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "var(--ink)" } }, "ASI (Artificial Super Intelligence)"),
-        ": a hypothetical AI smarter than any human, at everything. Even more contested."
-      ),
-      /*#__PURE__*/React.createElement("p", {
-        style: { fontSize: 17, lineHeight: 1.65, color: "var(--ink)", margin: 0 }
-      }, "Neither has clearly emerged yet, and the definitions are still contested. Both shape how people argue about AI today. The vocabulary matters, but it isn\u2019t the real skill. The real skill is judging the claims people make in either direction. The rest of this lesson teaches three tests for doing exactly that.")
-    ),
-    trackContent,
-    watchContent,
-    /*#__PURE__*/React.createElement("div", { style: { marginTop: 48 } },
-      /*#__PURE__*/React.createElement(SectionKicker, null, "AI IS A BLACK BOX")
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null, "There is a term software engineers use for AI: ", /*#__PURE__*/React.createElement("strong", null, "the black box"), ". With a regular calculator, if you type 2+2 and it says 5, a programmer can open the code, find the broken line, and fix it. The path from input to output is traceable."),
-    /*#__PURE__*/React.createElement(BodyP, null, "AI is different. When you give ChatGPT a prompt and it writes you a poem, nobody (not even the people who built it) can point to a specific spot inside the model and say \u201Cthat\u2019s where the rhyme came from.\u201D You can study its behavior from outside, but you can\u2019t crack it open and read the logic like normal software."),
-    /*#__PURE__*/React.createElement(BodyP, null, "So what IS inside? Learned numbers. Billions of them, adjusted during training until they helped the model predict better."),
-    /*#__PURE__*/React.createElement("img", { src: "illustrations/judging-ais-future.jpg", alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
-    /*#__PURE__*/React.createElement(BodyP, null, "That opacity is exactly why future claims are hard to check. If someone says \u201CAI will definitely do X soon,\u201D the technical-sounding explanation is not the evidence. The evidence is what shows up outside the model: real-world performance, repeated results, deployment at scale, known failure rates, accountable owners."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      marginBottom: 18
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }
-      }, BLACK_BOX_REASONS.map(function(r, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: 16 }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, r.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.3 } }, r.title),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, r.desc));
-      }))
-    ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", borderRadius: 12, padding: 16, fontSize: 15, fontWeight: 700, color: "var(--ink)", lineHeight: 1.6, marginBottom: 18 }
-    }, "A confident explanation isn\u2019t the same as evidence. Outside-the-model evidence is what tells you whether a future claim is real."),
-    closeBoard("aifuture"),
-    /*#__PURE__*/React.createElement(AiFutureMatchTryIt, { cards: ALL_CARDS }),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("talkingai"); }, label: "Next: Talking About AI" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aijudges"); }, label: "Next: When AI Judges You" }));
 }
 function SpotTheWorryTryIt(props) {
   var SCENARIOS = [
@@ -12550,35 +12778,6 @@ function SpotTheWorryTryIt(props) {
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, sc.soundbite)),
           /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", statement: "Which response meets the real worry?", options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); } }));
       })));
-}
-function TalkingAboutAISection(props) {
-  var E = React.createElement;
-  return E("div", null,
-    E(LessonHeader, { sectionId: "talkingai" }),
-    E(BodyP, null, "You can weigh a claim for yourself now. But you’ll also be the person friends, family, and teachers ask about AI, often with a worry sitting under the question. The move is to meet the worry, not the soundbite."),
-    E(ShowcaseBox, {
-      kicker: "TALKING ABOUT AI",
-      headline: "When people ask, here’s what they’re really worried about.",
-      intro: "The questions you’ll get usually have a real concern underneath. Address that, not the soundbite.",
-      marginBottom: 28
-    },
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 } },
-        [
-          { take: "“AI is going to take over.”", body: "They’re worried about agents doing stuff without supervision. That’s a real risk worth taking seriously. The fix is the Five-Word Rule: AI shouldn’t send, spend, submit, delete, or post without you reviewing first." },
-          { take: "“AI is going to take all the jobs.”", body: "They’re probably worried about work changing faster than people can adapt. That’s a fair concern. The better frame is task-by-task: which tasks get automated, which need a human in the loop, and which new skills become valuable as the mix shifts." },
-          { take: "“AI is just hype, it’ll pass.”", body: "They may be reacting against exaggerated claims, which is understandable: there’s a lot of overclaiming on the optimist side. But hype cycles end while the technology doesn’t. The internet was overhyped in 1999, and it’s still here." },
-          { take: "“Kids these days just use AI to cheat.”", body: "They’re worried about whether you’re actually learning. Same tool, different outcomes depending on how you use it. Use AI to learn faster, not to skip the learning." }
-        ].map(function(card, i) {
-          return E("div", { key: i, style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 10px 28px rgba(14, 10, 31, 0.06)" } },
-            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 8, lineHeight: 1.35 } }, card.take),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
-        }))),
-    E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: 4 } }, "The smartest people aren’t the ones who panic or worship."),
-    E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--primary)", lineHeight: 1.5, marginBottom: 24 } }, "They’re the ones who can judge."),
-    closeBoard("talkingai"),
-    E(SpotTheWorryTryIt, null),
-    E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
 function BuildEdgeSection(props) {
   var E = React.createElement;
@@ -12904,12 +13103,17 @@ const SECTION_COMPONENTS = {
   creativethinking: CreativeThinkingSection,
   becurious: BeCuriousSection,
   bigupside: BigUpsideSection,
+  whatpeoplesay: WhatPeopleSaySection,
+  paceofchange: PaceOfChangeSection,
+  bigdownside: BigDownsideSection,
   workchanges: WorkChangesSection,
   computecost: TheHiddenCostSection,
-  aifuture: AIFutureSection,
-  talkingai: TalkingAboutAISection,
   buildedge: BuildEdgeSection
 };
+// 2026-08-09 section rebuild: Judging AI's Future and Talking About AI were retired.
+// Their material lives on in Pace of Change (AGI/ASI, the three tests), The Big Downside
+// (black box), the section opener (the four soundbites), and When AI Judges You's
+// section close (the answered voices + SpotTheWorryTryIt).
 const CHIP_LABELS = { embeddings: "Embeddings", critical: "Critical Thinking" };
 function ChipNav(props) {
   var E = React.createElement;

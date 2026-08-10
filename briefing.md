@@ -6,13 +6,13 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 ## Lesson map
 A snapshot of the current structure, in delivery order. Each lesson is `Displayed Label (internal id)`: the id is the React component key and navigation reference used in code; the label is what students see. **This map is regenerated from `SECTION_GROUPS` in index.html — it is not hand-patched per change.** When it looks stale, regenerate it from `SECTION_GROUPS` rather than diffing individual moves. Structural history lives in git and in `docs/briefing-history.md` (archive).
 
-56 lessons across 7 section groups. Section badges ("Section · N of M") derive from `SECTION_GROUPS`, so counts are never hand-typed.
+58 lessons across 7 section groups. Section badges ("Section · N of M") derive from `SECTION_GROUPS`, so counts are never hand-typed.
 
 - **Start Smarter (8):** Welcome (welcome), Why Learn AI? (whydeeper), What Is AI? (llms), How an LLM Works (aihistory), Does AI Think? (doesaithink), What You Can Control (control), Does School Matter? (whybother), Learn with AI (studying)
 - **Work With AI (9):** Opener (openerworkwith), AI is Different (aivscode), Where AI Works Best (whatitdoesbest), Which App? (modelselection), Questions Matter (questionsvaluable), Art of Prompting (prompting), Context Window (prompt), Evaluate the Results (evaluating), Critical Thinking (critical)
 - **Understand AI (10):** Opener (openerfoundations), Training (training), AI is Math (aiismath), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Transformer (attention), Layers (layers), Vector Space (vectorspace), How AI Answers (prediction), Inference: From Prompt to Output (inference)
 - **Avoid Traps (9):** Opener (openerprotect), Hallucination (hallucination), Training Bias Trap (trainingbias), Document Trap (documenttrap), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), The Fake Trap (faketrap)
-- **Embrace the Future (7):** Opener (openerrealworld), Work Changes (workchanges), The Rise of Agents (agents), When AI Judges You (aijudges), The Hidden Cost (computecost), Judging AI's Future (aifuture), Talking About AI (talkingai)
+- **Embrace the Future (9):** Opener (openerrealworld), Pace of Change (paceofchange), What People Say (whatpeoplesay), The Big Downside (bigdownside), The Big Upside (bigupside), The Rise of Agents (agents), Work Changes (workchanges), The Cost (computecost), When AI Judges You (aijudges)
 - **Build Your Skills (8):** Opener (openerskills), Tune the Model (choosemodel), Ask AI (askai), Thought Partner (thoughtpartner), Skills That Matter (humanedge), Creative Thinking (creativethinking), Be Curious (becurious), Your Edge (buildedge)
 - **Finish Smarter (5):** What You Learned (whatyoulearned), Integrity (integrity), Privacy (privacy), The Full Loop (fullworkflow), How We Got Here (howwegothere)
 

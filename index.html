@@ -448,13 +448,13 @@ const CLOSE_BOARDS = {
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Embrace the Future
   openerrealworld: { pill: "The future is coming fast.", sticky: "Pick your camp on evidence, not volume." },
-  whatpeoplesay: { pill: "The people building it don’t know where AI lands.", sticky: "Confidence isn’t evidence." },
-  paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Judge the claim by what it leaves out." },
+  paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Fast is a fact. “Inevitable” is a claim." },
+  paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Fast is a fact. “Inevitable” is a claim." },
   bigdownside: { pill: "You get what you measure, not what you meant.", sticky: "The black box moves faster than the rules." },
   bigupside: { pill: "The upside is real, and it already happened.", sticky: "Judge the good news like you judge the bad." },
-  workchanges: { pill: "The jobs reshuffle. They don’t vanish.", sticky: "The edge goes to whoever works with it." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
-  aijudges: { pill: "Sometimes AI decides about you.", sticky: "Ask for the paper trail." },
+  agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
+  computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   // Build Your Skills
   choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
@@ -1926,7 +1926,7 @@ const SECTION_GROUPS = [{
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
 }, {
   label: "Embrace the Future",
-  sections: ["openerrealworld", "whatpeoplesay", "bigupside", "paceofchange", "bigdownside", "agents", "workchanges", "computecost", "aijudges"]
+  sections: ["openerrealworld", "paceofchange", "whatpeoplesay", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "aijudges"]
 }, {
   label: "Build Your Skills",
   sections: ["openerskills", "choosemodel", "askai", "thoughtpartner", "humanedge", "creativethinking", "becurious", "buildedge"]
@@ -12068,7 +12068,7 @@ function BigUpsideSection(props) {
       scenarios: DONE_OR_PREDICTED
     }),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("paceofchange"); }, label: "Next: Pace of Change" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" }));
 }
 // DRAFT STUBS (2026-08-09 section rebuild): placeholders so the chain stays whole while
 // the lesson-by-lesson pass fills them in. Each gets its real body, close board, and
@@ -12191,42 +12191,62 @@ function WhatPeopleSaySection(props) {
         })
       )),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigupside"); }, label: "Next: The Big Upside" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigdownside"); }, label: "Next: The Big Downside" }));
 }
 function PaceOfChangeSection(props) {
   var E = React.createElement;
-  const [testAnswers, setTestAnswers] = useState({});
-  var TEST_OPTIONS = [
-    { label: "Who benefits if I believe this?" },
-    { label: "Does this fit how the work actually happens?" },
-    { label: "Is this evidence, or extrapolation?" }
-  ];
-  var TEST_ITEMS = [
+  const [adoptionAnswers, setAdoptionAnswers] = useState({});
+  // Each row states its own measure: the first four are share of American homes,
+  // the last is raw users, and collapsing them into one number would be a lie.
+  var ADOPTION = [
     {
-      claim: "The CEO of a chip company announces that AI will replace every programmer within two years.",
-      correct: 0,
-      feedback: [
-        "Sharpest first question. He sells the chips that AI runs on. Every company that panic-buys his hardware makes his prediction pay, whether it comes true or not. The claim might still have something to it, but you should know what’s driving it before you weigh it.",
-        "Worth asking eventually, but there’s a sharper opener here: the messenger. He sells the chips AI runs on, so the prediction pays him whether it comes true or not. Start with who benefits.",
-        "Reasonable, but there’s a sharper opener here: the messenger. He sells the chips AI runs on, so the prediction pays him whether it comes true or not. Start with who benefits."
-      ]
-    },
-    {
-      claim: "AI scored higher than most humans on the bar exam, so lawyers are finished.",
-      correct: 1,
-      feedback: [
-        "Fair question, but the sharper one is mechanism. Being a lawyer isn’t taking exams. Licenses, liability, courtroom judgment, client trust: the exam was never the hard part of the job.",
-        "Sharpest first question. Being a lawyer isn’t taking exams all day. The job runs on licenses, liability, courtroom judgment, and client trust, and none of that was on the test. A skill demo doesn’t map onto a whole profession.",
-        "Close, and the exam result is real evidence of something. The sharper question is what the evidence is about: test-taking is a slice of law school, not the job. The friction lives in licenses, liability, and trust."
-      ]
-    },
-    {
-      claim: "Models have gotten better every year for five straight years, so superintelligence by 2030 is a lock.",
+      thing: "The telephone",
+      question: "How long to reach half of American homes?",
       correct: 2,
-      feedback: [
-        "The messenger matters less here: people with nothing to sell make this argument too. The sharper question is what the trend line is standing on. Past improvement is evidence models improved. “It keeps going until it passes us” is a bet, not data.",
-        "Some friction questions apply, but the core move here is simpler. Past improvement is evidence that models improved. Assuming the line continues forever is extrapolation, and the future has no data points.",
-        "Sharpest first question. Past improvement is real evidence, but only that models improved so far. “The line keeps going until it passes us” extends a trend into territory with zero data points. That’s a bet dressed as a fact, in either direction."
+      options: [
+        { label: "About 10 years", feedback: "Too fast. Every single home needed its own wire run to it. Half of American homes had a telephone around 1946, seventy years after Bell patented it." },
+        { label: "About 30 years", feedback: "Closer, but wiring a whole country takes longer than that. Half of American homes had a telephone around 1946, seventy years after Bell patented it." },
+        { label: "About 70 years", feedback: "Bell patented it in 1876, and half of American homes had one around 1946. Every one of those homes needed a wire run to it first." }
+      ]
+    },
+    {
+      thing: "Electricity in the home",
+      question: "How long to reach half of American homes?",
+      correct: 1,
+      options: [
+        { label: "About 15 years", feedback: "Too fast. Same problem as the telephone: somebody has to run a line to every house. It took about forty-five years." },
+        { label: "About 45 years", feedback: "Edison’s first power station opened in 1882, and about half of American homes had power by 1925. Farms waited decades longer than cities." },
+        { label: "About 90 years", feedback: "Slower than it went. About forty-five years, though farms really did wait decades longer than cities." }
+      ]
+    },
+    {
+      thing: "Television",
+      question: "How long to reach half of American homes?",
+      correct: 0,
+      options: [
+        { label: "About 8 years", feedback: "This is the fast one. Television plugged into homes that already had power, so there was no new grid to build. Half of American homes had a set by 1954." },
+        { label: "About 25 years", feedback: "Faster than that. Television had no new grid to build, because the power lines were already there. Half of American homes had a set by 1954, about eight years in." },
+        { label: "About 50 years", feedback: "Much faster. Television plugged into homes that already had power, and it took about eight years." }
+      ]
+    },
+    {
+      thing: "The web",
+      question: "How long to reach half of American homes?",
+      correct: 1,
+      options: [
+        { label: "About 3 years", feedback: "A little faster than it went. The public web opened in 1991 and reached about half of American homes around 2001." },
+        { label: "About 10 years", feedback: "The public web opened in 1991 and reached about half of American homes around 2001, which was quick by the standards of everything above it." },
+        { label: "About 25 years", feedback: "Slower than it went. About ten years: the public web opened in 1991 and reached half of American homes around 2001." }
+      ]
+    },
+    {
+      thing: "ChatGPT",
+      question: "How long to reach a hundred million users?",
+      correct: 0,
+      options: [
+        { label: "About 2 months", feedback: "It launched at the end of November 2022 and was somewhere near a hundred million users that January. Nothing to wire, nothing to install, nothing to buy." },
+        { label: "About 2 years", feedback: "Far slower than it went. About two months. There was no grid to build and no device to buy, so the only thing left to change was whether people tried it." },
+        { label: "About 5 years", feedback: "Far slower than it went. About two months, because for the first time on this list there was nothing to build and nothing to install." }
       ]
     }
   ];
@@ -12257,7 +12277,7 @@ function PaceOfChangeSection(props) {
       "Slow down and read that third one again. Every generation helps assemble the one after it, which is a loop nothing else in the history of technology has run."),
     E(SectionKicker, null, "The words the camps argue with"),
     E(BodyP, null,
-      "That loop is why the argument from What People Say gets so heated. If AI helps build better AI, where does it level off? Read about that question and you’ll meet four terms. None of them has clearly arrived. All of them shape the argument."),
+      "That loop is why the argument between the two camps gets so heated. If AI helps build better AI, where does it level off? Read about that question and you’ll meet four terms. None of them has clearly arrived. All of them shape the argument."),
     E(ShowcaseBox, { marginBottom: 24 },
       E(LabeledCardStack, { items: [
         { eyebrow: "AUTOMATED AI RESEARCH", headline: "Pointing AI at the research itself", body: "The labs’ stated next step: AI systems that run experiments and propose improvements on their own, with humans reviewing. Early versions are already in use. How much this speeds things up is being tested right now, in public.", accent: "#10b981" },
@@ -12267,49 +12287,44 @@ function PaceOfChangeSection(props) {
       ] })),
     E(SectionKicker, null, "So where does it stop?"),
     E(BodyP, null,
-      "Nobody knows. You learned that two lessons ago and it hasn’t stopped being true. But “nobody knows” doesn’t mean every claim deserves a shrug. Claims about AI’s future arrive daily, scary ones and thrilling ones, and you can judge every one of them with three questions."),
-    E(ShowcaseBox, {
-      kicker: "HOW TO JUDGE THE NEXT CLAIM",
-      headline: "Run every claim through three tests.",
-      marginBottom: 24
-    },
-      E(LabeledCardStack, { items: [
-        { eyebrow: "Test 1 · Incentives", headline: "Who benefits if I believe this?", body: "A politician wants your vote, a CEO wants your investment, a news site wants your click. The claim might still be true, but know what’s driving it before you weigh it.", accent: "#6e51ff" },
-        { eyebrow: "Test 2 · Mechanism", headline: "Does this fit how the work actually happens?", body: "“AI means you don’t need school anymore” requires every AI answer to be right and every employer to stop caring about degrees. Walk the claim through the real world and watch where it snags: cost, rules, trust, habit.", accent: "#f59e0b" },
-        { eyebrow: "Test 3 · Evidence", headline: "Is this evidence, or extrapolation?", body: "“AI matched lab accuracy on protein shapes” is evidence: it happened, you can check it. “So it will out-research scientists everywhere by 2030” is extrapolation: a trend stretched into territory with no data points. A demo proves possible. It doesn’t prove soon.", accent: "#10b981" }
-      ] })),
+      "Nobody knows, and the next lesson is about how openly the people building it admit that. But where it stops is only half the question. The other half is what it would mean if the loop keeps running."),
+    E(SectionKicker, null, "What it would mean"),
+    E(BodyP, null,
+      "Every technology before this one gave people time to adjust. The telephone took about seventy years to reach half of American homes. Electricity took forty-five. Television took eight, because it plugged into homes that already had power. Whatever the number, you learned the new thing once, and what you learned lasted most of your working life."),
+    E(BodyP, null,
+      "The loop is what breaks that. If each generation of AI helps build the next, the gap between “a lab can do this” and “this is everywhere” keeps shrinking. That is the real claim underneath AGI and ASI. Not that machines get smart, but that the time you get to adjust keeps getting shorter."),
     E(BodyP, null,
       E("strong", null, "Technical possibility is not social inevitability."),
-      " That single sentence beats most of what you’ll read about AI’s future. Demos are fast. Deployment is slow. And the gap between them is exactly where hype, in both directions, lives."),
+      " Demos are fast. Deployment is slow. Cost, rules, trust and habit all sit between a system that works and a world that uses it."),
     E(SectionKicker, null, "Fast is a fact. “Inevitable” is a claim."),
     E(BodyP, null,
-      "The graph is real and the accelerants are real. What nobody has is data about where it stops. So when the next big claim lands in your feed, don’t ask whether it sounds possible. Run the three tests, and place your own bet."),
+      "The pace is real and the accelerants are real. What nobody has is data about where it stops. So when the next big claim lands in your feed, the question isn’t whether it sounds possible. It’s how long the world would take to catch up."),
     closeBoard("paceofchange"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Pick Your First Question",
-      lead: "Three big claims about where AI is headed. All three sound possible, and that’s exactly the problem. Your job isn’t to rule true or false on the spot. It’s to pick the sharpest first question."},
+      title: "How Fast Is Fast?",
+      lead: "Five technologies, and how long each one took to spread. Guess before you check. The pattern in the answers is the whole point of this lesson."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        TEST_ITEMS.map(function(item, si) {
-          var picked = testAnswers[si];
+        ADOPTION.map(function(item, si) {
+          var picked = adoptionAnswers[si];
           return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             E("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
               E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.claim)),
+              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.thing)),
             E(QuizBlock, {
               surface: "mint",
-              statement: "Which test do you run first?",
-              options: TEST_OPTIONS.map(function(o, oi) {
-                return { label: o.label, correct: oi === item.correct, feedback: item.feedback[oi] };
+              statement: item.question,
+              options: item.options.map(function(o, oi) {
+                return { label: o.label, correct: oi === item.correct, feedback: o.feedback };
               }),
               picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setTestAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
+              onAnswer: function(idx) { setAdoptionAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
             }));
         })
       )),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigdownside"); }, label: "Next: The Big Downside" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatpeoplesay"); }, label: "Next: What People Say" }));
 }
 function BigDownsideSection(props) {
   var E = React.createElement;
@@ -12367,7 +12382,7 @@ function BigDownsideSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "bigdownside" }),
     E(BodyP, null,
-      "The Big Upside was receipts: checkable, sourced, real. The case for worry deserves the exact same standard. Not the movie version with the red-eyed robots. The checkable version, the one the serious worriers, including people building AI, actually make."),
+      "What People Say was receipts: real quotes, sourced, checkable. The case for worry deserves the exact same standard. Not the movie version with the red-eyed robots. The checkable version, the one the serious worriers, including people building AI, actually make."),
     E(BodyP, null,
       "It rests on two facts you can verify, plus one story from 1902."),
     E(SectionKicker, null, "Fact one: nobody can see inside"),
@@ -12392,7 +12407,7 @@ function BigDownsideSection(props) {
     E(BodyP, null,
       "Rules have always trailed technology. Cars came first, and seatbelt laws showed up decades later. That gap is normal, and society survives it, because there’s usually time: the technology spreads slowly enough for the rules to catch up."),
     E(BodyP, null,
-      "Now put that next to the graph from last lesson. New model generations land every few months. Laws take years, and understanding a model’s behavior well enough to write a good rule takes longer than that, because of fact one: you can’t read the rulebook of a black box. The people writing guardrails are fencing a machine that’s already two generations past the one they studied."),
+      "Now put that next to the pace from Pace of Change. New model generations land every few months. Laws take years, and understanding a model’s behavior well enough to write a good rule takes longer than that, because of fact one: you can’t read the rulebook of a black box. The people writing guardrails are fencing a machine that’s already two generations past the one they studied."),
     E(SectionKicker, null, "Hanoi, 1902"),
     E(BodyP, null,
       "Which brings us to the rats. Hanoi, 1902. The city’s French colonial government had a rat problem in the new sewers, and a modern-sounding fix: a bounty. Turn in a rat’s tail, collect a payment. Tails poured in by the thousands. Success."),
@@ -12435,7 +12450,7 @@ function BigDownsideSection(props) {
         })
       )),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: The Rise of Agents" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigupside"); }, label: "Next: The Big Upside" }));
 }
 function WorkChangesSection(props) {
   var E = React.createElement;
@@ -13157,7 +13172,8 @@ const SECTION_COMPONENTS = {
   buildedge: BuildEdgeSection
 };
 // 2026-08-09 section rebuild: Judging AI's Future and Talking About AI were retired.
-// Their material lives on in Pace of Change (AGI/ASI, the three tests), The Big Downside
+// Their material lives on in Pace of Change (AGI/ASI; its three-tests box was cut
+// 2026-08-10, since claim-checking is What People Say's job), The Big Downside
 // (black box), the section opener (the four soundbites), and When AI Judges You's
 // section close (the answered voices + SpotTheWorryTryIt).
 const CHIP_LABELS = { embeddings: "Embeddings", critical: "Critical Thinking" };

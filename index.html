@@ -405,7 +405,7 @@ const CLOSE_BOARDS = {
   supporttrap: { pill: "AI’s supportive words are math, not support.", sticky: "Real support comes from people." },
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Embrace the Future
-  openerrealworld: { pill: "Four voices. Nobody knows who’s right.", sticky: "By the end, you can answer all four." },
+  openerrealworld: { pill: "The future is coming fast.", sticky: "Pick your camp on evidence, not volume." },
   whatpeoplesay: { pill: "The people building it can’t agree either.", sticky: "Nobody knows where it stops. Deal in what’s checkable." },
   paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Judge the claim by what it leaves out." },
   bigdownside: { pill: "You get what you measure, not what you meant.", sticky: "The black box moves faster than the rules." },
@@ -989,6 +989,11 @@ function OpenerSection(props) {
     if (!items) return null;
     if (typeof items === "string") items = [items];
     return items.map(function(p, i) {
+      // A { kicker: "..." } entry breaks the run of paragraphs with a section
+      // kicker. It can't be a child of BodyP, which renders a <p>.
+      if (p && typeof p === "object" && !React.isValidElement(p) && p.kicker) {
+        return E(SectionKicker, { key: i }, p.kicker);
+      }
       return E(BodyP, { key: i }, p);
     });
   };
@@ -1009,23 +1014,6 @@ function OpenerSection(props) {
       style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 14 }
     }, questions.map(renderCard));
   };
-  var showcaseInner;
-  if (props.groups) {
-    showcaseInner = props.groups.map(function(group, gi) {
-      return E("div", {
-        key: gi,
-        style: { marginTop: gi === 0 ? 0 : 32 }
-      },
-        E(SectionKicker, { size: "small", style: { margin: "0 0 8px 0" } }, group.kicker),
-        E("div", {
-          style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: "var(--ink)", lineHeight: 1.45, marginBottom: (group.questions && group.questions.length) ? 16 : 0 }
-        }, group.bridge),
-        (group.questions && group.questions.length) ? renderCardGrid(group.questions) : null
-      );
-    });
-  } else {
-    showcaseInner = renderCardGrid(props.openQuestions || []);
-  }
   var renderOverview = function(ov) {
     var rows = (props.groups || []).map(function(group, gi) {
       return E("div", {
@@ -1050,13 +1038,7 @@ function OpenerSection(props) {
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
     props.featuredCard || null,
     renderParas(props.whyThisMatters),
-    props.sectionOverview
-      ? renderOverview(props.sectionOverview)
-      : E(React.Fragment, null,
-          E(SectionKicker, null, props.bigQuestionsLabel !== undefined ? props.bigQuestionsLabel : "BIG QUESTIONS WE’LL ANSWER"),
-          renderParas(props.whatYoullLearnIntro),
-          E(ShowcaseBox, null, showcaseInner),
-          renderParas(props.whatYoullLearnClosing)),
+    renderOverview(props.sectionOverview),
     props.mistake ? E(React.Fragment, null,
       E(SectionKicker, null, "The common mistake"),
       E(BodyP, null, props.mistake)) : null,
@@ -1965,9 +1947,6 @@ function OpenerFoundationsSection(props) {
       "That’s what this section is. It’s the longest and most complicated section in the course, because AI works unlike anything you’ve used before. That’s normal. Take it a piece at a time. Each one builds on the last, and by the end, the machine won’t feel like magic anymore."
     ],
     featuredCard: foundationsIllustration,
-    whatYoullLearnIntro: [
-      "Here’s the path, from what AI fundamentally is to exactly how it turns your words into an answer."
-    ],
     sectionOverview: {
       eyebrow: "In this section",
       title: "How AI Really Works"
@@ -1990,7 +1969,6 @@ function OpenerFoundationsSection(props) {
         bridge: "Every piece you’ve learned snaps into place here. Learn how AI builds answers from scratch, and you’ll never look at a reply the same way again."
       }
     ],
-    whatYoullLearnClosing: [],
     nextLessonId: "training",
     nextLessonLabel: "Next: Training",
     completeAndNavigate: props.completeAndNavigate
@@ -8096,9 +8074,6 @@ function OpenerWorkWithSection(props) {
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
       })
     ],
-    whatYoullLearnIntro: [
-      "First, why AI is different and what that makes it good at, plus how the big apps differ and why picking one and learning it beats hopping between them. Then the moves that turn a rough request into a useful answer, including what the model actually sees when it reads your prompt. Finally, how to check what comes back. Each lesson answers a question."
-    ],
     sectionOverview: {
       eyebrow: "In this section",
       title: "Work With AI"
@@ -8130,9 +8105,6 @@ function OpenerWorkWithSection(props) {
           { question: "How do I question an answer that sounds right?", lessonId: "critical" }
         ]
       }
-    ],
-    whatYoullLearnClosing: [
-      "By the end, opening a chat should feel less like a guess and more like a setup: the right tool, a clear ask, and your own thinking still in the loop."
     ],
     nextLessonId: "aivscode",
     nextLessonLabel: "Next: AI is Different",
@@ -10121,25 +10093,37 @@ function OpenerRealWorldSection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
     },
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to take over.\u201d"),
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019ll take all the jobs.\u201d"),
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s just hype. It\u2019ll pass.\u201d"),
-      /*#__PURE__*/React.createElement("div", null, "\u201cKids just use it to cheat.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to cure diseases.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to take your job.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019ll do the boring parts for you.\u201d"),
+      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to get away from us.\u201d"),
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
       },
         /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "four voices. nobody knows who\u2019s right."))));
+        /*#__PURE__*/React.createElement("span", null, "who\u2019s right? nobody knows."))));
   return React.createElement(OpenerSection, {
     sectionId: "openerrealworld",
     featuredCard: realWorldIllustration,
     whyThisMatters: [
-      "You\u2019ve built the habits and the judgment: how to pick a tool, prompt it, check what it hands back, and spot the traps. So far, this course has been about you and the tool.",
-      "Now comes the question everyone around you is arguing about: where does all this land? You\u2019ve heard the voices already. Someone at the dinner table is sure AI is going to take over. Someone online is sure it\u2019s all hype. The loudest voices sort into two camps, the AI Lovers and the AI Haters, and both camps are full of brilliant people saying opposite things with total confidence. Here\u2019s the honest part: nobody knows. Not them, not us, not the people building it.",
-      "But under each loud claim sits a real worry, about machines acting alone, about work changing faster than people can adapt, about promises that outrun the product, about whether anyone\u2019s still learning. Those worries deserve real answers, not soundbites. By the end of this section, you\u2019ll be able to give all four."
-    ],
-    whatYoullLearnIntro: [
-      "First the argument and what\u2019s driving it, then where it all lands on you. Each lesson answers a question."
+      /*#__PURE__*/React.createElement(React.Fragment, null,
+        "You already know more about AI than most adults. You know how to use it, and you understand the engine underneath, so its strange behavior makes more sense. ",
+        /*#__PURE__*/React.createElement("strong", null, "Be Smarter Than the Tool"), ". Done."),
+      "Now comes the question almost everyone is arguing about: where does all this land? You\u2019ve heard the voices already. You probably know someone who thinks AI is amazing, fantastic, and every other superlative they can think of. And you know someone else who tells you it\u2019s all hype.",
+      { kicker: "Two Camps of Opinion" },
+      /*#__PURE__*/React.createElement(React.Fragment, null,
+        "The loudest voices sort into two camps, the ",
+        /*#__PURE__*/React.createElement("strong", null, "AI Optimists"), " and the ",
+        /*#__PURE__*/React.createElement("strong", null, "AI Worriers"),
+        ", and both camps include brilliant people saying opposite things with total confidence."),
+      /*#__PURE__*/React.createElement(React.Fragment, null,
+        /*#__PURE__*/React.createElement("strong", null, "Here\u2019s the honest part: nobody knows."),
+        " Not them, not us, not the people building AI."),
+      "AI Optimists can show you real wins that you can check. And, the AI Worriers can point to real risks: machines acting on their own, work changing faster than people can adapt, systems making decisions about you. Neither camp is making it up, and this section takes both seriously.",
+      /*#__PURE__*/React.createElement(React.Fragment, null,
+        "Only one thing is certain: ",
+        /*#__PURE__*/React.createElement("strong", null, "AI is here to stay"),
+        ". Not that it keeps getting better forever. Just that it isn\u2019t going away.")
     ],
     sectionOverview: {
       eyebrow: "In this section",
@@ -10167,10 +10151,6 @@ function OpenerRealWorldSection(props) {
         ]
       }
     ],
-    whatYoullLearnClosing: [
-      "By the end, you\u2019ll read AI news the way you read AI answers: clearly, without panic and without hype. And those four voices up top? You\u2019ll know what to say to every one of them."
-    ],
-    question: "What\u2019s actually coming, and what do I do about it?",
     nextLessonId: "whatpeoplesay",
     nextLessonLabel: "Next: What People Say",
     completeAndNavigate: props.completeAndNavigate
@@ -10201,9 +10181,6 @@ function OpenerSkillsSection(props) {
       "Part of the answer is practical: setting up the tool so it works for you, from the model you pick to how hard you make it think.",
       "The rest is the edge no tool supplies: framing real problems, judging what matters, bringing an angle the model hasn\u2019t seen, and turning all of it into a deliberate next move."
     ],
-    whatYoullLearnIntro: [
-      "First the setup that makes the tool work for you, then the skills that make you valuable when everyone has the same tool. Each lesson answers a question."
-    ],
     sectionOverview: {
       eyebrow: "In this section",
       title: "Build Your Skills"
@@ -10228,9 +10205,6 @@ function OpenerSkillsSection(props) {
           { question: "What\u2019s my move now?", lessonId: "buildedge" }
         ]
       }
-    ],
-    whatYoullLearnClosing: [
-      "Being good with AI is not just getting a better answer. It\u2019s knowing what only you bring, and using that on purpose."
     ],
     question: "When everyone has AI, what makes my work mine?",
     nextLessonId: "choosemodel",

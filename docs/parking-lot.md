@@ -533,3 +533,54 @@ of the new activity. The other four are parked:
 
 Full source in git history (EngagementTrapSection WHY_QUESTIONS, commit before
 this one).
+
+## Opener intro/closing paragraphs — never rendered (cut 2026-08-10)
+
+`OpenerSection` had an either/or: openers passing `sectionOverview` got the "IN
+THIS SECTION" box, and everything else fell to a branch with a "BIG QUESTIONS
+WE'LL ANSWER" kicker, a `whatYoullLearnIntro`, a flat `ShowcaseBox` card grid,
+and a `whatYoullLearnClosing`. All five openers pass `sectionOverview`, so that
+branch never ran. The copy below was in the file, committed, and invisible on
+the page. The branch, `showcaseInner`, and the unused `openQuestions` /
+`bigQuestionsLabel` props were deleted with it.
+
+The intros are roadmap lines the rendered overview groups already cover. The
+closings are the reusable part: each is a section-level landing statement.
+
+**Work With AI closing:**
+> By the end, opening a chat should feel less like a guess and more like a
+> setup: the right tool, a clear ask, and your own thinking still in the loop.
+
+**Embrace the Future closing:**
+> By the end, you'll read AI news the way you read AI answers: clearly, without
+> panic and without hype. You still won't know who's right, because nobody
+> does. But you'll know which claims come with receipts, which ones are guesses
+> in a suit, and which parts land on you either way.
+
+**Build Your Skills closing:**
+> Being good with AI is not just getting a better answer. It's knowing what
+> only you bring, and using that on purpose.
+
+**Understand AI intro:**
+> Here's the path, from what AI fundamentally is to exactly how it turns your
+> words into an answer.
+
+**Work With AI intro:**
+> First, why AI is different and what that makes it good at, plus how the big
+> apps differ and why picking one and learning it beats hopping between them.
+> Then the moves that turn a rough request into a useful answer, including what
+> the model actually sees when it reads your prompt. Finally, how to check what
+> comes back. Each lesson answers a question.
+
+**Embrace the Future intro:**
+> First the argument and what's driving it, then where it all lands on you.
+> Each lesson answers a question.
+
+**Build Your Skills intro:**
+> First the setup that makes the tool work for you, then the skills that make
+> you valuable when everyone has the same tool. Each lesson answers a question.
+
+**Possible destination:** a closing paragraph slot inside `renderOverview`, if
+a section-level landing beat is ever wanted below the overview box. Rejected
+2026-08-10 for the Embrace opener on crowding grounds: the close board already
+lands the section.

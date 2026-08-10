@@ -7572,28 +7572,43 @@ function AnswerBuildStrip() {
     { reply: "You could name", last: "name", hood: "Who gets named", picks: [["him", 45], ["your", 21], ["the", 8]] },
     { reply: "You could name him", last: "him", hood: "Dog names", picks: [["Spot", 22], ["Max", 17], ["Buddy", 14]] }
   ];
-  var cols = "88px minmax(150px, 1fr) 118px 296px";
-  var headCell = { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkSoft)", whiteSpace: "nowrap" };
+  // Widths are sized to the widest row so nothing ellipsises and the three
+  // prediction pills stay on one line: "You could name him ___" sets the reply
+  // column, "could 24% / can 12% / should 10%" sets the predictions column.
+  var cols = "104px minmax(220px, 1fr) 146px 330px";
+  var minW = 800;
+  var headCell = { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkSoft)", whiteSpace: "nowrap", padding: "0 18px" };
+  // Cells own their padding so the column rules can run the full row height.
+  var cell = { padding: "15px 18px", display: "flex", alignItems: "center", minWidth: 0 };
+  function ruled(extra) {
+    return Object.assign({}, cell, { borderLeft: "1px solid var(--rule)" }, extra || {});
+  }
   function blank(w) {
     return E("span", { style: { display: "inline-block", width: w, borderBottom: "2px solid var(--ink)", marginLeft: 2 } });
   }
   return E("div", { style: { background: "#ebe5fa", borderRadius: 22, padding: 12, margin: "8px 0 24px" } },
     E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "12px 16px", marginBottom: 10, textAlign: "center", fontFamily: "var(--mono)", fontSize: 17, fontWeight: 600, color: "var(--ink)" } },
       "What should I name my new dog?"),
-    E("div", { style: { overflowX: "auto" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "6px 16px 10px", minWidth: 640 } },
+    // The scroll container clips at its padding box, so rows that fill it edge
+    // to edge lose the left/right side of any outset ring drawn around them
+    // (the video's row highlights). The 6px gutter gives that ring room.
+    E("div", { style: { overflowX: "auto", padding: "4px 6px" } },
+      E("div", { style: { display: "grid", gridTemplateColumns: cols, alignItems: "center", padding: "6px 0 10px", minWidth: minW } },
         E("div", { style: headCell }, "Last token"),
         E("div", { style: headCell }, "Reply so far"),
         E("div", { style: headCell }, "Neighborhood"),
         E("div", { style: headCell }, "Top predictions")),
       steps.map(function(s, i) {
         var isLast = i === steps.length - 1;
-        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: cols, columnGap: 14, alignItems: "center", padding: "13px 16px", background: isLast ? "#f5f1fd" : "var(--card)", borderRadius: 12, marginBottom: isLast ? 0 : 8, minWidth: 640 } },
-          E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, fontWeight: 700, color: "var(--ink)", whiteSpace: "nowrap" } }, s.last),
-          E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } },
-            s.reply ? s.reply + " " : "", blank(26)),
-          E("span", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkSoft)", whiteSpace: "nowrap" } }, s.hood),
-          E("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
+        return E("div", { key: i, style: { display: "grid", gridTemplateColumns: cols, alignItems: "stretch", background: isLast ? "#e6ddf9" : "var(--card)", borderRadius: 12, marginBottom: isLast ? 0 : 8, minWidth: minW, overflow: "hidden" } },
+          E("div", { style: Object.assign({}, cell, { background: isLast ? "#ded2f6" : "#f7f6fb" }) },
+            E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, fontWeight: 700, color: "var(--ink)", whiteSpace: "nowrap" } }, s.last)),
+          E("div", { style: ruled() },
+            E("span", { style: { fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } },
+              s.reply ? s.reply + " " : "", blank(26))),
+          E("div", { style: ruled() },
+            E("span", { style: { fontSize: 13, fontStyle: "italic", color: "var(--inkSoft)", whiteSpace: "nowrap" } }, s.hood)),
+          E("div", { style: ruled({ gap: 6, flexWrap: "wrap" }) },
             s.picks.map(function(p, pi) {
               return E("span", { key: pi, style: pi === 0
                 ? { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: 700, color: "#fff", background: "var(--primary)", borderRadius: 999, padding: "4px 11px", whiteSpace: "nowrap" }
@@ -7601,7 +7616,9 @@ function AnswerBuildStrip() {
                 p[0] + " " + p[1] + "%");
             })));
       })),
-    E("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", border: "2px solid var(--primary)", borderRadius: 12, padding: "10px 14px", marginTop: 10 } },
+    // No border on the answer: a purple outline here reads as a highlight ring
+    // and competes with the row highlights in the video (owner, 2026-08-10).
+    E("div", { style: { display: "flex", alignItems: "center", gap: 12, background: "var(--card)", borderRadius: 12, padding: "12px 16px", marginTop: 10 } },
       E("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
       E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot.")));
 }

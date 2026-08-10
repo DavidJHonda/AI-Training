@@ -10,8 +10,8 @@ Distilled from the Mind Trap rebuild (2026-07-21). The standard for every Avoid 
 4. **Illustration** — if one exists, it goes after the thesis.
 5. **History or evidence beat** (optional) — one short kickered body-text beat (the ELIZA pattern). Body text, not a card.
 6. **Mechanism** — ONE box explaining why the trap works. Two or three cards max. No duplicate lists across cards. Kicker optional.
-7. **Advice** — a KeyInsight with a behavioral rule ("Don't ..."), including what AI IS still good for. Instruction, not restatement.
-8. **Close board** — carries the landing. The KeyInsight must not restate it.
+7. **Advice** — a closing kicker carrying the behavioral rule ("Don't ...") with its paragraph underneath, including what AI IS still good for. Instruction, not restatement.
+8. **Close board** — carries the landing. The closing paragraph must not restate it.
 9. **TRY IT** — drills the ONE core rule. Same simple question repeated across escalating stakes; wrong answers punish over-trust AND overcorrection; include one rep that defines the rule's boundary (where the trap does NOT apply). No orphaned vocabulary from cut content.
 10. **Gate** — no end-of-lesson handoffs; the next lesson's opener owns bridges.
 
@@ -21,7 +21,7 @@ Distilled from the Mind Trap rebuild (2026-07-21). The standard for every Avoid 
 - Vocabulary detours: terms defined but never used again in the course
 - Mid-lesson pre-runs of other lessons' material (each trap owns its territory; at most one teaser sentence, ideally none)
 - "Don't overcorrect" hedge sections — overcorrection teaching lives in TRY IT wrong-answer feedback
-- KeyInsights that restate the close board
+- Closing paragraphs that restate the close board
 - Any concept stated three or more times: cut the weakest instance, keep the demonstration
 - Stale references: audit every TRY IT hint, feedback, and headline for terms and framing from content that was cut
 

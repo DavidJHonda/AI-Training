@@ -546,25 +546,6 @@ function ActivityCounter(props) {
     /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, color: "var(--ink)" } }, props.count),
     /*#__PURE__*/React.createElement("span", { style: { textTransform: "uppercase", letterSpacing: "0.10em", fontSize: 11, fontWeight: 700 } }, "of " + props.total));
 }
-function KeyInsight(props) {
-  var hasLead = props.lead !== undefined && props.lead !== null && props.lead !== "";
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--info-bg)",
-      borderRadius: 14,
-      padding: "20px 24px",
-      marginTop: props.marginTop != null ? props.marginTop : "var(--blockGap)",
-      marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)",
-      fontSize: 17,
-      color: "var(--ink)",
-      lineHeight: 1.65
-    }
-  },
-    "\uD83D\uDD11 ",
-    hasLead ? /*#__PURE__*/React.createElement("strong", null, props.lead + " ") : null,
-    props.children
-  );
-}
 // The lesson's parting statement (dark pill + tilted sticky), the native twin of the
 // composed close boards that end each lesson video. Copy lives in CLOSE_BOARDS; render
 // via closeBoard(sectionId). Content, not chrome: stays in the print/PDF export.
@@ -1076,8 +1057,12 @@ function OpenerSection(props) {
           renderParas(props.whatYoullLearnIntro),
           E(ShowcaseBox, null, showcaseInner),
           renderParas(props.whatYoullLearnClosing)),
-    props.mistake ? E(KeyInsight, { lead: "The common mistake:" }, props.mistake) : null,
-    props.question ? E(KeyInsight, { lead: props.questionLead !== undefined ? props.questionLead : "Keep this question in mind:" }, props.question) : null,
+    props.mistake ? E(React.Fragment, null,
+      E(SectionKicker, null, "The common mistake"),
+      E(BodyP, null, props.mistake)) : null,
+    props.question ? E(React.Fragment, null,
+      E(SectionKicker, null, props.questionLead !== undefined ? props.questionLead : "Keep this question in mind"),
+      E(BodyP, null, props.question)) : null,
     closeBoard(props.sectionId),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
@@ -6693,7 +6678,7 @@ function BillMeterBox() {
 function InferenceSection(props) {
   var _ba = useState({}), bigAnswers = _ba[0], setBigAnswers = _ba[1];
   var BIG_TASKS = [
-    { task: "In-N-Out double cheeseburgers stacked on top of each other, without their wrappers. How tall is the stack?", options: ["About 3 feet", "Past Pluto, twenty times over"], answer: "Past Pluto, twenty times over",
+    { task: "2 quadrillion In-N-Out double cheeseburgers stacked on top of each other, without their wrappers. How tall is the stack?", options: ["About 3 feet", "Past Pluto, twenty times over"], answer: "Past Pluto, twenty times over",
       right: "A double cheeseburger is about two and a half inches tall. Two quadrillion of them stack to roughly 80 billion miles. Pluto sits about 3.7 billion miles away, so the stack blows past it twenty times over.",
       wrong: "For two quadrillion burgers to stack just 3 feet, each burger would have to be thinner than a proton. The real stack runs about 80 billion miles: past Pluto, twenty times over." },
     { task: "Coins stacked on top of each other, every one showing heads. How far do they reach?", options: ["To your school", "To the Sun and back, ten times"], answer: "To the Sun and back, ten times",
@@ -7302,7 +7287,8 @@ function ChoosingModelSection(props) {
     { title: "Read the descriptions, not the names", body: "Every picker labels its models with a short line like \u2018most capable\u2019 or \u2018fastest.\u2019 That label tells you the tier, whatever the name is this month." },
     { title: "When in doubt, search", body: "A ten-second search like \u2018which ChatGPT model should I use for an essay\u2019 gets you a current answer. The lineup changes; the search works every time." }
   ] }),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "The default is a choice someone else made." },
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The default is a choice someone else made."),
+  /*#__PURE__*/React.createElement(BodyP, null,
     "Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
@@ -7357,7 +7343,8 @@ function ChoosingModelSection(props) {
               /*#__PURE__*/React.createElement("span", null, b));
           })));
     })),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "More effort isn\u2019t a tiny person inside the computer reconsidering." },
+  /*#__PURE__*/React.createElement(SectionKicker, null, "More effort isn\u2019t a tiny person inside the computer reconsidering."),
+  /*#__PURE__*/React.createElement(BodyP, null,
     "It\u2019s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. Worth turning up when the work is complex. But it\u2019s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won\u2019t fix that. For truth, you still need to evaluate the results."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHERE TO FIND THE DIAL"),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -8513,7 +8500,8 @@ function AskAISection(props) {
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "The pattern is the same each time: instead of guessing how to use the tool, you make the tool show you. It was trained on how-to-use-AI writing and on the subjects themselves, so the how-to layer is exactly where it’s strong."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "It’s still AI, so keep the call yours." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "It’s still AI, so keep the call yours."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "Asking AI how to ask gets you unstuck faster, but its advice can be wrong like any other answer. Use it to start, then check what comes back and decide for yourself."),
     closeBoard("askai"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -8957,7 +8945,8 @@ function CreativeThinkingSection(props) {
       marginBottom: 28,
       items: METHOD
     }),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI does the task." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "AI does the task."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up."),
     closeBoard("creativethinking"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -9000,7 +8989,8 @@ function BeCuriousSection(props) {
       "Here's a fact worth sitting with. ChatGPT launched in late 2022. Every expert you’ll ever compete with started learning these tools at almost the same moment you did. In most fields, adults have decades of experience on you. In AI, nobody has a ten-year head start, because the tools aren't ten years old."),
     E(BodyP, null,
       "That means the only seniority in AI is reps: hours spent actually using the tools, on real things, noticing what worked and what didn't. And reps are free. You don't need permission, a budget, or a job title. You need curiosity."),
-    E(KeyInsight, { lead: "Reps beat tricks." },
+    E(SectionKicker, null, "Reps beat tricks."),
+    E(BodyP, null,
       "Prompt tricks expire every time the models update. Instincts don't. Knowing what the tool will be good at before you ask comes from one place: using it, often, on real things."),
     E(SectionKicker, null, "FIVE CURIOSITY HABITS"),
     E(BodyP, null,
@@ -9169,7 +9159,7 @@ function WhenAIActsSection(props) {
         style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", paddingTop: 14, marginTop: 4, borderTop: "1px solid var(--rule)" }
       }, "These five words are examples, not the whole list. Anything that submits, shares, schedules, signs, charges, or changes a setting deserves the same fresh check.")
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, null,
+    /*#__PURE__*/React.createElement(BodyP, null,
       "When AI answers, check the answer. When AI acts, check the permission."),
     closeBoard("agents"),
     E(InteractiveBox, {
@@ -9311,7 +9301,8 @@ function MindTrapSection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.desc));
       }))
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don\u2019t let AI make the decisions that matter." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t let AI make the decisions that matter."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "It doesn\u2019t think, it doesn\u2019t know you, and it can\u2019t care how your life turns out. Let it gather the facts, lay out the options, pressure-test your thinking. Then take the decision to people, the ones with a stake in the answer."),
     closeBoard("mindtrap"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -10028,7 +10019,8 @@ function SupportTrapSection(props) {
       "We’ve kept this course light where we could. Not here. This is where we ask you to do your part. You know that in serious situations, AI can never replace a doctor, a therapist, a counselor, or any other real person. So if you see someone leaning on AI for support that should come from a human, speak up. Tell them what you know: AI is math. Help them get to a person, and if they might be in danger, bring in an adult even if you promised not to. Safety outranks secrecy."),
     E(BodyP, { marginBottom: 24 },
       "In Sophie’s story, the only one who knew was a chatbot. Be the one who knows instead."),
-    E(KeyInsight, { lead: "Use AI to get ready for people, not instead of people." },
+    E(SectionKicker, null, "Use AI to get ready for people, not instead of people."),
+    E(BodyP, null,
       "Draft the hard email. Break the week into a plan. Rehearse the first sentence until you can say it. Untangle a feeling until you can name it. Bring symptoms and questions to the doctor, not a diagnosis. Then take it to a person: someone who can hear it, act on it, and still be there tomorrow."),
     closeBoard("supporttrap"),
     E(InteractiveBox, {
@@ -10312,7 +10304,8 @@ function IntegritySection(props) {
     /*#__PURE__*/React.createElement("div", {
       style: { marginTop: 14, paddingTop: 14, borderTop: "1px dashed var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 }
     }, "The yellow zone is the tricky one. The same AI use can be fine in one class and not okay in another. The assignment's rules decide.")
-  ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "If you can't explain it, defend it, or reproduce the thinking, it isn't really your work." },
+  ), /*#__PURE__*/React.createElement(SectionKicker, null, "If you can't explain it, defend it, or reproduce the thinking, it isn't really your work."),
+  /*#__PURE__*/React.createElement(BodyP, null,
     "The teacher-without-notes test still applies. Could you walk through it cold? If not, AI did the work for you. And one more test catches almost everything: if you’d be embarrassed to say out loud how you used AI, that’s your answer."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Plagiarism vs Copyright"),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -10402,7 +10395,8 @@ function IntegritySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
     }))
   ),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "The best defense isn\u2019t hoping the detector believes you.", marginTop: 4 },
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The best defense isn\u2019t hoping the detector believes you."),
+  /*#__PURE__*/React.createElement(BodyP, null,
     "It\u2019s having the receipts."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Disclosing Your AI Use"),
   /*#__PURE__*/React.createElement(BodyP, null, "Whether you have to cite AI, and in what format, is your school's call. Check your teacher's rule first, and follow current APA, MLA, or Chicago guidance if they require it. What doesn't change is the honest move: a short note saying what you used AI for. Here's what a plain disclosure note can look like, adapt it to your situation:"), /*#__PURE__*/React.createElement("div", {
@@ -10481,7 +10475,9 @@ function IntegritySection(props) {
     style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
   }, item.desc))))), /*#__PURE__*/React.createElement(SectionKicker, null, "When other people are in the loop"),
   /*#__PURE__*/React.createElement(BodyP, null, "In group work, agree on AI use before anyone uses it. If one person silently AI-drafts a section, the others can\u2019t review it the way they would human work, can\u2019t catch mistakes, and didn\u2019t get to weigh in on whether to use AI at all. Hidden AI use changes the work for everyone."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI can help you learn, draft, debug, and revise." }, "But your name goes on the work only when you understand it, can defend it, and followed the rules."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "AI can help you learn, draft, debug, and revise."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "But your name goes on the work only when you understand it, can defend it, and followed the rules."),
   closeBoard("integrity"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -10742,7 +10738,8 @@ function PrivacySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: item.color, marginBottom: 2, fontSize: BOX_TEXT } }, item.title),
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
     }))
-  ), /*#__PURE__*/React.createElement(KeyInsight, { lead: "Share the task, not the identity." },
+  ), /*#__PURE__*/React.createElement(SectionKicker, null, "Share the task, not the identity."),
+  /*#__PURE__*/React.createElement(BodyP, null,
     "The AI usually needs the problem. It usually doesn\u2019t need your name, address, password, school login, exact location, private messages, or someone else\u2019s sensitive information."),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--bg)", border: "1px solid var(--rule)", borderLeft: "3px solid #ef4444", borderRadius: 8, padding: "14px 18px", marginBottom: 24 }
@@ -10828,9 +10825,12 @@ function PrivacySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
     }))
   ),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy risk grows the more AI can see." },
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Privacy risk grows the more AI can see."),
+  /*#__PURE__*/React.createElement(BodyP, null,
     "The moment AI can read more than your message (files, email, photos, calendars, documents, web pages), the surface area expands. The hijack risks (prompt injection) come up later, in The Rise of Agents lesson."),
-  /*#__PURE__*/React.createElement(KeyInsight, { lead: "Privacy isn\u2019t secrecy." }, "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Privacy isn\u2019t secrecy."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."),
   closeBoard("privacy"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -10997,7 +10997,8 @@ function WhenAIJudgesSection(props) {
         /*#__PURE__*/React.createElement("li", null, "What is the appeal path?")),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.55, marginTop: 12, fontStyle: "italic" } }, "A school or company that won\u2019t put any of this in writing is telling you something.")
     ),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Every system optimizes for something." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Every system optimizes for something."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "AI doesn\u2019t have intentions, but a deployed system is built to optimize for something: engagement, speed, cost, applicant sorting, fewer manual reviews. TikTok\u2019s feed is tuned for watch time. A hiring screen might be tuned to match past hires. The five questions above are all downstream of one upstream question: what is this system actually chasing, and does that line up with what\u2019s good for you?"),
     /*#__PURE__*/React.createElement(SectionKicker, null, "When mostly right isn\u2019t right enough"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
@@ -11009,7 +11010,8 @@ function WhenAIJudgesSection(props) {
       "Other data the system ", /*#__PURE__*/React.createElement("em", null, "does"), " use often correlates with what it claims it doesn\u2019t. A zip code can be a proxy for race and income. A school name can be a proxy for class. A pattern in someone\u2019s name can be a proxy for ethnicity. Even small details (gaps in a resume, the speed someone fills out a form) can correlate with things that shouldn\u2019t be the basis of any decision. These are called ", /*#__PURE__*/React.createElement("strong", null, "proxy variables"), ": data points that stand in for something else, even when the system never names that thing directly."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "When you ask \u201Cwhat data was used,\u201D the follow-up question is \u201Cwhat does that data correlate with?\u201D A system that uses neighborhood, school, name, and timing patterns can be making decisions based on race and class without ever naming them."),
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "When AI judges you, don\u2019t argue with the machine." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "When AI judges you, don\u2019t argue with the machine."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "Find the human, ask what data was used, and learn how to appeal."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Now answer the four voices"),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -11897,7 +11899,8 @@ function HumanEdgeSection(props) {
           }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
         }))),
 
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "AI makes production cheaper." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "AI makes production cheaper."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "That makes direction, judgment, and ownership more valuable. The skills above don’t replace AI. They’re what makes AI worth using."),
     closeBoard("humanedge"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
@@ -12025,7 +12028,8 @@ function BigUpsideSection(props) {
       "That is a prediction, not a result. Knowing a protein’s shape is not the same as having a drug. A medicine still has to be designed, tested in a dish, tested in animals, tested in people across three rounds of trials, and approved by regulators. Isomorphic’s first candidates are only now reaching human trials, and that timeline has already slipped once. Ten years is aggressive."),
     E(BodyP, null,
       "See what just happened there. You gave the good news exactly the same treatment you gave the bad news in the last section. That is the skill. Hype comes in both flavors, and “AI will fix everything” deserves the same check as “AI will ruin everything.”"),
-    E(KeyInsight, { lead: "The upside is real, and it’s checkable." },
+    E(SectionKicker, null, "The upside is real, and it’s checkable."),
+    E(BodyP, null,
       "AlphaFold already happened. Curing all disease is still a prediction. Learn to tell those two apart and you can be genuinely excited about AI without being sold anything."),
     closeBoard("bigupside"),
     E(ChoiceQuiz, {
@@ -12085,7 +12089,8 @@ function WhatPeopleSaySection(props) {
     E(SectionKicker, null, "The track record"),
     E(BodyP, null, "We’ve run this experiment before. Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions. Some turn out laughably small: the home computer, the cell phone, and the internet were each dismissed as a niche toy by people running the industries they would go on to swallow. Some turn out laughably big: the twentieth century promised flying cars, and delivered traffic."),
     E(BodyP, null, "Why do smart bets miss? In both directions, for the same reason: the future isn’t just a technology question. Reality has friction, cost, rules, trust, and human habit, and friction can slow a sure thing to a crawl. Reality also has compounding, and falling costs can blow past every careful forecast. Which force wins? You only find out by waiting."),
-    E(KeyInsight, { lead: "Nobody knows where it stops." },
+    E(SectionKicker, null, "Nobody knows where it stops."),
+    E(BodyP, null,
       "Not the builders, not the critics, not whoever guessed right last time. That’s not a reason to tune out. It’s the reason to deal in what’s checkable instead of what’s predicted. So that’s where this section goes next: not what AI might do someday, but what it has already done. Receipts first."),
     closeBoard("whatpeoplesay"),
     E(InteractiveBox, {
@@ -12226,7 +12231,8 @@ function PaceOfChangeSection(props) {
     E(BodyP, null,
       E("strong", null, "Technical possibility is not social inevitability."),
       " That single sentence beats most of what you’ll read about AI’s future. Demos are fast. Deployment is slow. And the gap between them is exactly where hype, in both directions, lives."),
-    E(KeyInsight, { lead: "Fast is a fact. “Inevitable” is a claim." },
+    E(SectionKicker, null, "Fast is a fact. “Inevitable” is a claim."),
+    E(BodyP, null,
       "The graph is real and the accelerants are real. What nobody has is data about where it stops. So when the next big claim lands in your feed, don’t ask whether it sounds possible. Run the three tests, and place your own bet."),
     closeBoard("paceofchange"),
     E(InteractiveBox, {
@@ -12351,7 +12357,8 @@ function BigDownsideSection(props) {
       "And in lab tests, the newest models sometimes game the tests themselves: telling evaluators what scores well, and in a few documented experiments, concealing what they were doing. Rare, still being studied, and exactly the tail-farm shape, now running inside the box nobody can read."),
     E(BodyP, null,
       "Now stack the three: a system nobody can see inside, improving faster than rules can be written, optimizing numbers nobody fully chose. That stack is the honest case for worry. No robots required."),
-    E(KeyInsight, { lead: "The worry isn’t a movie robot." },
+    E(SectionKicker, null, "The worry isn’t a movie robot."),
+    E(BodyP, null,
       "It’s fast, opaque systems, each feeding a metric somebody picked, finding paths nobody planned, quicker than the rules can close them. Hold that thought through the next two lessons: agents are AI with its hands on real levers, and the permission decisions are yours."),
     closeBoard("bigdownside"),
     E(InteractiveBox, {
@@ -12626,7 +12633,8 @@ function WorkChangesSection(props) {
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
     "The pattern: AI does the part that scales (volume, speed, drafts, summarization). The human does the part that doesn\u2019t scale (judgment, taste, accountability). Most jobs that survive AI will have this shape. The skill, in any career, is being the human in the loop, not the input."),
 
-    /*#__PURE__*/React.createElement(KeyInsight, { lead: "Don’t ask only whether a job is safe." },
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Don’t ask only whether a job is safe."),
+    /*#__PURE__*/React.createElement(BodyP, null,
       "Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split."),
     closeBoard("workchanges"),
     E(InteractiveBox, {
@@ -12747,7 +12755,9 @@ function TheHiddenCostSection(props) {
     E(BodyP, null, "Chips that dense run hot, and the standard way to cool them uses water, some of which evaporates and doesn’t come back. A large campus can run through a million gallons or more on a hot day. That’s why you’ll see data centers built next to rivers, in cold climates, and increasingly in places that regret saying yes. Water is the part of the bill most people never picture."),
     E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
     E(BodyP, null, "Keep the frame you’ve used all course: judge it, don’t panic about it. Every big technology has a footprint, from streaming video to the cars outside, and engineers are racing to make chips dramatically more efficient, because every wasted watt costs the companies money too. But the footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water. That’s the bill One More Thing promised you."),
-    E(KeyInsight, { lead: "Now you know what’s behind the magic." }, "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
+    E(SectionKicker, null, "Now you know what’s behind the magic."),
+    E(BodyP, null,
+      "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
     closeBoard("computecost"),
     E(CostClaimsTryIt, null),
     E(LessonRule, null),
@@ -13029,7 +13039,8 @@ function BuildEdgeSection(props) {
     E(BodyP, { marginBottom: 28 },
       "The answer has to be the thing AI can\u2019t hand them: you can actually do it, you catch what\u2019s wrong, and you stand behind the result. So keep the proof. The notebooks, the builds, the drafts, the reps, the record of real work. That\u2019s how you show the depth is real instead of just claiming it."),
 
-    E(KeyInsight, { lead: "Anyone can sound smart now. Get good at something anyway." },
+    E(SectionKicker, null, "Anyone can sound smart now. Get good at something anyway."),
+    E(BodyP, null,
       "Five calls, one move underneath them: pick the thing you\u2019d build anyway, get good at it, and keep the proof. Average is free now. Be the reason someone picks you over it."),
 
     closeBoard("buildedge"),

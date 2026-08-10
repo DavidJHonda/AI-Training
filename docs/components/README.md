@@ -47,11 +47,6 @@ The aligned point-for-point variant: split-tint header band, one white card of r
 
 ## Single-point bands
 
-### KeyInsight
-The 🔑 band that lands a lesson's main point. Example: end of Tokens (`tokens`).
-
-![KeyInsight](key-insight.png)
-
 ### KeyTerm
 The slate 📖 definition band; pulls its definition from the shared `TERMS` array by term name. Example: Support Trap (`supporttrap`) — currently its only use in the course.
 

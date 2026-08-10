@@ -232,6 +232,38 @@
   .redact-chunk:hover {
     background: rgba(110, 81, 255, 0.10);
   }
+  /* ComparisonCards: side-by-side columns that stack on a phone, so three columns
+     of body text never squeeze to unreadable widths. Each card is a subgrid of the
+     container's rows, so the separator lines between sections align across all
+     columns even when the text in them runs to different lengths. --cc-rows is set
+     inline from the item with the most sections. */
+  .comparison-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(var(--cc-rows, 3), auto);
+    column-gap: 18px;
+    row-gap: 0;
+  }
+  .comparison-cards > .cc-card {
+    grid-row: span var(--cc-rows, 3);
+    display: grid;
+    grid-template-rows: subgrid;
+  }
+  @supports not (grid-template-rows: subgrid) {
+    .comparison-cards > .cc-card { display: flex; flex-direction: column; }
+  }
+  @media (max-width: 720px) {
+    .comparison-cards {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      row-gap: 14px;
+    }
+    .comparison-cards > .cc-card {
+      grid-row: auto;
+      display: flex;
+      flex-direction: column;
+    }
+  }
   /* Per-lesson print: hide the app chrome so only the lesson (from its kicker + title
      down) goes to the PDF. Triggered by the "Print This Lesson" button -> window.print(). */
   @media print {
@@ -599,6 +631,44 @@ function Callout(props) {
     (props.icon || "💡") + " ",
     props.label ? React.createElement("strong", null, props.label + " ") : null,
     props.children);
+}
+
+// Side-by-side comparison cards on a lavender band: a colored eyebrow + bold title
+// per card, then any number of labeled sections beneath. Built for Which App?'s
+// "big three"; reused by What People Say for the three expert voices, since the
+// point of both boxes is comparison across a fixed set of columns.
+// props: headline, items: [{ label, title, color, sections: [{ label, body, italic? }] }]
+// Columns collapse to one below 720px so body text stays readable on a phone.
+function ComparisonCards(props) {
+  var E = React.createElement;
+  var secLabel = function(color) {
+    return { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase",
+             letterSpacing: "0.12em", color: color, marginBottom: 6 };
+  };
+  var rows = 1 + props.items.reduce(function(m, p) { return Math.max(m, (p.sections || []).length); }, 0);
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: props.marginBottom != null ? props.marginBottom : 28 } },
+    props.headline ? E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, props.headline) : null,
+    E("div", { className: "comparison-cards", style: { "--cc-rows": rows } },
+      props.items.map(function(p, i) {
+        return E("div", { key: i, className: "cc-card", style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { padding: "16px 18px" } },
+            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.color, marginBottom: 4 } }, p.label),
+            E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, p.title),
+            // An unlabelled line under the name: who they are is self-evident, and
+            // holding it a step back in the hierarchy lets the labelled sections carry.
+            p.intro ? E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--inkMuted)", marginTop: 6 } }, p.intro) : null),
+          (p.sections || []).map(function(s, si) {
+            return E("div", { key: si, style: { padding: "20px 18px", borderTop: "1px solid var(--rule)" } },
+              E("div", { style: secLabel(p.color) }, s.label),
+              s.bullets
+                ? E("ul", { style: { margin: 0, paddingLeft: 18, fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } },
+                    s.bullets.map(function(b, bi) { return E("li", { key: bi, style: { marginBottom: bi === s.bullets.length - 1 ? 0 : 6 } }, b); }))
+                : E("div", { style: { fontFamily: "var(--sans)", fontSize: s.italic ? 14 : BOX_TEXT, fontStyle: s.italic ? "italic" : "normal", lineHeight: 1.5, color: s.italic ? "var(--inkMuted)" : "var(--ink)" } }, s.body));
+          }));
+      })),
+    // Where the card copy came from. On a box that quotes real people this isn't
+    // decoration: the course tells students to check sources, so it shows its own.
+    props.footnote ? E("div", { style: { marginTop: 16, fontFamily: "var(--sans)", fontSize: 13, lineHeight: 1.55, color: "var(--inkMuted)" } }, props.footnote) : null);
 }
 
 // Colored borderLeft card stack: accent-colored eyebrow + bold headline + body.
@@ -7075,50 +7145,20 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both sell cheeseburgers, built from roughly the same ingredients. They\u2019re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth."),
   /*#__PURE__*/React.createElement(BodyP, null, "The big three AI apps work the same way. They\u2019re all Generative AI, trained on much of the same internet. But each company trains its model with different priorities and rules."),
   /*#__PURE__*/React.createElement(BodyP, null, "Those choices shape much of how each app differs: how it feels, what it\u2019s good at, and how it acts when it\u2019s not sure. Underneath, each one is built around a different core philosophy."),
-  (function() {
-    var PHILOSOPHIES = [
-      {
-        label: "ChatGPT",
-        tagline: "The Anything Box",
-        body: "One general-purpose AI app aimed at a wide audience. It’s still many people’s default starting point.",
-        org: "OpenAI",
-        question: "How do we put capable AI in everyone\u2019s hands?",
-        color: "#10b981"
-      },
-      {
-        label: "Claude",
-        tagline: "The Thinking Partner",
-        body: "Built by Anthropic with an explicit safety-and-behavior philosophy. Often strong when careful reasoning and accuracy matter most.",
-        org: "Anthropic",
-        question: "How do we build powerful AI we can actually trust?",
-        color: "#8b5cf6"
-      },
-      {
-        label: "Gemini",
-        tagline: "Built Into Google",
-        body: "Google\u2019s AI assistant, strongest when the task connects to the Google tools you already use.",
-        org: "Google",
-        question: "How do we put AI inside the tools people already use?",
-        color: "#3b82f6"
-      }
-    ];
-    var secLabel = function(color, mb) { return { fontFamily: "var(--sans)", fontSize: BOX_LABEL, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: color, marginBottom: mb }; };
-    return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 28 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "The big three, side by side"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "auto auto auto", columnGap: 18, rowGap: 0 } },
-        PHILOSOPHIES.map(function(p, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + p.color, boxShadow: "var(--shadowSoft)", overflow: "hidden", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" } },
-            /*#__PURE__*/React.createElement("div", { style: { padding: "16px 18px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: p.color, marginBottom: 4 } }, p.label),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, p.tagline)),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px", borderTop: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: secLabel(p.color, 6) }, "What it is"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, p.body)),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px", borderTop: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("div", { style: secLabel(p.color, 6) }, p.org + " Asks"),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 14, fontStyle: "italic", color: "var(--inkMuted)", lineHeight: 1.5 } }, p.question)));
-        })));
-  }()),
+  /*#__PURE__*/React.createElement(ComparisonCards, {
+    headline: "The big three, side by side",
+    items: [
+      { label: "ChatGPT", title: "The Anything Box", intro: "One general-purpose AI app aimed at a wide audience. It\u2019s still many people\u2019s default starting point.", color: "#10a37f", sections: [
+        { label: "OpenAI asks", body: "How do we put capable AI in everyone\u2019s hands?", italic: true }
+      ] },
+      { label: "Claude", title: "The Thinking Partner", intro: "Built by Anthropic with an explicit safety-and-behavior philosophy. Often strong when careful reasoning and accuracy matter most.", color: "#d97757", sections: [
+        { label: "Anthropic asks", body: "How do we build powerful AI we can actually trust?", italic: true }
+      ] },
+      { label: "Gemini", title: "Built Into Google", intro: "Google\u2019s AI assistant, strongest when the task connects to the Google tools you already use.", color: "#3b82f6", sections: [
+        { label: "Google asks", body: "How do we put AI inside the tools people already use?", italic: true }
+      ] }
+    ]
+  }),
   /*#__PURE__*/React.createElement(BodyP, null, "Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHICH APP SHOULD YOU USE?"),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -12044,28 +12084,35 @@ function WhatPeopleSaySection(props) {
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "whatpeoplesay" }),
-    E(BodyP, null, "The opener left you with four loud voices and a question: where does all this land? It would be nice to settle it the usual way. When your family argues about whether a mole looks dangerous, somebody finally says “just ask a doctor,” and the argument ends. So let’s try that. Let’s ask the people who build AI for a living."),
-    E(BodyP, null, "Bad news: the argument doesn’t end. It gets louder."),
-    E(ShowcaseBox, {
-      kicker: "THREE VOICES FROM THE TOP OF THE FIELD",
-      headline: "Same field. Same evidence. Opposite bets.",
-      marginBottom: 28
-    },
-      E(LabeledCardStack, { items: [
-        { eyebrow: "The optimist", headline: "A century of progress in a decade.", body: "Dario Amodei runs Anthropic, the company behind Claude, the AI you’ve been using in the labs. He’s written that if AI keeps improving, it could compress a hundred years of medical progress into ten: cures and treatments arriving faster than any human team could deliver them.", accent: "#10b981" },
-        { eyebrow: "The worrier", headline: "The godfather quit so he could warn you.", body: "Geoffrey Hinton spent half a century building the ideas modern AI runs on, and won a Nobel Prize for it. At 75, he left his job at Google specifically so he could speak freely about the risks of the thing he built: floods of fake content, disrupted jobs, systems we don’t fully know how to steer.", accent: "#f59e0b" },
-        { eyebrow: "The shrug", headline: "Relax. It’s not even close yet.", body: "Yann LeCun won the Turing Award, computing’s version of the Nobel, for helping invent modern AI. He argues today’s systems understand the world worse than a house cat does, and that fears of AI taking over are science fiction.", accent: "#6e51ff" }
-      ] })
-    ),
-    E(BodyP, null, "Read those again and notice what’s missing: a difference in qualifications. This isn’t a debate between people who understand AI and people who don’t. These three built the field. They’re looking at the same technology, and they’re placing opposite bets."),
-    E(BodyP, null, "It goes further: the same minds hold both sides at once. Amodei, the optimist, also puts real odds on things going badly, and says so in public. Hinton, the worrier, still calls AI potentially wonderful for medicine and education. The most honest experts aren’t sure, and they say so. When the people who know the most tell you they don’t know, believe them."),
+    E(BodyP, null, "There are almost as many opinions about AI as there are calculations in an AI model. OK. Just kidding. There aren’t 2 quadrillion opinions, although it feels that way. You see them on YouTube, TikTok, the news, your family, and friends. Who do you believe?"),
+    E(BodyP, null, "How about this? Let’s ask the people who make AI for a living. Same field. Same evidence. Opposite bets."),
+    E(ComparisonCards, {
+      headline: "Three voices from the top of the field",
+      items: [
+        { label: "Optimist", title: "Dario Amodei", intro: "Runs Anthropic, the company behind Claude, the AI you’ve been using in the labs.", color: "#d97757", sections: [
+          { label: "Says", body: "“AI-enabled biology and medicine will allow us to compress the progress that human biologists would have achieved over the next 50-100 years into 5-10 years.”" },
+          { label: "But also", body: "“There’s a 25% chance that things go really, really badly.”" }
+        ] },
+        { label: "Worrier", title: "Geoffrey Hinton", intro: "Spent half a century building the ideas modern AI runs on, and won a Nobel Prize for it. At 75, he left his job at Google.", color: "#2f4cb8", sections: [
+          { label: "Says", body: "“I left so that I could talk about the dangers of AI without considering how this impacts Google.”" },
+          { label: "But also", body: "“If we can detect cancer much earlier thanks to AI, fewer people will die from it.”" }
+        ] },
+        { label: "Skeptic", title: "Yann LeCun", intro: "Won the Turing Award, computing’s version of the Nobel, for helping invent modern AI. Meta’s chief AI scientist.", color: "#2f7d4f", sections: [
+          { label: "Says", body: "“Before ‘urgently figuring out how to control AI systems much smarter than us’ we need to have the beginning of a hint of a design for a system smarter than a house cat.”" },
+          { label: "But also", body: "“I do acknowledge risks. AI is not something that just happens. We build it, we have agency in what it becomes. Hence we control the risks.”" }
+        ] }
+      ],
+      footnote: "Where these came from: Amodei’s essay Machines of Loving Grace (2024) and his remarks at the Axios AI Summit (2025); Hinton’s own post explaining why he left Google (2023) and his talk at Gitex Europe (2025); LeCun’s own posts (2023 and 2024)."
+    }),
+    E(BodyP, null, "The same minds hold both sides at once. The most honest experts aren’t sure, and they say so. When the people who know the most tell you they don’t know, believe them."),
     E(BodyP, null, "How can that be? Because expertise runs out exactly where the question starts. How a model works today is knowledge, and this course has been handing it to you by the armload. Where models will be in ten years is a bet. Nobody has data about the future, not even the people writing the code."),
-    E(SectionKicker, null, "The track record"),
-    E(BodyP, null, "We’ve run this experiment before. Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions. Some turn out laughably small: the home computer, the cell phone, and the internet were each dismissed as a niche toy by people running the industries they would go on to swallow. Some turn out laughably big: the twentieth century promised flying cars, and delivered traffic."),
-    E(BodyP, null, "Why do smart bets miss? In both directions, for the same reason: the future isn’t just a technology question. Reality has friction, cost, rules, trust, and human habit, and friction can slow a sure thing to a crawl. Reality also has compounding, and falling costs can blow past every careful forecast. Which force wins? You only find out by waiting."),
-    E(SectionKicker, null, "Nobody knows where it stops."),
-    E(BodyP, null,
-      "Not the builders, not the critics, not whoever guessed right last time. That’s not a reason to tune out. It’s the reason to deal in what’s checkable instead of what’s predicted. So that’s where this section goes next: not what AI might do someday, but what it has already done. Receipts first."),
+    E(SectionKicker, null, "This has happened before"),
+    E(BodyP, null, "Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions."),
+    E("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
+      E("li", { style: { marginBottom: 6 } }, "Some turn out laughably small: the home computer, the cell phone, and the internet were each dismissed as niche toys by some of the people running the industries they would go on to swallow."),
+      E("li", null, "Some turn out laughably big: the twentieth century promised flying cars, and delivered traffic.")),
+    E(BodyP, null, "Why were they wrong? The future isn’t just a technology question. Reality has friction: cost, rules, trust, and more than any of those, human habits, and friction can slow a sure thing to a crawl. Reality also compounds, and falling costs can blow past every careful assumption at once. Friction is why the big predictions land small. Compounding is why the small ones land big."),
+    E(BodyP, null, E("strong", null, "The future is hard to predict."), " Not because these people aren’t smart. Because it was never only a technology question."),
     closeBoard("whatpeoplesay"),
     E(InteractiveBox, {
       variant: "try",

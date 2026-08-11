@@ -82,6 +82,11 @@ The horizontal progression band: a faint-purple band with an optional headline +
 
 ![Timeline](timeline.png)
 
+### LabeledCardStack
+The accent-striped card family: white cards with a 4px colored left stripe, each carrying an accent-colored eyebrow, an optional bold headline, and a body. Optional `means` adds a hairline rule plus a "WHAT IT MEANS" label and text below the body (mirrors Where AI Works Best's divider + Examples treatment). Optional `grid` prop renders a 2-col card grid with roomier chrome instead of the stack; optional per-item `pill` adds an outlined status chip above the eyebrow and mutes the eyebrow/means labels so the pill and stripe carry the accent. Shown: the 4 Terms grid in Pace of Change (`paceofchange`) — grid + pills + means, uniform primary accent. Stack form (per-card accents, no pills): the modes/roles boxes in When AI Judges You (`aijudges`). Captured 2026-08-11.
+
+![LabeledCardStack](labeled-card-stack.png)
+
 ## Shared diagrams
 
 ### CoreLoopBox

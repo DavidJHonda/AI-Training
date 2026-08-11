@@ -706,15 +706,29 @@ function ComparisonCards(props) {
 }
 
 // Colored borderLeft card stack: accent-colored eyebrow + bold headline + body.
-// items: [{eyebrow, headline?, body?, accent}]. Reproduces WhenAIJudges / SyntheticMedia.
+// items: [{eyebrow, headline?, body?, accent, means?, pill?}]. Reproduces WhenAIJudges / SyntheticMedia.
+// means (optional): a rule + "WHAT IT MEANS" label + text below the body, mirroring
+// Where AI Works Best's divider + Examples treatment.
+// grid (optional prop): 2-col card grid instead of a stack, with roomier card chrome.
+// pill (optional per item): an outlined status chip above the eyebrow; when present the
+// eyebrow and means label mute to inkMuted so the pill and stripe carry the accent.
 function LabeledCardStack(props) {
-  return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+  var wrapStyle = props.grid
+    ? { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14 }
+    : { display: "flex", flexDirection: "column", gap: 12 };
+  return React.createElement("div", { style: wrapStyle },
     props.items.map(function(it, i) {
       var accent = it.accent || props.accent || "var(--primary)";
-      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + accent, borderRadius: 10, padding: "14px 18px" } },
-        React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: accent, marginBottom: 6 } }, it.eyebrow),
-        it.headline ? React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, it.headline) : null,
-        it.body ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.body) : null);
+      var labelColor = it.pill ? "var(--inkMuted)" : accent;
+      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + accent, borderRadius: props.grid ? 16 : 10, padding: props.grid ? "20px 22px" : "14px 18px", boxShadow: props.grid ? "var(--shadowSoft)" : "none" } },
+        it.pill ? React.createElement("div", { style: { display: "inline-block", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: accent, border: "1px solid " + accent, borderRadius: 999, padding: "4px 12px", background: "var(--primaryFaint)", marginBottom: 14 } }, it.pill) : null,
+        React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: labelColor, marginBottom: 6 } }, it.eyebrow),
+        it.headline ? React.createElement("div", { style: { fontSize: it.pill ? 19 : 16, fontWeight: 700, color: "var(--ink)", marginBottom: it.pill ? 8 : 4 } }, it.headline) : null,
+        it.body ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.body) : null,
+        it.means ? React.createElement(React.Fragment, null,
+          React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "12px 0 8px" } }),
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: labelColor, marginBottom: 6 } }, "What it means"),
+          React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.means)) : null);
     }));
 }
 
@@ -12237,10 +12251,32 @@ function PaceOfChangeSection(props) {
     E(LessonHeader, { sectionId: "paceofchange" }),
     E(BodyP, null,
       "To see why the argument about AI has gotten so loud, you don’t need anyone’s opinion, and you don’t need a chart. And, the pace of innovation is blindingly fast. You’ve watched it happen."),
+    E(ShowcaseBox, { headline: "Three years. That’s it.", intro: "Everything on the left was state of the art in 2023. Everything on the right is normal now.", marginBottom: 24 },
+      E(InnerCard, null,
+        E("div", { style: { display: "grid", gridTemplateColumns: "110px 1fr 1fr", gap: 18, paddingBottom: 10, borderBottom: "1px solid var(--rule)" } },
+          E("div", null),
+          E("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1 } }, "3 years ago"),
+          E("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1 } }, "Today")),
+        [
+          { topic: "Answering", then_: "It started typing the instant you hit enter, with whatever came out first.", now: "It can work on a hard problem quietly before it says a word, sometimes for minutes." },
+          { topic: "Images", then_: "Ask for a picture of your new dog Spot and he might come back with a bonus leg and the ears of a rabbit.", now: "Photoreal images with signs you can actually read, and full video with sound and dialogue." },
+          { topic: "Memory", then_: "The free chatbots most people used could only hold a few pages at once. Push a long chat far enough and the beginning fell out of its head.", now: "Frontier models hold a million tokens, which is a whole novel series in view at the same time.", stat: { value: "250×", caption: "bigger context window" } },
+          { topic: "Doing", then_: "It told you the steps to do a thing, and wished you luck.", now: "It does the thing. It books, builds, files, and fixes while you watch." },
+          { topic: "Endurance", then_: "One question, one answer, a few seconds.", now: "It can grind on a single task for hours, checking its own work as it goes." }
+        ].map(function(row, i, arr) {
+          return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "110px 1fr 1fr", gap: 18, padding: "18px 0", borderBottom: i === arr.length - 1 ? "none" : "1px solid var(--rule)", alignItems: "start" } },
+            E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.3 } }, row.topic),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, row.then_),
+            E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "3px solid var(--primary)", borderRadius: 12, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
+              E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.55 } }, row.now),
+              row.stat ? E(React.Fragment, null,
+                E("div", { style: { borderTop: "1px solid var(--rule)", margin: "12px 0 8px" } }),
+                E("div", { style: { display: "flex", alignItems: "baseline", gap: 8 } },
+                  E("span", { style: { fontFamily: "var(--mono)", fontSize: 26, fontWeight: 800, color: "var(--primary)" } }, row.stat.value),
+                  E("span", { style: { fontSize: 13, fontWeight: 600, color: "var(--inkMuted)" } }, row.stat.caption))) : null));
+        }))),
     E(BodyP, null,
-      "Two years ago it answered the instant you hit enter, with whatever came out first. Back then, if you asked for an image of your new dog Spot, ChatGPT might have drawn him with 5 legs, and the ears of a rabbit! Now it works on a hard question before it says anything. Two years ago it told you how to do a thing. Now it does the thing for you."),
-    E(BodyP, null,
-      "Each new release represents a new LLM. And each new LLM lands stronger than the one before it, so the machine you learned to read in Understand AI is a moving target. Whatever AI can’t do today, there’s a good chance it can do it next year."),
+      "The AI companies are in a race to dominate the industry, so they release new models every couple of months. That’s what the names in the news are: each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it. And, as you saw above, it gets better and better. Whatever AI can’t do today, there’s a solid chance it can do it next year."),
     E(BodyP, null,
       "One thing didn’t change: it still makes things up with total confidence. That’s worth holding onto when someone tells you where all this lands."),
     E(SectionKicker, null, "Why so fast?"),
@@ -12253,20 +12289,20 @@ function PaceOfChangeSection(props) {
         { label: "Accelerant 2", title: "Compute", color: "#2f4cb8",
           sections: [{ label: "What’s happening", body: "At this scale the labs are limited by compute itself: better chips, and more of them, means more math. They’re spending on chips and data centers at a scale usually reserved for governments." }] },
         { label: "Accelerant 3", title: "AI building AI", color: "#2f7d4f",
-          sections: [{ label: "What’s happening", body: "By 2026 the strongest models write code well enough that the labs use them on the software behind the next models. The tool has joined the team that builds the tool." }] }
+          sections: [{ label: "What’s happening", body: "By 2026 the strongest models write code well enough that the labs use them to write the software for the next model. The tool has joined the team that builds the tool." }] }
       ]
     }),
     E(BodyP, null,
-      "Slow down and read that third one again. Every generation helps assemble the one after it, which is a loop nothing else in the history of technology has run."),
-    E(SectionKicker, null, "The words the camps argue with"),
+      "Slow down and read that third one again. AI helps build better AI."),
+    E(SectionKicker, null, "4 Terms"),
     E(BodyP, null,
-      "That loop is why the argument between the two camps gets so heated. If AI helps build better AI, where does it level off? Read about that question and you’ll meet four terms. None of them has clearly arrived. All of them shape the argument."),
+      "If AI helps build better AI, where does it level off? Read about that question and you’ll meet four terms. None of them has clearly arrived. All of them shape the future of AI."),
     E(ShowcaseBox, { marginBottom: 24 },
-      E(LabeledCardStack, { items: [
-        { eyebrow: "AUTOMATED AI RESEARCH", headline: "Pointing AI at the research itself", body: "The labs’ stated next step: AI systems that run experiments and propose improvements on their own, with humans reviewing. Early versions are already in use. How much this speeds things up is being tested right now, in public.", accent: "#10b981" },
-        { eyebrow: "RECURSIVE SELF-IMPROVEMENT", headline: "AI making AI better, faster, repeat", body: "The loop you just met, taken to its limit: each generation builds a stronger next generation, and the pace compounds. How far that loop actually runs is the single biggest open question in the field.", accent: "#f59e0b" },
-        { eyebrow: "AGI", headline: "Artificial General Intelligence", body: "A hypothetical AI that can handle any intellectual task a human can. Some researchers say it’s a few years away, some say decades, some say the term is too fuzzy to mean anything.", accent: "#6e51ff" },
-        { eyebrow: "ASI", headline: "Artificial Superintelligence", body: "A hypothetical AI smarter than any human at everything. Even more contested, and the version the loudest hopes and fears are really about.", accent: "#3b82f6" }
+      E(LabeledCardStack, { grid: true, items: [
+        { pill: "Happening now", eyebrow: "AUTOMATED AI RESEARCH", headline: "Pointing AI at the research itself", body: "The labs’ stated next step: AI systems that run experiments and propose improvements on their own, with humans reviewing. Early versions are already in use. How much this speeds things up is being tested right now, in public.", means: "Should it work, AI progress stops being limited by how many human researchers exist. The pace you saw above gets another push, from researchers that never sleep." },
+        { pill: "Contested", eyebrow: "RECURSIVE SELF-IMPROVEMENT", headline: "AI making AI better, faster, repeat", body: "The loop you just met, taken to its limit: each generation builds a stronger next generation, and the pace compounds. How far that loop actually runs is the single biggest open question in the field.", means: "Should the loop really run, improvement compounds like interest: each gain makes the next gain bigger. Every timeline anyone planned around gets shorter." },
+        { pill: "Hypothetical", eyebrow: "AGI", headline: "Artificial General Intelligence", body: "A hypothetical AI that can handle any intellectual task a human can. Some researchers say it’s a few years away, some say decades, some say the term is too fuzzy to mean anything.", means: "Should it arrive, any work a person can do at a screen, a machine could do too, in every subject and every language at once. That would reach nearly every job and classroom on Earth." },
+        { pill: "Further still", eyebrow: "ASI", headline: "Artificial Superintelligence", body: "A hypothetical AI smarter than any human at everything. Even more contested, and the version the loudest hopes and fears are really about.", means: "Should it arrive, the biggest decisions in medicine, money, and defense would involve something smarter than the people in charge of them. Nobody has a plan everyone agrees on." }
       ] })),
     E(SectionKicker, null, "So where does it stop?"),
     E(BodyP, null,

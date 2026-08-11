@@ -713,33 +713,35 @@ function ComparisonCards(props) {
 // pill (optional per item): an outlined status chip above the eyebrow; when present the
 // eyebrow and means label mute to inkMuted so the pill and stripe carry the accent.
 function LabeledCardStack(props) {
+  // Subgrid (grid mode with means) aligns the rule + "What it means" rows across a
+  // row of cards; it needs every card to fill the same 7 tracks. Cards without means
+  // (plain headline + body) fall back to a normal grid, equal-height via stretch.
+  var hasMeans = props.items.some(function(it) { return it.means; });
+  var useSubgrid = props.grid && hasMeans;
+  var gridCols = props.columns ? "repeat(" + props.columns + ", minmax(0, 1fr))" : "repeat(auto-fit, minmax(300px, 1fr))";
   var wrapStyle = props.grid
-    ? { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", columnGap: 14, rowGap: 0 }
+    ? { display: "grid", gridTemplateColumns: gridCols, columnGap: 14, rowGap: useSubgrid ? 0 : 14 }
     : { display: "flex", flexDirection: "column", gap: 12 };
   return React.createElement("div", { style: wrapStyle },
     props.items.map(function(it, i) {
       var accent = it.accent || props.accent || "var(--primary)";
       var labelColor = it.pill ? "var(--inkMuted)" : accent;
-      // grid mode shares row tracks via subgrid so the rule + "What it means" rows
-      // align across each row of cards regardless of body length (span = 7 tracks:
-      // pill, headline, eyebrow, body, rule, means label, means text). In grid mode
-      // the eyebrow renders BELOW the headline, accent-colored at body size, as the
-      // term's plain-language subtitle.
-      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: "4px solid " + (it.stripe || accent), borderRadius: props.grid ? 16 : 10, padding: props.grid ? "20px 22px" : "14px 18px", boxShadow: props.grid ? "var(--shadowSoft)" : "none", display: props.grid ? "grid" : undefined, gridTemplateRows: props.grid ? "subgrid" : undefined, gridRow: props.grid ? "span 7" : undefined, marginBottom: props.grid ? 14 : undefined } },
+      // grid mode: headline first, then an optional accent subtitle (eyebrow) below it.
+      return React.createElement("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderLeft: props.flat ? "1px solid var(--rule)" : "4px solid " + (it.stripe || accent), borderRadius: props.grid ? 16 : 10, padding: props.grid ? "20px 22px" : "14px 18px", boxShadow: props.grid ? "var(--shadowSoft)" : "none", display: useSubgrid ? "grid" : undefined, gridTemplateRows: useSubgrid ? "subgrid" : undefined, gridRow: useSubgrid ? "span 7" : undefined, marginBottom: useSubgrid ? 14 : undefined } },
         it.pill ? React.createElement("div", { style: { marginBottom: 14 } },
           React.createElement("span", { style: { display: "inline-block", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: accent, border: "1px solid " + accent, borderRadius: 999, padding: "4px 12px", background: "var(--primaryFaint)" } }, it.pill)) : null,
         props.grid
           ? React.createElement(React.Fragment, null,
-              it.headline ? React.createElement("div", { style: { fontSize: 19, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, it.headline) : null,
-              React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: accent, marginBottom: 10 } }, it.eyebrow))
+              it.headline ? React.createElement("div", { style: { fontSize: props.dense ? 18 : 19, fontWeight: 700, color: "var(--ink)", marginBottom: it.eyebrow ? 4 : 8 } }, it.headline) : null,
+              it.eyebrow ? React.createElement("div", { style: { fontSize: BOX_TEXT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: accent, marginBottom: 10 } }, it.eyebrow) : null)
           : React.createElement(React.Fragment, null,
-              React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: labelColor, marginBottom: 6 } }, it.eyebrow),
+              it.eyebrow ? React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: labelColor, marginBottom: 6 } }, it.eyebrow) : null,
               it.headline ? React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, it.headline) : null),
-        it.body ? React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.body) : null,
+        it.body ? React.createElement("div", { style: { fontSize: (props.grid && props.dense) ? BOX_TEXT - 1 : BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.body) : null,
         it.means ? React.createElement(React.Fragment, null,
           React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "18px 0 12px" } }),
-          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: labelColor, marginBottom: 6 } }, "What it means"),
-          React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.means)) : null);
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: props.meansLabelColor || labelColor, marginBottom: 6 } }, props.meansLabel || "What it means"),
+          React.createElement("div", { style: { fontSize: (props.grid && props.dense) ? BOX_TEXT - 1 : BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, it.means)) : null);
     }));
 }
 
@@ -12389,40 +12391,56 @@ function BigDownsideSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "bigdownside" }),
     E(BodyP, null,
-      "The last lesson said the pace of change is blindingly fast. Wait a second. If we told you your iPhone would do something amazing next year that it can’t do today, wouldn’t you just be happy? What’s the worry? What’s the big downside?"),
+      "The last lesson said the pace of change is blindingly fast. Wait a second. If you learned your iPhone was about to add a new amazing feature, you’d be very happy. So, what’s the worry if AI adds amazing features? What’s the big downside?"),
     E(BodyP, null,
-      "Glad you asked. Because the downside is real and possible. And, it rests on a few facts you can check."),
-    E(SectionKicker, null, "Fact one: the black box"),
+      "Glad you asked. Because the downside is real and possible. And, it rests on a few facts."),
+    E(SectionKicker, null, "I - The Black Box"),
     E(BodyP, null,
-      "AI engineers have a name for AI: ", E("strong", null, "the black box"), ". Remember the dimensions and values AI built from its training data? Even the people who made the AI don’t know what they’re for. When AI trains, it builds all those internal numbers on its own."),
+      "Engineers have a name for AI: ", E("strong", null, "the black box"), ". You already know the reason. When AI trains, it builds its own internal numbers, hundreds of billions of them, and even the people who made it don’t know what any of them mean."),
     E(BodyP, null,
-      "When ChatGPT writes a poem, nobody, including the people who built it, can point to a spot inside and say “that’s where the rhyme came from.” The inside of an LLM is really just hundreds of billions of numbers, tuned during training until the predictions got good, and no one knows what any one of them means. Even the model can’t help: ask it why it said something, and the answer sounds reasonable, but it may not trace what actually happened inside."),
+      "Want to know why AI suggested Spot as the name of your new dog? Nobody, even the people who design AI, can point to a spot inside and say “that’s where the name Spot came from.”"),
     E(BodyP, null,
-      "You already learned why AI is harder to control, and it’s the same reason AI is so awesome: it learns from patterns, and nobody writes the rules. But always remember the downside. We can’t reach inside AI and correct its mistakes. ", E("strong", null, "There is no repair manual.")),
-    E(SectionKicker, null, "Fact two: guardrails aren’t easy"),
+      "AI is harder to control, and it’s the same reason AI is so awesome: it learns from patterns, and nobody writes the rules. But always remember the downside. We can’t reach inside AI and correct its mistakes. ", E("strong", null, "There is no repair manual.")),
+    E(SectionKicker, null, "II - The Challenge of Guardrails"),
     E(BodyP, null,
       "You also learned how the AI companies counter this. They wrap a safety layer around the LLM called ", E("strong", null, "guardrails"), ", built to block, redirect, or limit specific behaviors, like medical dosage advice or harmful content. But even today, guardrails catch some things and miss others."),
     E(BodyP, null,
-      "This is where the downside becomes a bit, how do you say, scary. Think about the three terms you just met in the last lesson:"),
-    E("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 } },
-      [
-        { term: "Recursive Self-Improvement.", rest: " An AI that improves itself while the world is using it. Imagine trying to control something that changes every time you use it." },
-        { term: "Artificial General Intelligence (AGI).", rest: " AI as smart as us. We’re smart enough to build the guardrails. Wouldn’t an AI that smart be smart enough to knock them down?" },
-        { term: "Artificial Superintelligence (ASI).", rest: " AI smarter than any human. Would guardrails even work?" }
-      ].map(function(b, i) {
-        return E("div", { key: i, style: { display: "flex", gap: 12, alignItems: "baseline" } },
-          E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--primary)", flexShrink: 0, transform: "translateY(-2px)" } }),
-          E("div", { style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)" } }, E("strong", { style: { color: "var(--ink)" } }, b.term), b.rest));
-      })),
-    E(SectionKicker, null, "Fact three: AI does what it’s told"),
+      "This is where the downside becomes a bit, how do you say, scary? Think about three ideas you just met in the last lesson:"),
+    E(ShowcaseBox, { marginBottom: 24 },
+      E(LabeledCardStack, { grid: true, columns: 3, flat: true, dense: true, meansLabel: "The worry", meansLabelColor: "var(--red)", items: [
+        { headline: "Recursive Self-Improvement", body: "An AI that improves itself while the world is using it.", means: "Imagine trying to put guardrails around AI that changes every time you use it." },
+        { headline: "Artificial General Intelligence (AGI)", body: "AI smart as us.", means: "We’re smart enough to build the guardrails. Wouldn’t an AI as smart as us be able to knock them down?" },
+        { headline: "Artificial Superintelligence (ASI)", body: "AI smarter than any human.", means: "Would guardrails even work?" }
+      ] })),
+    E(SectionKicker, null, "III - Jailbreaking"),
     E(BodyP, null,
-      "One more fact, and it sounds harmless: AI does what it’s told. Exactly what it’s told. Every AI system is built to chase a goal somebody wrote down: win the game, finish the task, earn the thumbs-up. The trouble is that what you said and what you meant are never quite the same thing. Everything you meant but didn’t say, like race fairly, or stay inside the fence, or actually do the work, is the part that slips."),
+      "Those are tomorrow’s worries. Here’s one for right now: what if the person doing the telling wants to cause harm?"),
+    E(BodyP, null,
+      "Guardrails are the fence against that, the requests a model should refuse outright. But you already know the catch: they catch some things and miss others. And people go hunting for the gaps on purpose, writing clever prompts that trick a model into stepping around its own rules. There’s a name for that: ", E("strong", null, "jailbreaking"), "."),
+    E(BodyP, null,
+      "That’s what makes it so hard. To keep AI safe, the companies have to block every path to harm. Someone with bad intent needs to find only one. ", E("strong", null, "Defense has to be perfect. Attack just has to get lucky once.")),
+    E(ShowcaseBox, { headline: "🔓 One trick, every fence", marginBottom: 24 },
+      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
+        "In 2025, security researchers found a single prompt, disguised to look like a harmless policy file, that slipped past the safety rules of every major model at once: Claude, ChatGPT, and Gemini. Companies patch these the moment they surface, and new ones keep coming. It’s a cat-and-mouse game with no finish line.")),
+    E(SectionKicker, null, "IV - Bad Actors"),
+    E(BodyP, null,
+      "Jailbreaking is the hard way in. The bigger danger doesn’t need a jailbreak at all. AI’s power is general, and that cuts both ways. The same model that writes a birthday poem can draft a convincing scam. No guardrail catches this, because the tool is doing exactly what it was built to do. The harm is in who’s pointing it and why."),
+    E(ShowcaseBox, { headline: "📞 The voice-clone scam", marginBottom: 24 },
+      E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } },
+        "Scammers use AI to clone a voice from a few seconds of audio, a TikTok clip is plenty, then call a parent faking a panicked emergency to rush them into wiring money. The FTC logged tens of thousands of these reports in 2024 and 2025. The defense is low-tech: hang up and call the person back on their real number, or agree on a family code word now.")),
+    E(BodyP, null,
+      "And it scales past one scam call. In 2025, Anthropic caught a single criminal using Claude Code to run an extortion spree against 17 organizations, including hospitals and government agencies. The AI did the reconnaissance, harvested the credentials, broke into the networks, and wrote a tailored ransom note for each victim, some demanding over half a million dollars. One person, no elite hacking skills, doing the work of a whole crew."),
+    E(BodyP, null,
+      "And the ceiling rises with the pace from the last lesson. As models get more capable, so does the worst thing a bad actor could point them at."),
+    E(SectionKicker, null, "V - AI Does What It’s Told"),
+    E(BodyP, null,
+      "That was AI aimed at harm on purpose. This fact is stranger: AI can go wrong even when the person means well, just because it does exactly what it’s told. Every AI system is built to chase a goal somebody wrote down: win the game, finish the task, earn the thumbs-up. But what you said and what you meant are never quite the same thing. Everything you meant but didn’t say, like race fairly, or stay inside the fence, or actually do the work, is the part that slips."),
     E(BodyP, null,
       E("strong", null, "It does what you said, not what you meant."),
-      " Hold onto that sentence. Now watch it happen in the real world."),
+      " Watch it happen in the real world."),
     E(SectionKicker, null, "AI goes rogue"),
     E(BodyP, null,
-      "The news is filled with stories of AI doing things nobody intended. Not the movie version. The documented version, mostly reported by the AI companies themselves. Four stories, all checkable:"),
+      "None of these is the movie version. They’re the documented version, mostly reported by the AI companies themselves. Four stories, all checkable:"),
     E(ShowcaseBox, { marginBottom: 24 },
       E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
         [
@@ -12438,26 +12456,38 @@ function BigDownsideSection(props) {
             E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
     E(BodyP, null,
-      "Read those again with fact three in mind. Nobody told these systems to cheat, and none of them turned evil. Every one was doing exactly what it was told: finish the goal. The fence, the honesty, the actual race, that was the part we meant."),
+      "Read those again with one idea in mind: it does what it’s told. Nobody told these systems to cheat, and none of them turned evil. Every one was doing exactly what it was told: finish the goal. The fence, the honesty, the actual race, that was the part we meant."),
     E(BodyP, null,
       "You’ve met tamer versions all course. The Flattery Trap is a model that learned agreement scores better than honesty. The Engagement Trap is a feed that learned outrage holds attention better than truth. Nobody asked for either. The goal bought them anyway."),
-    E(SectionKicker, null, "Fact four: the rules run behind"),
+    E(SectionKicker, null, "VI - The Rules Run Behind"),
     E(BodyP, null,
-      "Rules have always trailed technology. Cars came first, and seatbelt laws showed up decades later. That gap is normal, and society survives it, because there’s usually time: the technology spreads slowly enough for the rules to catch up."),
+      "Rules have always trailed technology. Cars came first, seatbelt laws showed up decades later, and society survived the gap because there was time: the technology spread slowly enough for the rules to catch up. Every big technology before this one gave people that time to adjust."),
+    E(ShowcaseBox, { headline: "Time to reach half of American homes", marginBottom: 24 },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 } },
+        [
+          { label: "Telephone", value: "~70 yrs", muted: false },
+          { label: "Electricity", value: "~45 yrs", muted: false },
+          { label: "Television", value: "~8 yrs", muted: false },
+          { label: "AI", value: "months", muted: true }
+        ].map(function(s, i) {
+          return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px", textAlign: "center" } },
+            E("div", { style: { fontFamily: "var(--mono)", fontSize: 26, fontWeight: 800, color: s.muted ? "var(--primary)" : "var(--ink)", lineHeight: 1.1 } }, s.value),
+            E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginTop: 6 } }, s.label));
+        }))),
     E(BodyP, null,
-      "Now put that next to the pace from Pace of Change. New model generations land every few months. Laws take years, and understanding a model’s behavior well enough to write a good rule takes longer than that, because of fact one: you can’t read the rulebook of a black box. The people writing guardrails are fencing a machine that’s already two generations past the one they studied."),
+      "Now put that next to the pace from Pace of Change. New models land every few months. Laws take years, and understanding a black box well enough to write a good rule takes longer still. The people writing guardrails are fencing a machine that’s already two generations past the one they studied."),
     E(BodyP, null,
-      "Every technology before this one gave people time to adjust. The telephone took about seventy years to reach half of American homes. Electricity took forty-five. Television took eight, because it plugged into homes that already had power. Whatever the number, you learned the new thing once, and what you learned lasted most of your working life."),
-    E(BodyP, null,
-      "The loop is what breaks that. If each generation of AI helps build the next, the gap between “a lab can do this” and “this is everywhere” keeps shrinking. That is the real claim underneath AGI and ASI. Not that machines get smart, but that the time you get to adjust keeps getting shorter."),
-    E(BodyP, null,
-      E("strong", null, "Technical possibility is not social inevitability."),
-      " Demos are fast. Deployment is slow. Cost, rules, trust and habit all sit between a system that works and a world that uses it."),
+      "The loop is what breaks the old bargain. If each generation of AI helps build the next, the gap between “a lab can do this” and “this is everywhere” keeps shrinking. That is the real claim underneath AGI and ASI. Not that machines get smart, but that the time you get to adjust keeps getting shorter."),
     E(SectionKicker, null, "What the AI companies are doing"),
     E(BodyP, null,
       "Here’s the part of this lesson nobody expects. Almost every story in that rogue box is public because an AI company tested its own model and told the world. OpenAI disclosed the breakout. Anthropic published the capture-the-flag numbers. The companies employ whole teams, called red teams, whose only job is to make AI fail in the lab before it fails on you."),
     E(BodyP, null,
-      "And in 2026, something new: the builders started asking for speed limits. More than a thousand employees across the AI companies, including Anthropic’s CEO, signed a petition called “Pacing the Frontier,” asking the U.S. government to help slow the release of the most advanced models. OpenAI’s CEO put it this way: “We may have to pace the rate of AI development to give ourselves enough time for society to harden around some of these new capability levels.”"),
+      "And in 2026, something new: the builders started asking for speed limits. More than a thousand employees across the AI companies, including Anthropic’s CEO, signed a petition called “Pacing the Frontier,” asking the U.S. government to help slow the release of the most advanced models."),
+    E(PullQuote, {
+      quote: "We may have to pace the rate of AI development to give ourselves enough time for society to harden around some of these new capability levels.",
+      cite: "Sam Altman",
+      source: "CEO of OpenAI, 2026"
+    }),
     E(BodyP, null,
       "Notice the tension. The same companies racing to dominate the industry are asking for brakes, and both sides of that are true. The people closest to the black box take the downside seriously. That’s not doom. That’s the world starting to catch up."),
     E(SectionKicker, null, "The worry isn’t a movie robot."),

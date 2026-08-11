@@ -584,3 +584,8 @@ closings are the reusable part: each is a section-level landing statement.
 a section-level landing beat is ever wanted below the overview box. Rejected
 2026-08-10 for the Embrace opener on crowding grounds: the close board already
 lands the section.
+
+## Cut 2026-08-11: four-voices "promise/collect" framing (Unexpected Results close)
+Replaced when the four-voices close was demoted from section keystone to skill beat (map frame took over as the section spine). Reusable as a section-recap device elsewhere.
+
+> One job left before this section closes. The opener left four voices hanging and made you a promise: by the end, you could answer all four. You’ve walked the whole tour since then. The camps, the receipts, the speed, the worry, the wins, the agents, the jobs, the bill, and the surprises. Time to collect.

@@ -589,3 +589,8 @@ lands the section.
 Replaced when the four-voices close was demoted from section keystone to skill beat (map frame took over as the section spine). Reusable as a section-recap device elsewhere.
 
 > One job left before this section closes. The opener left four voices hanging and made you a promise: by the end, you could answer all four. You’ve walked the whole tour since then. The camps, the receipts, the speed, the worry, the wins, the agents, the jobs, the bill, and the surprises. Time to collect.
+
+## Cut 2026-08-11: Pace of Change "Fast is a fact" close
+Cut with the "What it would mean" section because the pair pre-argued Big Downside's Fact Two one lesson early, spoiled the adoption TRY IT's numbers, and duplicated the AGI/ASI stakes now carried by the 4 Terms grid's "What it means" sections. The "What it would mean" paragraphs were MOVED into Big Downside (extending Fact Two), not cut; only this closer is parked. The sticky line survives on Pace of Change's close board.
+
+> **Fast is a fact. “Inevitable” is a claim.** The pace is real and the accelerants are real. What nobody has is data about where it stops. So when the next big claim lands in your feed, the question isn’t whether it sounds possible. It’s how long the world would take to catch up.

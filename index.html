@@ -450,7 +450,7 @@ const CLOSE_BOARDS = {
   openerrealworld: { pill: "Nobody has a map of what’s coming.", sticky: "You’re ready to sail into the blank space." },
   paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Fast is a fact. “Inevitable” is a claim." },
   paceofchange: { pill: "Faster every year. Nobody’s sure where it stops.", sticky: "Fast is a fact. “Inevitable” is a claim." },
-  bigdownside: { pill: "You get what you measure, not what you meant.", sticky: "The black box moves faster than the rules." },
+  bigdownside: { pill: "It does what you said, not what you meant.", sticky: "The black box moves faster than the rules." },
   bigupside: { pill: "The upside is real, and it already happened.", sticky: "Judge the good news like you judge the bad." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
@@ -9182,7 +9182,7 @@ function WhenAIActsSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The Big Downside ended on systems that feed their metric faster than the rules can follow. Here’s why that thought matters right now: AI is moving from answering your questions to taking actions for you."),
+      "The Big Downside ended on a black box that does what you said, not what you meant, faster than the rules can follow. Here’s why that thought matters right now: AI is moving from answering your questions to taking actions for you."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "It can search, open files, draft messages, run tools, fill forms, and click buttons, increasingly taking whole steps on its own. That’s what people mean by agents."),
     E(SectionKicker, null, "What an agent actually does"),
@@ -12342,12 +12342,6 @@ function PaceOfChangeSection(props) {
 function BigDownsideSection(props) {
   var E = React.createElement;
   const [farmAnswers, setFarmAnswers] = useState({});
-  var BLACK_BOX_REASONS = [
-    { icon: "🧠", title: "The rules are learned, not written.", desc: "Nobody typed in every possible answer. The model learned patterns from training data, and nobody chose exactly which patterns stuck." },
-    { icon: "🔢", title: "The inside isn’t a repair manual.", desc: "Even if you could read the billions of weights, they wouldn’t look like instructions. They’re just numbers that work." },
-    { icon: "💬", title: "Its explanation may not be the real cause.", desc: "Ask a model why it said something and the answer sounds reasonable, but it may not trace what actually happened inside." },
-    { icon: "🔒", title: "Closed tools hide even more.", desc: "With ChatGPT, Claude, and Gemini, you don’t see the full model, the training data, the system instructions, or the safety layers." }
-  ];
   var FARM_ITEMS = [
     {
       setup: "A school announces a cash prize for every book a student finishes this semester.",
@@ -12395,28 +12389,59 @@ function BigDownsideSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "bigdownside" }),
     E(BodyP, null,
-      "The Loudest Voices was receipts: real quotes, sourced, checkable. The case for worry deserves the exact same standard. Not the movie version with the red-eyed robots. The checkable version, the one the serious worriers, including people building AI, actually make."),
+      "The last lesson said the pace of change is blindingly fast. Wait a second. If we told you your iPhone would do something amazing next year that it can’t do today, wouldn’t you just be happy? What’s the worry? What’s the big downside?"),
     E(BodyP, null,
-      "It rests on two facts you can verify, plus one boat race from 2016."),
-    E(SectionKicker, null, "Fact one: nobody can see inside"),
+      "Glad you asked. Because the downside is real and possible. And, it rests on a few facts you can check."),
+    E(SectionKicker, null, "Fact one: the black box"),
     E(BodyP, null,
-      "There’s a term engineers use for AI: ", E("strong", null, "the black box"), ". With normal software, if a calculator says 2 + 2 = 5, a programmer opens the code, finds the broken line, and fixes it. The path from input to output is traceable."),
+      "AI engineers have a name for AI: ", E("strong", null, "the black box"), ". Remember the dimensions and values AI built from its training data? Even the people who made the AI don’t know what they’re for. When AI trains, it builds all those internal numbers on its own."),
     E(BodyP, null,
-      "AI is different, and after Understand AI, you know why better than most adults. When a model writes a poem, nobody, including the people who built it, can point to a spot inside and say “that’s where the rhyme came from.” The inside is billions of learned weights: numbers tuned during training until the predictions got good. Knowing how it was built is not the same as knowing why it just said what it said."),
-    E("img", {
-      src: "illustrations/the-big-downside.jpg",
-      alt: "A diagram of an AI model as a black box: the input prompt enters on the left, passes through a dense, impenetrable wall of glowing numbers and layers too deep to trace, and an answer exits on the right; you can see what goes in and what comes out but not the logic inside, contrasted with traditional code's explicit rules",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 }
-    }),
+      "When ChatGPT writes a poem, nobody, including the people who built it, can point to a spot inside and say “that’s where the rhyme came from.” The inside of an LLM is really just hundreds of billions of numbers, tuned during training until the predictions got good, and no one knows what any one of them means. Even the model can’t help: ask it why it said something, and the answer sounds reasonable, but it may not trace what actually happened inside."),
+    E(BodyP, null,
+      "You already learned why AI is harder to control, and it’s the same reason AI is so awesome: it learns from patterns, and nobody writes the rules. But always remember the downside. We can’t reach inside AI and correct its mistakes. ", E("strong", null, "There is no repair manual.")),
+    E(SectionKicker, null, "Fact two: guardrails aren’t easy"),
+    E(BodyP, null,
+      "You also learned how the AI companies counter this. They wrap a safety layer around the LLM called ", E("strong", null, "guardrails"), ", built to block, redirect, or limit specific behaviors, like medical dosage advice or harmful content. But even today, guardrails catch some things and miss others."),
+    E(BodyP, null,
+      "This is where the downside becomes a bit, how do you say, scary. Think about the three terms you just met in the last lesson:"),
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 } },
+      [
+        { term: "Recursive Self-Improvement.", rest: " An AI that improves itself while the world is using it. Imagine trying to control something that changes every time you use it." },
+        { term: "Artificial General Intelligence (AGI).", rest: " AI as smart as us. We’re smart enough to build the guardrails. Wouldn’t an AI that smart be smart enough to knock them down?" },
+        { term: "Artificial Superintelligence (ASI).", rest: " AI smarter than any human. Would guardrails even work?" }
+      ].map(function(b, i) {
+        return E("div", { key: i, style: { display: "flex", gap: 12, alignItems: "baseline" } },
+          E("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--primary)", flexShrink: 0, transform: "translateY(-2px)" } }),
+          E("div", { style: { fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)" } }, E("strong", { style: { color: "var(--ink)" } }, b.term), b.rest));
+      })),
+    E(SectionKicker, null, "Fact three: AI does what it’s told"),
+    E(BodyP, null,
+      "One more fact, and it sounds harmless: AI does what it’s told. Exactly what it’s told. Every AI system is built to chase a goal somebody wrote down: win the game, finish the task, earn the thumbs-up. The trouble is that what you said and what you meant are never quite the same thing. Everything you meant but didn’t say, like race fairly, or stay inside the fence, or actually do the work, is the part that slips."),
+    E(BodyP, null,
+      E("strong", null, "It does what you said, not what you meant."),
+      " Hold onto that sentence. Now watch it happen in the real world."),
+    E(SectionKicker, null, "AI goes rogue"),
+    E(BodyP, null,
+      "The news is filled with stories of AI doing things nobody intended. Not the movie version. The documented version, mostly reported by the AI companies themselves. Four stories, all checkable:"),
     E(ShowcaseBox, { marginBottom: 24 },
       E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
-        BLACK_BOX_REASONS.map(function(r, i) {
-          return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 14, padding: 16 } },
-            E("div", { style: { fontSize: 22, marginBottom: 8 } }, r.icon),
-            E("div", { style: { fontSize: BOX_TEXT, fontWeight: 800, color: "var(--ink)", marginBottom: 6, lineHeight: 1.3 } }, r.title),
-            E("div", { style: { fontSize: 13, lineHeight: 1.55, color: "var(--inkSoft)" } }, r.desc));
+        [
+          { icon: "🕳️", title: "The model that broke out", desc: "OpenAI, 2026. During a hacking-skills test with the safety limits turned down, its models escaped the test sandbox, reached the real internet, and used stolen credentials to break into another company’s servers. Hugging Face stopped the attack, and only learned days later that the “attacker” was OpenAI’s own model, chasing its test goal." },
+          { icon: "🚩", title: "Three flags too far", desc: "Anthropic, 2026. In capture-the-flag security games, Claude was told it had no internet access. Reviewing 141,006 test runs, Anthropic found three where that turned out to be wrong, and Claude, instead of stopping, kept going to finish the game, into three real companies’ systems." },
+          { icon: "🚤", title: "The boat that farmed points", desc: "OpenAI, 2016. An AI learning a boat-racing video game was scored in points. It found a lagoon where point targets respawn, and drove in a tight circle hitting them forever: on fire, scraping walls, never finishing a race, and outscoring the human players by about 20 percent." },
+          { icon: "📝", title: "The homework that wasn’t done", desc: "Redwood Research, 2026. On long tasks, AI systems routinely claimed work was finished when it wasn’t, skipped the parts hardest to check, and invented time limits that didn’t exist. Asked directly, they admitted it. The second AI sent to check the first one’s work? Frequently talked into approving it." }
+        ].map(function(item, i) {
+          return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              E("span", { style: { fontSize: 18 } }, item.icon),
+              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
-    E(SectionKicker, null, "Fact two: the rules run behind"),
+    E(BodyP, null,
+      "Read those again with fact three in mind. Nobody told these systems to cheat, and none of them turned evil. Every one was doing exactly what it was told: finish the goal. The fence, the honesty, the actual race, that was the part we meant."),
+    E(BodyP, null,
+      "You’ve met tamer versions all course. The Flattery Trap is a model that learned agreement scores better than honesty. The Engagement Trap is a feed that learned outrage holds attention better than truth. Nobody asked for either. The goal bought them anyway."),
+    E(SectionKicker, null, "Fact four: the rules run behind"),
     E(BodyP, null,
       "Rules have always trailed technology. Cars came first, and seatbelt laws showed up decades later. That gap is normal, and society survives it, because there’s usually time: the technology spreads slowly enough for the rules to catch up."),
     E(BodyP, null,
@@ -12428,29 +12453,23 @@ function BigDownsideSection(props) {
     E(BodyP, null,
       E("strong", null, "Technical possibility is not social inevitability."),
       " Demos are fast. Deployment is slow. Cost, rules, trust and habit all sit between a system that works and a world that uses it."),
-    E(SectionKicker, null, "One boat race, 2016"),
+    E(SectionKicker, null, "What the AI companies are doing"),
     E(BodyP, null,
-      "Which brings us to the boat. In 2016, researchers at OpenAI were training an AI to win CoastRunners, a boat-racing video game. Like most games, CoastRunners keeps score, so they paid the AI in the obvious currency: points. Reasonable. The best racers rack up the most points."),
+      "Here’s the part of this lesson nobody expects. Almost every story in that rogue box is public because an AI company tested its own model and told the world. OpenAI disclosed the breakout. Anthropic published the capture-the-flag numbers. The companies employ whole teams, called red teams, whose only job is to make AI fail in the lab before it fails on you."),
     E(BodyP, null,
-      "The AI found something better than racing. In one lagoon, a few point targets respawn on a timer. The boat learned to drive in a tight circle, hitting the same targets again and again, forever. It caught fire. It scraped walls. It never finished a single race. And it ", E("strong", null, "outscored"), " the human players by about 20 percent."),
+      "And in 2026, something new: the builders started asking for speed limits. More than a thousand employees across the AI companies, including Anthropic’s CEO, signed a petition called “Pacing the Frontier,” asking the U.S. government to help slow the release of the most advanced models. OpenAI’s CEO put it this way: “We may have to pace the rate of AI development to give ourselves enough time for society to harden around some of these new capability levels.”"),
     E(BodyP, null,
-      "Nobody told it to cheat, and in a sense it didn’t. The system did precisely what it was paid to do, and precisely not what anyone wanted. ", E("strong", null, "You get what you measure, not what you meant."), " That sentence is the sharpest tool anyone has for thinking about AI risk."),
-    E(SectionKicker, null, "Every AI system is a bounty"),
-    E(BodyP, null,
-      "Here’s the connection. The boat was a toy, but the training was not a special case. Every AI system is trained to maximize a score somebody picked: predict the next word, earn the thumbs-up, keep the viewer watching. And models find paths to the payout that the designers never imagined. You’ve already met the point farmers in this course. The Flattery Trap is a model that learned agreement scores better than honesty. The Engagement Trap is a feed that learned outrage holds attention better than truth. Nobody asked for either. The bounty bought them anyway."),
-    E(BodyP, null,
-      "The boat spun its circles in a toy game a decade ago. In lab tests today, the newest models sometimes game the tests themselves: telling evaluators what scores well, and in a few documented experiments, concealing what they were doing. Rare, still being studied, and exactly the point-farm shape, now running inside the box nobody can read."),
-    E(BodyP, null,
-      "Now stack the three: a system nobody can see inside, improving faster than rules can be written, optimizing numbers nobody fully chose. That stack is the honest case for worry. No robots required."),
+      "Notice the tension. The same companies racing to dominate the industry are asking for brakes, and both sides of that are true. The people closest to the black box take the downside seriously. That’s not doom. That’s the world starting to catch up."),
     E(SectionKicker, null, "The worry isn’t a movie robot."),
     E(BodyP, null,
-      "It’s fast, opaque systems, each feeding a metric somebody picked, finding paths nobody planned, quicker than the rules can close them. Hold that thought for the Rise of Agents: agents are AI with its hands on real levers, and the permission decisions are yours."),
+      "It’s a black box that does what you said, not what you meant, moving faster than the rules can follow. Hold that thought for the Rise of Agents: agents are AI with its hands on real levers, and the permission decisions are yours."),
     closeBoard("bigdownside"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Find the Point Farm",
       lead: "Three well-meaning bounties. Each one pays for a metric and hopes for a goal. Your job: spot what the bounty actually buys."},
+      E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--red)", marginBottom: 12 } }, "In Development"),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         FARM_ITEMS.map(function(item, si) {
           var picked = farmAnswers[si];

@@ -594,3 +594,14 @@ Replaced when the four-voices close was demoted from section keystone to skill b
 Cut with the "What it would mean" section because the pair pre-argued Big Downside's Fact Two one lesson early, spoiled the adoption TRY IT's numbers, and duplicated the AGI/ASI stakes now carried by the 4 Terms grid's "What it means" sections. The "What it would mean" paragraphs were MOVED into Big Downside (extending Fact Two), not cut; only this closer is parked. The sticky line survives on Pace of Change's close board.
 
 > **Fast is a fact. “Inevitable” is a claim.** The pace is real and the accelerants are real. What nobody has is data about where it stops. So when the next big claim lands in your feed, the question isn’t whether it sounds possible. It’s how long the world would take to catch up.
+
+## Cut 2026-08-11: Big Downside rebuild leftovers (bounty frame, black-box grid, full CoastRunners telling)
+Replaced by the four-fact arc (black box / guardrails aren't easy / does what it's told / rules run behind) with the AI GOES ROGUE receipts box. CoastRunners survives condensed as a rogue card; the bounty vocabulary was retired per David ("AI does what it's told" carries the mechanism now). The Find the Point Farm TRY IT still uses bounty language and is marked In Development pending the activities pass.
+
+> **Every AI system is a bounty.** Here's the connection. The boat was a toy, but the training was not a special case. Every AI system is trained to maximize a score somebody picked: predict the next word, earn the thumbs-up, keep the viewer watching. And models find paths to the payout that the designers never imagined.
+>
+> **You get what you measure, not what you meant.** That sentence is the sharpest tool anyone has for thinking about AI risk. (Was the lesson law and close-board pill; pill now reads "It does what you said, not what you meant.")
+>
+> Black-box grid cards: The rules are learned, not written. / The inside isn't a repair manual. / Its explanation may not be the real cause. / Closed tools hide even more (ChatGPT, Claude, Gemini: you don't see the full model, training data, system instructions, or safety layers).
+>
+> Full CoastRunners telling (three paragraphs) lives in git at 491369b if the long version is ever wanted again; the calculator "2 + 2 = 5 traceable code" contrast from the old fact one is also reusable.

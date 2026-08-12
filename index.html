@@ -12459,17 +12459,24 @@ function BigDownsideSection(props) {
     E(BodyP, null,
       "Rules have always trailed technology. Society survived the gap because there was time: the rules ran years behind, but the world changed slowly enough for them to catch up."),
     E(ShowcaseBox, { headline: "How far the rules ran behind", marginBottom: 24 },
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 } },
+      E(InnerCard, null,
         [
-          { value: "~60 yrs", label: "Cars → seat belts required", years: "1908 → 1968", muted: false },
-          { value: "~23 yrs", label: "Airplanes → federal flight rules", years: "1903 → 1926", muted: false },
-          { value: "~11 yrs", label: "Smartphones → screen-time parental controls", years: "2007 → 2018", muted: false },
-          { value: "?", label: "AI → the rules for AI", years: "still being written", muted: true }
-        ].map(function(s, i) {
-          return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px", textAlign: "center" } },
-            E("div", { style: { fontFamily: "var(--mono)", fontSize: 26, fontWeight: 800, color: s.muted ? "var(--primary)" : "var(--ink)", lineHeight: 1.1 } }, s.value),
-            E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginTop: 6, lineHeight: 1.4 } }, s.label),
-            E("div", { style: { fontFamily: "var(--mono)", fontSize: 11, color: s.muted ? "var(--primary)" : "var(--inkMuted)", marginTop: 4 } }, s.years));
+          { value: "~60 yrs", label: "Cars → seat belts required", years: "1908–1968", pct: 100 },
+          { value: "~23 yrs", label: "Airplanes → federal flight rules", years: "1903–1926", pct: 38 },
+          { value: "~11 yrs", label: "Smartphones → screen-time parental controls", years: "2007–2018", pct: 18 },
+          { value: "?", label: "AI → the rules for AI", years: "still being written", ai: true }
+        ].map(function(s, i, arr) {
+          return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "minmax(150px, 240px) 1fr 84px", gap: 18, alignItems: "center", padding: i === 0 ? "0 0 16px" : i === arr.length - 1 ? "16px 0 0" : "16px 0", borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+            E("div", null,
+              E("div", { style: { fontSize: 16, fontWeight: 700, color: s.ai ? "var(--primary)" : "var(--ink)", lineHeight: 1.3 } }, s.label),
+              E("div", { style: s.ai
+                ? { fontSize: 13, fontWeight: 600, fontStyle: "italic", color: "var(--primary)", marginTop: 4 }
+                : { fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--inkMuted)", marginTop: 4 } }, s.years)),
+            E("div", null,
+              s.ai
+                ? E("div", { style: { height: 12, width: "100%", backgroundImage: "repeating-linear-gradient(90deg, var(--primary) 0 10px, transparent 10px 18px)", WebkitMaskImage: "linear-gradient(90deg, #000 55%, transparent 98%)", maskImage: "linear-gradient(90deg, #000 55%, transparent 98%)", borderRadius: 999, opacity: 0.6 } })
+                : E("div", { style: { height: 12, width: s.pct + "%", background: "var(--primary)", borderRadius: 999 } })),
+            E("div", { style: { fontFamily: "var(--mono)", fontSize: 22, fontWeight: 800, color: s.ai ? "var(--primary)" : "var(--ink)", textAlign: "right", whiteSpace: "nowrap" } }, s.value));
         }))),
     E(BodyP, null,
       "But AI is different. It’s moving faster than society can adjust. Laws take years, and understanding the black box to set the right guardrails takes even longer."),

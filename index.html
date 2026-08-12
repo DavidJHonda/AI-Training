@@ -12043,12 +12043,36 @@ function BigUpsideSection(props) {
     E(BodyP, null,
       "Reading the string was easy. Predicting the shape it folds into was brutal: a medium-sized protein has more possible shapes than there are atoms in the universe. One protein could take a scientist years of lab work and a pile of expensive equipment. In fifty years of trying, humans had worked out roughly 200,000 shapes. There are hundreds of millions of proteins."),
     E(SectionKicker, null, "THE GUY WHO SOLVED IT"),
-    E(BodyP, null,
-      "Demis Hassabis hit chess master level at 13. At 17 he was co-designing a video game called Theme Park that sold millions of copies. Then he went and got a PhD in neuroscience, because he wanted to understand how the brain works well enough to build one. In 2010 he started an AI company called DeepMind. Google bought it four years later."),
+    E(ShowcaseBox, { headline: "Demis Hassabis", marginBottom: 24 },
+      E(InnerCard, null,
+        [
+          { when: "Age 13", what: "Hits chess master level." },
+          { when: "Age 17", what: "Co-designs Theme Park, a video game that sells millions of copies." },
+          { when: "PhD", what: "Neuroscience, because he wanted to understand how the brain works well enough to build one." },
+          { when: "2010", what: "Founds an AI company called DeepMind." },
+          { when: "2014", what: "Google buys it." }
+        ].map(function(t, i, arr) {
+          return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "72px 1fr", gap: 18, alignItems: "baseline", padding: i === 0 ? "0 0 12px" : i === arr.length - 1 ? "12px 0 0" : "12px 0", borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+            E("div", { style: { fontFamily: "var(--mono)", fontSize: 13, fontWeight: 800, color: "var(--primary)" } }, t.when),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, t.what));
+        }))),
     E(BodyP, null,
       "In 2020 his team entered a contest scientists run every two years to see who can predict protein shapes best. Their system’s predictions came back about as accurate as real lab experiments. The organizers said the fifty-year problem was essentially solved."),
     E(BodyP, null,
-      "Then DeepMind did the part that actually mattered. In 2022 they released the predicted shape of around 200 million proteins, close to every protein known to science, free to anybody who wants them. More than two million users in 190 countries have pulled from that database. In 2024, Hassabis won the Nobel Prize in Chemistry for it."),
+      "Then DeepMind did the part that actually mattered: they gave the answers away."),
+    E(ShowcaseBox, { headline: "Fifty years vs one release", marginBottom: 24 },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12 } },
+        [
+          { eyebrow: "Humans · 50 years of lab work", value: "~200,000", sub: "protein shapes solved", accent: false },
+          { eyebrow: "DeepMind · released 2022", value: "~200,000,000", sub: "protein shapes, free to everyone", accent: true }
+        ].map(function(s, i) {
+          return E("div", { key: i, style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "18px 20px", textAlign: "center" } },
+            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: s.accent ? "var(--primary)" : "var(--inkMuted)", marginBottom: 8 } }, s.eyebrow),
+            E("div", { style: { fontFamily: "var(--mono)", fontSize: 28, fontWeight: 800, color: s.accent ? "var(--primary)" : "var(--ink)", lineHeight: 1.1 } }, s.value),
+            E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginTop: 6 } }, s.sub));
+        }))),
+    E(BodyP, null,
+      "More than two million users in 190 countries have pulled from that database. In 2024, Hassabis won the Nobel Prize in Chemistry for it."),
     E(PullQuote, {
       quote: "I’ve dedicated my career to advancing AI because of its unparalleled potential to improve the lives of billions of people.",
       cite: "Demis Hassabis",

@@ -12219,6 +12219,18 @@ function WhatPeopleSaySection(props) {
 function PaceOfChangeSection(props) {
   var E = React.createElement;
   const [adoptionAnswers, setAdoptionAnswers] = useState({});
+  // LAB 10: the three-years box's "Doing" row made personal. The student rebuilds
+  // the 2048 fun-beat they played in Vector Space by directing Claude, the same
+  // move they learned in the dino lab, now framed as evidence of the pace.
+  const [buildChecked, setBuildChecked] = useState({});
+  const BUILD_LAB_STEPS = [
+    { title: "Open Claude in a new chat", body: "Same move as the dino game in the Hallucination lesson: a fresh conversation, nothing else in it. This time you know exactly what’s coming." },
+    { title: "Paste the starter prompt", body: "Send this, word for word or with your own twist. Claude builds the whole game as a single file, playable right in the chat.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone." },
+    { title: "Play it", body: "A minute ago this game didn’t exist. Chase the 2048 tile for a bit. Then note the first thing you’d change." },
+    { title: "Change one thing at a time", body: "One specific ask per message: emoji tiles instead of numbers, a 5-by-5 board, an undo button, a dark theme. Specific asks beat “make it better.”" },
+    { title: "Clock the pace", body: "Look at what just happened. Three years ago, AI could hand you code and wish you luck. Today you described a game and played it minutes later. That’s the “Doing” row from the first box in this lesson, running on your own screen." }
+  ];
+  var buildCheckedCount = Object.keys(buildChecked).filter(function(k) { return buildChecked[k]; }).length;
   // Each row states its own measure: the first four are share of American homes,
   // the last is raw users, and collapsing them into one number would be a lie.
   var ADOPTION = [
@@ -12350,6 +12362,27 @@ function PaceOfChangeSection(props) {
             }));
         })
       )),
+    E(InteractiveBox, {
+      variant: "lab",
+      surface: "teal",
+      labNumber: "10",
+      title: "Build the Game You Played",
+      hint: "Click the box after you finish each step.",
+      lead: "Here’s something you couldn’t do three years ago. Remember the sliding-tile game from Vector Space? You’re about to build it, by typing sentences. Ten minutes, no code.",
+      action: E(ActivityCounter, { count: buildCheckedCount, total: BUILD_LAB_STEPS.length })},
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        BUILD_LAB_STEPS.map(function(st, i) {
+          var done = !!buildChecked[i];
+          return E("div", {
+            key: i,
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+          },
+            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setBuildChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("span", { style: { flex: 1, minWidth: 0 } },
+              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+        }))),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigdownside"); }, label: "Next: Big Downside" }));
 }

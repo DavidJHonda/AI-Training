@@ -2,23 +2,33 @@
 
 # Opener
 
-## WHAT IS ALREADY CHANGING?
+## WHAT EVERYONE’S SAYING
 
-Work is shifting.
+“It’s going to cure diseases.”
 
-Agents are acting.
+“It’s going to take your job.”
 
-Systems are judging.
+“It’ll do the boring parts for you.”
 
-Claims are flying.
+“It will hurt society.”
 
-the future is arriving ahead of schedule.
+who’s right? nobody knows.
 
-You’ve built the habits and the judgment: how to pick a tool, prompt it, check what it hands back, and spot the traps.
+You already know more about AI than most adults. You know how to use it, and you understand the engine underneath, so its strange behavior makes more sense. Your goal is to **Be Smarter Than the Tool**. Done.
 
-So far this has been about you and the tool. Now it widens out. AI is reshaping work, starting to act on its own, and making decisions about real people, including you. None of this is a someday story. Every piece of it is already underway.
+Now comes the question almost everyone is arguing about: where does all this land? You’ve heard the voices already. You probably know an **AI Optimist** who thinks AI is amazing, fantastic, and every other superlative they can think of. And you know an **AI Worrier** who’s sure it will hurt society. And maybe a **Skeptic** who rolls their eyes at both.
 
-This section is about reading that change clearly: what is actually shifting, what to do when a system judges you, and how to weigh the big claims about where it all goes next.
+**Here’s the honest part: nobody knows.** Not them, not us, not the people building AI.
+
+## The Edge of the Map
+
+Think back to history class. In the year 1400, much of the world had yet to be explored. But that didn’t stop those old cartographers from mapping the whole world. In unknown parts of the ocean, they drew sea monsters and strange serpents.
+
+The future of AI is like the unknown parts of the ocean on those old maps. The AI Worriers fill the unknown parts with AI monsters that destroy jobs, hack systems, and take over the world. AI Optimists look at the same unknown parts and see easy, clear sailing through open water.
+
+Those sailors back in the year 1400? They didn’t find sea monsters, and rarely found easy, clear sailing. They usually found something unexpected. Consider Magellan. He didn’t set off to sail around the world. But that’s what his crew did. And he died before the voyage ended. Did he expect either? No.
+
+This section takes both views of the map seriously: the monsters and the open water. And, only one thing is certain: **AI is here to stay**. Not that it keeps getting better forever. Just that it isn’t going away.
 
 ## In this section
 
@@ -26,14 +36,22 @@ Embrace the Future
 
 1
 
-## THE BIG SHIFTS
+## THE ARGUMENT
 
-First, what AI is already doing in the world, and the changes underway in work and in what AI can do on its own.
+First, the loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed.
 
 2
 
+## MONSTERS AND OPEN WATER
+
+Then, both views of the unknown: the honest case for worry, and the upside that already happened.
+
+3
+
 ## WHERE IT LANDS ON YOU
 
-Then, what to do when AI judges you, what every answer costs, and how to handle the big claims about what comes next.
+Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.
 
-🔑 **Keep this question in mind:**What’s actually coming, and what do I do about it?
+Nobody has a map of what’s coming.
+
+You’re ready to sail into the blank space.

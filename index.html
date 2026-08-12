@@ -6878,8 +6878,8 @@ function PromptSection(props) {
   const LAB_STEPS = [
     { title: "Log in to Claude", body: "Go to claude.ai and sign in. This lab is all setup: a few minutes now, better answers from here on." },
     { title: "Tell Claude about yourself", body: "Open Settings and find where you can tell Claude about yourself: what to call you, what you’re into, how you like answers. Add a few true things." },
-    { title: "Create your first project", body: "Find Projects and create one. Name it \u201CMy First Coding Project.\u201D Where it asks what you\u2019re trying to achieve, set the context: \u201CI\u2019m learning to code with AI. I\u2019m a total beginner. Explain things in plain language.\u201D You\u2019ll use this project later in the course." },
-    { title: "See the window", body: "Start a new chat inside your project and ask: \u201CWhat do you know about me?\u201D The answer should reflect both things you just set up: who you are, and what this project is for. That\u2019s your context window, made visible." }
+    { title: "Create your first project", body: "Find Projects and create one. Name it \u201CMy First Coding Project.\u201D Where it asks what you\u2019re trying to achieve, set the context below. You\u2019ll use this project later in the course.", prompt: "I\u2019m learning to code with AI. I\u2019m a total beginner. Explain things in plain language." },
+    { title: "See the window", body: "Start a new chat inside your project and ask the question below. The answer should reflect both things you just set up: who you are, and what this project is for. That\u2019s your context window, made visible.", prompt: "What do you know about me?" }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
@@ -6982,18 +6982,11 @@ function PromptSection(props) {
       lead: "Time to build your own context. In a few minutes you’ll tell Claude who you are and create your first project. Everything you set up here follows you through the rest of the course.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        LAB_STEPS.map(function(st, i) {
-          var done = !!labChecked[i];
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-          },
-            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            /*#__PURE__*/React.createElement("span", null,
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
-        }))),
+      /*#__PURE__*/React.createElement(LabStepList, {
+        steps: LAB_STEPS,
+        checked: labChecked,
+        onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluate the Results" }));
 }
@@ -8397,14 +8390,8 @@ function PromptingSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-prompting-steps", {});
   const LAB_STEPS = [
     { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
-    { title: "Send a bad prompt", body: /*#__PURE__*/React.createElement(React.Fragment, null,
-      "Start a brand-new chat so nothing from an earlier conversation colors the results. Type exactly this:",
-      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8, fontStyle: "italic" } }, "What should I get my mom for her birthday?"),
-      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8 } }, "Read what comes back. It won\u2019t be wrong. It will be generic: a candle, a photo frame, a nice card, because Claude knows nothing about your mom.")) },
-    { title: "Send a better prompt", body: /*#__PURE__*/React.createElement(React.Fragment, null,
-      "Start a new chat. This time, ask about a different person, using all three moves of a good prompt:",
-      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8, fontStyle: "italic" } }, "My dad\u2019s birthday is Saturday. He\u2019s into AI, eating too much steak, and the Dallas Stars, I have $25, and he jokes that he owns enough caps. Give me five gift ideas I could actually get by Friday."),
-      /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8 } }, "Now compare the two answers. Same AI, same minute, completely different value.")) },
+    { title: "Send a bad prompt", body: "Start a brand-new chat so nothing from an earlier conversation colors the results. Type exactly this, and read what comes back. It won\u2019t be wrong. It will be generic: a candle, a photo frame, a nice card, because Claude knows nothing about your mom.", prompt: "What should I get my mom for her birthday?" },
+    { title: "Send a better prompt", body: "Start a new chat. This time, ask about a different person, using all three moves of a good prompt. Then compare the two answers. Same AI, same minute, completely different value.", prompt: "My dad\u2019s birthday is Saturday. He\u2019s into AI, eating too much steak, and the Dallas Stars, I have $25, and he jokes that he owns enough caps. Give me five gift ideas I could actually get by Friday." },
     { title: "Run it on something real", body: "Think of something you actually need this week: an essay, a plan, a decision. Make the moves: share your situation, describe the answer you want, one job at a time. This habit is what separates you from everyone else just typing into the box." }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
@@ -8473,18 +8460,11 @@ function PromptingSection(props) {
     lead: "You\u2019ve read about good and bad prompts. Now feel the difference. In this lab you\u2019ll send Claude a lazy prompt and a loaded one, and watch the same AI turn into a different tool.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
   },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-      LAB_STEPS.map(function(st, i) {
-        var done = !!labChecked[i];
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-        },
-          /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "\u2713" : ""),
-          /*#__PURE__*/React.createElement("span", null,
-            /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-            /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
-      }))),
+    /*#__PURE__*/React.createElement(LabStepList, {
+      steps: LAB_STEPS,
+      checked: labChecked,
+      onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+    })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
 }
@@ -8639,7 +8619,6 @@ function Lab01CourseNotebook() {
   var E = React.createElement;
   var [labChecked, setLabChecked] = useLocalStorage("llm-lab01-steps", {});
   var STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
     { title: "Download your packet", body: [
       E("a", { key: "pk", href: "packets/start-smarter.pdf", download: "Start Smarter.pdf", style: { color: "var(--labAccent)", fontWeight: 700 } }, "Download the Start Smarter packet (PDF)"),
       " and save it to your computer. That one file is the whole first part of the course."
@@ -8654,7 +8633,7 @@ function Lab01CourseNotebook() {
       E("strong", { key: "btn" }, "+ Add sources"),
       " and upload the Start Smarter PDF you just downloaded."
     ] },
-    { title: "Generate a quiz to check your knowledge", body: "Use the prompt from this lesson: “Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me.”" },
+    { title: "Generate a quiz to check your knowledge", body: "Use the prompt from this lesson.", prompt: "Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me." },
     { title: "Take the quiz", body: "Answer all ten, then let it grade you." },
     { title: "Click one citation", body: "Pick one graded answer and click its numbered citation. It lands on the exact passage of the course that taught it. Make that check a habit." },
     { title: "Transfer it", body: "This week, make a second notebook for whichever class has your next test, and feed it your real materials: notes, slides, anything your teacher shared. The course showed you the machine; your grades are where it pays." }
@@ -8666,22 +8645,14 @@ function Lab01CourseNotebook() {
     labNumber: "09",
     title: "Build Your Course Notebook",
     hint: "Click the box after you complete each step.",
-    lead: "Your first lab. In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a Gemini Notebook study notebook and use it to quiz yourself.",
+    lead: "In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a Gemini Notebook study notebook and use it to quiz yourself.",
     action: E(ActivityCounter, { count: checkedCount, total: STEPS.length })
   },
-    E("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
-      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        STEPS.map(function(st, i) {
-          var done = !!labChecked[i];
-          return E("div", {
-            key: i,
-            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-          },
-            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            E("span", null,
-              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body)));
-        })))
+    E(LabStepList, {
+      steps: STEPS,
+      checked: labChecked,
+      onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+    })
   );
 }
 function StudyingWithAISection(props) {

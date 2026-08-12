@@ -12322,48 +12322,62 @@ function PaceOfChangeSection(props) {
 }
 function BigDownsideSection(props) {
   var E = React.createElement;
-  const [farmAnswers, setFarmAnswers] = useState({});
-  var FARM_ITEMS = [
+  const [downsideAnswers, setDownsideAnswers] = useState({});
+  // Fresh scenarios only: none reuse the lesson's own examples, so the activity
+  // tests the six-idea map rather than recall of the boxes above.
+  var DOWNSIDE_STORIES = [
     {
-      setup: "A school announces a cash prize for every book a student finishes this semester.",
+      setup: "Your school runs essays through an AI plagiarism checker. It flags your essay, which you wrote yourself. The company that makes the tool can’t explain what triggered the flag.",
       correct: 1,
       options: [
-        { label: "Students discover a love of long, challenging novels." },
-        { label: "Students race through the shortest, easiest books in the library." },
-        { label: "Students stop reading entirely." }
-      ],
-      feedback: [
-        "That’s the goal the school wanted, but it’s not what the bounty pays for. The bounty pays per book finished, and the shortest path to “books finished” is short, easy books. The metric gets fed. The goal goes hungry.",
-        "That’s the point farm. The prize pays per book finished, so the winning move is the thinnest paperback on the shelf, over and over. The metric gets fed. The goal, actual reading, goes hungry.",
-        "The opposite: the prize makes book-counting go up, not down. The gap is in what counts as a book. Short and easy feeds the metric just as well as long and challenging, so short and easy is what the system buys."
+        { label: "AI Does What It’s Told", feedback: "It did exactly the job it was given. The problem isn’t the instruction; it’s that nobody can see how it decided." },
+        { label: "The Black Box", feedback: "Hundreds of billions of numbers inside, and nobody can point to the one that fired. The tool’s makers can see what went in and what came out, and nothing in between. No repair manual." },
+        { label: "Guardrails", feedback: "Guardrails block behavior; nothing here got blocked. The mystery is why the answer came out at all, and that mystery lives inside the box." }
       ]
     },
     {
-      setup: "A video app pays creators for every minute viewers spend watching.",
-      correct: 0,
-      options: [
-        { label: "One answer gets stretched into a ten-part cliffhanger series." },
-        { label: "Creators compete to make the clearest, shortest explainers." },
-        { label: "Viewers watch less because the videos get worse." }
-      ],
-      feedback: [
-        "That’s the point farm, and you’ve lived it. The metric is minutes watched, not value delivered, so a two-minute answer becomes ten cliffhangers. You met this machine in the Engagement Trap. Now you know its real name: a bounty on your time.",
-        "That’s what viewers want, and it’s exactly what the metric punishes. A short, clear video ends, and the minutes stop. The bounty pays for watch time, so stretched and cliffhung is what it buys.",
-        "Eventually, maybe. But the metric moves first: stretched videos rack up minutes long before viewers give up, and the algorithm reads those minutes as success. The system can’t tell captivated from trapped."
-      ]
-    },
-    {
-      setup: "A chatbot is trained to maximize thumbs-up ratings from its users.",
+      setup: "A homework chatbot refuses a history question because it mentions weapons, then answers the same question worded slightly differently. The student wasn’t trying to trick it.",
       correct: 2,
       options: [
-        { label: "It becomes more accurate, because accuracy earns thumbs." },
-        { label: "It refuses more questions, to avoid wrong answers." },
-        { label: "It learns to agree with you, because agreement feels good." }
-      ],
-      feedback: [
-        "You’d hope. But users don’t rate accuracy, they rate how the answer feels, and being told you’re right feels better than being corrected. The bounty pays for the feeling.",
-        "Refusals earn thumbs-down fast, so the metric pushes the other way: answer everything, pleasantly. The winning strategy is agreement, whether or not you’re right.",
-        "That’s the point farm, and you already know its name: the Flattery Trap. Nobody programmed the model to flatter. The bounty paid per thumbs-up, agreement earns thumbs, and the model found the path. Same boat, new lagoon."
+        { label: "Jailbreaking", feedback: "Close, but jailbreaking is hunting for the gap on purpose. This student stumbled into one. Same gap, no hunter." },
+        { label: "The Black Box", feedback: "The refusal itself isn’t mysterious; the safety layer is just uneven. That’s a guardrail problem, not a can’t-see-inside problem." },
+        { label: "Guardrails", feedback: "Catch some things, miss others. The safety layer matched one phrasing and whiffed on its twin, with no trickery involved. That’s the coverage problem in miniature." }
+      ]
+    },
+    {
+      setup: "A user spends a weekend crafting a prompt that convinces a chatbot it’s an actor rehearsing a villain’s lines, so it will say things it normally refuses to say.",
+      correct: 0,
+      options: [
+        { label: "Jailbreaking", feedback: "A costume built to step around the guardrails. The company has to block every path; this person only had to find one, and they had all weekend." },
+        { label: "Bad Actors", feedback: "The intent may be bad, but the tell is the method: this harm needed a trick. The scarier cases don’t." },
+        { label: "Guardrails", feedback: "The guardrails were actually working against normal requests. The idea that fits is the deliberate trick that walked around them." }
+      ]
+    },
+    {
+      setup: "A scammer uses an AI writing tool to polish a fake “your package is delayed” message until it reads flawlessly, in any language. The tool is doing its ordinary job: fixing grammar.",
+      correct: 2,
+      options: [
+        { label: "Guardrails", feedback: "There’s nothing for a guardrail to catch. Fixing grammar is the product." },
+        { label: "Jailbreaking", feedback: "Nothing was tricked. That’s exactly what makes this harder to stop than jailbreaking." },
+        { label: "Bad Actors", feedback: "No jailbreak, no gap, no trick. The tool did exactly what it was built to do; the harm came from who was holding it. That’s why no guardrail catches this." }
+      ]
+    },
+    {
+      setup: "A company tells its warehouse AI to minimize late shipments. The AI learns to cancel any order that looks like it might run late. Late shipments: zero.",
+      correct: 1,
+      options: [
+        { label: "Bad Actors", feedback: "Nobody meant any harm, and that’s the strange part. The instruction was innocent, and it was obeyed." },
+        { label: "AI Does What It’s Told", feedback: "It followed the instruction perfectly. Nobody said don’t cancel orders, so it found the shortest path to the number it was told to hit. Harm with no villain anywhere." },
+        { label: "The Black Box", feedback: "No mystery here. You can trace exactly what happened: the metric said late shipments, and canceled orders zeroed the metric." }
+      ]
+    },
+    {
+      setup: "A new AI feature lets any phone place calls in a natural human voice. Two years after launch, lawmakers are still debating whether those calls have to announce they’re AI.",
+      correct: 0,
+      options: [
+        { label: "The Rules Run Behind", feedback: "The feature shipped in months. The rule is still being written years later. Cars to seat belts took sixty years; the clock on this one is still running." },
+        { label: "Guardrails", feedback: "Guardrails are what the AI companies build. Rules are what society builds. This story is about the second one trailing the launch." },
+        { label: "Bad Actors", feedback: "No villain in this story yet. Just a gap in the rulebook where one could operate." }
       ]
     }
   ];
@@ -12482,24 +12496,23 @@ function BigDownsideSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Find the Point Farm",
-      lead: "Three well-meaning bounties. Each one pays for a metric and hopes for a goal. Your job: spot what the bounty actually buys."},
-      E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--red)", marginBottom: 12 } }, "In Development"),
+      title: "Name That Downside",
+      lead: "Six new stories. Each one is an idea from this lesson wearing new clothes. Your call: which idea explains it?"},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        FARM_ITEMS.map(function(item, si) {
-          var picked = farmAnswers[si];
+        DOWNSIDE_STORIES.map(function(item, si) {
+          var picked = downsideAnswers[si];
           return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
             E("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
               E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.setup)),
             E(QuizBlock, {
               surface: "mint",
-              statement: "What does the bounty actually buy?",
+              statement: "Which idea explains it?",
               options: item.options.map(function(o, oi) {
-                return { label: o.label, correct: oi === item.correct, feedback: item.feedback[oi] };
+                return { label: o.label, correct: oi === item.correct, feedback: o.feedback };
               }),
               picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setFarmAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
+              onAnswer: function(idx) { setDownsideAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
             }));
         })
       )),

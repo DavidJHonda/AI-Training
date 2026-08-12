@@ -4,6 +4,15 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "What Did the Model Actually Learn?" — Training Bias TRY IT quiz (`BiasQuiz`)
+
+- **Origin:** Training Bias lesson (`TrainingBiasSection`). Removed 2026-08-12 and replaced by LAB 07 "Crack the Picture Open" (a live entrepreneur-list experiment; the later labs renumbered 07→08, 08→09 in the same commit). The quiz's face-recognition fact was folded into the lesson body as a new paragraph after the mechanisms box; its entrepreneur scenario became the lab itself.
+- **Possible destination:** the two scenarios not otherwise preserved are the strongest re-homing candidates, both showing bias beyond chatbots: the **husky/wolf snow-shortcut** case (model learned snow=wolf, indoor=husky) and the **pedestrian-detection-at-night** case (training data was mostly sunny days). Either could join the lesson body near the cow example, or a future "AI beyond chatbots" beat. Restore the whole quiz if the lab ever goes stale (its Step 2 tally depends on live model defaults that the AI companies actively tune against).
+- **Supporting state it needed:** `biasAnswers` (useState) internal to the component; rendered via `QuizBlock` + `Takeaway`, both still in `index.html`. Usage was one line inside `TrainingBiasSection` after `closeBoard("trainingbias")`.
+- **Full source:** in git history at the commit before this one — the whole `function BiasQuiz(props)` (search anchor). Four scenarios (husky/wolf shortcut; pedestrian detection at night; face recognition on darker skin tones and children; ten-entrepreneurs sameness), per-option feedback and headlines, closing Takeaway "It never asked whether the data was fair."
+
+---
+
 ## "Time to reach half of American homes" — adoption-speed stat tiles
 
 - **Origin:** Big Downside lesson (`BigDownsideSection`), section VI "The Rules Run Behind". Removed 2026-08-12 and replaced by the "How far the rules ran behind" box (tech → its rule, gap in years), because the adoption-speed data made the Pace of Change point, not the rules-lag point — and the same dataset already lives in Pace of Change as the "How Fast Is Fast?" TRY IT quiz, so the box taught the answers one lesson before the quiz asked them.

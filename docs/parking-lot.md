@@ -4,6 +4,15 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "Done, or Predicted?" — Big Upside forecast-skepticism TRY IT
+
+- **Origin:** Big Upside lesson (`BigUpsideSection`). Removed 2026-08-12 when LAB 11 "Open the Vault" (an AlphaFold-database field trip) became the lesson's activity. Its prose setup ("give the good news the same check you gave the bad news; hype comes in both flavors" plus the Isomorphic Labs forecast) had been cut earlier the same day, leaving the quiz's skepticism framing without an introduction.
+- **Possible destination:** a media-literacy or critical-thinking beat wanting results-vs-forecasts practice; the hype-comes-in-both-flavors idea has no other home in the course now.
+- **Supporting state it needed:** the `DONE_OR_PREDICTED` array rendered via the shared `ChoiceQuiz` component (still in `index.html`).
+- **Full source:** in git history at the commit before this one (search anchor: `Done, or Predicted?`). Four claims with both-sided feedback: protein structures released free (done, 2022); AI curing all disease in ten years (prediction, Hassabis/Isomorphic); the abaucin antibiotic (done, MIT 2023, still needs trials); AI designing drugs with no human scientists (prediction, "AI does the part that scales").
+
+---
+
 ## "How Fast Is Fast?" — Pace of Change adoption-speed TRY IT
 
 - **Origin:** Pace of Change lesson (`PaceOfChangeSection`). Removed 2026-08-12, the same day LAB 10 "Build the Game You Played" became the lesson's hands-on close; the lesson now goes close board → LAB 10. The quiz still carried the red "In Development" marker.

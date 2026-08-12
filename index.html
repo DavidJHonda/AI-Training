@@ -11957,6 +11957,18 @@ function HumanEdgeSection(props) {
 }
 function BigUpsideSection(props) {
   var E = React.createElement;
+  // LAB 11: the lesson's thesis made personal. The 200M-shape giveaway is a real,
+  // public website, so the lab is a field trip to it: pull a structure, spin it,
+  // have Claude connect the shape to the job.
+  const [vaultChecked, setVaultChecked] = useState({});
+  const VAULT_LAB_STEPS = [
+    { title: "Open the vault", body: "The 200 million shapes from this lesson live at one address, run by DeepMind and Europe’s bioinformatics institute. Free, because they gave it away.", prompt: "alphafold.ebi.ac.uk" },
+    { title: "Search for insulin", body: "Type insulin into the search box and open a human result. Fifty years ago, working out one structure like this could be a scientist’s whole career." },
+    { title: "Spin it", body: "Drag the 3D shape around. Those ribbons and coils are the fold, and that exact fold is why insulin works. The shape is the whole thing." },
+    { title: "Ask Claude about it", body: "Open Claude and connect the shape on your screen to the job it does.", prompt: "What does insulin do in my body, and why does its 3D shape matter?" },
+    { title: "Clock what just happened", body: "You just pulled up a protein structure in ten seconds. No lab, no PhD, no permission. That’s what “they gave the answers away” means: not just to scientists, to you." }
+  ];
+  var vaultCheckedCount = Object.keys(vaultChecked).filter(function(k) { return vaultChecked[k]; }).length;
   var MORE = [
     { icon: "💊", title: "New antibiotics", desc: "MIT researchers screened thousands of compounds with AI and found one that kills a superbug almost nothing else touches. They named it abaucin." },
     { icon: "🌦️", title: "Faster weather forecasts", desc: "One computer creates a global forecast in about a minute. The old way took hours on a supercomputer. Faster forecasts mean more people can leave dangerous areas before the bad weather hits." },
@@ -11964,36 +11976,6 @@ function BigUpsideSection(props) {
     { icon: "👁️", title: "Eyes and ears", desc: React.createElement(React.Fragment, null, "Blind users point a phone and AI reads the world: the right bus, the food on the menu, the expiration date of their food. AI does the same for deaf users. Live captions read them the world. ", React.createElement("strong", null, "Shipping now. FREE!")) },
     { icon: "🌊", title: "Early flood warnings", desc: "Free warnings of upcoming floods in dozens of countries, including places where they don’t have river gauges. People know days in advance, instead of minutes." },
     { icon: "🩺", title: "Catching what doctors miss", desc: "A Swedish trial with more than 100,000 women: AI-supported screening caught 20% more breast cancers than radiologists working alone, with no rise in false alarms." }
-  ];
-  var DONE_OR_PREDICTED = [
-    {
-      prompt: "AI has predicted the 3D shape of nearly every protein known to science.",
-      options: [
-        { label: "Already happened", correct: true, headline: "Done in 2022.", feedback: "About 200 million structures, released free to anyone. That is a finished result you can go look up right now." },
-        { label: "Still a prediction", correct: false, headline: "This one is history.", feedback: "Not a forecast. DeepMind released the structures in 2022 and more than two million users in 190 countries have pulled from them since." }
-      ]
-    },
-    {
-      prompt: "AI will help cure all disease within about ten years.",
-      options: [
-        { label: "Already happened", correct: false, headline: "Nowhere close.", feedback: "This is a claim about the future made by someone with a real track record. A good track record is still not the same as a result." },
-        { label: "Still a prediction", correct: true, headline: "A prediction, from a credible person.", feedback: "Hassabis has said this and he has earned some credibility. It remains a claim about the future, and drug trials take years no matter who designed the drug." }
-      ]
-    },
-    {
-      prompt: "AI found a new antibiotic that kills a superbug our existing drugs can’t.",
-      options: [
-        { label: "Already happened", correct: true, headline: "MIT, 2023.", feedback: "They named it abaucin. Worth noting: it still has to clear years of trials before a doctor can prescribe it to anyone." },
-        { label: "Still a prediction", correct: false, headline: "It happened.", feedback: "AI narrowed thousands of candidate compounds down to a short list, and the lab work confirmed one of them worked." }
-      ]
-    },
-    {
-      prompt: "AI will design drugs start to finish with no human scientists involved.",
-      options: [
-        { label: "Already happened", correct: false, headline: "Not even close.", feedback: "Every AI-designed drug in trials today had teams of humans picking the target, running the lab work, and signing off on the results." },
-        { label: "Still a prediction", correct: true, headline: "And a shaky one.", feedback: "Same shape as everything else you’ve learned. AI does the part that scales. Humans pick the problem and own the outcome." }
-      ]
-    }
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "bigupside" }),
@@ -12086,11 +12068,27 @@ function BigUpsideSection(props) {
     E(BodyP, null,
       "One more thing about Demis. His story doesn’t start in a lab. It starts with a kid who loved chess and video games. The brilliance is rare. But the attitude is a choice that you can make starting today. Whatever you’re good at, point it at something that helps people. You might not win the Nobel Prize. But who are we to say you won’t?"),
     closeBoard("bigupside"),
-    E(ChoiceQuiz, {
-      title: "Done, or Predicted?",
-      instruction: "Four claims about AI and science. Some already happened. Some are still somebody’s forecast. Tell them apart.",
-      scenarios: DONE_OR_PREDICTED
-    }),
+    E(InteractiveBox, {
+      variant: "lab",
+      surface: "teal",
+      labNumber: "11",
+      title: "Open the Vault",
+      hint: "Click the box after you finish each step.",
+      lead: "The 200 million protein shapes aren’t just a story. They’re a website, open right now, and you’re allowed in. Five minutes to hold the Nobel Prize database in your hands.",
+      action: E(ActivityCounter, { count: vaultCheckedCount, total: VAULT_LAB_STEPS.length })},
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        VAULT_LAB_STEPS.map(function(st, i) {
+          var done = !!vaultChecked[i];
+          return E("div", {
+            key: i,
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+          },
+            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setVaultChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("span", { style: { flex: 1, minWidth: 0 } },
+              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+        }))),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: Rise of Agents" }));
 }

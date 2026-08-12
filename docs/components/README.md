@@ -73,7 +73,7 @@ The numbered-card grid, for an ordered sequence shown side by side: white cards 
 ![NumberedColumns](numbered-columns.png)
 
 ### WatchOverview
-The collapsible "Prefer to watch?" / "Prefer to listen?" media box: a faint-purple band wrapping a white card with a purple play icon, a WATCH (or LISTEN) eyebrow with duration, and the title. Collapsed by default (video variant shown here); expands to a native `<video controls preload="metadata">` — or, with `audio: true`, a native `<audio controls>` player — plus a caption that defaults to the NotebookLM line. Reusable via props (`src` required; `audio`, `title`, `duration`, `caption` optional). Examples: How We Got Here (`howwegothere`, video); Does AI Think? (`doesaithink`, the Chinese Room NotebookLM podcast, `audio: true`). Captured 2026-06-15.
+The watch strip: a slim navy (#1b2153) utility band directly under the lesson H1 with a gold (#e8c552) play circle, a gold "▸ WATCH" eyebrow with muted duration, and one line — "Watch the video version or read the lesson below." — ending in a bold per-lesson tail from `LESSON_VIDEOS.cta` that names the lesson's true final activity ("Both end at the same TRY IT." / "…LAB." / "Both walk the same section map." for openers). Navy+gold deliberately reads as a media control, not a violet teaching box (redesign 2026-08-12; the entry's `title` field is no longer rendered — reserved as the video's public/share title). Collapsed by default; expands to a native `<video controls preload="metadata">` plus caption. Recaptured 2026-08-12.
 
 ![WatchOverview](watch-overview.png)
 

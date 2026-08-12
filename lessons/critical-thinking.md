@@ -95,7 +95,7 @@ Don’t take it at face value. Ask what would have to be true for the claim to h
 
 Do I know enough to judge?
 
-The further a claim sits from what you know, the more carefully you have to check. Remember Maria Petronoski’s three gold medals from the last lesson? Perfectly plausible, completely made up. Unfamiliar territory is exactly where everything sounds authoritative.
+The further a claim sits from what you know, the more carefully you have to check. Evaluate the Results made this the first dig question: could you actually validate it? Unfamiliar territory is exactly where everything sounds authoritative.
 
 3
 

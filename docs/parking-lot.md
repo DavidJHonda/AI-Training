@@ -4,6 +4,14 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "Time to reach half of American homes" — adoption-speed stat tiles
+
+- **Origin:** Big Downside lesson (`BigDownsideSection`), section VI "The Rules Run Behind". Removed 2026-08-12 and replaced by the "How far the rules ran behind" box (tech → its rule, gap in years), because the adoption-speed data made the Pace of Change point, not the rules-lag point — and the same dataset already lives in Pace of Change as the "How Fast Is Fast?" TRY IT quiz, so the box taught the answers one lesson before the quiz asked them.
+- **Possible destination:** probably nowhere as-is — restoring it to Pace of Change's body would spoil that lesson's TRY IT ("guess before you check"). Reusable if the TRY IT is ever cut, or in a future lesson that needs adoption-speed receipts without a quiz nearby.
+- **Verbatim data:** ShowcaseBox headline "Time to reach half of American homes"; stat tiles `Telephone ~70 yrs, Electricity ~45 yrs, Television ~8 yrs, AI months (muted/primary)`. The fuller sourced version of the same facts (with dates and feedback copy, plus The web ~10 yrs and ChatGPT ~2 months to 100M users) lives in the `ADOPTION` array in `PaceOfChangeSection`.
+
+---
+
 ## "Bayes' Theorem in Action" — bag-of-basketballs SEE IT
 
 - **Origin:** AI is Math lesson (`AIIsMathSection`), Conditional Probability section. Removed 2026-06-15 and replaced by the static "Update With New Evidence" ShowcaseBox, which reuses the lesson's own 2-coin grid: new evidence ("the first coin landed on heads") greys out the tails-first outcomes and updates P(both heads) from 25% to 50%. The static box keeps conditional probability tied to the coins the learner just met, instead of introducing a fresh bag-of-balls scenario (beta learners struggled with the example switch).

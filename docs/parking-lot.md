@@ -4,6 +4,15 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 ---
 
+## "How Fast Is Fast?" — Pace of Change adoption-speed TRY IT
+
+- **Origin:** Pace of Change lesson (`PaceOfChangeSection`). Removed 2026-08-12, the same day LAB 10 "Build the Game You Played" became the lesson's hands-on close; the lesson now goes close board → LAB 10. The quiz still carried the red "In Development" marker.
+- **Possible destination:** any future beat needing sourced adoption-speed receipts. Its dataset is the fuller, sourced version of the "Time to reach half of American homes" tiles (also parked in this file — that entry's note pointing at the live `ADOPTION` array is superseded by this one; the array now exists only in git history).
+- **Supporting state it needed:** `adoptionAnswers` (useState) plus the `ADOPTION` array of five items, rendered via `QuizBlock` rows.
+- **Full source:** in git history at the commit before this one — the `ADOPTION` array (search anchor: `How Fast Is Fast?`). Five guess-the-timespan items with per-option feedback: telephone ~70 yrs to half of American homes (1876→~1946), electricity ~45 yrs (1882→~1925), television ~8 yrs (by 1954), the web ~10 yrs (1991→~2001), ChatGPT ~2 months to 100M users (Nov 2022→Jan 2023).
+
+---
+
 ## "What Did the Model Actually Learn?" — Training Bias TRY IT quiz (`BiasQuiz`)
 
 - **Origin:** Training Bias lesson (`TrainingBiasSection`). Removed 2026-08-12 and replaced by LAB 07 "Crack the Picture Open" (a live entrepreneur-list experiment; the later labs renumbered 07→08, 08→09 in the same commit). The quiz's face-recognition fact was folded into the lesson body as a new paragraph after the mechanisms box; its entrepreneur scenario became the lab itself.

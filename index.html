@@ -12218,7 +12218,6 @@ function WhatPeopleSaySection(props) {
 }
 function PaceOfChangeSection(props) {
   var E = React.createElement;
-  const [adoptionAnswers, setAdoptionAnswers] = useState({});
   // LAB 10: the three-years box's "Doing" row made personal. The student rebuilds
   // the 2048 fun-beat they played in Vector Space by directing Claude, the same
   // move they learned in the dino lab, now framed as evidence of the pace.
@@ -12231,60 +12230,6 @@ function PaceOfChangeSection(props) {
     { title: "Clock the pace", body: "Look at what just happened. Three years ago, AI could hand you code and wish you luck. Today you described a game and played it minutes later. That’s the “Doing” row from the first box in this lesson, running on your own screen." }
   ];
   var buildCheckedCount = Object.keys(buildChecked).filter(function(k) { return buildChecked[k]; }).length;
-  // Each row states its own measure: the first four are share of American homes,
-  // the last is raw users, and collapsing them into one number would be a lie.
-  var ADOPTION = [
-    {
-      thing: "The telephone",
-      question: "How long to reach half of American homes?",
-      correct: 2,
-      options: [
-        { label: "About 10 years", feedback: "Too fast. Every single home needed its own wire run to it. Half of American homes had a telephone around 1946, seventy years after Bell patented it." },
-        { label: "About 30 years", feedback: "Closer, but wiring a whole country takes longer than that. Half of American homes had a telephone around 1946, seventy years after Bell patented it." },
-        { label: "About 70 years", feedback: "Bell patented it in 1876, and half of American homes had one around 1946. Every one of those homes needed a wire run to it first." }
-      ]
-    },
-    {
-      thing: "Electricity in the home",
-      question: "How long to reach half of American homes?",
-      correct: 1,
-      options: [
-        { label: "About 15 years", feedback: "Too fast. Same problem as the telephone: somebody has to run a line to every house. It took about forty-five years." },
-        { label: "About 45 years", feedback: "Edison’s first power station opened in 1882, and about half of American homes had power by 1925. Farms waited decades longer than cities." },
-        { label: "About 90 years", feedback: "Slower than it went. About forty-five years, though farms really did wait decades longer than cities." }
-      ]
-    },
-    {
-      thing: "Television",
-      question: "How long to reach half of American homes?",
-      correct: 0,
-      options: [
-        { label: "About 8 years", feedback: "This is the fast one. Television plugged into homes that already had power, so there was no new grid to build. Half of American homes had a set by 1954." },
-        { label: "About 25 years", feedback: "Faster than that. Television had no new grid to build, because the power lines were already there. Half of American homes had a set by 1954, about eight years in." },
-        { label: "About 50 years", feedback: "Much faster. Television plugged into homes that already had power, and it took about eight years." }
-      ]
-    },
-    {
-      thing: "The web",
-      question: "How long to reach half of American homes?",
-      correct: 1,
-      options: [
-        { label: "About 3 years", feedback: "A little faster than it went. The public web opened in 1991 and reached about half of American homes around 2001." },
-        { label: "About 10 years", feedback: "The public web opened in 1991 and reached about half of American homes around 2001, which was quick by the standards of everything above it." },
-        { label: "About 25 years", feedback: "Slower than it went. About ten years: the public web opened in 1991 and reached half of American homes around 2001." }
-      ]
-    },
-    {
-      thing: "ChatGPT",
-      question: "How long to reach a hundred million users?",
-      correct: 0,
-      options: [
-        { label: "About 2 months", feedback: "It launched at the end of November 2022 and was somewhere near a hundred million users that January. Nothing to wire, nothing to install, nothing to buy." },
-        { label: "About 2 years", feedback: "Far slower than it went. About two months. There was no grid to build and no device to buy, so the only thing left to change was whether people tried it." },
-        { label: "About 5 years", feedback: "Far slower than it went. About two months, because for the first time on this list there was nothing to build and nothing to install." }
-      ]
-    }
-  ];
   return E("div", null,
     E(LessonHeader, { sectionId: "paceofchange" }),
     E(BodyP, null,
@@ -12338,30 +12283,6 @@ function PaceOfChangeSection(props) {
     E(BodyP, null,
       "Nobody knows, and the Loudest Voices lesson showed you how openly the people building it admit that."),
     closeBoard("paceofchange"),
-    E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "How Fast Is Fast?",
-      lead: "Five technologies, and how long each one took to spread. Guess before you check. The pattern in the answers is the whole point of this lesson."},
-      E("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--red)", marginBottom: 12 } }, "In Development"),
-      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        ADOPTION.map(function(item, si) {
-          var picked = adoptionAnswers[si];
-          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            E("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
-              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.thing)),
-            E(QuizBlock, {
-              surface: "mint",
-              statement: item.question,
-              options: item.options.map(function(o, oi) {
-                return { label: o.label, correct: oi === item.correct, feedback: o.feedback };
-              }),
-              picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setAdoptionAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
-            }));
-        })
-      )),
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",

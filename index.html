@@ -452,6 +452,7 @@ const CLOSE_BOARDS = {
   bigdownside: { pill: "AI does exactly what it’s told.", sticky: "The black box moves faster than the rules." },
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is saving lives." },
   agents: { pill: "Agents do the work. The name on it is yours.", sticky: "You ask, it acts. You make it better." },
+  workchanges: { pill: "The first pass becomes the starting line.", sticky: "Your job is what happens next." },
   computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Build Your Skills
@@ -1894,7 +1895,7 @@ const SECTION_META = {
   aijudges: { kicker: "DECISIONS ABOUT YOU", label: "When AI Judges You", title: "When AI Judges You", icon: "\u2696\uFE0F" },
   faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "Fake Trap", title: "Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
   bigupside: { kicker: "THE UPSIDE IS REAL", label: "Big Upside", title: "Big Upside", icon: "\uD83D\uDD2C" },
-  workchanges: { kicker: "THE JOBS RESHUFFLE", label: "Work Changes", icon: "\uD83D\uDCCA" },
+  workchanges: { kicker: "SAME TITLE, DIFFERENT WORK", label: "Work Changes", icon: "\uD83D\uDCCA" },
   computecost: { kicker: "WHAT AN ANSWER COSTS", label: "Data Centers", title: "Data Centers", icon: "\uD83D\uDD0C" },
   unexpected: { kicker: "THE ONE SURE THING", label: "Unexpected Results", title: "Unexpected Results", icon: "\uD83C\uDFB2" },
   whatpeoplesay: { kicker: "WHERE DOES IT LAND?", label: "Loudest Voices", title: "Loudest Voices", icon: "\uD83D\uDDE3\uFE0F" },
@@ -10095,7 +10096,7 @@ function OpenerRealWorldSection(props) {
         bridge: "Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.",
         questions: [
           { question: "What happens when AI stops answering and starts doing things?", lessonId: "agents" },
-          { question: "Which parts of work change first, and why?", lessonId: "workchanges" },
+          { question: "How will AI change the work you do after college?", lessonId: "workchanges" },
           { question: "What does one instant answer actually cost?", lessonId: "computecost" },
           { question: "Why does the future never land the way anyone predicts?", lessonId: "unexpected" }
         ]
@@ -12383,257 +12384,268 @@ function BigDownsideSection(props) {
 }
 function WorkChangesSection(props) {
   var E = React.createElement;
-  const [taskAnswers, setTaskAnswers] = useState({});
-  const [splitAnswers, setSplitAnswers] = useState({});
-  const JOBS = [
-    { title: "Data entry", exposed: "Most of it. The work is repeatable, digital, and easy to verify.", protected_: "The few edge cases that need human judgment or escalation." },
-    { title: "Junior copywriting", exposed: "First drafts, formatting, headline variations.", protected_: "Brand voice, knowing what the client actually wants, the relationship that wins the next project." },
-    { title: "Customer support", exposed: "First-line answers to common questions.", protected_: "High-stakes complaints, angry customers, anything that needs authority to make an exception." },
-    { title: "Radiology", exposed: "Pattern recognition in clean, well-known scans.", protected_: "Ambiguous cases, talking to patients, taking responsibility for the final call." },
-    { title: "Teaching", exposed: "Explaining concepts, generating practice problems, grading objective work.", protected_: "Classroom management, motivation, mentoring, knowing why this specific student is stuck." },
-    { title: "Plumbing", exposed: "Admin, scheduling, quoting, documentation, and customer communication.", protected_: "The on-site physical repair. High-stakes if wrong, and no two houses are the same." },
-    { title: "Law", exposed: "Research, contract review, summarizing case law.", protected_: "Courtroom strategy, client trust, judgment about risk, anything that requires a license." },
-    { title: "Design", exposed: "Generating options, mockups, asset variations.", protected_: "Knowing what\u2019s actually good, what fits the brand, taste, the call to ship or not." },
-    { title: "Project management", exposed: "Status updates, scheduling, meeting summaries.", protected_: "Getting humans to do things, navigating politics, deciding what to cut." }
-  ];
-  const BUCKETS = [
-    { id: "absorbed", label: "Automate", color: "#d97706", bg: "#fffbeb", border: "#fcd34d" },
-    { id: "partly", label: "Augment", color: "#7c3aed", bg: "#f5f3ff", border: "#ddd6fe" },
-    { id: "protected", label: "Human-only", color: "#4338ca", bg: "#eef2ff", border: "#c7d2fe" }
-  ];
-  const TASKS = [
-    { task: "Writing a 200-word product description for an online store", answer: "absorbed", explain: "A first draft here is highly exposed: digital, repeatable, language-heavy, easy to review. A human may still check brand fit, truth, and tone before it ships." },
-    { task: "Operating a forklift in a warehouse", answer: "protected", explain: "The physical operation is mostly human-led, or handled by specialized robotics, not a chatbot. AI may help with scheduling, routing, or training, but the on-site action carries real-world risk." },
-    { task: "Drafting an email to a client explaining a missed deadline", answer: "partly", explain: "AI can produce a clean draft. You still have to judge tone, decide what to disclose, and put your name on it." },
-    { task: "Coaching a teammate through a tough week", answer: "protected", explain: "AI can help you prepare what to say. The real work is trust, timing, listening, and being there. That stays human-led." },
-    { task: "Filling out a standardized weekly report", answer: "absorbed", explain: "Low judgment, repeatable, digital, easy to review. A strong candidate for automation or AI assistance." }
-  ];
-  const SHIFT = [
-    { label: "Tasks", body: "AI starts by absorbing specific tasks inside a job, not the whole job." },
-    { label: "Workflows", body: "Then workflows are redesigned around what AI can and can\u2019t do well." },
-    { label: "Roles", body: "Eventually roles reshape: some shrink, some grow, some are new entirely." }
-  ];
-  var SPLIT_TASKS = [
+  const [workAnswers, setWorkAnswers] = useState({});
+
+  const FIRST_WEEK = [
     {
-      career: "Lawyer",
-      prompt: "Summarize a 200-page deposition.",
+      kicker: "Customer research",
+      prompt: "AI sorts 500 customer comments, identifies three themes, and builds a polished presentation in ten minutes. What should the new employee do next?",
       options: [
-        { label: "AI can help with this", correct: true, feedback: "Right. Compressing long text into a useful first summary is exactly what AI is good at. The lawyer still has to check what got dropped." },
-        { label: "Needs a human", correct: false, feedback: "Not quite. Reading and condensing long text is answer work, and AI handles it fast. The judgment is in the checking, not the reading." }
+        { label: "Send the presentation", correct: false, feedback: "That treats the first pass as the finished job. The employee still needs to check the source comments, find what the summary missed, and turn the patterns into a recommendation." },
+        { label: "Ask AI to make it longer", correct: false, feedback: "More slides do not make the work more useful. The next step is to investigate the result and decide what the company should do." },
+        { label: "Check, investigate, recommend", correct: true, feedback: "Right. AI compressed the production. The employee’s work starts with checking the evidence, finding what was missed, and recommending what should happen next." }
       ]
     },
     {
-      career: "Teacher",
-      prompt: "Notice when a student has stopped trying.",
+      kicker: "Software internship",
+      prompt: "AI writes a fix for a bug, and every automated test passes. The intern cannot explain what the code does. What is the best next move?",
       options: [
-        { label: "AI can help with this", correct: false, feedback: "Not quite. AI does not sit in the room. Picking up that a student has gone quiet takes a person paying attention." },
-        { label: "Needs a human", correct: true, feedback: "Right. That takes attention, a relationship, and knowing the student. AI does not see the room." }
+        { label: "Ship it because the tests passed", correct: false, feedback: "Passing tests are evidence, not understanding. If the intern cannot explain the code, the tool made them productive before it helped them learn." },
+        { label: "Work through it, then test it", correct: true, feedback: "Right. The intern should trace the code, understand the choices, test the edge cases, and ask a person when needed. Those are the reps that build professional judgment." },
+        { label: "Ask AI if its code is correct", correct: false, feedback: "The same tool should not be the only judge of its own work. The intern needs to understand the fix and verify it independently." }
       ]
     },
     {
-      career: "Teacher",
-      prompt: "Generate ten practice questions at three difficulty levels.",
+      kicker: "Marketing team",
+      prompt: "AI produces three campaign concepts, sample ads, and audience research before lunch. The manager asks the new hire to choose a direction for the launch. What changed?",
       options: [
-        { label: "AI can help with this", correct: true, feedback: "Right. Producing practice material fast is squarely in AI\u2019s lane. The teacher\u2019s judgment is in picking which questions actually fit the lesson." },
-        { label: "Needs a human", correct: false, feedback: "Not quite. Generating drafts of practice questions is exactly the kind of thing AI can do quickly. The judgment shows up in which ones the teacher chooses to use." }
-      ]
-    },
-    {
-      career: "Doctor",
-      prompt: "Tell a family that treatment is not working.",
-      options: [
-        { label: "AI can help with this", correct: false, feedback: "Not quite. This is not a script you read. Trust, presence, and how you hold the room are the work." },
-        { label: "Needs a human", correct: true, feedback: "Right. This is not information delivery. It is trust, presence, and care, and only a person can carry it." }
+        { label: "The job is now making more drafts", correct: false, feedback: "The extra drafts are only raw material. Producing options became cheap; choosing the direction became the real assignment." },
+        { label: "AI owns the campaign", correct: false, feedback: "AI generated material, but it cannot own the launch, defend the choice, or answer for the result." },
+        { label: "The first pass became the starting line", correct: true, feedback: "Right. AI widened the field of options. The new hire now has to compare them, make the call, explain it, and own what happens next." }
       ]
     }
   ];
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "workchanges" }),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "So AI can answer, and now it can act. Multiply that across every office, warehouse, and studio in the world, and you arrive at the question behind the second voice from the opener: what actually happens to jobs?"
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "AI doesn\u2019t hit all work equally. Before it changes whole jobs, it changes specific tasks inside those jobs. A job is a bundle of tasks, and the useful question isn\u2019t \u201Cis my job safe?\u201D It\u2019s three questions: which tasks can AI handle, which need a human in the loop, and which still need a human to own."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The parts that are repeatable, digital, and easy to verify are absorbed first. The parts that depend on real-world action, responsibility, and judgment are absorbed much more slowly, if at all."
-    ),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/work-changes.jpg",
-      alt: "A workplace showing AI automating repeatable tasks like data entry, reports, and emails, while judgment, trust, empathy, and creativity are harder to absorb, and roles evolve from cubicles to collaboration",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    }),
+
+  return E("div", null,
+    E(LessonHeader, { sectionId: "workchanges" }),
     E(BodyP, null,
-      "That gives you three buckets, and they are the frame for the rest of this lesson. In news and business writing you will hear the first two called automation and augmentation."),
+      "You already know that AI is changing the world. Don’t worry, you’ll ", E("strong", null, "Be Smarter Than the Tool"), "."),
+    E(BodyP, null,
+      "Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked."),
+    E(ShowcaseBox, {
+      kicker: "THE BIG IDEA",
+      headline: "Your job title may stay the same. The work underneath it won’t.",
+      marginBottom: 28
+    },
+      E(BodyP, { marginBottom: 14 },
+        "Most students will not grow up to have an “AI job.” They’ll become nurses, engineers, marketers, electricians, teachers, lawyers, designers, and thousands of other things. AI will sit inside those jobs and change how the work gets done."),
+      E(BodyP, { marginBottom: 0 },
+        "The useful question is not only which jobs AI might replace. It is what your working day looks like when everyone has it.")
+    ),
+
+    E(SectionKicker, null, "YOU ALREADY KNOW THE PIECES"),
+    E(BodyP, null,
+      "Earlier, you learned where AI works best. It transforms material, generates options, compresses information, and reasons through what you give it. You also learned why school still matters: everyone can use a similar tool, but what you know shapes what you ask and what you do with the answer."),
+    E(ShowcaseBox, { marginBottom: 28 },
+      E("div", {
+        style: {
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
+          gap: 10
+        }
+      },
+        ["Transform", "Generate", "Compress", "Reason"].map(function(label, i) {
+          return E("div", {
+            key: label,
+            style: {
+              background: "var(--card)",
+              borderRadius: 12,
+              padding: "14px 16px",
+              boxShadow: "var(--shadowSoft)",
+              textAlign: "center",
+              fontSize: 15,
+              fontWeight: 800,
+              color: ["#3b82f6", "#d97706", "#7c3aed", "#0d9488"][i]
+            }
+          }, label);
+        })
+      )
+    ),
+    E(BodyP, null, "Now put those two lessons inside a workplace."),
+
+    E(ShowcaseBox, {
+      kicker: "YOUR FIRST ASSIGNMENT",
+      headline: "“Read these 500 customer comments. Tell us what is going wrong and what we should fix.”",
+      intro: "A new employee could receive the same assignment before AI and with AI. What changes is where the real work begins.",
+      marginBottom: 28
+    },
+      E("div", {
+        style: {
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+          gap: 14
+        }
+      },
+        E(InnerCard, { pad: "snug" },
+          E("div", {
+            style: {
+              fontSize: 12,
+              fontWeight: 800,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--inkMuted)",
+              marginBottom: 12
+            }
+          }, "Before AI"),
+          E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 12 } },
+            "Most of the time goes into making the first pass."),
+          ["Read and organize every comment", "Find recurring themes", "Build a spreadsheet", "Draft the presentation", "Present the findings"].map(function(item, i) {
+            return E("div", {
+              key: item,
+              style: {
+                display: "flex",
+                gap: 10,
+                padding: "8px 0",
+                borderTop: i === 0 ? "none" : "1px solid var(--rule)",
+                fontSize: 14.5,
+                lineHeight: 1.45,
+                color: "var(--inkSoft)"
+              }
+            },
+              E("span", { style: { fontFamily: "var(--mono)", color: "var(--inkMuted)", flexShrink: 0 } }, String(i + 1).padStart(2, "0")),
+              E("span", null, item)
+            );
+          })
+        ),
+        E(InnerCard, { pad: "snug" },
+          E("div", {
+            style: {
+              fontSize: 12,
+              fontWeight: 800,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--primary)",
+              marginBottom: 12
+            }
+          }, "With AI"),
+          E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 12 } },
+            "AI makes the first pass. The employee takes it further."),
+          ["AI groups the comments and proposes themes", "The employee checks the source comments", "They find the customers the summary overlooked", "They investigate why the problem is happening", "They recommend what the company should do"].map(function(item, i) {
+            return E("div", {
+              key: item,
+              style: {
+                display: "flex",
+                gap: 10,
+                padding: "8px 0",
+                borderTop: i === 0 ? "none" : "1px solid var(--rule)",
+                fontSize: 14.5,
+                lineHeight: 1.45,
+                color: "var(--inkSoft)"
+              }
+            },
+              E("span", { style: { fontFamily: "var(--mono)", color: i === 0 ? "var(--primary)" : "var(--inkMuted)", flexShrink: 0 } }, String(i + 1).padStart(2, "0")),
+              E("span", null, item)
+            );
+          })
+        )
+      )
+    ),
+    E(BodyP, null,
+      "The employee did not simply finish the old assignment faster. The assignment became bigger. Making the summary used to be most of the job. Now it is where the job begins."),
+
+    E(SectionKicker, null, "TWO WAYS THE WORK CHANGES"),
     E(ComparisonCards, {
       items: [
-        { label: "Automate", title: "AI does the whole task", color: "#d97706",
-          sections: [{ label: "What it looks like", body: "Digital, repeatable, language-heavy work that is easy to check and low-stakes when it is wrong. Nobody has to be in the room." }] },
-        { label: "Augment", title: "AI does part, you own the outcome", color: "#7c3aed",
-          sections: [{ label: "What it looks like", body: "AI produces the draft, the options, the first pass. You judge the tone, decide what to cut, and put your name on the result." }] },
-        { label: "Human-only", title: "It stays with a person", color: "#4338ca",
-          sections: [{ label: "What it looks like", body: "Physical action in the real world, ambiguous judgment under pressure, and anything where trust or being accountable is the point." }] }
+        {
+          label: "Automate",
+          title: "AI takes over a step",
+          color: "#d97706",
+          sections: [{
+            label: "In this assignment",
+            body: "AI sorts the comments, groups similar ideas, and creates the first summary with little human attention."
+          }]
+        },
+        {
+          label: "Augment",
+          title: "AI helps a person do more",
+          color: "#7c3aed",
+          sections: [{
+            label: "In this assignment",
+            body: "The employee explores more explanations, compares more options, and improves the recommendation faster."
+          }]
+        }
       ]
     }),
     E(BodyP, null,
-      "The lines move. The same task slides between buckets depending on the stakes, how good the output has to be, and who answers for it if it goes wrong. That is why the useful question is never “is my job safe?”"),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "MOST JOBS ARE MIXED",
-      intro: "Almost no job sits fully on one side. The roles below aren\u2019t predictions. They\u2019re examples of how the same job can have very exposed parts and very protected parts.",
-      marginBottom: 32
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
-        JOBS.map(function(j, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 10 } }, j.title),
-            /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#d97706", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "Easier to absorb"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, j.exposed)
-            ),
-            /*#__PURE__*/React.createElement("div", null,
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "Harder to absorb"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, j.protected_)
-            )
-          );
-        })
-      )
-    ),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Automate, Augment, or Human-Only?",
-   lead: "Using the three buckets above, decide where each task lands today. Remember the lines move: stakes and accountability push a task toward the human end."},
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        TASKS.map(function(t, tIdx) {
-          var picked = taskAnswers[tIdx];
-          var answered = picked !== undefined;
-          var correct = answered && picked === t.answer;
-          function PillButton(b) {
-            var isPicked = picked === b.id;
-            return /*#__PURE__*/React.createElement(FeedbackPill, {
-              key: b.id,
-              answered: answered,
-              isCorrect: b.id === t.answer,
-              isPicked: isPicked,
-              label: b.label,
-              onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[tIdx, b.id]])); }); }
-            });
-          }
-          return /*#__PURE__*/React.createElement(ScenarioRow, {
-            key: tIdx,
-            index: tIdx + 1,
-            prompt: t.task,
-            answered: answered,
-            correct: correct,
-            feedback: t.explain
-          }, BUCKETS.map(function(b) { return PillButton(b); }));
-        }))),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "HOW AI ABSORBS WORK",
-      intro: "Change rarely happens at the level of a whole job all at once. It moves in stages.",
-      marginBottom: 24
-    },
-      /*#__PURE__*/React.createElement(NumberedColumns, { items: SHIFT })
-    ),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WHERE VALUE MOVES"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Underneath those three stages is one economic fact: AI makes answers cheap. Anyone can get a first draft, a summary, or a plan in seconds. That doesn’t make people less valuable. It moves the value."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "You’ve been training for that new scarcity since Work With AI: framing the problem, setting constraints, defining what a good answer looks like. That was Questions Matter. This is where it pays."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "One wrinkle that matters for you. AI absorbs the easiest tasks first, and those are often the beginner tasks juniors used to do to learn a job. Drafting basic memos. First-pass research. Starter code. Summarizing documents. When AI does those, the rungs that used to teach the job get shorter."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "That doesn\u2019t mean avoid AI. It means sometimes do the first attempt yourself before you check it against AI, especially when you\u2019re still learning the shape of the work. The reps build the judgment you\u2019ll need later, when AI hands you a draft and you have to decide whether it\u2019s any good."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "STAGE 3 IS REAL",
-      headline: "Some jobs didn\u2019t exist ten years ago.",
-      intro: "Not a long list yet, but growing. Each one keeps a human in the loop with AI.",
-      marginBottom: 24
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
-        [
-          { title: "Prompt Engineer", desc: "Designs the inputs that get good answers out of AI. Sometimes a dedicated job, more often a skill folded into other roles." },
-          { title: "AI Trainer / Evaluator", desc: "Rates AI outputs for quality, safety, and accuracy. Their ratings shape how the next version of the model behaves. Teaching the AI by example, at scale." },
-          { title: "AI Red Teamer", desc: "Tries to break AI. Looks for ways to make it lie, leak information, or do things it shouldn\u2019t. The job is to find problems before users do." },
-          { title: "AI Educator", desc: "Teaches people to use AI well. Classroom programs, company training, individual coaching. This course is one example." }
-        ].map(function(role, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)", marginBottom: 8 } }, role.title),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6 } }, role.desc)
-          );
-        })
-      )
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Specific titles come and go. The skills underneath them (prompting, evaluating, catching errors, designing for humans) are the same skills this course is teaching you. Whether or not these become your job titles, the skills will keep mattering wherever you land."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "What the loop looks like"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "\u201CTasks rearrange\u201D sounds abstract until you see it on the ground. Five examples of what human-plus-AI work actually looks like:"),
-  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14, marginBottom: 24 } },
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 6, fontSize: 16 } }, "Nurse"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6 } }, "AI summarizes shift notes from 12 patients into a quick brief. The nurse reads the brief, then opens each chart to verify before any clinical decision. AI saved 30 minutes; the nurse still owns the call on every patient.")),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 6, fontSize: 16 } }, "Lawyer"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6 } }, "AI drafts a contract section based on similar prior agreements. The lawyer reviews every cited case (some are real, some are confabulated, some are real but mis-summarized) and edits the language. The deal closes on the lawyer\u2019s signature, not the model\u2019s.")),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 6, fontSize: 16 } }, "Software engineer"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6 } }, "AI writes a function to handle a specific task. The engineer reads it, runs the tests, fixes the edge case the model missed, and commits the code. AI wrote 80% of the keystrokes; the engineer is responsible for 100% of what ships.")),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 6, fontSize: 16 } }, "Designer"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6 } }, "AI generates 50 layout options in five minutes. The designer scrolls, deletes 47, picks 3 for refinement, and chooses 1. The taste call (which design fits the client, the brand, this moment) is the part that matters.")),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)" } },
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 6, fontSize: 16 } }, "Manager"),
-      /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6 } }, "AI summarizes 200 lines of employee feedback into themes. The manager reads the themes for missed nuance, asks AI to surface dissenting voices the summary smoothed over, and decides what to act on. AI compressed; the manager owns the call."))
-  ),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-    "The pattern: AI does the part that scales (volume, speed, drafts, summarization). The human does the part that doesn\u2019t scale (judgment, taste, accountability). Most jobs that survive AI will have this shape. The skill, in any career, is being the human in the loop, not the input."),
+      "Most jobs will contain both. Some steps disappear into the tool. Other steps become faster, broader, or more ambitious. Either way, the outcome still needs an owner."),
 
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Don’t ask only whether a job is safe."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split."),
+    E(ShowcaseBox, {
+      kicker: "WHAT CHANGES FOR YOU",
+      intro: "Put automation and augmentation together, and three changes show up across many careers.",
+      marginBottom: 28
+    },
+      E(NumberedColumns, {
+        items: [
+          { label: "The first pass gets compressed", body: "Drafting, organizing, summarizing, and generating options take less time." },
+          { label: "The job gets wider", body: "One person can cover more of the workflow, with fewer handoffs to other people." },
+          { label: "The pace gets faster", body: "When another version is cheap, employers can ask for more versions, more testing, and faster improvement." }
+        ]
+      })
+    ),
+    E(BodyP, null,
+      "If research and a first draft once took two days, an employer probably will not turn the saved time into two days off. The worker may be asked to investigate more possibilities, handle an adjacent part of the project, or finish the whole assignment sooner."),
+
+    E(SectionKicker, null, "THE FIRST RUNG GETS SHORTER"),
+    E(BodyP, null,
+      "Here is the part that matters especially for you. The work AI handles first is often the work beginners used to do to learn a profession: basic research, first drafts, starter code, simple analysis, and routine documentation."),
+    E(ShowcaseBox, {
+      headline: "AI can make you productive before it makes you knowledgeable.",
+      marginBottom: 28
+    },
+      E(BodyP, { marginBottom: 14 },
+        "That creates a strange problem. A new employee may be expected to check sophisticated work after getting fewer chances to practice producing it from scratch."),
+      E(BodyP, { marginBottom: 0 },
+        "This is why Does School Matter? mattered. You still need the knowledge and the reps. The difference is that you may have to build them more deliberately.")
+    ),
+    E(BodyP, null,
+      "Your first job will not just ask whether you can use AI. It will ask whether you can take everything AI produces and turn it into a result."),
     closeBoard("workchanges"),
+
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Split the Job",
-     lead: "Each task belongs to a real job. Decide whether AI can help with it or it needs a human."},
+      title: "Your First Week with AI",
+      lead: "AI has already produced the first pass. In each situation, decide what the new employee needs to do next."
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SPLIT_TASKS.map(function(s, i) {
-          var answered = splitAnswers[i] !== undefined;
-          var pickedIdx = splitAnswers[i];
+        FIRST_WEEK.map(function(s, i) {
+          var pickedIdx = workAnswers[i];
+          var answered = pickedIdx !== undefined;
           var pickedOpt = answered ? s.options[pickedIdx] : null;
           var correct = answered && pickedOpt.correct;
-          function PillButton(opt, optIdx) {
-            var isPicked = pickedIdx === optIdx;
-            return E(FeedbackPill, {
-              key: optIdx,
-              answered: answered,
-              isCorrect: opt.correct,
-              isPicked: isPicked,
-              label: opt.label,
-              onClick: function() { setSplitAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
-            });
-          }
           return E(ScenarioRow, {
             key: i,
             index: i + 1,
-            kicker: s.career,
+            kicker: s.kicker,
             prompt: s.prompt,
             answered: answered,
             correct: correct,
             feedback: pickedOpt ? pickedOpt.feedback : null
-          }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
-        }))),
+          },
+            s.options.map(function(opt, optIdx) {
+              return E(FeedbackPill, {
+                key: optIdx,
+                answered: answered,
+                isCorrect: opt.correct,
+                isPicked: pickedIdx === optIdx,
+                label: opt.label,
+                onClick: function() {
+                  setWorkAnswers(function(prev) {
+                    return Object.assign({}, prev, Object.fromEntries([[i, optIdx]]));
+                  });
+                }
+              });
+            })
+          );
+        })
+      )
+    ),
 
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("computecost"); }, label: "Next: Data Centers" })
+    E(LessonRule, null),
+    E(NextLessonGate, {
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("computecost"); },
+      label: "Next: Data Centers"
+    })
   );
 }
 function CostClaimsTryIt(props) {

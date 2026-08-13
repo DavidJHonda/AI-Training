@@ -2,228 +2,123 @@
 
 # Work Changes
 
-AI doesn’t hit all work equally. Before it changes whole jobs, it changes specific tasks inside those jobs. A job is a bundle of tasks, and the useful question isn’t “is my job safe?” It’s three questions: which tasks can AI handle, which need a human in the loop, and which still need a human to own.
+You already know that AI is changing the world. Don’t worry, you’ll **Be Smarter Than the Tool**.
 
-The parts that are repeatable, digital, and easy to verify are absorbed first. The parts that depend on real-world action, responsibility, and judgment are absorbed much more slowly, if at all.
+Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked.
 
-## EXPOSED VS. PROTECTED
+## THE BIG IDEA
 
-## More exposed to AI
+# Your job title may stay the same. The work underneath it won’t.
 
-#### Easier to automate or absorb
+Most students will not grow up to have an “AI job.” They’ll become nurses, engineers, marketers, electricians, teachers, lawyers, designers, and thousands of other things. AI will sit inside those jobs and change how the work gets done.
 
-Digital: happens entirely on a screen
+The useful question is not only which jobs AI might replace. It is what your working day looks like when everyone has it.
 
-Repeatable: same shape every time
+## YOU ALREADY KNOW THE PIECES
 
-Language-heavy: words are the main output
+Earlier, you learned where AI works best. It transforms material, generates options, compresses information, and reasons through what you give it. You also learned why school still matters: everyone can use a similar tool, but what you know shapes what you ask and what you do with the answer.
 
-Low-stakes if it goes wrong
+- Transform
+- Generate
+- Compress
+- Reason
 
-Easy to verify the result
+Now put those two lessons inside a workplace.
 
-No physical presence required
+## YOUR FIRST ASSIGNMENT
 
-No accountability or trust gate
+# “Read these 500 customer comments. Tell us what is going wrong and what we should fix.”
 
-## Less exposed to AI
+A new employee could receive the same assignment before AI and with AI. What changes is where the real work begins.
 
-#### Harder to automate or absorb
+## Before AI
 
-Physical action in the real world
+Most of the time goes into making the first pass.
 
-Personal responsibility and trust
+1. Read and organize every comment
+2. Find recurring themes
+3. Build a spreadsheet
+4. Draft the presentation
+5. Present the findings
 
-Ambiguous judgment under pressure
+## With AI
 
-Emotional stakes for real people
+AI makes the first pass. The employee takes it further.
 
-Live human coordination
+1. AI groups the comments and proposes themes
+2. The employee checks the source comments
+3. They find the customers the summary overlooked
+4. They investigate why the problem is happening
+5. They recommend what the company should do
 
-Persuasion, leadership, taste
+The employee did not simply finish the old assignment faster. The assignment became bigger. Making the summary used to be most of the job. Now it is where the job begins.
 
-High cost when something goes wrong
+## TWO WAYS THE WORK CHANGES
 
-In news and business writing, you’ll hear the same split called automation (AI does the whole task) and augmentation (AI does part, a human owns the outcome). The same task can move between the two depending on stakes, quality requirements, and who’s responsible.
+## Automate
 
-## MOST JOBS ARE MIXED
+### AI takes over a step
 
-Almost no job sits fully on one side. The roles below aren’t predictions. They’re examples of how the same job can have very exposed parts and very protected parts.
+AI sorts the comments, groups similar ideas, and creates the first summary with little human attention.
 
-Data entry
+## Augment
 
-## Easier to absorb
+### AI helps a person do more
 
-Most of it. The work is repeatable, digital, and easy to verify.
+The employee explores more explanations, compares more options, and improves the recommendation faster.
 
-## Harder to absorb
+Most jobs will contain both. Some steps disappear into the tool. Other steps become faster, broader, or more ambitious. Either way, the outcome still needs an owner.
 
-The few edge cases that need human judgment or escalation.
+## WHAT CHANGES FOR YOU
 
-Junior copywriting
+Put automation and augmentation together, and three changes show up across many careers.
 
-## Easier to absorb
+1. **The first pass gets compressed.** Drafting, organizing, summarizing, and generating options take less time.
+2. **The job gets wider.** One person can cover more of the workflow, with fewer handoffs to other people.
+3. **The pace gets faster.** When another version is cheap, employers can ask for more versions, more testing, and faster improvement.
 
-First drafts, formatting, headline variations.
+If research and a first draft once took two days, an employer probably will not turn the saved time into two days off. The worker may be asked to investigate more possibilities, handle an adjacent part of the project, or finish the whole assignment sooner.
 
-## Harder to absorb
+## THE FIRST RUNG GETS SHORTER
 
-Brand voice, knowing what the client actually wants, the relationship that wins the next project.
+Here is the part that matters especially for you. The work AI handles first is often the work beginners used to do to learn a profession: basic research, first drafts, starter code, simple analysis, and routine documentation.
 
-Customer support
+# AI can make you productive before it makes you knowledgeable.
 
-## Easier to absorb
+That creates a strange problem. A new employee may be expected to check sophisticated work after getting fewer chances to practice producing it from scratch.
 
-First-line answers to common questions.
+This is why Does School Matter? mattered. You still need the knowledge and the reps. The difference is that you may have to build them more deliberately.
 
-## Harder to absorb
+Your first job will not just ask whether you can use AI. It will ask whether you can take everything AI produces and turn it into a result.
 
-High-stakes complaints, angry customers, anything that needs authority to make an exception.
+**The first pass becomes the starting line.**
 
-Radiology
+Your job is what happens next.
 
-## Easier to absorb
+## TRY IT — Your First Week with AI
 
-Pattern recognition in clean, well-known scans.
+AI has already produced the first pass. In each situation, decide what the new employee needs to do next.
 
-## Harder to absorb
+### 1. Customer research
 
-Ambiguous cases, talking to patients, taking responsibility for the final call.
+AI sorts 500 customer comments, identifies three themes, and builds a polished presentation in ten minutes. What should the new employee do next?
 
-Teaching
+- Send the presentation
+- Ask AI to make it longer
+- Check the source comments, investigate what was missed, and make a recommendation
 
-## Easier to absorb
+### 2. Software internship
 
-Explaining concepts, generating practice problems, grading objective work.
+AI writes a fix for a bug, and every automated test passes. The intern cannot explain what the code does. What is the best next move?
 
-## Harder to absorb
+- Ship it because the tests passed
+- Work through the code, understand it, and then test the edge cases
+- Ask AI if its code is correct
 
-Classroom management, motivation, mentoring, knowing why this specific student is stuck.
+### 3. Marketing team
 
-Plumbing
+AI produces three campaign concepts, sample ads, and audience research before lunch. The manager asks the new hire to choose a direction for the launch. What changed?
 
-## Easier to absorb
-
-Admin, scheduling, quoting, documentation, and customer communication.
-
-## Harder to absorb
-
-The on-site physical repair. High-stakes if wrong, and no two houses are the same.
-
-Law
-
-## Easier to absorb
-
-Research, contract review, summarizing case law.
-
-## Harder to absorb
-
-Courtroom strategy, client trust, judgment about risk, anything that requires a license.
-
-Design
-
-## Easier to absorb
-
-Generating options, mockups, asset variations.
-
-## Harder to absorb
-
-Knowing what’s actually good, what fits the brand, taste, the call to ship or not.
-
-Project management
-
-## Easier to absorb
-
-Status updates, scheduling, meeting summaries.
-
-## Harder to absorb
-
-Getting humans to do things, navigating politics, deciding what to cut.
-
-## HOW AI ABSORBS WORK
-
-Change rarely happens at the level of a whole job all at once. It moves in stages.
-
-1
-
-Tasks
-
-AI starts by absorbing specific tasks inside a job, not the whole job.
-
-2
-
-Workflows
-
-Then workflows are redesigned around what AI can and can’t do well.
-
-3
-
-Roles
-
-Eventually roles reshape: some shrink, some grow, some are new entirely.
-
-## WHERE VALUE MOVES
-
-Underneath those three stages is one economic fact: AI makes answers cheap. Anyone can get a first draft, a summary, or a plan in seconds. That doesn’t make people less valuable. It moves the value.
-
-You’ve been training for that new scarcity since Work With AI: framing the problem, setting constraints, defining what a good answer looks like. That was Questions Matter. This is where it pays.
-
-One wrinkle that matters for you. AI absorbs the easiest tasks first, and those are often the beginner tasks juniors used to do to learn a job. Drafting basic memos. First-pass research. Starter code. Summarizing documents. When AI does those, the rungs that used to teach the job get shorter.
-
-That doesn’t mean avoid AI. It means sometimes do the first attempt yourself before you check it against AI, especially when you’re still learning the shape of the work. The reps build the judgment you’ll need later, when AI hands you a draft and you have to decide whether it’s any good.
-
-## STAGE 3 IS REAL
-
-Some jobs didn’t exist ten years ago.
-
-Not a long list yet, but growing. Each one keeps a human in the loop with AI.
-
-Prompt Engineer
-
-Designs the inputs that get good answers out of AI. Sometimes a dedicated job, more often a skill folded into other roles.
-
-AI Trainer / Evaluator
-
-Rates AI outputs for quality, safety, and accuracy. Their ratings shape how the next version of the model behaves. Teaching the AI by example, at scale.
-
-AI Red Teamer
-
-Tries to break AI. Looks for ways to make it lie, leak information, or do things it shouldn’t. The job is to find problems before users do.
-
-AI Educator
-
-Teaches people to use AI well. Classroom programs, company training, individual coaching. This course is one example.
-
-Specific titles come and go. The skills underneath them (prompting, evaluating, catching errors, designing for humans) are the same skills this course is teaching you. Whether or not these become your job titles, the skills will keep mattering wherever you land.
-
-## What the loop looks like
-
-“Tasks rearrange” sounds abstract until you see it on the ground. Five examples of what human-plus-AI work actually looks like:
-
-Nurse
-
-AI summarizes shift notes from 12 patients into a quick brief. The nurse reads the brief, then opens each chart to verify before any clinical decision. AI saved 30 minutes; the nurse still owns the call on every patient.
-
-Lawyer
-
-AI drafts a contract section based on similar prior agreements. The lawyer reviews every cited case (some are real, some are confabulated, some are real but mis-summarized) and edits the language. The deal closes on the lawyer’s signature, not the model’s.
-
-Software engineer
-
-AI writes a function to handle a specific task. The engineer reads it, runs the tests, fixes the edge case the model missed, and commits the code. AI wrote 80% of the keystrokes; the engineer is responsible for 100% of what ships.
-
-Designer
-
-AI generates 50 layout options in five minutes. The designer scrolls, deletes 47, picks 3 for refinement, and chooses 1. The taste call (which design fits the client, the brand, this moment) is the part that matters.
-
-Manager
-
-AI summarizes 200 lines of employee feedback into themes. The manager reads the themes for missed nuance, asks AI to surface dissenting voices the summary smoothed over, and decides what to act on. AI compressed; the manager owns the call.
-
-The pattern: AI does the part that scales (volume, speed, drafts, summarization). The human does the part that doesn’t scale (judgment, taste, accountability). Most jobs that survive AI will have this shape. The skill, in any career, is being the human in the loop, not the input.
-
-🔑 **Don’t ask only whether a job is safe.**Ask which tasks AI handles, which need a human in the loop, and which a human still owns. AI changes the task mix. Your edge is knowing the split.
-
-The jobs reshuffle. They don’t vanish.
-
-The edge goes to whoever works with it.
+- The job is now making more drafts
+- AI owns the campaign
+- The first pass became the starting line

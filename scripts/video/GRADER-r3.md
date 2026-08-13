@@ -6,7 +6,7 @@ lesson file, and the bundle directory.
 
 ## Do this first
 
-1. Read `/Users/davidobrien/Documents/GitHub/AI-Training/videos/video-rubric.csv`
+1. From the repository root, read `videos/video-rubric.csv`
    — the rubric is the authority, these instructions are the procedure.
 2. Read the lesson file. This is the ground truth: the video is meant to
    substitute for THIS lesson.

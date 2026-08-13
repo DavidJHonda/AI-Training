@@ -6,12 +6,12 @@ the close board with text copied VERBATIM from index.html CLOSE_BOARDS and repla
 close span. Nothing else about the video changes.
 
 HARD RULES: never modify `videos/<slug>.mp4` (deliver `videos/<slug>-v2.mp4`); never run
-git; audio is stream-copied and must come out bit-identical; run from
-/Users/davidobrien/Developer/GitHub/AI-Training with ABSOLUTE paths (a `cd` breaks the
-relative venv path). zsh: no word-splitting on unquoted vars; and inside filtergraph
-strings always write `${var}:s=...` never `$var:s=...`.
+git; audio is stream-copied and must come out bit-identical; run from the repository
+root (a `cd` inside a compound command breaks relative venv paths). zsh: no
+word-splitting on unquoted vars; and inside filtergraph strings always write
+`${var}:s=...` never `$var:s=...`.
 
-PY=/Users/davidobrien/Developer/GitHub/AI-Training/.video-venv/bin/python
+PY=.video-venv/bin/python
 ffmpeg = `bash scripts/video/ffmpeg.sh ...`
 
 ## Steps
@@ -50,22 +50,27 @@ on a different ground. Sampling the shipped close's decoded corner and feeding T
 in compounds the encode shift. VERIFY by comparing the v2 close's background median
 against the original close's — they should differ by ≤2 levels.
 
-5. **Ken Burns leg**, N = span frames:
+5. **Ken Burns span**, N = span frames:
    `zoompan=z='1+Z*on/(N-1)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=N:s=1280x720:fps=30`
    with `Z = min(0.2 * N/210, 0.2)` (zoom endpoint scales with span length, cap 1.2 total).
    Follow with `format=yuv420p,setsar=1,settb=1/30,setpts=N/(30*TB)` — INTEGER ticks, or
-   concat drops a frame. Render via `-loop 1 -i board.png` with an explicit
-   `-frames:v N` (a -loop image input defaults to 25fps and comes out short).
+   concat drops a frame. Generate this span inside the final splice graph from the
+   one-frame `board.png` input. Do not use `-loop 1`, and do not render an intermediate
+   leg: `zoompan d=N` supplies exactly N frames before the explicit trim below.
 
 6. **Splice, one re-encode:**
    ```
-   bash scripts/video/ffmpeg.sh -y -i videos/<slug>.mp4 -i leg.mkv -filter_complex "
+   bash scripts/video/ffmpeg.sh -y -i videos/<slug>.mp4 -i board.png -filter_complex "
    [0:v]trim=start_frame=0:end_frame=A,setpts=N/(30*TB)[pre];
-   [1:v]settb=1/30,setpts=N/(30*TB)[mid];
+   [1:v]scale=3840:2160:flags=lanczos,
+   zoompan=z='1+Z*on/(N-1)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=N:s=1280x720:fps=30,
+   format=yuv420p,setsar=1,settb=1/30,setpts=N/(30*TB),
+   trim=start_frame=0:end_frame=N,setpts=PTS-STARTPTS[mid];
    [pre][mid]concat=n=2:v=1:a=0,setpts=N/(30*TB),format=yuv420p[v]" \
     -map "[v]" -map 0:a -r 30 -c:v libx264 -crf 18 -preset medium -c:a copy videos/<slug>-v2.mp4
    ```
-   (A = close span start frame; the close runs to the end so there is no post segment.)
+   Substitute numeric values for `A`, `N`, and `Z`. `A` is the close-span start frame;
+   the close runs to the end, so there is no post segment.
 
 7. **Verify — report every number:**
    - decoded frame count (cv2 read loop) of -v2 == original, EXACT

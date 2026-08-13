@@ -14,7 +14,9 @@
 #
 # 7680 -> 7011 frames = 233.700s = 3:53.7
 set -e
-cd /Users/davidobrien/Documents/GitHub/AI-Training
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+cd "$REPO_ROOT"
 IN="$1"; OUT="$2"
 
 bash scripts/video/ffmpeg.sh -y -i "$IN" -filter_complex "

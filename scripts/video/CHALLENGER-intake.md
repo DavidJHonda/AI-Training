@@ -6,7 +6,7 @@ merits, and find what could be harvested from it.
 
 ## Part 1 — grade it
 
-Follow `/private/tmp/claude-501/-Users-davidobrien-Documents-GitHub-AI-Training/3fd05250-79c2-4cc7-a286-4bac76b7a6bc/scratchpad/GRADER.md`
+Follow `scripts/video/GRADER-r3.md`
 exactly, including the two false-positive traps and the cite-or-don't-deduct
 discipline. Produce the standard output block.
 

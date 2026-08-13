@@ -13,7 +13,7 @@ import glob, os, sys
 import cv2
 import numpy as np
 
-REPO = "/Users/davidobrien/Documents/GitHub/AI-Training"
+REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 ROI = (1130, 680, 1275, 715)
 THRESH = 0.45
 STEP_FR = 45          # 1.5s at 30fps

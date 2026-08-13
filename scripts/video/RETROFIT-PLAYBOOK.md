@@ -8,10 +8,10 @@ is thin purple rings + tinted label chips popping at narration onsets — NEVER
 reproduce the engine's yellow washes, marker circles, underlines, orange arrows or
 corner brackets in any form.
 
-Environment: repo /Users/davidobrien/Developer/GitHub/AI-Training (run everything from
-there with ABSOLUTE paths — a `cd` in a compound command breaks `.video-venv/...`
-relative paths). Python: /Users/davidobrien/Developer/GitHub/AI-Training/.video-venv/bin/python
-(has cv2, faster_whisper, imageio_ffmpeg). ffmpeg: `bash scripts/video/ffmpeg.sh ...`.
+Run everything from the repository root; do not change directories inside a compound
+command because that breaks the relative `.video-venv/...` paths. Python:
+`.video-venv/bin/python` (has cv2, faster_whisper, imageio_ffmpeg). ffmpeg:
+`bash scripts/video/ffmpeg.sh ...`.
 Shell is zsh: `for x in "a b"` does NOT word-split; write args explicitly.
 
 ## 1. Map the spans
@@ -27,9 +27,9 @@ Shell is zsh: `for x in "a b"` does NOT word-split; write args explicitly.
   Junction frames = word-onset × 30, rounded.
 
 ## 2. Capture boards from the CURRENT page
-Start your own server+chrome on YOUR assigned ports (never 8768/9338):
+Start your own server+chrome on YOUR assigned ports (never 8768/9338), from the
+repository root:
 ```
-cd /Users/davidobrien/Developer/GitHub/AI-Training   # subshell only
 python3 -m http.server PORT --bind 127.0.0.1 &
 PROFILE=$(mktemp -d -t chromeprof)
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
@@ -57,6 +57,9 @@ node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
   extent from dark pixels in the label strip; rects.json gives label rects — harvest
   element rects with a dummy element state if needed). States must be pixel-identical
   outside the highlight.
+- Match highlight granularity to the narration. Ring the whole board or card while the
+  narration addresses it as a whole; move to an item or row ring when the narration
+  names that part. If the narration walks several sections, the ring walks them too.
 - Close boards: only touch if your span plan says so; closes were standardized 8/4.
 
 ## 3. Build legs (ken_burns_path.py)
@@ -73,8 +76,10 @@ node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
 - Motion: open at the wide framing; ~24-30 frame transit into a dive, then drift-hold
   (shrink w ~3% over the hold). Compact boards (everything legible at 720p wide view):
   NO dives — rings pop at word onsets, ≤4%-per-30s push only. Dives are for boards
-  whose item text needs zoom to read. Never let a window edge slice a heading; check
-  the state PNG geometry (rects) when picking windows.
+  whose item text needs zoom to read. A dive frames the whole card; never crop or pan
+  inside it. Sequential-step boards stay full-frame while the ring walks the steps.
+  Never let a window edge slice a heading; check the state PNG geometry (rects) when
+  picking windows.
 - Render: `.video-venv/bin/python scripts/video/ken_burns_path.py spec.json out.mkv`
   (FFV1). Concat the state runs: concat demuxer list + `-c copy` → leg.mkv. Verify
   each leg's decoded frame count == span length (decode loop, not metadata).

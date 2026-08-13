@@ -19,7 +19,7 @@ import sys
 
 import cv2
 
-REPO = "/Users/davidobrien/Documents/GitHub/AI-Training"
+REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PY = f"{REPO}/.video-venv/bin/python"
 FRAMES = f"{REPO}/scripts/video/frames.py"
 HOLD_MIN = 6.0

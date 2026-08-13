@@ -4,6 +4,12 @@
 # rendered at 2x. Finds the target by text content — the innermost element containing
 # ALL of the --find strings.
 #
+# Pass at least two strings from opposite ends of the intended board (for example,
+# its title and a value in its final row). One generic string often matches only a
+# heading or nested card because the tool deliberately chooses the innermost common
+# ancestor. Always inspect the resulting jpg; capture success is not proof that the
+# selected element was the whole board.
+#
 # NOT AUTOMATIC: run by hand when a board needs (re)capturing after a lesson change.
 # It only covers the common case — a board that IS a lesson element. When the board
 # is a composed variant that exists on no page (e.g. the embeddings two-drink taste

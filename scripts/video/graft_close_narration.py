@@ -13,8 +13,9 @@ last energy with 10ms fades. Verification per build: decoded frame count vs
 audio ticks, silence continuity at the joins, and the tail re-transcribed so
 the new lines can be read in the log.
 
-Driven by a VIDEOS dict in the companion build script — see
-close-audit-2026-08-04.md for the parameter provenance.
+Import `build()` from a task-specific build script. Re-derive and verify its span,
+tone-window, and donor parameters for the current source files; historical build
+parameters remain available in Git history.
 """
 import os
 import subprocess

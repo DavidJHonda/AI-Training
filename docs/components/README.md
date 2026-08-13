@@ -1,35 +1,25 @@
 # Component Library
 
-Screenshots of the course's reusable components, each captured from a live use in the course. Full prop documentation lives in `briefing.md` under "Components"; this gallery is the visual index.
+Screenshots of the course's reusable components, captured from current live uses in the course. Full prop documentation lives in `briefing.md` under "Components"; this gallery is the visual index, while `index.html` remains authoritative for current call sites and behavior.
 
-Captured 2026-06-10 at 1200px viewport from the lessons noted below. If a component's design changes, recapture from the same spot.
+Most screenshots were first captured 2026-06-10 at a 1200px viewport, with later recapture dates noted below. If a component's design or cited example changes, recapture it from a current live use and update the note.
 
 ## Activity shells (InteractiveBox)
 
-All activities sit on `InteractiveBox`, which has three variants: `try` on the mint surface (✎ TRY IT), `see` on the sand surface (◉ SEE IT), and `lab` on the teal surface (⚒ LAB). The header row carries the eyebrow, title, and usually an `ActivityCounter`; an `ActivityInstruction` line sits below the title.
+The current `InteractiveBox` implementation recognizes `try` and `lab` variants; mint, sand, and teal are separate surface choices. The header row carries the eyebrow and optional title, and checkbox labs may add an `ActivityCounter`. Static demonstrations use `ShowcaseBox` or lesson-specific markup.
 
 ### TRY IT — Pattern 2 (parallel)
-All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `FeedbackPill` answer controls and per-item feedback. No `ActivityCounter` — every item is on screen, so an "N of M answered" pill is redundant (removed 2026-06-18); the counter is reserved for sequential reveals. Shown with the first row answered. Canonical reference: "Match the Task to the Effort" in The Effort Dial (`effort`). Question prompts are non-bold; answer pills stay bold. Recaptured 2026-06-18.
+All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `FeedbackPill` answer controls and per-item feedback. No `ActivityCounter` — every item is on screen, so an "N of M answered" pill is redundant. Question prompts are non-bold; answer pills stay bold. Captured from the live "Match the Task to the Effort" activity in Tune the Model (`choosemodel`).
 
 ![TRY IT parallel](try-it-parallel.png)
 
-### TRY IT — Pattern 1 (sequential)
-A `RevealSequence` steps through items one at a time (here an `InnerCard` scenario plus a `QuizBlock`), with Next gated on answering. Canonical reference: "What Did the Model Actually Learn?" in Training Bias Trap (`trainingbias`). The question statement is non-bold; answer options stay bold. Recaptured 2026-06-17.
-
-![TRY IT sequential](try-it-sequential.png)
-
 ### TRY IT — completed, with Takeaway
-Sequential TRY ITs end on a `Takeaway` (the RevealSequence's `completionElement`), which makes a conceptual point and marks completion. Parallel TRY ITs do NOT carry a Takeaway. Example: "What Did the Model Actually Learn?" in Training Bias Trap (`trainingbias`). Recaptured 2026-06-17 (the former source, "Name That Drink" in Embeddings, was converted to a parallel TRY IT).
+`Takeaway` is an optional concluding card, not a rule tied to one interaction pattern. It can be supplied as a `RevealSequence` completion element or rendered directly after a custom activity. Captured from the live "AI explored. You decided." Takeaway in Thought Partner (`thoughtpartner`).
 
 ![TRY IT completed with Takeaway](try-it-takeaway.png)
 
-### SEE IT
-The sand-surface demonstration box; interiors are bespoke per demo. Shown mid-interaction (one letter revealed). Example: "What's an LLM?" in Meet the Tool (`llms`).
-
-![SEE IT](see-it.png)
-
 ### LAB
-The teal-surface variant for hands-on labs, with a `labNumber` in the eyebrow and checkbox steps. Only the checkbox toggles completion (the row is a plain div so step text can be selected and copied). Example: LAB 01 "Build Your Course Notebook" in Learn with AI (`studying`).
+The teal-surface variant for hands-on labs, with a `labNumber` in the eyebrow and checkbox steps. Only the checkbox toggles completion (the row is a plain div so step text can be selected and copied). Example: LAB 09 "Build Your Course Notebook" in Learn with AI (`studying`).
 
 ![LAB](lab.png)
 
@@ -47,11 +37,6 @@ The aligned point-for-point variant: split-tint header band, one white card of r
 
 ## Single-point bands
 
-### KeyTerm
-The slate 📖 definition band; pulls its definition from the shared `TERMS` array by term name. Example: Support Trap (`supporttrap`) — currently its only use in the course.
-
-![KeyTerm](key-term.png)
-
 ### ShowcaseBox
 The workhorse display box: optional kicker, headline, intro, free-form body on a faint-purple band. Example: Why Learn AI? (`whydeeper`).
 
@@ -68,7 +53,7 @@ The numbered-list box, for an ordered list of named things with explanations: fi
 ![NumberedRows](numbered-rows.png)
 
 ### NumberedColumns
-The numbered-card grid, for an ordered sequence shown side by side: white cards in an auto-fit grid, each with a filled purple number chip, bold label, and short body. Numbering is automatic; an item can set `muted` to gray its chip for a step that is deliberately not yours. Use NumberedRows when items need full-width explanations; use NumberedColumns when the point is the sequence itself. Examples: "Here's the path: six moves, in order." in Welcome (`welcome`) and "AI does step 1. You do the rest." in Does School Matter? (`whybother`), both inside a ShowcaseBox. Captured 2026-06-12.
+The numbered-card grid, for an ordered sequence shown side by side: white cards in an auto-fit grid, each with a filled purple number chip, bold label, and short body. Numbering is automatic; an item can set `muted` to gray its chip for a step that is deliberately not yours. Use NumberedRows when items need full-width explanations; use NumberedColumns when the point is the sequence itself. Current examples include "Here’s your path." in Welcome (`welcome`) and "Two skills. Both grow with what you know." in Does School Matter? (`whybother`), both inside a `ShowcaseBox`. Captured 2026-06-12.
 
 ![NumberedColumns](numbered-columns.png)
 
@@ -76,11 +61,6 @@ The numbered-card grid, for an ordered sequence shown side by side: white cards 
 The watch strip: a slim soft-gold (#fcf5d8, hairline #eddfa8 border) utility band directly under the lesson H1 with a navy (#1b2153) play disc (gold triangle), a dark-gold (#a8842c) "▸ WATCH" eyebrow with muted duration, and one line — "Watch the video version or read the lesson below." — ending in a bold per-lesson tail from `LESSON_VIDEOS.cta` that names the lesson's true final activity ("Both end at the same TRY IT." / "…LAB." / "Both walk the same section map." for openers). Gold field + navy disc deliberately reads as a media control (gold is the course's action color, echoing the Continue button), not a violet teaching box (redesign 2026-08-12; the entry's `title` field is no longer rendered — reserved as the video's public/share title). Collapsed by default; expands to a native `<video controls preload="metadata">` plus caption. Recaptured 2026-08-12.
 
 ![WatchOverview](watch-overview.png)
-
-### Timeline
-The horizontal progression band: a faint-purple band with an optional headline + intro caption, then a row of connected nodes (icon circle, era, what it transformed) joined by a rule→primary connector, with the final node highlighted in primary as the payoff. For "this is the rule, not the exception" sequences that land on a present-day endpoint. Props: items (`{icon, era, transformed}[]`, last item highlighted), headline, intro, marginBottom. Example: the steam-engine → AI run in Why Learn AI? (`whydeeper`). Captured 2026-06-16.
-
-![Timeline](timeline.png)
 
 ### LabeledCardStack
 The accent-striped card family: white cards with a 4px colored left stripe, each carrying an accent-colored eyebrow, an optional bold headline, and a body. Optional `means` adds a hairline rule plus a "WHAT IT MEANS" label and text below the body (mirrors Where AI Works Best's divider + Examples treatment). Optional `grid` prop renders a 2-col card grid with roomier chrome instead of the stack; optional per-item `pill` adds an outlined status chip above the eyebrow and mutes the eyebrow/means labels so the pill and stripe carry the accent. Shown: the 4 Terms grid in Pace of Change (`paceofchange`) — grid + pills + means, uniform primary accent. Stack form (per-card accents, no pills): the modes/roles boxes in When AI Judges You (`aijudges`). Captured 2026-08-11.
@@ -90,17 +70,12 @@ The accent-striped card family: white cards with a 4px colored left stripe, each
 ## Shared diagrams
 
 ### CoreLoopBox
-The four-ideas anchor (Learn once: Training → Patterns | Answer, every word: Probability → Prediction). Single source of truth, rendered in both What Is AI? (`aihistory`) and How We Got Here (`howwegothere`).
+The four-ideas anchor (Learn once: Training → Patterns | Answer, every word: Probability → Prediction). Rendered in How an LLM Works (`aihistory`), AI Is Different (`aivscode`), and How We Got Here (`howwegothere`).
 
 ![CoreLoopBox](core-loop-box.png)
 
-### LoopLocator
-The compact "you are here" echo of CoreLoopBox: a phase-colored "0X/4" step number, then two pill-shaped phase capsules joined by an arrow — a lavender "Learn once" capsule (Training, Patterns) and a cream "Every word" capsule (Probability, Prediction) — each node a radio dot + label. Heads each concept section in What Is AI? (`aihistory`) with no text kicker — a doubled (48px) top margin sets each concept apart. The `active` node fills its dot and bolds its label in the phase color (purple for Training/Patterns, amber for Probability/Prediction); the other three stay hollow with a grey label. Keeps the loop structure in view as the reader scrolls through the four sections. Captured 2026-06-16.
-
-![LoopLocator](loop-locator.png)
-
 ### TrainingLoopBox
-The reads → guesses → corrects training loop. Rendered in What Is AI? (`aihistory`) and Training (`training`); the "repeat billions of times, that's training" takeaway now sits as a body line below the box rather than a pill inside it. Recaptured 2026-06-16.
+The reads → guesses → corrects training loop. Rendered in How an LLM Works (`aihistory`) and Training (`training`); the "repeat billions of times, that's training" takeaway sits in the host lesson copy rather than inside the component. Recaptured 2026-06-16.
 
 ![TrainingLoopBox](training-loop-box.png)
 
@@ -112,7 +87,7 @@ The terracotta display band that frames opener art and serif display phrases. Ex
 ![Illustration](illustration.png)
 
 ### UserBubble / AIBubble
-The chat-mockup bubbles for prompt/response examples. Example: the "what's the best Avengers movie?" exchange in Tokens (`tokens`). Recaptured 2026-07-14 (bubble text bumped 14px → 15px; the former source lesson, Customization & Memory, was retired).
+The chat-mockup bubbles for prompt/response examples. Example: the "what's the best Avengers movie?" exchange in Tokens (`tokens`). Recaptured 2026-07-14 after the bubble text changed from 14px to 15px.
 
 ![UserBubble and AIBubble](user-ai-bubbles.png)
 

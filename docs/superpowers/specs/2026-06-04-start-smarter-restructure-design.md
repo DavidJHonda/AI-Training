@@ -1,4 +1,4 @@
-# Start Smarter Restructure — Relocate the AI Primer Loop — Design
+ # Start Smarter Restructure — Relocate the AI Primer Loop — Design
 
 **Date:** 2026-06-04
 **Status:** Approved (design); pending implementation plan

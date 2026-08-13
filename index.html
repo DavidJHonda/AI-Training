@@ -60,10 +60,6 @@
     --shadowSoft: 0 4px 12px rgba(14, 10, 31, 0.05);
     --shadowElevated: 0 8px 22px rgba(14, 10, 31, 0.05);
 
-    /* KEY TERM band */
-    --termBand: #e9ecf0;
-    --termAccent: #475569;
-
     /* ILLUSTRATION band */
     --illoBand: #f5e1d4;
     --illoAccent: #b5532f;
@@ -222,7 +218,6 @@
   @keyframes levelReveal { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes shimmer { from { background-position: -200% center; } to { background-position: 200% center; } }
   @keyframes levelDescFade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes softPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
   @keyframes trickFlash { 0%, 100% { color: var(--inkMuted); } 50% { color: #22c55e; } }
   @keyframes poppinsDrift { 0% { transform: translateY(-14vh) translateX(0) rotate(-10deg); opacity: 0; } 8% { opacity: 1; } 50% { transform: translateY(48vh) translateX(var(--sway)) rotate(8deg); } 100% { transform: translateY(116vh) translateX(0) rotate(-6deg); opacity: 1; } }
   .redact-chunk {
@@ -458,7 +453,6 @@ const CLOSE_BOARDS = {
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is saving lives." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
   agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
-  computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Build Your Skills
@@ -751,50 +745,6 @@ function LabeledCardStack(props) {
 
 // ── end shared design kit ──────────────────────────────────────────────────
 
-var TERMS = [
-  { term: "Attention", definition: "The step inside each layer that figures out which words relate to which other words. Each word weighs every other word. Paired with transformation, this is how the model reads meaning.", source: "attention" },
-  { term: "Context", definition: "All the surrounding information the model can see when generating a response: your message, conversation history, and system instructions.", source: "prompt" },
-  { term: "Context Window", definition: "The maximum amount of text the model can see at once: your messages, the conversation history, and instructions. Anything outside is invisible.", source: "prompt" },
-  { term: "Embedding", definition: "Turning words into numbers that capture meaning. Similar words land close together, which is why AI can solve \u2018king \u2212 man + woman = queen.\u2019", source: "embeddings" },
-  { term: "Guardrail", definition: "A safety layer the AI company adds around an AI model to block, redirect, or limit specific behaviors like medical dosage advice or harmful content. Guardrails can be software programs, filters, classifiers, or safety-tuned behaviors, which is why they catch some things and miss others.", source: "aivscode" },
-  { term: "Hallucination", definition: "When AI states something false with complete confidence. The model doesn\u2019t know what\u2019s true, only what sounds right.", source: "hallucination" },
-  { term: "Inference", definition: "The answer-time process where a trained model uses the current prompt, context, and learned parameters to generate output one token at a time. During inference, the model is using what it learned, not retraining itself.", source: "inference" },
-  { term: "Layers", definition: "The ~100 stacked layers inside a model that refine meaning by adding context at each step. Earlier layers grab basic patterns, later ones figure out abstract meaning.", source: "layers" },
-  { term: "LLM", definition: "Large Language Model: the type of AI behind tools like Claude and ChatGPT. It generates text by predicting the most likely next word.", source: "llms" },
-  { term: "Model", definition: "A specific version of an LLM (e.g., Claude Opus, Claude Sonnet, GPT-4o). Different models have different capabilities, speeds, and costs.", source: "modelselection" },
-  { term: "Prompt", definition: "What you type and send to the model: your question, instruction, or request.", source: "prompting" },
-  { term: "Support Trap", definition: "Mistaking AI\u2019s supportive-sounding language for actual support. AI can find words, suggest steps, and sound calm. It can\u2019t notice, follow up, or take responsibility for what happens next.", source: "supporttrap" },
-  { term: "Sycophancy", definition: "When AI tells you what you want to hear instead of what\u2019s true. The friendlier it feels, the more skeptical you should be.", source: "flattery" },
-  { term: "System Prompt", definition: "Hidden instructions given to the model before your conversation starts. They shape how it behaves. You can\u2019t see them, but they\u2019re always there.", source: "prompt" },
-  { term: "Temperature", definition: "Controls how the model picks words from its probabilities. Low temperature gives consistent output. High temperature gives varied, sometimes incoherent output.", source: "choosemodel" },
-  { term: "Token", definition: "The unit models use to read and write. Roughly \u00BE of a word.", source: "tokens" },
-  { term: "Training", definition: "Exposing a model to billions of examples so it learns patterns. Once done, the model\u2019s weights are frozen. It doesn\u2019t learn from your conversations, but it can adapt to what you tell it in a single session.", source: "training" },
-  { term: "Transformation", definition: "The step inside each layer that turns attention\u2019s connections into updated meaning. After attention picks out which words matter, transformation works out what they mean together.", source: "attention" },
-  { term: "Unstructured Data", definition: "Information that doesn\u0027t fit neatly into rows and columns: conversations, images, audio, video, reviews, jokes. Traditional code can\u0027t make sense of it. AI was trained on it.", source: "aivscode" }
-];
-function KeyTerm(props) {
-  var entry = null;
-  for (var i = 0; i < TERMS.length; i++) {
-    if (TERMS[i].term === props.term) { entry = TERMS[i]; break; }
-  }
-  if (!entry) return null;
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "var(--termBand)",
-      borderRadius: 14,
-      padding: "20px 24px",
-      marginTop: props.marginTop != null ? props.marginTop : "var(--blockGap)",
-      marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)",
-      fontSize: 17,
-      color: "var(--ink)",
-      lineHeight: 1.65
-    }
-  },
-    "\uD83D\uDCD6 ",
-    /*#__PURE__*/React.createElement("strong", { style: { color: "var(--termAccent)" } }, entry.term + ". "),
-    entry.definition
-  );
-}
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
   // A `lead` (priming kicker + paragraph rendered before the box) implies `primed`:
@@ -870,11 +820,6 @@ function InteractiveBox(props) {
     /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, labNumber: props.labNumber }, props.lead),
     boxEl);
 }
-function ActivityInstruction(props) {
-  return /*#__PURE__*/React.createElement("p", {
-    style: { fontSize: 14, color: "var(--inkSoft)", marginTop: 0, marginBottom: 24, lineHeight: 1.55 }
-  }, props.children);
-}
 // Primes a TRY IT / LAB just before its (eyebrow-less, "primed") box: an accent-colored
 // "TRY IT" / "LAB NN" kicker plus a purpose-and-task paragraph.
 // Dropped entirely from the content-only PDF/Gemini Notebook export (?print=...): the box is
@@ -913,16 +858,6 @@ function Takeaway(props) {
     return /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px dashed var(--seeRule)", marginTop: 18, paddingTop: 18 } }, inner);
   }
   return /*#__PURE__*/React.createElement(InnerCard, { style: { padding: "24px 28px" } }, inner);
-}
-function PrimaryButton(props) {
-  var arrow = props.arrow === undefined ? "trailing" : props.arrow;
-  var showArrow = arrow === "trailing";
-  var hov = useState(false); var isHover = hov[0]; var setHover = hov[1];
-  var dis = props.disabled || false;
-  var base = { display: "block", margin: "24px auto 0", padding: "13px 22px", borderRadius: 10, background: dis ? "var(--primary)" : (isHover ? "var(--primaryDeep)" : "var(--primary)"), color: "#fff", border: "none", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", opacity: dis ? 0.35 : 1, boxShadow: "0 4px 14px rgba(110, 81, 255, 0.28)", transform: !dis && isHover ? "translateY(-1px)" : "none", transition: "all 150ms ease" };
-  var merged = props.style ? Object.assign({}, base, props.style) : base;
-  var arrowStyle = { display: "inline-block", marginLeft: 6, transform: !dis && isHover ? "translateX(2px)" : "none", transition: "transform 150ms ease" };
-  return React.createElement("button", { onClick: dis ? undefined : props.onClick, disabled: dis, style: merged, onMouseEnter: function() { setHover(true); }, onMouseLeave: function() { setHover(false); } }, props.children, showArrow ? React.createElement("span", { style: arrowStyle }, " \u2192") : null);
 }
 function useReducedMotion() {
   var _rm = useState(function() {
@@ -1048,38 +983,6 @@ function NextCardUnlocked(props) {
         boxShadow: "0 4px 14px rgba(110, 81, 255, 0.35)"
       }
     }, "\u2192")
-  );
-}
-
-function NextCardLocked(props) {
-  return React.createElement("div", {
-    style: {
-      flex: "0 1 340px",
-      background: "var(--card)",
-      borderRadius: 16,
-      padding: "12px 18px",
-      display: "flex",
-      alignItems: "center",
-      border: "1px solid var(--rule)",
-      borderLeft: "3px solid var(--primary)",
-      boxShadow: "0 4px 12px rgba(14, 10, 31, 0.04)",
-      fontFamily: "var(--sans)",
-      textAlign: "left"
-    }
-  },
-    React.createElement("div", {
-      style: { flex: 1, display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }
-    },
-      React.createElement("div", {
-        style: {
-          fontSize: 10, fontWeight: 700, color: "var(--primary)",
-          textTransform: "uppercase", letterSpacing: "0.10em"
-        }
-      }, "Almost There"),
-      React.createElement("div", {
-        style: { fontSize: 15, fontWeight: 600, color: "var(--ink)", lineHeight: 1.25 }
-      }, props.message || "Complete activities to continue")
-    )
   );
 }
 
@@ -1454,28 +1357,6 @@ function PullQuote(props) {
       (props.source || props.attribution) ? React.createElement("span", { style: { fontSize: 14, fontWeight: 600, color: "var(--inkMuted)" } }, (props.cite ? "· " : "") + (props.source || props.attribution)) : null) : null);
 }
 
-// Horizontal progression of eras/tools, connected left-to-right, with the final
-// node highlighted as the payoff. items: [{ icon, era, transformed }]; the last
-// item renders in --primary. Optional headline + intro caption above the track.
-function Timeline(props) {
-  var E = React.createElement;
-  var items = props.items || [];
-  var edge = (50 / Math.max(items.length, 1)) + "%";
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: "24px 26px", marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" } },
-    props.headline ? E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: props.intro ? 6 : 18 } }, props.headline) : null,
-    props.intro ? E("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 20px 0" } }, props.intro) : null,
-    E("div", { style: { background: "#fff", borderRadius: 16, padding: "24px 22px", boxShadow: "var(--shadowSoft)" } },
-      E("div", { style: { position: "relative", display: "grid", gridTemplateColumns: "repeat(" + items.length + ", 1fr)", gap: 8 } },
-        E("div", { style: { position: "absolute", top: 21, left: edge, right: edge, height: 2, background: "linear-gradient(90deg, var(--rule), var(--primary))" } }),
-        items.map(function(it, i) {
-          var last = i === items.length - 1;
-          return E("div", { key: i, style: { position: "relative", textAlign: "center" } },
-            E("div", { style: { width: 44, height: 44, borderRadius: 999, margin: "0 auto 10px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, background: last ? "var(--primary)" : "var(--bg)", border: last ? "none" : "2px solid var(--rule)", boxShadow: last ? "0 6px 16px rgba(110, 81, 255, 0.4)" : "none" } }, it.icon),
-            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: last ? "var(--primary)" : "var(--ink)", lineHeight: 1.2, marginBottom: 3 } }, it.era),
-            E("div", { style: { fontSize: BOX_TEXT, color: last ? "var(--primary)" : "var(--inkSoft)", fontWeight: last ? 700 : 400, lineHeight: 1.4 } }, it.transformed));
-        }))));
-}
-
 function NumberedRows(props) {
   return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" } },
     props.headline ? React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: props.intro ? 6 : 18 } }, props.headline) : null,
@@ -1547,7 +1428,7 @@ function ChoiceRadio(props) {
 
 // One-shot multiple-choice activity: numbered prompts, horizontal radio options,
 // reveal feedback for the picked option. Owns its answer state; calls onComplete()
-// once when every scenario is answered. See docs/superpowers/specs/2026-06-16-choicequiz-component-design.md
+// once when every scenario is answered; callers can use that callback for completion state.
 function ChoiceQuiz(props) {
   var _a = useState({}); var answers = _a[0]; var setAnswers = _a[1];
   var scenarios = props.scenarios || [];
@@ -1882,10 +1763,6 @@ function AIBubble(props) {
         props.children != null ? props.children : words.slice(0, visibleWords).join(" "),
         props.children == null && showCursor ? cursor : null)));
 }
-function ThinkingBubble() {
-  return React.createElement("div", { style: { display: "flex", justifyContent: "flex-start", animation: "fadeIn 0.3s ease" } },
-    React.createElement("div", { style: { background: "var(--card)", color: "var(--inkMuted)", borderRadius: "16px 16px 16px 4px", padding: "10px 14px", fontSize: 13, fontWeight: 700, boxShadow: "var(--shadowElevated)" } }, "AI is thinking..."));
-}
 function RevealSequence(props) {
   var isMint = props.surface === "mint";
   var isSand = props.surface === "sand";
@@ -1979,14 +1856,11 @@ const SECTION_META = {
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
   howwegothere: { kicker: "AI ISN’T MAGIC", label: "How We Got Here", icon: "\uD83D\uDCDC" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "AI is Different", icon: "\u26A1" },
-  openerinside: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
-  insidethemodel: { kicker: "WHAT’S ACTUALLY INSIDE", label: "Black Box", title: "Black Box", icon: "\uD83D\uDD0D" },
   attention: { kicker: "ALL AT ONCE", label: "Transformer", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SKEWED AND STALE", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
-  openeranswers: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Window", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
@@ -1996,20 +1870,17 @@ const SECTION_META = {
   choosemodel: { kicker: "PICK THE MODEL, SET THE EFFORT", label: "Tune the Model", icon: "\uD83E\uDE9C" },
   askai: { kicker: "AI IS THE BEST MANUAL", label: "Ask AI", icon: "🙋" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
-  openertraps: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Mind Trap", icon: "\uD83E\uDEE5" },
   flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery Trap", icon: "\uD83C\uDFAD" },
   engagementtrap: { kicker: "KNOW WHEN TO QUIT", label: "Engagement Trap", icon: "\uD83D\uDD01" },
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
   agents: { kicker: "PERMISSION MATTERS", label: "Rise of Agents", icon: "\uD83E\uDD16" },
-  openerjudgment: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   creativethinking: { kicker: "FIND THE BETTER ANGLE", label: "Creative Thinking", title: "Creative Thinking", icon: "\uD83D\uDCA1" },
   becurious: { kicker: "CURIOSITY COMPOUNDS", label: "Be Curious", icon: "\uD83D\uDD2D" },
-  openerusing: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerworkwith: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerprotect: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatitdoesbest: { kicker: "FOUR STRENGTHS, MANY USES", label: "Where AI Works Best", icon: "\u2699\uFE0F" },
@@ -2159,33 +2030,6 @@ function CoreLoopBox() {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "🎲 Probability"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "#d97706", margin: "4px 0" } }, "↓"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, "✍️ Prediction"))));
-}
-// Compact "you are here" echo of CoreLoopBox: two phase capsules (Learn once:
-// Training, Patterns | Every word: Probability, Prediction) with radio-style node
-// dots. props.active fills one node's dot and bolds its label in the phase color.
-function LoopLocator(props) {
-  var E = React.createElement;
-  var STEPS = { training: 1, patterns: 2, probability: 3, prediction: 4 };
-  var step = STEPS[props.active];
-  var activeColor = (props.active === "training" || props.active === "patterns") ? "var(--primary)" : "#d97706";
-  function nodeChip(key, label, color, ring) {
-    var on = key === props.active;
-    return E("span", { key: key, style: { display: "inline-flex", alignItems: "center", gap: 8 } },
-      E("span", { style: { width: 13, height: 13, borderRadius: 999, flexShrink: 0, boxSizing: "border-box", background: on ? color : "transparent", border: on ? "none" : "2px solid " + ring } }),
-      E("span", { style: { fontSize: 16, fontWeight: on ? 800 : 600, color: on ? color : "var(--inkMuted)", whiteSpace: "nowrap" } }, label));
-  }
-  function capsule(plabel, color, bg, ring, nodes) {
-    return E("div", { style: { display: "inline-flex", alignItems: "center", gap: 18, background: bg, borderRadius: 999, padding: "10px 22px" } },
-      E("span", { style: { fontSize: 13, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: color } }, plabel),
-      nodes.map(function(n) { return nodeChip(n[0], n[1], color, ring); }));
-  }
-  return E("div", { style: { display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginTop: 48, marginBottom: 18 } },
-    step ? E("span", { style: { display: "inline-flex", alignItems: "baseline", flexShrink: 0 } },
-      E("span", { style: { fontSize: 24, fontWeight: 800, color: activeColor, lineHeight: 1 } }, String(step).padStart(2, "0")),
-      E("span", { style: { fontSize: 15, fontWeight: 800, color: "var(--inkFaint)", lineHeight: 1 } }, "/4")) : null,
-    capsule("Learn once", "var(--primary)", "#ece8fd", "rgba(110, 81, 255, 0.4)", [["training", "Training"], ["patterns", "Patterns"]]),
-    E("span", { style: { color: "var(--inkFaint)", fontWeight: 800, fontSize: 20 } }, "→"),
-    capsule("Every word", "#d97706", "#fbedd3", "rgba(217, 119, 6, 0.45)", [["probability", "Probability"], ["prediction", "Prediction"]]));
 }
 function SectionBadge(props) {
   var E = React.createElement;
@@ -12079,9 +11923,7 @@ function BigUpsideSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: Rise of Agents" }));
 }
-// DRAFT STUBS (2026-08-09 section rebuild): placeholders so the chain stays whole while
-// the lesson-by-lesson pass fills them in. Each gets its real body, close board, and
-// activity at its checkpoint.
+// Embrace the Future lessons.
 function WhatPeopleSaySection(props) {
   var E = React.createElement;
   // Named, sourced misses in both directions. Deliberately avoids the five bets in

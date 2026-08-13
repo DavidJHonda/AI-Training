@@ -2,6 +2,12 @@
 
 Content removed from a lesson but worth reusing later. Each entry: what it is, where it came from, the verbatim source, and where it might go.
 
+This is a copy-and-ideas archive, not current implementation documentation. Component,
+state, route, line-number, and restoration notes describe the code at the time an entry
+was parked and may now be stale. Before reusing anything, derive the implementation from
+the current `index.html`; do not restore retired SEE IT taxonomy, gated advancement, or
+dormant helpers just because an older entry names them. Git is the source for old code.
+
 ---
 
 ## "Done, or Predicted?" — Big Upside forecast-skepticism TRY IT
@@ -43,7 +49,7 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 - **Origin:** AI is Math lesson (`AIIsMathSection`), Conditional Probability section. Removed 2026-06-15 and replaced by the static "Update With New Evidence" ShowcaseBox, which reuses the lesson's own 2-coin grid: new evidence ("the first coin landed on heads") greys out the tails-first outcomes and updates P(both heads) from 25% to 50%. The static box keeps conditional probability tied to the coins the learner just met, instead of introducing a fresh bag-of-balls scenario (beta learners struggled with the example switch).
 - **Possible destination:** back into Conditional Probability if an interactive, graded-posterior beat is wanted again, or any lesson that needs to show a belief updating across multiple pieces of evidence (it shows a true posterior sliding 50% → 80% → 94%, which the static coin box does not).
-- **Supporting state it needs if restored:** `visibleBayesSteps` (useLocalStorage key `seeit-aiismath-bayesStep`, default 0) + its setter for the step-by-step reveal, and the `BAYES_CONTINUE_LABELS` array (`["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"]`). Both were declared at the top of `AIIsMathSection` and removed in the same commit. The lesson's `NextLessonGate` was also gated on `visibleBayesSteps >= 4`; it is now `ready: true`, so restoring the gate means re-adding that condition. Depends on the shared `InteractiveBox` and `Takeaway` components, both still in `index.html`.
+- **Historical implementation note:** the reveal used `visibleBayesSteps` (useLocalStorage key `seeit-aiismath-bayesStep`, default 0), its setter, and `BAYES_CONTINUE_LABELS` (`["See the setup →", "Check your starting belief →", "Draw a red ball →", "Draw again →"]`). It once gated navigation at `visibleBayesSteps >= 4`; do not restore that condition without a separate product decision, because advancement is now intentionally always available. Rebuild any future activity against the current shared components.
 - **Full source:** in git history at the commit before this one, inside the `AIIsMathSection` function — the `InteractiveBox` titled "Bayes' Theorem in Action" (anchor string for search). It's a 4-step reveal: (1) the setup with two SVG bags of 10 basketballs each (Red Bag 8R/2B, Blue Bag 2R/8B), (2) 50/50 starting belief with a "Ways it happens (1) / Total outcomes (2) = 50%" math row, (3) draw a red ball → belief shifts to 80% with an "(8)/(10) = 80%" row, (4) draw red again → 94%, closing on the Takeaway "Bayes is about how new evidence changes probability."
 
 ---
@@ -60,7 +66,7 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 - **Origin:** AI Answers → Inference lesson (`InferenceSection`), removed 2026-05-29 during the source-first reorder to keep the merged Inference lesson from getting dense.
 - **Possible destination:** back into Inference, or a future "why it feels instant / cost of inference" lesson.
-- **Supporting state it needs if restored:** the `computePhase`, `computeQChars`, `computeAiWords`, `computeReveal` (useState) hooks + the compute `useEffect`, plus the `computeQuestion` / `computeAnswer` string vars and `computeAnswerWords` (= `computeAnswer.split(" ")`). Also depends on the shared `ThinkingBubble` component — still defined in `index.html`, currently unused elsewhere; kept available for this restoration, so do not delete it.
+- **Historical implementation note:** the animation used `computePhase`, `computeQChars`, `computeAiWords`, and `computeReveal` state, a compute `useEffect`, `computeQuestion` / `computeAnswer`, `computeAnswerWords`, and a `ThinkingBubble` helper. That helper is not part of the current component system; recreate only what a newly approved design needs.
 - **Full source:** in git history at the commit before this one, inside the `InferenceSection` function. Note the pieces sit in two different regions of that component: the state hooks/vars above are declared near the top of `InferenceSection` (~120 lines above the JSX), while the JSX block lives lower down. Searching the pre-removal `index.html` for the string `Why it feels instant` finds only the JSX — a restorer must recover BOTH regions, not just that anchor. The JSX block is the complete unit: SectionKicker "The Scale of What's Happening" + the "Why it feels instant" InteractiveBox with its ThinkingBubble/AIBubble compute animation, the reveal button, the stats grid [Tokens ~14, Dimensions thousands, Layers ~100, "every token checks its relationship to every other token"], the "≈ 100,000,000,000+ calculations" figure, the "over 3,000 years" line, and the KeyInsight "Billions of calculations, all for one word.".
 
 ---
@@ -81,7 +87,7 @@ Content removed from a lesson but worth reusing later. Each entry: what it is, w
 
 - **Origin:** Context Window lesson (`PromptSection`), removed 2026-06-03 and replaced by the `illustrations/context-window.jpg` illustration, which makes the same four-component point plus the context-window → model → answer flow and the "outside the window is out of reach" idea.
 - **Possible destination:** back into the Context Window lesson if an interactive beat is wanted again, or any lesson that needs to itemize what the model can see. Note the Controls lesson (`CustomizationSection`) still has a near-identical recap built on `CONTEXT_GROUPS_RECAP` — restore from that if you want the live version, rather than rebuilding.
-- **Supporting state it needs if restored:** the `CONTEXT_GROUPS` data array (two groups: "From this chat" #1e40af with Your current prompt / Earlier in this chat; "Beyond this chat" #8b5cf6 with Your custom instructions / Saved memory) and its derived `CONTEXT_PARTS`; plus `cwContainerRef`, `cwTitleRefs`, `cwCardRefs` (useRef), `cwPaths` (useState), `cwRevealed` (useLocalStorage key `seeit-context-cwRevealed`), the `revealCw` toggle, and the `useEffect` that measures title/card positions to draw the connecting SVG paths. The lesson's `NextLessonGate` was also gated on `Object.keys(cwRevealed).length === 4`; it is now `ready: true`, so restoring the gate means re-adding that condition.
+- **Historical implementation note:** the reveal used `CONTEXT_GROUPS` / `CONTEXT_PARTS`, refs for the container, titles, and cards, measured SVG paths, `cwRevealed`, and a `revealCw` toggle. It once gated navigation on all four reveals; do not restore that condition without a separate product decision, because advancement is now intentionally always available.
 - **Full source:** in git history at the commit before this one, inside the `PromptSection` function. The state/data sits at the top of the component (declared right after `function PromptSection(props) {`), and the JSX is the `InteractiveBox` titled "What goes in the context window" (anchor string for search), holding the group headers, click-to-reveal title row, the SVG connector layer, and the reveal-on-click description cards.
 
 ---
@@ -131,7 +137,7 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
   - **"A friend's secret" scenario** — friend shares something personal over text; tempted to paste the conversation into AI. Correct: keep it between you two ("Their private information stays private. If you want to help, do it as a friend."). **Possible destination: Privacy (`privacy`)** — it is squarely that lesson's others'-information point and would make a good scenario there.
   - **"A worrying symptom" and "It won't click" scenarios** — dropped as near-duplicates of Make the Call's medical (ibuprofen/amoxicillin) and explaining-concepts (chain rule) rows.
   - **Completion card** — "✋ You can feel the difference. Using AI well includes knowing the moments to leave it closed."
-- **Full source:** `WhenNotSection` and `WHENNOT_SCENARIOS` remain defined in `index.html` as dead code (removed from SECTION_GROUPS/SECTION_META/SECTION_COMPONENTS). The dead `OpenerJudgmentSection` also still references `whennot` in its FAQ data; harmless.
+- **Full source:** recover `WhenNotSection`, `WHENNOT_SCENARIOS`, and the old opener reference from Git history. They are no longer retained as live-file dead code.
 
 ## "Who Else Is Affected" — the whole lesson (`StakeholdersSection`)
 
@@ -141,7 +147,7 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
   - **"FOUR NAMED TRADE-OFFS" ShowcaseBox** — Speed vs fairness ("the system decides fast across the average case; edge cases get the worst version of the trade"), Convenience vs privacy, Efficiency vs human judgment ("context gets compressed into a score; what gets lost is the part that didn't fit the form"), Scale vs care ("watching one person carefully is expensive; watching everyone is cheap; watching everyone carefully is impossible"). Plus the footnote: a trade-off isn't automatically wrong; the question is whether the cost is named, whether affected people can challenge mistakes, and who ends up paying.
   - **"Spot the Cost" TRY IT** — three scenarios (district plagiarism detector, image-generation tools vs artists' training data, school communication monitoring), each asking "who carries the cost the design overlooked?" with full per-option feedback. Strong material if a stakeholder beat ever returns; the artists/training-data scenario is the only place the course discussed that debate.
   - **KeyInsights** — "A lot of AI conversation is about how users feel" (most of the cost lands elsewhere); "No appeal path is its own answer"; and the closer "The question isn't only 'Does this AI work?' It's 'Who does it work for, and who carries the cost?'" — that last line is a candidate for When AI Judges You's ending if it ever wants a sharper close.
-- **Full source:** `StakeholdersSection` remains defined in `index.html` as dead code (removed from SECTION_GROUPS/SECTION_META/SECTION_COMPONENTS).
+- **Full source:** recover `StakeholdersSection` from Git history; it is no longer retained as live-file dead code.
 
 ---
 
@@ -377,7 +383,7 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 
 ## "Prompt → Evaluate → Refine" — basketball-recap iteration walkthrough (+ usable-checklist framing)
 
-- **Origin:** Check the Results lesson (`EvaluatingSection`). Removed 2026-07-03 when the lesson was rebuilt as a truth-first evaluation procedure (Read → Understand → Validate → Decide → go-deeper branches → Use it / Fix it / Walk away; spec: `docs/superpowers/specs/2026-07-03-check-results-critical-thinking-design.md`). The loop taught prompt-writing, the wrong altitude for an evaluation lesson — and The Art of Prompting couldn't absorb it either, since that lesson's thesis is "you don't need a prompting class, just three moves."
+- **Origin:** Check the Results lesson (`EvaluatingSection`). Removed 2026-07-03 when the lesson was rebuilt as a truth-first evaluation procedure (Read → Understand → Validate → Decide → go-deeper branches → Use it / Fix it / Walk away). The completed design record remains recoverable from Git history. The loop taught prompt-writing, the wrong altitude for an evaluation lesson — and The Art of Prompting couldn't absorb it either, since that lesson's thesis is "you don't need a prompting class, just three moves."
 - **Possible destination:** a future dedicated "iterating with AI" lesson or lab; the walkthrough's round-2 beat (AI invents a "51-49 Lincoln lead" mid-draft and the learner catches it) is also a strong worked example for any hallucination-in-generative-work teaching.
 - **Supporting state it needs if restored:** none — the `ITERATION_STEPS` array is a plain const rendered with shared components (`ShowcaseBox`, `InnerCard`, `UserBubble`, `AIBubble`, `Takeaway`), all still in `index.html`.
 - **Full source:** in git history at the commit before the 2026-07-03 "Check the Results: rebuild as truth-first evaluation procedure" commit, inside `EvaluatingSection` — search anchor `ITERATION_STEPS`. The complete unit is: the 3-step `ITERATION_STEPS` const (generic prompt → refined prompt with invented-stat catch → Instagram-format polish), the "WHY EVALUATION MATTERS" ShowcaseBox (2 cards: "Correct doesn't mean usable" / "Evaluation tells you what to fix"), the "HOW TO REFINE" ShowcaseBox (3 cards: "Don't start over" / "Be specific about what's wrong" / "2–3 rounds is normal"), the "Prompt → Evaluate → Refine" ShowcaseBox that renders the steps with per-round 🔍 Evaluation / → Next Step callouts, and the Takeaway "Prompt. Evaluate. Refine. Repeat." Note the referenced six-criteria checklist ("Use these six criteria as a checklist") never existed in the code — only the sentence referring to it did.
@@ -393,7 +399,7 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 
 - **Origin:** the `AIStrengthsSection` module embedded in Check the Results (`evaluating`). Removed 2026-07-03: it was a second, parallel taxonomy of the decision the lesson's Step 4 card already teaches ("Can you judge the result yourself?" vs. "What kind of task was this?"), and its "Good Fit" verdict label is when-to-use-AI vocabulary. The Make the Call quiz that followed it survives (relabeled "Good to go" / "Needs Follow-Up") as the Step 4 practice; the quiz feedback now teaches the task-type taxonomy through play. The vestigial `howmuchtocheck` SECTION_META entry was removed in the same pass.
 - **Possible destination:** Where AI Works Best (`whatitdoesbest`) — the diagram is literally a where-AI-works-well-vs-needs-care map; or any future when-to-use-AI beat.
-- **Supporting state it needs if restored:** none as last shipped (the old Yes/No reveal had been made static: `yesClicked`/`noClicked` hardcoded true; those vars were deleted with it). Restoring the interactive reveal means real useState hooks plus the `softPulse` CSS animation (still in index.html).
+- **Historical implementation note:** the old Yes/No reveal had already been made static (`yesClicked`/`noClicked` hardcoded true). A future interactive version should be designed against current state and motion conventions rather than assuming the old `softPulse` animation is supported.
 - **Full source:** in git history at the commit before the 2026-07-03 "cut the parallel How Much to Check dial" commit, inside `AIStrengthsSection` — search anchor `Can you judge the result yourself?`. The complete unit: ShowcaseBox headline "How Much to Check"; root question card; SVG fork arrows; Yes → "✅ Good Fit" panel (Brainstorming / Summarizing / First drafts / Explaining concepts / Reformatting, each with a one-liner, footer "Best when you can judge whether the result makes sense."); No → "🔍 Needs Follow-Up" panel (Citations / Current events / Medical advice / Your Original Voice / Judgment calls, footer "Answer needs truth, safety, sources, or your judgment."). Also cut alongside: the "SET THE DIAL" kicker + type-of-task lead paragraph and the "Good Fit doesn't mean ready to use" paragraph.
 
 ## "Make the Call" — Good to go / Needs Follow-Up scenario TRY IT
@@ -449,7 +455,7 @@ The standalone Probability lesson was removed and folded into the new AI Primer.
 
 ## "See you ______" — ThreeChatsBox + context TRY IT rows
 
-- **Origin:** Prediction lesson (`PredictionSection`), retired 2026-07-09 when the lesson became "How AI Answers" and unified on the dog-naming example (spec: docs/superpowers/specs/2026-07-09-how-ai-answers-design.md). ThreeChatsBox was replaced by `DogNameChartBox` (single-card name-slot chart); the "Call the Top Pick" TRY IT re-themed to dog names. `PhoneTrayStrip` keeps its own "See you ______" strip as the phone-side example.
+- **Origin:** Prediction lesson (`PredictionSection`), retired 2026-07-09 when the lesson became "How AI Answers" and unified on the dog-naming example. The completed design record remains recoverable from Git history. ThreeChatsBox was replaced by `DogNameChartBox` (single-card name-slot chart); the "Call the Top Pick" TRY IT re-themed to dog names. `PhoneTrayStrip` keeps its own "See you ______" strip as the phone-side example.
 - **Possible destination:** the How AI Answers video (three-contexts-one-blank is a strong board shape), or any lesson needing a second context-steers-the-odds example.
 - **Verbatim ThreeChatsBox data** (headline "The same blank, three different chats: 'See you ______'"): Chat 1 "You're chatting about plans for Saturday night." → Saturday 58, tonight 22, there 9, soon 6, other words 5. Chat 2 "You're chatting about plans for later today." → later 61, soon 18, tonight 12, there 5, other words 4. Chat 3 "You're chatting about tomorrow's BBQ-club meeting at school." → tomorrow 65, later 20, soon 10, there 3, again 1, other words 1. Closing line: "Three chats, three different lists. The odds come from everything the model can see."
 - **Verbatim old CTX_TASKS rows:** (1) "The chat is a group project thread, and the work is due Monday morning" → Monday (over tonight/soon); (2) "Your friend is boarding a flight that lands late tonight" → tonight (over Saturday/tomorrow); (3) "A brand-new chat with no history at all" → soon (over Monday/tonight). Explains referenced the window tilting the odds; the brand-new-chat explain ("the closest the model ever gets to acting like your phone's chips") survives in the dog version.
@@ -542,11 +548,11 @@ Possible destination: a future work/agents-adjacent lesson on AI in decisions
 
 ## Engagement Trap — "Why it never ends" 5-question TRY IT (cut 2026-08-08)
 
-Replaced by the One App, One Year calculator, because one TRY IT per page is the
-rule (the video close sends students to the bottom of the page) and the lesson
-needed an activity that makes the cost personal rather than one that checks
-reading. Design spec:
-`docs/superpowers/specs/2026-08-08-engagement-trap-tryit-design.md`.
+Replaced by the One App, One Year calculator, because one TRY IT per page was the
+decision for this lesson (the video close sends students to the bottom of the page)
+and the lesson needed an activity that makes the cost personal rather than one
+that checks reading. The completed design record remains recoverable from Git
+history.
 
 Q4 ("How do you know it's time to stop an AI chat?") survives verbatim as beat 3
 of the new activity. The other four are parked:

@@ -7,7 +7,8 @@ groups in order) plus each lesson's opener and central idea, pasted below.
 [paste]
 
 Judge the arc ONLY on these seven questions:
-1. Arc — is the overall journey clear (beginner orientation → foundations → responsible use)?
+1. Arc — is the overall journey clear (orientation → practical use → mechanics →
+   risks → future → skills → synthesis)?
 2. Build order — is every concept introduced before it's relied on? Flag forward references.
 3. Transitions — do the handoffs between section groups land? (Transitions live at the
    top of the next group's opener.)

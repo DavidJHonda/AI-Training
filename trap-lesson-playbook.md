@@ -13,7 +13,7 @@ Distilled from the Mind Trap rebuild (2026-07-21). The standard for every Avoid 
 7. **Advice** — a closing kicker carrying the behavioral rule ("Don't ...") with its paragraph underneath, including what AI IS still good for. Instruction, not restatement.
 8. **Close board** — carries the landing. The closing paragraph must not restate it.
 9. **TRY IT** — drills the ONE core rule. Same simple question repeated across escalating stakes; wrong answers punish over-trust AND overcorrection; include one rep that defines the rule's boundary (where the trap does NOT apply). No orphaned vocabulary from cut content.
-10. **Gate** — no end-of-lesson handoffs; the next lesson's opener owns bridges.
+10. **Navigation** — use the standard always-available `NextLessonGate`; no end-of-lesson handoffs, because the next lesson's opener owns bridges.
 
 ## Cut list (delete on sight)
 

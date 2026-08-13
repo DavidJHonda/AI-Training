@@ -6,11 +6,15 @@ File: [paste index.html or the relevant range]
 
 Check for:
 - Broken/duplicate lesson IDs; NextLessonGate targets that point at the wrong or a
-  removed lesson; SECTION_GROUPS vs SECTION_META/SECTION_COMPONENTS mismatches.
-- Gates that never unlock or unlock too early; localStorage/reset/"visited" edge cases.
+  removed lesson. Every ID routed by SECTION_GROUPS must resolve in both SECTION_META
+  and SECTION_COMPONENTS; extra unrouted entries are drift, not a routing bug.
+- Missing or broken Previous/Next behavior; code or copy that still assumes advancement
+  is gated. NextLessonGate is intentionally always available and currently ignores
+  ready/lockedMessage. Also check localStorage/reset/"visited" edge cases.
 - Dead or duplicate components, unused variables, copy-paste leftovers, broken references.
-- Activities that don't follow the intended TRY IT / SEE IT pattern; inline styles that
-  should be tokens (beyond what design-check counts).
+- TRY IT or LAB activities whose state, feedback, completion, or labels are broken;
+  static demonstrations incorrectly implemented as activities; inline styles that should
+  be tokens (beyond what design-check counts).
 - Componentization: repeated card/inline-style patterns worth standardizing.
 
 Output this and NOTHING else, grouped:

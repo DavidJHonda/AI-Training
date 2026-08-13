@@ -23,6 +23,6 @@
 # 4. HARD BANS
 
 - **NO PHOTOGRAPHY OF ANY KIND:** no stock or Getty imagery, no watermarks, no photographs of people, hands, statues, or places. Real people, past or present, are drawn fresh in ink and watercolor.
-- **NO SCREENSHOTS of the lesson document:** no document pages, no scrolling-page b-roll, no rendered text blocks or tables from the lesson file — it is narration grounding only. The one exception: when the scene instructions name an attached illustration file, reproduce that image exactly as instructed.
+- **NO SCREENSHOTS of the lesson document:** no document pages, no scrolling-page b-roll, no rendered text blocks or tables from the lesson file — it is narration grounding only. The exception is an attached board or illustration file explicitly named by the scene instructions; reproduce that image exactly as instructed.
 - **NO INVENTED DATA:** no statistics, percentages, or precise figures unless the scene instructions give them verbatim. Conceptual charts stay qualitative — no numbered axes, no research-style findings.
 - **TEXT:** white or light text lives only inside dark pills or cards, never directly on the light canvas; all other text is solid black ink. Text stays inside its container. When a new key point arrives, wipe the canvas or use clearly separate space — overlapping or stacked text is forbidden.

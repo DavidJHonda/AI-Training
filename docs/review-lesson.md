@@ -9,8 +9,8 @@ Judge it ONLY on these seven questions:
 2. Opening — does the first beat orient the student and make them want the answer?
 3. Ending — does it stop on the insight/takeaway/activity (good), or trail off on a
    "next we'll…" forward pivot (bad)?
-4. Activity — does the TRY IT / SEE IT make them think, and does it fit the idea
-   (not just decorate)?
+4. Activity — if the lesson has a TRY IT or LAB, does it make them think and fit the
+   idea (not just decorate)? If it intentionally has no activity, is the read complete?
 5. Size — too thin, too dense, or right for one sitting?
 6. Audience — tone, reading level, jargon right for a 16-year-old? Concrete enough?
 7. Redundancy — does it repeat earlier material without adding a new layer?

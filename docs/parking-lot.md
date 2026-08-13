@@ -10,6 +10,21 @@ dormant helpers just because an older entry names them. Git is the source for ol
 
 ---
 
+## Rise of Agents rebuild — permission-frame boxes and prose (2026-08-13)
+
+- **Origin:** Rise of Agents (`WhenAIActsSection`). Removed 2026-08-13 when the lesson was rebuilt around two what's-an-agent comparison boxes (GPS vs. self-driving car; ask-AI vs. hire-an-agent), the agent-loop diagram, and a "Rogue agents" close ("it's your name on the work"). The permission thesis left the prose, but the "Set Your Permissions" TRY IT survives in the lesson. Prompt injection was NOT parked — it moved into the Privacy lesson ("Privacy risk grows the more AI can see."). The close board changed from "When AI acts, check the permission." / "You're the one who lets it through." to the your-name-on-the-work pair.
+- **Possible destination:** back into Rise of Agents if the permission frame returns (both boxes pair with the surviving TRY IT), or a future agents-safety beat.
+- **"THE FIVE-WORD RULE" ShowcaseBox (verbatim):** headline "Send. Spend. Submit. Delete. Post."; intro "Don't give an AI permission to do any of these without your review. They're the actions that are hard or impossible to undo. Let AI prepare the work. You take the irreversible step."; footnote "These five words are examples, not the whole list. Anything that submits, shares, schedules, signs, charges, or changes a setting deserves the same fresh check."
+- **"TWO KINDS OF ACCESS" ShowcaseBox (verbatim):** intro "When AI does more than answer, it acts in one of two ways."; READ ACCESS (green #10b981) "AI can look at things. Search, summarize, inspect, compare. The risk is what gets seen, not what gets changed."; WRITE ACCESS (red #ef4444) "AI can change things. Send, delete, post, submit, schedule, edit, charge. The risk is that what happens, happens."; italic close "Read access requires caution. Write access requires approval." This box was the conceptual scaffolding under the Set Your Permissions TRY IT — restore it first if the permission frame returns.
+- **Cut prose worth reusing:**
+  - "A bad answer can be deleted. A bad action may already be in someone's inbox, on your account, charged to your card, or submitted under your name. **So the real question with an agent is not what it says, it's what you let it do.**"
+  - "The shift from answering to acting is the most important shift in AI right now. A wrong answer costs you a re-read. A wrong action can cost you money, a reputation, a relationship, or a deleted folder."
+  - "Even when AI selects the next action, it isn't accountable for the result. The model doesn't understand consequences the way you do. If you gave it permission, the action still happened under your name, your account, your authority. You're the one who lets it through."
+  - Closing line: "When AI answers, check the answer. When AI acts, check the permission."
+- **Full source:** in git history at the commit before this one, inside `WhenAIActsSection` (search anchors: `THE FIVE-WORD RULE`, `TWO KINDS OF ACCESS`).
+
+---
+
 ## "Done, or Predicted?" — Big Upside forecast-skepticism TRY IT
 
 - **Origin:** Big Upside lesson (`BigUpsideSection`). Removed 2026-08-12 when LAB 11 "Open the Vault" (an AlphaFold-database field trip) became the lesson's activity. Its prose setup ("give the good news the same check you gave the bad news; hype comes in both flavors" plus the Isomorphic Labs forecast) had been cut earlier the same day, leaving the quiz's skepticism framing without an introduction.

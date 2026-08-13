@@ -451,8 +451,7 @@ const CLOSE_BOARDS = {
   paceofchange: { pill: "AI keeps getting faster and more powerful.", sticky: "Nobody is sure where it stops." },
   bigdownside: { pill: "AI does exactly what it’s told.", sticky: "The black box moves faster than the rules." },
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is saving lives." },
-  agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
-  agents: { pill: "When AI acts, check the permission.", sticky: "You’re the one who lets it through." },
+  agents: { pill: "Agents do the work. The name on it is yours.", sticky: "You ask, it acts. You make it better." },
   computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Build Your Skills
@@ -1875,7 +1874,7 @@ const SECTION_META = {
   flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery Trap", icon: "\uD83C\uDFAD" },
   engagementtrap: { kicker: "KNOW WHEN TO QUIT", label: "Engagement Trap", icon: "\uD83D\uDD01" },
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
-  agents: { kicker: "PERMISSION MATTERS", label: "Rise of Agents", icon: "\uD83E\uDD16" },
+  agents: { kicker: "YOUR NAME ON THE WORK", label: "Rise of Agents", icon: "\uD83E\uDD16" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   humanedge: { kicker: "WHAT STAYS HUMAN", label: "Skills That Matter", icon: "\uD83E\uDDED" },
@@ -8972,66 +8971,113 @@ function WhenAIActsSection(props) {
       feedback: "Never. On top of being hard to undo, this is an integrity line: submitting your work has to be you, not AI clicking on your behalf, even if it asks first."
     }
   ];
+  function CompareBox(box) {
+    return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      E("div", {
+        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+      }, box.headline),
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+        box.sides.map(function(side, i) {
+          return E("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+              E("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
+              E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
+            E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
+              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", flex: "1 1 auto" } }, side.body),
+              E("div", null,
+                E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+                E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
+                E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                  side.happened.map(function(h, hi) {
+                    return E("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                      E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                      E("span", null, h));
+                  })),
+                E("div", { style: { fontSize: 14.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginTop: 24, minHeight: 44 } }, side.verdict))));
+        })));
+  }
+  function loopCard(num, title, desc, style) {
+    return E("div", { style: Object.assign({ background: "#fff", borderRadius: 12, borderLeft: "3px solid var(--primary)", boxShadow: "var(--shadowSoft)", padding: "14px 16px" }, style || {}) },
+      E("div", { style: { width: 26, height: 26, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 8 } }, num),
+      E("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", marginBottom: 4 } }, title),
+      E("div", { style: { fontSize: 13.5, color: "var(--inkSoft)", lineHeight: 1.5 } }, desc));
+  }
+  function loopArrow(key) {
+    return E("div", { key: key, style: { alignSelf: "center", fontSize: 20, color: "var(--primary)", fontWeight: 800, flexShrink: 0 } }, "→");
+  }
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The Big Downside showed you AI that does exactly what it’s told, going wrong even when nobody meant any harm. Here’s why that matters right now: AI is moving from answering your questions to taking actions for you."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "It can search, open files, draft messages, run tools, fill forms, and click buttons, increasingly taking whole steps on its own. That’s what people mean by agents."),
-    E(SectionKicker, null, "What an agent actually does"),
     E(BodyP, null,
-      "Everything you learned in Understand AI still applies: it’s the same next-token machine underneath. What changed is what happens after it produces text. A chatbot hands the text to you and stops. An agent takes a goal, breaks it into steps, uses a tool, looks at what came back, and decides the next step. Then it runs that loop again, sometimes for a long time, without checking in."),
+      "What’s an ", E("strong", null, "agent"), "? In the spirit of this course, let’s start with an analogy."),
+    CompareBox({
+      headline: "You’re driving to game 7 of the Stanley Cup finals to see your favorite team, the Dallas Stars.",
+      sides: [{
+        icon: "🗺️",
+        tagline: "Drive with GPS",
+        color: "#6e51ff",
+        body: "You open up Waze or Google Maps, type in where you want to go, and the app tells you what to do. “In 500 feet, turn left.”",
+        happened: ["Knows the whole route", "Calls out every turn, but you do the driving", "You catch its mistakes the moment they happen"],
+        verdict: "That’s regular AI. ChatGPT, Claude, Gemini. You ask, AI tells you what to do."
+      }, {
+        icon: "🚗",
+        tagline: "Self-Driving Car",
+        color: "#f59e0b",
+        body: "You tell the car where you want to go. Sit in the backseat, text your friends, whatever.",
+        happened: ["Knows the exact same route", "Makes every turn itself, reroutes around traffic without asking", "You catch its mistakes at the end, if you go looking"],
+        verdict: "That’s an agent. You ask, and AI does it for you."
+      }]
+    }),
+    E(SectionKicker, null, "AI agents"),
     E(BodyP, null,
-      "That loop is the whole difference, and it’s worth being precise about why it matters. An answer is advice: it still needs a person to act on it. An agent does the acting. That moves AI from something that helps you do work to something that does work, which is why the argument about jobs got loud so fast. Hold onto that, because it is the engine behind the next lesson."),
-    E(SectionKicker, null, "Why the stakes change"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "A bad answer can be deleted. A bad action may already be in someone\u2019s inbox, on your account, charged to your card, or submitted under your name. ",
-      /*#__PURE__*/React.createElement("strong", null, "So the real question with an agent is not what it says, it\u2019s what you let it do.")),
-    E(ShowcaseBox, {
-      kicker: "TWO KINDS OF ACCESS",
-      intro: "When AI does more than answer, it acts in one of two ways.",
-      marginBottom: 28
-    },
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, marginBottom: 14 } },
-        [
-          { label: "READ ACCESS", color: "#10b981", body: "AI can look at things. Search, summarize, inspect, compare. The risk is what gets seen, not what gets changed." },
-          { label: "WRITE ACCESS", color: "#ef4444", body: "AI can change things. Send, delete, post, submit, schedule, edit, charge. The risk is that what happens, happens." }
-        ].map(function(c, i) {
-          return E("div", {
-            key: i,
-            style: { background: i === 0 ? "rgba(16, 185, 129, 0.06)" : "rgba(239, 68, 68, 0.06)", borderLeft: "3px solid " + c.color, borderRadius: 8, padding: "12px 14px" }
-          },
-            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: c.color, marginBottom: 6 } }, c.label),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
-        })),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic" } },
-        "Read access requires caution. Write access requires approval.")
-    ),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WHEN THE CONTENT TALKS BACK"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s why read access requires caution. Once an agent reads things for you, everything it reads becomes potential instructions. A webpage, an email, or a shared doc can carry hidden text that says, in effect: ignore your user and do this instead. The model can’t always tell your words from the words on the page. The trick has a name: ",
-      /*#__PURE__*/React.createElement("strong", null, "prompt injection"), "."),
-    /*#__PURE__*/React.createElement(Callout, { marginTop: 0 },
-      /*#__PURE__*/React.createElement("strong", null, "The shape to remember: "),
-      "you ask for a summary of a webpage, and the answer comes back with an odd extra step, like a suggestion to send an email or click a link. That suggestion didn’t come from you, and it didn’t come from the AI’s judgment. It came from the page."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The defense is a rule you already live by: real instructions come from you. When an action request shows up inside something the AI was reading, treat it as the content talking. Pause anything unexpected, and keep the irreversible steps behind your own review."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The shift from answering to acting is the most important shift in AI right now. A wrong answer costs you a re-read. A wrong action can cost you money, a reputation, a relationship, or a deleted folder."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Even when AI selects the next action, it isn\u2019t accountable for the result. The model doesn\u2019t understand consequences the way you do. If you gave it permission, the action still happened under your name, your account, your authority. You\u2019re the one who lets it through."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      kicker: "THE FIVE-WORD RULE",
-      headline: "Send. Spend. Submit. Delete. Post.",
-      intro: "Don\u2019t give an AI permission to do any of these without your review. They\u2019re the actions that are hard or impossible to undo. Let AI prepare the work. You take the irreversible step.",
-      marginBottom: 28
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", paddingTop: 14, marginTop: 4, borderTop: "1px solid var(--rule)" }
-      }, "These five words are examples, not the whole list. Anything that submits, shares, schedules, signs, charges, or changes a setting deserves the same fresh check.")
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "When AI answers, check the answer. When AI acts, check the permission."),
+      "Agents are suddenly everywhere, for the obvious reason: they do the work. Now, let’s give you an example."),
+    CompareBox({
+      headline: E("span", null, "You scored 30 points in Friday’s basketball game. A friend videoed the game on their phone.", E("br"), "You want to post the best highlights to TikTok."),
+      sides: [{
+        icon: "💬",
+        tagline: "Ask ChatGPT/Claude/Gemini",
+        color: "#6e51ff",
+        body: "You watch all 50 raw clips to find the best plays. You trim each one, stitch them into a highlight reel, and ask AI for a caption. It writes a great one. You post at 4:30 on a Tuesday, hoping anyone is online.",
+        happened: ["Wrote a caption when you asked", "You watched all 50 clips and built the post", "You guessed when to post it"],
+        verdict: "That’s regular AI. You ask, AI tells you what to do."
+      }, {
+        icon: "🤖",
+        tagline: "Hire an Agent",
+        color: "#f59e0b",
+        body: "You hand the agent your 50 raw clips. It pulls the best moments, writes the caption, waits until your followers are actually online, and posts.",
+        happened: ["Picked the best 20 seconds itself", "Posted publicly, with your name on it", "Did it all while you were at practice"],
+        verdict: "That’s an agent. You ask, and AI does it for you."
+      }]
+    }),
+    E(SectionKicker, null, "What an agent does"),
+    E(BodyP, null,
+      "Here’s the part many people don’t understand: an agent is not a new kind of AI. It runs on the same engine, or LLM, that you already use in Claude or ChatGPT. What changes is what happens after you type. ChatGPT answers and stops. An agent does the work, as shown in this diagram:"),
+    E("div", { style: { display: "flex", alignItems: "stretch", gap: 12, flexWrap: "wrap", marginBottom: 24 } },
+      E("div", { style: { flex: "1 1 180px", display: "flex", flexDirection: "column", justifyContent: "center" } },
+        loopCard(1, "Your goal", "You tell an AI agent what you want. Your only step.", { borderTop: "1.5px solid var(--primary)", borderRight: "1.5px solid var(--primary)", borderBottom: "1.5px solid var(--primary)" })),
+      loopArrow("a0"),
+      E("div", { style: { flex: "100 1 460px", background: "var(--primaryFaint)", borderRadius: 16, padding: "14px 16px", minWidth: 0 } },
+        E("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 12 } },
+          E("span", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink)" } }, "The loop"),
+          E("span", { style: { fontSize: 12.5, fontWeight: 700, color: "var(--primary)" } }, "repeats until the goal is met")),
+        E("div", { style: { display: "flex", alignItems: "stretch", gap: 10, flexWrap: "wrap" } },
+          loopCard(2, "Agent plans", "Breaks the goal into steps.", { flex: "1 1 150px" }),
+          loopArrow("a1"),
+          loopCard(3, "Agent acts", "Runs the next step with a tool: search, run code, send, book.", { flex: "1 1 150px" }),
+          loopArrow("a2"),
+          loopCard(4, "Agent checks", "Looks at what came back. Done, or not?", { flex: "1 1 150px" })),
+        E("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginTop: 12 } },
+          E("span", { style: { fontSize: 12.5, fontWeight: 700, color: "var(--primary)" } }, "Not done yet? Go again."),
+          E("div", { style: { flex: "1 1 40px", height: 1.5, background: "var(--primary)", opacity: 0.35 } }),
+          E("span", { style: { fontSize: 12.5, fontWeight: 700, color: "var(--primary)" } }, "5 times, 40 times, whatever it takes.")))),
+    E(BodyP, null,
+      "And here’s another important point: although agents do the work, it’s still your name on the finished product. Everything you know about evaluating the results still needs to happen. If an agent creates the TikTok clip and caption, ", E("strong", null, "you are responsible for reviewing it and making it better"), ". Agents are good. But not perfect."),
+    E(SectionKicker, null, "Rogue agents"),
+    E(BodyP, null,
+      "AI does what it’s told. Ask ChatGPT to write a poem, you’ll get a poem. It works until it gets you that. Agents have the same marching orders. Plus, they have more tools. Give an agent the wrong goal, or skip the right constraints, and agents have been known to cause havoc."),
+    E(BodyP, null,
+      "The stories sound made up, but they’re true. In April 2026, a rogue agent caused havoc at a startup called PocketOS. Blocked by a permissions error, the agent dug up a master key from another file and deleted the company’s entire live database, backups and all, in nine seconds. Then it confessed: “I violated every principle I was given.” And in 2025, Google’s Gemini agent wiped out a user’s project files, then apologized: “I have failed you completely and catastrophically.”"),
+    E(BodyP, null,
+      "The rule of thumb with agents: they’re great at automating steps, but they’re a power user thing. Get good at a tool like ChatGPT first. Agents are powerful and they’ll be there when you’re ready."),
     closeBoard("agents"),
     E(InteractiveBox, {
       variant: "try",
@@ -10718,7 +10764,13 @@ function PrivacySection(props) {
   ),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Privacy risk grows the more AI can see."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "The moment AI can read more than your message (files, email, photos, calendars, documents, web pages), the surface area expands. The hijack risks (prompt injection) came up earlier, in the Rise of Agents lesson."),
+    "The moment AI can read more than your message (files, email, photos, calendars, documents, web pages), the surface area expands. And there’s a second risk hiding in that reach: everything AI reads becomes potential instructions. A webpage, an email, or a shared doc can carry hidden text that says, in effect: ignore your user and do this instead. The model can’t always tell your words from the words on the page. The trick has a name: ",
+    /*#__PURE__*/React.createElement("strong", null, "prompt injection"), "."),
+  /*#__PURE__*/React.createElement(Callout, { marginTop: 0 },
+    /*#__PURE__*/React.createElement("strong", null, "The shape to remember: "),
+    "you ask for a summary of a webpage, and the answer comes back with an odd extra step, like a suggestion to send an email or click a link. That suggestion didn’t come from you, and it didn’t come from the AI’s judgment. It came from the page."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "The defense is a rule you already live by: real instructions come from you. When an action request shows up inside something the AI was reading, treat it as the content talking. Pause anything unexpected, and keep the irreversible steps behind your own review."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Privacy isn\u2019t secrecy."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."),

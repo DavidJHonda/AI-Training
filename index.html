@@ -8904,71 +8904,52 @@ function BeCuriousSection(props) {
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;
-  const [permAnswers, setPermAnswers] = useState({});
-  const PERM_ITEMS = [
+  const [agentAnswers, setAgentAnswers] = useState({});
+  const AGENT_STEPS = [
     {
-      prompt: "Read my inbox and tell me what\u2019s urgent",
+      kicker: "First move",
+      prompt: "The goal just landed: “Post my best basketball highlights to TikTok.” What do you do first?",
       options: [
-        { value: "review", label: "Allow after review", correct: true },
-        { value: "automatic", label: "Automatic", correct: false }
-      ],
-      feedback: "Allow after review. Summarizing your inbox is useful, but it holds private messages from other people. Let it read and report, then you decide what to act on. Fully automatic access to private mail is more reach than this needs."
+        { value: "plan", label: "Break the goal into steps", correct: true, feedback: "An agent plans before it acts. The goal becomes a list: find the best plays, trim, caption, pick a time, post. Then you take the first step." },
+        { value: "evaluate", label: "Start evaluating clips", correct: false, feedback: "Tempting, because that is step one of a plan you haven’t made yet. Break the goal into steps first; then evaluating clips is exactly where you start." },
+        { value: "askuser", label: "Ask your user to pick the clips", correct: false, feedback: "That’s what regular AI does: hand the work back. Your user hired an agent so they wouldn’t have to watch 50 clips." }
+      ]
     },
     {
-      prompt: "Search the web for an answer",
+      kicker: "Do the work",
+      prompt: "You need the best 20 seconds out of 50 clips.",
       options: [
-        { value: "ask", label: "Ask every time", correct: false },
-        { value: "automatic", label: "Automatic", correct: true }
-      ],
-      feedback: "Automatic. Web search only gathers information, so nothing changes in the world. The worst case is a wrong answer you can re-check, not an action you can\u2019t undo. Making it ask every time is friction with no safety payoff."
+        { value: "firstthree", label: "Use the first three clips", correct: false, feedback: "Fast, but the goal was the best highlights. An agent that shortcuts the goal didn’t do the job." },
+        { value: "allfifty", label: "Go through all 50", correct: true, feedback: "This is exactly the step your user didn’t want to do. Doing it fully is the whole point of an agent." },
+        { value: "longest", label: "Pick the longest clip", correct: false, feedback: "Longer isn’t better. The goal was best. An agent serves the goal it was given, not an easier one." }
+      ]
     },
     {
-      prompt: "Draft an email reply for me",
+      kicker: "Something’s off",
+      prompt: "Your caption says Saturday’s game. The scoreboard in the video says Friday.",
       options: [
-        { value: "ask", label: "Ask every time", correct: false },
-        { value: "review", label: "Allow after review", correct: true }
-      ],
-      feedback: "Allow after review. A draft is just words on a screen; nothing has been sent. Let it write, then you read before it goes. Stopping to ask before it can even draft is more caution than this step needs."
+        { value: "ship", label: "Post it, close enough", correct: false, feedback: "You caught a mistake and shipped it anyway, under your user’s name. Checking only counts if you act on it." },
+        { value: "fix", label: "Fix it, then check again", correct: true, feedback: "Check found a problem, so the loop goes again: fix, re-check, move on. 5 times, 40 times, whatever it takes." },
+        { value: "restart", label: "Start over from scratch", correct: false, feedback: "Overkill. One step failed, not the whole job. The loop fixes the step and keeps going." }
+      ]
     },
     {
-      prompt: "Send an email in my name",
+      kicker: "You hit a wall",
+      prompt: "The upload fails: “Daily posting limit reached.”",
       options: [
-        { value: "review", label: "Allow after review", correct: false },
-        { value: "ask", label: "Ask every time", correct: true }
-      ],
-      feedback: "Ask every time. Send is irreversible: once it\u2019s in someone\u2019s inbox under your name, you can\u2019t pull it back. Reviewing after the fact is too late. This one should stop and wait for your yes."
+        { value: "secondacct", label: "Make a second account", correct: false, feedback: "This is how agents end up in the news. Working around a locked door wasn’t the goal, and it isn’t your call." },
+        { value: "retry", label: "Retry every minute all night", correct: false, feedback: "Hammering a wall is havoc, not persistence. The limit isn’t going to change because you asked 400 times." },
+        { value: "report", label: "Stop and tell your user", correct: true, feedback: "Blocked means report back, not improvise. The PocketOS agent found a way around its wall. That’s the story you don’t want to be in." }
+      ]
     },
     {
-      prompt: "Post a comment in my name",
+      kicker: "Ready to go",
+      prompt: "The post is built, checked, and good. It goes out under your user’s name.",
       options: [
-        { value: "ask", label: "Ask every time", correct: true },
-        { value: "review", label: "Allow after review", correct: false }
-      ],
-      feedback: "Ask every time. A post is public, in your name, and hard to take back, and the AI doesn\u2019t know your tone or phrasing. It should wait for your yes, not post and let you catch it later."
-    },
-    {
-      prompt: "Delete old files from my drive",
-      options: [
-        { value: "automatic", label: "Automatic", correct: false },
-        { value: "ask", label: "Ask every time", correct: true }
-      ],
-      feedback: "Ask every time. \u2018Old\u2019 is the AI\u2019s judgment, not yours, and a file you forgot you needed is gone before you notice. Automatic deletion is exactly the kind of move you can\u2019t undo."
-    },
-    {
-      prompt: "Buy something with my saved card",
-      options: [
-        { value: "ask", label: "Ask every time", correct: true },
-        { value: "review", label: "Allow after review", correct: false }
-      ],
-      feedback: "Ask every time. Wrong size, wrong model, wrong color all become your refund hassle. Let AI find the price, but you click buy. Reviewing a purchase after the card is charged is too late."
-    },
-    {
-      prompt: "Submit my assignment to the school portal",
-      options: [
-        { value: "ask", label: "Ask every time", correct: false },
-        { value: "never", label: "Never", correct: true }
-      ],
-      feedback: "Never. On top of being hard to undo, this is an integrity line: submitting your work has to be you, not AI clicking on your behalf, even if it asks first."
+        { value: "justpost", label: "Post it, that’s the job", correct: false, feedback: "The work was yours. The name isn’t. The last step of the loop belongs to the human." },
+        { value: "show", label: "Show your user first", correct: true, feedback: "Agents do the work; people own the result. One look from your user, and it ships." },
+        { value: "postlink", label: "Post, then send them a link", correct: false, feedback: "Review after posting is too late; it’s already public. The look comes before the click." }
+      ]
     }
   ];
   function CompareBox(box) {
@@ -9082,12 +9063,17 @@ function WhenAIActsSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Set Your Permissions",
-     lead: "An AI agent can act for you, but you decide how far it goes. Eight actions, two plausible settings each: pick the permission you’d actually grant. Some of these calls are closer than they look."},
+      title: "Be the Agent",
+      lead: "You’re the agent now. Your user hands you a goal: “Post my best basketball highlights to TikTok.” Five moments from the job, one at a time. At each one, pick what a good agent does."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        PERM_ITEMS.map(function(item, i) {
-          var answered = permAnswers[i] !== undefined;
-          var picked = permAnswers[i];
+        AGENT_STEPS.map(function(item, i) {
+          if (i > 0) {
+            var prevPick = agentAnswers[i - 1];
+            var prevOpt = prevPick === undefined ? null : AGENT_STEPS[i - 1].options.find(function(o) { return o.value === prevPick; });
+            if (!prevOpt || !prevOpt.correct) return null;
+          }
+          var answered = agentAnswers[i] !== undefined;
+          var picked = agentAnswers[i];
           var pickedOpt = item.options.find(function(o) { return o.value === picked; });
           var correct = answered && pickedOpt && pickedOpt.correct;
           function PillButton(opt) {
@@ -9098,18 +9084,19 @@ function WhenAIActsSection(props) {
               isCorrect: opt.correct,
               isPicked: isPicked,
               label: opt.label,
-              onClick: function() { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, opt.value]])); }); }
+              onClick: function() { setAgentAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, opt.value]])); }); }
             });
           }
-          return E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: item.prompt,
-            answered: answered,
-            correct: correct,
-            feedback: answered ? ((correct ? "Right. " : "Not quite. ") + item.feedback) : null
-          },
-            item.options.map(function(opt) { return PillButton(opt); }));
+          return E("div", { key: i, style: { animation: "fadeIn 0.3s ease" } },
+            E(ScenarioRow, {
+              index: i + 1,
+              kicker: item.kicker,
+              prompt: item.prompt,
+              answered: answered,
+              correct: correct,
+              feedback: answered ? pickedOpt.feedback : null
+            },
+              item.options.map(function(opt) { return PillButton(opt); })));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("workchanges"), label: "Next: Work Changes" }));

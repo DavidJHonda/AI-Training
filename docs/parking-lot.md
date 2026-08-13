@@ -10,6 +10,15 @@ dormant helpers just because an older entry names them. Git is the source for ol
 
 ---
 
+## "Set Your Permissions" TRY IT — Rise of Agents (2026-08-13)
+
+- **Origin:** Rise of Agents (`WhenAIActsSection`). Removed 2026-08-13 (same day as, but after, the lesson-body rebuild below) and replaced by the "Be the Agent" TRY IT — a five-step sequential-reveal walk of the agent loop (plan → act → check → hit a wall → human review) using the lesson's TikTok-highlights scenario.
+- **Possible destination:** the natural companion if the permission frame ever returns (see the rebuild entry below — the "TWO KINDS OF ACCESS" box was its conceptual scaffolding, restore together). Also a candidate for any future agents-safety or AI-settings beat; its eight items are the most practical permission drills in the course.
+- **Shape:** eight `ScenarioRow` items, each an action ("Read my inbox and tell me what's urgent" … "Submit my assignment to the school portal") with two plausible permission settings (Automatic / Allow after review / Ask every time / Never) and per-item feedback keyed to reversibility; the assignment item is the integrity line ("Never … submitting your work has to be you").
+- **Full source:** in git history at the commit before this one — the `PERM_ITEMS` array and its `InteractiveBox` (search anchor: `Set Your Permissions`).
+
+---
+
 ## Rise of Agents rebuild — permission-frame boxes and prose (2026-08-13)
 
 - **Origin:** Rise of Agents (`WhenAIActsSection`). Removed 2026-08-13 when the lesson was rebuilt around two what's-an-agent comparison boxes (GPS vs. self-driving car; ask-AI vs. hire-an-agent), the agent-loop diagram, and a "Rogue agents" close ("it's your name on the work"). The permission thesis left the prose, but the "Set Your Permissions" TRY IT survives in the lesson. Prompt injection was NOT parked — it moved into the Privacy lesson ("Privacy risk grows the more AI can see."). The close board changed from "When AI acts, check the permission." / "You're the one who lets it through." to the your-name-on-the-work pair.

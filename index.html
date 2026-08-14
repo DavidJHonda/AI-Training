@@ -12551,34 +12551,57 @@ function WorkChangesSection(props) {
     })
   );
 }
-function CostClaimsTryIt(props) {
+function EnergyPerspectiveTryIt(props) {
+  // Anchor: ~0.3 Wh per AI chat (Epoch AI 2025; OpenAI's own figure is 0.34 Wh).
+  // Other figures are stable arithmetic: battery capacity, appliance wattage,
+  // water-heating energy, EPA fuel energy. Multiples are rounded for teens.
   var ROWS = [
-    { claim: "A longer answer takes more compute than a short one.", correct: "true", fb: {
-      ok: "Right, it’s true. More tokens means the whole network runs more times, so length drives cost.",
-      no: "Actually true. More tokens means the whole network runs more times, so length drives cost." } },
-    { claim: "A bigger model costs more compute per word than a smaller one.", correct: "true", fb: {
-      ok: "Right, it’s true. More parameters means more calculations for every single token.",
-      no: "Actually true. More parameters means more calculations for every single token." } },
-    { claim: "Once a model is trained, answering a question is basically free.", correct: "false", fb: {
-      ok: "Right, it’s false. Every answer re-runs billions of parameters: real electricity and water, every time.",
-      no: "Actually false. Every answer re-runs billions of parameters: real electricity and water, every time." } },
-    { claim: "The free tier costs the AI company almost nothing to serve.", correct: "false", fb: {
-      ok: "Right, it’s false. A free answer burns the same compute as a paid one. That’s why free tiers cap your messages, and why the companies would love you to upgrade.",
-      no: "Actually false. A free answer burns the same compute as a paid one. That’s why free tiers cap your messages, and why the companies would love you to upgrade." } }
+    { claim: "Doing the same math on a pocket calculator", correct: "less", fb: {
+      less: "Right, way less. A calculator runs for years on one coin battery. As Where AI Works Best taught you: exact math never needed a data center.",
+      more: "Other way: the calculator wins by a mile. It runs for years on one coin battery. Exact math never needed a data center.",
+      same: "Not close: the calculator uses almost nothing, running for years on one coin battery. Exact math never needed a data center." } },
+    { claim: "Fully charging your phone", correct: "more", fb: {
+      more: "Right. One full charge is about 15 watt-hours, roughly fifty AI chats.",
+      less: "Other way around: a full charge is about 15 watt-hours, roughly fifty AI chats’ worth.",
+      same: "It’s bigger than that: a full charge is about 15 watt-hours, roughly fifty AI chats." } },
+    { claim: "Sending a text message", correct: "less", fb: {
+      less: "Right, way less. A text is a tiny burst of radio, a few thousandths of a watt-hour. You could text all day for less than one chat.",
+      more: "Other way: a text is a tiny burst of radio, a few thousandths of a watt-hour. You could text all day for less than one chat.",
+      same: "A text is far smaller: a tiny burst of radio, a few thousandths of a watt-hour. You could text all day for less than one chat." } },
+    { claim: "Making two slices of toast", correct: "more", fb: {
+      more: "Right. A toaster pulls about 40 watt-hours in three minutes. Your breakfast costs over a hundred chats.",
+      less: "The toaster wins easily: about 40 watt-hours in three minutes. Your breakfast costs over a hundred chats.",
+      same: "Not even close to even: the toaster pulls about 40 watt-hours in three minutes, over a hundred chats’ worth." } },
+    { claim: "One Google search", correct: "same", fb: {
+      same: "Right, about the same. Both run on roughly a third of a watt-hour. Early AI models did use far more, and that’s where the “AI burns ten times a search” stat came from.",
+      more: "Close, but they’re about the same: roughly a third of a watt-hour each. Early AI models did use around ten times more than a search. Newer ones got efficient.",
+      less: "Actually about the same, roughly a third of a watt-hour each. A search fires up a data center too, the same kind of building." } },
+    { claim: "Streaming Netflix for one hour", correct: "more", fb: {
+      more: "Right. About 80 watt-hours between your screen and the servers: a couple hundred chats per episode.",
+      less: "Streaming costs more: about 80 watt-hours an hour between your screen and the servers. A couple hundred chats per episode.",
+      same: "An hour of streaming is about 80 watt-hours, a couple hundred chats. Video is heavy. Text is light." } },
+    { claim: "Driving one mile", correct: "more", fb: {
+      more: "Right. A gas car burns about 1,100 watt-hours of fuel energy per mile. One mile equals more than three thousand chats.",
+      less: "A gas car burns about 1,100 watt-hours of fuel energy every mile: more than three thousand chats.",
+      same: "Not remotely: one mile in a gas car burns about 1,100 watt-hours of fuel energy, more than three thousand chats." } },
+    { claim: "Taking a ten-minute hot shower", correct: "more", fb: {
+      more: "Right. Heating that water takes a few thousand watt-hours, close to ten thousand chats. Nobody feels guilty about a shower.",
+      less: "The shower is the biggest energy hog on this list: heating the water takes a few thousand watt-hours, close to ten thousand chats.",
+      same: "Heating water is enormously expensive: a few thousand watt-hours, close to ten thousand chats. The shower is the biggest thing on this list." } }
   ];
-  var LABELS = { "true": "True", "false": "False" };
-  var ORDER = ["true", "false"];
+  var LABELS = { "more": "More", "less": "Less", "same": "About the same" };
+  var ORDER = ["more", "less", "same"];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var answeredCount = Object.keys(answers).length;
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Does this cost claim hold up?",
-    lead: "AI’s energy and water footprint gets talked about in extremes. True or false? Decide each, then check your reasoning."},
+    variant: "try", surface: "mint", title: "Does it use more than an AI chat?",
+    lead: "An average AI chat uses about 1/3 of a watt-hour of electricity, less than an LED bulb uses in a few minutes. For each everyday activity, decide: does it use more energy, less, or about the same? Then remember: data centers answer billions of chats a day."},
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
         var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.claim, answered: answered, correct: correct, feedback: answered ? (correct ? r.fb.ok : r.fb.no) : null },
+        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.claim, answered: answered, correct: correct, feedback: answered ? r.fb[answers[i]] : null },
           ORDER.map(function(c) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
@@ -12622,7 +12645,7 @@ function TheHiddenCostSection(props) {
     E(BodyP, null,
       "None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
     closeBoard("computecost"),
-    E(CostClaimsTryIt, null),
+    E(EnergyPerspectiveTryIt, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("unexpected"); }, label: "Next: Unexpected Results" }));
 }

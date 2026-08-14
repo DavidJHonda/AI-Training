@@ -192,6 +192,13 @@ when it restores the whole beat coherently.
   frame — no outro, no engine-drawn sign restating the message.
 - GATE_SYNC: elements appear as the narration mentions them; narration leads,
   visuals follow.
+- GATE_BOARD_WALK: when narration walks two or more points on a kit board that
+  is legible at whole-board scale, does the exact current lesson board remain
+  fully visible for the complete walk, with the active card or row highlighted
+  in spoken order? A substitute graphic, redraw, crop, zoom, or pan between
+  points fails and needs a visual repair. Dense-board exception: a dive may
+  frame the whole active card only when the text is genuinely unreadable at
+  720p; never crop inside a card.
 
 ## Output format — exactly this, nothing before or after
 
@@ -212,6 +219,7 @@ GATE_RESTRAINT: PASS|FAIL — <evidence>
 GATE_STOCK: PASS|FAIL — <evidence>
 GATE_ENDING: PASS|FAIL — <evidence>
 GATE_SYNC: PASS|FAIL — <evidence>
+GATE_BOARD_WALK: PASS|FAIL|N/A — <evidence; N/A when no qualifying multi-point kit board is walked>
 BIGGEST_LEVER: <the single highest-value fix, and whether it needs a RE-ROLL or a REPAIR>
 NOTES: <at most two lines, or "none">
 ```

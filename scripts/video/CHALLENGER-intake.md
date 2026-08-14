@@ -26,7 +26,8 @@ whole point of the re-roll was those lines.
 
 Also check, from the same prompt:
 - did it end on the close board as the literal final frame?
-- did it draw marks on any attached board (the prompt bans this)?
+- did each qualifying multi-point board use the exact current lesson board,
+  held fully visible with narration-synced item highlights?
 - did it letter style words into the artwork ("fineliner", "analog texture")?
 
 ## Part 3 — harvest
@@ -59,10 +60,11 @@ GATE_RESTRAINT: PASS|FAIL — <evidence>
 GATE_STOCK: PASS|FAIL — <evidence>
 GATE_ENDING: PASS|FAIL — <evidence>
 GATE_SYNC: PASS|FAIL — <evidence>
+GATE_BOARD_WALK: PASS|FAIL|N/A — <evidence>
 SPEC:
   <requirement> — MET|MISSED — <timestamp or quote>
   ...
-  marks-on-boards: YES|NO — <evidence>
+  canonical-board-walk: PASS|FAIL|N/A — <evidence>
   style-leakage: YES|NO — <evidence>
 HARVEST:
   <m:ss>–<m:ss> — AUDIO|VISUAL|BOTH — <what it is, and why it's worth taking>

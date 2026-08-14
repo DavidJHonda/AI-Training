@@ -12,9 +12,12 @@ import os, sys
 
 LIMIT_HARD, LIMIT_WARN = 4950, 4800
 
-MOTION = ("Motion belongs to the drawn scenes: animate builds and transitions in what you draw. "
-          "{board_clause}Hold a board as long as the narration is still walking it, however long "
-          "that takes; only avoid a frame left up after the narration has passed it.")
+MOTION = ("Motion belongs to drawn scenes: animate builds and transitions there. "
+          "{board_clause}Remove a board only when its narration ends.")
+BOARD_WALK = ("On an attached board legible as a whole, keep the exact full board fixed through "
+              "its narration and highlight only the current card or row as spoken; never replace, "
+              "crop, or pan between points. Dive to a whole card only if its text is unreadable "
+              "full-board. ")
 DECK = ('Teach from the visuals, never describe them — never say "this image shows" or "as this '
         'graphic illustrates"; speak the idea, let the picture follow.')
 STYLE_LEAK = ('Never letter the drawing\'s own style or materials into the artwork — no "fineliner", '
@@ -54,7 +57,8 @@ def build(slug, title, lo, hi, boards, body, numbers, props, required, extra=())
     rules += [WHITE]
     rules += list(extra)
     rules += [f"Required narration: {required}",
-              MOTION.format(board_clause=("On an attached image, move the camera slowly. " if boards else "")),
+              MOTION.format(board_clause=(BOARD_WALK if boards else
+                                           "Hold each drawn board while the narration walks it. ")),
               DECK,
               # close-board-as-final-frame retired 2026-07-27: 5 of 12 rolls in one
               # round appended an outro anyway, and freeze_finisher.py cuts post-close
@@ -740,13 +744,13 @@ End on board 4: "Use AI to learn, not to skip the learning." over "Feed it your 
     extra=("Write in the lesson's plain voice for a 16-year-old; never substitute academic register such as \"pedagogy\", \"architecture\", \"ecosystem of materials\", \"ground truth\", or \"magnifier of cognitive effort\".",
            "Never invent a chart, a graph, a statistic or a measured claim. The last roll ended on a fabricated bar chart reading \"AI AMPLIFIES STUDENT EFFORT, student input 10, AI amplification 30, 3X AMPLIFIED\"; no such numbers exist anywhere in this lesson and nothing like them may appear.",))
 
-add("how-ai-answers", title="How AI Answers", lo=3.5, hi=4, boards=True,
+add("how-ai-answers", title="How AI Answers", lo=4, hi="4.5", boards=True,
     body="""
 Attached boards in order: 1 the phone tray, 2 the machine, 3-7 the five answer rows, 8 the ranked list, 9 the answer, 10 the close.
 
 Focus: the answer gets built one token at a time, and the whole run has a name.
 
-Open on board 1, the phone tray, and the everyday version of the idea. Then board 2, the machine: walk the prep stages, and name what each one does — including the token IDs, which the last roll left on screen unmentioned.
+Open on board 1, the phone tray, and the everyday version of the idea. Then board 2, the machine: walk the prep stages IN ORDER and name what each one does — the context window, tokens and their IDs (which the last roll left on screen unmentioned), then STARTING MEANING, then the layers. Do not merge starting meaning into the layers; see rule 5.
 
 Then the core why, which the last roll skipped and which is the most important sentence in this video: the model reads only the FINAL vector — and say why. The next word goes in exactly one place, right after the last token, and attention has spent every layer folding the earlier tokens into it. Do not state "the model only reads this final vector" and move on; give the reason.
 
@@ -762,7 +766,9 @@ End on board 10: "Every answer is built one token at a time." over "The whole ru
 """,
     numbers="The only numbers allowed are the lesson's own token IDs and probabilities: 22, 17, 14, 9, 6, 32 percent. Invent no other figures and animate no counter through values the lesson does not contain.",
     props="No readable or pseudo-readable text in drawn props; real words belong only on the attached boards and in clean dark-ink labels.",
-    required='the narrator must say "That move is called prediction" as a definition and must name "inference"; must give the reason the final vector is the one that matters (the next word goes in exactly one place, and attention has folded the earlier tokens into it); and must say that the neighborhood the vector lands in is the top of the ranked list.')
+    required='the narrator must say "That move is called prediction" as a definition and must name "inference"; must give the reason the final vector is the one that matters (the next word goes in exactly one place, and attention has folded the earlier tokens into it); and must say that the neighborhood the vector lands in is the top of the ranked list.',
+    extra=("STARTING MEANING IS ITS OWN BEAT, between tokens and the layers, and it is required. After the text is split into tokens and their order is fixed, each token's number is looked up in the embedding table and becomes a vector — that vector is its starting meaning, the same in every sentence, before any context is applied. Only THEN do the layers use attention to fold the surrounding tokens into it. Do NOT say or imply that the layers turn dictionary definitions into vectors: the vectors exist first, and the layers change them. The last roll skipped this step and inverted it, which is the single defect this re-roll exists to fix.",
+           "End on the close board and speak both of its lines verbatim: \"Every answer is built one token at a time.\" then \"The whole run is called inference.\" Paraphrasing them does not count; the last roll gestured at both and said neither."))
 
 add("fake-trap", title="Fake Trap", lo=3.5, hi=4, boards=True,
     body="""

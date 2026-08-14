@@ -14,6 +14,26 @@ command because that breaks the relative `.video-venv/...` paths. Python:
 `bash scripts/video/ffmpeg.sh ...`.
 Shell is zsh: `for x in "a b"` does NOT word-split; write args explicitly.
 
+## Canonical content-board walk (mandatory)
+
+Use this treatment whenever narration walks two or more points on a current lesson
+board that remains legible in whole-board framing:
+
+- Replace the complete narrated board span, including its board-level introduction,
+  with the exact current app capture. Never use an engine recreation or a recomposed
+  approximation when the lesson board exists.
+- Hold the whole board in fixed framing throughout. Start unmarked when narration
+  addresses the board as a whole, then show exactly one active card or row at each
+  spoken onset. Highlights replace one another; they accumulate only when narration
+  explicitly combines or compares points.
+- No camera dive, crop, zoom, or pan between items. Background animation is not a
+  reason to leave the board: the board is the teaching scene while it is being walked.
+- Exception: if text is genuinely unreadable at 720p in whole-board framing, a dive
+  may frame the whole active card. Never crop inside a card, and return to the same
+  board rather than introducing a substitute visual.
+- End the board span only when narration moves to the next teaching beat. Static time
+  while narration is explaining the board is intentional teaching, not dead time.
+
 ## 1. Map the spans
 - Scene cuts: `.video-venv/bin/python scripts/video/scenes.py videos/<slug>.mp4`
   (frame + seconds per cut). Replace spans ON THE ORIGINAL'S OWN CUTS.

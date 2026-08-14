@@ -15,8 +15,25 @@ the lesson and lose no essential understanding. Source coherence and teaching
 accuracy are separate gates; neither can be offset by cleanliness or pacing.
 
 The tracker keeps the r3 numeric columns because r4 does not change the /100
-calculation. Run `scripts/video-tracker-migrate-r4.gs` once to add the Source
-QA, Accuracy Gate, and Substitute Gate columns without altering old reviews.
+calculation. Run—or rerun—`scripts/video-tracker-migrate-r4.gs` to add any missing
+Source QA, Accuracy Gate, Substitute Gate, and Board Walk Gate columns without
+altering old reviews.
+
+## The standard content-board walk (owner rule, 2026-08-14)
+
+**Whenever narration walks two or more points on a compact lesson board, the exact
+current lesson board stays fully visible for the entire walkthrough and the active
+card or row is highlighted at its spoken onset.** Do not substitute an invented
+graphic, redraw the board, crop into it, or pan between its points. If narration first
+addresses the board as a whole, begin with the unmarked state. Highlights replace one
+another unless the narration explicitly combines points.
+
+The only exception is a board whose text is genuinely unreadable at 720p in whole-board
+framing. In that case, a camera dive may frame the whole active card—never a crop inside
+the card—and every state still comes from the same current app capture. Background
+animation is expendable during a board walk; keeping the teaching framework visible is
+the priority. This is enforced at ship review by `GATE_BOARD_WALK`. Build and verify the
+replacement leg with `scripts/video/RETROFIT-PLAYBOOK.md`.
 
 ## The standard close (owner rule, 2026-08-04 — applies to EVERY video)
 

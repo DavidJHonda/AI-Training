@@ -10,6 +10,16 @@ dormant helpers just because an older entry names them. Git is the source for ol
 
 ---
 
+## Ask AI — whole lesson removed (2026-08-14)
+
+- **Origin:** the `askai` lesson ("Ask AI", Build Your Skills group, between Tune the Model and Thought Partner). Removed 2026-08-14 as an owner call: a one-tip lesson ("when you're stuck on how to use AI, ask the AI") whose original premise ("if you want to know something, Ask AI") the course's later verification lessons deliberately complicate. Build Your Skills went 8 → 7 lessons; course count 59 → 58 (also updated in LAB 12's reviews file, review #20).
+- **Possible destination:** the four meta-prompt moves are Art of Prompting material — especially "Ask me whatever you need about me and this job to do ___ well" (letting AI pull the context out of you), which appears nowhere else in the course and is the strongest surviving idea. The TRY IT's cover-letter scenario is the best of the three.
+- **The four moves (verbatim):** "Write me a strong prompt for ___, then I'll edit it." / "What do you need from me to do ___ well?" / "How would you approach ___? Give me a few options." / "What should I be asking you about this that I haven't?"
+- **Close board (retired):** "AI is the best manual you've got." / "Ask it how to use it."
+- **Full source:** in git history at the commit before this one — `AskAISection` (search anchor: `Four ways to ask AI for help using AI`). No video ever shipped for this lesson.
+
+---
+
 ## "What one answer costs" + Pluto scale boxes — Data Centers (2026-08-14)
 
 - **Origin:** Data Centers (`TheHiddenCostSection`). Removed 2026-08-14 when the lesson opening was rewritten around three plain-prose scale claims (2 quadrillion calculations per 2,000-word chat; ~100 septillion to train a model; compute defined) instead of the worked one-answer example. The "Back in One More Thing, we left you with a promise" callback paragraph was cut with them; its "somebody pays for all that arithmetic, in electricity, in water, and in money" line survives in the lesson as its own paragraph.

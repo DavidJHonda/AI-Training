@@ -457,7 +457,6 @@ const CLOSE_BOARDS = {
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Build Your Skills
   choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
-  askai: { pill: "AI is the best manual you’ve got.", sticky: "Ask it how to use it." },
   thoughtpartner: { pill: "Think with it, not for you.", sticky: "It’s a partner, not the author." },
   humanedge: { pill: "Some skills stay yours.", sticky: "That’s where your value compounds." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
@@ -1872,7 +1871,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Build Your Skills",
-  sections: ["openerskills", "choosemodel", "askai", "thoughtpartner", "humanedge", "creativethinking", "becurious", "buildedge"]
+  sections: ["openerskills", "choosemodel", "thoughtpartner", "humanedge", "creativethinking", "becurious", "buildedge"]
 }, {
   label: "Finish Smarter",
   sections: ["whatyoulearned", "integrity", "privacy", "aijudges", "fullworkflow", "howwegothere"]
@@ -1901,7 +1900,6 @@ const SECTION_META = {
   inference: { kicker: "THE FINE PRINT", label: "One More Thing", title: "One More Thing", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "PICK THE MODEL, SET THE EFFORT", label: "Tune the Model", icon: "\uD83E\uDE9C" },
-  askai: { kicker: "AI IS THE BEST MANUAL", label: "Ask AI", icon: "🙋" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Mind Trap", icon: "\uD83E\uDEE5" },
@@ -2366,6 +2364,11 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(ShowcaseBox, null,
       /*#__PURE__*/React.createElement(WatchTonightSeeIt, null)),
     /*#__PURE__*/React.createElement(BodyP, null, "Recommendation AI just slid to the next title on its list. Generative AI took your situation, that you’d already seen it, and composed something new from it. And it’s still in the conversation."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/what-is-ai.jpg",
+      alt: "Split scene of two teens in Dallas Stars jerseys meeting two kinds of AI. On the left they browse a wall of movie posters while a recommendation system highlights the next title with star ratings. On the right they lay down cards for a storm cloud, a detective, and a city skyline, and a glowing new scene combining all three appears on the sketchbook below.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE NAME GAME"),
     /*#__PURE__*/React.createElement(BodyP, null, "You’ll hear a pile of names: AI, generative AI, ChatGPT, LLM. Don’t let the terminology trip you up. For the rest of this course, we’ll usually say AI, and we mean the generative kind that you experience with ChatGPT, Claude, and Gemini."),
     /*#__PURE__*/React.createElement(BodyP, null, "There’s a name for these generative AI tools: LLM, short for ", /*#__PURE__*/React.createElement("strong", null, "Large Language Model"), ". Think of it like this. ChatGPT is the app you use, and the LLM is the engine under the hood doing the work."),
@@ -7327,7 +7330,7 @@ function ChoosingModelSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("askai"), label: "Next: Ask AI" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
 function PhoneTrayStrip() {
   var E = React.createElement;
@@ -8363,70 +8366,6 @@ function ThinkingTogetherStatic(props) {
             /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: "12px 12px 12px 4px", padding: "10px 14px", fontSize: 14, color: "var(--ink)", maxWidth: "85%", lineHeight: 1.55 } }, ex.ai)));
       })),
     /*#__PURE__*/React.createElement(Takeaway, { headline: "AI explored. You decided.", body: "It opened up the options, pushed back on a weak plan, and poked at the obstacles, but every choice stayed yours. A good thought partner widens your thinking without taking it over." }));
-}
-function AskAISection(props) {
-  const [askAnswers, setAskAnswers] = useState({});
-  const ASK_MOVES = [
-    {
-      situation: "You need a cover letter for a summer job, but every prompt you try gives the same generic result.",
-      options: [
-        { label: "“Ask me whatever you need about me and this job to write a strong, specific cover letter.”", correct: true, headline: "You let it pull the context out of you.", feedback: "The generic result came from a generic prompt. Letting the AI ask for what it needs gets the specifics onto the page. Specific in, specific out." },
-        { label: "Keep rewording “write me a cover letter” until something better comes out.", correct: false, headline: "That’s guessing at what it needs.", hint: "The problem isn’t the wording. The model has nothing specific about you or the job. Who could tell you what’s missing fastest?", feedback: "You can burn ten tries guessing. Faster to ask the AI what it needs, then hand it exactly that." }
-      ]
-    },
-    {
-      situation: "A teacher assigns a project and you’re not even sure AI can help, or where you’d start.",
-      options: [
-        { label: "Describe the project and ask: “How could you help with this, and what would you need from me?”", correct: true, headline: "Now you know what’s possible before sinking time in.", feedback: "One question maps out what the tool can do here and what you’d need to gather. That’s the cheapest planning you’ll ever do." },
-        { label: "Assume AI probably can’t help, and do the whole thing the hard way.", correct: false, headline: "You never found out.", hint: "You’re guessing at the tool’s limits without checking them. What’s the fastest way to learn what it can actually do here?", feedback: "Maybe it couldn’t help. But you didn’t check, and checking costs one message. Ask first, then decide." }
-      ]
-    },
-    {
-      situation: "You want a good prompt for turning your messy notes into study questions, but you don’t know how to phrase it.",
-      options: [
-        { label: "“Write me a strong prompt for turning notes into study questions, then I’ll tweak it.”", correct: true, headline: "It writes prompts for a living.", feedback: "The model has seen millions of prompts. Starting from its draft and editing beats building one from scratch, and the final version still ends up yours." },
-        { label: "Spend ten minutes engineering the perfect prompt yourself before you try anything.", correct: false, headline: "You’re doing the model’s job.", hint: "Writing good AI prompts is something the model is unusually good at. Why start from a blank page?", feedback: "A blank-page prompt is the slow path. Let it draft one, then make it yours. Minutes saved on every task." }
-      ]
-    }
-  ];
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "askai" }),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "You’ve set the tool up. The next skill is what to do when you’re not sure how to use it for something. The answer is almost always the same: ask the AI."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "It has read millions of examples of good prompts, task setups, and questions, across nearly every subject. So when you’re stuck on how to ask, what it needs, or where to start, the AI itself is usually a better source than your own first guess."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Four ways to ask AI for help using AI"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "When you’re stuck on the how, not the what, these four moves get you unstuck fast:"),
-    /*#__PURE__*/React.createElement("ul", { style: { color: "var(--inkSoft)", marginBottom: 18, fontSize: 16, lineHeight: 1.8, paddingLeft: 22 } },
-      /*#__PURE__*/React.createElement("li", null, "“Write me a strong prompt for ___, then I’ll edit it.”"),
-      /*#__PURE__*/React.createElement("li", null, "“What do you need from me to do ___ well?”"),
-      /*#__PURE__*/React.createElement("li", null, "“How would you approach ___? Give me a few options.”"),
-      /*#__PURE__*/React.createElement("li", null, "“What should I be asking you about this that I haven’t?”")
-    ),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "The pattern is the same each time: instead of guessing how to use the tool, you make the tool show you. It was trained on how-to-use-AI writing and on the subjects themselves, so the how-to layer is exactly where it’s strong."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "It’s still AI, so keep the call yours."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Asking AI how to ask gets you unstuck faster, but its advice can be wrong like any other answer. Use it to start, then check what comes back and decide for yourself."),
-    closeBoard("askai"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Ask, Don’t Guess",
-      lead: "When you don’t know how to use AI for something, the fastest fix is usually to ask it. Three moments where you’re stuck on the how: pick the move that puts the AI to work."
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        ASK_MOVES.map(function(mv, mi) {
-          var picked = askAnswers[mi];
-          return /*#__PURE__*/React.createElement("div", { key: mi, style: { paddingTop: mi === 0 ? 0 : 24, marginTop: mi === 0 ? 0 : 24, borderTop: mi === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 16 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(mi + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, mv.situation)),
-            /*#__PURE__*/React.createElement(QuizBlock, { key: mi, surface: "mint", statement: "Which move puts the AI to work?", totalQuestions: ASK_MOVES.length, options: mv.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[mi, idx]])); }); } }));
-        }))),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("thoughtpartner"), label: "Next: Thought Partner" }));
 }
 function ThoughtPartnerSection(props) {
   const [tpAnswers, setTpAnswers] = useState({});
@@ -10152,10 +10091,9 @@ function OpenerSkillsSection(props) {
     groups: [
       {
         kicker: "SET UP THE TOOL",
-        bridge: "First, working the tool: which model, how hard it should think, and what to do when you\u2019re not sure how to ask.",
+        bridge: "First, working the tool: which model to pick, and how hard it should think.",
         questions: [
-          { question: "Which model do I pick, and how hard should it think?", lessonId: "choosemodel" },
-          { question: "What do I do when I don\u2019t know how to ask?", lessonId: "askai" }
+          { question: "Which model do I pick, and how hard should it think?", lessonId: "choosemodel" }
         ]
       },
       {
@@ -12487,6 +12425,11 @@ function WorkChangesSection(props) {
     }),
     E(BodyP, null,
       "Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just let you do things faster. ", E("strong", null, "It lets you focus on what’s really important"), "."),
+    E("img", {
+      src: "illustrations/work-changes.jpg",
+      alt: "Split scene of the same assignment done two ways by teens in Dallas Stars jerseys. On the left, two of them hand-sort hundreds of paper customer reviews into stacks across a desk late into the evening. On the right, a screen shows the reviews already grouped into themes with charts while one teen studies a review card and another points at a whiteboard mapping the recommendation.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
 
     E(SectionKicker, null, "THE CONCEPTS"),
     E(BodyP, null,
@@ -12612,21 +12555,21 @@ function TheHiddenCostSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "computecost" }),
-    E(BodyP, null, "As you learned, the scale of the math behind AI is almost impossible to grasp. A 2,000-word chat between you and AI runs to about 2 quadrillion individual math calculations. And that’s just for one chat!"),
-    E(BodyP, null, "And to train a new model? It takes about 100 septillion individual math calculations. That’s the number 1 followed by twenty-six zeroes!"),
-    E(BodyP, null, "That’s why there’s so much in the news about data centers. It all comes down to one thing: the ability to run the math, which the AI companies call ", E("strong", null, "compute"), ". And they can never have enough of it."),
+    E(BodyP, null, "The scale of the math behind AI is almost impossible to grasp. A 2,000-word chat between you and AI runs to about 2 quadrillion individual math calculations. And that’s just for one chat!"),
+    E(BodyP, null, "And to train a new model? It takes about 100 septillion individual math calculations. That’s the number 1 followed by twenty-six zeroes! And for you visual learners, that’s ", E("span", { style: { wordBreak: "break-all" } }, "100,000,000,000,000,000,000,000,000"), "."),
+    E(BodyP, null, "That’s why there’s so much in the news about data centers. It’s about one thing: the ability to run the math, which the AI companies call ", E("strong", null, "compute"), ". And they can never have enough of it."),
     E(SectionKicker, null, "WHAT IS A DATA CENTER"),
     E(BodyP, null, "Think of a big warehouse packed with thousands of specialized chips, called ", E("strong", null, "GPUs"), ", running around the clock."),
     E("img", { src: "illustrations/data-centers.jpg", alt: "Inside a vast AI data center: rows of server racks stretching to the far wall of a warehouse-sized hall, glowing with blue status lights under ceiling floodlights. A single person walking the main aisle, dwarfed by the racks, is the only human in sight.", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
-    E(BodyP, null, "The scale is hard to overstate. A big AI data center covers the ground of several football fields and draws as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, which makes this one of the largest construction projects happening anywhere on Earth right now. When you hit send in ChatGPT, one of these buildings answers."),
+    E(BodyP, null, "The scale is hard to overstate. A big AI data center covers the ground of several football fields and uses the same electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, so it’s one of the largest construction projects happening anywhere in the world. When you hit send in ChatGPT, a data center answers."),
     E(BodyP, null,
-      E("strong", null, "Somebody pays for all that arithmetic, in electricity and in water.")),
+      E("strong", null, "Somebody pays for all that arithmetic.")),
     E(ShowcaseBox, { marginBottom: 28 },
       E("div", { className: "numcols-2" },
         [
           { icon: "⚡", title: "The electric bill", desc: "Data centers now use about 6 percent of all U.S. electricity, and forecasts say 12 percent by 2030. Some household power bills are already climbing." },
-          { icon: "💧", title: "The water bill", desc: "The computer chips run hot, and cooling them uses water. A large data center can run through a million gallons or more on a hot day." },
-          { icon: "🔊", title: "The noise", desc: "The cooling fans hum 24 hours a day, loud enough that neighbors in some towns have sued over lost sleep. It never turns off." },
+          { icon: "💧", title: "The water bill", desc: "The computer chips run hot, and cooling them uses water. A large data center can run through a million gallons on a hot day." },
+          { icon: "🔊", title: "The noise", desc: "The cooling fans hum 24 hours a day, loud enough that neighbors in some towns have sued over lost sleep. A data center never turns off." },
           { icon: "👷", title: "Fewer jobs than you’d think", desc: "For all that size, a data center covering several football fields runs with only 100 to 200 permanent workers, about the staff of a big supermarket." }
         ].map(function(item, i) {
           return E("div", {
@@ -12639,9 +12582,9 @@ function TheHiddenCostSection(props) {
             E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
         }))),
     E(SectionKicker, null, "SHRINKING THE BILL"),
-    E(BodyP, null, "The AI companies know all of this, and the race to shrink the bill is real. Microsoft is paying to restart the Three Mile Island nuclear plant just to power its data centers, and other companies are betting on new kinds of small reactors. Newer cooling designs recycle water in a closed loop instead of evaporating it. And custom chips are being built to squeeze more math out of every watt."),
+    E(BodyP, null, "The AI companies know all of this, and the race to shrink the bill is real. Microsoft is paying to restart the Three Mile Island nuclear plant just to power its data centers, and other companies are betting on new kinds of small reactors. Newer cooling designs recycle water in a closed loop instead of evaporating it. And custom computer chips are being built to squeeze more math out of every watt."),
     E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
-    E(BodyP, null, "Every big technology has a footprint, from streaming video to the cars outside. But the footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet. That’s the bill."),
+    E(BodyP, null, "Every big technology has a footprint, from streaming video to the cars outside. AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet."),
     E(BodyP, null,
       "None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
     closeBoard("computecost"),
@@ -13068,7 +13011,6 @@ const SECTION_COMPONENTS = {
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,
-  askai: AskAISection,
   prompt: PromptSection,
   documenttrap: DocumentChatSection,
   critical: CriticalThinkingSection,

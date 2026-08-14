@@ -10,6 +10,17 @@ dormant helpers just because an older entry names them. Git is the source for ol
 
 ---
 
+## "Back at the harbor" + THE FOUR VOICES, ANSWERED — Unexpected Results (2026-08-14)
+
+- **Origin:** the closing stretch of Unexpected Results (`unexpected`). Removed 2026-08-14: the harbor callback and answered-voices box existed for an older Embrace opener that promised the four voices would be answered; the course evolved past that structure. The close board survives. The bold closing pair ("The smartest people aren't the ones who panic or worship." / "They're the ones who can judge.") was cut in the same pass. The "Spot the worry" TRY IT (three soundbites, pick the response that meets the real worry underneath — brush-offs and cheap debunks as distractors) was replaced later the same day by the Great Hanoi Rat Quiz; its meet-the-worry mechanic would restore alongside the answered-voices frame (full source in git: `SpotTheWorryTryIt`).
+- **Possible destination:** the "meet the worry, don't answer the soundbite" frame is strong standalone teaching — a future What People Say / Loudest Voices revision could absorb it; the four answer cards are ready-made board content.
+- **Cut prose worth reusing:** "underneath each one is a real worry or a real hope, and the person shouting mostly wants that part taken seriously." / "Answer the soundbite and you're just another voice in the argument. **Meet the worry**, and you're the one person in the room actually helping."
+- **The four cards (gist):** take over → permission is the lever; take all the jobs → task by task, ATM/tellers; just hype → receipts (DeepMind, release graph, internet 1999); kids just cheat → same tool two futures, "Show them."
+- **Also cut in the same pass:** "Notice these aren't the misses from Loudest Voices..." (size-miss vs. category-miss distinction) and the "people the future embarrasses" closer.
+- **Full source:** in git history at the commit before this one — `FOUR_VOICES` array (search anchor: `THE FOUR VOICES, ANSWERED`).
+
+---
+
 ## Ask AI — whole lesson removed (2026-08-14)
 
 - **Origin:** the `askai` lesson ("Ask AI", Build Your Skills group, between Tune the Model and Thought Partner). Removed 2026-08-14 as an owner call: a one-tip lesson ("when you're stuck on how to use AI, ask the AI") whose original premise ("if you want to know something, Ask AI") the course's later verification lessons deliberately complicate. Build Your Skills went 8 → 7 lessons; course count 59 → 58 (also updated in LAB 12's reviews file, review #20).

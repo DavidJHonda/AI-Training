@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Build one r3 grading bundle per video.
+"""Build one current-rubric grading bundle per video.
 
 Per video, writes into OUT/<slug>/:
   transcript.txt  segment-level narration with [m:ss] stamps (faster-whisper base.en)

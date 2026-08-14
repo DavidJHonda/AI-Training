@@ -6,7 +6,7 @@ merits, and find what could be harvested from it.
 
 ## Part 1 — grade it
 
-Follow `scripts/video/GRADER-r3.md`
+Follow `scripts/video/GRADER-r4.md`
 exactly, including the two false-positive traps and the cite-or-don't-deduct
 discipline. Produce the standard output block.
 
@@ -51,6 +51,9 @@ TEACHING_TEACHES_VS_RECITES: <n>/15 — <evidence>
 TEACHING_BOARD_CONTENT: <n>/10 — <evidence>
 CLEANLINESS: <n>/20 — <evidence>
 PACING: <n>/20 — <evidence>
+SOURCE_QA: PASS|FAIL — <lesson-line evidence>
+GATE_ACCURACY: PASS|FAIL — <timestamp or quote>
+GATE_SUBSTITUTE: PASS|FAIL — <could a student watch instead of reading and lose no essential understanding?>
 GATE_SPINE: PASS|FAIL — <evidence>
 GATE_RESTRAINT: PASS|FAIL — <evidence>
 GATE_STOCK: PASS|FAIL — <evidence>
@@ -61,7 +64,6 @@ SPEC:
   ...
   marks-on-boards: YES|NO — <evidence>
   style-leakage: YES|NO — <evidence>
-TOP_BAND: YES|NO — <one sentence>
 HARVEST:
   <m:ss>–<m:ss> — AUDIO|VISUAL|BOTH — <what it is, and why it's worth taking>
   ...  (or "none worth taking")

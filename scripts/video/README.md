@@ -6,6 +6,18 @@ here shipped on real videos (learn-with-ai, what-you-can-control, does-ai-think,
 how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
 composite, and the Work With AI challenger round).
 
+## Evaluation
+
+`videos/video-rubric.csv` is the r4 authority and
+`scripts/video/GRADER-r4.md` is the required procedure. The primary ship test is
+non-compensable: a student must be able to watch the video instead of reading
+the lesson and lose no essential understanding. Source coherence and teaching
+accuracy are separate gates; neither can be offset by cleanliness or pacing.
+
+The tracker keeps the r3 numeric columns because r4 does not change the /100
+calculation. Run `scripts/video-tracker-migrate-r4.gs` once to add the Source
+QA, Accuracy Gate, and Substitute Gate columns without altering old reviews.
+
 ## The standard close (owner rule, 2026-08-04 — applies to EVERY video)
 
 **Every video ends on the APP's close board, inserted in post with the standard
@@ -171,7 +183,7 @@ diffs of 25-30 — thick black strokes moving 2px change a lot of pixels. Judge 
 by the shape of the curve (a smooth 6 → 13 → 25 → 30 → 25 → 18 → 6 ramp is an
 ease-in/ease-out pan), not by the magnitude alone.
 If max diff < 25 and you can see the every-fifth-frame duplicates, it is a pan
-or a build. Leave it alone — and remember r3 does not score animation, so there
+or a build. Leave it alone — and remember the current rubric does not score animation, so there
 is nothing to win by freezing motion anyway.
 
 ## Recipes without a dedicated script (hand-written graphs via ffmpeg.sh)

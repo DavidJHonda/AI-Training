@@ -2,8 +2,8 @@
 """Generate the per-video re-roll prompts for Prompts/.
 
 One shared rules block so every kit is calibrated identically, plus a per-lesson
-body (focus + scene walk) and per-lesson bans/required narration targeted at that
-video's r3 deducts.
+body (focus + scene walk) and per-lesson bans/required narration targeted at the
+current rubric's deductions for that video.
 
 Hard limit: the Gemini Notebook prompt box truncates at 5,000 characters (UTF-16-ish).
 Aim <= 4,800. The builder refuses to write anything over 4,950.
@@ -620,7 +620,7 @@ Board 3, Move 2, describe the answer you want: the model fills in every blank yo
 
 Board 4, Move 3, one job at a time: big work goes in steps, one prompt one job, so each part lands and you can check it. Bad, write me a five-page paper on the Cold War with an outline, thesis, research, citations and a conclusion; better, step one, help me shape a strong thesis on how the space race reflected Cold War tensions.
 
-Then the calibration: a quick factual question needs none of this, real work needs your situation and the answer you want, a big project adds steps. The more the result matters, the more you bring.
+Then the calibration: a quick factual question needs none of this. A focused task, like improving one paragraph, needs your situation and the answer you want. A multi-step project, like developing a full essay, adds steps. Make this distinction explicit: drafting an entire essay is a multi-step project and should not be used as an example of something that needs only the first two moves. The more the result matters, the more you bring.
 
 End on board 5: "A prompt is a briefing, not magic words." over "That's the whole art."
 """,

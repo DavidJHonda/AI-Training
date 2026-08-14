@@ -114,7 +114,7 @@ Step 1: Help me shape a strong thesis for a 5-page paper on how the space race r
 
 ## You don't need all of these every time
 
-How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation and describe the answer you want. A big project: add steps. The more the result matters, the more you bring.
+How much packaging does a prompt need? A quick factual question: none, just ask. A focused task, like improving one paragraph: share your situation and describe the answer you want. A multi-step project, like developing a full essay: add steps. The more the result matters, the more you bring.
 
 A prompt is a briefing, not magic words.
 

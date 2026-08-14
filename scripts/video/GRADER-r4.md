@@ -1,15 +1,16 @@
-# r3 grading instructions — read fully before scoring
+# r4 grading instructions — read fully before scoring
 
 You are grading ONE Gemini Notebook lesson-overview video for an AI literacy course
-aimed at 16-year-olds, under rubric r3. Your assignment names the slug, the
+aimed at 16-year-olds, under rubric r4. Your assignment names the slug, the
 lesson file, and the bundle directory.
 
 ## Do this first
 
 1. From the repository root, read `videos/video-rubric.csv`
    — the rubric is the authority, these instructions are the procedure.
-2. Read the lesson file. This is the ground truth: the video is meant to
-   substitute for THIS lesson.
+2. Read the lesson file. This is the grounding source: the video is meant to
+   substitute for THIS lesson. Do not presume the source is infallible; perform
+   the Source QA check below before treating it as authoritative.
 3. Read the whole bundle:
    - `transcript.txt` — the narration, with timestamps. This is the spine.
    - `holds.txt` — spans with no scene cut, paired with the narration underneath.
@@ -25,7 +26,7 @@ lesson file, and the bundle directory.
 Do NOT look up this video's previous grade. Do not read the tracker sheet, do
 not grep memory files, do not read git log or commit messages about this video,
 do not read its prompt in `Prompts/`. The whole point of this pass is a fresh
-r3 number. If you happen to already know an old score, ignore it.
+r4 result. If you happen to already know an old score, ignore it.
 
 ## What you score
 
@@ -78,7 +79,7 @@ read both columns before deducting.
 
 ### Explicitly NOT graded
 
-- **Animation.** Decommissioned in r3. Never deduct for stills, for lack of
+- **Animation.** Decommissioned in r3 and still ungraded in r4. Never deduct for stills, for lack of
   motion, for static boards, or for "could have been more dynamic."
 - **Style.** Dotted paper, paper-craft, live-action hands, photoreal spans,
   off-palette colors are all tolerated. Mention at most as a one-line note.
@@ -124,13 +125,60 @@ beats, register drift, mis-teaches) have no such failure mode.
 - **Every full mark states what WOULD have cost a point.** A grader who can
   supply neither hasn't graded. This is the discipline that keeps a dimension
   from drifting to 95% of max.
-- **Anchor the top.** A video enters the top teaching band only if a student
-  could watch it INSTEAD of reading the lesson and lose nothing. "Covered the
-  concepts" is the MIDDLE of the band, not the top. Be willing to use the
-  middle of every range; a catalog where everything scores 90 is a broken pass.
+- **Do not let the total compensate for failed teaching.** The /100 number ranks
+  raw-material quality; it never overrides Source QA, Accuracy, Substitute, or
+  Spine. Be willing to use the middle of every range; a catalog where everything
+  scores 90 is a broken pass.
+
+## Source QA — run before the video gates
+
+The lesson grounds the video, but a source can carry a contradiction or a
+materially wrong distinction. Read it once as an editor, not only as a matching
+key.
+
+SOURCE_QA passes only when the lesson's major claims and distinctions are
+accurate and internally consistent. If two parts of the lesson conflict, or an
+example undermines the rule it is supposed to teach, fail SOURCE_QA and cite the
+exact lines. A video that faithfully repeats a source error is not a successful
+alternative to reading. The sequence is: fix the lesson and its generation
+prompt, then re-roll or repair the video.
+
+Do not use this check for taste, wording preferences, or harmless compression.
+It is for errors that could leave the learner with a wrong or self-contradictory
+model.
+
+## Instructional equivalence — an overriding gate, not a bonus
+
+The primary job of every video is to replace the reading without losing
+essential understanding. Evaluate this after the six scores, but never average
+it into them.
+
+GATE_ACCURACY passes only when the video teaches accurately and consistently.
+Any material contradiction, reversal, or misleading distinction fails it,
+whether the engine invented the error or inherited it from the source. If it
+inherited the error, SOURCE_QA fails too.
+
+GATE_SUBSTITUTE passes only when all of the following are true:
+
+- every major teaching beat is meaningfully taught, not merely mentioned;
+- essential examples, frameworks, and distinctions survive;
+- the why lands well enough that a learner could explain the idea back;
+- the central idea is understandable and usable without opening the lesson; and
+- a student watching instead of reading would lose no essential understanding.
+
+A high total cannot compensate for either failed gate. Minor optional detail may
+be compressed; a major beat, essential example, core distinction, or explanatory
+link may not. Failure normally means RE-ROLL. A donor graft is acceptable only
+when it restores the whole beat coherently.
 
 ## Ship gates — binary, scored separately from the number
 
+- SOURCE_QA: is the grounding lesson accurate and internally consistent? FAIL
+  means fix the lesson and prompt before deciding how to repair the video.
+- GATE_ACCURACY: is the video's teaching accurate and internally consistent,
+  with no material contradiction or misleading distinction?
+- GATE_SUBSTITUTE: can a student watch this instead of reading and lose no
+  essential understanding? This is the non-compensable primary-goal gate.
 - GATE_SPINE: does the narration miss a hard lesson requirement? (e.g.
   document-trap must say "Retrieval-Augmented Generation" in full; any verbatim
   line the lesson demands). FAIL here is the roll-killer.
@@ -156,12 +204,14 @@ TEACHING_TEACHES_VS_RECITES: <n>/15 — <evidence>
 TEACHING_BOARD_CONTENT: <n>/10 — <evidence>
 CLEANLINESS: <n>/20 — <evidence>
 PACING: <n>/20 — <evidence>
+SOURCE_QA: PASS|FAIL — <lesson-line evidence; if FAIL, identify the source fix before rerolling>
+GATE_ACCURACY: PASS|FAIL — <timestamp or quote; material teaching errors are non-compensable>
+GATE_SUBSTITUTE: PASS|FAIL — <could a student watch instead of reading and lose no essential understanding? cite the decisive beats>
 GATE_SPINE: PASS|FAIL — <evidence>
 GATE_RESTRAINT: PASS|FAIL — <evidence>
 GATE_STOCK: PASS|FAIL — <evidence>
 GATE_ENDING: PASS|FAIL — <evidence>
 GATE_SYNC: PASS|FAIL — <evidence>
-TOP_BAND: YES|NO — <could a student watch this INSTEAD of reading and lose nothing? one sentence>
 BIGGEST_LEVER: <the single highest-value fix, and whether it needs a RE-ROLL or a REPAIR>
 NOTES: <at most two lines, or "none">
 ```
@@ -185,7 +235,7 @@ The two that catch people out:
   with nonsense on it while the narration says "a draft appears in seconds" is
   incidental — the teaching point is that a draft appeared, not what it says.
   Gibberish costs points only on a visual the narration is teaching FROM.
-- **Marks on boards.** There is no marks dimension in r3. Zero. An engine
+- **Marks on boards.** There is no marks dimension in the current rubric. Zero. An engine
   highlight that tracks the narration through a board is a teaching aid, and on
   the layers re-roll it was correctly read as evidence the board was working.
   The original complaint that produced the blanket ban was close-board-specific

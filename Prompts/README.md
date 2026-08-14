@@ -31,6 +31,11 @@ Update the tracker at every intake decision. Workflow: Claude reads the tracker
 directly (Google Drive connector, read-only) and drafts paste-ready updated rows;
 David pastes them into the tracker.
 
+New reviews use rubric r4: `videos/video-rubric.csv` is the authority and
+`scripts/video/GRADER-r4.md` is the procedure. The r3 numeric columns remain
+valid; `scripts/video-tracker-migrate-r4.gs` adds the three non-compensable gate
+columns without rewriting earlier reviews.
+
 ## Rules learned the hard way
 
 - **The per-lesson .md is REQUIRED — never drop it from the sources** (A/B test, how-an-llm-works, 2026-07-07). Without it the engine backfills vocabulary from its own ML knowledge ("N-Gram Association Map", "Hypothesis/Validation/Adjustment", "Prior Tokens/Context Trigger") and invents MORE statistics, and the video ran longer, not shorter. The .md is what grounds narration in the lesson's vocabulary; repetition is fixed by fewer, longer-held board scenes, not by removing sources.

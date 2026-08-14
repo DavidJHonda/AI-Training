@@ -452,7 +452,7 @@ const CLOSE_BOARDS = {
   bigdownside: { pill: "AI does exactly what it’s told.", sticky: "The black box moves faster than the rules." },
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is saving lives." },
   agents: { pill: "Agents do the work. The name on it is yours.", sticky: "You ask, it acts. You make it better." },
-  workchanges: { pill: "The first pass becomes the starting line.", sticky: "Your job is what happens next." },
+  workchanges: { pill: "AI is changing the work you’ll do.", sticky: "Now it’s on you to LEARN." },
   computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Build Your Skills
@@ -1327,17 +1327,23 @@ function ExperienceCompare(box) {
             E("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
             E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
           E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", flex: "1 1 auto" } }, side.body),
-            E("div", null,
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic" } }, side.body),
+            E("div", { style: { flex: 1, display: "flex", flexDirection: "column" } },
               E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
-              E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
-              E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-                side.happened.map(function(h, hi) {
-                  return E("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
-                    E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
-                    E("span", null, h));
-                })),
-              E("div", { style: { fontSize: 14.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginTop: 24, minHeight: 44 } }, side.verdict))));
+              (side.groups || [{ label: "What happened", items: side.happened }]).map(function(group, gi) {
+                return E("div", { key: gi, style: { marginTop: gi === 0 ? 0 : 14 } },
+                  E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, group.label),
+                  E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                    group.items.map(function(h, hi) {
+                      return E("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                        E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                        E("span", null, h));
+                    })));
+              }),
+              E("div", { style: { marginTop: "auto", paddingTop: side.verdictLabel ? 0 : 24 } },
+                side.verdictLabel ? E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }) : null,
+                side.verdictLabel ? E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, side.verdictLabel) : null,
+                E("div", { style: { fontSize: 14.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, minHeight: side.verdictLabel ? 66 : undefined } }, side.verdict)))));
       })));
 }
 
@@ -12423,9 +12429,7 @@ function WorkChangesSection(props) {
     E(BodyP, null,
       "Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked."),
     E(BodyP, null,
-      "Most of you won’t have jobs at the AI companies. But if you do, congratulations! Put in a good word for this course."),
-    E(BodyP, null,
-      "The superficial things won’t change, like job titles. You’ll have thousands of choices like entrepreneur, teacher, lawyer, or designer. What will change, and is already changing today, is what your day will look like. AI will sit inside almost any profession you choose."),
+      "The superficial things won’t change, like job titles. You have thousands of choices like entrepreneur, teacher, lawyer, or designer. What will change, and is already changing today, is what your day will look like."),
 
     E(SectionKicker, null, "YOU ALREADY KNOW THE PIECES"),
     E(BodyP, null,
@@ -12462,90 +12466,70 @@ function WorkChangesSection(props) {
     ),
     E(BodyP, null,
       "Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart? ", E("strong", null, "It’s what you already know"), "."),
-    E(BodyP, null, "Now put those two lessons inside a workplace."),
 
     E(SectionKicker, null, "YOUR FIRST ASSIGNMENT"),
     E(BodyP, null,
-      "You could receive the same assignment before AI and with AI. What changes is where the real work begins."),
+      "Here’s the same job before AI and with AI. Spoiler alert: you’ll have more time for the interesting stuff."),
     ExperienceCompare({
-      headline: "“We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”",
+      headline: E("span", null, "“We’re getting bad customer feedback on our new product.", E("br"), "Read the last 500 reviews and tell us what’s happening and how we should fix it.”"),
       sides: [{
         icon: "🗂️",
         tagline: "Before AI",
         color: "#6e51ff",
-        body: "The grind is all on you. The week disappears into what feels like busy work, and it’s Friday before you finally start analyzing what you found.",
-        happened: ["You read and organize every review", "You find the recurring themes", "You build the spreadsheet", "You draft and present the findings", "The presentation is the finish line"],
-        verdict: "Most of the time goes into making the first pass."
+        body: "The grind was all on you. The week disappeared into what felt like busy work, and it was Friday before you finally started analyzing the data.",
+        groups: [
+          { label: "What you did", items: ["Read and organized 500 reviews", "Found the recurring themes", "Built the spreadsheet", "Analyzed the data", "Prepared the Google Slides deck", "Presented the findings to the boss"] }
+        ],
+        verdictLabel: "The result",
+        verdict: "The boss said you did good work, added a page of comments, and you spent next week re-analyzing."
       }, {
         icon: "⚡",
         tagline: "With AI",
         color: "#f59e0b",
-        body: "AI sits beside you and does the busy work in minutes. Your week goes to what the boss actually asked: what’s happening, and how do we fix it?",
-        happened: ["AI reads all 500 reviews and proposes the themes", "You check the source reviews and catch what AI missed", "You investigate why and recommend the fix", "The summary is the starting line"],
-        verdict: "AI makes the first pass. The employee takes it further."
+        body: "AI sat beside you and did the busy work in minutes. Your week went to what the boss asked: what’s happening, and how do we fix it?",
+        groups: [
+          { label: "What AI did", items: ["Read and organized 500 reviews", "Found the recurring themes", "Built the spreadsheet", "Analyzed the data", "Prepared the Google Slides deck"] },
+          { label: "What you did", items: ["Worked with AI throughout to improve its work", "Investigated why and recommended the fix", "Presented the findings to the boss"] }
+        ],
+        verdictLabel: "The result",
+        verdict: "The boss loved it. The week you spent on the real questions paid off."
       }]
     }),
     E(BodyP, null,
-      "The employee did not simply finish the old assignment faster. The assignment became bigger. Making the summary used to be most of the job. Now it is where the job begins."),
+      "Do you see the point? AI doesn’t just let you do things faster. ", E("strong", null, "It lets you focus on what’s really important"), "."),
 
-    E(SectionKicker, null, "WHY THE ASSIGNMENT CHANGED"),
+    E(SectionKicker, null, "THE CONCEPTS"),
     E(BodyP, null,
-      "Look closer at that assignment. Two different things happened to it."),
-    E(ComparisonCards, {
-      items: [
-        {
-          label: "Automate",
-          title: "AI takes over a step",
-          color: "#d97706",
-          sections: [{
-            label: "In this assignment",
-            body: "AI sorts the reviews, groups similar ideas, and creates the first summary with little human attention."
-          }]
-        },
-        {
-          label: "Augment",
-          title: "AI helps a person do more",
-          color: "#7c3aed",
-          sections: [{
-            label: "In this assignment",
-            body: "The employee explores more explanations, compares more options, and improves the recommendation faster."
-          }]
-        }
-      ]
-    }),
+      "There are two terms you’ll hear that describe how AI is changing the nature of work."),
+    E(ShowcaseBox, { marginBottom: 24 },
+      E(LabeledCardStack, { grid: true, columns: 2, flat: true, dense: true, meansLabel: "How it impacted your assignment", items: [
+        { headline: "Automate", body: "AI takes over a step.", means: "AI sorts the reviews, groups similar ideas, and creates the first summary with little human attention." },
+        { headline: "Augment", body: "AI helps a person do more.", means: "You explore more explanations, compare more options, and improve the recommendation faster." }
+      ] })),
     E(BodyP, null,
-      "Most jobs will contain both. Some steps disappear into the tool. Other steps become faster, broader, or more ambitious. Either way, the outcome still needs an owner."),
+      "Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome."),
 
     E(ShowcaseBox, {
       kicker: "WHAT CHANGES FOR YOU",
-      intro: "Put automation and augmentation together, and three changes show up across many careers.",
+      intro: "Put automation and augmentation together, and three changes show up across almost every career.",
       marginBottom: 28
     },
       E(NumberedColumns, {
         items: [
-          { label: "The first pass gets compressed", body: "Drafting, organizing, summarizing, and generating options take less time." },
-          { label: "The job gets wider", body: "One person can cover more of the workflow, with fewer handoffs to other people." },
-          { label: "The pace gets faster", body: "When another version is cheap, employers can ask for more versions, more testing, and faster improvement." }
+          { label: "You can do more kinds of work", body: "You cover more of the workflow, with fewer handoffs to other people. A marketer who has never coded can now build the campaign’s landing page." },
+          { label: "You can be more productive", body: "In a Harvard study, consultants using AI finished tasks 25% faster with 40% better quality. The least experienced gained the most." },
+          { label: "You can do more meaningful work", body: "AI absorbs the busy work, so more of your week goes to the real questions: investigating, deciding, and recommending." }
         ]
       })
     ),
+    E(SectionKicker, null, "THE PART THAT MATTERS"),
     E(BodyP, null,
-      "If research and a first draft once took two days, an employer probably will not turn the saved time into two days off. The worker may be asked to investigate more possibilities, handle an adjacent part of the project, or finish the whole assignment sooner."),
-
-    E(SectionKicker, null, "THE FIRST RUNG GETS SHORTER"),
+      "This is changing entry-level jobs. Much of the work that AI does was formerly reserved for the new college graduates just starting out. It was the way they learned the profession: basic research, starter code, and simple analysis."),
     E(BodyP, null,
-      "Here is the part that matters especially for you. The work AI handles first is often the work beginners used to do to learn a profession: basic research, first drafts, starter code, simple analysis, and routine documentation."),
-    E(ShowcaseBox, {
-      headline: "AI can make you productive before it makes you knowledgeable.",
-      marginBottom: 28
-    },
-      E(BodyP, { marginBottom: 14 },
-        "That creates a strange problem. A new employee may be expected to check sophisticated work after getting fewer chances to practice producing it from scratch."),
-      E(BodyP, { marginBottom: 0 },
-        "This is why Does School Matter? mattered. You still need the knowledge and the reps. The difference is that you may have to build them more deliberately.")
-    ),
+      E("strong", null, "AI can make you productive before it makes you knowledgeable."),
+      " That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it."),
     E(BodyP, null,
-      "Your first job will not just ask whether you can use AI. It will ask whether you can take everything AI produces and turn it into a result."),
+      "You already know what you must do. Learn. Learn. And learn more. And you’re in the best place in the world to do it: school."),
     closeBoard("workchanges"),
 
     E(InteractiveBox, {

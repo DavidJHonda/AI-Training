@@ -12392,37 +12392,20 @@ function BigDownsideSection(props) {
 }
 function WorkChangesSection(props) {
   var E = React.createElement;
-  const [workAnswers, setWorkAnswers] = useState({});
-
-  const FIRST_WEEK = [
-    {
-      kicker: "Customer research",
-      prompt: "AI sorts 500 customer reviews, identifies three themes, and builds a polished presentation in ten minutes. What should the new employee do next?",
-      options: [
-        { label: "Send the presentation", correct: false, feedback: "That treats the first pass as the finished job. The employee still needs to check the source reviews, find what the summary missed, and turn the patterns into a recommendation." },
-        { label: "Ask AI to make it longer", correct: false, feedback: "More slides do not make the work more useful. The next step is to investigate the result and decide what the company should do." },
-        { label: "Check, investigate, recommend", correct: true, feedback: "Right. AI compressed the production. The employee’s work starts with checking the evidence, finding what was missed, and recommending what should happen next." }
-      ]
-    },
-    {
-      kicker: "Software internship",
-      prompt: "AI writes a fix for a bug, and every automated test passes. The intern cannot explain what the code does. What is the best next move?",
-      options: [
-        { label: "Ship it because the tests passed", correct: false, feedback: "Passing tests are evidence, not understanding. If the intern cannot explain the code, the tool made them productive before it helped them learn." },
-        { label: "Work through it, then test it", correct: true, feedback: "Right. The intern should trace the code, understand the choices, test the edge cases, and ask a person when needed. Those are the reps that build professional judgment." },
-        { label: "Ask AI if its code is correct", correct: false, feedback: "The same tool should not be the only judge of its own work. The intern needs to understand the fix and verify it independently." }
-      ]
-    },
-    {
-      kicker: "Marketing team",
-      prompt: "AI produces three campaign concepts, sample ads, and audience research before lunch. The manager asks the new hire to choose a direction for the launch. What changed?",
-      options: [
-        { label: "The job is now making more drafts", correct: false, feedback: "The extra drafts are only raw material. Producing options became cheap; choosing the direction became the real assignment." },
-        { label: "AI owns the campaign", correct: false, feedback: "AI generated material, but it cannot own the launch, defend the choice, or answer for the result." },
-        { label: "The first pass became the starting line", correct: true, feedback: "Right. AI widened the field of options. The new hire now has to compare them, make the call, explain it, and own what happens next." }
-      ]
-    }
+  // LAB 12: the lesson's boss assignment made real, with this course as the product.
+  // packets/course-reviews.csv is engineered: three loud themes, one root cause
+  // shared by every 2-star review (lost progress, no accounts), and a buried
+  // Dallas Stars gag that only the rare-complaints question uncovers.
+  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-workchanges-steps", {});
+  const REVIEW_LAB_STEPS = [
+    { title: "Get the reviews file", body: E("span", null, "Download ", E("a", { href: "packets/course-reviews.csv", download: "course-reviews.csv", style: { color: "var(--labAccent)", fontWeight: 700 } }, "course-reviews.csv"), " and open it. Read reviews 1 through 10. Now imagine reading the other 90 before doing any actual thinking. That was the old job.") },
+    { title: "Hand AI the grind", body: "Go to claude.ai, start a new chat, and attach the file with the + button. Send the boss’s exact ask:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
+    { title: "Check the sources", body: "Pick one theme from the answer and ask for the exact reviews behind it. Then open the file and find one of those quotes yourself. Real, or improvised?" },
+    { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it.", prompt: "What do all the lowest-rated reviews have in common?" },
+    { title: "Catch what the summary missed", body: "A first pass averages away the rare stuff. Go digging. Enjoy what you find.", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
+    { title: "Make the call", body: "Write a three-bullet recommendation to the boss: what’s happening, why, and what we should do. Ask Claude to critique it if you want. But the call, and the name on it, are yours." }
   ];
+  var labCheckedCount = Object.keys(labChecked).filter(function(k) { return labChecked[k]; }).length;
 
   return E("div", null,
     E(LessonHeader, { sectionId: "workchanges" }),
@@ -12496,15 +12479,15 @@ function WorkChangesSection(props) {
       }]
     }),
     E(BodyP, null,
-      "Do you see the point? AI doesn’t just let you do things faster. ", E("strong", null, "It lets you focus on what’s really important"), "."),
+      "Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just let you do things faster. ", E("strong", null, "It lets you focus on what’s really important"), "."),
 
     E(SectionKicker, null, "THE CONCEPTS"),
     E(BodyP, null,
       "There are two terms you’ll hear that describe how AI is changing the nature of work."),
     E(ShowcaseBox, { marginBottom: 24 },
       E(LabeledCardStack, { grid: true, columns: 2, flat: true, dense: true, meansLabel: "How it impacted your assignment", items: [
-        { headline: "Automate", body: "AI takes over a step.", means: "AI sorts the reviews, groups similar ideas, and creates the first summary with little human attention." },
-        { headline: "Augment", body: "AI helps a person do more.", means: "You explore more explanations, compare more options, and improve the recommendation faster." }
+        { headline: "Automate", body: "AI takes over a step.", means: "AI sorted the reviews, grouped similar ideas, and created the first summary with little human attention." },
+        { headline: "Augment", body: "AI helps a person do more.", means: "You explored more explanations, compared more options, and improved the recommendation faster." }
       ] })),
     E(BodyP, null,
       "Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome."),
@@ -12524,53 +12507,35 @@ function WorkChangesSection(props) {
     ),
     E(SectionKicker, null, "THE PART THAT MATTERS"),
     E(BodyP, null,
-      "This is changing entry-level jobs. Much of the work that AI does was formerly reserved for the new college graduates just starting out. It was the way they learned the profession: basic research, starter code, and simple analysis."),
+      "This is changing entry-level jobs. Much of the work that AI does used to belong to new college graduates just starting out. It was the way they learned the profession: basic research, starter code, and simple analysis."),
     E(BodyP, null,
       E("strong", null, "AI can make you productive before it makes you knowledgeable."),
       " That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it."),
     E(BodyP, null,
-      "You already know what you must do. Learn. Learn. And learn more. And you’re in the best place in the world to do it: school."),
+      "You already know what you must do. Learn. And learn more. And you’re in the best place in the world to do it: school."),
     closeBoard("workchanges"),
 
     E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Your First Week with AI",
-      lead: "AI has already produced the first pass. In each situation, decide what the new employee needs to do next."
-    },
-      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        FIRST_WEEK.map(function(s, i) {
-          var pickedIdx = workAnswers[i];
-          var answered = pickedIdx !== undefined;
-          var pickedOpt = answered ? s.options[pickedIdx] : null;
-          var correct = answered && pickedOpt.correct;
-          return E(ScenarioRow, {
+      variant: "lab",
+      surface: "teal",
+      labNumber: "12",
+      title: "Your First Assignment, For Real",
+      hint: "Click the box after you finish each step.",
+      lead: "You just read about this exact assignment. Now live it: real file, real AI, ten minutes. The product with the bad reviews? This course.",
+      action: E(ActivityCounter, { count: labCheckedCount, total: REVIEW_LAB_STEPS.length })},
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        REVIEW_LAB_STEPS.map(function(st, i) {
+          var done = !!labChecked[i];
+          return E("div", {
             key: i,
-            index: i + 1,
-            kicker: s.kicker,
-            prompt: s.prompt,
-            answered: answered,
-            correct: correct,
-            feedback: pickedOpt ? pickedOpt.feedback : null
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
-            s.options.map(function(opt, optIdx) {
-              return E(FeedbackPill, {
-                key: optIdx,
-                answered: answered,
-                isCorrect: opt.correct,
-                isPicked: pickedIdx === optIdx,
-                label: opt.label,
-                onClick: function() {
-                  setWorkAnswers(function(prev) {
-                    return Object.assign({}, prev, Object.fromEntries([[i, optIdx]]));
-                  });
-                }
-              });
-            })
-          );
-        })
-      )
-    ),
+            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("span", { style: { flex: 1, minWidth: 0 } },
+              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+        }))),
 
     E(LessonRule, null),
     E(NextLessonGate, {

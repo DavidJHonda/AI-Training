@@ -12393,17 +12393,19 @@ function BigDownsideSection(props) {
 function WorkChangesSection(props) {
   var E = React.createElement;
   // LAB 12: the lesson's boss assignment made real, with this course as the product.
-  // packets/course-reviews.csv is engineered: three loud themes, one root cause
+  // packets/course-reviews.txt is engineered: three loud themes, one root cause
   // shared by every 2-star review (lost progress, no accounts), and a buried
   // Dallas Stars gag that only the rare-complaints question uncovers.
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-workchanges-steps", {});
   const REVIEW_LAB_STEPS = [
-    { title: "Get the reviews file", body: E("span", null, "Download ", E("a", { href: "packets/course-reviews.csv", download: "course-reviews.csv", style: { color: "var(--labAccent)", fontWeight: 700 } }, "course-reviews.csv"), " and open it. Read reviews 1 through 10. Now imagine reading the other 90 before doing any actual thinking. That was the old job.") },
-    { title: "Hand AI the grind", body: "Go to claude.ai, start a new chat, and attach the file with the + button. Send the boss’s exact ask:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
-    { title: "Check the sources", body: "Pick one theme from the answer and ask for the exact reviews behind it. Then open the file and find one of those quotes yourself. Real, or improvised?" },
-    { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it.", prompt: "What do all the lowest-rated reviews have in common?" },
+    { title: "Open the reviews", body: E("span", null, E("a", { href: "packets/course-reviews.txt", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the reviews in a new tab"), ". Read the first 5 reviews. Now imagine reading the other 95 before doing any actual thinking. That was the old job.") },
+    { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
+    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
+    { title: "Hand AI the grind", body: "Open a new chat and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). They’ll collapse into a little attachment. Don’t send yet." },
+    { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
+    { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews. Every single one, same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },
     { title: "Catch what the summary missed", body: "A first pass averages away the rare stuff. Go digging. Enjoy what you find.", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
-    { title: "Make the call", body: "Write a three-bullet recommendation to the boss: what’s happening, why, and what we should do. Ask Claude to critique it if you want. But the call, and the name on it, are yours." }
+    { title: "Prep the presentation", body: "Time to make the call. Have AI pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." }
   ];
   var labCheckedCount = Object.keys(labChecked).filter(function(k) { return labChecked[k]; }).length;
 

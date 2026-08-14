@@ -35,6 +35,11 @@ The aligned point-for-point variant: split-tint header band, one white card of r
 
 ![CompareRows](compare-rows.png)
 
+### ExperienceCompare
+The scenario-story variant: a white pill headline states one setup, then two tinted side panels each tell the experience of living it — emoji + colored tagline, a white card with an italic narrative, a "WHAT HAPPENED" bullet list, and a bold verdict line. Use when both sides narrate the same scenario to a verdict; use CompareBox/ComparePanel for free-form X-vs-Y bodies. Examples: Drive with GPS vs. Self-Driving Car in Rise of Agents (`agents`) and Before AI vs. With AI in Work Changes (`workchanges`). Captured 2026-08-14.
+
+![ExperienceCompare](experience-compare.png)
+
 ## Single-point bands
 
 ### ShowcaseBox

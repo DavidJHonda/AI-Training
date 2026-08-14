@@ -1314,6 +1314,33 @@ function CompareBox(props) {
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: props.gap != null ? props.gap : 18 } }, props.children));
 }
 
+function ExperienceCompare(box) {
+  var E = React.createElement;
+  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+    E("div", {
+      style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+    }, box.headline),
+    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+      box.sides.map(function(side, i) {
+        return E("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+          E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+            E("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
+            E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
+          E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", flex: "1 1 auto" } }, side.body),
+            E("div", null,
+              E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
+              E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
+              E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+                side.happened.map(function(h, hi) {
+                  return E("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
+                    E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
+                    E("span", null, h));
+                })),
+              E("div", { style: { fontSize: 14.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginTop: 24, minHeight: 44 } }, side.verdict))));
+      })));
+}
+
 function CompareRows(props) {
   var cols = props.columns;
   return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: props.marginBottom != null ? props.marginBottom : 32 } },
@@ -8953,31 +8980,6 @@ function WhenAIActsSection(props) {
       ]
     }
   ];
-  function CompareBox(box) {
-    return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
-      E("div", {
-        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
-      }, box.headline),
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
-        box.sides.map(function(side, i) {
-          return E("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
-              E("span", { style: { fontSize: 20, flexShrink: 0 } }, side.icon),
-              E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.tagline)),
-            E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
-              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, fontStyle: "italic", flex: "1 1 auto" } }, side.body),
-              E("div", null,
-                E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
-                E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "What happened"),
-                E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-                  side.happened.map(function(h, hi) {
-                    return E("div", { key: hi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
-                      E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: side.color, flexShrink: 0, transform: "translateY(-2px)" } }),
-                      E("span", null, h));
-                  })),
-                E("div", { style: { fontSize: 14.5, fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginTop: 24, minHeight: 44 } }, side.verdict))));
-        })));
-  }
   function loopCard(num, title, desc, style) {
     return E("div", { style: Object.assign({ background: "#fff", borderRadius: 12, borderLeft: "3px solid var(--primary)", boxShadow: "var(--shadowSoft)", padding: "14px 16px" }, style || {}) },
       E("div", { style: { width: 26, height: 26, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 8 } }, num),
@@ -8991,7 +8993,7 @@ function WhenAIActsSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
     E(BodyP, null,
       "What’s an ", E("strong", null, "agent"), "? In the spirit of this course, let’s start with an analogy."),
-    CompareBox({
+    ExperienceCompare({
       headline: "You’re driving to game 7 of the Stanley Cup finals to see your favorite team, the Dallas Stars.",
       sides: [{
         icon: "🗺️",
@@ -9012,7 +9014,7 @@ function WhenAIActsSection(props) {
     E(SectionKicker, null, "AI agents"),
     E(BodyP, null,
       "Agents are suddenly everywhere, for the obvious reason: they do the work. Now, let’s give you an example."),
-    CompareBox({
+    ExperienceCompare({
       headline: E("span", null, "You scored 30 points in Friday’s basketball game. A friend videoed the game on their phone.", E("br"), "You want to post the best highlights to TikTok."),
       sides: [{
         icon: "💬",
@@ -12389,9 +12391,9 @@ function WorkChangesSection(props) {
   const FIRST_WEEK = [
     {
       kicker: "Customer research",
-      prompt: "AI sorts 500 customer comments, identifies three themes, and builds a polished presentation in ten minutes. What should the new employee do next?",
+      prompt: "AI sorts 500 customer reviews, identifies three themes, and builds a polished presentation in ten minutes. What should the new employee do next?",
       options: [
-        { label: "Send the presentation", correct: false, feedback: "That treats the first pass as the finished job. The employee still needs to check the source comments, find what the summary missed, and turn the patterns into a recommendation." },
+        { label: "Send the presentation", correct: false, feedback: "That treats the first pass as the finished job. The employee still needs to check the source reviews, find what the summary missed, and turn the patterns into a recommendation." },
         { label: "Ask AI to make it longer", correct: false, feedback: "More slides do not make the work more useful. The next step is to investigate the result and decide what the company should do." },
         { label: "Check, investigate, recommend", correct: true, feedback: "Right. AI compressed the production. The employee’s work starts with checking the evidence, finding what was missed, and recommending what should happen next." }
       ]
@@ -12419,131 +12421,76 @@ function WorkChangesSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "workchanges" }),
     E(BodyP, null,
-      "You already know that AI is changing the world. Don’t worry, you’ll ", E("strong", null, "Be Smarter Than the Tool"), "."),
-    E(BodyP, null,
       "Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked."),
-    E(ShowcaseBox, {
-      kicker: "THE BIG IDEA",
-      headline: "Your job title may stay the same. The work underneath it won’t.",
-      marginBottom: 28
-    },
-      E(BodyP, { marginBottom: 14 },
-        "Most students will not grow up to have an “AI job.” They’ll become nurses, engineers, marketers, electricians, teachers, lawyers, designers, and thousands of other things. AI will sit inside those jobs and change how the work gets done."),
-      E(BodyP, { marginBottom: 0 },
-        "The useful question is not only which jobs AI might replace. It is what your working day looks like when everyone has it.")
-    ),
+    E(BodyP, null,
+      "Most of you won’t have jobs at the AI companies. But if you do, congratulations! Put in a good word for this course."),
+    E(BodyP, null,
+      "The superficial things won’t change, like job titles. You’ll have thousands of choices like entrepreneur, teacher, lawyer, or designer. What will change, and is already changing today, is what your day will look like. AI will sit inside almost any profession you choose."),
 
     E(SectionKicker, null, "YOU ALREADY KNOW THE PIECES"),
     E(BodyP, null,
-      "Earlier, you learned where AI works best. It transforms material, generates options, compresses information, and reasons through what you give it. You also learned why school still matters: everyone can use a similar tool, but what you know shapes what you ask and what you do with the answer."),
-    E(ShowcaseBox, { marginBottom: 28 },
-      E("div", {
-        style: {
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
-          gap: 10
-        }
-      },
-        ["Transform", "Generate", "Compress", "Reason"].map(function(label, i) {
-          return E("div", {
-            key: label,
-            style: {
-              background: "var(--card)",
-              borderRadius: 12,
-              padding: "14px 16px",
-              boxShadow: "var(--shadowSoft)",
-              textAlign: "center",
-              fontSize: 15,
-              fontWeight: 800,
-              color: ["#3b82f6", "#d97706", "#7c3aed", "#0d9488"][i]
-            }
-          }, label);
-        })
-      )
-    ),
-    E(BodyP, null, "Now put those two lessons inside a workplace."),
-
-    E(ShowcaseBox, {
-      kicker: "YOUR FIRST ASSIGNMENT",
-      headline: "“Read these 500 customer comments. Tell us what is going wrong and what we should fix.”",
-      intro: "A new employee could receive the same assignment before AI and with AI. What changes is where the real work begins.",
-      marginBottom: 28
-    },
+      "To understand this, let’s review two concepts you already learned. First: AI is best at specific things, and that’s where you’ll use it in your job."),
+    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 28 } },
+      E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } },
+        "AI is strongest when the job has one of four shapes."),
       E("div", {
         style: {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
-          gap: 14
+          gap: 18
         }
       },
-        E(InnerCard, { pad: "snug" },
-          E("div", {
-            style: {
-              fontSize: 12,
-              fontWeight: 800,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "var(--inkMuted)",
-              marginBottom: 12
-            }
-          }, "Before AI"),
-          E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 12 } },
-            "Most of the time goes into making the first pass."),
-          ["Read and organize every comment", "Find recurring themes", "Build a spreadsheet", "Draft the presentation", "Present the findings"].map(function(item, i) {
-            return E("div", {
-              key: item,
-              style: {
-                display: "flex",
-                gap: 10,
-                padding: "8px 0",
-                borderTop: i === 0 ? "none" : "1px solid var(--rule)",
-                fontSize: 14.5,
-                lineHeight: 1.45,
-                color: "var(--inkSoft)"
-              }
-            },
-              E("span", { style: { fontFamily: "var(--mono)", color: "var(--inkMuted)", flexShrink: 0 } }, String(i + 1).padStart(2, "0")),
-              E("span", null, item)
-            );
-          })
-        ),
-        E(InnerCard, { pad: "snug" },
-          E("div", {
-            style: {
-              fontSize: 12,
-              fontWeight: 800,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "var(--primary)",
-              marginBottom: 12
-            }
-          }, "With AI"),
-          E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 12 } },
-            "AI makes the first pass. The employee takes it further."),
-          ["AI groups the comments and proposes themes", "The employee checks the source comments", "They find the customers the summary overlooked", "They investigate why the problem is happening", "They recommend what the company should do"].map(function(item, i) {
-            return E("div", {
-              key: item,
-              style: {
-                display: "flex",
-                gap: 10,
-                padding: "8px 0",
-                borderTop: i === 0 ? "none" : "1px solid var(--rule)",
-                fontSize: 14.5,
-                lineHeight: 1.45,
-                color: "var(--inkSoft)"
-              }
-            },
-              E("span", { style: { fontFamily: "var(--mono)", color: i === 0 ? "var(--primary)" : "var(--inkMuted)", flexShrink: 0 } }, String(i + 1).padStart(2, "0")),
-              E("span", null, item)
-            );
-          })
-        )
+        [
+          { label: "Strength 1", title: "Transform", color: "#3b82f6",
+            body: "Transforms your input into something clearer, cleaner, and better structured." },
+          { label: "Strength 2", title: "Generate", color: "#d97706",
+            body: "Generates several options at once." },
+          { label: "Strength 3", title: "Compress", color: "#7c3aed",
+            body: "Compresses long documents into what they actually mean." },
+          { label: "Strength 4", title: "Reason", color: "#0d9488",
+            body: "Reasons through your input and works toward an answer." }
+        ].map(function(s) {
+          return E("div", {
+            key: s.title,
+            style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + s.color, boxShadow: "var(--shadowSoft)", padding: "16px 18px" }
+          },
+            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: s.color, marginBottom: 4 } }, s.label),
+            E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, s.title),
+            E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--inkSoft)", marginTop: 6 } }, s.body));
+        })
       )
     ),
     E(BodyP, null,
+      "Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart? ", E("strong", null, "It’s what you already know"), "."),
+    E(BodyP, null, "Now put those two lessons inside a workplace."),
+
+    E(SectionKicker, null, "YOUR FIRST ASSIGNMENT"),
+    E(BodyP, null,
+      "You could receive the same assignment before AI and with AI. What changes is where the real work begins."),
+    ExperienceCompare({
+      headline: "“We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”",
+      sides: [{
+        icon: "🗂️",
+        tagline: "Before AI",
+        color: "#6e51ff",
+        body: "The grind is all on you. The week disappears into what feels like busy work, and it’s Friday before you finally start analyzing what you found.",
+        happened: ["You read and organize every review", "You find the recurring themes", "You build the spreadsheet", "You draft and present the findings", "The presentation is the finish line"],
+        verdict: "Most of the time goes into making the first pass."
+      }, {
+        icon: "⚡",
+        tagline: "With AI",
+        color: "#f59e0b",
+        body: "AI sits beside you and does the busy work in minutes. Your week goes to what the boss actually asked: what’s happening, and how do we fix it?",
+        happened: ["AI reads all 500 reviews and proposes the themes", "You check the source reviews and catch what AI missed", "You investigate why and recommend the fix", "The summary is the starting line"],
+        verdict: "AI makes the first pass. The employee takes it further."
+      }]
+    }),
+    E(BodyP, null,
       "The employee did not simply finish the old assignment faster. The assignment became bigger. Making the summary used to be most of the job. Now it is where the job begins."),
 
-    E(SectionKicker, null, "TWO WAYS THE WORK CHANGES"),
+    E(SectionKicker, null, "WHY THE ASSIGNMENT CHANGED"),
+    E(BodyP, null,
+      "Look closer at that assignment. Two different things happened to it."),
     E(ComparisonCards, {
       items: [
         {
@@ -12552,7 +12499,7 @@ function WorkChangesSection(props) {
           color: "#d97706",
           sections: [{
             label: "In this assignment",
-            body: "AI sorts the comments, groups similar ideas, and creates the first summary with little human attention."
+            body: "AI sorts the reviews, groups similar ideas, and creates the first summary with little human attention."
           }]
         },
         {

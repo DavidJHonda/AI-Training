@@ -453,7 +453,7 @@ const CLOSE_BOARDS = {
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is saving lives." },
   agents: { pill: "Agents do the work. The name on it is yours.", sticky: "You ask, it acts. You make it better." },
   workchanges: { pill: "AI is changing the work you’ll do.", sticky: "Now it’s on you to LEARN." },
-  computecost: { pill: "Every answer costs something real.", sticky: "Cheap to type isn’t free to run." },
+  computecost: { pill: "Every AI chat costs something real.", sticky: "Now you know what’s behind the magic." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Build Your Skills
   choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
@@ -9017,6 +9017,11 @@ function WhenAIActsSection(props) {
         verdict: "That’s an agent. You ask, and AI does it for you."
       }]
     }),
+    E("img", {
+      src: "illustrations/rise-of-agents.jpg",
+      alt: "Split scene of the same teen in a Dallas Stars jacket heading to a hockey arena at night. On the left they grip the wheel while a GPS screen calls the next turn through detour cones. On the right a self-driving car follows the same glowing route past the cones while they relax in the seat texting, no hands on the wheel.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
     E(SectionKicker, null, "AI agents"),
     E(BodyP, null,
       "Agents are suddenly everywhere, for the obvious reason: they do the work. Now, let’s give you an example."),
@@ -12582,54 +12587,40 @@ function CostClaimsTryIt(props) {
 }
 function TheHiddenCostSection(props) {
   var E = React.createElement;
-  // Static (was a single-reveal SEE IT): the cost is always shown.
-  var revealed = true, setRevealed = function() {};
-  var AMBER = "#b45309", AMBER_BG = "#fbedd3";
-  var chip = function(v, l) {
-    return E("div", { style: { background: AMBER_BG, borderRadius: 10, padding: "8px 14px", textAlign: "center", minWidth: 72 } },
-      E("div", { style: { fontFamily: "var(--mono)", fontSize: 18, fontWeight: 800, color: AMBER } }, v),
-      E("div", { style: { fontSize: 11, color: "var(--inkSoft)", marginTop: 2 } }, l));
-  };
-  var times = function() { return E("span", { style: { fontSize: 18, fontWeight: 800, color: "var(--inkMuted)" } }, "×"); };
   return E("div", null,
     E(LessonHeader, { sectionId: "computecost" }),
-    E(BodyP, null, "Back in One More Thing, we left you with a promise: somebody pays for all that arithmetic, in electricity, in water, and in money, and we’d count the bill later in the course. It’s later."),
-    E(BodyP, null, "Ask AI something simple and the answer shows up in a second, like it cost nothing. Behind that second is one of the most demanding things a computer can do."),
-    E(ShowcaseBox, { headline: "What one answer costs" },
-      E(InnerCard, null,
-        E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-          E(UserBubble, { text: "What’s a good name for a golden retriever puppy?", maxWidth: "100%" }),
-          E(AIBubble, { text: "A few favorites: Sunny, Biscuit, or Cooper. Want more, or names with a theme?", maxWidth: "100%" })),
-        revealed
-          ? E("div", { style: { marginTop: 18, animation: "fadeIn 0.4s ease" } },
-              E("div", { style: { textAlign: "center", marginBottom: 16 } },
-                E("div", { style: { fontFamily: "var(--mono)", fontSize: 34, fontWeight: 800, color: AMBER, lineHeight: 1.05 } }, "~40 trillion"),
-                E("div", { style: { fontSize: 12, color: "var(--inkMuted)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 } }, "calculations, for that one reply")),
-              E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap", marginBottom: 14 } },
-                chip("~50", "tokens"), times(), chip("~400B", "parameters"), times(), chip("2", "ops each")),
-              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, textAlign: "center", maxWidth: 560, margin: "0 auto" } }, "Every token re-runs the whole network: all of the model’s parameters, each doing a couple of operations. That’s the loop you watched in Inference, and it’s why a one-line answer still adds up to trillions. And that’s a one-liner: the page-long answers you counted in One More Thing run into the quadrillions."))
-          : E("div", { style: { textAlign: "center", marginTop: 18 } },
-              E("button", { onClick: function() { setRevealed(true); }, style: { cursor: "pointer", font: "inherit", background: "#0e0a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontSize: 14, fontWeight: 700 } }, "How much just happened? →")))),
-    E(ShowcaseBox, { kicker: "HARD TO PICTURE? STACK IT UP", headline: "40 trillion dollar bills, end to end, reach past Pluto.", intro: "A dollar bill is about six inches long. Lay down one for every calculation in that single answer and the line runs about 6 billion kilometers.", marginBottom: 28 },
-      E("div", { style: { display: "flex", alignItems: "center", gap: 12 } },
-        E("span", { style: { fontSize: 24, flexShrink: 0 } }, "🌍"),
-        E("div", { style: { flex: 1, height: 5, borderRadius: 3, background: "linear-gradient(90deg, var(--primary), #f59e0b)" } }),
-        E("span", { style: { fontSize: 24, flexShrink: 0 } }, "🪐")),
-      E("div", { style: { textAlign: "center", fontSize: 14, fontWeight: 700, color: "var(--ink)", marginTop: 10 } }, "Earth to Pluto · ~6 billion km of dollar bills"),
-      E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 14 } }, "Rough numbers: the exact count depends on the model’s size and how long the answer is. The scale is the part that’s real.")),
+    E(BodyP, null, "As you learned, the scale of the math behind AI is almost impossible to grasp. A 2,000-word chat between you and AI runs to about 2 quadrillion individual math calculations. And that’s just for one chat!"),
+    E(BodyP, null, "And to train a new model? It takes about 100 septillion individual math calculations. That’s the number 1 followed by twenty-six zeroes!"),
+    E(BodyP, null, "That’s why there’s so much in the news about data centers. It all comes down to one thing: the ability to run the math, which the AI companies call ", E("strong", null, "compute"), ". And they can never have enough of it."),
+    E(SectionKicker, null, "WHAT IS A DATA CENTER"),
+    E(BodyP, null, "Think of a big warehouse packed with thousands of specialized chips, called ", E("strong", null, "GPUs"), ", running around the clock."),
     E("img", { src: "illustrations/data-centers.jpg", alt: "Inside a vast AI data center: rows of server racks stretching to the far wall of a warehouse-sized hall, glowing with blue status lights under ceiling floodlights. A single person walking the main aisle, dwarfed by the racks, is the only human in sight.", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
-    E(SectionKicker, null, "WHY DATA CENTERS EXIST"),
-    E(BodyP, null, "No single computer can do that fast for millions of people at once. So AI companies build ", E("strong", null, "data centers"), ": warehouses packed with thousands of specialized chips, called GPUs, running around the clock."),
-    E(BodyP, null, "The scale is hard to overstate. A big AI data center covers the ground of several football fields and draws as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, which makes this one of the largest construction projects happening anywhere on Earth right now. When you hit send, one of these buildings answers."),
-    E(SectionKicker, null, "THE ELECTRIC BILL"),
-    E(BodyP, null, "In 2023, data centers used about 4 percent of all electricity in the United States, and government forecasts said that share could double or even triple by 2028, with AI the fastest-growing slice. That electricity comes from the same grid you use. In some regions near big data-center clusters, household power bills are already climbing as the buildings compete for supply."),
-    E(SectionKicker, null, "THE WATER BILL"),
-    E(BodyP, null, "Chips that dense run hot, and the standard way to cool them uses water, some of which evaporates and doesn’t come back. A large campus can run through a million gallons or more on a hot day. That’s why you’ll see data centers built next to rivers, in cold climates, and increasingly in places that regret saying yes. Water is the part of the bill most people never picture."),
-    E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
-    E(BodyP, null, "Keep the frame you’ve used all course: judge it, don’t panic about it. Every big technology has a footprint, from streaming video to the cars outside, and engineers are racing to make chips dramatically more efficient, because every wasted watt costs the companies money too. But the footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water. That’s the bill One More Thing promised you."),
-    E(SectionKicker, null, "Now you know what’s behind the magic."),
+    E(BodyP, null, "The scale is hard to overstate. A big AI data center covers the ground of several football fields and draws as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, which makes this one of the largest construction projects happening anywhere on Earth right now. When you hit send in ChatGPT, one of these buildings answers."),
     E(BodyP, null,
-      "An instant answer feels free, but real chips, power, and water are working behind every one. None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
+      E("strong", null, "Somebody pays for all that arithmetic, in electricity and in water.")),
+    E(ShowcaseBox, { marginBottom: 28 },
+      E("div", { className: "numcols-2" },
+        [
+          { icon: "⚡", title: "The electric bill", desc: "Data centers now use about 6 percent of all U.S. electricity, and forecasts say 12 percent by 2030. Some household power bills are already climbing." },
+          { icon: "💧", title: "The water bill", desc: "The computer chips run hot, and cooling them uses water. A large data center can run through a million gallons or more on a hot day." },
+          { icon: "🔊", title: "The noise", desc: "The cooling fans hum 24 hours a day, loud enough that neighbors in some towns have sued over lost sleep. It never turns off." },
+          { icon: "👷", title: "Fewer jobs than you’d think", desc: "For all that size, a data center covering several football fields runs with only 100 to 200 permanent workers, about the staff of a big supermarket." }
+        ].map(function(item, i) {
+          return E("div", {
+            key: i,
+            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
+          },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
+              E("span", { style: { fontSize: 18 } }, item.icon),
+              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
+        }))),
+    E(SectionKicker, null, "SHRINKING THE BILL"),
+    E(BodyP, null, "The AI companies know all of this, and the race to shrink the bill is real. Microsoft is paying to restart the Three Mile Island nuclear plant just to power its data centers, and other companies are betting on new kinds of small reactors. Newer cooling designs recycle water in a closed loop instead of evaporating it. And custom chips are being built to squeeze more math out of every watt."),
+    E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
+    E(BodyP, null, "Every big technology has a footprint, from streaming video to the cars outside. But the footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet. That’s the bill."),
+    E(BodyP, null,
+      "None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
     closeBoard("computecost"),
     E(CostClaimsTryIt, null),
     E(LessonRule, null),

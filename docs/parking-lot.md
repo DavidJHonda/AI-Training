@@ -10,6 +10,16 @@ dormant helpers just because an older entry names them. Git is the source for ol
 
 ---
 
+## "What one answer costs" + Pluto scale boxes — Data Centers (2026-08-14)
+
+- **Origin:** Data Centers (`TheHiddenCostSection`). Removed 2026-08-14 when the lesson opening was rewritten around three plain-prose scale claims (2 quadrillion calculations per 2,000-word chat; ~100 septillion to train a model; compute defined) instead of the worked one-answer example. The "Back in One More Thing, we left you with a promise" callback paragraph was cut with them; its "somebody pays for all that arithmetic, in electricity, in water, and in money" line survives in the lesson as its own paragraph.
+- **Possible destination:** a future SEE IT on inference cost, or any lesson needing a concrete tokens × parameters × ops walkthrough; the Pluto band is a reusable scale-visualization pattern (emoji endpoints + gradient bar + caption).
+- **"What one answer costs" ShowcaseBox:** puppy-name chat (UserBubble/AIBubble), then "~40 trillion" in amber mono over "calculations, for that one reply", then amber chips "~50 tokens × ~400B parameters × 2 ops each", then: "Every token re-runs the whole network: all of the model's parameters, each doing a couple of operations. That's the loop you watched in Inference, and it's why a one-line answer still adds up to trillions. And that's a one-liner: the page-long answers you counted in One More Thing run into the quadrillions." (Static single-reveal remnant: `revealed` was hardwired true; chip/times helpers removed with it.)
+- **"HARD TO PICTURE? STACK IT UP" ShowcaseBox (verbatim):** headline "40 trillion dollar bills, end to end, reach past Pluto."; intro "A dollar bill is about six inches long. Lay down one for every calculation in that single answer and the line runs about 6 billion kilometers."; 🌍 gradient-bar 🪐 band captioned "Earth to Pluto · ~6 billion km of dollar bills"; footnote "Rough numbers: the exact count depends on the model's size and how long the answer is. The scale is the part that's real."
+- **Full source:** in git history at the commit before this one (search anchor: `What one answer costs`).
+
+---
+
 ## "Set Your Permissions" TRY IT — Rise of Agents (2026-08-13)
 
 - **Origin:** Rise of Agents (`WhenAIActsSection`). Removed 2026-08-13 (same day as, but after, the lesson-body rebuild below) and replaced by the "Be the Agent" TRY IT — a five-step sequential-reveal walk of the agent loop (plan → act → check → hit a wall → human review) using the lesson's TikTok-highlights scenario.

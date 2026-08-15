@@ -464,8 +464,7 @@ const CLOSE_BOARDS = {
   buildedge: { pill: "Your move now.", sticky: "The tool is ready. Are you?" },
   // Finish Smarter
   integrity: { pill: "Use it, and own it.", sticky: "Your name goes on the work." },
-  privacy: { pill: "What you type travels.", sticky: "Assume it doesn’t stay with you." },
-  howwegothere: { pill: "None of this was magic.", sticky: "It was steps, stacked over time." }
+  privacy: { pill: "What you type travels.", sticky: "Assume it doesn’t stay with you." }
 };
 // Lessons after the boundary id are first drafts: red label in the chip nav,
 // and the sticky title bar adds "· Draft". Section title pages (each group's
@@ -1874,7 +1873,7 @@ const SECTION_GROUPS = [{
   sections: ["openerskills", "choosemodel", "thoughtpartner", "humanedge", "creativethinking", "becurious", "buildedge"]
 }, {
   label: "Finish Smarter",
-  sections: ["whatyoulearned", "integrity", "privacy", "aijudges", "fullworkflow", "howwegothere"]
+  sections: ["whatyoulearned", "integrity", "privacy", "aijudges"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -1886,7 +1885,6 @@ const SECTION_META = {
   aihistory: { kicker: "ONE WORD AT A TIME", label: "How an LLM Works", icon: "🤖" },
   llms: { kicker: "THE AI LANDSCAPE", label: "What Is AI?", icon: "🧬" },
   aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
-  howwegothere: { kicker: "AI ISN’T MAGIC", label: "How We Got Here", icon: "\uD83D\uDCDC" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "AI is Different", icon: "\u26A1" },
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
@@ -1934,7 +1932,6 @@ const SECTION_META = {
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
   buildedge: { kicker: "YOUR MOVE NOW", label: "Your Edge", icon: "\uD83C\uDFAF" },
   whatyoulearned: { kicker: "THE BIG PICTURE", label: "What You Learned", icon: "\uD83D\uDCCB" },
-  fullworkflow: { kicker: "EVERY PART, ONE LOOP", label: "The Full Loop", icon: "\uD83D\uDDFA\uFE0F" },
 };
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
@@ -2802,138 +2799,6 @@ function AIIsMathSection(props) {
   );
 }
 
-function HowWeGotHereSection(props) {
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "howwegothere" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "AI can feel like it appeared out of nowhere, fully formed, almost like magic. It didn’t. What looks like one sudden invention is really four older ideas, each worked out by different people who weren’t trying to build AI at all."),
-    /*#__PURE__*/React.createElement(BodyP, null, "You already met those four ideas in How an LLM Works. Here’s how they come together: four separate breakthroughs that finally connected at the single moment everything changed."),
-    /*#__PURE__*/React.createElement(CoreLoopBox, null),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 16 }, "None of them arrived together. Each was figured out decades, even centuries, apart, for reasons that had nothing to do with AI."),
-    /*#__PURE__*/React.createElement(HistoryAssembleStatic, null),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "The machine, end to end"),
-    /*#__PURE__*/React.createElement(BodyP, null, "And those four ideas didn’t just connect once. They run, in order, every time you hit send. Here’s the full journey your prompt takes through the machine this course taught you to read."),
-    /*#__PURE__*/React.createElement(InferenceJourneyDiagram, null),
-    closeBoard("howwegothere"),
-    /*#__PURE__*/React.createElement(HistoryMatchTryIt, null),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" })
-  );
-}
-function ConvergenceDiagram(props) {
-  var reduced = props.reduced;
-  var _d = useState(false), drawn = _d[0], setDrawn = _d[1];
-  useEffect(function() {
-    if (reduced) { setDrawn(true); return; }
-    var t = setTimeout(function() { setDrawn(true); }, 60);
-    return function() { clearTimeout(t); };
-  }, []);
-  var DASH = 1400;
-  var amber = "#b45309", blue = "#2f4cb8", green = "#157a4e", purple = "var(--primary)";
-  var drawPath = function(d, color, delay) {
-    return /*#__PURE__*/React.createElement("path", {
-      d: d, fill: "none", stroke: color, strokeWidth: 2.5, strokeLinecap: "round",
-      style: { strokeDasharray: DASH, strokeDashoffset: drawn ? 0 : DASH, transition: reduced ? "none" : ("stroke-dashoffset 0.9s ease " + (delay || 0) + "s") }
-    });
-  };
-  var fadeStyle = { opacity: drawn ? 1 : 0, transition: reduced ? "none" : "opacity 0.5s ease 0.55s" };
-  return /*#__PURE__*/React.createElement("div", { style: { marginTop: 16, background: "var(--card)", borderRadius: 14, padding: "18px 12px", boxShadow: "var(--shadowSoft)" } },
-    /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 760 240", width: "100%", style: { display: "block", height: "auto" }, role: "img", "aria-label": "Three ideas from the 1650s, 1948, and 1957 converge at 2017, then continue to ChatGPT today." },
-      drawPath("M78,58 C210,58 250,120 356,120", amber, 0),
-      drawPath("M78,120 C220,120 285,120 356,120", blue, 0.1),
-      drawPath("M78,182 C210,182 250,120 356,120", green, 0.2),
-      /*#__PURE__*/React.createElement("circle", { cx: 78, cy: 58, r: 7, fill: amber }),
-      /*#__PURE__*/React.createElement("circle", { cx: 78, cy: 120, r: 7, fill: blue }),
-      /*#__PURE__*/React.createElement("circle", { cx: 78, cy: 182, r: 7, fill: green }),
-      /*#__PURE__*/React.createElement("text", { x: 96, y: 51, style: { fontFamily: "var(--sans)", fontSize: 15 } },
-        /*#__PURE__*/React.createElement("tspan", { style: { fontWeight: 800, fill: amber } }, "1650s "),
-        /*#__PURE__*/React.createElement("tspan", { style: { fill: "var(--inkSoft)" } }, "Probability")),
-      /*#__PURE__*/React.createElement("text", { x: 96, y: 113, style: { fontFamily: "var(--sans)", fontSize: 15 } },
-        /*#__PURE__*/React.createElement("tspan", { style: { fontWeight: 800, fill: blue } }, "1948 "),
-        /*#__PURE__*/React.createElement("tspan", { style: { fill: "var(--inkSoft)" } }, "Prediction")),
-      /*#__PURE__*/React.createElement("text", { x: 96, y: 205, style: { fontFamily: "var(--sans)", fontSize: 15 } },
-        /*#__PURE__*/React.createElement("tspan", { style: { fontWeight: 800, fill: green } }, "1957 "),
-        /*#__PURE__*/React.createElement("tspan", { style: { fill: "var(--inkSoft)" } }, "Training")),
-      /*#__PURE__*/React.createElement("g", { style: fadeStyle },
-        /*#__PURE__*/React.createElement("rect", { x: 356, y: 86, width: 128, height: 68, rx: 16, fill: "#ece8fd", stroke: "var(--primary)", strokeWidth: 2 }),
-        /*#__PURE__*/React.createElement("text", { x: 420, y: 122, textAnchor: "middle", style: { fontFamily: "var(--serif)", fontSize: 26, fill: "var(--primary)" } }, "2017"),
-        /*#__PURE__*/React.createElement("text", { x: 420, y: 142, textAnchor: "middle", style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, fill: "var(--primary)" } }, "they connect"),
-        /*#__PURE__*/React.createElement("path", { d: "M484,120 L600,120", fill: "none", stroke: "var(--primary)", strokeWidth: 2, strokeDasharray: "2 7", strokeLinecap: "round" }),
-        /*#__PURE__*/React.createElement("path", { d: "M600,113 L611,120 L600,127", fill: "none", stroke: "var(--primary)", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }),
-        /*#__PURE__*/React.createElement("text", { x: 624, y: 105, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, fill: "var(--ink)" } }, "ChatGPT, Claude,"),
-        /*#__PURE__*/React.createElement("text", { x: 624, y: 124, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, fill: "var(--ink)" } }, "& Gemini"),
-        /*#__PURE__*/React.createElement("text", { x: 624, y: 143, style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, fill: "var(--primary)" } }, "today"))));
-}
-// Static restoration of the old "Build the machine" SEE IT: the four ideas shown
-// assembled (each with its date, plain-language origin, and the person or paper behind
-// it), then the convergence-to-today finale. No interaction; this is a reference graphic.
-function HistoryAssembleStatic(props) {
-  var reduced = useReducedMotion();
-  var ANCIENT = [
-    { icon: "🎲", label: "Probability", color: "#b45309", bg: "#fbedd3", year: "1650s", caption: "Started as gambling math: a way to figure the odds. It lets a model answer with how likely something is, never a flat certainty.", who: "Pascal & Fermat" },
-    { icon: "✍️", label: "Prediction", color: "#2f4cb8", bg: "#e8eefb", year: "1948", caption: "Treat language as guessing the next word from the words before it, the same idea behind your phone’s autocomplete.", who: "Claude Shannon, A Mathematical Theory of Communication" },
-    { icon: "📚", label: "Training", color: "#157a4e", bg: "#e7f6ee", year: "1957", caption: "The first machine that could learn patterns from examples instead of following hand-written instructions.", who: "Frank Rosenblatt, the perceptron" }
-  ];
-  var SPARK = { icon: "🧩", label: "Patterns", color: "var(--primary)", bg: "#ece8fd", year: "2017", caption: "Eight researchers at Google published one breakthrough that let a machine weigh all the words at once and find the patterns between them: the transformer, the spark that finally connected the other three.", who: "Vaswani and colleagues, Attention Is All You Need" };
-  var card = function(idea, full) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: idea.label,
-      style: { textAlign: "left", border: "1.5px solid " + idea.color, background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)", fontFamily: "var(--sans)", display: "flex", flexDirection: "column", gridColumn: full ? "1 / -1" : "auto" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 22 } }, idea.icon),
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 17, fontWeight: 800, color: idea.color } }, idea.label),
-        /*#__PURE__*/React.createElement("span", { style: { marginLeft: "auto" } },
-          /*#__PURE__*/React.createElement("span", { style: { background: idea.color, color: "#fff", borderRadius: 20, padding: "3px 11px", fontSize: 12, fontWeight: 700 } }, idea.year))),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 8 } }, idea.caption),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: idea.color, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: "auto" } }, idea.who));
-  };
-  return /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Four ideas, invented separately, that finally connected" },
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 14 } },
-      ANCIENT.map(function(idea) { return card(idea, false); })),
-    /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", color: "var(--primary)", fontSize: 20, fontWeight: 800, margin: "2px 0 12px" } }, "↓"),
-    card(SPARK, true),
-    /*#__PURE__*/React.createElement(ConvergenceDiagram, { reduced: reduced }));
-}
-function HistoryMatchTryIt(props) {
-  var ROWS = [
-    { label: "Transformer", year: "2017", who: "Attention Is All You Need", correct: "weigh", explain: "The 2017 breakthrough let a machine weigh all the words at once and find the patterns between them, the spark that connected the other three." },
-    { label: "Probability", year: "1650s", who: "Pascal & Fermat", correct: "odds", explain: "Probability is the gambling math that lets a model express an answer as odds, never a flat certainty." },
-    { label: "Prediction", year: "1948", who: "Claude Shannon", correct: "next", explain: "Shannon framed language as guessing the next word from the words before it, exactly how AI generates text." },
-    { label: "Training", year: "1957", who: "the perceptron", correct: "examples", explain: "The perceptron was the first machine to learn patterns from examples instead of following hand-written rules." }
-  ];
-  var CHOICES = [
-    { id: "odds", label: "Answers based on odds" },
-    { id: "next", label: "Guess the next word" },
-    { id: "examples", label: "Learn from examples" },
-    { id: "weigh", label: "Weigh all words at once" }
-  ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Build the machine",
-    lead: "Now put it together. You just met the four ideas behind modern AI. Match each one to what it gave the machine.",
-  },
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 16 } },
-      ROWS.map(function(row, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === row.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i, index: i + 1,
-          kicker: row.year + " · " + row.who,
-          prompt: row.label,
-          answered: answered, correct: correct,
-          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + row.explain) : null
-        }, CHOICES.map(function(c) {
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: c.id, answered: answered,
-            isCorrect: c.id === row.correct,
-            isPicked: answers[i] === c.id,
-            label: c.label,
-            onClick: function() { setAnswers(function(prev) { var u = Object.assign({}, prev); u[i] = c.id; return u; }); }
-          });
-        }));
-      })));
-}
 const WHENNOT_SCENARIOS = [{
   icon: "\uD83D\uDCAC",
   title: "A friend's secret",
@@ -6512,110 +6377,6 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
   );
-}
-function InferenceJourneyDiagram() {
-  var E = React.createElement;
-  var RAIL_W = 96;
-  var READ = { accent: "#6e51ff", deep: "#4c2dff", lane: "#f4f1fd", chipBg: "#ebe4fd", chipInk: "#4c2dff", line: "#cdbcff", cardBorder: "#e7dffb" };
-  var WRITE = { accent: "#e0850f", deep: "#b06608", lane: "#fdf6ea", chipBg: "#f8e7c8", chipInk: "#a85f07", line: "#f0cf91", cardBorder: "#f2e3c4" };
-  var _n = useState(false), narrow = _n[0], setNarrow = _n[1];
-  var _g = useState(null), geo = _g[0], setGeo = _g[1];
-  var containerRef = useRef(null), firstCardRef = useRef(null), lastCardRef = useRef(null);
-  useEffect(function() {
-    var alive = true;
-    function measure() {
-      try { setNarrow(window.innerWidth < 640); } catch (e) {}
-      var c = containerRef.current, f = firstCardRef.current, l = lastCardRef.current;
-      if (c && f && l) {
-        var cr = c.getBoundingClientRect(), fr = f.getBoundingClientRect(), lr = l.getBoundingClientRect();
-        var topY = fr.top + fr.height / 2 - cr.top, botY = lr.top + lr.height / 2 - cr.top;
-        setGeo({ top: topY, height: Math.max(0, botY - topY) });
-      }
-    }
-    measure();
-    window.addEventListener("resize", measure);
-    if (document.fonts && document.fonts.ready && document.fonts.ready.then) document.fonts.ready.then(function() { if (alive) measure(); });
-    return function() { alive = false; window.removeEventListener("resize", measure); };
-  }, []);
-  var b = function(t) { return E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, t); };
-  var STEPS = [
-    { n: 1, ph: READ, chip: "CONTEXT WINDOW", title: "What the model sees", body: ["Your prompt plus everything else in the window: past messages, AI responses, personalization, saved memory."] },
-    { n: 2, ph: READ, chip: "TOKENS", title: "Text becomes numbers", body: ["The whole thing is split into tokens, each mapped to a number. ", b("From here on, it’s all numbers.")] },
-    { n: 3, ph: READ, chip: "EMBEDDINGS", title: "Starting meaning", body: ["Each token’s number becomes a vector, its starting meaning on the map."] },
-    { n: 4, ph: READ, chip: "TRANSFORMER", title: "Reads everything at once", big: true, body: ["The architecture that reads every token at once. Each of ~100 layers runs ", b("attention"), " (which tokens relate), then ", b("transformation"), " (what they mean together), using weights frozen in training. One final vector per token comes out."] },
-    { n: 5, ph: WRITE, chip: "PROBABILITY", title: "Score every possible next token", body: ["Now the model takes everything it just understood and scores all ~200,000 tokens it knows for what comes next. The better the fit, the higher the probability."] },
-    { n: 6, ph: WRITE, chip: "PREDICTION", title: "Pick the next token", body: ["It picks one token, usually a whole word."] },
-    { n: 7, ph: WRITE, chip: "OUTPUT", title: "Types it out", body: ["The chosen token is turned back into text (the reverse of tokenizing, using the same token-to-text table) and streamed into your reply. Whole words appear at once; longer words arrive as a few pieces that join up as they stream."] },
-    { n: 8, ph: WRITE, chip: "LOOP", title: "No memory, so it loops", body: ["The model doesn’t keep the work it just did; the only record is the text. It adds the new token to everything you sent and ", b("runs the whole journey again"), ", token by token, until the answer is complete."] }
-  ];
-  var chip = function(ph, text) {
-    return E("span", { style: { display: "inline-block", background: ph.chipBg, color: ph.chipInk, fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", padding: "4px 9px", borderRadius: 6 } }, text);
-  };
-  var stepRow = function(step, isFirst, isLast) {
-    var ph = step.ph;
-    var railCell = E("div", { style: { width: 36, flex: "none", position: "relative" } },
-      E("div", { style: { position: "absolute", left: "50%", transform: "translateX(-50%)", top: isFirst ? "50%" : 0, bottom: isLast ? "50%" : -16, width: 2.5, background: ph.line, borderRadius: 3 } }),
-      E("div", { style: { position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 32, height: 32, borderRadius: 999, background: ph.accent, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px " + ph.accent + "55" } }, String(step.n)));
-    var head = E("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } },
-      chip(ph, step.chip),
-      step.big ? E("span", { style: { display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", color: "#fff", background: ph.accent, padding: "4px 9px", borderRadius: 6 } }, "The core") : null);
-    var title = E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", margin: "9px 0 5px", lineHeight: 1.2 } }, step.title);
-    var bodyEl = E.apply(null, ["div", { style: { fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 400, color: "var(--inkSoft)", lineHeight: 1.55 } }].concat(step.body));
-    var card = E("div", { ref: step.n === 1 ? firstCardRef : (step.n === 8 ? lastCardRef : null), style: { flex: 1, background: "#fff", border: step.big ? "2px solid " + ph.accent : "1.5px solid " + ph.cardBorder, borderRadius: 16, padding: "15px 18px 16px", boxShadow: step.big ? "0 5px 16px " + ph.accent + "22" : "0 1px 2px rgba(14,10,31,0.03)" } }, head, title, bodyEl);
-    return E("div", { style: { display: "flex", alignItems: "stretch", gap: 14, marginBottom: isLast ? 0 : 16 } }, railCell, card);
-  };
-  var laneHeader = function(ph, kicker, title, sub) {
-    return E("div", { style: { display: "flex", alignItems: "center", gap: 13, marginBottom: 16 } },
-      E("span", { style: { flex: "none", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", background: ph.accent, padding: "5px 11px", borderRadius: 999 } }, kicker),
-      E("div", null,
-        E("div", { style: { fontFamily: "var(--sans)", fontSize: 19, fontWeight: 800, color: ph.deep, letterSpacing: "-0.01em", lineHeight: 1.1 } }, title),
-        E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, color: "var(--inkMuted)", marginTop: 2 } }, sub)));
-  };
-  var lane = function(ph, kicker, title, sub, steps) {
-    var kids = [laneHeader(ph, kicker, title, sub)].concat(steps.map(function(s, i) { return stepRow(s, i === 0, i === steps.length - 1); }));
-    return E.apply(null, ["div", { style: { position: "relative", background: ph.lane, borderRadius: 22, padding: "20px 22px" } }].concat(kids));
-  };
-  var downConnect = function() {
-    return E("div", { style: { display: "flex", justifyContent: "center", padding: "9px 0" } },
-      E("svg", { width: "20", height: "22", viewBox: "0 0 20 22", fill: "none" },
-        E("path", { d: "M10 0 L10 16", stroke: "#b9b2d4", strokeWidth: "2.5", strokeLinecap: "round" }),
-        E("path", { d: "M4 13 L10 20 L16 13", stroke: "#b9b2d4", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", fill: "none" })));
-  };
-  var milestone = function() {
-    return E("div", { style: { display: "flex", justifyContent: "center", padding: "2px 0" } },
-      E("div", { style: { display: "flex", alignItems: "center", gap: 15, background: "#fff", color: "var(--ink)", borderRadius: 14, padding: "14px 24px", border: "1.5px solid #e7dffb", boxShadow: "0 5px 16px rgba(14,10,31,0.08)", maxWidth: 600 } },
-        E("span", { style: { display: "flex", alignItems: "center", gap: 6, flex: "none" } },
-          E("span", { style: { width: 10, height: 10, borderRadius: 999, background: "#6e51ff" } }),
-          E("span", { style: { color: "#b9b2d4", fontSize: 14, fontWeight: 800 } }, "→"),
-          E("span", { style: { width: 10, height: 10, borderRadius: 999, background: "#e0850f" } })),
-        E("div", null,
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: 10, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 3 } }, "Read complete · now writing"),
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.25, color: "var(--ink)" } }, "One final vector per token. Everything you sent, understood."))));
-  };
-  var rail = function(color, label) {
-    return E("div", { style: geo ? { position: "absolute", top: geo.top, height: geo.height, right: 18, width: RAIL_W, pointerEvents: "none" } : { position: "absolute", top: 18, bottom: 18, right: 18, width: RAIL_W, pointerEvents: "none" } },
-      E("div", { style: { position: "absolute", top: 0, bottom: 0, left: 26, right: 30, borderTop: "3px solid " + color, borderRight: "3px solid " + color, borderBottom: "3px solid " + color, borderTopRightRadius: 16, borderBottomRightRadius: 16 } }),
-      E("div", { style: { position: "absolute", top: -4.5, left: 18, width: 0, height: 0, borderTop: "6px solid transparent", borderBottom: "6px solid transparent", borderRight: "10px solid " + color } }),
-      E("div", { style: { position: "absolute", bottom: -5, left: 21, width: 11, height: 11, borderRadius: 999, background: color } }),
-      E("div", { style: { position: "absolute", top: "50%", right: 2, transform: "translateY(-50%) rotate(180deg)", writingMode: "vertical-rl", fontFamily: "var(--sans)", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: color, whiteSpace: "nowrap" } }, label));
-  };
-  var read = STEPS.filter(function(s) { return s.ph === READ; });
-  var write = STEPS.filter(function(s) { return s.ph === WRITE; });
-  var loopCaption = E("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 14, fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", color: READ.deep } },
-    E("span", { style: { fontSize: 16 } }, "↻"), "No memory · the whole journey runs again");
-  return E("div", { style: { marginBottom: "var(--blockGap)" } },
-    E("p", { style: { fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "2px 0 22px", maxWidth: 760 } },
-      "Here’s the whole journey in one picture, from your prompt to a finished answer. ",
-      E("strong", { style: { color: "var(--ink)", fontWeight: 700 } }, "It runs in two phases, and the end feeds back to the start.")),
-    E("div", { style: { maxWidth: 760, margin: "0 auto" } },
-      E("div", { ref: containerRef, style: { position: "relative", paddingRight: narrow ? 0 : (RAIL_W + 14) } },
-        lane(READ, "Phase 1", "Read the message", "One pass over everything you sent: your prompt, the history, all of it.", read),
-        downConnect(),
-        milestone(),
-        downConnect(),
-        lane(WRITE, "Phase 2", "Write the reply", "One token at a time, looping until the answer is complete.", write),
-        narrow ? null : rail(READ.deep, "no memory · the whole journey runs again")),
-      narrow ? loopCaption : null));
 }
 function BillMeterBox() {
   var E = React.createElement;
@@ -10930,7 +10691,7 @@ function WhenAIJudgesSection(props) {
     Object.keys(permAnswers).length >= SCENARIOS.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
       /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Five questions. Every system. Every time.", body: "You won’t always get clear answers. The questions still work. A system that won’t tell you who’s responsible is telling you something." })) : null,
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("fullworkflow"), label: "Next: The Full Loop" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));
 }
 function SyntheticMediaSection(props) {
   const [permAnswers, setPermAnswers] = useState({});
@@ -11195,160 +10956,6 @@ function WhatYouLearnedSection(props) {
   ),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("integrity"), label: "Next: Integrity" }));
-}
-function FullWorkflowSection(props) {
-  const [wfSelection, setWfSelection] = useState(null);
-  const [wfPlacements, setWfPlacements] = useState({});
-  const WORKFLOW_CARDS = [
-    { id: "think", correctSlot: 1, label: "Decide what you actually need", section: "Critical Thinking", explanation: "Comes first because everything after it depends on knowing what you\u2019re trying to accomplish. Skip this and you\u2019ll get a great answer to the wrong question." },
-    { id: "prompt", correctSlot: 2, label: "Write a specific prompt with context", section: "Prompting", explanation: "Comes after thinking and before reading because the quality of the answer depends on the quality of the question. A vague prompt gets a vague answer no matter how good the model is." },
-    { id: "read", correctSlot: 3, label: "Read what AI gave you carefully", section: "Evaluating", explanation: "Comes before verifying. You can\u2019t check what you haven\u2019t actually read. Skim now, regret later." },
-    { id: "verify", correctSlot: 4, label: "Verify the specific claims", section: "Verify", explanation: "Comes BEFORE evaluating because judging a hallucinated claim is wasted effort. Drop the fake parts first, then decide whether the rest meets your goal." },
-    { id: "evaluate", correctSlot: 5, label: "Evaluate whether it meets your goal", section: "Evaluating", explanation: "Comes after verifying because true isn\u2019t the same as useful. Now that you trust the claims, ask whether it actually solves your problem, matches your audience, and meets your standard." },
-    { id: "revise", correctSlot: 6, label: "Revise, rewrite, or iterate to fix what\u2019s weak", section: "Evaluating", explanation: "Comes after evaluating so you know exactly what to fix. Send a follow-up to AI, rewrite in your own voice, or take what works and toss the rest. Whatever the move, you direct it." },
-    { id: "submit", correctSlot: 7, label: "Submit something you can defend", section: "Integrity", explanation: "Comes last because everything before it was preparing you to be able to explain and defend the work if asked. If you can\u2019t answer a follow-up question about what you submitted, you\u2019re not ready." }
-  ];
-  const WORKFLOW_DECK_ORDER = ["submit", "think", "evaluate", "revise", "read", "prompt", "verify"];
-  function findCard(id) { return WORKFLOW_CARDS.find(function(c) { return c.id === id; }); }
-  const wfPlacedIds = Object.values(wfPlacements);
-  const wfAllPlaced = wfPlacedIds.length >= WORKFLOW_CARDS.length;
-  const wfCorrectCount = WORKFLOW_CARDS.filter(function(c) { return wfPlacements[c.correctSlot] === c.id; }).length;
-  const wfAllCorrect = wfPlacedIds.length >= WORKFLOW_CARDS.length && wfCorrectCount === WORKFLOW_CARDS.length;
-  function wfPlaceInSlot(slotNum) {
-    if (wfSelection === null) return;
-    var newPlacements = {};
-    Object.keys(wfPlacements).forEach(function(s) { if (wfPlacements[s] !== wfSelection) newPlacements[s] = wfPlacements[s]; });
-    newPlacements[slotNum] = wfSelection;
-    setWfPlacements(newPlacements);
-    setWfSelection(null);
-  }
-  function wfRemoveFromSlot(slotNum) {
-    var newPlacements = {};
-    Object.keys(wfPlacements).forEach(function(s) { if (parseInt(s) !== slotNum) newPlacements[s] = wfPlacements[s]; });
-    setWfPlacements(newPlacements);
-  }
-  function wfSelectCard(cardId) {
-    if (wfPlacedIds.includes(cardId)) return;
-    setWfSelection(wfSelection === cardId ? null : cardId);
-  }
-  function wfReset() { setWfPlacements({}); setWfSelection(null); }
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "fullworkflow" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Seven steps, one workflow. You\u2019ve learned each piece. Now put them together on a real assignment."),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "linear-gradient(135deg, #ede9fe, #e0e7ff)", borderRadius: 12, padding: "16px 20px", marginBottom: 24 }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4338ca", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8 } }, "\uD83C\uDFAF The assignment"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.5, fontWeight: 600 } },
-        "Class debate next week. Topic: School uniforms in public schools. Your side: against. You need 3 strong arguments and the evidence to back them up.")),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Put It In Order",
-      lead: "Seven steps. Drop them in order. Tap a step to pick it up, tap a numbered slot to drop it in. A slot turns green when the step is in the right place and red when it isn\u2019t. Move the red ones until all seven are green."
-    },
-      !wfAllCorrect ? /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "var(--tryAccent)", marginBottom: 10 } }, "THE STEPS"),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 } },
-          WORKFLOW_DECK_ORDER.map(function(cardId) {
-            var card = findCard(cardId);
-            var placed = wfPlacedIds.includes(card.id);
-            var selected = wfSelection === card.id;
-            return /*#__PURE__*/React.createElement("button", {
-              key: card.id,
-              role: "button",
-              tabIndex: 0,
-              onClick: function() { if (!placed) wfSelectCard(card.id); },
-              onKeyDown: function(e) { if ((e.key === "Enter" || e.key === " ") && !placed) { e.preventDefault(); wfSelectCard(card.id); } },
-              style: placed
-                ? { padding: "10px 14px", borderRadius: 10, background: "var(--bg)", border: "1px dashed var(--rule)", color: "var(--inkFaint)", fontSize: 13, fontWeight: 600, fontFamily: "var(--sans)", cursor: "not-allowed", opacity: 0.5 }
-                : selected
-                  ? { padding: "10px 14px", borderRadius: 10, background: "#fff", border: "2px solid var(--primary)", color: "var(--ink)", fontSize: 13, fontWeight: 600, fontFamily: "var(--sans)", cursor: "pointer", boxShadow: "0 4px 12px rgba(110, 81, 255, 0.18)", transform: "translateY(-1px)", transition: "all 0.15s" }
-                  : { padding: "10px 14px", borderRadius: 10, background: "#fff", border: "1px solid var(--rule)", color: "var(--ink)", fontSize: 13, fontWeight: 600, fontFamily: "var(--sans)", cursor: "pointer", transition: "all 0.15s" }
-            }, card.label);
-          })),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.4, color: "var(--tryAccent)", marginBottom: 10 } }, "YOUR SEQUENCE"),
-        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 18 } },
-          [1, 2, 3, 4, 5, 6, 7].map(function(slotNum, si) {
-            var placedId = wfPlacements[slotNum];
-            var placedCard = placedId ? findCard(placedId) : null;
-            var isCorrect = placedCard && placedCard.correctSlot === slotNum;
-            return /*#__PURE__*/React.createElement("div", {
-              key: slotNum,
-              style: si > 0 ? { borderTop: "1px solid var(--tryRule)", paddingTop: 12, marginTop: 12 } : {}
-            },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12 } },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { width: 36, height: 36, borderRadius: 8, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, fontFamily: "var(--sans)", background: !placedCard ? "var(--bg)" : isCorrect ? "#1f9d5f" : "#d4334a", color: placedCard ? "#fff" : "var(--inkMuted)", border: placedCard ? "none" : "1px dashed var(--rule)" }
-                }, slotNum),
-                placedCard
-                  ? (isCorrect
-                      ? /*#__PURE__*/React.createElement("div", {
-                          style: { flex: 1, padding: "12px 14px", borderRadius: 10, border: "1px solid #1f9d5f", background: "#f0fdf4", color: "var(--ink)", fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "left" }
-                        },
-                          /*#__PURE__*/React.createElement("span", null, placedCard.label),
-                          /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#1f9d5f" } }, "\u2713 In place"))
-                      : /*#__PURE__*/React.createElement("button", {
-                          role: "button", tabIndex: 0,
-                          onClick: function() { wfRemoveFromSlot(slotNum); },
-                          onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); wfRemoveFromSlot(slotNum); } },
-                          style: { flex: 1, padding: "12px 14px", borderRadius: 10, border: "1px solid #d4334a", background: "#fff", color: "var(--ink)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.15s", display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "inherit", textAlign: "left" }
-                        },
-                          /*#__PURE__*/React.createElement("span", null, placedCard.label),
-                          /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#d4334a" } }, "\u2715 Move")))
-                  : /*#__PURE__*/React.createElement("button", {
-                      role: "button", tabIndex: 0,
-                      onClick: function() { if (wfSelection !== null) wfPlaceInSlot(slotNum); },
-                      onKeyDown: function(e) { if ((e.key === "Enter" || e.key === " ") && wfSelection !== null) { e.preventDefault(); wfPlaceInSlot(slotNum); } },
-                      style: { flex: 1, padding: "12px 14px", borderRadius: 10, border: "1px dashed var(--rule)", background: "transparent", color: "var(--inkMuted)", fontSize: 14, fontStyle: "italic", cursor: wfSelection !== null ? "pointer" : "default", transition: "all 0.15s", fontFamily: "inherit", textAlign: "left" }
-                    }, wfSelection !== null ? "Tap to place a step here" : "Empty")));
-          })),
-        /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--tryRule)", marginTop: 24, paddingTop: 24, textAlign: "center" } },
-          wfPlacedIds.length > 0 ? /*#__PURE__*/React.createElement("button", { onClick: wfReset, style: { background: "transparent", border: "none", color: "var(--inkMuted)", fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "underline" } }, "Reset") :
-          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkMuted)", fontSize: 13, fontStyle: "italic" } }, "Tap a step above to start placing your sequence."))
-      ) : /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 18px", marginBottom: 22, textAlign: "center" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, fontWeight: 700, color: "var(--ink)", marginBottom: 4 } }, wfCorrectCount + " of " + WORKFLOW_CARDS.length + " in the right place."),
-          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } },
-            wfCorrectCount === WORKFLOW_CARDS.length ? "Perfect order. The whole loop is yours." :
-            wfCorrectCount >= 5 ? "Strong sequence. The few you flipped show where the canonical order isn\u2019t always obvious." :
-            wfCorrectCount >= 3 ? "You\u2019ve got the shape, even if some steps are out of order. The breakdown below shows why each one sits where it does." :
-            "Worth re-reading the whole breakdown below. The order isn\u2019t arbitrary: each step earns its position.")),
-        WORKFLOW_CARDS.map(function(card) {
-          var isMatch = wfPlacements[card.correctSlot] === card.id;
-          var sc = isMatch ? "#1f9d5f" : "#d4334a";
-          var studentSlot = Object.keys(wfPlacements).find(function(s) { return wfPlacements[s] === card.id; });
-          return /*#__PURE__*/React.createElement("div", {
-            key: card.id,
-            style: { background: "#fff", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--rule)", borderLeft: "3px solid " + sc, marginBottom: 12 }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 8 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-                /*#__PURE__*/React.createElement("div", { style: { width: 24, height: 24, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, background: isMatch ? "#dcfce7" : "#fee2e2", color: sc } }, card.correctSlot),
-                /*#__PURE__*/React.createElement("span", { style: { fontSize: 15, fontWeight: 600, color: "var(--ink)" } }, card.label)),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, padding: "3px 8px", borderRadius: 999, background: isMatch ? "#dcfce7" : "#fee2e2", color: sc, flexShrink: 0 } }, isMatch ? "\u2713 Right spot" : "\u2715 Wrong spot")),
-            !isMatch && studentSlot ? /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", marginBottom: 8 } }, "You placed at slot " + studentSlot + ". Right spot is " + card.correctSlot + ".") : null,
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontStyle: "italic", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55, maxWidth: "60ch" } }, card.explanation),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginTop: 8 } }, "From: " + card.section));
-        }),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontStyle: "italic", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "60ch", marginTop: 22 } },
-          "Same loop every time. Different assignment, different topic, same seven moves. The AI is the tool. The order is the default. The skill is knowing when to slow down, verify, revise, or take the work back yourself."),
-        /*#__PURE__*/React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 12, padding: "18px 22px", marginTop: 24 } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 } }, "Not every task takes all seven"),
-          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-            [
-              { label: "Quick task", desc: "Prompt, read, lightly edit." },
-              { label: "School or work", desc: "Prompt, read, verify, evaluate, revise, own." },
-              { label: "High stakes", desc: "Involve outside sources or people before the work goes anywhere." }
-            ].map(function(item, i) {
-              return /*#__PURE__*/React.createElement("div", { key: i, style: { display: "flex", gap: 12, fontSize: 14, lineHeight: 1.55 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", minWidth: 110, flexShrink: 0 } }, item.label),
-                /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)" } }, item.desc));
-            }))))),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("howwegothere"), label: "Next: How We Got Here" }));
 }
 function WhereValueLivesBox() {
   var E = React.createElement;
@@ -13005,7 +12612,6 @@ const SECTION_COMPONENTS = {
   aihistory: AIHistorySection,
   llms: LLMsSection,
   aiismath: AIIsMathSection,
-  howwegothere: HowWeGotHereSection,
   whydeeper: WhyDeeperSection,
   doesaithink: DoesAIThinkSection,
   whybother: WhyBotherSection,
@@ -13046,7 +12652,6 @@ const SECTION_COMPONENTS = {
   faketrap: SyntheticMediaSection,
   openerskills: OpenerSkillsSection,
   whatyoulearned: WhatYouLearnedSection,
-  fullworkflow: FullWorkflowSection,
   questionsvaluable: QuestionsValuableSection,
   humanedge: HumanEdgeSection,
   creativethinking: CreativeThinkingSection,
@@ -13064,7 +12669,7 @@ const SECTION_COMPONENTS = {
 // 2026-08-10, since claim-checking is Loudest Voices' job), Big Downside
 // (black box), and the section opener (the four soundbites). Unexpected Results'
 // answered-voices close and Spot the Worry TRY IT were cut 2026-08-14 (parked in
-// docs/parking-lot.md); RatQuizTryIt replaced the TRY IT.
+// docs/parking-lot.html); RatQuizTryIt replaced the TRY IT.
 const CHIP_LABELS = { embeddings: "Embeddings", critical: "Critical Thinking" };
 function ChipNav(props) {
   var E = React.createElement;

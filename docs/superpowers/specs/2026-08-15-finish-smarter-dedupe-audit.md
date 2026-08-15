@@ -405,3 +405,113 @@ Not applicable — nothing is being cut from this lesson in this plan.
    survivor is edited into Make Your Move.
 5. `buildedge`'s citation of "Thought Partner" by name will go stale once Task 3 dissolves that
    lesson — flagged for whoever writes Make Your Move, not something to fix in Task 1–2.
+
+---
+
+## David's additions (2026-08-15 checkpoint)
+
+David reviewed the audit above and supplied four new skill concepts to fold into the merge. Recorded
+here as concepts, not finished copy; register and exact wording get rewritten in course voice later.
+Course rule: no em-dashes in copy, so destination notes below avoid them even in draft form.
+
+### 1. High Emotional Intelligence & Communication
+
+- (a) **Persuasive speaking & storytelling** — presenting ideas clearly in person, reading a room,
+  active listening.
+- (b) **Teamwork & conflict resolution** — navigating social dynamics, leading peers, building
+  authentic relationships.
+
+**Destination:** the future **Communication & People** lesson (new standalone, Beat 2 per spec).
+
+**Dedupe verdict: untaught, confirmed by grep.** Searched the whole file for `public speaking`,
+`persuasive speak`, `storytelling`, `active listening`, `reading a room`, `conflict resolution`,
+`teamwork`, `lead peers`/`leading peers`, `authentic relationship` (case-insensitive). Zero hits
+outside this new addition. Nothing in the current course teaches in-person presentation, reading a
+room, or conflict resolution as a skill; the closest lessons (`thoughtpartner`, `humanedge`) are
+about the human/AI relationship, not human/human dynamics. Clear SURVIVOR, entirely new content for
+Communication & People.
+
+### 2. Adaptability & Metacognition ("learning how to learn")
+
+Context supplied: shrinking lifespan of specific technical skills; what a freshman learns may be
+automated by graduation.
+
+- (a) **Intellectual curiosity** — self-directed learning habits vs. a fixed curriculum.
+
+  **Dedupe verdict: taught elsewhere.** `becurious` ("Be Curious") already owns this territory in
+  full. Its opening thesis: "the only seniority in AI is reps: hours spent actually using the tools,
+  on real things, noticing what worked and what didn't. And reps are free. You don't need
+  permission, a budget, or a job title. You need curiosity." Its FIVE CURIOSITY HABITS box is a
+  direct match for "self-directed learning habits vs. a fixed curriculum": "Use it on real life, not
+  just school... Every new kind of task teaches you what the tool is actually good at. School
+  assignments only show you a narrow slice." / "Try the new thing the week it ships... Most people
+  wait until someone shows them. Be the one who already tried it." / "Watch how other people use
+  it... Borrow what looks useful, then test it yourself before you trust it." / "Ask the tool to
+  teach you the tool." / "Keep a list of what surprised you." Its closing line makes the
+  self-directed-vs-curriculum point explicitly: "Most of this course will age... The habit of being
+  curious about the new thing is the one part that doesn't expire. Keep it."
+  **Destination: Be Curious** (strengthen-candidate, not the roundup). Don't duplicate this in
+  Skills That Matter.
+
+- (b) **Resilience & ambiguity tolerance** — comfort with trial-and-error, pivoting when technology
+  shifts, unlearning outdated methods.
+
+  **Dedupe verdict: untaught, confirmed by grep.** Searched for `unlearn`, `half-life`, `ambiguity`,
+  `trial-and-error`/`trial and error`, `obsolete`, `pivot`, `shrinking.*skill`. One near-miss: `
+  whydeeper` ("Why Learn AI?") has a card titled "Nothing to unlearn" — "The people who got good at
+  the old way have to undo it: break habits, give up the workflow that made them fast, and trust a
+  tool that works nothing like what they're used to. You skip all of that." That's a different
+  claim (a structural advantage students already have because they're starting fresh) rather than
+  the skill this concept names (the ongoing ability to tolerate ambiguity and re-unlearn methods as
+  the tools keep shifting under you, which keeps mattering long after the freshman-year head start is
+  gone). Not a real duplicate. No other lesson names resilience, ambiguity tolerance, or the
+  shrinking half-life of technical skills. **Destination: roundup (Skills That Matter),** per
+  David's assignment.
+
+### 3. Systems Thinking & Interdisciplinary Creativity
+
+AI excels within narrow boundaries; human value is connecting disparate fields.
+
+- (a) **Cross-domain thinking** — combining unrelated subjects (CS with psychology, environmental
+  science with economics/policy).
+
+  **Dedupe verdict: taught elsewhere.** `creativethinking` ("Creative Thinking") already teaches
+  this exact mechanic as one of its five named moves: "**Connect the unconnected.** New angles come
+  from putting two unrelated things next to each other." The lesson's own worked example is a
+  cross-domain transplant: a teacher maps World War I's alliance system onto group chat drama
+  because "Group chats are a domain students already navigate fluently, so mapping WWI alliances
+  onto group chat dynamics turns an unfamiliar topic into a familiar shape. That's 'Connect the
+  unconnected' in action: steal from somewhere else." The lesson's ROLES box also frames the same
+  idea across professions (creative lawyer, entrepreneur, engineer, doctor, each "finding an angle
+  nobody else brought"). David's framing names specific academic/professional pairings (CS with
+  psychology, environmental science with economics/policy) that the lesson doesn't currently use as
+  examples, so there's room to sharpen it, but the underlying skill is already taught.
+  **Destination: strengthen-candidate for Creative Thinking** (add sharper cross-field examples),
+  not the roundup, per David's instruction.
+
+- (b) **Ethical judgment** — asking not just "can we build or automate this," but "should we, and
+  what are the human consequences."
+
+  **Dedupe verdict: untaught as a personal skill, confirmed by grep.** Searched for `should we`,
+  `should you build`, `should it be built`, `human consequences`, `ethical judgment`, `ethics of`,
+  `moral question`, `just because we can`. One tangential hit: `paceofchange` ("Pace of Change") has
+  a card on Recursive Self-Improvement that uses the phrase "Should it be built" in passing, but it's
+  asking that question about one specific hypothetical AI capability inside an AGI/ASI discussion,
+  not teaching a general personal skill. `aijudges`' Five Questions ("who is this helping, and who
+  is it hurting") and `bigdownside`'s worry catalog both examine the ethics of AI systems other
+  people already built and deployed on you; they teach how to evaluate a system you're the subject
+  of, not how to decide, as the builder or automator, whether something should exist. That's a
+  different skill in a different seat. Confirmed: no lesson currently teaches "should we build or
+  automate this" as a personal decision-making skill. **Destination: roundup (Skills That Matter),**
+  per David's assignment.
+
+### 4. Candidate copy (not a skill concept, park for later)
+
+A candidate close-board line David supplied, not tied to a specific lesson yet:
+
+> "curiosity is the new currency, judgment is the new expertise, adaptability is the ultimate
+> security."
+
+**Destination:** section close boards; David's call which one (or ones) later, once the new lessons
+(Communication & People, rebuilt Skills That Matter, Make Your Move) exist to host it. Parking here
+rather than assigning now since no close board exists yet for any of them.

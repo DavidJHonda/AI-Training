@@ -460,6 +460,7 @@ const CLOSE_BOARDS = {
   aitips: { pill: "There are no magic words.", sticky: "Just five moves, run on purpose." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
   peopleskills: { pill: "AI can write it. It can’t be the person in the room.", sticky: "Say it clearly, be easy to work with, and people follow." },
+  skillsthatmatter: { pill: "The typing got cheap.", sticky: "The judgment didn’t." },
   becurious: { pill: "Curiosity compounds.", sticky: "The questions you chase become your edge." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two habits. They travel well." }
 };
@@ -1867,7 +1868,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "peopleskills", "becurious", "whatyoulearned", "integrity"]
+  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "peopleskills", "skillsthatmatter", "becurious", "whatyoulearned", "integrity"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -1904,6 +1905,7 @@ const SECTION_META = {
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   creativethinking: { kicker: "FIND THE BETTER ANGLE", label: "Creative Thinking", title: "Creative Thinking", icon: "\uD83D\uDCA1" },
   peopleskills: { kicker: "PEOPLE STILL PICK PEOPLE", label: "People Skills", icon: "\uD83E\uDD1D" },
+  skillsthatmatter: { kicker: "WHAT STAYS YOURS", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   becurious: { kicker: "CURIOSITY COMPOUNDS", label: "Be Curious", icon: "\uD83D\uDD2D" },
   openerworkwith: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerprotect: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -8783,6 +8785,167 @@ function PeopleSkillsSection(props) {
             E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: HUMAN_MOVES.length, options: withHints(sc.options), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setHumanMoveAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("skillsthatmatter"); }, label: "Next: Skills That Matter" }));
+}
+function SkillsThatMatterSection(props) {
+  var E = React.createElement;
+  const [missingAnswers, setMissingAnswers] = useState({});
+  // Beat B demonstrates the two survivor skills (breaking down a messy problem,
+  // then picking) instead of restating them as cards. One artifact, three zones.
+  const MESSY = [
+    {
+      label: "WHAT LANDS ON YOU",
+      lines: ["Club attendance is down. Two officers think it’s the meeting time, one thinks nobody outside the group chat knows the club exists, and there’s one meeting left before break."]
+    },
+    {
+      label: "WHAT AI CAN ACTUALLY TAKE",
+      note: "once you’ve cut it up",
+      lines: [
+        "“Draft a five-question survey that tells us which of those three it is.”",
+        "“Give me ten meeting formats that work with fifteen people and no budget.”",
+        "“Turn our best three into a poster and a group-chat message.”"
+      ]
+    },
+    {
+      label: "WHAT NEVER GOES IN THE BOX",
+      lines: ["Deciding this is a why-won’t-they-come problem and not a what-do-we-do-when-they-get-there problem. And picking one format out of ten, knowing which one this group will actually show up for."]
+    }
+  ];
+  // Load-bearing: these four names are cited verbatim by later lessons. Do not rename.
+  const EDGE_CARDS = [
+    { icon: "🎯", title: "Frame the real problem", body: "AI is much more useful when the human knows what needs to be solved, who it is for, and what a good answer would look like." },
+    { icon: "🧠", title: "Make sense of weird behavior", body: "When you know that AI works through patterns, probability, context, and prediction, its weird behavior starts to make sense." },
+    { icon: "🔍", title: "Check what matters", body: "AI can sound confident when it is wrong. The better it sounds, the more important it becomes to know what needs verification." },
+    { icon: "🧭", title: "Make the human call", body: "AI can generate options. It cannot own your judgment, your values, your reputation, or the consequences of what you choose." }
+  ];
+  const MISSING_SCENARIOS = [{
+    setup: "You ask ChatGPT, “How should I study?” It hands back the standard tips: explain concepts in your own words, test yourself, teach someone else, space study sessions, focus on core ideas, etc. Wait a second. You’re studying guitar.",
+    options: [
+      { label: "Frame the real problem", correct: true, feedback: "Right. The tips aren’t wrong; they’re generic. ChatGPT didn’t fail to think. You didn’t tell it the subject, the test format, or how much time you have. Frame the real problem and the answer changes." },
+      { label: "Make sense of weird behavior", correct: false, feedback: "The tips are real and reasonable, so ChatGPT’s reasoning isn’t the issue. The problem is upstream: vague question, vague answer." }
+    ]
+  }, {
+    setup: "ChatGPT confidently tells you 21 + 22 + 19 + 10 = 68. That seems weird, so you add it yourself, and it’s 72.",
+    options: [
+      { label: "Check what matters", correct: false, feedback: "Yes, you’d check it. But the deeper move is knowing why ChatGPT often gets simple math wrong: it predicts the result instead of calculating it." },
+      { label: "Make sense of weird behavior", correct: true, feedback: "Right. ChatGPT often predicts numbers by pattern instead of carefully calculating. Knowing this is what tipped you off." }
+    ]
+  }, {
+    setup: "You ask ChatGPT “should I major in CS or English?” It compares the two, looks at salary data, and concludes CS wins on early-career income.",
+    options: [
+      { label: "Frame the real problem", correct: false, feedback: "More context would help, but this isn’t a framing problem. It’s a question ChatGPT shouldn’t be answering at all." },
+      { label: "Make the human call", correct: true, feedback: "Right. ChatGPT gave a confident answer to a question that’s actually about your values, your interests, what you’d love doing for 20 years. The salary data is an input. The decision is yours." }
+    ]
+  }, {
+    setup: "Snapchat’s “My AI” tells you Luka Dončić plays for the Dallas Mavericks. You get tears in your eyes, wishing that was true.",
+    options: [
+      { label: "Make sense of weird behavior", correct: false, feedback: "The move here is the verification itself. Specific facts about specific people are exactly what you check." },
+      { label: "Check what matters", correct: true, feedback: "Right. Snapchat’s “My AI” might be working from stale training data, weak retrieval, or another app limit. Five seconds of search confirms or kills the claim." }
+    ]
+  }, {
+    setup: "Your group wants to build a class-ranking site: scrape every senior’s public Instagram, score them on who looks most likely to get into a top school, post the list. You ask AI how to build it. It gives you a clean plan, step by step, and the plan would work.",
+    options: [
+      { label: "Frame the real problem", correct: false, feedback: "More context would make it a better ranker. It wouldn’t make it a better idea. What’s missing here isn’t detail in the prompt." },
+      { label: "Make the human call", correct: true, feedback: "Right. AI answered “can we.” Nobody in the room asked “should we.” Every senior in that ranking is a person who never agreed to be scored, and the plan works whether or not anyone thought about them." }
+    ]
+  }];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "skillsthatmatter", subtitle: "What’s left when the typing is free." }),
+    E(BodyP, null,
+      "An angle is one thing the tool can’t hand you. It isn’t the only one, and the full list is shorter than the hype makes it sound."),
+    E(BodyP, null,
+      "AI can produce a first draft of almost anything in seconds. That changes what makes a person valuable. Producing the first version used to be most of the job. Now it’s the cheapest part of it. The bottleneck moves from production to direction."),
+    E(BodyP, null,
+      "You’ve been building most of these moves all course. A couple haven’t come up yet. What’s left is knowing which one to bring in at which moment."),
+    E(SectionKicker, null, "REAL PROBLEMS DON’T ARRIVE AS PROMPTS"),
+    E(BodyP, null,
+      "A prompt is a clean question. Almost nothing that actually lands on you is clean."),
+    E(ShowcaseBox, {
+      headline: "One messy problem, cut into three",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        MESSY.map(function(z, i) {
+          return E("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
+          },
+            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 10 } },
+              z.label,
+              z.note ? E("span", { style: { textTransform: "none", letterSpacing: "0.01em", fontWeight: 600, color: "var(--inkMuted)" } }, " (" + z.note + ")") : null),
+            E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+              z.lines.map(function(line, j) {
+                return E("div", { key: j, style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, line);
+              })));
+        }))),
+    E(BodyP, null,
+      "Notice the two places you did the work. You cut a tangled situation into pieces small enough to hand over, which is the part AI won’t do for you, because it can’t see the tangle. Then you picked. AI can hand you ten options in four seconds. It has no idea which one fits your people."),
+    E(BodyP, null,
+      "Those two run inside one job. Four more run across all of them, and they’re worth knowing by name. Naming the move that’s missing is how you fix a bad answer, instead of just sitting there feeling like something’s off."),
+    E(ShowcaseBox, {
+      kicker: "FOUR MOVES AI CAN’T OWN FOR YOU",
+      marginBottom: 28
+    },
+      E("div", {
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 14 }
+      },
+        EDGE_CARDS.map(function(card) {
+          return E("div", {
+            key: card.title,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
+          },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, card.icon),
+              E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, card.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
+        }))),
+    E(SectionKicker, null, "WHAT YOU’RE GOOD AT HAS A SHELF LIFE"),
+    E(BodyP, null,
+      "Here’s the part nobody says out loud. Some of what you get good at is going to stop mattering, and not because you did anything wrong. A specific tool, a specific workflow, the exact trick that made you fast: all of it has a shelf life now, and the shelf lives keep getting shorter. Right now you have almost nothing to unlearn. That’s a real advantage, and it’s temporary. Give it a few years and you’ll be the one holding a method that used to work."),
+    E(BodyP, null,
+      "So the skill isn’t the method. It’s what you do the week the method stops working. It looks like three habits: you try things before you know they’ll work, you drop what you were good at when something better shows up, and you sit in not-knowing long enough to learn the new thing instead of retreating to the old one. That last one is the hard part. Being a beginner again, on purpose, is uncomfortable, and most people quit right there."),
+    E(SectionKicker, null, "CAN WE, AND SHOULD WE"),
+    E(BodyP, null,
+      "One more, and it’s the one people skip. AI turned “can we build this” into a question with almost no friction. Scrape every public post from your class and rank them. Build a bot that texts in your voice. Automate a job three people currently do. The building isn’t the hard part anymore."),
+    E(BodyP, null,
+      "Which moves the whole question. “Can we” is answered. “Should we” isn’t, and no model is going to raise its hand and ask it for you. It will hand you the plan. Someone in the room has to be the person who asks who this lands on, who never got a say, and what happens if it works exactly the way it’s designed to."),
+    E(BodyP, null,
+      "That isn’t a rule you look up. It’s a judgment you make, and you’ll be making it earlier in your life than anyone before you had to."),
+    E(SectionKicker, null, "AI MAKES PRODUCTION CHEAP."),
+    E(BodyP, null,
+      "That’s what makes the rest of it expensive. None of what’s on this page replaces AI. It’s what makes AI worth using, and it’s the part that stays yours no matter what ships next."),
+    closeBoard("skillsthatmatter"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Which Move Was Missing?",
+      lead: "Each one shows AI giving a believable answer. Pick the human move that was missing."},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        MISSING_SCENARIOS.map(function(s, i) {
+          var answered = missingAnswers[i] !== undefined;
+          var pickedIdx = missingAnswers[i];
+          var pickedOpt = answered ? s.options[pickedIdx] : null;
+          var correct = answered && pickedOpt.correct;
+          return E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: s.setup,
+            answered: answered,
+            correct: correct,
+            alignTop: true,
+            feedback: pickedOpt ? pickedOpt.feedback : null
+          }, s.options.map(function(opt, optIdx) {
+            return E(FeedbackPill, {
+              key: optIdx,
+              answered: answered,
+              isCorrect: opt.correct,
+              isPicked: pickedIdx === optIdx,
+              label: opt.label,
+              onClick: function() { setMissingAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
+            });
+          }));
+        }))),
+    E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Be Curious" }));
 }
 function BeCuriousSection(props) {
@@ -10078,7 +10241,8 @@ function OpenerSkillsSection(props) {
         bridge: "Then, what stays valuable when everyone has the same tool.",
         questions: [
           { question: "How do I bring an angle the tool can\u2019t?", lessonId: "creativethinking" },
-          { question: "How do I get people to listen, help, and follow?", lessonId: "peopleskills" }
+          { question: "How do I get people to listen, help, and follow?", lessonId: "peopleskills" },
+          { question: "What else stays mine when the tool does the producing?", lessonId: "skillsthatmatter" }
         ]
       },
       {
@@ -12260,6 +12424,7 @@ const SECTION_COMPONENTS = {
   questionsvaluable: QuestionsValuableSection,
   creativethinking: CreativeThinkingSection,
   peopleskills: PeopleSkillsSection,
+  skillsthatmatter: SkillsThatMatterSection,
   becurious: BeCuriousSection,
   bigupside: BigUpsideSection,
   whatpeoplesay: WhatPeopleSaySection,

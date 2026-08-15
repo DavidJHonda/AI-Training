@@ -6,16 +6,16 @@ An instructor-led AI education web app for high schoolers, built to be taught li
 ## Lesson map
 A snapshot of the current structure, in delivery order. Each lesson is `Displayed Label (internal id)`: the id is the React component key and navigation reference used in code; the label is what students see. **Regenerate order and membership from `SECTION_GROUPS` in index.html, and displayed labels from `SECTION_META`; do not infer either from old prose.** Structural history lives in Git.
 
-56 lessons across 6 section groups. Group tabs, lesson-node maps, course progress totals, and print-group membership derive from `SECTION_GROUPS`; do not hand-maintain a second routed list.
+53 lessons across 6 section groups. Group tabs, lesson-node maps, course progress totals, and print-group membership derive from `SECTION_GROUPS`; do not hand-maintain a second routed list.
 
 - **Start Smarter (8):** Welcome (welcome), Why Learn AI? (whydeeper), What Is AI? (llms), How an LLM Works (aihistory), Does AI Think? (doesaithink), What You Can Control (control), Does School Matter? (whybother), Learn with AI (studying)
 - **Work With AI (9):** Opener (openerworkwith), AI is Different (aivscode), Where AI Works Best (whatitdoesbest), Which App? (modelselection), Questions Matter (questionsvaluable), Art of Prompting (prompting), Context Window (prompt), Evaluate the Results (evaluating), Critical Thinking (critical)
 - **Understand AI (10):** Opener (openerfoundations), Training (training), AI is Math (aiismath), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Transformer (attention), Layers (layers), Vector Space (vectorspace), How AI Answers (prediction), One More Thing (inference)
 - **Avoid Traps (9):** Opener (openerprotect), Hallucination (hallucination), Training Bias (trainingbias), Document Trap (documenttrap), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), Fake Trap (faketrap)
 - **Embrace the Future (9):** Opener (openerrealworld), Loudest Voices (whatpeoplesay), Pace of Change (paceofchange), Big Downside (bigdownside), Big Upside (bigupside), Rise of Agents (agents), Work Changes (workchanges), Data Centers (computecost), Unexpected Results (unexpected)
-- **Finish Smarter (11 — interim, mid-merge):** Opener (openerskills), Tune the Model (choosemodel), Thought Partner (thoughtpartner), Skills That Matter (humanedge), Creative Thinking (creativethinking), Be Curious (becurious), Your Edge (buildedge), What You Learned (whatyoulearned), Integrity (integrity), Privacy (privacy), When AI Judges You (aijudges)
+- **Finish Smarter (8 — interim, mid-merge):** Opener (openerskills), Tune the Model (choosemodel), Creative Thinking (creativethinking), Be Curious (becurious), What You Learned (whatyoulearned), Integrity (integrity), Privacy (privacy), When AI Judges You (aijudges)
 
-Build Your Skills was merged into Finish Smarter structurally on 2026-08-15 per `docs/superpowers/specs/2026-08-15-finish-smarter-merge-design.md`; this 11-lesson lineup is an interim superset routed as one group while later tasks dissolve/rebuild lessons down to the spec's 10.
+Build Your Skills was merged into Finish Smarter structurally on 2026-08-15 per `docs/superpowers/specs/2026-08-15-finish-smarter-merge-design.md`; Thought Partner, Skills That Matter, and Your Edge dissolved the same day (parked in `docs/parking-lot.html`; survivor content destined for a future AI Tips lesson, a rebuilt Skills That Matter roundup, and a future Make Your Move, per `docs/superpowers/specs/2026-08-15-finish-smarter-dedupe-audit.md`). This 8-lesson lineup is an interim list while later tasks rebuild the merge down to the spec's final shape.
 
 Spine order: Start Smarter → Work With AI → Understand AI → Avoid Traps → Embrace the Future → Finish Smarter. The course teaches *use it* before *understand how it works*.
 

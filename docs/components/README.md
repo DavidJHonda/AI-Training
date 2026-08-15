@@ -14,7 +14,7 @@ All items visible at once in one `InnerCard`, one `ScenarioRow` per item with `F
 ![TRY IT parallel](try-it-parallel.png)
 
 ### TRY IT — completed, with Takeaway
-`Takeaway` is an optional concluding card, not a rule tied to one interaction pattern. It can be supplied as a `RevealSequence` completion element or rendered directly after a custom activity. Captured from the live "AI explored. You decided." Takeaway in Thought Partner (`thoughtpartner`).
+`Takeaway` is an optional concluding card, not a rule tied to one interaction pattern. It can be supplied as a `RevealSequence` completion element or rendered directly after a custom activity. Formerly captured from Thought Partner (`thoughtpartner`, dissolved 2026-08-15 in the Finish Smarter merge — see `docs/parking-lot.html`); the pattern's current live example is the Bayesian Mind Reader TRY IT's "Each clue reshaped the odds, not your number." Takeaway in AI is Math (`aiismath`). Screenshot recapture pending.
 
 ![TRY IT completed with Takeaway](try-it-takeaway.png)
 
@@ -68,7 +68,7 @@ The watch strip: a slim soft-gold (#fcf5d8, hairline #eddfa8 border) utility ban
 ![WatchOverview](watch-overview.png)
 
 ### LabeledCardStack
-The accent-striped card family: white cards with a 4px colored left stripe, each carrying an accent-colored eyebrow, an optional bold headline, and a body. Optional `means` adds a hairline rule plus a "WHAT IT MEANS" label and text below the body (mirrors Where AI Works Best's divider + Examples treatment). Optional `grid` prop renders a 2-col card grid with roomier chrome instead of the stack; optional per-item `pill` adds an outlined status chip above the eyebrow and mutes the eyebrow/means labels so the pill and stripe carry the accent. Shown: the 4 Terms grid in Pace of Change (`paceofchange`) — grid + pills + means, uniform primary accent. Stack form (per-card accents, no pills): the modes/roles boxes in When AI Judges You (`aijudges`). Captured 2026-08-11.
+The accent-striped card family: white cards with a 4px colored left stripe, each carrying an accent-colored eyebrow, an optional bold headline, and a body. Optional `means` adds a hairline rule plus a "WHAT IT MEANS" label and text below the body (mirrors Where AI Works Best's divider + Examples treatment). Optional `grid` prop renders a 2-col card grid with roomier chrome instead of the stack; optional per-item `pill` adds an outlined status chip above the eyebrow and mutes the eyebrow/means labels so the pill and stripe carry the accent. Shown: the 4 Terms grid in Pace of Change (`paceofchange`) — grid + pills + means, uniform primary accent. Stack form (per-card accents, no pills): formerly the modes/roles boxes in When AI Judges You (`aijudges`, retired 2026-08-15 in the Finish Smarter merge — see `docs/parking-lot.html`); the current live example is the "What you see / What you're allowed to do / What gets attached to your name" cards in the Privacy half of Habits for the Road (`integrity`, embedded `PrivacySection`). Screenshot recapture pending. Captured 2026-08-11.
 
 ![LabeledCardStack](labeled-card-stack.png)
 

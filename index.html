@@ -462,6 +462,7 @@ const CLOSE_BOARDS = {
   peopleskills: { pill: "AI can write it. It can’t be the person in the room.", sticky: "Say it clearly, be easy to work with, and people follow." },
   skillsthatmatter: { pill: "The typing got cheap.", sticky: "The judgment didn’t." },
   becurious: { pill: "Curiosity compounds.", sticky: "The questions you chase become your edge." },
+  makeyourmove: { pill: "Your move now.", sticky: "The tool is ready. Are you?" },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two habits. They travel well." }
 };
 // Lessons after the boundary id are first drafts: red label in the chip nav,
@@ -1868,7 +1869,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "peopleskills", "skillsthatmatter", "becurious", "whatyoulearned", "integrity"]
+  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "peopleskills", "skillsthatmatter", "becurious", "makeyourmove", "whatyoulearned", "integrity"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -1907,6 +1908,7 @@ const SECTION_META = {
   peopleskills: { kicker: "PEOPLE STILL PICK PEOPLE", label: "People Skills", icon: "\uD83E\uDD1D" },
   skillsthatmatter: { kicker: "WHAT STAYS YOURS", label: "Skills That Matter", icon: "\uD83E\uDDED" },
   becurious: { kicker: "CURIOSITY COMPOUNDS", label: "Be Curious", icon: "\uD83D\uDD2D" },
+  makeyourmove: { kicker: "DEPTH IS THE EDGE", label: "Make Your Move", icon: "\uD83C\uDFAF" },
   openerworkwith: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerprotect: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatitdoesbest: { kicker: "FOUR STRENGTHS, MANY USES", label: "Where AI Works Best", icon: "\u2699\uFE0F" },
@@ -9011,6 +9013,269 @@ function BeCuriousSection(props) {
         })
       )),
     E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("makeyourmove"); }, label: "Next: Make Your Move" }));
+}
+function MakeYourMoveSection(props) {
+  var E = React.createElement;
+  const [scenarioAnswers, setScenarioAnswers] = useState({});
+
+  const LAYERS = [
+    {
+      icon: "🪞",
+      title: "The floor",
+      body: "Produces fluent output. Can’t tell if it’s right. Ships whatever AI hands back. Easy to outpace by someone who can judge and improve what AI hands back."
+    },
+    {
+      icon: "⚙️",
+      title: "The middle",
+      body: "Knows enough to use AI. Doesn’t know enough to catch what’s missing. Easy to outpace by anyone with depth."
+    },
+    {
+      icon: "🎯",
+      title: "The edge",
+      body: "Spots what AI gets wrong. Pushes past the first answer. Knows enough about something to direct AI instead of just borrowing from it. The payoff shows up here."
+    }
+  ];
+
+  const CATEGORIES = [
+    {
+      id: "communication",
+      icon: "✍️",
+      title: "Communication",
+      body: "Writing, speaking, persuasion. Putting an idea into another person’s head and making them care. AI can draft. You decide what’s worth saying, what the audience needs, and whether the words sound like something you can stand behind."
+    },
+    {
+      id: "judgment",
+      icon: "⚖️",
+      title: "Judgment",
+      body: "Philosophy, ethics, history. The disciplines that train you for hard calls and tradeoffs nobody can run a formula on. AI can list the options. It can’t carry the decision."
+    },
+    {
+      id: "handson",
+      icon: "🔧",
+      title: "Hands-on action",
+      body: "Trades, sports, craft, building things. Working with your body in the real world. AI doesn’t have hands. It can guide, explain, and simulate. It can’t do the reps for you. The whole physical economy still runs on people who can."
+    },
+    {
+      id: "humansystems",
+      icon: "👥",
+      title: "Human systems",
+      body: "Psychology, leadership, relationships. Reading people, building trust, motivating a group. AI is a tool inside human systems. The systems themselves still belong to people."
+    },
+    {
+      id: "deepknowledge",
+      icon: "🔬",
+      title: "Deep knowledge in any field",
+      body: "Science, medicine, law, code, music, anything. Going far past the surface in one thing. AI sounds knowledgeable about almost anything. People with real depth catch when it’s shallow, wrong, or missing the point, and use AI as a power tool because of it. Everyone else gets answers they can’t verify."
+    }
+  ];
+
+  const CHIP_OPTIONS = [
+    { id: "communication", label: "Communication" },
+    { id: "judgment", label: "Judgment" },
+    { id: "handson", label: "Hands-on" },
+    { id: "humansystems", label: "Human systems" },
+    { id: "deepknowledge", label: "Deep knowledge" }
+  ];
+
+  const SCENARIOS = [
+    {
+      situation: "AI drafts the speech you’re giving at your grandma’s 80th birthday. It hits every beat: warmth, gratitude, a closing line. It also sounds like it could be any grandkid’s speech for any grandmother.",
+      answer: "communication",
+      explain: "The structure is fine. What’s missing is voice. The specific stories, the way you actually talk, the thing only you would say. AI can write a speech. Only you can give one that sounds like you."
+    },
+    {
+      situation: "AI confidently tells you that a famous CEO is either a genius or a fraud. The argument is clean, the links check out, and you almost buy it. Something feels off.",
+      answer: "judgment",
+      explain: "Reasonable people read the same evidence and reach opposite verdicts about people like this. AI picked one framing and packaged it as the answer. Judgment is knowing that one framing is a choice, and asking what the strongest version of the other side looks like before you decide."
+    },
+    {
+      situation: "You ask AI how to fix a bike chain that keeps slipping. It walks you through a clean step-by-step. You watch a YouTube video on top of it and feel ready. The chain slips again the first time you ride uphill.",
+      answer: "handson",
+      explain: "Reading and watching aren’t doing. The physical work has feedback the explanation can’t fully capture: tension, alignment, feel, wear, the way a part moves under load. Until you’ve actually done the reps, the explanation is half the story."
+    },
+    {
+      situation: "AI writes you a text to a friend who’s been distant lately, telling them you’ve noticed and you care. The wording is kind and clear. You send it almost word for word. They go quieter.",
+      answer: "humansystems",
+      explain: "The words were technically right. What was missing was knowing this specific friend, picking the moment, choosing whether a text was even the right move. None of that lives in a script. That’s the part AI can’t do for you."
+    },
+    {
+      situation: "AI gives you a confident answer about why your favorite team lost last night. It cites usage rates, defensive rating, late-game efficiency. The numbers sound right. You can’t tell if any of it actually explains the game.",
+      answer: "deepknowledge",
+      explain: "Without your own grounding in how the game actually works, you can’t catch whether AI is correct, confident-and-wrong, or making it up. The depth itself is what catches the bluff. This is why people who know one thing deeply get so much more out of AI than people who don’t."
+    }
+  ];
+
+  function callHeading(number, text) {
+    return E("div", { style: { display: "flex", alignItems: "center", gap: 12, margin: "40px 0 14px 0" } },
+      E("div", { style: { width: 36, height: 36, borderRadius: "50%", background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 17, flexShrink: 0 } }, number),
+      E("div", { style: { fontFamily: "var(--serif)", fontSize: 28, fontWeight: 400, color: "var(--ink)", lineHeight: 1.15, letterSpacing: "-0.02em" } }, text));
+  }
+
+  return E("div", null,
+    E(LessonHeader, {
+      sectionId: "makeyourmove",
+      subtitle: "Three calls only you can make."
+    }),
+
+    E(BodyP, null,
+      "Curiosity is wide on purpose. You try the new feature, poke at the thing nobody’s used yet, and keep a list of what surprised you. That’s how you stay current, and it costs you nothing but attention."),
+    E(BodyP, null,
+      "But wide has a limit. Nobody gets picked for being generally interested. At some point the move is to narrow: pick one thing and get genuinely good at it. That’s this lesson, and it’s the last thing this course has to teach you."),
+
+    E(BodyP, null,
+      "AI raised the floor. Anyone with a keyboard can produce a fluent paragraph, plausible code, a reasonable-sounding plan. It raised the ceiling too. The fluent paragraph might be wrong, the plausible code might quietly break, and the reasonable plan might be missing the thing that actually matters. Catching that is what this whole course has been training you to do."),
+    E(BodyP, null,
+      "That squeezes the middle. The person who just types a prompt and ships whatever comes back is the easiest person in the room to outpace. The person with real depth in something is the one AI makes louder."),
+    E(BodyP, { marginBottom: 28 },
+      E("strong", null, "This is the move the whole course has been pointing at. Now we name it.")),
+
+    E(ShowcaseBox, {
+      kicker: "THE EXPERT PARADOX",
+      headline: /*#__PURE__*/E("div", {
+        style: { fontFamily: "var(--serif)", fontSize: 32, fontWeight: 400, color: "var(--ink)", lineHeight: 1.2, letterSpacing: "-0.02em" }
+      },
+        "AI didn’t change the value of depth. It made it ",
+        E("span", { style: { fontStyle: "italic", color: "var(--primary)" } }, "louder.")),
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 14 } },
+        LAYERS.map(function(layer) {
+          return E("div", {
+            key: layer.title,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "0 10px 28px rgba(14, 10, 31, 0.06)" }
+          },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, layer.icon),
+              E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, layer.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, layer.body));
+        }))),
+
+    E("img", {
+      src: "illustrations/your-edge.jpg",
+      alt: "A person in an I-have-the-edge hoodie at a mixing console labeled Clarify, Context, Standards, Taste, Purpose, turning generic AI output into polished work, over books labeled Depth, Judgment, and Experience",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
+
+    E(BodyP, null,
+      "Read this the wrong way and it sounds like “wait until you’re an expert.” That’s the trap. The whole point of the expert paradox is that AI rewards anyone who keeps building depth, and the years you’re in right now are the most valuable years of your life to be building."),
+    E(BodyP, null,
+      "Earlier in the course you saw newer AI-related roles like prompt engineer, AI trainer, red teamer, and AI educator. Every one of them is built on depth in something specific. So is every other job worth doing. Doctor, lawyer, plumber, teacher, founder, designer, electrician, engineer. AI makes you more valuable in any of them when you have something underneath."),
+    E(BodyP, null,
+      "So the real question was never “what do I do about AI.” The whole course was building to three calls, and every one of them is yours. Nobody can make them for you, and the answers won’t look the same for any two people. Here they are."),
+
+    callHeading("1", "What do I get good at?"),
+    E(BodyP, { marginBottom: 28 },
+      "This is the big one, and the only one nobody else can answer for you. Here’s where to look."),
+
+    E(ShowcaseBox, {
+      kicker: "FIVE PLACES DEPTH STILL PAYS",
+      headline: "Here are the categories. Pick one that calls you.",
+      intro: "These aren’t classes to take. They’re categories where AI can help, but where humans still own the standard, the context, the action, and the responsibility. Wherever you’re already drawn to, one of these is probably where you’re headed.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 } },
+        CATEGORIES.map(function(c) {
+          return E("div", {
+            key: c.id,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
+          },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, c.icon),
+              E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, c.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, c.body));
+        }))),
+
+    E(BodyP, null,
+      "Depth isn’t the same as prestige. You can build it in writing, welding, debate, caregiving, coding, music, sports, design, science, cooking, leadership, repair, or anything else that rewards real reps and real feedback. The category matters less than the commitment."),
+    E(BodyP, null,
+      "Here’s how AI fits while you’re building. Use it to create reps, reveal gaps, explain mistakes, generate practice, and widen your feedback. Use the second mode too: AI as sparring partner. Pressure-test your plan, force the other side of your argument, hunt for what you’re missing. Used that way, AI doesn’t replace your thinking. It trains it."),
+
+    E(SectionKicker, null, "Pick one, not five."),
+    E(BodyP, null,
+      "You don’t have to plan a career. You have to be serious about something."),
+    E(BodyP, null,
+      "The kid who’s serious about debate is building depth in communication and judgment. The kid working a summer construction job is building depth in hands-on. The kid running a club is building depth in human systems. The kid in love with one subject in school is building deep knowledge. None of those students is doing it wrong."),
+    E(BodyP, null,
+      "You don’t pick the category. You pick the thing you’d keep doing anyway, and the category falls out of it. Then you treat the thing as the investment it actually is."),
+
+    E(SectionKicker, null, "Make things, not just prompts."),
+    E(BodyP, { marginBottom: 24 },
+      "A prompt costs you thirty seconds and proves nothing. Drafts, builds, reps, attempts: that’s the depth itself. Anyone can show you a chat history. A folder of things you actually made is a different kind of evidence, and it’s the only kind that holds up."),
+
+    E(ShowcaseBox, {
+      kicker: "HOW TO BUILD DEPTH",
+      headline: "Picking the thing is the easy part.",
+      intro: "These moves work in any category. They turn an interest into the kind of depth that catches what AI gets wrong.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 } },
+        [
+          { icon: "🔍", title: "Learn to catch the mistakes", body: "Read past what AI hands back. Notice what’s missing. The catch is the skill." },
+          { icon: "🗣️", title: "Get feedback from people", body: "AI agrees with you too easily. People who know the field will tell you what’s actually weak." },
+          { icon: "📒", title: "Keep proof of work", body: "Notebooks, GitHub, sketches, drafts. The evidence that you’re someone who does the thing." }
+        ].map(function(m, i) {
+          return E("div", { key: i, style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" } },
+            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 9 } },
+              E("div", { style: { fontSize: 22 } }, m.icon),
+              E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, m.title)),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, m.body));
+        }))),
+
+    E(BodyP, null,
+      "Your edge isn’t avoiding AI. It’s using the workflow while building real skill underneath it."),
+    E(BodyP, { marginBottom: 28 },
+      "Those five categories aren’t the only depth that pays. They’re the places where AI can help but the call still belongs to people. Wherever you end up building, the move is the same: build deep."),
+
+    callHeading("2", "What do I never hand off?"),
+    E(BodyP, null,
+      E("strong", null, "Skills That Matter"), " gave you four moves: frame the real problem, make sense of weird behavior, check what matters, make the human call. Those are things you do in the moment, every time you work with AI, and AI never owns them. Depth is what puts something behind them. Decide now which of those moves are non-negotiable for you, because the easy thing, every time, will be to let them slide."),
+    E(BodyP, { marginBottom: 28 },
+      E("strong", null, "Evaluate the Results"), " gave you both checks that matter: is it true, and is it good enough for what you actually need it for. Make those automatic. The person who catches the problem before it goes out is the one people learn to trust."),
+
+    callHeading("3", "Why pick me over AI?"),
+    E(BodyP, null,
+      "This is the question behind every job, every application, every team that picks you or doesn’t. And here’s the trap: if AI can produce the average version of your work for free, then “I can do the average version too” is not an answer. It’s the reason to pick AI instead."),
+    E(BodyP, { marginBottom: 28 },
+      "The answer has to be the thing AI can’t hand them: you can actually do it, you catch what’s wrong, and you stand behind the result. So keep the proof. The notebooks, the builds, the drafts, the reps, the record of real work. That’s how you show the depth is real instead of just claiming it."),
+
+    E(SectionKicker, null, "Anyone can sound smart now. Get good at something anyway."),
+    E(BodyP, null,
+      "Three calls, one move underneath them: pick the thing you’d build anyway, get good at it, and keep the proof. Average is free now. Be the reason someone picks you over it."),
+
+    closeBoard("makeyourmove"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Spot the Gap",
+      lead: "AI’s answer can look complete and still miss something. Five moments where AI handed back something fluent: pick the depth that catches what’s missing."},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SCENARIOS.map(function(s, sIdx) {
+          var picked = scenarioAnswers[sIdx];
+          var answered = picked !== undefined;
+          var correct = answered && picked === s.answer;
+          function PillButton(opt) {
+            var isPicked = picked === opt.id;
+            return E(FeedbackPill, {
+              key: opt.id,
+              answered: answered,
+              isCorrect: opt.id === s.answer,
+              isPicked: isPicked,
+              label: opt.label,
+              onClick: function() { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[sIdx, opt.id]])); }); }
+            });
+          }
+          return E(ScenarioRow, {
+            key: sIdx,
+            index: sIdx + 1,
+            prompt: s.situation,
+            answered: answered,
+            correct: correct,
+            feedback: s.explain
+          }, CHIP_OPTIONS.map(function(opt) { return PillButton(opt); }));
+        }))),
+
+    E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
 }
 function WhenAIActsSection(props) {
@@ -10247,9 +10512,10 @@ function OpenerSkillsSection(props) {
       },
       {
         kicker: "STAY SHARP",
-        bridge: "Then, staying sharp as the tools keep changing.",
+        bridge: "Then, staying sharp as the tools keep changing, and deciding what you get good at.",
         questions: [
-          { question: "How do I stay current as the tools keep changing?", lessonId: "becurious" }
+          { question: "How do I stay current as the tools keep changing?", lessonId: "becurious" },
+          { question: "What do I get good at, and why would someone pick me over AI?", lessonId: "makeyourmove" }
         ]
       },
       {
@@ -12426,6 +12692,7 @@ const SECTION_COMPONENTS = {
   peopleskills: PeopleSkillsSection,
   skillsthatmatter: SkillsThatMatterSection,
   becurious: BeCuriousSection,
+  makeyourmove: MakeYourMoveSection,
   bigupside: BigUpsideSection,
   whatpeoplesay: WhatPeopleSaySection,
   paceofchange: PaceOfChangeSection,

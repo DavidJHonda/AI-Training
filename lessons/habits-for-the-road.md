@@ -122,7 +122,7 @@ It’s having the receipts.
 
 ## If you’re already sitting across from a teacher
 
-Bring the receipts is what to have ready. Here’s what to do with them once you’re in the room: ask which detector was used, what the score actually means under this teacher’s policy, and what the appeal path is, before you leave. That’s the same move this lesson comes back to for any system that scores you: name who’s responsible, ask what data was used, and find out if you can push back.
+Having the receipts is what to bring to that meeting. Here’s what to do with them once you’re in the room: ask which detector was used, what the score actually means under this teacher’s policy, and what the appeal path is, before you leave. That’s the same move this lesson comes back to for any system that scores you: name who’s responsible, ask what data was used, and find out if you can push back.
 
 ## Disclosing Your AI Use
 
@@ -426,7 +426,7 @@ Algorithms rank what lands in front of you.
 
 Feeds, recommendations, search results, your inbox order. Shaped before you tap anything.
 
-## What you can do
+## What you’re allowed to do
 
 Filters and flags decide whether you can post, comment, apply, or stay logged in.
 

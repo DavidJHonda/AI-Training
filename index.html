@@ -459,6 +459,7 @@ const CLOSE_BOARDS = {
   choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
   aitips: { pill: "There are no magic words.", sticky: "Just five moves, run on purpose." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
+  peopleskills: { pill: "AI can write it. It can’t be the person in the room.", sticky: "Say it clearly, be easy to work with, and people follow." },
   becurious: { pill: "Curiosity compounds.", sticky: "The questions you chase become your edge." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two habits. They travel well." }
 };
@@ -1866,7 +1867,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "becurious", "whatyoulearned", "integrity"]
+  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "peopleskills", "becurious", "whatyoulearned", "integrity"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -1902,6 +1903,7 @@ const SECTION_META = {
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
   questionsvaluable: { kicker: "THE QUESTION IS THE JOB", label: "Questions Matter", icon: "\u2753" },
   creativethinking: { kicker: "FIND THE BETTER ANGLE", label: "Creative Thinking", title: "Creative Thinking", icon: "\uD83D\uDCA1" },
+  peopleskills: { kicker: "PEOPLE STILL PICK PEOPLE", label: "People Skills", icon: "\uD83E\uDD1D" },
   becurious: { kicker: "CURIOSITY COMPOUNDS", label: "Be Curious", icon: "\uD83D\uDD2D" },
   openerworkwith: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerprotect: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
@@ -8562,7 +8564,7 @@ function CreativeThinkingSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Picture every kid in your class typing nearly the same question into AI for the same assignment. They all get back something polished. They all sound the same. The grader has read it eight times before lunch. That sameness is the problem this lesson is about."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "By now you can work the tool and check what it gives back. This is the part the tool cannot do for you. Everyone in the room has the same AI. What makes your work yours is the angle you bring to the problem before AI ever sees the question."),
+      "By now you can work the tool and check what it gives back. This is the part the tool cannot do for you. What makes your work yours is the angle you bring to the problem before AI ever sees the question."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Creativity isn’t just art"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Creativity gets mistaken for being artistic. That’s a small slice of it. The bigger version is a way of thinking. It’s the habit of finding the angle no one else saw, in whatever room you’re in."),
@@ -8618,7 +8620,170 @@ function CreativeThinkingSection(props) {
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Be Curious" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("peopleskills"); }, label: "Next: People Skills" }));
+}
+function PeopleSkillsSection(props) {
+  var E = React.createElement;
+  const [humanMoveAnswers, setHumanMoveAnswers] = useState({});
+  const DELIVERY = [
+    {
+      label: "WHAT THE DRAFT SAYS",
+      text: "“Our research indicates that residential water consumption in the district has increased 18% over the past decade, driven primarily by outdoor irrigation during the summer months.”"
+    },
+    {
+      label: "WHAT YOU SAY",
+      text: "“Our district uses 18% more water than it did ten years ago. Almost all of the increase goes on lawns, in July and August. We’re not drinking more. We’re watering more.”"
+    }
+  ];
+  const TEAMMATES = [
+    {
+      eyebrow: "The one who went quiet",
+      headline: "Two check-ins, no reply.",
+      body: "Quiet usually isn’t lazy. It’s someone who is behind, embarrassed, or buried in something you can’t see from a group chat.",
+      means: "Text him directly, not the group. Ask if he’s okay before you ask where the slides are.",
+      accent: "#10b981"
+    },
+    {
+      eyebrow: "The one who took over",
+      headline: "She’s done four sections and rewritten yours.",
+      body: "Taking over usually comes from not believing it’ll get done otherwise. Every time it slides, the belief gets stronger.",
+      means: "Claim a piece out loud with a day attached, then deliver it. That’s how the belief changes.",
+      accent: "#f59e0b"
+    },
+    {
+      eyebrow: "The one who agrees with everything",
+      headline: "“Yeah, sounds good” to every idea.",
+      body: "Agreement that costs nothing tells you nothing. Sometimes it’s politeness. Sometimes it’s someone who thinks the plan is bad and doesn’t want the fight.",
+      means: "Ask for the objection on purpose: “What’s the worst part of this plan?” Get the real answer before Thursday.",
+      accent: "#6366f1"
+    }
+  ];
+  const LEADER_LINES = [
+    { line: "“I’ll take the setup shift.”", gloss: "The leader takes the worst job first. Everything you ask for after that costs less." },
+    { line: "“That was Priya’s idea, and it’s better than mine.”", gloss: "Credit given in public is the cheapest thing you will ever buy trust with." },
+    { line: "“We’re deciding this today. I say option two.”", gloss: "A group with no decision drifts. Somebody has to say the sentence and be the one who’s wrong if it’s wrong." }
+  ];
+  const HUMAN_MOVES = [
+    {
+      setup: "Your group’s presentation is Thursday. The slides are done and they look good. You’re the one presenting.",
+      statement: "It’s Wednesday night. What do you do?",
+      options: [
+        { label: "Have AI write a word-for-word script and memorize it.", correct: false, headline: "You’ll sound like a page.", feedback: "A script written to be read isn’t built to be heard, and the second you lose your place you have nothing underneath it. Worse, you can’t adjust: if the room checks out at slide three, the script marches on to slide four anyway. Know your three points cold, then say them like a person." },
+        { label: "Trade jobs so someone else presents and you make the handout.", correct: false, headline: "That’s the swap that costs you.", feedback: "It’s the comfortable option, and it’s the one that keeps you bad at this. Presenting only improves with reps in front of actual people, and there is no way to get the reps without the people. Thursday is a cheap one. Take it." },
+        { label: "Say it out loud twice to one friend and ask what didn’t make sense.", correct: true, headline: "One friend beats ten rehearsals.", feedback: "Out loud is the only way to find out that the sentence you wrote is unsayable. And the question does the real work: “what didn’t make sense” hands you the confusion you can’t see from inside your own head. Fix those two spots and you’re ready." }
+      ]
+    },
+    {
+      setup: "Your teammate has the sources section. It’s due Thursday. He hasn’t answered the group chat in five days.",
+      statement: "It’s Tuesday. What’s your move?",
+      options: [
+        { label: "Have AI write his section so the project goes in on time.", correct: false, headline: "The project survives. Nothing else does.", feedback: "You solved Thursday and kept the actual problem. You still don’t know what happened, he still hasn’t done anything, and now there’s a quiet grudge inside a group that has to work together again next month. Submitting a section nobody in the group wrote is its own problem on top of that." },
+        { label: "Post in the group chat that some people aren’t pulling their weight.", correct: false, headline: "That’s a message to everyone except him.", feedback: "Indirect callouts land on the people already doing the work, and the one person you meant it for gets to ignore it without ever answering. If you have something to say to one person, say it to one person." },
+        { label: "Text him directly: ask if he’s okay, name Thursday, offer to split it.", correct: true, headline: "Direct, private, person first.", feedback: "Five days of silence usually isn’t laziness. It’s someone who is behind, buried, or dealing with something you can’t see from a group chat. Asking first costs you nothing and changes what you learn. Naming the deadline and offering to split it gives him a way back in that doesn’t require an apology." }
+      ]
+    },
+    {
+      setup: "First meeting of the club you’re starting. Eight people came. You’re four minutes into the pitch and three of them are on their phones.",
+      statement: "What do you do?",
+      options: [
+        { label: "Finish the pitch. It’s good, and cutting it short looks weak.", correct: false, headline: "You’re presenting to a room that left.", feedback: "The pitch being good is not the same as the pitch landing, and the room already told you which one is happening. Pushing through is the most common version of this mistake: treating your plan as the thing that matters instead of the people in front of you." },
+        { label: "Wrap up early and post the full plan in the group chat tonight.", correct: false, headline: "You moved it somewhere quieter.", feedback: "The people who stopped listening in the room are not going to read it later. And you just gave away the one thing a room gives you that a chat doesn’t: you can ask a question and watch what happens on eight faces." },
+        { label: "Stop, and ask them what would actually make them come to this.", correct: true, headline: "Hand the room back.", feedback: "The phones are information, so use them. A real question flips people from audience to participants, and the answers tell you what this club has to be if you want anyone there in week three. Reading the room only counts if you do something with what you read." }
+      ]
+    },
+    {
+      setup: "The fundraiser is Saturday. Five people said yes to helping. It’s Sunday night and nobody has done anything.",
+      statement: "You’re not in charge of anyone. What works?",
+      options: [
+        { label: "Ask AI for a project plan and post it in the group chat.", correct: false, headline: "A plan is not a commitment.", feedback: "You’ll get a clean list of tasks with nobody’s name on any of them, and a task with nobody’s name on it doesn’t get done. AI is genuinely good at breaking a job into steps. Getting one specific person to own step three on a specific day is the part it can’t do for you." },
+        { label: "Do all of it yourself on Friday night.", correct: false, headline: "It gets done, and it never gets easier.", feedback: "This is avoidance dressed up as responsibility. You dodge five uncomfortable asks, and you teach five people that nothing happens if they do nothing. Next time is the same Friday night, alone, with more to carry." },
+        { label: "Call three of them, give each one job and one day, and take the worst one yourself.", correct: true, headline: "Names, days, and you first.", feedback: "One person, one job, one day is the whole mechanic. A call is also harder to scroll past than a message in a chat. And taking the worst shift yourself is what buys you the right to ask for the rest." }
+      ]
+    }
+  ];
+  // Mint QuizBlock shows `hint` on a wrong pick and `feedback` once the item resolves.
+  // This lesson writes one feedback block per option, so wrong options use it for both.
+  function withHints(options) {
+    return options.map(function(o) { return o.correct ? o : Object.assign({}, o, { hint: o.feedback }); });
+  }
+  return E("div", null,
+    E(LessonHeader, { sectionId: "peopleskills", subtitle: "The part the tool can’t reach." }),
+    E(BodyP, null,
+      "Everything until now has been about a machine. What it does, how it works, where it breaks, and how not to get played by it. This lesson is about people, and it’s the first one here that has nothing to do with the tool."),
+    E(BodyP, null,
+      "Here’s why it belongs at this point. The day everyone got the same AI, everyone got the same first draft. Your classmates can generate a solid essay. So can the kid who never reads. So can you. When the output stops separating people, something else has to."),
+    E(BodyP, null,
+      "AI can synthesize almost anything. It can’t be trusted by anyone. People still choose who to work with the way they always have: by who explains things clearly, who does what they said they’d do, and who they believe when it counts. Three skills sit on top of each other here, in order. Each one is more human than the last, and that is exactly the order of how hard they are to hand off."),
+    E(SectionKicker, null, "1. SAY IT SO IT LANDS"),
+    E(BodyP, null,
+      "AI can write your presentation. Then Thursday comes, and it’s you standing up there, and none of the writing helps. Delivery is a live skill. You are watching faces, hearing the room go quiet or go restless, and adjusting while you talk. There is no draft for that."),
+    E(ShowcaseBox, {
+      kicker: "SAME IDEA, TWO DELIVERIES",
+      intro: "One group project on water use in your district. One point to make. Here’s the version that came out of a chat window, and the version that works out loud.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+        DELIVERY.map(function(d, i) {
+          return E("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
+          },
+            E("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 10 } }, d.label),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, d.text));
+        })),
+      E("p", { style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "18px 0 0 0" } },
+        "Same fact, two builds. One is written to be read. One is built to be heard: short sentences, one number, and a picture you can hold.")),
+    E(BodyP, null,
+      "Two more moves live inside this one, and both happen while you’re talking. Reading the room is noticing you lost people at slide three, and stopping to fix it instead of pushing to slide four. Listening is the harder one, because most people spend the other person’s sentence loading their own. When your teammate says “I guess we could cut the survey,” the whole message is in the “I guess.” Ask about it."),
+    E(SectionKicker, null, "2. BE THE ONE PEOPLE WANT ON THE TEAM"),
+    E(BodyP, null,
+      "Four people, one slide deck, one grade. AI can write every section of it. What AI cannot do is the part that actually sinks group projects, and it is never the work. It’s the guy who stopped answering the group chat five days ago."),
+    E(BodyP, null,
+      "Most group problems aren’t people being lazy. They’re people being something, and you can usually tell which."),
+    E(LabeledCardStack, { meansLabel: "What you do", items: TEAMMATES }),
+    E(BodyP, null,
+      "Notice what those three moves have in common. They’re direct, they’re private, and they’re about the person before the task. That’s most of what conflict resolution actually is. The version that fails is the one everybody reaches for instead: posting “some people aren’t pulling their weight” in the group chat and hoping the right person feels bad."),
+    E(BodyP, null,
+      "And none of it works if you start the week the project is due. The people who get help fast are the ones who gave it first, back when nothing was riding on it."),
+    E(SectionKicker, null, "3. GET A GROUP TO ACTUALLY MOVE"),
+    E(BodyP, null,
+      "Leading peers is the hardest one on the list, because you have no authority at all. Nobody made you the boss. Everyone can walk away. In a club, on a team, in a group project, the only thing you have is whether people want to go along with you. Which means leadership stops being a personality and turns into a few things you say out loud."),
+    E(ShowcaseBox, {
+      kicker: "WHAT IT SOUNDS LIKE",
+      intro: "Three sentences. Each one costs the person saying it something, and that’s exactly why it works.",
+      marginBottom: 28
+    },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        LEADER_LINES.map(function(l, i) {
+          return E("div", {
+            key: i,
+            style: { background: "var(--card)", borderRadius: 16, padding: 18, boxShadow: "var(--shadowElevated)" }
+          },
+            E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 8 } }, l.line),
+            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, l.gloss));
+        }))),
+    E(BodyP, null,
+      "None of that needs a title, a personality type, or a speech. It needs you to say something true, take the hard part, and then actually do it. Do that three times in a row and people start looking at you when it’s time to decide."),
+    E(SectionKicker, null, "The more human it is, the harder it is to hand off."),
+    E(BodyP, null,
+      "Run the three back down the ladder and watch where AI stops. It can draft your script, and it can’t stand up in front of the class. It can write the message to your teammate, and it can’t be the person he trusts enough to answer. It can produce a flawless plan for Saturday, and it cannot make five people show up. That isn’t a gap a better model closes. The higher you go up those three, the less of it there is to hand off."),
+    closeBoard("peopleskills"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "What’s the Human Move?",
+      lead: "Four situations, three options each. Some are fast, some are comfortable, and one of them is the move that changes the outcome."},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        HUMAN_MOVES.map(function(sc, si) {
+          var picked = humanMoveAnswers[si];
+          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+            E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 20 } },
+              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.55 } }, sc.setup)),
+            E(QuizBlock, { key: si, surface: "mint", statement: sc.statement, totalQuestions: HUMAN_MOVES.length, options: withHints(sc.options), picked: picked != null ? picked : undefined, onAnswer: function(idx) { setHumanMoveAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+        }))),
+    E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Be Curious" }));
 }
 function BeCuriousSection(props) {
   var E = React.createElement;
@@ -9912,7 +10077,8 @@ function OpenerSkillsSection(props) {
         kicker: "SKILLS AI WON\u2019T REPLACE",
         bridge: "Then, what stays valuable when everyone has the same tool.",
         questions: [
-          { question: "How do I bring an angle the tool can\u2019t?", lessonId: "creativethinking" }
+          { question: "How do I bring an angle the tool can\u2019t?", lessonId: "creativethinking" },
+          { question: "How do I get people to listen, help, and follow?", lessonId: "peopleskills" }
         ]
       },
       {
@@ -12093,6 +12259,7 @@ const SECTION_COMPONENTS = {
   whatyoulearned: WhatYouLearnedSection,
   questionsvaluable: QuestionsValuableSection,
   creativethinking: CreativeThinkingSection,
+  peopleskills: PeopleSkillsSection,
   becurious: BeCuriousSection,
   bigupside: BigUpsideSection,
   whatpeoplesay: WhatPeopleSaySection,

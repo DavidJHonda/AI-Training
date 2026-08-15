@@ -1,4 +1,4 @@
-## BUILD YOUR SKILLS
+## FINISH SMARTER
 
 # Creative Thinking
 
@@ -6,7 +6,7 @@ Same AI. Better angle.
 
 Picture every kid in your class typing nearly the same question into AI for the same assignment. They all get back something polished. They all sound the same. The grader has read it eight times before lunch. That sameness is the problem this lesson is about.
 
-By now you can work the tool and check what it gives back. This is the part the tool cannot do for you. Everyone in the room has the same AI. What makes your work yours is the angle you bring to the problem before AI ever sees the question.
+By now you can work the tool and check what it gives back. This is the part the tool cannot do for you. What makes your work yours is the angle you bring to the problem before AI ever sees the question.
 
 ## Creativity isn’t just art
 
@@ -78,7 +78,9 @@ Pick the angle and own it.
 
 Creative thinking ends in a choice. Commit to one and back it.
 
-🔑 **AI does the task.**You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up.
+## AI does the task.
+
+You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up.
 
 AI widens the options.
 

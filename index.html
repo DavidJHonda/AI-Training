@@ -1950,6 +1950,668 @@ function lessonSlug(id) {
   var t = (m.title || m.label || id);
   return t.replace(/&/g, " and ").replace(/[’']/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
+// ---------------------------------------------------------------------------
+// The Final: question bank + draw/score helpers.
+// Every item is answerable from a claim the course makes today, and its
+// lessonId routes the review screen back to the lesson that taught it.
+// Options are authored in a deliberate order (the plausible miss usually sits
+// next to the right answer), so the draw shuffles questions, never options.
+// Distribution matches section size: Start Smarter 7, Work With AI 8,
+// Understand AI 10, Avoid Traps 9, Embrace the Future 9, Finish Smarter 7.
+// ---------------------------------------------------------------------------
+const FINAL_BANK = [
+  // --- Start Smarter (7) ---
+  {
+    id: "fb01", section: "Start Smarter", lessonId: "whydeeper",
+    q: "Why does the course call this your advantage rather than your disadvantage?",
+    options: [
+      "Adults have a twenty-year head start, so there’s a clear path to copy",
+      "AI is new for everyone, so nobody has a twenty-year head start on you",
+      "Schools already teach AI, so you’ll pick it up in class",
+      "AI tools are free for students and expensive for everyone else"
+    ],
+    correct: 1,
+    explain: "The adults figuring out AI started about ten minutes before you did. Being early, with nothing to unlearn, is the whole edge."
+  },
+  {
+    id: "fb02", section: "Start Smarter", lessonId: "llms",
+    q: "You skip the movie Netflix suggests and ask a chatbot for something better. What did the chatbot do that the recommender could not?",
+    options: [
+      "Searched more titles than Netflix carries",
+      "Remembered your viewing history, which recommendation AI can’t do",
+      "Composed something new from your situation instead of sliding to the next title on a list",
+      "Ranked the same options faster"
+    ],
+    correct: 2,
+    explain: "Recommendation AI chooses from what already exists and never makes anything new. Generative AI takes your situation and creates something that didn’t exist, and it stays in the conversation."
+  },
+  {
+    id: "fb03", section: "Start Smarter", lessonId: "aihistory",
+    q: "“I’d like to buy peanut butter and ___” gives jelly a 41% chance. Add the word banana before the blank. What happens to jelly?",
+    options: [
+      "It holds near 41%, because peanut butter still dominates the sentence",
+      "It rises, because banana and jelly show up together often",
+      "It drops to 2%, because sandwich becomes the likely next word",
+      "It disappears from the list entirely"
+    ],
+    correct: 2,
+    explain: "AI doesn’t make one guess. It scores every possible next word, and those numbers shift with the surrounding text. One word, banana, pushed jelly from 41% down to 2%."
+  },
+  {
+    id: "fb04", section: "Start Smarter", lessonId: "doesaithink",
+    q: "In the Chinese Room, the person inside sends back answers that look perfect to the people outside. What’s the point?",
+    options: [
+      "With enough practice, matching symbols turns into real understanding",
+      "The answers look perfect and there’s no understanding behind them",
+      "The people outside are the ones who are confused",
+      "A big enough rulebook eventually becomes a mind"
+    ],
+    correct: 1,
+    explain: "The person matches symbols from a rulebook and knows no Chinese. That’s AI: it arranges symbols brilliantly and understands none of them."
+  },
+  {
+    id: "fb05", section: "Start Smarter", lessonId: "control",
+    q: "Which of these belongs in the “in your hands” column?",
+    options: [
+      "How fast AI improves",
+      "The headlines and the hype",
+      "How persuasive AI gets",
+      "Whether you do your own thinking"
+    ],
+    correct: 3,
+    explain: "Most of the noise around AI sits in the left column. Most of the leverage in your life sits in the right one: how much the hype gets to you, how well you master AI, and whether you do your own thinking."
+  },
+  {
+    id: "fb06", section: "Start Smarter", lessonId: "whybother",
+    q: "If AI hands everyone a similar answer, what makes you more valuable?",
+    options: [
+      "Getting to the answer before your classmates do",
+      "Owning the better AI app",
+      "What you already know, because it shapes the question you ask and what you do with the answer",
+      "Writing longer prompts than everybody else"
+    ],
+    correct: 2,
+    explain: "The answer itself isn’t the edge, since everyone can get one. Two skills carry the value, asking the right question and making the answer better, and both grow with what you know."
+  },
+  {
+    id: "fb07", section: "Start Smarter", lessonId: "studying",
+    q: "You re-read your notes for an hour and feel ready for the test. Why is that a trap?",
+    options: [
+      "Re-reading is recognition, not recall, so generate a quiz and take it cold",
+      "Reading is slower than listening to an audio overview",
+      "You need at least three passes before anything sticks",
+      "Notes written by hand can’t be fed to a study tool"
+    ],
+    correct: 0,
+    explain: "Recognizing a page you just read isn’t the same as pulling it out of your head. Generate a quiz from your own sources, close everything, and take it blind."
+  },
+
+  // --- Work With AI (8) ---
+  {
+    id: "fb08", section: "Work With AI", lessonId: "aivscode",
+    q: "You ask the same question twice. What does the split between normal software and AI look like?",
+    options: [
+      "Both change, because both were built from data",
+      "Normal software gives the same answer every time. AI’s answer will likely change",
+      "Normal software may vary. AI stays locked",
+      "Both stay identical, since both run on computers"
+    ],
+    correct: 1,
+    explain: "Normal software runs on rules a person wrote, so same input, same output, and you can trace exactly why. AI is built from patterns in data, so it builds a fresh answer every time."
+  },
+  {
+    id: "fb09", section: "Work With AI", lessonId: "whatitdoesbest",
+    q: "The course grades AI on its own work here: A+ for the code, C- for the first drafts of the lessons. Why the gap?",
+    options: [
+      "The code was shorter than the lessons",
+      "AI is weaker on long work than on short work",
+      "Writing code is all about patterns, and AI is a pattern-making machine. Strong lessons don’t follow a set pattern",
+      "The code got a better prompt"
+    ],
+    correct: 2,
+    explain: "AI is strongest when a job has one of four shapes. Code fits the pattern work it aces, and “can try” is not the same as “built for.”"
+  },
+  {
+    id: "fb10", section: "Work With AI", lessonId: "modelselection",
+    q: "ChatGPT, Claude, Gemini. Which one should you use?",
+    options: [
+      "Claude, because it’s built for depth",
+      "Whichever ranks highest this month, and switch when the ranking changes",
+      "All three every time, so you always get three opinions",
+      "Any of the three. Pick one as your home base and learn it deeply"
+    ],
+    correct: 3,
+    explain: "There’s no single best app, and what’s best today might not be best tomorrow. Knowing one app deeply beats dabbling in all three, and the skills transfer."
+  },
+  {
+    id: "fb11", section: "Work With AI", lessonId: "questionsvaluable",
+    q: "A question can be packed with detail and still miss. What separates Specific from On Target?",
+    options: [
+      "Specific is about how much your question says. On target is about asking the right thing",
+      "Specific is about length. On target is about tone",
+      "Specific applies to AI. On target applies to people",
+      "They’re two names for the same quality"
+    ],
+    correct: 0,
+    explain: "Precision aimed at a symptom is still a miss. Asking which energy drink keeps you awake in class is specific, and it’s pointed at the wrong problem."
+  },
+  {
+    id: "fb12", section: "Work With AI", lessonId: "prompting",
+    q: "When a person doesn’t understand your question, they ask a follow-up. What does AI do instead?",
+    options: [
+      "It asks you to rephrase before it answers",
+      "It confidently answers whatever you gave it",
+      "It refuses until you add more detail",
+      "It searches the web to fill in what you left out"
+    ],
+    correct: 1,
+    explain: "AI starts from the words you typed and fills in every blank you leave. That’s why a prompt is a briefing: share your situation, describe the answer you want, one job at a time."
+  },
+  {
+    id: "fb13", section: "Work With AI", lessonId: "prompt",
+    q: "You mention a file sitting on your laptop. Why can’t the model see it?",
+    options: [
+      "The model reads only text, never files",
+      "The model can see it, but only inside a project",
+      "Nothing on your device is in the context window unless it gets copied in",
+      "The model is browsing the web instead of your computer"
+    ],
+    correct: 2,
+    explain: "The context window is everything the model can see when it answers. Uploading works by copying the file’s text into the window, and if it isn’t in the window, the model can’t see it."
+  },
+  {
+    id: "fb14", section: "Work With AI", lessonId: "evaluating",
+    q: "What’s the quick pass you run on every AI answer?",
+    options: [
+      "Search, cite, share",
+      "Read, understand, validate",
+      "Ask, copy, submit",
+      "Prompt, retry, compare"
+    ],
+    correct: 1,
+    explain: "Three steps, a few seconds, every time. Reading every word is the floor, and validating means holding the answer up against your own knowledge."
+  },
+  {
+    id: "fb15", section: "Work With AI", lessonId: "critical",
+    q: "The chocolate weight-loss study made front pages in 2015. What was actually wrong with it?",
+    options: [
+      "The researchers were paid by a candy company",
+      "The results were never published anywhere",
+      "It used the wrong kind of chocolate",
+      "Only 15 participants, and it measured 18 different things about them"
+    ],
+    correct: 3,
+    explain: "Track that many things in a group that small and luck alone guarantees something looks like a finding. A journalist built it to prove that a bad study with a great headline travels before anyone checks."
+  },
+
+  // --- Understand AI (10) ---
+  {
+    id: "fb16", section: "Understand AI", lessonId: "training",
+    q: "Training runs in three phases. What happens in the third one, preference tuning?",
+    options: [
+      "The model grinds through the data and learns broad patterns on its own",
+      "Humans write ideal question-and-answer pairs for it to copy",
+      "The model writes several answers and human reviewers rank them, best to worst",
+      "Engineers hand-write rules for what the model may say"
+    ],
+    correct: 2,
+    explain: "That’s RLHF, Reinforcement Learning from Human Feedback. Pretraining came first, then instruction tuning, and after this phase the weights freeze."
+  },
+  {
+    id: "fb17", section: "Understand AI", lessonId: "aiismath",
+    q: "You flip two coins, peek, and see the first one is heads. The chance both are heads moves from 25% to 50%. What is that update called?",
+    options: [
+      "Standard probability",
+      "Conditional probability",
+      "Positional encoding",
+      "Preference tuning"
+    ],
+    correct: 1,
+    explain: "Evidence arrived and the odds moved. AI runs that same update on every word: given everything written so far, which word most likely comes next?"
+  },
+  {
+    id: "fb18", section: "Understand AI", lessonId: "tokens",
+    q: "Before your words reach the model, what does the tokenizer do?",
+    options: [
+      "Runs a small AI that guesses what you meant",
+      "Looks up each word’s meaning in a dictionary",
+      "Breaks your text into reusable chunks and gives each one an ID number",
+      "Translates your text into English"
+    ],
+    correct: 2,
+    explain: "Computers work only with numbers, and no AI is involved in this step. A token might be a whole word, part of a word, punctuation, an emoji, or even the space before a word."
+  },
+  {
+    id: "fb19", section: "Understand AI", lessonId: "embeddings",
+    q: "Coke and coffee get very different embedding vectors. What stays the same between them?",
+    options: [
+      "The dimensions, because every token is scored on the same ones",
+      "The values, since both are drinks",
+      "The token ID",
+      "Nothing. Each token gets its own set of dimensions"
+    ],
+    correct: 0,
+    explain: "What changes from token to token is the values, never the dimensions. That’s what makes any two rows comparable at all."
+  },
+  {
+    id: "fb20", section: "Understand AI", lessonId: "attention",
+    q: "“The cat drank the milk because IT was thirsty.” What settles what IT means?",
+    options: [
+      "The model reads in order, so IT points to the nearest noun",
+      "Attention weighs every word and leans hardest on cat, then transformation updates IT’s vector",
+      "The tokenizer tags IT as a pronoun",
+      "The position stamp says which noun came first"
+    ],
+    correct: 1,
+    explain: "Two moves, in that order: work out which words matter, then update the meaning. Change thirsty to fresh and the same machinery lands IT on milk instead."
+  },
+  {
+    id: "fb21", section: "Understand AI", lessonId: "layers",
+    q: "What is a layer?",
+    options: [
+      "Another copy of the model running alongside the first",
+      "A memory bank holding the earlier parts of your chat",
+      "A safety filter that checks the answer before it ships",
+      "One more pass over your message, running attention and transformation again"
+    ],
+    correct: 3,
+    explain: "The model reads your message over and over, and each pass pins the meaning down a little more. Stack dozens of them and the whole stack is the neural network."
+  },
+  {
+    id: "fb22", section: "Understand AI", lessonId: "vectorspace",
+    q: "After the layers finish, a token’s vector lines up with nothing in the embedding table. What does the model do?",
+    options: [
+      "Rounds the numbers until they match a real token",
+      "Reads the position and finds the closest meanings on the map",
+      "Throws the vector out and reads the sentence again",
+      "Reports an error back to the app"
+    ],
+    correct: 1,
+    explain: "Landing near a token isn’t a near miss, it’s how the meaning gets read. Similar meanings sit close together, so distance is the measure."
+  },
+  {
+    id: "fb23", section: "Understand AI", lessonId: "prediction",
+    q: "“What should I name my new dog?” is eight tokens. Why does the model care most about the last one?",
+    options: [
+      "It’s the question mark, which flags the sentence as a question",
+      "It’s the shortest token, so it’s the cheapest to check",
+      "The model reads backward, so the last token comes first",
+      "Attention folds the earlier tokens into the later ones, so the last token’s vector carries the whole question"
+    ],
+    correct: 3,
+    explain: "The next word goes right after the last token, and by the final layer that vector carries everything before it. Training tuned the layers to turn what the text means into where the next word lives."
+  },
+  {
+    id: "fb24", section: "Understand AI", lessonId: "inference",
+    q: "Spot sits at the top of the ranked list at 22%. What actually happens next?",
+    options: [
+      "The model types Spot, since it’s the highest",
+      "The model runs a weighted drawing, so most draws land on a name that isn’t Spot",
+      "The model offers you the top three to choose from",
+      "The model averages the top names together"
+    ],
+    correct: 1,
+    explain: "Every token holds tickets equal to its probability. Spot holds 22 out of 100, and the other 78 are spread across everyone else. That randomness is what keeps the writing from sounding lifeless."
+  },
+  {
+    id: "fb25", section: "Understand AI", lessonId: "inference",
+    q: "Between your messages, what does the model remember about your chat?",
+    options: [
+      "The last few messages, until the chat gets long",
+      "A running summary it writes for itself",
+      "Everything, which is why answers improve over a long chat",
+      "Nothing. Every word sits on one transcript it re-reads before each word it types"
+    ],
+    correct: 3,
+    explain: "AI has no memory, not even of the reply it’s in the middle of writing. The transcript is the memory, and re-reading it before every word is why long chats get slow."
+  },
+
+  // --- Avoid Traps (9) ---
+  {
+    id: "fb26", section: "Avoid Traps", lessonId: "openerprotect",
+    q: "Why does this section open with a rip current?",
+    options: [
+      "AI failures are rare, the way rip currents are rare",
+      "A rip current looks like the calmest spot on the beach, and every AI trap looks fine from the inside",
+      "A rip current is the ocean malfunctioning, and a trap is AI malfunctioning",
+      "You beat a rip current by swimming harder, the way you beat AI by pushing harder"
+    ],
+    correct: 1,
+    explain: "Lifeguards spot them all day because they know the shape one makes in the water. When AI fails, nothing looks broken, so the skill is recognizing the shape before you’re in it."
+  },
+  {
+    id: "fb27", section: "Avoid Traps", lessonId: "hallucination",
+    q: "Google’s AI told searchers to mix non-toxic glue into pizza sauce. Why does the lesson call that a hallucination?",
+    options: [
+      "The model invented the advice out of nothing",
+      "The search tool happened to be switched off",
+      "A false claim arrived in the same confident voice the model uses for real facts",
+      "The model was asked about something it was never trained on"
+    ],
+    correct: 2,
+    explain: "Training taught patterns, not facts, and every token gets picked by probability, so probable doesn’t always mean true. That advice traced back to an old Reddit joke, and it happened with search turned on."
+  },
+  {
+    id: "fb28", section: "Avoid Traps", lessonId: "trainingbias",
+    q: "Every fact in an AI answer checks out and the picture is still distorted. What’s the tell?",
+    options: [
+      "The answer runs longer than you asked for",
+      "The answer cites no sources",
+      "The answer contradicts itself somewhere",
+      "Sameness. When every example looks alike, you’re seeing the model’s default, not the world"
+    ],
+    correct: 3,
+    explain: "You can’t fact-check your way out of Training Bias. Ask what’s missing, ask for examples that don’t fit the pattern, or ask again leaving out the most famous ones."
+  },
+  {
+    id: "fb29", section: "Avoid Traps", lessonId: "documenttrap",
+    q: "You upload a 200-page rulebook and ask how many fouls put you out of the game. Why can the answer be incomplete?",
+    options: [
+      "The model read the whole book and summarized too hard",
+      "The file was too large to finish uploading",
+      "Only the chunks closest in meaning to your question get loaded, and the exception near the back doesn’t make the cut",
+      "The model made up a number because it had nothing to work from"
+    ],
+    correct: 2,
+    explain: "Document Trap is thinking uploaded means fully read. The tournament section is about tournaments first and fouls second, so retrieval passed it over. Ask it to quote the exact section it’s using."
+  },
+  {
+    id: "fb30", section: "Avoid Traps", lessonId: "mindtrap",
+    q: "AI lays out the trade-offs on a big decision beautifully. Where’s the line?",
+    options: [
+      "Never bring a personal decision to AI at all",
+      "Let it decide, then check its reasoning yourself",
+      "Ask it twice and go with the answer it repeats",
+      "Let it gather facts and pressure-test your thinking, then take the decision to people with a stake in it"
+    ],
+    correct: 3,
+    explain: "It doesn’t think, it doesn’t know you, and it can’t care how your life turns out. AI is a strong place to think and a wrong place to decide."
+  },
+  {
+    id: "fb31", section: "Avoid Traps", lessonId: "flattery",
+    q: "Where did AI’s habit of praising your work come from?",
+    options: [
+      "Human reviewers ranking answers often put the supportive one on top, and every ranking nudged the model that way",
+      "The companies added it deliberately to keep you in the app",
+      "It picked it up from customer service transcripts in its training data",
+      "It’s a bug in one company’s model that has since been fixed"
+    ],
+    correct: 0,
+    explain: "That’s the last phase of training, RLHF. The model isn’t lying to you, it learned what people give a thumbs-up, and every LLM trained on human approval does it."
+  },
+  {
+    id: "fb32", section: "Avoid Traps", lessonId: "engagementtrap",
+    q: "Aza Raskin removed the “next page” click in 2006. What did he take away along with the friction?",
+    options: [
+      "A loading delay that gave the servers a break",
+      "The ad break that paid for the page",
+      "A decision point, the moment your brain catches up and asks whether you want more",
+      "The bookmark that let you find your place again"
+    ],
+    correct: 2,
+    explain: "Good design removes friction, and that page break was quietly doing a second job. By his own estimate, infinite scroll now wastes half a million human lifetimes a month."
+  },
+  {
+    id: "fb33", section: "Avoid Traps", lessonId: "supporttrap",
+    q: "A friend tells you they aren’t safe at home, then makes you promise not to tell anyone. What does the lesson say to do?",
+    options: [
+      "Help them draft what to say, then let them pick the moment",
+      "Bring in an adult, even though you promised not to",
+      "Ask AI for a crisis script and stay in the chat with them",
+      "Keep the promise and check on them tomorrow"
+    ],
+    correct: 1,
+    explain: "Safety outranks secrecy. AI can produce supportive language, and it can’t call someone who can help or take responsibility for what happens next."
+  },
+  {
+    id: "fb34", section: "Avoid Traps", lessonId: "faketrap",
+    q: "A clip of a public figure hits your feed and looks completely real. What’s the test?",
+    options: [
+      "Run it through an AI detector and go with the verdict",
+      "Zoom in on the hands and the edges of the face",
+      "Assume it’s fake, since anything can be faked now",
+      "Skip the face and the voice. Ask where it came from, and check somewhere the sender doesn’t control"
+    ],
+    correct: 3,
+    explain: "The test moves off the image and onto the source: source, context, corroboration. A detector is one more AI making one more prediction, so treat its verdict as a clue, never a ruling."
+  },
+
+  // --- Embrace the Future (9) ---
+  {
+    id: "fb35", section: "Embrace the Future", lessonId: "openerrealworld",
+    q: "The section says exactly one thing about AI is certain. What is it?",
+    options: [
+      "AI will keep getting better every year",
+      "AI is here to stay. Not that it improves forever, just that it isn’t going away",
+      "AI will take most jobs within a decade",
+      "The optimists will land closer than the worriers"
+    ],
+    correct: 1,
+    explain: "Optimists, worriers, and skeptics all fill in the blank parts of the map with their own picture. Nobody knows, including the people building it."
+  },
+  {
+    id: "fb36", section: "Embrace the Future", lessonId: "whatpeoplesay",
+    q: "Machines improve fast. What decides whether a technology actually becomes the future?",
+    options: [
+      "How much money gets invested in it",
+      "Whether governments regulate it early",
+      "Whether the experts agree on where it lands",
+      "Whether people change their habits around it, and habits change at human speed"
+    ],
+    correct: 3,
+    explain: "That’s why so many confident predictions miss, in both directions. Three people at the very top of AI look at the same evidence and make opposite bets."
+  },
+  {
+    id: "fb37", section: "Embrace the Future", lessonId: "paceofchange",
+    q: "Four future ideas drive the AI companies forward. Which one is happening now?",
+    options: [
+      "Recursive self-improvement, an AI that improves itself while the world uses it",
+      "Automated AI research, with AI doing the research and humans reviewing it",
+      "Artificial general intelligence",
+      "Artificial superintelligence"
+    ],
+    correct: 1,
+    explain: "Early versions of automated AI research are already in use. Today’s models are frozen after training, so nobody has built a self-improving one, and AGI and ASI are still hypothetical."
+  },
+  {
+    id: "fb38", section: "Embrace the Future", lessonId: "bigdownside",
+    q: "Why is jailbreaking so hard for the AI companies to shut down?",
+    options: [
+      "The models are open source, so anyone can edit the guardrails",
+      "The companies have no way to test their models before shipping",
+      "Defense has to be perfect. Attack just has to get lucky once",
+      "Guardrails are illegal in some countries"
+    ],
+    correct: 2,
+    explain: "The companies have to block every path to harm, and someone with bad intent needs to find only one. In 2025 researchers got past every model, which is why it stays a game of cat and mouse."
+  },
+  {
+    id: "fb39", section: "Embrace the Future", lessonId: "bigupside",
+    q: "Fifty years of lab work solved about 200,000 protein shapes. What did DeepMind do?",
+    options: [
+      "Solved a few hundred thousand more and licensed them to drug companies",
+      "Built a faster lab that solves one shape a day",
+      "Proved that protein folding can’t be predicted after all",
+      "Released about 200 million shapes, free to everyone"
+    ],
+    correct: 3,
+    explain: "Roughly a thousand times more shapes, in one release, and then they gave the answers away. Demis Hassabis won the 2024 Nobel Prize in Chemistry for it."
+  },
+  {
+    id: "fb40", section: "Embrace the Future", lessonId: "agents",
+    q: "What makes an agent different from the ChatGPT or Claude you already use?",
+    options: [
+      "It runs on a bigger, more advanced model",
+      "It’s the same engine, wrapped in a loop that plans, acts, and checks until the goal is met",
+      "It has memory, so it remembers you between chats",
+      "It runs without guardrails"
+    ],
+    correct: 1,
+    explain: "An agent isn’t a new kind of AI. ChatGPT answers and stops, an agent does the work, and the finished product still has your name on it."
+  },
+  {
+    id: "fb41", section: "Embrace the Future", lessonId: "workchanges",
+    q: "AI reads the 500 reviews, finds the themes, and builds the deck. What’s the catch the lesson names?",
+    options: [
+      "You’ll be paid less for the same job",
+      "Your job title changes",
+      "AI can make you productive before it makes you knowledgeable",
+      "The deck comes out worse than one you’d build yourself"
+    ],
+    correct: 2,
+    explain: "Much of the work AI now does used to be how new graduates learned the profession. You may be asked to check sophisticated work before you’ve had the chance to learn it, and you still own the outcome."
+  },
+  {
+    id: "fb42", section: "Embrace the Future", lessonId: "computecost",
+    q: "You’ve heard that one AI chat burns ten times what a Google search does. What does the lesson say?",
+    options: [
+      "It’s right, and getting worse as models grow",
+      "That came from early models. Both now run on roughly a third of a watt-hour",
+      "It’s about right, but only for generating images",
+      "Nobody has ever measured it"
+    ],
+    correct: 1,
+    explain: "Newer models got efficient. The real bills come from running billions of chats a day, which is where the electricity, the water, and the noise around data centers come from."
+  },
+  {
+    id: "fb43", section: "Embrace the Future", lessonId: "unexpected",
+    q: "Hanoi paid a bounty for rat tails in 1902 and ended up with more rats. What went wrong?",
+    options: [
+      "Nobody turned in any tails, so the program never got started",
+      "The city ran out of money before it ran out of rats",
+      "Every part of the plan worked. Hunters clipped the tails and let the rats live, because a live rat pays forever",
+      "A worse pest moved in once the rats were gone"
+    ],
+    correct: 2,
+    explain: "The plan worked and the goal failed. Some hunters went further and opened rat farms, which is the same math as widening a highway and getting slower commutes."
+  },
+
+  // --- Finish Smarter (7) ---
+  {
+    id: "fb44", section: "Finish Smarter", lessonId: "choosemodel",
+    q: "The answer still feels shallow. Do you switch to a bigger model or turn up the effort?",
+    options: [
+      "Always switch models. Effort only changes how the answer sounds",
+      "Pick the model that fits the job first, then turn up the effort before you switch",
+      "Always turn the effort up. Model size barely matters",
+      "Neither. Rewrite the prompt until the model changes its approach"
+    ],
+    correct: 1,
+    explain: "A bigger model is more brain. More effort is more thinking time from the brain you already picked. And thinking longer won’t fix missing or stale information."
+  },
+  {
+    id: "fb45", section: "Finish Smarter", lessonId: "aitips",
+    q: "AI knows nothing about your situation, and typing all of it out would take forever. What’s the move almost nobody tries?",
+    options: [
+      "Paste in everything you have and let it sort out what matters",
+      "Ask it to guess what you left out",
+      "Ask it to interview you first, one question at a time, before it writes anything",
+      "Turn up the effort so it fills the gaps itself"
+    ],
+    correct: 2,
+    explain: "Answer four or five of its questions and it knows more about the job than you would ever have thought to type. The questions are the bonus: they tell you what mattered that you hadn’t considered."
+  },
+  {
+    id: "fb46", section: "Finish Smarter", lessonId: "integrity",
+    q: "How do you know whether a piece of work is really yours?",
+    options: [
+      "An AI detector scores it as human",
+      "You changed enough words that it no longer matches the original",
+      "You wrote the first draft, even if AI wrote the rest",
+      "You can explain it, defend it, and reproduce the thinking"
+    ],
+    correct: 3,
+    explain: "Could you walk through it cold, with no notes? And if you’d be embarrassed to say out loud how you used AI, that’s your answer."
+  },
+  {
+    id: "fb47", section: "Finish Smarter", lessonId: "peopleskills",
+    q: "A teammate has gone quiet for five days on his part of the project. What’s the human move?",
+    options: [
+      "Post in the group chat that some people aren’t pulling their weight",
+      "Have AI write his section so the project stays on track",
+      "Text him directly, and ask if he’s okay before you ask where the slides are",
+      "Tell the teacher, so it’s on the record"
+    ],
+    correct: 2,
+    explain: "Quiet usually isn’t lazy. The moves that work are direct, private, and about the person before the task, and that’s the part no model can be in the room for."
+  },
+  {
+    id: "fb48", section: "Finish Smarter", lessonId: "creativethinking",
+    q: "Average ideas come first. Where do the interesting ones show up?",
+    options: [
+      "In the first one, as long as you framed the question well",
+      "Fourth or fifth, once you push past the first decent idea",
+      "Only from people who are naturally artistic",
+      "From AI, once you ask it for ten variations"
+    ],
+    correct: 1,
+    explain: "That’s one of five moves you can practice, alongside seeing the obvious, questioning the assumption, connecting the unconnected, and picking an angle to own. Creativity is a habit of thinking, not a personality trait."
+  },
+  {
+    id: "fb49", section: "Finish Smarter", lessonId: "skillsthatmatter",
+    q: "AI made producing a first version nearly free. What changed because of that?",
+    options: [
+      "Nothing. The work is the same, only faster",
+      "Speed became the skill worth building",
+      "The bottleneck moved from production to direction",
+      "First versions stopped mattering to anyone"
+    ],
+    correct: 2,
+    explain: "You cut a tangled situation into pieces small enough to hand over, which AI won’t do for you because it can’t see the tangle. Then you pick. AI can hand you ten options in four seconds and has no idea which one fits your people."
+  },
+  {
+    id: "fb50", section: "Finish Smarter", lessonId: "makeyourmove",
+    q: "Why is “I can do the average version too” the wrong answer to why someone should pick you over AI?",
+    options: [
+      "Because AI’s average version is better than yours",
+      "Because AI produces the average version for free, so that’s the reason to pick AI instead",
+      "Because nobody asks that question in a real interview",
+      "Because you should never compare yourself to a tool"
+    ],
+    correct: 1,
+    explain: "AI raised the floor and the ceiling, and that squeezes the middle. The move is to narrow: pick the thing you’d build anyway, get good at it, and keep the proof."
+  }
+];
+// One attempt: 20 questions, at least 2 from every section, the rest drawn at
+// random, then the whole set shuffled. Fresh Math.random every call, no seed,
+// so a retake never repeats the last draw. Option order is left alone.
+function drawFinalQuestions(bank) {
+  var TOTAL = 20, FLOOR_PER_SECTION = 2;
+  var shuffle = function(list) {
+    var a = list.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  };
+  var bySection = {}, sectionOrder = [];
+  (bank || []).forEach(function(q) {
+    if (!bySection[q.section]) { bySection[q.section] = []; sectionOrder.push(q.section); }
+    bySection[q.section].push(q);
+  });
+  var picked = [], taken = {};
+  sectionOrder.forEach(function(sec) {
+    shuffle(bySection[sec]).slice(0, FLOOR_PER_SECTION).forEach(function(q) {
+      if (picked.length < TOTAL) { picked.push(q); taken[q.id] = true; }
+    });
+  });
+  var rest = shuffle((bank || []).filter(function(q) { return !taken[q.id]; }));
+  for (var i = 0; i < rest.length && picked.length < TOTAL; i++) picked.push(rest[i]);
+  return shuffle(picked);
+}
+// Grade an attempt. answers maps question id -> chosen option index; anything
+// unanswered counts as a miss, which is what an expired timer submits.
+function scoreFinal(answers, questions) {
+  var list = questions || [], picks = answers || {};
+  var correct = 0;
+  list.forEach(function(q) { if (picks[q.id] === q.correct) correct++; });
+  return {
+    correct: correct,
+    total: list.length,
+    pct: list.length ? Math.round((correct / list.length) * 100) : 0
+  };
+}
 function OpenerFoundationsSection(props) {
   var foundationsIllustration = /*#__PURE__*/React.createElement(Illustration, {
     eyebrow: "WHAT KIND OF THING IS AI?"

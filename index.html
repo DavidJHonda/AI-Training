@@ -457,6 +457,7 @@ const CLOSE_BOARDS = {
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Finish Smarter
   choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
+  aitips: { pill: "There are no magic words.", sticky: "Just five moves, run on purpose." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
   becurious: { pill: "Curiosity compounds.", sticky: "The questions you chase become your edge." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two habits. They travel well." }
@@ -1865,7 +1866,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerskills", "choosemodel", "creativethinking", "becurious", "whatyoulearned", "integrity"]
+  sections: ["openerskills", "choosemodel", "aitips", "creativethinking", "becurious", "whatyoulearned", "integrity"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -1890,6 +1891,7 @@ const SECTION_META = {
   inference: { kicker: "THE FINE PRINT", label: "One More Thing", title: "One More Thing", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "PICK THE MODEL, SET THE EFFORT", label: "Tune the Model", icon: "\uD83E\uDE9C" },
+  aitips: { kicker: "WHAT GOOD USERS TYPE", label: "AI Tips", icon: "\uD83E\uDDF0" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Mind Trap", icon: "\uD83E\uDEE5" },
@@ -7104,7 +7106,113 @@ function ChoosingModelSection(props) {
       })
     )),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("creativethinking"), label: "Next: Creative Thinking" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: AI Tips" }));
+}
+function AITipsSection(props) {
+  var E = React.createElement;
+  const [moveAnswers, setMoveAnswers] = useState({});
+  const MOVES = ["Interview me", "What I tried", "Options", "Aim the retry", "New chat"];
+  const SITUATIONS = [{
+    situation: "You’ve been going back and forth on a lab report intro for twenty minutes, and it keeps handing back the same stiff paragraph with different words.",
+    answer: "New chat",
+    explain: "Everything it has given you so far is still in that window, getting re-read before every new word, which is why it keeps circling the same paragraph. Ask for a paragraph you can carry over, open a fresh chat, and paste it in."
+  }, {
+    situation: "You need a topic for a five-minute presentation, in a class the AI knows nothing about.",
+    answer: "Interview me",
+    explain: "You could type out the class, the teacher, the rubric, and the three topics already taken. Faster: “Before you suggest anything, ask me whatever you need to know about this class and me to pick a topic that works. One question at a time.”"
+  }, {
+    situation: "Your bike’s back brake still rubs. You already re-centered the caliper and swapped the pads.",
+    answer: "What I tried",
+    explain: "Ask cold and the first two suggestions will be re-center the caliper and check the pads. Put those in as dead ends and the model has to go past them."
+  }, {
+    situation: "The fundraiser email it wrote is fine. It just doesn’t sound like anyone at your school.",
+    answer: "Aim the retry",
+    explain: "“Try again” gets you the same email in a new outfit. Name the miss: “Too corporate. Keep the first line, cut the hype, and make it sound like a text, not a newsletter.”"
+  }, {
+    situation: "Your group can’t agree on how to run the fundraiser, and you’re the one bringing a plan tomorrow.",
+    answer: "Options",
+    explain: "One recommendation and you’re just grading its pick, in front of your whole group. “Give me five ways we could run this, ranked, with the tradeoff on each. Don’t pick for me.”"
+  }];
+  return E("div", null,
+    E(LessonHeader, { sectionId: "aitips" }),
+    E(BodyP, null,
+      "App, model, effort. The setup is done. Everything from here is just what you type into the box."),
+    E(BodyP, null,
+      "And everyone types into the same box. Some people get noticeably more back than everyone else, and it isn’t because they found the magic words. There are no magic words. What they have is a short list of moves they run on purpose, most of them one sentence long."),
+    E(BodyP, null,
+      E("strong", null, "None of these are tricks, and none of them expire."),
+      " Five moves. Steal all five."),
+    E(SectionKicker, null, "THE MOVE ALMOST NOBODY TRIES"),
+    E(BodyP, null,
+      "AI can’t see your class, your teacher, your deadline, or the two things you already decided. Most people handle that by typing more. There’s a faster way: make it ask you."),
+    E(ShowcaseBox, { headline: "Make it interview you.", marginBottom: 24 },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        E(UserBubble, { align: "right", text: "Before you write anything, ask me whatever you need to know about me and this assignment to do it well. One question at a time." }),
+        E(AIBubble, { align: "left", text: "Happy to. First one: what did the assignment actually ask for, in your teacher’s words?" }))),
+    E(BodyP, null,
+      "Answer four or five of those and it knows more about the job than you would ever have thought to type. And the questions are the bonus: they tell you what mattered that you hadn’t considered."),
+    E(SectionKicker, null, "FOUR MORE MOVES"),
+    E(BodyP, null,
+      "Same shape every time: one sentence, typed on purpose, at the moment it fits."),
+    E(NumberedRows, { marginBottom: 28, items: [
+      {
+        title: "Tell it what you already tried.",
+        body: "Ask cold and you get the average answer, and the average answer is usually the thing you already did. Rule out your dead ends in the prompt and the model has to go past them.",
+        prompt: "Here’s the problem. I already tried [X] and [Y]. X changed nothing, Y made it worse. Skip both and tell me what else could be going on."
+      },
+      {
+        title: "Ask for options, not an answer.",
+        body: "One answer and you’re stuck grading its pick. Several, and you’re choosing again, which was always the part that was yours.",
+        prompt: "Give me five ways I could do this, ranked, with the tradeoff on each. Don’t pick for me.",
+        after: "When something is broken instead of undecided, same move, different shape: “Give me three possible explanations for why this is happening, most likely first.”"
+      },
+      {
+        title: "Say what wrong looks like.",
+        body: "“Try again” gets you a different flavor of the same miss. The model can’t see what bothered you. Name it, keep the part that worked, and point the next try somewhere.",
+        prompt: "Not this. The tone is off. Keep the first paragraph, cut the hype, and make it sound like a text, not a newsletter."
+      },
+      {
+        title: "Start a new chat instead of arguing with the old one.",
+        body: "Once a chat goes sideways, the wrong turn is still sitting in there, getting re-read before every new word. Twenty messages of correcting just adds more of it. Take the good part with you and leave the rest behind.",
+        prompt: "Summarize what we’ve settled so far in one paragraph I can paste into a new chat."
+      }
+    ] }),
+    E(SectionKicker, null, "Notice what all five have in common."),
+    E(BodyP, null,
+      "Not one of them hands the work over. They pull your situation out of your head, rule out the dead ends you already found, widen the options before you pick, and aim the next try. The AI does more in every one of them, and so do you."),
+    closeBoard("aitips"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Which Move Fits?",
+      lead: "Five situations, and the same five moves every time. Read each one and pick the move you’d actually run."},
+      E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        SITUATIONS.map(function(s, i) {
+          var answered = moveAnswers[i] !== undefined;
+          var picked = moveAnswers[i];
+          var correct = picked === s.answer;
+          function PillButton(label) {
+            return E(FeedbackPill, {
+              key: label,
+              answered: answered,
+              isCorrect: label === s.answer,
+              isPicked: picked === label,
+              label: label,
+              onClick: function() { setMoveAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, label]])); }); }
+            });
+          }
+          return E(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: s.situation,
+            answered: answered,
+            correct: correct,
+            feedback: s.explain
+          }, MOVES.map(PillButton));
+        })
+      )),
+    E(LessonRule, null),
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("creativethinking"); }, label: "Next: Creative Thinking" }));
 }
 function PhoneTrayStrip() {
   var E = React.createElement;
@@ -9793,9 +9901,10 @@ function OpenerSkillsSection(props) {
     groups: [
       {
         kicker: "THE LAST OF THE AI",
-        bridge: "First, the last thing to say about the tool itself: which model to pick, and how hard to make it think.",
+        bridge: "First, the last of the tool itself: which model to pick, how hard to make it think, and what to type once it’s set up.",
         questions: [
           { question: "Which model do I pick, and how hard should it think?", lessonId: "choosemodel" },
+          { question: "What do the people who get more out of AI actually type?", lessonId: "aitips" },
           { question: "What do I owe the work, and what happens to what I type?", lessonId: "integrity" }
         ]
       },
@@ -11961,6 +12070,7 @@ const SECTION_COMPONENTS = {
   inference: InferenceSection,
   modelselection: ModelSelectionSection,
   choosemodel: ChoosingModelSection,
+  aitips: AITipsSection,
   prompt: PromptSection,
   documenttrap: DocumentChatSection,
   critical: CriticalThinkingSection,

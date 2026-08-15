@@ -12049,6 +12049,301 @@ function SyntheticMediaSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
 }
+// ── The Final ───────────────────────────────────────────────────────────────
+// The course's closing assessment, three states deep: idle (the start card, no
+// clock running), running (20 drawn questions, a visible countdown, and zero
+// feedback of any kind), and review (score, pass/fail, and every question
+// explained with a pointer back to the lesson that taught it). The countdown
+// reads a Date.now deadline instead of decrementing a counter, so a slow or
+// backgrounded tab cannot bend the clock. An in-flight attempt deliberately does
+// NOT survive a reload: the page returns to idle and the attempt is not counted.
+// There is no anti-cheat here, on purpose (see the spec's non-goal).
+const FINAL_DURATION_MS = 10 * 60 * 1000;
+const FINAL_PASS_PCT = 80;
+const FINAL_BADGES = ["A", "B", "C", "D"];
+function finalClock(ms) {
+  var secs = Math.max(0, Math.ceil(ms / 1000));
+  return String(Math.floor(secs / 60)).padStart(2, "0") + ":" + String(secs % 60).padStart(2, "0");
+}
+// Stand-in for the printable certificate (built in the next task). Renders only
+// when the stored best score has cleared the bar.
+function CertificatePlaceholder(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: { background: "var(--card)", borderRadius: 14, padding: "22px 26px", boxShadow: "var(--shadowSoft)", marginTop: 18 }
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 10 }
+    }, "CERTIFICATE"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontFamily: "var(--serif)", fontSize: 26, lineHeight: 1.2, letterSpacing: "-0.02em", color: "var(--ink)", marginBottom: 8 }
+    }, "Your certificate is ready."),
+    /*#__PURE__*/React.createElement("p", {
+      style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0 }
+    }, "Best score on record: " + props.bestScore + "%."));
+}
+// One answer option. During the run the only signal is selection: primary border
+// and a filled badge, nothing about right or wrong. `mark` is passed on the review
+// screen only, and that is where color enters.
+function FinalOptionPill(props) {
+  var bg = "var(--card)", border = "var(--rule)", badgeBg = "var(--rule)", badgeColor = "var(--inkSoft)", tail = null;
+  if (props.mark === "correct") {
+    bg = "#e8faf0"; border = "var(--green)"; badgeBg = "var(--green)"; badgeColor = "#fff"; tail = "✓";
+  } else if (props.mark === "wrong") {
+    bg = "#fdecef"; border = "var(--red)"; badgeBg = "var(--red)"; badgeColor = "#fff"; tail = "✕";
+  } else if (props.selected) {
+    bg = "var(--primaryFaint)"; border = "var(--primary)"; badgeBg = "var(--primary)"; badgeColor = "#fff";
+  }
+  var body = [
+    /*#__PURE__*/React.createElement("span", {
+      key: "b",
+      style: {
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        width: 22, height: 22, borderRadius: 6, flexShrink: 0,
+        background: badgeBg, color: badgeColor, fontSize: 14, fontWeight: 700
+      }
+    }, props.badge),
+    /*#__PURE__*/React.createElement("span", { key: "l", style: { flex: 1 } }, props.label),
+    tail ? /*#__PURE__*/React.createElement("span", {
+      key: "t", style: { color: border, fontWeight: 800, fontSize: 16, flexShrink: 0 }
+    }, tail) : null
+  ];
+  var style = {
+    display: "flex", alignItems: "center", gap: 12, padding: "13px 16px",
+    background: bg, border: "1.5px solid " + border, borderRadius: 12,
+    textAlign: "left", width: "100%",
+    fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: "var(--ink)",
+    transition: "all 150ms ease"
+  };
+  if (!props.onClick) return /*#__PURE__*/React.createElement("div", { style: style }, body);
+  style.cursor = "pointer";
+  return /*#__PURE__*/React.createElement("button", { onClick: props.onClick, style: style }, body);
+}
+function TheFinalQuiz() {
+  var E = React.createElement;
+  var _ph = useState("idle"), phase = _ph[0], setPhase = _ph[1];
+  var _qs = useState([]), questions = _qs[0], setQuestions = _qs[1];
+  var _an = useState({}), answers = _an[0], setAnswers = _an[1];
+  var _en = useState(null), endsAt = _en[0], setEndsAt = _en[1];
+  var _tk = useState(0), tick = _tk[0], setTick = _tk[1];
+  var _rs = useState(null), result = _rs[0], setResult = _rs[1];
+  var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null });
+  var record = _rec[0] || {}, setRecord = _rec[1];
+
+  var answeredCount = questions.filter(function(q) { return answers[q.id] !== undefined; }).length;
+  var remaining = (phase === "running" && endsAt != null) ? Math.max(0, endsAt - tick) : FINAL_DURATION_MS;
+
+  var finish = function() {
+    var res = scoreFinal(answers, questions);
+    setResult(res);
+    setEndsAt(null);
+    setPhase("review");
+    setRecord(function(prev) {
+      var p = prev || {};
+      return {
+        bestScore: (p.bestScore == null || res.pct > p.bestScore) ? res.pct : p.bestScore,
+        attempts: (p.attempts || 0) + 1,
+        certName: p.certName != null ? p.certName : null
+      };
+    });
+  };
+  var start = function() {
+    var t = Date.now();
+    setQuestions(drawFinalQuestions(FINAL_BANK));
+    setAnswers({});
+    setResult(null);
+    setTick(t);
+    setEndsAt(t + FINAL_DURATION_MS);
+    setPhase("running");
+  };
+  var pick = function(qid, oi) {
+    setAnswers(function(prev) {
+      var next = Object.assign({}, prev);
+      next[qid] = oi;
+      return next;
+    });
+  };
+
+  // The interval exists only while an attempt is running, so nothing ticks on load.
+  useEffect(function() {
+    if (phase !== "running" || endsAt == null) return undefined;
+    var id = setInterval(function() { setTick(Date.now()); }, 250);
+    return function() { clearInterval(id); };
+  }, [phase, endsAt]);
+  // Expiry submits whatever is answered. Re-running on every tick keeps `answers`
+  // current in the closure, so the auto-submit grades the live picks.
+  useEffect(function() {
+    if (phase !== "running" || endsAt == null) return;
+    if (Date.now() >= endsAt) finish();
+  }, [tick, phase, endsAt]);
+
+  var band = function(children) {
+    return E("div", {
+      className: "interactive-box interactive-box--try",
+      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: "var(--blockGap)" }
+    }, children);
+  };
+  var kicker = function(text, color) {
+    return E("div", {
+      key: "kick",
+      style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: color || "var(--primary)", marginBottom: 12 }
+    }, text);
+  };
+
+  if (phase === "idle") {
+    var FACTS = [
+      { h: "20 questions", b: "Drawn fresh from all six sections every time you start, so a retake is a new test and not a memorized answer key." },
+      { h: "10 minutes", b: "The clock starts when you press the button, and not a second before." },
+      { h: "80 percent", b: "16 of 20 earns the certificate." },
+      { h: "No limit", b: "Retake it as often as you want. Your best score is the one that’s kept." }
+    ];
+    var best = record.bestScore;
+    return band([
+      kicker("THE FINAL", null),
+      E("div", {
+        key: "h",
+        style: { fontFamily: "var(--serif)", fontSize: "clamp(26px, 4.5vw, 34px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)", marginBottom: 8 }
+      }, "Twenty questions. Ten minutes."),
+      E("p", {
+        key: "i",
+        style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0" }
+      }, "Every question comes from a lesson you just read. Nothing here is trivia."),
+      E("div", {
+        key: "f",
+        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 12, marginBottom: 18 }
+      }, FACTS.map(function(f, i) {
+        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, f.h),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.55 } }, f.b));
+      })),
+      best != null ? E("div", {
+        key: "b",
+        style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 18, fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)" }
+      },
+        E("span", { style: { fontWeight: 700, color: "var(--ink)" } }, "Best so far: " + best + "%"),
+        E("span", {
+          style: {
+            padding: "4px 12px", borderRadius: 999, fontSize: 12, fontWeight: 700,
+            background: best >= FINAL_PASS_PCT ? "#e8faf0" : "var(--card)",
+            color: best >= FINAL_PASS_PCT ? "var(--green)" : "var(--inkSoft)",
+            border: "1px solid " + (best >= FINAL_PASS_PCT ? "var(--green)" : "var(--rule)")
+          }
+        }, best >= FINAL_PASS_PCT ? "Passed" : "Not there yet"),
+        E("span", null, (record.attempts || 0) === 1 ? "1 attempt" : (record.attempts || 0) + " attempts")) : null,
+      E(ActivityButton, { key: "a", size: "large", onClick: start }, "Start the Final")
+    ]);
+  }
+
+  if (phase === "running") {
+    var lowTime = remaining <= 60000;
+    return band([
+      E("div", {
+        key: "hd",
+        style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 18 }
+      },
+        E("div", null,
+          kicker("THE FINAL", null),
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)" } },
+            "Answered " + answeredCount + " of " + questions.length)),
+        E("div", {
+          style: {
+            background: "var(--card)", borderRadius: 12, padding: "10px 18px", boxShadow: "var(--shadowSoft)",
+            textAlign: "center", minWidth: 108
+          }
+        },
+          E("div", { style: { fontFamily: "var(--sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--inkMuted)", marginBottom: 3 } }, "Time left"),
+          E("div", {
+            "aria-live": "off",
+            style: { fontFamily: "var(--mono)", fontSize: 24, fontWeight: 700, lineHeight: 1, color: lowTime ? "var(--red)" : "var(--ink)" }
+          }, finalClock(remaining)))),
+      E("p", {
+        key: "nt",
+        style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0" }
+      }, "No feedback until you submit. Pick the best answer and keep moving. When the clock runs out, whatever you have marked gets graded."),
+      E("div", { key: "qs", style: { display: "flex", flexDirection: "column", gap: 12 } },
+        questions.map(function(q, qi) {
+          return E("div", { key: q.id, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+            E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 14 } },
+              E("div", { style: { fontFamily: "var(--serif)", fontSize: 28, lineHeight: 1, color: "var(--primary)", flexShrink: 0 } }, String(qi + 1).padStart(2, "0")),
+              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.45 } }, q.q)),
+            E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+              q.options.map(function(opt, oi) {
+                return E(FinalOptionPill, {
+                  key: oi,
+                  badge: FINAL_BADGES[oi],
+                  label: opt,
+                  selected: answers[q.id] === oi,
+                  onClick: function() { pick(q.id, oi); }
+                });
+              })));
+        })),
+      E("div", {
+        key: "ft",
+        style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14, marginTop: 18 }
+      },
+        E(ActivityButton, { size: "large", onClick: finish }, "Submit the Final"),
+        E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)" } },
+          answeredCount === questions.length ? "All " + questions.length + " marked." : (questions.length - answeredCount) + " still blank. You can submit anyway."))
+    ]);
+  }
+
+  var res = result || { correct: 0, total: questions.length, pct: 0 };
+  var passed = res.pct >= FINAL_PASS_PCT;
+  var needed = Math.ceil(FINAL_PASS_PCT / 100 * res.total);
+  return band([
+    kicker(passed ? "THE FINAL · PASSED" : "THE FINAL · RESULT", passed ? "var(--green)" : "var(--primary)"),
+    E("div", { key: "sc", style: { display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 14, marginBottom: 10 } },
+      E("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(40px, 8vw, 56px)", lineHeight: 1, letterSpacing: "-0.02em", color: passed ? "var(--green)" : "var(--ink)" } }, res.pct + "%"),
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--inkSoft)" } }, res.correct + " of " + res.total + " correct")),
+    E("div", {
+      key: "hl",
+      style: { fontFamily: "var(--serif)", fontSize: "clamp(24px, 4.5vw, 32px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)", marginBottom: 8 }
+    }, passed ? "You passed." : "Not this time."),
+    E("p", {
+      key: "bd",
+      style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0, maxWidth: "62ch" }
+    }, passed
+      ? "The bar was 80 percent and you cleared it. Every question is below with the reasoning behind it, and that is where the last of it locks in."
+      : "The bar is " + needed + " of " + res.total + ". Every question is below with the right answer, the reason, and the lesson that covers it. Read those, then take it again. There is no limit and no penalty."),
+    passed ? E(CertificatePlaceholder, { key: "cert", bestScore: record.bestScore != null ? record.bestScore : res.pct }) : null,
+    E("div", {
+      key: "rk",
+      style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", margin: "24px 0 12px" }
+    }, "EVERY QUESTION, EXPLAINED"),
+    E("div", { key: "rv", style: { display: "flex", flexDirection: "column", gap: 12 } },
+      questions.map(function(q, qi) {
+        var picked = answers[q.id];
+        var unanswered = picked === undefined;
+        var got = !unanswered && picked === q.correct;
+        var meta = SECTION_META[q.lessonId] || {};
+        // Five lessons share the label "Opener", so name the section for those.
+        var lessonName = meta.title || meta.label || q.lessonId;
+        if (lessonName === "Opener") lessonName = q.section + " Opener";
+        return E("div", { key: q.id, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+          E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 12 } },
+            E("div", { style: { fontFamily: "var(--serif)", fontSize: 28, lineHeight: 1, color: got ? "var(--green)" : "var(--red)", flexShrink: 0 } }, String(qi + 1).padStart(2, "0")),
+            E("div", { style: { flex: 1 } },
+              E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", lineHeight: 1.45, marginBottom: 6 } }, q.q),
+              E("div", {
+                style: { display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: got ? "var(--green)" : "var(--red)" }
+              },
+                E("span", { style: { width: 7, height: 7, borderRadius: 999, background: got ? "var(--green)" : "var(--red)", display: "inline-block" } }),
+                got ? "Correct" : (unanswered ? "No answer" : "Missed")))),
+          E("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+            q.options.map(function(opt, oi) {
+              var mark = oi === q.correct ? "correct" : (picked === oi ? "wrong" : null);
+              return E(FinalOptionPill, { key: oi, badge: FINAL_BADGES[oi], label: opt, mark: mark });
+            })),
+          E("div", { style: { marginTop: 14, borderTop: "1px solid var(--rule)", paddingTop: 12 } },
+            E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 8 } }, q.explain),
+            E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--inkMuted)" } },
+              "From: " + lessonName)));
+      })),
+    E("div", { key: "rt", style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14, marginTop: 18 } },
+      E(ActivityButton, { size: "large", onClick: start }, "Take it again"),
+      E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)" } },
+        "A new set of 20, a fresh 10 minutes. Best score: " + (record.bestScore != null ? record.bestScore + "%" : res.pct + "%") + "."))
+  ]);
+}
 function WhatYouLearnedSection(props) {
   const QUESTIONS_YOU_CAN_ANSWER = [
     "Why does AI sometimes make up facts that sound completely real?",
@@ -12060,7 +12355,7 @@ function WhatYouLearnedSection(props) {
     "How do you check an AI answer before trusting it?",
     "What decisions still belong to you?"
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement(Illustration, { eyebrow: "WHERE DOES THIS LEAVE YOU?" }, /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" } }, /*#__PURE__*/React.createElement("div", null, "You see how it works."), /*#__PURE__*/React.createElement("div", null, "You catch what’s wrong."), /*#__PURE__*/React.createElement("div", null, "You make the call."), /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" } }, /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }), /*#__PURE__*/React.createElement("span", null, "now you’re smarter than the tool.")))), /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation."), /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement(Illustration, { eyebrow: "WHERE DOES THIS LEAVE YOU?" }, /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" } }, /*#__PURE__*/React.createElement("div", null, "You see how it works."), /*#__PURE__*/React.createElement("div", null, "You catch what’s wrong."), /*#__PURE__*/React.createElement("div", null, "You make the call."), /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" } }, /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }), /*#__PURE__*/React.createElement("span", null, "now you’re smarter than the tool.")))), /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation. Read this page as your study sheet, because there’s one last thing waiting at the bottom."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -12155,6 +12450,12 @@ function WhatYouLearnedSection(props) {
       "."
     )
   ),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "NOW PROVE IT"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That’s the course. Every idea you need is sitting above this line, and it isn’t going anywhere."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "So here’s the last move: twenty questions pulled from all six sections, ten minutes on the clock, and no feedback until you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again."),
+    /*#__PURE__*/React.createElement(TheFinalQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));
 }

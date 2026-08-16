@@ -12358,7 +12358,7 @@ function TheFinalQuiz() {
   if (phase === "idle") {
     var FACTS = [
       { h: "20 questions", b: "Drawn fresh from all six sections every time you start, so a retake is a new test and not a memorized answer key." },
-      { h: "10 minutes", b: "The clock starts when you press the button, and not a second before." },
+      { h: "10 minutes", b: "The clock starts when you press the button, and it's one sitting: leave the page and the attempt is gone, no penalty." },
       { h: "80 percent", b: "16 of 20 earns the certificate." },
       { h: "No limit", b: "Retake it as often as you want. Your best score is the one that’s kept." }
     ];
@@ -12461,6 +12461,10 @@ function TheFinalQuiz() {
   var passed = res.pct >= FINAL_PASS_PCT;
   var needed = Math.ceil(FINAL_PASS_PCT / 100 * res.total);
   var bestOnRecord = Math.max(record.bestScore != null ? record.bestScore : 0, res.pct);
+  // A student who already passed can retake and score lower on this attempt. The
+  // certificate below still gates on bestOnRecord, so the headline and body need a
+  // third framing here or the copy above the certificate reads as a contradiction.
+  var passedBefore = !passed && bestOnRecord >= FINAL_PASS_PCT;
   return band([
     kicker(passed ? "THE FINAL · PASSED" : "THE FINAL · RESULT", passed ? "var(--green)" : "var(--primary)"),
     E("div", { key: "sc", style: { display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 14, marginBottom: 10 } },
@@ -12469,12 +12473,14 @@ function TheFinalQuiz() {
     E("div", {
       key: "hl",
       style: { fontFamily: "var(--serif)", fontSize: "clamp(24px, 4.5vw, 32px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)", marginBottom: 8 }
-    }, passed ? "You passed." : "Not this time."),
+    }, passed ? "You passed." : (passedBefore ? "Not your best run." : "Not this time.")),
     E("p", {
       key: "bd",
       style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0, maxWidth: "62ch" }
     }, passed
       ? "The bar was 80 percent and you cleared it. Every question is below with the reasoning behind it, and that is where the last of it locks in."
+      : passedBefore
+      ? "Your best score is " + bestOnRecord + " percent, and that's what stays on record. The certificate below still stands, so this run doesn't cost you anything. Every question is below if you want to see what tripped you up."
       : "The bar is " + needed + " of " + res.total + ". Every question is below with the right answer, the reason, and the lesson that covers it. Read those, then take it again. There is no limit and no penalty."),
     // Best score is what the certificate reports, so a passing run on record keeps it
     // available even after a weaker retake.

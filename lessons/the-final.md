@@ -1,6 +1,6 @@
 ## FINISH SMARTER
 
-# What You Learned
+# The Final
 
 ## WHERE DOES THIS LEAVE YOU?
 
@@ -12,7 +12,7 @@ You make the call.
 
 now you’re smarter than the tool.
 
-Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation.
+Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation. Read this page as your study sheet.
 
 🧩
 

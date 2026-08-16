@@ -1926,7 +1926,7 @@ const SECTION_META = {
   whatpeoplesay: { kicker: "WHERE DOES IT LAND?", label: "Loudest Voices", title: "Loudest Voices", icon: "\uD83D\uDDE3\uFE0F" },
   paceofchange: { kicker: "FASTER EVERY YEAR", label: "Pace of Change", title: "Pace of Change", icon: "\uD83D\uDCC8" },
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
-  whatyoulearned: { kicker: "THE BIG PICTURE", label: "What You Learned", icon: "\uD83D\uDCCB" },
+  whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
 };
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
@@ -9938,7 +9938,7 @@ function MakeYourMoveSection(props) {
         }))),
 
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: What You Learned" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: The Final" }));
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;
@@ -11182,9 +11182,9 @@ function OpenerSkillsSection(props) {
       },
       {
         kicker: "LAND IT",
-        bridge: "Finally, the big picture, now that you\u2019ve seen it all.",
+        bridge: "Finally, the big picture, now that you\u2019ve seen it all. Then prove it.",
         questions: [
-          { question: "What\u2019s the big picture, now that I\u2019ve seen it all?", lessonId: "whatyoulearned" }
+          { question: "What\u2019s the big picture, and can I prove I\u2019ve got it?", lessonId: "whatyoulearned" }
         ]
       }
     ],
@@ -12531,7 +12531,13 @@ function WhatYouLearnedSection(props) {
     "How do you check an AI answer before trusting it?",
     "What decisions still belong to you?"
   ];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement(Illustration, { eyebrow: "WHERE DOES THIS LEAVE YOU?" }, /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" } }, /*#__PURE__*/React.createElement("div", null, "You see how it works."), /*#__PURE__*/React.createElement("div", null, "You catch what’s wrong."), /*#__PURE__*/React.createElement("div", null, "You make the call."), /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" } }, /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }), /*#__PURE__*/React.createElement("span", null, "now you’re smarter than the tool.")))), /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation. Read this page as your study sheet, because there’s one last thing waiting at the bottom."), /*#__PURE__*/React.createElement("div", {
+  // The break beat below and TheFinalQuiz itself both describe/render the interactive
+  // final exam. The quiz box already self-hides in print via its .interactive-box--try
+  // class (see the @media print rules), so this guard drops the same-topic lead-in text
+  // in print mode too, since otherwise it dangles, promising a quiz the export never shows.
+  var isPrintMode = false;
+  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement(Illustration, { eyebrow: "WHERE DOES THIS LEAVE YOU?" }, /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" } }, /*#__PURE__*/React.createElement("div", null, "You see how it works."), /*#__PURE__*/React.createElement("div", null, "You catch what’s wrong."), /*#__PURE__*/React.createElement("div", null, "You make the call."), /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" } }, /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }), /*#__PURE__*/React.createElement("span", null, "now you’re smarter than the tool.")))), /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to three ideas. Lock these in and you’ve got the mental model that runs every AI conversation." + (isPrintMode ? " Read this page as your study sheet." : " Read this page as your study sheet, because there’s one last thing waiting at the bottom.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -12626,10 +12632,10 @@ function WhatYouLearnedSection(props) {
       "."
     )
   ),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "NOW PROVE IT"),
-    /*#__PURE__*/React.createElement(BodyP, null,
+    !isPrintMode && /*#__PURE__*/React.createElement(SectionKicker, null, "NOW PROVE IT"),
+    !isPrintMode && /*#__PURE__*/React.createElement(BodyP, null,
       "That’s the course. Every idea you need is sitting above this line, and it isn’t going anywhere."),
-    /*#__PURE__*/React.createElement(BodyP, null,
+    !isPrintMode && /*#__PURE__*/React.createElement(BodyP, null,
       "So here’s the last move: twenty questions pulled from all six sections, ten minutes on the clock, and no feedback until you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again."),
     /*#__PURE__*/React.createElement(TheFinalQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),

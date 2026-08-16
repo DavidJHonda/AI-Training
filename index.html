@@ -2532,16 +2532,16 @@ const FINAL_BANK = [
     explain: "That’s one of five moves you can practice, alongside seeing the obvious, questioning the assumption, connecting the unconnected, and picking an angle to own. Creativity is a habit of thinking, not a personality trait."
   },
   {
-    id: "fb49", section: "Finish Smarter", lessonId: "skillsthatmatter",
-    q: "AI made producing a first version nearly free. What changed because of that?",
+    id: "fb51", section: "Finish Smarter", lessonId: "becurious",
+    q: "In most fields, adults have decades of experience on you. Why isn’t that true in AI?",
     options: [
-      "The bottleneck moved from production to direction",
-      "Speed became the skill worth building",
-      "Nothing. The work is the same, only faster",
-      "First versions stopped mattering to anyone"
+      "AI is simple enough that experience barely matters",
+      "You use these tools every day and most adults don’t",
+      "Nobody has a ten-year head start, because the tools aren’t ten years old. The only seniority is reps",
+      "Young people are naturally better at new technology"
     ],
-    correct: 0,
-    explain: "You cut a tangled situation into pieces small enough to hand over, which AI won’t do for you because it can’t see the tangle. Then you pick. AI can hand you ten options in four seconds and has no idea which one fits your people."
+    correct: 2,
+    explain: "ChatGPT launched in late 2022, so almost everyone started at the same moment. Reps are free: hours on real things, noticing what worked and what didn’t. And prompt tricks expire every time the models update. Instincts don’t."
   },
   {
     id: "fb50", section: "Finish Smarter", lessonId: "makeyourmove",
@@ -9481,11 +9481,6 @@ function SkillsThatMatterSection(props) {
               E("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, card.title)),
             E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, card.body));
         }))),
-    E(SectionKicker, null, "WHAT YOU’RE GOOD AT HAS A SHELF LIFE"),
-    E(BodyP, null,
-      "Here’s the part nobody says out loud. Some of what you get good at is going to stop mattering, and not because you did anything wrong. A specific tool, a specific workflow, the exact trick that made you fast: all of it has a shelf life now, and the shelf lives keep getting shorter. Right now you have almost nothing to unlearn. That’s a real advantage, and it’s temporary. Give it a few years and you’ll be the one holding a method that used to work."),
-    E(BodyP, null,
-      "So the skill isn’t the method. It’s what you do the week the method stops working. It looks like three habits: you try things before you know they’ll work, you drop what you were good at when something better shows up, and you sit in not-knowing long enough to learn the new thing instead of retreating to the old one. That last one is the hard part. Being a beginner again, on purpose, is uncomfortable, and most people quit right there."),
     E(SectionKicker, null, "CAN WE, AND SHOULD WE"),
     E(BodyP, null,
       "One more, and it’s the one people skip. AI turned “can we build this” into a question with almost no friction. Scrape every public post from your class and rank them. Build a bot that texts in your voice. Automate a job three people currently do. The building isn’t the hard part anymore."),
@@ -9532,14 +9527,78 @@ function SkillsThatMatterSection(props) {
 }
 function BeCuriousSection(props) {
   var E = React.createElement;
-  const [sortAnswers, setSortAnswers] = useState({});
-  const SORTS = [
-    { prompt: "After practice, a player asks AI to explain the neutral zone trap three different ways until one finally clicks", answer: "Building experience", explain: "The understanding ends up in his head, not just on the screen. Using AI to get something you'll actually use is exactly the rep that builds instinct." },
-    { prompt: "An essay is due tomorrow. A student pastes the assignment, copies what comes back, swaps a few words, and submits it", answer: "Outsourcing the work", explain: "Nothing was learned, and the work isn't hers. That's not experience with the tool. It's a shortcut past the experience. Habits for the Road covers why this backfires." },
-    { prompt: "A student sees a YouTube video about an AI study workflow, then runs it on her own chemistry notes to see if it holds up", answer: "Building experience", explain: "She borrowed an idea and tested it against reality. Watch, try, verify: that loop is how tool instincts get built." },
-    { prompt: "Stuck on the first sentence of a lab report, a student has AI write the whole thing and moves on", answer: "Outsourcing the work", explain: "The blank-page problem is real, but handing over the whole report means the next blank page will be just as blank. Asking for three possible openings and writing your own would have been the curious move." },
-    { prompt: "A student hears an AI app added a new voice mode and spends ten minutes finding out what it's good for", answer: "Building experience", explain: "Ten minutes of poking at a new feature, with nobody assigning it, is exactly how you stay current. That's the habit." }
+  const [repHabit, setRepHabit] = useState(null);
+  const [repPick, setRepPick] = useState(null);
+  const REPS = [
+    {
+      key: "reallife",
+      label: "Use it on real life",
+      title: "Use it on real life, not just school",
+      why: "The best one to start with, because it’s the one school will never make you do.",
+      ask: "Pick the thing outside school you’re pointing it at.",
+      options: [
+        { label: "Something I’m learning", feedback: "Tell it what you can already do, what you’re stuck on, and how much time you have tonight. Then go do one rep. Twenty minutes on a guitar chord teaches you more about the tool than a week of essay prompts." },
+        { label: "Something I’m planning", feedback: "A trip, a tournament, a birthday, a schedule with four people’s calendars in it. Planning is where the tool is quietly excellent, and it’s a job school never assigns you." },
+        { label: "Something that’s broken", feedback: "A bike, a bug in your code, a group chat that has gone sideways. Give it the symptoms, then make it ask you questions before it guesses. You’ll find out fast where it’s sharp and where it’s bluffing." }
+      ]
+    },
+    {
+      key: "newthing",
+      label: "Try the new thing",
+      title: "Try the new thing the week it ships",
+      why: "Ten minutes on a feature nobody assigned you is how you end up the person who already knows.",
+      ask: "Pick the newest thing in your app that you have never opened.",
+      options: [
+        { label: "Voice", feedback: "Do it walking somewhere. Talking to it is a different experience from typing at it, and you won’t know which one fits you until you’ve done both." },
+        { label: "Camera or images", feedback: "Point it at something real: a homework page, a plant, a menu in another language, the back of a broken appliance. That’s the fastest way to find the edge of what it can see." },
+        { label: "File uploads", feedback: "Feed it your own notes, a syllabus, a PDF you actually have to read. Working on your material is where it stops being a party trick." }
+      ]
+    },
+    {
+      key: "watch",
+      label: "Watch someone else",
+      title: "Watch how other people use it",
+      why: "Borrowing is fine. Borrowing without testing is how bad advice spreads.",
+      ask: "Pick the kind of workflow you’ll borrow, then run it on your own stuff.",
+      options: [
+        { label: "A study workflow", feedback: "Run it on this week’s actual notes, not on the demo. Half of what you see online was filmed once, on a friendly example. Testing it is the whole point." },
+        { label: "A creative workflow", feedback: "Music, art, video, writing. Copy the setup exactly the first time, then change one thing and see what breaks. That’s how you learn what the setup was really doing." },
+        { label: "A build-something workflow", feedback: "Somebody online built an app, a bot, or a spreadsheet that runs itself. Build the same thing badly, once. Badly and finished beats perfect and imagined." }
+      ]
+    },
+    {
+      key: "askit",
+      label: "Ask it about itself",
+      title: "Ask the tool to teach you the tool",
+      why: "The fastest way to find what you didn’t know it could do.",
+      ask: "Pick what you’ll drop into the prompt, then send it today.",
+      options: [
+        { label: "Something I do for fun", feedback: "Send it: I want to get better at [your thing]. What are five different ways you could actually help me practice? Then argue with the list. The two you didn’t expect are the ones worth keeping." },
+        { label: "A class I’m behind in", feedback: "Send it: I’m behind in [class]. What are five different ways you could help, and which one works best when I only have twenty minutes? Being specific about the time you have changes the answer." },
+        { label: "A team or job I’m on", feedback: "Send it: here’s what I do on [team or job]. What are five different ways you could help, ranked by how much time each one saves? Almost nobody your age is asking this, which is exactly why it’s worth asking." }
+      ]
+    },
+    {
+      key: "surprises",
+      label: "Start the surprise list",
+      title: "Keep a list of what surprised you",
+      why: "Both directions, remember. The times it botched something easy are the useful half.",
+      ask: "Pick where the list lives. It only works if it’s somewhere you’ll actually open.",
+      options: [
+        { label: "Notes app", feedback: "Two headings: nailed it, and botched it. Add one line the next time either happens. The botched-it list is the one that builds your instinct for when not to trust it." },
+        { label: "A pinned chat", feedback: "Keep one conversation open and paste the moment in when it happens. It’s the lowest-friction version, and low friction is the only reason a list survives past week two." },
+        { label: "Paper on my desk", feedback: "Old, and it works, because you see it every day. Two columns, nailed it and botched it, one line each. Nobody is grading the handwriting." }
+      ]
+    }
   ];
+  var pickedHabit = null;
+  for (var ri = 0; ri < REPS.length; ri++) { if (REPS[ri].key === repHabit) pickedHabit = REPS[ri]; }
+  var pickedOption = null;
+  if (pickedHabit && repPick != null) {
+    for (var oi = 0; oi < pickedHabit.options.length; oi++) {
+      if (pickedHabit.options[oi].label === repPick) pickedOption = pickedHabit.options[oi];
+    }
+  }
   return E("div", null,
     E(LessonHeader, { sectionId: "becurious" }),
     E(BodyP, null,
@@ -9549,9 +9608,14 @@ function BeCuriousSection(props) {
     E(SectionKicker, null, "Reps beat tricks."),
     E(BodyP, null,
       "Prompt tricks expire every time the models update. Instincts don't. Knowing what the tool will be good at before you ask comes from one place: using it, often, on real things."),
+    E(SectionKicker, null, "WHAT YOU’RE GOOD AT HAS A SHELF LIFE"),
+    E(BodyP, null,
+      "Here’s the part nobody says out loud, and it’s why the reps never stop counting. Some of what you get good at is going to stop mattering, and not because you did anything wrong. A specific tool, a specific workflow, the exact trick that made you fast: all of it has a shelf life now, and the shelf life keeps getting shorter. Right now you have almost nothing to unlearn. That’s a real advantage, and it’s temporary. Give it a few years and you’ll be the one holding a method that used to work."),
+    E(BodyP, null,
+      "So the skill isn’t the method. It’s what you do the week the method stops working. It looks like three habits: you try things before you know they’ll work, you drop what you were good at when something better shows up, and you sit in not-knowing long enough to learn the new thing instead of retreating to the old one. That last one is the hard part. Being a beginner again, on purpose, is uncomfortable, and most people quit right there."),
     E(SectionKicker, null, "FIVE CURIOSITY HABITS"),
     E(BodyP, null,
-      "None of these take extra time out of your week. They're small changes to things you already do."),
+      "Staying a beginner on purpose sounds like a big move. In practice it's five small habits, and none of them take extra time out of your week. They're changes to things you already do."),
     E(NumberedRows, { marginBottom: 24, items: [
       { title: "Use it on real life, not just school", body: "Planning a trip, fixing a bike, organizing a tournament, learning chords. Every new kind of task teaches you what the tool is actually good at. School assignments only show you a narrow slice." },
       { title: "Try the new thing the week it ships", body: "New model, new feature: voice, vision, file uploads, whatever comes next. Most people wait until someone shows them. Be the one who already tried it." },
@@ -9565,32 +9629,43 @@ function BeCuriousSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Curiosity or Outsourcing?",
-     lead: "Same tool, different habits: more AI isn't automatically more experience. It depends on which side of the work the AI is on. Decide what each student is actually doing."},
+      title: "Pick Your Rep for This Week",
+      lead: "Reading about a habit isn't a rep. Pick the one you'll actually run this week, then pick the exact thing you'll do with it, so there's nothing left to decide later."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SORTS.map(function(s, i) {
-          var answered = sortAnswers[i] !== undefined;
-          var picked = sortAnswers[i];
-          var correct = picked === s.answer;
-          function PillButton(label) {
-            return E(FeedbackPill, {
-              key: label,
-              answered: answered,
-              isCorrect: label === s.answer,
-              isPicked: picked === label,
-              label: label,
-              onClick: function() { setSortAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, label]])); }); }
-            });
-          }
-          return E(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: s.prompt + ".",
-            answered: answered,
-            correct: correct,
-            feedback: s.explain
-          }, [PillButton("Building experience"), PillButton("Outsourcing the work")]);
-        })
+        E(ScenarioRow, {
+          index: 1,
+          prompt: "Which habit are you running this week?",
+          answered: !!pickedHabit,
+          correct: true,
+          alignTop: true,
+          eyebrow: "Your pick",
+          headline: pickedHabit ? pickedHabit.title : null,
+          feedback: pickedHabit ? pickedHabit.why : null
+        }, REPS.map(function(r) {
+          return E(FeedbackPill, {
+            key: r.key,
+            state: repHabit === r.key ? "picked-correct" : "neutral",
+            label: r.label,
+            onClick: function() { setRepHabit(r.key); setRepPick(null); }
+          });
+        })),
+        pickedHabit ? E(ScenarioRow, {
+          index: 2,
+          prompt: pickedHabit.ask,
+          answered: !!pickedOption,
+          correct: true,
+          alignTop: true,
+          eyebrow: "This week",
+          headline: "Now go do it.",
+          feedback: pickedOption ? pickedOption.feedback : null
+        }, pickedHabit.options.map(function(o) {
+          return E(FeedbackPill, {
+            key: o.label,
+            state: repPick === o.label ? "picked-correct" : "neutral",
+            label: o.label,
+            onClick: function() { setRepPick(o.label); }
+          });
+        })) : null
       )),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("makeyourmove"); }, label: "Next: Make Your Move" }));

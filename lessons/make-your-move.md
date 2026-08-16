@@ -86,7 +86,7 @@ Science, medicine, law, code, music, anything. Going far past the surface in one
 
 Depth isn’t the same as prestige. You can build it in writing, welding, debate, caregiving, coding, music, sports, design, science, cooking, leadership, repair, or anything else that rewards real reps and real feedback. The category matters less than the commitment.
 
-Here’s how AI fits while you’re building. Use it to create reps, reveal gaps, explain mistakes, generate practice, and widen your feedback. Use the second mode too: AI as sparring partner. Pressure-test your plan, force the other side of your argument, hunt for what you’re missing. Used that way, AI doesn’t replace your thinking. It trains it.
+Use AI two ways while you build. First as a coach: create reps, reveal gaps, explain mistakes, generate practice, widen your feedback. Then as a sparring partner: pressure-test your plan, force the other side of your argument, hunt for what you’re missing. Used both ways, AI doesn’t replace your thinking. It trains it.
 
 ## Pick one, not five.
 
@@ -100,29 +100,7 @@ You don’t pick the category. You pick the thing you’d keep doing anyway, and
 
 A prompt costs you thirty seconds and proves nothing. Drafts, builds, reps, attempts: that’s the depth itself. Anyone can show you a chat history. A folder of things you actually made is a different kind of evidence, and it’s the only kind that holds up.
 
-## HOW TO BUILD DEPTH
-
-Picking the thing is the easy part.
-
-These moves work in any category. They turn an interest into the kind of depth that catches what AI gets wrong.
-
-🔍
-
-Learn to catch the mistakes
-
-Read past what AI hands back. Notice what’s missing. The catch is the skill.
-
-🗣️
-
-Get feedback from people
-
-AI agrees with you too easily. People who know the field will tell you what’s actually weak.
-
-📒
-
-Keep proof of work
-
-Notebooks, GitHub, sketches, drafts. The evidence that you’re someone who does the thing.
+Picking the thing is the easy part. Three moves turn an interest into the kind of depth that catches what AI gets wrong, and they work in any category. Read past what AI hands back and notice what’s missing, because the catch is the skill. Get feedback from people who know the field, because AI agrees with you too easily and they won’t. And keep filling that folder while you do it: notebooks, GitHub, sketches, drafts.
 
 Your edge isn’t avoiding AI. It’s using the workflow while building real skill underneath it.
 

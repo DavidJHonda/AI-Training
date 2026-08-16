@@ -304,7 +304,7 @@ The AI usually needs the problem. It usually doesn’t need your name, address, 
 
 Privacy from AI isn’t silence from humans. If a friend may be in danger, get real-world help: a counselor, a parent, or a teacher you trust. Some things need a person, not a prompt.
 
-Run a prompt through these five questions before hitting send.
+The send test: run your own prompt through these five before you hit send.
 
 1
 
@@ -418,57 +418,17 @@ If your school provides an AI account, assume it's monitored. For personal use, 
 
 ## It isn’t only what you type
 
-Everything above is about what you choose to share. But AI reads and decides things about you even when you never typed a word into it: a feed deciding what you see, a flagging tool scanning your essay, a screening tool sorting an application before a human looks. Sometimes you’re the one using AI. Sometimes you’re the one it’s deciding about. Same skill either way: know what to ask when it’s the second one.
+Everything above is about what you choose to share. But AI decides things about you even when you never type a word into it: a feed picking what you see, a flagging tool scanning your essay, a screening tool sorting an application before a human ever looks. Sometimes you’re the one using AI. Sometimes you’re the one it’s deciding about. And when it’s the second one, remember that a person or an institution chose to run that system, set the rules, and decided what happens when it flags someone. That’s who you push back on.
 
-## What you see
+## WHEN A SYSTEM IS DECIDING ABOUT YOU: FIVE QUESTIONS
 
-Algorithms rank what lands in front of you.
-
-Feeds, recommendations, search results, your inbox order. Shaped before you tap anything.
-
-## What you’re allowed to do
-
-Filters and flags decide whether you can post, comment, apply, or stay logged in.
-
-Content moderation, plagiarism flags, account suspensions. Lines you can hit without seeing them coming.
-
-## What gets attached to your name
-
-Scores and classifications follow you.
-
-Hiring ratings, admissions tools, credit scores, fraud flags. A number that decides whether a human even looks.
-
-This isn’t the checklist you just used to clean up a prompt. It’s a different one, for when a system is deciding something about you instead of the other way around.
-
-## THE FIVE QUESTIONS
-
-Run these on any system that’s judging you.
+Same skill, pointed the other way.
 
 1. Who is responsible?What person, school, company, platform, or institution chose to use the system?
 2. What data was used?What information, behavior, score, document, or profile did the system rely on?
 3. Can you push back?Is there an appeal, a moderator, a teacher, an admissions office, an employer, or some other support path?
 4. What happens if it’s wrong?Is the cost small, or could it affect your grade, account, application, reputation, money, or safety?
 5. Who is this helping, and who is it hurting?Who gets the benefit when this works, and who carries the cost when it doesn’t?
-Notice the first question is who, not what. AI systems score, rank, flag, recommend, and sometimes act on their own. But a person or an institution chose to deploy that system, set the rules, and decide what happens when it flags someone. That’s where responsibility lives, and that’s who you push back on.
-
-## Ask for the paper trail
-
-If an AI system affects a decision about you, get the decision out of the black box and into a process a human can explain. Ask, in writing if needed:
-
-- What policy applies here?
-- What data, document, score, or evidence was used?
-- Was there human review?
-- How do I correct a mistake?
-- What is the appeal path?
-A school or company that won’t put any of this in writing is telling you something.
-
-## Every system is chasing something
-
-A deployed system optimizes for something: engagement, speed, cost, fewer manual reviews. TikTok’s feed is tuned for watch time. A hiring screen might be tuned to match past hires. Ask what it’s actually chasing, and whether that lines up with what’s good for you. And remember that “mostly right” doesn’t mean right for you: a 99.9%-accurate system still gets a thousand wrong for every million people it scans. The averages look fine. The thousand people who got the wrong answer don’t get to opt out of the consequences, and a false positive doesn’t hurt the same people a false negative does.
-
-## Fair on paper isn’t always fair
-
-A system can claim it doesn’t use race, gender, or income and still produce unfair outcomes, because other data it does use correlates with what it claims it doesn’t. A zip code can stand in for race and income. A school name can stand in for class. These are called **proxy variables**: data that carries the effect of something the system never names directly. So when you ask what data was used, the follow-up is what that data correlates with.
 
 ## When AI judges you, don’t argue with the machine.
 

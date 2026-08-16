@@ -6,7 +6,7 @@ What’s left when the typing is free.
 
 An angle is one thing the tool can’t hand you. It isn’t the only one, and the full list is shorter than the hype makes it sound.
 
-AI can produce a first draft of almost anything in seconds. That changes what makes a person valuable. Producing the first version used to be most of the job. Now it’s the cheapest part of it. The bottleneck moves from production to direction.
+You already know AI can produce a first draft of almost anything in seconds. Here’s what that does to the job. Producing the first version used to be most of it. Now it’s the cheapest part, and the bottleneck moves from production to direction.
 
 You’ve been building most of these moves all course. A couple haven’t come up yet. What’s left is knowing which one to bring in at which moment.
 
@@ -32,7 +32,7 @@ WHAT AI CAN ACTUALLY TAKE (once you’ve cut it up)
 
 Deciding this is a why-won’t-they-come problem and not a what-do-we-do-when-they-get-there problem. And picking one format out of ten, knowing which one this group will actually show up for.
 
-Notice the two places you did the work. You cut a tangled situation into pieces small enough to hand over, which is the part AI won’t do for you, because it can’t see the tangle. Then you picked. AI can hand you ten options in four seconds. It has no idea which one fits your people.
+Twice in that box, the work was yours. You cut a tangled situation into pieces small enough to hand over, which is the part AI won’t do for you, because it can’t see the tangle. Then you picked. AI can hand you ten options in four seconds. It has no idea which one fits your people.
 
 Those two run inside one job. Four more run across all of them, and they’re worth knowing by name. Naming the move that’s missing is how you fix a bad answer, instead of just sitting there feeling like something’s off.
 
@@ -61,12 +61,6 @@ AI can sound confident when it is wrong. The better it sounds, the more importan
 Make the human call
 
 AI can generate options. It cannot own your judgment, your values, your reputation, or the consequences of what you choose.
-
-## WHAT YOU’RE GOOD AT HAS A SHELF LIFE
-
-Here’s the part nobody says out loud. Some of what you get good at is going to stop mattering, and not because you did anything wrong. A specific tool, a specific workflow, the exact trick that made you fast: all of it has a shelf life now, and the shelf lives keep getting shorter. Right now you have almost nothing to unlearn. That’s a real advantage, and it’s temporary. Give it a few years and you’ll be the one holding a method that used to work.
-
-So the skill isn’t the method. It’s what you do the week the method stops working. It looks like three habits: you try things before you know they’ll work, you drop what you were good at when something better shows up, and you sit in not-knowing long enough to learn the new thing instead of retreating to the old one. That last one is the hard part. Being a beginner again, on purpose, is uncomfortable, and most people quit right there.
 
 ## CAN WE, AND SHOULD WE
 

@@ -4,7 +4,7 @@
 
 Same AI. Better angle.
 
-Picture every kid in your class typing nearly the same question into AI for the same assignment. They all get back something polished. They all sound the same. The grader has read it eight times before lunch. That sameness is the problem this lesson is about.
+That was what you bring to a room. This is what you bring to the page. Same problem underneath: the polished draft is free now, and the grader has read eight versions of it before lunch. So what’s left that’s yours?
 
 By now you can work the tool and check what it gives back. This is the part the tool cannot do for you. What makes your work yours is the angle you bring to the problem before AI ever sees the question.
 
@@ -80,7 +80,7 @@ Creative thinking ends in a choice. Commit to one and back it.
 
 ## AI does the task.
 
-You bring the angle. Everyone in the room has access to the same tool. What makes your work yours is what you brought to it before AI ever showed up.
+You bring the angle. That part of the work happens before you ever open a chat window, which is exactly why it stays yours.
 
 AI widens the options.
 

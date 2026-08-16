@@ -22,7 +22,7 @@ Here’s why that’s the right place to finish. The tool is the same for everyo
 
 What’s left is what you bring to it, and that’s the part AI can’t take. Not because it’s noble. It just isn’t the kind of work a prediction machine does. Nobody can hand it to you either. You build it, or you don’t have it.
 
-So the order from here is deliberate. First, the last few things worth knowing about the tool itself: the dials, the moves, the habits you carry out the door. Then the skills that stay yours no matter how good it gets. Then the call about what you get good at. Then you prove what you know.
+So the order from here is deliberate. Here’s how it runs.
 
 ## In this section
 

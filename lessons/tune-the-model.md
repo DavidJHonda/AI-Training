@@ -1,4 +1,4 @@
-## BUILD YOUR SKILLS
+## FINISH SMARTER
 
 # Tune the Model
 
@@ -68,15 +68,17 @@ When in doubt, search
 
 A ten-second search like ‘which ChatGPT model should I use for an essay’ gets you a current answer. The lineup changes; the search works every time.
 
-🔑 **The default is a choice someone else made.**Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it.
+## The default is a choice someone else made.
+
+Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it.
 
 One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can.
 
 You’ve chosen your app, and you just chose your model. Now there’s one more choice: how much effort should the model spend on this answer?
 
-Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing. Some apps show this as a simple on/off switch, others as a dial with several levels.
+Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing.
 
-Effort changes how hard the model thinks before it commits, not how the answer sounds. The wording has its own dial, and it’s coming up next.
+Effort changes how hard the model thinks before it commits, not how the answer sounds. The wording has its own dial, and it’s coming up.
 
 And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models.
 
@@ -118,7 +120,9 @@ Accuracy matters more than speed
 
 The decision has real consequences
 
-🔑 **More effort isn’t a tiny person inside the computer reconsidering.**It’s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. Worth turning up when the work is complex. But it’s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won’t fix that. For truth, you still need to evaluate the results.
+## More effort isn’t a tiny person inside the computer reconsidering.
+
+It’s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. But it’s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won’t fix that. For truth, you still need to evaluate the results.
 
 ## WHERE TO FIND THE DIAL
 
@@ -127,6 +131,12 @@ Look near the model picker. Some apps give effort its own switch, with a label l
 💡 Same dial, different labels in every app. Once you understand what it does, you can find it anywhere.
 
 Some tasks need speed. Others need depth. And the dial turns both ways: deeper is slower, and on a simple ask it buys you nothing.
+
+## One more dial: temperature
+
+You’ll never touch this one. Back in One More Thing you met the weighted drawing: every token holds tickets equal to its probability, and the model draws one. **Temperature** is the dial on that drawing. Turn it down and the top pick takes nearly every ticket, so the model plays it safe and hands back almost the same answer every time. Turn it up and the tickets spread far down the list, so a long shot like Biscuit, which never wins at low, starts showing up. More range, more surprise, and sometimes more nonsense.
+
+You won’t find it in ChatGPT, Claude, or Gemini. The apps set it for you, and the dial itself lives in the tools developers use to build on these models. You can still ask for the effect in words. Ask for “your single best answer” and you pull toward the safe end. Ask for “ten very different options” and you pull toward the wild one. That’s the one dial you can’t reach. The rest of the machine you can.
 
 App. Model. Effort.
 
@@ -151,80 +161,6 @@ Effort
 How long it thinks before it commits: quick for speed, deeper for hard problems.
 
 **A bad answer doesn’t always mean ‘try harder.’**Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes it just needs more effort. Knowing the three decisions means you can fix the right one.
-
-## One more dial: temperature
-
-Back in One More Thing, you learned how the model really picks its next token: a weighted drawing, where every token holds tickets equal to its probability. **Temperature** is the dial on that drawing. Low temperature hands the top pick nearly every ticket, so answers become repeatable. High temperature spreads tickets far down the list, so answers get more varied, creative, and sometimes weird. The middle is the balanced default, best for everyday writing.
-
-Here’s the dog-name drawing from that lesson at three settings. The middle column is the balanced default; watch the odds sharpen and flatten as the dial moves. And keep an eye on Beowulf: impossible at low, alive at high. Temperature isn’t the only sampling control, but it’s the one worth knowing.
-
-How temperature reshapes the picks
-
-You could name him
-
-❄️ Low
-
-⚖️ Medium
-
-🔥 High
-
-Spot
-
-58%
-
-22%
-
-13%
-
-Max
-
-19%
-
-17%
-
-12%
-
-Buddy
-
-10%
-
-14%
-
-11%
-
-Rex
-
-5%
-
-9%
-
-9%
-
-Biscuit
-
-2%
-
-6%
-
-8%
-
-Beowulf
-
-0%
-
-3%
-
-6%
-
-other tokens
-
-6%
-
-29%
-
-41%
-
-You won’t see this dial in ChatGPT, Claude, or Gemini. The apps set the temperature for you. The dial itself lives in the tools developers use to build on these models. But the idea still matters, because you can ask for the effect instead: request “your best single answer” for consistency, or “ten different options” for range.
 
 Pick the model, set the effort.
 

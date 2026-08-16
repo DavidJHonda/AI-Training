@@ -66,7 +66,7 @@ Agreement that costs nothing tells you nothing. Sometimes it’s politeness. Som
 
 Ask for the objection on purpose: “What’s the worst part of this plan?” Get the real answer before Thursday.
 
-Notice what those three moves have in common. They’re direct, they’re private, and they’re about the person before the task. That’s most of what conflict resolution actually is. The version that fails is the one everybody reaches for instead: posting “some people aren’t pulling their weight” in the group chat and hoping the right person feels bad.
+Those three moves run on the same shape. They’re direct, they’re private, and they’re about the person before the task. That’s most of what conflict resolution actually is. The version that fails is the one everybody reaches for instead: posting “some people aren’t pulling their weight” in the group chat and hoping the right person feels bad.
 
 And none of it works if you start the week the project is due. The people who get help fast are the ones who gave it first, back when nothing was riding on it.
 

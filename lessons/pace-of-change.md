@@ -46,7 +46,7 @@ Training
 
 ## What’s happening
 
-AI is trained on more—and often better—data. That gives it more examples and patterns to learn from, but quality matters as much as quantity. Same recipe you learned in Training.
+AI is trained on more data, and often better data. That gives it more examples and patterns to learn from, but quality matters as much as quantity. Same recipe you learned in Training.
 
 ## Accelerant 2
 

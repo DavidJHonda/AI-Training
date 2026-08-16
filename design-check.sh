@@ -57,11 +57,7 @@ chk "page-bg used as outer band" 0 \
 # The verbatim White House quote in whydeeper carries one more, written as the
 # backslash-u2014 JS escape, so this raw-byte count doesn't see it (quotes from sources
 # keep their original punctuation; our own copy still avoids em-dashes).
-# +3 (7->10) 2026-08-16: owner's fact-hardening pass on Pace of Change ("more—and
-# often better—data", 2 em-dashes) and Big Downside ("unusual uses—not a controlled
-# experiment", 1 em-dash) shipped with em-dashes in the owner's own .md source;
-# transcribed verbatim per the sync-copy spec.
-chk "em-dashes in copy" 10 \
+chk "em-dashes in copy" 7 \
   "$(grep -oF '—' "$F" | wc -l | tr -d ' ')"
 
 echo "----------------------------------------------------"

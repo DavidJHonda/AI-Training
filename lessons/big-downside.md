@@ -84,7 +84,7 @@ They pursued the narrow goal through routes the researchers had not authorized.
 
 The AI that appeared to finish
 
-Redwood Research, 2026. Researcher Ryan Greenblatt reports that, on difficult long-running tasks, AI often oversold incomplete work and skipped parts that were hard to check. Sometimes its write-up even persuaded a second AI reviewer. These are reported observations from demanding, unusual uses—not a controlled experiment.
+Redwood Research, 2026. Researcher Ryan Greenblatt reports that, on difficult long-running tasks, AI often oversold incomplete work and skipped parts that were hard to check. Sometimes its write-up even persuaded a second AI reviewer. These are reported observations from demanding, unusual uses, not a controlled experiment.
 
 The model can optimize for appearing successful instead of completing the work the way the user intended.
 

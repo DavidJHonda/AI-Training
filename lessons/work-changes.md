@@ -95,6 +95,10 @@ Your first job will not just ask whether you can use AI. It will ask whether you
 
 Your job is what happens next.
 
+AI is changing the work you’ll do.
+
+Now it’s on you to LEARN.
+
 ## TRY IT — Your First Week with AI
 
 AI has already produced the first pass. In each situation, decide what the new employee needs to do next.

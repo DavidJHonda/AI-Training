@@ -12065,21 +12065,177 @@ function finalClock(ms) {
   var secs = Math.max(0, Math.ceil(ms / 1000));
   return String(Math.floor(secs / 60)).padStart(2, "0") + ":" + String(secs % 60).padStart(2, "0");
 }
-// Stand-in for the printable certificate (built in the next task). Renders only
-// when the stored best score has cleared the bar.
-function CertificatePlaceholder(props) {
-  return /*#__PURE__*/React.createElement("div", {
-    style: { background: "var(--card)", borderRadius: 14, padding: "22px 26px", boxShadow: "var(--shadowSoft)", marginTop: 18 }
+// Prefill for the name on the certificate. The welcome gate keeps only the first
+// name (`llm-user-name`); the full signup payload lives in `llm-signup-pending`
+// until it posts, so read both and take whatever is still on the device. Whatever
+// comes back is a suggestion: the student edits it before anything is printed.
+function certificateSeedName() {
+  var first = "", last = "";
+  try { first = localStorage.getItem("llm-user-name") || ""; } catch (e) {}
+  try {
+    var pending = JSON.parse(localStorage.getItem("llm-signup-pending") || "null");
+    if (pending && typeof pending === "object") {
+      if (!first && pending.firstName) first = String(pending.firstName);
+      if (pending.lastName) last = String(pending.lastName);
+    }
+  } catch (e) {}
+  return (first + " " + last).trim();
+}
+function certificateDate() {
+  try {
+    return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  } catch (e) { return ""; }
+}
+// The certificate itself, and the only place its layout is defined: the lesson page
+// and the print route render this same component, so what the student sees on screen
+// is what comes off the printer. No border, no ribbon, no emoji. Rule lines and space
+// do the work. The instructor line reads "Course Instructor" because the course
+// carries no instructor name of its own (the welcome gate signs as its two student
+// builders), and a certificate is the wrong place to invent one.
+function CertificateDoc(props) {
+  var E = React.createElement;
+  var LABEL = { fontFamily: "var(--sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--inkMuted)" };
+  var line = function(key) { return E("div", { key: key, style: { height: 1, background: "var(--rule)" } }); };
+  var fact = function(key, label, value, align) {
+    return E("div", { key: key, style: { textAlign: align || "left" } },
+      E("div", { style: LABEL }, label),
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", marginTop: 7 } }, value));
+  };
+  return E("div", {
+    className: "certificate-doc",
+    style: {
+      background: "var(--card)", borderRadius: 16, boxShadow: "var(--shadowSoft)",
+      padding: "clamp(34px, 5vw, 60px) clamp(28px, 6vw, 76px)", textAlign: "center"
+    }
   },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 10 }
-    }, "CERTIFICATE"),
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: 26, lineHeight: 1.2, letterSpacing: "-0.02em", color: "var(--ink)", marginBottom: 8 }
-    }, "Your certificate is ready."),
-    /*#__PURE__*/React.createElement("p", {
-      style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0 }
-    }, "Best score on record: " + props.bestScore + "%."));
+    E("img", { src: "icons/logo-disc.png", alt: "", "aria-hidden": "true", width: 52, height: 52, style: { display: "block", margin: "0 auto 14px" } }),
+    E("div", { style: Object.assign({}, LABEL, { marginBottom: 26 }) }, "AI Leadership Society"),
+    line("r1"),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)", margin: "36px 0 12px" } }, "This certifies that"),
+    E("div", {
+      style: { fontFamily: "var(--serif)", fontSize: "clamp(38px, 7vw, 62px)", lineHeight: 1.06, letterSpacing: "-0.02em", color: "var(--ink)" }
+    }, props.name),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)", margin: "26px 0 12px" } }, "has completed the course"),
+    E("div", {
+      style: { fontFamily: "var(--serif)", fontSize: "clamp(26px, 4.4vw, 38px)", lineHeight: 1.12, letterSpacing: "-0.02em", color: "var(--ink)" }
+    }, COURSE_TITLE),
+    E("div", {
+      style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkMuted)", letterSpacing: "0.05em", margin: "12px 0 38px" }
+    }, COURSE_SUBTITLE),
+    line("r2"),
+    E("div", {
+      style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 28, marginTop: 26 }
+    },
+      fact("s", "Final exam", props.score + "%"),
+      fact("d", "Completed", props.date),
+      fact("i", "Issued by", "Course Instructor", "right")));
+}
+// The certificate flow. Step one confirms the name, because the gate only kept a
+// first name and a certificate deserves the whole thing. Step two is the certificate
+// plus the print route. Nothing here renders unless the stored best score cleared
+// the bar, so there is no sub-80 version of this to find.
+function CertificateBlock(props) {
+  var E = React.createElement;
+  var _d = useState(function() { return props.certName || certificateSeedName(); });
+  var draft = _d[0], setDraft = _d[1];
+  var _e = useState(!props.certName), editing = _e[0], setEditing = _e[1];
+  var kicker = E("div", {
+    key: "k",
+    style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 12 }
+  }, "CERTIFICATE");
+  var wrap = function(children) {
+    return E("div", { style: { marginTop: 22 } }, children);
+  };
+  var save = function() {
+    var v = draft.trim();
+    if (!v) return;
+    props.onSaveName(v);
+    setEditing(false);
+  };
+
+  if (editing) {
+    return wrap([
+      kicker,
+      E("div", {
+        key: "h",
+        style: { fontFamily: "var(--serif)", fontSize: "clamp(24px, 4.5vw, 32px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)", marginBottom: 8 }
+      }, "You cleared the bar. Put your name on it."),
+      E("p", {
+        key: "p",
+        style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 16px 0", maxWidth: "62ch" }
+      }, "This is the name that prints, so spell it the way you want it read. You can change it later."),
+      E("div", { key: "f", style: { display: "flex", alignItems: "flex-end", flexWrap: "wrap", gap: 12 } },
+        E("label", { style: { display: "block", flex: "1 1 320px", maxWidth: 440 } },
+          E("span", {
+            style: { display: "block", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--inkMuted)", marginBottom: 7 }
+          }, "Name on the certificate"),
+          E("input", {
+            type: "text",
+            value: draft,
+            onChange: function(e) { setDraft(e.target.value); },
+            onKeyDown: function(e) { if (e.key === "Enter") save(); },
+            placeholder: "Your full name",
+            "aria-label": "Name on the certificate",
+            style: {
+              width: "100%", background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 10,
+              padding: "13px 16px", fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", outline: "none"
+            }
+          })),
+        E(ActivityButton, { size: "large", onClick: save, disabled: !draft.trim() }, "Make my certificate"))
+    ]);
+  }
+
+  return wrap([
+    kicker,
+    E("div", { key: "doc", style: { marginBottom: 16 } },
+      E(CertificateDoc, { name: props.certName, score: props.bestScore, date: certificateDate() })),
+    E("div", { key: "a", style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14 } },
+      E(ActivityButton, {
+        size: "large",
+        onClick: function() { try { window.open("?print=certificate", "_blank"); } catch (e) {} }
+      }, "Print or save as PDF"),
+      E("button", {
+        onClick: function() { setDraft(props.certName || ""); setEditing(true); },
+        style: {
+          background: "none", border: "none", padding: 0, cursor: "pointer",
+          fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--primary)", textDecoration: "underline"
+        }
+      }, "Change the name")),
+    E("p", {
+      key: "n",
+      style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.6, margin: "12px 0 0 0", maxWidth: "62ch" }
+    }, "That opens a clean page in a new tab with the certificate on it and nothing else. Print it, or choose Save as PDF in the print dialog.")
+  ]);
+}
+// The print route (?print=certificate). Same early-return machinery as
+// ?print=lesson:<id>: the app hands back this page instead of the shell, so there is
+// no header, no nav, and no lesson chrome to hide. It opens in its own tab, so it
+// reads storage straight rather than through the hook.
+function CertificatePrintView() {
+  var E = React.createElement;
+  var rec = {};
+  try { rec = JSON.parse(localStorage.getItem("final-exam") || "{}") || {}; } catch (e) {}
+  var best = typeof rec.bestScore === "number" ? rec.bestScore : null;
+  var name = rec.certName || certificateSeedName();
+  var ready = best != null && best >= FINAL_PASS_PCT && !!name;
+  return E("div", {
+    className: "certificate-print-page",
+    style: { background: "var(--bg)", minHeight: "100vh", padding: "36px 32px 60px", fontFamily: "var(--sans)" }
+  },
+    E("style", null, "@media print { @page { size: landscape; margin: 1.4cm; } .certificate-print-page { padding: 0 !important; } .certificate-doc { box-shadow: none !important; border-radius: 0 !important; } }"),
+    E("div", { style: { maxWidth: 1020, margin: "0 auto" } },
+      ready ? [
+        E("div", {
+          key: "bar", className: "no-print",
+          style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14, marginBottom: 22 }
+        },
+          E(ActivityButton, { size: "large", onClick: function() { try { window.print(); } catch (e) {} } }, "Open the print dialog"),
+          E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)" } },
+            "Landscape is already set. Pick Save as PDF in the dialog to keep a copy.")),
+        E(CertificateDoc, { key: "doc", name: name, score: best, date: certificateDate() })
+      ] : E("p", {
+        style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "62ch", margin: "60px auto", textAlign: "center" }
+      }, "There is no certificate on this device yet. Pass the Final at 80 percent or better, put your name on it, and this page fills in.")));
 }
 // One answer option. During the run the only signal is selection: primary border
 // and a filled badge, nothing about right or wrong. `mark` is passed on the review
@@ -12155,6 +12311,16 @@ function TheFinalQuiz() {
     setEndsAt(t + FINAL_DURATION_MS);
     setPhase("running");
   };
+  var saveCertName = function(name) {
+    setRecord(function(prev) {
+      var p = prev || {};
+      return {
+        bestScore: p.bestScore != null ? p.bestScore : null,
+        attempts: p.attempts || 0,
+        certName: name
+      };
+    });
+  };
   var pick = function(qid, oi) {
     setAnswers(function(prev) {
       var next = Object.assign({}, prev);
@@ -12229,7 +12395,12 @@ function TheFinalQuiz() {
           }
         }, best >= FINAL_PASS_PCT ? "Passed" : "Not there yet"),
         E("span", null, (record.attempts || 0) === 1 ? "1 attempt" : (record.attempts || 0) + " attempts")) : null,
-      E(ActivityButton, { key: "a", size: "large", onClick: start }, "Start the Final")
+      E(ActivityButton, { key: "a", size: "large", onClick: start }, "Start the Final"),
+      // A passing score already on record means the certificate belongs here too, not
+      // only on the review screen the student just left.
+      (best != null && best >= FINAL_PASS_PCT)
+        ? E(CertificateBlock, { key: "cert", bestScore: best, certName: record.certName, onSaveName: saveCertName })
+        : null
     ]);
   }
 
@@ -12289,6 +12460,7 @@ function TheFinalQuiz() {
   var res = result || { correct: 0, total: questions.length, pct: 0 };
   var passed = res.pct >= FINAL_PASS_PCT;
   var needed = Math.ceil(FINAL_PASS_PCT / 100 * res.total);
+  var bestOnRecord = Math.max(record.bestScore != null ? record.bestScore : 0, res.pct);
   return band([
     kicker(passed ? "THE FINAL · PASSED" : "THE FINAL · RESULT", passed ? "var(--green)" : "var(--primary)"),
     E("div", { key: "sc", style: { display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 14, marginBottom: 10 } },
@@ -12304,7 +12476,11 @@ function TheFinalQuiz() {
     }, passed
       ? "The bar was 80 percent and you cleared it. Every question is below with the reasoning behind it, and that is where the last of it locks in."
       : "The bar is " + needed + " of " + res.total + ". Every question is below with the right answer, the reason, and the lesson that covers it. Read those, then take it again. There is no limit and no penalty."),
-    passed ? E(CertificatePlaceholder, { key: "cert", bestScore: record.bestScore != null ? record.bestScore : res.pct }) : null,
+    // Best score is what the certificate reports, so a passing run on record keeps it
+    // available even after a weaker retake.
+    bestOnRecord >= FINAL_PASS_PCT
+      ? E(CertificateBlock, { key: "cert", bestScore: bestOnRecord, certName: record.certName, onSaveName: saveCertName })
+      : null,
     E("div", {
       key: "rk",
       style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", margin: "24px 0 12px" }
@@ -13899,6 +14075,11 @@ function LLMExplorer() {
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
   } catch (ex) {}
+  // The certificate rides the same ?print= route as the lesson and packet exports, so
+  // the printed page carries the certificate and nothing else.
+  if (printParam === "certificate") {
+    return /*#__PURE__*/React.createElement(CertificatePrintView, null);
+  }
   var printSections = null;
   if (printParam) {
     var printSlug = function(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); };

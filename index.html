@@ -463,6 +463,7 @@ const CLOSE_BOARDS = {
   skillsthatmatter: { pill: "The typing got cheap.", sticky: "The judgment didn’t." },
   becurious: { pill: "Curiosity compounds.", sticky: "The questions you chase become your edge." },
   makeyourmove: { pill: "Your move now.", sticky: "The tool is ready. Are you?" },
+  openerskills: { pill: "The tool got you this far.", sticky: "What\u2019s left is the part it can\u2019t do." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two habits. They travel well." }
 };
 // Lessons after the boundary id are first drafts: red label in the chip nav,
@@ -1031,23 +1032,6 @@ function OpenerSection(props) {
       }
       return E(BodyP, { key: i }, p);
     });
-  };
-  var renderCard = function(q) {
-    var lesson = SECTIONS.find(function(s) { return s.id === q.lessonId; });
-    return E("div", {
-      key: q.lessonId,
-      style: { background: "var(--card)", borderRadius: 14, padding: 18, boxShadow: "var(--shadowElevated)", display: "flex", flexDirection: "column", gap: 14, minHeight: 110 }
-    },
-      E("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35 } }, q.question),
-      lesson ? E("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--inkMuted)", marginTop: "auto" } },
-        E("span", { style: { fontSize: 16 } }, lesson.icon),
-        E("span", { style: { fontWeight: 600 } }, lesson.label)
-      ) : null);
-  };
-  var renderCardGrid = function(questions) {
-    return E("div", {
-      style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 14 }
-    }, questions.map(renderCard));
   };
   var renderOverview = function(ov) {
     var rows = (props.groups || []).map(function(group, gi) {
@@ -1939,7 +1923,7 @@ const OPENER_PDF_NAMES = {
   openerfoundations: "Opener-Understand",
   openerprotect: "Opener-Avoid",
   openerrealworld: "Opener-Embrace",
-  openerskills: "Opener-Build"
+  openerskills: "Opener-Finish"
 };
 // Filename slug for a lesson's assets (PDF/video/illustration): from the displayed
 // title, lowercase-hyphen, & -> "and", apostrophes dropped. Keep in sync with the
@@ -8587,29 +8571,15 @@ function OpenerWorkWithSection(props) {
     groups: [
       {
         kicker: "KNOW WHAT IT'S FOR",
-        bridge: "First, why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well.",
-        questions: [
-          { question: "Why does AI work differently from normal software?", lessonId: "aivscode" },
-          { question: "What is AI actually good at, and why?", lessonId: "whatitdoesbest" },
-          { question: "Which AI app should I use, and how do they differ?", lessonId: "modelselection" }
-        ]
+        bridge: "First, why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well."
       },
       {
         kicker: "USE IT WELL",
-        bridge: "Then, the moves that get a better answer, and a look at what the model actually reads when you ask.",
-        questions: [
-          { question: "What makes a question worth asking?", lessonId: "questionsvaluable" },
-          { question: "How do I turn a question into a clear prompt?", lessonId: "prompting" },
-          { question: "What does the model actually see when it answers?", lessonId: "prompt" }
-        ]
+        bridge: "Then, the moves that get a better answer, and a look at what the model actually reads when you ask."
       },
       {
         kicker: "THINK BEFORE YOU TRUST",
-        bridge: "Finally, what to do with the answer that comes back: question it, verify it, and decide whether it’s good enough to use.",
-        questions: [
-          { question: "Is the answer right, and good enough for what I need?", lessonId: "evaluating" },
-          { question: "How do I question an answer that sounds right?", lessonId: "critical" }
-        ]
+        bridge: "Finally, what to do with the answer that comes back: question it, verify it, and decide whether it’s good enough to use."
       }
     ],
     nextLessonId: "aivscode",
@@ -8655,29 +8625,15 @@ function OpenerProtectSection(props) {
     groups: [
       {
         kicker: "TRAPS IN THE ANSWER",
-        bridge: "First, the ways an answer goes wrong all on its own: facts invented with total confidence, bias and stale knowledge soaked up from the training data, and summaries of documents the model never really read.",
-        questions: [
-          { question: "Why does AI state false things so confidently?", lessonId: "hallucination" },
-          { question: "What goes wrong when the training data is skewed or stale?", lessonId: "trainingbias" },
-          { question: "Why can’t I trust a summary of a document it barely read?", lessonId: "documenttrap" }
-        ]
+        bridge: "First, the ways an answer goes wrong all on its own: facts invented with total confidence, bias and stale knowledge soaked up from the training data, and summaries of documents the model never really read."
       },
       {
         kicker: "TRAPS IN YOU",
-        bridge: "Then, the traps that work on you instead of the answer. Helpful, agreeable, engaging: the qualities that make AI easy to use also make it easy to fall for.",
-        questions: [
-          { question: "Why does it feel like I’m talking to a mind?", lessonId: "mindtrap" },
-          { question: "What’s wrong with AI that always agrees with me?", lessonId: "flattery" },
-          { question: "How does it keep me talking longer than I meant to?", lessonId: "engagementtrap" },
-          { question: "When does support from AI become a problem?", lessonId: "supporttrap" }
-        ]
+        bridge: "Then, the traps that work on you instead of the answer. Helpful, agreeable, engaging: the qualities that make AI easy to use also make it easy to fall for."
       },
       {
         kicker: "TRAPS FROM THE WORLD",
-        bridge: "Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof.",
-        questions: [
-          { question: "How do I think clearly when seeing is no longer proof?", lessonId: "faketrap" }
-        ]
+        bridge: "Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof."
       }
     ],
     nextLessonId: "hallucination",
@@ -11094,29 +11050,15 @@ function OpenerRealWorldSection(props) {
     groups: [
       {
         kicker: "THE ARGUMENT",
-        bridge: "First, the loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed.",
-        questions: [
-          { question: "Why do the smartest people disagree so hard about AI?", lessonId: "whatpeoplesay" },
-          { question: "Why is AI improving this fast, and where might it stop?", lessonId: "paceofchange" }
-        ]
+        bridge: "First, the loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed."
       },
       {
         kicker: "MONSTERS AND OPEN WATER",
-        bridge: "Then, both views of the unknown: the honest case for worry, and the upside that already happened.",
-        questions: [
-          { question: "What\u2019s the honest case for worry?", lessonId: "bigdownside" },
-          { question: "What is AI actually good for?", lessonId: "bigupside" }
-        ]
+        bridge: "Then, both views of the unknown: the honest case for worry, and the upside that already happened."
       },
       {
         kicker: "WHERE IT LANDS ON YOU",
-        bridge: "Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.",
-        questions: [
-          { question: "What happens when AI stops answering and starts doing things?", lessonId: "agents" },
-          { question: "How will AI change the work you do after college?", lessonId: "workchanges" },
-          { question: "What does one instant answer actually cost?", lessonId: "computecost" },
-          { question: "Why does the future never land the way anyone predicts?", lessonId: "unexpected" }
-        ]
+        bridge: "Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction."
       }
     ],
     nextLessonId: "whatpeoplesay",
@@ -11145,9 +11087,13 @@ function OpenerSkillsSection(props) {
     sectionId: "openerskills",
     featuredCard: skillsIllustration,
     whyThisMatters: [
-      "You just saw the world that\u2019s coming: work shifting, agents acting, surprises guaranteed. The last question is the one that matters most: what do you build in yourself so that world works for you?",
-      "Part of the answer is practical: setting up the tool so it works for you, from the model you pick to how hard you make it think.",
-      "The rest is the edge no tool supplies: framing real problems, judging what matters, bringing an angle the model hasn\u2019t seen, and turning all of it into a deliberate next move."
+      "Five sections in, and every one of them was about the tool. You met it. You learned to work it. You opened it up and saw the machinery. You learned where it fails and how not to get played by it. And you looked straight at a future nobody can map.",
+      /*#__PURE__*/React.createElement(React.Fragment, null,
+        /*#__PURE__*/React.createElement("strong", null, "This section is about the person holding it."),
+        " The course is almost done teaching you the tool. It isn\u2019t done with you."),
+      "Here\u2019s why that\u2019s the right place to finish. The tool is the same for everyone. Your classmates have it. So does the person you\u2019ll be up against for your first real job. Access stopped being an edge the moment everybody got it.",
+      "What\u2019s left is what you bring to it, and that\u2019s the part AI can\u2019t take. Not because it\u2019s noble. It just isn\u2019t the kind of work a prediction machine does. Nobody can hand it to you either. You build it, or you don\u2019t have it.",
+      "So the order from here is deliberate. First, the last few things worth knowing about the tool itself: the dials, the moves, the habits you carry out the door. Then the skills that stay yours no matter how good it gets. Then the call about what you get good at. Then you prove what you know."
     ],
     sectionOverview: {
       eyebrow: "In this section",
@@ -11156,39 +11102,23 @@ function OpenerSkillsSection(props) {
     groups: [
       {
         kicker: "THE LAST OF THE AI",
-        bridge: "First, the last things to say about the tool itself: which model to pick, how hard to make it think, what to type, and two habits for the road.",
-        questions: [
-          { question: "Which model do I pick, and how hard should it think?", lessonId: "choosemodel" },
-          { question: "What do the people who get more out of AI actually type?", lessonId: "aitips" },
-          { question: "What do I owe the work, and what happens to what I type?", lessonId: "integrity" }
-        ]
+        bridge: "First, the last of the tool itself: which model to pick, how hard to make it think, what to type, and two habits for the road."
       },
       {
         kicker: "SKILLS AI WON\u2019T REPLACE",
-        bridge: "Then, what stays valuable when everyone has the same tool.",
-        questions: [
-          { question: "How do I get people to listen, help, and follow?", lessonId: "peopleskills" },
-          { question: "How do I bring an angle the tool can\u2019t?", lessonId: "creativethinking" },
-          { question: "What else stays mine when the tool does the producing?", lessonId: "skillsthatmatter" }
-        ]
+        bridge: "Then, what stays valuable when everyone has the same tool: the person in the room, the angle nobody else brought, and the judgment that decides what\u2019s worth doing."
       },
       {
         kicker: "STAY SHARP",
-        bridge: "Then, staying sharp as the tools keep changing, and deciding what you get good at.",
-        questions: [
-          { question: "How do I stay current as the tools keep changing?", lessonId: "becurious" },
-          { question: "What do I get good at, and why would someone pick me over AI?", lessonId: "makeyourmove" }
-        ]
+        bridge: "Then, staying current as the tools keep changing, and picking the one thing you get genuinely good at."
       },
       {
         kicker: "LAND IT",
-        bridge: "Finally, the big picture, now that you\u2019ve seen it all. Then prove it.",
-        questions: [
-          { question: "What\u2019s the big picture, and can I prove I\u2019ve got it?", lessonId: "whatyoulearned" }
-        ]
+        bridge: "Finally, the whole course on one page. Then twenty questions, ten minutes, and a certificate if you clear the bar."
       }
     ],
-    question: "When everyone has AI, what makes my work mine?",
+    mistake: "Treating the end of the course as the end of the work. The hard machinery is behind you and the last page is in sight, so it\u2019s tempting to coast from here, pass the final, and call it done. But the tool you\u2019re using right now will be replaced, probably sooner than you\u2019d guess. What this section asks you to build won\u2019t be.",
+    question: "Everyone will have the same tool. What do I bring that it doesn\u2019t?",
     nextLessonId: "choosemodel",
     nextLessonLabel: "Next: Tune the Model",
     completeAndNavigate: props.completeAndNavigate

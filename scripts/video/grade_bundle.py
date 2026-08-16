@@ -56,7 +56,7 @@ def transcribe(path, model):
 
 # Video slug -> lesson .md, for the few that differ.
 MD_ALIAS = {"opener-avoid": "Opener-Avoid", "opener-work": "Opener-Work",
-            "opener-understand": "Opener-Understand", "opener-build": "Opener-Build",
+            "opener-understand": "Opener-Understand", "opener-finish": "Opener-Finish",
             "opener-embrace": "Opener-Embrace"}
 
 

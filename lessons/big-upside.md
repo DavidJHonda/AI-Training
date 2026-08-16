@@ -116,7 +116,7 @@ Free warnings of upcoming floods in dozens of countries, including places where 
 
 Catching what doctors miss
 
-A Swedish trial with more than 100,000 women: AI-supported screening caught 20% more breast cancers than radiologists working alone, with no rise in false alarms.
+In a Swedish trial with more than 100,000 women, AI-supported screening detected more breast cancers, with no statistically significant increase in false positives.
 
 Every one of those is true. So the next time someone asks, “What good does AI do for society?”, you have an answer ready: **“For starters, it’s saving lives.”**
 

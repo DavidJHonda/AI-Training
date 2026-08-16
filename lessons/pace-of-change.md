@@ -46,7 +46,7 @@ Training
 
 ## What’s happening
 
-AI is trained on more data. More data equals more knowledge. Same recipe you learned in Training.
+AI is trained on more—and often better—data. That gives it more examples and patterns to learn from, but quality matters as much as quantity. Same recipe you learned in Training.
 
 ## Accelerant 2
 
@@ -62,7 +62,7 @@ AI building AI
 
 ## What’s happening
 
-By 2026 the strongest models write code well enough that the AI companies use them to write the software for the next model, and they write it faster than any human team could.
+By 2026 the strongest models write code well enough that AI companies use them to help write and optimize parts of the software for the next model. On some well-defined coding and research tasks, they can move much faster than people.
 
 Slow down and read that third one again. AI helps build better AI.
 

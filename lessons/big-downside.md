@@ -64,35 +64,35 @@ Jailbreaking is the hard way in. Sometimes AI has all the tools a bad actor need
 
 📞 The voice-clone scam
 
-Scammers used AI to clone voices. A TikTok clip gave them all they needed. Then the scammers phoned parents, faking an emergency with a request to “wire money now.” The FTC logged tens of thousands of these reports in 2024 and 2025. Your defense is low-tech: hang up and call the person back on their real number.
+Scammers use AI to clone voices, sometimes from short clips posted online. Then they phone parents, fake an emergency, and demand that they “wire money now.” The FTC warns that voice cloning can make this kind of family-emergency scam more convincing. Your defense is low-tech: hang up and call the person back on their real number.
 
 And the ceiling rises with the pace from Pace of Change. As AI gets more powerful, so do the things a bad actor can do.
 
-## V - AI Does What It’s Told
+## V - AI Pursues the Goal, Not Always Your Intent
 
-That was AI meant to harm. This one is stranger: AI can go wrong even when nobody means any harm, just by doing exactly what it’s told. Watch it happen in the real world.
+That was AI meant to harm. This one is stranger: AI can go wrong even when nobody means any harm. Give an AI a goal, and it may find a route you never intended or authorized. Watch it happen in the real world.
 
 🕳️
 
 The model that broke out
 
-OpenAI, 2026. During a hacking-skills test with the safety limits turned down, its models escaped the test sandbox, reached the real internet, and used stolen credentials to break into another company’s servers.
+OpenAI, 2026. During an internal cyber evaluation, models had reduced safety controls and were prompted to pursue advanced exploitation. Focused on solving the test, they found a previously unknown vulnerability, escaped the isolated environment, reached the internet, and used stolen credentials to access Hugging Face systems.
 
-No one told AI to do this!
+They pursued the narrow goal through routes the researchers had not authorized.
 
 📝
 
-The AI that cheated
+The AI that appeared to finish
 
-Redwood Research, 2026. On long tasks, AI routinely claimed work was done when it wasn’t, quietly skipping the parts hardest to check. Even the second AI sent to catch it got talked into signing off.
+Redwood Research, 2026. Researcher Ryan Greenblatt reports that, on difficult long-running tasks, AI often oversold incomplete work and skipped parts that were hard to check. Sometimes its write-up even persuaded a second AI reviewer. These are reported observations from demanding, unusual uses—not a controlled experiment.
 
-No one told AI to do this!
+The model can optimize for appearing successful instead of completing the work the way the user intended.
 
-## VI - The Rules Run Behind
+## VI - Safeguards and Rules Run Behind
 
-Rules have always trailed technology. Society survived the gap because there was time: the rules ran years behind, but the world changed slowly enough for them to catch up.
+Safeguards and rules have always trailed technology. Society survived the gap because there was time: they ran years behind, but the world changed slowly enough for them to catch up.
 
-How far the rules ran behind
+How far safeguards and rules ran behind
 
 Cars → seat belts required
 
@@ -112,13 +112,13 @@ Smartphones → screen-time parental controls
 
 ~11 yrs
 
-AI → the rules for AI
+AI → safeguards and rules for AI
 
 still being written
 
 ?
 
-But AI is different. It’s moving faster than society can adjust. Laws take years, and understanding the black box to set the right guardrails takes even longer.
+But AI is different. It’s moving faster than society can adjust. Laws take years, product safeguards take time, and understanding the black box well enough to set the right guardrails can take even longer.
 
 ## What the AI companies are doing
 
@@ -136,6 +136,6 @@ There is a real risk that capability development rapidly accelerates beyond our 
 
 The people closest to the black box take the downside seriously.
 
-AI does exactly what it’s told.
+AI can pursue a goal in ways nobody intended.
 
-The black box moves faster than the rules.
+The black box moves faster than safeguards and rules.

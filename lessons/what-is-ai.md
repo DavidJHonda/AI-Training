@@ -110,25 +110,7 @@ You’ll hear a pile of names: AI, generative AI, ChatGPT, LLM. Don’t let the 
 
 There’s a name for these generative AI tools: LLM, short for **Large Language Model**. Think of it like this. ChatGPT is the app you use, and the LLM is the engine under the hood doing the work.
 
-What’s an LLM?
-
-L
-
-Large
-
-Trained on **huge amounts of text**: books, websites, even code. That scale is what lets one model handle many different tasks.
-
-L
-
-Language
-
-Built for human language: **reading, writing, summarizing**, translating, explaining. Words in, words out.
-
-M
-
-Model
-
-The trained AI itself. It takes your input and **predicts a likely output** based on patterns it learned from data.
+![What’s an LLM? Large means trained on huge amounts of text and code. Language means reading, writing, summarizing, translating, and explaining. Model means predicting likely output from learned patterns.](what-is-ai-3-llm.jpg)
 
 Two kinds. One picks, one makes.
 

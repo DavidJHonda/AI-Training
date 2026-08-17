@@ -2,85 +2,91 @@
 
 # Tune the Model
 
-You’ve already learned to choose your app. Now comes something normal apps never ask of you. Spotify doesn’t ask which Spotify you want. AI apps do: inside each one is a family of models, and a picker to choose between them.
+ChatGPT, Claude, and Gemini are all great choices for your go-to AI app. Now comes something normal apps never ask of you. Spotify doesn’t ask which Spotify you want. AI apps do: you get choices about which model does the work, how fast it answers, and how hard it thinks.
 
-Think of a hockey team changing its lines. The first line has the most skill, but you can’t play them every shift. Their minutes are limited. The third line is fast and steady, and it takes the everyday shifts. The coach’s job is matching the line to the moment. Inside an AI app, you’re the coach.
+Think about buying a new car. Your first decision is which dealership to visit: Ford, Chevy, Dodge, or somewhere else. When you arrive, the next choice is which model you want to buy.
 
-And the lines are real. The models in a family aren’t the same brain dialed up or down. They’re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start.
+Next come the options: engine size, wheel package, trim. And you’ll pick those based on how you plan to use the car.
 
-Why build a family at all? Because every answer you get runs on a server doing heavy math, and that math costs real money, time, and energy. So every model is a trade between three things: how smart it is, how fast it answers, and what it costs to run. No model maxes all three. The family exists so you can pick where to sit on that scale.
+AI works the same way. The app was the dealership, and you’ve already picked it. The choices waiting inside are the model, the speed, and the thinking.
 
-## The Model Family
+## YOUR CHOICES
 
-Every model in a family sits somewhere on one scale. Nothing maxes both ends: picking a model is picking where to sit.
+The choices live inside whichever app you picked. What makes them confusing is the names: each app names its models differently, and with every app improving this fast, the names keep changing. So don’t memorize names. Learn the three choices underneath them. Those don’t change.
 
-## ◂ Smartest · Slowest · Costliest
+## Choice 1
 
-## Fastest · Cheapest · Lighter Thinking ▸
+Model
 
-1
+## What it is
 
-2
+A family of models, not one brain.
 
-3
+The picker lists them by name, newest near the top.
 
-Most capable
+The labels carry the signal: one is marked most capable, one is the everyday default.
 
-The Senior Architect
+## Why it exists
 
-Deep, multi-step reasoning: a 200-page document, complex code, advanced math, writing that needs real nuance. The slowest and costliest, built for the hardest problems.
+Bigger models reason deeper and cost more to run. Smaller ones are cheap enough to answer everything else. No company can give everyone the biggest brain for every question, so the picker exists.
 
-**Spot it:**Labeled smartest or most capable.
+## When to use it
 
-Everyday
+The default handles most days. Switch up when the work is hard, long, or graded.
 
-The Reliable Project Manager
+## Choice 2
 
-Smart, quick, and balanced. Your default for most work: schoolwork, drafting, summarizing, explaining, planning.
+Speed
 
-**Spot it:**Usually the default.
+## What it is
 
-Fast & light
+Trimmed versions of the brain, built to answer fast.
 
-The Speed Typist
+Short names that sound quick: mini, flash, lite.
 
-Built for speed and volume where the thinking is simple: reformatting notes, generating a list, quick variations. Not the place for complex judgment.
+Some apps list them as their own models, others fold them into one menu.
 
-**Spot it:**Labeled fastest or lightest.
+## Why it exists
 
-Notice we didn’t print any model names. That’s on purpose: the companies rename and replace models a few times a year as they compete, and a name alone won’t tell you its size anyway. What you need is a way to figure it out in any app, in any year. Three moves:
+A quick question doesn’t need the deepest brain. Fast versions trade some depth for speed, and on most quick asks you’ll never notice what they traded.
 
-1
+## When to use it
 
-Find the picker
+Quick lookups, simple rewrites, anything you’d be fine asking twice. When the answer matters more than the wait, move up.
 
-Look for the model name at the top of the chat or next to the message box. It’s usually a dropdown. Tap it and the whole family appears. If you can’t find one, the app is choosing for you.
+## Choice 3
 
-2
+Thinking
 
-Read the descriptions, not the names
+## What it is
 
-Every picker labels its models with a short line like ‘most capable’ or ‘fastest.’ That label tells you the tier, whatever the name is this month.
+A switch that lets the model work longer before it answers.
 
-3
+Named things like extended thinking, reasoning, or think longer.
 
-When in doubt, search
+Same brain, more time.
 
-A ten-second search like ‘which ChatGPT model should I use for an essay’ gets you a current answer. The lineup changes; the search works every time.
+## Why it exists
+
+Hard problems need more than one pass. Thinking time lets the model try approaches, check its own work, and throw out weak drafts before you ever see one.
+
+## When to use it
+
+Math, code, planning, anything with steps that build on each other. Skip it for quick facts: you’ll wait longer for the same answer.
+
+One thing worth knowing about that first choice: the models in a family aren’t one brain dialed up and down. They’re different LLMs. The big one has more layers, more dimensions, and more training behind it. The small ones were built lighter from the start.
+
+All three choices live in the same corner of the screen. Look for the model name at the top of the chat or next to the message box, and tap it: the whole family drops down, usually with the thinking switch close by. If there’s no picker at all, the app is choosing for you.
 
 ## The default is a choice someone else made.
 
-Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it.
+Most people never open the picker and never learn what’s in there. You just did. Open it and choose on purpose when the problem deserves it.
 
 One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can.
 
-You’ve chosen your app, and you just chose your model. Now there’s one more choice: how much effort should the model spend on this answer?
+## Thinking, side by side
 
-Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing.
-
-Effort changes how hard the model thinks before it commits, not how the answer sounds. The wording has its own dial, and it’s coming up.
-
-And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models.
+Thinking is the choice people skip most, so here are the two settings next to each other. And it isn’t the same as picking a model, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More thinking is more time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn the thinking up before you switch models.
 
 ⚡
 
@@ -102,7 +108,7 @@ Speed matters more than depth
 
 🧠
 
-#### Deeper reasoning
+#### Deeper thinking
 
 **How it works:**Reasons step by step before responding, checks its own work.
 
@@ -120,27 +126,19 @@ Accuracy matters more than speed
 
 The decision has real consequences
 
-## More effort isn’t a tiny person inside the computer reconsidering.
+## More thinking isn’t a tiny person inside the computer reconsidering.
 
 It’s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. But it’s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won’t fix that. For truth, you still need to evaluate the results.
 
-## WHERE TO FIND THE DIAL
+## The dial you won’t see
 
-Look near the model picker. Some apps give effort its own switch, with a label like ‘extended thinking’ or ‘reasoning.’ Others fold it into the picker itself: choosing a model labeled ‘thinking’ is choosing more effort. Read the labels the same way you read the picker, and when you can’t tell, a ten-second search settles it.
-
-💡 Same dial, different labels in every app. Once you understand what it does, you can find it anywhere.
-
-Some tasks need speed. Others need depth. And the dial turns both ways: deeper is slower, and on a simple ask it buys you nothing.
-
-## One more dial: temperature
-
-You’ll never touch this one. Back in One More Thing you met the weighted drawing: every token holds tickets equal to its probability, and the model draws one. **Temperature** is the dial on that drawing. Turn it down and the top pick takes nearly every ticket, so the model plays it safe and hands back almost the same answer every time. Turn it up and the tickets spread far down the list, so a long shot like Biscuit, which never wins at low, starts showing up. More range, more surprise, and sometimes more nonsense.
+Three choices are yours. This one isn’t. Back in One More Thing you met the weighted drawing: every token holds tickets equal to its probability, and the model draws one. **Temperature** is the dial on that drawing. Turn it down and the top pick takes nearly every ticket, so the model plays it safe and hands back almost the same answer every time. Turn it up and the tickets spread far down the list, so a long shot like Biscuit, which never wins at low, starts showing up. More range, more surprise, and sometimes more nonsense.
 
 You won’t find it in ChatGPT, Claude, or Gemini. The apps set it for you, and the dial itself lives in the tools developers use to build on these models. You can still ask for the effect in words. Ask for “your single best answer” and you pull toward the safe end. Ask for “ten very different options” and you pull toward the wild one. That’s the one dial you can’t reach. The rest of the machine you can.
 
-App. Model. Effort.
+App. Model. Speed. Thinking.
 
-Three separate decisions before you ever type a word, and now you own all three.
+One decision you made back in Work With AI, and three you make inside it every day.
 
 1
 
@@ -152,16 +150,22 @@ Where you work. Your home base, plus another app when the job clearly fits its s
 
 Model
 
-How much brain the job needs: most capable, everyday, or fast and light.
+Which brain does the work: the most capable one, or the everyday default.
 
 3
 
-Effort
+Speed
 
-How long it thinks before it commits: quick for speed, deeper for hard problems.
+How fast you need it back. Trimmed versions answer quick, and on simple asks you won’t miss what they left out.
 
-**A bad answer doesn’t always mean ‘try harder.’**Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes it just needs more effort. Knowing the three decisions means you can fix the right one.
+4
 
-Pick the model, set the effort.
+Thinking
 
-Same dials, different labels everywhere.
+How long it works before it commits: off for quick facts, on for problems with steps.
+
+**A bad answer doesn’t always mean ‘try harder.’**Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes you’re on the fast version. Sometimes it just needs more thinking. Knowing the four decisions means you can fix the right one.
+
+The app was just the dealership.
+
+The real choices are inside.

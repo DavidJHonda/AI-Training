@@ -10,19 +10,15 @@ Your questions.
 
 Your judgment.
 
-Your move.
+Your Skills.
 
-the work stays yours.
+And you’ll always be Smarter Than the Tool.
 
-Five sections in, and every one of them was about the tool. You met it. You learned to work it. You opened it up and saw the machinery. You learned where it fails and how not to get played by it. And you looked straight at a future nobody can map.
+Last section, and it’s the one you keep.
 
-**This section is about the person holding it.** The course is almost done teaching you the tool. It isn’t done with you.
+Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. Whether you became a serious cyclist or just ride for fun, that skill stayed with you. Nobody could give you balance. You had to build it.
 
-Here’s why that’s the right place to finish. The tool is the same for everyone. Your classmates have it. So does the person you’ll be up against for your first real job. Access stopped being an edge the moment everybody got it.
-
-What’s left is what you bring to it, and that’s the part AI can’t take. Not because it’s noble. It just isn’t the kind of work a prediction machine does. Nobody can hand it to you either. You build it, or you don’t have it.
-
-So the order from here is deliberate. Here’s how it runs.
+This section is about skills like that: the ones you build once and keep forever. Some of them are AI skills. The most important ones aren’t. You’ll build both here.
 
 ## In this section
 
@@ -54,6 +50,6 @@ Treating the end of the course as the end of the work. The hard machinery is beh
 
 Everyone will have the same tool. What do I bring that it doesn’t?
 
-The tool got you this far.
+The tool is rented.
 
-What’s left is the part it can’t do.
+The skills are yours to keep.

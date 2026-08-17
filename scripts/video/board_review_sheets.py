@@ -55,6 +55,10 @@ def main() -> None:
     parser.add_argument("out_dir", type=Path)
     parser.add_argument("--cols", type=int, default=3)
     parser.add_argument("--rows", type=int, default=3)
+    parser.add_argument(
+        "--name-contains",
+        help="Only include files whose names contain this text.",
+    )
     args = parser.parse_args()
 
     prefixes = SECTION_PREFIXES[args.section]
@@ -62,6 +66,7 @@ def main() -> None:
         path for path in args.lessons_dir.iterdir()
         if path.suffix.lower() in {".jpg", ".jpeg", ".png"}
         and path.name.startswith(prefixes)
+        and (args.name_contains is None or args.name_contains in path.name)
     )
     args.out_dir.mkdir(parents=True, exist_ok=True)
 

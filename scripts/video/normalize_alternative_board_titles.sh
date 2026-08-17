@@ -2,24 +2,20 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")/../.." && pwd)"
-background="$repo_root/board-review-first-four/assets/board-background.png"
 source_root="$repo_root/board-review-first-four/.pre-board-spec"
 output_root="$repo_root/board-review-first-four/alternatives"
+check_source="$repo_root/board-review-first-four/pre-standardization/start-smarter/does-ai-think-rulebook.jpg"
+ffmpeg="$repo_root/scripts/video/ffmpeg.sh"
 title_font="/Users/davidobrien/Library/Fonts/AvenirNextforINTUIT-Heavy.otf"
 subtitle_font="/Users/davidobrien/Library/Fonts/AvenirNextforINTUIT-Medium.otf"
-ffmpeg="$repo_root/scripts/video/ffmpeg.sh"
+takeaway_font="/Users/davidobrien/Library/Fonts/AvenirNextforINTUIT-Demi.otf"
 
-for required in "$background" "$title_font" "$subtitle_font"; do
+for required in "$check_source" "$title_font" "$subtitle_font" "$takeaway_font"; do
   if [[ ! -f "$required" ]]; then
     echo "Missing required file: $required" >&2
     exit 2
   fi
 done
-
-if [[ ! -d "$source_root" ]]; then
-  echo "Missing source snapshot: $source_root" >&2
-  exit 2
-fi
 
 escape_drawtext() {
   local value="$1"
@@ -30,93 +26,187 @@ escape_drawtext() {
   printf '%s' "$value"
 }
 
-render_board() {
+render_component() {
   local section="$1"
   local filename="$2"
-  local old_body_top="$3"
-  local band_height="$4"
+  local crop_y="$3"
+  local crop_h="$4"
   local title_line_1="$5"
-  local title_line_2="${6:-}"
-  local subtitle="${7:-}"
+  local title_line_2="$6"
+  local subtitle="$7"
+  local takeaway="$8"
+  local lockup_x="$9"
+  local crop_x="${10:-0}"
+  local crop_w="${11:-1600}"
   local source="$source_root/$section/$filename"
   local output="$output_root/$section/$filename"
+  local temp_png="${output%.jpg}.tmp.png"
+  local text_x=$((lockup_x+68))
   local title_filter
 
   title_line_1="$(escape_drawtext "$title_line_1")"
   title_line_2="$(escape_drawtext "$title_line_2")"
   subtitle="$(escape_drawtext "$subtitle")"
+  takeaway="$(escape_drawtext "$takeaway")"
 
   if [[ -n "$subtitle" ]]; then
-    title_filter="drawtext=fontfile='$title_font':text='$title_line_1':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40"
-    title_filter+=",drawtext=fontfile='$subtitle_font':text='$subtitle':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=93"
+    title_filter="drawtext=fontfile='$title_font':text='$title_line_1':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=56"
+    title_filter+=",drawtext=fontfile='$subtitle_font':text='$subtitle':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=100"
   elif [[ -n "$title_line_2" ]]; then
-    title_filter="drawtext=fontfile='$title_font':text='$title_line_1':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=34"
-    title_filter+=",drawtext=fontfile='$title_font':text='$title_line_2':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=84"
+    title_filter="drawtext=fontfile='$title_font':text='$title_line_1':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=38"
+    title_filter+=",drawtext=fontfile='$title_font':text='$title_line_2':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=82"
   else
-    title_filter="drawtext=fontfile='$title_font':text='$title_line_1':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=(120-text_h)/2-2"
+    title_filter="drawtext=fontfile='$title_font':text='$title_line_1':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40+(100-text_h)/2-2"
   fi
 
   mkdir -p "$(dirname "$output")"
   "$ffmpeg" -loglevel error -y \
-    -i "$source" -i "$background" \
-    -filter_complex "[1:v]scale=1600:900,crop=1600:900[canvas];[0:v]crop=1600:$((900-old_body_top)):0:$old_body_top[body];[canvas][body]overlay=0:$band_height[board];[board]$title_filter" \
+    -i "$source" \
+    -f lavfi -i "color=c=0xeeeaff:s=1600x900" \
+    -i "$check_source" \
+    -filter_complex "[0:v]crop=${crop_w}:${crop_h}:${crop_x}:${crop_y},scale=1408:532:force_original_aspect_ratio=decrease,pad=1408:532:(ow-iw)/2:(oh-ih)/2:color=white[body];color=c=white:s=1440x564,format=rgba[panelcolor];color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask];[panelcolor][panelmask]alphamerge[panel];color=c=0xffe9ab:s=1440x84,format=rgba[barcolor];color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask];[barcolor][barmask]alphamerge[bar];[2:v]crop=86:86:340:731,format=rgba[iconcolor];color=c=black:s=86x86,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),42),255,0)'[iconmask];[iconcolor][iconmask]alphamerge,scale=52:52[icon];[1:v][panel]overlay=80:172[s1];[s1][body]overlay=96:188[s2];[s2][bar]overlay=80:776[s3];[s3][icon]overlay=${lockup_x}:792[s4];[s4]${title_filter},drawtext=fontfile='$takeaway_font':text='$takeaway':fontsize=32:fontcolor=0x08072b:x=${text_x}:y=805" \
+    -frames:v 1 -update 1 "$temp_png"
+
+  "$ffmpeg" -loglevel error -y -i "$temp_png" \
     -frames:v 1 -update 1 -q:v 2 "$output"
+  rm -f "$temp_png"
+  echo "Built $output"
 }
 
-apply_hierarchy() {
-  local section="$1"
-  local filename="$2"
-  local filter="$3"
-  local output="$output_root/$section/$filename"
-  local temp_png="${output%.jpg}.hierarchy.tmp.png"
+render_questions_board() {
+  local source="$source_root/work-with-ai/questions-matter-1-answers-cheap-alternative.jpg"
+  local output="$output_root/work-with-ai/questions-matter-1-answers-cheap-alternative.jpg"
+  local temp_png="${output%.jpg}.tmp.png"
+  local filter
 
-  "$ffmpeg" -loglevel error -y -i "$output" \
-    -vf "format=rgb24,$filter" \
+  filter="color=c=white:s=1440x564,format=rgba[panelcolor]"
+  filter+=";color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask]"
+  filter+=";[panelcolor][panelmask]alphamerge[panel]"
+  filter+=";[0:v]crop=437:330:70:285,setsar=1,scale=380:275:force_original_aspect_ratio=decrease,pad=390:285:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
+  filter+=";[0:v]crop=430:320:590:300,setsar=1,scale=380:275:force_original_aspect_ratio=decrease,pad=390:285:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
+  filter+=";[0:v]crop=410:315:1110:300,setsar=1,scale=380:275:force_original_aspect_ratio=decrease,pad=390:285:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
+  filter+=";color=c=0xffe9ab:s=1440x84,format=rgba[barcolor]"
+  filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
+  filter+=";[barcolor][barmask]alphamerge[bar]"
+  filter+=";[1:v]crop=86:86:340:731,format=rgba[iconcolor]"
+  filter+=";color=c=black:s=86x86,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),42),255,0)'[iconmask]"
+  filter+=";[iconcolor][iconmask]alphamerge,scale=52:52[icon]"
+  filter+=";[2:v][panel]overlay=80:172[s1]"
+  filter+=";[s1][art1]overlay=125:418[s2];[s2][art2]overlay=605:418[s3];[s3][art3]overlay=1085:418[s4]"
+  filter+=";[s4][bar]overlay=80:776[s5];[s5][icon]overlay=471:792[s6]"
+  filter+=";[s6]drawbox=x=560:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=1040:y=204:w=2:h=500:color=0xe4e0f3:t=fill"
+  filter+=",drawbox=x=120:y=388:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=388:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=388:w=400:h=2:color=0xc9c3e8:t=fill"
+  filter+=",drawtext=fontfile='$title_font':text='How answers got cheap':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40+(100-text_h)/2-2"
+  filter+=",drawtext=fontfile='$subtitle_font':text='PRE-INTERNET':fontsize=22:fontcolor=0x6a4c3a:x=80+(480-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$subtitle_font':text='THE INTERNET':fontsize=22:fontcolor=0x1563c7:x=560+(480-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$subtitle_font':text='NOW':fontsize=22:fontcolor=0x7040c3:x=1040+(480-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$title_font':text='THE LIBRARY':fontsize=28:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=258"
+  filter+=",drawtext=fontfile='$title_font':text='SEARCH':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=258"
+  filter+=",drawtext=fontfile='$title_font':text='AI':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=258"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Half a Saturday':fontsize=26:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=322"
+  filter+=",drawtext=fontfile='$takeaway_font':text='An hour or two':fontsize=26:fontcolor=0x08072b:x=560+(480-text_w)/2:y=322"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Seconds':fontsize=26:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=322"
+  filter+=",drawtext=fontfile='$takeaway_font':text='The cost of finding an answer collapsed.':fontsize=32:fontcolor=0x08072b:x=539:y=805"
+
+  mkdir -p "$(dirname "$output")"
+  "$ffmpeg" -loglevel error -y \
+    -i "$source" -i "$check_source" \
+    -f lavfi -i "color=c=0xeeeaff:s=1600x900" \
+    -filter_complex "$filter" \
     -frames:v 1 -update 1 "$temp_png"
   "$ffmpeg" -loglevel error -y -i "$temp_png" \
     -frames:v 1 -update 1 -q:v 2 "$output"
   rm -f "$temp_png"
+  echo "Built $output"
 }
 
-# One-line title: 120 px band. Title plus subline or a two-line title: 160 px.
-# Titles remain 44 px; wrapping changes the band height, never the type size.
-render_board start-smarter does-ai-think-1-rulebook-alternative.jpg 155 120 "Matching the pattern is not understanding it"
-render_board start-smarter does-school-matter-1-two-skills-alternative.jpg 180 160 "Same AI. Different value." "" "Two skills grow with what you know."
-render_board start-smarter learn-with-ai-1-study-tools-alternative.jpg 125 120 "Which study tool for the job?"
-render_board start-smarter what-you-can-control-1-hands-alternative.jpg 125 120 "What’s actually in your hands?"
-render_board start-smarter why-learn-ai-2-thrive-alternative.jpg 165 120 "Why you’ll thrive in the AI future"
+render_four_shapes_board() {
+  local source="$source_root/work-with-ai/where-ai-works-best-four-shapes-alternative.jpg"
+  local output="$output_root/work-with-ai/where-ai-works-best-four-shapes-alternative.jpg"
+  local temp_png="${output%.jpg}.tmp.png"
+  local filter
 
-render_board work-with-ai context-window-2-outside-alternative.jpg 125 120 "Outside the window = invisible to the model"
-render_board work-with-ai questions-matter-1-answers-cheap-alternative.jpg 145 120 "How answers got cheap"
-render_board work-with-ai where-ai-works-best-four-shapes-alternative.jpg 255 160 "AI is strongest when the job" "has one of four shapes."
+  filter="color=c=white:s=1440x564,format=rgba[panelcolor]"
+  filter+=";color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask]"
+  filter+=";[panelcolor][panelmask]alphamerge[panel]"
+  filter+=";[0:v]crop=310:220:78:305,setsar=1,scale=290:260:force_original_aspect_ratio=decrease,pad=300:270:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
+  filter+=";[0:v]crop=310:220:455:305,setsar=1,scale=290:260:force_original_aspect_ratio=decrease,pad=300:270:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
+  filter+=";[0:v]crop=310:220:835:305,setsar=1,scale=290:260:force_original_aspect_ratio=decrease,pad=300:270:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
+  filter+=";[0:v]crop=300:220:1220:305,setsar=1,scale=290:260:force_original_aspect_ratio=decrease,pad=300:270:(ow-iw)/2:(oh-ih)/2:color=white[art4]"
+  filter+=";color=c=0xffe9ab:s=1440x84,format=rgba[barcolor]"
+  filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
+  filter+=";[barcolor][barmask]alphamerge[bar]"
+  filter+=";[1:v]crop=86:86:340:731,format=rgba[iconcolor]"
+  filter+=";color=c=black:s=86x86,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),42),255,0)'[iconmask]"
+  filter+=";[iconcolor][iconmask]alphamerge,scale=52:52[icon]"
+  filter+=";[2:v][panel]overlay=80:172[s1]"
+  filter+=";[s1][art1]overlay=110:424[s2];[s2][art2]overlay=470:424[s3];[s3][art3]overlay=830:424[s4];[s4][art4]overlay=1190:424[s5]"
+  filter+=";[s5][bar]overlay=80:776[s6];[s6][icon]overlay=454:792[s7]"
+  filter+=";[s7]drawbox=x=440:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=800:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=1160:y=204:w=2:h=500:color=0xe4e0f3:t=fill"
+  filter+=",drawbox=x=100:y=396:w=320:h=2:color=0x7eb8f5:t=fill,drawbox=x=460:y=396:w=320:h=2:color=0xf6b34d:t=fill,drawbox=x=820:y=396:w=320:h=2:color=0xb99de9:t=fill,drawbox=x=1180:y=396:w=320:h=2:color=0x7bc9c1:t=fill"
+  filter+=",drawtext=fontfile='$title_font':text='AI is strongest when the job':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=38"
+  filter+=",drawtext=fontfile='$title_font':text='has one of four shapes.':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=82"
+  filter+=",drawtext=fontfile='$title_font':text='TRANSFORM':fontsize=28:fontcolor=0x1970cf:x=80+(360-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$title_font':text='GENERATE':fontsize=28:fontcolor=0xe68100:x=440+(360-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$title_font':text='COMPRESS':fontsize=28:fontcolor=0x7145d3:x=800+(360-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$title_font':text='REASON':fontsize=28:fontcolor=0x138c82:x=1160+(360-text_w)/2:y=216"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Same meaning,':fontsize=24:fontcolor=0x08072b:x=80+(360-text_w)/2:y=268"
+  filter+=",drawtext=fontfile='$subtitle_font':text='new shape.':fontsize=24:fontcolor=0x08072b:x=80+(360-text_w)/2:y=298"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Ten versions':fontsize=24:fontcolor=0x08072b:x=440+(360-text_w)/2:y=268"
+  filter+=",drawtext=fontfile='$subtitle_font':text='in seconds.':fontsize=24:fontcolor=0x08072b:x=440+(360-text_w)/2:y=298"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Find the signal':fontsize=24:fontcolor=0x08072b:x=800+(360-text_w)/2:y=268"
+  filter+=",drawtext=fontfile='$subtitle_font':text='in long material.':fontsize=24:fontcolor=0x08072b:x=800+(360-text_w)/2:y=298"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Work through facts':fontsize=24:fontcolor=0x08072b:x=1160+(360-text_w)/2:y=268"
+  filter+=",drawtext=fontfile='$subtitle_font':text='and constraints.':fontsize=24:fontcolor=0x08072b:x=1160+(360-text_w)/2:y=298"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Rewrite · reformat':fontsize=22:fontcolor=0x1970cf:x=80+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Brainstorm · draft':fontsize=22:fontcolor=0xe68100:x=440+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Summarize · retrieve':fontsize=22:fontcolor=0x7145d3:x=800+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Plan · debug':fontsize=22:fontcolor=0x138c82:x=1160+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Match the job to one of AI’s four strengths.':fontsize=32:fontcolor=0x08072b:x=522:y=805"
 
-render_board understand-ai embeddings-taste-profile-alternative.jpg 125 120 "Meaning becomes a row of numbers"
-render_board understand-ai layers-2-inside-alternative.jpg 145 120 "What happens inside every layer"
-render_board understand-ai training-map-alternative.jpg 145 120 "How a language model gets trained"
+  mkdir -p "$(dirname "$output")"
+  "$ffmpeg" -loglevel error -y \
+    -i "$source" -i "$check_source" \
+    -f lavfi -i "color=c=0xeeeaff:s=1600x900" \
+    -filter_complex "$filter" \
+    -frames:v 1 -update 1 "$temp_png"
+  "$ffmpeg" -loglevel error -y -i "$temp_png" \
+    -frames:v 1 -update 1 -q:v 2 "$output"
+  rm -f "$temp_png"
+  echo "Built $output"
+}
 
-render_board avoid-traps document-trap-1-chunks-alternative.jpg 125 120 "What happens when AI searches a long document"
-render_board avoid-traps hallucination-1-why-alternative.jpg 125 120 "Why hallucinations happen"
-render_board avoid-traps training-bias-1-mechanisms-alternative.jpg 145 120 "How training bias gets in"
+# Work With AI
+render_component work-with-ai context-window-2-outside-alternative.jpg \
+  125 650 "Outside the window = invisible to the model" "" "" \
+  "If it isn’t in the window, the model can’t see it." 431
+render_questions_board
+render_four_shapes_board
 
-# Reduce the few interior headings and callouts that still competed with the
-# board title. Card headings top out at 28 px; supporting copy is 24–26 px.
-apply_hierarchy start-smarter why-learn-ai-2-thrive-alternative.jpg \
-  "drawbox=x=90:y=510:w=420:h=64:color=white:t=fill,drawbox=x=590:y=510:w=420:h=64:color=white:t=fill,drawbox=x=1090:y=510:w=420:h=64:color=white:t=fill,drawbox=x=120:y=590:w=360:h=100:color=white:t=fill,drawbox=x=620:y=590:w=360:h=100:color=white:t=fill,drawbox=x=1120:y=590:w=360:h=100:color=white:t=fill,drawtext=fontfile='$title_font':text='THIS IS YOUR TIME':fontsize=28:fontcolor=0x08072b:x=90+(420-text_w)/2:y=528,drawtext=fontfile='$title_font':text='YOU’LL MOVE FASTER':fontsize=28:fontcolor=0x08072b:x=590+(420-text_w)/2:y=528,drawtext=fontfile='$title_font':text='NOTHING TO UNLEARN':fontsize=28:fontcolor=0x08072b:x=1090+(420-text_w)/2:y=528,drawtext=fontfile='$subtitle_font':text='Nobody has a':fontsize=24:fontcolor=0x08072b:x=120+(360-text_w)/2:y=612,drawtext=fontfile='$subtitle_font':text='twenty-year head start.':fontsize=24:fontcolor=0x08072b:x=120+(360-text_w)/2:y=642,drawtext=fontfile='$subtitle_font':text='What took a decade':fontsize=24:fontcolor=0x08072b:x=620+(360-text_w)/2:y=612,drawtext=fontfile='$subtitle_font':text='is within reach now.':fontsize=24:fontcolor=0x08072b:x=620+(360-text_w)/2:y=642,drawtext=fontfile='$subtitle_font':text='You’re learning the':fontsize=24:fontcolor=0x08072b:x=1120+(360-text_w)/2:y=612,drawtext=fontfile='$subtitle_font':text='new workflow first.':fontsize=24:fontcolor=0x08072b:x=1120+(360-text_w)/2:y=642"
+# Understand AI
+render_component understand-ai embeddings-taste-profile-alternative.jpg \
+  125 620 "Meaning becomes a row of numbers" "" "" \
+  "One new dimension separates the meanings." 435
+render_component understand-ai layers-2-inside-alternative.jpg \
+  145 580 "What happens inside every layer" "" "" \
+  "Same two moves. Dozens of passes." 501
+render_component understand-ai training-map-alternative.jpg \
+  155 635 "How a language model gets trained" "" "" \
+  "Training is guess, check, nudge, repeat." 479
 
-apply_hierarchy start-smarter does-school-matter-1-two-skills-alternative.jpg \
-  "drawbox=x=110:y=270:w=370:h=95:color=white:t=fill,drawbox=x=640:y=310:w=320:h=52:color=white:t=fill,drawbox=x=1090:y=270:w=400:h=95:color=white:t=fill,drawbox=x=140:y=390:w=320:h=80:color=white:t=fill,drawbox=x=670:y=390:w=260:h=80:color=white:t=fill,drawbox=x=1100:y=390:w=380:h=70:color=white:t=fill,drawbox=x=350:y=762:w=900:h=70:color=0xeeebfc:t=fill,drawtext=fontfile='$title_font':text='ASK THE RIGHT':fontsize=28:fontcolor=0x08072b:x=110+(370-text_w)/2:y=286,drawtext=fontfile='$title_font':text='QUESTION':fontsize=28:fontcolor=0x08072b:x=110+(370-text_w)/2:y=322,drawtext=fontfile='$title_font':text='AI ANSWER':fontsize=28:fontcolor=0x08072b:x=640+(320-text_w)/2:y=322,drawtext=fontfile='$title_font':text='MAKE THE ANSWER':fontsize=28:fontcolor=0x08072b:x=1090+(400-text_w)/2:y=286,drawtext=fontfile='$title_font':text='BETTER':fontsize=28:fontcolor=0x08072b:x=1090+(400-text_w)/2:y=322,drawtext=fontfile='$subtitle_font':text='What you know shapes':fontsize=24:fontcolor=0x08072b:x=140+(320-text_w)/2:y=401,drawtext=fontfile='$subtitle_font':text='what you ask.':fontsize=24:fontcolor=0x08072b:x=140+(320-text_w)/2:y=431,drawtext=fontfile='$subtitle_font':text='A starting point,':fontsize=24:fontcolor=0x08072b:x=670+(260-text_w)/2:y=401,drawtext=fontfile='$subtitle_font':text='not the finish.':fontsize=24:fontcolor=0x08072b:x=670+(260-text_w)/2:y=431,drawtext=fontfile='$subtitle_font':text='Judge it. Push back. Improve it.':fontsize=24:fontcolor=0x08072b:x=1100+(380-text_w)/2:y=411,drawtext=fontfile='$title_font':text='The tool brings answers. You bring judgment.':fontsize=30:fontcolor=0x08072b:x=350+(900-text_w)/2:y=782"
+# Avoid Traps
+render_component avoid-traps document-trap-1-chunks-alternative.jpg \
+  140 565 "What happens when AI searches a long document" "" "" \
+  "It answers from what it retrieved—not from the whole document." 296
+render_component avoid-traps hallucination-1-why-alternative.jpg \
+  145 585 "Why hallucinations happen" "" "" \
+  "A likely sentence can still be false." 517
+render_component avoid-traps training-bias-1-mechanisms-alternative.jpg \
+  145 570 "How training bias gets in" "" "" \
+  "The model repeats the shape of its data." 471
 
-apply_hierarchy work-with-ai questions-matter-1-answers-cheap-alternative.jpg \
-  "drawbox=x=80:y=150:w=410:h=44:color=white:t=fill,drawbox=x=625:y=150:w=390:h=44:color=white:t=fill,drawbox=x=1120:y=150:w=390:h=44:color=white:t=fill,drawbox=x=80:y=190:w=410:h=70:color=white:t=fill,drawbox=x=625:y=190:w=390:h=70:color=white:t=fill,drawbox=x=1120:y=190:w=390:h=70:color=white:t=fill,drawbox=x=175:y=625:w=320:h=72:color=white:t=fill,drawbox=x=695:y=625:w=300:h=72:color=white:t=fill,drawbox=x=1225:y=625:w=300:h=72:color=white:t=fill,drawbox=x=280:y=760:w=1200:h=72:color=white:t=fill,drawtext=fontfile='$subtitle_font':text='PRE-INTERNET':fontsize=24:fontcolor=0x6a4c3a:x=80+(410-text_w)/2:y=162,drawtext=fontfile='$subtitle_font':text='THE INTERNET':fontsize=24:fontcolor=0x1563c7:x=625+(390-text_w)/2:y=162,drawtext=fontfile='$subtitle_font':text='NOW':fontsize=24:fontcolor=0x7040c3:x=1120+(390-text_w)/2:y=162,drawtext=fontfile='$title_font':text='THE LIBRARY':fontsize=28:fontcolor=0x3d2718:x=80+(410-text_w)/2:y=210,drawtext=fontfile='$title_font':text='SEARCH':fontsize=28:fontcolor=0x08072b:x=625+(390-text_w)/2:y=210,drawtext=fontfile='$title_font':text='AI':fontsize=28:fontcolor=0x08072b:x=1120+(390-text_w)/2:y=210,drawtext=fontfile='$title_font':text='Half a Saturday':fontsize=26:fontcolor=0x3d2718:x=175+(320-text_w)/2:y=646,drawtext=fontfile='$title_font':text='An hour or two':fontsize=26:fontcolor=0x08072b:x=695+(300-text_w)/2:y=646,drawtext=fontfile='$title_font':text='Seconds':fontsize=26:fontcolor=0x08072b:x=1225+(300-text_w)/2:y=646,drawtext=fontfile='$title_font':text='The cost of finding an answer collapsed.':fontsize=28:fontcolor=0x08072b:x=280+(1200-text_w)/2:y=780"
-
-apply_hierarchy work-with-ai where-ai-works-best-four-shapes-alternative.jpg \
-  "drawbox=x=70:y=435:w=330:h=78:color=white:t=fill,drawbox=x=455:y=435:w=320:h=78:color=white:t=fill,drawbox=x=840:y=435:w=320:h=78:color=white:t=fill,drawbox=x=1225:y=435:w=300:h=78:color=white:t=fill,drawbox=x=80:y=535:w=310:h=90:color=white:t=fill,drawbox=x=465:y=535:w=310:h=90:color=white:t=fill,drawbox=x=850:y=535:w=310:h=90:color=white:t=fill,drawbox=x=1215:y=535:w=320:h=90:color=white:t=fill,drawtext=fontfile='$title_font':text='TRANSFORM':fontsize=28:fontcolor=0x08072b:x=70+(330-text_w)/2:y=457,drawtext=fontfile='$title_font':text='GENERATE':fontsize=28:fontcolor=0x08072b:x=455+(320-text_w)/2:y=457,drawtext=fontfile='$title_font':text='COMPRESS':fontsize=28:fontcolor=0x08072b:x=840+(320-text_w)/2:y=457,drawtext=fontfile='$title_font':text='REASON':fontsize=28:fontcolor=0x08072b:x=1225+(300-text_w)/2:y=457,drawtext=fontfile='$subtitle_font':text='Same meaning,':fontsize=24:fontcolor=0x1970cf:x=80+(310-text_w)/2:y=553,drawtext=fontfile='$subtitle_font':text='new shape.':fontsize=24:fontcolor=0x1970cf:x=80+(310-text_w)/2:y=583,drawtext=fontfile='$subtitle_font':text='Ten versions':fontsize=24:fontcolor=0xe68100:x=465+(310-text_w)/2:y=553,drawtext=fontfile='$subtitle_font':text='in seconds.':fontsize=24:fontcolor=0xe68100:x=465+(310-text_w)/2:y=583,drawtext=fontfile='$subtitle_font':text='Find the signal':fontsize=24:fontcolor=0x7145d3:x=850+(310-text_w)/2:y=553,drawtext=fontfile='$subtitle_font':text='in long material.':fontsize=24:fontcolor=0x7145d3:x=850+(310-text_w)/2:y=583,drawtext=fontfile='$subtitle_font':text='Work through facts':fontsize=24:fontcolor=0x138c82:x=1215+(320-text_w)/2:y=553,drawtext=fontfile='$subtitle_font':text='and constraints.':fontsize=24:fontcolor=0x138c82:x=1215+(320-text_w)/2:y=583"
-
-apply_hierarchy avoid-traps hallucination-1-why-alternative.jpg \
-  "drawbox=x=380:y=200:w=320:h=58:color=white:t=fill,drawbox=x=1090:y=200:w=360:h=58:color=white:t=fill,drawbox=x=390:y=260:w=330:h=96:color=white:t=fill,drawbox=x=1110:y=260:w=350:h=96:color=white:t=fill,drawbox=x=420:y=580:w=760:h=108:color=white:t=fill,drawbox=x=540:y=798:w=650:h=55:color=white:t=fill,drawtext=fontfile='$title_font':text='TRAINING':fontsize=28:fontcolor=0x7542bd:x=390:y=216,drawtext=fontfile='$title_font':text='GENERATION':fontsize=28:fontcolor=0x245fce:x=1110:y=216,drawtext=fontfile='$subtitle_font':text='Learned patterns,':fontsize=24:fontcolor=0x08072b:x=390:y=276,drawtext=fontfile='$subtitle_font':text='not facts.':fontsize=24:fontcolor=0x08072b:x=390:y=306,drawtext=fontfile='$subtitle_font':text='Picks each next token':fontsize=24:fontcolor=0x08072b:x=1110:y=276,drawtext=fontfile='$subtitle_font':text='by probability.':fontsize=24:fontcolor=0x08072b:x=1110:y=306,drawtext=fontfile='$title_font':text='PROBABLE':fontsize=36:fontcolor=0x7542bd:x=560:y=611,drawtext=fontfile='$title_font':text='≠':fontsize=36:fontcolor=0x08072b:x=790:y=611,drawtext=fontfile='$title_font':text='TRUE':fontsize=36:fontcolor=0xf05a00:x=850:y=611,drawtext=fontfile='$title_font':text='A likely sentence can still be false.':fontsize=26:fontcolor=0x08072b:x=540+(650-text_w)/2:y=812"
-
-# The first five Start Smarter alternatives above are preserved as historical
-# source-normalization steps, then replaced by the approved full component system.
+# Start Smarter alternatives use the same approved component implementation as
+# the lesson boards. The suffixed copies remain review candidates by filename.
 bash "$repo_root/scripts/video/standardize_start_smarter_boards.sh" >/dev/null
 cp "$repo_root/board-review-first-four/standardized/start-smarter/why-learn-ai-thrive.jpg" \
   "$output_root/start-smarter/why-learn-ai-2-thrive-alternative.jpg"
@@ -131,4 +221,4 @@ cp "$repo_root/board-review-first-four/standardized/start-smarter/does-school-ma
 cp "$repo_root/board-review-first-four/standardized/start-smarter/learn-with-ai-study-tools.jpg" \
   "$output_root/start-smarter/learn-with-ai-1-study-tools-alternative.jpg"
 
-echo "Applied the shared title and hierarchy system to 14 boards in $output_root"
+echo "Applied the finalized component system to 15 boards in $output_root"

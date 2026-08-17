@@ -1,4 +1,4 @@
-## FINISH SMARTER
+## BUILD YOUR SKILLS
 
 # People Skills
 

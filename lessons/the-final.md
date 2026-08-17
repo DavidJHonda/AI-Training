@@ -138,7 +138,7 @@ You can explain what tokens are, how embeddings capture meaning, and why attenti
 
 ## WHAT YOU BRING
 
-This section opened with a question: everyone will have the same tool, so what do you bring that it doesn’t? You have the answer now, and it was never a secret prompt.
+Build Your Skills opened with a question: everyone will have the same tool, so what do you bring that it doesn’t? You have the answer now, and it was never a secret prompt.
 
 You bring the angle. AI hands the same average version to everybody who asks, so the value moved to the person who asks the better question and finds the option nobody listed. You bring the room. It can draft the message, but it can’t be the person people trust when the message lands. You bring the judgment that picks which of ten fine options fits these people, a call it can’t make because it can’t see them. And you bring depth in one thing you cared enough to get good at, with the proof that you did.
 

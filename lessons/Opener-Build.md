@@ -1,4 +1,4 @@
-## FINISH SMARTER
+## BUILD YOUR SKILLS
 
 # Opener
 
@@ -26,7 +26,7 @@ So the order from here is deliberate. Here’s how it runs.
 
 ## In this section
 
-Finish Smarter
+Build Your Skills
 
 1
 
@@ -45,12 +45,6 @@ Then, what stays valuable when everyone has the same tool: the person in the roo
 ## STAY SHARP
 
 Then, staying current as the tools keep changing, and picking the one thing you get genuinely good at.
-
-4
-
-## LAND IT
-
-Finally, the whole course on one page. Then twenty questions, ten minutes, and a certificate if you clear the bar.
 
 ## The common mistake
 

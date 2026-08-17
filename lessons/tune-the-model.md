@@ -86,7 +86,7 @@ One more thing if you’re on a free plan. The top tier has the tightest limits,
 
 ## Thinking, side by side
 
-Thinking is the choice people skip most, so here are the two settings next to each other. And it isn’t the same as picking a model, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More thinking is more time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn the thinking up before you switch models.
+Thinking is the choice people skip most, so here are the two settings next to each other. And it isn’t the same as picking a model, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More thinking is more time from the brain you already picked. And the time changes what the answer gets right, not how it sounds. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn the thinking up before you switch models.
 
 ⚡
 

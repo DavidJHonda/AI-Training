@@ -22,13 +22,19 @@ Two skills. Both grow with what you know.
 
 Ask the right question
 
-What you know shapes what you ask. A sharper question gets a better answer, before AI does anything special.
+What you know shapes what you ask. A sharper question gets a better answer before AI does anything special.
+
+AI
+
+AI answer
+
+Similar questions get similar answers. The answer is a starting point, not the finish.
 
 2
 
 Make the answer better
 
-Read it, judge if it’s right, push back, and make it better. AI can’t do this for you, it doesn’t know what you know.
+Read it. Judge whether it’s right. Push back and improve it. AI cannot do that for you. It does not know what you know.
 
 Those two things are your domain. This is where you need to live. Double down on building your knowledge and skills. And one day you’ll be the CEO at Google.
 

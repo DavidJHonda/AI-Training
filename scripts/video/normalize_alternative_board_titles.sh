@@ -82,9 +82,9 @@ render_questions_board() {
   filter="color=c=white:s=1440x564,format=rgba[panelcolor]"
   filter+=";color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask]"
   filter+=";[panelcolor][panelmask]alphamerge[panel]"
-  filter+=";[0:v]crop=437:330:70:285,setsar=1,scale=380:275:force_original_aspect_ratio=decrease,pad=390:285:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
-  filter+=";[0:v]crop=430:320:590:300,setsar=1,scale=380:275:force_original_aspect_ratio=decrease,pad=390:285:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
-  filter+=";[0:v]crop=410:315:1110:300,setsar=1,scale=380:275:force_original_aspect_ratio=decrease,pad=390:285:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
+  filter+=";[0:v]crop=437:330:70:285,setsar=1,scale=380:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
+  filter+=";[0:v]crop=430:320:590:300,setsar=1,scale=380:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
+  filter+=";[0:v]crop=410:315:1110:300,setsar=1,scale=380:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
   filter+=";color=c=0xffe9ab:s=1440x84,format=rgba[barcolor]"
   filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
   filter+=";[barcolor][barmask]alphamerge[bar]"
@@ -92,10 +92,10 @@ render_questions_board() {
   filter+=";color=c=black:s=86x86,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),42),255,0)'[iconmask]"
   filter+=";[iconcolor][iconmask]alphamerge,scale=52:52[icon]"
   filter+=";[2:v][panel]overlay=80:172[s1]"
-  filter+=";[s1][art1]overlay=125:418[s2];[s2][art2]overlay=605:418[s3];[s3][art3]overlay=1085:418[s4]"
+  filter+=";[s1][art1]overlay=125:494[s2];[s2][art2]overlay=605:494[s3];[s3][art3]overlay=1085:494[s4]"
   filter+=";[s4][bar]overlay=80:776[s5];[s5][icon]overlay=471:792[s6]"
   filter+=";[s6]drawbox=x=560:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=1040:y=204:w=2:h=500:color=0xe4e0f3:t=fill"
-  filter+=",drawbox=x=120:y=388:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=388:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=388:w=400:h=2:color=0xc9c3e8:t=fill"
+  filter+=",drawbox=x=120:y=474:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=474:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=474:w=400:h=2:color=0xc9c3e8:t=fill"
   filter+=",drawtext=fontfile='$title_font':text='How answers got cheap':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40+(100-text_h)/2-2"
   filter+=",drawtext=fontfile='$subtitle_font':text='PRE-INTERNET':fontsize=22:fontcolor=0x6a4c3a:x=80+(480-text_w)/2:y=216"
   filter+=",drawtext=fontfile='$subtitle_font':text='THE INTERNET':fontsize=22:fontcolor=0x1563c7:x=560+(480-text_w)/2:y=216"
@@ -103,9 +103,21 @@ render_questions_board() {
   filter+=",drawtext=fontfile='$title_font':text='THE LIBRARY':fontsize=28:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=258"
   filter+=",drawtext=fontfile='$title_font':text='SEARCH':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=258"
   filter+=",drawtext=fontfile='$title_font':text='AI':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=258"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Half a Saturday':fontsize=26:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=322"
-  filter+=",drawtext=fontfile='$takeaway_font':text='An hour or two':fontsize=26:fontcolor=0x08072b:x=560+(480-text_w)/2:y=322"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Seconds':fontsize=26:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=322"
+  filter+=",drawtext=fontfile='$subtitle_font':text='1. Travel to the library':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=306"
+  filter+=",drawtext=fontfile='$subtitle_font':text='2. Search the card catalog':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=336"
+  filter+=",drawtext=fontfile='$subtitle_font':text='3. Hunt through books':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=366"
+  filter+=",drawtext=fontfile='$subtitle_font':text='1. Run search after search':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=306"
+  filter+=",drawtext=fontfile='$subtitle_font':text='2. Open tabs':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=336"
+  filter+=",drawtext=fontfile='$subtitle_font':text='3. Judge which sites to trust':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=366"
+  filter+=",drawtext=fontfile='$subtitle_font':text='1. Open the app':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=306"
+  filter+=",drawtext=fontfile='$subtitle_font':text='2. Ask':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=336"
+  filter+=",drawtext=fontfile='$subtitle_font':text='3. Answer on screen':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=366"
+  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=16:fontcolor=0x655f7c:x=80+(480-text_w)/2:y=408"
+  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=16:fontcolor=0x655f7c:x=560+(480-text_w)/2:y=408"
+  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=16:fontcolor=0x655f7c:x=1040+(480-text_w)/2:y=408"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Half a Saturday':fontsize=24:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=432"
+  filter+=",drawtext=fontfile='$takeaway_font':text='An hour or two':fontsize=24:fontcolor=0x08072b:x=560+(480-text_w)/2:y=432"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Seconds':fontsize=24:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=432"
   filter+=",drawtext=fontfile='$takeaway_font':text='The cost of finding an answer collapsed.':fontsize=32:fontcolor=0x08072b:x=539:y=805"
 
   mkdir -p "$(dirname "$output")"
@@ -117,6 +129,8 @@ render_questions_board() {
   "$ffmpeg" -loglevel error -y -i "$temp_png" \
     -frames:v 1 -update 1 -q:v 2 "$output"
   rm -f "$temp_png"
+  cp "$output" "$repo_root/illustrations/questions-matter-answers-cheap.jpg"
+  cp "$output" "$repo_root/lessons/questions-matter-1-answers-cheap.jpg"
   echo "Built $output"
 }
 
@@ -176,10 +190,31 @@ render_four_shapes_board() {
   echo "Built $output"
 }
 
+render_context_window_board() {
+  render_component work-with-ai context-window-2-outside-alternative.jpg \
+    125 650 "Outside the window = invisible to the model" "" "" \
+    "If it isn’t in the window, the model can’t see it." 431
+
+  mkdir -p "$repo_root/board-review-first-four/current-selected/work-with-ai"
+  cp "$output_root/work-with-ai/context-window-2-outside-alternative.jpg" \
+    "$repo_root/illustrations/context-window-outside.jpg"
+  cp "$output_root/work-with-ai/context-window-2-outside-alternative.jpg" \
+    "$repo_root/lessons/context-window-2-outside.jpg"
+  cp "$output_root/work-with-ai/context-window-2-outside-alternative.jpg" \
+    "$repo_root/board-review-first-four/current-selected/work-with-ai/context-window-2-outside.jpg"
+}
+
+if [[ "${1:-all}" == "questions" ]]; then
+  render_questions_board
+  exit 0
+fi
+if [[ "${1:-all}" == "context-window" ]]; then
+  render_context_window_board
+  exit 0
+fi
+
 # Work With AI
-render_component work-with-ai context-window-2-outside-alternative.jpg \
-  125 650 "Outside the window = invisible to the model" "" "" \
-  "If it isn’t in the window, the model can’t see it." 431
+render_context_window_board
 render_questions_board
 render_four_shapes_board
 

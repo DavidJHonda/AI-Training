@@ -62,19 +62,21 @@ Why you’ll thrive in the AI future.
 
 This is YOUR time
 
-The adults figuring out AI started about ten minutes before you did. Nobody has a twenty-year head start. With something this big, that almost never happens, and you’re showing up right as it lands.
+Nobody has a twenty-year head start. That almost never happens with something this big. You’re showing up right as it lands.
 
 2
 
 You’ll move faster
 
-Before AI, a career usually looked like this: spend years paying dues, learning the trade, and climbing the ladder. Then, maybe you’d strike out on your own to start a company. AI collapses that runway. What used to take a decade, you can reach for now.
+AI collapses years of paying dues, learning the trade, and climbing the ladder. What took a decade is within reach now.
 
 3
 
 Nothing to unlearn
 
-The people who got good at the old way have to undo it: break habits, give up the workflow that made them fast, and trust a tool that works nothing like what they’re used to. You skip all of that. You’re learning the work with AI from the start.
+Others must undo the workflow that made them fast. You skip all of that and learn the new way from the start.
+
+**This is your time to learn the new workflow.**
 
 ## THIS HAS HAPPENED BEFORE
 

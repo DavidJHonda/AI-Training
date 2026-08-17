@@ -28,37 +28,10 @@ And here’s the part nobody tells you: the better AI gets, the more it pays to 
 
 You’ll even catch us in a few of the examples later, usually wearing the jerseys of the greatest hockey team in the world.
 
-Here’s your path.
-
-1
-
-Work
-
-Learn when and how to use AI.
-
-2
-
-Understand
-
-Open the hood and see how AI does its magic.
-
-3
-
-Avoid
-
-AI isn’t perfect, and neither are you. Things to watch out for.
-
-4
-
-Embrace
-
-AI is changing the world. You’ll be ready for it.
-
-5
-
-Build
-
-What you will do to turn AI into your personal edge.
+![Five-step course path: Work—use AI effectively; Understand—see how it works;
+Avoid—recognize the traps; Embrace—prepare for what changes; Build—turn AI into an
+advantage. Luke and Nate appear in green hockey jerseys across the five
+steps.](welcome-2-your-path.jpg)
 
 What you’ll need
 

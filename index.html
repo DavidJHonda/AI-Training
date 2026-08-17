@@ -1053,11 +1053,32 @@ function OpenerSection(props) {
         ov.movementLabel ? E("div", { style: { flexShrink: 0, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: "1.4px", textTransform: "uppercase", color: "var(--inkMuted)", whiteSpace: "nowrap" } }, ov.movementLabel) : null),
       rows);
   };
+  var renderOverviewBoard = function(ov) {
+    return E(React.Fragment, null,
+      E("img", {
+        src: props.sectionOverviewBoard,
+        alt: "",
+        style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+      }),
+      E("div", {
+        style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+      },
+        E("h3", null, ov.title),
+        E("p", null, ov.eyebrow || "In this section"),
+        E("ol", null,
+          (props.groups || []).map(function(group, gi) {
+            return E("li", { key: gi },
+              E("h4", null, group.kicker),
+              E("p", null, group.bridge));
+          }))));
+  };
   return E("div", null,
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
     props.featuredCard || null,
     renderParas(props.whyThisMatters),
-    renderOverview(props.sectionOverview),
+    props.sectionOverviewBoard
+      ? renderOverviewBoard(props.sectionOverview)
+      : renderOverview(props.sectionOverview),
     props.mistake ? E(React.Fragment, null,
       E(SectionKicker, null, "The common mistake"),
       E(BodyP, null, props.mistake)) : null,
@@ -3916,19 +3937,21 @@ function WhyDeeperSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--inkSoft)", borderTop: "1px solid var(--rule)", paddingTop: 8, marginTop: "auto", lineHeight: 1.3, minHeight: 38 } }, item.examples));
         }))),
     /*#__PURE__*/E(SectionKicker, null, "AND IT’S EARLY"),
-    /*#__PURE__*/E(BodyP, null, "AI is new for everyone. This is YOUR big advantage."),
     /*#__PURE__*/E("img", {
       src: "illustrations/why-learn-ai-thrive.jpg",
-      alt: "Why you will thrive in the AI future: nobody has a twenty-year head start, what took a decade is within reach now, and you are learning the new workflow first",
+      alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
-    /*#__PURE__*/E(NumberedRows, {
-      items: [
-        { title: "This is YOUR time", body: "The adults figuring out AI started about ten minutes before you did. Nobody has a twenty-year head start. With something this big, that almost never happens, and you\u2019re showing up right as it lands." },
-        { title: "You’ll move faster", body: "Before AI, a career usually looked like this: spend years paying dues, learning the trade, and climbing the ladder. Then, maybe you’d strike out on your own to start a company. AI collapses that runway. What used to take a decade, you can reach for now." },
-        { title: "Nothing to unlearn", body: "The people who got good at the old way have to undo it: break habits, give up the workflow that made them fast, and trust a tool that works nothing like what they\u2019re used to. You skip all of that. You\u2019re learning the work with AI from the start." }
-      ]
-    }),
+    /*#__PURE__*/E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      /*#__PURE__*/E("h3", null, "Why you’ll thrive in the AI future"),
+      /*#__PURE__*/E("p", null, "AI is new for everyone. This is your big advantage."),
+      /*#__PURE__*/E("ol", null,
+        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "This is your time. "), "Nobody has a twenty-year head start. That almost never happens with something this big. You’re showing up right as it lands."),
+        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "You’ll move faster. "), "AI collapses years of paying dues, learning the trade, and climbing the ladder. What took a decade is within reach now."),
+        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "Nothing to unlearn. "), "Others must undo the workflow that made them fast. You skip all of that and learn the new way from the start.")),
+      /*#__PURE__*/E("p", null, "This is your time to learn the new workflow.")),
     /*#__PURE__*/E(SectionKicker, null, "THIS HAS HAPPENED BEFORE"),
     /*#__PURE__*/E(BodyP, null,
       "Before personal computers, becoming a designer meant years at a drafting table learning the craft by hand. Then desktop publishing showed up, and a teenager with a Mac could turn out professional work in an afternoon. The tool didn\u2019t replace skill, it shortened the distance between wanting to do the work and actually doing it. And it\u2019s the rule, not the exception: the steam engine did it for physical labor, electricity for the factory, the internet for information. ",
@@ -4127,20 +4150,21 @@ function WhyBotherSection(props) {
       "For almost any career, you\u2019ll have AI as your partner. So here\u2019s what it looks like."),
     E("img", {
       src: "illustrations/does-school-matter-two-skills.jpg",
-      alt: "The same AI answer creates different value when your knowledge helps you ask the right question, then judge, challenge, and improve the answer",
+      alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
-    E(ShowcaseBox, {
-      headline: "What each skill looks like",
-      marginBottom: 28
+    E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
-      E(NumberedColumns, {
-        items: [
-          { label: "Ask the right question", body: "What you know shapes what you ask. A sharper question gets a better answer, before AI does anything special." },
-          { label: "Make the answer better", body: "Read it, judge if it\u2019s right, push back, and make it better. AI can\u2019t do this for you, it doesn\u2019t know what you know." }
-        ]
-      })
-    ),
+      E("h3", null, "Same AI. Different value."),
+      E("p", null, "Two skills grow with what you know."),
+      E("h4", null, "Skill 1: Ask the right question"),
+      E("p", null, "What you know shapes what you ask. A sharper question gets a better answer before AI does anything special."),
+      E("h4", null, "AI answer"),
+      E("p", null, "Similar questions get similar answers. The answer is a starting point, not the finish."),
+      E("h4", null, "Skill 2: Make the answer better"),
+      E("p", null, "Read it. Judge whether it’s right. Push back and improve it. AI cannot do that for you. It does not know what you know."),
+      E("p", null, "The tool brings answers. You bring judgment.")),
     E(BodyP, null,
       "Those two things are your domain. This is where you need to live. Double down on building your knowledge and skills. And one day you\u2019ll be the CEO at Google."),
     E("img", {
@@ -4592,6 +4616,11 @@ function AIvsCodeSection(props) {
       { label: "Normal Software", correct: false, headline: "No rule fits this.", feedback: "Normal software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tei and Gei-Gei in a pile of unlabeled images is exactly AI’s kind of job." },
       { label: "AI Software", correct: true, headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tei or Gei-Gei in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes them across angles and lighting and pulls every shot. Just glance before you send: it can only find them where they actually appear, and a look-alike could sneak in." } ] }
   ];
+  const KRYPTONITE_STORIES = [
+    { title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds." },
+    { title: "Deepfakes of real people", text: "Convincing fakes can target and humiliate anyone, including students." },
+    { title: "Confident but wrong", text: "Medical or safety answers can sound fluent and sure even when they are flat wrong." }
+  ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -4740,20 +4769,21 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
       "Because AI runs on learned patterns and not rules, it’s harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written rules."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
     ),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "You’ll see stories like this" },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 } },
-        [
-          { icon: "💸", title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds." },
-          { icon: "🎭", title: "Deepfakes of real people", text: "Convincing fakes can target and humiliate anyone, including students." },
-          { icon: "🩺", title: "Confident but wrong", text: "Medical or safety answers can sound fluent and sure even when they are flat wrong." }
-        ].map(function(item, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: 16, boxShadow: "var(--shadowElevated)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 24, lineHeight: 1 } }, item.icon),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.text));
-        }))
-    ),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-different-kryptonite.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      /*#__PURE__*/React.createElement("h3", null, "You’ll see stories like this"),
+      KRYPTONITE_STORIES.map(function(item) {
+        return /*#__PURE__*/React.createElement("section", { key: item.title },
+          /*#__PURE__*/React.createElement("h4", null, item.title),
+          /*#__PURE__*/React.createElement("p", null, item.text));
+      }),
+      /*#__PURE__*/React.createElement("p", null, "Trained behavior is harder to predict, inspect, and lock down.")),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
       "When you hear stories like these, remember the mechanism: AI is being steered, not authored. What’s inside isn’t rules, or even readable patterns; it’s millions of learned numbers, which is exactly why you can’t open it up and read it."
     ),
@@ -7159,16 +7189,22 @@ function OutsideWindowBox() {
     { h: "Files on your computer", body: "Nothing on your device is visible. Uploading works by copying the file’s text into the window." },
     { h: "Other apps and tabs", body: "Whatever you have open next door is invisible. Different app, different window." }
   ];
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
-    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "Outside the window"),
-    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 14 } },
+  return E(React.Fragment, null,
+    E("img", {
+      src: "illustrations/context-window-outside.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      E("h3", null, "Outside the window"),
       CASES.map(function(c, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
-          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
-          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
-      })),
-    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
-      "If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app."));
+        return E("section", { key: i },
+          E("h4", null, c.h),
+          E("p", null, c.body));
+      }),
+      E("p", null, "If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app.")));
 }
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps", {});
@@ -8495,6 +8531,7 @@ function OpenerWorkWithSection(props) {
       eyebrow: "In this section",
       title: "Work With AI"
     },
+    sectionOverviewBoard: "illustrations/opener-work-section-map.jpg",
     groups: [
       {
         kicker: "KNOW WHAT IT'S FOR",
@@ -8606,6 +8643,12 @@ function WhatItDoesBestSection(props) {
       color: "#0d9488"
     }
   ];
+  const STRENGTH_BOARDS = [
+    "where-ai-works-best-1-transform.jpg",
+    "where-ai-works-best-2-variation.jpg",
+    "where-ai-works-best-3-compression.jpg",
+    "where-ai-works-best-4-reasoning.jpg"
+  ];
   const CLAIMS = [
     { claim: "You scribbled your Physics notes on the back of a Chick-fil-A menu, and now you want them cleaned up into organized notes.", correct: "fit", fb: {
       ok: "Right, it’s a fit. Same notes, new shape. Reshaping messy scribbles into something clean is patterned transformation, one of AI’s best jobs.",
@@ -8647,28 +8690,27 @@ function WhatItDoesBestSection(props) {
       "That gap is the whole lesson in one example. Writing software code is all about patterns, and AI is a pattern-making machine, so it aces that job. But writing strong lessons doesn’t follow a set pattern, so AI can help, but it can’t do the whole thing."),
     E(BodyP, null,
       "Aim that one ability at real work, and it becomes four distinct strengths."),
-    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 32 } },
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.01em", marginBottom: 16 } }, "AI is strongest when the job has one of four shapes."),
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
-        ENGINES.map(function(e) {
-          var icon = { transform: "🍀", variation: "🎲", compression: "🔍", reasoning: "🧠" }[e.id];
-          return E("div", { key: e.id, style: { background: e.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
-              E("span", { style: { fontSize: 20, flexShrink: 0 } }, icon),
-              E("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: e.color, letterSpacing: "-0.01em" } }, e.tagline)),
-            E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1, display: "flex", flexDirection: "column" } },
-              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, minHeight: 120 } }, e.mechanism),
-              E("div", null,
-                E("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px" } }),
-                E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: e.color, marginBottom: 8 } }, "Examples"),
-                E("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-                  e.powers.map(function(p, pi) {
-                    return E("div", { key: pi, style: { display: "flex", gap: 9, alignItems: "baseline", fontSize: 14, lineHeight: 1.45, color: "var(--ink)" } },
-                      E("span", { style: { width: 5, height: 5, borderRadius: "50%", background: e.color, flexShrink: 0, transform: "translateY(-2px)" } }),
-                      E("span", null, p));
-                  })))),
-            E("div", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--inkMuted)", marginTop: 12 } }, e.name));
-        }))),
+    E("div", { style: { display: "flex", flexDirection: "column", gap: 20, margin: "20px auto 32px" } },
+      STRENGTH_BOARDS.map(function(filename) {
+        return E("img", {
+          key: filename,
+          src: "illustrations/" + filename,
+          alt: "",
+          style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto", borderRadius: 12 }
+        });
+      })),
+    E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      E("h3", null, "AI is strongest when the job has one of four shapes."),
+      ENGINES.map(function(e) {
+        return E("section", { key: e.id },
+          E("h4", null, e.name),
+          E("p", null, e.tagline),
+          E("p", null, e.mechanism),
+          E("h5", null, "Examples"),
+          E("ul", null, e.powers.map(function(p) { return E("li", { key: p }, p); })));
+      })),
     E(SectionKicker, null, "Why this works: vast exposure"),
     E(BodyP, null,
       "Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before."),
@@ -8846,38 +8888,23 @@ function StudyingWithAISection(props) {
       "The first move is choosing which kind of AI to aim at the job. There\u2019s a simple question to guide your choice: do you want to learn from materials you already have, or learn something new?"),
     E("img", {
       src: "illustrations/learn-with-ai-study-tools.jpg",
-      alt: "Choose a source-grounded tutor when learning from your materials, or a general tutor when learning something new, with the best use and limitation of each",
+      alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
-    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: 24 } },
-      E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "What each tool is good for"),
-      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 18, gridTemplateRows: "auto auto auto auto" } },
-        [
-          { title: "Source-grounded Tutor", eyebrow: "Gemini Notebook", emoji: "📒", color: "#5a3aa6", bg: "#ddd0ef", lead: "Learns from your materials.", desc: "It only knows what you give it, which makes it the ultimate exam-prep machine.", bestUse: "You have the materials the test covers: class notes, screenshots, study guides, even a webpage or YouTube video.", catch: "It doesn’t know what you didn’t give it. If your notes are missing a key concept, it can’t reliably fill the gap, because it only works from the materials you gave it." },
-          { title: "General Tutor", eyebrow: "ChatGPT · Claude · Gemini", emoji: "✨", color: "#2f4cb8", bg: "#d6e2f4", lead: "Makes things from scratch.", desc: "Trained on massive amounts of data, it can explain or quiz you on almost anything.", bestUse: "You don’t have the materials, or you want a concept explained a new way or extra practice your notes don’t cover.", catch: "It can occasionally make things up, or explain a concept differently than how your teacher taught it and expects on the exam." }
-        ].map(function(tool, i) {
-          var bodyTxt = { fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "var(--ink)" };
-          var whiteSide = { background: "#fff", marginLeft: 22, marginRight: 22 };
-          var sectLabel = function(emoji, text) {
-            return E("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 } },
-              E("span", { style: { fontSize: 15 } }, emoji),
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: tool.color } }, text));
-          };
-          return E("div", { key: i, style: { gridColumn: i + 1, gridRow: "1 / span 4", display: "grid", gridTemplateRows: "subgrid", background: tool.bg, borderRadius: 18 } },
-            E("div", { style: { padding: "22px 22px 12px" } },
-              E(CompareHead, { emoji: tool.emoji, eyebrow: tool.eyebrow, title: tool.title, accent: tool.color })),
-            E("div", { style: Object.assign({}, whiteSide, { borderTopLeftRadius: 12, borderTopRightRadius: 12, padding: "18px 22px 0" }) },
-              E("div", { style: { fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 800, color: tool.color, marginBottom: 4, lineHeight: 1.3 } }, tool.lead),
-              E("div", { style: bodyTxt }, tool.desc)),
-            E("div", { style: Object.assign({}, whiteSide, { padding: "0 22px" }) },
-              E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 14, paddingTop: 14 } },
-                sectLabel("🎯", "Best use"),
-                E("div", { style: bodyTxt }, tool.bestUse))),
-            E("div", { style: Object.assign({}, whiteSide, { marginBottom: 22, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, padding: "0 22px 20px" }) },
-              E("div", { style: { borderTop: "1px solid var(--rule)", marginTop: 14, paddingTop: 14 } },
-                sectLabel("⚠️", "The catch"),
-                E("div", { style: bodyTxt }, tool.catch))));
-        }))),
+    E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      E("h3", null, "Which study tool for the job?"),
+      E("p", null, "Do you want to learn from your materials or learn something new?"),
+      E("h4", null, "Gemini Notebook: Source-grounded Tutor"),
+      E("p", null, "Learns from your materials. It only knows what you give it, which makes it the ultimate exam-prep machine."),
+      E("p", null, "Best use: You have the materials the test covers, including class notes, screenshots, study guides, a webpage, or a YouTube video."),
+      E("p", null, "The catch: It does not know what you did not give it. If your notes are missing a key concept, it cannot reliably fill the gap."),
+      E("h4", null, "ChatGPT, Claude, or Gemini: General Tutor"),
+      E("p", null, "Makes things from scratch. Trained on massive amounts of data, it can explain or quiz you on almost anything."),
+      E("p", null, "Best use: You do not have the materials, or you want a concept explained a new way or extra practice your notes do not cover."),
+      E("p", null, "The catch: It can make things up or explain a concept differently from how your teacher taught it and expects it on the exam."),
+      E("p", null, "Match the tutor to its knowledge source.")),
     E(SectionKicker, null, "Start here"),
     E(BodyP, null,
       "Use Gemini Notebook as your main study tool. The clue is in the name: it was built for learning."),
@@ -8996,11 +9023,47 @@ function DigDeeperTryIt(props) {
 }
 function EvaluatingSection(props) {
   var E = React.createElement;
+  var QUICK_PASS = [
+    { title: "Read", body: "This might sound obvious, but weak AI users take AI’s output and pass it along without reading it. Reading every word is the floor." },
+    { title: "Understand", body: "You’ll never know whether an answer is right if you don’t understand what it says. Usually, the best explainer is the same AI: “Explain the second paragraph in simpler terms.”" },
+    { title: "Validate", body: "As you read, hold the answer up against your own knowledge. A well-stocked brain is your fastest fact-checker." }
+  ];
+  var DIG_DECISION = [
+    { title: "Could you actually validate it?", body: "If it held up against things you genuinely know, you may be done. If it’s beyond what you know, keep going." },
+    { title: "What kind of task was this?", body: "Tasks that involve facts often need more evaluation. A first draft or a brainstorm usually doesn’t: you’re just checking it against what you asked for." },
+    { title: "How much is riding on it?", body: "Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going." }
+  ];
+  var DIG_TACTICS = [
+    { title: "Ask for citations", body: "Give me citations in your response. Click the links: does the page exist and actually say what AI claims? Is it a reputable source? And if one claim checks out, don’t assume the rest do." },
+    { title: "Challenge the AI", body: "Ask it to argue the other side, or to flag what it’s least sure of." },
+    { title: "Ask what’s missing", body: "An answer can be all true and still narrow. One question surfaces what never made the page." },
+    { title: "Ask for a live web search", body: "AI’s built-in knowledge has a cut-off date, so on anything recent, have it check the live web." },
+    { title: "Leave the chat", body: "Search the claim yourself. If you can only find it inside the chat, treat it as unproven." }
+  ];
   var NEXT_MOVES = [
     { icon: "✅", title: "Use it", desc: "It passed your checks. Most answers end here. Read, understood, validated, done." },
     { icon: "🔧", title: "Fix it", desc: "Something’s off and you can name it. Say exactly what’s wrong in a follow-up: “cut the stat I never gave you,” “make it shorter.”" },
     { icon: "🚪", title: "Walk away", desc: "Wrong tool, or stakes too high. Do it yourself, or take it to a person who actually knows: a teacher, a doctor, a pro." }
   ];
+  var processBoard = function(src, title, items, takeaway, ordered, marginBottom) {
+    var listItems = items.map(function(item, i) {
+      return E("li", { key: i },
+        E("strong", null, item.title + ". "),
+        item.body || item.desc);
+    });
+    return E(React.Fragment, null,
+      E("img", {
+        src: src,
+        alt: "",
+        style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto " + (marginBottom || 24) + "px", borderRadius: 12 }
+      }),
+      E("div", {
+        style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+      },
+        E("h3", null, title),
+        E(ordered ? "ol" : "ul", null, listItems),
+        E("p", null, takeaway)));
+  };
   return E("div", null,
     E(LessonHeader, { sectionId: "evaluating" }),
     E(BodyP, null,
@@ -9012,56 +9075,19 @@ function EvaluatingSection(props) {
     E(SectionKicker, null, "Every response: the quick pass"),
     E(BodyP, null,
       "Three steps, a few seconds, every time. This is the floor for anything AI hands you."),
-    E(ShowcaseBox, { marginBottom: 20 },
-      E(NumberedColumns, { items: [
-        { label: "Read", body: "This might sound obvious, but weak AI users take AI’s output and pass it along without reading it. Reading every word is the floor." },
-        { label: "Understand", body: "You’ll never know whether an answer is right if you don’t understand what it says. Usually, the best explainer is the same AI: “Explain the second paragraph in simpler terms.”" },
-        { label: "Validate", body: "As you read, hold the answer up against your own knowledge. A well-stocked brain is your fastest fact-checker." }
-      ] })),
+    processBoard("illustrations/evaluate-the-results-1-quick-pass.jpg", "Run the quick pass", QUICK_PASS, "Read it. Understand it. Validate what you can.", true, 20),
     E(SectionKicker, null, "Then decide: does this answer deserve the dig?"),
     E(BodyP, null,
       "Most chats end at the quick pass. Three questions tell you when this one shouldn’t:"),
-    E(NumberedRows, { marginBottom: 32, items: [
-      { title: "Could you actually validate it?", body: "If it held up against things you genuinely know, you may be done. If it’s beyond what you know, keep going." },
-      { title: "What kind of task was this?", body: "Tasks that involve facts often need more evaluation. A first draft or a brainstorm usually doesn’t: you’re just checking it against what you asked for." },
-      { title: "How much is riding on it?", body: "Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going." }
-    ] }),
+    processBoard("illustrations/evaluate-the-results-2-decide.jpg", "Decide whether to dig", DIG_DECISION, "Unknown facts or real stakes mean keep going.", true, 32),
     E(SectionKicker, null, "When it deserves the dig"),
     E(BodyP, null,
       "Some answers you can’t validate on your own, and some carry real stakes. Those get the deep evaluation. Here are the tactics:"),
-    E(ShowcaseBox, { marginBottom: 20 },
-      E("div", { className: "numcols-3" },
-        [
-          { icon: "🔗", title: "Ask for citations", desc: "“Give me citations in your response.” Click the links: does the page exist and actually say what AI claims? Is it a reputable source? And if one claim checks out, don’t assume the rest do." },
-          { icon: "🥊", title: "Challenge the AI", desc: "Ask it to argue the other side, or to flag what it’s least sure of." },
-          { icon: "🧩", title: "Ask what’s missing", desc: "An answer can be all true and still narrow. One question surfaces what never made the page." },
-          { icon: "🌐", title: "Ask for a live web search", desc: "AI’s built-in knowledge has a cut-off date, so on anything recent, have it check the live web." },
-          { icon: "🚶", title: "Leave the chat", desc: "Search the claim yourself. If you can only find it inside the chat, treat it as unproven." }
-        ].map(function(item, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              E("span", { style: { fontSize: 18 } }, item.icon),
-              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
-        }))),
+    processBoard("illustrations/evaluate-the-results-3-dig.jpg", "Dig deeper when it matters", DIG_TACTICS, "Check the claim outside the answer.", false, 20),
     E(SectionKicker, null, "Then make your move"),
     E(BodyP, null,
       "An evaluation isn’t finished until you act on it. Every one ends in one of three moves."),
-    E(ShowcaseBox, { marginBottom: 20 },
-      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        NEXT_MOVES.map(function(item, i) {
-          return E("div", {
-            key: i,
-            style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              E("span", { style: { fontSize: 18 } }, item.icon),
-              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
-        }))),
+    processBoard("illustrations/evaluate-the-results-4-move.jpg", "Make your move", NEXT_MOVES, "Use it, fix it, or choose a better path.", false, 20),
     E("img", {
       src: "illustrations/evaluate-the-results.jpg",
       alt: "Two teens check one highlighted claim in an AI response against an open reference book and a second source on a tablet, beneath the reminder Check before you use.",
@@ -12555,8 +12581,8 @@ function WhatYouLearnedSection(props) {
 function WhereValueLivesBox() {
   var E = React.createElement;
   var CARDS = [
-    { h: "Finding the answer", body: "For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds." },
-    { h: "Asking the question", body: "AI only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question." }
+    { h: "Then: Finding the answer", body: "Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one." },
+    { h: "Now: Asking the right question", body: "AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps." }
   ];
   return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
     E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 } },
@@ -12564,7 +12590,9 @@ function WhereValueLivesBox() {
         return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
           E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
           E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
-      })));
+      })),
+    E("div", { style: { marginTop: 12, padding: "11px 16px", borderRadius: 12, background: "var(--primary)", color: "white", fontSize: 16, fontWeight: 700, lineHeight: 1.4, textAlign: "center" } },
+      "Answers became easier to get \u2192 Better questions became more valuable"));
 }
 function QuestionsValuableSection(props) {
   const [missingAnswers, setMissingAnswers] = useState({});
@@ -12601,44 +12629,6 @@ function QuestionsValuableSection(props) {
       { label: "Open-Ended", correct: false, headline: "Room for options.", hint: "It leaves space for several answers (fonts, margins, spacing), so it isn\u2019t closed. The flaw is the target, not the shape.", feedback: "There\u2019s room for several answers. All of them dodge the actual problem: the essay needs another page of thinking." }
     ]
   }];
-  const ERAS = [
-    {
-      sub: "Pre-Internet (Grandparents)",
-      label: "📚 The library",
-      color: "#64748b",
-      chipBg: "#f1f5f9",
-      steps: [
-        "Get to a library and search the card catalog",
-        "Track down the right books and periodicals on the shelves",
-        "Read until you find what you need, copying notes by hand"
-      ],
-      time: "Half a Saturday"
-    },
-    {
-      sub: "The Internet (Parents)",
-      label: "🔍 Search",
-      color: "#3b82f6",
-      chipBg: "#eff6ff",
-      steps: [
-        "Run search after search, opening tab after tab",
-        "Judge which sites to trust and skim for the useful parts",
-        "Copy and paste the good pieces into a doc"
-      ],
-      time: "An hour or two"
-    },
-    {
-      sub: "Now (You)",
-      label: "🤖 AI",
-      color: "var(--primary)",
-      chipBg: "#ece8fd",
-      steps: [
-        "Open your favorite AI app",
-        "Ask",
-        "The answer is on your screen"
-      ],
-      time: "Seconds"
-    }
-  ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -12652,38 +12642,34 @@ function QuestionsValuableSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at how this changed between your grandparents, your parents, and you."
     ),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "How answers got cheap",
-      marginBottom: 32
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/questions-matter-answers-cheap.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "auto auto auto", columnGap: 12 } },
-        ERAS.map(function(era, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderTop: "3px solid " + era.color, borderRadius: 12, boxShadow: "var(--shadowSoft)", overflow: "hidden", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { padding: "16px 18px 12px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: era.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 } }, era.sub),
-              /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 18, margin: 0 } }, era.label)),
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, padding: "12px 18px", borderTop: "1px solid var(--rule)" } },
-              era.steps.map(function(step, j) {
-                return /*#__PURE__*/React.createElement("div", {
-                  key: j,
-                  style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.5 }
-                },
-                  /*#__PURE__*/React.createElement("span", { style: { color: era.color, fontWeight: 800, flexShrink: 0 } }, (j + 1) + "."),
-                  step
-                );
-              })
-            ),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "12px 18px 16px", borderTop: "1px solid var(--rule)", display: "flex", alignItems: "center", gap: 8 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: 1 } }, "Time to answer"),
-              /*#__PURE__*/React.createElement("span", { style: { background: era.chipBg, color: era.color, borderRadius: 8, padding: "4px 10px", fontSize: 14, fontWeight: 800 } }, era.time)
-            )
-          );
-        })
-      )
-    ),
+      /*#__PURE__*/React.createElement("h3", null, "How answers got cheap"),
+      /*#__PURE__*/React.createElement("h4", null, "Pre-Internet: The library"),
+      /*#__PURE__*/React.createElement("ol", null,
+        /*#__PURE__*/React.createElement("li", null, "Get to a library and search the card catalog"),
+        /*#__PURE__*/React.createElement("li", null, "Track down the right books and periodicals on the shelves"),
+        /*#__PURE__*/React.createElement("li", null, "Read until you find what you need, copying notes by hand")),
+      /*#__PURE__*/React.createElement("p", null, "Time to answer: Half a Saturday"),
+      /*#__PURE__*/React.createElement("h4", null, "The Internet: Search"),
+      /*#__PURE__*/React.createElement("ol", null,
+        /*#__PURE__*/React.createElement("li", null, "Run search after search, opening tab after tab"),
+        /*#__PURE__*/React.createElement("li", null, "Judge which sites to trust and skim for the useful parts"),
+        /*#__PURE__*/React.createElement("li", null, "Copy and paste the good pieces into a document")),
+      /*#__PURE__*/React.createElement("p", null, "Time to answer: An hour or two"),
+      /*#__PURE__*/React.createElement("h4", null, "Now: AI"),
+      /*#__PURE__*/React.createElement("ol", null,
+        /*#__PURE__*/React.createElement("li", null, "Open your favorite AI app"),
+        /*#__PURE__*/React.createElement("li", null, "Ask"),
+        /*#__PURE__*/React.createElement("li", null, "The answer is on your screen")),
+      /*#__PURE__*/React.createElement("p", null, "Time to answer: Seconds"),
+      /*#__PURE__*/React.createElement("p", null, "The cost of finding an answer collapsed.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Half a day, then an hour, now seconds. AI makes answers cheap to get. That does not make humans less valuable. ",
       /*#__PURE__*/React.createElement("strong", null, "It changes where value lives.")

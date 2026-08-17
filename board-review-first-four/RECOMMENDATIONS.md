@@ -21,14 +21,14 @@ issue rather than a visual failure.
 
 | Lesson | Recommendation | Reason |
 |---|---|---|
-| Opener | Keep | The refrain is distinctive and the section map is brief. |
-| AI Is Different | Keep | Rules versus patterns is already a strong visual contrast. |
-| Where AI Works Best | **Alternative ready** | Four separate text cards hide the framework. The proposal puts all four job shapes on one board for a narration-synced walk. |
+| Opener | **Selected** | The refrain stays. The standardized three-row section map now replaces the visible programmatic overview and matches video board 2. |
+| AI Is Different | **Selected** | The rules-versus-patterns sequence stays. The standardized Kryptonite board replaces the visible three-card stories box and matches video board 3. |
+| Where AI Works Best | **Selected** | Four standardized detailed boards preserve the mechanism and all four examples for each strength. They replace the visible lesson box and the four older video boards one-for-one. |
 | Which App? | Keep + watchlist | The comparison works, but product positioning should be reviewed periodically as the apps change. |
 | Questions Matter | **Alternative ready** | The three-era timeline becomes much clearer when library, search, and AI are visible at a glance. |
 | Art of Prompting | Keep | The bad/better examples carry instructional value even though the boards are text-rich. |
-| Context Window | **Alternative ready** | The existing outside-the-window board is accurate but verbal. The proposal makes the visibility boundary literal. |
-| Evaluate the Results | Keep | The quick pass and “does this deserve the dig?” boards are dense because the decision criteria themselves matter. |
+| Context Window | **Selected** | The visibility-boundary board replaces the visible “Outside the window” text box while its complete explanations remain accessible. |
+| Evaluate the Results | **Selected** | Four coordinated boards now turn the lesson into one visible process: Quick Pass → Decide → Dig → Move. Each stage preserves its decision criteria without forcing the complete workflow onto one dense board. |
 | Critical Thinking | Keep | The equations, two reactions, and five-question checklist form a coherent progression. |
 
 ## Understand AI
@@ -64,7 +64,7 @@ issue rather than a visual failure.
 
 1. Document Trap, Context Window, Layers, and Hallucination — strongest immediate
    comprehension gains with simple one-span video replacements.
-2. Where AI Works Best, Training, and Embeddings — larger framework changes that
-   should be reviewed carefully because one board consolidates several current boards.
+2. Training and Embeddings — larger framework changes that should be reviewed
+   carefully because one board consolidates several current boards.
 3. The remaining five alternatives — meaningful engagement improvements with lower
    urgency.

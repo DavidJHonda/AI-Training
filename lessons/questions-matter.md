@@ -54,13 +54,15 @@ Seconds
 
 Half a day, then an hour, now seconds. AI makes answers cheap to get. That does not make humans less valuable. **It changes where value lives.**
 
-## Finding the answer
+## Then: Finding the answer
 
-For your grandparents, knowing how to hunt down an answer was a real skill. AI just did the hunting in seconds.
+Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one.
 
-## Asking the question
+## Now: Asking the right question
 
-AI only answered the question it was given. When anyone can get a fast answer, the edge shifts to the person who can ask the better question.
+AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps.
+
+**Answers became easier to get → Better questions became more valuable**
 
 ## What Makes a Good Question?
 

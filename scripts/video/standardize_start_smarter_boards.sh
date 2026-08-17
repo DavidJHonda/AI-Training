@@ -51,8 +51,8 @@ render_board() {
   takeaway="$(escape_drawtext "$takeaway")"
 
   if [[ -n "$subtitle" ]]; then
-    title_filter="drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=56"
-    title_filter+=",drawtext=fontfile='$subtitle_font':text='$subtitle':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=100"
+    title_filter="drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40"
+    title_filter+=",drawtext=fontfile='$subtitle_font':text='$subtitle':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=104"
   else
     title_filter="drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40+(100-text_h)/2-2"
   fi
@@ -79,12 +79,12 @@ render_why_board() {
   filter="color=c=white:s=1440x564,format=rgba[panelcolor]"
   filter+=";color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask]"
   filter+=";[panelcolor][panelmask]alphamerge[panel]"
-  filter+=";[0:v]crop=86:86:254:137,scale=64:64[badge1]"
-  filter+=";[0:v]crop=86:86:754:137,scale=64:64[badge2]"
-  filter+=";[0:v]crop=86:86:1254:137,scale=64:64[badge3]"
-  filter+=";[0:v]crop=420:280:88:225,scale=390:270:force_original_aspect_ratio=decrease,pad=390:270:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
-  filter+=";[0:v]crop=410:280:595:225,scale=390:270:force_original_aspect_ratio=decrease,pad=390:270:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
-  filter+=";[0:v]crop=410:270:1090:235,scale=390:270:force_original_aspect_ratio=decrease,pad=390:270:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
+  filter+=";color=c=0x6546d7:s=64x64,format=rgba[badgecolor]"
+  filter+=";color=c=black:s=64x64,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),31),255,0)'[badgemask]"
+  filter+=";[badgecolor][badgemask]alphamerge,split=3[badge1][badge2][badge3]"
+  filter+=";[0:v]crop=420:280:88:225,scale=390:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
+  filter+=";[0:v]crop=410:280:595:225,scale=390:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
+  filter+=";[0:v]crop=410:270:1090:235,scale=390:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
   filter+=";color=c=0xffe9ab:s=1440x84,format=rgba[barcolor]"
   filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
   filter+=";[barcolor][barmask]alphamerge[bar]"
@@ -93,20 +93,30 @@ render_why_board() {
   filter+=";[iconcolor][iconmask]alphamerge,scale=52:52[icon]"
   filter+=";[2:v][panel]overlay=80:172[s1]"
   filter+=";[s1][badge1]overlay=288:206[s2];[s2][badge2]overlay=768:206[s3];[s3][badge3]overlay=1248:206[s4]"
-  filter+=";[s4][art1]overlay=125:430[s5];[s5][art2]overlay=605:430[s6];[s6][art3]overlay=1085:430[s7]"
+  filter+=";[s4][art1]overlay=125:502[s5];[s5][art2]overlay=605:502[s6];[s6][art3]overlay=1085:502[s7]"
   filter+=";[s7][bar]overlay=80:776[s8];[s8][icon]overlay=447:792[s9]"
   filter+=";[s9]drawbox=x=560:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=1040:y=204:w=2:h=500:color=0xe4e0f3:t=fill"
-  filter+=",drawbox=x=120:y=408:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=408:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=408:w=400:h=2:color=0xc9c3e8:t=fill"
-  filter+=",drawtext=fontfile='$title_font':text='Why you’ll thrive in the AI future':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40+(100-text_h)/2-2"
+  filter+=",drawbox=x=120:y=474:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=474:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=474:w=400:h=2:color=0xc9c3e8:t=fill"
+  filter+=",drawtext=fontfile='$title_font':text='Why you’ll thrive in the AI future':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40"
+  filter+=",drawtext=fontfile='$subtitle_font':text='AI is new for everyone. This is your big advantage.':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=104"
+  filter+=",drawtext=fontfile='$title_font':text='1':fontsize=28:fontcolor=white:x=320-text_w/2:y=206+(64-text_h)/2"
+  filter+=",drawtext=fontfile='$title_font':text='2':fontsize=28:fontcolor=white:x=800-text_w/2:y=206+(64-text_h)/2"
+  filter+=",drawtext=fontfile='$title_font':text='3':fontsize=28:fontcolor=white:x=1280-text_w/2:y=206+(64-text_h)/2"
   filter+=",drawtext=fontfile='$title_font':text='THIS IS YOUR TIME':fontsize=28:fontcolor=0x08072b:x=80+(480-text_w)/2:y=286"
   filter+=",drawtext=fontfile='$title_font':text='YOU’LL MOVE FASTER':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=286"
   filter+=",drawtext=fontfile='$title_font':text='NOTHING TO UNLEARN':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=286"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Nobody has a':fontsize=24:fontcolor=0x08072b:x=80+(480-text_w)/2:y=338"
-  filter+=",drawtext=fontfile='$subtitle_font':text='twenty-year head start.':fontsize=24:fontcolor=0x08072b:x=80+(480-text_w)/2:y=368"
-  filter+=",drawtext=fontfile='$subtitle_font':text='What took a decade':fontsize=24:fontcolor=0x08072b:x=560+(480-text_w)/2:y=338"
-  filter+=",drawtext=fontfile='$subtitle_font':text='is within reach now.':fontsize=24:fontcolor=0x08072b:x=560+(480-text_w)/2:y=368"
-  filter+=",drawtext=fontfile='$subtitle_font':text='You’re learning the':fontsize=24:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=338"
-  filter+=",drawtext=fontfile='$subtitle_font':text='new workflow first.':fontsize=24:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=368"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Nobody has a twenty-year head start.':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=334"
+  filter+=",drawtext=fontfile='$subtitle_font':text='That almost never happens with':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=364"
+  filter+=",drawtext=fontfile='$subtitle_font':text='something this big. You’re showing':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=394"
+  filter+=",drawtext=fontfile='$subtitle_font':text='up right as it lands.':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=424"
+  filter+=",drawtext=fontfile='$subtitle_font':text='AI collapses years of paying dues,':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=334"
+  filter+=",drawtext=fontfile='$subtitle_font':text='learning the trade, and climbing':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=364"
+  filter+=",drawtext=fontfile='$subtitle_font':text='the ladder. What took a decade':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=394"
+  filter+=",drawtext=fontfile='$subtitle_font':text='is within reach now.':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=424"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Others must undo the workflow':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=334"
+  filter+=",drawtext=fontfile='$subtitle_font':text='that made them fast. You skip':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=364"
+  filter+=",drawtext=fontfile='$subtitle_font':text='all of that and learn the new way':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=394"
+  filter+=",drawtext=fontfile='$subtitle_font':text='from the start.':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=424"
   filter+=",drawtext=fontfile='$takeaway_font':text='This is your time to learn the new workflow.':fontsize=32:fontcolor=0x08072b:x=515:y=805"
 
   "$ffmpeg" -loglevel error -y \
@@ -119,6 +129,10 @@ render_why_board() {
   "$ffmpeg" -loglevel error -y -i "$temp_png" \
     -frames:v 1 -update 1 -q:v 2 "$output"
   rm -f "$temp_png"
+  cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/why-learn-ai-2-thrive-alternative.jpg"
+  cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/why-learn-ai-thrive.jpg"
+  cp "$output" "$repo_root/illustrations/why-learn-ai-thrive.jpg"
+  cp "$output" "$repo_root/lessons/why-learn-ai-2-thrive.jpg"
   echo "Built $output"
 }
 
@@ -192,9 +206,9 @@ render_school_board() {
   filter+=";[badge1color][badge1mask]alphamerge[badge1]"
   filter+=";[badge2color][badge2mask]alphamerge[badge2]"
   filter+=";[badge3color][badge3mask]alphamerge[badge3]"
-  filter+=";[0:v]crop=455:225:65:480,scale=390:250:force_original_aspect_ratio=decrease,pad=390:250:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
-  filter+=";[0:v]crop=350:190:620:490,scale=390:250:force_original_aspect_ratio=decrease,pad=390:250:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
-  filter+=";[0:v]crop=445:240:1070:465,scale=390:250:force_original_aspect_ratio=decrease,pad=390:250:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
+  filter+=";[0:v]crop=455:225:65:480,scale=390:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art1]"
+  filter+=";[0:v]crop=350:190:620:490,scale=390:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art2]"
+  filter+=";[0:v]crop=445:240:1070:465,scale=390:210:force_original_aspect_ratio=decrease,pad=390:210:(ow-iw)/2:(oh-ih)/2:color=white[art3]"
   filter+=";color=c=0xffe9ab:s=1440x84,format=rgba[barcolor]"
   filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
   filter+=";[barcolor][barmask]alphamerge[bar]"
@@ -203,26 +217,31 @@ render_school_board() {
   filter+=";[iconcolor][iconmask]alphamerge,scale=52:52[icon]"
   filter+=";[2:v][panel]overlay=80:172[s1]"
   filter+=";[s1][badge1]overlay=288:206[s2];[s2][badge2]overlay=768:206[s3];[s3][badge3]overlay=1248:206[s4]"
-  filter+=";[s4][art1]overlay=125:454[s5];[s5][art2]overlay=605:454[s6];[s6][art3]overlay=1085:454[s7]"
+  filter+=";[s4][art1]overlay=125:494[s5];[s5][art2]overlay=605:494[s6];[s6][art3]overlay=1085:494[s7]"
   filter+=";[s7][bar]overlay=80:776[s10];[s10][icon]overlay=433:792[s11]"
   filter+=";[s11]drawbox=x=560:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=1040:y=204:w=2:h=500:color=0xe4e0f3:t=fill"
-  filter+=",drawbox=x=120:y=430:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=430:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=430:w=400:h=2:color=0xc9c3e8:t=fill"
-  filter+=",drawtext=fontfile='$arrow_font':text='→':fontsize=64:fontcolor=0x6546d7:x=526:y=486,drawtext=fontfile='$arrow_font':text='→':fontsize=64:fontcolor=0x0b66dc:x=1006:y=486"
-  filter+=",drawtext=fontfile='$title_font':text='SKILL':fontsize=10:fontcolor=white:x=288+(64-text_w)/2:y=212,drawtext=fontfile='$title_font':text='1':fontsize=28:fontcolor=white:x=288+(64-text_w)/2:y=226"
-  filter+=",drawtext=fontfile='$title_font':text='AI':fontsize=24:fontcolor=0x08072b:x=768+(64-text_w)/2:y=223"
-  filter+=",drawtext=fontfile='$title_font':text='SKILL':fontsize=10:fontcolor=white:x=1248+(64-text_w)/2:y=212,drawtext=fontfile='$title_font':text='2':fontsize=28:fontcolor=white:x=1248+(64-text_w)/2:y=226"
-  filter+=",drawtext=fontfile='$title_font':text='Same AI. Different value.':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=56"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Two skills grow with what you know.':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=100"
-  filter+=",drawtext=fontfile='$title_font':text='ASK THE RIGHT':fontsize=28:fontcolor=0x08072b:x=80+(480-text_w)/2:y=286"
+  filter+=",drawbox=x=120:y=484:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=484:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=484:w=400:h=2:color=0xc9c3e8:t=fill"
+  filter+=",drawtext=fontfile='$arrow_font':text='→':fontsize=64:fontcolor=0x6546d7:x=526:y=528,drawtext=fontfile='$arrow_font':text='→':fontsize=64:fontcolor=0x0b66dc:x=1006:y=528"
+  filter+=",drawtext=fontfile='$title_font':text='1':fontsize=28:fontcolor=white:x=320-text_w/2:y=206+(64-text_h)/2"
+  filter+=",drawtext=fontfile='$title_font':text='AI':fontsize=24:fontcolor=0x08072b:x=800-text_w/2:y=206+(64-text_h)/2"
+  filter+=",drawtext=fontfile='$title_font':text='2':fontsize=28:fontcolor=white:x=1280-text_w/2:y=206+(64-text_h)/2"
+  filter+=",drawtext=fontfile='$title_font':text='Same AI. Different value.':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Two skills grow with what you know.':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=104"
+  filter+=",drawtext=fontfile='$title_font':text='ASK THE RIGHT':fontsize=28:fontcolor=0x08072b:x=80+(480-text_w)/2:y=284"
   filter+=",drawtext=fontfile='$title_font':text='QUESTION':fontsize=28:fontcolor=0x08072b:x=80+(480-text_w)/2:y=318"
-  filter+=",drawtext=fontfile='$title_font':text='AI ANSWER':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=286"
-  filter+=",drawtext=fontfile='$title_font':text='MAKE THE ANSWER':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=286"
+  filter+=",drawtext=fontfile='$title_font':text='AI ANSWER':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=301"
+  filter+=",drawtext=fontfile='$title_font':text='MAKE THE ANSWER':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=284"
   filter+=",drawtext=fontfile='$title_font':text='BETTER':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=318"
-  filter+=",drawtext=fontfile='$subtitle_font':text='What you know shapes':fontsize=24:fontcolor=0x08072b:x=80+(480-text_w)/2:y=370"
-  filter+=",drawtext=fontfile='$subtitle_font':text='what you ask.':fontsize=24:fontcolor=0x08072b:x=80+(480-text_w)/2:y=400"
-  filter+=",drawtext=fontfile='$subtitle_font':text='A starting point,':fontsize=24:fontcolor=0x08072b:x=560+(480-text_w)/2:y=370"
-  filter+=",drawtext=fontfile='$subtitle_font':text='not the finish.':fontsize=24:fontcolor=0x08072b:x=560+(480-text_w)/2:y=400"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Judge it. Push back. Improve it.':fontsize=24:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=385"
+  filter+=",drawtext=fontfile='$subtitle_font':text='What you know shapes what you ask.':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=354"
+  filter+=",drawtext=fontfile='$subtitle_font':text='A sharper question gets a better':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=384"
+  filter+=",drawtext=fontfile='$subtitle_font':text='answer before AI does anything special.':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=414"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Similar questions get similar answers.':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=354"
+  filter+=",drawtext=fontfile='$subtitle_font':text='The answer is a starting point,':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=384"
+  filter+=",drawtext=fontfile='$subtitle_font':text='not the finish.':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=414"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Read it. Judge whether it’s right.':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=354"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Push back and improve it.':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=384"
+  filter+=",drawtext=fontfile='$subtitle_font':text='AI cannot do that for you.':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=414"
+  filter+=",drawtext=fontfile='$subtitle_font':text='It does not know what you know.':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=444"
   filter+=",drawtext=fontfile='$takeaway_font':text='The tool brings answers. You bring judgment.':fontsize=32:fontcolor=0x08072b:x=501:y=805"
 
   "$ffmpeg" -loglevel error -y \
@@ -235,11 +254,44 @@ render_school_board() {
   "$ffmpeg" -loglevel error -y -i "$temp_png" \
     -frames:v 1 -update 1 -q:v 2 "$output"
   rm -f "$temp_png"
+  cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/does-school-matter-1-two-skills-alternative.jpg"
+  cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/does-school-matter-two-skills.jpg"
+  cp "$output" "$repo_root/illustrations/does-school-matter-two-skills.jpg"
+  cp "$output" "$repo_root/lessons/does-school-matter-1-two-skills.jpg"
   echo "Built $output"
+}
+
+render_study_board() {
+  render_board \
+    "learn-with-ai-study-tools.jpg" "learn-with-ai-study-tools.jpg" \
+    284 573 160 \
+    "Which study tool for the job?" "Do you want to learn from your materials or learn something new?" \
+    "Match the tutor to its knowledge source." 470 58 1484
+
+  local output="$output_root/learn-with-ai-study-tools.jpg"
+  cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/learn-with-ai-1-study-tools-alternative.jpg"
+  cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg"
+  cp "$output" "$repo_root/illustrations/learn-with-ai-study-tools.jpg"
+  cp "$output" "$repo_root/lessons/learn-with-ai-1-study-tools.jpg"
 }
 
 # Crop only the existing content stage. Titles and legacy footer treatments are
 # intentionally excluded, then rebuilt with the shared component specification.
+if [[ "${1:-all}" == "why" ]]; then
+  render_why_board
+  exit 0
+fi
+
+if [[ "${1:-all}" == "school" ]]; then
+  render_school_board
+  exit 0
+fi
+
+if [[ "${1:-all}" == "study" ]]; then
+  render_study_board
+  exit 0
+fi
+
 render_why_board
 
 render_llm_board
@@ -265,10 +317,6 @@ rm -f "$hands_adjusted"
 
 render_school_board
 
-render_board \
-  "learn-with-ai-study-tools.jpg" "learn-with-ai-study-tools.jpg" \
-  284 573 160 \
-  "Which study tool for the job?" "Do you want to learn from your materials—or learn something new?" \
-  "Match the tutor to its knowledge source." 470 58 1484
+render_study_board
 
 echo "Standardized six Start Smarter boards in $output_root"

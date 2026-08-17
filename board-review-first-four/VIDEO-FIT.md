@@ -12,7 +12,7 @@ boundaries and preserve the existing audio.
 | Does School Matter — two skills | 1:06–1:54 | Hold the full flow; emphasize Ask the Right Question at about 1:12, then Make the Answer Better at about 1:31. Keep the common AI Answer stage visible between them. |
 | Learn With AI — study-tool decision | 0:15–1:04 | Begin on the decision question; emphasize Your Materials / Source-Grounded Tutor from about 0:24, then Something New / General Tutor from about 0:44. |
 | What Is AI — LLM decoder | 3:14–3:56 | Replace the existing LLM sequence with this exact board. Keep the full board visible; emphasize Large at about 3:14, Language at 3:24, and Model at 3:36. The narration already follows that order. |
-| Where AI Works Best — four shapes | 1:11–2:20 | Replace the four separate board legs with this same full board; highlight Transform, Generate, Compress, and Reason in order. Audio remains unchanged. |
+| Where AI Works Best — four detailed strengths | 1:11–2:20 | Replace the four existing board legs one-for-one. Hold each complete board through its matching explanation and examples; no crop or internal camera move is needed. Audio remains unchanged. |
 | Questions Matter — answer timeline | 0:19–0:53 | Highlight Library, Search, and AI at their spoken onsets. All three time comparisons are already in the narration. |
 | Context Window — outside boundary | 2:26–2:43 | Use this only for the “everything else is outside” beat. Keep the existing five-sources board for the earlier 1:08–2:26 walkthrough. |
 | Training — master map | 1:04–3:42 | Use as a recurring map at the setup and each stage transition; keep the existing detailed stage boards between map appearances. Highlight stages 0, 1, 2, and 3. |

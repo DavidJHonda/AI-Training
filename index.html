@@ -569,6 +569,37 @@ function Illustration(props) {
     )
   );
 }
+function OpenerCreed(props) {
+  var E = React.createElement;
+  return E("div", {
+    style: { background: "#0a1440", borderRadius: 20, padding: "28px 30px", marginBottom: 24 }
+  },
+    E("div", {
+      style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.16em", color: "#f2cf5b", marginBottom: 16 }
+    }, props.eyebrow),
+    props.pairs ? E("div", {
+      style: { display: "grid", gap: 8 }
+    },
+      props.pairs.map(function(pair, i) {
+        return E("div", {
+          key: i,
+          style: { display: "flex", alignItems: "baseline", flexWrap: "wrap", columnGap: 10, rowGap: 0, fontFamily: "var(--sans)", fontSize: 23, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.25 }
+        },
+          E("span", { style: { color: "#fff" } }, pair.lead),
+          E("span", { style: { color: "#f2cf5b" } }, pair.response));
+      })) : E("div", {
+        style: { display: "grid", gap: 8 }
+      },
+        (props.lines || []).map(function(line, i) {
+          return E("div", {
+            key: i,
+            style: { fontFamily: "var(--sans)", fontSize: 23, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.25, color: "#fff" }
+          }, line);
+        })),
+    props.closing ? E("div", {
+      style: { fontFamily: "var(--sans)", fontSize: 19, fontWeight: 600, lineHeight: 1.25, color: "rgba(255,255,255,0.72)", marginTop: 6 }
+    }, props.closing) : null);
+}
 function InnerCard(props) {
   var pad = props.pad === "snug" ? "18px 22px" : "22px 26px";
   return /*#__PURE__*/React.createElement("div", {
@@ -2621,20 +2652,11 @@ function scoreFinal(answers, questions) {
   };
 }
 function OpenerFoundationsSection(props) {
-  var foundationsIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHAT KIND OF THING IS AI?"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
-    },
-      /*#__PURE__*/React.createElement("div", null, "It\u2019s not magic."),
-      /*#__PURE__*/React.createElement("div", null, "Not a person."),
-      /*#__PURE__*/React.createElement("div", null, "Not normal software."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "it\u2019s its own kind of thing."))));
+  var foundationsCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "WHAT KIND OF THING IS AI?",
+    lines: ["It\u2019s not magic.", "Not a person.", "Not normal software."],
+    closing: "it\u2019s its own kind of thing."
+  });
   return React.createElement(OpenerSection, {
     sectionId: "openerfoundations",
     whyThisMatters: [
@@ -2647,7 +2669,7 @@ function OpenerFoundationsSection(props) {
       }),
       "That’s what this section is. It’s the longest and most complicated section in the course, because AI works unlike anything you’ve used before. That’s normal. Take it a piece at a time. Each one builds on the last, and by the end, the machine won’t feel like magic anymore."
     ],
-    featuredCard: foundationsIllustration,
+    featuredCard: foundationsCreed,
     sectionOverview: {
       eyebrow: "In this section",
       title: "How AI Really Works"
@@ -8488,36 +8510,18 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
 }
 function OpenerWorkWithSection(props) {
-  var workIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHAT MAKES AI USE GOOD?"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
-    },
-      /*#__PURE__*/React.createElement("div", null, "Don’t just ask."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "Aim.")),
-      /*#__PURE__*/React.createElement("div", null, "Don’t just copy."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "Check.")),
-      /*#__PURE__*/React.createElement("div", null, "Don’t just use AI."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "Work with it.")),
-      /*#__PURE__*/React.createElement("div", { style: { marginTop: 24, lineHeight: 1.2, fontStyle: "italic" } },
-        /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, "It doesn’t replace your thinking. "),
-        /*#__PURE__*/React.createElement("span", { style: { color: "#8a5a44" } }, "It multiplies it."))));
+  var workCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "WHAT MAKES AI USE GOOD?",
+    pairs: [
+      { lead: "Don’t just ask.", response: "Aim." },
+      { lead: "Don’t just copy.", response: "Check." },
+      { lead: "Don’t just use AI.", response: "Work with it." }
+    ],
+    closing: "It doesn’t replace your thinking. It multiplies it."
+  });
   return React.createElement(OpenerSection, {
     sectionId: "openerworkwith",
-    featuredCard: workIllustration,
+    featuredCard: workCreed,
     whyThisMatters: [
       "You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?",
       "Here’s what most people miss: the AI is identical for everyone, but the results aren’t. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. AI is exactly like that: what you get out of it comes down to how you use it.",
@@ -8552,23 +8556,14 @@ function OpenerWorkWithSection(props) {
   });
 }
 function OpenerProtectSection(props) {
-  var protectIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "THE TRAPS AHEAD"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
-    },
-      /*#__PURE__*/React.createElement("div", null, "The false fact sounds sure."),
-      /*#__PURE__*/React.createElement("div", null, "The flattery feels good."),
-      /*#__PURE__*/React.createElement("div", null, "The fake looks real."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "every trap looks fine from the inside."))));
+  var protectCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "THE TRAPS AHEAD",
+    lines: ["The false fact sounds sure.", "The flattery feels good.", "The fake looks real."],
+    closing: "every trap looks fine from the inside."
+  });
   return React.createElement(OpenerSection, {
     sectionId: "openerprotect",
-    featuredCard: protectIllustration,
+    featuredCard: protectCreed,
     whyThisMatters: [
       "You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.",
       "And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.",
@@ -11013,24 +11008,14 @@ const INTEGRITY_SCENARIOS = [{
   }]
 }];
 function OpenerRealWorldSection(props) {
-  var realWorldIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHAT EVERYONE\u2019S SAYING"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
-    },
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to cure diseases.\u201d"),
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019s going to take your job.\u201d"),
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt\u2019ll do the boring parts for you.\u201d"),
-      /*#__PURE__*/React.createElement("div", null, "\u201cIt will hurt society.\u201d"),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "who\u2019s right? nobody knows."))));
+  var realWorldCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "WHAT EVERYONE\u2019S SAYING",
+    lines: ["\u201cIt\u2019s going to cure diseases.\u201d", "\u201cIt\u2019s going to take your job.\u201d", "\u201cIt\u2019ll do the boring parts for you.\u201d", "\u201cIt will hurt society.\u201d"],
+    closing: "who\u2019s right? nobody knows."
+  });
   return React.createElement(OpenerSection, {
     sectionId: "openerrealworld",
-    featuredCard: realWorldIllustration,
+    featuredCard: realWorldCreed,
     whyThisMatters: [
       /*#__PURE__*/React.createElement(React.Fragment, null,
         "You already know more about AI than most adults. You know how to use it, and you understand the engine underneath, so its strange behavior makes more sense. Your goal is to ",
@@ -11085,24 +11070,14 @@ function OpenerRealWorldSection(props) {
 }
 
 function OpenerSkillsSection(props) {
-  var skillsIllustration = /*#__PURE__*/React.createElement(Illustration, {
-    eyebrow: "WHAT MAKES YOU VALUABLE?"
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" }
-    },
-      /*#__PURE__*/React.createElement("div", null, "Your setup."),
-      /*#__PURE__*/React.createElement("div", null, "Your questions."),
-      /*#__PURE__*/React.createElement("div", null, "Your judgment."),
-      /*#__PURE__*/React.createElement("div", null, "Your Skills."),
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }),
-        /*#__PURE__*/React.createElement("span", null, "And you’ll always be Smarter Than the Tool."))));
+  var skillsCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "WHAT MAKES YOU VALUABLE?",
+    lines: ["Your setup.", "Your questions.", "Your judgment.", "Your Skills."],
+    closing: "And you’ll always be Smarter Than the Tool."
+  });
   return React.createElement(OpenerSection, {
     sectionId: "openerskills",
-    featuredCard: skillsIllustration,
+    featuredCard: skillsCreed,
     whyThisMatters: [
       "Last section, and it\u2019s the one you keep.",
       "Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. Whether you became a serious cyclist or just ride for fun, that skill stayed with you. Nobody could give you balance. You had to build it.",

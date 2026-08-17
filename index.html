@@ -456,7 +456,7 @@ const CLOSE_BOARDS = {
   computecost: { pill: "Every AI chat costs something real.", sticky: "Now you know what’s behind the magic." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Finish Smarter
-  choosemodel: { pill: "Pick the model, set the effort.", sticky: "Same dials, different labels everywhere." },
+  choosemodel: { pill: "The app was just the dealership.", sticky: "The real choices are inside." },
   aitips: { pill: "There are no magic words.", sticky: "Just five moves, run on purpose." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
   peopleskills: { pill: "AI can write it. It can’t be the person in the room.", sticky: "Say it clearly, be easy to work with, and people follow." },
@@ -1880,7 +1880,7 @@ const SECTION_META = {
   prediction: { kicker: "FROM MEANING TO WORDS", label: "How AI Answers", icon: "\uD83D\uDCCA" },
   inference: { kicker: "THE FINE PRINT", label: "One More Thing", title: "One More Thing", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
-  choosemodel: { kicker: "PICK THE MODEL, SET THE EFFORT", label: "Tune the Model", icon: "\uD83E\uDE9C" },
+  choosemodel: { kicker: "THE CHOICES INSIDE THE APP", label: "Tune the Model", icon: "\uD83E\uDE9C" },
   aitips: { kicker: "WHAT GOOD USERS TYPE", label: "AI Tips", icon: "\uD83E\uDDF0" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
@@ -2464,15 +2464,15 @@ const FINAL_BANK = [
   // --- Finish Smarter (8) ---
   {
     id: "fb44", section: "Build Your Skills", lessonId: "choosemodel",
-    q: "The answer still feels shallow. Do you switch to a bigger model or turn up the effort?",
+    q: "The answer still feels shallow. Do you switch to a bigger model or turn up the thinking?",
     options: [
-      "Always switch models. Effort only changes how the answer sounds",
-      "Pick the model that fits the job first, then turn up the effort before you switch",
-      "Always turn the effort up. Model size barely matters",
+      "Always switch models. Thinking only changes how the answer sounds",
+      "Pick the model that fits the job first, then turn up the thinking before you switch",
+      "Always turn the thinking up. Model size barely matters",
       "Neither. Rewrite the prompt until the model changes its approach"
     ],
     correct: 1,
-    explain: "A bigger model is more brain. More effort is more thinking time from the brain you already picked. And thinking longer won’t fix missing or stale information."
+    explain: "A bigger model is more brain. More thinking is more time from the brain you already picked. And thinking longer won’t fix missing or stale information."
   },
   {
     id: "fb45", section: "Build Your Skills", lessonId: "aitips",
@@ -7559,201 +7559,181 @@ function ChoosingModelSection(props) {
   const [taskAnswers, setTaskAnswers] = useState({});
   const TASKS = [{
     task: "Write 10 ideas for a YouTube channel name",
-    answer: "Quick", explain: "Creative brainstorming is about breadth and speed. A quick, low-effort answer generates lots of options fast, which is exactly what you need."
+    answer: "Quick", explain: "Creative brainstorming is about breadth and speed. A quick answer generates lots of options fast, which is exactly what you need."
   }, {
     task: "Analyze whether my business plan has any logical flaws",
-    answer: "Deeper", explain: "Finding logical flaws means reasoning step by step through connected arguments. Turning the effort up makes the model check its own work and catch subtleties a quick answer misses."
+    answer: "Deeper", explain: "Finding logical flaws means reasoning step by step through connected arguments. Turning thinking on makes the model check its own work and catch subtleties a quick answer misses."
   }, {
     task: "Summarize this short article in 3 bullet points",
-    answer: "Quick", explain: "For a short, simple article, a quick answer is enough. For a dense research paper, legal document, or complicated argument, turn the effort up."
+    answer: "Quick", explain: "For a short, simple article, a quick answer is enough. For a dense research paper, legal document, or complicated argument, turn thinking on."
   }, {
     task: "Solve this multi-step calculus problem",
-    answer: "Deeper", explain: "Multi-step math requires the model to work through each step in order and verify its logic. More effort dramatically reduces errors on problems like this."
+    answer: "Deeper", explain: "Multi-step math requires the model to work through each step in order and verify its logic. Thinking time dramatically reduces errors on problems like this."
   }];
   const PICKER_SORTS = [
-    { name: "Quasar Pro", label: "Our smartest model, for complex work.", answer: "Most capable", explain: "Name and label agree here. ‘Smartest’ and ‘complex work’ are the top tier’s signature." },
-    { name: "Breeze", label: "Our fastest model, for quick everyday tasks.", answer: "Fast & light", explain: "‘Fastest’ is the giveaway. The quick-sounding name is a bonus, but the label is what you trust." },
-    { name: "Willow", label: "Our most capable model, built for deep analysis.", answer: "Most capable", explain: "The name tells you nothing, and that’s the point. Flagships can be named anything. The label says most capable, so it is." },
-    { name: "Glacier XL", label: "Balanced speed and smarts, good for most tasks.", answer: "Everyday", explain: "XL sounds big, but ‘balanced’ and ‘most tasks’ are everyday-tier language. When the name and the label disagree, the label wins." }
+    { name: "Quasar Pro", label: "Our smartest model, for complex work.", answer: "Model", explain: "\u2018Smartest\u2019 and \u2018complex work\u2019 put this at the top of the lineup. That\u2019s the model choice: more brain, and you\u2019ll wait a little longer for it." },
+    { name: "Breeze mini", label: "Our fastest model, for quick everyday tasks.", answer: "Speed", explain: "\u2018Fastest\u2019 is the giveaway, and the mini backs it up. This is a trimmed version built to answer quick." },
+    { name: "Willow Extended", label: "Works through the problem step by step before answering. Takes longer.", answer: "Thinking", explain: "Nothing here is about a different brain. Same model, more time before it commits. That\u2019s the thinking choice." },
+    { name: "Glacier XL", label: "Balanced speed and smarts, good for most tasks.", answer: "Model", explain: "XL sounds big, but \u2018balanced\u2019 and \u2018most tasks\u2019 is everyday-default language. When the name and the label disagree, the label wins." }
   ];
-  const pickerAllAnswered = Object.keys(pickerAnswers).length >= PICKER_SORTS.length;
-  var TIERS = [{
-    tier: "Most capable", persona: "The Senior Architect", spot: "Labeled smartest or most capable.",
-    desc: "Deep, multi-step reasoning: a 200-page document, complex code, advanced math, writing that needs real nuance. The slowest and costliest, built for the hardest problems."
-  }, {
-    tier: "Everyday", persona: "The Reliable Project Manager", spot: "Usually the default.",
-    desc: "Smart, quick, and balanced. Your default for most work: schoolwork, drafting, summarizing, explaining, planning."
-  }, {
-    tier: "Fast & light", persona: "The Speed Typist", spot: "Labeled fastest or lightest.",
-    desc: "Built for speed and volume where the thinking is simple: reformatting notes, generating a list, quick variations. Not the place for complex judgment."
-  }];
+  var CHOICES = [
+    { label: "Choice 1", title: "Model", color: "#5a47c9", sections: [
+      { label: "What it is", bullets: [
+        "A family of models, not one brain.",
+        "The picker lists them by name, newest near the top.",
+        "The labels carry the signal: one is marked most capable, one is the everyday default."
+      ] },
+      { label: "Why it exists", body: "Bigger models reason deeper and cost more to run. Smaller ones are cheap enough to answer everything else. No company can give everyone the biggest brain for every question, so the picker exists." },
+      { label: "When to use it", body: "The default handles most days. Switch up when the work is hard, long, or graded." }
+    ] },
+    { label: "Choice 2", title: "Speed", color: "#2f4cb8", sections: [
+      { label: "What it is", bullets: [
+        "Trimmed versions of the brain, built to answer fast.",
+        "Short names that sound quick: mini, flash, lite.",
+        "Some apps list them as their own models, others fold them into one menu."
+      ] },
+      { label: "Why it exists", body: "A quick question doesn\u2019t need the deepest brain. Fast versions trade some depth for speed, and on most quick asks you\u2019ll never notice what they traded." },
+      { label: "When to use it", body: "Quick lookups, simple rewrites, anything you\u2019d be fine asking twice. When the answer matters more than the wait, move up." }
+    ] },
+    { label: "Choice 3", title: "Thinking", color: "#2f7d4f", sections: [
+      { label: "What it is", bullets: [
+        "A switch that lets the model work longer before it answers.",
+        "Named things like extended thinking, reasoning, or think longer.",
+        "Same brain, more time."
+      ] },
+      { label: "Why it exists", body: "Hard problems need more than one pass. Thinking time lets the model try approaches, check its own work, and throw out weak drafts before you ever see one." },
+      { label: "When to use it", body: "Math, code, planning, anything with steps that build on each other. Skip it for quick facts: you\u2019ll wait longer for the same answer." }
+    ] }
+  ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You\u2019ve already learned to choose your app. Now comes something normal apps never ask of you. Spotify doesn\u2019t ask which Spotify you want. AI apps do: inside each one is a family of models, and a picker to choose between them."),
+      "ChatGPT, Claude, and Gemini are all great choices for your go-to AI app. Now comes something normal apps never ask of you. Spotify doesn\u2019t ask which Spotify you want. AI apps do: you get choices about which model does the work, how fast it answers, and how hard it thinks."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Think of a hockey team changing its lines. The first line has the most skill, but you can\u2019t play them every shift. Their minutes are limited. The third line is fast and steady, and it takes the everyday shifts. The coach\u2019s job is matching the line to the moment. Inside an AI app, you\u2019re the coach."),
+      "Think about buying a new car. Your first decision is which dealership to visit: Ford, Chevy, Dodge, or somewhere else. When you arrive, the next choice is which model you want to buy."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "And the lines are real. The models in a family aren\u2019t the same brain dialed up or down. They\u2019re actually different LLMs. The big one has more layers, more dimensions, and was trained on more data. The smaller ones are built lighter from the start."),
+      "Next come the options: engine size, wheel package, trim. And you\u2019ll pick those based on how you plan to use the car."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Why build a family at all? Because every answer you get runs on a server doing heavy math, and that math costs real money, time, and energy. So every model is a trade between three things: how smart it is, how fast it answers, and what it costs to run. No model maxes all three. The family exists so you can pick where to sit on that scale."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "The Model Family"),
+      "AI works the same way. The app was the dealership, and you\u2019ve already picked it. The choices waiting inside are the model, the speed, and the thinking."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "YOUR CHOICES"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Every model in a family sits somewhere on one scale. Nothing maxes both ends: picking a model is picking where to sit."),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: 28 }
+      "The choices live inside whichever app you picked. What makes them confusing is the names: each app names its models differently, and with every app improving this fast, the names keep changing. So don\u2019t memorize names. Learn the three choices underneath them. Those don\u2019t change."),
+    /*#__PURE__*/React.createElement(ComparisonCards, { items: CHOICES }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "One thing worth knowing about that first choice: the models in a family aren\u2019t one brain dialed up and down. They\u2019re different LLMs. The big one has more layers, more dimensions, and more training behind it. The small ones were built lighter from the start."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "All three choices live in the same corner of the screen. Look for the model name at the top of the chat or next to the message box, and tap it: the whole family drops down, usually with the thinking switch close by. If there\u2019s no picker at all, the app is choosing for you."),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Read the Picker",
+     lead: "This picker is from an app that doesn\u2019t exist, and the four names are useless on purpose. The label tells you which of the three choices you\u2019re looking at. Read the label, not the name."},
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        PICKER_SORTS.map(function(s, i) {
+          var answered = pickerAnswers[i] !== undefined;
+          var picked = pickerAnswers[i];
+          var correct = picked === s.answer;
+          function PillButton(label) {
+            return /*#__PURE__*/React.createElement(FeedbackPill, {
+              key: label,
+              answered: answered,
+              isCorrect: label === s.answer,
+              isPicked: picked === label,
+              label: label,
+              onClick: function() { setPickerAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, label]])); }); }
+            });
+          }
+          return /*#__PURE__*/React.createElement(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            kicker: s.name,
+            prompt: "\u201c" + s.label + "\u201d",
+            answered: answered,
+            correct: correct,
+            feedback: s.explain
+          }, [PillButton("Model"), PillButton("Speed"), PillButton("Thinking")]);
+        })
+      )),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The default is a choice someone else made."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Most people never open the picker and never learn what\u2019s in there. You just did. Open it and choose on purpose when the problem deserves it."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "One more thing if you\u2019re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that\u2019s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Thinking, side by side"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Thinking is the choice people skip most, so here are the two settings next to each other. And it isn\u2019t the same as picking a model, even though both say \u2018turn it up for hard problems.\u2019 A bigger model is more brain. More thinking is more time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn the thinking up before you switch models."),
+    /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 32 },
+      [
+        { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "\u26a1", title: "Quick answer", how: "Pattern matches from training, answers immediately.", best: ["You need a quick answer", "You\u2019re brainstorming lots of options", "The task is simple formatting, rewriting, or summarizing", "You\u2019re asking for a first draft, not final judgment", "Speed matters more than depth"] },
+        { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "\ud83e\udde0", title: "Deeper thinking", how: "Reasons step by step before responding, checks its own work.", best: ["The problem has multiple steps", "The answer needs logic, math, code, or careful comparison", "You\u2019re analyzing an argument, plan, essay, or decision", "The first answer felt shallow and the issue is reasoning", "Accuracy matters more than speed", "The decision has real consequences"] }
+      ].map(function(c, ci) {
+        return /*#__PURE__*/React.createElement(ComparePanel, { key: ci, bg: c.bg, accent: c.accent, emoji: c.emoji, title: c.title },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5, marginBottom: 12 } }, /*#__PURE__*/React.createElement("strong", null, "How it works: "), c.how),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "Best for:"),
+          /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+            c.best.map(function(b, bi) {
+              return /*#__PURE__*/React.createElement("div", { key: bi, style: { display: "flex", gap: 10, alignItems: "baseline", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
+                /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, transform: "translateY(-1px)" } }),
+                /*#__PURE__*/React.createElement("span", null, b));
+            })));
+      })),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "More thinking isn\u2019t a tiny person inside the computer reconsidering."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "It\u2019s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. But it\u2019s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won\u2019t fix that. For truth, you still need to evaluate the results."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "The dial you won\u2019t see"),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Three choices are yours. This one isn\u2019t. Back in One More Thing you met the weighted drawing: every token holds tickets equal to its probability, and the model draws one. ",
+      /*#__PURE__*/React.createElement("strong", null, "Temperature"),
+      " is the dial on that drawing. Turn it down and the top pick takes nearly every ticket, so the model plays it safe and hands back almost the same answer every time. Turn it up and the tickets spread far down the list, so a long shot like Biscuit, which never wins at low, starts showing up. More range, more surprise, and sometimes more nonsense."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "You won\u2019t find it in ChatGPT, Claude, or Gemini. The apps set it for you, and the dial itself lives in the tools developers use to build on these models. You can still ask for the effect in words. Ask for \u201cyour single best answer\u201d and you pull toward the safe end. Ask for \u201cten very different options\u201d and you pull toward the wild one. That\u2019s the one dial you can\u2019t reach. The rest of the machine you can."),
+    /*#__PURE__*/React.createElement(ShowcaseBox, {
+      headline: "App. Model. Speed. Thinking.",
+      intro: "One decision you made back in Work With AI, and three you make inside it every day.",
+      marginBottom: 28
     },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap", fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" } },
-        /*#__PURE__*/React.createElement("span", { style: { color: "var(--primary)" } }, "◂ Smartest · Slowest · Costliest"),
-        /*#__PURE__*/React.createElement("span", { style: { color: "#0d9488" } }, "Fastest · Cheapest · Lighter Thinking ▸")),
-      /*#__PURE__*/React.createElement("div", { style: { position: "relative", height: 28, margin: "16px 0 22px 0" } },
-        /*#__PURE__*/React.createElement("div", { style: { position: "absolute", top: "50%", left: 0, right: 0, height: 3, transform: "translateY(-50%)", borderRadius: 3, background: "linear-gradient(to right, var(--primary), #10b981)" } }),
-        [12, 50, 88].map(function(pct, i) {
-          return /*#__PURE__*/React.createElement("span", {
-            key: i,
-            style: { position: "absolute", top: "50%", left: pct + "%", transform: "translate(-50%, -50%)", width: 28, height: 28, borderRadius: 999, background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 0 4px var(--primaryFaint)" }
-          }, i + 1);
-        })),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        TIERS.map(function(t, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { flex: "1 1 200px", display: "flex", flexDirection: "column", background: "#fff", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowElevated)" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 800, color: "var(--ink)", fontSize: BOX_CARD_TITLE } }, t.tier),
-            /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontWeight: 700, color: "var(--primary)", fontSize: 14, marginTop: 2 } }, t.persona),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6, marginTop: 10 } }, t.desc),
-            /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "14px 0 10px 0", marginTop: "auto", paddingTop: 14 } }),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 12.5, color: "var(--inkMuted)", lineHeight: 1.5 } },
-              /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "Spot it: "),
-              t.spot));
-        }))),
+      /*#__PURE__*/React.createElement(NumberedColumns, { items: [
+        { label: "App", body: "Where you work. Your home base, plus another app when the job clearly fits its strength." },
+        { label: "Model", body: "Which brain does the work: the most capable one, or the everyday default." },
+        { label: "Speed", body: "How fast you need it back. Trimmed versions answer quick, and on simple asks you won\u2019t miss what they left out." },
+        { label: "Thinking", body: "How long it works before it commits: off for quick facts, on for problems with steps." }
+      ] })),
     /*#__PURE__*/React.createElement(BodyP, null,
-    "Notice we didn\u2019t print any model names. That\u2019s on purpose: the companies rename and replace models a few times a year as they compete, and a name alone won\u2019t tell you its size anyway. What you need is a way to figure it out in any app, in any year. Three moves:"),
-  /*#__PURE__*/React.createElement(NumberedRows, { marginBottom: 28, items: [
-    { title: "Find the picker", body: "Look for the model name at the top of the chat or next to the message box. It\u2019s usually a dropdown. Tap it and the whole family appears. If you can\u2019t find one, the app is choosing for you." },
-    { title: "Read the descriptions, not the names", body: "Every picker labels its models with a short line like \u2018most capable\u2019 or \u2018fastest.\u2019 That label tells you the tier, whatever the name is this month." },
-    { title: "When in doubt, search", body: "A ten-second search like \u2018which ChatGPT model should I use for an essay\u2019 gets you a current answer. The lineup changes; the search works every time." }
-  ] }),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The default is a choice someone else made."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Most people never open the picker and never know what they’re missing. You know the tiers now. Match the line to the moment, and send out the first line when the problem deserves it."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can."),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Read the Picker",
-   lead: "This picker is from an app that doesn’t exist, and the four model names are useless on purpose. The labels are everything: place each model in its tier using the label, not the name."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      PICKER_SORTS.map(function(s, i) {
-        var answered = pickerAnswers[i] !== undefined;
-        var picked = pickerAnswers[i];
-        var correct = picked === s.answer;
-        function PillButton(label) {
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: label,
+      /*#__PURE__*/React.createElement("strong", null, "A bad answer doesn\u2019t always mean \u2018try harder.\u2019 "),
+      "Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes you\u2019re on the fast version. Sometimes it just needs more thinking. Knowing the four decisions means you can fix the right one."),
+    closeBoard("choosemodel"),
+    /*#__PURE__*/React.createElement(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Match the Task to the Thinking",
+     lead: "Some tasks deserve a fast answer. Others are worth letting the model think it through. Pick Quick or Deeper for each task."},
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+        TASKS.map(function(t, i) {
+          var answered = taskAnswers[i] !== undefined;
+          var picked = taskAnswers[i];
+          var correct = picked === t.answer;
+          function PillButton(mode) {
+            var isPicked = picked === mode;
+            return /*#__PURE__*/React.createElement(FeedbackPill, {
+              key: mode,
+              answered: answered,
+              isCorrect: mode === t.answer,
+              isPicked: isPicked,
+              label: mode,
+              onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, mode]])); }); }
+            });
+          }
+          return /*#__PURE__*/React.createElement(ScenarioRow, {
+            key: i,
+            index: i + 1,
+            prompt: t.task + ".",
             answered: answered,
-            isCorrect: label === s.answer,
-            isPicked: picked === label,
-            label: label,
-            onClick: function() { setPickerAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, label]])); }); }
-          });
-        }
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          kicker: s.name,
-          prompt: "\u201c" + s.label + "\u201d",
-          answered: answered,
-          correct: correct,
-          feedback: s.explain
-        }, [PillButton("Most capable"), PillButton("Everyday"), PillButton("Fast & light")]);
-      })
-    )),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "You\u2019ve chosen your app, and you just chose your model. Now there\u2019s one more choice: how much effort should the model spend on this answer?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Every major AI lets you set how much effort it spends before answering. Turn it down and the model answers fast from what it already knows. Turn it up and it reasons through the problem step by step before committing."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Effort changes how hard the model thinks before it commits, not how the answer sounds. The wording has its own dial, and it\u2019s coming up."),
-  /*#__PURE__*/React.createElement(BodyP, null, "And it’s not the same as the model choice you just made, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More effort is more thinking time from the brain you already picked. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn up the effort before you switch models."),
-  /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 32 },
-    [
-      { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "⚡", title: "Quick answer", how: "Pattern matches from training, answers immediately.", best: ["You need a quick answer", "You’re brainstorming lots of options", "The task is simple formatting, rewriting, or summarizing", "You’re asking for a first draft, not final judgment", "Speed matters more than depth"] },
-      { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "🧠", title: "Deeper reasoning", how: "Reasons step by step before responding, checks its own work.", best: ["The problem has multiple steps", "The answer needs logic, math, code, or careful comparison", "You’re analyzing an argument, plan, essay, or decision", "The first answer felt shallow and the issue is reasoning", "Accuracy matters more than speed", "The decision has real consequences"] }
-    ].map(function(c, ci) {
-      return /*#__PURE__*/React.createElement(ComparePanel, { key: ci, bg: c.bg, accent: c.accent, emoji: c.emoji, title: c.title },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5, marginBottom: 12 } }, /*#__PURE__*/React.createElement("strong", null, "How it works: "), c.how),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--ink)", marginBottom: 8 } }, "Best for:"),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-          c.best.map(function(b, bi) {
-            return /*#__PURE__*/React.createElement("div", { key: bi, style: { display: "flex", gap: 10, alignItems: "baseline", fontSize: 15, lineHeight: 1.45, color: "var(--ink)" } },
-              /*#__PURE__*/React.createElement("span", { style: { width: 6, height: 6, borderRadius: "50%", background: "var(--ink)", opacity: 0.45, flexShrink: 0, transform: "translateY(-1px)" } }),
-              /*#__PURE__*/React.createElement("span", null, b));
-          })));
-    })),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "More effort isn\u2019t a tiny person inside the computer reconsidering."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "It\u2019s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. But it\u2019s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won\u2019t fix that. For truth, you still need to evaluate the results."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "WHERE TO FIND THE DIAL"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Look near the model picker. Some apps give effort its own switch, with a label like \u2018extended thinking\u2019 or \u2018reasoning.\u2019 Others fold it into the picker itself: choosing a model labeled \u2018thinking\u2019 is choosing more effort. Read the labels the same way you read the picker, and when you can\u2019t tell, a ten-second search settles it."),
-  /*#__PURE__*/React.createElement(Callout, null, "Same dial, different labels in every app. Once you understand what it does, you can find it anywhere."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Some tasks need speed. Others need depth. And the dial turns both ways: deeper is slower, and on a simple ask it buys you nothing."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "One more dial: temperature"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "You’ll never touch this one. Back in One More Thing you met the weighted drawing: every token holds tickets equal to its probability, and the model draws one. ",
-    /*#__PURE__*/React.createElement("strong", null, "Temperature"),
-    " is the dial on that drawing. Turn it down and the top pick takes nearly every ticket, so the model plays it safe and hands back almost the same answer every time. Turn it up and the tickets spread far down the list, so a long shot like Biscuit, which never wins at low, starts showing up. More range, more surprise, and sometimes more nonsense."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "You won’t find it in ChatGPT, Claude, or Gemini. The apps set it for you, and the dial itself lives in the tools developers use to build on these models. You can still ask for the effect in words. Ask for “your single best answer” and you pull toward the safe end. Ask for “ten very different options” and you pull toward the wild one. That’s the one dial you can’t reach. The rest of the machine you can."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    headline: "App. Model. Effort.",
-    intro: "Three separate decisions before you ever type a word, and now you own all three.",
-    marginBottom: 28
-  },
-    /*#__PURE__*/React.createElement(NumberedColumns, { items: [
-      { label: "App", body: "Where you work. Your home base, plus another app when the job clearly fits its strength." },
-      { label: "Model", body: "How much brain the job needs: most capable, everyday, or fast and light." },
-      { label: "Effort", body: "How long it thinks before it commits: quick for speed, deeper for hard problems." }
-    ] })),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    /*#__PURE__*/React.createElement("strong", null, "A bad answer doesn’t always mean ‘try harder.’ "),
-    "Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes it just needs more effort. Knowing the three decisions means you can fix the right one."),
-  closeBoard("choosemodel"),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Match the Task to the Effort",
-   lead: "Some tasks deserve a fast answer. Others are worth the model’s slower, deeper thinking. Pick Quick or Deeper for each task."},
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      TASKS.map(function(t, i) {
-        var answered = taskAnswers[i] !== undefined;
-        var picked = taskAnswers[i];
-        var correct = picked === t.answer;
-        function PillButton(mode) {
-          var isPicked = picked === mode;
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: mode,
-            answered: answered,
-            isCorrect: mode === t.answer,
-            isPicked: isPicked,
-            label: mode,
-            onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, mode]])); }); }
-          });
-        }
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          prompt: t.task + ".",
-          answered: answered,
-          correct: correct,
-          feedback: t.explain
-        }, [PillButton("Quick"), PillButton("Deeper")]);
-      })
-    )),
-  /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: AI Tips" }));
+            correct: correct,
+            feedback: t.explain
+          }, [PillButton("Quick"), PillButton("Deeper")]);
+        })
+      )),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: AI Tips" }));
 }
 function AITipsSection(props) {
   var E = React.createElement;

@@ -28,15 +28,14 @@ in index.html. Apply on David's go-ahead. Delete this file after applying.
    (The one-line orientation opener is a default — David hadn't confirmed; cut the
    first line for a cold open if he prefers.)
 4. **KEEP unchanged:** THE COMMON MISTAKE beat, KEEP THIS QUESTION IN MIND beat,
-   the overview box (kickers + bridges).
+   the overview box (now THREE beat groups after the 2026-08-17 section split).
 5. **CLOSE_BOARDS.openerskills** → pill `"The tool is rented."` sticky
    `"The skills are yours to keep."` (David picked option 3.)
-6. **Section name:** stays "Finish Smarter" unless David says otherwise (open
-   question from the discussion — his notes said "Build Your Skills opener";
-   a rename would touch label/overview/briefing/export headers and is NOT part of
-   this queued edit).
+6. **Section name: RESOLVED 2026-08-17** — the section split back out as "Build Your
+   Skills" (commit e063eca); this opener now fronts that section and the export
+   slug is already `Opener-Build`.
 
 ## Apply procedure
 Standard: edit → node --check → serve + validate() 55 → design-check PASS →
-screenshot opener → regenerate `Opener-Finish` export (id `openerskills`) →
+screenshot opener → regenerate the `Opener-Build` export (id `openerskills`) →
 commit + push. House rules: no em-dashes, colon setups, curly apostrophes.

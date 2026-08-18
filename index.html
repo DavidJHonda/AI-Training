@@ -7301,15 +7301,22 @@ function DocumentChatSection(props) {
       "As you learned earlier in the course, the model reads its full context window every time you send a message. Your 200-page rulebook equals around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer."),
     E(BodyP, { marginBottom: 24 },
       "So when a long document doesn’t fit, and often even when it does, the system runs a process on it instead:"),
-    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 } },
-      CHUNK_STEPS.map(function(step, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)", display: "flex", gap: 14, alignItems: step.body ? "flex-start" : "center" } },
-          E("div", { style: { background: "var(--primary)", color: "#fff", borderRadius: 10, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, flexShrink: 0 } }, String(i + 1)),
-          E("div", null,
-            E("div", { style: { fontWeight: 800, color: "var(--ink)", fontSize: 16, lineHeight: 1.45 } }, step.title),
-            step.body ? E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginTop: 4 } }, step.body) : null));
-      })
-    ),
+    E("img", {
+      src: "lessons/document-trap-1-chunks.jpg",
+      alt: "A three-step retrieval pipeline: a long document is split into chunks, each chunk becomes a meaning vector, and the question retrieves only the closest chunks. It answers from what it retrieved, not from the whole document.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
+    }),
+    E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      E("h3", null, "What happens when AI searches a long document"),
+      E("ol", null,
+        CHUNK_STEPS.map(function(step, i) {
+          return E("li", { key: i },
+            E("strong", null, step.title),
+            " ", step.body);
+        })),
+      E("p", null, "It answers from what it retrieved, not from the whole document.")),
     E(BodyP, null,
       "Now you know what happened with the rulebook. It became a few hundred chunks. Your question pulled the chunks closest to it in meaning, and \u201chow many fouls until I\u2019m out of the game?\u201d sits right next to the regular-season foul rules. The tournament section near the back is about tournaments first and fouls second, so it didn\u2019t make the cut."),
     E("img", {
@@ -7328,12 +7335,22 @@ function DocumentChatSection(props) {
     E(BodyP, null,
       "You can steer what the model retrieves. Four moves help, and all four share one idea: ",
       E("strong", null, "make the right chunks easy to find.")),
-    E(NumberedRows, {
-      marginBottom: 24,
-      items: TACTICS.map(function(t) {
-        return { title: t.name, body: t.body };
-      })
+    E("img", {
+      src: "lessons/document-trap-2-moves.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
+    E("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      E("h3", null, "Four moves for better retrieval"),
+      E("ol", null,
+        TACTICS.map(function(t, i) {
+          return E("li", { key: i },
+            E("strong", null, t.name),
+            " ", t.body);
+        })),
+      E("p", null, "Make the right chunks easy to find.")),
     E(BodyP, null,
       "This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says is the natural move, and a good one."),
     E(BodyP, null,
@@ -8460,6 +8477,7 @@ function OpenerProtectSection(props) {
       eyebrow: "In this section",
       title: "Avoid Traps"
     },
+    sectionOverviewBoard: "illustrations/opener-avoid-section-map.jpg",
     groups: [
       {
         kicker: "TRAPS IN THE ANSWER",
@@ -10928,6 +10946,7 @@ function OpenerRealWorldSection(props) {
       eyebrow: "In this section",
       title: "Embrace the Future"
     },
+    sectionOverviewBoard: "illustrations/opener-embrace-section-map.jpg",
     groups: [
       {
         kicker: "THE ARGUMENT",
@@ -10966,6 +10985,7 @@ function OpenerSkillsSection(props) {
       eyebrow: "In this section",
       title: "Build Your Skills"
     },
+    sectionOverviewBoard: "illustrations/opener-build-section-map.jpg",
     groups: [
       {
         kicker: "THE LAST OF THE AI",

@@ -184,3 +184,14 @@ while making every board conform to this specification.
     mean keep going.” “Check the claim outside the answer.” “Use it, fix it, or
     choose a better path.” The four boards replace the first four instructional
     boxes one-for-one if selected; do not combine them into one dense workflow board.
+19. **AI Is Math — probability sequence:** use two matched coin boards followed by
+    one three-stage synthesis board. “Two coins create four possible outcomes” and
+    “One clue changes the odds” keep all four outcomes in identical positions; the
+    second board crosses out the two outcomes that begin with tails and changes the
+    calculation from 1 out of 4, 25%, to 1 out of 2, 50%. The third board, “How
+    evidence turns into the next word,” stacks Standard Probability, Conditional
+    Probability, and Autoregressive Generation in order. Preserve the lesson’s 40%,
+    60%, 71%, 18%, and 7% examples. Takeaways: “Before new evidence: 1 out of 4 =
+    25%.” “After the clue: 1 out of 2 = 50%.” “Every new word changes the odds for
+    the next one.” These boards replace video and page boards 3, 4, and 5
+    one-for-one; the formula and one-coin warm-up remain programmatic on the page.

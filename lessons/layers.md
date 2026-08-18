@@ -4,21 +4,7 @@
 
 Read the following sentence.
 
-The horse raced past the barn fell.
-
-## First read
-
-It doesn’t make sense. Did someone forget a word?
-
-## Read it again
-
-Wait, did a barn fall? Did the horse race past the barn afterward?
-
-## Read it a third time
-
-Got it. A horse ran past a barn. And after running past the barn, the horse fell.
-
-Each pass, your mind updates the meaning until it clicks.
+![The sentence The horse raced past the barn fell becomes clearer over multiple passes, moving from confusion to established meaning.](layers-1-three-reads.jpg)
 
 ## AI does the same thing
 
@@ -80,19 +66,7 @@ What does this look like inside the model? Like this.
 
 Because some meaning is many steps deep.
 
-## A few passes
-
-Simple meaning resolves early. The plain sense of a sentence is settled in a handful of passes.
-
-## Dozens of passes
-
-Catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more.
-
-## Why not hundreds?
-
-Past a point, extra depth stops helping. It just makes the model more expensive to run.
-
-A few layers reach only shallow meaning. Stacking dozens leaves room for the deep kind.
+![A few layers settle plain meaning, dozens support nuance and reasoning, and eventually extra depth adds cost without much additional meaning.](layers-3-why-dozens.jpg)
 
 ## Neural networks
 

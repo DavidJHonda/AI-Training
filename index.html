@@ -520,7 +520,10 @@ function SectionKicker(props) {
   return /*#__PURE__*/React.createElement("div", { style: style }, props.children);
 }
 function ShowcaseBox(props) {
-  return /*#__PURE__*/React.createElement("div", { style: { marginTop: props.marginTop != null ? props.marginTop : 0 } },
+  var outerStyle = props.accessibleOnly
+    ? { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    : { marginTop: props.marginTop != null ? props.marginTop : 0 };
+  return /*#__PURE__*/React.createElement("div", { style: outerStyle },
     props.kicker ? /*#__PURE__*/React.createElement(SectionKicker, null, props.kicker) : null,
     /*#__PURE__*/React.createElement("div", {
       style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 24, marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)" }
@@ -2674,6 +2677,7 @@ function OpenerFoundationsSection(props) {
       eyebrow: "In this section",
       title: "How AI Really Works"
     },
+    sectionOverviewBoard: "illustrations/opener-understand-section-map.jpg",
     groups: [
       {
         kicker: "HOW IT LEARNED",
@@ -3282,7 +3286,12 @@ function AIIsMathSection(props) {
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "TWO COINS, FOUR OUTCOMES"),
     /*#__PURE__*/React.createElement(BodyP, null, "Now make it a little harder."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, null,
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-math-3-two-coins.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { accessibleOnly: true },
       QuestionCard("Toss 2 coins. How likely is it that ", "both", " land on heads?"),
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
@@ -3341,7 +3350,12 @@ function AIIsMathSection(props) {
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "CONDITIONAL PROBABILITY"),
     /*#__PURE__*/React.createElement(BodyP, null, "Standard probability could count what you could see, like the coins, but it couldn’t tell you how much to change your mind when fresh evidence arrived. Thomas Bayes worked that part out. A minister, mathematician, and philosopher, he found the math for updating a belief as new evidence arrives, now known as Bayes’ Theorem."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, null,
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-math-4-update.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement(ShowcaseBox, { accessibleOnly: true },
       QuestionCard("Toss 2 coins. Someone peeks and says the first coin landed heads. How likely is it that both are heads ", "now"),
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
@@ -3411,7 +3425,13 @@ function AIIsMathSection(props) {
       "The evidence didn’t just rule things out, it moved the probability that both coins are heads from ", /*#__PURE__*/React.createElement("strong", null, "25%"), " to ", /*#__PURE__*/React.createElement("strong", { style: { color: "var(--green)" } }, "50%"), ". That update is ", /*#__PURE__*/React.createElement("strong", null, "conditional probability"), "."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AUTOREGRESSIVE GENERATION"),
     /*#__PURE__*/React.createElement(BodyP, null, "Remember your phone’s keyboard suggesting the next word? Autoregressive generation is that, but it doesn’t stop after one word. After AI picks a word, it uses that word to pick the next one. Then it uses both to pick the third. Every prediction depends on every word that came before it. Each new word is its own conditional-probability problem: given everything written so far, which word most likely comes next?"),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-math-5-autoregressive.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(ShowcaseBox, {
+      accessibleOnly: true,
       marginBottom: 28
     },
       QuestionCard("It’s May 21st. How likely is rain, and what word comes ", "next"),
@@ -5736,11 +5756,6 @@ function TrainingSection(props) {
       /*#__PURE__*/React.createElement("path", { d: "M58 18 L73 20 M58 18 L67 31", fill: "none", stroke: "var(--primary)", strokeWidth: 3.2, strokeLinecap: "round", strokeLinejoin: "round" }))),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Training happens in three phases, but it can’t start cold. Think of a basketball coach: before the first practice, they need a court and equipment, and a plan for what the team will actually work on. AI needs the same setup."),
-  /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/training.jpg",
-    alt: "Luke and Nate guide one model core through pretraining, instruction tuning, and preference tuning stations before the finished core is sealed",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
-  }),
   /*#__PURE__*/React.createElement("div", { style: { background: "#f1f1f6", borderRadius: 12, padding: 24, marginBottom: 16 } },
     phaseLabel(null, "Before training starts", null, "humans"),
     stepCard(steps[0]),
@@ -5786,6 +5801,11 @@ function TrainingSection(props) {
         /*#__PURE__*/React.createElement("strong", { style: { color: "var(--ink)" } }, "What it doesn’t know: "),
         "It doesn’t know whether its answers are true. Training taught it to sound fluent, confident, and likable, and none of that guarantees an answer is right.")),
     howItAnswers(3, "“Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: flick your wrist like you’re reaching into a cookie jar on a high shelf. Want tips on free throws?”")),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/training.jpg",
+    alt: "Luke and Nate guide one model core through pretraining, instruction tuning, and preference tuning stations before the finished core is sealed",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto 24px", borderRadius: 12 }
+  }),
   /*#__PURE__*/React.createElement(BodyP, null,
     "When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have ",
     /*#__PURE__*/React.createElement("strong", null, "knowledge cutoffs"),
@@ -6590,35 +6610,11 @@ function ItSentenceWalkthrough(props) {
 }
 function VectorSpaceSection(props) {
   var E = React.createElement;
-  var vsDims = ["Sweet", "Bitter", "Fizz", "Heat", "Caffeine", "Dark", "Citrus"];
-  var vsDrinks = [
-    { emoji: "🥤", name: "Coke", tokenId: 24317, vals: [9, 1, 10, 2, 3, 8, 1], pillBg: "#fbdfe2", pillFg: "#e6394d" },
-    { emoji: "🥤", name: "Pepsi", tokenId: 38106, vals: [9, 1, 10, 2, 3, 8, 10], pillBg: "#dbe6fb", pillFg: "#2f6fd6" },
-    { emoji: "☕", name: "Coffee", tokenId: 51820, vals: [1, 9, 0, 9, 8, 10, 0], pillBg: "#e7dcf4", pillFg: "#7b3aa6" }
-  ];
-  var vsCols = "minmax(110px, 150px) minmax(72px, 96px) repeat(7, minmax(44px, 1fr))";
-  var vsHead = { fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "1.5px" };
-  var vsColHead = { fontSize: 11, fontWeight: 700, color: "#6e6757", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" };
-  var vsColHeadBold = { fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "0.6px", textAlign: "center" };
-  var vsTasteProfile = E("div", { style: { width: "100%", maxWidth: 880, margin: "0 auto 20px", background: "var(--primaryFaint)", borderRadius: 20, padding: "28px 32px" } },
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 18 } }, "Taste Profile · Coke vs. Pepsi vs. Coffee"),
-    E("div", { style: { background: "#ffffff", borderRadius: 16, boxShadow: "0 1px 3px rgba(20,17,11,0.04)", overflowX: "auto" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: vsCols, alignItems: "end", gap: 8, padding: "16px 24px 0", minWidth: 560 } },
-        E("div", null), E("div", null),
-        E("div", { style: { gridColumn: "span 7", textAlign: "center", paddingBottom: 7, borderBottom: "2px solid #8b81a3", fontSize: 11, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: "1.5px" } }, "Dimensions")),
-      E("div", { style: { display: "grid", gridTemplateColumns: vsCols, alignItems: "center", gap: 8, padding: "10px 24px 14px", borderBottom: "1px solid #ece4f1", minWidth: 560 } },
-        E("div", { style: vsHead }, "Token"),
-        E("div", { style: vsColHeadBold }, "Token ID"),
-        vsDims.map(function(d, i) { return E("div", { key: i, style: vsColHead }, d); })),
-      vsDrinks.map(function(dr, di) {
-        return E("div", { key: di, style: { display: "grid", gridTemplateColumns: vsCols, alignItems: "center", gap: 8, padding: "14px 24px", borderTop: di === 0 ? "none" : "1px solid #f0ecf6", minWidth: 560 } },
-          E("div", null,
-            E("span", { style: { background: dr.pillBg, color: dr.pillFg, fontWeight: 700, fontSize: BOX_TEXT, padding: "6px 12px", borderRadius: 999, display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap" } }, dr.emoji, dr.name)),
-          E("div", { style: { textAlign: "center", fontFamily: "var(--mono)", fontSize: 14, fontWeight: 600, color: "var(--inkMuted)" } }, dr.tokenId),
-          dr.vals.map(function(v, vi) {
-            return E("div", { key: vi, style: { textAlign: "center", fontSize: 17, fontWeight: 800, color: dr.pillFg } }, v);
-          }));
-      })));
+  var vsTasteProfile = E("img", {
+    src: "illustrations/vector-space-taste-profile.jpg",
+    alt: "Coke, Pepsi, and coffee shown as ordered vectors across the same seven dimensions, with Citrus separating the two otherwise similar colas",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  });
   // Coordinate maps: the SVG's own units ARE degrees (viewBox spans 127W-64W,
   // 23N-51N with latitude negated for screen y), so a city is placed by its real
   // latitude and longitude rather than by eye.
@@ -6882,23 +6878,11 @@ function MatchTermsTryIt(props) {
       })));
 }
 function HorseReadsBox() {
-  var E = React.createElement;
-  var READS = [
-    { h: "First read", body: "It doesn’t make sense. Did someone forget a word?" },
-    { h: "Read it again", body: "Wait, did a barn fall? Did the horse race past the barn afterward?" },
-    { h: "Read it a third time", body: "Got it. A horse ran past a barn. And after running past the barn, the horse fell." }
-  ];
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
-    E("div", { style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12, textAlign: "center", fontFamily: "var(--mono)", fontSize: 19, fontWeight: 600, color: "var(--ink)", boxShadow: "var(--shadowSoft)" } },
-      "The horse raced past the barn fell."),
-    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
-      READS.map(function(r, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
-          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, r.h),
-          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, r.body));
-      })),
-    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
-      "Each pass, your mind updates the meaning until it clicks."));
+  return React.createElement("img", {
+    src: "illustrations/layers-three-reads.jpg",
+    alt: "The sentence The horse raced past the barn fell becomes clearer over multiple passes, moving from confusion to established meaning",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  });
 }
 function LayersStackBox() {
   return React.createElement("img", {
@@ -6908,21 +6892,11 @@ function LayersStackBox() {
   });
 }
 function WhyDozensBox() {
-  var E = React.createElement;
-  var CASES = [
-    { h: "A few passes", body: "Simple meaning resolves early. The plain sense of a sentence is settled in a handful of passes." },
-    { h: "Dozens of passes", body: "Catching sarcasm, following a twist in a story, or reasoning through a complicated problem takes many more." },
-    { h: "Why not hundreds?", body: "Past a point, extra depth stops helping. It just makes the model more expensive to run." }
-  ];
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
-    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
-      CASES.map(function(c, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
-          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
-          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
-      })),
-    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
-      "A few layers reach only shallow meaning. Stacking dozens leaves room for the deep kind."));
+  return React.createElement("img", {
+    src: "illustrations/layers-why-dozens.jpg",
+    alt: "A few layers settle plain meaning, dozens support nuance and reasoning, and eventually extra depth adds cost without much additional meaning",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  });
 }
 function LayersSection(props) {
   return /*#__PURE__*/React.createElement("div", null,

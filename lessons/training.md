@@ -118,6 +118,8 @@ This time, humans don’t write the answers. They ask a question, the model writ
 
 “Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: flick your wrist like you’re reaching into a cookie jar on a high shelf. Want tips on free throws?”
 
+![Luke and Nate guide one model core through pretraining, instruction tuning, and preference tuning before the finished core is sealed.](training-finished-core.jpg)
+
 When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have **knowledge cutoffs**. They can add live search, files, memory, or tools, but the core model is finished learning.
 
 Fluent, confident, likable.

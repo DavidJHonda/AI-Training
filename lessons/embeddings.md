@@ -12,57 +12,7 @@ To see how this works, you and your friends decide to rate Coke and a cup of cof
 
 Here are your results. We added a column for Token ID, even though that wasn’t part of your test.
 
-Taste Profile · Coke vs. Coffee
-
-## Dimensions
-
-## Token
-
-## Token ID
-
-## Sweet
-
-## Bitter
-
-## Fizz
-
-## Heat
-
-## Caffeine
-
-## Dark
-
-🥤Coke
-
-24317
-
-9
-
-1
-
-10
-
-2
-
-3
-
-8
-
-☕Coffee
-
-51820
-
-1
-
-9
-
-0
-
-9
-
-8
-
-10
+![Coke and coffee scored on the same six dimensions, with each ordered vector shown beneath its sliders.](embeddings-1-taste-two.jpg)
 
 If someone asked you, “Which drink has sweet of 9, bitter of 1, and fizz of 10?” you’d immediately answer Coke.
 
@@ -70,85 +20,13 @@ By rating each drink on those dimensions, you’ve done what AI does on a massiv
 
 A row of numbers in a specific order, like this, is called a **Vector**. Each slot (Sweet, Bitter, etc.) is a **Dimension**. And each number is a **Value**.
 
+![Nate and Luke compare Coke and coffee using the same six dimensions; Coke's vector is 9, 1, 10, 2, 3, 8 and Coffee's is 1, 9, 0, 9, 8, 10.](embeddings-0-meaning-as-numbers.jpg)
+
 ## What about Pepsi?
 
 Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart.
 
-Taste Profile · Coke vs. Pepsi vs. Coffee
-
-## Dimensions
-
-## Token
-
-## Token ID
-
-## Sweet
-
-## Bitter
-
-## Fizz
-
-## Heat
-
-## Caffeine
-
-## Dark
-
-## Citrus
-
-🥤Coke
-
-24317
-
-9
-
-1
-
-10
-
-2
-
-3
-
-8
-
-1
-
-🥤Pepsi
-
-38106
-
-9
-
-1
-
-10
-
-2
-
-3
-
-8
-
-10
-
-☕Coffee
-
-51820
-
-1
-
-9
-
-0
-
-9
-
-8
-
-10
-
-0
+![Coke, Pepsi, and coffee scored on the same dimensions, with Citrus added as a seventh coordinate that separates Coke from Pepsi.](embeddings-2-taste-three.jpg)
 
 To separate them, you added a new dimension, **Citrus**. Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ. Different numbers, different meanings: the rows no longer just name two drinks, they tell them apart.
 

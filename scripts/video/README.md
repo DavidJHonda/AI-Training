@@ -19,6 +19,13 @@ calculation. Run—or rerun—`scripts/video-tracker-migrate-r4.gs` to add any m
 Source QA, Accuracy Gate, Substitute Gate, and Board Walk Gate columns without
 altering old reviews.
 
+## Shipping filename convention (owner rule, 2026-08-17)
+
+Version suffixes such as `-v2` are review-stage filenames only. When David says to
+ship a video, replace the existing unsuffixed video with the approved version,
+remove the suffixed file, and point the lesson at the unsuffixed filename. The
+shipped course and `index.html` must never depend on a `-v2` video path.
+
 ## The standard content-board walk (owner rule, 2026-08-14)
 
 **Whenever narration walks two or more points on a compact lesson board, the exact

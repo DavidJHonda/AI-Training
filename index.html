@@ -192,8 +192,68 @@
   .gate-go button:hover{ transform:translateY(-2px); background:#ffe08a; }
   .gate-go button:active{ transform:translateY(0); }
   .gate-go button:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+  .mobile-course-nav { display: none; }
+  .watch-copy-mobile, .watch-mobile-tag { display: none; }
   @media (max-width: 760px) {
-    .sticky-sub, .sticky-navtext { display: none !important; }
+    .sticky-navtext { display: none !important; }
+    .sticky-sub { display: block !important; }
+    .sticky-inner { padding: 8px 12px !important; gap: 8px !important; }
+    .desktop-section-map, .desktop-lesson-nav { display: none !important; }
+    .mobile-course-nav {
+      display: block;
+      margin-top: 12px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      box-shadow: var(--shadowSoft);
+    }
+    .mobile-nav-field { display: block; min-width: 0; }
+    .mobile-nav-field--lesson { flex: 1; }
+    .mobile-nav-meta {
+      display: block;
+      margin: 0 0 6px 2px;
+      color: var(--inkMuted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .mobile-nav-select {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      height: 46px;
+      padding: 0 38px 0 13px;
+      border: 1px solid var(--rule);
+      border-radius: 11px;
+      background: var(--primaryFaint);
+      color: var(--ink);
+      font: 800 15px/1.2 var(--sans);
+      text-overflow: ellipsis;
+    }
+    .mobile-nav-lesson-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .mobile-nav-step {
+      flex: 0 0 46px;
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--primaryDeep);
+      font: 800 24px/1 var(--sans);
+      cursor: pointer;
+    }
+    .mobile-nav-step:disabled { color: var(--inkFaint); opacity: .55; cursor: default; }
+    .watch-copy-desktop { display: none; }
+    .watch-copy-mobile, .watch-mobile-tag { display: inline; }
+    .watch-overview-trigger { gap: 14px !important; padding: 14px 16px !important; }
+    .watch-overview-play { width: 52px !important; height: 52px !important; }
   }
   .ct-eq { display: flex; align-items: center; justify-content: center; gap: 14px; }
   .ct-eq-op { flex-shrink: 0; }
@@ -268,6 +328,91 @@
       display: flex;
       flex-direction: column;
     }
+  }
+  /* Lesson illustrations are fixed compositions, so their internal labels cannot
+     reflow like the rest of the course. Give each one a full-screen, zoomable view. */
+  .zoomable-illustration {
+    cursor: zoom-in;
+    transition: box-shadow .16s ease, transform .16s ease;
+  }
+  @media (hover:hover) {
+    .zoomable-illustration:hover {
+      box-shadow: 0 0 0 3px rgba(110,81,255,.26), 0 12px 30px -16px rgba(14,10,31,.34);
+      transform: translateY(-1px);
+    }
+  }
+  .illustration-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background: rgba(9,7,18,.94);
+    color: #fff;
+    font-family: var(--sans);
+  }
+  .illustration-lightbox-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
+    background: rgba(9,7,18,.86);
+    border-bottom: 1px solid rgba(255,255,255,.16);
+  }
+  .illustration-lightbox-actions { display: flex; align-items: center; gap: 10px; }
+  .illustration-lightbox-button {
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px;
+    padding: 9px 14px;
+    background: rgba(255,255,255,.10);
+    color: #fff;
+    font: 700 13px/1 var(--sans);
+    cursor: pointer;
+  }
+  .illustration-lightbox-button:hover { background: rgba(255,255,255,.18); }
+  .illustration-lightbox-stage {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+  .illustration-lightbox-stage.is-zoomed {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .illustration-lightbox-image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.48);
+    cursor: zoom-in;
+  }
+  .illustration-lightbox-image.is-zoomed {
+    width: 200vw;
+    max-width: 1600px;
+    max-height: none;
+    cursor: zoom-out;
+  }
+  /* The desktop shell spends 176px on horizontal padding before lesson content.
+     On a 390px phone that left an illustration only about 212px wide. */
+  @media (max-width: 600px) {
+    .course-shell { padding: 8px 12px 64px !important; }
+    #main-content { padding: 28px 20px !important; border-radius: 14px !important; }
+    .lesson-title { font-size: 43px !important; line-height: 1.02 !important; }
+    .illustration-card { padding: 20px 16px !important; border-radius: 16px !important; }
+    .close-board { padding-left: 0 !important; padding-right: 0 !important; }
+    .illustration-lightbox-stage { padding: 8px; }
+    .illustration-lightbox-toolbar-label { display: none; }
   }
   /* Per-lesson print: hide the app chrome so only the lesson (from its kicker + title
      down) goes to the PDF. Triggered by the "Print This Lesson" button -> window.print(). */
@@ -502,6 +647,7 @@ function LessonHeader(props) {
       style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, margin: "0 0 18px 0" }
     },
       E("h1", {
+        className: "lesson-title",
         style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: 0, flex: "1 1 auto", minWidth: 0 }
       }, resolvedTitle)
     ),
@@ -557,6 +703,7 @@ function DecodeCards(props) {
 function Illustration(props) {
   return /*#__PURE__*/React.createElement("div", { style: { marginTop: props.marginTop != null ? props.marginTop : 0 } },
     /*#__PURE__*/React.createElement("div", {
+      className: "illustration-card",
       style: { background: "var(--illoBand)", borderRadius: 20, padding: "24px 28px", marginBottom: props.marginBottom != null ? props.marginBottom : 24 }
     },
       /*#__PURE__*/React.createElement("div", {
@@ -653,6 +800,75 @@ function closeBoard(sectionId) {
   var copy = CLOSE_BOARDS[sectionId];
   if (!copy) return null;
   return /*#__PURE__*/React.createElement(CloseBoard, copy);
+}
+
+// Full-screen treatment for the fixed-composition lesson illustrations. Trigger
+// images are decorated and opened through event delegation in LLMExplorer, so every
+// existing lesson image participates without duplicating wrappers in each section.
+function IllustrationLightbox(props) {
+  var E = React.createElement;
+  var _z = useState(false), zoomed = _z[0], setZoomed = _z[1];
+  var closeRef = useRef(null);
+  var zoomRef = useRef(null);
+
+  useEffect(function() {
+    setZoomed(false);
+  }, [props.image && props.image.src]);
+
+  useEffect(function() {
+    if (!props.image) return;
+    var previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    if (closeRef.current) closeRef.current.focus();
+    var onKeyDown = function(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        props.onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      var controls = [zoomRef.current, closeRef.current].filter(Boolean);
+      if (!controls.length) return;
+      var first = controls[0], last = controls[controls.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return function() {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [props.image, props.onClose]);
+
+  if (!props.image) return null;
+  var toggleZoom = function() { setZoomed(function(v) { return !v; }); };
+  return ReactDOM.createPortal(
+    E("div", {
+      className: "illustration-lightbox",
+      role: "dialog",
+      "aria-modal": "true",
+      "aria-label": "Expanded course illustration",
+      onMouseDown: function(e) { if (e.target === e.currentTarget) props.onClose(); }
+    },
+      E("div", { className: "illustration-lightbox-toolbar" },
+        E("span", { className: "illustration-lightbox-toolbar-label", style: { fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,.72)" } }, "Course illustration"),
+        E("div", { className: "illustration-lightbox-actions" },
+          E("button", { ref: zoomRef, type: "button", className: "illustration-lightbox-button", onClick: toggleZoom, "aria-pressed": zoomed }, zoomed ? "Fit screen" : "Zoom in"),
+          E("button", { ref: closeRef, type: "button", className: "illustration-lightbox-button", onClick: props.onClose, "aria-label": "Close expanded illustration" }, "Close ×"))),
+      E("div", { className: "illustration-lightbox-stage" + (zoomed ? " is-zoomed" : "") },
+        E("img", {
+          src: props.image.src,
+          alt: props.image.alt || "",
+          className: "illustration-lightbox-image" + (zoomed ? " is-zoomed" : ""),
+          onClick: toggleZoom,
+          draggable: false
+        }))),
+    document.body);
 }
 
 // ── Shared design kit (back-half consistency pass, 2026-07-14) ──────────────
@@ -1183,24 +1399,30 @@ function WatchOverview(props) {
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   }, [open]);
-  return E("div", { ref: rootRef, className: "no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
+  return E("div", { ref: rootRef, className: "watch-overview no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
     E("button", {
+      className: "watch-overview-trigger",
       onClick: function() { setOpen(!open); },
       "aria-expanded": open ? "true" : "false",
       "aria-label": (open ? "Hide" : "Play") + " the video overview for this lesson",
       style: { display: "flex", alignItems: "center", gap: 20, width: "100%", textAlign: "left", cursor: "pointer", fontFamily: "var(--sans)", background: "#fcf5d8", border: "1px solid #eddfa8", borderRadius: 20, padding: "15px 22px", boxShadow: "var(--shadowSoft)" }
     },
-      E("span", { style: { flexShrink: 0, width: 64, height: 64, borderRadius: 999, background: "#1b2153", display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 16px rgba(27,33,83,0.30)" } },
+      E("span", { className: "watch-overview-play", style: { flexShrink: 0, width: 64, height: 64, borderRadius: 999, background: "#1b2153", display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 16px rgba(27,33,83,0.30)" } },
         E("svg", { width: 22, height: 22, viewBox: "0 0 16 16", "aria-hidden": "true" },
           E("path", { d: "M5.5 3.5 L12.5 8 L5.5 12.5 Z", fill: "#e8c552" }))),
       E("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" } },
         E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } },
           E("span", { style: { color: "#a8842c", fontSize: 11 } }, "▸"),
           E("span", { style: { color: "#a8842c", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, "Watch"),
+          E("span", { className: "watch-mobile-tag", style: { color: "#6f654e", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" } }, "Phone-friendly"),
           v.duration ? E("span", { style: { color: "#94896a", fontSize: 13 } }, "· " + v.duration) : null),
         E("div", { style: { fontSize: 15, color: "#2f3557", lineHeight: 1.5 } },
-          "Watch the video version or read the lesson below. ",
-          E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.cta || WATCH_CTA_DEFAULT)))),
+          E("span", { className: "watch-copy-desktop" },
+            "Watch the video version or read the lesson below. ",
+            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.cta || WATCH_CTA_DEFAULT)),
+          E("span", { className: "watch-copy-mobile" },
+            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, "Easiest way to take this lesson on a phone. "),
+            "Watch now, or read the full lesson below.")))),
     open ? E("div", { style: { marginTop: 12 } }, E(WatchPlayer, { video: v })) : null);
 }
 function ActivityButton(props) {
@@ -13704,6 +13926,76 @@ function ChipNav(props) {
 
   return body;
 }
+
+// Phone navigation uses native pickers: every section and lesson is visible in a
+// system list instead of living beyond the right edge of a horizontal track.
+// Desktop keeps the visual section tabs and lesson-map dots.
+function MobileCourseNav(props) {
+  var E = React.createElement;
+  var completed = props.completed || [];
+  var groups = SECTION_GROUPS.filter(function(g) { return !!g.label; });
+  var groupIndex = groups.findIndex(function(g) { return g.sections.indexOf(props.activeSection) !== -1; });
+  if (groupIndex < 0) groupIndex = 0;
+  var group = groups[groupIndex];
+  var lessonIndex = group.sections.indexOf(props.activeSection);
+  if (lessonIndex < 0) lessonIndex = 0;
+  var globalIndex = SECTIONS.findIndex(function(s) { return s.id === props.activeSection; });
+  var prevId = globalIndex > 0 ? SECTIONS[globalIndex - 1].id : null;
+  var nextId = globalIndex >= 0 && globalIndex < SECTIONS.length - 1 ? SECTIONS[globalIndex + 1].id : null;
+  var lessonName = function(id) {
+    var s = SECTIONS.find(function(sec) { return sec.id === id; });
+    if (!s) return id;
+    return CHIP_LABELS[id] || s.title || s.label;
+  };
+  var groupComplete = function(g) {
+    return g.sections.length > 0 && g.sections.every(function(id) { return completed.indexOf(id) !== -1; });
+  };
+  var optionLabel = function(id) {
+    var prefix = completed.indexOf(id) !== -1 ? "✓ " : "";
+    var suffix = isDraftLesson(id) ? " · Draft" : "";
+    return prefix + lessonName(id) + suffix;
+  };
+  var go = function(id) {
+    if (id && props.onNavigate) props.onNavigate(id);
+  };
+  var stepButton = function(id, direction) {
+    var disabled = !id;
+    var destination = id ? lessonName(id) : "";
+    return E("button", {
+      type: "button",
+      className: "mobile-nav-step",
+      disabled: disabled,
+      onClick: function() { go(id); },
+      "aria-label": direction + " lesson" + (destination ? ": " + destination : "")
+    }, direction === "Previous" ? "‹" : "›");
+  };
+
+  return E("nav", { className: "mobile-course-nav no-print", "aria-label": "Course navigation" },
+    E("label", { className: "mobile-nav-field" },
+      E("span", { className: "mobile-nav-meta" }, "Section " + (groupIndex + 1) + " of " + groups.length),
+      E("select", {
+        className: "mobile-nav-select",
+        value: group.sections[0],
+        onChange: function(e) { go(e.target.value); },
+        "aria-label": "Choose a course section"
+      }, groups.map(function(g) {
+        return E("option", { key: g.label, value: g.sections[0] }, (groupComplete(g) ? "✓ " : "") + g.label);
+      }))),
+    E("div", { className: "mobile-nav-lesson-row" },
+      stepButton(prevId, "Previous"),
+      E("label", { className: "mobile-nav-field mobile-nav-field--lesson" },
+        E("span", { className: "mobile-nav-meta" }, "Lesson " + (lessonIndex + 1) + " of " + group.sections.length),
+        E("select", {
+          className: "mobile-nav-select",
+          value: props.activeSection,
+          onChange: function(e) { go(e.target.value); },
+          "aria-label": "Choose a lesson in " + group.label
+        }, group.sections.map(function(id) {
+          return E("option", { key: id, value: id }, optionLabel(id));
+        }))),
+      stepButton(nextId, "Next")));
+}
+
 // Condensed context bar that slides in once the full header has scrolled away.
 // Keeps the current lesson + position visible on the left, with Prev/Next
 // stepping through the lessons in order. Same for every section.
@@ -13759,12 +14051,12 @@ function StickyLessonBar(props) {
     className: "no-print",
     style: { position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "#fff", borderBottom: "1px solid var(--rule)", boxShadow: visible ? "0 4px 16px -8px rgba(14,10,31,.22)" : "none", transform: visible ? "translateY(0)" : "translateY(-100%)", transition: "transform 220ms ease", pointerEvents: visible ? "auto" : "none" }
   },
-    E("div", { style: { maxWidth: 1080, margin: "0 auto", padding: "8px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 } },
+    E("div", { className: "sticky-inner", style: { maxWidth: 1080, margin: "0 auto", padding: "8px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 } },
       E("div", { style: { display: "flex", alignItems: "center", gap: 11, minWidth: 0 } },
         E("span", { "aria-hidden": "true", style: { fontSize: 22, lineHeight: 1, flex: "0 0 auto" } }, section.icon),
         E("div", { style: { minWidth: 0 } },
           E("div", { style: { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 800, color: isDraft ? "#d4334a" : "var(--ink)", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, isDraft ? lessonTitle + " · Draft" : lessonTitle),
-          E("div", { className: "sticky-sub", style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: "var(--inkMuted)", lineHeight: 1.3, whiteSpace: "nowrap" } }, groupLabel))),
+          E("div", { className: "sticky-sub", style: { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: "var(--inkMuted)", lineHeight: 1.3, whiteSpace: "nowrap" } }, groupLabel + " · " + posInGroup + " of " + groupLen))),
       E("div", { style: { display: "flex", alignItems: "center", gap: 8, flex: "0 0 auto" } },
         navBtn(prevId, false),
         navBtn(nextId, true))));
@@ -13794,6 +14086,8 @@ class LessonErrorBoundary extends React.Component {
 function LLMExplorer() {
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
   const [signup, setSignup] = useState({ firstName: "", lastName: "", email: "", city: "", state: "" });
+  const [expandedIllustration, setExpandedIllustration] = useState(null);
+  const illustrationTriggerRef = useRef(null);
   // Fail-open signup delivery: the queued payload is retried on each visit (max 3
   // attempts) until the endpoint confirms with "ok". A send failure never blocks entry.
   var sendSignup = function(payload) {
@@ -13822,6 +14116,34 @@ function LLMExplorer() {
     testYourselfQuiz: null
   });
   const activeSection = progress.activeSection;
+  const closeExpandedIllustration = function() {
+    setExpandedIllustration(null);
+    window.setTimeout(function() {
+      if (illustrationTriggerRef.current && illustrationTriggerRef.current.focus) illustrationTriggerRef.current.focus();
+    }, 0);
+  };
+  const illustrationFromEvent = function(event) {
+    var node = event.target && event.target.closest ? event.target.closest("img") : null;
+    if (!node) return null;
+    var rawSrc = node.getAttribute("src") || "";
+    var isIllustration = rawSrc.indexOf("illustrations/") === 0 || rawSrc.indexOf("/illustrations/") !== -1;
+    var isLessonBoard = rawSrc.indexOf("lessons/") === 0 || rawSrc.indexOf("/lessons/") !== -1;
+    if (!isIllustration && !isLessonBoard) return null;
+    return node;
+  };
+  const openIllustrationFromEvent = function(event) {
+    var image = illustrationFromEvent(event);
+    if (!image) return;
+    illustrationTriggerRef.current = image;
+    setExpandedIllustration({ src: image.currentSrc || image.src, alt: image.getAttribute("alt") || "" });
+  };
+  const openIllustrationFromKeyboard = function(event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    var image = illustrationFromEvent(event);
+    if (!image) return;
+    event.preventDefault();
+    openIllustrationFromEvent(event);
+  };
   const setActiveSection = (id) => {
     setProgress(prev => ({
       ...prev,
@@ -13862,6 +14184,22 @@ function LLMExplorer() {
   useEffect(function() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [progress.activeSection]);
+  useEffect(function() {
+    setExpandedIllustration(null);
+    var frame = window.requestAnimationFrame(function() {
+      var main = document.getElementById("main-content");
+      if (!main) return;
+      Array.prototype.forEach.call(main.querySelectorAll('img[src^="illustrations/"], img[src*="/illustrations/"], img[src^="lessons/"], img[src*="/lessons/"]'), function(img) {
+        img.classList.add("zoomable-illustration");
+        img.setAttribute("tabindex", "0");
+        img.setAttribute("role", "button");
+        img.setAttribute("aria-haspopup", "dialog");
+        img.setAttribute("aria-label", "Open enlarged illustration" + (img.alt ? ": " + img.alt : ""));
+        img.setAttribute("title", "Open larger view");
+      });
+    });
+    return function() { window.cancelAnimationFrame(frame); };
+  }, [progress.activeSection, hasName]);
   var printParam = null;
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
@@ -13956,7 +14294,7 @@ function LLMExplorer() {
             /*#__PURE__*/React.createElement("span", { className: "gate-red" }, "red text"),
             " in the title bar."),
           /*#__PURE__*/React.createElement("li", null, "We want to track how many people use this course. A few questions below will help us do this. We\u2019ll never email you or give your email address to anyone. The last thing any of us needs is more SPAM."),
-          /*#__PURE__*/React.createElement("li", null, "For now, the course is built for a computer. Phones and tablets will work for reading, but the activities aren\u2019t optimized for them yet."),
+          /*#__PURE__*/React.createElement("li", null, "Phones and tablets work well for reading and most activities. Tap any illustration to open a larger, zoomable view. A computer is recommended for labs that use ChatGPT, files, or HTML projects."),
           /*#__PURE__*/React.createElement("li", null, "This course will always be ",
             /*#__PURE__*/React.createElement("b", null, "free to everyone"),
             ". That\u2019s how committed we are to giving our generation AI knowledge.")),
@@ -13975,6 +14313,7 @@ function LLMExplorer() {
             /*#__PURE__*/React.createElement("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let\u2019s go\u00a0\u00a0\u2192")))));
   }
   return /*#__PURE__*/React.createElement("div", {
+    className: "course-shell",
     style: {
       fontFamily: "var(--sans)",
       maxWidth: 1080,
@@ -14198,7 +14537,7 @@ function LLMExplorer() {
           )
         )
       ),
-      /*#__PURE__*/React.createElement("nav", { className: "section-map", "aria-label": "Course sections" },
+      /*#__PURE__*/React.createElement("nav", { className: "section-map desktop-section-map", "aria-label": "Course sections" },
         SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
           var isActiveGroup = group === activeGroup;
           var completedList = progress.completed || [];
@@ -14226,11 +14565,14 @@ function LLMExplorer() {
               /*#__PURE__*/React.createElement("span", { className: "section-tab-fill", style: { width: fillPct + "%" } })));
         })
       ),
-      /*#__PURE__*/React.createElement("nav", { "aria-label": "Lesson navigation", style: { marginTop: 18 } },
-        /*#__PURE__*/React.createElement(ChipNav, { sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection }))
+      /*#__PURE__*/React.createElement("nav", { className: "desktop-lesson-nav", "aria-label": "Lesson navigation", style: { marginTop: 18 } },
+        /*#__PURE__*/React.createElement(ChipNav, { sections: activeGroup.sections, activeSection: activeSection, visited: progress.visited || [], completed: progress.completed || [], onNavigate: setActiveSection })),
+      /*#__PURE__*/React.createElement(MobileCourseNav, { activeSection: activeSection, completed: progress.completed || [], onNavigate: setActiveSection })
     );
   }(), /*#__PURE__*/React.createElement("main", {
     id: "main-content",
+    onClick: openIllustrationFromEvent,
+    onKeyDown: openIllustrationFromKeyboard,
     style: {
       background: "var(--card)",
       borderRadius: 18,
@@ -14267,7 +14609,8 @@ function LLMExplorer() {
     href: "lessons/" + lessonSlug(activeSection) + ".pdf",
     download: (OPENER_PDF_NAMES[activeSection] || (SECTION_META[activeSection] && SECTION_META[activeSection].label) || activeSection) + ".pdf",
     style: { textDecoration: "none", cursor: "pointer", fontSize: 12.5, color: "var(--primary)", fontWeight: 700, display: "block", textAlign: "center", margin: "10px auto 0" }
-  }, "\u2b07 Download this lesson (PDF)") : null));
+  }, "\u2b07 Download this lesson (PDF)") : null),
+  /*#__PURE__*/React.createElement(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));
 }
 
 

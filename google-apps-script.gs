@@ -63,27 +63,44 @@ function recordEnrollment_(data) {
 function recordCompletion_(data) {
   var completionId = clean_(data.completionId);
   var studentId = clean_(data.studentId);
-  if (!completionId || !studentId) {
-    throw new Error("Completion ID and student ID are required");
+  var firstName = clean_(data.firstName);
+  var lastName = clean_(data.lastName);
+  if (!completionId || !studentId || !firstName || !lastName) {
+    throw new Error("Completion ID, student ID, first name, and last name are required");
   }
 
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     var sheet = getCompletionSheet_();
-    if (completionExists_(sheet, completionId)) return;
-
-    var firstName = clean_(data.firstName) || "Student";
     var city = clean_(data.city);
     var state = clean_(data.state);
     var location = [city, state].filter(String).join(", ");
     var score = normalizeScore_(data.score);
+    if (score < 80) throw new Error("A passing completion score is required");
     var completedAt = new Date();
+    var fullName = firstName + " " + lastName;
+    var existingRow = findCompletionRow_(sheet, completionId);
+
+    if (existingRow) {
+      var existingName = sheet.getRange(existingRow, 3, 1, 2).getValues()[0];
+      if (clean_(existingName[0]) === firstName && clean_(existingName[1]) === lastName) return;
+      sheet.getRange(existingRow, 3, 1, 2).setValues([[firstName, lastName]]);
+      MailApp.sendEmail(
+        NOTIFICATION_EMAIL,
+        "Course completion name updated: " + fullName,
+        "The certificate name for an existing completion was updated.\n" +
+          "Name: " + fullName + "\n" +
+          "Student ID: " + studentId
+      );
+      return;
+    }
 
     sheet.appendRow([
       completedAt,
       studentId,
       firstName,
+      lastName,
       city,
       state,
       score,
@@ -92,7 +109,7 @@ function recordCompletion_(data) {
     ]);
 
     var lines = [
-      firstName + " completed Be Smarter Than the Tool.",
+      fullName + " completed Be Smarter Than the Tool.",
       "Final score: " + score + "%"
     ];
     if (location) lines.push("Location: " + location);
@@ -101,7 +118,7 @@ function recordCompletion_(data) {
 
     MailApp.sendEmail(
       NOTIFICATION_EMAIL,
-      "Course completed: " + firstName,
+      "Course completed: " + fullName,
       lines.join("\n")
     );
   } finally {
@@ -118,6 +135,7 @@ function getCompletionSheet_() {
       "Completed At",
       "Student ID",
       "First Name",
+      "Last Name",
       "City",
       "State",
       "Final Score",
@@ -125,19 +143,25 @@ function getCompletionSheet_() {
       "Course Version"
     ]);
     sheet.setFrozenRows(1);
+  } else {
+    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    if (headers.indexOf("Last Name") === -1) {
+      sheet.insertColumnAfter(3);
+      sheet.getRange(1, 4).setValue("Last Name");
+    }
   }
   return sheet;
 }
 
-function completionExists_(sheet, completionId) {
+function findCompletionRow_(sheet, completionId) {
   var lastRow = sheet.getLastRow();
-  if (lastRow < 2) return false;
+  if (lastRow < 2) return null;
   var match = sheet
-    .getRange(2, 7, lastRow - 1, 1)
+    .getRange(2, 8, lastRow - 1, 1)
     .createTextFinder(completionId)
     .matchEntireCell(true)
     .findNext();
-  return match !== null;
+  return match ? match.getRow() : null;
 }
 
 function normalizeScore_(value) {

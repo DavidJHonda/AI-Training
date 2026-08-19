@@ -35,10 +35,10 @@ const BOARDS = [
     find: ["WHY GO DEEPER?", "Everyone has AI.", "be smarter than the tool."] },
   { section: "welcome", out: "welcome-2-your-path.jpg", width: 720,
     find: ["Here’s your path.", "Work", "Build", "personal edge."] },
-  // The two tool pills live in the same lavender ShowcaseBox as the headline and the
-  // intro line; matching all three forces the band, not just the pill row.
-  { section: "welcome", out: "welcome-3-what-youll-need.jpg", width: 520,
-    find: ["What you’ll need", "Nothing to install.", "free version"] },
+  // The three toolkit cards live in the same lavender ShowcaseBox as the headline.
+  // Match the heading plus every card so the capture keeps the complete course setup.
+  { section: "welcome", out: "welcome-3-what-youll-need.jpg", width: 1180, vw: 1280,
+    find: ["Your course toolkit", "A computer", "ChatGPT for Teens", "Google account"] },
   // Same Illustration-wrapper trick as welcome-1: lead with the eyebrow or the capture
   // collapses to the bare serif lines and loses the peach band the reader sees.
   { section: "openerworkwith", out: "opener-work-1-refrain.jpg", width: 740,

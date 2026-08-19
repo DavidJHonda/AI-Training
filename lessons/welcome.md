@@ -33,14 +33,12 @@ Avoid—recognize the traps; Embrace—prepare for what changes; Build—turn AI
 advantage. Luke and Nate appear in green hockey jerseys across the five
 steps.](welcome-2-your-path.jpg)
 
-What you’ll need
+## TOOLS NEEDED
 
-The course runs in your browser. Nothing to install. The labs use two outside tools, both free:
+### Your course toolkit
 
-**Gemini Notebook**, free with a Google account
+Nothing to install. No paid plan required.
 
-**Claude**, free version
-
-Be Smarter Than the Tool.
-
-The most important AI skill there is.
+- **A computer:** Best for the labs. Use a laptop or desktop computer for hands-on activities.
+- **ChatGPT for Teens:** Free account and your main lab tool. Ages 13 to 17 are automatically placed in the teen experience.
+- **Google account:** Free account used to create your Gemini Notebook study notebook.

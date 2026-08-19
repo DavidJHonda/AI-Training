@@ -802,7 +802,7 @@ End on board 4: "Seeing or hearing isn’t proof anymore." over "Check the sourc
 
 add("welcome", title="Welcome", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 why go deeper, 2 your path, 3 what you'll need, 4 the close.
+Attached boards in order: 1 why go deeper, 2 your path, 3 your course toolkit, 4 the close.
 
 Focus: a short orientation. Open on board 1 and let the narrator land all four of its lines — everyone has AI, most just press go, few understand it, be smarter than the tool — then: you're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
 
@@ -814,14 +814,14 @@ Then the bigger point, given real weight: AI is already everywhere in your life 
 
 Then board 2, the five-part path: Work, Understand, Avoid, Embrace, Build, each spoken with the gloss printed under it on the board, in the board's own words.
 
-Then board 3, held while the narration walks it: the course runs in your browser, nothing to install, and the labs use two outside tools, both free. Name both from the board and say what each costs you — Gemini Notebook, free with a Google account; Claude, the free version. Say "Gemini Notebook", never "NotebookLM".
+Then hold board 3 and walk its cards: laptop or desktop for hands-on activities; ChatGPT for Teens as the main lab tool, with free accounts placing ages 13 to 17 in the teen experience; and a free Google account for the Gemini Notebook study notebook. Say nothing to install, no paid plan required, and "Gemini Notebook", never "NotebookLM". Do not mention Claude.
 
 End on board 4.
 """,
     numbers="This lesson contains no data of any kind. Invent no numbers, no percentages and no statistics.",
     props="No readable text inside drawn props or backgrounds, and no invented app screens, menus or interfaces; real words belong only on the attached boards and in clean dark-ink labels.",
     required='first-person authorship WITH BOTH NAMES — "We\'re Luke and Nate, and yeah, we\'re still in high school"; the paradox "the better AI gets, the more it pays to be the person who actually understands it"; the jersey aside spoken aloud; and "Be Smarter Than the Tool."',
-    extra=("Board 2's five cards must stay IN SYNC with the narration: the card being spoken is the card on screen, held still and fully readable, and the camera moves only when the narration moves to the next card. This overrides the slow-camera instruction for this board. The last roll drifted across the cards on its own timing, so the spoken step and the visible step came apart and cards were left half-cropped mid-pan.",
+    extra=("Board 2's five cards must stay IN SYNC with the narration: the card being spoken is the card on screen, held still and fully readable, and the camera moves only when the narration moves to the next card. This overrides the slow-camera instruction for this board.",
            "Draw NO graphs, charts, axes, plotted curves or trend lines anywhere in this video. The lesson has no data to plot. The last roll invented a rising-curve 'job market' graph whose labels, Strategic Understanding and Value Gap, were thin pale purple and red on a pale cream ground and could not be read at all. Show the widening gap, if you show it, as two people and a widening space between them.",
            "Never add material the lesson does not contain — no apps-change-but-principles-stay digression, no passenger/driver metaphor, and no claim that progress depends on your curiosity.",))
 

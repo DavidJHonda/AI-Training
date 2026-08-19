@@ -487,9 +487,11 @@ function getOrCreateStudentId() {
 
 function saveStudentProfile(payload) {
   try {
+    var existing = JSON.parse(localStorage.getItem(STUDENT_PROFILE_KEY) || "{}") || {};
     localStorage.setItem(STUDENT_PROFILE_KEY, JSON.stringify({
       studentId: payload.studentId,
       firstName: payload.firstName,
+      lastName: payload.lastName || existing.lastName || "",
       city: payload.city,
       state: payload.state
     }));
@@ -502,6 +504,7 @@ function getStudentProfile() {
   try {
     var pendingSignup = JSON.parse(localStorage.getItem("llm-signup-pending") || "{}") || {};
     if (!profile.firstName && pendingSignup.firstName) profile.firstName = pendingSignup.firstName;
+    if (!profile.lastName && pendingSignup.lastName) profile.lastName = pendingSignup.lastName;
     if (!profile.city && pendingSignup.city) profile.city = pendingSignup.city;
     if (!profile.state && pendingSignup.state) profile.state = pendingSignup.state;
   } catch (e) {}
@@ -525,7 +528,7 @@ function deliverCompletionReport(payload) {
       .then(function(t) {
         if (t.trim() !== "completion-ok") return;
         try {
-          localStorage.setItem(COMPLETION_REPORTED_KEY, payload.completionId);
+          localStorage.setItem(COMPLETION_REPORTED_KEY, payload.reportKey);
           localStorage.removeItem(COMPLETION_PENDING_KEY);
         } catch (e) {}
       })
@@ -536,22 +539,27 @@ function deliverCompletionReport(payload) {
   }
 }
 
-function reportCourseCompletion(score) {
+function reportCourseCompletion(score, certificateFirstName, certificateLastName) {
   var profile = getStudentProfile();
+  var firstName = String(certificateFirstName || profile.firstName || "").trim();
+  var lastName = String(certificateLastName || profile.lastName || "").trim();
+  if (!firstName || !lastName) return;
   var completionId = profile.studentId + ":" + COMPLETION_VERSION;
+  var reportKey = completionId + ":" + (firstName + " " + lastName).toLowerCase();
   try {
-    if (localStorage.getItem(COMPLETION_REPORTED_KEY) === completionId) return;
+    if (localStorage.getItem(COMPLETION_REPORTED_KEY) === reportKey) return;
   } catch (e) {}
   var payload = null;
   try { payload = JSON.parse(localStorage.getItem(COMPLETION_PENDING_KEY) || "null"); } catch (e) {}
-  if (!payload || payload.completionId !== completionId) {
+  if (!payload || payload.reportKey !== reportKey) {
     payload = {
       eventType: "course_completed",
       completionId: completionId,
+      reportKey: reportKey,
       courseVersion: COMPLETION_VERSION,
       studentId: profile.studentId,
-      firstName: profile.firstName || "Student",
-      lastName: "",
+      firstName: firstName,
+      lastName: lastName,
       email: "",
       city: profile.city || "",
       state: profile.state || "",
@@ -568,12 +576,12 @@ function retryPendingCompletionReport() {
   try {
     var reportedId = localStorage.getItem(COMPLETION_REPORTED_KEY) || "";
     payload = JSON.parse(localStorage.getItem(COMPLETION_PENDING_KEY) || "null");
-    if (payload && payload.completionId === reportedId) {
+    if (payload && payload.reportKey === reportedId) {
       localStorage.removeItem(COMPLETION_PENDING_KEY);
       return;
     }
   } catch (e) {}
-  if (payload) deliverCompletionReport(payload);
+  if (payload && payload.firstName && payload.lastName) deliverCompletionReport(payload);
 }
 // Typography tokens for static content boxes (not SEE IT / TRY IT activities).
 // BOX_CARD_TITLE: headline of a mini-card inside a showcase box.
@@ -3972,24 +3980,68 @@ function WelcomeSection(props) {
       alt: "Five-step course path: Work: use AI effectively. Understand: see how it works. Avoid: recognize the traps. Embrace: prepare for what changes. Build: turn AI into an advantage. Luke and Nate appear in green hockey jerseys across the five steps.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
-    E(ShowcaseBox, {
-      headline: "What you’ll need",
-      intro: "The course runs in your browser. Nothing to install. The labs use two outside tools, both free:",
-      marginBottom: 28
+    E("div", {
+      className: "course-toolkit-board",
+      style: {
+        background: "#f8f7ff", border: "1px solid #ded9f4", borderRadius: 20,
+        overflow: "hidden", boxShadow: "var(--shadowElevated)", marginBottom: 28
+      }
     },
-      E("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 } },
-        [
-          { name: "ChatGPT", note: "free version; your main lab tool" },
-          { name: "Gemini Notebook", note: "free with a Google account; used for the study notebook lab" }
-        ].map(function(t, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--primary)", color: "rgba(255,255,255,0.88)", borderRadius: 999, padding: "14px 26px", fontSize: 17, lineHeight: 1.3, boxShadow: "0 6px 18px rgba(110, 81, 255, 0.22)" }
-          },
-            E("strong", { style: { fontWeight: 800, color: "#fff" } }, t.name),
-            ", " + t.note);
-        }))
-    ),
+      E("div", {
+        style: {
+          background: "#17367f", color: "#fff", padding: "22px 24px"
+        }
+      },
+        E("div", null,
+          E("div", {
+            style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.16em", color: "#ffd36b", marginBottom: 7 }
+          }, "TOOLS NEEDED"),
+          E("div", {
+            style: { fontFamily: "var(--serif)", fontSize: "clamp(24px, 4vw, 32px)", lineHeight: 1.1 }
+          }, "Your course toolkit"),
+          E("div", {
+            style: { fontSize: 14, color: "rgba(255,255,255,0.76)", lineHeight: 1.45, marginTop: 8 }
+          }, "Nothing to install. No paid plan required."))),
+      E("div", {
+        style: {
+          display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+          gap: 12, padding: 18
+        }
+      }, [
+        {
+          number: "01", icon: "💻", name: "A computer", label: "Best for the labs",
+          note: "Use a laptop or desktop computer for hands-on activities."
+        },
+        {
+          number: "02", icon: "✦", name: "ChatGPT for Teens", label: "Free account",
+          note: "Your main lab tool. Ages 13 to 17 are automatically placed in the teen experience."
+        },
+        {
+          number: "03", icon: "G", name: "Google account", label: "Free account",
+          note: "You’ll use it to create your Gemini Notebook study notebook."
+        }
+      ].map(function(t) {
+        return E("div", {
+          key: t.number,
+          style: {
+            background: "#fff", border: "1px solid #e5e2f1", borderRadius: 14,
+            padding: "18px 18px 20px", minHeight: 178, display: "flex",
+            flexDirection: "column", boxSizing: "border-box"
+          }
+        },
+          E("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 } },
+            E("div", {
+              style: {
+                width: 38, height: 38, borderRadius: 10, display: "flex", alignItems: "center",
+                justifyContent: "center", background: "#eeebff", color: "#17367f",
+                fontSize: t.icon === "G" ? 18 : 20, fontWeight: 900
+              }
+            }, t.icon),
+            E("div", { style: { fontFamily: "var(--mono)", fontSize: 11, color: "var(--inkMuted)" } }, t.number)),
+          E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2, marginBottom: 5 } }, t.name),
+          E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 10 } }, t.label),
+          E("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.5, marginTop: "auto" } }, t.note));
+      }))),
     E("div", { className: "lesson-mechanics" },
     E(SectionKicker, null, "HANDS-ON ACTIVITIES"),
     E(BodyP, null, "You’ll see these two elements throughout the course."),
@@ -12210,6 +12262,17 @@ function certificateSeedName() {
   } catch (e) {}
   return first.trim();
 }
+function certificateNameParts(certName, certFirstName, certLastName) {
+  var first = String(certFirstName || "").trim();
+  var last = String(certLastName || "").trim();
+  if ((!first || !last) && certName) {
+    var words = String(certName).trim().split(/\s+/);
+    if (!first && words.length) first = words.shift();
+    if (!last && words.length) last = words.join(" ");
+  }
+  if (!first) first = certificateSeedName();
+  return { firstName: first, lastName: last };
+}
 function certificateDate() {
   try {
     return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
@@ -12217,46 +12280,140 @@ function certificateDate() {
 }
 // The certificate itself, and the only place its layout is defined: the lesson page
 // and the print route render this same component, so what the student sees on screen
-// is what comes off the printer. No border, no ribbon, no emoji. Rule lines and space
-// do the work. The instructor line names Luke and Nate O'Brien (owner call,
-// 2026-08-16): the course's builders sign its certificate.
+// is what comes off the printer. The navy and gold treatment follows the course's
+// visual identity, with separate signature lines for Luke and Nate O'Brien.
 function CertificateDoc(props) {
   var E = React.createElement;
-  var LABEL = { fontFamily: "var(--sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--inkMuted)" };
-  var line = function(key) { return E("div", { key: key, style: { height: 1, background: "var(--rule)" } }); };
-  var fact = function(key, label, value, align) {
-    return E("div", { key: key, style: { textAlign: align || "left" } },
-      E("div", { style: LABEL }, label),
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", marginTop: 7 } }, value));
+  var navy = "#17367f";
+  var gold = "#f4bd32";
+  var ink = "#0d0820";
+  var muted = "#716e8d";
+  var upper = {
+    fontFamily: "var(--sans)", fontWeight: 800, textTransform: "uppercase",
+    letterSpacing: "0.20em"
+  };
+  var instructor = function(key, name) {
+    return E("div", { key: key, style: { textAlign: "right", minWidth: 0 } },
+      E("div", {
+        style: {
+          fontFamily: "var(--serif)", fontSize: "clamp(17px, 2.2vw, 28px)",
+          lineHeight: 1.05, fontStyle: "italic", color: ink, padding: "0 4% 8px",
+          whiteSpace: "nowrap"
+        }
+      }, name),
+      E("div", { style: { height: 1, background: "#aaa7c5" } }),
+      E("div", {
+        style: Object.assign({}, upper, {
+          fontSize: "clamp(7px, 0.9vw, 10px)", color: muted, marginTop: 9
+        })
+      }, "Instructor"));
   };
   return E("div", {
     className: "certificate-doc",
     style: {
-      background: "var(--card)", borderRadius: 16, boxShadow: "var(--shadowSoft)",
-      padding: "clamp(34px, 5vw, 60px) clamp(28px, 6vw, 76px)", textAlign: "center"
+      width: "100%", aspectRatio: "11 / 8.5", background: "#fff", borderRadius: 12,
+      boxShadow: "0 12px 38px rgba(17, 28, 70, 0.14)", overflow: "hidden",
+      display: "flex", flexDirection: "column", color: ink
     }
   },
-    E("img", { src: "icons/logo-disc.png", alt: "", "aria-hidden": "true", width: 52, height: 52, style: { display: "block", margin: "0 auto 14px" } }),
-    E("div", { style: Object.assign({}, LABEL, { marginBottom: 26 }) }, "AI Leadership Society"),
-    line("r1"),
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)", margin: "36px 0 12px" } }, "This certifies that"),
     E("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(38px, 7vw, 62px)", lineHeight: 1.06, letterSpacing: "-0.02em", color: "var(--ink)" }
-    }, props.name),
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)", margin: "26px 0 12px" } }, "has completed the course"),
-    E("div", {
-      style: { fontFamily: "var(--serif)", fontSize: "clamp(26px, 4.4vw, 38px)", lineHeight: 1.12, letterSpacing: "-0.02em", color: "var(--ink)" }
-    }, COURSE_TITLE),
-    E("div", {
-      style: { fontFamily: "var(--sans)", fontSize: 13, color: "var(--inkMuted)", letterSpacing: "0.05em", margin: "12px 0 38px" }
-    }, COURSE_SUBTITLE),
-    line("r2"),
-    E("div", {
-      style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 28, marginTop: 26 }
+      key: "header",
+      style: {
+        flex: "0 0 13.5%", background: navy, display: "flex", alignItems: "center",
+        gap: "2.2%", padding: "2.1% 5.3%", boxSizing: "border-box"
+      }
     },
-      fact("s", "Final exam", props.score + "%"),
-      fact("d", "Completed", props.date),
-      fact("i", "Instructors", "Luke O'Brien · Nate O'Brien", "right")));
+      E("div", {
+        style: {
+          width: "6.7%", aspectRatio: "1", border: "4px solid #fff", borderRadius: "50%",
+          padding: 2, boxSizing: "border-box", flexShrink: 0
+        }
+      }, E("img", {
+        src: "icons/logo-disc.png", alt: "AI Leadership Society",
+        style: { display: "block", width: "100%", height: "100%", borderRadius: "50%" }
+      })),
+      E("div", {
+        style: Object.assign({}, upper, {
+          color: gold, fontSize: "clamp(8px, 1.2vw, 15px)", whiteSpace: "nowrap"
+        })
+      }, "Certificate of Completion"),
+      E("div", { style: { height: 1, background: "rgba(244, 189, 50, 0.72)", flex: 1, minWidth: 20 } }),
+      E("div", {
+        style: Object.assign({}, upper, {
+          color: "#ffd36b", fontSize: "clamp(7px, 0.95vw, 12px)", whiteSpace: "nowrap"
+        })
+      }, "AI for High Schoolers")),
+    E("div", {
+      key: "body",
+      style: {
+        flex: 1, minHeight: 0, display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", textAlign: "center",
+        padding: "5.3% 8% 2.4%", boxSizing: "border-box"
+      }
+    },
+      E("div", {
+        style: Object.assign({}, upper, {
+          fontSize: "clamp(8px, 1.1vw, 13px)", color: muted, marginBottom: "1.8%"
+        })
+      }, "This certifies that"),
+      E("div", {
+        style: {
+          fontFamily: "var(--serif)", fontSize: "clamp(32px, 6vw, 66px)", lineHeight: 1,
+          letterSpacing: "-0.025em", color: ink, maxWidth: "90%", overflowWrap: "anywhere"
+        }
+      }, props.name),
+      E("div", { style: { width: "19%", height: 2, background: gold, margin: "2.4% 0 2.6%" } }),
+      E("div", {
+        style: Object.assign({}, upper, {
+          fontSize: "clamp(8px, 1.05vw, 13px)", color: muted, marginBottom: "1.8%"
+        })
+      }, "Has completed the course"),
+      E("div", {
+        style: {
+          fontFamily: "var(--sans)", fontSize: "clamp(24px, 4.3vw, 48px)", fontWeight: 800,
+          lineHeight: 0.94, color: navy, letterSpacing: "-0.04em"
+        }
+      }, "Be Smarter"),
+      E("div", {
+        style: {
+          fontFamily: "var(--serif)", fontSize: "clamp(28px, 5vw, 55px)", fontStyle: "italic",
+          lineHeight: 0.98, color: navy, letterSpacing: "-0.025em"
+        }
+      }, "Than the Tool"),
+      E("div", {
+        style: {
+          fontFamily: "var(--sans)", fontSize: "clamp(10px, 1.75vw, 20px)", fontWeight: 800,
+          color: "#a9770c", marginTop: "2.4%"
+        }
+      }, COURSE_SUBTITLE),
+      E("div", {
+        style: {
+          fontFamily: "var(--serif)", fontSize: "clamp(12px, 1.75vw, 21px)", fontStyle: "italic",
+          color: navy, marginTop: "2.4%"
+        }
+      }, "You’re now smarter than the tool.")),
+    E("div", {
+      key: "footer",
+      style: {
+        flex: "0 0 14.5%", borderTop: "1px solid #dedcea", margin: "0 5.3%",
+        display: "grid", gridTemplateColumns: "1.3fr 1fr 1fr", gap: "4.5%",
+        alignItems: "center", boxSizing: "border-box", paddingTop: "1.5%"
+      }
+    },
+      E("div", { key: "date", style: { textAlign: "left" } },
+        E("div", {
+          style: Object.assign({}, upper, {
+            fontSize: "clamp(7px, 0.9vw, 10px)", color: muted, marginBottom: 8
+          })
+        }, "Completed"),
+        E("div", {
+          style: {
+            fontFamily: "var(--sans)", fontSize: "clamp(12px, 1.55vw, 18px)",
+            fontWeight: 800, color: ink
+          }
+        }, props.date)),
+      instructor("luke", "Luke O’Brien"),
+      instructor("nate", "Nate O’Brien")));
 }
 // The certificate flow. Step one confirms the name, because the gate only kept a
 // first name and a certificate deserves the whole thing. Step two is the certificate
@@ -12264,9 +12421,10 @@ function CertificateDoc(props) {
 // the bar, so there is no sub-80 version of this to find.
 function CertificateBlock(props) {
   var E = React.createElement;
-  var _d = useState(function() { return props.certName || certificateSeedName(); });
-  var draft = _d[0], setDraft = _d[1];
-  var _e = useState(!props.certName), editing = _e[0], setEditing = _e[1];
+  var initialName = certificateNameParts(props.certName, props.certFirstName, props.certLastName);
+  var _f = useState(initialName.firstName), draftFirst = _f[0], setDraftFirst = _f[1];
+  var _l = useState(initialName.lastName), draftLast = _l[0], setDraftLast = _l[1];
+  var _e = useState(!props.certName || !initialName.lastName), editing = _e[0], setEditing = _e[1];
   var kicker = E("div", {
     key: "k",
     style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 12 }
@@ -12275,9 +12433,10 @@ function CertificateBlock(props) {
     return E("div", { style: { marginTop: 22 } }, children);
   };
   var save = function() {
-    var v = draft.trim();
-    if (!v) return;
-    props.onSaveName(v);
+    var first = draftFirst.trim();
+    var last = draftLast.trim();
+    if (!first || !last) return;
+    props.onSaveName(first, last);
     setEditing(false);
   };
 
@@ -12291,25 +12450,43 @@ function CertificateBlock(props) {
       E("p", {
         key: "p",
         style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 16px 0", maxWidth: "62ch" }
-      }, "This is the name that prints, so spell it the way you want it read. You can change it later."),
+      }, "Add your last name, then check both names carefully. This is exactly how your name will appear on the certificate."),
       E("div", { key: "f", style: { display: "flex", alignItems: "flex-end", flexWrap: "wrap", gap: 12 } },
-        E("label", { style: { display: "block", flex: "1 1 320px", maxWidth: 440 } },
+        E("label", { style: { display: "block", flex: "1 1 190px", maxWidth: 300 } },
           E("span", {
             style: { display: "block", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--inkMuted)", marginBottom: 7 }
-          }, "Name on the certificate"),
+          }, "First name"),
           E("input", {
             type: "text",
-            value: draft,
-            onChange: function(e) { setDraft(e.target.value); },
-            onKeyDown: function(e) { if (e.key === "Enter") save(); },
-            placeholder: "Your full name",
-            "aria-label": "Name on the certificate",
+            value: draftFirst,
+            onChange: function(e) { setDraftFirst(e.target.value); },
+            placeholder: "First name",
+            autoComplete: "given-name",
+            "aria-label": "First name on the certificate",
             style: {
               width: "100%", background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 10,
               padding: "13px 16px", fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", outline: "none"
             }
           })),
-        E(ActivityButton, { size: "large", onClick: save, disabled: !draft.trim() }, "Make my certificate"))
+        E("label", { style: { display: "block", flex: "1 1 190px", maxWidth: 300 } },
+          E("span", {
+            style: { display: "block", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--inkMuted)", marginBottom: 7 }
+          }, "Last name"),
+          E("input", {
+            type: "text",
+            value: draftLast,
+            onChange: function(e) { setDraftLast(e.target.value); },
+            onKeyDown: function(e) { if (e.key === "Enter") save(); },
+            placeholder: "Last name",
+            autoComplete: "family-name",
+            autoFocus: true,
+            "aria-label": "Last name on the certificate",
+            style: {
+              width: "100%", background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 10,
+              padding: "13px 16px", fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", outline: "none"
+            }
+          })),
+        E(ActivityButton, { size: "large", onClick: save, disabled: !draftFirst.trim() || !draftLast.trim() }, "Make my certificate"))
     ]);
   }
 
@@ -12323,7 +12500,12 @@ function CertificateBlock(props) {
         onClick: function() { try { window.open("?print=certificate", "_blank"); } catch (e) {} }
       }, "Print or save as PDF"),
       E("button", {
-        onClick: function() { setDraft(props.certName || ""); setEditing(true); },
+        onClick: function() {
+          var current = certificateNameParts(props.certName, props.certFirstName, props.certLastName);
+          setDraftFirst(current.firstName);
+          setDraftLast(current.lastName);
+          setEditing(true);
+        },
         style: {
           background: "none", border: "none", padding: 0, cursor: "pointer",
           fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--primary)", textDecoration: "underline"
@@ -12345,12 +12527,13 @@ function CertificatePrintView() {
   try { rec = JSON.parse(localStorage.getItem("final-exam") || "{}") || {}; } catch (e) {}
   var best = typeof rec.bestScore === "number" ? rec.bestScore : null;
   var name = rec.certName || certificateSeedName();
-  var ready = best != null && best >= FINAL_PASS_PCT && !!name;
+  var nameParts = certificateNameParts(rec.certName, rec.certFirstName, rec.certLastName);
+  var ready = best != null && best >= FINAL_PASS_PCT && !!nameParts.firstName && !!nameParts.lastName;
   return E("div", {
     className: "certificate-print-page",
     style: { background: "var(--bg)", minHeight: "100vh", padding: "36px 32px 60px", fontFamily: "var(--sans)" }
   },
-    E("style", null, "@media print { @page { size: landscape; margin: 1.4cm; } .certificate-print-page { padding: 0 !important; } .certificate-doc { box-shadow: none !important; border-radius: 0 !important; } }"),
+    E("style", null, "@media print { @page { size: landscape; margin: 0.35in; } html, body { background: #fff !important; } .certificate-print-page { padding: 0 !important; min-height: 0 !important; } .certificate-doc { box-shadow: none !important; } }"),
     E("div", { style: { maxWidth: 1020, margin: "0 auto" } },
       ready ? [
         E("div", {
@@ -12410,16 +12593,18 @@ function TheFinalQuiz() {
   var _en = useState(null), endsAt = _en[0], setEndsAt = _en[1];
   var _tk = useState(0), tick = _tk[0], setTick = _tk[1];
   var _rs = useState(null), result = _rs[0], setResult = _rs[1];
-  var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null });
+  var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null, certFirstName: null, certLastName: null });
   var record = _rec[0] || {}, setRecord = _rec[1];
 
-  // A passing best score is the completion event. The local completion ID keeps
-  // repeat visits and certificate printing from creating new completion records.
+  // Completion is reported only after a passing student supplies both names for
+  // the certificate. The local report key prevents repeat visits and printing
+  // from creating duplicate notifications.
   useEffect(function() {
-    if (typeof record.bestScore === "number" && record.bestScore >= FINAL_PASS_PCT) {
-      reportCourseCompletion(record.bestScore);
+    var parts = certificateNameParts(record.certName, record.certFirstName, record.certLastName);
+    if (typeof record.bestScore === "number" && record.bestScore >= FINAL_PASS_PCT && parts.firstName && parts.lastName) {
+      reportCourseCompletion(record.bestScore, parts.firstName, parts.lastName);
     }
-  }, [record.bestScore]);
+  }, [record.bestScore, record.certName, record.certFirstName, record.certLastName]);
 
   var answeredCount = questions.filter(function(q) { return answers[q.id] !== undefined; }).length;
   var remaining = (phase === "running" && endsAt != null) ? Math.max(0, endsAt - tick) : FINAL_DURATION_MS;
@@ -12434,7 +12619,9 @@ function TheFinalQuiz() {
       return {
         bestScore: (p.bestScore == null || res.pct > p.bestScore) ? res.pct : p.bestScore,
         attempts: (p.attempts || 0) + 1,
-        certName: p.certName != null ? p.certName : null
+        certName: p.certName != null ? p.certName : null,
+        certFirstName: p.certFirstName != null ? p.certFirstName : null,
+        certLastName: p.certLastName != null ? p.certLastName : null
       };
     });
   };
@@ -12447,13 +12634,24 @@ function TheFinalQuiz() {
     setEndsAt(t + FINAL_DURATION_MS);
     setPhase("running");
   };
-  var saveCertName = function(name) {
+  var saveCertName = function(firstName, lastName) {
+    var fullName = (firstName.trim() + " " + lastName.trim()).trim();
+    var profile = getStudentProfile();
+    saveStudentProfile({
+      studentId: profile.studentId,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      city: profile.city || "",
+      state: profile.state || ""
+    });
     setRecord(function(prev) {
       var p = prev || {};
       return {
         bestScore: p.bestScore != null ? p.bestScore : null,
         attempts: p.attempts || 0,
-        certName: name
+        certName: fullName,
+        certFirstName: firstName.trim(),
+        certLastName: lastName.trim()
       };
     });
   };
@@ -12535,7 +12733,7 @@ function TheFinalQuiz() {
       // A passing score already on record means the certificate belongs here too, not
       // only on the review screen the student just left.
       (best != null && best >= FINAL_PASS_PCT)
-        ? E(CertificateBlock, { key: "cert", bestScore: best, certName: record.certName, onSaveName: saveCertName })
+        ? E(CertificateBlock, { key: "cert", bestScore: best, certName: record.certName, certFirstName: record.certFirstName, certLastName: record.certLastName, onSaveName: saveCertName })
         : null
     ]);
   }
@@ -12621,7 +12819,7 @@ function TheFinalQuiz() {
     // Best score is what the certificate reports, so a passing run on record keeps it
     // available even after a weaker retake.
     bestOnRecord >= FINAL_PASS_PCT
-      ? E(CertificateBlock, { key: "cert", bestScore: bestOnRecord, certName: record.certName, onSaveName: saveCertName })
+      ? E(CertificateBlock, { key: "cert", bestScore: bestOnRecord, certName: record.certName, certFirstName: record.certFirstName, certLastName: record.certLastName, onSaveName: saveCertName })
       : null,
     E("div", {
       key: "rk",

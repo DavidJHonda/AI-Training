@@ -2772,9 +2772,9 @@ function ContinueTheStoryLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-story-steps", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
+    { title: "Open ChatGPT", body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project." },
     { title: "Set the rule", body: "Open a new chat and send it this. The one-sentence limit is the whole point, so hold it to that.", prompt: "We’re going to write a story together, one sentence at a time. I write a sentence, then you write exactly one sentence back. Never more than one. Don’t try to finish the story unless I tell you to." },
-    { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let Claude take the next one." },
+    { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let ChatGPT take the next one." },
     { title: "Go ten rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
     { title: "Now run it again from the same line", body: "Start a brand new chat, send the same setup, and paste the exact same opening sentence. Go another ten rounds. Same start, and you will not get the same story." },
     { title: "Put the two side by side", body: "The first sentence was identical, so every difference after it came from one thing: at each turn the model picked a likely next sentence, not the right one. It never knew the ending, because there was no ending to know yet. That’s the loop from this lesson, running slow enough to watch." }
@@ -2786,7 +2786,7 @@ function ContinueTheStoryLab(props) {
     labNumber: "02",
     title: "Continue the Story",
     hint: "Click the box after you finish each step.",
-    lead: "You just followed the loop: predict a word, add it on, run the whole thing again. Here it is at a size you can actually watch. You and Claude are going to write a story, one sentence each.",
+    lead: "You just followed the loop: predict a word, add it on, run the whole thing again. Here it is at a size you can actually watch. You and ChatGPT are going to write a story, one sentence each.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -2980,15 +2980,19 @@ function LabStepList(props) {
 }
 
 // LAB 01, in What Is AI?. Moved here from Which App? so every later lesson can assume
-// the student has Claude open. Nothing before this lesson sends anyone to an app.
-function SetUpClaudeLab(props) {
+// the student has a free ChatGPT account. Nothing before this lesson sends anyone to an app.
+function SetUpChatGPTLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-setup-steps", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Get Claude", body: "Claude runs right in your browser, nothing to install. Set it up on a computer rather than your phone, so there’s room to work. This address goes in your browser. Type it in and sign up:", prompt: "claude.ai" },
-    { title: "Ask Claude about itself", body: "Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word.", prompt: "What are you good at, and what should I not fully trust you on?" },
+    { title: "Get ChatGPT Free", body: "ChatGPT runs in your browser, so there is nothing to install. Set it up on a computer rather than your phone so you have room for the later labs. Go to the address below and choose Sign up. You do not need a paid plan for this course.", prompt: "chatgpt.com" },
+    { title: "Create your account", body: "Use an email address or one of the available sign-in options. Enter your real age when asked. If you are under 18, get a parent or guardian’s permission and follow any age-related steps ChatGPT shows you." },
+    { title: "Enter the verification code", body: "If OpenAI emails you a verification code, open that message, copy the code, and enter it in ChatGPT. If your sign-in method verifies you another way and no code appears, continue to the next step." },
+    { title: "Protect your privacy", body: "Do not add sensitive details to your account or chats. Keep out your home address, phone number, passwords, student ID, exact school schedule, medical information, and anything you would not want shared. A first name or nickname is enough." },
+    { title: "Know the free-plan limits", body: "ChatGPT Free limits how often you can use some models and tools. If ChatGPT says you reached a limit, your work is still saved. Note the reset time it shows and return later; you do not need to upgrade to finish the course." },
+    { title: "Ask ChatGPT about itself", body: "Start a new chat. Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word.", prompt: "What are you good at, and what should I not fully trust you on?" },
     { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, a draft to start. Notice how it feels to use a real AI on a real task." },
-    { title: "End with a laugh", body: "Ask Claude for a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
+    { title: "End with a laugh", body: "Ask ChatGPT for a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -2997,7 +3001,7 @@ function SetUpClaudeLab(props) {
     labNumber: "01",
     title: "Set It Up and Use It",
     hint: "Click the box after you finish each step.",
-    lead: "You know what AI is now. Go get one. Any of the big three works, but the rest of this course uses Claude so the hands-on steps line up.",
+    lead: "You know what AI is now. Now set up the free version of ChatGPT. It will be your main hands-on tool in this course.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -3066,7 +3070,7 @@ function LLMsSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     closeBoard("llms"),
-    /*#__PURE__*/React.createElement(SetUpClaudeLab, null),
+    /*#__PURE__*/React.createElement(SetUpChatGPTLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: How an LLM Works" })
   );
@@ -3641,8 +3645,8 @@ function WelcomeSection(props) {
     },
       E("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 } },
         [
-          { name: "Gemini Notebook", note: "free with a Google account" },
-          { name: "Claude", note: "free version" }
+          { name: "ChatGPT", note: "free version; your main lab tool" },
+          { name: "Gemini Notebook", note: "free with a Google account; used for the study notebook lab" }
         ].map(function(t, i) {
           return E("div", {
             key: i,
@@ -4028,9 +4032,9 @@ function TwentyQuestionsLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-twenty-steps", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
+    { title: "Open ChatGPT", body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project." },
     { title: "Write your word down first", body: "One everyday object. Put it in your notes or on paper before you start. Lock it in, because once the questions get close it is very tempting to drift." },
-    { title: "Set up the game", body: "Send this to Claude, then answer only yes or no. No hints, no hedging, no “sort of.”", prompt: "I’m thinking of one everyday object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
+    { title: "Set up the game", body: "Send this to ChatGPT, then answer only yes or no. No hints, no hedging, no “sort of.”", prompt: "I’m thinking of one everyday object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
     { title: "Watch the first four questions", body: "Those are the tell. Alive or not. Man-made or not. Bigger than a microwave or not. Each one throws away about half of everything still possible, which is how twenty questions can pin down one object out of roughly a million." },
     { title: "Play again with something that isn’t an object", body: "Try jealousy, or Tuesday, or the number seven. Watch whether the questions stay as sharp. Concrete things sit in neat piles. Abstract ones sit in messier ones, and either way you learn something about the map it’s using." },
     { title: "Name what actually happened", body: "It never knew your word and it never guessed at random. It walked a map of how things relate to each other and cut that map in half, over and over. That is genuinely impressive. It is also pattern work all the way down, and nobody in there was wondering what you were thinking." }
@@ -5509,11 +5513,11 @@ function StaleInfoBox() {
 function TrainingBiasSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BIAS_LAB_STEPS = [{
-    title: "Log in to Claude",
-    body: "Go to claude.ai and sign in. You set this up in Lab 01."
+    title: "Open ChatGPT",
+    body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project."
   }, {
     title: "Get the default",
-    body: "Open a new chat in Claude and paste this exactly. Read the list it gives you. No judging yet. Just keep it where you can see it.",
+    body: "Paste this exactly. Read the list ChatGPT gives you. No judging yet. Just keep it where you can see it.",
     prompt: "Name ten successful entrepreneurs."
   }, {
     title: "Tally the sameness",
@@ -5600,7 +5604,7 @@ function TrainingBiasSection(props) {
       variant: "lab",
       surface: "teal",
       title: "Crack the Picture Open",
-      labNumber: "07",
+      labNumber: "08",
       hint: "Click the box after you finish each step.",
       lead: "You know the tell: sameness. Now go catch it live, then use the questions from this lesson to make the model show you everything it left out. Ten minutes.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: BIAS_LAB_STEPS.length })},
@@ -7118,10 +7122,11 @@ function OutsideWindowBox() {
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps", {});
   const LAB_STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. This lab is all setup: a few minutes now, better answers from here on." },
-    { title: "Tell Claude about yourself", body: "Open Settings and find where you can tell Claude about yourself: what to call you, what you’re into, how you like answers. Add a few true things." },
-    { title: "Create your first project", body: "Find Projects and create one. Name it \u201CMy First Coding Project.\u201D Where it asks what you\u2019re trying to achieve, set the context below. You\u2019ll use this project later in the course.", prompt: "I\u2019m learning to code with AI. I\u2019m a total beginner. Explain things in plain language." },
-    { title: "See the window", body: "Start a new chat inside your project and ask the question below. The answer should reflect both things you just set up: who you are, and what this project is for. That\u2019s your context window, made visible.", prompt: "What do you know about me?" }
+    { title: "Log in to ChatGPT", body: "Go to chatgpt.com and sign in. This lab is all setup: a few minutes now, better answers from here on." },
+    { title: "Name your first project", body: "Find Projects and start a new one. Enter \u201CMy First Coding Project\u201D as the name. Don\u2019t click Create project yet." },
+    { title: "Keep this project in its own lane", body: "Open the memory menu and choose Project-only memory. This keeps unrelated chats outside your coding project, and keeps this project from following you into other conversations. Then click Create project." },
+    { title: "Give it the right context", body: "Inside the project, find its instructions and paste the context below. This is all ChatGPT needs for this job; you don\u2019t need to share personal details.", prompt: "I\u2019m learning to code with AI. I\u2019m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
+    { title: "See the window", body: "Start a new chat inside your project and ask the question below. The answer should reflect the instructions you just added. That\u2019s your project context, made visible.", prompt: "What do you know about me, and how should you help me in this project?" }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
@@ -7218,10 +7223,10 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "05",
+      labNumber: "06",
       title: "Set Up Your Context",
       hint: "Click the box after you finish each step.",
-      lead: "Time to build your own context. In a few minutes you’ll tell Claude who you are and create your first project. Everything you set up here follows you through the rest of the course.",
+      lead: "Time to build a context you control. In a few minutes you’ll create a ChatGPT project, keep it in its own lane, and give it only what it needs. You’ll use this project in the next coding lab.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
     },
       /*#__PURE__*/React.createElement(LabStepList, {
@@ -7991,7 +7996,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
 }
 
-// Playable dino game shown at the top of LAB 05, so students see the finished
+// Playable dino game shown at the top of LAB 07, so students see the finished
 // product before the steps. Built to the exact spec of the lab's starter prompt:
 // run, jump on spacebar/tap, speed up over time, keep score, desktop and phone.
 function DinoGameDemo() {
@@ -8137,12 +8142,11 @@ function RagLimitsBox() {
 function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
-    { title: "Open a new chat", body: "A fresh conversation, nothing else in it. You\u2019re about to direct software into existence." },
-    { title: "Paste the starter prompt", body: "Send this, word for word or with your own twist. Claude writes the whole game as a single file you can play right in the chat. Be patient here: the build takes a few minutes, and watching the code pour out is part of the show.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone." },
-    { title: "Play your game", body: "Give it a few runs. Chase a high score. Then note the first thing you\u2019d change." },
-    { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, sound effects. Specific asks beat \u201cmake it better.\u201d" },
-    { title: "Make it yours", body: "Keep going until it feels like your game. Then ask Claude to explain how the jump physics works, and read the answer." }
+    { title: "Open your coding project", body: "Go to chatgpt.com and open My First Coding Project, the project you created in Lab 06. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
+    { title: "Paste the starter prompt", body: "Send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
+    { title: "Play your game", body: "If ChatGPT shows an interactive preview, play it there. If it gives you an HTML file instead, download the file and open it in Chrome. Give it a few runs, chase a high score, and note the first thing you would change." },
+    { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, or sound effects. Specific asks beat \u201cmake it better.\u201d If the free plan says you reached a tool limit, your first game still counts; note the reset time and make the change later." },
+    { title: "Make it yours", body: "Keep going until it feels like your game. If you downloaded the first version, download the revised HTML file and open that new version in Chrome to see the change. Then ask ChatGPT to explain how the jump physics works, and read the answer." }
   ];
   var dinoCheckedCount = Object.keys(dinoChecked).filter(function(k) { return dinoChecked[k]; }).length;
   var hallucinationTypes = [
@@ -8204,7 +8208,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "06",
+      labNumber: "07",
       title: "Build the Dino Game",
       hint: "Click the box after you finish each step.",
       lead: "You’ve spent this lesson catching AI when it’s wrong. Now see the other side: what it builds when you steer it. You’re going to make your own version of the classic no-wifi dinosaur game, without writing a single line of code.",
@@ -8656,8 +8660,8 @@ function WhatItDoesBestSection(props) {
 function PromptingSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-prompting-steps", {});
   const LAB_STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
-    { title: "Send a bad prompt", body: "Start a brand-new chat so nothing from an earlier conversation colors the results. Type exactly this, and read what comes back. It won\u2019t be wrong. It will be generic: a candle, a photo frame, a nice card, because Claude knows nothing about your mom.", prompt: "What should I get my mom for her birthday?" },
+    { title: "Open ChatGPT", body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project." },
+    { title: "Send a bad prompt", body: "Type exactly this and read what comes back. It won\u2019t be wrong. It will be generic: a candle, a photo frame, a nice card, because ChatGPT knows nothing about your mom.", prompt: "What should I get my mom for her birthday?" },
     { title: "Send a better prompt", body: "Start a new chat. This time, ask about a different person, using all three moves of a good prompt. Then compare the two answers. Same AI, same minute, completely different value.", prompt: "My dad\u2019s birthday is Saturday. He\u2019s into AI, eating too much steak, and the Dallas Stars, I have $25, and he jokes that he owns enough caps. Give me five gift ideas I could actually get by Friday." },
     { title: "Run it on something real", body: "Think of something you actually need this week: an essay, a plan, a decision. Make the moves: share your situation, describe the answer you want, one job at a time. This habit is what separates you from everyone else just typing into the box." }
   ];
@@ -8721,10 +8725,10 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "04",
+    labNumber: "05",
     title: "Good Prompt, Bad Prompt",
     hint: "Click the box after you finish each step.",
-    lead: "You\u2019ve read about good and bad prompts. Now feel the difference. In this lab you\u2019ll send Claude a lazy prompt and a loaded one, and watch the same AI turn into a different tool.",
+    lead: "You\u2019ve read about good and bad prompts. Now feel the difference. In this lab you\u2019ll send ChatGPT a lazy prompt and a loaded one, and watch the same AI turn into a different tool.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
   },
     /*#__PURE__*/React.createElement(LabStepList, {
@@ -8735,7 +8739,7 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Window" }));
 }
-function Lab01CourseNotebook() {
+function CourseNotebookLab() {
   var E = React.createElement;
   var [labChecked, setLabChecked] = useLocalStorage("llm-lab01-steps", {});
   var STEPS = [
@@ -8762,7 +8766,7 @@ function Lab01CourseNotebook() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "09",
+    labNumber: "04",
     title: "Build Your Course Notebook",
     hint: "Click the box after you complete each step.",
     lead: "In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a Gemini Notebook study notebook and use it to quiz yourself.",
@@ -8851,7 +8855,7 @@ function StudyingWithAISection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }),
     closeBoard("studying"),
-    E(Lab01CourseNotebook, null),
+    E(CourseNotebookLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );
@@ -10142,15 +10146,15 @@ function FlatteryTrapSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BAIT_PROMPT = "Is this good? Here’s my essay intro: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”";
   const FLAT_LAB_STEPS = [{
-    title: "Log in to Claude",
-    body: "Go to claude.ai and sign in. You set this up in Lab 01."
+    title: "Open ChatGPT",
+    body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project."
   }, {
     title: "Bait it",
     body: "Open a new chat and paste this exactly. It’s the weak ask on purpose, using the essay intro from this lesson. Keep the reply where you can see it.",
     prompt: BAIT_PROMPT
   }, {
     title: "Set the standing instruction",
-    body: "Open Settings and find where Claude keeps instructions that stick, the same place you told it about yourself in Lab 05. Paste this in and save it.",
+    body: "Open your profile menu, then go to Settings → Personalization → Custom Instructions. Turn customization on if ChatGPT shows that switch, paste this instruction, and save it. This instruction contains no private personal details.",
     prompt: "Be blunt with me. Lead with what’s weak, skip the empty praise, and tell me when I’m wrong."
   }, {
     title: "Run the bait again",
@@ -10161,7 +10165,7 @@ function FlatteryTrapSection(props) {
     body: "Three checks: which reply quoted your actual sentences? Which one named something specific to fix? Which one would make the essay better? If the new reply feels too harsh, soften your instruction. It’s yours to tune."
   }, {
     title: "Make it yours",
-    body: "Now run something real through it: a paragraph you actually wrote, a plan you actually have. From today on, that instruction is working in every chat you open.",
+    body: "Now run something real through it: a paragraph you actually wrote, a plan you actually have. The instruction will guide future regular chats; a project can still add its own more specific instructions.",
     prompt: "Is this good? [paste something you actually wrote]"
   }];
   var labCheckedCount = FLAT_LAB_STEPS.filter(function(st, i) { return !!labChecked[i]; }).length;
@@ -10285,7 +10289,7 @@ function FlatteryTrapSection(props) {
       variant: "lab",
       surface: "teal",
       title: "Make Yours Blunt",
-      labNumber: "08",
+      labNumber: "09",
       hint: "Click the box after you finish each step.",
       lead: "You know why AI flatters. Now reach into the settings and turn it down. Ten minutes, and every chat you open from here on starts more honest.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: FLAT_LAB_STEPS.length })},
@@ -12628,13 +12632,13 @@ function BigUpsideSection(props) {
   var E = React.createElement;
   // LAB 11: the lesson's thesis made personal. The 200M-shape giveaway is a real,
   // public website, so the lab is a field trip to it: pull a structure, spin it,
-  // have Claude connect the shape to the job.
+  // have ChatGPT connect the shape to the job.
   const [vaultChecked, setVaultChecked] = useState({});
   const VAULT_LAB_STEPS = [
-    { title: "Open the vault", body: "The 200 million shapes from this lesson live at one address, run by DeepMind and Europe’s bioinformatics institute. Free, because they gave it away. This one goes in your browser, not in Claude. Type it in:", prompt: "alphafold.ebi.ac.uk" },
+    { title: "Open the vault", body: "The 200 million shapes from this lesson live at one address, run by DeepMind and Europe’s bioinformatics institute. Free, because they gave it away. This one goes in your browser, not in ChatGPT. Type it in:", prompt: "alphafold.ebi.ac.uk" },
     { title: "Search for insulin", body: "Type insulin into the search box and look at the pile: thousands of results, insulin and its relatives from across the animal kingdom. That’s what 200 million shapes feels like through one keyhole." },
     { title: "Open human insulin", body: "The search shows insulin’s whole extended family, and the famous one isn’t first in line. Skip straight to it: put human insulin’s own address in your browser. Fifty years ago, working out this one structure could be a scientist’s whole career.", prompt: "alphafold.ebi.ac.uk/entry/P01308" },
-    { title: "Spin it", body: "Drag the 3D shape around. Those ribbons and coils are the fold, and that exact fold is why insulin works. The shape is the whole thing. And if the ribbons raise more questions than answers, Claude is one tab away: ask it why the shape of a protein matters." },
+    { title: "Spin it", body: "Drag the 3D shape around. Those ribbons and coils are the fold, and that exact fold is why insulin works. The shape is the whole thing. If the ribbons raise more questions than answers, ChatGPT is one tab away: ask it why the shape of a protein matters." },
     { title: "Clock what just happened", body: "You just pulled up a protein structure in ten seconds. No lab, no PhD, no permission. That’s what “they gave the answers away” means: not just to scientists, to you." }
   ];
   var vaultCheckedCount = Object.keys(vaultChecked).filter(function(k) { return vaultChecked[k]; }).length;
@@ -12886,16 +12890,18 @@ function WhatPeopleSaySection(props) {
 function PaceOfChangeSection(props) {
   var E = React.createElement;
   // LAB 10: the three-years box's "Doing" row made personal. The student rebuilds
-  // the 2048 fun-beat they played in Vector Space by directing Claude, the same
-  // move they learned in the dino lab, now framed as evidence of the pace.
+  // the 2048 fun-beat they played in Vector Space by directing ChatGPT, the same
+  // move they learned in the dino lab, now framed as evidence of the pace. A new
+  // project keeps this game's context separate from the dino game.
   const [buildChecked, setBuildChecked] = useState({});
   const BUILD_LAB_STEPS = [
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
-    { title: "Open a new chat", body: "Same move as the dino game in the Hallucination lesson: a fresh conversation, nothing else in it. This time you know exactly what’s coming." },
-    { title: "Paste the starter prompt", body: "Send this, word for word or with your own twist. Claude builds the whole game as a single file, playable right in the chat. Be patient here: the build takes a few minutes, and watching the code pour out is part of the show.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone." },
-    { title: "Play it", body: "A minute ago this game didn’t exist. Chase the 2048 tile for a bit. Then note the first thing you’d change." },
-    { title: "Change one thing at a time", body: "One specific ask per message: emoji tiles instead of numbers, a 5-by-5 board, an undo button, a dark theme. Specific asks beat “make it better.”" },
-    { title: "Save it to play later", body: "Your game is a real file, not just a chat reply. Click the download button on the game panel and save it as an HTML file. Open that file in Chrome anytime and play, no Claude needed. Ten minutes ago this game didn’t exist. Now it’s software you own." }
+    { title: "Create your second coding project", body: "Go to chatgpt.com and start a new project. Name it My Second Coding Project. Before creating it, open the memory menu and choose Project-only memory so this game stays separate from your dino game." },
+    { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
+    { title: "Build the game", body: "Start a new chat inside the project and send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
+    { title: "Save and play version one", body: "Download the HTML file before asking for changes and save it as my-2048-game-v1.html. Open that file in Chrome, chase the 2048 tile for a bit, and note the first thing you would change." },
+    { title: "Change one thing", body: "Return to the same ChatGPT conversation and make one specific ask: emoji tiles instead of numbers, a 5-by-5 board, an undo button, or a dark theme. Specific asks beat “make it better.” If the free plan says you reached a tool limit, version one still counts; note the reset time and return later." },
+    { title: "Save and inspect version two", body: "When ChatGPT finishes the change, download the revised HTML file as my-2048-game-v2.html. Open that new file in Chrome and confirm the change works. Keeping both files makes the before-and-after visible." },
+    { title: "Keep what you built", body: "The game is a real file, not just a chat reply. You can open either version in Chrome anytime, with no ChatGPT account needed. Ten minutes ago this game didn’t exist. Now it’s software you own." }
   ];
   var buildCheckedCount = Object.keys(buildChecked).filter(function(k) { return buildChecked[k]; }).length;
   return E("div", null,
@@ -13188,12 +13194,12 @@ function WorkChangesSection(props) {
   const REVIEW_LAB_STEPS = [
     { title: "Open the reviews", body: E("span", null, E("a", { href: "packets/course-reviews.txt", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the reviews in a new tab"), ". Read the first 5 reviews. Now imagine reading the other 95 before doing any actual thinking. That was the old job.") },
     { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
-    { title: "Log in to Claude", body: "Go to claude.ai and sign in. You set this up in Lab 01." },
-    { title: "Hand AI the grind", body: "Open a new chat and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). They’ll collapse into a little attachment. Don’t send yet." },
+    { title: "Create a separate project", body: "Go to chatgpt.com and start a new project named Course Review Project. Choose Project-only memory before you create it. This assignment has its own source and goal, so it deserves its own context." },
+    { title: "Hand AI the grind", body: "Start a new chat inside Course Review Project and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). Don’t send yet." },
     { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
     { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews. Every single one, same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },
     { title: "Catch what the summary missed", body: "A first pass averages away the rare stuff. Go digging. Enjoy what you find.", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
-    { title: "Prep the presentation", body: "Time to make the call. Have AI pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." }
+    { title: "Prep the presentation", body: "Time to make the call. Have ChatGPT pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours. If a free-plan tool limit interrupts the file, keep the slide-by-slide outline and return after the reset time.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." }
   ];
   var labCheckedCount = Object.keys(labChecked).filter(function(k) { return labChecked[k]; }).length;
 

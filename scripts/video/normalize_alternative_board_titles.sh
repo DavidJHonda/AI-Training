@@ -97,27 +97,27 @@ render_questions_board() {
   filter+=";[s6]drawbox=x=560:y=204:w=2:h=500:color=0xe4e0f3:t=fill,drawbox=x=1040:y=204:w=2:h=500:color=0xe4e0f3:t=fill"
   filter+=",drawbox=x=120:y=474:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=600:y=474:w=400:h=2:color=0xc9c3e8:t=fill,drawbox=x=1080:y=474:w=400:h=2:color=0xc9c3e8:t=fill"
   filter+=",drawtext=fontfile='$title_font':text='How answers got cheap':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40+(100-text_h)/2-2"
-  filter+=",drawtext=fontfile='$subtitle_font':text='PRE-INTERNET':fontsize=22:fontcolor=0x6a4c3a:x=80+(480-text_w)/2:y=216"
-  filter+=",drawtext=fontfile='$subtitle_font':text='THE INTERNET':fontsize=22:fontcolor=0x1563c7:x=560+(480-text_w)/2:y=216"
-  filter+=",drawtext=fontfile='$subtitle_font':text='NOW':fontsize=22:fontcolor=0x7040c3:x=1040+(480-text_w)/2:y=216"
-  filter+=",drawtext=fontfile='$title_font':text='THE LIBRARY':fontsize=28:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=258"
-  filter+=",drawtext=fontfile='$title_font':text='SEARCH':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=258"
-  filter+=",drawtext=fontfile='$title_font':text='AI':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=258"
-  filter+=",drawtext=fontfile='$subtitle_font':text='1. Travel to the library':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=306"
-  filter+=",drawtext=fontfile='$subtitle_font':text='2. Search the card catalog':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=336"
-  filter+=",drawtext=fontfile='$subtitle_font':text='3. Hunt through books':fontsize=22:fontcolor=0x08072b:x=80+(480-text_w)/2:y=366"
-  filter+=",drawtext=fontfile='$subtitle_font':text='1. Run search after search':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=306"
-  filter+=",drawtext=fontfile='$subtitle_font':text='2. Open tabs':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=336"
-  filter+=",drawtext=fontfile='$subtitle_font':text='3. Judge which sites to trust':fontsize=22:fontcolor=0x08072b:x=560+(480-text_w)/2:y=366"
-  filter+=",drawtext=fontfile='$subtitle_font':text='1. Open the app':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=306"
-  filter+=",drawtext=fontfile='$subtitle_font':text='2. Ask':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=336"
-  filter+=",drawtext=fontfile='$subtitle_font':text='3. Answer on screen':fontsize=22:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=366"
-  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=16:fontcolor=0x655f7c:x=80+(480-text_w)/2:y=408"
-  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=16:fontcolor=0x655f7c:x=560+(480-text_w)/2:y=408"
-  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=16:fontcolor=0x655f7c:x=1040+(480-text_w)/2:y=408"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Half a Saturday':fontsize=24:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=432"
-  filter+=",drawtext=fontfile='$takeaway_font':text='An hour or two':fontsize=24:fontcolor=0x08072b:x=560+(480-text_w)/2:y=432"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Seconds':fontsize=24:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=432"
+  filter+=",drawtext=fontfile='$subtitle_font':text='PRE-INTERNET':fontsize=24:fontcolor=0x6a4c3a:x=80+(480-text_w)/2:y=214"
+  filter+=",drawtext=fontfile='$subtitle_font':text='THE INTERNET':fontsize=24:fontcolor=0x1563c7:x=560+(480-text_w)/2:y=214"
+  filter+=",drawtext=fontfile='$subtitle_font':text='NOW':fontsize=24:fontcolor=0x7040c3:x=1040+(480-text_w)/2:y=214"
+  filter+=",drawtext=fontfile='$title_font':text='THE LIBRARY':fontsize=32:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=252"
+  filter+=",drawtext=fontfile='$title_font':text='SEARCH':fontsize=32:fontcolor=0x08072b:x=560+(480-text_w)/2:y=252"
+  filter+=",drawtext=fontfile='$title_font':text='AI':fontsize=32:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=252"
+  filter+=",drawtext=fontfile='$subtitle_font':text='1. Travel to the library':fontsize=30:fontcolor=0x08072b:x=80+(480-text_w)/2:y=300"
+  filter+=",drawtext=fontfile='$subtitle_font':text='2. Search the card catalog':fontsize=30:fontcolor=0x08072b:x=80+(480-text_w)/2:y=340"
+  filter+=",drawtext=fontfile='$subtitle_font':text='3. Hunt through books':fontsize=30:fontcolor=0x08072b:x=80+(480-text_w)/2:y=380"
+  filter+=",drawtext=fontfile='$subtitle_font':text='1. Run search after search':fontsize=30:fontcolor=0x08072b:x=560+(480-text_w)/2:y=300"
+  filter+=",drawtext=fontfile='$subtitle_font':text='2. Open tabs':fontsize=30:fontcolor=0x08072b:x=560+(480-text_w)/2:y=340"
+  filter+=",drawtext=fontfile='$subtitle_font':text='3. Judge which sites to trust':fontsize=30:fontcolor=0x08072b:x=560+(480-text_w)/2:y=380"
+  filter+=",drawtext=fontfile='$subtitle_font':text='1. Open the app':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=300"
+  filter+=",drawtext=fontfile='$subtitle_font':text='2. Ask':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=340"
+  filter+=",drawtext=fontfile='$subtitle_font':text='3. Answer on screen':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=380"
+  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=20:fontcolor=0x655f7c:x=80+(480-text_w)/2:y=422"
+  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=20:fontcolor=0x655f7c:x=560+(480-text_w)/2:y=422"
+  filter+=",drawtext=fontfile='$subtitle_font':text='TIME TO ANSWER':fontsize=20:fontcolor=0x655f7c:x=1040+(480-text_w)/2:y=422"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Half a Saturday':fontsize=28:fontcolor=0x3d2718:x=80+(480-text_w)/2:y=448"
+  filter+=",drawtext=fontfile='$takeaway_font':text='An hour or two':fontsize=28:fontcolor=0x08072b:x=560+(480-text_w)/2:y=448"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Seconds':fontsize=28:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=448"
   filter+=",drawtext=fontfile='$takeaway_font':text='The cost of finding an answer collapsed.':fontsize=32:fontcolor=0x08072b:x=539:y=805"
 
   mkdir -p "$(dirname "$output")"
@@ -164,18 +164,18 @@ render_four_shapes_board() {
   filter+=",drawtext=fontfile='$title_font':text='GENERATE':fontsize=28:fontcolor=0xe68100:x=440+(360-text_w)/2:y=216"
   filter+=",drawtext=fontfile='$title_font':text='COMPRESS':fontsize=28:fontcolor=0x7145d3:x=800+(360-text_w)/2:y=216"
   filter+=",drawtext=fontfile='$title_font':text='REASON':fontsize=28:fontcolor=0x138c82:x=1160+(360-text_w)/2:y=216"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Same meaning,':fontsize=24:fontcolor=0x08072b:x=80+(360-text_w)/2:y=268"
-  filter+=",drawtext=fontfile='$subtitle_font':text='new shape.':fontsize=24:fontcolor=0x08072b:x=80+(360-text_w)/2:y=298"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Ten versions':fontsize=24:fontcolor=0x08072b:x=440+(360-text_w)/2:y=268"
-  filter+=",drawtext=fontfile='$subtitle_font':text='in seconds.':fontsize=24:fontcolor=0x08072b:x=440+(360-text_w)/2:y=298"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Find the signal':fontsize=24:fontcolor=0x08072b:x=800+(360-text_w)/2:y=268"
-  filter+=",drawtext=fontfile='$subtitle_font':text='in long material.':fontsize=24:fontcolor=0x08072b:x=800+(360-text_w)/2:y=298"
-  filter+=",drawtext=fontfile='$subtitle_font':text='Work through facts':fontsize=24:fontcolor=0x08072b:x=1160+(360-text_w)/2:y=268"
-  filter+=",drawtext=fontfile='$subtitle_font':text='and constraints.':fontsize=24:fontcolor=0x08072b:x=1160+(360-text_w)/2:y=298"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Rewrite · reformat':fontsize=22:fontcolor=0x1970cf:x=80+(360-text_w)/2:y=350"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Brainstorm · draft':fontsize=22:fontcolor=0xe68100:x=440+(360-text_w)/2:y=350"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Summarize · retrieve':fontsize=22:fontcolor=0x7145d3:x=800+(360-text_w)/2:y=350"
-  filter+=",drawtext=fontfile='$takeaway_font':text='Plan · debug':fontsize=22:fontcolor=0x138c82:x=1160+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Same meaning,':fontsize=30:fontcolor=0x08072b:x=80+(360-text_w)/2:y=264"
+  filter+=",drawtext=fontfile='$subtitle_font':text='new shape.':fontsize=30:fontcolor=0x08072b:x=80+(360-text_w)/2:y=302"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Ten versions':fontsize=30:fontcolor=0x08072b:x=440+(360-text_w)/2:y=264"
+  filter+=",drawtext=fontfile='$subtitle_font':text='in seconds.':fontsize=30:fontcolor=0x08072b:x=440+(360-text_w)/2:y=302"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Find the signal':fontsize=30:fontcolor=0x08072b:x=800+(360-text_w)/2:y=264"
+  filter+=",drawtext=fontfile='$subtitle_font':text='in long material.':fontsize=30:fontcolor=0x08072b:x=800+(360-text_w)/2:y=302"
+  filter+=",drawtext=fontfile='$subtitle_font':text='Work through facts':fontsize=30:fontcolor=0x08072b:x=1160+(360-text_w)/2:y=264"
+  filter+=",drawtext=fontfile='$subtitle_font':text='and constraints.':fontsize=30:fontcolor=0x08072b:x=1160+(360-text_w)/2:y=302"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Rewrite · reformat':fontsize=28:fontcolor=0x1970cf:x=80+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Brainstorm · draft':fontsize=28:fontcolor=0xe68100:x=440+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Summarize · retrieve':fontsize=28:fontcolor=0x7145d3:x=800+(360-text_w)/2:y=350"
+  filter+=",drawtext=fontfile='$takeaway_font':text='Plan · debug':fontsize=28:fontcolor=0x138c82:x=1160+(360-text_w)/2:y=350"
   filter+=",drawtext=fontfile='$takeaway_font':text='Match the job to one of AI’s four strengths.':fontsize=32:fontcolor=0x08072b:x=522:y=805"
 
   mkdir -p "$(dirname "$output")"
@@ -218,27 +218,13 @@ render_context_window_board
 render_questions_board
 render_four_shapes_board
 
-# Understand AI
-render_component understand-ai embeddings-taste-profile-alternative.jpg \
-  125 620 "Meaning becomes a row of numbers" "" "" \
-  "One new dimension separates the meanings." 435
-render_component understand-ai layers-2-inside-alternative.jpg \
-  145 580 "What happens inside every layer" "" "" \
-  "Same two moves. Dozens of passes." 501
-render_component understand-ai training-map-alternative.jpg \
-  155 635 "How a language model gets trained" "" "" \
-  "Training is guess, check, nudge, repeat." 479
+# Understand AI boards now have dedicated deterministic renderers. Do not rebuild
+# their retired or readability-corrected versions from the old raster sources here.
 
 # Avoid Traps
-render_component avoid-traps document-trap-1-chunks-alternative.jpg \
-  140 565 "What happens when AI searches a long document" "" "" \
-  "It answers from what it retrieved—not from the whole document." 296
 render_component avoid-traps hallucination-1-why-alternative.jpg \
   145 585 "Why hallucinations happen" "" "" \
   "A likely sentence can still be false." 517
-render_component avoid-traps training-bias-1-mechanisms-alternative.jpg \
-  145 570 "How training bias gets in" "" "" \
-  "The model repeats the shape of its data." 471
 
 # Start Smarter alternatives use the same approved component implementation as
 # the lesson boards. The suffixed copies remain review candidates by filename.
@@ -256,4 +242,4 @@ cp "$repo_root/board-review-first-four/standardized/start-smarter/does-school-ma
 cp "$repo_root/board-review-first-four/standardized/start-smarter/learn-with-ai-study-tools.jpg" \
   "$output_root/start-smarter/learn-with-ai-1-study-tools-alternative.jpg"
 
-echo "Applied the finalized component system to 15 boards in $output_root"
+echo "Applied the finalized component system to the actively normalized boards in $output_root"

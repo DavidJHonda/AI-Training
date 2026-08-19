@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the review-only AI Is Math board alternatives."""
+"""Render the approved AI Is Math boards and their lesson-page copies."""
 
 from pathlib import Path
 
@@ -53,6 +53,18 @@ def rounded(draw, box, radius, fill, outline=None, width=1):
     draw.rounded_rectangle(box, radius=radius, fill=fill, outline=outline, width=width)
 
 
+def save_board(image, review_name, illustration_name, lesson_name):
+    outputs = [
+        OUT / review_name,
+        ROOT / "illustrations" / illustration_name,
+        ROOT / "lessons" / lesson_name,
+    ]
+    for output in outputs:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        image.save(output, quality=94, subsampling=0)
+        print(f"Built {output}")
+
+
 def board_frame(title, subtitle, takeaway):
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
@@ -91,6 +103,79 @@ OUTCOMES = [
 ]
 
 
+def render_formula_board():
+    image, draw = board_frame(
+        "The math",
+        "A fraction turns possible outcomes into a probability.",
+        "Ways it happens ÷ total outcomes = probability.",
+    )
+    rounded(draw, (170, 224, 1430, 684), 20, PALE_LAVENDER, RULE, 1)
+    center_text(draw, (800, 286), "STANDARD PROBABILITY", font("heavy", 28), MUTED)
+
+    center_text(draw, (620, 386), "Ways it happens", font("demi", 36), NAVY)
+    draw.line((350, 426, 890, 426), fill=NAVY, width=4)
+    center_text(draw, (620, 474), "Total possible outcomes", font("demi", 36), NAVY)
+    center_text(draw, (980, 426), "=", font("demi", 48), NAVY)
+    rounded(draw, (1060, 358, 1360, 494), 20, PURPLE)
+    center_text(draw, (1210, 426), "PROBABILITY", font("heavy", 30), WHITE)
+
+    rounded(draw, (310, 560, 1290, 632), 18, WHITE, RULE, 1)
+    center_text(
+        draw,
+        (800, 596),
+        "Count the outcome you want, then divide by everything that could happen.",
+        font("medium", 28),
+        BODY,
+    )
+    save_board(
+        image,
+        "ai-is-math-1-formula-alternative.jpg",
+        "ai-is-math-1-formula.jpg",
+        "ai-is-math-1-formula.jpg",
+    )
+
+
+def render_one_coin_board():
+    image, draw = board_frame(
+        "One coin creates two possible outcomes",
+        "How likely is it to land on heads?",
+        "One favorable outcome out of two = 50%.",
+    )
+    cards = [
+        (240, "HEADS", "H", True),
+        (810, "TAILS", "T", False),
+    ]
+    for x, label, coin, favorable in cards:
+        rounded(
+            draw,
+            (x, 204, x + 550, 526),
+            14,
+            PALE_GREEN if favorable else PALE_LAVENDER,
+            GREEN if favorable else RULE,
+            2 if favorable else 1,
+        )
+        center_text(
+            draw,
+            (x + 275, 260),
+            label,
+            font("heavy", 32),
+            GREEN if favorable else BODY,
+        )
+        draw_coin(draw, coin, x + 275, 370)
+        if favorable:
+            rounded(draw, (x + 105, 448, x + 445, 492), 22, GREEN)
+            center_text(draw, (x + 275, 470), "FAVORABLE OUTCOME", font("heavy", 24), WHITE)
+        else:
+            center_text(draw, (x + 275, 470), "Possible outcome", font("medium", 28), BODY)
+    draw_equation(draw, 2, 50, GREEN)
+    save_board(
+        image,
+        "ai-is-math-2-one-coin-alternative.jpg",
+        "ai-is-math-2-one-coin.jpg",
+        "ai-is-math-2-one-coin.jpg",
+    )
+
+
 def draw_outcome_card(draw, outcome, index, ruled_out):
     x = 110 + index * 350
     box = (x, 204, x + 330, 526)
@@ -107,35 +192,34 @@ def draw_outcome_card(draw, outcome, index, ruled_out):
         draw,
         (x + 165, 251),
         f"{outcome[0]} + {outcome[1]}",
-        font("heavy", 22),
+        font("heavy", 28),
         GREEN if favorable else BODY,
     )
-    center_text(draw, (x + 165, 295), "First coin       Second coin", font("medium", 16), BODY)
     draw_coin(draw, "H" if outcome[0] == "HEADS" else "T", x + 112, 372)
     draw_coin(draw, "H" if outcome[1] == "HEADS" else "T", x + 218, 372)
     if favorable:
-        rounded(draw, (x + 84, 448, x + 246, 490), 21, GREEN)
-        center_text(draw, (x + 165, 469), "BOTH HEADS", font("heavy", 17), WHITE)
+        rounded(draw, (x + 66, 448, x + 264, 490), 21, GREEN)
+        center_text(draw, (x + 165, 469), "BOTH HEADS", font("heavy", 24), WHITE)
     else:
-        center_text(draw, (x + 165, 469), "Possible outcome", font("medium", 17), BODY)
+        center_text(draw, (x + 165, 469), "Possible outcome", font("medium", 24), BODY)
 
     if ruled_out:
         draw.line((x + 24, 226, x + 306, 504), fill=RED, width=6)
         draw.line((x + 306, 226, x + 24, 504), fill=RED, width=6)
-        rounded(draw, (x + 84, 443, x + 246, 489), 23, WHITE, RED, 2)
-        center_text(draw, (x + 165, 466), "RULED OUT", font("heavy", 17), RED)
+        rounded(draw, (x + 66, 443, x + 264, 489), 23, WHITE, RED, 2)
+        center_text(draw, (x + 165, 466), "RULED OUT", font("heavy", 24), RED)
 
 
 def draw_equation(draw, denominator, result, result_color):
     rounded(draw, (170, 552, 1430, 704), 14, PALE_LAVENDER, RULE, 1)
-    draw.text((200, 578), "THE MATH", font=font("heavy", 18), fill=MUTED)
-    center_text(draw, (560, 591), "favorable outcome", font("medium", 22), BODY)
+    draw.text((200, 578), "THE MATH", font=font("heavy", 24), fill=MUTED)
+    center_text(draw, (560, 591), "favorable outcome", font("medium", 28), BODY)
     draw.line((410, 614, 710, 614), fill=NAVY, width=2)
-    center_text(draw, (560, 641), "possible outcomes", font("medium", 22), BODY)
+    center_text(draw, (560, 641), "possible outcomes", font("medium", 28), BODY)
     rounded(draw, (748, 574, 824, 650), 14, WHITE, RULE, 1)
-    center_text(draw, (786, 596), "1", font("heavy", 24), NAVY)
+    center_text(draw, (786, 596), "1", font("heavy", 30), NAVY)
     draw.line((765, 613, 807, 613), fill=NAVY, width=2)
-    center_text(draw, (786, 635), str(denominator), font("heavy", 24), NAVY)
+    center_text(draw, (786, 635), str(denominator), font("heavy", 30), NAVY)
     center_text(draw, (884, 613), "=", font("demi", 34), NAVY)
     rounded(draw, (930, 568, 1200, 656), 18, result_color)
     center_text(draw, (1065, 612), f"{result}%", font("heavy", 44), WHITE)
@@ -149,14 +233,13 @@ def render_coin_board(updated):
     for index, outcome in enumerate(OUTCOMES):
         draw_outcome_card(draw, outcome, index, updated and index >= 2)
     draw_equation(draw, 2 if updated else 4, 50 if updated else 25, GREEN if updated else PURPLE)
-    name = "ai-is-math-4-update-alternative.jpg" if updated else "ai-is-math-3-two-coins-alternative.jpg"
-    image.save(OUT / name, quality=94, subsampling=0)
-    print(f"Built {OUT / name}")
+    stem = "ai-is-math-4-update" if updated else "ai-is-math-3-two-coins"
+    save_board(image, f"{stem}-alternative.jpg", f"{stem}.jpg", f"{stem}.jpg")
 
 
 def step_marker(draw, number, cx, cy, fill):
     draw.ellipse((cx - 28, cy - 28, cx + 28, cy + 28), fill=fill)
-    center_text(draw, (cx, cy), number, font("heavy", 23), WHITE)
+    center_text(draw, (cx, cy), number, font("heavy", 28), WHITE)
 
 
 def probability_bar(draw, x, y, w, pct, fill):
@@ -181,20 +264,20 @@ def render_autoregressive_board():
     y = 194
     rounded(draw, (row_x, y, row_x + row_w, y + row_h), 14, PALE_LAVENDER, RULE, 1)
     step_marker(draw, "1", marker_x, y + row_h / 2, PURPLE)
-    draw.text((text_x, y + 20), "Standard probability", font=font("heavy", 25), fill=NAVY)
-    draw.text((text_x, y + 60), "Start with the base rate from past years.", font=font("medium", 22), fill=BODY)
+    draw.text((text_x, y + 16), "Standard probability", font=font("heavy", 30), fill=NAVY)
+    draw.text((text_x, y + 58), "Start with the base rate from past years.", font=font("medium", 28), fill=BODY)
     rounded(draw, (760, y + 18, 1210, y + 60), 21, WHITE, PURPLE, 1)
-    center_text(draw, (985, y + 39), "40 rainy May 21sts out of 100", font("demi", 19), BODY)
+    center_text(draw, (985, y + 39), "40 rainy May 21sts out of 100", font("demi", 28), BODY)
     probability_bar(draw, 760, y + 82, 450, 40, PURPLE)
     percent_pill(draw, "40%", 1318, y + 32, PURPLE)
 
     y += row_h + gap
     rounded(draw, (row_x, y, row_x + row_w, y + row_h), 14, PALE_LAVENDER, RULE, 1)
     step_marker(draw, "2", marker_x, y + row_h / 2, BLUE)
-    draw.text((text_x, y + 20), "Conditional probability", font=font("heavy", 25), fill=NAVY)
-    draw.text((text_x, y + 60), "Add new evidence and update the odds.", font=font("medium", 22), fill=BODY)
+    draw.text((text_x, y + 16), "Conditional probability", font=font("heavy", 30), fill=NAVY)
+    draw.text((text_x, y + 58), "Add new evidence and update the odds.", font=font("medium", 28), fill=BODY)
     rounded(draw, (760, y + 18, 1210, y + 60), 21, WHITE, BLUE, 1)
-    center_text(draw, (985, y + 39), "NEW: Humidity is 90% right now", font("demi", 19), BODY)
+    center_text(draw, (985, y + 39), "NEW: Humidity is 90% right now", font("demi", 28), BODY)
     probability_bar(draw, 760, y + 82, 450, 60, BLUE)
     percent_pill(draw, "60%", 1318, y + 32, BLUE)
 
@@ -202,14 +285,14 @@ def render_autoregressive_board():
     third_h = 244
     rounded(draw, (row_x, y, row_x + row_w, y + third_h), 14, PALE_LAVENDER, RULE, 1)
     step_marker(draw, "3", marker_x, y + 66, TEAL)
-    draw.text((text_x, y + 18), "Autoregressive generation", font=font("heavy", 25), fill=NAVY)
-    draw.text((text_x, y + 58), "Now the words already written become the evidence.", font=font("medium", 22), fill=BODY)
+    draw.text((text_x, y + 14), "Autoregressive generation", font=font("heavy", 30), fill=NAVY)
+    draw.text((text_x, y + 56), "Now the words already written become the evidence.", font=font("medium", 28), fill=BODY)
 
     words = [("It", 64), ("is", 64), ("going", 112), ("to", 70), ("?", 64)]
     word_x = 810
     for index, (word, word_w) in enumerate(words):
         rounded(draw, (word_x, y + 20, word_x + word_w, y + 68), 18, WHITE if word == "?" else LAVENDER, PURPLE, 2 if word == "?" else 1)
-        center_text(draw, (word_x + word_w / 2, y + 44), word, font("demi", 20), PURPLE if word == "?" else NAVY)
+        center_text(draw, (word_x + word_w / 2, y + 44), word, font("demi", 28), PURPLE if word == "?" else NAVY)
         if index < len(words) - 1:
             next_x = word_x + word_w + 40
             arrow_start = word_x + word_w + 8
@@ -221,21 +304,26 @@ def render_autoregressive_board():
             )
             word_x = next_x
 
-    draw.text((210, y + 112), "PICKING THE NEXT WORD", font=font("heavy", 16), fill=MUTED)
+    draw.text((210, y + 112), "PICKING THE NEXT WORD", font=font("heavy", 24), fill=MUTED)
     candidates = [("rain", 71, PURPLE), ("pour", 18, MUTED), ("stay", 7, MUTED)]
     for index, (candidate, pct, fill) in enumerate(candidates):
         bar_y = y + 145 + index * 31
-        draw.text((210, bar_y - 5), candidate, font=font("heavy" if index == 0 else "demi", 19), fill=BODY)
+        draw.text((210, bar_y - 8), candidate, font=font("heavy" if index == 0 else "demi", 28), fill=BODY)
         probability_bar(draw, 310, bar_y, 930, pct, fill)
-        draw.text((1332, bar_y + 6), f"{pct}%", font=font("heavy" if index == 0 else "demi", 19), fill=PURPLE if index == 0 else BODY, anchor="rm")
+        draw.text((1332, bar_y + 6), f"{pct}%", font=font("heavy" if index == 0 else "demi", 28), fill=PURPLE if index == 0 else BODY, anchor="rm")
 
-    name = "ai-is-math-5-autoregressive-alternative.jpg"
-    image.save(OUT / name, quality=94, subsampling=0)
-    print(f"Built {OUT / name}")
+    save_board(
+        image,
+        "ai-is-math-5-autoregressive-alternative.jpg",
+        "ai-is-math-5-autoregressive.jpg",
+        "ai-is-math-5-tying.jpg",
+    )
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    render_formula_board()
+    render_one_coin_board()
     render_coin_board(False)
     render_coin_board(True)
     render_autoregressive_board()

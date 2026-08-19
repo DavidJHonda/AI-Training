@@ -113,7 +113,7 @@ def board_frame(title, subtitle, takeaway):
 
 def marker(draw, cx, cy, label, color=PURPLE, radius=28, face=None):
     draw.ellipse((cx - radius, cy - radius, cx + radius, cy + radius), fill=color)
-    draw.text((cx, cy), label, font=face or font("heavy", 23), fill=WHITE, anchor="mm")
+    draw.text((cx, cy), label, font=face or font("heavy", 24), fill=WHITE, anchor="mm")
 
 
 def arrow(draw, x1, y1, x2, y2, color=PURPLE, width=4):
@@ -127,7 +127,7 @@ def arrow(draw, x1, y1, x2, y2, color=PURPLE, width=4):
 
 
 def label_pill(draw, cx, cy, text, fill=PURPLE, text_fill=WHITE, width=None):
-    face = font("heavy", 16)
+    face = font("heavy", 24)
     pw = width or text_width(draw, text, face) + 34
     rounded(draw, (cx - pw / 2, cy - 20, cx + pw / 2, cy + 20), 20, fill)
     draw.text((cx, cy), text, font=face, fill=text_fill, anchor="mm")
@@ -152,12 +152,12 @@ def three_cards(draw, cards, *, top=202, bottom=706, numbered=True):
                 title_y = top + 91
             else:
                 title_y = top + 47
-        centered_block(draw, x + cw / 2, title_y, card["title"], font("heavy", 27), NAVY, cw - 52, 3, 3)
+        centered_block(draw, x + cw / 2, title_y, card["title"], font("heavy", 32), NAVY, cw - 52, 4, 3)
         body_y = card.get("body_y", title_y + 78)
-        centered_block(draw, x + cw / 2, body_y, card["body"], font("medium", 22), BODY, cw - 60, 7, 6)
+        centered_block(draw, x + cw / 2, body_y, card["body"], font("medium", 30), BODY, cw - 60, 7, 6)
         if card.get("footer"):
             rounded(draw, (x + 28, bottom - 76, x + cw - 28, bottom - 28), 12, WHITE)
-            draw.text((x + cw / 2, bottom - 52), card["footer"], font=font("demi", 18), fill=accent, anchor="mm")
+            draw.text((x + cw / 2, bottom - 52), card["footer"], font=font("demi", 24), fill=accent, anchor="mm")
 
 
 def two_cards(draw, left, right, *, top=202, bottom=706, gap=24):
@@ -170,17 +170,17 @@ def two_cards(draw, left, right, *, top=202, bottom=706, gap=24):
         if card.get("eyebrow"):
             label_pill(draw, x + cw / 2, top + 48, card["eyebrow"], accent)
         title_y = top + (92 if card.get("eyebrow") else 44)
-        centered_block(draw, x + cw / 2, title_y, card["title"], font("heavy", 30), NAVY, cw - 70, 4, 3)
+        centered_block(draw, x + cw / 2, title_y, card["title"], font("heavy", 32), NAVY, cw - 70, 4, 3)
         if card.get("quote"):
             rounded(draw, (x + 42, top + 151, x + cw - 42, top + 242), 14, WHITE, accent, 2)
-            centered_block(draw, x + cw / 2, top + 177, card["quote"], font("demi", 22), BODY, cw - 120, 5, 2)
+            centered_block(draw, x + cw / 2, top + 177, card["quote"], font("demi", 28), BODY, cw - 120, 5, 2)
             body_y = top + 275
         else:
             body_y = top + 139
-        centered_block(draw, x + cw / 2, body_y, card["body"], font("medium", 23), BODY, cw - 78, 8, 7)
+        centered_block(draw, x + cw / 2, body_y, card["body"], font("medium", 30), BODY, cw - 78, 8, 7)
         if card.get("footer"):
             rounded(draw, (x + 40, bottom - 83, x + cw - 40, bottom - 30), 13, WHITE)
-            draw.text((x + cw / 2, bottom - 56), card["footer"], font=font("demi", 20), fill=accent, anchor="mm")
+            draw.text((x + cw / 2, bottom - 56), card["footer"], font=font("demi", 24), fill=accent, anchor="mm")
 
 
 def save(image, section, filename):
@@ -237,13 +237,13 @@ def render_inference_path():
         bx = x + i * (cw + gap)
         rounded(draw, (bx, y, bx + cw, y + 386), 16, PALE, RULE, 1)
         marker(draw, bx + cw / 2, y + 60, n, color)
-        draw.text((bx + cw / 2, y + 118), title, font=font("heavy", 20), fill=color, anchor="ma")
-        centered_block(draw, bx + cw / 2, y + 166, body, font("heavy", 25), NAVY, cw - 38, 4, 3)
+        draw.text((bx + cw / 2, y + 118), title, font=font("heavy", 24), fill=color, anchor="ma")
+        centered_block(draw, bx + cw / 2, y + 166, body, font("heavy", 30), NAVY, cw - 38, 4, 3)
         if i < len(steps) - 1:
             arrow(draw, bx + cw + 5, y + 193, bx + cw + gap - 5, y + 193, MUTED, 3)
         if i == 4:
             rounded(draw, (bx + 33, y + 272, bx + cw - 33, y + 331), 13, WHITE, color, 2)
-            draw.text((bx + cw / 2, y + 301), "...then run again", font=font("demi", 18), fill=color, anchor="mm")
+            draw.text((bx + cw / 2, y + 301), "...then run again", font=font("demi", 24), fill=color, anchor="mm")
     save(image, "understand-ai", "how-ai-answers-inference-path-alternative.jpg")
 
 
@@ -301,12 +301,12 @@ def render_engagement():
     arrow(draw, 840, 372, 1130, 449, RED, 5)
     rounded(draw, (188, 442, 695, 652), 16, SOFT_GREEN, TEAL, 2)
     label_pill(draw, 441, 478, "YES: STOP", TEAL)
-    centered_block(draw, 441, 526, "Use the answer and leave the chat.", font("heavy", 27), NAVY, 420, 4, 2)
-    draw.text((441, 608), "About 1 minute", font=font("demi", 22), fill=TEAL, anchor="mm")
+    centered_block(draw, 441, 526, "Use the answer and leave the chat.", font("heavy", 30), NAVY, 420, 4, 2)
+    draw.text((441, 608), "About 1 minute", font=font("demi", 26), fill=TEAL, anchor="mm")
     rounded(draw, (905, 442, 1412, 652), 16, SOFT_RED, RED, 2)
     label_pill(draw, 1158, 478, "ACCEPT THE FOLLOW-UP", RED)
-    centered_block(draw, 1158, 526, "New offers create new questions.", font("heavy", 27), NAVY, 420, 4, 2)
-    draw.text((1158, 608), "The loop can last for hours", font=font("demi", 22), fill=RED, anchor="mm")
+    centered_block(draw, 1158, 526, "New offers create new questions.", font("heavy", 30), NAVY, 420, 4, 2)
+    draw.text((1158, 608), "The loop can last for hours", font=font("demi", 26), fill=RED, anchor="mm")
     save(image, "avoid-traps", "engagement-trap-decision-point-alternative.jpg")
 
 
@@ -386,11 +386,11 @@ def render_downside():
         marker(draw, x, y, str(i + 1), color, 32)
         if i < 3:
             arrow(draw, x + 42, y, xs[i + 1] - 42, y, MUTED, 4)
-        label_pill(draw, x, y + 78, eyebrow, color, width=218)
-        centered_block(draw, x, y + 124, body, font("heavy", 24), NAVY, 265, 4, 2)
+        label_pill(draw, x, y + 78, eyebrow, color, width=260)
+        centered_block(draw, x, y + 124, body, font("heavy", 30), NAVY, 265, 4, 2)
     rounded(draw, (190, 567, 1410, 681), 14, PALE, RULE, 1)
-    draw.text((800, 599), "The lag used to be measured in decades.", font=font("heavy", 26), fill=NAVY, anchor="ma")
-    draw.text((800, 642), "AI models can change every few months.", font=font("demi", 24), fill=RED, anchor="ma")
+    draw.text((800, 599), "The lag used to be measured in decades.", font=font("heavy", 30), fill=NAVY, anchor="ma")
+    draw.text((800, 642), "AI models can change every few months.", font=font("demi", 28), fill=RED, anchor="ma")
     save(image, "embrace-the-future", "big-downside-safeguard-gap-alternative.jpg")
 
 
@@ -427,8 +427,8 @@ def render_agents():
     for i, ((n, title, body, color), x) in enumerate(zip(steps, xs)):
         rounded(draw, (x - 135, y - 130, x + 135, y + 150), 16, PALE, RULE, 1)
         marker(draw, x, y - 72, n, color)
-        draw.text((x, y - 13), title, font=font("heavy", 24), fill=color, anchor="ma")
-        centered_block(draw, x, y + 34, body, font("heavy", 25), NAVY, 220, 4, 2)
+        draw.text((x, y - 13), title, font=font("heavy", 28), fill=color, anchor="ma")
+        centered_block(draw, x, y + 34, body, font("heavy", 30), NAVY, 220, 4, 2)
         if i < 3:
             arrow(draw, x + 150, y, xs[i + 1] - 150, y, MUTED, 4)
     draw.line((1330, 548, 1330, 650), fill=PURPLE, width=4)
@@ -436,7 +436,7 @@ def render_agents():
     draw.line((610, 650, 610, 553), fill=PURPLE, width=4)
     draw.polygon([(610, 548), (601, 562), (619, 562)], fill=PURPLE)
     rounded(draw, (790, 623, 1150, 677), 27, WHITE)
-    draw.text((970, 650), "Repeat until the goal is met", font=font("demi", 21), fill=PURPLE, anchor="mm")
+    draw.text((970, 650), "Repeat until the goal is met", font=font("demi", 28), fill=PURPLE, anchor="mm")
     save(image, "embrace-the-future", "rise-of-agents-loop-alternative.jpg")
 
 
@@ -468,12 +468,12 @@ def render_hidden_cost():
     for i, ((value, label, color), x) in enumerate(zip(labels, xs)):
         rounded(draw, (x - 175, 248, x + 175, 516), 18, PALE, RULE, 1)
         draw.text((x, 330), value, font=font("heavy", 58), fill=color, anchor="mm")
-        draw.text((x, 405), label, font=font("heavy", 22), fill=NAVY, anchor="mm")
+        draw.text((x, 405), label, font=font("heavy", 28), fill=NAVY, anchor="mm")
         if i < 2:
             draw.text(((xs[i] + xs[i + 1]) / 2, 383), "×", font=font("demi", 44), fill=MUTED, anchor="mm")
     rounded(draw, (402, 561, 1198, 687), 18, NAVY)
     draw.text((800, 600), "≈ 40 TRILLION", font=font("heavy", 42), fill=WHITE, anchor="ma")
-    draw.text((800, 650), "calculations for one short reply", font=font("medium", 23), fill="#d8d4ea", anchor="ma")
+    draw.text((800, 650), "calculations for one short reply", font=font("medium", 28), fill="#d8d4ea", anchor="ma")
     save(image, "embrace-the-future", "hidden-cost-calculations-alternative.jpg")
 
 
@@ -493,11 +493,11 @@ def render_unexpected():
     for (title, plan, outcome, color, fill, sign), (x, y) in zip(cards, positions):
         rounded(draw, (x, y, x + 680, y + 224), 16, fill, RULE, 1)
         marker(draw, x + 48, y + 48, sign, color, 25, font("heavy", 25))
-        draw.text((x + 88, y + 39), title, font=font("heavy", 22), fill=color, anchor="la")
-        draw.text((x + 42, y + 103), "PLAN", font=font("heavy", 15), fill=MUTED)
-        draw.text((x + 133, y + 100), plan, font=font("demi", 20), fill=BODY)
-        draw.text((x + 42, y + 161), "RESULT", font=font("heavy", 15), fill=MUTED)
-        draw.text((x + 133, y + 158), outcome, font=font("demi", 20), fill=BODY)
+        draw.text((x + 88, y + 39), title, font=font("heavy", 28), fill=color, anchor="la")
+        draw.text((x + 42, y + 103), "PLAN", font=font("heavy", 24), fill=MUTED)
+        draw.text((x + 160, y + 98), plan, font=font("demi", 28), fill=BODY)
+        draw.text((x + 42, y + 161), "RESULT", font=font("heavy", 24), fill=MUTED)
+        draw.text((x + 160, y + 156), outcome, font=font("demi", 28), fill=BODY)
     save(image, "embrace-the-future", "unexpected-results-plan-outcome-alternative.jpg")
 
 

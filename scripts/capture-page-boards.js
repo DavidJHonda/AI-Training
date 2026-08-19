@@ -29,8 +29,8 @@ const getJSON = (p) => new Promise((res, rej) => {
 // section: the id used by ?print=lesson:<id>, NOT the asset slug.
 // width:   CSS px for the composed block inside the 800x450 canvas.
 const BOARDS = [
-  // "WHY GO DEEPER?" pulls the match up to the Illustration wrapper — without it the
-  // innermost hit is the bare serif text, losing the peach card and the eyebrow.
+  // Welcome uses the same navy-and-gold creed treatment as the five opener lessons.
+  // Matching the eyebrow and closing keeps the full shared OpenerCreed wrapper.
   { section: "welcome", out: "welcome-1-why-go-deeper.jpg", width: 660,
     find: ["WHY GO DEEPER?", "Everyone has AI.", "be smarter than the tool."] },
   { section: "welcome", out: "welcome-2-your-path.jpg", width: 720,
@@ -49,22 +49,9 @@ const BOARDS = [
   { section: "openerfoundations", out: "opener-understand-1-kind.jpg", width: 740,
     find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "it’s its own kind of thing."] },
 
-  // ai-is-math, recut 2026-07-28 after the flow rework. Four boxes now share one
-  // shape (THE QUESTION card, then Possible Outcomes, then The Math), so each find
-  // list needs a string unique to its own box: the bare formula carries no numbers,
-  // and the three worked examples are told apart by question line plus result.
-  { section: "aiismath", out: "ai-is-math-1-formula.jpg", width: 660,
-    find: ["The Math", "Ways it happens", "Total outcomes", "Probability"] },
-  { section: "aiismath", out: "ai-is-math-2-one-coin.jpg", width: 700,
-    find: ["Toss a coin. How likely", "Possible Outcomes", "Probability (50%)"] },
-  { section: "aiismath", out: "ai-is-math-3-two-coins.jpg", width: 720,
-    find: ["Toss 2 coins. How likely is it that", "Possible Outcomes", "Probability (25%)"] },
-  { section: "aiismath", out: "ai-is-math-4-update.jpg", width: 720,
-    find: ["Someone peeks", "Possible Outcomes", "Probability (50%)"] },
-  // Three stacked cards run tall; a wider stage keeps the text big instead of
-  // shrinking it to 0.50 and leaving the portrait shape that makes the engine pan.
-  { section: "aiismath", out: "ai-is-math-5-tying.jpg", width: 1180, vw: 1280,
-    find: ["It’s May 21st", "Autoregressive Generation", "Picking the next word"] },
+  // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by
+  // render_ai_is_math_board_alternatives.py. Do not recapture their accessible-only
+  // HTML fallbacks here or the small legacy layouts will overwrite the canonicals.
 
   // learn-with-ai, 2026-07-28: the kit's 3-habits board was TITLES ONLY, so the video
   // recited five habit names and taught none of them. This is the extended block with

@@ -6,21 +6,21 @@ You’ve learned that text is converted to tokens, and each has a unique identif
 
 It’s the same as the number assigned to your Student ID. It might let you in the building, but it doesn’t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch.
 
+![Four students at a cafeteria table; one student slips french fries into his shirt pocket.](embeddings-0-cafeteria.jpg)
+
 AI has a way to turn those token IDs into meaning. It’s called **Embedding**.
 
 To see how this works, you and your friends decide to rate Coke and a cup of coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark.
 
 Here are your results. We added a column for Token ID, even though that wasn’t part of your test.
 
-![Coke and coffee scored on the same six dimensions, with each ordered vector shown beneath its sliders.](embeddings-1-taste-two.jpg)
+![Coke and coffee scored on the same six dimensions, with each value shown beneath its slider.](embeddings-1-taste-two.jpg)
 
 If someone asked you, “Which drink has sweet of 9, bitter of 1, and fizz of 10?” you’d immediately answer Coke.
 
 By rating each drink on those dimensions, you’ve done what AI does on a massive scale: you’ve represented a word’s meaning with a row of numbers.
 
 A row of numbers in a specific order, like this, is called a **Vector**. Each slot (Sweet, Bitter, etc.) is a **Dimension**. And each number is a **Value**.
-
-![Nate and Luke compare Coke and coffee using the same six dimensions; Coke's vector is 9, 1, 10, 2, 3, 8 and Coffee's is 1, 9, 0, 9, 8, 10.](embeddings-0-meaning-as-numbers.jpg)
 
 ## What about Pepsi?
 

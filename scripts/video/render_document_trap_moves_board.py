@@ -76,9 +76,9 @@ def render():
     ]
     positions = [(112, 196), (810, 196), (112, 464), (810, 464)]
     card_w, card_h = 678, 248
-    title_face = font("bold", 27)
-    body_face = font("medium", 23)
-    number_face = font("bold", 24)
+    title_face = font("bold", 32)
+    body_face = font("medium", 30)
+    number_face = font("bold", 28)
 
     for i, ((title, body), (x, y)) in enumerate(zip(cards, positions), start=1):
         draw.rounded_rectangle(

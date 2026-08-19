@@ -146,9 +146,9 @@ func drawNumber(_ number: String, center: NSPoint) {
 }
 
 func drawWordPill(_ value: String, center: NSPoint, fill: NSColor, textColor: NSColor = navy) {
-    let pillWidth: CGFloat = 102
-    roundedRect(NSRect(x: center.x - pillWidth / 2, y: center.y - 21, width: pillWidth, height: 42), radius: 12, fill: fill, stroke: rule)
-    centeredText(value, center: center, font: heavy(16), color: textColor)
+    let pillWidth: CGFloat = 120
+    roundedRect(NSRect(x: center.x - pillWidth / 2, y: center.y - 25, width: pillWidth, height: 50), radius: 12, fill: fill, stroke: rule)
+    centeredText(value, center: center, font: heavy(24), color: textColor)
 }
 
 func drawThreeReadsPicture(cardIndex: Int, rect: NSRect) {
@@ -217,8 +217,8 @@ func drawDiminishingReturns(rect: NSRect) {
     meaning.stroke()
 
     drawArrow(from: NSPoint(x: origin.x + 12, y: origin.y - 8), to: NSPoint(x: topRight.x - 14, y: topRight.y + 4), color: orange, width: 4)
-    drawText("MEANING", in: NSRect(x: topRight.x - 105, y: topRight.y + 30, width: 100, height: 24), font: heavy(14), color: purple, alignment: .right)
-    drawText("COST", in: NSRect(x: topRight.x - 70, y: topRight.y - 12, width: 70, height: 24), font: heavy(14), color: orange, alignment: .right)
+    drawText("MEANING", in: NSRect(x: topRight.x - 150, y: topRight.y + 26, width: 145, height: 34), font: heavy(24), color: purple, alignment: .right)
+    drawText("COST", in: NSRect(x: topRight.x - 100, y: topRight.y - 20, width: 100, height: 34), font: heavy(24), color: orange, alignment: .right)
 }
 
 func save(_ image: NSImage, filename: String) throws {
@@ -273,8 +273,8 @@ func renderThreeReads() throws {
         let x = innerX + CGFloat(index) * (cardWidth + gap)
         roundedRect(NSRect(x: x, y: 204, width: cardWidth, height: 500), radius: 16, fill: rowFill, stroke: rule, lineWidth: 1.25)
         drawNumber(markers[index], center: NSPoint(x: x + cardWidth / 2, y: 246))
-        drawText(titles[index], in: NSRect(x: x + 22, y: 292, width: cardWidth - 44, height: 36), font: heavy(24), color: purple, alignment: .center)
-        drawText(bodies[index], in: NSRect(x: x + 28, y: 346, width: cardWidth - 56, height: 126), font: medium(21), color: bodyInk, alignment: .center, lineHeight: 30)
+        drawText(titles[index], in: NSRect(x: x + 22, y: 288, width: cardWidth - 44, height: 42), font: heavy(32), color: purple, alignment: .center)
+        drawText(bodies[index], in: NSRect(x: x + 28, y: 342, width: cardWidth - 56, height: 132), font: medium(30), color: bodyInk, alignment: .center, lineHeight: 38)
         drawThreeReadsPicture(cardIndex: index, rect: NSRect(x: x + 24, y: 510, width: cardWidth - 48, height: 162))
     }
 
@@ -300,8 +300,8 @@ func renderWhyDozens() throws {
         let x = innerX + CGFloat(index) * (cardWidth + gap)
         roundedRect(NSRect(x: x, y: 204, width: cardWidth, height: 500), radius: 16, fill: rowFill, stroke: rule, lineWidth: 1.25)
         drawNumber("\(index + 1)", center: NSPoint(x: x + cardWidth / 2, y: 246))
-        drawText(titles[index], in: NSRect(x: x + 22, y: 292, width: cardWidth - 44, height: 68), font: heavy(24), color: purple, alignment: .center, lineHeight: 29)
-        drawText(bodies[index], in: NSRect(x: x + 28, y: 372, width: cardWidth - 56, height: 104), font: medium(21), color: bodyInk, alignment: .center, lineHeight: 30)
+        drawText(titles[index], in: NSRect(x: x + 22, y: 286, width: cardWidth - 44, height: 76), font: heavy(32), color: purple, alignment: .center, lineHeight: 37)
+        drawText(bodies[index], in: NSRect(x: x + 28, y: 366, width: cardWidth - 56, height: 132), font: medium(30), color: bodyInk, alignment: .center, lineHeight: 38)
 
         if index == 0 {
             drawLayerStack(centerX: x + cardWidth / 2, bottomY: 665, count: 3, accent: teal)

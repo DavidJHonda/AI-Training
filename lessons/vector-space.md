@@ -36,7 +36,7 @@ You’ve learned there are many more dimensions than two. But the core idea is t
 
 This is how you learned a token’s meaning with numbers: a taste profile of Coke vs. Pepsi vs. Coffee.
 
-![Coke, Pepsi, and coffee shown as ordered vectors across the same seven dimensions, with Citrus separating the two otherwise similar colas.](vector-space-2-taste.jpg)
+![Coke, Pepsi, and coffee scored on the same seven dimensions, with Citrus separating the two otherwise similar colas.](vector-space-2-taste.jpg)
 
 Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this.
 

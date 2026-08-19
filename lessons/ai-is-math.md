@@ -8,43 +8,13 @@ What’s the magic that powers ChatGPT, Claude, and every other AI you’ve used
 
 In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. That correspondence is where **standard probability** is usually dated from. The math was clean: list every possible outcome, confirm they’re equally likely, and you can calculate the chance of each one.
 
-The Math
-
-Ways it happens
-
-Total outcomes
-
-=
-
-Probability
+![The probability formula: ways an outcome happens divided by total possible outcomes equals probability.](ai-is-math-1-formula.jpg)
 
 ## ONE COIN, TWO OUTCOMES
 
 Take a simple example.
 
-## The Question
-
-Toss a coin. How likely is it to land on *heads*?
-
-Possible Outcomes
-
-## Heads
-
-H
-
-## Tails
-
-T
-
-The Math
-
-Ways it happens (1)
-
-Total outcomes (2)
-
-=
-
-Probability (50%)
+![One coin creates two possible outcomes, heads and tails. Heads is one favorable outcome out of two, giving a probability of 50 percent.](ai-is-math-2-one-coin.jpg)
 
 ## TWO COINS, FOUR OUTCOMES
 

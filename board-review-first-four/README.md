@@ -9,8 +9,12 @@ changes remain pending until the tracker marks them complete.
 - `current-contact-sheets/` — 18 contact sheets covering 139 current JPG/PNG boards
   from the first four completed sections.
 - `current-selected/` — copies of the current boards selected for redesign.
-- `alternatives/` — 16 proposed replacement boards: seven in Start Smarter and three
-  in each of the other completed sections.
+- `alternatives/` — 66 active review JPG entries representing 58 distinct board
+  designs. The extra entries are compatibility aliases or intentional cross-lesson
+  reuse, including the shared Embeddings / Vector Space taste-profile board.
+- `.retired/` — recoverable superseded boards, including the removed Embeddings
+  “Meaning as Numbers” photo treatment and its pre-simplification taste-profile
+  board.
 - `standardized/start-smarter/` — the six approved Start Smarter boards rebuilt with
   the shared canvas, title, content, and takeaway components.
 - `pre-standardization/start-smarter/` — recoverable copies of the six boards before
@@ -26,9 +30,13 @@ changes remain pending until the tracker marks them complete.
 - `video-checks/` — transcripts, scene audits, holds, and frame sheets for the 15
   videos affected by the proposals.
 
-All 16 `*-alternative.jpg` files use the finalized board component: fixed lavender
-canvas, title zone, single white body panel, aligned content hierarchy, and gold
-takeaway band. Rebuild the original 15 from the preserved pre-spec snapshot with
+The alternative boards use the finalized board component: fixed lavender canvas,
+title zone, single white body panel, and aligned content hierarchy. The gold takeaway
+band is optional on dense boards so essential content can meet the readability floor.
+The batch readability floor is 44 px for board titles, 28–30 px for essential labels
+and explanatory copy, and 24 px only for genuinely secondary text. When the standard
+564 px body would force smaller type, use the 688 px dense body and omit the takeaway.
+Rebuild the original set from the preserved pre-spec snapshot with
 `scripts/video/normalize_alternative_board_titles.sh`; rebuild the Welcome roadmap
 with `scripts/video/build_welcome_course_arc_board.sh`.
 

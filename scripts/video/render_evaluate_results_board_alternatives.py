@@ -28,13 +28,15 @@ def font(name, size):
 
 
 HEAVY_44 = font("AvenirNextforINTUIT-Heavy.otf", 44)
+HEAVY_30 = font("AvenirNextforINTUIT-Heavy.otf", 30)
 HEAVY_28 = font("AvenirNextforINTUIT-Heavy.otf", 28)
 HEAVY_24 = font("AvenirNextforINTUIT-Heavy.otf", 24)
 HEAVY_22 = font("AvenirNextforINTUIT-Heavy.otf", 22)
 HEAVY_20 = font("AvenirNextforINTUIT-Heavy.otf", 20)
 DEMI_32 = font("AvenirNextforINTUIT-Demi.otf", 32)
-DEMI_20 = font("AvenirNextforINTUIT-Demi.otf", 20)
+DEMI_24 = font("AvenirNextforINTUIT-Demi.otf", 24)
 MEDIUM_24 = font("AvenirNextforINTUIT-Medium.otf", 24)
+MEDIUM_28 = font("AvenirNextforINTUIT-Medium.otf", 28)
 MEDIUM_22 = font("AvenirNextforINTUIT-Medium.otf", 22)
 MEDIUM_19 = font("AvenirNextforINTUIT-Medium.otf", 19)
 MEDIUM_18 = font("AvenirNextforINTUIT-Medium.otf", 18)
@@ -106,7 +108,7 @@ def base_board(title, active):
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
     centered(draw, (800, 90), title, HEAVY_44)
-    rounded(draw, (80, 172, 1520, 736), 16, WHITE)
+    rounded(draw, (80, 172, 1520, 860), 16, WHITE)
     draw_progress(draw, active)
     return image, draw
 
@@ -125,7 +127,7 @@ def draw_progress(draw, active):
             fill, outline, number = WHITE, RULE, MUTED
         draw.ellipse((x - 22, y - 22, x + 22, y + 22), fill=fill, outline=outline, width=4)
         centered(draw, (x, y), str(i), HEAVY_20, number)
-        centered(draw, (x, 260), label, DEMI_20, PURPLE if i == active else MUTED)
+        centered(draw, (x, 260), label, DEMI_24, PURPLE if i == active else MUTED)
 
 
 def card(draw, box, marker, title, body, accent, icon_name, numbered=True):
@@ -145,10 +147,10 @@ def card(draw, box, marker, title, body, accent, icon_name, numbered=True):
         draw.line((cx + 11, y0 + 37, cx - 11, y0 + 59), fill=WHITE, width=6)
     else:
         centered(draw, (cx, y0 + 48), marker, HEAVY_24, WHITE)
-    centered_block(draw, (x0 + 18, y0 + 88, x1 - 18, y0 + 146), title, HEAVY_28, accent)
-    paragraph(draw, (x0 + 24, y0 + 154, x1 - 24, y0 + 288), body, MEDIUM_22)
-    draw.line((x0 + 30, y0 + 300, x1 - 30, y0 + 300), fill=RULE, width=2)
-    draw_icon(draw, icon_name, cx, y0 + 356, accent, 0.9)
+    centered_block(draw, (x0 + 18, y0 + 88, x1 - 18, y0 + 150), title, HEAVY_30, accent)
+    paragraph(draw, (x0 + 24, y0 + 160, x1 - 24, y0 + 376), body, MEDIUM_28)
+    draw.line((x0 + 30, y0 + 390, x1 - 30, y0 + 390), fill=RULE, width=2)
+    draw_icon(draw, icon_name, cx, y0 + 460, accent, 0.9)
 
 
 def compact_card(draw, box, marker, title, body, accent, icon_name):
@@ -157,8 +159,8 @@ def compact_card(draw, box, marker, title, body, accent, icon_name):
     rounded(draw, box, 14, WHITE, RULE, 2)
     draw.ellipse((x0 + 18, y0 + 18, x0 + 62, y0 + 62), fill=accent)
     draw_icon(draw, icon_name, x0 + 40, y0 + 40, WHITE, 0.45)
-    draw.text((x0 + 76, y0 + 19), title, font=HEAVY_22, fill=accent)
-    paragraph(draw, (x0 + 22, y0 + 70, x1 - 22, y1 - 14), body, MEDIUM_19, center=False, line_gap=4)
+    draw.text((x0 + 76, y0 + 16), title, font=HEAVY_30, fill=accent)
+    paragraph(draw, (x0 + 22, y0 + 72, x1 - 22, y1 - 14), body, MEDIUM_28, center=False, line_gap=5)
 
 
 def draw_icon(draw, kind, cx, cy, color, scale=1.0):
@@ -248,8 +250,7 @@ def render_three(title, active, cards, takeaway_text, filename):
     image, draw = base_board(title, active)
     xs = [(120, 560), (580, 1020), (1040, 1480)]
     for box_x, item in zip(xs, cards):
-        card(draw, (box_x[0], 292, box_x[1], 708), *item)
-    takeaway(draw, takeaway_text)
+        card(draw, (box_x[0], 292, box_x[1], 836), *item)
     path = OUT / filename
     image.save(path, quality=94, subsampling=0)
     return path
@@ -258,19 +259,18 @@ def render_three(title, active, cards, takeaway_text, filename):
 def render_dig():
     image, draw = base_board("Dig deeper when it matters", 3)
     cards = [
-        ("", "Ask for citations", "Ask for citations. Check each link exists, supports the claim, and is credible. One good source does not prove the rest.", BLUE, "citations"),
-        ("", "Challenge the AI", "Ask it to argue the other side and flag what it is least sure about.", PURPLE, "challenge"),
-        ("", "Ask what’s missing", "A true answer can still be narrow. Surface the context and perspectives it left out.", TEAL, "missing"),
-        ("", "Search the live web", "For anything recent, have AI check current sources instead of relying on training.", ORANGE, "web"),
-        ("", "Leave the chat", "Search the claim yourself. If it only exists in the conversation, treat it as unproven.", NAVY, "leave"),
+        ("", "Ask for citations", "Check that each link exists, supports the claim, and is credible.", BLUE, "citations"),
+        ("", "Challenge the AI", "Ask it to argue the other side and name what it is least sure about.", PURPLE, "challenge"),
+        ("", "Ask what’s missing", "Surface the context and viewpoints the answer left out.", TEAL, "missing"),
+        ("", "Search the live web", "For recent claims, check current sources instead of relying on training.", ORANGE, "web"),
+        ("", "Leave the chat", "Search the claim yourself. If it exists only in the chat, treat it as unproven.", NAVY, "leave"),
     ]
     boxes = [
-        (120, 292, 560, 478), (580, 292, 1020, 478), (1040, 292, 1480, 478),
-        (350, 500, 790, 708), (810, 500, 1250, 708),
+        (120, 292, 560, 530), (580, 292, 1020, 530), (1040, 292, 1480, 530),
+        (350, 550, 790, 832), (810, 550, 1250, 832),
     ]
     for box, item in zip(boxes, cards):
         compact_card(draw, box, *item)
-    takeaway(draw, "Check the claim outside the answer.")
     path = OUT / "evaluate-the-results-3-dig-alternative.jpg"
     image.save(path, quality=94, subsampling=0)
     return path

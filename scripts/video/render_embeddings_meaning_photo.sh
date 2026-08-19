@@ -3,8 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")/../.." && pwd)"
 source_image="$repo_root/board-review-first-four/alternatives/understand-ai/embeddings-meaning-as-numbers-photo-base.png"
-review_output="$repo_root/board-review-first-four/alternatives/understand-ai/embeddings-meaning-as-numbers-photo-alternative.jpg"
-lesson_output="$repo_root/illustrations/embeddings-1.jpg"
+review_output="$repo_root/board-review-first-four/.retired/understand-ai/embeddings-meaning-as-numbers-photo-alternative.jpg"
 ffmpeg="$repo_root/scripts/video/ffmpeg.sh"
 heavy_font="/Users/davidobrien/Library/Fonts/AvenirNextforINTUIT-Heavy.otf"
 demi_font="/Users/davidobrien/Library/Fonts/AvenirNextforINTUIT-Demi.otf"
@@ -39,7 +38,5 @@ done
 mkdir -p "$(dirname "$review_output")"
 "$ffmpeg" -loglevel error -y -i "$source_image" \
   -vf "$filter" -frames:v 1 -update 1 -q:v 2 "$review_output"
-cp "$review_output" "$lesson_output"
 
 echo "Built $review_output"
-echo "Updated $lesson_output"

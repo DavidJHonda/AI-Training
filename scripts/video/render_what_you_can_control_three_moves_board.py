@@ -33,10 +33,10 @@ def font(name, size):
 
 
 HEAVY_44 = font("AvenirNextforINTUIT-Heavy.otf", 44)
-HEAVY_28 = font("AvenirNextforINTUIT-Heavy.otf", 28)
+HEAVY_32 = font("AvenirNextforINTUIT-Heavy.otf", 32)
 HEAVY_24 = font("AvenirNextforINTUIT-Heavy.otf", 24)
 DEMI_32 = font("AvenirNextforINTUIT-Demi.otf", 32)
-MEDIUM_22 = font("AvenirNextforINTUIT-Medium.otf", 22)
+MEDIUM_30 = font("AvenirNextforINTUIT-Medium.otf", 30)
 
 
 def centered(draw, xy, text, face, fill=NAVY):
@@ -204,30 +204,31 @@ def main():
     draw = ImageDraw.Draw(image)
 
     centered(draw, (800, 90), "Three moves worth your energy", HEAVY_44)
-    rounded(draw, (80, 172, 1520, 736), 16, WHITE)
-    draw.line((560, 204, 560, 706), fill=RULE, width=2)
-    draw.line((1040, 204, 1040, 706), fill=RULE, width=2)
+    # Dense-board treatment: use the takeaway space for readable teaching copy.
+    rounded(draw, (80, 172, 1520, 860), 16, WHITE)
+    draw.line((560, 204, 560, 830), fill=RULE, width=2)
+    draw.line((1040, 204, 1040, 830), fill=RULE, width=2)
 
     columns = [
         {
             "center": 320,
             "number": "1",
             "title": "Get genuinely good with AI",
-            "body": "Pick one tool and go deep. Learn what it’s great at, where it gets things wrong, and how to push it.",
+            "body": "Pick one tool and go deep. Learn its strengths, limits, and how to push it.",
             "art": tool_depth_art,
         },
         {
             "center": 800,
             "number": "2",
             "title": "Think first, then bring AI in",
-            "body": "Form your own take before you ask. Use AI to sharpen it instead of skipping the thinking.",
+            "body": "Form your own take before you ask. Use AI to sharpen it, not skip the thinking.",
             "art": think_first_art,
         },
         {
             "center": 1280,
             "number": "3",
             "title": "Close the tab and go learn",
-            "body": "You can’t control the headlines. Trade the doomscrolling hour for getting better at something real.",
+            "body": "Trade the doomscrolling hour for getting better at something real.",
             "art": close_and_learn_art,
         },
     ]
@@ -236,12 +237,10 @@ def main():
         cx = item["center"]
         draw.ellipse((cx - 27, 195, cx + 27, 249), fill=PURPLE)
         centered(draw, (cx, 222), item["number"], HEAVY_24, WHITE)
-        centered_paragraph(draw, (cx - 205, 264, cx + 205, 324), item["title"], HEAVY_28, NAVY, 5)
-        centered_paragraph(draw, (cx - 195, 338, cx + 195, 470), item["body"], MEDIUM_22, INK, 7)
-        draw.line((cx - 170, 486, cx + 170, 486), fill=RULE, width=2)
-        item["art"](draw, cx, 602)
-
-    takeaway(draw, "Put your effort where it changes your outcome.")
+        centered_paragraph(draw, (cx - 205, 262, cx + 205, 354), item["title"], HEAVY_32, NAVY, 6)
+        centered_paragraph(draw, (cx - 200, 370, cx + 200, 514), item["body"], MEDIUM_30, INK, 8)
+        draw.line((cx - 170, 536, cx + 170, 536), fill=RULE, width=2)
+        item["art"](draw, cx, 690)
 
     ALT_OUT.mkdir(parents=True, exist_ok=True)
     CANONICAL.parent.mkdir(parents=True, exist_ok=True)

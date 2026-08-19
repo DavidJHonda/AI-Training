@@ -18,9 +18,10 @@ while making every board conform to this specification.
   restrained blue, orange, and teal.
 - Board title: exactly 44 px, weight 800, dark navy, sentence case, and centered.
   Never reduce the title size to make a line fit; wrap it to a second line instead.
-- Vertical stack: 40 px top margin, 100 px title block, 32 px gap, 564 px body
-  zone, 40 px gap, 84 px takeaway band, and 40 px bottom margin. These values total
-  exactly 900 px and do not vary by board.
+- Standard vertical stack: 40 px top margin, 100 px title block, 32 px gap, 564 px
+  body zone, 40 px gap, 84 px takeaway band, and 40 px bottom margin. Dense boards
+  may omit the takeaway and extend the body zone to 688 px. The 1600×900 canvas and
+  40 px bottom margin do not change.
 - Title zone: use the same uninterrupted lavender field as the board background,
   with no separate band, rule, divider, or visible seam. Center the complete title
   group optically and vertically within the fixed 100 px block, with at least 80 px
@@ -29,10 +30,16 @@ while making every board conform to this specification.
   would exceed the block; never shrink the 44 px title.
 - Optional subline: 26 px, weight 500, muted purple-grey, centered, and 10 px below
   the title.
-- Body zone: always 564 px tall. Scale the complete body composition proportionally
-  inside the zone; the zone itself never grows to accommodate a dense board.
-- Interior hierarchy: card headings may be no larger than 28 px. Supporting copy is
-  normally 24–26 px so the board title is always the strongest text on the canvas.
+- Body zone: 564 px with a takeaway or 688 px without one. Use the taller variant
+  when the standard body would force essential labels, values, or explanatory copy
+  below the readability floor. Do not shrink essential content merely to preserve
+  the takeaway.
+- Interior hierarchy: card headings are normally 30–32 px. Supporting copy is
+  normally 28–30 px so the board title remains the strongest text on the canvas.
+- Essential data and labels: use 28–30 px at minimum in the 1600 px source. Secondary
+  supporting text may use 24 px, but no text required to understand the board should
+  fall below that size. At the lesson page's 880 px display width, 30 source pixels
+  render at about 16.5 CSS pixels.
 - Supporting copy uses the course’s regular body-text ink (`#0e0a1f`). Do not use
   muted grey for small explanatory text; reserve muted color for optional sublines,
   inactive progress labels, and other genuinely secondary interface information.
@@ -49,9 +56,11 @@ while making every board conform to this specification.
   two-line heading as one text block and center that complete block horizontally and
   vertically inside the slot. Center a one-line heading vertically in that same
   slot; never align it to the first line of its two-line neighbors.
-- Takeaway component: mandatory on every board, full width inside the 80 px margins,
-  84 px tall with 16 px corners and warm gold `#ffe9ab`. Leave 40 px above it and
-  40 px below it. Use navy text at 32 px and weight 600 plus
+- Takeaway component: optional. Use it when it reinforces the teaching beat without
+  compromising core-content readability. For dense boards, omit it and carry the
+  takeaway in the surrounding lesson prose. When used, it is full width inside the
+  80 px margins, 84 px tall with 16 px corners and warm gold `#ffe9ab`. Leave 40 px
+  above it and 40 px below it. Use navy text at 32 px and weight 600 plus
   the same 52 px purple check-circle mark. Treat the check and sentence as one
   centered lockup with a 16 px gap; do not center the sentence independently or
   strand the check at the left edge. Do not use a border or gradient, and do not
@@ -69,8 +78,9 @@ while making every board conform to this specification.
 - Set the section name as the 44 px title and “In this section” as the 26 px
   subline.
 - Present the section sequence as stacked full-width rows joined by one subtle
-  vertical route. Each row uses a centered 64 px number circle, a 28 px heading,
-  and 24 px supporting copy. Do not convert the map into narrow columns.
+  vertical route. Each row uses a centered 64 px number circle, a 32 px heading,
+  and 30 px supporting copy, matching the Welcome course path. Do not convert the
+  map into narrow columns.
 - Three-step maps use three 160 px rows. The four-step Understand AI map uses four
   122 px rows. Row height changes; type sizes and the 564 px body zone do not.
 - Preserve equal visual weight for every step. In particular, the fourth Understand
@@ -89,13 +99,20 @@ while making every board conform to this specification.
    twenty-year head start; AI collapses the old career runway; and new learners do
    not have an old workflow to undo. Reduce the three existing illustrations enough
    to keep all explanations readable, then place them beneath the aligned copy.
-   Takeaway: “This is your time to learn the new workflow.”
+   This is a dense-board treatment: omit the takeaway bar, extend the white body
+   panel to 688 px, use 32 px column headings and 30 px explanations, and give the
+   illustrations the remaining lower half. Carry “This is your time to learn the
+   new workflow” in the surrounding lesson instead of shrinking the core copy.
 2. **Does AI Think:** symbols-in → giant rulebook shape match → likely reply-out,
    ending “Fluent answer. No understanding required.”
 3. **What You Can Control:** paired “OUT OF YOUR HANDS” and “IN YOUR HANDS” lists
    organized around volume and leverage controls. Use the course navy (`#08072b`)
    for the “OUT OF YOUR HANDS” header rather than charcoal. Takeaway: “The left
-   side is loud. The right side is leverage.”
+   side is loud. The right side is leverage.” Follow it with a dense three-move
+   action board: “GO DEEP ON ONE TOOL,” “BUILD YOUR VIEW FIRST,” and “TRADE ONE
+   HOUR.” Use 32 px move headings and 30 px explanations, extend the white panel to
+   688 px, and omit the optional gold band. The surrounding lesson carries the
+   concluding takeaway so the board does not repeat it in smaller type.
 4. **Does School Matter:** “Same AI. Different value.” as a left-to-right flow from
    Ask the Right Question → AI Answer → Make the Answer Better. Use three equal
    circular markers labeled “1,” “AI,” and “2”; AI is the bridge, not a numbered
@@ -103,10 +120,15 @@ while making every board conform to this specification.
    a second text box: knowledge sharpens the question; similar questions produce
    similar answers; and the learner must judge, challenge, and improve the result.
    Align all three title and supporting-text blocks above smaller illustrations.
-   End “The tool brings answers. You bring judgment.”
+   This is a dense-board treatment: extend the white panel to 688 px, use 32 px
+   headings and 30 px supporting copy, and omit the takeaway bar. Carry “The tool
+   brings answers. You bring judgment.” in the surrounding lesson prose.
 5. **Learn With AI:** decision split from “Do you want to learn from your materials or
    learn something new?” to Source-Grounded Tutor and General Tutor, each with a
-   concise best use and catch. Takeaway: “Match the tutor to its knowledge source.”
+   concise best use and catch. Use the dense 688 px white panel with no gold band;
+   keep tutor headings at 32 px, core explanations and Best For / Catch content at
+   28 px, and reserve 24 px only for secondary labels. Carry “Match the tutor to its
+   knowledge source” in the surrounding lesson rather than duplicating it below.
 6. **Where AI Works Best:** use four separate boards so the complete lesson context
    remains readable on the page and in the video. Each board uses the shared title,
    subline, white body panel, and gold takeaway system. Split the body into a large
@@ -126,22 +148,33 @@ while making every board conform to this specification.
    it.” The board replaces the visible four-card “Outside the window” box on the
    lesson page; preserve that box’s complete explanations as accessible text.
 9. **Training:** four-stage map — Setup, Pretraining, Instruction Tuning, Preference
-   Tuning — plus the Guess → Check → Nudge → Again loop. Takeaway: “Training is
-   guess, check, nudge, repeat.”
+   Tuning — plus the Guess → Check → Nudge → Again loop. Use 28 px stage headings
+   and descriptions; 24 px is acceptable for the compact repeated-loop labels.
+   Takeaway: “Training is guess, check, nudge, repeat.”
 10. **Embeddings:** Coke, Pepsi, and Coffee profiles across seven labeled dimensions;
    the first six match for Coke and Pepsi, while Citrus 1 versus 10 separates them.
-   Takeaway: “One new dimension separates the meanings.”
+   This is a dense-board treatment: omit the gold takeaway, extend the white body
+   panel to 688 px, and show every value once as a 36 px number pill beneath its
+   slider. Do not repeat the numbers in a separate VECTOR band; the lesson prose
+   immediately afterward introduces that term. Title the second board “One new
+   dimension separates similar meanings” and keep Citrus as its focal column. The
+   three-drink board is also used in Vector Space; its page and lesson-source copies
+   must remain byte-identical to the Embeddings canonical board.
 11. **Layers:** repeated translucent layers containing Attention (“Which words
    matter?”) and Transformation (“Update the meaning.”), from vector-in to richer
-   vector-out. Takeaway: “Same two moves. Dozens of passes.”
+   vector-out. Add one readable lower rail showing how the vector changes after each
+   pass; do not duplicate those values elsewhere. Takeaway: “Same two moves. A
+   different vector after every pass.”
 12. **Hallucination:** Training and Generation converge on the central distinction
     “PROBABLE ≠ TRUE.” Takeaway: “A likely sentence can still be false.”
 13. **Training Bias:** Defaults, Blind Spots, and Wrong Patterns emerge from the shape
-    of the training data; the wrong-pattern icon uses the cow/grass example.
-    Takeaway: “The model repeats the shape of its data.”
+   of the training data; the wrong-pattern icon uses the cow/grass example.
+    Use 32 px mechanism headings and 28 px explanations. Takeaway: “The model repeats
+    the shape of its data.”
 14. **Document Trap:** Chunk → Embed → Retrieve pipeline, ending “It answers from
-    what it retrieved—not from the whole document.” Use the same sentence in the
-    takeaway band.
+    what it retrieved—not from the whole document.” Keep the three card headings at
+    32 px and their explanatory copy at 28 px. Use the same sentence in the takeaway
+    band.
 15. **What Is AI — LLM:** title “What’s an LLM?” with subline “The engine under the
     app.” Use one white body panel divided into three equal columns with subtle
     vertical rules. Each column follows letter badge, centered heading, centered
@@ -160,7 +193,9 @@ while making every board conform to this specification.
     Nate faces the changing future; and both build practical capability together.
     The green/black/white uniforms establish course personality but carry no exact
     team or league marks. Do not add a sixth “Finish” stage. Takeaway: “Start with
-    the tool. Finish with what you can do.”
+    the tool. Finish with what you can do.” Use 28 px step numbers, 32 px stage
+    headings, and 30 px two-line descriptions so the smallest teaching copy remains
+    readable at the lesson page's 880 px display width.
 17. **AI Is Different — Kryptonite:** title “You’ll see stories like this.” Use one
     white body panel divided into three equal columns: Scams That Scale, Deepfakes
     of Real People, and Confident but Wrong. Each unnumbered column follows icon,
@@ -179,19 +214,22 @@ while making every board conform to this specification.
     panel, with the current stage filled purple. Earlier stages use purple outlines;
     later stages remain muted. Boards 1, 2, and 4 use three aligned cards. Board 3
     uses a centered three-over-two grid for its five tactics. Use numbers only for
-    ordered checks and flat line icons for tactics or outcomes. Takeaways:
+    ordered checks and flat line icons for tactics or outcomes. This family uses the
+    688 px dense body without takeaway bars so progress labels, card headings, and
+    explanatory copy remain readable. Carry the four closing ideas in lesson prose:
     “Read it. Understand it. Validate what you can.” “Unknown facts or real stakes
     mean keep going.” “Check the claim outside the answer.” “Use it, fix it, or
     choose a better path.” The four boards replace the first four instructional
     boxes one-for-one if selected; do not combine them into one dense workflow board.
-19. **AI Is Math — probability sequence:** use two matched coin boards followed by
-    one three-stage synthesis board. “Two coins create four possible outcomes” and
-    “One clue changes the odds” keep all four outcomes in identical positions; the
-    second board crosses out the two outcomes that begin with tails and changes the
-    calculation from 1 out of 4, 25%, to 1 out of 2, 50%. The third board, “How
-    evidence turns into the next word,” stacks Standard Probability, Conditional
-    Probability, and Autoregressive Generation in order. Preserve the lesson’s 40%,
-    60%, 71%, 18%, and 7% examples. Takeaways: “Before new evidence: 1 out of 4 =
-    25%.” “After the clue: 1 out of 2 = 50%.” “Every new word changes the odds for
-    the next one.” These boards replace video and page boards 3, 4, and 5
-    one-for-one; the formula and one-coin warm-up remain programmatic on the page.
+19. **AI Is Math — probability sequence:** use five matched boards. “The math”
+    introduces ways an outcome happens divided by total possible outcomes. “One coin
+    creates two possible outcomes” applies the formula to heads and tails. “Two coins
+    create four possible outcomes” and “One clue changes the odds” keep all four
+    outcomes in identical positions; the second crosses out the two outcomes that
+    begin with tails and changes the calculation from 1 out of 4, 25%, to 1 out of
+    2, 50%. The final board, “How evidence turns into the next word,” stacks Standard
+    Probability, Conditional Probability, and Autoregressive Generation in order.
+    Preserve the lesson’s 40%, 60%, 71%, 18%, and 7% examples. All five boards use
+    the same title, white body panel, calculation hierarchy, and optional gold
+    takeaway component; they replace the page’s programmatic formula and coin boxes
+    as well as video/page boards 3, 4, and 5 one-for-one.

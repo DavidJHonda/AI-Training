@@ -5,8 +5,12 @@ import CoreText
 import Foundation
 
 let repoRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-let inputURL = repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-alternative.jpg")
-let outputURL = repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-vector-rail-alternative.jpg")
+let inputURL = repoRoot.appendingPathComponent("board-review-first-four/.pre-board-spec/understand-ai/layers-2-inside-alternative.jpg")
+let outputURLs = [
+    repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-alternative.jpg"),
+    repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-vector-rail-alternative.jpg"),
+    repoRoot.appendingPathComponent("lessons/layers-2-inside.jpg")
+]
 
 let width: CGFloat = 1600
 let height: CGFloat = 900
@@ -96,33 +100,33 @@ source.draw(
 roundedRect(NSRect(x: 100, y: 592, width: 1400, height: 132), radius: 14, fill: .white, stroke: rule, lineWidth: 1.5)
 
 let stages: [(String, String)] = [
-    ("STARTING VECTOR", "[ .42, −1.15, .33, 2.08, … ]"),
-    ("AFTER LAYER 1", "[ .51, −.87, .21, 1.91, … ]"),
-    ("AFTER LAYER 2", "[ .27, −1.21, .67, 2.24, … ]"),
-    ("AFTER LAYER 3", "[ .31, −.92, .48, 1.74, … ]"),
-    ("RICHER VECTOR", "[ .19, −1.12, .72, 2.13, … ]")
+    ("STARTING VECTOR", "[.42, −1.15, …]"),
+    ("AFTER LAYER 1", "[.51, −.87, …]"),
+    ("AFTER LAYER 2", "[.27, −1.21, …]"),
+    ("AFTER LAYER 3", "[.31, −.92, …]"),
+    ("RICHER VECTOR", "[.19, −1.12, …]")
 ]
 
-let cellWidth: CGFloat = 230
-let cellHeight: CGFloat = 92
-let gap: CGFloat = 55
-let startX: CGFloat = 115
+let cellWidth: CGFloat = 250
+let cellHeight: CGFloat = 110
+let gap: CGFloat = 32
+let startX: CGFloat = 111
 
 for (index, stage) in stages.enumerated() {
     let x = startX + CGFloat(index) * (cellWidth + gap)
     let isFinal = index == stages.count - 1
     roundedRect(
-        NSRect(x: x, y: 612, width: cellWidth, height: cellHeight),
+        NSRect(x: x, y: 603, width: cellWidth, height: cellHeight),
         radius: 12,
         fill: isFinal ? gold.withAlphaComponent(0.58) : paleLavender,
         stroke: isFinal ? color("#e4bf59") : rule,
         lineWidth: isFinal ? 1.5 : 1
     )
-    drawText(stage.0, in: NSRect(x: x + 12, y: 626, width: cellWidth - 24, height: 24), font: heavy(14), color: isFinal ? navy : muted, alignment: .center)
-    drawText(stage.1, in: NSRect(x: x + 5, y: 660, width: cellWidth - 10, height: 28), font: demi(14), color: isFinal ? navy : purple, alignment: .center)
+    drawText(stage.0, in: NSRect(x: x + 8, y: 614, width: cellWidth - 16, height: 32), font: heavy(24), color: isFinal ? navy : muted, alignment: .center)
+    drawText(stage.1, in: NSRect(x: x + 5, y: 658, width: cellWidth - 10, height: 38), font: demi(28), color: isFinal ? navy : purple, alignment: .center)
 
     if index < stages.count - 1 {
-        drawText("→", in: NSRect(x: x + cellWidth, y: 641, width: gap, height: 38), font: demi(28), color: purple, alignment: .center)
+        drawText("→", in: NSRect(x: x + cellWidth, y: 638, width: gap, height: 38), font: demi(28), color: purple, alignment: .center)
     }
 }
 
@@ -155,5 +159,7 @@ guard let tiff = image.tiffRepresentation,
     exit(1)
 }
 
-try jpeg.write(to: outputURL)
-print("Built \(outputURL.path)")
+for outputURL in outputURLs {
+    try jpeg.write(to: outputURL)
+    print("Built \(outputURL.path)")
+}

@@ -29,12 +29,11 @@ def font(name, size):
 
 
 HEAVY_44 = font("AvenirNextforINTUIT-Heavy.otf", 44)
+HEAVY_30 = font("AvenirNextforINTUIT-Heavy.otf", 30)
 HEAVY_28 = font("AvenirNextforINTUIT-Heavy.otf", 28)
 HEAVY_24 = font("AvenirNextforINTUIT-Heavy.otf", 24)
-HEAVY_18 = font("AvenirNextforINTUIT-Heavy.otf", 18)
-HEAVY_15 = font("AvenirNextforINTUIT-Heavy.otf", 15)
 DEMI_32 = font("AvenirNextforINTUIT-Demi.otf", 32)
-MEDIUM_21 = font("AvenirNextforINTUIT-Medium.otf", 21)
+MEDIUM_30 = font("AvenirNextforINTUIT-Medium.otf", 30)
 
 
 def centered(draw, xy, text, face, fill=NAVY):
@@ -83,26 +82,26 @@ def header(draw, box, eyebrow, title, accent, kind):
         draw.line((points[0], points[1], points[2]), fill=WHITE, width=4)
         for px, py in points:
             draw.ellipse((px - 5, py - 5, px + 5, py + 5), fill=WHITE)
-    draw.text((x0 + 82, y0 + 11), eyebrow, font=HEAVY_15, fill=accent)
-    draw.text((x0 + 82, y0 + 32), title, font=HEAVY_28, fill=NAVY)
+    draw.text((x0 + 82, y0 + 7), eyebrow, font=HEAVY_24, fill=accent)
+    draw.text((x0 + 82, y0 + 36), title, font=HEAVY_30, fill=NAVY)
 
 
 def comparison_card(draw, box, title, body, accent, background):
     x0, y0, x1, y1 = box
     draw.rounded_rectangle(box, radius=14, fill=background)
     draw.rectangle((x0, y0 + 18, x0 + 6, y1 - 18), fill=accent)
-    draw.text((x0 + 24, y0 + 15), title, font=HEAVY_24, fill=accent)
-    draw_wrapped(draw, (x0 + 24, y0 + 53), body, MEDIUM_21, x1 - x0 - 48)
+    draw.text((x0 + 24, y0 + 12), title, font=HEAVY_28, fill=accent)
+    draw_wrapped(draw, (x0 + 24, y0 + 52), body, MEDIUM_30, x1 - x0 - 48, gap=4)
 
 
 def row_label(draw, box, lines):
     x0, y0, x1, y1 = box
     draw.rounded_rectangle(box, radius=16, fill=LAVENDER, outline=RULE, width=2)
     if len(lines) == 1:
-        centered(draw, ((x0 + x1) / 2, (y0 + y1) / 2), lines[0], HEAVY_18, NAVY)
+        centered(draw, ((x0 + x1) / 2, (y0 + y1) / 2), lines[0], HEAVY_28, NAVY)
     else:
-        centered(draw, ((x0 + x1) / 2, (y0 + y1) / 2 - 12), lines[0], HEAVY_15, NAVY)
-        centered(draw, ((x0 + x1) / 2, (y0 + y1) / 2 + 12), lines[1], HEAVY_15, NAVY)
+        centered(draw, ((x0 + x1) / 2, (y0 + y1) / 2 - 16), lines[0], HEAVY_28, NAVY)
+        centered(draw, ((x0 + x1) / 2, (y0 + y1) / 2 + 16), lines[1], HEAVY_28, NAVY)
 
 
 def takeaway(draw, text):
@@ -128,7 +127,7 @@ def main():
     header(draw, (112, 192, 720, 264), "NORMAL SOFTWARE", "Built from rules", BLUE, "rules")
     header(draw, (880, 192, 1488, 264), "AI SOFTWARE", "Built from patterns", PURPLE_DARK, "patterns")
     draw.ellipse((772, 204, 828, 260), fill=NAVY)
-    centered(draw, (800, 232), "VS", HEAVY_18, WHITE)
+    centered(draw, (800, 232), "VS", HEAVY_24, WHITE)
 
     rows = [
         (

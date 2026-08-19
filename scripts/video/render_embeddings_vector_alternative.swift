@@ -6,10 +6,21 @@ import Foundation
 
 let repoRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 let firstBoard = CommandLine.arguments.contains("--first")
-let outputName = firstBoard
-    ? "embeddings-taste-profile-two-vector-alternative.jpg"
-    : "embeddings-taste-profile-vector-alternative.jpg"
-let outputURL = repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/\(outputName)")
+let outputPaths = firstBoard
+    ? [
+        "board-review-first-four/alternatives/understand-ai/embeddings-taste-profile-two-vector-alternative.jpg",
+        "illustrations/embeddings-taste-two.jpg",
+        "lessons/embeddings-1-taste-two.jpg"
+    ]
+    : [
+        "board-review-first-four/alternatives/understand-ai/embeddings-taste-profile-vector-alternative.jpg",
+        "board-review-first-four/alternatives/understand-ai/vector-space-taste-profile-alternative.jpg",
+        "illustrations/embeddings-taste-three.jpg",
+        "illustrations/vector-space-taste-profile.jpg",
+        "lessons/embeddings-2-taste-three.jpg",
+        "lessons/vector-space-2-taste.jpg"
+    ]
+let outputURLs = outputPaths.map { repoRoot.appendingPathComponent($0) }
 
 let width: CGFloat = 1600
 let height: CGFloat = 900
@@ -29,7 +40,6 @@ func color(_ hex: String, alpha: CGFloat = 1) -> NSColor {
 let lavender = color("#eeeaff")
 let navy = color("#08072b")
 let muted = color("#655f7c")
-let purple = color("#6f52ff")
 let gold = color("#ffe9ab")
 let paleGold = color("#fff8e4")
 let panelLine = color("#e4e0f3")
@@ -71,10 +81,6 @@ func line(from start: NSPoint, to end: NSPoint, color: NSColor, width: CGFloat =
     path.lineCapStyle = .round
     color.setStroke()
     path.stroke()
-}
-
-func textSize(_ value: String, font: NSFont) -> NSSize {
-    return (value as NSString).size(withAttributes: [.font: font])
 }
 
 func drawText(
@@ -168,7 +174,9 @@ lavender.setFill()
 NSRect(x: 0, y: 0, width: width, height: height).fill()
 
 drawText(
-    "Meaning becomes an ordered row of numbers",
+    firstBoard
+        ? "Meaning becomes an ordered row of numbers"
+        : "One new dimension separates similar meanings",
     in: NSRect(x: 80, y: 40, width: 1440, height: 58),
     font: heavy(44),
     color: navy,
@@ -177,14 +185,16 @@ drawText(
 drawText(
     firstBoard
         ? "Coke and coffee separate across the same six dimensions."
-        : "Same dimensions. Same order. Only the values change.",
+        : "Coke and Pepsi match on six values. Citrus makes them different.",
     in: NSRect(x: 80, y: 100, width: 1440, height: 38),
     font: medium(26),
     color: muted,
     alignment: .center
 )
 
-roundedRect(NSRect(x: 80, y: 172, width: 1440, height: 564), radius: 16, fill: .white)
+// Dense-board variant: omit the optional takeaway band and give its space to the
+// teaching content. The 688 px panel is 124 px taller than the standard panel.
+roundedRect(NSRect(x: 80, y: 172, width: 1440, height: 688), radius: 16, fill: .white)
 
 let contentLeft: CGFloat = 112
 let labelDividerX: CGFloat = 500
@@ -197,87 +207,57 @@ if !firstBoard {
     roundedRect(NSRect(x: citrusLeft + 5, y: 188, width: dimensionWidth - 10, height: 532), radius: 12, fill: paleGold, stroke: gold, lineWidth: 1.5)
 }
 
-drawText("TOKEN", in: NSRect(x: contentLeft + 62, y: 215, width: 250, height: 28), font: heavy(18), color: muted)
-drawText("ID identifies the token", in: NSRect(x: contentLeft + 62, y: 241, width: 250, height: 24), font: medium(16), color: muted)
-line(from: NSPoint(x: labelDividerX, y: 200), to: NSPoint(x: labelDividerX, y: 708), color: panelLine, width: 2)
+drawText("TOKEN", in: NSRect(x: contentLeft + 62, y: 205, width: 250, height: 32), font: heavy(22), color: muted)
+drawText("ID identifies the token", in: NSRect(x: contentLeft + 62, y: 238, width: 250, height: 28), font: medium(20), color: muted)
+line(from: NSPoint(x: labelDividerX, y: 194), to: NSPoint(x: labelDividerX, y: 838), color: panelLine, width: 2)
 
 for index in 0..<boardDimensions.count {
     if index == 6 { continue }
-    centeredText(dimensions[index].name, centerX: dimensionCenters[index], y: 214, font: heavy(17), color: dimensions[index].color, width: dimensionWidth)
+    // CAFFEINE is the longest heading. Keep the 28 pt readability floor, but
+    // use the slightly narrower demi face so the final letter stays visible.
+    let dimensionFont = dimensions[index].name == "CAFFEINE" ? demi(28) : heavy(28)
+    centeredText(dimensions[index].name, centerX: dimensionCenters[index], y: 207, font: dimensionFont, color: dimensions[index].color, width: dimensionWidth, height: 36)
 }
 if !firstBoard {
-    roundedRect(NSRect(x: dimensionCenters[6] - 56, y: 194, width: 112, height: 22), radius: 11, fill: gold)
-    centeredText("NEW DIMENSION", centerX: dimensionCenters[6], y: 197, font: heavy(12), color: navy, width: 112, height: 20)
-    centeredText(dimensions[6].name, centerX: dimensionCenters[6], y: 224, font: heavy(17), color: dimensions[6].color, width: dimensionWidth)
+    roundedRect(NSRect(x: dimensionCenters[6] - 45, y: 187, width: 90, height: 26), radius: 13, fill: gold)
+    centeredText("NEW", centerX: dimensionCenters[6], y: 190, font: heavy(18), color: navy, width: 90, height: 23)
+    centeredText(dimensions[6].name, centerX: dimensionCenters[6], y: 218, font: heavy(28), color: dimensions[6].color, width: dimensionWidth, height: 36)
 }
-drawText("0 = low    10 = high", in: NSRect(x: dimensionStart, y: 245, width: 960, height: 24), font: medium(15), color: muted, alignment: .center)
+drawText("0 = low    10 = high", in: NSRect(x: dimensionStart, y: 248, width: 960, height: 28), font: medium(20), color: muted, alignment: .center)
 
-let rowYs: [CGFloat] = firstBoard ? [302, 500] : [272, 418, 564]
-let rowHeight: CGFloat = firstBoard ? 160 : 134
-let sliderOffset: CGFloat = firstBoard ? 55 : 47
-let valueOffset: CGFloat = firstBoard ? 74 : 65
-let vectorOffset: CGFloat = firstBoard ? 116 : 96
+let rowYs: [CGFloat] = firstBoard ? [288, 552] : [278, 466, 654]
+let rowHeight: CGFloat = firstBoard ? 236 : 176
+let sliderOffset: CGFloat = firstBoard ? 87 : 68
+let valueOffset: CGFloat = firstBoard ? 119 : 98
 
 for (rowIndex, drink) in boardDrinks.enumerated() {
     let y = rowYs[rowIndex]
     roundedRect(NSRect(x: contentLeft, y: y, width: 1376, height: rowHeight), radius: 14, fill: rowFill, stroke: panelLine, lineWidth: 1.25)
 
-    drawDrinkIcon(drink, center: NSPoint(x: 150, y: y + 48))
-    drawText(drink.name, in: NSRect(x: 186, y: y + 19, width: 220, height: 38), font: heavy(27), color: navy)
-    drawText("TOKEN ID  \(drink.tokenID)", in: NSRect(x: 186, y: y + 58, width: 240, height: 28), font: medium(17), color: muted)
+    // Treat the icon, drink name, and token ID as one 80 px identity block and
+    // center that complete block vertically within the drink row.
+    let identityTop = y + (rowHeight - 80) / 2
+    drawDrinkIcon(drink, center: NSPoint(x: 150, y: identityTop + 38))
+    drawText(drink.name, in: NSRect(x: 186, y: identityTop, width: 220, height: 42), font: heavy(30), color: navy)
+    drawText("TOKEN ID  \(drink.tokenID)", in: NSRect(x: 186, y: identityTop + 46, width: 250, height: 32), font: medium(21), color: muted)
 
     for dimensionIndex in 0..<boardDimensions.count {
         let centerX = dimensionCenters[dimensionIndex]
         let sliderY = y + sliderOffset
-        let sliderStart = centerX - 41
-        let sliderEnd = centerX + 41
-        let activeEnd = sliderStart + 82 * CGFloat(drink.values[dimensionIndex]) / 10
+        let sliderStart = centerX - 50
+        let sliderEnd = centerX + 50
+        let activeEnd = sliderStart + 100 * CGFloat(drink.values[dimensionIndex]) / 10
 
-        line(from: NSPoint(x: sliderStart, y: sliderY), to: NSPoint(x: sliderEnd, y: sliderY), color: color("#ddd9ea"), width: 6)
-        line(from: NSPoint(x: sliderStart, y: sliderY), to: NSPoint(x: activeEnd, y: sliderY), color: dimensions[dimensionIndex].color, width: 6)
-        roundedRect(NSRect(x: activeEnd - 7, y: sliderY - 7, width: 14, height: 14), radius: 7, fill: dimensions[dimensionIndex].color)
+        line(from: NSPoint(x: sliderStart, y: sliderY), to: NSPoint(x: sliderEnd, y: sliderY), color: color("#ddd9ea"), width: 7)
+        line(from: NSPoint(x: sliderStart, y: sliderY), to: NSPoint(x: activeEnd, y: sliderY), color: dimensions[dimensionIndex].color, width: 7)
+        roundedRect(NSRect(x: activeEnd - 8, y: sliderY - 8, width: 16, height: 16), radius: 8, fill: dimensions[dimensionIndex].color)
 
         let valueText = "\(drink.values[dimensionIndex])"
-        let pillWidth: CGFloat = valueText.count == 2 ? 38 : 32
-        roundedRect(NSRect(x: centerX - pillWidth / 2, y: y + valueOffset, width: pillWidth, height: 28), radius: 9, fill: dimensions[dimensionIndex].color.withAlphaComponent(0.12))
-        centeredText(valueText, centerX: centerX, y: y + valueOffset + 3, font: demi(18), color: dimensions[dimensionIndex].color, width: pillWidth, height: 24)
-    }
-
-    drawText("VECTOR", in: NSRect(x: 424, y: y + vectorOffset - 2, width: 86, height: 25), font: heavy(15), color: purple)
-    roundedRect(NSRect(x: dimensionStart + 6, y: y + vectorOffset, width: 948, height: 31), radius: 8, fill: lavender.withAlphaComponent(0.65))
-    drawText("[", in: NSRect(x: dimensionStart + 16, y: y + vectorOffset - 2, width: 26, height: 34), font: demi(23), color: muted, alignment: .center)
-    drawText("]", in: NSRect(x: dimensionStart + 925, y: y + vectorOffset - 2, width: 26, height: 34), font: demi(23), color: muted, alignment: .center)
-
-    for dimensionIndex in 0..<boardDimensions.count {
-        if dimensionIndex == 6 && !firstBoard {
-            line(from: NSPoint(x: citrusLeft + 2, y: y + vectorOffset + 3), to: NSPoint(x: citrusLeft + 2, y: y + vectorOffset + 28), color: color("#e0b348"), width: 2)
-        }
-        centeredText("\(drink.values[dimensionIndex])", centerX: dimensionCenters[dimensionIndex], y: y + vectorOffset + 3, font: demi(19), color: dimensionIndex == 6 ? dimensions[6].color : navy, width: 55, height: 25)
-        if dimensionIndex < boardDimensions.count - 1 {
-            centeredText(",", centerX: dimensionCenters[dimensionIndex] + dimensionWidth / 2 - 9, y: y + vectorOffset + 3, font: demi(19), color: muted, width: 18, height: 25)
-        }
+        let pillWidth: CGFloat = valueText.count == 2 ? 60 : 50
+        roundedRect(NSRect(x: centerX - pillWidth / 2, y: y + valueOffset, width: pillWidth, height: 48), radius: 14, fill: dimensions[dimensionIndex].color.withAlphaComponent(0.12))
+        centeredText(valueText, centerX: centerX, y: y + valueOffset + 3, font: demi(36), color: dimensions[dimensionIndex].color, width: pillWidth, height: 43)
     }
 }
-
-roundedRect(NSRect(x: 80, y: 776, width: 1440, height: 84), radius: 16, fill: gold)
-let takeaway = firstBoard
-    ? "That ordered row is called a vector."
-    : "One new dimension separates the meanings."
-let takeawayFont = demi(32)
-let takeawaySize = textSize(takeaway, font: takeawayFont)
-let lockupWidth: CGFloat = 52 + 16 + takeawaySize.width
-let lockupX = (width - lockupWidth) / 2
-roundedRect(NSRect(x: lockupX, y: 792, width: 52, height: 52), radius: 26, fill: purple)
-let check = NSBezierPath()
-check.move(to: NSPoint(x: lockupX + 14, y: 818))
-check.line(to: NSPoint(x: lockupX + 23, y: 827))
-check.line(to: NSPoint(x: lockupX + 39, y: 807))
-check.lineWidth = 5
-check.lineCapStyle = .round
-check.lineJoinStyle = .round
-NSColor.white.setStroke()
-check.stroke()
-drawText(takeaway, in: NSRect(x: lockupX + 68, y: 800, width: takeawaySize.width + 4, height: 46), font: takeawayFont, color: navy)
 
 image.unlockFocus()
 
@@ -288,6 +268,8 @@ guard let tiff = image.tiffRepresentation,
     exit(1)
 }
 
-try FileManager.default.createDirectory(at: outputURL.deletingLastPathComponent(), withIntermediateDirectories: true)
-try jpeg.write(to: outputURL)
-print("Built \(outputURL.path)")
+for outputURL in outputURLs {
+    try FileManager.default.createDirectory(at: outputURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+    try jpeg.write(to: outputURL)
+    print("Built \(outputURL.path)")
+}

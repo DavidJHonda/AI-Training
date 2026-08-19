@@ -182,13 +182,13 @@ Close on the real-world example in the authors' own voice: Nate and Luke used di
 # ----------------------------------------------------------------- Understand AI
 add("ai-is-math", title="AI is Math", lo=4, hi="4.5", boards=True,
     body="""
-Attached boards in order: 1 the bare formula, 2 one coin, 3 two coins, 4 the update, 5 tying it together, 6 the close.
+Attached boards in order: 1 the formula, 2 one coin, 3 two coins, 4 the update, 5 tying it together, 6 the close. Boards 1–5 share one standardized visual system.
 
 Focus: the magic behind every AI you have used is math, two ideas from probability plus the loop that turns them into language. Open by saying the viewer already met these by name in How an LLM Works and now gets to see each one work.
 
 Where it began: in 1654 two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling, and that correspondence is where standard probability is usually dated from. Name them both aloud. Then state the rule with its condition intact, in the lesson's own three beats: list every possible outcome, confirm they are equally likely, and you can calculate the chance of each one. Do not drop the equally-likely step; it is what makes the formula true.
 
-Then board 1 on its own, before any example: ways it happens over total outcomes equals probability. Let the bare formula sit there and say it, so the examples that follow are the same formula filling in.
+Then board 1 on its own, before any example: ways it happens over total outcomes equals probability. Let the formula sit there and say it, so the examples that follow are the same formula filling in.
 
 Board 2, one coin: the question is how likely it is to land on heads, the outcomes are heads and tails, and the formula reads 1 over 2 equals 50%. Board 3, two coins: how likely both land on heads, all four outcomes HH HT TH TT, and 1 over 4 equals 25%. Walk each board's own three parts in order, the question, the outcomes, then the math.
 

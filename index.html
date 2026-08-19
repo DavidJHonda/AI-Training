@@ -460,9 +460,121 @@ function getName() {
 }
 const COURSE_TITLE = "Be Smarter Than the Tool";
 const COURSE_SUBTITLE = "AI Predicts. You Decide.";
-// Apps Script web app on the course Google account; appends each signup to the
-// Course Users sheet and emails besmarterthanthetool@gmail.com. See doPost there.
+// Apps Script web app on the course Google account. It records enrollments and
+// first-time course completions, then emails besmarterthanthetool@gmail.com.
 const SIGNUP_ENDPOINT = "https://script.google.com/macros/s/AKfycbzk24DQcbSZ-QKgwCk_g8wQbtuQaTDgs0c31Gg8cD3oKOYp4_S4SWoIOAk3kjIerhbV/exec";
+const STUDENT_ID_KEY = "llm-student-id";
+const STUDENT_PROFILE_KEY = "llm-student-profile";
+const COMPLETION_PENDING_KEY = "llm-completion-pending";
+const COMPLETION_REPORTED_KEY = "llm-completion-reported";
+const COMPLETION_VERSION = "bstt-course-v1";
+var completionReportInFlight = false;
+
+function getOrCreateStudentId() {
+  var id = "";
+  try { id = localStorage.getItem(STUDENT_ID_KEY) || ""; } catch (e) {}
+  if (id) return id;
+  try {
+    id = (typeof crypto !== "undefined" && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : "student-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+    localStorage.setItem(STUDENT_ID_KEY, id);
+  } catch (e) {
+    id = "student-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+  }
+  return id;
+}
+
+function saveStudentProfile(payload) {
+  try {
+    localStorage.setItem(STUDENT_PROFILE_KEY, JSON.stringify({
+      studentId: payload.studentId,
+      firstName: payload.firstName,
+      city: payload.city,
+      state: payload.state
+    }));
+  } catch (e) {}
+}
+
+function getStudentProfile() {
+  var profile = {};
+  try { profile = JSON.parse(localStorage.getItem(STUDENT_PROFILE_KEY) || "{}") || {}; } catch (e) {}
+  try {
+    var pendingSignup = JSON.parse(localStorage.getItem("llm-signup-pending") || "{}") || {};
+    if (!profile.firstName && pendingSignup.firstName) profile.firstName = pendingSignup.firstName;
+    if (!profile.city && pendingSignup.city) profile.city = pendingSignup.city;
+    if (!profile.state && pendingSignup.state) profile.state = pendingSignup.state;
+  } catch (e) {}
+  if (!profile.firstName) {
+    try { profile.firstName = localStorage.getItem("llm-user-name") || ""; } catch (e) {}
+  }
+  profile.studentId = profile.studentId || getOrCreateStudentId();
+  return profile;
+}
+
+function deliverCompletionReport(payload) {
+  if (!payload || completionReportInFlight) return;
+  completionReportInFlight = true;
+  try {
+    fetch(SIGNUP_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    })
+      .then(function(r) { return r.text(); })
+      .then(function(t) {
+        if (t.trim() !== "completion-ok") return;
+        try {
+          localStorage.setItem(COMPLETION_REPORTED_KEY, payload.completionId);
+          localStorage.removeItem(COMPLETION_PENDING_KEY);
+        } catch (e) {}
+      })
+      .catch(function() {})
+      .then(function() { completionReportInFlight = false; });
+  } catch (e) {
+    completionReportInFlight = false;
+  }
+}
+
+function reportCourseCompletion(score) {
+  var profile = getStudentProfile();
+  var completionId = profile.studentId + ":" + COMPLETION_VERSION;
+  try {
+    if (localStorage.getItem(COMPLETION_REPORTED_KEY) === completionId) return;
+  } catch (e) {}
+  var payload = null;
+  try { payload = JSON.parse(localStorage.getItem(COMPLETION_PENDING_KEY) || "null"); } catch (e) {}
+  if (!payload || payload.completionId !== completionId) {
+    payload = {
+      eventType: "course_completed",
+      completionId: completionId,
+      courseVersion: COMPLETION_VERSION,
+      studentId: profile.studentId,
+      firstName: profile.firstName || "Student",
+      lastName: "",
+      email: "",
+      city: profile.city || "",
+      state: profile.state || "",
+      score: score,
+      completedAt: new Date().toISOString()
+    };
+    try { localStorage.setItem(COMPLETION_PENDING_KEY, JSON.stringify(payload)); } catch (e) {}
+  }
+  deliverCompletionReport(payload);
+}
+
+function retryPendingCompletionReport() {
+  var payload = null;
+  try {
+    var reportedId = localStorage.getItem(COMPLETION_REPORTED_KEY) || "";
+    payload = JSON.parse(localStorage.getItem(COMPLETION_PENDING_KEY) || "null");
+    if (payload && payload.completionId === reportedId) {
+      localStorage.removeItem(COMPLETION_PENDING_KEY);
+      return;
+    }
+  } catch (e) {}
+  if (payload) deliverCompletionReport(payload);
+}
 // Typography tokens for static content boxes (not SEE IT / TRY IT activities).
 // BOX_CARD_TITLE: headline of a mini-card inside a showcase box.
 // BOX_TEXT: body/value text inside explainer boxes. BOX_LABEL: small uppercase labels.
@@ -12085,21 +12197,18 @@ function finalClock(ms) {
   var secs = Math.max(0, Math.ceil(ms / 1000));
   return String(Math.floor(secs / 60)).padStart(2, "0") + ":" + String(secs % 60).padStart(2, "0");
 }
-// Prefill for the name on the certificate. The welcome gate keeps only the first
-// name (`llm-user-name`); the full signup payload lives in `llm-signup-pending`
-// until it posts, so read both and take whatever is still on the device. Whatever
-// comes back is a suggestion: the student edits it before anything is printed.
+// Prefill for the name on the certificate. The welcome gate asks only for a first
+// name, and the student can expand or edit it before anything is printed.
 function certificateSeedName() {
-  var first = "", last = "";
+  var first = "";
   try { first = localStorage.getItem("llm-user-name") || ""; } catch (e) {}
   try {
     var pending = JSON.parse(localStorage.getItem("llm-signup-pending") || "null");
     if (pending && typeof pending === "object") {
       if (!first && pending.firstName) first = String(pending.firstName);
-      if (pending.lastName) last = String(pending.lastName);
     }
   } catch (e) {}
-  return (first + " " + last).trim();
+  return first.trim();
 }
 function certificateDate() {
   try {
@@ -12303,6 +12412,14 @@ function TheFinalQuiz() {
   var _rs = useState(null), result = _rs[0], setResult = _rs[1];
   var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null });
   var record = _rec[0] || {}, setRecord = _rec[1];
+
+  // A passing best score is the completion event. The local completion ID keeps
+  // repeat visits and certificate printing from creating new completion records.
+  useEffect(function() {
+    if (typeof record.bestScore === "number" && record.bestScore >= FINAL_PASS_PCT) {
+      reportCourseCompletion(record.bestScore);
+    }
+  }, [record.bestScore]);
 
   var answeredCount = questions.filter(function(q) { return answers[q.id] !== undefined; }).length;
   var remaining = (phase === "running" && endsAt != null) ? Math.max(0, endsAt - tick) : FINAL_DURATION_MS;
@@ -14085,7 +14202,7 @@ class LessonErrorBoundary extends React.Component {
 }
 function LLMExplorer() {
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
-  const [signup, setSignup] = useState({ firstName: "", lastName: "", email: "", city: "", state: "" });
+  const [signup, setSignup] = useState({ firstName: "", city: "", state: "" });
   const [expandedIllustration, setExpandedIllustration] = useState(null);
   const illustrationTriggerRef = useRef(null);
   // Fail-open signup delivery: the queued payload is retried on each visit (max 3
@@ -14108,6 +14225,9 @@ function LLMExplorer() {
       localStorage.setItem("llm-signup-pending", JSON.stringify(p));
       sendSignup(p);
     } catch (e) {}
+  }, []);
+  useEffect(function() {
+    retryPendingCompletionReport();
   }, []);
   const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
     activeSection: "welcome",
@@ -14260,12 +14380,23 @@ function LLMExplorer() {
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
   if (!hasName) {
-    var signupValid = signup.firstName.trim() && signup.lastName.trim() && /^\S+@\S+\.\S+$/.test(signup.email.trim()) && signup.city.trim() && signup.state.trim();
+    var signupValid = signup.firstName.trim() && signup.city.trim() && signup.state.trim();
     var setField = function(k) { return function(e) { var v = e.target.value; setSignup(function(prev) { var next = Object.assign({}, prev); next[k] = v; return next; }); }; };
     var submitName = function() {
       if (!signupValid) return;
-      var payload = { firstName: signup.firstName.trim(), lastName: signup.lastName.trim(), email: signup.email.trim(), city: signup.city.trim(), state: signup.state.trim() };
+      // Keep the legacy fields for the existing sheet and add a stable anonymous
+      // student ID so a later completion can be matched without collecting email.
+      var payload = {
+        eventType: "enrollment",
+        studentId: getOrCreateStudentId(),
+        firstName: signup.firstName.trim(),
+        lastName: "",
+        email: "",
+        city: signup.city.trim(),
+        state: signup.state.trim()
+      };
       try { localStorage.setItem("llm-user-name", payload.firstName); } catch(ex) {}
+      saveStudentProfile(payload);
       try { localStorage.setItem("llm-signup-pending", JSON.stringify(payload)); } catch(ex) {}
       sendSignup(payload);
       setHasName(true);
@@ -14293,22 +14424,19 @@ function LLMExplorer() {
           /*#__PURE__*/React.createElement("li", null, "We\u2019re still building the class, so some lessons are first drafts. Feel free to review those lessons, but they\u2019re not final. You\u2019ll see them in ",
             /*#__PURE__*/React.createElement("span", { className: "gate-red" }, "red text"),
             " in the title bar."),
-          /*#__PURE__*/React.createElement("li", null, "We want to track how many people use this course. A few questions below will help us do this. We\u2019ll never email you or give your email address to anyone. The last thing any of us needs is more SPAM."),
-          /*#__PURE__*/React.createElement("li", null, "Phones and tablets work well for reading and most activities. Tap any illustration to open a larger, zoomable view. A computer is recommended for labs that use ChatGPT, files, or HTML projects."),
+          /*#__PURE__*/React.createElement("li", null, "You can read lessons, watch videos, and enlarge illustrations on a phone or tablet. For the full experience, especially the hands-on labs, a computer works best."),
           /*#__PURE__*/React.createElement("li", null, "This course will always be ",
             /*#__PURE__*/React.createElement("b", null, "free to everyone"),
             ". That\u2019s how committed we are to giving our generation AI knowledge.")),
         /*#__PURE__*/React.createElement("p", { className: "gate-outro" }, "Understanding AI is making all the difference for us. We hope you get value. And, enjoy the course!"),
         /*#__PURE__*/React.createElement("p", { className: "gate-sig" }, "Luke and Nate"),
         /*#__PURE__*/React.createElement("div", { className: "gate-ask" },
-          /*#__PURE__*/React.createElement("h2", null, "A few quick questions"),
+          /*#__PURE__*/React.createElement("h2", null, "Tell us a little about you"),
           /*#__PURE__*/React.createElement("div", { className: "gate-form" },
-            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), placeholder: "First name", autoFocus: true, className: "gate-field", "aria-label": "First name", autoComplete: "given-name" }),
-            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.lastName, onChange: setField("lastName"), placeholder: "Last name", className: "gate-field", "aria-label": "Last name", autoComplete: "family-name" }),
-            /*#__PURE__*/React.createElement("input", { type: "email", value: signup.email, onChange: setField("email"), placeholder: "Email address", className: "gate-field gate-span2", "aria-label": "Email address", autoComplete: "email" }),
+            /*#__PURE__*/React.createElement("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), placeholder: "First name", autoFocus: true, className: "gate-field gate-span2", "aria-label": "First name", autoComplete: "given-name" }),
             /*#__PURE__*/React.createElement("input", { type: "text", value: signup.city, onChange: setField("city"), placeholder: "City", className: "gate-field", "aria-label": "City", autoComplete: "address-level2" }),
             /*#__PURE__*/React.createElement("input", { type: "text", value: signup.state, onChange: setField("state"), onKeyDown: function(e) { if (e.key === "Enter") submitName(); }, placeholder: "State", className: "gate-field", "aria-label": "State", autoComplete: "address-level1" })),
-          /*#__PURE__*/React.createElement("p", { className: "gate-hint" }, "Your first name personalizes the course. The rest is only for our usage tracking. You’ll only be asked once on this device."),
+          /*#__PURE__*/React.createElement("p", { className: "gate-hint" }, "Your first name personalizes the course. City and state help us understand where students are learning. Any future map will show anonymous totals, never names or individual students. You’ll only be asked once on this device."),
           /*#__PURE__*/React.createElement("div", { className: "gate-go" },
             /*#__PURE__*/React.createElement("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let\u2019s go\u00a0\u00a0\u2192")))));
   }

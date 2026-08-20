@@ -2,10 +2,6 @@
 
 # Welcome
 
-Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
-
-Two ways to take this course: read each lesson, or press play to see the video version. Same material, your choice. Either way, each lesson ends with an activity. Complete it before you move to the next lesson.
-
 ## WHY GO DEEPER?
 
 Everyone has AI.
@@ -15,6 +11,10 @@ Most just press go.
 Few understand it.
 
 be smarter than the tool.
+
+Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
+
+![Two ways to take the course: read the full lesson or press play for the video. Either way, finish the activity before moving to the next lesson.](welcome-2-how-to-take-course-page.jpg)
 
 ## WHY WE BUILT THIS
 
@@ -41,4 +41,4 @@ Nothing to install. No paid plan required.
 
 - **A computer:** Best for the labs. Use a laptop or desktop computer for hands-on activities.
 - **ChatGPT for Teens:** Free account and your main lab tool. Ages 13 to 17 are automatically placed in the teen experience.
-- **Google account:** Free account used to create your Gemini Notebook study notebook.
+- **Google account:** Free account used to create a Gemini Notebook.

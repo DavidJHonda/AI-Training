@@ -36,9 +36,6 @@ render_three_row_map() {
   filter+=";color=c=white:s=1440x564,format=rgba[panelcolor]"
   filter+=";color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask]"
   filter+=";[panelcolor][panelmask]alphamerge[panel]"
-  filter+=";color=c=0xf8f7ff:s=1376x160,format=rgba[rowcolor]"
-  filter+=";color=c=black:s=1376x160,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[rowmask]"
-  filter+=";[rowcolor][rowmask]alphamerge,split=3[row1][row2][row3]"
   filter+=";color=c=0x6546d7:s=64x64,format=rgba[badgecolor]"
   filter+=";color=c=black:s=64x64,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),31),255,0)'[badgemask]"
   filter+=";[badgecolor][badgemask]alphamerge,split=3[badge1][badge2][badge3]"
@@ -46,8 +43,9 @@ render_three_row_map() {
   filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
   filter+=";[barcolor][barmask]alphamerge[bar]"
   filter+=";[1:v][panel]overlay=80:172[s1]"
-  filter+=";[s1][row1]overlay=112:192[s2];[s2][row2]overlay=112:374[s3];[s3][row3]overlay=112:556[s4]"
-  filter+=";[s4]drawbox=x=158:y=240:w=4:h=396:color=0xd9d2f4:t=fill[s5]"
+  filter+=";[s1]drawbox=x=192:y=363:w=1296:h=2:color=0xe3dfef:t=fill[s2]"
+  filter+=";[s2]drawbox=x=192:y=545:w=1296:h=2:color=0xe3dfef:t=fill[s3]"
+  filter+=";[s3]drawbox=x=158:y=240:w=4:h=396:color=0xd9d2f4:t=fill[s5]"
   filter+=";[s5][badge1]overlay=128:240[s6];[s6][badge2]overlay=128:422[s7];[s7][badge3]overlay=128:604[s8]"
   filter+=";[s8][bar]overlay=80:776[s9];[s9][icon]overlay=${lockup_x}:792[s10]"
   filter+=";[s10]drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40"
@@ -108,9 +106,6 @@ render_four_row_map() {
   filter+=";color=c=white:s=1440x564,format=rgba[panelcolor]"
   filter+=";color=c=black:s=1440x564,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[panelmask]"
   filter+=";[panelcolor][panelmask]alphamerge[panel]"
-  filter+=";color=c=0xf8f7ff:s=1376x122,format=rgba[rowcolor]"
-  filter+=";color=c=black:s=1376x122,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[rowmask]"
-  filter+=";[rowcolor][rowmask]alphamerge,split=4[row1][row2][row3][row4]"
   filter+=";color=c=0x6546d7:s=64x64,format=rgba[badgecolor]"
   filter+=";color=c=black:s=64x64,format=gray,geq=lum='if(lte(hypot(X-W/2,Y-H/2),31),255,0)'[badgemask]"
   filter+=";[badgecolor][badgemask]alphamerge,split=4[badge1][badge2][badge3][badge4]"
@@ -118,8 +113,10 @@ render_four_row_map() {
   filter+=";color=c=black:s=1440x84,format=gray,geq=lum='if(lte(hypot(max(abs(X-W/2)-(W/2-16),0),max(abs(Y-H/2)-(H/2-16),0)),16),255,0)'[barmask]"
   filter+=";[barcolor][barmask]alphamerge[bar]"
   filter+=";[1:v][panel]overlay=80:172[s1]"
-  filter+=";[s1][row1]overlay=112:192[s2];[s2][row2]overlay=112:324[s3];[s3][row3]overlay=112:456[s4];[s4][row4]overlay=112:588[s5]"
-  filter+=";[s5]drawbox=x=158:y=221:w=4:h=428:color=0xd9d2f4:t=fill[s6]"
+  filter+=";[s1]drawbox=x=192:y=319:w=1296:h=2:color=0xe3dfef:t=fill[s2]"
+  filter+=";[s2]drawbox=x=192:y=451:w=1296:h=2:color=0xe3dfef:t=fill[s3]"
+  filter+=";[s3]drawbox=x=192:y=583:w=1296:h=2:color=0xe3dfef:t=fill[s4]"
+  filter+=";[s4]drawbox=x=158:y=221:w=4:h=428:color=0xd9d2f4:t=fill[s6]"
   filter+=";[s6][badge1]overlay=128:221[s7];[s7][badge2]overlay=128:353[s8];[s8][badge3]overlay=128:485[s9];[s9][badge4]overlay=128:617[s10]"
   filter+=";[s10][bar]overlay=80:776[s11];[s11][icon]overlay=${lockup_x}:792[s12]"
   filter+=";[s12]drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=40"
@@ -239,3 +236,12 @@ cp "$alternatives_root/embrace-the-future/opener-embrace-2-section-map-alternati
   "$repo_root/illustrations/opener-embrace-section-map.jpg"
 cp "$alternatives_root/build-your-skills/opener-build-2-section-map-alternative.jpg" \
   "$repo_root/illustrations/opener-build-section-map.jpg"
+
+cp "$alternatives_root/understand-ai/opener-understand-2-section-map-alternative.jpg" \
+  "$repo_root/lessons/opener-understand-2-map.jpg"
+cp "$alternatives_root/avoid-traps/opener-avoid-2-section-map-alternative.jpg" \
+  "$repo_root/lessons/opener-avoid-2-map.jpg"
+cp "$alternatives_root/embrace-the-future/opener-embrace-2-section-map-alternative.jpg" \
+  "$repo_root/lessons/opener-embrace-2-map.jpg"
+cp "$alternatives_root/build-your-skills/opener-build-2-section-map-alternative.jpg" \
+  "$repo_root/lessons/opener-build-2-map.jpg"

@@ -2,7 +2,8 @@
 """Build the Welcome hybrid from the reroll, live donor, and canonical boards.
 
 The sources remain untouched. The edit:
-* adds the missing course-use instruction board;
+* adds the missing course-use instruction board and supporting narration from v3;
+* lets the board state the lesson rule while intact narration explains why it matters;
 * uses the live kitchen-table visual under the reroll's first-person narration;
 * replaces the invented workforce tangent with the live roll's concise gap line;
 * removes the word "secure" from the teen-experience sentence;
@@ -39,8 +40,11 @@ def media_info(path: Path) -> tuple[int, int, float, int]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--base", default="videos/Welcome-v2.mp4")
-    parser.add_argument("--donor", default="videos/welcome-live-donor.mp4")
+    parser.add_argument("--base", default="Prompts/donors/welcome-v2-source.mp4")
+    parser.add_argument("--donor", default="Prompts/donors/welcome-live-source.mp4")
+    parser.add_argument(
+        "--instruction-donor", default="Prompts/donors/welcome-v3-source.mp4"
+    )
     parser.add_argument("--instruction-board", required=True)
     parser.add_argument("--path-states", required=True)
     parser.add_argument("--toolkit-states", required=True)
@@ -50,6 +54,7 @@ def main() -> None:
 
     base = Path(args.base).resolve()
     donor = Path(args.donor).resolve()
+    instruction_donor = Path(args.instruction_donor).resolve()
     output = Path(args.output).resolve()
     instruction = Path(args.instruction_board).resolve()
     path_dir = Path(args.path_states).resolve()
@@ -57,11 +62,13 @@ def main() -> None:
 
     if output.exists() and not args.overwrite:
         raise SystemExit(f"refusing to overwrite {output}; pass --overwrite")
-    for path in (base, donor, instruction):
+    for path in (base, donor, instruction_donor, instruction):
         if not path.exists():
             raise SystemExit(f"missing input: {path}")
     if media_info(base)[:3] != media_info(donor)[:3]:
         raise SystemExit("base and donor formats differ")
+    if media_info(base)[:3] != media_info(instruction_donor)[:3]:
+        raise SystemExit("base and instruction donor formats differ")
 
     path_images = [
         path_dir / "state-0-unmarked.png",
@@ -87,6 +94,8 @@ def main() -> None:
     command = [FFMPEG, "-y", "-hide_banner", "-i", str(base), "-i", str(donor)]
     for image in images:
         command += ["-loop", "1", "-framerate", "30", "-i", str(image)]
+    instruction_audio_index = 2 + len(images)
+    command += ["-i", str(instruction_donor)]
 
     filters: list[str] = []
     video_legs: list[str] = []
@@ -122,15 +131,18 @@ def main() -> None:
         )
         audio_legs.append(f"[{name}]")
 
-    # Opening, including the new read-or-watch instruction beat and live kitchen art.
+    # Opening, including the read-or-watch instruction beat and live kitchen art.
     video_clip(0, 0.00, 16.70, "v_open")
-    image_clip(2, 7.50, "v_instructions")
+    image_clip(2, 14.64, "v_instructions")
     video_clip(0, 16.70, 20.60, "v_names")
     video_clip(1, 26.00, 29.50, "v_kitchen")
     video_clip(0, 24.10, 58.24, "v_builders")
 
     audio_clip(0, 0.00, 16.70, "a_open")
-    silence(7.50, "a_instructions")
+    # v3 supplies the missing read-or-watch narration and an intact explanation
+    # of why activities matter. The board states the exact lesson-level rule.
+    audio_clip(instruction_audio_index, 53.60, 60.16, "a_instructions_1")
+    audio_clip(instruction_audio_index, 66.18, 74.26, "a_instructions_2")
     audio_clip(0, 16.70, 58.24, "a_builders")
 
     # Concise gap narration from the live roll, with its useful press-go/mechanism art.
@@ -201,7 +213,7 @@ def main() -> None:
     if (width, height) != (1280, 720) or abs(fps - 30.0) > 0.01:
         raise SystemExit(f"unexpected output format: {width}x{height} at {fps}")
     duration = frames / fps
-    if not 141.5 <= duration <= 144.0:
+    if not 149.0 <= duration <= 151.0:
         raise SystemExit(f"unexpected output duration: {duration:.2f}s")
     print(f"Wrote {output} ({frames} frames, {duration:.2f}s)")
 

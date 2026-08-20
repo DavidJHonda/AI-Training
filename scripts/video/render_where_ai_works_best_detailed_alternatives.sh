@@ -22,19 +22,19 @@ mkdir -p "$output_dir"
 render_strength() {
   local filename="$1"
   local title="$2"
-  local subtitle="$3"
-  local accent="$4"
-  local art_x="$5"
-  local mechanism_1="$6"
-  local mechanism_2="$7"
-  local mechanism_3="$8"
-  local mechanism_4="$9"
-  local example_1="${10}"
-  local example_2="${11}"
-  local example_3="${12}"
-  local example_4="${13}"
-  local takeaway="${14}"
-  local lockup_x="${15}"
+  local accent="$3"
+  local art_x="$4"
+  local mechanism_1="$5"
+  local mechanism_2="$6"
+  local mechanism_3="$7"
+  local mechanism_4="$8"
+  local example_1="$9"
+  local example_2="${10}"
+  local example_3="${11}"
+  local example_4="${12}"
+  local takeaway="${13}"
+  local lockup_x="${14}"
+  local strength_number="${15}"
   local output="$output_dir/$filename"
   local temp_png="${output%.jpg}.tmp.png"
   local text_x=$((lockup_x+68))
@@ -54,8 +54,8 @@ render_strength() {
   filter+=";[s1][art]overlay=150:244[s2]"
   filter+=";[s2][bar]overlay=80:776[s3];[s3][check]overlay=${lockup_x}:792[s4]"
   filter+=";[s4]drawbox=x=720:y=212:w=2:h=484:color=0xe4e0f3:t=fill"
-  filter+=",drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=38"
-  filter+=",drawtext=fontfile='$subtitle_font':text='$subtitle':fontsize=26:fontcolor=0x655f7c:x=(w-text_w)/2:y=100"
+  filter+=",drawtext=fontfile='$title_font':text='STRENGTH ${strength_number} OF 4':fontsize=28:fontcolor=0x${accent}:x=(w-text_w)/2:y=34"
+  filter+=",drawtext=fontfile='$title_font':text='$title':fontsize=44:fontcolor=0x08072b:x=(w-text_w)/2:y=76"
   filter+=",drawtext=fontfile='$title_font':text='WHAT IT DOES':fontsize=24:fontcolor=0x${accent}:x=770:y=214"
   filter+=",drawtext=fontfile='$subtitle_font':text='$mechanism_1':fontsize=30:fontcolor=0x08072b:x=770:y=252"
   filter+=",drawtext=fontfile='$subtitle_font':text='$mechanism_2':fontsize=30:fontcolor=0x08072b:x=770:y=290"
@@ -88,45 +88,45 @@ render_strength() {
 
 render_strength \
   "where-ai-works-best-1-transform-alternative.jpg" \
-  "Patterned transformation" "Same meaning, new shape." "1970cf" 110 \
+  "Patterned transformation" "1970cf" 110 \
   "AI learns patterns, so it can take your input" \
   "and recast it into something clearer, cleaner," \
   "or better structured. The meaning stays the same." \
   "Only the shape changes." \
   "Coding help" "Reformatting messy data" \
   "Translating between languages" "Turning an outline into prose" \
-  "Use AI when the meaning stays and the shape changes." 353
+  "Use AI when the meaning stays and the shape changes." 353 1
 
 render_strength \
   "where-ai-works-best-2-generate-alternative.jpg" \
-  "Generative variation" "Ten versions in ten seconds." "e68100" 470 \
+  "Generative variation" "e68100" 470 \
   "AI builds each answer by predicting likely pieces." \
   "There are usually many likely options, so it can" \
   "give you several versions at once." "" \
   "Brainstorming angles" "Give me 10 variations" \
   "Rewriting in a different tone" "First drafts of common documents" \
-  "Use AI when you want several possibilities." 426
+  "Use AI when you want several possibilities quickly." 400 2
 
 render_strength \
   "where-ai-works-best-3-compress-alternative.jpg" \
-  "Semantic compression and retrieval" "Finds the signal in long documents." "7145d3" 830 \
+  "Semantic compression and retrieval" "7145d3" 830 \
   "AI can read long documents and see past the" \
   "words on the page to what they actually mean." \
   "It can shrink them to the core or surface the" \
   "one part you actually need." \
   "Summarizing a chapter" "Extracting key points" \
   "Finding the relevant section" "Answering questions from supplied material" \
-  "Use AI when you need the signal from long material." 354
+  "Use AI when you need the signal from long material." 354 3
 
 render_strength \
   "where-ai-works-best-4-reason-alternative.jpg" \
-  "Structured reasoning and synthesis" "Reasons through what you give it." "138c82" 1190 \
+  "Structured reasoning and synthesis" "138c82" 1190 \
   "AI can hold a lot of information at once. Give it" \
   "the facts, the constraints, and the goal, and it" \
   "can work through them toward an answer." "" \
   "Planning a project" "Debugging code" \
   "Comparing options" "Critiquing a draft" \
-  "Use AI to work through facts, constraints, and goals." 344
+  "Use AI to work through facts, constraints, and goals." 344 4
 
 publish_board() {
   local source_name="$1"

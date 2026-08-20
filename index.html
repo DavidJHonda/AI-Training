@@ -3325,13 +3325,20 @@ function LabStepList(props) {
 // the student has a free ChatGPT account. Nothing before this lesson sends anyone to an app.
 function SetUpChatGPTLab(props) {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-setup-steps", {}), checked = _c[0], setChecked = _c[1];
+  var _c = useLocalStorage("llm-lab-setup-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Get ChatGPT Free", body: "ChatGPT runs in your browser, so there is nothing to install. Set it up on a computer rather than your phone so you have room for the later labs. Go to the address below and choose Sign up. You do not need a paid plan for this course.", prompt: "chatgpt.com" },
-    { title: "Create your account", body: "Use an email address or one of the available sign-in options. Enter your real age when asked. If you are under 18, get a parent or guardian’s permission and follow any age-related steps ChatGPT shows you." },
+    { title: "Get the free version of ChatGPT", body: "ChatGPT runs in your browser, so there is nothing to install. Set it up on a computer rather than your phone so you have room for the later labs. Go to the website below. You do not need a paid plan for this course.", prompt: "chatgpt.com" },
+    { title: "Sign up for free", body: "On the ChatGPT website, select “Sign up for free.”" },
+    { title: "Create your account", body: "Use an email address or one of the available sign-in options. Enter your real age when asked. If you are under 18, ask a parent or guardian for permission and follow any age-related steps ChatGPT shows you." },
     { title: "Enter the verification code", body: "If OpenAI emails you a verification code, open that message, copy the code, and enter it in ChatGPT. If your sign-in method verifies you another way and no code appears, continue to the next step." },
-    { title: "Protect your privacy", body: "Do not add sensitive details to your account or chats. Keep out your home address, phone number, passwords, student ID, exact school schedule, medical information, and anything you would not want shared. A first name or nickname is enough." },
-    { title: "Know the free-plan limits", body: "ChatGPT Free limits how often you can use some models and tools. If ChatGPT says you reached a limit, your work is still saved. Note the reset time it shows and return later; you do not need to upgrade to finish the course." },
+    { title: "Protect your privacy", body: E(React.Fragment, null,
+      "Do not add sensitive details to your account or chats.",
+      E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "Do not enter your home address, phone number, passwords, student ID, exact school schedule, medical information, or anything you would not want shared."),
+      E("span", { style: { display: "block", marginTop: 6 } }, "A first name or nickname is enough.")) },
+    { title: "Know the free-version limits", body: E(React.Fragment, null,
+      "The free version of ChatGPT has usage limits. Some models and tools may become temporarily unavailable before others.",
+      E("span", { style: { display: "block", marginTop: 6 } }, "If ChatGPT says you have reached a usage limit, do not worry. Your work is still saved. If it shows a reset time, return then and finish the activity."),
+      E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "You do not need to upgrade to a paid version to finish the course.")) },
     { title: "Ask ChatGPT about itself", body: "Start a new chat. Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word.", prompt: "What are you good at, and what should I not fully trust you on?" },
     { title: "Put it to work", body: "Ask it something you actually need right now: a homework question, an idea to brainstorm, a draft to start. Notice how it feels to use a real AI on a real task." },
     { title: "End with a laugh", body: "Ask ChatGPT for a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
@@ -5160,14 +5167,14 @@ function AIvsCodeSection(props) {
     },
       /*#__PURE__*/React.createElement("h3", null, "Normal software vs. AI software"),
       /*#__PURE__*/React.createElement("section", null,
-        /*#__PURE__*/React.createElement("h4", null, "Normal software. Built from rules."),
-        /*#__PURE__*/React.createElement("p", null, "Output: Same every time. Ask twice and get the same answer."),
+      /*#__PURE__*/React.createElement("h4", null, "Normal software. Built from rules."),
         /*#__PURE__*/React.createElement("p", null, "Input: Needs clean structure. Rows, fields, and labels defined ahead of time."),
+        /*#__PURE__*/React.createElement("p", null, "Output: Same every time. Ask twice and get the same answer."),
         /*#__PURE__*/React.createElement("p", null, "When wrong: Trace it to a line. Find the bug, fix the rule, and know exactly why.")),
       /*#__PURE__*/React.createElement("section", null,
         /*#__PURE__*/React.createElement("h4", null, "AI software. Built from patterns."),
-        /*#__PURE__*/React.createElement("p", null, "Output: The answer may change. Patterns build a fresh response each time."),
         /*#__PURE__*/React.createElement("p", null, "Input: Handles human mess. Photos, audio, conversations, and half-formed questions."),
+        /*#__PURE__*/React.createElement("p", null, "Output: The answer may change. Patterns build a fresh response each time."),
         /*#__PURE__*/React.createElement("p", null, "When wrong: There is no line to point to. AI handles unfamiliar problems, but can be confidently wrong.")),
       /*#__PURE__*/React.createElement("p", null, "Rules deliver consistency. Patterns handle the mess.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE RIGHT TOOL FOR THE JOB"),
@@ -8906,7 +8913,6 @@ function WhatItDoesBestSection(props) {
     {
       id: "transform",
       name: "Patterned transformation",
-      tagline: "Same meaning, new shape.",
       mechanism: "AI learns patterns, so it can take your input and recast it into something clearer, cleaner, or better structured. The meaning stays the same; only the shape changes.",
       powers: ["Coding help", "Reformatting messy data", "Translating between languages", "Turning an outline into prose"],
       color: "#3b82f6"
@@ -8914,7 +8920,6 @@ function WhatItDoesBestSection(props) {
     {
       id: "variation",
       name: "Generative variation",
-      tagline: "Ten versions in ten seconds.",
       mechanism: "AI builds each answer by predicting likely pieces, and there are usually many likely options. So it can give you several versions at once.",
       powers: ["Brainstorming angles", "“Give me 10 variations”", "Rewriting in a different tone", "First drafts of common documents"],
       color: "#f59e0b"
@@ -8922,7 +8927,6 @@ function WhatItDoesBestSection(props) {
     {
       id: "compression",
       name: "Semantic compression and retrieval",
-      tagline: "Finds the signal in long documents.",
       mechanism: "AI can read long documents and see past the words on the page to what they actually mean. So it can shrink long documents down to the core, or surface the one part you actually need.",
       powers: ["Summarizing a chapter", "Extracting key points", "Finding the relevant section in a long document", "Answering questions from supplied material"],
       color: "#8b5cf6"
@@ -8930,7 +8934,6 @@ function WhatItDoesBestSection(props) {
     {
       id: "reasoning",
       name: "Structured reasoning and synthesis",
-      tagline: "Reasons through what you give it.",
       mechanism: "AI can hold a lot of information at once. Give it the facts, the constraints, and the goal, and it can work through them toward an answer.",
       powers: ["Planning a project", "Debugging code", "Comparing options", "Critiquing a draft"],
       color: "#0d9488"
@@ -8996,10 +8999,9 @@ function WhatItDoesBestSection(props) {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       E("h3", null, "AI is strongest when the job has one of four shapes."),
-      ENGINES.map(function(e) {
+      ENGINES.map(function(e, index) {
         return E("section", { key: e.id },
-          E("h4", null, e.name),
-          E("p", null, e.tagline),
+          E("h4", null, "Strength " + (index + 1) + " of 4: " + e.name),
           E("p", null, e.mechanism),
           E("h5", null, "Examples"),
           E("ul", null, e.powers.map(function(p) { return E("li", { key: p }, p); })));

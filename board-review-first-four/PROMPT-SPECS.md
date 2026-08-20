@@ -131,7 +131,11 @@ while making every board conform to this specification.
    knowledge source” in the surrounding lesson rather than duplicating it below.
 6. **Where AI Works Best:** use four separate boards so the complete lesson context
    remains readable on the page and in the video. Each board uses the shared title,
-   subline, white body panel, and gold takeaway system. Split the body into a large
+   white body panel, and gold takeaway system; do not add a redundant subtitle below
+   the title. Add a color-matched
+   “STRENGTH 1 OF 4” through “STRENGTH 4 OF 4” sequence marker above the title on
+   each board, and vertically center the marker-title lockup as one unit in the area
+   above the white panel. Split the body into a large
    reinforcing illustration on the left and, on the right, the full “What it does”
    explanation plus all four examples. The sequence is Patterned Transformation,
    Generative Variation, Semantic Compression and Retrieval, then Structured
@@ -196,8 +200,18 @@ while making every board conform to this specification.
     the tool. Finish with what you can do.” Use 28 px step numbers, 32 px stage
     headings, and 30 px two-line descriptions so the smallest teaching copy remains
     readable at the lesson page's 880 px display width.
-17. **AI Is Different — Kryptonite:** title “You’ll see stories like this.” Use one
-    white body panel divided into three equal columns: Scams That Scale, Deepfakes
+17. **AI Is Different — Comparison and Kryptonite:** build the “Normal software vs.
+    AI software” comparison as a 688 px dense body with no takeaway band. Preserve
+    its paired Input, Output, and When Wrong rows in that process order. Use 32 px
+    comparison headings, 34 px explanatory copy, and 28 px medium-weight text in
+    the widened 132 px center labels. Give those shared labels a neutral near-white
+    fill and subtle grey-purple outline so they do not appear to belong to either
+    software column. Reserve bold weight for the board title and the NORMAL SOFTWARE
+    and AI SOFTWARE column names; use medium weight everywhere else. Carry “Rules
+    deliver consistency. Patterns handle the mess.” in the
+    surrounding lesson prose instead of shrinking the board to repeat it. For the
+    Kryptonite board, title it “You’ll see stories like this.” Use one white body
+    panel divided into three equal columns: Scams That Scale, Deepfakes
     of Real People, and Confident but Wrong. Each unnumbered column follows icon,
     title, complete existing description, divider, then supporting illustration.
     Use flat course-native schematic line art: a message and identity card

@@ -8,7 +8,7 @@ For decades, technology has been making it easier and easier to get answers. And
 
 One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at how this changed between your grandparents, your parents, and you.
 
-How answers got cheap
+How answers got easier and faster
 
 ## Pre-Internet (Grandparents)
 
@@ -54,15 +54,13 @@ Seconds
 
 Half a day, then an hour, now seconds. AI makes answers cheap to get. That does not make humans less valuable. **It changes where value lives.**
 
-## Then: Finding the answer
+## Pre-AI: Finding the answer
 
 Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one.
 
-## Now: Asking the right question
+## With AI: Asking the right question
 
 AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps.
-
-**Answers became easier to get → Better questions became more valuable**
 
 ## What Makes a Good Question?
 

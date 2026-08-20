@@ -177,18 +177,9 @@ drawText(
     firstBoard
         ? "Meaning becomes an ordered row of numbers"
         : "One new dimension separates similar meanings",
-    in: NSRect(x: 80, y: 40, width: 1440, height: 58),
+    in: NSRect(x: 80, y: 57, width: 1440, height: 58),
     font: heavy(44),
     color: navy,
-    alignment: .center
-)
-drawText(
-    firstBoard
-        ? "Coke and coffee separate across the same six dimensions."
-        : "Coke and Pepsi match on six values. Citrus makes them different.",
-    in: NSRect(x: 80, y: 100, width: 1440, height: 38),
-    font: medium(26),
-    color: muted,
     alignment: .center
 )
 

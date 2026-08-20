@@ -24,6 +24,7 @@ func color(_ hex: String, alpha: CGFloat = 1) -> NSColor {
 
 let lavender = color("#eeeaff")
 let navy = color("#08072b")
+let cardTitle = color("#152b7a")
 let bodyInk = color("#302c42")
 let muted = color("#655f7c")
 let purple = color("#6f52ff")
@@ -47,6 +48,7 @@ func loadFont(path: String, size: CGFloat) -> NSFont {
 
 let fontRoot = "/Users/davidobrien/Library/Fonts"
 func heavy(_ size: CGFloat) -> NSFont { loadFont(path: "\(fontRoot)/AvenirNextforINTUIT-Heavy.otf", size: size) }
+func bold(_ size: CGFloat) -> NSFont { loadFont(path: "\(fontRoot)/AvenirNextforINTUIT-Bold.otf", size: size) }
 func demi(_ size: CGFloat) -> NSFont { loadFont(path: "\(fontRoot)/AvenirNextforINTUIT-Demi.otf", size: size) }
 func medium(_ size: CGFloat) -> NSFont { loadFont(path: "\(fontRoot)/AvenirNextforINTUIT-Medium.otf", size: size) }
 
@@ -273,7 +275,7 @@ func renderThreeReads() throws {
         let x = innerX + CGFloat(index) * (cardWidth + gap)
         roundedRect(NSRect(x: x, y: 204, width: cardWidth, height: 500), radius: 16, fill: rowFill, stroke: rule, lineWidth: 1.25)
         drawNumber(markers[index], center: NSPoint(x: x + cardWidth / 2, y: 246))
-        drawText(titles[index], in: NSRect(x: x + 22, y: 288, width: cardWidth - 44, height: 42), font: heavy(32), color: purple, alignment: .center)
+        drawText(titles[index], in: NSRect(x: x + 22, y: 288, width: cardWidth - 44, height: 42), font: bold(32), color: cardTitle, alignment: .center)
         drawText(bodies[index], in: NSRect(x: x + 28, y: 342, width: cardWidth - 56, height: 132), font: medium(30), color: bodyInk, alignment: .center, lineHeight: 38)
         drawThreeReadsPicture(cardIndex: index, rect: NSRect(x: x + 24, y: 510, width: cardWidth - 48, height: 162))
     }
@@ -300,7 +302,7 @@ func renderWhyDozens() throws {
         let x = innerX + CGFloat(index) * (cardWidth + gap)
         roundedRect(NSRect(x: x, y: 204, width: cardWidth, height: 500), radius: 16, fill: rowFill, stroke: rule, lineWidth: 1.25)
         drawNumber("\(index + 1)", center: NSPoint(x: x + cardWidth / 2, y: 246))
-        drawText(titles[index], in: NSRect(x: x + 22, y: 286, width: cardWidth - 44, height: 76), font: heavy(32), color: purple, alignment: .center, lineHeight: 37)
+        drawText(titles[index], in: NSRect(x: x + 22, y: 286, width: cardWidth - 44, height: 76), font: bold(32), color: cardTitle, alignment: .center, lineHeight: 37)
         drawText(bodies[index], in: NSRect(x: x + 28, y: 366, width: cardWidth - 56, height: 132), font: medium(30), color: bodyInk, alignment: .center, lineHeight: 38)
 
         if index == 0 {

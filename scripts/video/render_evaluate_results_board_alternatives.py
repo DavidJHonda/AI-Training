@@ -10,6 +10,7 @@ FONT_DIR = Path("/Users/davidobrien/Library/Fonts")
 
 W, H = 1600, 900
 NAVY = "#08072b"
+CARD_TITLE = "#152b7a"
 BODY_INK = "#0e0a1f"
 MUTED = "#77728f"
 LAVENDER = "#eeeaff"
@@ -33,6 +34,7 @@ HEAVY_28 = font("AvenirNextforINTUIT-Heavy.otf", 28)
 HEAVY_24 = font("AvenirNextforINTUIT-Heavy.otf", 24)
 HEAVY_22 = font("AvenirNextforINTUIT-Heavy.otf", 22)
 HEAVY_20 = font("AvenirNextforINTUIT-Heavy.otf", 20)
+BOLD_30 = font("AvenirNextforINTUIT-Bold.otf", 30)
 DEMI_32 = font("AvenirNextforINTUIT-Demi.otf", 32)
 DEMI_24 = font("AvenirNextforINTUIT-Demi.otf", 24)
 MEDIUM_24 = font("AvenirNextforINTUIT-Medium.otf", 24)
@@ -147,7 +149,7 @@ def card(draw, box, marker, title, body, accent, icon_name, numbered=True):
         draw.line((cx + 11, y0 + 37, cx - 11, y0 + 59), fill=WHITE, width=6)
     else:
         centered(draw, (cx, y0 + 48), marker, HEAVY_24, WHITE)
-    centered_block(draw, (x0 + 18, y0 + 88, x1 - 18, y0 + 150), title, HEAVY_30, accent)
+    centered_block(draw, (x0 + 18, y0 + 88, x1 - 18, y0 + 150), title, BOLD_30, CARD_TITLE)
     paragraph(draw, (x0 + 24, y0 + 160, x1 - 24, y0 + 376), body, MEDIUM_28)
     draw.line((x0 + 30, y0 + 390, x1 - 30, y0 + 390), fill=RULE, width=2)
     draw_icon(draw, icon_name, cx, y0 + 460, accent, 0.9)
@@ -159,7 +161,7 @@ def compact_card(draw, box, marker, title, body, accent, icon_name):
     rounded(draw, box, 14, WHITE, RULE, 2)
     draw.ellipse((x0 + 18, y0 + 18, x0 + 62, y0 + 62), fill=accent)
     draw_icon(draw, icon_name, x0 + 40, y0 + 40, WHITE, 0.45)
-    draw.text((x0 + 76, y0 + 16), title, font=HEAVY_30, fill=accent)
+    draw.text((x0 + 76, y0 + 16), title, font=BOLD_30, fill=CARD_TITLE)
     paragraph(draw, (x0 + 22, y0 + 72, x1 - 22, y1 - 14), body, MEDIUM_28, center=False, line_gap=5)
 
 

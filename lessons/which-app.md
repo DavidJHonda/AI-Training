@@ -54,9 +54,9 @@ Each philosophy turns into a different kind of strength. ChatGPT is built for br
 
 ## WHICH APP SHOULD YOU USE?
 
-Honest answer: for most of what you’ll do, any of the three works. Don’t agonize over the choice. There’s no single best app, and what’s best today might not be best tomorrow.
+Honest answer: for most of what you’ll do, any of the three can do the job if it is available to you. Don’t agonize over the choice. There’s no single best app, and what’s best today might not be best tomorrow.
 
-Pick one as your home base and learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three.
+For this course, ChatGPT is your hands-on home base. Learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three.
 
 A power move for later: when an answer really matters, ask the same question in a second app. Two differently trained apps agreeing is real evidence. If they disagree, you know exactly where to dig.
 

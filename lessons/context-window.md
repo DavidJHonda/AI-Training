@@ -62,38 +62,6 @@ Whatever you have open next door is invisible. Different app, different window.
 
 If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app.
 
-## What Follows You Where
-
-Those five pieces don’t all behave the same way. Each has a different reach: how far it follows you as you open new chats. Two live and die with a single chat. Two follow you everywhere. (The fifth, Projects, gets its own section below.)
-
-## Stays in this chat
-
-💬
-
-Your current prompt
-
-Everything you sent this turn: what you typed, plus anything attached.
-
-🧵
-
-Everything earlier in this chat
-
-Everything you and the AI said before now.
-
-## Follows you everywhere
-
-👤
-
-Personalization
-
-What you told it once: your name, what you’re into, how you like answers.
-
-🧠
-
-Saved Memory
-
-What the app picked up from your chats and saved on its own.
-
 ## Personalization and Saved Memory
 
 Personalization is the Luke and Nate effect, on purpose. Tell the app once what to call you, what you’re into, and how you like your answers, and every chat starts already knowing it. Set it up in two minutes, and a generic tool becomes yours.
@@ -102,7 +70,7 @@ Saved Memory is the app noticing things in your chats worth keeping. It keeps a 
 
 ## What’s a Project?
 
-That leaves the dashed card in the illustration: Projects. A project is a folder for one piece of ongoing work: your summer job hunt, your team’s season, the game you’re building. You put that work’s instructions and files inside: your resume, the schedule, your code, your notes.
+That leaves the project card in the illustration. A project is a folder for one piece of ongoing work: your summer job hunt, your team’s season, the game you’re building. You put that work’s instructions and files inside: your resume, the schedule, your code, your notes.
 
 Here’s the idea: the big, ongoing things you do with AI have their own context. Your job hunt has a resume and a list of places you’ve applied. Your team has a schedule and a playbook. Without a project, you rebuild that context in every chat: re-upload the files, re-explain the work. A project holds the context for you. Start a chat inside it, and you step into that context instead of rebuilding it.
 

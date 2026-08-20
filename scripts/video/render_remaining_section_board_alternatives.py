@@ -15,6 +15,7 @@ LAVENDER = "#eeeaff"
 PALE = "#f8f6ff"
 WHITE = "#ffffff"
 NAVY = "#08072b"
+CARD_TITLE = "#152b7a"
 BODY = "#24203a"
 MUTED = "#655f7c"
 PURPLE = "#6f52ff"
@@ -36,6 +37,7 @@ FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
 def font(weight: str, size: int):
     filename = {
         "heavy": "AvenirNextforINTUIT-Heavy.otf",
+        "bold": "AvenirNextforINTUIT-Bold.otf",
         "demi": "AvenirNextforINTUIT-Demi.otf",
         "medium": "AvenirNextforINTUIT-Medium.otf",
     }[weight]
@@ -93,12 +95,9 @@ def board_frame(title, subtitle, takeaway):
     draw = ImageDraw.Draw(image)
     title_face = font("heavy", 44)
     title_lines = fit_lines(draw, title, title_face, 1380, 2)
-    title_top = 47 if len(title_lines) == 1 else 31
+    title_top = 74 if len(title_lines) == 1 else 31
     for i, line in enumerate(title_lines):
         draw.text((800, title_top + i * 50), line, font=title_face, fill=NAVY, anchor="ma")
-    if subtitle:
-        sub_y = 112 if len(title_lines) == 1 else 128
-        draw.text((800, sub_y), subtitle, font=font("medium", 26), fill=MUTED, anchor="ma")
     rounded(draw, (80, 172, 1520, 736), 16, WHITE)
     rounded(draw, (80, 776, 1520, 860), 16, GOLD)
     tf = font("demi", 32)
@@ -152,7 +151,7 @@ def three_cards(draw, cards, *, top=202, bottom=706, numbered=True):
                 title_y = top + 91
             else:
                 title_y = top + 47
-        centered_block(draw, x + cw / 2, title_y, card["title"], font("heavy", 32), NAVY, cw - 52, 4, 3)
+        centered_block(draw, x + cw / 2, title_y, card["title"], font("bold", 32), CARD_TITLE, cw - 52, 4, 3)
         body_y = card.get("body_y", title_y + 78)
         centered_block(draw, x + cw / 2, body_y, card["body"], font("medium", 30), BODY, cw - 60, 7, 6)
         if card.get("footer"):
@@ -170,7 +169,7 @@ def two_cards(draw, left, right, *, top=202, bottom=706, gap=24):
         if card.get("eyebrow"):
             label_pill(draw, x + cw / 2, top + 48, card["eyebrow"], accent)
         title_y = top + (92 if card.get("eyebrow") else 44)
-        centered_block(draw, x + cw / 2, title_y, card["title"], font("heavy", 32), NAVY, cw - 70, 4, 3)
+        centered_block(draw, x + cw / 2, title_y, card["title"], font("bold", 32), CARD_TITLE, cw - 70, 4, 3)
         if card.get("quote"):
             rounded(draw, (x + 42, top + 151, x + cw - 42, top + 242), 14, WHITE, accent, 2)
             centered_block(draw, x + cw / 2, top + 177, card["quote"], font("demi", 28), BODY, cw - 120, 5, 2)
@@ -238,7 +237,7 @@ def render_inference_path():
         rounded(draw, (bx, y, bx + cw, y + 386), 16, PALE, RULE, 1)
         marker(draw, bx + cw / 2, y + 60, n, color)
         draw.text((bx + cw / 2, y + 118), title, font=font("heavy", 24), fill=color, anchor="ma")
-        centered_block(draw, bx + cw / 2, y + 166, body, font("heavy", 30), NAVY, cw - 38, 4, 3)
+        centered_block(draw, bx + cw / 2, y + 166, body, font("bold", 30), CARD_TITLE, cw - 38, 4, 3)
         if i < len(steps) - 1:
             arrow(draw, bx + cw + 5, y + 193, bx + cw + gap - 5, y + 193, MUTED, 3)
         if i == 4:
@@ -301,11 +300,11 @@ def render_engagement():
     arrow(draw, 840, 372, 1130, 449, RED, 5)
     rounded(draw, (188, 442, 695, 652), 16, SOFT_GREEN, TEAL, 2)
     label_pill(draw, 441, 478, "YES: STOP", TEAL)
-    centered_block(draw, 441, 526, "Use the answer and leave the chat.", font("heavy", 30), NAVY, 420, 4, 2)
+    centered_block(draw, 441, 526, "Use the answer and leave the chat.", font("bold", 30), CARD_TITLE, 420, 4, 2)
     draw.text((441, 608), "About 1 minute", font=font("demi", 26), fill=TEAL, anchor="mm")
     rounded(draw, (905, 442, 1412, 652), 16, SOFT_RED, RED, 2)
     label_pill(draw, 1158, 478, "ACCEPT THE FOLLOW-UP", RED)
-    centered_block(draw, 1158, 526, "New offers create new questions.", font("heavy", 30), NAVY, 420, 4, 2)
+    centered_block(draw, 1158, 526, "New offers create new questions.", font("bold", 30), CARD_TITLE, 420, 4, 2)
     draw.text((1158, 608), "The loop can last for hours", font=font("demi", 26), fill=RED, anchor="mm")
     save(image, "avoid-traps", "engagement-trap-decision-point-alternative.jpg")
 
@@ -387,7 +386,7 @@ def render_downside():
         if i < 3:
             arrow(draw, x + 42, y, xs[i + 1] - 42, y, MUTED, 4)
         label_pill(draw, x, y + 78, eyebrow, color, width=260)
-        centered_block(draw, x, y + 124, body, font("heavy", 30), NAVY, 265, 4, 2)
+        centered_block(draw, x, y + 124, body, font("bold", 30), CARD_TITLE, 265, 4, 2)
     rounded(draw, (190, 567, 1410, 681), 14, PALE, RULE, 1)
     draw.text((800, 599), "The lag used to be measured in decades.", font=font("heavy", 30), fill=NAVY, anchor="ma")
     draw.text((800, 642), "AI models can change every few months.", font=font("demi", 28), fill=RED, anchor="ma")
@@ -428,7 +427,7 @@ def render_agents():
         rounded(draw, (x - 135, y - 130, x + 135, y + 150), 16, PALE, RULE, 1)
         marker(draw, x, y - 72, n, color)
         draw.text((x, y - 13), title, font=font("heavy", 28), fill=color, anchor="ma")
-        centered_block(draw, x, y + 34, body, font("heavy", 30), NAVY, 220, 4, 2)
+        centered_block(draw, x, y + 34, body, font("bold", 30), CARD_TITLE, 220, 4, 2)
         if i < 3:
             arrow(draw, x + 150, y, xs[i + 1] - 150, y, MUTED, 4)
     draw.line((1330, 548, 1330, 650), fill=PURPLE, width=4)

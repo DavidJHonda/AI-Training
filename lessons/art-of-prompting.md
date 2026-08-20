@@ -12,7 +12,7 @@ So asking AI good questions requires another skill: packaging it for something t
 
 You learned the four qualities of a good question. Nothing about AI changes them. Every strong prompt starts life as a good question.
 
-## From Questions Matter · The Question
+## Four Qualities of a Good Question
 
 1
 

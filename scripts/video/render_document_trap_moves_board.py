@@ -14,6 +14,7 @@ LAVENDER = "#eeeaff"
 PALE = "#f8f6ff"
 WHITE = "#ffffff"
 NAVY = "#08072b"
+CARD_TITLE = "#152b7a"
 BODY = "#24203a"
 MUTED = "#655f7c"
 PURPLE = "#6f52ff"
@@ -63,8 +64,7 @@ def render():
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
 
-    draw.text((800, 48), "Four moves for better retrieval", font=font("heavy", 44), fill=NAVY, anchor="ma")
-    draw.text((800, 110), "Help the system find the right part of the document.", font=font("medium", 26), fill=MUTED, anchor="ma")
+    draw.text((800, 90), "Four moves for better retrieval", font=font("heavy", 44), fill=NAVY, anchor="mm")
 
     draw.rounded_rectangle((80, 172, 1520, 736), radius=16, fill=WHITE)
 
@@ -91,7 +91,7 @@ def render():
         cx, cy = x + 48, y + 52
         draw.ellipse((cx - 29, cy - 29, cx + 29, cy + 29), fill=PURPLE)
         draw.text((cx, cy), str(i), font=number_face, fill=WHITE, anchor="mm")
-        draw.text((x + 92, y + 34), title, font=title_face, fill=PURPLE)
+        draw.text((x + 92, y + 34), title, font=title_face, fill=CARD_TITLE)
         draw_lines(draw, x + 92, y + 91, body, body_face, BODY, card_w - 126, max_lines=3)
 
     takeaway = "Make the right chunks easy to find."

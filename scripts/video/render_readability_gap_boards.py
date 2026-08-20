@@ -14,6 +14,7 @@ LAVENDER = "#eeeaff"
 PALE = "#f8f6ff"
 WHITE = "#ffffff"
 NAVY = "#08072b"
+CARD_TITLE = "#152b7a"
 BODY = "#0e0a1f"
 MUTED = "#655f7c"
 PURPLE = "#6f52ff"
@@ -29,6 +30,7 @@ RULE = "#ddd8ef"
 def font(weight, size):
     names = {
         "heavy": "AvenirNextforINTUIT-Heavy.otf",
+        "bold": "AvenirNextforINTUIT-Bold.otf",
         "demi": "AvenirNextforINTUIT-Demi.otf",
         "medium": "AvenirNextforINTUIT-Medium.otf",
     }
@@ -111,7 +113,7 @@ def save(image, paths):
 def render_document_chunks():
     image, draw = frame(
         "What happens when AI searches a long document",
-        "The system retrieves a few relevant pieces, not the complete file.",
+        "",
         "It answers from what it retrieved—not from the whole document.",
     )
     cards = [
@@ -124,7 +126,7 @@ def render_document_chunks():
         x1 = x0 + 420
         rounded(draw, (x0, 204, x1, 704), 14, PALE, RULE)
         number_marker(draw, x0 + 48, 250, index + 1, accent)
-        centered(draw, ((x0 + x1) / 2, 308), title, font("heavy", 32), accent)
+        centered(draw, ((x0 + x1) / 2, 308), title, font("bold", 32), CARD_TITLE)
         centered_block(draw, (x0 + 30, 342, x1 - 30, 446), body, font("medium", 28))
         draw.line((x0 + 42, 470, x1 - 42, 470), fill=RULE, width=2)
         if index == 0:
@@ -153,7 +155,7 @@ def render_document_chunks():
 def render_training_bias():
     image, draw = frame(
         "How training bias gets in",
-        "Three ways uneven data can distort the answer.",
+        "",
         "The model repeats the shape of its data.",
     )
     cards = [
@@ -166,7 +168,7 @@ def render_training_bias():
         x1 = x0 + 420
         rounded(draw, (x0, 204, x1, 704), 14, PALE, RULE)
         number_marker(draw, (x0 + x1) / 2, 250, index + 1, accent)
-        centered(draw, ((x0 + x1) / 2, 314), title, font("heavy", 32), accent)
+        centered(draw, ((x0 + x1) / 2, 314), title, font("bold", 32), CARD_TITLE)
         centered_block(draw, (x0 + 28, 352, x1 - 28, 480), body, font("medium", 28))
         draw.line((x0 + 42, 500, x1 - 42, 500), fill=RULE, width=2)
         if index == 0:
@@ -194,7 +196,7 @@ def render_training_bias():
 def render_training_map():
     image, draw = frame(
         "How a language model gets trained",
-        "Four stages build the behavior you see in the app.",
+        "",
         "Training is guess, check, nudge, repeat.",
     )
     cards = [
@@ -208,7 +210,7 @@ def render_training_map():
         x1 = x0 + 330
         rounded(draw, (x0, 204, x1, 592), 14, PALE, RULE)
         number_marker(draw, (x0 + x1) / 2, 246, index, accent)
-        centered_block(draw, (x0 + 18, 284, x1 - 18, 360), title, font("heavy", 28), accent, 4)
+        centered_block(draw, (x0 + 18, 284, x1 - 18, 360), title, font("bold", 28), CARD_TITLE, 4)
         centered_block(draw, (x0 + 24, 370, x1 - 24, 522), body, font("medium", 28))
         if index < 3:
             arrow(draw, x1 + 7, 398, x1 + 35)
@@ -227,7 +229,7 @@ def render_training_map():
 def render_study_tools():
     image, draw = frame(
         "Which study tool for the job?",
-        "Do you want to learn from your materials or learn something new?",
+        "",
         dense=True,
     )
     cards = [
@@ -254,7 +256,7 @@ def render_study_tools():
         draw.ellipse((x0 + 42, 262, x0 + 122, 342), fill=WHITE, outline=accent, width=4)
         centered(draw, (x0 + 82, 302), "N" if index == 0 else "AI", font("heavy", 26), accent)
         draw.text((x0 + 146, 258), card["product"], font=font("heavy", 24), fill=accent)
-        draw.text((x0 + 146, 294), card["title"], font=font("heavy", 32), fill=NAVY)
+        draw.text((x0 + 146, 294), card["title"], font=font("bold", 32), fill=CARD_TITLE)
         centered_block(draw, (x0 + 38, 354, x1 - 38, 430), card["description"], font("medium", 28))
         draw.line((x0 + 38, 448, x1 - 38, 448), fill=RULE, width=2)
         draw.text((x0 + 42, 474), "BEST FOR", font=font("heavy", 24), fill=accent)

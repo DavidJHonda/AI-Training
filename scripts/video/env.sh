@@ -16,7 +16,7 @@ VENV=".video-venv"
 
 [[ -d "$VENV" ]] || python3 -m venv "$VENV"
 "$VENV/bin/pip" install --quiet --upgrade pip
-"$VENV/bin/pip" install --quiet --upgrade opencv-python-headless imageio-ffmpeg
+"$VENV/bin/pip" install --quiet --upgrade opencv-python-headless imageio-ffmpeg pillow
 FFMPEG="$("$VENV/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
 echo "venv:   $VENV"
 echo "ffmpeg: $FFMPEG"

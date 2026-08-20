@@ -14,6 +14,7 @@ FONT_DIR = Path("/Users/davidobrien/Library/Fonts")
 
 W, H = 1600, 900
 NAVY = "#08072b"
+CARD_TITLE = "#152b7a"
 INK = "#0e0a1f"
 MUTED = "#77728f"
 LAVENDER = "#eeeaff"
@@ -35,6 +36,7 @@ def font(name, size):
 HEAVY_44 = font("AvenirNextforINTUIT-Heavy.otf", 44)
 HEAVY_32 = font("AvenirNextforINTUIT-Heavy.otf", 32)
 HEAVY_24 = font("AvenirNextforINTUIT-Heavy.otf", 24)
+BOLD_32 = font("AvenirNextforINTUIT-Bold.otf", 32)
 DEMI_32 = font("AvenirNextforINTUIT-Demi.otf", 32)
 MEDIUM_30 = font("AvenirNextforINTUIT-Medium.otf", 30)
 
@@ -237,7 +239,7 @@ def main():
         cx = item["center"]
         draw.ellipse((cx - 27, 195, cx + 27, 249), fill=PURPLE)
         centered(draw, (cx, 222), item["number"], HEAVY_24, WHITE)
-        centered_paragraph(draw, (cx - 205, 262, cx + 205, 354), item["title"], HEAVY_32, NAVY, 6)
+        centered_paragraph(draw, (cx - 205, 262, cx + 205, 354), item["title"], BOLD_32, CARD_TITLE, 6)
         centered_paragraph(draw, (cx - 200, 370, cx + 200, 514), item["body"], MEDIUM_30, INK, 8)
         draw.line((cx - 170, 536, cx + 170, 536), fill=RULE, width=2)
         item["art"](draw, cx, 690)

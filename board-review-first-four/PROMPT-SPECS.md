@@ -18,6 +18,13 @@ while making every board conform to this specification.
   restrained blue, orange, and teal.
 - Board title: exactly 44 px, weight 800, dark navy, sentence case, and centered.
   Never reduce the title size to make a line fit; wrap it to a second line instead.
+- Card title: normally 30–32 px, weight 700, course navy (`#152b7a`). Card titles
+  name a card or content group. They sit one step below the board title and must not
+  compete with it.
+- Labels are not card titles. Eyebrows, sequence markers, process labels, column
+  labels, and compact category names may remain all caps, accent-colored, and weight
+  800 when that treatment clarifies their role. Examples include “STRENGTH 1 OF 4,”
+  “WHAT IT DOES,” and “EXAMPLES.”
 - Standard vertical stack: 40 px top margin, 100 px title block, 32 px gap, 564 px
   body zone, 40 px gap, 84 px takeaway band, and 40 px bottom margin. Dense boards
   may omit the takeaway and extend the body zone to 688 px. The 1600×900 canvas and
@@ -25,17 +32,18 @@ while making every board conform to this specification.
 - Title zone: use the same uninterrupted lavender field as the board background,
   with no separate band, rule, divider, or visible seam. Center the complete title
   group optically and vertically within the fixed 100 px block, with at least 80 px
-  side margins. The block supports a one-line title, a one-line title plus subline,
-  or a two-line title without a subline. Rewrite a title/subline combination that
-  would exceed the block; never shrink the 44 px title.
-- Optional subline: 26 px, weight 500, muted purple-grey, centered, and 10 px below
-  the title.
+  side margins. Use only the board title in this zone. A two-line title is allowed;
+  never shrink the 44 px title.
+- Do not place explanatory subtext below the board title. If that idea is vital to
+  the learning beat, work it into the gold takeaway when one exists, or carry it in
+  the surrounding lesson prose.
 - Body zone: 564 px with a takeaway or 688 px without one. Use the taller variant
   when the standard body would force essential labels, values, or explanatory copy
   below the readability floor. Do not shrink essential content merely to preserve
   the takeaway.
-- Interior hierarchy: card headings are normally 30–32 px. Supporting copy is
-  normally 28–30 px so the board title remains the strongest text on the canvas.
+- Interior hierarchy: card titles follow the 30–32 px, weight 700, `#152b7a` rule
+  above. Supporting copy is normally 28–30 px so the board title remains the
+  strongest text on the canvas.
 - Essential data and labels: use 28–30 px at minimum in the 1600 px source. Secondary
   supporting text may use 24 px, but no text required to understand the board should
   fall below that size. At the lesson page's 880 px display width, 30 source pixels
@@ -75,8 +83,8 @@ while making every board conform to this specification.
 ## Opener section-map component
 
 - Use the common 1600×900 canvas, title zone, body panel, and takeaway band above.
-- Set the section name as the 44 px title and “In this section” as the 26 px
-  subline.
+- Set the section name as the 44 px title. Do not add “In this section” or another
+  subtitle below it.
 - Present the section sequence as stacked full-width rows joined by one subtle
   vertical route. Each row uses a centered 64 px number circle, a 32 px heading,
   and 30 px supporting copy, matching the Welcome course path. Do not convert the
@@ -92,8 +100,7 @@ while making every board conform to this specification.
 
 ## Board-specific specifications
 
-1. **Why Learn AI:** title “Why you’ll thrive in the AI future” with subline “AI is
-   new for everyone. This is your big advantage.” Use three numbered columns —
+1. **Why Learn AI:** title “Why you’ll thrive in the AI future.” Use three numbered columns —
    “THIS IS YOUR TIME,” “YOU’LL MOVE FASTER,” and “NOTHING TO UNLEARN.” Each column
    carries a compact explanation of the advantage, not just a caption: nobody has a
    twenty-year head start; AI collapses the old career runway; and new learners do
@@ -113,7 +120,7 @@ while making every board conform to this specification.
    HOUR.” Use 32 px move headings and 30 px explanations, extend the white panel to
    688 px, and omit the optional gold band. The surrounding lesson carries the
    concluding takeaway so the board does not repeat it in smaller type.
-4. **Does School Matter:** “Same AI. Different value.” as a left-to-right flow from
+4. **Does School Matter:** title the board “Same AI. Different value.” and use a left-to-right flow from
    Ask the Right Question → AI Answer → Make the Answer Better. Use three equal
    circular markers labeled “1,” “AI,” and “2”; AI is the bridge, not a numbered
    third skill. Give each stage enough supporting copy to carry the lesson without
@@ -141,16 +148,22 @@ while making every board conform to this specification.
    Generative Variation, Semantic Compression and Retrieval, then Structured
    Reasoning and Synthesis. These four boards replace the visible programmatic
    four-strength box on the lesson page and the four older video boards one-for-one.
-7. **Questions Matter:** three-era timeline — Library / Search / AI. Each column
+7. **Questions Matter:** title the three-era Library / Search / AI timeline “How
+   answers got easier and faster.” Each column
    includes three narration-matched process steps, followed by “Half a Saturday,”
-   “An hour or two,” or “Seconds,” then a smaller supporting illustration. Takeaway:
-   “The cost of finding an answer collapsed.” The board replaces the visible
-   programmatic timeline box on the lesson page.
-8. **Context Window:** glowing central visibility boundary with current prompt,
-   earlier messages, and added files inside; older chats, unsent pages, computer files,
-   and other apps outside. Takeaway: “If it isn’t in the window, the model can’t see
-   it.” The board replaces the visible four-card “Outside the window” box on the
-   lesson page; preserve that box’s complete explanations as accessible text.
+   “An hour or two,” or “Seconds,” then a smaller supporting illustration. Omit the
+   gold takeaway bar and use the added body height to give the steps, timing, and
+   supporting illustrations more vertical breathing room. The board replaces the visible
+   programmatic timeline box on the lesson page. Follow it with a second board titled
+   “It changes where value lives.” Compare “PRE-AI · FINDING THE ANSWER” with
+   “WITH AI · ASKING THE RIGHT QUESTION” in two equal columns carrying the complete
+   lesson explanations. Do not repeat the comparison in a bottom message.
+8. **Context Window:** four equally prominent, high-contrast cards for older chats,
+   unsent web pages, computer files, and other apps or tabs. Do not include a bright
+   inside-window panel that competes with the outside sources. Takeaway: “If it isn’t
+   in the window, the model can’t see it.” The board replaces the visible four-card
+   “Outside the window” box on the lesson page; preserve that box’s complete
+   explanations as accessible text.
 9. **Training:** four-stage map — Setup, Pretraining, Instruction Tuning, Preference
    Tuning — plus the Guess → Check → Nudge → Again loop. Use 28 px stage headings
    and descriptions; 24 px is acceptable for the compact repeated-loop labels.

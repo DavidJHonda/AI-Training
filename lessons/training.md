@@ -4,6 +4,8 @@
 
 You’ve seen the word **training** come up again and again throughout this course. It’s how OpenAI, Anthropic, and Google build AI: the same guess, check, and nudge loop you saw back in How an LLM Works.
 
+![The training loop: Guess, the model produces an answer. Check, a target or person evaluates it. Nudge, adjust the model’s internal numbers. Repeat. Same loop, different lessons.](training-loop.jpg)
+
 Training happens in three phases, but it can’t start cold. Think of a basketball coach: before the first practice, they need a court and equipment, and a plan for what the team will actually work on. AI needs the same setup.
 
 0

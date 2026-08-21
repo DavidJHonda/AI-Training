@@ -4,25 +4,7 @@
 
 Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation.
 
-## The Equation
-
-Learn More
-
-=
-
-More Knowledge
-
-=
-
-Better Questions
-
-&
-
-Better Results
-
-∴
-
-Be Smarter Than the Tool
+![The course equation: Learn More equals More Knowledge, which creates Better Questions and Better Results. Therefore, Be Smarter Than the Tool.](critical-thinking-1-equation.jpg)
 
 That equation leaves out one skill: the one that raises every line of it. It matters enough that we could have called this lesson **How to Take Your AI Use from a B to an A+**.
 
@@ -30,27 +12,7 @@ It’s called **critical thinking**. And it will help you far beyond AI: in scho
 
 There’s almost a direct line between this skill and the people who get the most out of AI. That’s why AI experts use the term constantly. But what does it actually mean? The answer fits in one more equation.
 
-## One More Equation
-
-Critical
-
-+
-
-Thinking
-
-=
-
-A+
-
-Your AI use at its best.
-
-## Critical
-
-Don’t take things at face value. Not everything is false, but the things that are don’t announce themselves.
-
-## Thinking
-
-AI gives you answers, but you must own the thinking. The moment you stop, you’re not using the tool anymore. You’re obeying it.
+![One more equation: Critical plus Thinking equals A-plus. Critical means not taking claims at face value. Thinking means analyzing, questioning, and evaluating before deciding. AI gives answers. You own the thinking.](critical-thinking-2-one-more.jpg)
 
 Put the words together and you have a process: actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do.
 
@@ -62,13 +24,7 @@ In 2015, headlines around the world announced a delicious discovery: a new study
 
 Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions.
 
-## Face Value
-
-Wow. I can eat all the chocolate I want and still lose ten pounds! Nice, pass me the Hershey bars NOW!
-
-## Critical Thinking
-
-Wait a second. That sounds too good to be true. What’s behind this study?
+![Two reactions to the 2015 headline Slim by Chocolate. At face value: Wow, I can eat all the chocolate I want and still lose ten pounds. Critical thinking: Wait a second. That sounds too good to be true. What’s behind this study?](critical-thinking-3-two-reactions.jpg)
 
 ## The True Story
 

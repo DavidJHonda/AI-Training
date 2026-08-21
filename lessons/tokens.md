@@ -96,35 +96,7 @@ Each model knows a fixed set of them, called its **vocabulary**, and these run l
 
 Each token gets a number, its **token ID**. Think of it as an address in the model’s vocabulary: it tells the model which token, but says nothing about what it means.
 
-How a human sees a cat vs. AI
-
-🧠
-
-## Human
-
-#### Instant Understanding
-
-cat
-
-↓
-
-🐱
-
-You see the word and instantly know what it means: soft fur, whiskers, sits on your keyboard.
-
-🤖
-
-## AI
-
-#### Just a Number
-
-cat
-
-↓
-
-9246
-
-The tokenizer turns it into a token ID. The exact number varies by model; either way, it’s a number, not meaning yet.
+![Humans see a cat. AI starts with a token ID. A human has instant understanding. AI begins with token ID 9246. A token ID identifies the token; meaning comes later.](tokens-3-cat.jpg)
 
 Here’s how AI splits text into tokens. Each AI does this differently, so this is only an example.
 

@@ -10,7 +10,7 @@ Most just press go.
 
 Few understand it.
 
-be smarter than the tool.
+Be Smarter Than the Tool.
 
 Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
 

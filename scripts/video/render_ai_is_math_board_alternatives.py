@@ -61,6 +61,13 @@ def save_board(image, review_name, illustration_name, lesson_name):
         ROOT / "illustrations" / illustration_name,
         ROOT / "lessons" / lesson_name,
     ]
+    current_selection = (
+        ROOT
+        / "board-review-first-four/current-selected/understand-ai"
+        / illustration_name
+    )
+    if current_selection.exists():
+        outputs.append(current_selection)
     for output in outputs:
         output.parent.mkdir(parents=True, exist_ok=True)
         image.save(output, quality=94, subsampling=0)
@@ -70,7 +77,18 @@ def save_board(image, review_name, illustration_name, lesson_name):
 def board_frame(title, subtitle, takeaway):
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
-    center_text(draw, (800, 90), title, font("heavy", 44), NAVY)
+    if "\n" in title:
+        draw.multiline_text(
+            (800, 88),
+            title,
+            font=font("heavy", 38),
+            fill=NAVY,
+            anchor="mm",
+            align="center",
+            spacing=4,
+        )
+    else:
+        center_text(draw, (800, 90), title, font("heavy", 44), NAVY)
     rounded(draw, (80, 172, 1520, 736), 16, WHITE)
     rounded(draw, (80, 776, 1520, 860), 16, GOLD)
 
@@ -138,7 +156,7 @@ def render_formula_board():
 
 def render_one_coin_board():
     image, draw = board_frame(
-        "One coin creates two possible outcomes",
+        "Toss a coin. What’s the chance it lands on heads?",
         "",
         "One favorable outcome out of two = 50%.",
     )
@@ -227,7 +245,11 @@ def draw_equation(draw, denominator, result, result_color):
 
 
 def render_coin_board(updated):
-    title = "One clue changes the odds" if updated else "Two coins create four possible outcomes"
+    title = (
+        "New evidence. The first coin lands on heads.\nWhat’s the probability both land on heads?"
+        if updated
+        else "Toss 2 coins. How likely is it that\nboth land on heads?"
+    )
     subtitle = ""
     takeaway = "After the clue: 1 out of 2 = 50%." if updated else "Before new evidence: 1 out of 4 = 25%."
     image, draw = board_frame(title, subtitle, takeaway)

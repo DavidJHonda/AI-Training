@@ -14,19 +14,19 @@ In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded l
 
 Take a simple example.
 
-![One coin creates two possible outcomes, heads and tails. Heads is one favorable outcome out of two, giving a probability of 50 percent.](ai-is-math-2-one-coin.jpg)
+![Toss a coin. The chance it lands on heads is one favorable outcome out of two, or 50 percent.](ai-is-math-2-one-coin.jpg)
 
 ## TWO COINS, FOUR OUTCOMES
 
 Now make it a little harder.
 
-![Two coins create four possible outcomes. Heads plus heads is one favorable outcome out of four, giving a probability of 25 percent.](ai-is-math-3-two-coins.jpg)
+![Toss two coins. The chance that both land on heads is one favorable outcome out of four, or 25 percent.](ai-is-math-3-two-coins.jpg)
 
 ## CONDITIONAL PROBABILITY
 
 Standard probability could count what you could see, like the coins, but it couldn’t tell you how much to change your mind when fresh evidence arrived. Thomas Bayes worked that part out. A minister, mathematician, and philosopher, he found the math for updating a belief as new evidence arrives, now known as Bayes’ Theorem.
 
-![One clue changes the odds. Knowing the first coin landed heads rules out two outcomes, leaving one favorable outcome out of two and a probability of 50 percent.](ai-is-math-4-update.jpg)
+![New evidence says the first coin landed on heads. Two outcomes are ruled out, so the probability both coins landed on heads becomes one out of two, or 50 percent.](ai-is-math-4-update.jpg)
 
 The evidence didn’t just rule things out, it moved the probability that both coins are heads from **25%** to **50%**. That update is **conditional probability**.
 

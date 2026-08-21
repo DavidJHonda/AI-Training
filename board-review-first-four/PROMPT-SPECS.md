@@ -249,9 +249,11 @@ while making every board conform to this specification.
     choose a better path.” The four boards replace the first four instructional
     boxes one-for-one if selected; do not combine them into one dense workflow board.
 19. **AI Is Math — probability sequence:** use five matched boards. “The math”
-    introduces ways an outcome happens divided by total possible outcomes. “One coin
-    creates two possible outcomes” applies the formula to heads and tails. “Two coins
-    create four possible outcomes” and “One clue changes the odds” keep all four
+    introduces ways an outcome happens divided by total possible outcomes. “Toss a
+    coin. What’s the chance it lands on heads?” applies the formula to heads and
+    tails. “Toss 2 coins. How likely is it that both land on heads?” and “New
+    evidence. The first coin lands on heads. What’s the probability both land on
+    heads?” keep all four
     outcomes in identical positions; the second crosses out the two outcomes that
     begin with tails and changes the calculation from 1 out of 4, 25%, to 1 out of
     2, 50%. The final board, “How evidence turns into the next word,” stacks Standard

@@ -32,7 +32,7 @@ const BOARDS = [
   // Welcome uses the same navy-and-gold creed treatment as the five opener lessons.
   // Matching the eyebrow and closing keeps the full shared OpenerCreed wrapper.
   { section: "welcome", out: "welcome-1-why-go-deeper.jpg", width: 660,
-    find: ["WHY GO DEEPER?", "Everyone has AI.", "be smarter than the tool."] },
+    find: ["WHY GO DEEPER?", "Everyone has AI.", "Be Smarter Than the Tool."] },
   { section: "welcome", out: "welcome-2-your-path.jpg", width: 720,
     find: ["Here’s your path.", "Work", "Build", "personal edge."] },
   // The three toolkit cards live in the same lavender ShowcaseBox as the headline.

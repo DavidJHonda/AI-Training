@@ -34,61 +34,7 @@ See the problem? What does **IT** point to: the cat or the milk?
 
 Our human brains see the right meaning instantly from the surrounding words. For AI, this was the big challenge, because of how it used to read text: in order, one word at a time. The further it read, the more the early words faded. Try it yourself with the sentence below. What does **IT** point to: cat, mat, May, or the rainstorm?
 
-How AI used to read
-
-The
-
-→
-
-cat
-
-→
-
-sat
-
-→
-
-on
-
-→
-
-the
-
-→
-
-mat
-
-→
-
-during
-
-→
-
-the
-
-→
-
-May
-
-→
-
-rainstorm
-
-→
-
-because
-
-→
-
-IT
-
-→
-
-was
-
-→
-
-tired
+![Before Transformers, AI reads the sentence The cat sat on the mat during the May rainstorm because it was tired one word at a time. By the time it reaches IT, CAT has faded.](transformer-1-before.jpg)
 
 We instantly know **IT** points back to **CAT**, even ten words later. A computer reading strictly in order doesn’t, and that’s what kept old AI from reading like we do.
 
@@ -98,35 +44,7 @@ In 2017, eight researchers at Google published a paper called **Attention Is All
 
 Instead of reading information sequentially, one word (token) at a time, the Transformer reads your whole message at once. That means it can establish the meaning of the word **IT** based on the words around it, like **CAT**, no matter how far apart they sit. And, it sees that the **CAT** is **TIRED**.
 
-How AI reads now
-
-The
-
-CAT
-
-sat
-
-on
-
-the
-
-mat
-
-during
-
-the
-
-May
-
-rainstorm
-
-because
-
-IT
-
-was
-
-TIRED
+![With Transformers, AI reads every word at once. Luke and Nate study the sentence while attention connects IT directly to CAT and TIRED, even ten words later.](transformer-2-now.jpg)
 
 One question this raises: if all the words arrive at once, how does the model keep them in order? Hold that thought. The answer comes at the end of the lesson.
 

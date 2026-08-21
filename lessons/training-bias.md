@@ -18,39 +18,11 @@ The model trained on photos that almost all showed cows on green pasture. So, th
 
 Not one mechanism. Three overlapping ones, all rooted in the data the model was trained on.
 
-📈
-
-Defaults
-
-Some cases appear too often in the data. The model treats them as the default.
-
-📉
-
-Blind Spots
-
-Some cases appear too rarely. The model performs worse when those cases come up.
-
-🪤
-
-Wrong Patterns
-
-A wrong clue happens to work in training. The model learns the clue instead of the real concept.
+![How training bias gets in. Defaults: common cases become the standard answer. Blind spots: rare cases barely appear, so the model learns less about them. Wrong patterns: the model learns a clue that worked instead of the real concept. The model repeats the shape of its data.](training-bias-1-mechanisms-board.jpg)
 
 You can’t fact-check your way out of this trap: every fact in a distorted answer can check out. The tell is sameness: **when every example looks alike, you’re seeing the model’s default, not the world.** When you spot it, three questions crack the picture open:
 
-1
-
-“What’s missing from this answer?”
-
-2
-
-“Show me examples that don’t fit the pattern you just gave.”
-
-3
-
-“Answer again, leaving out the most famous examples.”
-
-The model usually has the rest of the picture. It just doesn’t lead with it.
+![Three questions that crack the picture open. Ask what is missing: What’s missing from this answer? Ask for exceptions: Show me examples that don’t fit the pattern you just gave. Remove the famous: Answer again, leaving out the most famous examples. The model usually has the rest of the picture.](training-bias-2-questions-board.jpg)
 
 ## Stale information
 

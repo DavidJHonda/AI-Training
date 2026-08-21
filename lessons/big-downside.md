@@ -20,29 +20,7 @@ AI companies wrap a safety layer around the LLM called **guardrails**, built to 
 
 This is where the downside becomes a bit, how do you say, scary? Think about three ideas you met in Pace of Change:
 
-Recursive Self-Improvement
-
-An AI that improves itself while the world is using it.
-
-## The worry
-
-Imagine trying to put guardrails around AI that changes every time you use it.
-
-Artificial General Intelligence (AGI)
-
-AI as smart as us.
-
-## The worry
-
-We’re smart enough to build the guardrails. Would an AI as smart as us be able to knock them down?
-
-Artificial Superintelligence (ASI)
-
-AI smarter than any human.
-
-## The worry
-
-Would guardrails even work against AI smarter in everything than every human on earth?
+![The guardrail challenge gets harder as AI changes itself, reaches human-level capability, and potentially exceeds the people setting the rules.](big-downside-1-worries.jpg)
 
 ## III - Jailbreaking
 

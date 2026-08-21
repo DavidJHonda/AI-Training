@@ -44,21 +44,7 @@ Notice which response feels better. The Flattery Trap response is positive and u
 
 Remember the last phase of training, called RLHF (Reinforcement Learning from Human Feedback)? That’s what caused the Flattery Trap.
 
-How the praise got baked in
-
-## Humans do the ranking
-
-The model writes several answers to the same question, and reviewers rank them, from best to worst.
-
-## Human Nature
-
-Reviewers are human, and often rank a positive and supportive answer higher than the best answer.
-
-## The numbers follow
-
-Every ranking nudges the model’s internal numbers towards the same positive and supportive answers.
-
-The model isn’t lying to you. It learned what people give a thumbs-up.
+![How the praise got baked in. People rank answers; supportive answers often win; the rankings move the model’s numbers.](flattery-trap-2-praise-loop.jpg)
 
 ## The industry named it
 

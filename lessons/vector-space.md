@@ -12,17 +12,7 @@ A regular map works like this. You can find any place by knowing two things: the
 
 Can we add New York City and Mountain View, California? Yep. They track the same dimensions.
 
-New York City
-
-41 N, 74 W
-
-Mountain View, CA
-
-37 N, 122 W
-
-Dallas, Texas
-
-33 N, 97 W
+![Three known city coordinates sit on a United States map. Two new coordinates match no city exactly, so distance resolves them to Mountain View and New York City as the closest points.](vector-space-1-cities.jpg)
 
 Now, let’s pretend those are the only three cities in the United States. Your job is simple. You get the coordinates and have to match them to the closest city.
 
@@ -92,147 +82,21 @@ CIT
 
 ## Sports and energy neighborhood
 
-SWE
-
-BIT
-
-FIZ
-
-HEA
-
-CAF
-
-DAR
-
-CIT
-
 Gatorade
-
-7
-
-1
-
-0
-
-1
-
-0
-
-1
-
-6
 
 Powerade
 
-7
-
-1
-
-0
-
-1
-
-0
-
-1
-
-5
-
 ## Juices neighborhood
-
-SWE
-
-BIT
-
-FIZ
-
-HEA
-
-CAF
-
-DAR
-
-CIT
 
 lemonade
 
-8
-
-1
-
-0
-
-1
-
-0
-
-0
-
-10
-
 orange juice
-
-7
-
-1
-
-0
-
-1
-
-0
-
-1
-
-10
 
 ## Hot drinks neighborhood
 
-SWE
-
-BIT
-
-FIZ
-
-HEA
-
-CAF
-
-DAR
-
-CIT
-
 ☕Coffee
 
-1
-
-9
-
-0
-
-9
-
-8
-
-10
-
-0
-
 espresso
-
-0
-
-10
-
-0
-
-9
-
-10
-
-10
-
-0
 
 On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood.
 
@@ -252,33 +116,7 @@ Back to that one-of-a-kind token. AI can’t look its numbers up, but it can do 
 
 Now, back to our sentence from the last lesson.
 
-The
-
-cat
-
-sat
-
-on
-
-the
-
-mat
-
-during
-
-the
-
-May
-
-rainstorm
-
-because
-
-it
-
-was
-
-tired
+![With Transformers, AI reads every word at once. Attention connects IT directly to CAT and TIRED before the layers move IT toward its final position.](transformer-2-now.jpg)
 
 On its own, **IT** could have pointed at almost anything. As it flowed through the layers, its numbers kept moving toward **CAT**. By the end they matched no token exactly, but of every meaning AI knows, they sat closest to **CAT**.
 

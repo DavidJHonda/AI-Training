@@ -40,19 +40,7 @@ Won’t know if you’re still alone next week
 
 Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. One changed nothing. **Support Trap is mistaking supportive words for support.**
 
-## WHY AI FEELS LIKE REAL SUPPORT
-
-😌
-
-The relief is real
-
-Saying a hard thing out loud helps, even to a machine. You close the chat feeling better.
-
-💡
-
-The advice is real
-
-Ask what to do and the strategies are genuinely useful: specific, sensible, probably worth trying.
+![Supportive words are not support. The relief and advice can be real, but the person who can act and check on you tomorrow is missing.](support-trap-2-real-vs-missing.jpg)
 
 Some of what AI offers here is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too.
 
@@ -78,7 +66,7 @@ We’ve kept this course light where we could. Not here. This is where we ask yo
 
 In Sophie’s story, the only one who knew was a chatbot. Be the one who knows instead.
 
-🔑 **Use AI to get ready for people, not instead of people.**Draft the hard email. Break the week into a plan. Rehearse the first sentence until you can say it. Untangle a feeling until you can name it. Bring symptoms and questions to the doctor, not a diagnosis. Then take it to a person: someone who can hear it, act on it, and still be there tomorrow.
+**Use AI to get ready for people, not instead of people.**
 
 AI’s supportive words are math, not support.
 

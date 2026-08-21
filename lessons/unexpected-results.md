@@ -16,7 +16,7 @@ The plan worked. The goal failed.
 
 That is an unexpected result: the action produces the opposite of the outcome people wanted.
 
-## THE PLAN VS. WHAT HAPPENED
+## UNEXPECTED RESULTS
 
 Once you see the pattern, it appears everywhere—and the surprise can be better or worse than the plan.
 

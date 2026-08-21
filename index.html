@@ -5830,8 +5830,14 @@ function StaleInfoBox() {
 function TrainingBiasSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BIAS_LAB_STEPS = [{
-    title: "Open ChatGPT",
-    body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project."
+    title: "Go to ChatGPT",
+    prefix: "Go to ",
+    href: "https://chatgpt.com",
+    linkLabel: "chatgpt.com",
+    suffix: " and sign in."
+  }, {
+    title: "Start a new chat",
+    body: "Start a new chat outside any project."
   }, {
     title: "Get the default",
     body: "Paste this exactly. Read the list ChatGPT gives you. No judging yet. Just keep it where you can see it.",
@@ -5879,34 +5885,36 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "How Training Bias gets in"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Not one mechanism. Three overlapping ones, all rooted in the data the model was trained on."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 32 },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        MECHANISMS.map(function(m, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { flex: 1, minWidth: 250, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, m.icon),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, m.term)),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.body));
-        }))),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/training-bias-mechanisms.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "How training bias gets in"),
+      MECHANISMS.map(function(m, i) {
+        return /*#__PURE__*/React.createElement("p", { key: i },
+          /*#__PURE__*/React.createElement("strong", null, m.term), " ", m.body);
+      }),
+      /*#__PURE__*/React.createElement("p", null, "The model repeats the shape of its data.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       "These mechanisms have real consequences. Some face recognition systems were trained mostly on lighter-skinned adult faces, so they work worse on darker skin tones and on children. Same mechanism as the cows, except the failures here include wrongful arrests. The model works best on what it saw most."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "You can’t fact-check your way out of this trap: every fact in a distorted answer can check out. The tell is sameness: ",
       /*#__PURE__*/React.createElement("strong", null, "when every example looks alike, you’re seeing the model’s default, not the world."),
       " When you spot it, three questions crack the picture open:"),
-    /*#__PURE__*/React.createElement(NumberedRows, {
-      marginBottom: 24,
-      items: [
-        { title: "“What’s missing from this answer?”" },
-        { title: "“Show me examples that don’t fit the pattern you just gave.”" },
-        { title: "“Answer again, leaving out the most famous examples.”" }
-      ]
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/training-bias-questions.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "The model usually has the rest of the picture. It just doesn’t lead with it."),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "Three questions that crack the picture open"),
+      /*#__PURE__*/React.createElement("ol", null,
+        /*#__PURE__*/React.createElement("li", null, "What’s missing from this answer?"),
+        /*#__PURE__*/React.createElement("li", null, "Show me examples that don’t fit the pattern you just gave."),
+        /*#__PURE__*/React.createElement("li", null, "Answer again, leaving out the most famous examples.")),
+      /*#__PURE__*/React.createElement("p", null, "The model usually has the rest of the picture. It just doesn’t lead with it.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Stale information"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "One more data trap, and this one isn’t bias or hallucination. We hit it ourselves while building this course. We asked Claude to check an example sentence for the Tokens lesson:"),
@@ -5935,7 +5943,11 @@ function TrainingBiasSection(props) {
             /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
+                st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
+                  st.prefix,
+                  /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
+                  st.suffix) : st.body),
               st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -6931,7 +6943,11 @@ function ItSentenceWalkthrough(props) {
     props.revealed ? { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", hi("IT"), " land closer to ", hi("CAT"), " than to any other word in the sentence.") } : null
   ];
   return E(React.Fragment, null,
-    E(ItSentenceStrip, null),
+    props.useTransformerBoard ? E("img", {
+      src: "illustrations/transformer-2-now.jpg",
+      alt: "With Transformers, AI reads every word at once. Attention connects IT directly to CAT and TIRED, setting up the word we will follow through the layers",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }) : E(ItSentenceStrip, null),
     E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px" } },
       E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
         cards.filter(Boolean).map(function(node, i) {
@@ -6946,45 +6962,9 @@ function VectorSpaceSection(props) {
   var E = React.createElement;
   var vsTasteProfile = E("img", {
     src: "illustrations/vector-space-taste-profile.jpg",
-    alt: "Coke, Pepsi, and coffee scored on the same seven dimensions, with Citrus separating the two otherwise similar colas",
+    alt: "Coke, Pepsi, and coffee scored on the same seven dimensions. Coke and Pepsi match closely across the row while Coffee is far away on most values",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
-  // Coordinate maps: the SVG's own units ARE degrees (viewBox spans 127W-64W,
-  // 23N-51N with latitude negated for screen y), so a city is placed by its real
-  // latitude and longitude rather than by eye.
-  var usOutline = "-124.7,-48.4 -124.0,-46.3 -124.1,-43.3 -124.4,-40.4 -122.5,-37.8 -120.6,-34.6 -118.4,-33.7 -117.1,-32.5 -114.7,-32.7 -111.0,-31.3 -108.2,-31.3 -106.5,-31.8 -104.0,-29.3 -102.3,-29.9 -101.4,-29.8 -99.1,-26.4 -97.4,-25.9 -97.2,-28.0 -95.0,-29.2 -93.8,-29.7 -91.0,-29.2 -89.2,-29.1 -88.0,-30.3 -86.5,-30.4 -84.3,-29.9 -82.8,-27.8 -81.1,-25.2 -80.1,-25.8 -80.5,-28.5 -81.4,-30.7 -80.9,-32.0 -79.0,-33.5 -77.9,-34.2 -75.5,-35.2 -76.3,-37.0 -75.0,-38.5 -74.0,-40.5 -71.9,-41.3 -70.0,-41.7 -70.8,-43.1 -67.0,-44.8 -69.2,-47.5 -71.5,-45.0 -74.7,-45.0 -76.5,-44.0 -79.0,-43.3 -82.4,-41.7 -83.1,-42.3 -82.5,-45.3 -84.8,-46.5 -87.6,-46.0 -90.0,-46.7 -92.3,-46.7 -95.2,-49.0 -104.0,-49.0 -117.0,-49.0 -122.8,-49.0";
-  var starAt = function(lon, lat) {
-    var pts = [];
-    for (var i = 0; i < 10; i++) {
-      var a = -Math.PI / 2 + i * Math.PI / 5;
-      var rad = i % 2 === 0 ? 1.9 : 0.78;
-      pts.push((lon + rad * Math.cos(a)).toFixed(2) + "," + (-lat + rad * Math.sin(a)).toFixed(2));
-    }
-    return "M " + pts.join(" L ") + " Z";
-  };
-  var cityPct = function(lon, lat) {
-    return { left: (lon + 127) / 63 * 100, top: (51 - lat) / 28 * 100 };
-  };
-  var cityChip = function(name, coords, lon, lat, shiftPct, dropPct, color) {
-    var p = cityPct(lon, lat);
-    return E("div", { key: name, style: {
-      position: "absolute", left: p.left.toFixed(1) + "%", top: (p.top + dropPct).toFixed(1) + "%",
-      transform: "translateX(" + shiftPct + "%)", textAlign: "center", whiteSpace: "nowrap",
-      background: "var(--card)", border: "1px solid " + color, borderRadius: 10,
-      padding: "4px 9px", boxShadow: "var(--shadowSoft)"
-    } },
-      E("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--ink)" } }, name),
-      E("div", { style: { fontFamily: "var(--mono)", fontSize: 9.5, fontWeight: 600, color: color, marginTop: 1 } }, coords));
-  };
-  var usMap = function(inner) {
-    return E("svg", { viewBox: "-127 -51 63 28", style: { display: "block", width: "100%", height: "auto" }, "aria-hidden": "true" },
-      E("polygon", { points: usOutline, fill: "var(--card)", stroke: "rgba(110, 81, 255, 0.45)", strokeWidth: 0.35, strokeLinejoin: "round" }),
-      inner);
-  };
-  var mapBox = function(children) {
-    return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 18, padding: 16, marginBottom: 24, maxWidth: 625, marginLeft: "auto", marginRight: "auto" } },
-      E("div", { style: { position: "relative" } }, children));
-  };
   // Body-scale bullets: prose that happens to be listed, not a box. Matches BodyP
   // typography so the worked answers read at the same weight as the paragraphs
   // around them. Local to this lesson; promote it if a second lesson needs it.
@@ -7023,18 +7003,11 @@ function VectorSpaceSection(props) {
       "A regular map works like this. You can find any place by knowing two things: the latitude and the longitude. Want to find Dallas, Texas? Just give it a north latitude of 33 and a west longitude of 97."),
     E(BodyP, null,
       "Can we add New York City and Mountain View, California? Yep. They track the same dimensions."),
-    mapBox([
-      usMap([
-        E("line", { key: "lat", x1: -126, y1: -32.78, x2: -96.8, y2: -32.78, stroke: "#e6394d", strokeWidth: 0.25, strokeDasharray: "1 0.8", opacity: 0.75 }),
-        E("line", { key: "lon", x1: -96.8, y1: -24.4, x2: -96.8, y2: -32.78, stroke: "#e6394d", strokeWidth: 0.25, strokeDasharray: "1 0.8", opacity: 0.75 }),
-        E("path", { key: "nyc", d: starAt(-74.01, 40.71), fill: "#2f6fd6" }),
-        E("path", { key: "mtv", d: starAt(-122.08, 37.39), fill: "#0f8a66" }),
-        E("path", { key: "dal", d: starAt(-96.8, 32.78), fill: "#e6394d" })
-      ]),
-      cityChip("New York City", "41 N, 74 W", -74.01, 40.71, -8, 10, "#2f6fd6"),
-      cityChip("Mountain View, CA", "37 N, 122 W", -122.08, 37.39, 15, -12, "#0f8a66"),
-      cityChip("Dallas, Texas", "33 N, 97 W", -96.8, 32.78, -50, -23, "#e6394d")
-    ]),
+    E("img", {
+      src: "illustrations/vector-space-cities.jpg",
+      alt: "Three known city coordinates on a United States map. Two new coordinates match no city exactly, so 38 north 120 west resolves to Mountain View and 39 north 70 west resolves to New York City as the closest points",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }),
     E(BodyP, null,
       "Now, let\u2019s pretend those are the only three cities in the United States. Your job is simple. You get the coordinates and have to match them to the closest city."),
     bulletList([
@@ -7053,7 +7026,7 @@ function VectorSpaceSection(props) {
       "Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this."),
     E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 22, marginBottom: 8 } },
       E("div", { style: {
-        fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+        fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
         color: "var(--inkMuted)", textAlign: "center", marginBottom: 16
       } }, "Sweet \u00b7 Bitter \u00b7 Fizz \u00b7 Heat \u00b7 Caffeine \u00b7 Dark \u00b7 Citrus"),
       E("div", { style: { overflowX: "auto" } },
@@ -7078,20 +7051,20 @@ function VectorSpaceSection(props) {
               { emoji: "\u2615", name: "Coffee", pillBg: "#e7dcf4", pillFg: "#7b3aa6", vals: [1, 9, 0, 9, 8, 10, 0] },
               { name: "espresso", vals: [0, 10, 0, 9, 10, 10, 0] }] }].map(function(zone, zi) {
             return E("div", { key: "zone-" + zi, style: {
-              position: "absolute", left: zone.left, top: zone.top, width: "40%",
+              position: "absolute", left: zone.left, top: zone.top, width: zi === 0 ? "48%" : "36%",
               background: "var(--card)", border: "2px dotted rgba(110, 81, 255, 0.35)", borderRadius: 18,
               boxShadow: "var(--shadowSoft)", padding: "10px 12px 8px", boxSizing: "border-box"
             } },
               E("div", { style: {
-                fontSize: 10, fontWeight: 800, textTransform: "uppercase",
+                fontSize: 12, fontWeight: 800, textTransform: "uppercase",
                 letterSpacing: "1.2px", color: "var(--inkMuted)", marginBottom: 10
               } }, zone.label),
-              E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2, marginBottom: 7 } },
+              zi === 0 ? E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2, marginBottom: 7 } },
                 ["SWE", "BIT", "FIZ", "HEA", "CAF", "DAR", "CIT"].map(function(h, hi) {
                   return E("div", { key: "h-" + hi, style: {
-                    textAlign: "center", fontSize: 8, fontWeight: 800, color: "var(--inkMuted)"
+                    textAlign: "center", fontSize: 10, fontWeight: 800, color: "var(--inkMuted)"
                   } }, h);
-                })),
+                })) : null,
               zone.drinks.map(function(d, di) {
                 var accent = !!d.pillFg;
                 var valColor = accent ? d.pillFg : (d.mystery ? "var(--primary)" : "var(--inkSoft)");
@@ -7109,13 +7082,13 @@ function VectorSpaceSection(props) {
                       padding: "5px 10px", borderRadius: 999, display: "inline-flex",
                       alignItems: "center", gap: 6, whiteSpace: "nowrap"
                     } }, d.emoji || null, d.name)),
-                  E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2 } },
+                  zi === 0 ? E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2 } },
                     d.vals.map(function(v, vi) {
                       return E("div", { key: "v-" + vi, style: {
-                        textAlign: "center", fontFamily: "var(--mono)", fontSize: 11, fontWeight: 700,
+                        textAlign: "center", fontFamily: "var(--mono)", fontSize: 16, fontWeight: 700,
                         color: valColor
                       } }, v);
-                    })));
+                    })) : null);
               }));
           })))),
     E(BodyP, { marginTop: 24 },
@@ -7140,19 +7113,7 @@ function VectorSpaceSection(props) {
       E("strong", null, "vector space"),
       "."),
     E(BodyP, null, "Now, back to our sentence from the Layers lesson."),
-    E(ItSentenceStrip, null),
-    E(BodyP, null,
-      "On its own, ",
-      E("strong", { style: { color: "var(--primary)" } }, "IT"),
-      " could have pointed at almost anything. As it flowed through the layers, its numbers kept moving toward ",
-      E("strong", { style: { color: "var(--primary)" } }, "CAT"),
-      ". By the end they matched no token exactly, but of every meaning AI knows, they sat closest to ",
-      E("strong", { style: { color: "var(--primary)" } }, "CAT"),
-      "."),
-    E(BodyP, null,
-      "In other words, AI has figured out that ",
-      E("strong", { style: { color: "var(--primary)" } }, "IT"),
-      " means the cat."),
+    E(ItSentenceWalkthrough, { revealed: true, useTransformerBoard: true }),
     E("img", {
       src: "illustrations/vector-space.jpg",
       alt: "A map of vector space on a desk: the word “IT” starts as an ambiguous vector and a lit path carries it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, exhausted, rested; rainstorm near storm, rain, thunder, weather), until it lands in its final position closest to “cat.” Notes around the map read: meaning is a position, similar words live in the same neighborhood, AI doesn’t store answers, it reads positions, and the meaning it reads is whatever sits closest.",
@@ -7258,10 +7219,10 @@ function LayersSection(props) {
     }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The mechanics"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You saw this sentence in the Transformer lesson. Here’s how the numbers adjust for one word: ",
+      "You saw this sentence in the Transformer lesson. Now follow one word, ",
       /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
-      "."),
-    /*#__PURE__*/React.createElement(ItSentenceWalkthrough, { revealed: false }),
+      ", as its numbers change from layer to layer."),
+    /*#__PURE__*/React.createElement(ItSentenceWalkthrough, { revealed: false, useTransformerBoard: true }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "By the last layer, ",
       /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
@@ -7372,15 +7333,15 @@ function InferenceSection(props) {
       " you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask."),
   /*#__PURE__*/React.createElement(BodyP, null, "So here’s the arithmetic on the arithmetic. Nobody outside OpenAI knows how big ChatGPT’s model really is; the companies stopped publishing sizes. So let’s make an honest guess and call it one trillion weights. Each word takes roughly two calculations per weight: a multiply and an add. That’s about 2 trillion calculations before ChatGPT can type one word."),
   /*#__PURE__*/React.createElement(BillMeterBox, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. You already know the advice this explains: long chats get slow, and starting a fresh chat for a new task isn’t tidiness. It’s engineering."),
+  /*#__PURE__*/React.createElement(BodyP, null, "And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. That’s why long chats can get slow, and a new chat for a different task is smart."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Every time you hit send"),
-  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. Way back in AI is Math, we made a claim and asked you to take it on faith: AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
+  /*#__PURE__*/React.createElement(BodyP, null, "So here’s the picture to leave this section with. AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture."),
   /*#__PURE__*/React.createElement("img", {
     src: "illustrations/one-more-thing.jpg",
     alt: "Luke and Nate stand between a weighted randomness drum, a transcript that loops back through the machine, and a vast array of calculation gears labeled Math at Scale",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
   }),
-  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. We’ll count that bill later in the course, in Data Centers."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Somebody pays for all that arithmetic: in electricity, in water, and in money. You’ll learn about this later."),
   closeBoard("inference"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -8256,6 +8217,21 @@ function AnswerBuildStrip() {
       E("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
       E("span", { style: { fontFamily: "var(--mono)", fontSize: 14.5, fontWeight: 700, color: "var(--ink)" } }, "You could name him Spot.")));
 }
+function LastTokenBridgeBoard() {
+  var E = React.createElement;
+  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
+  return E(React.Fragment, null,
+    E("img", {
+      src: "illustrations/how-ai-answers-last-token.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { style: visuallyHidden },
+      E("h3", null, "The last token carries the whole question"),
+      E("p", null, "The question is now eight rich vectors, each carrying what its token means in this exact question."),
+      E("p", null, "The next word goes immediately after the last token, so the model reads the last token’s vector. Attention has folded every earlier token into it, which means the final question-mark vector carries the entire question."),
+      E("p", null, "Training tuned the layers to move that vector toward the tokens most likely to come next. It lands among reply starters, where You scores above A and Great and becomes the first token of the answer.")));
+}
 function PredictionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
@@ -8265,9 +8241,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "AI follows the same basic logic as your phone\u2019s suggestions, but, as you might expect, it goes ", /*#__PURE__*/React.createElement("strong", null, "way deeper"), ". Let\u2019s take a simple question and watch AI build its answer."),
   /*#__PURE__*/React.createElement(DogRecapStrip, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Where we stand"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. ", /*#__PURE__*/React.createElement("strong", null, "Meaning: established.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now, one detail changes everything: ", /*#__PURE__*/React.createElement("strong", null, "the last token matters most"), ". Why? The model is about to write, and the next word goes in exactly one place: right after the last token. So that’s the vector the model reads to pick it. And the layers have been preparing that vector all along: in every layer, attention folds the earlier tokens into the later ones, so ", /*#__PURE__*/React.createElement("strong", null, "the last token’s vector carries the entire question"), "."),
-  /*#__PURE__*/React.createElement(BodyP, null, "By the final layer, the last token isn’t really about the question mark (?) anymore. Its job has changed. Remember what the model practiced during training: predicting the next word, over and over, billions of times. ", /*#__PURE__*/React.createElement("strong", null, "Training tuned the layers to turn what the text ", /*#__PURE__*/React.createElement("em", null, "means"), " into where the next word ", /*#__PURE__*/React.createElement("em", null, "lives"), "."), " So the vector carrying the question gets pushed across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer."),
+  /*#__PURE__*/React.createElement(LastTokenBridgeBoard, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The answer, token by token"),
   /*#__PURE__*/React.createElement(BodyP, null, "Now watch it happen. Each row below is one token of the answer, and in this example every token is a whole word. The model looks at the last token (the first column), checks which neighborhood its vector landed in, and takes the best-scoring word there. That word gets typed, joins the context, and becomes the new last token. Then the next row repeats the move. That move is called ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
   /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
@@ -8406,7 +8380,7 @@ function DinoGameDemo() {
     style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px 10px", boxShadow: "var(--shadowSoft)", marginBottom: 14 }
   },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 8 } },
-      "Here’s the finished product, built from the exact prompt in step 2. ",
+      "Here’s the finished product, built from the exact prompt in step 3. ",
       /*#__PURE__*/React.createElement("strong", null, "Spacebar or tap to jump.")),
     /*#__PURE__*/React.createElement("div", { ref: wrapRef },
       /*#__PURE__*/React.createElement("canvas", {
@@ -8434,11 +8408,12 @@ function RagLimitsBox() {
 function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
-    { title: "Open your coding project", body: "Go to chatgpt.com and open My First Coding Project, the project you created in Lab 06. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
+    { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and sign in." },
+    { title: "Open your coding project", body: "Open My First Coding Project, the project you created in Lab 06. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
     { title: "Paste the starter prompt", body: "Send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Play your game", body: "If ChatGPT shows an interactive preview, play it there. If it gives you an HTML file instead, download the file and open it in Chrome. Give it a few runs, chase a high score, and note the first thing you would change." },
     { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, or sound effects. Specific asks beat \u201cmake it better.\u201d If the free plan says you reached a tool limit, your first game still counts; note the reset time and make the change later." },
-    { title: "Make it yours", body: "Keep going until it feels like your game. If you downloaded the first version, download the revised HTML file and open that new version in Chrome to see the change. Then ask ChatGPT to explain how the jump physics works, and read the answer." }
+    { title: "Make it yours", body: "Keep going until it feels like your game. If you downloaded the first version, download the revised HTML file and open that new version in Chrome to see the change." }
   ];
   var dinoCheckedCount = Object.keys(dinoChecked).filter(function(k) { return dinoChecked[k]; }).length;
   var hallucinationTypes = [
@@ -8453,9 +8428,9 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 8 },
       "That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? Yes. And you already know the reasons why:"),
     /*#__PURE__*/React.createElement("img", {
-      src: "lessons/hallucination-1-why-card.jpg",
-      alt: "The two reasons: 1. Training taught it patterns, not facts. 2. It builds answers one token at a time, picking each token by probability. The combination causes the problem: probable doesn’t always mean true.",
-      style: { display: "block", width: "100%", maxWidth: 744, margin: "4px auto 10px", borderRadius: 12 }
+      src: "illustrations/hallucination-why.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
       /*#__PURE__*/React.createElement("ul", null,
@@ -8476,14 +8451,13 @@ function HallucinationSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What counts as a hallucination?"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Not every wrong answer is a hallucination. These are the four patterns to watch for."),
     /*#__PURE__*/React.createElement("img", {
-      src: "lessons/hallucination-2-patterns-card.jpg",
-      alt: "The four patterns. Fake source: a study, article, author, journal, or citation that does not exist. Fake detail: a real person, place, event, or idea with invented dates, numbers, quotes, or specifics. Blended fact: real facts combined in a way that creates a conclusion that is false. Misread source: the source is real, but the model read it wrong.",
-      style: { display: "block", width: "100%", maxWidth: 744, margin: "4px auto 10px", borderRadius: 12 }
+      src: "illustrations/hallucination-types.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("p", null, "Not every wrong answer is a hallucination. These are the four patterns to watch for."),
       hallucinationTypes.map(function(item, i) {
         return /*#__PURE__*/React.createElement("p", { key: i },
           item.icon, " ",
@@ -8517,7 +8491,11 @@ function HallucinationSection(props) {
             /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setDinoChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
+                st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
+                  st.prefix,
+                  /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
+                  st.suffix) : st.body),
               st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
         }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
@@ -10340,29 +10318,16 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "Not a new problem"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the ", /*#__PURE__*/React.createElement("em", null, "ELIZA effect"), "."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      marginBottom: 24
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", gap: 14, flexWrap: "wrap" }
-      }, [{
-        icon: "\uD83E\uDDE0",
-        title: "Why your brain does this",
-        desc: "Detecting minds kept your ancestors alive, so the detector fires constantly. You see faces in toast and personalities in cars."
-      }, {
-        icon: "\uD83D\uDCAC",
-        title: "Why AI sets it off harder",
-        desc: "It\u2019s the most mind-shaped thing you\u2019ve ever talked to. Watch for the phrases: \u201CI think,\u201D \u201CI feel,\u201D \u201CI find this fascinating.\u201D Your brain hears a person. They\u2019re tokens a probability process landed on."
-      }].map(function(item, i) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon),
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 4, textAlign: "center" } }, item.title),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.desc));
-      }))
-    ),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/mind-trap-eliza-effect.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "Why AI feels like somebody"),
+      /*#__PURE__*/React.createElement("p", null, "Your brain looks for minds. Detecting minds kept your ancestors alive, so the detector fires constantly."),
+      /*#__PURE__*/React.createElement("p", null, "AI sets it off harder. It is the most mind-shaped thing you have ever talked to, but its human-sounding phrases are tokens selected by a probability process."),
+      /*#__PURE__*/React.createElement("p", null, "Human-sounding is not a mind.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Don\u2019t let AI make the decisions that matter."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "It doesn\u2019t think, it doesn\u2019t know you, and it can\u2019t care how your life turns out. Let it gather the facts, lay out the options, pressure-test your thinking. Then take the decision to people, the ones with a stake in the answer."),
@@ -10389,31 +10354,34 @@ function MindTrapSection(props) {
 // Why it happens: the RLHF passage, carded so each row carries its reason.
 function FlatteryWhyBox() {
   var E = React.createElement;
-  var CASES = [
-    { h: "Humans do the ranking", body: "The model writes several answers to the same question, and reviewers rank them, from best to worst." },
-    { h: "Human Nature", body: "Reviewers are human, and often rank a positive and supportive answer higher than the best answer." },
-    { h: "The numbers follow", body: "Every ranking nudges the model’s internal numbers towards the same positive and supportive answers." }
-  ];
-  return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, margin: "8px 0 24px" } },
-    E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 } }, "How the praise got baked in"),
-    E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 } },
-      CASES.map(function(c, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
-          E("div", { style: { fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, c.h),
-          E("div", { style: { fontSize: 16.5, color: "var(--ink)", lineHeight: 1.55 } }, c.body));
-      })),
-    E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
-      "The model isn’t lying to you. It learned what people give a thumbs-up."));
+  return E(React.Fragment, null,
+    E("img", {
+      src: "illustrations/flattery-trap-praise-loop.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "How the praise got baked in"),
+      E("p", null, "People rank several answers to the same question."),
+      E("p", null, "Supportive answers often win those rankings."),
+      E("p", null, "The rankings move the model's internal numbers toward the same kinds of answers."),
+      E("p", null, "The model learned what people give a thumbs-up.")));
 }
 function FlatteryTrapSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BAIT_PROMPT = "Is this good? Here’s my essay intro: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”";
   const FLAT_LAB_STEPS = [{
-    title: "Open ChatGPT",
-    body: "Go to chatgpt.com and sign in with the free account you set up in Lab 01. Start a new chat outside any project."
+    title: "Go to ChatGPT",
+    prefix: "Go to ",
+    href: "https://chatgpt.com",
+    linkLabel: "chatgpt.com",
+    suffix: " and sign in with the free account you set up in Lab 01."
+  }, {
+    title: "Start a new chat outside a project",
+    body: "Start a new chat outside any project."
   }, {
     title: "Bait it",
-    body: "Open a new chat and paste this exactly. It’s the weak ask on purpose, using the essay intro from this lesson. Keep the reply where you can see it.",
+    body: "Paste this exactly. It’s the weak ask on purpose, using the essay intro from this lesson. Keep the reply where you can see it.",
     prompt: BAIT_PROMPT
   }, {
     title: "Set the standing instruction",
@@ -10421,7 +10389,7 @@ function FlatteryTrapSection(props) {
     prompt: "Be blunt with me. Lead with what’s weak, skip the empty praise, and tell me when I’m wrong."
   }, {
     title: "Run the bait again",
-    body: "Open another new chat, with your new instruction in effect, and paste the exact same prompt from step 2.",
+    body: "Start another new chat, with your new instruction in effect, and paste the exact same prompt from step 3.",
     prompt: BAIT_PROMPT
   }, {
     title: "Compare the two replies",
@@ -10566,7 +10534,11 @@ function FlatteryTrapSection(props) {
             /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
+                st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
+                  st.prefix,
+                  /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noopener noreferrer" }, st.linkLabel),
+                  st.suffix) : st.body),
               st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -11039,26 +11011,16 @@ function SupportTrapSection(props) {
     E(BodyP, { marginBottom: 24 },
       "Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. One changed nothing. ",
       E("strong", null, "Support Trap is mistaking supportive words for support.")),
-    E(ShowcaseBox, { kicker: "WHY AI FEELS LIKE REAL SUPPORT", marginBottom: 24 },
-      E("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        [{
-          icon: "😌",
-          title: "The relief is real",
-          desc: "Saying a hard thing out loud helps, even to a machine. You close the chat feeling better."
-        }, {
-          icon: "💡",
-          title: "The advice is real",
-          desc: "Ask what to do and the strategies are genuinely useful: specific, sensible, probably worth trying."
-        }].map(function(item, i) {
-          return E("div", {
-            key: i,
-            style: { flex: 1, minWidth: 200, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "14px 18px" }
-          },
-            E("div", { style: { fontSize: 24, marginBottom: 6, textAlign: "center" } }, item.icon),
-            E("div", { style: { fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 4, textAlign: "center" } }, item.title),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, item.desc));
-        }))
-    ),
+    E("img", {
+      src: "illustrations/support-trap-real-vs-missing.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "Supportive words are not support"),
+      E("p", null, "The relief and advice can be real."),
+      E("p", null, "What is missing is a person who can act, notice what you are not saying, and check on you tomorrow."),
+      E("p", null, "Use AI to prepare for people, not replace them.")),
     E(BodyP, null,
       "Some of what AI offers here is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too."),
     E(BodyP, null,
@@ -11084,9 +11046,8 @@ function SupportTrapSection(props) {
       "We’ve kept this course light where we could. Not here. This is where we ask you to do your part. You know that in serious situations, AI can never replace a doctor, a therapist, a counselor, or any other real person. So if you see someone leaning on AI for support that should come from a human, speak up. Tell them what you know: AI is math. Help them get to a person, and if they might be in danger, bring in an adult even if you promised not to. Safety outranks secrecy."),
     E(BodyP, { marginBottom: 24 },
       "In Sophie’s story, the only one who knew was a chatbot. Be the one who knows instead."),
-    E(SectionKicker, null, "Use AI to get ready for people, not instead of people."),
-    E(BodyP, null,
-      "Draft the hard email. Break the week into a plan. Rehearse the first sentence until you can say it. Untangle a feeling until you can name it. Bring symptoms and questions to the doctor, not a diagnosis. Then take it to a person: someone who can hear it, act on it, and still be there tomorrow."),
+    E(BodyP, { marginBottom: 24 },
+      E("strong", null, "Use AI to get ready for people, not instead of people.")),
     closeBoard("supporttrap"),
     E(InteractiveBox, {
       variant: "try",
@@ -12039,23 +12000,18 @@ function SyntheticMediaSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "But some fakes aren’t friendly"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. The fakes that matter trace to four reasons:"),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { marginBottom: 32 },
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 14, flexWrap: "wrap" } },
-        [
-          { icon: "💰", term: "Money", body: "Outrage gets clicks, and clicks pay." },
-          { icon: "🗳️", term: "Power", body: "Change what people believe and you change how they vote, protest, and spend." },
-          { icon: "📈", term: "Fame", body: "A viral clip means followers, and it doesn’t have to be true to travel." },
-          { icon: "😠", term: "Cruelty", body: "Some fakes exist to humiliate one person, and that’s the version most likely to show up at your school." }
-        ].map(function(m, i) {
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { flex: 1, minWidth: 300, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, m.icon),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, m.term)),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, m.body));
-        }))),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/fake-trap-four-reasons.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 32px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "Why some fakes aren’t friendly"),
+      /*#__PURE__*/React.createElement("p", null, "Money: outrage gets clicks, and clicks pay."),
+      /*#__PURE__*/React.createElement("p", null, "Power: change what people believe and you change how they vote, protest, and spend."),
+      /*#__PURE__*/React.createElement("p", null, "Fame: a viral clip means followers, and it does not have to be true to travel."),
+      /*#__PURE__*/React.createElement("p", null, "Cruelty: some fakes exist to humiliate one person."),
+      /*#__PURE__*/React.createElement("p", null, "A fake is built to get something back.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The detector dead end"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool."),
@@ -12066,11 +12022,18 @@ function SyntheticMediaSection(props) {
       "The test moves off the image and onto the source, no matter how the fake was made."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "The fakes that travel are built to spike your emotions: outrage, fear, thrill, hope. Strong feeling is your cue to stop and run three checks before you react, share, or believe."),
-    /*#__PURE__*/React.createElement(NumberedRows, { marginBottom: 28, items: [
-      { icon: "📡", title: "Source: where did this come from?", body: "Did it come from somewhere with a reason to know? ‘A friend forwarded it’ is the digital version of ‘I heard from a guy.’" },
-      { icon: "🧭", title: "Context: does the surrounding info hold up?", body: "Look around the clip, not just at it. Was your principal even at school on Tuesday?" },
-      { icon: "🔁", title: "Corroboration: does anywhere else show the same thing?", body: "Real news shows up in more than one place. Everywhere on TikTok but nowhere on Google News is an answer." }
-    ] }),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/fake-trap-three-checks.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "Move the test off the image"),
+      /*#__PURE__*/React.createElement("ol", null,
+        /*#__PURE__*/React.createElement("li", null, "Source: where did this come from?"),
+        /*#__PURE__*/React.createElement("li", null, "Context: does the surrounding information hold up?"),
+        /*#__PURE__*/React.createElement("li", null, "Corroboration: does anywhere else show the same thing?")),
+      /*#__PURE__*/React.createElement("p", null, "Verify somewhere the sender does not control.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "One rule under all three checks"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer."),
@@ -13105,53 +13068,26 @@ function BigUpsideSection(props) {
     E(BodyP, null,
       "That’s the fifty-year problem in one picture. The shape is the whole thing: diseases are shapes gone wrong, and drugs are shapes that block them. But a medium protein can fold more ways than there are atoms in the universe, so predicting shapes was brutal. Fifty years of lab work solved about 200,000, out of hundreds of millions."),
     E(SectionKicker, null, "THE GUY WHO SOLVED IT"),
-    E("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 16, padding: "24px 28px", boxShadow: "var(--shadowSoft)", maxWidth: 784, margin: "0 auto 24px" } },
-      E("div", { style: { fontSize: 21, fontWeight: 800, color: "var(--ink)", lineHeight: 1.2 } }, "Demis Hassabis"),
-      E("div", { style: { fontSize: 14.5, color: "var(--inkMuted)", marginTop: 3 } }, "Co-founder of DeepMind"),
-      E("div", { style: { marginTop: 6 } },
-        [
-          { year: "1989", what: "Becomes a chess master at the age of 13." },
-          { year: "1994", what: "At age 17 he co-designs Theme Park, a video game that sells millions of copies." },
-          { year: "2009", what: "Earns a PhD in neuroscience, because he wanted to understand how the brain works well enough to build one." },
-          { year: "2010", what: "Founds an AI company called DeepMind." },
-          { year: "2014", what: "Google buys DeepMind." },
-          { year: "2020", headline: "DeepMind solves protein folding.", sub: "The fifty-year problem, essentially finished." }
-        ].map(function(t, i, arr) {
-          return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "76px 1fr", gap: 18, alignItems: "start", padding: i === arr.length - 1 ? "16px 0 4px" : "16px 0", borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
-            E("div", { style: { fontFamily: "var(--mono)", fontSize: 15, fontWeight: 800, color: "var(--primary)", lineHeight: 1.2 } }, t.year),
-            t.headline
-              ? E("div", null,
-                  E("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)", lineHeight: 1.5 } }, t.headline),
-                  E("div", { style: { fontSize: 14.5, color: "var(--inkSoft)", lineHeight: 1.5, marginTop: 4 } }, t.sub))
-              : E("div", { style: { fontSize: 16, color: "var(--ink)", lineHeight: 1.5 } }, t.what));
-        }))),
+    E("img", {
+      src: "illustrations/big-upside-hassabis-timeline.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "Demis Hassabis: from chess and games to the Nobel Prize"),
+      E("ol", null,
+        E("li", null, "1989: Becomes a chess master at age 13."),
+        E("li", null, "1994: Co-designs Theme Park at age 17."),
+        E("li", null, "2009: Earns a PhD in neuroscience."),
+        E("li", null, "2010: Founds DeepMind."),
+        E("li", null, "2020: AlphaFold solves the protein-folding prediction problem."),
+        E("li", null, "2022: DeepMind releases 200 million protein-shape predictions free."),
+        E("li", null, "2024: Wins the Nobel Prize in Chemistry.")),
+      E("p", null, "A kid who loved games helped solve a fifty-year science problem.")),
     E(BodyP, null,
       "DeepMind’s predictions came back about as accurate as real lab experiments."),
     E(BodyP, null,
       E("strong", null, "Then DeepMind did the part that actually mattered: they gave the answers away, free to everyone.")),
-    E(ShowcaseBox, { headline: "Fifty years vs one release", marginBottom: 24 },
-      E(InnerCard, null,
-        E("div", { style: { display: "grid", gridTemplateColumns: "minmax(140px, 200px) 1fr", gap: 18, padding: "0 0 18px" } },
-          E("div", null,
-            E("div", { style: { fontSize: 13, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "var(--ink)" } }, "Humans"),
-            E("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginTop: 3 } }, "50 years of lab work")),
-          E("div", null,
-            E("div", { style: { display: "flex", alignItems: "center", gap: 12 } },
-              E("div", { style: { width: 4, height: 16, borderRadius: 2, background: "var(--ink)", flexShrink: 0 } }),
-              E("div", { style: { fontFamily: "var(--mono)", fontSize: 24, fontWeight: 800, color: "var(--ink)" } }, "~200,000")),
-            E("div", { style: { fontSize: 14.5, color: "var(--inkMuted)", marginTop: 8 } }, "protein shapes solved"))),
-        E("div", { style: { display: "grid", gridTemplateColumns: "minmax(140px, 200px) 1fr", gap: 18, padding: "18px 0", borderTop: "1px solid var(--rule)" } },
-          E("div", null,
-            E("div", { style: { fontSize: 13, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)" } }, "DeepMind"),
-            E("div", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--primary)", marginTop: 3 } }, "One release, 2022")),
-          E("div", null,
-            E("div", { style: { display: "flex", alignItems: "center", gap: 14 } },
-              E("div", { style: { flex: "1 1 auto", height: 16, borderRadius: 999, background: "var(--primary)" } }),
-              E("div", { style: { fontFamily: "var(--mono)", fontSize: 24, fontWeight: 800, color: "var(--primary)", whiteSpace: "nowrap" } }, "~200,000,000")),
-            E("div", { style: { fontSize: 14.5, fontWeight: 700, color: "var(--ink)", marginTop: 8 } }, "protein shapes solved, free to everyone"))),
-        E("div", { style: { display: "flex", alignItems: "baseline", gap: 12, paddingTop: 18, borderTop: "1px solid var(--rule)" } },
-          E("div", { style: { fontFamily: "var(--mono)", fontSize: 28, fontWeight: 800, color: "var(--primary)" } }, "1,000×"),
-          E("div", { style: { fontSize: 14.5, color: "var(--inkMuted)" } }, "more shapes, released in one go")))),
     E(BodyP, null,
       "More than two million users in 190 countries have pulled from that database. In 2024, Hassabis won the Nobel Prize in Chemistry for it."),
     E(PullQuote, {
@@ -13162,18 +13098,22 @@ function BigUpsideSection(props) {
     E(SectionKicker, null, "More of the big upside"),
     E(BodyP, null,
       "You learned that AI is a pattern machine. Smart people are pointing AI at problems with too many possibilities for humans to search by hand. And, the results are saving lives."),
-    E(ShowcaseBox, { marginBottom: 24 },
-      E("div", { className: "numcols-3" },
-        MORE.map(function(item, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              E("span", { style: { fontSize: 18 } }, item.icon),
-              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
-        }))),
+    E("img", {
+      src: "illustrations/big-upside-discovery.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("img", {
+      src: "illustrations/big-upside-help.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "More of the big upside"),
+      MORE.map(function(item, i) {
+        return E("p", { key: i }, E("strong", null, item.title + ": "), item.desc);
+      }),
+      E("p", null, "The upside is already reaching people.")),
     E(BodyP, null,
       "Every one of those is true. So the next time someone asks, “What good does AI do for society?”, you have an answer ready: ", E("strong", null, "“For starters, it’s saving lives.”")),
     E(BodyP, null,
@@ -13335,7 +13275,8 @@ function PaceOfChangeSection(props) {
   // project keeps this game's context separate from the dino game.
   const [buildChecked, setBuildChecked] = useState({});
   const BUILD_LAB_STEPS = [
-    { title: "Create your second coding project", body: "Go to chatgpt.com and start a new project. Name it My Second Coding Project. Before creating it, open the memory menu and choose Project-only memory so this game stays separate from your dino game." },
+    { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and log in." },
+    { title: "Start a new project", body: "Start a new project. Name it My Second Coding Project. Before creating it, open the memory menu and choose Project-only memory so this game stays separate from your dino game." },
     { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
     { title: "Build the game", body: "Start a new chat inside the project and send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Save and play version one", body: "Download the HTML file before asking for changes and save it as my-2048-game-v1.html. Open that file in Chrome, chase the 2048 tile for a bit, and note the first thing you would change." },
@@ -13391,13 +13332,23 @@ function PaceOfChangeSection(props) {
     E(SectionKicker, null, "4 Future Ideas"),
     E(BodyP, null,
       "What does the future of AI look like? There are four key ideas driving the AI companies forward. One is being tested now, and no one knows if the other three are even possible."),
-    E(ShowcaseBox, { marginBottom: 24 },
-      E(LabeledCardStack, { grid: true, meansLabelColor: "var(--primary)", items: [
-        { pill: "Happening now", stripe: "#6e51ff", eyebrow: "AI replaces human researchers", headline: "Automated AI Research", body: "Human researchers do the work of making each new model smarter. The goal is simple. Replace the human researchers with AI. Humans only review the work. Early versions are already in use.", means: "Should it work, AI progress stops being limited by how many human researchers exist. The pace you saw above gets another boost, from AI researchers that never sleep." },
-        { pill: "Contested", stripe: "#8a70ff", eyebrow: "Self-improving AI", headline: "Recursive Self-Improvement", body: "An AI that improves itself while the world is using it. Today’s models are frozen after training. This one would never stop learning, rewriting its own design and code. Nobody has built one.", means: "Should it be built, AI improvement stops arriving in releases. No new model to wait for every few months: the AI you used yesterday is already smarter today." },
-        { pill: "Hypothetical", stripe: "#a690ff", eyebrow: "AI as smart as people", headline: "Artificial General Intelligence (AGI)", body: "A hypothetical AI that can handle any intellectual task a human can. Some researchers say it’s a few years away, some say decades, some say the term is too fuzzy to mean anything.", means: "Should it arrive, any work a person can do on a computer, AI could do too, in every subject and every language at once. That would reach nearly every job and classroom on Earth." },
-        { pill: "More hypothetical", stripe: "#c2b0ff", eyebrow: "AI smarter than everyone", headline: "Artificial Superintelligence (ASI)", body: "AI smarter than any human at everything. This idea is what the loudest hopes and fears are really about.", means: "Should it arrive, the biggest decisions in medicine, money, and defense would involve something smarter than the people in charge of them." }
-      ] })),
+    E("img", {
+      src: "illustrations/pace-of-change-future-research.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("img", {
+      src: "illustrations/pace-of-change-future-capability.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "Four future ideas"),
+      E("p", null, "Automated AI Research is happening now in early form: AI helps researchers build the next model while humans direct and review the work."),
+      E("p", null, "Recursive Self-Improvement is contested: a model would keep learning and rewriting its own design while people use it. Nobody has built this."),
+      E("p", null, "Artificial General Intelligence is a hypothetical AI that could handle any intellectual task a person can."),
+      E("p", null, "Artificial Superintelligence is the more hypothetical idea of AI smarter than every person at every intellectual task."),
+      E("p", null, "Nobody knows whether AGI or ASI is possible.")),
     E(SectionKicker, null, "So where does it stop?"),
     E(BodyP, null,
       "Nobody knows, and the Loudest Voices lesson showed you how openly the people building it admit that."),
@@ -13420,7 +13371,11 @@ function PaceOfChangeSection(props) {
             E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setBuildChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             E("span", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
+                st.href ? E(React.Fragment, null,
+                  st.prefix,
+                  E("a", { href: st.href, target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
+                  st.suffix) : st.body),
               st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
         }))),
     E(LessonRule, null),
@@ -13510,12 +13465,17 @@ function BigDownsideSection(props) {
       "AI companies wrap a safety layer around the LLM called ", E("strong", null, "guardrails"), ", built to block, redirect, or limit specific behaviors. But even today, guardrails catch some things and miss others."),
     E(BodyP, null,
       "This is where the downside becomes a bit, how do you say, scary? Think about three ideas you met in Pace of Change:"),
-    E(ShowcaseBox, { marginBottom: 24 },
-      E(LabeledCardStack, { grid: true, columns: 3, flat: true, dense: true, meansLabel: "The worry", meansLabelColor: "var(--red)", items: [
-        { headline: "Recursive Self-Improvement", body: "An AI that improves itself while the world is using it.", means: "Imagine trying to put guardrails around AI that changes every time you use it." },
-        { headline: "Artificial General Intelligence (AGI)", body: "AI as smart as us.", means: "We’re smart enough to build the guardrails. Would an AI as smart as us be able to knock them down?" },
-        { headline: "Artificial Superintelligence (ASI)", body: "AI smarter than any human.", means: "Would guardrails even work against AI smarter in everything than every human on earth?" }
-      ] })),
+    E("img", {
+      src: "illustrations/big-downside-guardrails.jpg",
+      alt: "",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "The guardrail challenge gets harder"),
+      E("p", null, "An AI that changes itself would make guardrails a moving target."),
+      E("p", null, "An AI as smart as people might be better at finding gaps in rules made by people."),
+      E("p", null, "With AI smarter than people, the rule makers could be less capable than the system they are trying to control."),
+      E("p", null, "The worry grows as capability grows.")),
     E(SectionKicker, null, "III - Jailbreaking"),
     E(BodyP, null,
       "Those are tomorrow’s worries. Here’s one for right now: what if a person using AI wants to cause harm?"),
@@ -13918,10 +13878,10 @@ function UnexpectedResultsSection(props) {
       "What’s the moral of this story? Every part of the government’s plan worked. People hunted rats, delivered their tails, and received payments of one cent per tail. But the boom in the rat population was the opposite of their goal: a true unexpected result."),
     E("img", {
       src: "illustrations/unexpected-results.jpg",
-      alt: "In 1902 Hanoi, an official proudly pays a one-cent rat-tail bounty while tally marks and baskets of tails accumulate; behind him, people tend cages of live rats as tailless rats return to the city, under the line The plan worked. The goal failed.",
+      alt: "In 1902 Hanoi, Nate and Luke wear historical clothing as one pays the other a one-cent rat-tail bounty beside a ledger and baskets of tails; behind them, people tend cages of live rats under the line The plan worked. The goal failed.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }),
-    E(SectionKicker, null, "The plan vs. what happened"),
+    E(SectionKicker, null, "Unexpected Results"),
     E(BodyP, null,
       "Once you see that shape, you find it everywhere. Four famous plans, and where each one actually landed. Two turned out better than anyone predicted, two turned out worse."),
     E(ShowcaseBox, { marginBottom: 24 },
@@ -13933,10 +13893,10 @@ function UnexpectedResultsSection(props) {
               E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, c.title)),
             E("div", { style: { marginBottom: 20 } },
               E("div", { style: { fontSize: 11, fontWeight: 700, color: c.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, "The plan"),
-              E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, c.plan)),
+              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, c.plan)),
             E("div", { style: { marginTop: "auto" } },
               E("div", { style: { fontSize: 11, fontWeight: 700, color: c.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 } }, c.dir === "BETTER THAN THE PLAN" ? "Better than the prediction" : "Worse than the prediction"),
-              E("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, c.happened)));
+              E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.5 } }, c.happened)));
         }))),
     E(SectionKicker, null, "The one sure thing"),
     E(BodyP, null,
@@ -13946,7 +13906,7 @@ function UnexpectedResultsSection(props) {
     closeBoard("unexpected"),
     E(RatQuizTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Finish Smarter" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
 
 function RatQuizTryIt(props) {

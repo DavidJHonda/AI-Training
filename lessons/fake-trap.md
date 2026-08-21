@@ -46,29 +46,7 @@ A friend fakes a picture of your hockey buddies hoisting the Stanley Cup, and ev
 
 A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. The fakes that matter trace to four reasons:
 
-💰
-
-Money
-
-Outrage gets clicks, and clicks pay.
-
-🗳️
-
-Power
-
-Change what people believe and you change how they vote, protest, and spend.
-
-📈
-
-Fame
-
-A viral clip means followers, and it doesn’t have to be true to travel.
-
-😠
-
-Cruelty
-
-Some fakes exist to humiliate one person, and that’s the version most likely to show up at your school.
+![Why some fakes aren’t friendly. Money, power, fame, and cruelty are four reasons people make harmful fakes.](fake-trap-2-four-reasons-board.jpg)
 
 ## The detector dead end
 
@@ -82,23 +60,7 @@ The test moves off the image and onto the source, no matter how the fake was mad
 
 The fakes that travel are built to spike your emotions: outrage, fear, thrill, hope. Strong feeling is your cue to stop and run three checks before you react, share, or believe.
 
-1
-
-📡Source: where did this come from?
-
-Did it come from somewhere with a reason to know? ‘A friend forwarded it’ is the digital version of ‘I heard from a guy.’
-
-2
-
-🧭Context: does the surrounding info hold up?
-
-Look around the clip, not just at it. Was your principal even at school on Tuesday?
-
-3
-
-🔁Corroboration: does anywhere else show the same thing?
-
-Real news shows up in more than one place. Everywhere on TikTok but nowhere on Google News is an answer.
+![Move the test off the image. Check the source, context, and corroboration, then verify somewhere the sender does not control.](fake-trap-3-three-checks-board.jpg)
 
 ## One rule under all three checks
 

@@ -6,19 +6,23 @@ import Foundation
 
 let repoRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 let firstBoard = CommandLine.arguments.contains("--first")
+let vectorSpaceBoard = CommandLine.arguments.contains("--vector-space")
 let outputPaths = firstBoard
     ? [
         "board-review-first-four/alternatives/understand-ai/embeddings-taste-profile-two-vector-alternative.jpg",
         "illustrations/embeddings-taste-two.jpg",
         "lessons/embeddings-1-taste-two.jpg"
     ]
+    : vectorSpaceBoard
+    ? [
+        "board-review-first-four/alternatives/understand-ai/vector-space-taste-profile-alternative.jpg",
+        "illustrations/vector-space-taste-profile.jpg",
+        "lessons/vector-space-2-taste.jpg"
+    ]
     : [
         "board-review-first-four/alternatives/understand-ai/embeddings-taste-profile-vector-alternative.jpg",
-        "board-review-first-four/alternatives/understand-ai/vector-space-taste-profile-alternative.jpg",
         "illustrations/embeddings-taste-three.jpg",
-        "illustrations/vector-space-taste-profile.jpg",
-        "lessons/embeddings-2-taste-three.jpg",
-        "lessons/vector-space-2-taste.jpg"
+        "lessons/embeddings-2-taste-three.jpg"
     ]
 let outputURLs = outputPaths.map { repoRoot.appendingPathComponent($0) }
 
@@ -176,6 +180,8 @@ NSRect(x: 0, y: 0, width: width, height: height).fill()
 drawText(
     firstBoard
         ? "Meaning becomes an ordered row of numbers"
+        : vectorSpaceBoard
+        ? "Coke sits closer to Pepsi than to Coffee"
         : "One new dimension separates similar meanings",
     in: NSRect(x: 80, y: 57, width: 1440, height: 58),
     font: heavy(44),
@@ -194,22 +200,24 @@ let dimensionWidth: CGFloat = 960 / CGFloat(boardDimensions.count)
 let dimensionCenters = (0..<boardDimensions.count).map { dimensionStart + dimensionWidth * (CGFloat($0) + 0.5) }
 let citrusLeft = dimensionStart + dimensionWidth * 6
 
-if !firstBoard {
+if !firstBoard && !vectorSpaceBoard {
     roundedRect(NSRect(x: citrusLeft + 5, y: 188, width: dimensionWidth - 10, height: 532), radius: 12, fill: paleGold, stroke: gold, lineWidth: 1.5)
 }
 
 drawText("TOKEN", in: NSRect(x: contentLeft + 62, y: 205, width: 250, height: 32), font: heavy(22), color: muted)
-drawText("ID identifies the token", in: NSRect(x: contentLeft + 62, y: 238, width: 250, height: 28), font: medium(20), color: muted)
+if !vectorSpaceBoard {
+    drawText("ID identifies the token", in: NSRect(x: contentLeft + 62, y: 238, width: 250, height: 28), font: medium(20), color: muted)
+}
 line(from: NSPoint(x: labelDividerX, y: 194), to: NSPoint(x: labelDividerX, y: 838), color: panelLine, width: 2)
 
 for index in 0..<boardDimensions.count {
-    if index == 6 { continue }
+    if index == 6 && !vectorSpaceBoard { continue }
     // CAFFEINE is the longest heading. Keep the 28 pt readability floor, but
     // use the slightly narrower demi face so the final letter stays visible.
     let dimensionFont = dimensions[index].name == "CAFFEINE" ? demi(28) : heavy(28)
     centeredText(dimensions[index].name, centerX: dimensionCenters[index], y: 207, font: dimensionFont, color: dimensions[index].color, width: dimensionWidth, height: 36)
 }
-if !firstBoard {
+if !firstBoard && !vectorSpaceBoard {
     roundedRect(NSRect(x: dimensionCenters[6] - 45, y: 187, width: 90, height: 26), radius: 13, fill: gold)
     centeredText("NEW", centerX: dimensionCenters[6], y: 190, font: heavy(18), color: navy, width: 90, height: 23)
     centeredText(dimensions[6].name, centerX: dimensionCenters[6], y: 218, font: heavy(28), color: dimensions[6].color, width: dimensionWidth, height: 36)

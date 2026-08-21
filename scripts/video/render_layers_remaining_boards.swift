@@ -5,8 +5,6 @@ import CoreText
 import Foundation
 
 let repoRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-let outputRoot = repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai")
-
 let width: CGFloat = 1600
 let height: CGFloat = 900
 
@@ -150,7 +148,7 @@ func drawNumber(_ number: String, center: NSPoint) {
 func drawWordPill(_ value: String, center: NSPoint, fill: NSColor, textColor: NSColor = navy) {
     let pillWidth: CGFloat = 120
     roundedRect(NSRect(x: center.x - pillWidth / 2, y: center.y - 25, width: pillWidth, height: 50), radius: 12, fill: fill, stroke: rule)
-    centeredText(value, center: center, font: heavy(24), color: textColor)
+    centeredText(value, center: center, font: medium(24), color: textColor)
 }
 
 func drawThreeReadsPicture(cardIndex: Int, rect: NSRect) {
@@ -164,21 +162,21 @@ func drawThreeReadsPicture(cardIndex: Int, rect: NSRect) {
         drawWordPill("HORSE", center: NSPoint(x: centers[0].x, y: centers[0].y - 24), fill: color("#f3efff"))
         drawWordPill("BARN", center: NSPoint(x: centers[1].x, y: centers[1].y + 26), fill: color("#fff1dc"))
         drawWordPill("FELL", center: NSPoint(x: centers[2].x, y: centers[2].y - 14), fill: color("#e7f7f4"))
-        centeredText("?", center: NSPoint(x: rect.midX, y: rect.maxY - 28), font: heavy(34), color: purple)
+        centeredText("?", center: NSPoint(x: rect.midX, y: rect.maxY + 4), font: heavy(34), color: purple)
     } else if cardIndex == 1 {
         drawWordPill("HORSE", center: centers[0], fill: color("#f3efff"))
         drawWordPill("BARN", center: centers[1], fill: color("#fff1dc"))
         drawWordPill("FELL", center: centers[2], fill: color("#e7f7f4"))
         drawArrow(from: NSPoint(x: centers[0].x + 54, y: centers[0].y - 18), to: NSPoint(x: centers[1].x - 54, y: centers[1].y - 18), color: purple, width: 2.5)
         drawArrow(from: NSPoint(x: centers[1].x + 54, y: centers[1].y + 18), to: NSPoint(x: centers[2].x - 54, y: centers[2].y + 18), color: orange, width: 2.5)
-        centeredText("?", center: NSPoint(x: rect.midX, y: rect.maxY - 28), font: heavy(30), color: purple)
+        centeredText("?", center: NSPoint(x: rect.midX, y: rect.maxY + 4), font: heavy(30), color: purple)
     } else {
-        line(from: NSPoint(x: centers[0].x, y: centers[0].y + 34), to: NSPoint(x: centers[2].x, y: centers[2].y + 34), color: teal, width: 4)
+        line(from: NSPoint(x: centers[0].x, y: rect.maxY - 24), to: NSPoint(x: centers[2].x, y: rect.maxY - 24), color: teal, width: 4)
         drawWordPill("HORSE", center: centers[0], fill: color("#f3efff"))
         drawWordPill("BARN", center: centers[1], fill: color("#fff1dc"))
         drawWordPill("FELL", center: centers[2], fill: color("#e7f7f4"))
-        roundedRect(NSRect(x: rect.midX - 19, y: rect.maxY - 47, width: 38, height: 38), radius: 19, fill: teal)
-        centeredText("✓", center: NSPoint(x: rect.midX, y: rect.maxY - 28), font: demi(24), color: .white)
+        roundedRect(NSRect(x: rect.midX - 19, y: rect.maxY - 15, width: 38, height: 38), radius: 19, fill: teal)
+        centeredText("✓", center: NSPoint(x: rect.midX, y: rect.maxY + 4), font: demi(24), color: .white)
     }
 }
 
@@ -219,21 +217,23 @@ func drawDiminishingReturns(rect: NSRect) {
     meaning.stroke()
 
     drawArrow(from: NSPoint(x: origin.x + 12, y: origin.y - 8), to: NSPoint(x: topRight.x - 14, y: topRight.y + 4), color: orange, width: 4)
-    drawText("MEANING", in: NSRect(x: topRight.x - 150, y: topRight.y + 26, width: 145, height: 34), font: heavy(24), color: purple, alignment: .right)
-    drawText("COST", in: NSRect(x: topRight.x - 100, y: topRight.y - 20, width: 100, height: 34), font: heavy(24), color: orange, alignment: .right)
+    drawText("MEANING", in: NSRect(x: topRight.x - 150, y: topRight.y + 26, width: 145, height: 34), font: medium(24), color: purple, alignment: .right)
+    drawText("COST", in: NSRect(x: topRight.x - 100, y: topRight.y - 20, width: 100, height: 34), font: medium(24), color: orange, alignment: .right)
 }
 
-func save(_ image: NSImage, filename: String) throws {
+func save(_ image: NSImage, relativePaths: [String]) throws {
     image.unlockFocus()
     guard let tiff = image.tiffRepresentation,
           let bitmap = NSBitmapImageRep(data: tiff),
           let jpeg = bitmap.representation(using: .jpeg, properties: [.compressionFactor: 0.94]) else {
         throw NSError(domain: "render", code: 1)
     }
-    let url = outputRoot.appendingPathComponent(filename)
-    try FileManager.default.createDirectory(at: outputRoot, withIntermediateDirectories: true)
-    try jpeg.write(to: url)
-    print("Built \(url.path)")
+    for relativePath in relativePaths {
+        let url = repoRoot.appendingPathComponent(relativePath)
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try jpeg.write(to: url)
+        print("Built \(url.path)")
+    }
 }
 
 func makeCanvas(title: String, subtitle: String?) -> NSImage {
@@ -281,7 +281,11 @@ func renderThreeReads() throws {
     }
 
     drawCheckBand("Each pass updates the meaning until it clicks.")
-    try save(image, filename: "layers-1-three-reads-alternative.jpg")
+    try save(image, relativePaths: [
+        "board-review-first-four/alternatives/understand-ai/layers-1-three-reads-alternative.jpg",
+        "lessons/layers-1-three-reads.jpg",
+        "illustrations/layers-three-reads.jpg"
+    ])
 }
 
 func renderWhyDozens() throws {
@@ -315,7 +319,11 @@ func renderWhyDozens() throws {
     }
 
     drawCheckBand("More depth leaves room for deeper meaning.")
-    try save(image, filename: "layers-3-why-dozens-alternative.jpg")
+    try save(image, relativePaths: [
+        "board-review-first-four/alternatives/understand-ai/layers-3-why-dozens-alternative.jpg",
+        "lessons/layers-3-why-dozens.jpg",
+        "illustrations/layers-why-dozens.jpg"
+    ])
 }
 
 try renderThreeReads()

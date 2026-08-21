@@ -12,61 +12,11 @@ That’s the fifty-year problem in one picture. The shape is the whole thing: di
 
 ## THE GUY WHO SOLVED IT
 
-Demis Hassabis
-
-Co-founder of DeepMind
-
-1989
-
-Becomes a chess master at the age of 13.
-
-1994
-
-At age 17 he co-designs Theme Park, a video game that sells millions of copies.
-
-2009
-
-Earns a PhD in neuroscience, because he wanted to understand how the brain works well enough to build one.
-
-2010
-
-Founds an AI company called DeepMind.
-
-2014
-
-Google buys DeepMind.
-
-2020
-
-DeepMind solves protein folding.
-
-The fifty-year problem, essentially finished.
+![Demis Hassabis: from becoming a chess master at 13 and co-designing a video game to founding DeepMind, solving protein folding, releasing 200 million predictions, and winning the Nobel Prize.](big-upside-1-hassabis.jpg)
 
 DeepMind’s predictions came back about as accurate as real lab experiments.
 
 **Then DeepMind did the part that actually mattered: they gave the answers away, free to everyone.**
-
-Fifty years vs one release
-
-## Humans
-
-## 50 years of lab work
-
-~200,000
-
-protein shapes solved
-
-## DeepMind
-
-## One release, 2022
-
-~200,000,000
-
-protein shapes solved, free to everyone
-
-1,000×
-
-more shapes, released in one go
 
 More than two million users in 190 countries have pulled from that database. In 2024, Hassabis won the Nobel Prize in Chemistry for it.
 
@@ -82,41 +32,9 @@ I’ve dedicated my career to advancing AI because of its unparalleled potential
 
 You learned that AI is a pattern machine. Smart people are pointing AI at problems with too many possibilities for humans to search by hand. And, the results are saving lives.
 
-💊
+![AI searches possibilities humans cannot: new antibiotics, new materials, and cancer screening.](big-upside-3a-discovery.jpg)
 
-New antibiotics
-
-MIT researchers screened thousands of compounds with AI and found one that kills a superbug almost nothing else touches. They named it abaucin.
-
-🌦️
-
-Faster weather forecasts
-
-One computer creates a global forecast in about a minute. The old way took hours on a supercomputer. Faster forecasts mean more people can leave dangerous areas before the bad weather hits.
-
-🔋
-
-Materials that don’t exist
-
-Batteries, solar panels, and computer chips all use crystals. Better crystals make them all better. Demis’ company, DeepMind, predicted 380,000 crystals worth making.
-
-👁️
-
-Eyes and ears
-
-Blind users point a phone and AI reads the world: the right bus, the food on the menu, the expiration date of their food. AI does the same for deaf users, turning sound into live captions. **Shipping now. FREE!**
-
-🌊
-
-Early flood warnings
-
-Free warnings of upcoming floods in dozens of countries, including places where they don’t have river gauges. People know days in advance, instead of minutes.
-
-🩺
-
-Catching what doctors miss
-
-In a Swedish trial with more than 100,000 women, AI-supported screening detected more breast cancers, with no statistically significant increase in false positives.
+![AI turns patterns into practical help through faster forecasts, earlier flood warnings, and accessibility tools.](big-upside-3b-help.jpg)
 
 Every one of those is true. So the next time someone asks, “What good does AI do for society?”, you have an answer ready: **“For starters, it’s saving lives.”**
 

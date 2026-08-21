@@ -16,35 +16,9 @@ And AI does it with math. At each layer, it adjusts the tokens’ numbers, each 
 
 ## The mechanics
 
-You saw this sentence in the Transformer lesson. Here’s how the numbers adjust for one word: **IT**. Notice the last box is blank. That box gets filled in the next lesson.
+You saw this sentence in the Transformer lesson. Now follow one word, **IT**, as its numbers change from layer to layer. The final box stays blank for now; we fill it in the next lesson.
 
-The
-
-cat
-
-sat
-
-on
-
-the
-
-mat
-
-during
-
-the
-
-May
-
-rainstorm
-
-because
-
-it
-
-was
-
-tired
+![With Transformers, AI reads every word at once. Attention connects IT directly to CAT and TIRED, setting up the word we will follow through the layers.](transformer-2-now.jpg)
 
 ## Ambiguous “it”
 

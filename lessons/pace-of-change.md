@@ -70,53 +70,9 @@ Slow down and read that third one again. AI helps build better AI.
 
 What does the future of AI look like? There are four key ideas driving the AI companies forward. One is being tested now, and no one knows if the other three are even possible.
 
-## Happening now
+![Two ways AI could speed up AI: automated AI research is happening in early form, while recursive self-improvement remains contested and has not been built.](pace-of-change-3a-future-research.jpg)
 
-Automated AI Research
-
-## AI replaces human researchers
-
-Human researchers do the work of making each new model smarter. The goal is simple. Replace the human researchers with AI. Humans only review the work. Early versions are already in use.
-
-## What it means
-
-Should it work, AI progress stops being limited by how many human researchers exist. The pace you saw above gets another boost, from AI researchers that never sleep.
-
-## Contested
-
-Recursive Self-Improvement
-
-## Self-improving AI
-
-An AI that improves itself while the world is using it. Today’s models are frozen after training. This one would never stop learning, rewriting its own design and code. Nobody has built one.
-
-## What it means
-
-Should it be built, AI improvement stops arriving in releases. No new model to wait for every few months: the AI you used yesterday is already smarter today.
-
-## Hypothetical
-
-Artificial General Intelligence (AGI)
-
-## AI as smart as people
-
-A hypothetical AI that can handle any intellectual task a human can. Some researchers say it’s a few years away, some say decades, some say the term is too fuzzy to mean anything.
-
-## What it means
-
-Should it arrive, any work a person can do on a computer, AI could do too, in every subject and every language at once. That would reach nearly every job and classroom on Earth.
-
-## More hypothetical
-
-Artificial Superintelligence (ASI)
-
-## AI smarter than everyone
-
-AI smarter than any human at everything. This idea is what the loudest hopes and fears are really about.
-
-## What it means
-
-Should it arrive, the biggest decisions in medicine, money, and defense would involve something smarter than the people in charge of them.
+![Two possible capability milestones: AGI would be as smart as people, while ASI would be smarter than everyone. Nobody knows whether either is possible.](pace-of-change-3b-future-capability.jpg)
 
 ## So where does it stop?
 

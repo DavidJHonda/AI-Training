@@ -9,7 +9,8 @@ let inputURL = repoRoot.appendingPathComponent("board-review-first-four/.pre-boa
 let outputURLs = [
     repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-alternative.jpg"),
     repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-vector-rail-alternative.jpg"),
-    repoRoot.appendingPathComponent("lessons/layers-2-inside.jpg")
+    repoRoot.appendingPathComponent("lessons/layers-2-inside.jpg"),
+    repoRoot.appendingPathComponent("illustrations/layers-inside.jpg")
 ]
 
 let width: CGFloat = 1600
@@ -96,59 +97,40 @@ source.draw(
     hints: nil
 )
 
-// The rail covers only the unused lower portion of the transparent layer stack.
-roundedRect(NSRect(x: 100, y: 592, width: 1400, height: 132), radius: 14, fill: .white, stroke: rule, lineWidth: 1.5)
+// Use the full lower board area for the changing values. The optional takeaway
+// band is omitted so the numbers can meet the board readability floor.
+roundedRect(NSRect(x: 80, y: 620, width: 1440, height: 240), radius: 16, fill: .white)
+roundedRect(NSRect(x: 100, y: 640, width: 1400, height: 194), radius: 14, fill: .white, stroke: rule, lineWidth: 1.5)
 
 let stages: [(String, String)] = [
     ("STARTING VECTOR", "[.42, −1.15, …]"),
     ("AFTER LAYER 1", "[.51, −.87, …]"),
     ("AFTER LAYER 2", "[.27, −1.21, …]"),
-    ("AFTER LAYER 3", "[.31, −.92, …]"),
     ("RICHER VECTOR", "[.19, −1.12, …]")
 ]
 
-let cellWidth: CGFloat = 250
-let cellHeight: CGFloat = 110
-let gap: CGFloat = 32
+let cellWidth: CGFloat = 316
+let cellHeight: CGFloat = 174
+let gap: CGFloat = 38
 let startX: CGFloat = 111
 
 for (index, stage) in stages.enumerated() {
     let x = startX + CGFloat(index) * (cellWidth + gap)
     let isFinal = index == stages.count - 1
     roundedRect(
-        NSRect(x: x, y: 603, width: cellWidth, height: cellHeight),
+        NSRect(x: x, y: 650, width: cellWidth, height: cellHeight),
         radius: 12,
         fill: isFinal ? gold.withAlphaComponent(0.58) : paleLavender,
         stroke: isFinal ? color("#e4bf59") : rule,
         lineWidth: isFinal ? 1.5 : 1
     )
-    drawText(stage.0, in: NSRect(x: x + 8, y: 614, width: cellWidth - 16, height: 32), font: heavy(24), color: isFinal ? navy : muted, alignment: .center)
-    drawText(stage.1, in: NSRect(x: x + 5, y: 658, width: cellWidth - 10, height: 38), font: demi(28), color: isFinal ? navy : purple, alignment: .center)
+    drawText(stage.0, in: NSRect(x: x + 8, y: 672, width: cellWidth - 16, height: 44), font: heavy(28), color: isFinal ? navy : muted, alignment: .center)
+    drawText(stage.1, in: NSRect(x: x + 5, y: 735, width: cellWidth - 10, height: 54), font: demi(38), color: isFinal ? navy : purple, alignment: .center)
 
     if index < stages.count - 1 {
-        drawText("→", in: NSRect(x: x + cellWidth, y: 638, width: gap, height: 38), font: demi(28), color: purple, alignment: .center)
+        drawText("→", in: NSRect(x: x + cellWidth, y: 719, width: gap, height: 52), font: demi(38), color: purple, alignment: .center)
     }
 }
-
-// Rebuild the standardized takeaway band with the revised message.
-roundedRect(NSRect(x: 80, y: 776, width: 1440, height: 84), radius: 16, fill: gold)
-let takeaway = "Same two moves. A different vector after every pass."
-let takeawayFont = demi(32)
-let takeawaySize = textSize(takeaway, font: takeawayFont)
-let lockupWidth: CGFloat = 52 + 16 + takeawaySize.width
-let lockupX = (width - lockupWidth) / 2
-roundedRect(NSRect(x: lockupX, y: 792, width: 52, height: 52), radius: 26, fill: purple)
-
-let check = NSBezierPath()
-check.move(to: NSPoint(x: lockupX + 14, y: 818))
-check.line(to: NSPoint(x: lockupX + 23, y: 827))
-check.line(to: NSPoint(x: lockupX + 39, y: 807))
-check.lineWidth = 5
-check.lineCapStyle = .round
-check.lineJoinStyle = .round
-NSColor.white.setStroke()
-check.stroke()
-drawText(takeaway, in: NSRect(x: lockupX + 68, y: 800, width: takeawaySize.width + 4, height: 46), font: takeawayFont, color: navy)
 
 image.unlockFocus()
 

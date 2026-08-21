@@ -6,9 +6,7 @@
 
 That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? Yes. And you already know the reasons why:
 
-- Training taught it patterns, not facts.
-- It builds answers one token at a time, picking each token by probability.
-The combination causes the problem: **probable doesn’t always mean true.**
+![Why hallucinations happen. Training teaches patterns, not facts. Generation picks each next token by probability. Together they mean probable does not always mean true, and a likely sentence can still be false.](hallucination-1-why.jpg)
 
 Sometimes AI gives you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a **hallucination**.
 
@@ -20,15 +18,7 @@ AI didn’t invent this answer. It traced back to an old joke on Reddit that the
 
 ## What counts as a hallucination?
 
-Not every wrong answer is a hallucination. These are the four patterns to watch for.
-
-📚 **Fake source** A study, article, author, journal, or citation that does not exist.
-
-🔢 **Fake detail** A real person, place, event, or idea with invented dates, numbers, quotes, or specifics.
-
-🧩 **Blended fact** Real facts combined in a way that creates a conclusion that is false.
-
-🔀 **Misread source** The source is real, but the model read it wrong.
+![What counts as a hallucination. Fake source: a study, article, author, journal, or citation that does not exist. Fake detail: a real person, place, event, or idea with invented dates, numbers, quotes, or specifics. Blended fact: real facts combined in a way that creates a false conclusion. Misread source: the source is real, but the model read it wrong. Not every wrong answer is a hallucination.](hallucination-2-types.jpg)
 
 ## Retrieval-Augmented Generation
 

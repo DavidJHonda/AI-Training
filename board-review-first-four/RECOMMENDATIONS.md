@@ -43,7 +43,7 @@ issue rather than a visual failure.
 | Transformer | Keep | The two problems, two operations, and resolved examples already form a rigorous worked explanation. |
 | Layers | **Alternative ready** | The current inside-a-layer board is too dense at video scale. The proposal shows attention and transformation repeating through a stack. |
 | Vector Space | Keep | Cities, taste neighborhoods, and sentence positions give the abstract idea several useful forms. |
-| How AI Answers | Keep | The row-by-row build is intentionally technical and earns its density by showing the actual sequence. |
+| How AI Answers | **Selected** | Keep the intentionally technical row-by-row build. Replace only the dense conceptual handoff with a board showing the full question folding into the last-token vector and that vector selecting the first reply token. |
 | One More Thing | Keep + watchlist | The visual sequence works; calculation-scale claims should continue to be source-checked as models change. |
 
 ## Avoid Traps
@@ -51,14 +51,23 @@ issue rather than a visual failure.
 | Lesson | Recommendation | Reason |
 |---|---|---|
 | Opener | Keep | The three traps and section map are concise and distinctive. |
-| Hallucination | **Alternative ready** | “Patterns plus probability” is accurate but visually quiet. The proposal makes `PROBABLE ≠ TRUE` the organizing idea. |
-| Training Bias | **Alternative ready** | Defaults, blind spots, and wrong patterns need a single visual mechanism rather than three paragraphs. |
+| Hallucination | **Selected** | The opening mechanism now makes `PROBABLE ≠ TRUE` the organizing idea, and the four hallucination types become a readable classification board. RAG remains a lighter inline explanation because it is supporting nuance rather than a core visual model. |
+| Training Bias | **Selected** | Defaults, blind spots, and wrong patterns now share one mechanism board, followed by a one-row board for the three corrective questions. The final stale-information comparison stays inline because its What Happens / The Fix distinction is already simple. |
 | Document Trap | **Alternative ready** | Chunk, embed, and retrieve are a true process; the proposal turns them into a left-to-right pipeline. |
-| Mind Trap | Keep | The parent-versus-AI comparison directly teaches the missing human context. |
-| Flattery Trap | Keep | The side-by-side response and ranking explanation already expose the mechanism clearly. |
+| Mind Trap | **Selected** | Keep the parent-versus-AI comparison, then turn the ELIZA-effect explanation into a focused board contrasting the brain’s mind detector with AI’s mind-shaped language. |
+| Flattery Trap | **Selected** | Convert the ranking explanation into a three-step board so the praise loop reads as a mechanism instead of a dense text box. |
 | Engagement Trap | Keep | The two possible chat endings make the behavioral trap concrete. |
-| Support Trap | Keep | The human-versus-AI comparison, why-it-feels-real board, and danger guardrail are appropriately restrained. |
-| Fake Trap | Keep | Pre-AI visual inspection versus AI-era source tracing is the right framework and the follow-up checks are actionable. |
+| Support Trap | **Selected** | Use one restrained board to separate real relief and useful advice from the missing person who can act. End on the bold human-support rule without repeating the examples. |
+| Fake Trap | **Selected** | Turn the four motives into a scannable board and present Source → Context → Corroboration in the same move-based format as Document Trap. |
+
+## Embrace the Future
+
+| Lesson | Recommendation | Reason |
+|---|---|---|
+| Loudest Voices | Keep | “This Has Happened Before” depends on the source quotes and context. The existing illustration already supplies the visual callback without freezing four dense anecdotes into a board. |
+| Pace of Change | **Selected** | Keep the readable three-years comparison. Split the awkward four-idea grid into two boards: current AI-research paths, then the hypothetical AGI/ASI capability milestones. |
+| Big Downside | **Selected** | Convert only the escalating guardrail challenge. Keep the jailbreak case beside its fortress illustration and the voice-clone scam inline as a concrete example. |
+| Big Upside | **Selected** | Use one timeline from Hassabis’s early interests through the public AlphaFold release and Nobel Prize, then two three-example boards separating discovery from practical help. |
 
 ## Recommended approval order
 

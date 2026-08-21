@@ -44,17 +44,7 @@ Notice which answer sounds better. The AI’s is smoother, more confident, easie
 
 In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the *ELIZA effect*.
 
-🧠
-
-Why your brain does this
-
-Detecting minds kept your ancestors alive, so the detector fires constantly. You see faces in toast and personalities in cars.
-
-💬
-
-Why AI sets it off harder
-
-It’s the most mind-shaped thing you’ve ever talked to. Watch for the phrases: “I think,” “I feel,” “I find this fascinating.” Your brain hears a person. They’re tokens a probability process landed on.
+![Why AI feels like somebody. Your brain looks for minds; AI sets the detector off harder; human-sounding is not a mind.](mind-trap-1-eliza-effect.jpg)
 
 🔑 **Don’t let AI make the decisions that matter.**It doesn’t think, it doesn’t know you, and it can’t care how your life turns out. Let it gather the facts, lay out the options, pressure-test your thinking. Then take the decision to people, the ones with a stake in the answer.
 

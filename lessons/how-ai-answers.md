@@ -178,11 +178,7 @@ dog
 
 ## Where we stand
 
-Look at what the model has now. The question isn’t words anymore. It’s eight rich vectors, each one carrying what its token means inside this exact question. **Meaning: established.**
-
-Now, one detail changes everything: **the last token matters most**. Why? The model is about to write, and the next word goes in exactly one place: right after the last token. So that’s the vector the model reads to pick it. And the layers have been preparing that vector all along: in every layer, attention folds the earlier tokens into the later ones, so **the last token’s vector carries the entire question**.
-
-By the final layer, the last token isn’t really about the question mark (?) anymore. Its job has changed. Remember what the model practiced during training: predicting the next word, over and over, billions of times. **Training tuned the layers to turn what the text *means* into where the next word *lives*.** So the vector carrying the question gets pushed across the map, and it lands in the neighborhood of the words most likely to come next: the first word of the answer.
+![The last token carries the whole question. Attention folds every earlier token into the final question-mark vector. That vector lands among reply starters, where You at 18 percent scores above A at 14 percent and Great at 9 percent and becomes the first token of the answer.](how-ai-answers-last-token.jpg)
 
 ## The answer, token by token
 

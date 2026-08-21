@@ -617,14 +617,15 @@ function BodyP(props) {
 }
 
 // lessonId -> video overview shown as a compact "Watch" pill in LessonHeader.
-// Add one entry per teaching lesson as each video is produced; no entry means no pill
-// (so section openers, which aren't listed, never show one). Use { src } for a local
-// mp4 now; later swap to { youtubeId } for an unlisted hosted video. Optional { caption }.
+// Add one entry per teaching lesson as each video is produced. A { comingSoon: true }
+// entry reserves the same header position with a non-playable status card. No entry
+// means no video card. Use { src } for a local mp4 now; later swap to { youtubeId }
+// for an unlisted hosted video. Optional { caption }.
 // (2026-07-05: all first-generation videos removed pending regeneration; they opened
 // on title cards and/or contained screenshot-style visuals. Re-add entries one at a
 // time as new cuts pass review.)
 const LESSON_VIDEOS = {
-  welcome: { src: "videos/welcome.mp4?v=4", duration: "2 min", title: "A quick look at what this course is and why it exists." },
+  welcome: { src: "videos/welcome.mp4?v=6", duration: "3 min", title: "A quick look at what this course is and why it exists." },
   whydeeper: { src: "videos/why-learn-ai.mp4?v=2", duration: "4 min", title: "Why understanding AI is the edge that pays off." },
   llms: { src: "videos/what-is-ai.mp4", duration: "4 min", title: "What AI is, and the two kinds you already use.", cta: "Both end at the same LAB." },
   aihistory: { src: "videos/how-an-llm-works.mp4", duration: "4 min", title: "How an LLM turns your prompt into an answer.", cta: "Both end at the same LAB." },
@@ -659,7 +660,18 @@ const LESSON_VIDEOS = {
   flattery: { src: "videos/flattery-trap.mp4", duration: "4 min", title: "AI gives you praise, even when it shouldn’t.", cta: "Both end at the same LAB." },
   engagementtrap: { src: "videos/engagement-trap.mp4", duration: "4 min", title: "The quietest trap: knowing when to stop." },
   supporttrap: { src: "videos/support-trap.mp4", duration: "4 min", title: "Supportive words aren’t support." },
-  faketrap: { src: "videos/fake-trap.mp4", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." }
+  faketrap: { src: "videos/fake-trap.mp4", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." },
+  // Embrace the Future is final. These cards reserve the completed video position
+  // while the nine final video cuts are produced and approved.
+  openerrealworld: { comingSoon: true, title: "Embrace the Future" },
+  whatpeoplesay: { comingSoon: true, title: "Loudest Voices" },
+  paceofchange: { comingSoon: true, title: "Pace of Change" },
+  bigdownside: { comingSoon: true, title: "Big Downside" },
+  bigupside: { comingSoon: true, title: "Big Upside" },
+  agents: { comingSoon: true, title: "Rise of Agents" },
+  workchanges: { comingSoon: true, title: "Work Changes" },
+  computecost: { comingSoon: true, title: "Data Centers" },
+  unexpected: { comingSoon: true, title: "Unexpected Results" }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
@@ -731,16 +743,13 @@ const CLOSE_BOARDS = {
   openerskills: { pill: "The tool is rented.", sticky: "The skills are yours to keep." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two habits. They travel well." }
 };
-// Lessons after the boundary id are first drafts: red label in the chip nav,
-// and the sticky title bar adds "· Draft". Section title pages (each group's
-// first lesson) are never marked as drafts. Move the boundary id as lessons
-// graduate; every draft indicator updates together.
+// Build Your Skills and Finish Smarter remain drafts: every lesson uses red text
+// in the icon navigation, the sticky title adds "· Draft", and the full lesson
+// header carries a prominent draft notice. Remove a group here when it graduates.
 function isDraftLesson(sectionId) {
   var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
-  if (!group || group.sections[0] === sectionId) return false;
-  var idx = SECTIONS.findIndex(function(s) { return s.id === sectionId; });
-  var boundary = SECTIONS.findIndex(function(s) { return s.id === "faketrap"; });
-  return boundary !== -1 && idx > boundary;
+  if (!group) return false;
+  return group.label === "Build Your Skills" || group.label === "Finish Smarter";
 }
 
 function LessonHeader(props) {
@@ -771,6 +780,10 @@ function LessonHeader(props) {
         style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: 0, flex: "1 1 auto", minWidth: 0 }
       }, resolvedTitle)
     ),
+    isDraftLesson(sectionId) ? E("div", {
+      className: "draft-lesson-notice",
+      style: { color: "#d4334a", fontFamily: "var(--sans)", fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 800, lineHeight: 1.2, letterSpacing: "-0.015em", margin: "-2px 0 26px 0" }
+    }, "Draft Lesson. Still working on it.") : null,
     (video && !props.noWatch) ? E(WatchOverview, { video: video }) : null,
     props.subtitle ? E("p", {
       style: { fontSize: 17, fontFamily: "var(--sans)", lineHeight: 1.5, color: "var(--inkSoft)", maxWidth: 640, textWrap: "pretty", margin: "0 0 32px 0" }
@@ -1501,9 +1514,9 @@ function WatchPlayer(props) {
     E("div", { style: { position: "relative", width: "100%", aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden", background: "#000" } }, player),
     caption ? E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, paddingLeft: 4 } }, caption) : null);
 }
-// Full-width "Prefer to watch?" card shown below a lesson title when the lesson has a
-// video overview. Lavender fill so it lifts off the white lesson card; a dark thumbnail
-// with a play button signals video. Clicking expands the inline WatchPlayer.
+// Full-width video card shown below a lesson title. Completed entries expand the inline
+// WatchPlayer; coming-soon entries preserve the same visual position without acting
+// like a control.
 function WatchOverview(props) {
   var E = React.createElement;
   var _o = useState(false), open = _o[0], setOpen = _o[1];
@@ -1519,6 +1532,30 @@ function WatchOverview(props) {
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   }, [open]);
+  if (v.comingSoon) {
+    return E("div", {
+      ref: rootRef,
+      className: "watch-overview no-print",
+      role: "status",
+      "aria-label": "Video coming soon. Read the full lesson below for now.",
+      style: { marginBottom: 28 }
+    },
+      E("div", {
+        className: "watch-overview-trigger watch-overview-coming-soon",
+        style: { display: "flex", alignItems: "center", gap: 20, width: "100%", textAlign: "left", cursor: "default", fontFamily: "var(--sans)", background: "#fcf5d8", border: "1px solid #eddfa8", borderRadius: 20, padding: "15px 22px", boxShadow: "var(--shadowSoft)", boxSizing: "border-box" }
+      },
+        E("span", { className: "watch-overview-play", "aria-hidden": "true", style: { flexShrink: 0, width: 64, height: 64, borderRadius: 999, background: "#1b2153", display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 16px rgba(27,33,83,0.22)", opacity: 0.72 } },
+          E("svg", { width: 22, height: 22, viewBox: "0 0 16 16" },
+            E("path", { d: "M5.5 3.5 L12.5 8 L5.5 12.5 Z", fill: "#e8c552" }))),
+        E("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" } },
+          E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } },
+            E("span", { style: { color: "#a8842c", fontSize: 11 } }, "▸"),
+            E("span", { style: { color: "#a8842c", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, "Video"),
+            E("span", { style: { color: "#6f654e", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" } }, "Coming soon")),
+          E("div", { style: { fontSize: 15, color: "#2f3557", lineHeight: 1.5 } },
+            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, "Video coming soon. "),
+            "Read the full lesson below for now."))));
+  }
   return E("div", { ref: rootRef, className: "watch-overview no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
     E("button", {
       className: "watch-overview-trigger",

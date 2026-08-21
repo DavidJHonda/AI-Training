@@ -56,7 +56,7 @@ def main() -> None:
              "to": [360, 500, 700]},
             {"label": "move-to-chatgpt", "frames": 18,
              "to": [800, 500, 720]},
-            {"label": "chatgpt", "frames": 276,
+            {"label": "chatgpt", "frames": 300,
              "to": [800, 500, 700]},
             {"label": "move-to-google", "frames": 18,
              "to": [1240, 500, 720]},

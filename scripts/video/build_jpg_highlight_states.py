@@ -109,6 +109,15 @@ def main():
                 int(item.get("ring_radius", 24)),
                 int(item.get("ring_thickness", 6)),
             )
+        for ring in item.get("rings", []):
+            ring_color = bgr(ring.get("color", item.get("color", "#6e51ff")))
+            rounded_ring(
+                state,
+                ring["rect"],
+                ring_color,
+                int(ring.get("radius", item.get("ring_radius", 24))),
+                int(ring.get("thickness", item.get("ring_thickness", 6))),
+            )
 
         label = item["label"]
         image_path = output / f"state-{index}-{label}.png"

@@ -22,5 +22,6 @@
 - `boundary-002590.jpg`
 - `boundary-003087.jpg`
 - `boundary-004430.jpg`
+- `boundary-006353.jpg`
 - `boundary-006656.jpg`
 - `boundary-006924.jpg`

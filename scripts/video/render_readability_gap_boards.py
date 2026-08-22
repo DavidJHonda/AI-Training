@@ -252,18 +252,18 @@ def render_study_tools():
         x0, x1, accent = card["x0"], card["x1"], card["accent"]
         rounded(draw, (x0, 204, x1, 830), 16, PALE, RULE)
         rounded(draw, (x0 + 180, 190, x1 - 180, 236), 23, accent)
-        centered(draw, ((x0 + x1) / 2, 213), card["label"], font("heavy", 24), WHITE)
+        centered(draw, ((x0 + x1) / 2, 213), card["label"], font("heavy", 30), WHITE)
         draw.ellipse((x0 + 42, 262, x0 + 122, 342), fill=WHITE, outline=accent, width=4)
         centered(draw, (x0 + 82, 302), "N" if index == 0 else "AI", font("heavy", 26), accent)
-        draw.text((x0 + 146, 258), card["product"], font=font("heavy", 24), fill=accent)
-        draw.text((x0 + 146, 294), card["title"], font=font("bold", 32), fill=CARD_TITLE)
-        centered_block(draw, (x0 + 38, 354, x1 - 38, 430), card["description"], font("medium", 28))
+        draw.text((x0 + 146, 254), card["product"], font=font("heavy", 28), fill=accent)
+        draw.text((x0 + 146, 292), card["title"], font=font("bold", 34), fill=CARD_TITLE)
+        centered_block(draw, (x0 + 38, 350, x1 - 38, 434), card["description"], font("medium", 34))
         draw.line((x0 + 38, 448, x1 - 38, 448), fill=RULE, width=2)
-        draw.text((x0 + 42, 474), "BEST FOR", font=font("heavy", 24), fill=accent)
-        centered_block(draw, (x0 + 38, 510, x1 - 38, 600), card["best"], font("medium", 28))
+        draw.text((x0 + 42, 472), "BEST FOR", font=font("heavy", 30), fill=accent)
+        centered_block(draw, (x0 + 38, 512, x1 - 38, 602), card["best"], font("medium", 34))
         draw.line((x0 + 38, 622, x1 - 38, 622), fill=RULE, width=2)
-        draw.text((x0 + 42, 648), "THE CATCH", font=font("heavy", 24), fill=accent)
-        centered_block(draw, (x0 + 38, 688, x1 - 38, 790), card["catch"], font("medium", 28))
+        draw.text((x0 + 42, 646), "THE CATCH", font=font("heavy", 30), fill=accent)
+        centered_block(draw, (x0 + 38, 690, x1 - 38, 794), card["catch"], font("medium", 34))
     save(image, [
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-1-study-tools-alternative.jpg",
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg",

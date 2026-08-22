@@ -6,7 +6,7 @@ merits, and find what could be harvested from it.
 
 ## Part 1 — grade it
 
-Follow `scripts/video/GRADER-r4.md`
+Follow `scripts/video/GRADER-r5.md`
 exactly, including the two false-positive traps and the cite-or-don't-deduct
 discipline. Produce the standard output block.
 
@@ -26,8 +26,10 @@ whole point of the re-roll was those lines.
 
 Also check, from the same prompt:
 - did it end on the close board as the literal final frame?
-- did each qualifying multi-point board use the exact current lesson board,
-  held fully visible with narration-synced item highlights?
+- did each qualifying board use the exact current lesson board and the r5 compact
+  or dense treatment with course-native narration-synced highlights?
+- did the video avoid Gemini Notebook highlighting and use the standard close
+  framing and fixed endpoint?
 - did it letter style words into the artwork ("fineliner", "analog texture")?
 
 ## Part 3 — harvest
@@ -61,6 +63,9 @@ GATE_STOCK: PASS|FAIL — <evidence>
 GATE_ENDING: PASS|FAIL — <evidence>
 GATE_SYNC: PASS|FAIL — <evidence>
 GATE_BOARD_WALK: PASS|FAIL|N/A — <evidence>
+GATE_NO_NOTEBOOK_HIGHLIGHT: PASS|FAIL|N/A — <evidence>
+GATE_STANDARD_CLOSE: PASS|FAIL|N/A — <evidence>
+GATE_EDIT_INTEGRITY: PASS|FAIL — <evidence>
 SPEC:
   <requirement> — MET|MISSED — <timestamp or quote>
   ...

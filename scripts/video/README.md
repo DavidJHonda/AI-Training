@@ -8,16 +8,16 @@ composite, and the Work With AI challenger round).
 
 ## Evaluation
 
-`videos/video-rubric.csv` is the r4 authority and
-`scripts/video/GRADER-r4.md` is the required procedure. The primary ship test is
+`scripts/video/GRADER-r5.md` is the single grading authority.
+`videos/video-rubric.csv` is its synchronized tracker summary. The primary ship test is
 non-compensable: a student must be able to watch the video instead of reading
 the lesson and lose no essential understanding. Source coherence and teaching
 accuracy are separate gates; neither can be offset by cleanliness or pacing.
 
-The tracker keeps the r3 numeric columns because r4 does not change the /100
-calculation. Run—or rerun—`scripts/video-tracker-migrate-r4.gs` to add any missing
-Source QA, Accuracy Gate, Substitute Gate, and Board Walk Gate columns without
-altering old reviews.
+The tracker keeps the r3 numeric columns because r5 does not change the /100
+calculation. Run or rerun `scripts/video-tracker-migrate-r5.gs` to add any missing
+current gate columns without altering old reviews. The r4 migration remains only
+for reconstructing the historical r4 tracker schema.
 
 ## Shipping filename convention (owner rule, 2026-08-17)
 
@@ -28,19 +28,28 @@ shipped course and `index.html` must never depend on a `-v2` video path.
 
 ## The standard content-board walk (owner rule, 2026-08-14)
 
-**Whenever narration walks two or more points on a compact lesson board, the exact
-current lesson board stays fully visible for the entire walkthrough and the active
-card or row is highlighted at its spoken onset.** Do not substitute an invented
-graphic, redraw the board, crop into it, or pan between its points. If narration first
-addresses the board as a whole, begin with the unmarked state. Highlights replace one
-another unless the narration explicitly combines points.
+Every teaching board uses the exact current lesson capture and one of two treatments:
 
-The only exception is a board whose text is genuinely unreadable at 720p in whole-board
-framing. In that case, a camera dive may frame the whole active card—never a crop inside
-the card—and every state still comes from the same current app capture. Background
-animation is expendable during a board walk; keeping the teaching framework visible is
-the priority. This is enforced at ship review by `GATE_BOARD_WALK`. Build and verify the
-replacement leg with `scripts/video/RETROFIT-PLAYBOOK.md`.
+1. **Compact / lighter-text board:** keep the complete board visible for the entire
+   walkthrough. Begin unmarked, then highlight the active card, row, or component at
+   its spoken onset. A restrained whole-board push is allowed; camera dives and pans
+   are not.
+2. **Dense / text-heavy board:** begin with the complete unmarked board for orientation,
+   then dive to the complete active card or section, highlight it, and pan smoothly to
+   the next complete area as the narration moves. Never crop inside a card. Pull back
+   when timing permits.
+
+Highlights replace one another unless the narration explicitly combines points. Use
+the board item's own accent color when it has one; otherwise use the course purple.
+**Gemini Notebook's native highlighting is forbidden on every course board.** All
+highlight states must use the course ring-and-chip treatment, whether they are captured
+from DOM states or composited in post. A board discussed only as a whole gets the
+unmarked restrained push, not an arbitrary highlight.
+
+Background animation is expendable during a board walk; keeping the teaching framework
+visible is the priority. These rules are enforced at ship review by `GATE_BOARD_WALK`
+and `GATE_NO_NOTEBOOK_HIGHLIGHT`. Build and verify replacement legs with
+`scripts/video/RETROFIT-PLAYBOOK.md`.
 
 ## The standard close (owner rule, 2026-08-04 — applies to EVERY video)
 
@@ -52,6 +61,12 @@ the post insert is what makes the catalogue read as one course. **`welcome.mp4`
 is the reference experience.** `critical-thinking.mp4` was the counterexample
 that triggered this rule (engine redraw: red marker underline on the sticky,
 off pill proportions, white canvas).
+
+Every standard close uses the same canvas, centering, starting composition, easing,
+zoom endpoint, and settled final size. Extra closing narration adds full-board hold
+time; it never increases the zoom distance. The standard push then follows the same
+path and lands at the same final framing in every video, followed by a short settled
+hold. The close board remains the literal final frame.
 
 Quiz videos are exempt (owner, 2026-08-04: transformers-quiz keeps its
 illustration ending). And when a pre-close board runs a settle-out right into
@@ -73,13 +88,33 @@ How to do it — two shipped recipes, pick by situation:
   dsf4 and insert a ~5s single-beat full-frame push-in, buying timing with
   mirror-tiled room tone. Full recipe in the highlight-state bullet list below.
 - **CLOSE-BOARD VARIANT** (compose the still from text): `make_close_board.py`
-  renders the board in CloseBoard style; replace the frozen close span, zoom
-  rate scaled to span length. Full recipe below under the Ken Burns section.
+  renders the board in CloseBoard style; replace the frozen close span with the
+  same fixed standard push and endpoint. Full recipe below under the Ken Burns section.
 
 Prompt side: each video prompt still attaches a close board and requires the
 narrator to speak both closing lines — that anchors the closing NARRATION
 verbatim. But the engine's rendering of that board is expendable; the shipped
 close visual always comes from this insert (see `Prompts/README.md`).
+
+## Mandatory edit-integrity pass
+
+Every repaired video is rebuilt in one pass from its pristine source using
+half-open frame spans `[start_frame, end_frame)`. Never stack repairs on a repaired
+MP4. A visual-only repair must retain the exact decoded frame count, FPS, and
+bit-identical source audio.
+
+For every splice:
+
+- inspect a frame-by-frame boundary strip on both sides so a one-to-five-frame
+  remnant cannot hide between contact-sheet samples;
+- verify that intended replacement spans contain no short islands of source video;
+- verify that no spoken sentence ends early;
+- verify that there is no click, blip, or abrupt noise-floor dropout.
+
+Breath cleanup is a separate reviewed audio pass. Never ripple-delete a breath.
+Keep it, attenuate it, or replace it with equal-duration matched room tone using
+short crossfades. Do not use digital zero when it creates an audible gap. For a
+visual-only pass, do not touch the audio at all.
 
 ## Setup (once per machine)
 
@@ -112,6 +147,10 @@ so any splice needs exactly ONE re-encode pass:
 | `$PY patch_visual.py` | mid-video visual patch: freeze a good frame over a junk span, audio untouched, duration identical |
 | `$PY excise_audio.py` | remove a stray spoken word from audio only (`--probe` RMS map first, then `--cut`) |
 | `$PY graft_scene.py` | move a scene between videos: `--insert` (full graft, incl. replace-the-ending via `--resume-at` past the end) or `--replace-visual` (donor visuals over a base span, audio untouched, auto trim/freeze-fill) |
+| `$PY splice_integrity.py` | compare a visual repair with its pristine source; enforce frames/FPS/audio, detect residual source-frame islands, and render every-frame boundary strips |
+| `$PY audio_gap_review.py` | build contextual WAV clips for manual KEEP / ATTENUATE / ROOM_TONE decisions; never edits the source |
+| `$PY replace_audio_with_room_tone.py` | replace a confirmed blip or stray syllable with equal-duration nearby room tone; video stream is copied and verified bit-identical |
+| `$PY make_standard_close_plan.py` | build the fixed r5 close move: 48-frame full-board hold, 150-frame push to 1.2x, then a same-size settle for the remaining narration |
 
 ## Hard-won gotchas
 
@@ -466,8 +505,9 @@ pill at ~56% pushing to ~67% (measured on transformer). Recipe:
    straight one is a vertical tick.
 2. Find the frozen close span (walk backward from the last frame while
    successive diffs < ~0.35) and replace exactly that span; audio untouched.
-3. Zoom endpoint scales with span length to keep transformer's push rate:
-   z_end = 1 + 0.2 × span_frames/210, capped at 1.2.
+3. Use the catalogue's fixed standard start and end framing. If the narration makes
+   the close span longer, add full-board hold time before the standard push; do not
+   increase the endpoint. Every video must finish with the close at the same size.
 4. Board leg pts must be INTEGER ticks (`fps=30` + `setpts=N/(30*TB)`) —
    fractional per-frame pts get one frame dropped at concat (bit us twice).
 

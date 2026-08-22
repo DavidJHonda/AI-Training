@@ -114,10 +114,26 @@ def main():
         image_path = output / f"state-{index}-{label}.png"
         cv2.imwrite(str(image_path), state)
 
-        elapsed_start = start - overall_start
-        elapsed_end = end - overall_start
-        camera_start = width_from + (width_to - width_from) * elapsed_start / total
-        camera_end = width_from + (width_to - width_from) * elapsed_end / total
+        has_from = "from" in item
+        has_to = "to" in item
+        if has_from != has_to:
+            raise SystemExit(
+                f"state {index} must provide both camera 'from' and 'to'"
+            )
+        if has_from:
+            camera_from = [float(value) for value in item["from"]]
+            camera_to = [float(value) for value in item["to"]]
+            if len(camera_from) != 3 or len(camera_to) != 3:
+                raise SystemExit(
+                    f"state {index} camera from/to must be [center_x, center_y, width]"
+                )
+        else:
+            elapsed_start = start - overall_start
+            elapsed_end = end - overall_start
+            camera_start = width_from + (width_to - width_from) * elapsed_start / total
+            camera_end = width_from + (width_to - width_from) * elapsed_end / total
+            camera_from = [center[0], center[1], camera_start]
+            camera_to = [center[0], center[1], camera_end]
         spec = {
             "image": str(image_path),
             "fps": 30,
@@ -128,8 +144,8 @@ def main():
                 {
                     "label": label,
                     "frames": end - start,
-                    "from": [center[0], center[1], camera_start],
-                    "to": [center[0], center[1], camera_end],
+                    "from": camera_from,
+                    "to": camera_to,
                 }
             ],
         }

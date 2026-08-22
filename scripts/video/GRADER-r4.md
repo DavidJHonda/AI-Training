@@ -195,10 +195,15 @@ when it restores the whole beat coherently.
 - GATE_BOARD_WALK: when narration walks two or more points on a kit board that
   is legible at whole-board scale, does the exact current lesson board remain
   fully visible for the complete walk, with the active card or row highlighted
-  in spoken order? A substitute graphic, redraw, crop, zoom, or pan between
-  points fails and needs a visual repair. Dense-board exception: a dive may
-  frame the whole active card only when the text is genuinely unreadable at
-  720p; never crop inside a card.
+  in spoken order? Dense boards may begin full-frame and then dive and pan
+  between complete active cards or sections; never crop inside a card.
+- GATE_NO_NOTEBOOK_HIGHLIGHT: PASS only when every teaching-board highlight uses
+  the course ring-and-chip treatment. Any Gemini Notebook native highlight on a
+  course board is an automatic visual-repair failure.
+- GATE_STANDARD_CLOSE: PASS only when the exact current app close is unmarked,
+  follows the catalogue-standard centered push, and ends at the fixed standard
+  size as the literal final frame. Extra narration may add hold time but never
+  extra zoom distance.
 
 ## Output format — exactly this, nothing before or after
 
@@ -220,6 +225,8 @@ GATE_STOCK: PASS|FAIL — <evidence>
 GATE_ENDING: PASS|FAIL — <evidence>
 GATE_SYNC: PASS|FAIL — <evidence>
 GATE_BOARD_WALK: PASS|FAIL|N/A — <evidence; N/A when no qualifying multi-point kit board is walked>
+GATE_NO_NOTEBOOK_HIGHLIGHT: PASS|FAIL|N/A — <evidence; N/A only when no teaching board appears>
+GATE_STANDARD_CLOSE: PASS|FAIL|N/A — <evidence; N/A only for an explicitly exempt quiz video>
 BIGGEST_LEVER: <the single highest-value fix, and whether it needs a RE-ROLL or a REPAIR>
 NOTES: <at most two lines, or "none">
 ```

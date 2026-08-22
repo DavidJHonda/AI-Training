@@ -237,6 +237,7 @@ def open_columns(
     heading_size=32,
     body_size=30,
     body_top_override=None,
+    body_top_overrides=None,
     numbered_top_offset=0,
     art_y=680,
     show_rule=True,
@@ -261,7 +262,9 @@ def open_columns(
         else:
             heading_top = 226 - header_gain
             body_top = 292 - header_gain
-        if body_top_override is not None:
+        if body_top_overrides is not None and body_top_overrides[index] is not None:
+            body_top = body_top_overrides[index]
+        elif body_top_override is not None:
             body_top = body_top_override
         centered_block(draw, cx, heading_top, heading, font("bold", heading_size), CARD_TITLE, col_width - 54, 4, 3)
         centered_block(draw, cx, body_top, body_text, font("medium", body_size), BODY, col_width - 64, 7, 5)
@@ -293,6 +296,39 @@ def open_two_by_two(title, cards, arts, accents=None, heading_size=32, body_size
         centered_block(draw, cx, y0 + 24, heading, font("bold", heading_size), CARD_TITLE, 520, 3, 2)
         centered_block(draw, cx, y0 + 76, body_text, font("medium", body_size), BODY, body_width, 6, 3)
         art(draw, cx, y0 + 250, accent, 0.75)
+    return image
+
+
+def open_dense_two_by_two(title, cards, arts, accents=None, heading_size=32, body_size=30):
+    """A text-forward 2×2 board with compact art tucked beside fuller copy."""
+    image, draw, header_height = board(title)
+    header_gain = 172 - header_height
+    accents = accents or [PURPLE, BLUE, ORANGE, RED]
+    cell_top = header_height + 32
+    cell_middle = 516 - header_gain / 2
+    draw.line((800, cell_top, 800, 828), fill=RULE, width=2)
+    draw.line((112, cell_middle, 1488, cell_middle), fill=RULE, width=2)
+    cells = [
+        (112, cell_top, 800, cell_middle),
+        (800, cell_top, 1488, cell_middle),
+        (112, cell_middle, 800, 828),
+        (800, cell_middle, 1488, 828),
+    ]
+    for index, ((heading, body_text), art, cell) in enumerate(zip(cards, arts, cells)):
+        x0, y0, x1, y1 = cell
+        accent = accents[index]
+        text_x = x0 + 34
+        draw.text((text_x, y0 + 28), heading, font=font("bold", heading_size), fill=CARD_TITLE, anchor="la")
+        lines = fit_lines(draw, body_text, font("medium", body_size), 470, 6)
+        for line_index, line in enumerate(lines):
+            draw.text(
+                (text_x, y0 + 82 + line_index * (body_size + 5)),
+                line,
+                font=font("medium", body_size),
+                fill=BODY,
+                anchor="la",
+            )
+        art(draw, x1 - 92, y0 + 216, accent, 0.52)
     return image
 
 
@@ -577,6 +613,108 @@ def art_agent_check(draw, cx, cy, accent, scale):
     art_stage(draw, cx, cy, accent)
     draw_magnifier(draw, cx - 12 * scale, cy - 12 * scale, accent, 1.18 * scale)
     draw_check(draw, cx - 12 * scale, cy - 12 * scale, accent, 1.05 * scale)
+
+
+def art_automate(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent, 320 * scale, 210 * scale)
+    for offset in (-56, 0, 56):
+        rounded(draw, (cx - 150 * scale, cy + (offset - 20) * scale, cx - 104 * scale, cy + (offset + 20) * scale), 7 * scale, WHITE, accent, max(2, round(3 * scale)))
+    arrow(draw, cx - 92 * scale, cy, cx - 46 * scale, cy, accent, max(3, round(5 * scale)))
+    draw_chip(draw, cx, cy, accent, 0.54 * scale)
+    arrow(draw, cx + 50 * scale, cy, cx + 88 * scale, cy, accent, max(3, round(5 * scale)))
+    draw_document(draw, cx + 132 * scale, cy, accent, 0.48 * scale, True)
+
+
+def art_augment(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent, 320 * scale, 210 * scale)
+    draw_person(draw, cx - 76 * scale, cy + 24 * scale, CARD_TITLE, 0.66 * scale)
+    draw_chip(draw, cx + 22 * scale, cy + 16 * scale, accent, 0.46 * scale)
+    for dx, dy in ((70, -74), (126, -12), (92, 70)):
+        arrow(draw, cx + 56 * scale, cy, cx + dx * scale, cy + dy * scale, accent, max(3, round(4 * scale)))
+        draw.ellipse((cx + (dx - 10) * scale, cy + (dy - 10) * scale, cx + (dx + 10) * scale, cy + (dy + 10) * scale), fill=accent)
+
+
+def art_more_kinds(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_person(draw, cx, cy + 36 * scale, CARD_TITLE, 0.64 * scale)
+    for dx, dy in ((-92, -60), (0, -92), (92, -60)):
+        arrow(draw, cx, cy - 14 * scale, cx + dx * scale, cy + dy * scale, accent, max(3, round(4 * scale)))
+        rounded(draw, (cx + (dx - 18) * scale, cy + (dy - 18) * scale, cx + (dx + 18) * scale, cy + (dy + 18) * scale), 6 * scale, WHITE, accent, max(2, round(3 * scale)))
+
+
+def art_productive(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw.arc((cx - 92 * scale, cy - 62 * scale, cx + 92 * scale, cy + 122 * scale), 180, 360, fill=accent, width=max(3, round(8 * scale)))
+    for angle_x, angle_y in ((-66, 2), (-34, -42), (0, -58), (40, -38), (70, 8)):
+        draw.ellipse((cx + (angle_x - 6) * scale, cy + (angle_y - 6) * scale, cx + (angle_x + 6) * scale, cy + (angle_y + 6) * scale), fill=accent)
+    arrow(draw, cx, cy + 40 * scale, cx + 62 * scale, cy - 28 * scale, accent, max(3, round(7 * scale)))
+    draw_check(draw, cx - 72 * scale, cy + 66 * scale, accent, 0.72 * scale)
+
+
+def art_meaningful(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    for index in range(3):
+        draw_document(draw, cx - 104 * scale + index * 34 * scale, cy + 18 * scale, accent, 0.34 * scale, False)
+    arrow(draw, cx - 28 * scale, cy, cx + 18 * scale, cy, accent, max(3, round(5 * scale)))
+    draw_person(draw, cx + 80 * scale, cy + 26 * scale, CARD_TITLE, 0.58 * scale)
+    draw_magnifier(draw, cx + 122 * scale, cy - 50 * scale, accent, 0.45 * scale)
+
+
+def art_dc_electricity(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent, 230 * scale, 170 * scale)
+    draw_chip(draw, cx - 42 * scale, cy, accent, 0.52 * scale)
+    draw.polygon([
+        (cx + 48 * scale, cy - 78 * scale),
+        (cx + 12 * scale, cy - 8 * scale),
+        (cx + 50 * scale, cy - 8 * scale),
+        (cx + 20 * scale, cy + 82 * scale),
+        (cx + 96 * scale, cy - 22 * scale),
+        (cx + 56 * scale, cy - 22 * scale),
+    ], fill=accent)
+
+
+def art_dc_water(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent, 230 * scale, 170 * scale)
+    drop = [
+        (cx, cy - 92 * scale),
+        (cx - 58 * scale, cy - 14 * scale),
+        (cx - 52 * scale, cy + 48 * scale),
+        (cx, cy + 82 * scale),
+        (cx + 52 * scale, cy + 48 * scale),
+        (cx + 58 * scale, cy - 14 * scale),
+    ]
+    draw.polygon(drop, fill=WHITE, outline=accent)
+    draw.arc((cx - 40 * scale, cy - 4 * scale, cx + 40 * scale, cy + 66 * scale), 5, 175, fill=accent, width=max(3, round(6 * scale)))
+    for offset in (-44, 0, 44):
+        draw.arc((cx - 88 * scale + offset * 0.2, cy + 62 * scale, cx + 88 * scale + offset * 0.2, cy + 112 * scale), 10, 170, fill=accent, width=max(2, round(4 * scale)))
+
+
+def art_dc_noise(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent, 230 * scale, 170 * scale)
+    draw.ellipse((cx - 72 * scale, cy - 72 * scale, cx + 72 * scale, cy + 72 * scale), fill=WHITE, outline=accent, width=max(3, round(5 * scale)))
+    for angle in (0, 90, 180, 270):
+        if angle == 0:
+            box = (cx - 10 * scale, cy - 62 * scale, cx + 36 * scale, cy - 2 * scale)
+        elif angle == 90:
+            box = (cx + 2 * scale, cy - 10 * scale, cx + 62 * scale, cy + 36 * scale)
+        elif angle == 180:
+            box = (cx - 36 * scale, cy + 2 * scale, cx + 10 * scale, cy + 62 * scale)
+        else:
+            box = (cx - 62 * scale, cy - 36 * scale, cx - 2 * scale, cy + 10 * scale)
+        draw.ellipse(box, fill=accent)
+    draw.ellipse((cx - 12 * scale, cy - 12 * scale, cx + 12 * scale, cy + 12 * scale), fill=WHITE, outline=accent, width=max(2, round(4 * scale)))
+    for radius in (36, 62):
+        draw.arc((cx + 54 * scale, cy - radius * scale, cx + (54 + 2 * radius) * scale, cy + radius * scale), 100, 260, fill=accent, width=max(2, round(4 * scale)))
+
+
+def art_dc_jobs(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent, 230 * scale, 170 * scale)
+    for index in range(4):
+        x = cx - 106 * scale + index * 48 * scale
+        rounded(draw, (x - 18 * scale, cy - 78 * scale, x + 18 * scale, cy + 78 * scale), 6 * scale, WHITE, accent, max(2, round(3 * scale)))
+        for yoff in (-48, -18, 12, 42):
+            draw.rounded_rectangle((x - 10 * scale, cy + (yoff - 3) * scale, x + 10 * scale, cy + (yoff + 3) * scale), radius=2 * scale, fill=accent)
+    draw_person(draw, cx + 94 * scale, cy + 24 * scale, accent, 0.58 * scale)
 
 
 def art_antibiotic(draw, cx, cy, accent, scale):
@@ -875,6 +1013,64 @@ def render_agent_loop():
     ])
 
 
+def render_work_concepts():
+    image = open_columns(
+        "Two ways AI changes the work",
+        [
+            ("AUTOMATE", "AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary."),
+            ("AUGMENT", "AI helps a person do more. You explored more explanations, compared more options, and improved the recommendation."),
+        ],
+        [art_automate, art_augment],
+        accents=[PURPLE, TEAL],
+    )
+    save_all(image, [
+        "board-review-first-four/alternatives/embrace-the-future/work-changes-automate-augment-alternative.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/work-changes-3-concepts.jpg",
+        "illustrations/work-changes-automate-augment.jpg",
+        "lessons/work-changes-3-concepts.jpg",
+    ])
+
+
+def render_work_outcomes():
+    image = open_columns(
+        "What changes for you",
+        [
+            ("MORE KINDS OF WORK", "You cover more of the workflow, with fewer handoffs to other people."),
+            ("MORE PRODUCTIVE", "In one study, consultants finished tasks 25% faster with 40% better quality."),
+            ("MORE MEANINGFUL WORK", "AI absorbs busy work, leaving more time to investigate, decide, and recommend."),
+        ],
+        [art_more_kinds, art_productive, art_meaningful],
+        accents=[PURPLE, BLUE, TEAL],
+        body_top_overrides=[None, None, 276],
+    )
+    save_all(image, [
+        "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/work-changes-4-what-changes.jpg",
+        "illustrations/work-changes-what-changes.jpg",
+        "lessons/work-changes-3-what-changes.jpg",
+    ])
+
+
+def render_data_center_footprint():
+    image = open_dense_two_by_two(
+        "The footprint has four parts",
+        [
+            ("ELECTRICITY", "U.S. data centers used about 4.4% of electricity in 2023. Berkeley Lab projected 6.7–12% by 2028. In some places, added demand is already raising household bills."),
+            ("WATER", "Chips run hot. Some facilities evaporate water to cool them; a large data center can use about a million gallons on a hot day. Others recycle or reuse it."),
+            ("NOISE", "Cooling fans run 24 hours a day. In some towns, neighbors have sued over the hum and lost sleep."),
+            ("PERMANENT JOBS", "Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket."),
+        ],
+        [art_dc_electricity, art_dc_water, art_dc_noise, art_dc_jobs],
+        accents=[PURPLE, BLUE, TEAL, ORANGE],
+    )
+    save_all(image, [
+        "board-review-first-four/alternatives/embrace-the-future/data-centers-footprint-alternative.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/data-centers-3-footprint.jpg",
+        "illustrations/data-centers-footprint.jpg",
+        "lessons/data-centers-3-footprint.jpg",
+    ])
+
+
 def render_upside_discovery():
     image = open_columns(
         "AI searches possibilities humans cannot",
@@ -967,6 +1163,9 @@ def main():
     render_guardrails()
     render_voice_clone()
     render_agent_loop()
+    render_work_concepts()
+    render_work_outcomes()
+    render_data_center_footprint()
     render_upside_discovery()
     render_upside_help()
     render_pace_research()

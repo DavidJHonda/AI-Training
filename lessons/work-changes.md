@@ -55,17 +55,7 @@ The employee did not simply finish the old assignment faster. The assignment bec
 
 ## TWO WAYS THE WORK CHANGES
 
-## Automate
-
-### AI takes over a step
-
-AI sorts the comments, groups similar ideas, and creates the first summary with little human attention.
-
-## Augment
-
-### AI helps a person do more
-
-The employee explores more explanations, compares more options, and improves the recommendation faster.
+![Two ways AI changes the work. Automation means AI takes over a step. Augmentation means AI helps a person do more.](work-changes-3-concepts.jpg)
 
 Most jobs will contain both. Some steps disappear into the tool. Other steps become faster, broader, or more ambitious. Either way, the outcome still needs an owner.
 
@@ -73,9 +63,7 @@ Most jobs will contain both. Some steps disappear into the tool. Other steps bec
 
 Put automation and augmentation together, and three changes show up across many careers.
 
-1. **The first pass gets compressed.** Drafting, organizing, summarizing, and generating options take less time.
-2. **The job gets wider.** One person can cover more of the workflow, with fewer handoffs to other people.
-3. **The pace gets faster.** When another version is cheap, employers can ask for more versions, more testing, and faster improvement.
+![What changes for you. You can do more kinds of work, become more productive, and spend more time on meaningful work.](work-changes-3-what-changes.jpg)
 
 If research and a first draft once took two days, an employer probably will not turn the saved time into two days off. The worker may be asked to investigate more possibilities, handle an adjacent part of the project, or finish the whole assignment sooner.
 

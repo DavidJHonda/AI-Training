@@ -512,15 +512,13 @@ def render_agents():
 
 
 def render_work_changes():
-    image, draw = board_frame(
-        "Two ways AI changes the work",
-        "Your job title may stay. The work underneath it changes.",
-    )
-    two_cards(draw,
-        {"eyebrow": "AUTOMATE", "title": "AI takes over a step", "body": "Sorting, grouping, and the first summary can happen with little human attention.", "footer": "SOME STEPS DISAPPEAR", "accent": PURPLE},
-        {"eyebrow": "AUGMENT", "title": "AI helps a person do more", "body": "A person can explore more explanations, compare more options, and improve the recommendation faster.", "footer": "THE JOB GETS WIDER", "accent": TEAL, "fill": SOFT_GREEN},
-    )
-    save(image, "embrace-the-future", "work-changes-automate-augment-alternative.jpg")
+    # Keep the legacy batch from restoring the former card/footer treatment.
+    try:
+        from scripts.video.render_editorial_board_refresh import render_work_concepts, render_work_outcomes
+    except ModuleNotFoundError:
+        from render_editorial_board_refresh import render_work_concepts, render_work_outcomes
+    render_work_concepts()
+    render_work_outcomes()
 
 
 def render_hidden_cost():

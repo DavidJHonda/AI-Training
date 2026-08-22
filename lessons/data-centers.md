@@ -22,10 +22,7 @@ In 2023, data centers used about 4.4% of U.S. electricity. A Berkeley Lab report
 
 The footprint has four parts worth seeing clearly:
 
-1. **Electricity.** Large facilities can draw as much power as major industrial plants.
-2. **Water.** Cooling designs vary; some evaporate substantial water while others recycle or reuse it.
-3. **Noise.** Cooling equipment can run all day and night.
-4. **Jobs.** Construction can employ many people, but a finished warehouse full of servers needs fewer permanent workers than its size suggests.
+![The footprint has four parts: electricity, water, noise, and permanent jobs. U.S. data centers used about 4.4% of electricity in 2023, with Berkeley Lab projecting 6.7% to 12% by 2028; added demand is raising some household bills. A large facility can use about a million gallons of water on a hot day, though some systems recycle or reuse it. Cooling fans run around the clock, and neighbors in some towns have sued over lost sleep. A finished facility may need only 100 to 200 permanent workers, about the staff of a big supermarket.](data-centers-3-footprint.jpg)
 
 ## SHRINKING THE BILL
 

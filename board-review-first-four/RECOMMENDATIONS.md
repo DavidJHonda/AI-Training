@@ -69,6 +69,8 @@ issue rather than a visual failure.
 | Big Downside | **Selected** | Convert the escalating guardrail challenge and the voice-clone scam. Keep the jailbreak case inline as a supporting real-world example. The voice-clone board uses a four-step sequence ending with the low-tech defense. |
 | Big Upside | **Selected** | Use one timeline from Hassabis’s early interests through the public AlphaFold release and Nobel Prize, then two three-example boards separating discovery from practical help. |
 | Rise of Agents | **Selected** | Convert the Goal → Plan → Act → Check loop into one process board with a return arrow. Keep Rogue Agents as one text-led box with PocketOS and Gemini in side-by-side case-study cards. |
+| Work Changes | **Selected** | Keep the four-strength recap in its compact box. Convert Automate vs. Augment into a two-column comparison board and What Changes for You into a three-outcome board. |
+| Data Centers | **Selected** | Convert the Electricity / Water / Noise / Permanent Jobs cards into one illustration-first 2×2 footprint board. Keep the efficiency response and balanced close in the lesson text. |
 
 ## Recommended approval order
 

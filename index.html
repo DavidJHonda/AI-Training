@@ -60,10 +60,6 @@
     --shadowSoft: 0 4px 12px rgba(14, 10, 31, 0.05);
     --shadowElevated: 0 8px 22px rgba(14, 10, 31, 0.05);
 
-    /* ILLUSTRATION band */
-    --illoBand: #f5e1d4;
-    --illoAccent: #b5532f;
-
     /* type */
     --sans: "Plus Jakarta Sans", system-ui, sans-serif;
     --serif: "Instrument Serif", Georgia, serif;
@@ -409,7 +405,6 @@
     .course-shell { padding: 8px 12px 64px !important; }
     #main-content { padding: 28px 20px !important; border-radius: 14px !important; }
     .lesson-title { font-size: 43px !important; line-height: 1.02 !important; }
-    .illustration-card { padding: 20px 16px !important; border-radius: 16px !important; }
     .close-board { padding-left: 0 !important; padding-right: 0 !important; }
     .illustration-lightbox-stage { padding: 8px; }
     .illustration-lightbox-toolbar-label { display: none; }
@@ -817,41 +812,6 @@ function ShowcaseBox(props) {
     )
   );
 }
-// Reusable "decode a term into its parts" box (e.g. What's an LLM?, ChatGPT decoded).
-// Renders a ShowcaseBox (lavender band + headline) holding a white card of colored
-// tiles. Props: headline (string) and items: [{ badge, label, color, bg, desc }],
-// where desc may be a string or a React node (e.g. with colored <strong> keywords).
-function DecodeCards(props) {
-  var E = React.createElement;
-  return E(ShowcaseBox, { headline: props.headline },
-    E("div", { style: { display: "flex", gap: 16, flexWrap: "wrap" } },
-      props.items.map(function(it, i) {
-        return E("div", { key: i, style: { flex: "1 1 220px", background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
-          E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } },
-            E("span", { style: { minWidth: 34, height: 34, padding: "0 9px", borderRadius: 9, background: it.color, color: "#fff", fontWeight: 800, fontSize: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, it.badge),
-            E("span", { style: { fontWeight: 800, fontSize: 19, color: it.color } }, it.label)),
-          E("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.55 } }, it.desc));
-      })));
-}
-function Illustration(props) {
-  return /*#__PURE__*/React.createElement("div", { style: { marginTop: props.marginTop != null ? props.marginTop : 0 } },
-    /*#__PURE__*/React.createElement("div", {
-      className: "illustration-card",
-      style: { background: "var(--illoBand)", borderRadius: 20, padding: "24px 28px", marginBottom: props.marginBottom != null ? props.marginBottom : 24 }
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--illoAccent)", marginBottom: 14 }
-      }, props.eyebrow || "\u25C6 ILLUSTRATION"),
-      props.headline ? /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 10 }
-      }, props.headline) : null,
-      props.intro ? /*#__PURE__*/React.createElement("p", {
-        style: { color: "var(--inkSoft)", fontSize: 15, lineHeight: 1.6, margin: "0 0 18px 0" }
-      }, props.intro) : null,
-      props.children
-    )
-  );
-}
 function OpenerCreed(props) {
   var E = React.createElement;
   return E("div", {
@@ -994,13 +954,22 @@ function IllustrationLightbox(props) {
           E("button", { ref: zoomRef, type: "button", className: "illustration-lightbox-button", onClick: toggleZoom, "aria-pressed": zoomed }, zoomed ? "Fit screen" : "Zoom in"),
           E("button", { ref: closeRef, type: "button", className: "illustration-lightbox-button", onClick: props.onClose, "aria-label": "Close expanded illustration" }, "Close ×"))),
       E("div", { className: "illustration-lightbox-stage" + (zoomed ? " is-zoomed" : "") },
-        E("img", {
-          src: props.image.src,
-          alt: props.image.alt || "",
-          className: "illustration-lightbox-image" + (zoomed ? " is-zoomed" : ""),
-          onClick: toggleZoom,
-          draggable: false
-        }))),
+        props.image.kind === "certificate-teaser"
+          ? E(CertificateTeaserScene, {
+              interactive: false,
+              onClick: toggleZoom,
+              style: {
+                width: zoomed ? "min(1600px, 200vw)" : "min(100%, calc((100vh - 96px) * 16 / 9))",
+                maxWidth: "none", flex: "0 0 auto", cursor: zoomed ? "zoom-out" : "zoom-in"
+              }
+            })
+          : E("img", {
+              src: props.image.src,
+              alt: props.image.alt || "",
+              className: "illustration-lightbox-image" + (zoomed ? " is-zoomed" : ""),
+              onClick: toggleZoom,
+              draggable: false
+            }))),
     document.body);
 }
 
@@ -2290,7 +2259,7 @@ const SECTION_GROUPS = [{
   sections: ["openerskills", "choosemodel", "aitips", "integrity", "peopleskills", "creativethinking", "skillsthatmatter", "becurious", "makeyourmove"]
 }, {
   label: "Finish Smarter",
-  sections: ["whatyoulearned"]
+  sections: ["openerfinish", "whatyoulearned"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -2347,6 +2316,7 @@ const SECTION_META = {
   whatpeoplesay: { kicker: "WHERE DOES IT LAND?", label: "Loudest Voices", title: "Loudest Voices", icon: "\uD83D\uDDE3\uFE0F" },
   paceofchange: { kicker: "FASTER EVERY YEAR", label: "Pace of Change", title: "Pace of Change", icon: "\uD83D\uDCC8" },
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
+  openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
 };
 const SECTIONS = SECTION_GROUPS
@@ -2360,7 +2330,8 @@ const OPENER_PDF_NAMES = {
   openerfoundations: "Opener-Understand",
   openerprotect: "Opener-Avoid",
   openerrealworld: "Opener-Embrace",
-  openerskills: "Opener-Build"
+  openerskills: "Opener-Build",
+  openerfinish: "Opener-Finish"
 };
 // Filename slug for a lesson's assets (PDF/video/illustration): from the displayed
 // title, lowercase-hyphen, & -> "and", apostrophes dropped. Keep in sync with the
@@ -2378,7 +2349,7 @@ function lessonSlug(id) {
 // Options are authored in a deliberate order (the plausible miss usually sits
 // next to the right answer), so the draw shuffles questions, never options.
 // Distribution matches section size: Start Smarter 7, Work With AI 8,
-// Understand AI 10, Avoid Traps 9, Embrace the Future 9, Finish Smarter 7.
+// Understand AI 10, Avoid Traps 9, Embrace the Future 9, Build Your Skills 8.
 // ---------------------------------------------------------------------------
 const FINAL_BANK = [
   // --- Start Smarter (7) ---
@@ -2895,7 +2866,7 @@ const FINAL_BANK = [
     explain: "The plan worked and the goal failed. Some hunters went further and opened rat farms, which is the same math as widening a highway and getting slower commutes."
   },
 
-  // --- Finish Smarter (8) ---
+  // --- Build Your Skills (8) ---
   {
     id: "fb44", section: "Build Your Skills", lessonId: "choosemodel",
     q: "The answer still feels shallow. Do you switch to a bigger model or turn up the thinking?",
@@ -3942,17 +3913,18 @@ const WHENNOT_SCENARIOS = [{
 
 
 
+const WELCOME_CHECKIN_QUESTIONS = [
+  "Do you know why AI writes a sentence one word at a time, like a person would?",
+  "Do you know how ChatGPT, Claude, and Gemini seem to know something about everything?",
+  "Do you know why every AI tells you it makes mistakes and to double-check its answer?",
+  "Do you know which skills keep you ahead of the tool instead of behind it?",
+  "Do you know why AI gives different answers to the same question?",
+  "Do you know why even the people who built AI can't explain how it got its answer?"
+];
 function WelcomeSection(props) {
   var E = React.createElement;
   const [answers, setAnswers] = useState({});
-  const QUESTIONS = [
-    "Do you know why AI writes a sentence one word at a time, like a person would?",
-    "Do you know how ChatGPT, Claude, and Gemini seem to know something about everything?",
-    "Do you know why every AI tells you it makes mistakes and to double-check its answer?",
-    "Do you know which skills keep you ahead of the tool instead of behind it?",
-    "Do you know why AI gives different answers to the same question?",
-    "Do you know why even the people who built AI can't explain how it got its answer?"
-  ];
+  const QUESTIONS = WELCOME_CHECKIN_QUESTIONS;
   const PATTERNS = [
     {
       eyebrow: "\u270E TRY IT",
@@ -10056,7 +10028,7 @@ function MakeYourMoveSection(props) {
         }))),
 
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: The Final" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfinish"); }, label: "Next: Finish Smarter" }));
 }
 function WhenAIActsSection(props) {
   var E = React.createElement;
@@ -11243,7 +11215,6 @@ function OpenerSkillsSection(props) {
         bridge: "Then, staying current as the tools keep changing, and picking the one thing you get genuinely good at."
       }
     ],
-    mistake: "Treating the end of the course as the end of the work. The hard machinery is behind you and the last page is in sight, so it\u2019s tempting to coast from here, pass the final, and call it done. But the tool you\u2019re using right now will be replaced, probably sooner than you\u2019d guess. What this section asks you to build won\u2019t be.",
     question: "Everyone will have the same tool. What do I bring that it doesn\u2019t?",
     nextLessonId: "choosemodel",
     nextLessonLabel: "Next: Tune the Model",
@@ -12262,6 +12233,46 @@ function CertificateDoc(props) {
       instructor("luke", "Luke O’Brien"),
       instructor("nate", "Nate O’Brien")));
 }
+function CertificateTeaserScene(props) {
+  var E = React.createElement;
+  var interactive = props.interactive !== false;
+  return E("div", {
+    className: interactive ? "zoomable-illustration" : undefined,
+    "data-lightbox-kind": interactive ? "certificate-teaser" : undefined,
+    "data-lightbox-src": interactive ? "illustrations/final-certificate-wall.jpg" : undefined,
+    tabIndex: interactive ? 0 : undefined,
+    role: interactive ? "button" : undefined,
+    "aria-haspopup": interactive ? "dialog" : undefined,
+    "aria-label": interactive ? "Open enlarged certificate display" : undefined,
+    title: interactive ? "Open larger view" : undefined,
+    onClick: props.onClick,
+    style: Object.assign({
+      position: "relative", width: "100%", aspectRatio: "16 / 9", overflow: "hidden",
+      borderRadius: 14, background: "#171824", boxShadow: "0 12px 34px rgba(14, 10, 31, 0.14)"
+    }, props.style || {})
+  },
+    E("img", {
+      src: "illustrations/final-certificate-wall.jpg",
+      alt: interactive ? "A framed course certificate displayed on a warm study wall beside a Dallas Stars hockey photograph and a family picture." : "",
+      "data-lightbox-background": "true",
+      style: { display: "block", width: "100%", height: "100%", objectFit: "cover" }
+    }),
+    E("div", {
+      style: {
+        position: "absolute", left: "31.65%", top: "13.85%", width: "100%",
+        transform: "scale(0.382)", transformOrigin: "top left", pointerEvents: "none"
+      }
+    }, E(CertificateDoc, { name: "YOUR NAME", score: FINAL_PASS_PCT, date: "Your completion date" }))
+  );
+}
+function CertificateTeaser() {
+  var E = React.createElement;
+  return E("div", { style: { width: "100%", maxWidth: 880, margin: "8px auto 30px" } },
+    E(CertificateTeaserScene, null),
+    E("div", {
+      style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: "var(--ink)", textAlign: "center", margin: "16px auto 0" }
+    }, "Score 80% or higher to put your name here."));
+}
 // The certificate flow. Step one confirms the name, because the gate only kept a
 // first name and a certificate deserves the whole thing. Step two is the certificate
 // plus the print route. Nothing here renders unless the stored best score cleared
@@ -12707,95 +12718,23 @@ function TheFinalQuiz() {
         "A new set of 20, a fresh 10 minutes. Best score: " + (record.bestScore != null ? record.bestScore + "%" : res.pct + "%") + "."))
   ]);
 }
-function WhatYouLearnedSection(props) {
-  const QUESTIONS_YOU_CAN_ANSWER = [
-    "Why does AI sometimes make up facts that sound completely real?",
-    "Why does AI produce text one token at a time?",
-    "Why can the same question get a different answer every time?",
-    "Why does context change what AI gives back?",
-    "Why does the way you ask a question change the quality of the answer?",
-    "Why does AI agree with you even when you\u2019re wrong?",
-    "Why can every fact in an answer check out and the picture still be off?",
-    "Why can a file you uploaded yourself still get you an incomplete answer?",
-    "Why does a chat that always has one more step need you to stop it?",
-    "Why isn\u2019t a video that looks completely real proof that it happened?",
-    "What can an agent do that a chatbot can\u2019t?",
-    "What does one answer cost, outside your screen?",
-    "How do you check an AI answer before trusting it?",
-    "What decisions still belong to you?"
-  ];
-  // The break beat below and TheFinalQuiz itself both describe/render the interactive
-  // final exam. The quiz box already self-hides in print via its .interactive-box--try
-  // class (see the @media print rules), so this guard drops the same-topic lead-in text
-  // in print mode too, since otherwise it dangles, promising a quiz the export never shows.
-  var isPrintMode = false;
-  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }), /*#__PURE__*/React.createElement(Illustration, { eyebrow: "WHERE DOES THIS LEAVE YOU?" }, /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontSize: "clamp(28px, 5.5vw, 40px)", lineHeight: 1.18, letterSpacing: "-0.02em", color: "var(--ink)" } }, /*#__PURE__*/React.createElement("div", null, "You see how it works."), /*#__PURE__*/React.createElement("div", null, "You catch what’s wrong."), /*#__PURE__*/React.createElement("div", null, "You make the call."), /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 8, fontStyle: "italic", color: "#8a5a44" } }, /*#__PURE__*/React.createElement("span", { style: { flexShrink: 0, width: 32, height: 3, borderRadius: 2, background: "var(--illoAccent)" } }), /*#__PURE__*/React.createElement("span", null, "now you’re smarter than the tool.")))), /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to four ideas. Lock these in and you’ve got the mental model that runs every AI conversation." + (isPrintMode ? " Read this page as your study sheet." : " Read this page as your study sheet, because there’s one last thing waiting at the bottom.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 12,
-      marginBottom: 24
-    }
-  }, [{
-    group: "Patterns",
-    icon: "\uD83E\uDDE9",
-    color: "var(--primary)",
-    bg: "#6e51ff10",
-    border: "#6e51ff33",
-    body: "You get why AI works at all. It read billions of pages and now spots patterns the way you spot your friend\u2019s handwriting. Better prompts = better patterns to match. The catch rides along: whatever showed up most in that reading comes back as the default answer, and a file you upload gets searched by meaning, not read cover to cover."
-  }, {
-    group: "Probability & Prediction",
-    icon: "\uD83C\uDFB2",
-    color: "#f59e0b",
-    bg: "#f59e0b10",
-    border: "#f59e0b33",
-    body: "Every answer is built one piece at a time from probabilities. That\u2019s why the same prompt twice can give two different answers, why fluent output can still be wrong, and why confident sounding isn\u2019t the same as right. Probable isn\u2019t true, and the same machinery that writes a smooth paragraph also makes a video of someone who never said it."
-  }, {
-    group: "Human Judgment",
-    icon: "\uD83E\uDDED",
-    color: "#8b5cf6",
-    bg: "#8b5cf610",
-    border: "#8b5cf633",
-    body: "You set the goal, give the context, check the claims, protect what\u2019s private, and make the final call. The app is built to sound like a person, to agree with you, and to always have one more step, so knowing when to stop is part of it too. AI can help with the work. It can\u2019t own any of that for you, and when something is really wrong, it can\u2019t tell anybody, so never let it be the only one who knows."
-  }, {
-    group: "The World It\u2019s Building",
-    icon: "\ud83c\udf0d",
-    color: "#0d9488",
-    bg: "#0d948810",
-    border: "#0d948833",
-    body: "One thing about the future is certain: AI is here to stay. Everything after that is a guess, including from the people building it. What you can already see: agents that don\u2019t just answer but go do the work with your name on the result, jobs where the tasks change faster than the titles, and answers that cost real electricity and water somewhere you\u2019ll never see. Machines improve fast, people change their habits at human speed, and a rollout this big always produces something nobody planned."
-  }].map((group, gi) => /*#__PURE__*/React.createElement("div", {
-    key: gi,
-    style: {
-      background: group.bg,
-      border: "1px solid " + group.border,
-      borderRadius: 14,
-      padding: "20px 24px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }
-  }, /*#__PURE__*/React.createElement("span", { style: { fontSize: 24 } }, group.icon), /*#__PURE__*/React.createElement("span", {
-    style: { fontWeight: 700, fontSize: 17, color: group.color }
-  }, group.group)), /*#__PURE__*/React.createElement("p", {
-    style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0 }
-  }, group.body)))),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "READ THE NAME ON THE BOX"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "And here's the proof of how far you've come: you can read the most famous name in AI like a spec sheet. Every letter is something you learned in this course."),
-  /*#__PURE__*/React.createElement(DecodeCards, {
-    headline: "ChatGPT, decoded",
-    items: [
-      { badge: "Chat", label: "Chat", color: "#3b82f6", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "A ", /*#__PURE__*/React.createElement("strong", { style: { color: "#3b82f6" } }, "conversational interface"), ". You type, it responds.") },
-      { badge: "G", label: "Generative", color: "#10b981", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "It ", /*#__PURE__*/React.createElement("strong", { style: { color: "#10b981" } }, "creates new content"), " from scratch: text, images, audio, video, and documents.") },
-      { badge: "P", label: "Pre-trained", color: "#f59e0b", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "It learned from ", /*#__PURE__*/React.createElement("strong", { style: { color: "#f59e0b" } }, "billions of pages"), " of text, images, audio, video, and code before you ever used it.") },
-      { badge: "T", label: "Transformer", color: "#8b5cf6", desc: /*#__PURE__*/React.createElement(React.Fragment, null, "The architecture that lets it ", /*#__PURE__*/React.createElement("strong", { style: { color: "#8b5cf6" } }, "process all your words at once"), ", not one at a time.") }
-    ]
-  }),
+function FinishSmarterOpenerSection(props) {
+  const QUESTIONS_YOU_CAN_ANSWER = WELCOME_CHECKIN_QUESTIONS;
+  var finishCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "THE COURSE IN FOUR IDEAS",
+    lines: [
+      "AI predicts. It doesn’t think.",
+      "What you bring shapes what comes back.",
+      "Fluent isn’t the same as true.",
+      "You make the call."
+    ],
+    closing: "now you’re smarter than the tool."
+  });
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "openerfinish" }), finishCreed, /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to those four ideas. Lock them in and you’ve got the mental model that runs every AI conversation. The Final is waiting in the next lesson."),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
     kicker: "QUESTIONS YOU CAN ANSWER NOW",
-    headline: "Here\u2019s the whole course in question form.",
-    intro: "Most people who use AI every day can\u2019t answer these. You can.",
+    headline: "The same six questions. Different answers.",
+    intro: "You saw these questions at the beginning of the course. Now that you’re smarter than the tool, you can answer every one.",
     marginBottom: 24
   },
     /*#__PURE__*/React.createElement("div", {
@@ -12832,17 +12771,20 @@ function WhatYouLearnedSection(props) {
       "."
     )
   ),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WHAT YOU BRING"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "THE COMMON MISTAKE"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Build Your Skills opened with a question: everyone will have the same tool, so what do you bring that it doesn’t? You have the answer now, and it was never a secret prompt."),
+      "Treating the end of the course as the end of the work. The hard machinery is behind you and the last page is in sight, so it’s tempting to coast from here, pass the final, and call it done. But the tool you’re using right now will be replaced, probably sooner than you’d guess. What this course asked you to build won’t be."),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: The Final" }));
+}
+function WhatYouLearnedSection(props) {
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }),
+    /*#__PURE__*/React.createElement(CertificateTeaser, null),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "NOW PROVE IT"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You bring the angle. AI hands the same average version to everybody who asks, so the value moved to the person who asks the better question and finds the option nobody listed. You bring the room. It can draft the message, but it can’t be the person people trust when the message lands. You bring the judgment that picks which of ten fine options fits these people, a call it can’t make because it can’t see them. And you bring depth in one thing you cared enough to get good at, with the proof that you did."),
+      "That’s the course. Every idea you need is in the Opener, and it isn’t going anywhere."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Everyone gets the same tool. Not everyone brings the same person to it. That part is yours to build, and you already started."),
-    !isPrintMode && /*#__PURE__*/React.createElement(SectionKicker, null, "NOW PROVE IT"),
-    !isPrintMode && /*#__PURE__*/React.createElement(BodyP, null,
-      "That’s the course. Every idea you need is sitting above this line, and it isn’t going anywhere."),
-    !isPrintMode && /*#__PURE__*/React.createElement(BodyP, null,
       "So here’s the last move: twenty questions pulled from every section of the course, ten minutes on the clock, and no feedback until you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again."),
     /*#__PURE__*/React.createElement(TheFinalQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -13694,27 +13636,22 @@ function WorkChangesSection(props) {
     E(SectionKicker, null, "THE CONCEPTS"),
     E(BodyP, null,
       "There are two terms you’ll hear that describe how AI is changing the nature of work."),
-    E(ShowcaseBox, { marginBottom: 24 },
-      E(LabeledCardStack, { grid: true, columns: 2, flat: true, dense: true, meansLabel: "How it impacted your assignment", items: [
-        { headline: "Automate", body: "AI takes over a step.", means: "AI sorted the reviews, grouped similar ideas, and created the first summary with little human attention." },
-        { headline: "Augment", body: "AI helps a person do more.", means: "You explored more explanations, compared more options, and improved the recommendation faster." }
-      ] })),
+    E("img", {
+      src: "illustrations/work-changes-automate-augment.jpg",
+      alt: "Two ways AI changes the work. Automation means AI takes over a step. Augmentation means AI helps a person do more.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
     E(BodyP, null,
       "Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome."),
 
-    E(ShowcaseBox, {
-      kicker: "WHAT CHANGES FOR YOU",
-      intro: "Put automation and augmentation together, and three changes show up across almost every career.",
-      marginBottom: 28
-    },
-      E(NumberedColumns, {
-        items: [
-          { label: "You can do more kinds of work", body: "You cover more of the workflow, with fewer handoffs to other people. A marketer who has never coded can now build the campaign’s landing page." },
-          { label: "You can be more productive", body: "In a Harvard study, consultants using AI finished tasks 25% faster with 40% better quality. The least experienced gained the most." },
-          { label: "You can do more meaningful work", body: "AI absorbs the busy work, so more of your week goes to the real questions: investigating, deciding, and recommending." }
-        ]
-      })
-    ),
+    E(SectionKicker, null, "WHAT CHANGES FOR YOU"),
+    E(BodyP, null,
+      "Put automation and augmentation together, and three changes show up across almost every career."),
+    E("img", {
+      src: "illustrations/work-changes-what-changes.jpg",
+      alt: "What changes for you. You can do more kinds of work, become more productive, and spend more time on meaningful work.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
+    }),
     E(SectionKicker, null, "THE PART THAT MATTERS"),
     E(BodyP, null,
       "This is changing entry-level jobs. Much of the work that AI does used to belong to new college graduates just starting out. It was the way they learned the profession: basic research, starter code, and simple analysis."),
@@ -13824,23 +13761,13 @@ function TheHiddenCostSection(props) {
     E(BodyP, null, "The scale is hard to overstate. A big AI data center covers the ground of several football fields and uses as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, so it’s one of the largest construction projects happening anywhere in the world. When you hit send in ChatGPT, a data center answers."),
     E(BodyP, null,
       E("strong", null, "Somebody pays for all that arithmetic.")),
-    E(ShowcaseBox, { marginBottom: 28 },
-      E("div", { className: "numcols-2" },
-        [
-          { icon: "⚡", title: "The electric bill", desc: "Data centers now use about 6 percent of all U.S. electricity, and government and industry forecasts say 12 percent by 2030. Some household power bills are already climbing." },
-          { icon: "💧", title: "The water bill", desc: "The computer chips run hot, and cooling them uses up water, much of it gone as steam. A large data center can run through a million gallons on a hot day." },
-          { icon: "🔊", title: "The noise", desc: "The cooling fans hum 24 hours a day, loud enough that neighbors in some towns have sued over lost sleep. A data center never turns off." },
-          { icon: "👷", title: "Fewer jobs than you’d think", desc: "For all that size, a data center covering several football fields runs with only 100 to 200 permanent workers, about the staff of a big supermarket." }
-        ].map(function(item, i) {
-          return E("div", {
-            key: i,
-            style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" }
-          },
-            E("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              E("span", { style: { fontSize: 18 } }, item.icon),
-              E("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, item.title)),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc));
-        }))),
+    E("img", {
+      src: "illustrations/data-centers-footprint.jpg",
+      alt: "The footprint has four parts: electricity, water, noise, and permanent jobs. U.S. data centers used about 4.4% of electricity in 2023, with Berkeley Lab projecting 6.7% to 12% by 2028; added demand is raising some household bills. A large facility can use about a million gallons of water on a hot day, though some systems recycle or reuse it. Cooling fans run around the clock, and neighbors in some towns have sued over lost sleep. A finished facility may need only 100 to 200 permanent workers, about the staff of a big supermarket.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 16px", borderRadius: 12 }
+    }),
+    E(BodyP, null,
+      "The electricity figures cover all data centers, not AI alone."),
     E(SectionKicker, null, "SHRINKING THE BILL"),
     E(BodyP, null, "The AI companies know all of this, and the race to shrink the bill is real. Microsoft is paying to restart the Three Mile Island nuclear plant just to power its data centers, and other companies are betting on new kinds of small reactors. Newer cooling designs recycle water in a closed loop instead of evaporating it. And custom computer chips are being built to squeeze more math out of every watt."),
     E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
@@ -14025,6 +13952,7 @@ const SECTION_COMPONENTS = {
   unexpected: UnexpectedResultsSection,
   faketrap: SyntheticMediaSection,
   openerskills: OpenerSkillsSection,
+  openerfinish: FinishSmarterOpenerSection,
   whatyoulearned: WhatYouLearnedSection,
   questionsvaluable: QuestionsValuableSection,
   creativethinking: CreativeThinkingSection,
@@ -14313,6 +14241,8 @@ function LLMExplorer() {
     }, 0);
   };
   const illustrationFromEvent = function(event) {
+    var composite = event.target && event.target.closest ? event.target.closest("[data-lightbox-kind]") : null;
+    if (composite) return composite;
     var node = event.target && event.target.closest ? event.target.closest("img") : null;
     if (!node) return null;
     var rawSrc = node.getAttribute("src") || "";
@@ -14325,7 +14255,11 @@ function LLMExplorer() {
     var image = illustrationFromEvent(event);
     if (!image) return;
     illustrationTriggerRef.current = image;
-    setExpandedIllustration({ src: image.currentSrc || image.src, alt: image.getAttribute("alt") || "" });
+    setExpandedIllustration({
+      src: image.getAttribute("data-lightbox-src") || image.currentSrc || image.src,
+      alt: image.getAttribute("alt") || image.getAttribute("aria-label") || "",
+      kind: image.getAttribute("data-lightbox-kind") || "image"
+    });
   };
   const openIllustrationFromKeyboard = function(event) {
     if (event.key !== "Enter" && event.key !== " ") return;
@@ -14380,6 +14314,7 @@ function LLMExplorer() {
       var main = document.getElementById("main-content");
       if (!main) return;
       Array.prototype.forEach.call(main.querySelectorAll('img[src^="illustrations/"], img[src*="/illustrations/"], img[src^="lessons/"], img[src*="/lessons/"]'), function(img) {
+        if (img.hasAttribute("data-lightbox-background")) return;
         img.classList.add("zoomable-illustration");
         img.setAttribute("tabindex", "0");
         img.setAttribute("role", "button");
@@ -14802,12 +14737,7 @@ function LLMExplorer() {
       }
     },
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
-  }, "\u21BA Reset Progress"),
-  activeSection ? /*#__PURE__*/React.createElement("a", {
-    href: "lessons/" + lessonSlug(activeSection) + ".pdf",
-    download: (OPENER_PDF_NAMES[activeSection] || (SECTION_META[activeSection] && SECTION_META[activeSection].label) || activeSection) + ".pdf",
-    style: { textDecoration: "none", cursor: "pointer", fontSize: 12.5, color: "var(--primary)", fontWeight: 700, display: "block", textAlign: "center", margin: "10px auto 0" }
-  }, "\u2b07 Download this lesson (PDF)") : null),
+  }, "\u21BA Reset Progress")),
   /*#__PURE__*/React.createElement(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));
 }
 

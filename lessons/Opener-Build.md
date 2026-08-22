@@ -42,10 +42,6 @@ Then, what stays valuable when everyone has the same tool: the person in the roo
 
 Then, staying current as the tools keep changing, and picking the one thing you get genuinely good at.
 
-## The common mistake
-
-Treating the end of the course as the end of the work. The hard machinery is behind you and the last page is in sight, so it’s tempting to coast from here, pass the final, and call it done. But the tool you’re using right now will be replaced, probably sooner than you’d guess. What this section asks you to build won’t be.
-
 ## Keep this question in mind
 
 Everyone will have the same tool. What do I bring that it doesn’t?

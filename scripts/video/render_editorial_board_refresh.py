@@ -202,7 +202,45 @@ def draw_calendar(draw, cx, cy, accent, scale=1.0):
     draw_check(draw, cx, cy + 18 * scale, TEAL, scale)
 
 
-def open_columns(title, cards, arts, numbered=False, accents=None, heading_size=32, body_size=30):
+def draw_phone(draw, cx, cy, accent, scale=1.0):
+    box = (cx - 52 * scale, cy - 88 * scale, cx + 52 * scale, cy + 88 * scale)
+    rounded(draw, box, 18 * scale, WHITE, accent, max(2, round(5 * scale)))
+    draw.rounded_rectangle(
+        (cx - 34 * scale, cy - 58 * scale, cx + 34 * scale, cy + 48 * scale),
+        radius=8 * scale,
+        fill=tint(accent, 0.88),
+    )
+    draw.rounded_rectangle(
+        (cx - 15 * scale, cy + 62 * scale, cx + 15 * scale, cy + 70 * scale),
+        radius=4 * scale,
+        fill=accent,
+    )
+
+
+def draw_sound_wave(draw, cx, cy, accent, scale=1.0):
+    heights = (30, 58, 86, 54, 74, 38)
+    for index, height in enumerate(heights):
+        x = cx + (index - 2.5) * 24 * scale
+        draw.rounded_rectangle(
+            (x - 5 * scale, cy - height * scale / 2, x + 5 * scale, cy + height * scale / 2),
+            radius=5 * scale,
+            fill=accent,
+        )
+
+
+def open_columns(
+    title,
+    cards,
+    arts,
+    numbered=False,
+    accents=None,
+    heading_size=32,
+    body_size=30,
+    body_top_override=None,
+    numbered_top_offset=0,
+    art_y=680,
+    show_rule=True,
+):
     image, draw, header_height = board(title)
     header_gain = 172 - header_height
     count = len(cards)
@@ -217,17 +255,20 @@ def open_columns(title, cards, arts, numbered=False, accents=None, heading_size=
         if index:
             draw.line((x0, header_height + 38, x0, 824), fill=RULE, width=2)
         if numbered:
-            marker(draw, cx, 235 - header_gain, index + 1, accent)
-            heading_top = 286 - header_gain
-            body_top = 344 - header_gain
+            marker(draw, cx, 235 - header_gain + numbered_top_offset, index + 1, accent)
+            heading_top = 286 - header_gain + numbered_top_offset
+            body_top = 344 - header_gain + numbered_top_offset
         else:
             heading_top = 226 - header_gain
             body_top = 292 - header_gain
+        if body_top_override is not None:
+            body_top = body_top_override
         centered_block(draw, cx, heading_top, heading, font("bold", heading_size), CARD_TITLE, col_width - 54, 4, 3)
         centered_block(draw, cx, body_top, body_text, font("medium", body_size), BODY, col_width - 64, 7, 5)
-        rule_y = 510 - header_gain / 2
-        draw.line((x0 + 40, rule_y, x1 - 40, rule_y), fill=RULE, width=2)
-        art(draw, cx, 680, accent, 1.08 if count <= 3 else 0.88)
+        if show_rule:
+            rule_y = 510 - header_gain / 2
+            draw.line((x0 + 40, rule_y, x1 - 40, rule_y), fill=RULE, width=2)
+        art(draw, cx, art_y, accent, 1.08 if count <= 3 else 0.88)
     return image
 
 
@@ -461,6 +502,81 @@ def art_super(draw, cx, cy, accent, scale):
     draw_person(draw, cx - 86, cy + 28, CARD_TITLE, 0.55)
     draw_chip(draw, cx + 46, cy - 8, accent, 0.92)
     arrow(draw, cx + 98, cy + 72, cx + 98, cy - 90, accent, 6)
+
+
+def art_voice_post(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_phone(draw, cx - 54 * scale, cy, accent, 0.78 * scale)
+    draw_sound_wave(draw, cx + 66 * scale, cy - 12 * scale, accent, 0.58 * scale)
+    draw.polygon([
+        (cx + 45 * scale, cy + 52 * scale),
+        (cx + 45 * scale, cy + 92 * scale),
+        (cx + 82 * scale, cy + 72 * scale),
+    ], fill=accent)
+
+
+def art_voice_clone(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_sound_wave(draw, cx - 74 * scale, cy, accent, 0.62 * scale)
+    arrow(draw, cx - 12 * scale, cy, cx + 28 * scale, cy, accent, 4)
+    draw_chip(draw, cx + 90 * scale, cy, accent, 0.58 * scale)
+
+
+def art_emergency_call(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_phone(draw, cx - 58 * scale, cy + 4 * scale, accent, 0.72 * scale)
+    draw.polygon([
+        (cx + 12 * scale, cy - 76 * scale),
+        (cx + 114 * scale, cy - 76 * scale),
+        (cx + 96 * scale, cy + 50 * scale),
+        (cx + 30 * scale, cy + 50 * scale),
+    ], fill=tint(accent, 0.76), outline=accent)
+    draw.text((cx + 63 * scale, cy - 12 * scale), "!", font=font("heavy", round(72 * scale)), fill=accent, anchor="mm")
+    draw.text((cx + 63 * scale, cy + 76 * scale), "$ NOW", font=font("heavy", round(24 * scale)), fill=accent, anchor="mm")
+
+
+def art_call_back(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_phone(draw, cx - 70 * scale, cy + 4 * scale, MUTED, 0.60 * scale)
+    draw.line((cx - 116 * scale, cy - 70 * scale, cx - 24 * scale, cy + 78 * scale), fill=RED, width=max(3, round(7 * scale)))
+    draw.line((cx - 24 * scale, cy - 70 * scale, cx - 116 * scale, cy + 78 * scale), fill=RED, width=max(3, round(7 * scale)))
+    arrow(draw, cx - 8 * scale, cy, cx + 36 * scale, cy, accent, 4)
+    draw_phone(draw, cx + 86 * scale, cy + 4 * scale, accent, 0.66 * scale)
+    draw_check(draw, cx + 86 * scale, cy + 4 * scale, accent, 0.75 * scale)
+
+
+def art_agent_goal(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    for radius in (24, 50, 78):
+        draw.ellipse(
+            (cx - radius * scale, cy - radius * scale, cx + radius * scale, cy + radius * scale),
+            outline=accent,
+            width=max(2, round(5 * scale)),
+        )
+    arrow(draw, cx + 104 * scale, cy - 92 * scale, cx + 8 * scale, cy - 8 * scale, accent, max(3, round(6 * scale)))
+
+
+def art_agent_plan(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    rounded(draw, (cx - 78 * scale, cy - 88 * scale, cx + 78 * scale, cy + 88 * scale), 14 * scale, WHITE, accent, max(2, round(4 * scale)))
+    rounded(draw, (cx - 28 * scale, cy - 105 * scale, cx + 28 * scale, cy - 77 * scale), 8 * scale, accent)
+    for index, width in enumerate((82, 104, 70)):
+        y = cy - 46 * scale + index * 48 * scale
+        draw_check(draw, cx - 48 * scale, y, accent, 0.34 * scale)
+        draw.rounded_rectangle((cx - 16 * scale, y - 5 * scale, cx + width * scale, y + 5 * scale), radius=4 * scale, fill=tint(accent, 0.35))
+
+
+def art_agent_act(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_chip(draw, cx - 70 * scale, cy, accent, 0.58 * scale)
+    arrow(draw, cx - 10 * scale, cy, cx + 34 * scale, cy, accent, max(3, round(5 * scale)))
+    draw_document(draw, cx + 92 * scale, cy, accent, 0.54 * scale, True)
+
+
+def art_agent_check(draw, cx, cy, accent, scale):
+    art_stage(draw, cx, cy, accent)
+    draw_magnifier(draw, cx - 12 * scale, cy - 12 * scale, accent, 1.18 * scale)
+    draw_check(draw, cx - 12 * scale, cy - 12 * scale, accent, 1.05 * scale)
 
 
 def art_antibiotic(draw, cx, cy, accent, scale):
@@ -704,6 +820,61 @@ def render_guardrails():
     ])
 
 
+def render_voice_clone():
+    image = open_columns(
+        "How the voice-clone scam works",
+        [
+            ("VOICE CLIP ONLINE", "Scammers pull a short voice clip from a video posted online."),
+            ("VOICE GETS CLONED", "AI generates new speech that sounds like someone you know."),
+            ("FAKE EMERGENCY CALL", "The scammer creates panic and demands that you send money now."),
+            ("BREAK THE SCAM", "Hang up. Call the person back on the real number you already have."),
+        ],
+        [art_voice_post, art_voice_clone, art_emergency_call, art_call_back],
+        numbered=True,
+        accents=[PURPLE, BLUE, RED, TEAL],
+        body_top_override=326,
+    )
+    save_all(image, [
+        "board-review-first-four/alternatives/embrace-the-future/big-downside-voice-clone-alternative.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/big-downside-3-voice-clone.jpg",
+        "illustrations/big-downside-voice-clone.jpg",
+        "lessons/big-downside-3-voice-clone.jpg",
+    ])
+
+
+def render_agent_loop():
+    image = open_columns(
+        "What an agent does",
+        [
+            ("GOAL", "You say what you want."),
+            ("PLAN", "Break the goal into steps."),
+            ("ACT", "Use a tool for the next step."),
+            ("CHECK", "Look at the result. Done, or not?"),
+        ],
+        [art_agent_goal, art_agent_plan, art_agent_act, art_agent_check],
+        numbered=True,
+        accents=[PURPLE, BLUE, TEAL, GREEN],
+        numbered_top_offset=20,
+        art_y=585,
+        show_rule=False,
+    )
+    draw = ImageDraw.Draw(image)
+    centers = (272, 624, 976, 1328)
+    for left, right in zip(centers, centers[1:]):
+        arrow(draw, left + 128, 585, right - 128, 585, MUTED, 4)
+    draw.line((1328, 685, 1328, 735), fill=PURPLE, width=4)
+    draw.line((1328, 735, 624, 735), fill=PURPLE, width=4)
+    arrow(draw, 624, 735, 624, 685, PURPLE, 4)
+    rounded(draw, (790, 712, 1162, 758), 23, WHITE)
+    draw.text((976, 735), "NOT DONE? GO AGAIN.", font=font("bold", 24), fill=PURPLE, anchor="mm")
+    save_all(image, [
+        "board-review-first-four/alternatives/embrace-the-future/rise-of-agents-loop-alternative.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/rise-of-agents-3-loop.jpg",
+        "illustrations/rise-of-agents-loop.jpg",
+        "lessons/rise-of-agents-3-loop.jpg",
+    ])
+
+
 def render_upside_discovery():
     image = open_columns(
         "AI searches possibilities humans cannot",
@@ -794,6 +965,8 @@ def main():
     render_training_bias()
     render_document_moves()
     render_guardrails()
+    render_voice_clone()
+    render_agent_loop()
     render_upside_discovery()
     render_upside_help()
     render_pace_research()

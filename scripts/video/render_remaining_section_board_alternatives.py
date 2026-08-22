@@ -94,11 +94,12 @@ def centered_block(draw, cx, top, text, face, fill, max_width, line_gap=4, max_l
 def draw_board_title(draw, title):
     title_face = font("heavy", 44)
     title_lines = fit_lines(draw, title, title_face, 1380, 2)
+    header_height = 132 if len(title_lines) == 1 else 160
     line_gap = 8
     bounds = [draw.textbbox((0, 0), line, font=title_face) for line in title_lines]
     heights = [box[3] - box[1] for box in bounds]
     block_height = sum(heights) + line_gap * (len(title_lines) - 1)
-    ink_top = (172 - block_height) / 2
+    ink_top = (header_height - block_height) / 2
     for line, box, line_height in zip(title_lines, bounds, heights):
         line_width = box[2] - box[0]
         draw.text(
@@ -108,14 +109,17 @@ def draw_board_title(draw, title):
             fill=NAVY,
         )
         ink_top += line_height + line_gap
+    return header_height
 
 
 def board_frame(title, takeaway):
     """Build the shared frame; board headers intentionally contain title only."""
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
-    draw_board_title(draw, title)
-    rounded(draw, (80, 172, 1520, 736), 16, WHITE)
+    header_height = draw_board_title(draw, title)
+    rounded(draw, (80, header_height, 1520, 736), 16, WHITE)
+    image.info["compact_body_shift"] = round((172 - header_height) / 2)
+    image.info["compact_body_crop_bottom"] = 716
     rounded(draw, (80, 776, 1520, 860), 16, GOLD)
     tf = font("demi", 32)
     tw = text_width(draw, takeaway, tf)
@@ -131,8 +135,10 @@ def board_frame_without_takeaway(title):
     """Use the former takeaway space for a taller illustrated body zone."""
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
-    draw_board_title(draw, title)
-    rounded(draw, (80, 172, 1520, 860), 16, WHITE)
+    header_height = draw_board_title(draw, title)
+    rounded(draw, (80, header_height, 1520, 860), 16, WHITE)
+    image.info["compact_body_shift"] = round((172 - header_height) / 2)
+    image.info["compact_body_crop_bottom"] = 844
     return image, draw
 
 
@@ -209,6 +215,16 @@ def two_cards(draw, left, right, *, top=202, bottom=706, gap=24):
 
 
 def save(image, section, filename):
+    shift = image.info.get("compact_body_shift", 0)
+    crop_bottom = image.info.get("compact_body_crop_bottom", 0)
+    if shift and crop_bottom:
+        # Older layouts were composed for a 172 px header. Shift only the inner
+        # content field by half the recovered height so it remains centered inside
+        # the taller white stage without disturbing its rounded outer corners.
+        content = image.crop((96, 172, 1504, crop_bottom))
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((96, 172 - shift, 1504, crop_bottom), fill=WHITE)
+        image.paste(content, (96, 172 - shift))
     out = ALT / section
     out.mkdir(parents=True, exist_ok=True)
     path = out / filename
@@ -486,32 +502,13 @@ def render_upside():
 
 
 def render_agents():
-    image, draw = board_frame(
-        "A chatbot answers. An agent acts.",
-        "The agent does the work. The result still carries your name.",
-    )
-    steps = [
-        ("1", "GOAL", "What should happen?", PURPLE),
-        ("2", "PLAN", "Choose the steps", BLUE),
-        ("3", "ACT", "Use tools", TEAL),
-        ("4", "CHECK", "Inspect the result", GREEN),
-    ]
-    xs = [250, 610, 970, 1330]
-    y = 380
-    for i, ((n, title, body, color), x) in enumerate(zip(steps, xs)):
-        rounded(draw, (x - 135, y - 130, x + 135, y + 150), 16, PALE, RULE, 1)
-        marker(draw, x, y - 72, n, color)
-        draw.text((x, y - 13), title, font=font("heavy", 28), fill=color, anchor="ma")
-        centered_block(draw, x, y + 34, body, font("bold", 30), CARD_TITLE, 220, 4, 2)
-        if i < 3:
-            arrow(draw, x + 150, y, xs[i + 1] - 150, y, MUTED, 4)
-    draw.line((1330, 548, 1330, 650), fill=PURPLE, width=4)
-    draw.line((1330, 650, 610, 650), fill=PURPLE, width=4)
-    draw.line((610, 650, 610, 553), fill=PURPLE, width=4)
-    draw.polygon([(610, 548), (601, 562), (619, 562)], fill=PURPLE)
-    rounded(draw, (790, 623, 1150, 677), 27, WHITE)
-    draw.text((970, 650), "Repeat until the goal is met", font=font("demi", 28), fill=PURPLE, anchor="mm")
-    save(image, "embrace-the-future", "rise-of-agents-loop-alternative.jpg")
+    # Keep this legacy batch renderer from overwriting the selected editorial
+    # board with its former card-and-footer treatment.
+    try:
+        from scripts.video.render_editorial_board_refresh import render_agent_loop
+    except ModuleNotFoundError:
+        from render_editorial_board_refresh import render_agent_loop
+    render_agent_loop()
 
 
 def render_work_changes():

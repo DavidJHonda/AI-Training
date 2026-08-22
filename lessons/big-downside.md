@@ -40,9 +40,9 @@ The good news: researchers found it before criminals, and the AI companies fixed
 
 Jailbreaking is the hard way in. Sometimes AI has all the tools a bad actor needs. The same AI that helped write this course can facilitate a convincing scam. Guardrails don’t catch these because the AI is just doing what AI does.
 
-📞 The voice-clone scam
+The FTC warns that voice cloning can make family-emergency scams more convincing.
 
-Scammers use AI to clone voices, sometimes from short clips posted online. Then they phone parents, fake an emergency, and demand that they “wire money now.” The FTC warns that voice cloning can make this kind of family-emergency scam more convincing. Your defense is low-tech: hang up and call the person back on their real number.
+![How a voice-clone scam works. A scammer finds a short voice clip online, uses AI to clone the voice, makes a fake emergency call demanding money, and is defeated when the recipient hangs up and calls the person back on their real number.](big-downside-3-voice-clone.jpg)
 
 And the ceiling rises with the pace from Pace of Change. As AI gets more powerful, so do the things a bad actor can do.
 

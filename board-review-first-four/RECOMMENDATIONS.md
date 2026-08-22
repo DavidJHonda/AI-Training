@@ -66,8 +66,9 @@ issue rather than a visual failure.
 |---|---|---|
 | Loudest Voices | Keep | “This Has Happened Before” depends on the source quotes and context. The existing illustration already supplies the visual callback without freezing four dense anecdotes into a board. |
 | Pace of Change | **Selected** | Keep the readable three-years comparison. Split the awkward four-idea grid into two boards: current AI-research paths, then the hypothetical AGI/ASI capability milestones. |
-| Big Downside | **Selected** | Convert only the escalating guardrail challenge. Keep the jailbreak case beside its fortress illustration and the voice-clone scam inline as a concrete example. |
+| Big Downside | **Selected** | Convert the escalating guardrail challenge and the voice-clone scam. Keep the jailbreak case inline as a supporting real-world example. The voice-clone board uses a four-step sequence ending with the low-tech defense. |
 | Big Upside | **Selected** | Use one timeline from Hassabis’s early interests through the public AlphaFold release and Nobel Prize, then two three-example boards separating discovery from practical help. |
+| Rise of Agents | **Selected** | Convert the Goal → Plan → Act → Check loop into one process board with a return arrow. Keep Rogue Agents as one text-led box with PocketOS and Gemini in side-by-side case-study cards. |
 
 ## Recommended approval order
 

@@ -14,11 +14,7 @@ That is the difference. A chatbot answers. An agent acts.
 
 An agent is not a new kind of AI. It uses an LLM like the one inside ChatGPT or Claude, then adds tools and a loop.
 
-1. **You give it a goal.**
-2. **It plans.** It breaks the goal into steps.
-3. **It acts.** It searches, opens files, runs code, edits, sends, books, or posts.
-4. **It checks.** It looks at what happened and decides whether the goal is finished.
-5. **If it is not finished, it goes again.**
+![What an agent does. You give it a goal. It plans, acts with a tool, checks the result, and repeats the plan-act-check loop until the goal is complete.](rise-of-agents-3-loop.jpg)
 
 That loop might run five times or forty times. The agent keeps working instead of answering once and stopping.
 
@@ -32,11 +28,17 @@ Give the job to an agent and it can inspect the clips, choose moments, edit the 
 
 The agent did the work. The post still carries your name.
 
-## MORE POWER, MORE RESPONSIBILITY
+## ROGUE AGENTS
 
 An agent pursues the goal you give it. More tools mean more ways to succeed, and more ways to cause damage when the goal, constraints, or permissions are wrong.
 
-In 2026, an AI coding agent working on a staging task at PocketOS found a powerful credential in another file and used it to delete the company’s production database and its nearby backups. The deletion took seconds. Recovery took much longer.
+**PocketOS · April 2026**
+
+Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds. Then it confessed: “I violated every principle I was given.”
+
+**Gemini · 2025**
+
+Google’s Gemini agent wiped out a user’s project files, then apologized: “I have failed you completely and catastrophically.”
 
 The lesson is not that every agent will behave this way. The lesson is that a system with access can make a real change before a person catches the mistake.
 

@@ -6,7 +6,7 @@ changes remain pending until the tracker marks them complete.
 
 ## What is here
 
-- `current-contact-sheets/` — 18 contact sheets covering 139 current JPG/PNG boards
+- `current-contact-sheets/` — 20 contact sheets covering 163 current JPG/PNG boards
   from the first four completed sections.
 - `current-selected/` — copies of the current boards selected for redesign.
 - `alternatives/` — 66 active review JPG entries representing 58 distinct board
@@ -49,6 +49,11 @@ Rebuild the 2026-08-21 illustration-first refresh of the recent Avoid Traps and
 Embrace the Future boards with
 `scripts/video/render_editorial_board_refresh.py`. Run this after older batch board
 renderers; it owns the canonical outputs listed in its `save_all` calls.
+
+After running any legacy board renderer, run
+`scripts/video/compact_single_line_board_headers.py --apply`. This idempotent final
+pass gives every detected one-line board title the 132 px compact header while
+leaving wrapped titles and sequence-marker headers unchanged.
 
 ## Review rule
 

@@ -2,6 +2,7 @@
 """Render review-only board alternatives for the remaining course lessons."""
 
 from pathlib import Path
+import sys
 from textwrap import wrap
 
 from PIL import Image, ImageDraw, ImageFont
@@ -90,14 +91,30 @@ def centered_block(draw, cx, top, text, face, fill, max_width, line_gap=4, max_l
     return len(lines) * (face.size + line_gap) - line_gap
 
 
-def board_frame(title, subtitle, takeaway):
-    image = Image.new("RGB", (W, H), LAVENDER)
-    draw = ImageDraw.Draw(image)
+def draw_board_title(draw, title):
     title_face = font("heavy", 44)
     title_lines = fit_lines(draw, title, title_face, 1380, 2)
-    title_top = 74 if len(title_lines) == 1 else 31
-    for i, line in enumerate(title_lines):
-        draw.text((800, title_top + i * 50), line, font=title_face, fill=NAVY, anchor="ma")
+    line_gap = 8
+    bounds = [draw.textbbox((0, 0), line, font=title_face) for line in title_lines]
+    heights = [box[3] - box[1] for box in bounds]
+    block_height = sum(heights) + line_gap * (len(title_lines) - 1)
+    ink_top = (172 - block_height) / 2
+    for line, box, line_height in zip(title_lines, bounds, heights):
+        line_width = box[2] - box[0]
+        draw.text(
+            (800 - line_width / 2 - box[0], ink_top - box[1]),
+            line,
+            font=title_face,
+            fill=NAVY,
+        )
+        ink_top += line_height + line_gap
+
+
+def board_frame(title, takeaway):
+    """Build the shared frame; board headers intentionally contain title only."""
+    image = Image.new("RGB", (W, H), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    draw_board_title(draw, title)
     rounded(draw, (80, 172, 1520, 736), 16, WHITE)
     rounded(draw, (80, 776, 1520, 860), 16, GOLD)
     tf = font("demi", 32)
@@ -107,6 +124,15 @@ def board_frame(title, subtitle, takeaway):
     rounded(draw, (x, 792, x + 52, 844), 26, PURPLE)
     draw.line([(x + 14, 818), (x + 23, 827), (x + 39, 807)], fill=WHITE, width=5, joint="curve")
     draw.text((x + 68, 818), takeaway, font=tf, fill=NAVY, anchor="lm")
+    return image, draw
+
+
+def board_frame_without_takeaway(title):
+    """Use the former takeaway space for a taller illustrated body zone."""
+    image = Image.new("RGB", (W, H), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    draw_board_title(draw, title)
+    rounded(draw, (80, 172, 1520, 860), 16, WHITE)
     return image, draw
 
 
@@ -193,7 +219,6 @@ def save(image, section, filename):
 def render_tokens():
     image, draw = board_frame(
         "Before AI can read, text becomes tokens",
-        "An ordinary program does the splitting.",
         "A token ID is an address, not a meaning.",
     )
     cards = [
@@ -208,7 +233,6 @@ def render_tokens():
 def render_transformer():
     image, draw = board_frame(
         "The surrounding words decide the meaning",
-        "Two language problems the Transformer has to solve.",
         "Attention uses context to resolve what each word means.",
     )
     two_cards(draw,
@@ -221,7 +245,6 @@ def render_transformer():
 def render_inference_path():
     image, draw = board_frame(
         "How a question becomes the next token",
-        "The complete inference path.",
         "Every answer is built one token at a time.",
     )
     steps = [
@@ -249,7 +272,6 @@ def render_inference_path():
 def render_transcript_memory():
     image, draw = board_frame(
         "The transcript is the memory",
-        "You remember the chat. The model rebuilds it.",
         "You carry the conversation. AI re-reads it every turn.",
     )
     two_cards(draw,
@@ -262,7 +284,6 @@ def render_transcript_memory():
 def render_mind_trap():
     image, draw = board_frame(
         "Human advice has something AI does not",
-        "Knowledge of you and a stake in the outcome.",
         "Human-sounding is not a mind.",
     )
     two_cards(draw,
@@ -275,7 +296,6 @@ def render_mind_trap():
 def render_flattery():
     image, draw = board_frame(
         "How the praise got baked in",
-        "The model learned which answers people reward.",
         "The model learned what people give a thumbs-up.",
     )
     cards = [
@@ -290,7 +310,6 @@ def render_flattery():
 def render_engagement():
     image, draw = board_frame(
         "The answer ends. The chat keeps going.",
-        "One decision point changes where your time goes.",
         "The chat is built to continue. You decide when it ends.",
     )
     rounded(draw, (112, 206, 1488, 702), 16, PALE, RULE, 1)
@@ -310,14 +329,76 @@ def render_engagement():
 
 
 def render_support():
-    image, draw = board_frame(
-        "Supportive words are not support",
-        "Some value is real. The relationship is not.",
-        "Use AI to get ready for people, not instead of people.",
+    image, draw = board_frame_without_takeaway(
+        "Use AI to get ready for people, not instead of people."
     )
-    two_cards(draw,
-        {"eyebrow": "WHAT CAN BE REAL", "title": "Relief and useful advice", "body": "A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation.", "footer": "USEFUL WORDS", "accent": TEAL, "fill": SOFT_GREEN},
-        {"eyebrow": "WHAT IS MISSING", "title": "A person who can act", "body": "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow.", "footer": "NO RELATIONSHIP", "accent": RED, "fill": SOFT_RED},
+
+    x0, top, bottom, gap = 108, 202, 830, 24
+    cw = (1384 - gap) / 2
+    cards = [
+        {
+            "eyebrow": "WHAT CAN BE REAL",
+            "title": "Relief and useful advice",
+            "body": "A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation.",
+            "accent": TEAL,
+            "fill": SOFT_GREEN,
+        },
+        {
+            "eyebrow": "WHAT IS MISSING",
+            "title": "A person who can act",
+            "body": "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow.",
+            "accent": RED,
+            "fill": SOFT_RED,
+        },
+    ]
+    for i, card in enumerate(cards):
+        x = x0 + i * (cw + gap)
+        rounded(draw, (x, top, x + cw, bottom), 16, card["fill"], RULE, 1)
+        label_pill(draw, x + cw / 2, top + 48, card["eyebrow"], card["accent"])
+        centered_block(draw, x + cw / 2, top + 91, card["title"], font("bold", 32), CARD_TITLE, cw - 70, 4, 2)
+        centered_block(draw, x + cw / 2, top + 140, card["body"], font("medium", 30), BODY, cw - 78, 8, 4)
+        draw.line((x + 54, top + 292, x + cw - 54, top + 292), fill=RULE, width=2)
+
+    # What can be real: fluent words can become a concrete conversation plan.
+    lx = x0
+    bubble = (lx + 66, top + 350, lx + 292, top + 478)
+    rounded(draw, bubble, 22, WHITE, TEAL, 4)
+    draw.polygon([
+        (bubble[0] + 34, bubble[3] - 2),
+        (bubble[0] + 56, bubble[3] + 24),
+        (bubble[0] + 82, bubble[3] - 2),
+    ], fill=WHITE, outline=TEAL)
+    for y, width in [(bubble[1] + 35, 132), (bubble[1] + 64, 156), (bubble[1] + 93, 104)]:
+        draw.rounded_rectangle((bubble[0] + 34, y, bubble[0] + 34 + width, y + 8), radius=4, fill=TEAL)
+
+    arrow(draw, lx + 320, top + 420, lx + 402, top + 420, TEAL, 5)
+    note = (lx + 426, top + 330, lx + 610, top + 526)
+    rounded(draw, note, 18, WHITE, TEAL, 4)
+    draw.rounded_rectangle((note[0] + 46, note[1] - 12, note[2] - 46, note[1] + 20), radius=12, fill=TEAL)
+    for row in range(3):
+        cy = note[1] + 58 + row * 43
+        draw.ellipse((note[0] + 27, cy - 9, note[0] + 45, cy + 9), outline=TEAL, width=3)
+        draw.line((note[0] + 31, cy, note[0] + 36, cy + 5, note[0] + 44, cy - 7), fill=TEAL, width=3, joint="curve")
+        draw.rounded_rectangle((note[0] + 63, cy - 5, note[2] - 24, cy + 5), radius=5, fill="#b9ded8")
+
+    # What is missing: people can show up, act, and check in again tomorrow.
+    rx = x0 + cw + gap
+    people_color = CARD_TITLE
+    for cx in (rx + 205, rx + 355):
+        draw.ellipse((cx - 30, top + 350, cx + 30, top + 410), fill=WHITE, outline=people_color, width=4)
+        draw.rounded_rectangle((cx - 54, top + 421, cx + 54, top + 526), radius=34, fill=WHITE, outline=people_color, width=4)
+    draw.line((rx + 257, top + 463, rx + 303, top + 463), fill=RED, width=7)
+    draw.ellipse((rx + 275, top + 452, rx + 291, top + 468), fill=RED)
+
+    calendar = (rx + 470, top + 352, rx + 620, top + 500)
+    rounded(draw, calendar, 18, WHITE, RED, 4)
+    draw.rounded_rectangle((calendar[0], calendar[1], calendar[2], calendar[1] + 38), radius=16, fill=RED)
+    draw.rectangle((calendar[0], calendar[1] + 20, calendar[2], calendar[1] + 38), fill=RED)
+    draw.line(
+        (calendar[0] + 38, calendar[1] + 93, calendar[0] + 62, calendar[1] + 115, calendar[0] + 110, calendar[1] + 67),
+        fill=TEAL,
+        width=8,
+        joint="curve",
     )
     save(image, "avoid-traps", "support-trap-real-vs-missing-alternative.jpg")
 
@@ -325,7 +406,6 @@ def render_support():
 def render_fake():
     image, draw = board_frame(
         "Move the test off the image",
-        "Strong feeling is the cue to run three checks.",
         "Check the source, not the pixels.",
     )
     cards = [
@@ -340,7 +420,6 @@ def render_fake():
 def render_loudest_voices():
     image, draw = board_frame(
         "Three experts. Three different bets.",
-        "Each one admits the other side may be right.",
         "Where AI will be in ten years is a bet.",
     )
     cards = [
@@ -355,7 +434,6 @@ def render_loudest_voices():
 def render_pace():
     image, draw = board_frame(
         "Why AI is moving so fast",
-        "Three accelerants are working at the same time.",
         "Training, compute, and AI building AI reinforce one another.",
     )
     cards = [
@@ -370,7 +448,6 @@ def render_pace():
 def render_downside():
     image, draw = board_frame(
         "Safeguards are always chasing the frontier",
-        "Capability changes faster than society can respond.",
         "The black box moves faster than safeguards and rules.",
     )
     events = [
@@ -396,7 +473,6 @@ def render_downside():
 def render_upside():
     image, draw = board_frame(
         "One release changed fifty years of work",
-        "DeepMind gave the protein-shape predictions away.",
         "AI can compress decades of discovery.",
     )
     two_cards(draw,
@@ -412,7 +488,6 @@ def render_upside():
 def render_agents():
     image, draw = board_frame(
         "A chatbot answers. An agent acts.",
-        "The same LLM, plus tools and a loop.",
         "The agent does the work. The result still carries your name.",
     )
     steps = [
@@ -442,7 +517,6 @@ def render_agents():
 def render_work_changes():
     image, draw = board_frame(
         "Two ways AI changes the work",
-        "Most jobs will contain both.",
         "Your job title may stay. The work underneath it changes.",
     )
     two_cards(draw,
@@ -455,7 +529,6 @@ def render_work_changes():
 def render_hidden_cost():
     image, draw = board_frame(
         "What one short answer costs",
-        "Every token re-runs the whole network.",
         "Cheap to type is not free to run.",
     )
     labels = [
@@ -479,7 +552,6 @@ def render_hidden_cost():
 def render_unexpected():
     image, draw = board_frame(
         "The plan and the outcome can split",
-        "Two results better than predicted. Two results worse.",
         "The biggest results are the ones nobody predicted.",
     )
     cards = [
@@ -568,4 +640,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if "--flattery-only" in sys.argv:
+        render_flattery()
+    elif "--support-only" in sys.argv:
+        render_support()
+    else:
+        main()

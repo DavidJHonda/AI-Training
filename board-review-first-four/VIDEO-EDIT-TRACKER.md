@@ -28,13 +28,33 @@ Ken Burns highlight-state pass before approval. Every current v2 decodes to the
 exact original frame count and stream-copies an audio track with an identical MD5.
 The originals remain untouched for review and rollback.
 
+Also on 2026-08-21, twelve recent Avoid Traps and Embrace the Future boards were
+reset to the original illustration-first visual language: one open white stage,
+thin dividers, dark readable copy, and a distinct graphic for each concept. The
+reset removes nested text-card grids, automatic step numbers, and automatic gold
+footers. Numbers remain only on genuine sequences. The canonical refresh is
+reproducible with `scripts/video/render_editorial_board_refresh.py`.
+Its subtitle-free title bands were subsequently reduced from 172 px to 132 px, with
+the recovered height assigned to the white content stage; wrapped titles use 160 px.
+All twelve refreshed boards use 32 px inner headings and 30 px explanatory copy.
+
+A full title-area audit then checked all 84 active individual alternatives, plus the
+58 current-selected review copies and the tracker-listed canonical assets. Fourteen
+older alternatives still carried explanatory subtext beneath the title; those lines
+were removed and their titles were vertically recentered. The remaining multi-band
+headers are intentional two-line titles or the numbered Strength sequence markers,
+not title subtext. The older batch renderer no longer accepts a subtitle argument.
+
 ### Shared board hierarchy
 
 Board titles remain weight 800 in dark navy. Card titles use weight 700 and course
 navy (`#152b7a`). Labels such as sequence markers, process names, and compact
 eyebrows remain a separate category and may keep their heavier accent treatment.
 Boards do not carry explanatory subtext directly below the top title. When that
-idea is essential, it belongs in the gold takeaway or the surrounding lesson.
+idea is essential, it belongs in the body or the surrounding lesson. The default
+body is an open illustrated stage separated by whitespace and thin rules. Nested
+cards and gold takeaways require a specific information-design reason; they are not
+the standard board template.
 
 | Section | Lesson | On-page change | Canonical JPG | Page status | Video status | Existing-video placement |
 |---|---|---|---|---|---|---|
@@ -56,9 +76,9 @@ idea is essential, it belongs in the gold takeaway or the surrounding lesson.
 | Avoid Traps | Hallucination | Replaced the two visually quiet lesson cards with full boards: the opening mechanism connects pattern-based training and probability-based generation to `PROBABLE ≠ TRUE`, while the second board organizes fake sources, fake details, blended facts, and misread sources. Kept the RAG explanation inline because it is supporting nuance, not a core visual model. | `illustrations/hallucination-why.jpg`; `illustrations/hallucination-types.jpg` | Complete | Pending board retrofit — `videos/hallucination.mp4` | Use the opening board beneath the warning and the four-type board after the glue-on-pizza example. Preserve the existing RAG explanation without adding a third illustration. |
 | Avoid Traps | Training Bias | Replaced the three mechanism cards with a board showing Defaults, Blind Spots, and Wrong Patterns as three ways uneven training data distorts the answer. Replaced the numbered prompt rows with a one-row, three-move board modeled on Document Trap. Kept the simple stale-information What Happens / The Fix comparison inline. | `illustrations/training-bias-mechanisms.jpg`; `illustrations/training-bias-questions.jpg` | Complete | Pending board retrofit — `videos/training-bias.mp4` | Use the mechanism board after the cow-on-the-beach example and the three-question board after the sameness warning. Preserve the stale-information close without adding a third board. |
 | Avoid Traps | Mind Trap | Replaced the two-card ELIZA-effect box with a board contrasting the brain’s mind detector and AI’s mind-shaped language. | `illustrations/mind-trap-eliza-effect.jpg` | Complete | Pending board retrofit — `videos/mind-trap.mp4` | Insert after the ELIZA paragraph. Preserve the surrounding parent-versus-AI comparison and the decision rule. |
-| Avoid Traps | Flattery Trap | Replaced the three-card RLHF ranking explanation with one praise-loop board. Split Lab 09’s ChatGPT setup into separate destination and new-chat steps. | `illustrations/flattery-trap-praise-loop.jpg` | Complete | Pending board retrofit — `videos/flattery-trap.mp4` | Use after the RLHF introduction and before the sycophancy example. |
-| Avoid Traps | Support Trap | Replaced the why-it-feels-real text box with a restrained Real Value / Missing Person board. Removed the repetitive closing examples and ended on the bold human-support rule. | `illustrations/support-trap-real-vs-missing.jpg` | Complete | Pending board retrofit — `videos/support-trap.mp4` | Use after the lunch comparison. Preserve the danger guardrail and crisis language unchanged. |
-| Avoid Traps | Fake Trap | Replaced the four motive cards with a Money / Power / Fame / Cruelty board and the three numbered checks with a move-based Source → Context → Corroboration board. | `illustrations/fake-trap-four-reasons.jpg`; `illustrations/fake-trap-three-checks.jpg` | Complete | Pending board retrofit — `videos/fake-trap.mp4` | Use the motives board after the harmless-fake example and the checks board after the detector warning. |
+| Avoid Traps | Flattery Trap | Replaced the three-card RLHF ranking explanation with one praise-loop board. Removed the explanatory subtext below the board title and vertically centered the title in the shared header zone. Split Lab 09’s ChatGPT setup into separate destination and new-chat steps. | `illustrations/flattery-trap-praise-loop.jpg` | Complete | Pending board retrofit — `videos/flattery-trap.mp4` | Use after the RLHF introduction and before the sycophancy example. |
+| Avoid Traps | Support Trap | Replaced the why-it-feels-real text box with a Real Value / Missing Person board titled “Use AI to get ready for people, not instead of people.” Removed the column footers and gold takeaway band, expanded the body, and added paired preparation and human-check-in graphics. Removed the repetitive closing examples and ended on the bold human-support rule. | `illustrations/support-trap-real-vs-missing.jpg` | Complete | Pending board retrofit — `videos/support-trap.mp4` | Use after the lunch comparison. Preserve the danger guardrail and crisis language unchanged. |
+| Avoid Traps | Fake Trap | Replaced the four motive cards with a Money / Power / Fame / Cruelty board and the three numbered checks with a move-based Source → Context → Corroboration board. Both boards use 32 px inner headings and 30 px explanatory copy. | `illustrations/fake-trap-four-reasons.jpg`; `illustrations/fake-trap-three-checks.jpg` | Complete | Pending board retrofit — `videos/fake-trap.mp4` | Use the motives board after the harmless-fake example and the checks board after the detector warning. |
 | Embrace the Future | Pace of Change | Kept the readable three-years comparison and replaced the dense 3+1 Future Ideas grid with two boards: Automated AI Research vs. Recursive Self-Improvement, then AGI vs. ASI. Split Lab 10’s setup into separate ChatGPT/login and new-project steps. | `illustrations/pace-of-change-future-research.jpg`; `illustrations/pace-of-change-future-capability.jpg` | Complete | Pending board retrofit — `videos/pace-of-change.mp4` | Use the two boards back-to-back at the “4 Future Ideas” handoff. Preserve the existing three-years comparison and AI-building-AI illustration. |
 | Embrace the Future | Big Downside | Replaced only the three-card guardrail challenge with one escalating capability board. Kept the jailbreak case inline beside its existing fortress illustration and kept the voice-clone scam inline. | `illustrations/big-downside-guardrails.jpg` | Complete | Pending board retrofit — `videos/big-downside.mp4` | Insert after the guardrails introduction. Preserve the fortress illustration and all present-day case details. |
 | Embrace the Future | Big Upside | Replaced the biography list and separate release scoreboard with one timeline carrying chess, games, neuroscience, DeepMind, AlphaFold, the free 200-million-shape release, and the Nobel Prize. Replaced the six-card upside grid with two three-example boards organized as discovery and practical help. | `illustrations/big-upside-hassabis-timeline.jpg`; `illustrations/big-upside-discovery.jpg`; `illustrations/big-upside-help.jpg` | Complete | Pending board retrofit — `videos/big-upside.mp4` | Use the timeline after “The Guy Who Solved It.” Replace the existing Hassabis and scoreboard graphics with this single board. Use the two upside boards back-to-back after “More of the Big Upside.” |

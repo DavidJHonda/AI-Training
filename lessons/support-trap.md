@@ -40,7 +40,7 @@ Won’t know if you’re still alone next week
 
 Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. One changed nothing. **Support Trap is mistaking supportive words for support.**
 
-![Supportive words are not support. The relief and advice can be real, but the person who can act and check on you tomorrow is missing.](support-trap-2-real-vs-missing.jpg)
+![Use AI to get ready for people, not instead of people. AI can provide relief, advice, and a conversation plan; what is missing is a person who can act and check on you tomorrow.](support-trap-2-real-vs-missing.jpg)
 
 Some of what AI offers here is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too.
 

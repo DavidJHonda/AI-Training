@@ -30,9 +30,11 @@ changes remain pending until the tracker marks them complete.
 - `video-checks/` — transcripts, scene audits, holds, and frame sheets for the 15
   videos affected by the proposals.
 
-The alternative boards use the finalized board component: fixed lavender canvas,
-title zone, single white body panel, and aligned content hierarchy. The gold takeaway
-band is optional on dense boards so essential content can meet the readability floor.
+The alternative boards use the finalized illustration-first component: fixed
+lavender canvas, title-only header, one open white body panel, thin dividers, and a
+purpose-built graphic for each concept. Subtitle-free one-line titles use the compact
+132 px header so more of the frame belongs to the teaching content. Nested cards and gold takeaway bands are
+exceptions rather than defaults; sequence numbers appear only when order matters.
 The batch readability floor is 44 px for board titles, 28–30 px for essential labels
 and explanatory copy, and 24 px only for genuinely secondary text. When the standard
 564 px body would force smaller type, use the 688 px dense body and omit the takeaway.
@@ -42,6 +44,11 @@ with `scripts/video/build_welcome_course_arc_board.sh`.
 
 Rebuild the approved Start Smarter component-normalized set with
 `scripts/video/standardize_start_smarter_boards.sh`.
+
+Rebuild the 2026-08-21 illustration-first refresh of the recent Avoid Traps and
+Embrace the Future boards with
+`scripts/video/render_editorial_board_refresh.py`. Run this after older batch board
+renderers; it owns the canonical outputs listed in its `save_all` calls.
 
 ## Review rule
 

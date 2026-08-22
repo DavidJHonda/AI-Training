@@ -10,12 +10,18 @@ while making every board conform to this specification.
 - Use case: educational infographic diagram.
 - Canvas: 16:9 landscape; exported as 1600×900 JPEG.
 - Canvas: one flat pale-lavender field (`#eeeaff`) across the complete frame.
-- Body container: one white panel at x=80, y=172, 1440×564 px, with 16 px corners.
-  The entire body composition lives inside this panel. Interior columns and cards
-  are allowed, but no artwork bleeds outside it and no irregular lavender slivers
-  separate body elements.
-- Design: white cards, bold dark-navy typography, purple primary accent with
-  restrained blue, orange, and teal.
+- Body container: one white panel at x=80 with 16 px corners. For a one-line title,
+  it begins at y=132 and ends at y=860. For a wrapped two-line title, it begins at
+  y=160 and still ends at y=860.
+  The entire body composition lives inside this panel. The default interior is an
+  open editorial stage: use whitespace and thin rules to separate ideas, with one
+  purpose-built illustration for each concept. Nested cards are reserved for cases
+  where a real grouping or comparison requires a visible container; they are not a
+  default layout device. No artwork bleeds outside the panel.
+- Design: illustration-first, with bold dark-navy typography, a purple primary
+  accent, and restrained blue, orange, and teal. Avoid dashboard-like grids of
+  rounded text cards when the same relationship can be shown as open columns or
+  quadrants.
 - Board title: exactly 44 px, weight 800, dark navy, sentence case, and centered.
   Never reduce the title size to make a line fit; wrap it to a second line instead.
 - Card title: normally 30–32 px, weight 700, course navy (`#152b7a`). Card titles
@@ -25,22 +31,24 @@ while making every board conform to this specification.
   labels, and compact category names may remain all caps, accent-colored, and weight
   800 when that treatment clarifies their role. Examples include “STRENGTH 1 OF 4,”
   “WHAT IT DOES,” and “EXAMPLES.”
-- Standard vertical stack: 40 px top margin, 100 px title block, 32 px gap, 564 px
-  body zone, 40 px gap, 84 px takeaway band, and 40 px bottom margin. Dense boards
-  may omit the takeaway and extend the body zone to 688 px. The 1600×900 canvas and
-  40 px bottom margin do not change.
+- Standard subtitle-free vertical stack: a 132 px one-line title zone, a 728 px
+  body zone, and a 40 px bottom margin. A wrapped title receives a 160 px title zone
+  and a 700 px body zone. The 1600×900 canvas and 40 px bottom margin do not change.
 - Title zone: use the same uninterrupted lavender field as the board background,
   with no separate band, rule, divider, or visible seam. Center the complete title
-  group optically and vertically within the fixed 100 px block, with at least 80 px
-  side margins. Use only the board title in this zone. A two-line title is allowed;
-  never shrink the 44 px title.
+  group optically and vertically within the 132 px one-line or 160 px wrapped-title
+  zone, with at least 80 px side margins. Center the visible glyph bounds rather
+  than relying on a font baseline. Use only the board title in this zone. A two-line
+  title is allowed; never shrink the 44 px title.
 - Do not place explanatory subtext below the board title. If that idea is vital to
   the learning beat, work it into the gold takeaway when one exists, or carry it in
   the surrounding lesson prose.
-- Body zone: 564 px with a takeaway or 688 px without one. Use the taller variant
-  when the standard body would force essential labels, values, or explanatory copy
-  below the readability floor. Do not shrink essential content merely to preserve
-  the takeaway.
+- Do not number parallel categories merely to fill a template. Use step markers only
+  for an actual sequence, progression, or ordered procedure.
+- Body zone: use the complete 728 px one-line-title or 700 px wrapped-title panel by
+  default. If the exceptional takeaway component is needed, carve its space from
+  the lower body rather than shrinking essential labels, values, or explanatory
+  copy below the readability floor.
 - Interior hierarchy: card titles follow the 30–32 px, weight 700, `#152b7a` rule
   above. Supporting copy is normally 28–30 px so the board title remains the
   strongest text on the canvas.
@@ -51,8 +59,9 @@ while making every board conform to this specification.
 - Supporting copy uses the course’s regular body-text ink (`#0e0a1f`). Do not use
   muted grey for small explanatory text; reserve muted color for optional sublines,
   inactive progress labels, and other genuinely secondary interface information.
-- Parallel-card hierarchy: marker, title, supporting text, then illustration. Keep
-  every marker and title block on shared horizontal guides so all labels can be read
+- Parallel-concept hierarchy: optional sequence marker, title, supporting text, then
+  a distinct illustration. Keep every marker and title block on shared horizontal
+  guides so all labels can be read
   in one pass. Reserve a fixed lower art zone; illustration shape or density must
   never move the title or copy. Use a number only when order matters, a letter when
   it explains a term, and an icon for an unnumbered stage.
@@ -64,8 +73,9 @@ while making every board conform to this specification.
   two-line heading as one text block and center that complete block horizontally and
   vertically inside the slot. Center a one-line heading vertically in that same
   slot; never align it to the first line of its two-line neighbors.
-- Takeaway component: optional. Use it when it reinforces the teaching beat without
-  compromising core-content readability. For dense boards, omit it and carry the
+- Takeaway component: exceptional, not automatic. Use it when it adds a distinct
+  concluding idea that the title and body do not already express, and when it does
+  not compromise core-content readability. For dense boards, omit it and carry the
   takeaway in the surrounding lesson prose. When used, it is full width inside the
   80 px margins, 84 px tall with 16 px corners and warm gold `#ffe9ab`. Leave 40 px
   above it and 40 px below it. Use navy text at 32 px and weight 600 plus

@@ -160,6 +160,120 @@ func drawTwoCard(
     drawText(footer, in: NSRect(x: rect.minX + 52, y: rect.maxY - 70, width: rect.width - 104, height: 34), font: demi(24), color: accent, alignment: .center)
 }
 
+func strokePath(_ path: NSBezierPath, color: NSColor, lineWidth: CGFloat = 4) {
+    color.setStroke()
+    path.lineWidth = lineWidth
+    path.lineCapStyle = .round
+    path.lineJoinStyle = .round
+    path.stroke()
+}
+
+func drawDetector(center: NSPoint, accent: NSColor) {
+    let outer = NSBezierPath(ovalIn: NSRect(x: center.x - 49, y: center.y - 49, width: 98, height: 98))
+    strokePath(outer, color: accent, lineWidth: 5)
+    let inner = NSBezierPath(ovalIn: NSRect(x: center.x - 27, y: center.y - 27, width: 54, height: 54))
+    strokePath(inner, color: accent.withAlphaComponent(0.45), lineWidth: 4)
+    let dot = NSBezierPath(ovalIn: NSRect(x: center.x - 8, y: center.y - 8, width: 16, height: 16))
+    accent.setFill()
+    dot.fill()
+    for radius: CGFloat in [66, 82] {
+        let arc = NSBezierPath()
+        arc.appendArc(withCenter: center, radius: radius, startAngle: 205, endAngle: 335)
+        strokePath(arc, color: accent.withAlphaComponent(radius == 66 ? 0.48 : 0.24), lineWidth: 4)
+    }
+}
+
+func drawToast(center: NSPoint, accent: NSColor) {
+    let toast = NSBezierPath()
+    toast.move(to: NSPoint(x: center.x - 52, y: center.y + 43))
+    toast.line(to: NSPoint(x: center.x - 43, y: center.y - 23))
+    toast.curve(to: NSPoint(x: center.x, y: center.y - 43), controlPoint1: NSPoint(x: center.x - 39, y: center.y - 47), controlPoint2: NSPoint(x: center.x - 13, y: center.y - 50))
+    toast.curve(to: NSPoint(x: center.x + 43, y: center.y - 23), controlPoint1: NSPoint(x: center.x + 13, y: center.y - 50), controlPoint2: NSPoint(x: center.x + 39, y: center.y - 47))
+    toast.line(to: NSPoint(x: center.x + 52, y: center.y + 43))
+    toast.close()
+    color("#fff1c7").setFill()
+    toast.fill()
+    strokePath(toast, color: accent, lineWidth: 4)
+    for x in [center.x - 19, center.x + 19] {
+        let eye = NSBezierPath(ovalIn: NSRect(x: x - 5, y: center.y - 7, width: 10, height: 10))
+        accent.setFill()
+        eye.fill()
+    }
+    let smile = NSBezierPath()
+    smile.appendArc(withCenter: NSPoint(x: center.x, y: center.y + 8), radius: 18, startAngle: 15, endAngle: 165)
+    strokePath(smile, color: accent, lineWidth: 4)
+}
+
+func drawCar(center: NSPoint, accent: NSColor) {
+    roundedRect(NSRect(x: center.x - 62, y: center.y - 22, width: 124, height: 64), radius: 18, fill: color("#e9f6f5"), stroke: accent, lineWidth: 4)
+    let roof = NSBezierPath()
+    roof.move(to: NSPoint(x: center.x - 43, y: center.y - 22))
+    roof.line(to: NSPoint(x: center.x - 25, y: center.y - 47))
+    roof.line(to: NSPoint(x: center.x + 25, y: center.y - 47))
+    roof.line(to: NSPoint(x: center.x + 43, y: center.y - 22))
+    strokePath(roof, color: accent, lineWidth: 4)
+    for x in [center.x - 36, center.x + 36] {
+        let light = NSBezierPath(ovalIn: NSRect(x: x - 8, y: center.y - 1, width: 16, height: 16))
+        accent.setFill()
+        light.fill()
+    }
+    let grille = NSBezierPath()
+    grille.move(to: NSPoint(x: center.x - 23, y: center.y + 24))
+    grille.curve(to: NSPoint(x: center.x + 23, y: center.y + 24), controlPoint1: NSPoint(x: center.x - 10, y: center.y + 37), controlPoint2: NSPoint(x: center.x + 10, y: center.y + 37))
+    strokePath(grille, color: accent, lineWidth: 4)
+}
+
+func drawSpeechBubble(_ value: String, rect: NSRect, accent: NSColor) {
+    roundedRect(rect, radius: 20, fill: .white, stroke: accent, lineWidth: 3)
+    let tail = NSBezierPath()
+    tail.move(to: NSPoint(x: rect.minX + 30, y: rect.maxY))
+    tail.line(to: NSPoint(x: rect.minX + 44, y: rect.maxY + 16))
+    tail.line(to: NSPoint(x: rect.minX + 60, y: rect.maxY))
+    tail.close()
+    NSColor.white.setFill()
+    tail.fill()
+    strokePath(tail, color: accent, lineWidth: 3)
+    drawText(value, in: NSRect(x: rect.minX + 14, y: rect.minY + 13, width: rect.width - 28, height: 38), font: demi(23), color: navy, alignment: .center)
+}
+
+func drawSequenceArrow(center: NSPoint) {
+    let line = NSBezierPath()
+    line.move(to: NSPoint(x: center.x - 17, y: center.y))
+    line.line(to: NSPoint(x: center.x + 13, y: center.y))
+    strokePath(line, color: purple, lineWidth: 5)
+    let head = NSBezierPath()
+    head.move(to: NSPoint(x: center.x + 3, y: center.y - 12))
+    head.line(to: NSPoint(x: center.x + 16, y: center.y))
+    head.line(to: NSPoint(x: center.x + 3, y: center.y + 12))
+    strokePath(head, color: purple, lineWidth: 5)
+}
+
+func drawMindCard(rect: NSRect, title: String, body: String, accent: NSColor, graphic: String) {
+    roundedRect(rect, radius: 16, fill: pale, stroke: rule, lineWidth: 1.5)
+    drawText(title, in: NSRect(x: rect.minX + 34, y: rect.minY + 38, width: rect.width - 68, height: 48), font: demi(31), color: cardTitle, alignment: .center)
+    drawText(body, in: NSRect(x: rect.minX + 48, y: rect.minY + 112, width: rect.width - 96, height: 110), font: medium(28), color: navy, alignment: .center, lineHeight: 35)
+
+    let divider = NSBezierPath()
+    divider.move(to: NSPoint(x: rect.minX + 54, y: rect.minY + 246))
+    divider.line(to: NSPoint(x: rect.maxX - 54, y: rect.minY + 246))
+    strokePath(divider, color: rule, lineWidth: 2)
+
+    if graphic == "everywhere" {
+        drawDetector(center: NSPoint(x: rect.midX, y: rect.minY + 340), accent: accent)
+        drawToast(center: NSPoint(x: rect.midX - 172, y: rect.minY + 405), accent: accent)
+        drawCar(center: NSPoint(x: rect.midX + 172, y: rect.minY + 405), accent: accent)
+    } else {
+        drawDetector(center: NSPoint(x: rect.midX + 120, y: rect.minY + 376), accent: accent)
+        drawSpeechBubble("“I think”", rect: NSRect(x: rect.minX + 52, y: rect.minY + 292, width: 190, height: 62), accent: accent)
+        drawSpeechBubble("“I feel”", rect: NSRect(x: rect.minX + 88, y: rect.minY + 388, width: 180, height: 62), accent: accent)
+        let signal = NSBezierPath()
+        signal.move(to: NSPoint(x: rect.minX + 265, y: rect.minY + 365))
+        signal.line(to: NSPoint(x: rect.midX + 62, y: rect.minY + 376))
+        signal.setLineDash([8, 7], count: 2, phase: 0)
+        strokePath(signal, color: accent.withAlphaComponent(0.6), lineWidth: 4)
+    }
+}
+
 func renderMindBoard() throws {
     let image = NSImage(size: NSSize(width: width, height: height))
     image.lockFocusFlipped(true)
@@ -168,21 +282,20 @@ func renderMindBoard() throws {
 
     drawText("Why AI feels like somebody", in: NSRect(x: 80, y: 57, width: 1440, height: 58), font: heavy(44), color: navy, alignment: .center)
     roundedRect(NSRect(x: 80, y: 172, width: 1440, height: 564), radius: 16, fill: .white)
-    drawTwoCard(
+    drawMindCard(
         rect: NSRect(x: 112, y: 204, width: 658, height: 500),
-        marker: "1",
         title: "YOUR BRAIN LOOKS FOR MINDS",
-        body: "Detecting minds kept your ancestors alive, so the detector fires constantly. You see faces in toast and personalities in cars.",
-        footer: "THE DETECTOR FIRES",
-        accent: teal
+        body: "Your brain is built to detect minds. That’s why you see faces in toast and personalities in cars.",
+        accent: teal,
+        graphic: "everywhere"
     )
-    drawTwoCard(
+    drawSequenceArrow(center: NSPoint(x: 800, y: 454))
+    drawMindCard(
         rect: NSRect(x: 830, y: 204, width: 658, height: 500),
-        marker: "2",
         title: "AI SETS IT OFF HARDER",
-        body: "It says “I think” and “I feel.” Your brain hears a person. They are tokens a probability process landed on.",
-        footer: "WORDS, NOT A MIND",
-        accent: purple
+        body: "AI says “I think” and “I feel.” Your brain hears a person, but those are generated words.",
+        accent: purple,
+        graphic: "ai"
     )
     drawCheckBand("Human-sounding is not a mind.")
     try save(image, relativePaths: [
@@ -240,17 +353,21 @@ func renderFakeReasonsBoard() throws {
     ])
 }
 
-try renderMindBoard()
-try renderFakeReasonsBoard()
-try promote(
-    "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
-    to: ["board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg", "illustrations/flattery-trap-praise-loop.jpg", "lessons/flattery-trap-2-praise-loop.jpg"]
-)
-try promote(
-    "board-review-first-four/alternatives/avoid-traps/support-trap-real-vs-missing-alternative.jpg",
-    to: ["board-review-first-four/current-selected/avoid-traps/support-trap-2-real-vs-missing.jpg", "illustrations/support-trap-real-vs-missing.jpg", "lessons/support-trap-2-real-vs-missing.jpg"]
-)
-try promote(
-    "board-review-first-four/alternatives/avoid-traps/fake-trap-three-checks-alternative.jpg",
-    to: ["board-review-first-four/current-selected/avoid-traps/fake-trap-3-three-checks.jpg", "illustrations/fake-trap-three-checks.jpg", "lessons/fake-trap-3-three-checks-board.jpg"]
-)
+if CommandLine.arguments.contains("--mind-only") {
+    try renderMindBoard()
+} else {
+    try renderMindBoard()
+    try renderFakeReasonsBoard()
+    try promote(
+        "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
+        to: ["board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg", "illustrations/flattery-trap-praise-loop.jpg", "lessons/flattery-trap-2-praise-loop.jpg"]
+    )
+    try promote(
+        "board-review-first-four/alternatives/avoid-traps/support-trap-real-vs-missing-alternative.jpg",
+        to: ["board-review-first-four/current-selected/avoid-traps/support-trap-2-real-vs-missing.jpg", "illustrations/support-trap-real-vs-missing.jpg", "lessons/support-trap-2-real-vs-missing.jpg"]
+    )
+    try promote(
+        "board-review-first-four/alternatives/avoid-traps/fake-trap-three-checks-alternative.jpg",
+        to: ["board-review-first-four/current-selected/avoid-traps/fake-trap-3-three-checks.jpg", "illustrations/fake-trap-three-checks.jpg", "lessons/fake-trap-3-three-checks-board.jpg"]
+    )
+}

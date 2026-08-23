@@ -53,10 +53,11 @@ const BOARDS = [
   // render_ai_is_math_board_alternatives.py. Do not recapture their accessible-only
   // HTML fallbacks here or the small legacy layouts will overwrite the canonicals.
 
-  // learn-with-ai, 2026-07-28: the kit's 3-habits board was TITLES ONLY, so the video
-  // recited five habit names and taught none of them. This is the extended block with
-  // each habit's reason. It runs wide rather than tall, so it needs the roomier stage.
-  { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 1180, vw: 1280,
+  // Match the lesson's actual ~900px outer block and walk up from the inner white
+  // card to retain the lavender NumberedRows wrapper. Capturing the inner card at
+  // the outer width changed its text wrapping. The tall exact-page board is read
+  // with zoom and pan in the video.
+  { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 900, vw: 960, wrapUp: 1,
     find: ["One notebook per subject", "Trace it back to learn it", "Reading the original material"] },
 
   // NO CLOSE BOARDS BELONG IN THIS FILE (2026-07-30). Every close board in the

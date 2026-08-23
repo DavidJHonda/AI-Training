@@ -6,7 +6,7 @@
 - Audio MD5 identical: True
 - Unauthorized changed frames: 0
 - Short source islands: 0
-- Outside-span MAD p99: 0.33
+- Outside-span MAD p99: 0.45
 
 ## Checks
 
@@ -18,5 +18,7 @@
 
 ## Boundary strips
 
+- `boundary-001320.jpg`
+- `boundary-001864.jpg`
 - `boundary-006731.jpg`
 - `boundary-007173.jpg`

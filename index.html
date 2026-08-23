@@ -5093,7 +5093,7 @@ function AIvsCodeSection(props) {
   const KRYPTONITE_STORIES = [
     { title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds." },
     { title: "Deepfakes of real people", text: "Convincing fakes can target and humiliate anyone, including students." },
-    { title: "Confident but wrong", text: "Medical or safety answers can sound fluent and sure even when they are flat wrong." }
+    { title: "Confident but wrong", text: "Medical and safety answers can sound correct even when they are flat wrong." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aivscode" }),
@@ -7382,6 +7382,24 @@ function OutsideWindowBox() {
 }
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps", {});
+  var AI_ANSWER_SIDES = [
+    {
+      emoji: "👦🏻",
+      title: "Luke’s AI",
+      color: "#2f4cb8",
+      prefix: "Great question, Luke. I definitely recommend a ",
+      car: "Jeep Cherokee",
+      suffix: "."
+    },
+    {
+      emoji: "👱‍♂️",
+      title: "Nate’s AI",
+      color: "#5a3aa6",
+      prefix: "I’m happy you asked this question, Nate. At this point in your life, I recommend the ",
+      car: "Ford Raptor",
+      suffix: "."
+    }
+  ];
   const LAB_STEPS = [
     { title: "Log in to ChatGPT", body: "Go to chatgpt.com and sign in." },
     { title: "Name your first project", body: "Find Projects and start a new one. Enter \u201CMy First Coding Project\u201D as the name. Don\u2019t click Create project yet." },
@@ -7394,21 +7412,24 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "When you type 2 + 2 on the calculator on your phone, you always get 4. Same input, same answer, every time. AI doesn’t work that way. Consider the following: identical questions, asked to AI by two different people."),
-    /*#__PURE__*/React.createElement(CompareBox, { marginBottom: 24 },
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#d6e2f4", accent: "#2f4cb8", emoji: "👦🏻", title: "Luke" },
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, fontStyle: "italic", color: "#2f4cb8", marginBottom: 4 } }, "Asks AI"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "What car should I buy after I graduate from college?")),
-        /*#__PURE__*/React.createElement("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, fontStyle: "italic", color: "#2f4cb8", marginBottom: 4 } }, "ChatGPT answers"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "Great question, Luke. I definitely recommend a ", /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "Jeep Cherokee"), "."))),
-      /*#__PURE__*/React.createElement(ComparePanel, { bg: "#ddd0ef", accent: "#5a3aa6", emoji: "👱‍♂️", title: "Nate" },
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, fontStyle: "italic", color: "#5a3aa6", marginBottom: 4 } }, "Asks AI"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "What car should I buy after I graduate from college?")),
-        /*#__PURE__*/React.createElement("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--rule)" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 700, fontStyle: "italic", color: "#5a3aa6", marginBottom: 4 } }, "ChatGPT answers"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } }, "I’m happy you asked this question, Nate. At this point in your life, I recommend the ", /*#__PURE__*/React.createElement("strong", { style: { color: "#5a3aa6" } }, "Ford Raptor"), ".")))),
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
+      }, "What car should I buy after I graduate from college?"),
+      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
+        AI_ANSWER_SIDES.map(function(side, i) {
+          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20, flexShrink: 0 } }, side.emoji),
+              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.title)),
+            /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "ChatGPT Answers"),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } },
+                side.prefix,
+                /*#__PURE__*/React.createElement("strong", { style: { color: side.color } }, side.car),
+                side.suffix)));
+        }))
+    ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Wait a second. In the last lab, you changed the answer by changing the prompt. But this time, Luke and Nate typed the exact same prompt into the same app, and still got different answers!"),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -9010,7 +9031,7 @@ function StudyingWithAISection(props) {
     E(BodyP, { marginBottom: 16 },
       "The first move is choosing which kind of AI to aim at the job. There\u2019s a simple question to guide your choice: do you want to learn from materials you already have, or learn something new?"),
     E("img", {
-      src: "illustrations/learn-with-ai-study-tools.jpg?v=5",
+      src: "illustrations/learn-with-ai-study-tools.jpg?v=6",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),

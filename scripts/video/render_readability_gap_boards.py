@@ -280,7 +280,7 @@ def render_study_tools():
         rounded(draw, (x0, 194, x0 + pill_width, 240), 23, accent)
         centered(draw, (x0 + pill_width / 2, 217), column["label"], font("heavy", 22), WHITE)
         draw.text((x0, 264), column["title"], font=font("bold", 34), fill=CARD_TITLE)
-        draw.text((x0, 309), column["product"], font=font("heavy", 23), fill="#8b86a2")
+        draw.text((x0, 309), column["product"], font=font("bold", 23), fill="#8b86a2")
         left_block(x0, 401, column["description"], x1 - x0)
         left_block(x0, 542, column["best"], x1 - x0)
         left_block(x0, 687, column["catch"], x1 - x0)

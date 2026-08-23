@@ -196,7 +196,7 @@ Convincing fakes can target and humiliate anyone, including students.
 
 Confident but wrong
 
-Medical or safety answers can sound fluent and sure even when they are flat wrong.
+Medical and safety answers can sound correct even when they are flat wrong.
 
 When you hear stories like these, remember the mechanism: AI is being steered, not authored. What’s inside isn’t rules, or even readable patterns; it’s millions of learned numbers, which is exactly why you can’t open it up and read it.
 

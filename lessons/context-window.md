@@ -4,27 +4,17 @@
 
 When you type 2 + 2 on the calculator on your phone, you always get 4. Same input, same answer, every time. AI doesn’t work that way. Consider the following: identical questions, asked to AI by two different people.
 
-👦🏻
+**What car should I buy after I graduate from college?**
 
-#### Luke
+#### 👦🏻 Luke’s AI
 
-Asks AI
-
-What car should I buy after I graduate from college?
-
-ChatGPT answers
+**ChatGPT Answers**
 
 Great question, Luke. I definitely recommend a **Jeep Cherokee**.
 
-👱‍♂️
+#### 👱‍♂️ Nate’s AI
 
-#### Nate
-
-Asks AI
-
-What car should I buy after I graduate from college?
-
-ChatGPT answers
+**ChatGPT Answers**
 
 I’m happy you asked this question, Nate. At this point in your life, I recommend the **Ford Raptor**.
 

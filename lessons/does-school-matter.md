@@ -34,7 +34,7 @@ Similar questions get similar answers. The answer is a starting point, not the f
 
 Make the answer better
 
-Read it. Judge whether it’s right. Push back and improve it. AI cannot do that for you. It does not know what you know.
+Read it. Judge whether it’s right. Push back and improve it. AI doesn’t have the knowledge you have.
 
 Those two things are your domain. This is where you need to live. Double down on building your knowledge and skills. And one day you’ll be the CEO at Google.
 

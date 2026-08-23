@@ -234,8 +234,8 @@ render_school_board() {
   filter+=",drawtext=fontfile='$subtitle_font':text='Read it. Judge whether':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=354"
   filter+=",drawtext=fontfile='$subtitle_font':text='it’s right.':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=392"
   filter+=",drawtext=fontfile='$subtitle_font':text='Push back and improve it.':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=430"
-  filter+=",drawtext=fontfile='$subtitle_font':text='AI cannot do that for you.':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=468"
-  filter+=",drawtext=fontfile='$subtitle_font':text='It does not know what you know.':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=506"
+  filter+=",drawtext=fontfile='$subtitle_font':text='AI doesn’t have the':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=468"
+  filter+=",drawtext=fontfile='$subtitle_font':text='knowledge you have.':fontsize=30:fontcolor=0x08072b:x=1040+(480-text_w)/2:y=506"
 
   "$ffmpeg" -loglevel error -y \
     -i "$source" \

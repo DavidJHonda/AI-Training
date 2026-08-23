@@ -6,7 +6,7 @@
 - Audio MD5 identical: True
 - Unauthorized changed frames: 0
 - Short source islands: 0
-- Outside-span MAD p99: 0.40
+- Outside-span MAD p99: 0.37
 
 ## Checks
 

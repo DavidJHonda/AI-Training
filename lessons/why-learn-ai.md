@@ -92,6 +92,6 @@ An industrial revolution, an information revolution, and a renaissance—all at 
 
 · The White House, July 2025
 
-The information revolution is already here.
+AI is today’s printing press.
 
-Not someday. Today.
+Learn to run it.

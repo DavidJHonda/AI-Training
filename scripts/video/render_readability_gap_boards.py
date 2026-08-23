@@ -227,43 +227,67 @@ def render_training_map():
 
 
 def render_study_tools():
-    image, draw = frame(
-        "Which study tool for the job?",
-        "",
-        dense=True,
-    )
-    cards = [
+    image = Image.new("RGB", (W, H), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    centered(draw, (800, 82), "Which study tool for the job?", font("heavy", 44))
+    rounded(draw, (40, 150, 1560, 848), 18, WHITE)
+
+    label_x0, label_x1 = 98, 294
+    left_x0, left_x1 = 354, 897
+    right_x0, right_x1 = 956, 1502
+    rule_ys = (360, 505, 650)
+    for y in rule_ys:
+        draw.line((label_x0, y, label_x1, y), fill=RULE, width=2)
+        draw.line((left_x0, y, left_x1, y), fill=RULE, width=2)
+        draw.line((right_x0, y, right_x1, y), fill=RULE, width=2)
+
+    columns = [
         {
-            "x0": 100, "x1": 780, "accent": PURPLE, "label": "YOUR MATERIALS",
-            "product": "GEMINI NOTEBOOK", "title": "SOURCE-GROUNDED TUTOR",
+            "x0": left_x0,
+            "x1": left_x1,
+            "accent": PURPLE,
+            "label": "YOUR MATERIALS",
+            "title": "Source–Grounded Tutor",
+            "product": "GEMINI NOTEBOOK",
             "description": "Learns only from the materials you provide.",
             "best": "Exam prep from notes, guides, slides, and class links.",
             "catch": "Missing source means missing knowledge.",
         },
         {
-            "x0": 820, "x1": 1500, "accent": BLUE, "label": "SOMETHING NEW",
-            "product": "CHATGPT · CLAUDE · GEMINI", "title": "GENERAL TUTOR",
+            "x0": right_x0,
+            "x1": right_x1,
+            "accent": BLUE,
+            "label": "SOMETHING NEW",
+            "title": "General Tutor",
+            "product": "CHATGPT · CLAUDE · GEMINI",
             "description": "Explains and quizzes from broad training.",
             "best": "New explanations and extra practice.",
             "catch": "Can make things up or differ from your class.",
         },
     ]
-    for index, card in enumerate(cards):
-        x0, x1, accent = card["x0"], card["x1"], card["accent"]
-        rounded(draw, (x0, 204, x1, 830), 16, PALE, RULE)
-        rounded(draw, (x0 + 180, 190, x1 - 180, 236), 23, accent)
-        centered(draw, ((x0 + x1) / 2, 213), card["label"], font("heavy", 30), WHITE)
-        draw.ellipse((x0 + 42, 262, x0 + 122, 342), fill=WHITE, outline=accent, width=4)
-        centered(draw, (x0 + 82, 302), "N" if index == 0 else "AI", font("heavy", 26), accent)
-        draw.text((x0 + 146, 254), card["product"], font=font("heavy", 28), fill=accent)
-        draw.text((x0 + 146, 292), card["title"], font=font("bold", 34), fill=CARD_TITLE)
-        centered_block(draw, (x0 + 38, 350, x1 - 38, 434), card["description"], font("medium", 34))
-        draw.line((x0 + 38, 448, x1 - 38, 448), fill=RULE, width=2)
-        draw.text((x0 + 42, 472), "BEST FOR", font=font("heavy", 30), fill=accent)
-        centered_block(draw, (x0 + 38, 512, x1 - 38, 602), card["best"], font("medium", 34))
-        draw.line((x0 + 38, 622, x1 - 38, 622), fill=RULE, width=2)
-        draw.text((x0 + 42, 646), "THE CATCH", font=font("heavy", 30), fill=accent)
-        centered_block(draw, (x0 + 38, 690, x1 - 38, 794), card["catch"], font("medium", 34))
+
+    body_face = font("medium", 30)
+
+    def left_block(x, y, text, max_width):
+        lines = wrapped_lines(draw, text, body_face, max_width)
+        for line in lines:
+            draw.text((x, y), line, font=body_face, fill=BODY)
+            y += 38
+
+    for column in columns:
+        x0, x1, accent = column["x0"], column["x1"], column["accent"]
+        pill_width = 250
+        rounded(draw, (x0, 194, x0 + pill_width, 240), 23, accent)
+        centered(draw, (x0 + pill_width / 2, 217), column["label"], font("heavy", 22), WHITE)
+        draw.text((x0, 264), column["title"], font=font("bold", 34), fill=CARD_TITLE)
+        draw.text((x0, 309), column["product"], font=font("heavy", 23), fill="#8b86a2")
+        left_block(x0, 401, column["description"], x1 - x0)
+        left_block(x0, 542, column["best"], x1 - x0)
+        left_block(x0, 687, column["catch"], x1 - x0)
+
+    labels = [("WHAT IT IS", 405), ("BEST FOR", 550), ("THE CATCH", 695)]
+    for label, y in labels:
+        draw.text((label_x0, y), label, font=font("bold", 24), fill=PURPLE)
     save(image, [
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-1-study-tools-alternative.jpg",
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg",

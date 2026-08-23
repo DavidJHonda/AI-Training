@@ -81,6 +81,17 @@ def main():
     center = camera.get("center", [width / 2, height / 2])
     width_from = float(camera.get("width_from", width))
     width_to = float(camera.get("width_to", width))
+    auto_camera = config.get("auto_camera", {})
+    if auto_camera is True:
+        auto_camera = {}
+    auto_enabled = bool(config.get("auto_camera", False))
+    auto_previous = [float(center[0]), float(center[1]), width_from]
+    overview_labels = set(
+        auto_camera.get(
+            "overview_labels",
+            ["whole-board", "title", "takeaway", "settle", "unmarked"],
+        )
+    )
 
     built = {"source": str(source), "states": []}
     for index, item in enumerate(states):
@@ -129,6 +140,8 @@ def main():
             raise SystemExit(
                 f"state {index} must provide both camera 'from' and 'to'"
             )
+        auto_move_frames = 0
+        auto_hold_to = None
         if has_from:
             camera_from = [float(value) for value in item["from"]]
             camera_to = [float(value) for value in item["to"]]
@@ -136,6 +149,33 @@ def main():
                 raise SystemExit(
                     f"state {index} camera from/to must be [center_x, center_y, width]"
                 )
+        elif auto_enabled:
+            camera_from = list(auto_previous)
+            ring_rect = item.get("ring")
+            if ring_rect and label not in overview_labels:
+                x1, y1, x2, y2 = (float(value) for value in ring_rect)
+                ring_width = x2 - x1
+                ring_height = y2 - y1
+                pad_x = float(auto_camera.get("pad_x", 0.75))
+                pad_y = float(auto_camera.get("pad_y", 0.82))
+                target_width = max(
+                    ring_width / pad_x,
+                    ring_height * (16.0 / 9.0) / pad_y,
+                    float(auto_camera.get("min_width", 850)),
+                )
+                target_width = min(target_width, float(auto_camera.get("max_width", width)))
+                camera_to = [(x1 + x2) / 2.0, (y1 + y2) / 2.0, target_width]
+            else:
+                camera_to = [float(center[0]), float(center[1]), width_from]
+            distance = abs(camera_to[0] - camera_from[0]) + abs(camera_to[1] - camera_from[1])
+            width_change = abs(camera_to[2] - camera_from[2])
+            if distance > 8 or width_change > 16:
+                auto_move_frames = min(
+                    int(auto_camera.get("move_frames", 24)),
+                    max(0, end - start - 1),
+                )
+            hold_push = float(auto_camera.get("hold_push", 0.99))
+            auto_hold_to = [camera_to[0], camera_to[1], camera_to[2] * hold_push]
         else:
             elapsed_start = start - overall_start
             elapsed_end = end - overall_start
@@ -143,20 +183,61 @@ def main():
             camera_end = width_from + (width_to - width_from) * elapsed_end / total
             camera_from = [center[0], center[1], camera_start]
             camera_to = [center[0], center[1], camera_end]
+        frames = end - start
+        beats = []
+        move_frames = int(item.get("move_frames", auto_move_frames))
+        if move_frames:
+            if not has_from and not auto_enabled:
+                raise SystemExit(
+                    f"state {index} uses move_frames without explicit camera from/to"
+                )
+            if move_frames >= frames:
+                raise SystemExit(
+                    f"state {index} move_frames must be shorter than the state"
+                )
+            beats.append(
+                {
+                    "label": f"{label}-move",
+                    "frames": move_frames,
+                    "from": camera_from,
+                    "to": camera_to,
+                }
+            )
+            hold_to = [
+                float(value)
+                for value in item.get("hold_to", auto_hold_to or camera_to)
+            ]
+            if len(hold_to) != 3:
+                raise SystemExit(
+                    f"state {index} camera hold_to must be [center_x, center_y, width]"
+                )
+            beats.append(
+                {
+                    "label": f"{label}-hold",
+                    "frames": frames - move_frames,
+                    "from": camera_to,
+                    "to": hold_to,
+                }
+            )
+        else:
+            beats.append(
+                {
+                    "label": label,
+                    "frames": frames,
+                    "from": camera_from,
+                    "to": camera_to,
+                }
+            )
+
+        auto_previous = [float(value) for value in (item.get("hold_to") or auto_hold_to or camera_to)]
+
         spec = {
             "image": str(image_path),
             "fps": 30,
             "out_w": 1280,
             "out_h": 720,
             "upscale": int(camera.get("upscale", 3)),
-            "beats": [
-                {
-                    "label": label,
-                    "frames": end - start,
-                    "from": camera_from,
-                    "to": camera_to,
-                }
-            ],
+            "beats": beats,
         }
         spec_path = output / f"state-{index}-{label}.json"
         spec_path.write_text(json.dumps(spec, indent=2) + "\n")

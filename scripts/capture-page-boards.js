@@ -127,6 +127,27 @@ const BOARDS = [
   // round below, so a find list of bare titles matches the quiz instead.
   { section: "questionsvaluable", out: "questions-matter-3-qualities.jpg", width: 1180, vw: 1280,
     find: ["Homework doesn’t help students learn", "Should I join the debate team?", "On Target"] },
+
+  // Vector Space: capture the live neighborhood map exactly as it appears in
+  // the lesson. The earlier video used a Notebook-redrawn coordinate graphic;
+  // this board keeps the lesson's shared dimension header, four neighborhoods,
+  // and the mystery Pepsi-adjacent vector at the natural app-column width.
+  { section: "vectorspace", out: "vector-space-neighborhoods.jpg", width: 902, vw: 960,
+    find: ["Sweet · Bitter · Fizz · Heat · Caffeine · Dark · Citrus",
+      "Soft drinks neighborhood", "Hot drinks neighborhood"] },
+
+  // Transformer re-roll bundle. Capture the current live lesson structures at
+  // their natural app-column width; the archived versions predate the current
+  // typography, copy, and board layouts.
+  { section: "attention", out: "transformer-problems.jpg", width: 902, vw: 960,
+    find: ["Different Meanings", "Pronouns", "Which meaning of LIGHT should AI use?",
+      "What does IT point to: the cat or the milk?"] },
+  { section: "attention", out: "transformer-two-steps.jpg", width: 902, vw: 960,
+    find: ["Which words matter?", "Update the meaning", "IT’s vector updates to mean CAT."] },
+  { section: "attention", out: "transformer-answers.jpg", width: 902, vw: 960,
+    find: ["not-heavy in the other", "“Thirsty” links IT to the cat", "“fresh” links IT to the milk"] },
+  { section: "attention", out: "transformer-order.jpg", width: 902, vw: 960,
+    find: ["Reading in order", "Reading everything at once", "Reading everything at once destroys the meaning."] },
 ];
 
 const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){

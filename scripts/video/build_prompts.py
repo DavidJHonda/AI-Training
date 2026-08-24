@@ -15,8 +15,9 @@ LIMIT_HARD, LIMIT_WARN = 4950, 4800
 MOTION = ("Motion belongs to drawn scenes: animate builds and transitions there. "
           "{board_clause}Remove a board only when its narration ends.")
 BOARD_WALK = ("On an attached board legible as a whole, keep the exact full board fixed through "
-              "its narration and highlight only the current card or row as spoken; never replace, "
-              "crop, or pan between points. Dive to a whole card only if its text is unreadable "
+              "its narration. Add no native highlighting, marker, glow, underline, tint or callout "
+              "effect; course-native highlights, zooms and pans are added in postproduction. Never "
+              "replace or crop the board. Dive to a whole card only if its text is unreadable "
               "full-board. ")
 DECK = ('Teach from the visuals, never describe them — never say "this image shows" or "as this '
         'graphic illustrates"; speak the idea, let the picture follow.')
@@ -81,7 +82,7 @@ LESSONS = {}
 # no prompt is written for them. Without this, regenerating silently RESURRECTS the
 # deleted files (it did, on 3 of them). how-an-llm-works is deliberately not here --
 # its why-board kit was restored on request.
-RETIRED = {"does-school-matter", "ai-is-different", "transformer", "hallucination"}
+RETIRED = {"does-school-matter", "ai-is-different", "hallucination"}
 
 
 def add(slug, **kw):
@@ -210,25 +211,30 @@ End on board 6. It is the only closing card in this video.
 
 add("transformer", title="Transformer", lo=4, hi="4.5", boards=True,
     body="""
-Attached boards in order: 1 the two problems, 2 how AI used to read, 3 the two steps, 4 the close.
+Attached boards in order: 1 `transformer-problems.jpg`, 2 `transformer-1-before.jpg`, 3 `transformer-reading-comparison.jpg`, 4 `transformer-two-steps.jpg`, 5 `transformer-answers.jpg`, 6 `transformer-order.jpg`, 7 `transformer-close.jpg`.
 
 Focus: tokens and vectors are not enough, because a word's meaning is not clear until you read the words around it. Open on the two nuances the lesson names.
 
-One, different meanings: the word LIGHT in "Please turn on the LIGHT" and "The suitcase is LIGHT enough to carry." Two, pronouns: "The cat drank the milk because IT was thirsty" against "The cat drank the milk because IT was fresh" — only the last word changes, and IT switches from the cat to the milk. Show both pairs as clean drawn boards and let the problem land before moving on.
+Board 1: different meanings, the word LIGHT in "Please turn on the LIGHT" and "The suitcase is LIGHT enough to carry." Then pronouns: "The cat drank the milk because IT was thirsty" against "The cat drank the milk because IT was fresh." Only the last word changes, and IT switches from the cat to the milk. Let both problems land before solving them.
 
-Why this was hard: AI used to read in order, one word at a time, and the further it read the more the early words faded. Walk the lesson's own sentence — The cat sat on the mat during the May rainstorm because IT was tired — and pose the four candidates out loud: cat, mat, May, or the rainstorm. Answer it in the same breath: we know instantly it points to CAT, ten words later, and a computer reading strictly in order does not.
+Board 2: why this was hard. AI used to read in order, one word at a time, and the further it read the more the early words faded. Walk the sentence and pose the four candidates aloud: cat, mat, May, or the rainstorm. Answer in the same breath: we know IT points to CAT, ten words later, and a computer reading strictly in order does not.
 
-The breakthrough, given its own beat: in 2017, eight researchers at Google published a paper called Attention Is All You Need. It introduced the Transformer, the architecture behind every modern LLM, and the T in ChatGPT. Say all of that aloud.
+Board 3: contrast the old approach with the Transformer. Old AI read one word at a time. The Transformer reads every word at once, so early words do not fade before the end of the sentence.
 
-Then the mechanism, slowly, one step at a time. Step one, Attention: reading IT, the model weighs every word and leans hardest on CAT. Step two, Transformation: IT's vector updates to mean CAT. Hold each step on screen and explain what it does before moving to the next — do not read the two labels and move on. Then cash out both opening puzzles: attention links LIGHT to "turn on" in one sentence and to "carry" in the other, and transformation sets brightness in one and not-heavy in the other; "thirsty" links IT to the cat, "fresh" links IT to the milk.
+Give the breakthrough its own beat: in 2017, eight researchers at Google published a paper called Attention Is All You Need. It introduced the Transformer, the architecture behind every modern LLM, and the T in ChatGPT.
 
-Then the catch the lesson promised: if all the words arrive at once, how does the model keep them in order? Dog bites man and man bites dog are the same three tokens. The fix happens before the first layer — every token's vector gets a position stamp mixed in, and the proper name is positional encoding.
+Board 4, slowly and in order. First, Attention: reading IT, the model weighs every word and leans hardest on CAT. Second, Transformation. Say this sentence exactly once in the entire video: "The system updates IT's vector using the surrounding words, so IT comes to mean CAT." Never say or imply that the vector changes permanently or that the model learns or changes its stored weights during this chat.
 
-Close board: "Attention is all you need." over "The Transformer — the T in ChatGPT."
+Board 5: resolve both opening puzzles. Attention links LIGHT to "turn on" in one sentence and to "carry" in the other; transformation sets brightness in one and not-heavy in the other. "Thirsty" links IT to the cat; "fresh" links IT to the milk. Do not repeat the vector-update explanation here. Continue with: "This process repeats for every word in the prompt."
+
+Board 6: the catch. If all words arrive at once, how does the model keep them in order? Dog bites man and man bites dog use the same three tokens. Before the first layer, every token's vector gets a position stamp mixed in. Name it positional encoding.
+
+Board 7 closes: "Attention is all you need." over "Every nuance resolved by weighing the words around it."
 """,
     numbers="The only numbers allowed anywhere are the lesson's own: 2017 and eight researchers. Invent no percentages, scores or statistics, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props or backgrounds; every readable word on screen must be one the lesson actually uses, in clean dark ink.",
-    required='the narrator must say "in 2017, eight researchers at Google published a paper called Attention Is All You Need", must say "the T in ChatGPT" aloud, must name "positional encoding", and must spend real explanatory time on Attention and Transformation rather than naming them.')
+    required='the narrator must say "in 2017, eight researchers at Google published a paper called Attention Is All You Need", must say "the T in ChatGPT" aloud, must name "positional encoding", and must use the approved Transformation sentence exactly once.',
+    extra=("Never use Gemini Notebook's native highlighting, marker, glow, underline, background tint or callout effect on an attached board. Show every source board clean; course-native highlights, zooms and pans are added in postproduction.",))
 
 add("layers", title="Layers", lo=3, hi="3.5", boards=True,
     body="""

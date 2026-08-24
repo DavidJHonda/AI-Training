@@ -16,7 +16,7 @@ You end the conversation
 
 ## AI
 
-29,032 feet. Want me to walk through how it was measured, list the world’s tallest peaks, or quiz you on mountain facts?
+29,032 feet. Want me to expand on this? Should I add examples? Do you want me to format this as a study guide?
 
 ## You
 
@@ -36,7 +36,7 @@ The Engagement Trap
 
 ## AI
 
-29,032 feet. Want me to walk through how it was measured, list the world’s tallest peaks, or quiz you on mountain facts?
+29,032 feet. Want me to expand on this? Should I add examples? Do you want me to format this as a study guide?
 
 ## You
 

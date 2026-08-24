@@ -221,6 +221,117 @@ func drawDiminishingReturns(rect: NSRect) {
     drawText("COST", in: NSRect(x: topRight.x - 100, y: topRight.y - 20, width: 100, height: 34), font: medium(24), color: orange, alignment: .right)
 }
 
+func drawMeaningDot(_ label: String, center: NSPoint, fill: NSColor, radius: CGFloat = 32) {
+    roundedRect(
+        NSRect(x: center.x - radius, y: center.y - radius, width: radius * 2, height: radius * 2),
+        radius: radius,
+        fill: fill
+    )
+    centeredText(label, center: center, font: bold(22), color: .white)
+}
+
+func drawVectorAxes(in rect: NSRect) {
+    line(
+        from: NSPoint(x: rect.minX, y: rect.maxY),
+        to: NSPoint(x: rect.minX, y: rect.minY),
+        color: rule,
+        width: 2
+    )
+    line(
+        from: NSPoint(x: rect.minX, y: rect.maxY),
+        to: NSPoint(x: rect.maxX, y: rect.maxY),
+        color: rule,
+        width: 2
+    )
+}
+
+func drawAmbiguousVector(in rect: NSRect) {
+    drawVectorAxes(in: rect)
+    drawMeaningDot("CAT", center: NSPoint(x: rect.minX + 78, y: rect.minY + 54), fill: teal)
+    drawMeaningDot("TIRED", center: NSPoint(x: rect.maxX - 66, y: rect.minY + 106), fill: orange, radius: 37)
+
+    let itCenter = NSPoint(x: rect.midX + 12, y: rect.maxY - 48)
+    roundedRect(
+        NSRect(x: itCenter.x - 49, y: itCenter.y - 49, width: 98, height: 98),
+        radius: 49,
+        fill: color("#f1edff"),
+        stroke: purple,
+        lineWidth: 3
+    )
+    centeredText("?", center: NSPoint(x: itCenter.x, y: itCenter.y - 18), font: heavy(27), color: purple)
+    centeredText("IT", center: NSPoint(x: itCenter.x, y: itCenter.y + 18), font: heavy(27), color: purple)
+}
+
+func drawLayerResolution(in rect: NSRect) {
+    let catCenter = NSPoint(x: rect.minX + 58, y: rect.minY + 34)
+    let tiredCenter = NSPoint(x: rect.maxX - 58, y: rect.minY + 34)
+    drawMeaningDot("CAT", center: catCenter, fill: teal)
+    drawMeaningDot("TIRED", center: tiredCenter, fill: orange, radius: 37)
+
+    let stackX = rect.midX
+    let stackTop = rect.minY + 68
+    let layerWidth: CGFloat = 260
+    let layerHeight: CGFloat = 32
+    let layerGap: CGFloat = 7
+    for index in 0..<4 {
+        let y = stackTop + CGFloat(index) * (layerHeight + layerGap)
+        roundedRect(
+            NSRect(x: stackX - layerWidth / 2, y: y, width: layerWidth, height: layerHeight),
+            radius: 10,
+            fill: purple.withAlphaComponent(0.10 + CGFloat(index) * 0.07),
+            stroke: purple.withAlphaComponent(0.52 + CGFloat(index) * 0.10),
+            lineWidth: 2
+        )
+        drawText(
+            "LAYER \(index + 1)",
+            in: NSRect(x: stackX - layerWidth / 2 + 20, y: y + 4, width: 112, height: 24),
+            font: demi(21),
+            color: cardTitle,
+            alignment: .left
+        )
+    }
+
+    drawArrow(from: NSPoint(x: catCenter.x + 35, y: catCenter.y + 18), to: NSPoint(x: stackX - 78, y: stackTop + 8), color: teal, width: 3)
+    drawArrow(from: NSPoint(x: tiredCenter.x - 40, y: tiredCenter.y + 18), to: NSPoint(x: stackX + 78, y: stackTop + 8), color: orange, width: 3)
+
+    let itStart = NSPoint(x: stackX + 20, y: stackTop + 16)
+    let itEnd = NSPoint(x: stackX + 92, y: stackTop + 3 * (layerHeight + layerGap) + 16)
+    let path = NSBezierPath()
+    path.move(to: itStart)
+    path.curve(
+        to: itEnd,
+        controlPoint1: NSPoint(x: stackX + 34, y: stackTop + 48),
+        controlPoint2: NSPoint(x: stackX + 70, y: stackTop + 90)
+    )
+    path.lineWidth = 5
+    path.lineCapStyle = .round
+    purple.setStroke()
+    path.stroke()
+    for point in [itStart, NSPoint(x: stackX + 42, y: stackTop + 50), NSPoint(x: stackX + 66, y: stackTop + 88), itEnd] {
+        roundedRect(NSRect(x: point.x - 9, y: point.y - 9, width: 18, height: 18), radius: 9, fill: purple)
+    }
+    roundedRect(NSRect(x: itEnd.x - 27, y: itEnd.y - 27, width: 54, height: 54), radius: 27, fill: purple)
+    centeredText("IT", center: itEnd, font: bold(20), color: .white)
+}
+
+func drawResolvedVector(in rect: NSRect) {
+    drawVectorAxes(in: rect)
+    let catCenter = NSPoint(x: rect.minX + 104, y: rect.minY + 70)
+    let itCenter = NSPoint(x: catCenter.x + 82, y: catCenter.y + 20)
+    let tiredCenter = NSPoint(x: rect.maxX - 52, y: rect.maxY - 52)
+
+    roundedRect(
+        NSRect(x: catCenter.x - 66, y: catCenter.y - 58, width: 174, height: 128),
+        radius: 64,
+        fill: teal.withAlphaComponent(0.10)
+    )
+    drawMeaningDot("CAT", center: catCenter, fill: teal)
+    drawMeaningDot("IT", center: itCenter, fill: purple)
+    drawMeaningDot("TIRED", center: tiredCenter, fill: orange, radius: 37)
+    line(from: catCenter, to: itCenter, color: purple.withAlphaComponent(0.65), width: 3)
+    drawText("closest", in: NSRect(x: catCenter.x + 24, y: catCenter.y - 39, width: 90, height: 30), font: demi(20), color: teal, alignment: .center)
+}
+
 func save(_ image: NSImage, relativePaths: [String]) throws {
     image.unlockFocus()
     guard let tiff = image.tiffRepresentation,
@@ -245,6 +356,8 @@ func makeCanvas(title: String, subtitle: String?) -> NSImage {
     if let subtitle {
         drawText(title, in: NSRect(x: 80, y: 40, width: 1440, height: 58), font: heavy(44), color: navy, alignment: .center)
         drawText(subtitle, in: NSRect(x: 80, y: 100, width: 1440, height: 38), font: medium(26), color: muted, alignment: .center)
+    } else if title.contains("\n") {
+        drawText(title, in: NSRect(x: 80, y: 31, width: 1440, height: 112), font: heavy(40), color: navy, alignment: .center, lineHeight: 48)
     } else {
         drawText(title, in: NSRect(x: 80, y: 57, width: 1440, height: 58), font: heavy(44), color: navy, alignment: .center)
     }
@@ -326,5 +439,53 @@ func renderWhyDozens() throws {
     ])
 }
 
-try renderThreeReads()
-try renderWhyDozens()
+func renderLayerResolution() throws {
+    let image = makeCanvas(
+        title: "“The cat sat on the mat during the May rainstorm\nbecause it was tired.”",
+        subtitle: nil
+    )
+    let titles = ["AMBIGUOUS “IT”", "THROUGH THE LAYERS", "LANDS NEAR “CAT”"]
+    let bodies = [
+        "At first, IT is only a pronoun.\nIts numbers do not identify\nCAT.",
+        "Attention links IT to CAT\nand TIRED. Transformation\nshifts its vector.",
+        "After many layers, IT’s final\nvector lands closest to CAT."
+    ]
+
+    let innerX: CGFloat = 112
+    let innerWidth: CGFloat = 1376
+    let columnWidth = innerWidth / 3
+
+    for index in 0..<3 {
+        let x = innerX + CGFloat(index) * columnWidth
+        if index > 0 {
+            line(from: NSPoint(x: x, y: 214), to: NSPoint(x: x, y: 700), color: rule, width: 2)
+        }
+        drawNumber("\(index + 1)", center: NSPoint(x: x + columnWidth / 2, y: 246))
+        drawText(titles[index], in: NSRect(x: x + 22, y: 288, width: columnWidth - 44, height: 44), font: bold(32), color: cardTitle, alignment: .center)
+        drawText(bodies[index], in: NSRect(x: x + 34, y: 346, width: columnWidth - 68, height: 122), font: medium(30), color: bodyInk, alignment: .center, lineHeight: 38)
+
+        let graphicRect = NSRect(x: x + 58, y: 492, width: columnWidth - 116, height: 196)
+        if index == 0 {
+            drawAmbiguousVector(in: graphicRect)
+        } else if index == 1 {
+            drawLayerResolution(in: graphicRect)
+        } else {
+            drawResolvedVector(in: graphicRect)
+        }
+    }
+
+    drawCheckBand("Each layer moves IT closer to what it means.")
+    try save(image, relativePaths: [
+        "board-review-first-four/alternatives/understand-ai/layers-3-resolves-it-alternative.jpg",
+        "lessons/layers-3-resolves-it.jpg",
+        "illustrations/layers-resolves-it.jpg"
+    ])
+}
+
+if CommandLine.arguments.dropFirst().first == "resolution" {
+    try renderLayerResolution()
+} else {
+    try renderThreeReads()
+    try renderLayerResolution()
+    try renderWhyDozens()
+}

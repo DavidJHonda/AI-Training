@@ -46,6 +46,6 @@ Then, the traps that work on you instead of the answer. Helpful, agreeable, enga
 
 Finally, the trap that comes looking for you: other people’s AI, putting fakes in front of you so convincing that seeing is no longer proof.
 
-When it fails, nothing looks broken.
+When AI fails, nothing looks broken.
 
 This section teaches you to read the water.

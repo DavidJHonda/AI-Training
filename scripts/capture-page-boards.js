@@ -48,6 +48,11 @@ const BOARDS = [
   // with capture-board.sh instead of from the page. Section id is openerfoundations.
   { section: "openerfoundations", out: "opener-understand-1-kind.jpg", width: 740,
     find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "it’s its own kind of thing."] },
+  // Avoid Traps uses the same shared OpenerCreed component. Its archived August 7
+  // JPEG still has the retired peach/serif treatment, while the live lesson now
+  // renders the navy-and-gold creed. Capture the live component as the video source.
+  { section: "openerprotect", out: "opener-avoid-1-traps.jpg", width: 740,
+    find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
 
   // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by
   // render_ai_is_math_board_alternatives.py. Do not recapture their accessible-only
@@ -59,6 +64,14 @@ const BOARDS = [
   // with zoom and pan in the video.
   { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 900, vw: 960, wrapUp: 1,
     find: ["One notebook per subject", "Trace it back to learn it", "Reading the original material"] },
+
+  // One More Thing: these two boards must preserve the lesson's full-width layout.
+  // The older kit captures were made through a narrow composition slot, which
+  // changed the wrapping and made the video boards visibly different from the page.
+  { section: "inference", out: "one-more-thing-2-two-sides.jpg", width: 902, vw: 960,
+    find: ["TWO SIDES OF THE SAME CHAT", "You carry the chat in your head", "AI carries nothing"] },
+  { section: "inference", out: "one-more-thing-3-bill.jpg", width: 902, vw: 960,
+    find: ["The Math", "One word", "Your complete chat about your new dog"] },
 
   // NO CLOSE BOARDS BELONG IN THIS FILE (2026-07-30). Every close board in the
   // catalogue is generated from CLOSE_BOARDS by scripts/video/make_close_board.py,

@@ -673,7 +673,7 @@ Then the transfer, which the last roll dropped and which must be its own beat ne
 
 Then board 2, the section map, walked one row at a time. One, TRAPS IN THE ANSWER: facts invented with total confidence, bias and stale knowledge soaked up from the training data, and summaries of documents the model never really read. Two, TRAPS IN YOU: helpful, agreeable, engaging — the qualities that make AI easy to use also make it easy to fall for. Three, TRAPS FROM THE WORLD: other people's AI, putting fakes in front of you so convincing that seeing is no longer proof.
 
-End on board 3: "When it fails, nothing looks broken." over "This section teaches you to read the water."
+End on board 3: "When AI fails, nothing looks broken." over "This section teaches you to read the water."
 """,
     numbers="Do not invent numbers, percentages or statistics, and draw charts only as wordless background.",
     props="No readable or pseudo-readable text in drawn props; real words belong only on the attached boards and in clean dark-ink labels.",

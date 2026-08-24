@@ -112,7 +112,7 @@ Now count what that costs. The calculations aren’t a mystery. They’re the **
 
 So here’s the arithmetic on the arithmetic. Nobody outside OpenAI knows how big ChatGPT’s model really is; the companies stopped publishing sizes. So let’s make an honest guess and call it one trillion weights. Each word takes roughly two calculations per weight: a multiply and an add. That’s about 2 trillion calculations before ChatGPT can type one word.
 
-The Bill
+The Math
 
 ## One word
 

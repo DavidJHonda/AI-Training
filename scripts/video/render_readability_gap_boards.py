@@ -121,31 +121,35 @@ def render_document_chunks():
         ("EMBED", "Turn each chunk into a meaning vector.", BLUE),
         ("RETRIEVE", "Match the question to the closest chunks.", TEAL),
     ]
+    centers = [320, 800, 1280]
+    # Treat retrieval as one connected process rather than three cards nested
+    # inside the board. The rail establishes the sequence; light dividers keep
+    # each step legible without adding another layer of boxes.
+    draw.line((centers[0], 238, centers[-1], 238), fill=RULE, width=6)
+    draw.line((560, 286, 560, 700), fill=RULE, width=2)
+    draw.line((1040, 286, 1040, 700), fill=RULE, width=2)
     for index, (title, body, accent) in enumerate(cards):
-        x0 = 110 + index * 480
-        x1 = x0 + 420
-        rounded(draw, (x0, 204, x1, 704), 14, PALE, RULE)
-        number_marker(draw, x0 + 48, 250, index + 1, accent)
-        centered(draw, ((x0 + x1) / 2, 308), title, font("bold", 32), CARD_TITLE)
-        centered_block(draw, (x0 + 30, 342, x1 - 30, 446), body, font("medium", 28))
-        draw.line((x0 + 42, 470, x1 - 42, 470), fill=RULE, width=2)
+        cx = centers[index]
+        x0 = cx - 210
+        x1 = cx + 210
+        number_marker(draw, cx, 238, index + 1, accent)
+        centered(draw, (cx, 312), title, font("bold", 32), CARD_TITLE)
+        centered_block(draw, (x0 + 34, 350, x1 - 34, 448), body, font("medium", 28))
         if index == 0:
             for offset, color in [(0, "#e7e2fa"), (34, "#d9e8fb"), (68, "#d9f0eb")]:
-                rounded(draw, (x0 + 105, 512 + offset, x1 - 105, 548 + offset), 8, color, accent)
+                rounded(draw, (x0 + 105, 520 + offset, x1 - 105, 556 + offset), 8, color, accent)
         elif index == 1:
             for row, color in enumerate((PURPLE, BLUE, TEAL)):
-                rounded(draw, (x0 + 76, 514 + row * 48, x0 + 118, 548 + row * 48), 6, WHITE, color, 2)
-                arrow(draw, x0 + 132, 531 + row * 48, x0 + 180, color)
+                rounded(draw, (x0 + 76, 522 + row * 48, x0 + 118, 556 + row * 48), 6, WHITE, color, 2)
+                arrow(draw, x0 + 132, 539 + row * 48, x0 + 180, color)
                 for dot in range(4):
-                    draw.ellipse((x0 + 200 + dot * 34, 520 + row * 48, x0 + 220 + dot * 34, 540 + row * 48), fill=color)
+                    draw.ellipse((x0 + 200 + dot * 34, 528 + row * 48, x0 + 220 + dot * 34, 548 + row * 48), fill=color)
         else:
-            rounded(draw, (x0 + 70, 520, x0 + 220, 592), 12, WHITE, BLUE, 2)
-            centered(draw, (x0 + 145, 556), "QUESTION", font("heavy", 24), BLUE)
-            arrow(draw, x0 + 240, 556, x0 + 288, TEAL)
+            rounded(draw, (x0 + 70, 528, x0 + 220, 600), 12, WHITE, BLUE, 2)
+            centered(draw, (x0 + 145, 564), "QUESTION", font("heavy", 24), BLUE)
+            arrow(draw, x0 + 240, 564, x0 + 288, TEAL)
             for row in range(3):
-                rounded(draw, (x0 + 304, 502 + row * 53, x1 - 46, 540 + row * 53), 8, "#e5f4f1" if row == 1 else WHITE, TEAL if row == 1 else RULE, 2)
-        if index < 2:
-            arrow(draw, x1 + 12, 454, x1 + 56)
+                rounded(draw, (x0 + 304, 510 + row * 53, x1 - 46, 548 + row * 53), 8, "#e5f4f1" if row == 1 else WHITE, TEAL if row == 1 else RULE, 2)
     save(image, [
         "board-review-first-four/alternatives/avoid-traps/document-trap-1-chunks-alternative.jpg",
         "lessons/document-trap-1-chunks.jpg",

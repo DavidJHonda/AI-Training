@@ -645,7 +645,7 @@ const LESSON_VIDEOS = {
   attention: { src: "videos/transformer.mp4", duration: "5 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "videos/layers.mp4", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
   vectorspace: { src: "videos/vector-space.mp4?v=2", duration: "3 min", title: "Where a token's numbers finally land." },
-  prediction: { src: "videos/how-ai-answers.mp4", duration: "4 min", title: "How the answer builds itself, one token at a time." },
+  prediction: { src: "videos/how-ai-answers.mp4?v=2", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "videos/one-more-thing.mp4", duration: "5 min", title: "Three more things: the lottery, the transcript, and the bill." },
   openerprotect: { src: "videos/opener-avoid.mp4?v=2", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
   hallucination: { src: "videos/hallucination.mp4", duration: "3 min", title: "Why AI is confidently wrong, and the four patterns to catch it.", cta: "Both end at the same LAB." },
@@ -708,7 +708,7 @@ const CLOSE_BOARDS = {
   prediction: { pill: "Every answer is built one token at a time.", sticky: "The whole run is called inference." },
   inference: { pill: "Not a mind. Math, at a scale nobody can picture.", sticky: "Every time you hit send." },
   // Avoid Traps
-  openerprotect: { pill: "When it fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
+  openerprotect: { pill: "When AI fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
   hallucination: { pill: "Probable isn’t always true.", sticky: "And it sounds the same when it’s wrong." },
   trainingbias: { pill: "AI learned from what we wrote.", sticky: "Flaws in the data become flaws in the answers." },
   documenttrap: { pill: "It answers from what it retrieved.", sticky: "Not from having read the whole thing." },
@@ -5882,7 +5882,7 @@ function TrainingBiasSection(props) {
       " When you spot it, three questions crack the picture open:"),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/training-bias-questions.jpg",
-      alt: "",
+      alt: "Three questions that crack the picture open: ask what’s missing, ask for exceptions, and remove the famous. The model usually has the rest of the picture.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
@@ -6896,39 +6896,6 @@ function Game2048TryIt(props) {
       E(InnerCard, null,
         E("div", { ref: rootRef }))));
 }
-function ItSentenceStrip() {
-  var E = React.createElement;
-  return E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 24px" } },
-    E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5, rowGap: 8, background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: 14 } },
-      ["The", "cat", "sat", "on", "the", "mat", "during", "the", "May", "rainstorm", "because", "it", "was", "tired"].map(function(w, i) {
-        var highlight = w === "cat" || w === "it";
-        return E("span", { key: i, style: { background: highlight ? "var(--primary)" : "#fff", color: highlight ? "#fff" : "var(--inkSoft)", border: highlight ? "1px solid var(--primary)" : "1px solid rgba(110, 81, 255, 0.3)", boxSizing: "border-box", borderRadius: 7, padding: "5px 8px", fontSize: 12, fontFamily: "var(--mono)", fontWeight: highlight ? 800 : 600 } }, w);
-      })));
-}
-function ItSentenceWalkthrough(props) {
-  var E = React.createElement;
-  var hi = function(w) { return E("strong", { style: { color: "var(--primary)" } }, w); };
-  var cards = [
-    { tag: "Ambiguous “it”", body: E(React.Fragment, null, "On its own, ", hi("IT"), " is just a pronoun. Its vector could mean almost anything, and certainly not ", hi("CAT"), ".") },
-    { tag: "Through the layers", body: E(React.Fragment, null, "Each layer reads the surrounding words and shifts the numbers for ", hi("IT"), ". Layer by layer, the model works out what ", hi("IT"), " refers to.") },
-    props.revealed ? { tag: "Lands by “cat”", body: E(React.Fragment, null, "In vector space, the final numbers for ", hi("IT"), " land closer to ", hi("CAT"), " than to any other word in the sentence.") } : null
-  ];
-  return E(React.Fragment, null,
-    props.useTransformerBoard ? E("img", {
-      src: "illustrations/transformer-2-now.jpg",
-      alt: "With Transformers, AI reads every word at once. Attention connects IT directly to CAT and TIRED, setting up the word we will follow through the layers",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }) : E(ItSentenceStrip, null),
-    E("div", { style: { background: "var(--primaryFaint)", border: "1px solid var(--rule)", borderRadius: 16, padding: 20, maxWidth: 880, margin: "8px auto 14px" } },
-      E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", gap: 8 } },
-        cards.filter(Boolean).map(function(node, i) {
-          return E(React.Fragment, { key: i },
-            i > 0 ? E("div", { style: { display: "flex", alignItems: "center", color: "var(--primary)", fontSize: 22, fontWeight: 800, flexShrink: 0 } }, "→") : null,
-            E("div", { style: { flex: "1 1 200px", minWidth: 180, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 18px" } },
-              E("div", { style: { fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--primary)", marginBottom: 6 } }, node.tag),
-              E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.5, color: "var(--ink)" } }, node.body)));
-        }))));
-}
 function VectorSpaceSection(props) {
   var E = React.createElement;
   var vsTasteProfile = E("img", {
@@ -6965,7 +6932,7 @@ function VectorSpaceSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
-      "In the Layers lesson, you watched a token move through the layers, its numbers changing at every step. In theory, AI could look up those finished numbers in its full table of token embeddings and see which token they match. ",
+      "As a token moves through the layers, its numbers change at every step. In theory, AI could look up those finished numbers in its full table of token embeddings and see which token they match. ",
       E("strong", null, "But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.")),
     E(BodyP, null,
       "So how does AI work out what the token means, when its vector matches nothing on file? It finds the closest match. That sounds simple, but there’s more to it."),
@@ -7084,7 +7051,6 @@ function VectorSpaceSection(props) {
       E("strong", null, "vector space"),
       "."),
     E(BodyP, null, "Now, back to our sentence from the Layers lesson."),
-    E(ItSentenceWalkthrough, { revealed: true, useTransformerBoard: true }),
     E("img", {
       src: "illustrations/vector-space.jpg",
       alt: "A map of vector space on a desk: the word “IT” starts as an ambiguous vector and a lit path carries it through the layers across the map, past word-neighborhoods (cat near kitten, feline, pet; tired near sleepy, exhausted, rested; rainstorm near storm, rain, thunder, weather), until it lands in its final position closest to “cat.” Notes around the map read: meaning is a position, similar words live in the same neighborhood, AI doesn’t store answers, it reads positions, and the meaning it reads is whatever sits closest.",
@@ -7157,6 +7123,13 @@ function LayersStackBox() {
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
 }
+function LayersResolutionBox() {
+  return React.createElement("img", {
+    src: "illustrations/layers-resolves-it.jpg",
+    alt: "Three stages show how layers resolve IT: the starting vector is ambiguous, repeated attention and transformation shift its numbers, and the final vector lands closest to CAT",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  });
+}
 function WhyDozensBox() {
   return React.createElement("img", {
     src: "illustrations/layers-why-dozens.jpg",
@@ -7183,28 +7156,13 @@ function LayersSection(props) {
       " (update the meaning)."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "And AI does it with math. At each layer, it adjusts the tokens’ numbers, each pass moving them a little closer to what the tokens mean."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/layers.jpg",
-      alt: "Luke and Nate inspect a stack of transparent processing layers that repeatedly refine the token IT until it connects clearly to CAT",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
-    }),
+    /*#__PURE__*/React.createElement(LayersStackBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The mechanics"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "You saw this sentence in the Transformer lesson. Now follow one word, ",
       /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
       ", as its numbers change from layer to layer."),
-    /*#__PURE__*/React.createElement(ItSentenceWalkthrough, { revealed: false, useTransformerBoard: true }),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "By the last layer, ",
-      /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
-      "’s numbers are one of a kind: a fingerprint for this ",
-      /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
-      " in this sentence. Where those unique numbers land is the next lesson: ",
-      /*#__PURE__*/React.createElement("strong", null, "vector space"),
-      "."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "What does this look like inside the model? Like this."),
-    /*#__PURE__*/React.createElement(LayersStackBox, null),
+    /*#__PURE__*/React.createElement(LayersResolutionBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Why are there dozens of layers?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Because some meaning is many steps deep."),
@@ -7228,7 +7186,7 @@ function BillMeterBox() {
     { label: "Your complete chat about your new dog", sub: "2,000 words back and forth, about half of them typed by ChatGPT", num: "≈ 2 quadrillion" }
   ];
   return E("div", { style: { background: "var(--primaryFaint)", borderRadius: 24, padding: 32, margin: "8px 0 24px" } },
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.58px", color: "var(--ink)", lineHeight: 1.12, marginBottom: 20 } }, "The Bill"),
+    E("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.58px", color: "var(--ink)", lineHeight: 1.12, marginBottom: 20 } }, "The Math"),
     rows.map(function(r, i) {
       return E("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr auto", columnGap: 18, alignItems: "center", background: "var(--card)", borderRadius: 14, padding: "16px 18px", marginBottom: 12 } },
         E("div", null,
@@ -10862,14 +10820,14 @@ function EngagementTrapSection(props) {
         [{
           icon: "\u2705",
           tagline: "You end the conversation",
-          ai: "29,032 feet. Want me to walk through how it was measured, list the world\u2019s tallest peaks, or quiz you on mountain facts?",
+          ai: "29,032 feet. Want me to expand on this? Should I add examples? Do you want me to format this as a study guide?",
           you: "No thanks, that\u2019s all I needed.",
           happened: ["You had one question", "The first sentence answered it", "One minute, done"],
           color: "#3b82f6"
         }, {
           icon: "\uD83D\uDD01",
           tagline: "The Engagement Trap",
-          ai: "29,032 feet. Want me to walk through how it was measured, list the world’s tallest peaks, or quiz you on mountain facts?",
+          ai: "29,032 feet. Want me to expand on this? Should I add examples? Do you want me to format this as a study guide?",
           you: "Sure, why not. Walk me through it.",
           afterLabel: "⏱️ Two hours later",
           after: "A measurement-history walkthrough, a tallest-peaks list, a mountain quiz, and an offer to make flashcards. You came for a number.",

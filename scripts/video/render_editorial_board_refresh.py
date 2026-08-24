@@ -238,8 +238,10 @@ def open_columns(
     body_size=30,
     body_top_override=None,
     body_top_overrides=None,
+    heading_top_override=None,
     numbered_top_offset=0,
     art_y=680,
+    art_scale=None,
     show_rule=True,
 ):
     image, draw, header_height = board(title)
@@ -262,6 +264,8 @@ def open_columns(
         else:
             heading_top = 226 - header_gain
             body_top = 292 - header_gain
+        if heading_top_override is not None:
+            heading_top = heading_top_override
         if body_top_overrides is not None and body_top_overrides[index] is not None:
             body_top = body_top_overrides[index]
         elif body_top_override is not None:
@@ -271,11 +275,22 @@ def open_columns(
         if show_rule:
             rule_y = 510 - header_gain / 2
             draw.line((x0 + 40, rule_y, x1 - 40, rule_y), fill=RULE, width=2)
-        art(draw, cx, art_y, accent, 1.08 if count <= 3 else 0.88)
+        scale = art_scale if art_scale is not None else (1.08 if count <= 3 else 0.88)
+        art(draw, cx, art_y, accent, scale)
     return image
 
 
-def open_two_by_two(title, cards, arts, accents=None, heading_size=32, body_size=30, body_width=600):
+def open_two_by_two(
+    title,
+    cards,
+    arts,
+    accents=None,
+    heading_size=32,
+    body_size=30,
+    body_width=600,
+    center_groups=False,
+    art_y_offsets=None,
+):
     image, draw, header_height = board(title)
     header_gain = 172 - header_height
     accents = accents or [PURPLE, BLUE, ORANGE, RED]
@@ -293,9 +308,36 @@ def open_two_by_two(title, cards, arts, accents=None, heading_size=32, body_size
         x0, y0, x1, y1 = cell
         cx = (x0 + x1) / 2
         accent = accents[index]
-        centered_block(draw, cx, y0 + 24, heading, font("bold", heading_size), CARD_TITLE, 520, 3, 2)
-        centered_block(draw, cx, y0 + 76, body_text, font("medium", body_size), BODY, body_width, 6, 3)
-        art(draw, cx, y0 + 250, accent, 0.75)
+        heading_face = font("bold", heading_size)
+        body_face = font("medium", body_size)
+        if center_groups:
+            heading_lines = fit_lines(draw, heading, heading_face, 520, 2)
+            body_lines = fit_lines(draw, body_text, body_face, body_width, 3)
+            heading_height = len(heading_lines) * (heading_size + 3) - 3
+            body_height = len(body_lines) * (body_size + 6) - 6
+            heading_body_gap = 20
+            body_art_gap = 44
+            art_height = 128
+            group_height = (
+                heading_height
+                + heading_body_gap
+                + body_height
+                + body_art_gap
+                + art_height
+            )
+            group_top = y0 + ((y1 - y0) - group_height) / 2
+            heading_top = group_top
+            body_top = heading_top + heading_height + heading_body_gap
+            art_y = body_top + body_height + body_art_gap + art_height / 2
+        else:
+            heading_top = y0 + 24
+            body_top = y0 + 76
+            art_y = y0 + 250
+        if art_y_offsets is not None:
+            art_y += art_y_offsets[index]
+        centered_block(draw, cx, heading_top, heading, heading_face, CARD_TITLE, 520, 3, 2)
+        centered_block(draw, cx, body_top, body_text, body_face, BODY, body_width, 6, 3)
+        art(draw, cx, art_y, accent, 0.75)
     return image
 
 
@@ -372,7 +414,7 @@ def art_cruelty(draw, cx, cy, accent, scale):
 
 
 def art_source(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     rounded(draw, (cx - 104 * scale, cy - 70 * scale, cx + 58 * scale, cy + 70 * scale), 16 * scale, WHITE, accent, 4)
     draw.ellipse((cx - 78 * scale, cy - 44 * scale, cx - 44 * scale, cy - 10 * scale), fill=accent)
     for index, width in enumerate((80, 102, 70)):
@@ -382,7 +424,7 @@ def art_source(draw, cx, cy, accent, scale):
 
 
 def art_context(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     for index, alpha in enumerate((0.72, 0.18, 0.72)):
         x = cx - 112 * scale + index * 112 * scale
         rounded(draw, (x - 46 * scale, cy - 64 * scale, x + 46 * scale, cy + 64 * scale), 12 * scale, WHITE, accent if index == 1 else tint(accent, alpha), 4 if index == 1 else 2)
@@ -392,7 +434,7 @@ def art_context(draw, cx, cy, accent, scale):
 
 
 def art_corroboration(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     draw_document(draw, cx - 72 * scale, cy, accent, 0.72 * scale, True)
     draw_document(draw, cx + 72 * scale, cy, accent, 0.72 * scale, True)
     draw.line((cx - 16 * scale, cy, cx + 16 * scale, cy), fill=accent, width=5)
@@ -426,7 +468,7 @@ def art_mind_ai(draw, cx, cy, accent, scale):
 
 
 def art_rank(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     for offset in (-46, 46):
         draw_chat(draw, cx + offset * scale, cy - 12 * scale, accent, 0.55 * scale, False)
     draw.ellipse((cx - 29 * scale, cy + 48 * scale, cx + 29 * scale, cy + 106 * scale), fill=accent)
@@ -434,14 +476,14 @@ def art_rank(draw, cx, cy, accent, scale):
 
 
 def art_reward(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     draw_chat(draw, cx, cy - 10 * scale, accent, 0.85 * scale, True)
     for dx in (-72, 0, 72):
         draw.ellipse((cx + (dx - 10) * scale, cy + 80 * scale, cx + (dx + 10) * scale, cy + 100 * scale), fill=accent)
 
 
 def art_numbers(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     for index, level in enumerate((0.35, 0.60, 0.86)):
         x = cx - 84 * scale + index * 84 * scale
         draw.rounded_rectangle((x - 22 * scale, cy + 62 * scale - 120 * level * scale, x + 22 * scale, cy + 62 * scale), radius=9 * scale, fill=tint(accent, 0.55 - index * 0.12), outline=accent)
@@ -449,47 +491,47 @@ def art_numbers(draw, cx, cy, accent, scale):
 
 
 def art_prepare(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent, 320, 210)
-    draw_chat(draw, cx - 80, cy, accent, 0.72, False)
-    arrow(draw, cx - 4, cy, cx + 48, cy, accent, 5)
-    draw_document(draw, cx + 98, cy, accent, 0.72, True)
+    art_stage(draw, cx, cy, accent, 320 * scale, 210 * scale)
+    draw_chat(draw, cx - 80 * scale, cy, accent, 0.72 * scale, False)
+    arrow(draw, cx - 4 * scale, cy, cx + 48 * scale, cy, accent, max(3, round(5 * scale)))
+    draw_document(draw, cx + 98 * scale, cy, accent, 0.72 * scale, True)
 
 
 def art_people_check(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent, 320, 210)
-    draw_person(draw, cx - 76, cy + 16, CARD_TITLE, 0.72)
-    draw_person(draw, cx + 26, cy + 16, CARD_TITLE, 0.72)
-    draw.line((cx - 35, cy + 12, cx - 15, cy + 12), fill=accent, width=6)
-    draw_calendar(draw, cx + 108, cy + 2, accent, 0.68)
+    art_stage(draw, cx, cy, accent, 320 * scale, 210 * scale)
+    draw_person(draw, cx - 76 * scale, cy + 16 * scale, CARD_TITLE, 0.72 * scale)
+    draw_person(draw, cx + 26 * scale, cy + 16 * scale, CARD_TITLE, 0.72 * scale)
+    draw.line((cx - 35 * scale, cy + 12 * scale, cx - 15 * scale, cy + 12 * scale), fill=accent, width=max(3, round(6 * scale)))
+    draw_calendar(draw, cx + 108 * scale, cy + 2 * scale, accent, 0.68 * scale)
 
 
 def art_defaults(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     for row in range(3):
         for col in range(5):
             fill = accent if col < 4 else ORANGE
-            x = cx - 88 + col * 44
-            y = cy - 42 + row * 42
-            draw.ellipse((x - 13, y - 13, x + 13, y + 13), fill=fill)
+            x = cx - 88 * scale + col * 44 * scale
+            y = cy - 42 * scale + row * 42 * scale
+            draw.ellipse((x - 13 * scale, y - 13 * scale, x + 13 * scale, y + 13 * scale), fill=fill)
 
 
 def art_blind(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
     for row in range(3):
         for col in range(4):
-            x = cx - 72 + col * 48
-            y = cy - 48 + row * 48
-            rounded(draw, (x - 16, y - 16, x + 16, y + 16), 6, WHITE, accent if (row, col) != (2, 3) else MUTED, 3)
-    draw.text((cx + 98, cy + 68), "?", font=font("heavy", 46), fill=accent, anchor="mm")
+            x = cx - 72 * scale + col * 48 * scale
+            y = cy - 48 * scale + row * 48 * scale
+            rounded(draw, (x - 16 * scale, y - 16 * scale, x + 16 * scale, y + 16 * scale), 6 * scale, WHITE, accent if (row, col) != (2, 3) else MUTED, max(2, round(3 * scale)))
+    draw.text((cx + 98 * scale, cy + 68 * scale), "?", font=font("heavy", round(46 * scale)), fill=accent, anchor="mm")
 
 
 def art_wrong(draw, cx, cy, accent, scale):
-    art_stage(draw, cx, cy, accent)
-    draw.rectangle((cx - 96, cy - 25, cx + 96, cy + 55), fill=tint(GREEN, 0.68), outline=GREEN, width=4)
-    draw.ellipse((cx - 62, cy - 74, cx + 62, cy + 34), fill=WHITE, outline=NAVY, width=4)
+    art_stage(draw, cx, cy, accent, 260 * scale, 205 * scale)
+    draw.rectangle((cx - 96 * scale, cy - 25 * scale, cx + 96 * scale, cy + 55 * scale), fill=tint(GREEN, 0.68), outline=GREEN, width=max(3, round(4 * scale)))
+    draw.ellipse((cx - 62 * scale, cy - 74 * scale, cx + 62 * scale, cy + 34 * scale), fill=WHITE, outline=NAVY, width=max(3, round(4 * scale)))
     for px, py in ((-30, -40), (3, -57), (34, -22)):
-        draw.ellipse((cx + px - 10, cy + py - 7, cx + px + 10, cy + py + 7), fill=NAVY)
-    draw.text((cx, cy + 87), "CLUE ≠ CONCEPT", font=font("heavy", 23), fill=accent, anchor="mm")
+        draw.ellipse((cx + (px - 10) * scale, cy + (py - 7) * scale, cx + (px + 10) * scale, cy + (py + 7) * scale), fill=NAVY)
+    draw.text((cx, cy + 87 * scale), "CLUE ≠ CONCEPT", font=font("heavy", round(23 * scale)), fill=accent, anchor="mm")
 
 
 def art_section(draw, cx, cy, accent, scale):
@@ -816,6 +858,7 @@ def render_fake_reasons():
         heading_size=32,
         body_size=30,
         body_width=640,
+        art_y_offsets=[-28, -28, 0, 0],
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/fake-trap-four-reasons-alternative.jpg",
@@ -836,6 +879,9 @@ def render_fake_checks():
         [art_source, art_context, art_corroboration],
         heading_size=32,
         body_size=30,
+        art_y=590,
+        art_scale=1.25,
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/fake-trap-three-checks-alternative.jpg",
@@ -854,6 +900,10 @@ def render_mind():
         ],
         [art_mind_everywhere, art_mind_ai],
         accents=[TEAL, PURPLE],
+        heading_top_override=264,
+        body_top_override=330,
+        art_y=657,
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/mind-trap-eliza-effect-alternative.jpg",
@@ -873,6 +923,9 @@ def render_flattery():
         ],
         [art_rank, art_reward, art_numbers],
         numbered=True,
+        art_y=600,
+        art_scale=1.25,
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
@@ -891,6 +944,9 @@ def render_support():
         ],
         [art_prepare, art_people_check],
         accents=[TEAL, RED],
+        art_y=585,
+        art_scale=1.25,
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/support-trap-real-vs-missing-alternative.jpg",
@@ -910,6 +966,9 @@ def render_training_bias():
         ],
         [art_defaults, art_blind, art_wrong],
         accents=[PURPLE, BLUE, ORANGE],
+        art_y=590,
+        art_scale=1.28,
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/training-bias-1-mechanisms-alternative.jpg",
@@ -930,6 +989,7 @@ def render_document_moves():
         ],
         [art_section, art_target, art_crop, art_quote],
         accents=[PURPLE, BLUE, TEAL, ORANGE],
+        center_groups=True,
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/document-trap-2-moves-alternative.jpg",
@@ -949,6 +1009,7 @@ def render_guardrails():
         [art_moving_target, art_equal, art_super],
         numbered=True,
         accents=[PURPLE, BLUE, RED],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
@@ -971,6 +1032,7 @@ def render_voice_clone():
         numbered=True,
         accents=[PURPLE, BLUE, RED, TEAL],
         body_top_override=326,
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-downside-voice-clone-alternative.jpg",
@@ -1022,6 +1084,7 @@ def render_work_concepts():
         ],
         [art_automate, art_augment],
         accents=[PURPLE, TEAL],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/work-changes-automate-augment-alternative.jpg",
@@ -1042,6 +1105,7 @@ def render_work_outcomes():
         [art_more_kinds, art_productive, art_meaningful],
         accents=[PURPLE, BLUE, TEAL],
         body_top_overrides=[None, None, 276],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
@@ -1080,6 +1144,7 @@ def render_upside_discovery():
             ("Cancer screening", "In a Swedish trial, AI-supported screening detected more breast cancers in over 100,000 women."),
         ],
         [art_antibiotic, art_material, art_scan],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
@@ -1099,6 +1164,7 @@ def render_upside_help():
         ],
         [art_forecast, art_flood, art_access],
         accents=[BLUE, TEAL, GREEN],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
@@ -1117,6 +1183,7 @@ def render_pace_research():
         ],
         [art_research, art_recursive],
         accents=[TEAL, PURPLE],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
@@ -1135,6 +1202,7 @@ def render_pace_capability():
         ],
         [art_agi, art_asi],
         accents=[BLUE, RED],
+        show_rule=False,
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",

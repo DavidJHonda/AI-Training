@@ -154,6 +154,10 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
     active card or section, and pan smoothly to the next complete area in spoken order.
     Never crop inside a card. Pull back when timing permits.
   - A board discussed only as a whole receives an unmarked restrained push.
+  - Measure every title highlight against the visible title in the current rendered
+    board asset. Center the title ink vertically and horizontally inside the border
+    with balanced padding. Never reuse title coordinates after a subtitle is removed,
+    a header is resized, text wraps differently, or any other board-layout change.
   Numeric Board Content credit does not waive this ship requirement. A redraw may
   teach the right content and still fail this gate.
 - `GATE_NO_NOTEBOOK_HIGHLIGHT`: All teaching-board emphasis uses the course-native

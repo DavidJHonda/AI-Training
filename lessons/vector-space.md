@@ -2,7 +2,7 @@
 
 # Vector Space
 
-In the last lesson, you watched a token move through the layers, its numbers changing at every step. In theory, AI could look up those finished numbers in its full table of token embeddings and see which token they match. **But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.**
+As a token moves through the layers, its numbers change at every step. In theory, AI could look up those finished numbers in its full table of token embeddings and see which token they match. **But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.**
 
 So how does AI work out what the token means, when its vector matches nothing on file? It finds the closest match. That sounds simple, but there’s more to it.
 
@@ -116,11 +116,7 @@ Back to that one-of-a-kind token. AI can’t look its numbers up, but it can do 
 
 Now, back to our sentence from the last lesson.
 
-![With Transformers, AI reads every word at once. Attention connects IT directly to CAT and TIRED before the layers move IT toward its final position.](transformer-2-now.jpg)
-
-On its own, **IT** could have pointed at almost anything. As it flowed through the layers, its numbers kept moving toward **CAT**. By the end they matched no token exactly, but of every meaning AI knows, they sat closest to **CAT**.
-
-In other words, AI has figured out that **IT** means the cat.
+![A map of vector space shows IT beginning as an ambiguous vector, moving through the layers across meaning neighborhoods, and landing in its final position closest to CAT.](vector-space-4-meaning-map.jpg)
 
 Meaning is a position.
 

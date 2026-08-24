@@ -14,27 +14,13 @@ Each pass is called a **layer**, and at every layer AI runs the two moves you ju
 
 And AI does it with math. At each layer, it adjusts the tokens’ numbers, each pass moving them a little closer to what the tokens mean.
 
+![Attention and transformation repeat through the model while the token vector changes after every layer, from its starting values to a richer output vector.](layers-2-inside.jpg)
+
 ## The mechanics
 
-You saw this sentence in the Transformer lesson. Now follow one word, **IT**, as its numbers change from layer to layer. The final box stays blank for now; we fill it in the next lesson.
+You saw this sentence in the Transformer lesson. Now follow one word, **IT**, as its numbers change from layer to layer.
 
-![With Transformers, AI reads every word at once. Attention connects IT directly to CAT and TIRED, setting up the word we will follow through the layers.](transformer-2-now.jpg)
-
-## Ambiguous “it”
-
-On its own, **IT** is just a pronoun. Its vector could mean almost anything, and certainly not **CAT**.
-
-→
-
-## Through the layers
-
-Each layer reads the surrounding words and shifts the numbers for **IT**. Layer by layer, the model works out what **IT** refers to.
-
-→
-
-What does this look like inside the model? Like this.
-
-![Attention and transformation repeat through the model while the token vector changes after every layer, from its starting values to a richer output vector.](layers-2-inside.jpg)
+![Three stages show how layers resolve IT: the starting vector is ambiguous, repeated attention and transformation shift its numbers, and the final vector lands closest to CAT.](layers-3-resolves-it.jpg)
 
 ## Why are there dozens of layers?
 

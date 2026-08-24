@@ -4,7 +4,7 @@
 
 Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation.
 
-![The course equation: Learn More equals More Knowledge, which creates Better Questions and Better Results. Therefore, Be Smarter Than the Tool.](critical-thinking-1-equation.jpg)
+![The course equation: Learn More equals More Knowledge, which creates Better Questions and Better Results. A bottom banner reads Be Smarter Than the Tool.](critical-thinking-1-equation.jpg)
 
 That equation leaves out one skill: the one that raises every line of it. It matters enough that we could have called this lesson **How to Take Your AI Use from a B to an A+**.
 
@@ -24,7 +24,7 @@ In 2015, headlines around the world announced a delicious discovery: a new study
 
 Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions.
 
-![Two reactions to the 2015 headline Slim by Chocolate. At face value: Wow, I can eat all the chocolate I want and still lose ten pounds. Critical thinking: Wait a second. That sounds too good to be true. What’s behind this study?](critical-thinking-3-two-reactions.jpg)
+![Slim by Chocolate. One student accepts the claim at face value: Sounds great. I believe it. Another examines the evidence: Wait. What’s behind the claim?](critical-thinking-3-two-reactions.jpg)
 
 ## The True Story
 

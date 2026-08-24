@@ -185,9 +185,65 @@ def build_now():
     return image
 
 
+def build_comparison():
+    image = Image.new("RGB", (W, H), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    centered(draw, (800, 76), "How AI reads a sentence", font("heavy", 48))
+    rounded(draw, (80, 142, 1520, 736), 18, WHITE)
+
+    # Two matched teaching panels make the architectural change visible at a glance.
+    panels = [
+        ((110, 176, 780, 706), "BEFORE TRANSFORMERS", "One word at a time", PURPLE),
+        ((820, 176, 1490, 706), "WITH A TRANSFORMER", "Every word at once", "#2f63bf"),
+    ]
+    for box, kicker, title, accent in panels:
+        rounded(draw, box, 16, PALE, RULE, 2)
+        centered(draw, ((box[0] + box[2]) / 2, 218), kicker, font("heavy", 20), accent)
+        centered(draw, ((box[0] + box[2]) / 2, 270), title, font("bold", 35), CARD_TITLE)
+        draw.line((box[0] + 34, 307, box[2] - 34, 307), fill=RULE, width=2)
+
+    # Before: reading advances left to right while the earliest words visibly fade.
+    before_words = ["CAT", "SAT", "ON", "THE", "MAT", "...", "IT"]
+    before_x = [142, 224, 306, 388, 470, 552, 648]
+    for index, (word, x) in enumerate(zip(before_words, before_x)):
+        fill = ["#eeeaf5", "#f1eef7", "#f4f2f9", "#f7f5fb", "#faf9fd", WHITE, "#e5ddff"][index]
+        outline = ["#d6d0e1", "#dbd5e5", "#e0dbe9", "#e5e1ed", "#e9e6f1", RULE, PURPLE][index]
+        rounded(draw, (x, 370, x + 66, 438), 12, fill, outline, 3 if word == "IT" else 2)
+        centered(draw, (x + 33, 406), word, font("bold", 22), PURPLE if word == "IT" else NAVY)
+        if index < len(before_words) - 1:
+            arrow(draw, x + 68, 406, before_x[index + 1] - 4, "#b8afd0", 3)
+    centered(draw, (445, 500), "AI moves forward.", font("demi", 29), CARD_TITLE)
+    centered(draw, (445, 548), "Earlier words fade behind it.", font("medium", 28), BODY)
+    centered(draw, (445, 624), "CAT can be distant by the time", font("medium", 27), MUTED)
+    centered(draw, (445, 660), "AI reaches IT.", font("medium", 27), MUTED)
+
+    # Now: every token arrives together. Relationships are deliberately saved
+    # for the following Attention and Transformation board.
+    centered(draw, (1155, 340), "The complete message arrives together.", font("medium", 25), MUTED)
+    rows = [
+        (["THE", "CAT", "SAT", "ON", "THE", "MAT"], [70, 80, 70, 60, 70, 80], 370),
+        (["DURING", "THE", "MAY", "RAINSTORM"], [108, 70, 70, 150], 452),
+        (["BECAUSE", "IT", "WAS", "TIRED"], [112, 60, 72, 92], 534),
+    ]
+    for words, widths, y0 in rows:
+        gap = 12
+        total_width = sum(widths) + gap * (len(words) - 1)
+        x = 1155 - total_width / 2
+        for word, width in zip(words, widths):
+            rounded(draw, (x, y0, x + width, y0 + 62), 12, "#e8f1ff", "#2f63bf", 3)
+            centered(draw, (x + width / 2, y0 + 33), word, font("bold", 20 if len(word) > 7 else 23), "#2f63bf")
+            x += width + gap
+    centered(draw, (1155, 638), "All words are present from the start.", font("demi", 27), CARD_TITLE)
+    centered(draw, (1155, 676), "Nothing has faded or fallen behind.", font("medium", 27), BODY)
+
+    takeaway(draw, "The Transformer reads the whole message at once. Attention comes next.")
+    return image
+
+
 def main():
     save(build_before(), "transformer-1-before.jpg")
     save(build_now(), "transformer-2-now.jpg")
+    save(build_comparison(), "transformer-reading-comparison.jpg")
 
 
 if __name__ == "__main__":

@@ -124,6 +124,6 @@ This time, humans don’t write the answers. They ask a question, the model writ
 
 When training is finished, the core model becomes a kind of snapshot. It has learned patterns from the data it saw up to a certain point. That is why models can have **knowledge cutoffs**. They can add live search, files, memory, or tools, but the core model is finished learning.
 
-Fluent, confident, likable.
+AI learned patterns, not facts.
 
-None of that guarantees an answer is right.
+Fluency comes free. Being right doesn’t.

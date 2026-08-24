@@ -120,7 +120,7 @@ def save(image, stem):
 
 
 def render_course_equation():
-    image, draw = frame("The course equation", dense=True)
+    image, draw = frame("The course equation", "Be Smarter Than the Tool")
 
     equation_card(draw, (530, 202, 1070, 302), "Learn More")
     centered(draw, (800, 340), "=", font("heavy", 34), MUTED)
@@ -130,12 +130,6 @@ def render_course_equation():
     equation_card(draw, (230, 554, 700, 654), "Better Questions")
     centered(draw, (800, 604), "+", font("heavy", 36), PURPLE)
     equation_card(draw, (900, 554, 1370, 654), "Better Results")
-
-    draw.line((290, 704, 672, 704), fill=RULE, width=2)
-    centered(draw, (800, 704), "THEREFORE", font("heavy", 20), PURPLE)
-    draw.line((928, 704, 1310, 704), fill=RULE, width=2)
-    rounded(draw, (430, 744, 1170, 826), 28, PURPLE)
-    centered(draw, (800, 785), "Be Smarter Than the Tool", font("heavy", 38), WHITE)
     save(image, "critical-thinking-1-equation")
 
 
@@ -146,27 +140,44 @@ def definition_card(draw, box, title, text):
     centered_block(draw, (box[0] + 38, box[1] + 108, box[2] - 38, box[3] - 28), text, font("medium", 28))
 
 
+def inline_definition_card(draw, box, title, first_line, second_line):
+    rounded(draw, box, 16, PALE, RULE, 2)
+    title_face = font("bold", 28)
+    body_face = font("medium", 28)
+    title_text = f"{title} "
+    body_text = f"— {first_line}"
+    title_width = draw.textlength(title_text, font=title_face)
+    body_width = draw.textlength(body_text, font=body_face)
+    start_x = (box[0] + box[2] - title_width - body_width) / 2
+    first_y = (box[1] + box[3]) / 2 - 22
+    draw.text((start_x, first_y), title_text, font=title_face, fill=CARD_TITLE, anchor="lm")
+    draw.text((start_x + title_width, first_y), body_text, font=body_face, fill=BODY, anchor="lm")
+    centered(draw, ((box[0] + box[2]) / 2, first_y + 46), second_line, body_face, BODY)
+
+
 def render_one_more_equation():
     image, draw = frame("One more equation", "AI gives answers. You own the thinking.")
 
-    equation_card(draw, (170, 210, 500, 326), "Critical")
-    centered(draw, (560, 268), "+", font("heavy", 36), PURPLE)
-    equation_card(draw, (620, 210, 950, 326), "Thinking")
-    centered(draw, (1010, 268), "=", font("heavy", 36), MUTED)
-    rounded(draw, (1070, 210, 1430, 326), 18, PURPLE)
-    centered(draw, (1250, 268), "A+", font("heavy", 44), WHITE)
+    equation_card(draw, (170, 250, 500, 366), "Critical")
+    centered(draw, (560, 308), "+", font("heavy", 36), PURPLE)
+    equation_card(draw, (620, 250, 950, 366), "Thinking")
+    centered(draw, (1010, 308), "=", font("heavy", 36), MUTED)
+    rounded(draw, (1070, 250, 1430, 366), 18, PURPLE)
+    centered(draw, (1250, 308), "A+", font("heavy", 44), WHITE)
 
-    definition_card(
+    inline_definition_card(
         draw,
-        (120, 376, 780, 698),
+        (120, 476, 780, 660),
         "Critical",
-        "Don’t take things at face value. False claims rarely announce themselves.",
+        "Don’t take things at face value. False",
+        "claims rarely announce themselves.",
     )
-    definition_card(
+    inline_definition_card(
         draw,
-        (820, 376, 1480, 698),
+        (820, 476, 1480, 660),
         "Thinking",
-        "Analyze, question, and evaluate before deciding what to believe or do.",
+        "Analyze, question, and evaluate",
+        "before deciding what to believe or do.",
     )
     save(image, "critical-thinking-2-one-more")
 
@@ -178,32 +189,26 @@ def reaction_card(draw, box, label, text, fill, outline):
     centered_block(draw, (box[0] + 42, box[1] + 112, box[2] - 42, box[3] - 30), text, font("medium", 29), BODY, 10)
 
 
+def reaction_overlay(draw, box, label, text, fill, outline):
+    rounded(draw, box, 16, fill, outline, 2)
+    centered(draw, ((box[0] + box[2]) / 2, box[1] + 30), label, font("heavy", 25), outline)
+    centered(draw, ((box[0] + box[2]) / 2, box[1] + 73), text, font("demi", 29), NAVY)
+
+
 def render_critical_thinking_in_action():
     image, draw = frame(
-        "Critical thinking in action",
+        "Slim by Chocolate!",
         "Pause when a claim sounds exactly like what you want to believe.",
     )
 
-    rounded(draw, (150, 202, 1450, 338), 16, PALE, RULE, 2)
-    centered(draw, (800, 238), "2015 HEADLINE", font("heavy", 24), PURPLE)
-    centered(draw, (800, 292), "“Slim by Chocolate!”", font("bold", 40), CARD_TITLE)
+    source = Image.open(ROOT / "illustrations/critical-thinking.jpg").convert("RGB")
+    photo = source.crop((0, 100, 1200, 541)).resize((1360, 500), Image.Resampling.LANCZOS)
+    mask = Image.new("L", photo.size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, photo.width, photo.height), radius=16, fill=255)
+    image.paste(photo, (120, 202), mask)
 
-    reaction_card(
-        draw,
-        (120, 380, 780, 700),
-        "FACE VALUE",
-        "Wow. I can eat all the chocolate I want and still lose ten pounds! Pass me the Hershey bars NOW!",
-        RED_PALE,
-        RED,
-    )
-    reaction_card(
-        draw,
-        (820, 380, 1480, 700),
-        "CRITICAL THINKING",
-        "Wait a second. That sounds too good to be true. What’s behind this study?",
-        GREEN_PALE,
-        GREEN,
-    )
+    reaction_overlay(draw, (150, 590, 750, 696), "FACE VALUE", "Sounds great. I believe it.", RED_PALE, RED)
+    reaction_overlay(draw, (850, 590, 1450, 696), "CRITICAL THINKING", "Wait. What’s behind the claim?", GREEN_PALE, GREEN)
     save(image, "critical-thinking-3-two-reactions")
 
 

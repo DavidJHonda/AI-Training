@@ -2,23 +2,21 @@
 
 # Opener
 
-## SIX BIG IDEAS TO TAKE WITH YOU
+## FIVE BIG IDEAS TO TAKE WITH YOU
 
 AI predicts. It doesn’t think.
 
-What you bring shapes what comes back.
+Fluent isn’t the same as true.
 
 The more you know, the more it gives.
 
-Fluent isn’t the same as true.
-
-The better it gets, the more you matter.
+The better AI gets, the more you matter.
 
 You make the call.
 
 now you’re smarter than the tool.
 
-Everything you just learned ties back to those six ideas. Lock them in and you’ve got the mental model that runs every AI conversation. The Final is waiting in the next lesson.
+Everything you just learned ties back to those five ideas. Lock them in and you’ve got the mental model that runs every AI conversation. The Final is waiting in the next lesson.
 
 ## QUESTIONS YOU CAN ANSWER NOW
 

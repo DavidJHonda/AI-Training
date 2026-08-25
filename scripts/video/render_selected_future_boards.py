@@ -183,8 +183,8 @@ def render_pace_research() -> None:
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
-        "illustrations/pace-of-change-future-research.jpg",
-        "lessons/pace-of-change-3-future-research.jpg",
+        # The live lesson and video-prep paths use the approved illustration-first
+        # board. Do not add them here or this legacy renderer will overwrite it.
     ])
 
 
@@ -213,8 +213,8 @@ def render_pace_capability() -> None:
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
-        "illustrations/pace-of-change-future-capability.jpg",
-        "lessons/pace-of-change-4-future-capability.jpg",
+        # The live lesson and video-prep paths use the approved illustration-first
+        # board. Do not add them here or this legacy renderer will overwrite it.
     ])
 
 

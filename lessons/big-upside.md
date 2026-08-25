@@ -12,7 +12,16 @@ That’s the fifty-year problem in one picture. A protein’s shape determines w
 
 ## THE GUY WHO SOLVED IT
 
-![Demis Hassabis: from becoming a chess master at 13 and co-designing a video game to founding DeepMind, solving protein folding, releasing 200 million predictions, and winning the Nobel Prize.](big-upside-1-hassabis.jpg)
+### Demis Hassabis: from chess and games to the Nobel Prize
+
+1. 1989: Becomes a chess master at age 13.
+2. 1994: Co-designs Theme Park at age 17.
+3. 2009: Earns a PhD in neuroscience.
+4. 2010: Founds DeepMind.
+5. 2020: AlphaFold solves the protein-folding prediction problem.
+6. 2022: DeepMind releases 200 million protein-shape predictions free.
+7. 2024: Wins the Nobel Prize in Chemistry.
+A kid who loved games helped solve a fifty-year science problem.
 
 DeepMind’s predictions came back about as accurate as real lab experiments.
 
@@ -32,9 +41,21 @@ I’ve dedicated my career to advancing AI because of its unparalleled potential
 
 You learned that AI is a pattern machine. Smart people are pointing AI at problems with too many possibilities for humans to search by hand. AI is already accelerating work that protects and improves lives.
 
-![AI searches possibilities humans cannot: new antibiotics, new materials, and cancer screening.](big-upside-3a-discovery.jpg)
+### More of the big upside
 
-![AI turns patterns into practical help through faster forecasts, earlier flood warnings, and accessibility tools.](big-upside-3b-help.jpg)
+**New antibiotics:**MIT researchers screened thousands of compounds with AI and found one that kills a superbug almost nothing else touches. They named it abaucin.
+
+**Faster weather forecasts:**One computer creates a global forecast in about a minute. The old way took hours on a supercomputer. Faster forecasts mean more people can leave dangerous areas before the bad weather hits.
+
+**Materials that don’t exist:**Batteries, solar panels, and computer chips all use crystals. Better crystals make them all better. Demis’ company, DeepMind, predicted 380,000 crystals worth making.
+
+**Eyes and ears:**Blind users point a phone and AI reads the world: the right bus, the food on the menu, the expiration date of their food. AI does the same for deaf users, turning sound into live captions. **Shipping now. FREE!**
+
+**Early flood warnings:**Free warnings of upcoming floods in dozens of countries, including places where they don’t have river gauges. People know days in advance, instead of minutes.
+
+**Catching what doctors miss:**In a Swedish trial with more than 100,000 women, AI-supported screening detected more breast cancers, with no statistically significant increase in false positives.
+
+The upside is already reaching people.
 
 Every one of those is true. So the next time someone asks, “What good does AI do for society?”, you have an answer ready: **“For starters, AI is accelerating work that protects and improves lives.”**
 

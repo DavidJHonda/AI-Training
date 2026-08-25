@@ -70,9 +70,17 @@ Slow down and read that third one again. AI helps build better AI.
 
 What does the future of AI look like? There are four key ideas driving the AI companies forward. One is happening in limited form. The other three describe a proposed process or possible milestones that have not been demonstrated.
 
-![Could AI improve itself? Automated AI research is human-directed and happening in limited form, while recursive self-improvement would create a self-reinforcing loop and has not been demonstrated.](pace-of-change-3a-future-research.jpg)
+### Four future ideas
 
-![How far can AI go? AGI has no agreed definition or test, while ASI remains hypothetical. Nobody knows whether AI will reach either milestone.](pace-of-change-3b-future-capability.jpg)
+Automated AI Research is happening in limited form: AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results.
+
+Recursive Self-Improvement is a proposed process in which an AI improves its own design. The stronger version then does it again, creating a loop with little or no human direction.
+
+Artificial General Intelligence usually means human-level ability across many kinds of work, but there is no accepted definition or test.
+
+Artificial Superintelligence is the hypothetical idea of AI exceeding the best humans across nearly every cognitive field.
+
+Nobody knows whether AI will reach either milestone.
 
 AI keeps getting faster and more powerful.
 

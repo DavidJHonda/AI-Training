@@ -16,7 +16,7 @@ who’s right? nobody knows.
 
 You already know more about AI than most adults. You know how to use it, and you understand the engine underneath, so its strange behavior makes more sense. Your goal is to **Be Smarter Than the Tool**. Done.
 
-Now comes the question almost everyone is arguing about: where does all this land? You’ve heard the voices already. You probably know an **AI Optimist** who thinks AI is amazing, fantastic, and every other superlative they can think of. And you know an **AI Worrier** who’s sure it will hurt society. And maybe a **Skeptic** who rolls their eyes at both.
+Now comes the question almost everyone is arguing about: where does all this land? You’ve heard the voices already. You probably know an **AI Optimist** who thinks AI is amazing, fantastic, and every other superlative they can think of. And you know an **AI Worrier** who’s sure it will hurt society. And maybe a **Doubter** who rolls their eyes at both.
 
 **Here’s the honest part: nobody knows.** Not them, not us, not the people building AI.
 
@@ -30,28 +30,13 @@ Those sailors back in the year 1400? They didn’t find sea monsters, and rarely
 
 This section takes both views of the map seriously: the monsters and the open water. And, only one thing is certain: **AI is here to stay**. Not that it keeps getting better forever. Just that it isn’t going away.
 
-## In this section
+### Embrace the Future
 
-Embrace the Future
+In this section
 
-1
-
-## THE ARGUMENT
-
-First, the loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed.
-
-2
-
-## MONSTERS AND OPEN WATER
-
-Then, both views of the unknown: the honest case for worry, and the upside that already happened.
-
-3
-
-## WHERE IT LANDS ON YOU
-
-Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.
-
+1. THE ARGUMENT First, the loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed.
+2. MONSTERS AND OPEN WATER Then, both views of the unknown: the honest case for worry, and the upside that already happened.
+3. WHERE IT LANDS ON YOU Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.
 Nobody has a map of what’s coming.
 
 You’re ready to sail into the blank space.

@@ -2,47 +2,79 @@
 
 # Unexpected Results
 
-AI Optimists and AI Worriers make opposite predictions with equal confidence. History offers one dependable warning: the biggest results are often the ones nobody predicted.
+Everyone has opinions about AI’s future, whether they’re AI Worriers or AI Optimists. No matter how confident those people are, there’s a single truth about the future: the biggest results are usually what no one predicted.
 
 The best way to see it is a true story about rats.
 
-## HANOI, 1902
+## Hanoi, 1902
 
-Hanoi had too many rats in its new sewer system. The government offered a bounty: turn in a rat’s tail and receive a payment.
+The city had a big problem. There were too many rats in the new sewers. No worries. They devised a perfect plan. Turn in a rat’s tail, collect a payment. Tails poured in by the thousands. The brilliance of the plan!
 
-The plan worked exactly as measured. Tails arrived by the thousands. But people began clipping off the tails and releasing the rats so they could keep breeding. Officials also found signs that rats were being brought in from outside the city. The reward created a reason to keep the rat supply alive.
+Then people saw something very strange: rats running around the city with no tails. What do you think happened? Time to practice those advanced critical thinking skills!
 
-The plan worked. The goal failed.
+It was another math thing. Rats can live a relatively full “rat life” even without their tails, and keep having more rat babies. The rat hunters, even without AI, came up with a clever plan to keep the rat-tail supply strong. They clipped the tails, but let the rats live. A dead rat pays once. A live rat pays forever.
 
-That is an unexpected result: the action produces the opposite of the outcome people wanted.
+Some rat entrepreneurs went even further. They started **rat farms**. You probably know where this is going. When Hanoi stopped the program, they had a mountain of rat tails, but more rats than when it started.
 
-## UNEXPECTED RESULTS
+What’s the moral of this story? Every part of the government’s plan worked. People hunted rats, delivered their tails, and received payments of one cent per tail. But the boom in the rat population was the opposite of their goal: a true unexpected result.
 
-Once you see the pattern, it appears everywhere—and the surprise can be better or worse than the plan.
+## Unexpected Results
 
-### Text messaging — better than the plan
+Once you see that shape, you find it everywhere. Four famous plans, and where each one actually landed. Two turned out better than anyone predicted, two turned out worse.
 
-SMS began as a small 160-character feature inside the phone network. It became one of the world’s central ways to communicate.
+💬
 
-### GPS — better than the plan
+Text messaging
 
-GPS began as a U.S. military navigation system. Civilian access eventually put turn-by-turn directions, ride-hailing, and location tools in nearly every pocket.
+## The plan
 
-### Cane toads — worse than the plan
+Engineers bolted SMS onto the phone network in 1992 as a leftover-bandwidth utility: 160 characters, handy for testing.
 
-Australia imported cane toads to control beetles damaging sugar cane. The toads did not solve the problem and spread across the country, harming native wildlife.
+## Better than the prediction
 
-### Wider highways — worse than the plan
+It became the main way a generation communicates. No phone company predicted texting.
 
-Adding lanes is meant to reduce congestion. But easier driving can attract more drivers, and traffic can return. Transportation researchers call this **induced demand**.
+🛰️
 
-## THE ONE SURE THING
+GPS
 
-Now point that history at AI. Every expert is making an informed prediction, but no prediction can include every human habit, incentive, rule, workaround, or new use that appears after the technology spreads.
+## The plan
 
-The most important thing AI does in your lifetime—good or bad—may be something nobody in any camp, lab, or course has imagined yet.
+A U.S. military system for guiding ships, planes, and missiles.
 
-That is not a reason to fear the future. It is a reason to enter it curious, with your eyes open.
+## Better than the prediction
+
+Opened to civilians, it put a map in every pocket: turn-by-turn directions, ride-hailing, finding your lost phone. None of that was in the plan.
+
+🐸
+
+Cane toads
+
+## The plan
+
+Australia imported 102 cane toads in 1935 to eat the beetles destroying sugar cane.
+
+## Worse than the prediction
+
+The toads ignored the beetles, ate almost everything else, and spread by the millions. The fix became a bigger plague than the problem.
+
+🛣️
+
+Wider highways
+
+## The plan
+
+Texas spent $2.8 billion widening Houston’s Katy Freeway to 26 lanes, one of the widest in the world, to end rush-hour traffic.
+
+## Worse than the prediction
+
+More lanes invited more drivers. Within a few years, commutes ran up to 51% slower than before the expansion. The same math as the rats.
+
+## The one sure thing
+
+Now point that history at AI. Every AI expert, Optimist and Worrier alike, is making a prediction about the future. Smart and informed predictions, every one. The most important thing AI does in your lifetime, good or bad, may be something nobody in any camp, any lab, or any course has thought of yet.
+
+That’s not a reason to fear the future. It’s the reason to walk into it curious, with your eyes open.
 
 You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes.
 

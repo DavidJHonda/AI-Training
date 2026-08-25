@@ -2,35 +2,31 @@
 
 # Data Centers
 
-An AI answer appears in seconds, as if it cost nothing. Behind that answer, specialized chips run an enormous amount of math.
+The scale of the math behind AI is almost impossible to grasp. A 2,000-word chat between you and AI runs to about 2 quadrillion individual math calculations. And that’s just for one chat!
 
-Each token passes through the model’s network. A short answer can require trillions of calculations; a long conversation can require far more. The exact count depends on the model, the length of the conversation, and how the system is built. The scale is the point.
+And to train a new model? It takes about 100 septillion individual math calculations. That’s the number 1 followed by twenty-six zeroes! And for you visual learners, that’s 100,000,000,000,000,000,000,000,000.
 
-## WHAT IS COMPUTE?
+That’s why there’s so much in the news about data centers. It’s about one thing: the ability to run the math, which the AI companies call **compute**. And they can never have enough of it.
 
-AI companies call the ability to run all that math **compute**.
+## WHAT IS A DATA CENTER
 
-No laptop can serve millions of people and run frontier models by itself. AI companies use data centers: warehouse-sized buildings packed with specialized chips called GPUs, connected by high-speed networks and running around the clock.
+Think of a big warehouse packed with thousands of specialized chips, called **GPUs**, running around the clock.
 
-When you press Send, the work happens on real hardware somewhere.
+The scale is hard to overstate. A big AI data center covers the ground of several football fields and uses as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, so it’s one of the largest construction projects happening anywhere in the world. When you hit send in ChatGPT, a data center answers.
 
-## THE FOOTPRINT
+**Somebody pays for all that arithmetic.**
 
-That hardware needs electricity. Nearly all of that electricity eventually becomes heat, so the facility also needs cooling. Some cooling systems use water, and large facilities can affect the electric grid, local water systems, and nearby neighborhoods.
-
-In 2023, data centers used about 4.4% of U.S. electricity. A Berkeley Lab report projected that they could use 6.7% to 12% by 2028. Those figures cover all data centers, not only AI, but AI servers are a major source of the recent growth.
-
-The footprint has four parts worth seeing clearly:
-
-![The footprint has four parts: electricity, water, noise, and permanent jobs. U.S. data centers used about 4.4% of electricity in 2023, with Berkeley Lab projecting 6.7% to 12% by 2028; added demand is raising some household bills. A large facility can use about a million gallons of water on a hot day, though some systems recycle or reuse it. Cooling fans run around the clock, and neighbors in some towns have sued over lost sleep. A finished facility may need only 100 to 200 permanent workers, about the staff of a big supermarket.](data-centers-3-footprint.jpg)
+The electricity figures cover all data centers, not AI alone.
 
 ## SHRINKING THE BILL
 
-The race to make AI more efficient is real. New chips perform more work per watt. Some data centers use closed-loop or reclaimed-water cooling. Companies are also signing long-term agreements for large amounts of electricity; Microsoft’s agreement with Constellation supports the proposed restart of Three Mile Island Unit 1, renamed the Crane Clean Energy Center.
+The AI companies know all of this, and the race to shrink the bill is real. Microsoft is paying to restart the Three Mile Island nuclear plant just to power its data centers, and other companies are betting on new kinds of small reactors. Newer cooling designs recycle water in a closed loop instead of evaporating it. And custom computer chips are being built to squeeze more math out of every watt.
 
-Every large technology has a footprint. AI’s is real, it is growing, and engineers are working to reduce it.
+## THE FOOTPRINT, HONESTLY
 
-None of this is a reason to feel guilty about pressing Send. It is a reason to understand what is behind the answer.
+Every big technology has a footprint, from streaming video to the cars outside. AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet.
+
+None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using.
 
 Every AI chat costs something real.
 

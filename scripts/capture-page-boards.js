@@ -53,6 +53,11 @@ const BOARDS = [
   // renders the navy-and-gold creed. Capture the live component as the video source.
   { section: "openerprotect", out: "opener-avoid-1-traps.jpg", width: 740,
     find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
+  // Embrace the Future uses the same shared navy-and-gold OpenerCreed treatment.
+  // Its video kit still contained the retired peach/serif capture, so always source
+  // this board directly from the live lesson component.
+  { section: "openerrealworld", out: "opener-embrace-1-voices.jpg", width: 902, vw: 960,
+    find: ["WHAT EVERYONE’S SAYING", "It’s going to cure diseases.", "who’s right? nobody knows."] },
 
   // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by
   // render_ai_is_math_board_alternatives.py. Do not recapture their accessible-only
@@ -161,6 +166,36 @@ const BOARDS = [
     find: ["not-heavy in the other", "“Thirsty” links IT to the cat", "“fresh” links IT to the milk"] },
   { section: "attention", out: "transformer-order.jpg", width: 902, vw: 960,
     find: ["Reading in order", "Reading everything at once", "Reading everything at once destroys the meaning."] },
+
+  // Embrace the Future video-source boards. These are captured from the live page
+  // so late editorial changes (Doubter, Context Window, updated jailbreak copy,
+  // and the Unexpected Results heading) cannot drift from the video kit.
+  { section: "whatpeoplesay", out: "loudest-voices-1-three-voices.jpg", width: 902, vw: 960,
+    find: ["Three voices from the top of the field", "Doubter", "LLMs have a more superficial understanding"] },
+  { section: "whatpeoplesay", out: "loudest-voices-3-missed-calls.jpg", width: 902, vw: 960, wrapUp: 1,
+    find: ["People won’t shop online", "No chance for the iPhone", "Flying cars, any decade now"] },
+  { section: "paceofchange", out: "pace-of-change-1-three-years.jpg", width: 902, vw: 960,
+    find: ["ChatGPT three years ago vs today", "Context Window", "AI agents can even book, build, and fix while you watch."] },
+  { section: "paceofchange", out: "pace-of-change-2-accelerants.jpg", width: 902, vw: 960,
+    find: ["Accelerant 1", "Accelerant 3", "AI building AI", "well-defined coding and research tasks"] },
+  { section: "bigdownside", out: "big-downside-2-jailbreak.jpg", width: 902, vw: 960, wrapUp: 1,
+    find: ["🔓 A jailbreak", "Policy Puppetry", "ongoing game of cat-and-mouse"] },
+  { section: "bigdownside", out: "big-downside-4-goal.jpg", width: 902, vw: 960, wrapUp: 2,
+    find: ["The test that reached the internet", "accessed Hugging Face’s computers", "helped them reach the goal"] },
+  { section: "bigdownside", out: "big-downside-5-safety.jpg", width: 902, vw: 960,
+    find: ["Technology First. Safety Later.", "Cars → seat belts required", "AI → safeguards and rules"] },
+  { section: "agents", out: "rise-of-agents-1-gps.jpg", width: 902, vw: 960,
+    find: ["You’re driving to game 7 of the Stanley Cup finals", "Drive with GPS", "Self-Driving Car", "You catch its mistakes at the end"] },
+  { section: "agents", out: "rise-of-agents-3-highlights.jpg", width: 902, vw: 960,
+    find: ["You scored 30 points in Friday’s basketball game", "Ask ChatGPT/Claude/Gemini", "Hire an Agent", "Did it all while you were at practice"] },
+  { section: "agents", out: "rise-of-agents-5-rogue.jpg", width: 902, vw: 960,
+    find: ["APRIL 2026 · POCKETOS", "Database and backups deleted", "2025 · GEMINI", "Project files wiped"] },
+  { section: "workchanges", out: "work-changes-1-strengths.jpg", width: 902, vw: 960,
+    find: ["AI is strongest when the job has one of four shapes.", "Strength 1", "Strength 4", "Reasons through your input"] },
+  { section: "workchanges", out: "work-changes-2-assignment.jpg", width: 902, vw: 960,
+    find: ["Read the last 500 reviews", "Before AI", "With AI", "The boss loved it"] },
+  { section: "unexpected", out: "unexpected-results-2-plans.jpg", width: 902, vw: 960, wrapUp: 1,
+    find: ["Text messaging", "Cane toads", "Wider highways", "Worse than the prediction"] },
 ];
 
 const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){
@@ -234,6 +269,10 @@ const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){
   for (const b of BOARDS) {
     // BOARD_FILTER=<out-name substring> recaptures just the matching boards.
     if (process.env.BOARD_FILTER && !b.out.includes(process.env.BOARD_FILTER)) continue;
+    // SECTION_FILTER=<section>[,<section>...] recaptures one or more complete lesson
+    // kits without touching boards from the rest of the course.
+    if (process.env.SECTION_FILTER &&
+        !process.env.SECTION_FILTER.split(",").includes(b.section)) continue;
     // Reload per board: composing moves the element out of the document.
     await send("Page.navigate", { url: `http://127.0.0.1:${PORT}/index.html?print=lesson:${b.section}` });
     await sleep(2800);

@@ -2,51 +2,109 @@
 
 # Rise of Agents
 
-What’s an **agent**? Start with an analogy.
+What’s an **agent**? In the spirit of this course, let’s start with an analogy.
 
-You’re driving to game seven of the Stanley Cup finals. With GPS, you enter the destination and the app calls out every turn. It knows the route, but you do the driving. You catch mistakes as they happen.
+You’re driving to game 7 of the Stanley Cup finals to see your favorite team, the Dallas Stars.
 
-In a self-driving car, you enter the same destination and the car makes the turns. You supervise, but the system acts.
+🗺️
 
-That is the difference. A chatbot answers. An agent acts.
+Drive with GPS
 
-## THE SAME ENGINE, WITH TOOLS
+You open up Waze or Google Maps, type in where you want to go, and the app tells you what to do. “In 500 feet, turn left.”
 
-An agent is not a new kind of AI. It uses an LLM like the one inside ChatGPT or Claude, then adds tools and a loop.
+## What happened
 
-![What an agent does. You give it a goal. It plans, acts with a tool, checks the result, and repeats the plan-act-check loop until the goal is complete.](rise-of-agents-3-loop.jpg)
+Knows the whole route
 
-That loop might run five times or forty times. The agent keeps working instead of answering once and stopping.
+Calls out every turn, but you do the driving
 
-## FROM A CAPTION TO THE WHOLE POST
+You catch its mistakes the moment they happen
 
-Imagine you scored thirty points in Friday’s basketball game and a friend recorded fifty clips.
+That’s regular AI. ChatGPT, Claude, Gemini. You ask, AI tells you what to do.
 
-Ask a chatbot and it can write a caption. You still watch the clips, choose the best plays, edit the reel, decide when to post, and press the final button.
+🚗
 
-Give the job to an agent and it can inspect the clips, choose moments, edit the reel, draft the caption, and prepare the post. That is more useful—but it also changes the stakes.
+Self-Driving Car
 
-The agent did the work. The post still carries your name.
+You tell the car where you want to go. Sit in the backseat, text your friends, whatever.
 
-## ROGUE AGENTS
+## What happened
 
-An agent pursues the goal you give it. More tools mean more ways to succeed, and more ways to cause damage when the goal, constraints, or permissions are wrong.
+Knows the exact same route
 
-**PocketOS · April 2026**
+Makes every turn itself, reroutes around traffic without asking
 
-Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds. Then it confessed: “I violated every principle I was given.”
+You catch its mistakes at the end, if you go looking
 
-**Gemini · 2025**
+That’s an agent. You ask, and AI does it for you.
 
-Google’s Gemini agent wiped out a user’s project files, then apologized: “I have failed you completely and catastrophically.”
+## AI agents
 
-The lesson is not that every agent will behave this way. The lesson is that a system with access can make a real change before a person catches the mistake.
+Agents are suddenly everywhere, for the obvious reason: they do the work. Now, let’s give you an example.
 
-If an agent hits a wall, it should stop and report back—not invent a route around the wall.
+You scored 30 points in Friday’s basketball game. A friend videoed the game on their phone. You want to post the best highlights to TikTok.
+
+💬
+
+Ask ChatGPT/Claude/Gemini
+
+You watch all 50 raw clips to find the best plays. You trim each one, stitch them into a highlight reel, and ask AI for a caption. It writes a great one. You post at 4:30 on a Tuesday, hoping anyone is online.
+
+## What happened
+
+Wrote a caption when you asked
+
+You watched all 50 clips and built the post
+
+You guessed when to post it
+
+That’s regular AI. You ask, AI tells you what to do.
+
+🤖
+
+Hire an Agent
+
+You hand the agent your 50 raw clips. It pulls the best moments, writes the caption, waits until your followers are actually online, and posts.
+
+## What happened
+
+Picked the best 20 seconds itself
+
+Posted publicly, with your name on it
+
+Did it all while you were at practice
+
+That’s an agent. You ask, and AI does it for you.
+
+## What an agent does
+
+Here’s the part many people don’t understand: an agent is not a new kind of AI. It runs on the same engine, or LLM, that you already use in Claude or ChatGPT. What changes is what happens after you type. ChatGPT answers and stops. An agent does the work, as shown in this diagram:
+
+And here’s another important point: although agents do the work, it’s still your name on the finished product. Everything you know about evaluating the results still needs to happen. If an agent creates the TikTok clip and caption, **you are responsible for reviewing it and making it better**. Agents are good. But not perfect.
+
+## Rogue agents
+
+AI does what it’s told. Ask ChatGPT to write a poem, you’ll get a poem. It works until it gets you that. Agents have the same marching orders. Plus, they have more tools. Give an agent the wrong goal, or skip the right constraints, and agents have been known to cause havoc.
+
+APRIL 2026 · POCKETOS
+
+Database and backups deleted
+
+Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds.
+
+“I violated every principle I was given.”
+
+2025 · GEMINI
+
+Project files wiped
+
+Google’s Gemini agent wiped out a user’s project files, then apologized for what it had done.
+
+“I have failed you completely and catastrophically.”
 
 **AI should not send, spend, submit, delete, or post without you reviewing first.**
 
-Agents are powerful, but they are a power-user tool. Learn to evaluate AI’s work before you give it permission to act.
+The rule of thumb with agents: they’re great at automating steps, but they’re a power user thing. Get good at a tool like ChatGPT first. Agents are powerful and they’ll be there when you’re ready.
 
 Agents do the work. The name on it is yours.
 

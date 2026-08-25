@@ -1069,9 +1069,9 @@ def render_agent_loop():
     draw.text((976, 735), "NOT DONE? GO AGAIN.", font=font("bold", 24), fill=PURPLE, anchor="mm")
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/rise-of-agents-loop-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/rise-of-agents-3-loop.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/rise-of-agents-4-loop.jpg",
         "illustrations/rise-of-agents-loop.jpg",
-        "lessons/rise-of-agents-3-loop.jpg",
+        "lessons/rise-of-agents-4-loop.jpg",
     ])
 
 
@@ -1111,7 +1111,7 @@ def render_work_outcomes():
         "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/work-changes-4-what-changes.jpg",
         "illustrations/work-changes-what-changes.jpg",
-        "lessons/work-changes-3-what-changes.jpg",
+        "lessons/work-changes-4-what-changes.jpg",
     ])
 
 
@@ -1129,9 +1129,9 @@ def render_data_center_footprint():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/data-centers-footprint-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/data-centers-3-footprint.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/data-centers-2-footprint.jpg",
         "illustrations/data-centers-footprint.jpg",
-        "lessons/data-centers-3-footprint.jpg",
+        "lessons/data-centers-2-footprint.jpg",
     ])
 
 
@@ -1148,9 +1148,9 @@ def render_upside_discovery():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-3a-discovery.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
         "illustrations/big-upside-discovery.jpg",
-        "lessons/big-upside-3a-discovery.jpg",
+        "lessons/big-upside-3-discovery.jpg",
     ])
 
 
@@ -1168,9 +1168,9 @@ def render_upside_help():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-3b-help.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
         "illustrations/big-upside-help.jpg",
-        "lessons/big-upside-3b-help.jpg",
+        "lessons/big-upside-4-help.jpg",
     ])
 
 
@@ -1187,9 +1187,9 @@ def render_pace_research():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-3a-future-research.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
         "illustrations/pace-of-change-future-research.jpg",
-        "lessons/pace-of-change-3a-future-research.jpg",
+        "lessons/pace-of-change-4-future-research.jpg",
     ])
 
 
@@ -1206,9 +1206,9 @@ def render_pace_capability():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-3b-future-capability.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
         "illustrations/pace-of-change-future-capability.jpg",
-        "lessons/pace-of-change-3b-future-capability.jpg",
+        "lessons/pace-of-change-5-future-capability.jpg",
     ])
 
 

@@ -20,7 +20,15 @@ AI companies use layers of protection called **guardrails**. Some are built into
 
 The harder question is if guardrails will work as AI systems become far more capable:
 
-![The guardrail challenge gets harder as AI changes itself, reaches human-level capability, and potentially exceeds the people setting the rules.](big-downside-1-worries.jpg)
+### The guardrail challenge gets harder
+
+An AI that changes itself would make guardrails a moving target.
+
+An AI as smart as people might be better at finding gaps in rules made by people.
+
+With AI smarter than people, the rule makers could be less capable than the system they are trying to control.
+
+The worry grows as capability grows.
 
 ## III - Jailbreaking
 
@@ -39,8 +47,6 @@ New jailbreaking methods keep surfacing, making this an ongoing game of cat-and-
 ## IV - Bad Actors
 
 Jailbreaking is not always necessary. A scammer can combine ordinary AI abilities, such as writing, voice cloning, and translation, into something harmful. Each request can look harmless on its own, so guardrails may miss the larger plan. Here’s an example:
-
-![How a voice-clone scam works. A scammer finds a short voice clip online, uses AI to clone the voice, makes a fake emergency call demanding money, and is defeated when the recipient hangs up and calls the person back on their real number.](big-downside-3-voice-clone.jpg)
 
 As AI gets more powerful, so do the things a bad actor can do.
 

@@ -182,9 +182,9 @@ def render_pace_research() -> None:
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-3a-future-research.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
         "illustrations/pace-of-change-future-research.jpg",
-        "lessons/pace-of-change-3a-future-research.jpg",
+        "lessons/pace-of-change-4-future-research.jpg",
     ])
 
 
@@ -212,9 +212,9 @@ def render_pace_capability() -> None:
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-3b-future-capability.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
         "illustrations/pace-of-change-future-capability.jpg",
-        "lessons/pace-of-change-3b-future-capability.jpg",
+        "lessons/pace-of-change-5-future-capability.jpg",
     ])
 
 
@@ -286,9 +286,9 @@ def render_hassabis_timeline() -> None:
             draw.line((x, line_y + 25, x, top), fill=accent, width=3)
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-hassabis-timeline-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-1-hassabis-timeline.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/big-upside-2-hassabis-timeline.jpg",
         "illustrations/big-upside-hassabis-timeline.jpg",
-        "lessons/big-upside-1-hassabis.jpg",
+        "lessons/big-upside-2-hassabis.jpg",
     ])
 
 
@@ -323,9 +323,9 @@ def render_upside_discovery() -> None:
     three_cards(draw, cards)
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-3a-discovery.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
         "illustrations/big-upside-discovery.jpg",
-        "lessons/big-upside-3a-discovery.jpg",
+        "lessons/big-upside-3-discovery.jpg",
     ])
 
 
@@ -360,9 +360,9 @@ def render_upside_help() -> None:
     three_cards(draw, cards)
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-3b-help.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
         "illustrations/big-upside-help.jpg",
-        "lessons/big-upside-3b-help.jpg",
+        "lessons/big-upside-4-help.jpg",
     ])
 
 

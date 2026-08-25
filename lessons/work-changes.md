@@ -2,115 +2,122 @@
 
 # Work Changes
 
-You already know that AI is changing the world. Don’t worry, you’ll **Be Smarter Than the Tool**.
-
 Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked.
 
-## THE BIG IDEA
-
-# Your job title may stay the same. The work underneath it won’t.
-
-Most students will not grow up to have an “AI job.” They’ll become nurses, engineers, marketers, electricians, teachers, lawyers, designers, and thousands of other things. AI will sit inside those jobs and change how the work gets done.
-
-The useful question is not only which jobs AI might replace. It is what your working day looks like when everyone has it.
+The superficial things won’t change, like job titles. You have thousands of choices like entrepreneur, teacher, lawyer, or designer. What will change, and is already changing today, is what your day will look like.
 
 ## YOU ALREADY KNOW THE PIECES
 
-Earlier, you learned where AI works best. It transforms material, generates options, compresses information, and reasons through what you give it. You also learned why school still matters: everyone can use a similar tool, but what you know shapes what you ask and what you do with the answer.
+To understand this, let’s review two concepts you already learned. First: AI is best at specific things, and that’s where you’ll use it in your job.
 
-- Transform
-- Generate
-- Compress
-- Reason
+AI is strongest when the job has one of four shapes.
 
-Now put those two lessons inside a workplace.
+## Strength 1
+
+Transform
+
+Transforms your input into something clearer, cleaner, and better structured.
+
+## Strength 2
+
+Generate
+
+Generates several options at once.
+
+## Strength 3
+
+Compress
+
+Compresses long documents into what they actually mean.
+
+## Strength 4
+
+Reason
+
+Reasons through your input and works toward an answer.
+
+Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart? **It’s what you already know**.
 
 ## YOUR FIRST ASSIGNMENT
 
-# “Read these 500 customer comments. Tell us what is going wrong and what we should fix.”
+Here’s the same job before AI and with AI. Spoiler alert: you’ll have more time for the interesting stuff.
 
-A new employee could receive the same assignment before AI and with AI. What changes is where the real work begins.
+“We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”
 
-## Before AI
+🗂️
 
-Most of the time goes into making the first pass.
+Before AI
 
-1. Read and organize every comment
-2. Find recurring themes
-3. Build a spreadsheet
-4. Draft the presentation
-5. Present the findings
+The grind was all on you. The week disappeared into what felt like busy work, and it was Friday before you finally started analyzing the data.
 
-## With AI
+## What you did
 
-AI makes the first pass. The employee takes it further.
+Read and organized 500 reviews
 
-1. AI groups the comments and proposes themes
-2. The employee checks the source comments
-3. They find the customers the summary overlooked
-4. They investigate why the problem is happening
-5. They recommend what the company should do
+Found the recurring themes
 
-The employee did not simply finish the old assignment faster. The assignment became bigger. Making the summary used to be most of the job. Now it is where the job begins.
+Built the spreadsheet
 
-## TWO WAYS THE WORK CHANGES
+Analyzed the data
 
-![Two ways AI changes the work. Automation means AI takes over a step. Augmentation means AI helps a person do more.](work-changes-3-concepts.jpg)
+Prepared the Google Slides deck
 
-Most jobs will contain both. Some steps disappear into the tool. Other steps become faster, broader, or more ambitious. Either way, the outcome still needs an owner.
+Presented the findings to the boss
+
+## The result
+
+The boss said you did good work, added a page of comments, and you spent next week re-analyzing.
+
+⚡
+
+With AI
+
+AI sat beside you and did the busy work in minutes. Your week went to what the boss asked: what’s happening, and how do we fix it?
+
+## What AI did
+
+Read and organized 500 reviews
+
+Found the recurring themes
+
+Built the spreadsheet
+
+Analyzed the data
+
+Prepared the Google Slides deck
+
+## What you did
+
+Worked with AI throughout to improve its work
+
+Investigated why and recommended the fix
+
+Presented the findings to the boss
+
+## The result
+
+The boss loved it. The week you spent on the real questions paid off.
+
+Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just let you do things faster. **It lets you focus on what’s really important**.
+
+## THE CONCEPTS
+
+There are two terms you’ll hear that describe how AI is changing the nature of work.
+
+Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome.
 
 ## WHAT CHANGES FOR YOU
 
-Put automation and augmentation together, and three changes show up across many careers.
+Put automation and augmentation together, and three changes show up across almost every career.
 
-![What changes for you. You can do more kinds of work, become more productive, and move toward more meaningful work when AI absorbs busy work.](work-changes-3-what-changes-v2.png)
+## THE PART THAT MATTERS
 
-If research and a first draft once took two days, an employer probably will not turn the saved time into two days off. The worker may be asked to investigate more possibilities, handle an adjacent part of the project, or finish the whole assignment sooner.
+This is changing entry-level jobs. Much of the work that AI does used to belong to new college graduates just starting out. It was the way they learned the profession: basic research, starter code, and simple analysis.
 
-## THE FIRST RUNG GETS SHORTER
+**AI can make you productive before it makes you knowledgeable.** That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it.
 
-Here is the part that matters especially for you. The work AI handles first is often the work beginners used to do to learn a profession: basic research, first drafts, starter code, simple analysis, and routine documentation.
-
-# AI can make you productive before it makes you knowledgeable.
-
-That creates a strange problem. A new employee may be expected to check sophisticated work after getting fewer chances to practice producing it from scratch.
-
-This is why Does School Matter? mattered. You still need the knowledge and the reps. The difference is that you may have to build them more deliberately.
-
-Your first job will not just ask whether you can use AI. It will ask whether you can take everything AI produces and turn it into a result.
-
-**The first pass becomes the starting line.**
-
-Your job is what happens next.
+You already know what you must do. Learn. And learn more. And you’re in the best place in the world to do it: school.
 
 AI is changing the work you’ll do.
 
 Now it’s on you to LEARN.
-
-## TRY IT — Your First Week with AI
-
-AI has already produced the first pass. In each situation, decide what the new employee needs to do next.
-
-### 1. Customer research
-
-AI sorts 500 customer comments, identifies three themes, and builds a polished presentation in ten minutes. What should the new employee do next?
-
-- Send the presentation
-- Ask AI to make it longer
-- Check the source comments, investigate what was missed, and make a recommendation
-
-### 2. Software internship
-
-AI writes a fix for a bug, and every automated test passes. The intern cannot explain what the code does. What is the best next move?
-
-- Ship it because the tests passed
-- Work through the code, understand it, and then test the edge cases
-- Ask AI if its code is correct
-
-### 3. Marketing team
-
-AI produces three campaign concepts, sample ads, and audience research before lunch. The manager asks the new hire to choose a direction for the launch. What changed?
-
-- The job is now making more drafts
-- AI owns the campaign
-- The first pass became the starting line

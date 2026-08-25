@@ -4,7 +4,7 @@
 
 There are almost as many opinions about AI as calculations in an LLM. OK. Just kidding. There aren’t two quadrillion opinions, although it feels that way. You see them on YouTube, TikTok, the news, your family, and friends. Who do you believe?
 
-How about this? Let’s ask the people who make AI for a living. Same field. Same evidence. Opposite bets.
+How about this? Let’s ask the people who make AI for a living. Same field. Same evidence. Very different bets.
 
 Three voices from the top of the field
 
@@ -36,7 +36,7 @@ But admits
 
 “If we can detect cancer much earlier thanks to AI, fewer people will die from it.”
 
-Skeptic
+Doubter
 
 Yann LeCun
 

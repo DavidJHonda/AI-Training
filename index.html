@@ -11719,6 +11719,7 @@ function CertificateDoc(props) {
     className: "certificate-doc",
     style: {
       width: "100%", aspectRatio: "11 / 8.5", background: "#fff", borderRadius: 12,
+      border: "3px solid " + navy, boxSizing: "border-box",
       boxShadow: "0 12px 38px rgba(17, 28, 70, 0.14)", overflow: "hidden",
       display: "flex", flexDirection: "column", color: ink
     }
@@ -11980,7 +11981,12 @@ function CertificatePrintView() {
     className: "certificate-print-page",
     style: { background: "var(--bg)", minHeight: "100vh", padding: "36px 32px 60px", fontFamily: "var(--sans)" }
   },
-    E("style", null, "@media print { @page { size: landscape; margin: 0.35in; } html, body { background: #fff !important; } .certificate-print-page { padding: 0 !important; min-height: 0 !important; } .certificate-doc { box-shadow: none !important; } }"),
+    // Print sizing is by HEIGHT, not width: on landscape Letter minus the 0.35in
+    // margins the printable area (10.3in x 7.8in) is a wider rectangle than the
+    // 11:8.5 certificate, so a full-width certificate runs 7.96in tall and spills
+    // a blank second page. Fixing the height (7.8in) keeps the width at 10.09in
+    // and everything on one page.
+    E("style", null, "@media print { @page { size: landscape; margin: 0.35in; } html, body { background: #fff !important; } .certificate-print-page { padding: 0 !important; min-height: 0 !important; background: #fff !important; } .certificate-doc { box-shadow: none !important; height: calc(8.5in - 0.7in) !important; width: auto !important; margin: 0 auto !important; } }"),
     E("div", { style: { maxWidth: 1020, margin: "0 auto" } },
       ready ? [
         E("div", {

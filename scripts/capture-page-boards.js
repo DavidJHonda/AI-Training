@@ -172,12 +172,13 @@ const BOARDS = [
   // and the Unexpected Results heading) cannot drift from the video kit.
   { section: "whatpeoplesay", out: "loudest-voices-1-three-voices.jpg", width: 902, vw: 960,
     find: ["Three voices from the top of the field", "Doubter", "LLMs have a more superficial understanding"] },
-  { section: "whatpeoplesay", out: "loudest-voices-3-missed-calls.jpg", width: 902, vw: 960, wrapUp: 1,
+  { section: "whatpeoplesay", out: "loudest-voices-2-missed-calls.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["People won’t shop online", "No chance for the iPhone", "Flying cars, any decade now"] },
   { section: "paceofchange", out: "pace-of-change-1-three-years.jpg", width: 902, vw: 960,
     find: ["ChatGPT three years ago vs today", "Context Window", "AI agents can even book, build, and fix while you watch."] },
-  { section: "paceofchange", out: "pace-of-change-2-accelerants.jpg", width: 902, vw: 960,
-    find: ["Accelerant 1", "Accelerant 3", "AI building AI", "well-defined coding and research tasks"] },
+  // Pace of Change board 2 is the approved illustration-first “Why so fast?”
+  // board in lessons/pace-of-change-2-accelerants.jpg. Do not recapture the
+  // live ComparisonCards here or a batch run will overwrite that video source.
   { section: "bigdownside", out: "big-downside-2-jailbreak.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["🔓 A jailbreak", "Policy Puppetry", "ongoing game of cat-and-mouse"] },
   { section: "bigdownside", out: "big-downside-4-goal.jpg", width: 902, vw: 960, wrapUp: 2,
@@ -186,15 +187,15 @@ const BOARDS = [
     find: ["Technology First. Safety Later.", "Cars → seat belts required", "AI → safeguards and rules"] },
   { section: "agents", out: "rise-of-agents-1-gps.jpg", width: 902, vw: 960,
     find: ["You’re driving to game 7 of the Stanley Cup finals", "Drive with GPS", "Self-Driving Car", "You catch its mistakes at the end"] },
-  { section: "agents", out: "rise-of-agents-3-highlights.jpg", width: 902, vw: 960,
+  { section: "agents", out: "rise-of-agents-2-highlights.jpg", width: 902, vw: 960,
     find: ["You scored 30 points in Friday’s basketball game", "Ask ChatGPT/Claude/Gemini", "Hire an Agent", "Did it all while you were at practice"] },
-  { section: "agents", out: "rise-of-agents-5-rogue.jpg", width: 902, vw: 960,
+  { section: "agents", out: "rise-of-agents-4-rogue.jpg", width: 902, vw: 960,
     find: ["APRIL 2026 · POCKETOS", "Database and backups deleted", "2025 · GEMINI", "Project files wiped"] },
   { section: "workchanges", out: "work-changes-1-strengths.jpg", width: 902, vw: 960,
     find: ["AI is strongest when the job has one of four shapes.", "Strength 1", "Strength 4", "Reasons through your input"] },
   { section: "workchanges", out: "work-changes-2-assignment.jpg", width: 902, vw: 960,
     find: ["Read the last 500 reviews", "Before AI", "With AI", "The boss loved it"] },
-  { section: "unexpected", out: "unexpected-results-2-plans.jpg", width: 902, vw: 960, wrapUp: 1,
+  { section: "unexpected", out: "unexpected-results-1-plans.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["Text messaging", "Cane toads", "Wider highways", "Worse than the prediction"] },
 ];
 

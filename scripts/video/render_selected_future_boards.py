@@ -184,7 +184,7 @@ def render_pace_research() -> None:
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
         "illustrations/pace-of-change-future-research.jpg",
-        "lessons/pace-of-change-4-future-research.jpg",
+        "lessons/pace-of-change-3-future-research.jpg",
     ])
 
 
@@ -214,7 +214,7 @@ def render_pace_capability() -> None:
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
         "illustrations/pace-of-change-future-capability.jpg",
-        "lessons/pace-of-change-5-future-capability.jpg",
+        "lessons/pace-of-change-4-future-capability.jpg",
     ])
 
 
@@ -288,7 +288,7 @@ def render_hassabis_timeline() -> None:
         "board-review-first-four/alternatives/embrace-the-future/big-upside-hassabis-timeline-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-2-hassabis-timeline.jpg",
         "illustrations/big-upside-hassabis-timeline.jpg",
-        "lessons/big-upside-2-hassabis.jpg",
+        "lessons/big-upside-1-hassabis.jpg",
     ])
 
 
@@ -325,7 +325,7 @@ def render_upside_discovery() -> None:
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
         "illustrations/big-upside-discovery.jpg",
-        "lessons/big-upside-3-discovery.jpg",
+        "lessons/big-upside-2-discovery.jpg",
     ])
 
 
@@ -362,7 +362,7 @@ def render_upside_help() -> None:
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
         "illustrations/big-upside-help.jpg",
-        "lessons/big-upside-4-help.jpg",
+        "lessons/big-upside-3-help.jpg",
     ])
 
 

@@ -1071,7 +1071,7 @@ def render_agent_loop():
         "board-review-first-four/alternatives/embrace-the-future/rise-of-agents-loop-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/rise-of-agents-4-loop.jpg",
         "illustrations/rise-of-agents-loop.jpg",
-        "lessons/rise-of-agents-4-loop.jpg",
+        "lessons/rise-of-agents-3-loop.jpg",
     ])
 
 
@@ -1150,7 +1150,7 @@ def render_upside_discovery():
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
         "illustrations/big-upside-discovery.jpg",
-        "lessons/big-upside-3-discovery.jpg",
+        "lessons/big-upside-2-discovery.jpg",
     ])
 
 
@@ -1170,7 +1170,7 @@ def render_upside_help():
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
         "illustrations/big-upside-help.jpg",
-        "lessons/big-upside-4-help.jpg",
+        "lessons/big-upside-3-help.jpg",
     ])
 
 
@@ -1189,7 +1189,7 @@ def render_pace_research():
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
         "illustrations/pace-of-change-future-research.jpg",
-        "lessons/pace-of-change-4-future-research.jpg",
+        "lessons/pace-of-change-3-future-research.jpg",
     ])
 
 
@@ -1208,7 +1208,7 @@ def render_pace_capability():
         "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
         "illustrations/pace-of-change-future-capability.jpg",
-        "lessons/pace-of-change-5-future-capability.jpg",
+        "lessons/pace-of-change-4-future-capability.jpg",
     ])
 
 

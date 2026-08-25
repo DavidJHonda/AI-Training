@@ -40,29 +40,17 @@ The AI companies are in a race to dominate the industry, so they release new mod
 
 Three concepts are driving the acceleration, and you already understand the first one.
 
-## Accelerant 1
+### Better Training
 
-Training
+AI learns from more and better data. That translates into better results.
 
-## What’s happening
+### More Compute
 
-AI is trained on more data, and often better data. That gives it more examples and patterns to learn from, but quality matters as much as quantity. Same recipe you learned in Training.
+AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute.
 
-## Accelerant 2
+### AI Builds AI
 
-Compute
-
-## What’s happening
-
-AI requires lots of chips sitting in data centers, cranking through the math. AI companies are spending billions to increase their compute.
-
-## Accelerant 3
-
-AI building AI
-
-## What’s happening
-
-By 2026 the strongest models write code well enough that AI companies use them to help write and optimize parts of the software for the next model. On some well-defined coding and research tasks, they can move much faster than people.
+The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people.
 
 Slow down and read that third one again. AI helps build better AI.
 

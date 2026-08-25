@@ -128,6 +128,10 @@ Lab 09 ("Build Your Course Notebook", `studying`) links to the pre-generated `pa
 ### Illustrations
 Stored in `illustrations/` and referenced as `<img src="illustrations/<name>.jpg">`. The preferred format for new assets is JPEG at 1200x800 (~250-350 KB), although existing live files include several other dimensions and aspect ratios; do not normalize those blindly. Display size is set per-image via the img's `maxWidth` (most are 560; the info-dense "What's an LLM?" is 880). Use URL-safe filenames: lowercase, hyphens, no spaces, apostrophes, or `?`. New illustrations usually arrive as large PNGs; optimize before use with macOS `sips`, then delete the source PNG and point `src` at the `.jpg`:
 
+This 1200x800 guidance applies to standalone illustrations. Shared lesson/video
+boards follow `docs/components/boards/README.md`: 1600x900, the current course
+shell, and the no-person preparation constraint.
+
 `sips -s format jpeg -s formatOptions 80 --resampleWidth 1200 illustrations/<source>.png --out illustrations/<name>.jpg`
 
 ### Preferences

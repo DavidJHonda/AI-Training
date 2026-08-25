@@ -1,5 +1,10 @@
 # Image-Generation Prompt Set
 
+> **Historical specification:** Board-specific teaching copy below remains useful,
+> but the universal canvas, title, geometry, and people rules have been superseded
+> by `docs/components/boards/README.md`. Use the current board system for all new
+> work.
+
 The initial illustrations were generated with the built-in image-generation
 workflow. Final component geometry and typography are applied deterministically by
 `scripts/video/normalize_alternative_board_titles.sh`, preserving the approved art

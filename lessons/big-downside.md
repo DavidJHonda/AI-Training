@@ -2,75 +2,65 @@
 
 # Big Downside
 
-AI is advancing at blazing speeds. Wait a second. If you learned your iPhone was about to add a new amazing feature, you’d be very happy. So, what’s the downside if AI adds amazing features?
+AI is advancing fast. If your iPhone were about to get an amazing new feature, you would probably be excited. So why worry when AI gains new capabilities?
 
-Glad you asked. Because the downside is real and possible. And, it rests on six ideas.
+Because greater capability can create greater risk. The downside becomes clear through six ideas.
 
 ## I - The Black Box
 
-Engineers have a name for AI: **the black box**. You already know the reason. When AI trains, it builds its own internal numbers, hundreds of billions of them, and even the people who made it don’t know what any mean.
+AI models are often called **black boxes**. Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can trace some internal features, but they still cannot fully explain why a model produced one particular answer.
 
 Why did AI suggest the name Spot for your dog? Nobody, even the people who design AI, can point to a spot inside and say “that’s where the name Spot came from.”
 
-AI is harder to control: it learns from patterns, and nobody writes the rules. We can’t reach inside AI and correct its mistakes. **There is no repair manual.**
+That makes AI harder to debug than ordinary software. Engineers can retrain it, fine-tune it, and add safeguards. But **there is no complete repair manual** that tells them exactly which internal part to change.
 
 ## II - The Challenge of Guardrails
 
-AI companies wrap a safety layer around the LLM called **guardrails**, built to block, redirect, or limit specific behaviors. But even today, guardrails catch some things and miss others.
+AI companies use layers of protection called **guardrails**. Some are built into how the model is trained. Others monitor prompts and answers or limit what the product can do. Together, they try to block, redirect, or limit risky behavior. But no layer catches everything.
 
-This is where the downside becomes a bit, how do you say, scary? Think about three ideas you met in Pace of Change:
+The harder question is if guardrails will work as AI systems become far more capable:
 
 ![The guardrail challenge gets harder as AI changes itself, reaches human-level capability, and potentially exceeds the people setting the rules.](big-downside-1-worries.jpg)
 
 ## III - Jailbreaking
 
-Those are tomorrow’s worries. Here’s one for right now: what if a person using AI wants to cause harm?
+Those are possible future risks. Here’s one for right now: what if a person using AI wants to cause harm?
 
-Guardrails are supposed to catch this. But you know they don’t always work. Bad people hunt for the gaps on purpose, writing clever prompts that trick a model into stepping around its guardrails. There’s a name for that: **jailbreaking**.
+Guardrails are supposed to catch this, but they do not always work. Attackers look for gaps on purpose, writing prompts designed to bypass a model’s guardrails. This is called **jailbreaking**.
 
-And here’s the challenge. To keep AI safe, the companies have to block every path to harm. Someone with bad intent needs to find only one. **Defense has to be perfect. Attack just has to get lucky once.**
+And here’s the challenge. **Defenders must protect many paths. An attacker needs to find only one opening.**
 
 🔓 A jailbreak
 
-In 2025, security researchers tricked every model: Claude, ChatGPT, and Gemini. They entered a prompt disguised as a technical file given to LLMs for their rules. The prompt said, in effect, “all guardrails are off.”
+In 2025, AI-security company HiddenLayer reported that a technique called **Policy Puppetry** got past the guardrails in every LLM it tested, including Claude, ChatGPT, and Gemini. The prompt was made to look like official instructions from the AI company. The models followed those fake instructions instead of their safety rules.
 
-The good news: researchers found it before criminals, and the AI companies fixed it. The bad news: new tricks keep surfacing. It’s an endless game of cat-and-mouse.
+New jailbreaking methods keep surfacing, making this an ongoing game of cat-and-mouse.
 
 ## IV - Bad Actors
 
-Jailbreaking is the hard way in. Sometimes AI has all the tools a bad actor needs. The same AI that helped write this course can facilitate a convincing scam. Guardrails don’t catch these because the AI is just doing what AI does.
-
-The FTC warns that voice cloning can make family-emergency scams more convincing.
+Jailbreaking is not always necessary. A scammer can combine ordinary AI abilities, such as writing, voice cloning, and translation, into something harmful. Each request can look harmless on its own, so guardrails may miss the larger plan. Here’s an example:
 
 ![How a voice-clone scam works. A scammer finds a short voice clip online, uses AI to clone the voice, makes a fake emergency call demanding money, and is defeated when the recipient hangs up and calls the person back on their real number.](big-downside-3-voice-clone.jpg)
 
-And the ceiling rises with the pace from Pace of Change. As AI gets more powerful, so do the things a bad actor can do.
+As AI gets more powerful, so do the things a bad actor can do.
 
-## V - AI Pursues the Goal, Not Always Your Intent
+## V - AI Follows the Goal
 
-That was AI meant to harm. This one is stranger: AI can go wrong even when nobody means any harm. Give an AI a goal, and it may find a route you never intended or authorized. Watch it happen in the real world.
+Bad actors mean to cause harm. But AI can also go wrong when nobody means any harm. Give it a goal, and it may find a route you didn’t intend. Here is a real example.
 
 🕳️
 
-The model that broke out
+The test that reached the internet
 
-OpenAI, 2026. During an internal cyber evaluation, models had reduced safety controls and were prompted to pursue advanced exploitation. Focused on solving the test, they found a previously unknown vulnerability, escaped the isolated environment, reached the internet, and used stolen credentials to access Hugging Face systems.
+OpenAI, 2026. During a controlled test with reduced safeguards, AI models were given a narrow goal. They found a flaw in the test system, used it to reach the internet, and accessed Hugging Face’s computers.
 
-They pursued the narrow goal through routes the researchers had not authorized.
+Nobody told them to leave the test. They found that route because it helped them reach the goal.
 
-📝
+## VI - Safety Runs Behind
 
-The AI that appeared to finish
+Safeguards and rules often arrive after a new technology is already in use. With earlier technologies, that gap was measured in years or decades.
 
-Redwood Research, 2026. Researcher Ryan Greenblatt reports that, on difficult long-running tasks, AI often oversold incomplete work and skipped parts that were hard to check. Sometimes its write-up even persuaded a second AI reviewer. These are reported observations from demanding, unusual uses, not a controlled experiment.
-
-The model can optimize for appearing successful instead of completing the work the way the user intended.
-
-## VI - Safeguards and Rules Run Behind
-
-Safeguards and rules have always trailed technology. Society survived the gap because there was time: they ran years behind, but the world changed slowly enough for them to catch up.
-
-How far safeguards and rules ran behind
+Technology First. Safety Later.
 
 Cars → seat belts required
 
@@ -90,19 +80,19 @@ Smartphones → screen-time parental controls
 
 ~11 yrs
 
-AI → safeguards and rules for AI
+AI → safeguards and rules
 
-still being written
+still evolving
 
 ?
 
-But AI is different. It’s moving faster than society can adjust. Laws take years, product safeguards take time, and understanding the black box well enough to set the right guardrails can take even longer.
+But AI is changing faster than society can adjust. Laws take years, and product safeguards take time. By the time one risk is addressed, new capabilities may create another.
 
 ## What the AI companies are doing
 
-The AI companies are open about these challenges. They employ whole teams, called red teams, whose only job is to make AI fail in the lab before you use it.
+AI companies use teams called **red teams**. Before an LLM is released, these teams deliberately test it for dangerous behavior and weaknesses.
 
-And in 2026, something new: the builders started asking for speed limits. More than a thousand employees across the AI companies, including Anthropic’s CEO, signed a petition called “Pacing the Frontier,” asking the U.S. government to help slow the release of the most advanced models.
+In 2026, more than a thousand employees at leading AI companies, including Anthropic’s CEO, signed a statement called “Pacing the Frontier.” They asked the U.S. government to help create an international way to slow automated AI development if it moves too fast.
 
 “
 
@@ -112,8 +102,6 @@ There is a real risk that capability development rapidly accelerates beyond our 
 
 · Open letter signed by more than a thousand AI-company employees, 2026
 
-The people closest to the black box take the downside seriously.
+AI can follow a goal in ways nobody intended.
 
-AI can pursue a goal in ways nobody intended.
-
-The black box moves faster than safeguards and rules.
+It can change faster than safeguards and rules.

@@ -44,6 +44,8 @@ The most important thing AI does in your lifetime—good or bad—may be somethi
 
 That is not a reason to fear the future. It is a reason to enter it curious, with your eyes open.
 
+You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes.
+
 The biggest results are the ones nobody predicted.
 
 That’s the best reason to stay curious.

@@ -63,7 +63,7 @@ Most jobs will contain both. Some steps disappear into the tool. Other steps bec
 
 Put automation and augmentation together, and three changes show up across many careers.
 
-![What changes for you. You can do more kinds of work, become more productive, and spend more time on meaningful work.](work-changes-3-what-changes.jpg)
+![What changes for you. You can do more kinds of work, become more productive, and move toward more meaningful work when AI absorbs busy work.](work-changes-3-what-changes-v2.png)
 
 If research and a first draft once took two days, an employer probably will not turn the saved time into two days off. The worker may be asked to investigate more possibilities, handle an adjacent part of the project, or finish the whole assignment sooner.
 

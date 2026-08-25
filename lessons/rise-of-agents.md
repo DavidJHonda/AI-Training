@@ -42,7 +42,9 @@ Google’s Gemini agent wiped out a user’s project files, then apologized: “
 
 The lesson is not that every agent will behave this way. The lesson is that a system with access can make a real change before a person catches the mistake.
 
-If an agent hits a wall, it should stop and report back—not invent a route around the wall. Keep destructive and public actions behind human review.
+If an agent hits a wall, it should stop and report back—not invent a route around the wall.
+
+**AI should not send, spend, submit, delete, or post without you reviewing first.**
 
 Agents are powerful, but they are a power-user tool. Learn to evaluate AI’s work before you give it permission to act.
 

@@ -74,25 +74,25 @@ Every big technology arrives with confident predictions from the smartest people
 
 People won’t shop online
 
-Astronomer Clifford Stoll in 1995, on shopping over the internet: “So how come my local mall does more business in an afternoon than the entire Internet handles in a month?” Hmm. Anyone heard of Amazon?
+Astronomer Clifford Stoll in 1995, on shopping over the internet: “So how come my local mall does more business in an afternoon than the entire Internet handles in a month?” Online shopping went on to become part of everyday life.
 
 📱
 
 No chance for the iPhone
 
-Steve Ballmer, running Microsoft in 2007: “There’s no chance that the iPhone is going to get any significant market share. No chance.” Most of us have iPhones. I bet even Steve does too!
+Steve Ballmer, running Microsoft in 2007: “There’s no chance that the iPhone is going to get any significant market share. No chance.” The iPhone went on to reshape the smartphone market.
 
 🥤
 
 The internet will collapse
 
-Robert Metcalfe invented the technology that still connects computers to each other. In 1996 he predicted the internet would catastrophically collapse. Hope you’re enjoying this ONLINE course!
+Robert Metcalfe invented the technology that still connects computers to each other. In 1996 he predicted the internet would catastrophically collapse. Instead, the internet became infrastructure for communication, commerce, and courses like this one.
 
 🚗
 
 Flying cars, any decade now
 
-Henry Ford in Forbes, 1940: “Mark my word: a combination airplane and motorcar is coming. You may smile, but it will come.” Eighty-odd years later, still smiling.
+Henry Ford in Forbes, 1940: “Mark my word: a combination airplane and motorcar is coming. You may smile, but it will come.” More than eighty years later, flying cars remain experimental rather than ordinary transportation.
 
 ## Why were they wrong?
 
@@ -100,4 +100,4 @@ Because **the future is hard to predict**. A technology becomes the future only 
 
 Where AI will be in ten years is a bet.
 
-You decide which voices to listen to.
+Which voice you listen to is your call.

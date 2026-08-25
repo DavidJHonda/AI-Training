@@ -22,19 +22,19 @@ Ask for a picture of your new dog Spot and he might come back with a bonus leg a
 
 Photoreal images with signs you can actually read, and full video with sound and dialogue.
 
-Memory
+Context Window
 
 The free chatbots most people used could only hold a few pages at once. Push a long chat far enough and the beginning fell out of its head.
 
-The latest models hold a million tokens, which is a whole novel series in view at the same time.
+Some current models can hold a million tokens, which is a whole novel series in view at the same time.
 
 Doing
 
 It told you the steps to do a thing, and wished you luck.
 
-It does the thing. It books, builds, files, and fixes while you watch.
+It does the thing. AI agents can even book, build, and fix while you watch.
 
-The AI companies are in a race to dominate the industry, so they release new models every couple of months. Each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it. Whatever AI can’t do today, there’s a solid chance it can do it next year.
+The AI companies are in a race to dominate the industry, so they release new models every couple of months. Each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it. A limitation can disappear quickly, so today’s “no” is not necessarily permanent.
 
 ## Why so fast?
 
@@ -68,15 +68,11 @@ Slow down and read that third one again. AI helps build better AI.
 
 ## 4 Future Ideas
 
-What does the future of AI look like? There are four key ideas driving the AI companies forward. One is being tested now, and no one knows if the other three are even possible.
+What does the future of AI look like? There are four key ideas driving the AI companies forward. One is happening in limited form. The other three describe a proposed process or possible milestones that have not been demonstrated.
 
-![Two ways AI could speed up AI: automated AI research is happening in early form, while recursive self-improvement remains contested and has not been built.](pace-of-change-3a-future-research.jpg)
+![Could AI improve itself? Automated AI research is human-directed and happening in limited form, while recursive self-improvement would create a self-reinforcing loop and has not been demonstrated.](pace-of-change-3a-future-research.jpg)
 
-![Two possible capability milestones: AGI would be as smart as people, while ASI would be smarter than everyone. Nobody knows whether either is possible.](pace-of-change-3b-future-capability.jpg)
-
-## So where does it stop?
-
-Nobody knows, and the Loudest Voices lesson showed you how openly the people building it admit that.
+![How far can AI go? AGI has no agreed definition or test, while ASI remains hypothetical. Nobody knows whether AI will reach either milestone.](pace-of-change-3b-future-capability.jpg)
 
 AI keeps getting faster and more powerful.
 

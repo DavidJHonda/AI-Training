@@ -666,6 +666,10 @@ const LESSON_VIDEOS = {
   engagementtrap: { src: "videos/engagement-trap.mp4", duration: "4 min", title: "The quietest trap: knowing when to stop." },
   supporttrap: { src: "videos/support-trap.mp4", duration: "4 min", title: "Supportive words aren’t support." },
   faketrap: { src: "videos/fake-trap.mp4", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." },
+  // The Finish Smarter opener's video will be REAL footage of Luke and Nate
+  // delivering their letter and the five big ideas, not a generated cut. The
+  // card holds the position until it's recorded.
+  openerfinish: { comingSoon: true, title: "A Letter from Luke and Nate" },
   // Embrace the Future is final. These cards reserve the completed video position
   // while the nine final video cuts are produced and approved.
   openerrealworld: { comingSoon: true, title: "Embrace the Future" },
@@ -11696,7 +11700,7 @@ function CertificateDoc(props) {
     letterSpacing: "0.20em"
   };
   var instructor = function(key, name) {
-    return E("div", { key: key, style: { textAlign: "right", minWidth: 0 } },
+    return E("div", { key: key, style: { textAlign: "center", minWidth: 0 } },
       E("div", {
         style: {
           fontFamily: "var(--serif)", fontSize: "clamp(17px, 2.2vw, 28px)",
@@ -12113,12 +12117,6 @@ function TheFinalQuiz() {
   };
 
   if (phase === "idle") {
-    var FACTS = [
-      { h: "25 questions", b: "Ten true-or-false, then fifteen multiple choice, always in the same order. All fundamentals. The last six are the six questions from the first page of the course." },
-      { h: "No clock", b: "Take all the time you want. This isn’t about speed; it’s about finding anything that didn’t stick." },
-      { h: "80 percent", b: "20 of 25 earns the certificate." },
-      { h: "No limit", b: "Retake it as often as you want. Your best score is the one that’s kept." }
-    ];
     var best = record.bestScore;
     return band([
       kicker("THE FINAL", null),
@@ -12130,14 +12128,6 @@ function TheFinalQuiz() {
         key: "i",
         style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: "0 0 18px 0" }
       }, "Every question comes from a lesson you just read. Nothing here is trivia, and every answer gets explained when you’re done. What you miss shows you exactly what to revisit."),
-      E("div", {
-        key: "f",
-        style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 12, marginBottom: 18 }
-      }, FACTS.map(function(f, i) {
-        return E("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "16px 18px", boxShadow: "var(--shadowSoft)" } },
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_LABEL + 2, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 7 } }, f.h),
-          E("div", { style: { fontFamily: "var(--sans)", fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.55 } }, f.b));
-      })),
       best != null ? E("div", {
         key: "b",
         style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 18, fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)" }
@@ -12289,7 +12279,7 @@ function FinishLetter() {
     E("p", null, "Here’s something that might surprise you. Your AI knowledge is now higher than most adults who use AI today. And whenever anyone talks about AI, you’ll see whether the speaker knows their stuff."),
     E("p", null, "And here’s our prediction. Ten years from now you’ll think back to this course and return to ", E("a", { href: "https://besmarterthanthetool.com" }, E("b", null, "BeSmarterThanTheTool"), ".com"), ". After shaking the cobwebs off the first page, you’ll re-read some of what you learned here. And you’ll chuckle to yourself, because your future AI knowledge will make this course feel like the training wheels on your first bike."),
     E("p", null, "That’s what we want for every person our age. Get the fundamentals here, and soar to new heights in the AI future."),
-    E("p", null, "Before you go, the next lesson has a 20-question final exam. Pass it, and you’ll get a cool certificate in PDF. Hang it on the wall."),
+    E("p", null, "Before you go, the next lesson has a 25-question final exam. Pass it, and you’ll get a cool certificate in PDF. Hang it on the wall."),
     E("p", null, "If we inspired you to keep learning, there’s a page called ", E("b", null, "Resources"), " which lists a few next steps."),
     E("p", null, "And lastly, let us know how you liked the course. There’s a ", E("b", null, "Reviews"), " page where you can read previous reviews and add your own."),
     E("p", null, "And, if you’re a hockey fan, GO STARS!"),
@@ -12298,7 +12288,23 @@ function FinishLetter() {
 // The letter IS the opener: the course said what it had to say, signed off, and
 // everything exam-shaped (creed, six questions) lives on The Final now.
 function FinishSmarterOpenerSection(props) {
+  // The creed sits under the signed letter as its postscript: the five parting
+  // ideas are the letter's enclosure, not an exam preamble (owner call, 2026-08-25).
+  var finishCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
+    eyebrow: "FIVE BIG IDEAS TO TAKE WITH YOU",
+    lines: [
+      "AI predicts. It doesn’t think.",
+      "Fluent isn’t the same as true.",
+      "The more you know, the more it gives.",
+      "You make the call.",
+      "The better AI gets, the more you matter."
+    ],
+    closing: "now you’re smarter than the tool."
+  });
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "openerfinish" }), /*#__PURE__*/React.createElement(FinishLetter, null),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Here are the five biggest takeaways from the course. Everything you just learned ties back to these ideas. Lock them in and you’ve got the mental model that runs every AI conversation."),
+    finishCreed,
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: The Final" }));
 }
@@ -12315,27 +12321,11 @@ function ReviewsSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "reviews" }));
 }
 function WhatYouLearnedSection(props) {
-  var finishCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
-    eyebrow: "FIVE BIG IDEAS TO TAKE WITH YOU",
-    lines: [
-      "AI predicts. It doesn’t think.",
-      "Fluent isn’t the same as true.",
-      "The more you know, the more it gives.",
-      "You make the call.",
-      "The better AI gets, the more you matter."
-    ],
-    closing: "now you’re smarter than the tool."
-  });
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }),
-    finishCreed,
-    /*#__PURE__*/React.createElement(BodyP, null, "Everything you just learned ties back to those five ideas. Lock them in and you’ve got the mental model that runs every AI conversation."),
-    /*#__PURE__*/React.createElement(CertificateTeaser, null),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "NOW PROVE IT"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "That’s the course. Every idea you need is right above, and it isn’t going anywhere."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "So here’s the last move: twenty-five questions on the fundamentals, no clock, and every answer explained when you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. And keep an eye out for the finish: the six questions from the first page of this course are waiting at the end."),
+    /*#__PURE__*/React.createElement(CertificateTeaser, null),
     /*#__PURE__*/React.createElement(TheFinalQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));

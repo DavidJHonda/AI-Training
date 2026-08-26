@@ -114,6 +114,18 @@
   .numcols-3 > *{ flex:0 1 calc((100% - 24px) / 3); }
   @media (max-width:700px){ .numcols-3 > *{ flex-basis:calc((100% - 12px) / 2); } }
   @media (max-width:500px){ .numcols-3 > *{ flex-basis:100%; } }
+  /* Standard multiple-choice TRY IT: keep the numbered prompt alignment on
+     larger screens, then release that indent on phones so answers and feedback
+     retain a readable line length. */
+  @media (max-width:560px){
+    .choicequiz-question{ gap:12px !important; }
+    .choicequiz-options{ margin-left:0 !important; flex-direction:column !important; gap:14px !important; }
+    .choicequiz-options > button{ width:100%; }
+    .choicequiz-feedback{ margin-left:0 !important; }
+    .choicequiz-feedback-grid{ grid-template-columns:1fr !important; gap:10px !important; }
+  }
+  .temp-prob-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+  @media (max-width:700px){ .temp-prob-grid{ grid-template-columns:1fr; } }
   /* Engagement Trap "what you could have done" rows: a big right-aligned figure
      beside its label. Needs a media query (the number stacks above the label on
      narrow, rather than squeezing the label to one word per line), so it lives
@@ -750,7 +762,7 @@ const CLOSE_BOARDS = {
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Finish Smarter
   choosemodel: { pill: "The default is usually enough.", sticky: "When it isn’t, change the right thing." },
-  aitips: { pill: "There are no magic words.", sticky: "Just five moves, run on purpose." },
+  aitips: { pill: "Start with what you know.", sticky: "Then work with AI until the result is useful." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
   peopleskills: { pill: "AI can write it. It can’t be the person in the room.", sticky: "Say it clearly, be easy to work with, and people follow." },
   skillsthatmatter: { pill: "The typing got cheap.", sticky: "The judgment didn’t." },
@@ -1924,15 +1936,15 @@ function ChoiceQuiz(props) {
         var accent = vCorrect ? "#1f9d5f" : "#d4334a";
         var eyebrow = answered ? (picked.eyebrow || (picked.correct ? "Correct" : "Not quite")) : null;
         return React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 18, marginTop: si === 0 ? 0 : 18, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-          React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "flex-start" } },
+          React.createElement("div", { className: "choicequiz-question", style: { display: "flex", gap: 16, alignItems: "flex-start" } },
             React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 30, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, sc.prompt)),
-          React.createElement("div", { style: { display: "flex", flexDirection: "row", gap: 28, marginLeft: 46, marginTop: 14, flexWrap: "wrap" } },
+          React.createElement("div", { className: "choicequiz-options", style: { display: "flex", flexDirection: props.stackOptions ? "column" : "row", gap: props.stackOptions ? 14 : 28, marginLeft: 46, marginTop: 14, flexWrap: "wrap" } },
             opts.map(function(opt, oi) {
               return React.createElement(ChoiceRadio, { key: oi, label: opt.label, picked: viewing === oi, correct: opt.correct, onClick: function() { pick(si, oi); } });
             })),
-          answered ? React.createElement("div", { style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
-            React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
+          answered ? React.createElement("div", { className: "choicequiz-feedback", style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
+            React.createElement("div", { className: "choicequiz-feedback-grid", style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
               React.createElement("div", null,
                 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
                   React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
@@ -2343,7 +2355,7 @@ const SECTION_META = {
   inference: { kicker: "THE FINE PRINT", label: "One More Thing", title: "One More Thing", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "WHAT CAN CHANGE THE ANSWER", label: "Your Choices", icon: "\uD83E\uDE9C" },
-  aitips: { kicker: "WHAT GOOD USERS TYPE", label: "AI Tips", icon: "\uD83E\uDDF0" },
+  aitips: { kicker: "START WHERE YOU ARE", label: "Power User Moves", icon: "\uD83E\uDDF0" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Mind Trap", icon: "\uD83E\uDEE5" },
@@ -2366,7 +2378,7 @@ const SECTION_META = {
   evaluating: { kicker: "BEFORE YOU TRUST IT", label: "Evaluate the Results", icon: "\uD83D\uDD0D" },
   openerrealworld: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   openerskills: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
-  integrity: { kicker: "TWO HABITS FOR THE ROAD", label: "Habits for the Road", icon: "\uD83C\uDF93" },
+  integrity: { kicker: "TWO AI HABITS", label: "Honesty & Privacy", icon: "\uD83C\uDF93" },
   faketrap: { kicker: "SEEING ISN\u2019T PROOF", label: "Fake Trap", title: "Fake Trap", icon: "\uD83D\uDC41\uFE0F" },
   bigupside: { kicker: "THE UPSIDE IS REAL", label: "Big Upside", title: "Big Upside", icon: "\uD83D\uDD2C" },
   workchanges: { kicker: "SAME TITLE, DIFFERENT WORK", label: "Work Changes", icon: "\uD83D\uDCCA" },
@@ -6997,7 +7009,7 @@ function OutsideWindowBox() {
       E("p", null, "If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app.")));
 }
 function PromptSection(props) {
-  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps", {});
+  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps-v2", {});
   var AI_ANSWER_SIDES = [
     {
       emoji: "👦🏻",
@@ -7018,8 +7030,9 @@ function PromptSection(props) {
   ];
   const LAB_STEPS = [
     { title: "Log in to ChatGPT", body: "Go to chatgpt.com and sign in." },
-    { title: "Name your first project", body: "Find Projects and start a new one. Enter \u201CMy First Coding Project\u201D as the name. Don\u2019t click Create project yet." },
-    { title: "Keep this project in its own lane", body: "Open the memory menu and choose Project-only memory. This keeps unrelated chats outside your coding project, and keeps this project from following you into other conversations. Then click Create project." },
+    { title: "Start your first project", body: "Find Projects and start a new one. Don\u2019t name or create it yet." },
+    { title: "Keep this project in its own lane", body: "Open the memory menu and choose Project-only memory. This keeps unrelated chats outside your coding project, and keeps this project from following you into other conversations." },
+    { title: "Name and create it", body: "Enter \u201CMy First Coding Project\u201D as the name. Then click Create project." },
     { title: "Give it the right context", body: "Inside the project, find its instructions and paste the context below. This is all ChatGPT needs for this job; you don\u2019t need to share personal details.", prompt: "I\u2019m learning to code with AI. I\u2019m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
     { title: "See the window", body: "Start a new chat inside your project and ask the question below. The answer should reflect the instructions you just added. That\u2019s your project context, made visible.", prompt: "What do you know about me, and how should you help me in this project?" }
   ];
@@ -7380,23 +7393,6 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
 function ChoosingModelSection(props) {
-  const [taskAnswers, setTaskAnswers] = useState({});
-  const TASKS = [{
-    task: "Rewrite this paragraph so it sounds friendlier",
-    answer: "Default", explain: "This is a straightforward rewrite. The default can handle it without more reasoning or a research workflow."
-  }, {
-    task: "Analyze whether my business plan has any logical flaws",
-    answer: "More reasoning", explain: "Finding logical flaws means working through connected claims and checking how they fit together. Increase the reasoning if your app offers that choice."
-  }, {
-    task: "Compare the current costs, financial aid, graduation rates, and housing policies at three colleges, using official sources",
-    answer: "Research", explain: "The facts are current, spread across many sources, and important enough to document. A research workflow is built for a multi-step, cited comparison like this."
-  }, {
-    task: "Give me 10 ideas for a YouTube channel name",
-    answer: "Default", explain: "Creative brainstorming is about producing options, not solving a difficult chain of logic. The default is enough."
-  }, {
-    task: "Solve this multi-step calculus problem and check every step",
-    answer: "More reasoning", explain: "Multi-step math benefits from extra reasoning and self-checking. More reasoning can reduce mistakes, although you should still verify the result."
-  }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -7431,121 +7427,425 @@ function ChoosingModelSection(props) {
       "When AI predicts the next token, several choices may be possible. More likely tokens have a better chance of being selected, but they do not always win. ",
       /*#__PURE__*/React.createElement("strong", null, "Temperature"),
       " changes how widely the model considers those possibilities. Lower temperature concentrates the chances around the most likely words, making answers more predictable. Higher temperature spreads the chances farther down the list, creating more variation, more surprise, and sometimes more nonsense."),
+    /*#__PURE__*/React.createElement(TemperatureProbabilityBoard, null),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI companies set the temperature behind the scenes. Most users never see or control it."),
     closeBoard("choosemodel"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Match the Job to the Choice",
-     lead: "Choose Default, More reasoning, or Research. If your app does not show a choice, it may be choosing for you."},
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        TASKS.map(function(t, i) {
-          var answered = taskAnswers[i] !== undefined;
-          var picked = taskAnswers[i];
-          var correct = picked === t.answer;
-          function PillButton(mode) {
-            var isPicked = picked === mode;
-            return /*#__PURE__*/React.createElement(FeedbackPill, {
-              key: mode,
-              answered: answered,
-              isCorrect: mode === t.answer,
-              isPicked: isPicked,
-              label: mode,
-              onClick: function() { setTaskAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, mode]])); }); }
-            });
-          }
-          return /*#__PURE__*/React.createElement(ScenarioRow, {
-            key: i,
-            index: i + 1,
-            prompt: t.task + ".",
-            answered: answered,
-            correct: correct,
-            feedback: t.explain
-          }, [PillButton("Default"), PillButton("More reasoning"), PillButton("Research")]);
-        })
-      )),
+    /*#__PURE__*/React.createElement(YourChoicesTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: AI Tips" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Power User Moves" }));
+}
+
+function TemperatureProbabilityBoard() {
+  var E = React.createElement;
+  var names = ["Spot", "Max", "Buddy", "Rex", "Biscuit", "Pixel", "Mochi"];
+  var columns = [
+    {
+      label: "LOW",
+      title: "Probability concentrates",
+      color: "#2563eb",
+      tint: "#eff6ff",
+      values: [71.7, 20.4, 5.4, 1.5, 0.7, 0.2, 0.1]
+    },
+    {
+      label: "MEDIUM",
+      title: "Several names compete",
+      color: "#6e51ff",
+      tint: "#f3f0ff",
+      values: [50.0, 25.0, 12.0, 6.0, 4.0, 2.0, 1.0]
+    },
+    {
+      label: "HIGH",
+      title: "The gaps flatten",
+      color: "#d4336f",
+      tint: "#fff0f5",
+      values: [26.2, 20.4, 15.7, 12.3, 10.6, 8.3, 6.5]
+    }
+  ];
+  var maxValue = 71.8;
+  return E("div", {
+    style: {
+      background: "#f4f0ff",
+      borderRadius: 20,
+      padding: 22,
+      margin: "10px 0 26px"
+    }
+  },
+    E("div", {
+      style: {
+        background: "#fff",
+        borderRadius: 16,
+        padding: 22,
+        boxShadow: "var(--shadowElevated)"
+      }
+    },
+      E("div", { style: { fontSize: 26, fontWeight: 800, color: "var(--ink)", lineHeight: 1.15, marginBottom: 8 } }, "Temperature changes the probability spread"),
+      E("div", { style: { fontSize: 15.5, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 18 } }, "The model scores the same possible completion three ways."),
+      E("div", {
+        style: {
+          background: "var(--bg)",
+          border: "1px solid var(--rule)",
+          borderRadius: 12,
+          padding: "13px 16px",
+          marginBottom: 16,
+          textAlign: "center",
+          fontFamily: "var(--mono)",
+          fontSize: 16,
+          fontWeight: 650,
+          color: "var(--ink)"
+        }
+      }, "You could name him ______."),
+      E("div", { className: "temp-prob-grid" },
+        columns.map(function(col) {
+          return E("div", {
+            key: col.label,
+            style: {
+              border: "1px solid " + col.color + "33",
+              borderTop: "4px solid " + col.color,
+              borderRadius: 14,
+              padding: "15px 14px 13px",
+              background: "#fff"
+            }
+          },
+            E("div", {
+              style: {
+                display: "inline-flex",
+                alignItems: "center",
+                borderRadius: 999,
+                padding: "5px 10px",
+                background: col.tint,
+                color: col.color,
+                fontSize: 11.5,
+                fontWeight: 800,
+                letterSpacing: "0.1em",
+                marginBottom: 8
+              }
+            }, col.label + " TEMPERATURE"),
+            E("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 12 } }, col.title),
+            names.map(function(name, i) {
+              var value = col.values[i];
+              var isNewName = name === "Pixel" || name === "Mochi";
+              var isHigh = col.label === "HIGH";
+              return E("div", {
+                key: name,
+                style: {
+                  display: "grid",
+                  gridTemplateColumns: "58px 1fr 42px",
+                  gap: 8,
+                  alignItems: "center",
+                  padding: "6px 5px",
+                  borderRadius: 8,
+                  background: isNewName && isHigh ? col.tint : "transparent"
+                }
+              },
+                E("div", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: isNewName && isHigh ? 800 : 650, color: "var(--ink)" } }, name),
+                E("div", { style: { height: 10, borderRadius: 999, background: "#eeeaf7", overflow: "hidden" } },
+                  E("div", {
+                    style: {
+                      width: Math.max(1.5, value / maxValue * 100) + "%",
+                      height: "100%",
+                      borderRadius: 999,
+                      background: col.color,
+                      opacity: value < 1 ? 0.45 : 0.9
+                    }
+                  })),
+                E("div", { style: { fontFamily: "var(--mono)", fontSize: 12, fontWeight: 750, color: value < 1 ? "var(--inkMuted)" : col.color, textAlign: "right" } }, value.toFixed(1) + "%"));
+            })
+          );
+        })),
+      E("div", {
+        style: {
+          marginTop: 16,
+          borderRadius: 12,
+          background: "#fff1c7",
+          padding: "12px 16px",
+          textAlign: "center",
+          fontSize: 15,
+          fontWeight: 800,
+          color: "var(--ink)",
+          lineHeight: 1.4
+        }
+      }, "Same ranked names. Higher temperature flattens the gaps."),
+      E("div", { style: { marginTop: 10, textAlign: "center", fontSize: 12.5, color: "var(--inkMuted)", lineHeight: 1.45 } }, "Illustrative probabilities. Pixel and Mochi move from long shots to real possibilities only at high temperature.")
+    ));
+}
+
+function YourChoicesTryIt() {
+  var scenarios = [
+    {
+      prompt: "Which statement about Thinking is most accurate?",
+      options: [
+        {
+          label: "Thinking always produces a better answer",
+          correct: false,
+          headline: "More work is not always better work.",
+          feedback: "Thinking can help with a difficult problem that has several steps. For a straightforward question, it may only make the answer slower, longer, or less direct."
+        },
+        {
+          label: "Thinking may help with complex work, but it is not a quality switch",
+          correct: true,
+          headline: "Use it when the job earns it.",
+          feedback: "Right. Additional reasoning can help with math, code, planning, and other multi-step problems. It does not guarantee that every answer will improve."
+        },
+        {
+          label: "Thinking gives the AI access to newer information",
+          correct: false,
+          headline: "More reasoning is not new information.",
+          feedback: "Thinking changes how much work the AI does with the information it has. Current information requires a live search or another current source."
+        }
+      ]
+    },
+    {
+      prompt: "What changes when you choose a different model?",
+      options: [
+        {
+          label: "A different trained LLM does the work",
+          correct: true,
+          headline: "The brain behind the answer changes.",
+          feedback: "Right. Models in the same app are different trained systems, not one identical brain turned up or down."
+        },
+        {
+          label: "The same model spends more time answering",
+          correct: false,
+          headline: "That describes reasoning.",
+          feedback: "Thinking, Reasoning, or Effort changes how much work a model does before answering. Choosing a model changes which trained LLM is doing that work."
+        },
+        {
+          label: "The model's temperature automatically increases",
+          correct: false,
+          headline: "Temperature is a separate setting.",
+          feedback: "Temperature affects how predictable or varied the model's word choices are. It is not another name for choosing a model."
+        },
+        {
+          label: "You move to a different AI app",
+          correct: false,
+          headline: "The app and model are separate.",
+          feedback: "One app may provide access to several models. Changing the model inside an app does not mean that you changed apps."
+        }
+      ]
+    },
+    {
+      prompt: "What changes when you turn on Thinking or choose more Reasoning or Effort?",
+      options: [
+        {
+          label: "A different LLM replaces the current one",
+          correct: false,
+          headline: "That is a model change.",
+          feedback: "Changing the model selects a different trained LLM. A reasoning control changes how much work the selected model does before it answers."
+        },
+        {
+          label: "The AI does more work before answering",
+          correct: true,
+          headline: "Same job, more reasoning.",
+          feedback: "Right. Apps use different labels, but these controls determine whether the AI takes an extended reasoning pass or puts more work into the answer."
+        },
+        {
+          label: "The AI searches the live web",
+          correct: false,
+          headline: "Reasoning is not research.",
+          feedback: "Thinking longer does not supply current information. Web search or Research gathers information outside the model's trained knowledge."
+        },
+        {
+          label: "The AI makes its wording more random",
+          correct: false,
+          headline: "That describes temperature.",
+          feedback: "Temperature changes how widely the model samples possible next words. Reasoning changes how much work happens before the final answer."
+        }
+      ]
+    },
+    {
+      prompt: "Why do most users never see a temperature control?",
+      options: [
+        {
+          label: "AI companies usually set it behind the scenes",
+          correct: true,
+          headline: "It is usually a hidden setting.",
+          feedback: "Right. Temperature still affects how the model chooses among possible next tokens, but consumer AI apps usually do not expose the control."
+        },
+        {
+          label: "Temperature only applies to image generation",
+          correct: false,
+          headline: "It affects language generation.",
+          feedback: "Temperature changes how an LLM samples possible next tokens. It is part of generating text, even when the app keeps the control hidden."
+        },
+        {
+          label: "Temperature is another name for the model",
+          correct: false,
+          headline: "The model and setting are different.",
+          feedback: "The model is the trained LLM doing the work. Temperature is a sampling setting used while that model generates an answer."
+        },
+        {
+          label: "Temperature only exists while a model is being trained",
+          correct: false,
+          headline: "It matters when the model answers.",
+          feedback: "Temperature affects token selection during generation, after training is complete. The company usually chooses the setting for the user."
+        }
+      ]
+    },
+    {
+      prompt: "Your AI app does not show a model selector. What is the best conclusion?",
+      options: [
+        {
+          label: "The app is broken or outdated",
+          correct: false,
+          headline: "A missing menu can be intentional.",
+          feedback: "Some apps deliberately hide model choices to keep the experience simple. The absence of a selector does not mean something is wrong."
+        },
+        {
+          label: "The app may be choosing the model automatically",
+          correct: true,
+          headline: "The choice may happen for you.",
+          feedback: "Right. Some apps expose several models, while others route each request automatically. The model still exists even when its selector does not."
+        },
+        {
+          label: "The app is answering without an LLM",
+          correct: false,
+          headline: "Hidden does not mean absent.",
+          feedback: "The app can use an LLM without showing its name or giving you a menu. The interface may simply keep that decision out of view."
+        },
+        {
+          label: "Every answer will always use the strongest available model",
+          correct: false,
+          headline: "Automatic does not mean strongest.",
+          feedback: "An app may balance capability, speed, cost, and the difficulty of the request. Without a selector, you cannot assume it always uses the strongest model."
+        }
+      ]
+    }
+  ];
+  return /*#__PURE__*/React.createElement(ChoiceQuiz, {
+    title: "Check Your Understanding",
+    instruction: "Five quick questions about what can change an AI answer. Each response explains the idea, so use a miss to sharpen the distinction.",
+    stackOptions: true,
+    scenarios: scenarios
+  });
 }
 function AITipsSection(props) {
   var E = React.createElement;
   const [moveAnswers, setMoveAnswers] = useState({});
-  const MOVES = ["Interview me", "What I tried", "Options", "Aim the retry", "New chat"];
+  const MOVES = ["Thought Partner", "Ask AI", "Get Me Started", "Iterate"];
   const SITUATIONS = [{
-    situation: "You’ve been going back and forth on a lab report intro for twenty minutes, and it keeps handing back the same stiff paragraph with different words.",
-    answer: "New chat",
-    explain: "Everything it has given you so far is still in that window, getting re-read before every new word, which is why it keeps circling the same paragraph. Ask for a paragraph you can carry over, open a fresh chat, and paste it in."
+    situation: "You want to earn money this summer, but you do not know what kind of business fits your skills, schedule, or neighborhood.",
+    answer: "Thought Partner",
+    feedback: {
+      "Thought Partner": "The decision is still taking shape. Think with AI to explore possibilities, compare tradeoffs, and discover which ideas fit you.",
+      "Ask AI": "That move works when the job is clear and you need the method. Here, you have not decided what business to build yet.",
+      "Get Me Started": "Questions could uncover useful details, but the larger need is to explore possibilities and compare them before choosing.",
+      "Iterate": "There is no draft or result to improve yet. First, work with AI to shape the idea."
+    }
   }, {
-    situation: "You need a topic for a five-minute presentation, in a class the AI knows nothing about.",
-    answer: "Interview me",
-    explain: "You could type out the class, the teacher, the rubric, and the three topics already taken. Faster: “Before you suggest anything, ask me whatever you need to know about this class and me to pick a topic that works. One question at a time.”"
+    situation: "You are planning a lawn-cutting business. You keep hearing the words revenue and profit, but you do not understand the difference.",
+    answer: "Ask AI",
+    feedback: {
+      "Thought Partner": "This is not an open-ended decision. You have found a specific idea you need to understand.",
+      "Ask AI": "Ask AI to connect the concept to your business, explain it with simple numbers, and check whether you understand it.",
+      "Get Me Started": "The AI does not need to lead with questions before it can teach this concept. You already know what you want to learn.",
+      "Iterate": "There is no draft or result to improve. First, learn the concept you are missing."
+    }
   }, {
-    situation: "Your bike’s back brake still rubs. You already re-centered the caliper and swapped the pads.",
-    answer: "What I tried",
-    explain: "Ask cold and the first two suggestions will be re-center the caliper and check the pads. Put those in as dead ends and the model has to go past them."
+    situation: "You need to start thinking about college, but you do not know which factors should shape your search.",
+    answer: "Get Me Started",
+    feedback: {
+      "Thought Partner": "You will eventually want to compare possibilities, but first you need to discover which parts of the decision matter to you.",
+      "Ask AI": "A broad request for college advice may produce a generic list. You need the AI to uncover your priorities before it recommends anything.",
+      "Get Me Started": "Let AI ask one question at a time. Its questions help you discover what matters and give it the context needed for useful guidance.",
+      "Iterate": "There is no plan or result to improve yet. First, use questions to find a useful starting point."
+    }
   }, {
-    situation: "The fundraiser email it wrote is fine. It just doesn’t sound like anyone at your school.",
-    answer: "Aim the retry",
-    explain: "“Try again” gets you the same email in a new outfit. Name the miss: “Too corporate. Keep the first line, cut the hype, and make it sound like a text, not a newsletter.”"
-  }, {
-    situation: "Your group can’t agree on how to run the fundraiser, and you’re the one bringing a plan tomorrow.",
-    answer: "Options",
-    explain: "One recommendation and you’re just grading its pick, in front of your whole group. Run the options move, aimed at the fundraiser: five ways, ranked, with the tradeoff on each, and it doesn’t pick for you."
+    situation: "AI writes a fundraiser email. The facts are right, but it sounds corporate and nothing like your school.",
+    answer: "Iterate",
+    feedback: {
+      "Thought Partner": "The decision is already made and a draft exists. The next move is to guide a better version.",
+      "Ask AI": "You already know what went wrong. A general request for help would be less useful than pointing the revision precisely.",
+      "Get Me Started": "The problem is visible in the draft. You do not need more opening questions before you can name the miss.",
+      "Iterate": "Keep what works, name what missed, and tell AI how the next version should change."
+    }
   }];
   return E("div", null,
     E(LessonHeader, { sectionId: "aitips" }),
     E(BodyP, null,
-      "You know what can change the answer. Everything from here is about what you type into the box."),
+      "Most people think a good AI user starts with the perfect prompt. Power users rarely do."),
     E(BodyP, null,
-      "And everyone types into the same box. Some people get noticeably more back than everyone else, and it isn’t because they found the magic words. There are no magic words. What they have is a short list of moves they run on purpose, most of them one sentence long."),
+      "They start with what they know, use the conversation to discover what is missing, and keep working until the result is useful. Four moves cover most of that work."),
     E(BodyP, null,
-      E("strong", null, "None of these are tricks, and none of them expire."),
-      " Five moves. Steal all five."),
-    E(SectionKicker, null, "THE MOVE ALMOST NOBODY TRIES"),
+      E("strong", null, "You do not need perfect words."),
+      " You need a useful way to begin."),
+    E(SectionKicker, null, "THOUGHT PARTNER"),
     E(BodyP, null,
-      "AI can’t see your class, your teacher, your deadline, or the two things you already decided. Most people handle that by typing more. There’s a faster way: make it ask you."),
-    E(ShowcaseBox, { headline: "Make it interview you.", marginBottom: 24 },
+      "A thought partner is someone you collaborate with to think something through."),
+    E(BodyP, null,
+      "Imagine you and your best friend are starting a basketball team for a summer league. You talk about possible names, explain what each of you likes, reject ideas that do not fit, and eventually choose one together. Neither person had to begin with the answer. You reached it by thinking together."),
+    E(BodyP, null,
+      "AI can be a thought partner in much the same way. It can ask questions, suggest possibilities, and help you compare tradeoffs. It should not make the decision for you. It helps you see more of the decision so you can make it better."),
+    E(ShowcaseBox, { headline: "Start with the idea you have.", marginBottom: 24 },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-        E(UserBubble, { align: "right", text: "Before you write anything, ask me whatever you need to know about me and this assignment to do it well. One question at a time." }),
-        E(AIBubble, { align: "left", text: "Happy to. First one: what did the assignment actually ask for, in your teacher’s words?" }))),
+        E(UserBubble, { align: "right", text: "I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?" }),
+        E(AIBubble, { align: "left", text: "Absolutely. Let’s start with where you are. What are you already good at, and what problems do people around you regularly need help solving?" }),
+        E(UserBubble, { align: "right", text: "I’m good with dogs and younger kids, I can get around my neighborhood, and I have afternoons free." }),
+        E(AIBubble, { align: "left", text: "That gives us several realistic directions. Let’s compare pet care, tutoring or activity help, and a neighborhood errand service by startup cost, demand, and what you would enjoy." }))),
+    E(SectionKicker, null, "ASK AI"),
     E(BodyP, null,
-      "Answer four or five of those and it knows more about the job than you would ever have thought to type. And the questions are the bonus: they tell you what mattered that you hadn’t considered."),
-    E(SectionKicker, null, "FOUR MORE MOVES"),
+      "AI can be an on-demand teacher. When you come across something you do not understand, do not stop at a definition. Ask AI to connect the idea to something you already know, explain it at your level, and check whether you learned it."),
+    E(ShowcaseBox, { headline: "Turn a question into a lesson.", marginBottom: 24 },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        E(UserBubble, { align: "right", text: "I’m considering starting a lawn-cutting business. I understand that revenue is the money customers pay me, but I don’t really understand profit. Teach me the difference using a lawn business. Include expenses I might overlook, use simple numbers, and then give me a short problem to solve myself." }),
+        E(AIBubble, { align: "left", text: "Revenue is all the money the business brings in. Profit is what remains after expenses. Suppose you cut six lawns at $20 each. Your revenue is $120. If gas, supplies, and equipment wear cost $30, your profit is $90. Your turn: if you earn $160 and your expenses are $35, what is your profit?" }))),
     E(BodyP, null,
-      "Same shape every time: one sentence, typed on purpose, at the moment it fits."),
-    E(NumberedRows, { marginBottom: 28, items: [
-      {
-        title: "Tell it what you already tried.",
-        body: "Ask cold and you get the average answer, and the average answer is usually the thing you already did. Rule out your dead ends in the prompt and the model has to go past them.",
-        prompt: "Here’s the problem. I already tried [X] and [Y]. X changed nothing, Y made it worse. Skip both and tell me what else could be going on."
-      },
-      {
-        title: "Ask for options, not an answer.",
-        body: "One answer and you’re stuck grading its pick. Several, and you’re choosing again, which was always the part that was yours.",
-        prompt: "Give me five ways I could do this, ranked, with the tradeoff on each. Don’t pick for me.",
-        after: "When something is broken instead of undecided, same move, different shape: “Give me three possible explanations for why this is happening, most likely first.”"
-      },
-      {
-        title: "Say what wrong looks like.",
-        body: "“Try again” gets you a different flavor of the same miss. The model can’t see what bothered you. Name it, keep the part that worked, and point the next try somewhere.",
-        prompt: "Not this. The tone is off. Keep the first paragraph, cut the hype, and make it sound like a text, not a newsletter."
-      },
-      {
-        title: "Start a new chat instead of arguing with the old one.",
-        body: "Once a chat goes sideways, the wrong turn is still sitting in there, getting re-read before every new word. Twenty messages of correcting just adds more of it. Take the good part with you and leave the rest behind.",
-        prompt: "Summarize what we’ve settled so far in one paragraph I can paste into a new chat."
-      }
-    ] }),
-    E(SectionKicker, null, "Notice what all five have in common."),
+      "When you do not understand something, ask AI to teach it in a way that connects to your life. Then ask it to check your understanding."),
+    E(SectionKicker, null, "LET AI GET YOU STARTED"),
     E(BodyP, null,
-      "Not one of them hands the work over. They pull your situation out of your head, rule out the dead ends you already found, widen the options before you pick, and aim the next try. The AI does more in every one of them, and so do you."),
+      "Some decisions feel so big that the hardest part is knowing where to begin. You do not need to understand every factor or write a complete prompt. Ask AI to lead with questions."),
+    E(ShowcaseBox, { headline: "Let questions reveal what matters.", marginBottom: 24 },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+        E(UserBubble, { align: "right", text: "I need to start thinking about college, but I don’t know where to begin. Ask me one question at a time to help me figure out what matters to me. Don’t recommend a college yet." }),
+        E(AIBubble, { align: "left", text: "Let’s start with the goal. Do you already have a career or field in mind, or do you want college to help you explore different possibilities?" }))),
+    E(BodyP, null,
+      "When you do not know where to start, ask AI to lead with questions. The questions help you discover what matters while giving AI the context it needs."),
+    E(SectionKicker, null, "ITERATE WITH AI"),
+    E(BodyP, null,
+      E("strong", null, "To iterate means to build something in versions, using each version to improve the next one.")),
+    E(BodyP, null,
+      "When the final result looks much better than the first, you might wonder, “Why didn’t AI give me this in the first place?” Because neither you nor AI had completely defined what “this” should look like yet."),
+    E(ShowcaseBox, { headline: "The work changes. So does the feedback.", marginBottom: 24 },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 } },
+        E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--primary)" } },
+          E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.12em" } }, "A BROAD OUTLINE"),
+          E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, "The big decisions"),
+          E("div", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } }, "An art teacher can discuss the subject, the composition, and what belongs in the empty spaces.")),
+        E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--green)" } },
+          E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--green)", letterSpacing: "0.12em" } }, "A NEARLY FINISHED PAINTING"),
+          E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, "The finishing details"),
+          E("div", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } }, "Now the teacher can discuss shading, color, contrast, and the details that make the painting great.")))),
+    E(BodyP, null,
+      "The teacher did not become better between those conversations. The painting became developed enough to receive more precise feedback. AI works similarly. Each version gives you something new to evaluate, and your response gives the conversation more information about what the finished result should become."),
+    E(ShowcaseBox, { headline: "The same thing happens with AI.", marginBottom: 24 },
+      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 } },
+        E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--primary)" } },
+          E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.12em" } }, "EARLY ROUND"),
+          E(UserBubble, { align: "right", text: "Give me ideas for a summer business." }),
+          E(AIBubble, { align: "left", text: "Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online." }),
+          E("div", { style: { fontSize: 15, lineHeight: 1.55, color: "var(--inkSoft)" } }, "The early round helps find a direction, so the response stays broad.")),
+        E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--green)" } },
+          E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--green)", letterSpacing: "0.12em" } }, "LATER ROUND"),
+          E(UserBubble, { align: "right", text: "I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it." }),
+          E(AIBubble, { align: "left", text: "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?" }),
+          E("div", { style: { fontSize: 15, lineHeight: 1.55, color: "var(--inkSoft)" } }, "The later round can question details, find missing pieces, and improve the actual plan.")))),
+    E(BodyP, null,
+      E("strong", null, "Early rounds find the direction. Later rounds improve the details.")),
+    E(BodyP, null,
+      "This course was built that way. AI could create generic lesson text from a title. It could not create the finished lesson without the audience, teaching goals, earlier lessons, course standards, and many rounds of feedback."),
+    E(BodyP, null,
+      "To guide the next round, keep what worked, name what missed, and describe what should change."),
+    E(BodyP, null,
+      "AI does not need to see the finish line at the beginning. You get there by building, reviewing, and improving one version at a time."),
+    E(SectionKicker, null, "FOUR MOVES, ONE HABIT"),
+    E(BodyP, null,
+      "Start where you are. If the idea is fuzzy, think with AI. If there is something you want to learn, ask AI to teach it. If the subject feels too big, let AI get you started. If the result misses, iterate."),
     closeBoard("aitips"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Which Move Fits?",
-      lead: "Five situations, and the same five moves every time. Read each one and pick the move you’d actually run."},
+      title: "What Kind of Stuck Is This?",
+      lead: "Four situations. Identify why the person is stuck, then choose the move that gets the conversation moving."},
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SITUATIONS.map(function(s, i) {
           var answered = moveAnswers[i] !== undefined;
@@ -7567,12 +7867,12 @@ function AITipsSection(props) {
             prompt: s.situation,
             answered: answered,
             correct: correct,
-            feedback: s.explain
+            feedback: answered ? s.feedback[picked] : ""
           }, MOVES.map(PillButton));
         })
       )),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Habits for the Road" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("integrity"); }, label: "Next: Honesty & Privacy" }));
 }
 function PhoneTrayStrip() {
   var E = React.createElement;
@@ -10739,7 +11039,7 @@ function OpenerSkillsSection(props) {
     featuredCard: skillsCreed,
     whyThisMatters: [
       "Last section, and it\u2019s the one you keep.",
-      "Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. Whether you became a serious cyclist or just ride for fun, that skill stayed with you. Nobody could give you balance. You had to build it.",
+      "Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. That skill made you a better cyclist, and it carried over into other physical activities, such as skating or playing basketball. Whether you became a serious cyclist or just rode for fun, the skill stayed with you. Nobody could give you balance. You had to build it.",
       "This section is about skills like that: the ones you build once and keep forever. Some of them are AI skills. The most important ones aren\u2019t. You\u2019ll build both here."
     ],
     sectionOverview: {
@@ -10750,7 +11050,7 @@ function OpenerSkillsSection(props) {
     groups: [
       {
         kicker: "THE LAST OF THE AI",
-        bridge: "First, the last of the tool itself: which model to pick, how hard to make it think, what to type, and two habits for the road."
+        bridge: "First, the last of the tool itself: what can change an answer, four ways power users work with AI, and two habits for using it responsibly."
       },
       {
         kicker: "SKILLS AI WON\u2019T REPLACE",
@@ -10771,245 +11071,63 @@ function OpenerSkillsSection(props) {
 function IntegritySection(props) {
   const [integrityAnswers, setIntegrityAnswers] = useState({});
   const integrityAllAnswered = Object.keys(integrityAnswers).length >= INTEGRITY_SCENARIOS.length;
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "integrity" }), /*#__PURE__*/React.createElement(BodyP, null, "You now know how AI works and how to use it well. Two habits decide whether that knowledge actually helps you. The first is honesty."), /*#__PURE__*/React.createElement(BodyP, null, "AI is an incredibly powerful tool for learning. But there's a difference between ", /*#__PURE__*/React.createElement("strong", null, "using AI to learn"), " and ", /*#__PURE__*/React.createElement("strong", null, "using AI to skip learning"), ". The line isn't always obvious, so let's make it clear."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "integrity" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "Honesty and privacy protect the same thing: trust. One is about the work you claim. The other is about the information you share."),
+  /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "One draft. Two broken trusts.", marginBottom: 24 },
+    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 } },
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 10, borderTop: "4px solid var(--primary)" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.12em" } }, "HONESTY"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3 } }, "Is this my work to claim?"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } }, "You send a friend the draft of your college essay and ask for feedback. They use your opening in their own essay and claim they wrote it.")),
+      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 10, borderTop: "4px solid var(--green)" } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--green)", letterSpacing: "0.12em" } }, "PRIVACY"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3 } }, "Is this my information to share?"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } }, "Your essay includes a personal story about your family. Your friend forwards the draft to someone else without asking you.")))),
+  /*#__PURE__*/React.createElement(BodyP, null, "Although AI isn't a person, the same questions still apply."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "HONESTY"),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI is an incredibly powerful tool for learning. But there's a difference between ", /*#__PURE__*/React.createElement("strong", null, "using AI to learn"), " and ", /*#__PURE__*/React.createElement("strong", null, "using AI to skip learning"), ". The line isn't always obvious, so let's make it clear."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Outside school, using AI may be a normal part of the job. Honesty still means following the rules, being truthful about how the work was made, and taking responsibility for what you deliver."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/honesty-where-the-line-is.png?v=1",
+    alt: "Where the line is. Acceptable: Use AI to learn, practice, get feedback, or improve work you understand and created. Follow the rules: AI help may be allowed in one class and prohibited in another. Check the policy and disclose your use. Unacceptable: Submit AI-generated work as your own or use AI when the assignment prohibits it. Use AI to help. Do the learning and follow the rules.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+    /*#__PURE__*/React.createElement("h3", null, "Where the line is"),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Acceptable: "), "Use AI to learn, practice, get feedback, or improve work you understand and created."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Follow the rules: "), "AI help may be allowed in one class and prohibited in another. Check the policy and disclose your use."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Unacceptable: "), "Submit AI-generated work as your own or use AI when the assignment prohibits it."),
+    /*#__PURE__*/React.createElement("p", null, "Use AI to help. Do the learning and follow the rules.")),
   /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHERE THE LINE IS",
+    headline: "Best practices",
     marginBottom: 24
   },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 12 }
-    }, [{
-      color: "#ef4444",
-      bg: "#fef2f2",
-      border: "#fca5a5",
-      label: "Submitting AI output as your own work",
-      icon: "\u274C",
-      detail: "Copying AI-generated text, code, or answers and putting your name on it. This is plagiarism, even if you edited a few words."
-    }, {
-      color: "#ef4444",
-      bg: "#fef2f2",
-      border: "#fca5a5",
-      label: "Using AI on assignments that prohibit it",
-      icon: "\u274C",
-      detail: "If your teacher says no AI, that means no AI. Violating this is academic dishonesty, even if you think the rule is unfair."
-    }, {
-      color: "#f59e0b",
-      bg: "#fffbeb",
-      border: "#fcd34d",
-      label: "Using AI to generate ideas, then doing the work yourself",
-      icon: "\u26A0\uFE0F",
-      detail: "Generally acceptable, but check your teacher's policy. Be transparent about what you used AI for if asked."
-    }, {
-      color: "#f59e0b",
-      bg: "#fffbeb",
-      border: "#fcd34d",
-      label: "Using AI to explain concepts you don't understand",
-      icon: "\u26A0\uFE0F",
-      detail: "Like having a tutor. This is usually fine and actually helps you learn. But don't let it replace actually working through problems."
-    }, {
-      color: "#10b981",
-      bg: "#ecfdf5",
-      border: "#86efac",
-      label: "Using AI to review and improve your own work",
-      icon: "\u2705",
-      detail: "You did the thinking. AI gives feedback. This is like asking a friend to proofread your essay. The work is still yours."
-    }, {
-      color: "#10b981",
-      bg: "#ecfdf5",
-      border: "#86efac",
-      label: "Using AI to learn a topic, then demonstrating understanding yourself",
-      icon: "\u2705",
-      detail: "Research with AI, understand the material, write/present/solve in your own words. The learning happened. That's the whole point."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { display: "flex", gap: 12, alignItems: "flex-start", background: item.bg, border: "1px solid " + item.border, borderRadius: 10, padding: "12px 16px" }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, flexShrink: 0, lineHeight: 1.4 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: BOX_TEXT, color: item.color, marginBottom: 2 } }, item.label),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, item.detail)));
-    })),
-    /*#__PURE__*/React.createElement("div", {
-      style: { marginTop: 14, paddingTop: 14, borderTop: "1px dashed var(--rule)", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 }
-    }, "The yellow zone is the tricky one. The same AI use can be fine in one class and not okay in another. The assignment's rules decide.")
-  ), /*#__PURE__*/React.createElement(SectionKicker, null, "If you can't explain it, defend it, or reproduce the thinking, it isn't really your work."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "The teacher-without-notes test still applies. Could you walk through it cold? If not, AI did the work for you. And one more test catches almost everything: if you’d be embarrassed to say out loud how you used AI, that’s your answer."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Plagiarism vs Copyright"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Plagiarism and copyright sound similar, but they answer different questions. Get the difference clear before you submit, post, or sell anything you used AI to make."),
-  /*#__PURE__*/React.createElement("div", {
-    style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 24 }
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 8 } }, "Plagiarism"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4, marginBottom: 6 } }, "Did you pretend someone else\u2019s work was yours?"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } }, "About honesty.")
-    ),
-    /*#__PURE__*/React.createElement("div", {
-      style: { background: "var(--bg)", borderRadius: 10, padding: "16px 18px", border: "1px solid var(--rule)" }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--inkMuted)", marginBottom: 8 } }, "Copyright"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4, marginBottom: 6 } }, "Were you allowed to use or copy that work?"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.55 } }, "About rights.")
-    )
+    /*#__PURE__*/React.createElement(InnerCard, { pad: "snug" },
+      [{
+        number: "1",
+        title: "Understand your work",
+        desc: "Be able to explain the ideas, choices, and conclusions in your own words."
+      }, {
+        number: "2",
+        title: "Show your process",
+        desc: "Keep drafts, sources, and AI conversations that show how the work developed."
+      }, {
+        number: "3",
+        title: "Be honest about AI’s role",
+        desc: "If someone asks how the work was made, clearly explain what you did and how AI helped."
+      }].map(function(item, i) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: item.number,
+          style: { display: "grid", gridTemplateColumns: "38px minmax(0, 1fr)", gap: 14, alignItems: "start", padding: "16px 0", borderTop: i === 0 ? "none" : "1px solid var(--rule)" }
+        },
+          /*#__PURE__*/React.createElement("div", {
+            style: { width: 32, height: 32, borderRadius: 999, background: "var(--primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, lineHeight: 1 }
+          }, item.number),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--ink)", lineHeight: 1.35, marginBottom: 3 } }, item.title),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.55 } }, item.desc)));
+      }))
   ),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "STAYING OUT OF TROUBLE",
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 12 }
-    }, [{
-      icon: "\uD83D\uDCDD",
-      title: "\u2018AI made it\u2019 doesn\u2019t automatically mean \u2018I own it.\u2019",
-      desc: "Different apps have different terms. Some grant you commercial rights to your outputs, some restrict them. Check before you sell, post, or submit anything that\u2019s going to make money or live somewhere public."
-    }, {
-      icon: "\u270D\uFE0F",
-      title: "Do the real work yourself and it\u2019s yours.",
-      desc: "Brainstorm characters with AI, then write the story yourself, and the story is yours. AI was an ingredient, not the author. The work you actually do is the work you own."
-    }, {
-      icon: "\uD83D\uDD01",
-      title: "Rewriting someone\u2019s work doesn\u2019t make it yours.",
-      desc: "Upload a copyrighted article, ask AI to reword it, and you get a copy in new clothes, not a new work. The rights still belong to whoever wrote the original."
-    }, {
-      icon: "\uD83C\uDFA8",
-      title: "\u2018In the style of [real person]\u2019 gets risky fast.",
-      desc: "Especially if the person is alive, the style is tied to a recognizable brand, or you\u2019re using the result commercially. School project poster: usually fine. T-shirts you\u2019re selling on Etsy: not fine."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: BOX_TEXT } }, item.title),
-          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
-    }))
-  ),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "SHOW YOUR PROCESS",
-    marginTop: 48,
-    marginBottom: 20
-  },
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Some schools run student work through AI detectors. They sound official. They\u2019re not as reliable as they sound. They produce both false positives (honest work flagged as AI) and false negatives (real AI use missed). A detector score isn\u2019t proof by itself, and the arms race favors the generators."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "So don\u2019t bet your grade on a tool\u2019s accuracy. Build a defense the detector can\u2019t take from you: a visible record of how the work actually came together. What you keep is your call. The point is that some trail exists if you ever need it. A few examples:"),
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 12 }
-    }, [{
-      icon: "\u270F\uFE0F",
-      title: "Drafts as you go",
-      desc: "Save versions, not just the final. The path from rough to polished is itself the proof."
-    }, {
-      icon: "\uD83D\uDD17",
-      title: "Sources with links and dates",
-      desc: "Copy the URL and the date for anything you read or watched. Real research leaves a trail. AI hallucinations don\u2019t."
-    }, {
-      icon: "\uD83D\uDCAC",
-      title: "AI conversation logs",
-      desc: "Keep your prompts and the AI\u2019s replies. If your work is ever questioned, you can show exactly how you used AI."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: BOX_TEXT } }, item.title),
-          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
-    }))
-  ),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The best defense isn\u2019t hoping the detector believes you."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "It\u2019s having the receipts."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "If you\u2019re already sitting across from a teacher"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Having the receipts is what to bring to that meeting. Here\u2019s what to do with them once you\u2019re in the room: ask which detector was used, what the score actually means under this teacher\u2019s policy, and what the appeal path is, before you leave. That\u2019s the same move this lesson comes back to for any system that scores you: name who\u2019s responsible, ask what data was used, and find out if you can push back."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Disclosing Your AI Use"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Whether you have to cite AI, and in what format, is your school's call. Check your teacher's rule first, and follow current APA, MLA, or Chicago guidance if they require it. What doesn't change is the honest move: a short note saying what you used AI for. Here's what a plain disclosure note can look like, adapt it to your situation:"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 16,
-      marginBottom: 24
-    }
-  }, [{
-    format: "Brainstorming",
-    example: "I used ChatGPT to brainstorm possible essay structures. I wrote the final draft myself.",
-    note: "Use when AI helped you explore ideas but you did the writing yourself."
-  }, {
-    format: "Debugging code or fixing errors",
-    example: "I used Claude to debug my code and explain the error.",
-    note: "Use when AI helped you find or fix mistakes, but the work is yours."
-  }, {
-    format: "Practice and review",
-    example: "I used Gemini to generate practice questions for review.",
-    note: "Use when AI made study material for you, like flashcards or quiz questions."
-  }].map((item, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      background: "var(--bg)",
-      borderRadius: 12,
-      padding: "16px 20px",
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, fontSize: BOX_TEXT, color: "var(--ink)", marginBottom: 8 }
-  }, item.format), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "var(--mono)",
-      fontSize: 13,
-      color: "var(--primary)",
-      background: "#6e51ff10",
-      padding: "10px 14px",
-      borderRadius: 8,
-      lineHeight: 1.6,
-      marginBottom: 8
-    }
-  }, item.example), /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5 }
-  }, item.note)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 12,
-      marginBottom: 20
-    }
-  }, [{
-    icon: "\uD83D\uDCDD",
-    title: "Always disclose what you used AI for",
-    desc: "Even if citation isn't required, add a note: \"I used Claude to help brainstorm ideas for this essay\" or \"AI was used to debug my code.\" Transparency builds trust."
-  }, {
-    icon: "\u2753",
-    title: "When in doubt, ask your teacher",
-    desc: "AI policies vary by school, class, and assignment. If the rules aren't clear, ask before you submit. It's easier to get permission than forgiveness."
-  }].map((item, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      display: "flex",
-      gap: 14,
-      alignItems: "flex-start",
-      background: "var(--bg)",
-      borderRadius: 10,
-      padding: "14px 18px",
-      border: "1px solid var(--rule)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 22, lineHeight: 1, flexShrink: 0 }
-  }, item.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: BOX_TEXT }
-  }, item.title), /*#__PURE__*/React.createElement("div", {
-    style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 }
-  }, item.desc))))), /*#__PURE__*/React.createElement(SectionKicker, null, "When other people are in the loop"),
-  /*#__PURE__*/React.createElement(BodyP, null, "In group work, agree on AI use before anyone uses it. If one person silently AI-drafts a section, the others can\u2019t review it the way they would human work, can\u2019t catch mistakes, and didn\u2019t get to weigh in on whether to use AI at all. Hidden AI use changes the work for everyone."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "AI can help you learn, draft, debug, and revise."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "But your name goes on the work only when you understand it, can defend it, and followed the rules."),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -11181,27 +11299,12 @@ function PrivacySection(props) {
     );
   }
 
-  const PLATFORM_FACTS = [{
-    platform: "ChatGPT (OpenAI)",
-    icon: "\uD83D\uDFE2",
-    facts: ["Conversations may be used to train future models by default (Plus and Pro accounts included)", "Opt out in Settings \u2192 Data Controls \u2192 \u2018Improve the model for everyone\u2019", "Even after opt-out or deletion, chats may be kept up to 30 days for safety monitoring", "Temporary Chat isn\u2019t saved to your history and isn\u2019t used for training"]
-  }, {
-    platform: "Claude (Anthropic)",
-    icon: "\uD83D\uDFE3",
-    facts: ["Training is ON by default for Free, Pro, and Max accounts", "Opt out in Settings \u2192 Privacy \u2192 \u2018Help improve Claude\u2019", "If you don\u2019t opt out, conversations can be kept for up to 5 years", "Anthropic staff may review flagged conversations for safety"]
-  }, {
-    platform: "Google Gemini",
-    icon: "\uD83D\uDD35",
-    facts: ["Conversations are saved and may be used to train Google\u2019s AI by default", "To stop training, turn off \u2018Gemini Apps Activity\u2019 in your Google account", "Turning that off also means you lose your chat history", "Conversations chosen for human review are kept for 3 years, even if you delete them"]
-  }, {
-    platform: "School-Provided AI Tools",
-    icon: "\uD83C\uDFEB",
-    facts: ["Your school may monitor or log every AI conversation", "Privacy rules can be different from the consumer version of the same tool", "Your school\u2019s IT department may have access to your history", "Content filters are usually stricter than the public version"]
-  }];
   return /*#__PURE__*/React.createElement("div", null,
-  /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "WHAT YOU TYPE TRAVELS"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The first habit was using AI honestly. The second is guarding what you share with it. Treat AI like a group chat with a company, not a diary. You may be the only person on the screen, but the conversation isn\u2019t only yours. Depending on the tool and the settings, what you type can be stored, linked to your account, reviewed for safety, and kept in logs longer than you\u2019d expect. That doesn\u2019t mean panic. It means awareness."),
-  /*#__PURE__*/React.createElement(BodyP, null, "And it isn\u2019t just text you send. Modern AI is ", /*#__PURE__*/React.createElement("strong", null, "multimodal"), ": it can read images, screenshots, PDFs, audio clips, and video. The word means \u201Cmore than one mode of input.\u201D A screenshot is still a prompt. So is a photo, a PDF, or a voice recording. It just looks different. Same context window, same storage rules, same questions about what should and shouldn\u2019t be in there."),
+  /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "WHY PRIVACY MATTERS"),
+  /*#__PURE__*/React.createElement(BodyP, null, "An AI chat can feel private because you are alone when you type. But you are sending information to an outside system. It may be stored, reviewed, or connected to your account. Once you share information, you lose some control over where it goes and who may eventually see it. And if the information belongs to someone else, it was never yours to share."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Share the task, not the identity."),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI usually needs the problem. It usually does not need your name, address, password, school login, exact location, private messages, or someone else\u2019s sensitive information."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The same rule applies to every kind of input. AI can read text, images, screenshots, PDFs, audio, and video. A photo is still a prompt, and everything in the frame comes with it."),
   /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Picture this. You snap a quick photo of your math homework so AI can help you with one of the problems. You meant to share the math."),
   /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "The Whole Photo" },
     /*#__PURE__*/React.createElement(RevealSequence, {
@@ -11226,172 +11329,21 @@ function PrivacySection(props) {
           /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, color: "#3a3550", lineHeight: 1.6, maxWidth: "60ch", margin: "0 auto" } }, "You meant to share the math. You also shared six other things you didn\u2019t think about. The photo was the prompt. Everything in it came with.")))
     },
       null)),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHAT HAPPENS TO YOUR DATA",
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 12 }
-    }, [{
-      icon: "\uD83D\uDCBE",
-      title: "Your conversations are saved",
-      desc: "Many AI tools save chat history by default. Whether it's stored, for how long, and whether it can be deleted depends on the tool, the account, and your settings.",
-      color: "#ef4444",
-      bg: "#fef2f2",
-      border: "#fca5a5"
-    }, {
-      icon: "\uD83D\uDC41\uFE0F",
-      title: "Humans may read them",
-      desc: "Some conversations get reviewed by people: flagged content, safety checks, quality samples, abuse prevention. Not every chat, but a chat isn't as private as a journal either.",
-      color: "#f59e0b",
-      bg: "#fffbeb",
-      border: "#fcd34d"
-    }, {
-      icon: "\uD83E\uDDE0",
-      title: "They might train on your data",
-      desc: "Some apps use your conversations to improve future models. That means your words could influence how the model responds to other people.",
-      color: "#f59e0b",
-      bg: "#fffbeb",
-      border: "#fcd34d"
-    }, {
-      icon: "\uD83D\uDCA5",
-      title: "Data breaches happen",
-      desc: "In 2023, a ChatGPT bug exposed some users' conversation titles to other users. No system is perfectly secure. The practical rule isn't to panic. It's to keep information out of the chat that you'd hate to see leak.",
-      color: "#ef4444",
-      bg: "#fef2f2",
-      border: "#fca5a5"
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { display: "flex", gap: 14, alignItems: "flex-start", background: item.bg, border: "1px solid " + item.border, borderRadius: 10, padding: "14px 18px" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: item.color, marginBottom: 2, fontSize: BOX_TEXT } }, item.title),
-          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
-    }))
-  ), /*#__PURE__*/React.createElement(SectionKicker, null, "Share the task, not the identity."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "The AI usually needs the problem. It usually doesn\u2019t need your name, address, password, school login, exact location, private messages, or someone else\u2019s sensitive information."),
+  /*#__PURE__*/React.createElement(NumberedRows, {
+    headline: "Before you send",
+    marginBottom: 24,
+    items: [
+      { title: "Does AI need this information?" },
+      { title: "Can I remove identifying details?" },
+      { title: "Does any of this belong to someone else?" }
+    ]
+  }),
   /*#__PURE__*/React.createElement("div", {
     style: { background: "var(--bg)", border: "1px solid var(--rule)", borderLeft: "3px solid #ef4444", borderRadius: 8, padding: "14px 18px", marginBottom: 24 }
   },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#ef4444", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "When safety is involved"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Privacy from AI isn\u2019t silence from humans. If a friend may be in danger, get real-world help: a counselor, a parent, or a teacher you trust. Some things need a person, not a prompt.")
   ),
-  /*#__PURE__*/React.createElement(NumberedRows, {
-    headline: "The send test: run your own prompt through these five before you hit send.",
-    marginBottom: 24,
-    items: [
-      { title: "What does the AI actually need to help?" },
-      { title: "Can I remove names?" },
-      { title: "Can I replace exact details with categories?" },
-      { title: "Am I sharing someone else\u2019s private information?" },
-      { title: "Would I be okay if this appeared in a log?" }
-    ]
-  }),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHAT EACH PLATFORM DOES",
-    intro: "Last checked: May 2026. These details change as policies update, so treat what\u2019s below as a snapshot. Your job is not to memorize today\u2019s settings. Your job is to know where to look: privacy settings, data controls, activity history, temporary chat, memory, connected apps, whether your chats can be used for training, and your school account policies.",
-    marginTop: 48,
-    marginBottom: 20
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 12 }
-    }, PLATFORM_FACTS.map(function(p, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { background: "var(--card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 } },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, p.icon),
-          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, fontSize: 15, color: "var(--ink)" } }, p.platform)),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4 } },
-          p.facts.map(function(fact, fi) {
-            return /*#__PURE__*/React.createElement("div", {
-              key: fi,
-              style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 }
-            },
-              /*#__PURE__*/React.createElement("span", { style: { color: "var(--inkMuted)", flexShrink: 0 } }, "\u2022"),
-              fact);
-          })));
-    }))
-  ), /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHAT YOU CAN DO",
-    marginBottom: 16
-  },
-    /*#__PURE__*/React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", gap: 12 }
-    }, [{
-      icon: "\u2699\uFE0F",
-      title: "Check your settings",
-      desc: "Most platforms let you opt out of training data collection. Find the privacy or data settings and review them. It takes 2 minutes and it's worth it."
-    }, {
-      icon: "\uD83E\uDEE5",
-      title: "Use temporary chat for one-offs",
-      desc: "Most apps have a temporary or incognito mode that doesn't save to history or memory. Use it for sensitive topics or one-off questions you don't want sitting in your account."
-    }, {
-      icon: "\u2702\uFE0F",
-      title: "Crop before you upload",
-      desc: "Screenshots and photos carry everything in the frame: names, school logos, addresses, prescription bottles, locker combinations. Crop tight to what AI actually needs, or type the data instead of uploading the image."
-    }, {
-      icon: "\uD83D\uDD17",
-      title: "Audit connected apps",
-      desc: "If AI can read your Gmail, Drive, Photos, Calendar, or browser, the privacy surface goes way past the prompt you typed. Review which apps you've connected and remove any that don't earn the access."
-    }, {
-      icon: "\uD83D\uDDD1\uFE0F",
-      title: "Delete what you don't need",
-      desc: "Periodically clear your conversation history. If you don't need it anymore, there's no reason for it to sit on someone else's server."
-    }, {
-      icon: "\uD83D\uDC64",
-      title: "Use accounts wisely",
-      desc: "If your school provides an AI account, assume it's monitored. For personal use, consider whether you want conversations tied to your real identity or a separate account."
-    }].map(function(item, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: { display: "flex", gap: 14, alignItems: "flex-start", background: "var(--card)", borderRadius: 10, padding: "14px 18px", border: "1px solid var(--rule)" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0 } }, item.icon),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: "var(--ink)", marginBottom: 2, fontSize: BOX_TEXT } }, item.title),
-          /*#__PURE__*/React.createElement("div", { style: { color: "var(--inkSoft)", fontSize: 13, lineHeight: 1.55 } }, item.desc)));
-    }))
-  ),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "It isn’t only what you type"),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Everything above is about what you choose to share. But AI decides things about you even when you never type a word into it: a feed picking what you see, a flagging tool scanning your essay, a screening tool sorting an application before a human ever looks. Sometimes you’re the one using AI. Sometimes you’re the one it’s deciding about. And when it’s the second one, remember that a person or an institution chose to run that system, set the rules, and decided what happens when it flags someone. That’s who you push back on."),
-  /*#__PURE__*/React.createElement(ShowcaseBox, {
-    kicker: "WHEN A SYSTEM IS DECIDING ABOUT YOU: FIVE QUESTIONS",
-    headline: "Same skill, pointed the other way.",
-    marginTop: 20,
-    marginBottom: 24
-  },
-    /*#__PURE__*/React.createElement("ol", { style: { margin: 0, paddingLeft: 22, color: "var(--ink)", fontSize: 15 } },
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 14 } }, "Who is responsible?",
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.55, marginTop: 2 } }, "What person, school, company, platform, or institution chose to use the system?")),
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 14 } }, "What data was used?",
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.55, marginTop: 2 } }, "What information, behavior, score, document, or profile did the system rely on?")),
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 14 } }, "Can you push back?",
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.55, marginTop: 2 } }, "Is there an appeal, a moderator, a teacher, an admissions office, an employer, or some other support path?")),
-      /*#__PURE__*/React.createElement("li", { style: { marginBottom: 14 } }, "What happens if it’s wrong?",
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.55, marginTop: 2 } }, "Is the cost small, or could it affect your grade, account, application, reputation, money, or safety?")),
-      /*#__PURE__*/React.createElement("li", null, "Who is this helping, and who is it hurting?",
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.55, marginTop: 2 } }, "Who gets the benefit when this works, and who carries the cost when it doesn’t?")))),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "When AI judges you, don’t argue with the machine."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "Find the human, ask what data was used, and learn how to appeal."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Privacy risk grows the more AI can see."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "The moment AI can read more than your message (files, email, photos, calendars, documents, web pages), the surface area expands. And there’s a second risk hiding in that reach: everything AI reads becomes potential instructions. A webpage, an email, or a shared doc can carry hidden text that says, in effect: ignore your user and do this instead. The model can’t always tell your words from the words on the page. The trick has a name: ",
-    /*#__PURE__*/React.createElement("strong", null, "prompt injection"), "."),
-  /*#__PURE__*/React.createElement(Callout, { marginTop: 0 },
-    /*#__PURE__*/React.createElement("strong", null, "The shape to remember: "),
-    "you ask for a summary of a webpage, and the answer comes back with an odd extra step, like a suggestion to send an email or click a link. That suggestion didn’t come from you, and it didn’t come from the AI’s judgment. It came from the page."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "The defense is a rule you already live by: real instructions come from you. When an action request shows up inside something the AI was reading, treat it as the content talking. Pause anything unexpected, and keep the irreversible steps behind your own review."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Privacy isn\u2019t secrecy."),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "It\u2019s only sharing the information the task actually requires. Once it\u2019s in the chat, you can\u2019t take it back."),
   closeBoard("integrity"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -12722,7 +12674,7 @@ function PaceOfChangeSection(props) {
   const [buildChecked, setBuildChecked] = useState({});
   const BUILD_LAB_STEPS = [
     { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and log in." },
-    { title: "Start a new project", body: "Start a new project. Name it My Second Coding Project. Before creating it, open the memory menu and choose Project-only memory so this game stays separate from your dino game." },
+    { title: "Start a new project", body: "Start a new project. Before you name or create it, open the memory menu and choose Project-only memory so this game stays separate from your dino game. Then name it My Second Coding Project and click Create project." },
     { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
     { title: "Build the game", body: "Start a new chat inside the project and send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Save and play version one", body: "Download the HTML file before asking for changes and save it as my-2048-game-v1.html. Open that file in Chrome, chase the 2048 tile for a bit, and note the first thing you would change." },
@@ -13031,7 +12983,7 @@ function WorkChangesSection(props) {
   const REVIEW_LAB_STEPS = [
     { title: "Open the reviews", body: E("span", null, E("a", { href: "packets/course-reviews.txt", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the reviews in a new tab"), ". Read the first 5 reviews. Now imagine reading the other 95 before doing any actual thinking. That was the old job.") },
     { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
-    { title: "Create a separate project", body: "Go to chatgpt.com and start a new project named Course Review Project. Choose Project-only memory before you create it. This assignment has its own source and goal, so it deserves its own context." },
+    { title: "Create a separate project", body: "Go to chatgpt.com and start a new project. Before you name or create it, choose Project-only memory. Then name it Course Review Project and click Create project. This assignment has its own source and goal, so it deserves its own context." },
     { title: "Hand AI the grind", body: "Start a new chat inside Course Review Project and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). Don’t send yet." },
     { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
     { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews. Every single one, same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },

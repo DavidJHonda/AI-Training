@@ -680,7 +680,7 @@ const LESSON_VIDEOS = {
   agents: { src: "videos/rise-of-agents.mp4", duration: "4 min", title: "A chatbot answers. An agent acts. Your name rides along." },
   workchanges: { src: "videos/work-changes.mp4", duration: "5 min", title: "Same job title, different Tuesday. The first pass is the starting line." },
   computecost: { src: "videos/data-centers.mp4", duration: "3 min", title: "The real machines behind every instant answer." },
-  unexpected: { comingSoon: true, title: "Unexpected Results" }
+  unexpected: { src: "videos/unexpected-results.mp4", duration: "4 min", title: "Plans can work perfectly and still surprise everyone." }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
@@ -1557,12 +1557,15 @@ function WatchOverview(props) {
           E("span", { className: "watch-mobile-tag", style: { color: "#6f654e", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" } }, "Phone-friendly"),
           v.duration ? E("span", { style: { color: "#94896a", fontSize: 13 } }, "· " + v.duration) : null),
         E("div", { style: { fontSize: 15, color: "#2f3557", lineHeight: 1.5 } },
-          E("span", { className: "watch-copy-desktop" },
-            "Watch the video version or read the lesson below. ",
-            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.cta || WATCH_CTA_DEFAULT)),
-          E("span", { className: "watch-copy-mobile" },
-            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, "Easiest way to take this lesson on a phone. "),
-            "Watch now, or read the full lesson below.")))),
+          // A `body` on the video entry replaces the standard read-or-watch copy on
+          // both layouts (used by companion videos that aren't the lesson itself).
+          v.body ? E("span", null, v.body) : E(React.Fragment, null,
+            E("span", { className: "watch-copy-desktop" },
+              "Watch the video version or read the lesson below. ",
+              E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.cta || WATCH_CTA_DEFAULT)),
+            E("span", { className: "watch-copy-mobile" },
+              E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, "Easiest way to take this lesson on a phone. "),
+              "Watch now, or read the full lesson below."))))),
     open ? E("div", { style: { marginTop: 12 } }, E(WatchPlayer, { video: v })) : null);
 }
 function ActivityButton(props) {
@@ -7352,11 +7355,6 @@ function ChoosingModelSection(props) {
     task: "Solve this multi-step calculus problem and check every step",
     answer: "More reasoning", explain: "Multi-step math benefits from extra reasoning and self-checking. More reasoning can reduce mistakes, although you should still verify the result."
   }];
-  const WHAT_CHANGED = [
-    { label: "Model", body: "The trained LLM doing the work. Changing it changes the brain behind the answer." },
-    { label: "Reasoning", body: "How much work the model does before answering. Apps may call it Effort, Thinking, or Reasoning." },
-    { label: "Temperature", body: "The sampling setting that changes how predictable or varied the model\u2019s word choices are." }
-  ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -7393,14 +7391,6 @@ function ChoosingModelSection(props) {
       " changes how widely the model considers those possibilities. Lower temperature concentrates the chances around the most likely words, making answers more predictable. Higher temperature spreads the chances farther down the list, creating more variation, more surprise, and sometimes more nonsense."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI companies set the temperature behind the scenes. Most users never see or control it."),
-    /*#__PURE__*/React.createElement(ShowcaseBox, {
-      headline: "Model, reasoning, and temperature are different.",
-      intro: "Three different reasons an answer can change.",
-      marginBottom: 24
-    },
-      /*#__PURE__*/React.createElement(NumberedColumns, { cap3: true, items: WHAT_CHANGED })),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      /*#__PURE__*/React.createElement("strong", null, "The model changes the brain. Reasoning changes how much work it does. Temperature changes how the model chooses its words.")),
     closeBoard("choosemodel"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
@@ -13226,6 +13216,14 @@ function UnexpectedResultsSection(props) {
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "unexpected" }),
+    // Companion story video, deliberately at the top next to the lesson video so
+    // nobody misses it (owner call, 2026-08-25). The lesson video covers the
+    // concepts; this one tells the 1902 Hanoi rat story in full.
+    E(WatchOverview, { video: {
+      src: "videos/tail-of-hanoi.mp4", duration: "4 min",
+      title: "The Tail of Hanoi",
+      body: "Story time. The lesson mentions a rat bounty that backfired. This is the whole ridiculous true story, and it is worth four minutes."
+    } }),
     E(BodyP, null,
       "Everyone has opinions about AI’s future, whether they’re AI Worriers or AI Optimists. No matter how confident those people are, there’s a single truth about the future: the biggest results are usually what no one predicted."),
     E(BodyP, null,

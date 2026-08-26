@@ -198,6 +198,13 @@
   .finish-letter a b{ color:#fff; }
   .finish-letter a:hover{ color:#ffe08a; }
   .finish-letter p.finish-letter-sig{ font-family:"Caveat",cursive; font-size:52px; color:#ffd24a; line-height:1; margin:12px 0 0; }
+  /* Poster-style entry for companion story videos: the lesson illustration with a
+     large play control; one click opens the inline player directly. */
+  .story-poster{ display:block; width:100%; padding:0; border:none; background:none; cursor:pointer; text-align:left; }
+  .story-poster-frame{ border-radius:20px; overflow:hidden; box-shadow:var(--shadowElevated); }
+  .story-poster-play{ width:96px; height:96px; border-radius:999px; background:rgba(27,33,83,.92); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(14,10,31,.45); transition:transform .16s ease, background .16s ease; }
+  .story-poster:hover .story-poster-play{ transform:scale(1.08); background:#1b2153; }
+  .story-poster:focus-visible{ outline:3px solid var(--primary); outline-offset:3px; border-radius:22px; }
   .mobile-course-nav { display: none; }
   .watch-copy-mobile, .watch-mobile-tag { display: none; }
   @media (max-width: 760px) {
@@ -1491,11 +1498,46 @@ function WatchPlayer(props) {
         allowFullScreen: true,
         style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }
       })
-    : E("video", { controls: true, preload: "metadata", style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "#000" } },
+    : E("video", { controls: true, autoPlay: !!v.autoplay, preload: "metadata", style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "#000" } },
         E("source", { src: v.src, type: "video/mp4" }));
   return E("div", { style: { marginBottom: 28 } },
     E("div", { style: { position: "relative", width: "100%", aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden", background: "#000" } }, player),
     caption ? E("div", { style: { fontSize: 13, color: "var(--inkMuted)", lineHeight: 1.5, marginTop: 10, paddingLeft: 4 } }, caption) : null);
+}
+// Poster-format entry for a companion story video: a navy title bar, the lesson's
+// illustration as the poster with a large centered play button, and a single click
+// that swaps the poster for the inline player, already playing.
+function StoryPoster(props) {
+  var E = React.createElement;
+  var _o = useState(false), open = _o[0], setOpen = _o[1];
+  var bar = E("div", {
+    style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, background: "radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%)", padding: "13px 20px" }
+  },
+    E("span", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.16em", color: "#ffd24a" } }, props.eyebrow || "STORY TIME"),
+    E("span", { style: { fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 800, color: "#fff" } }, props.title),
+    props.duration ? E("span", { style: { fontFamily: "var(--sans)", fontSize: 13, color: "rgba(255,255,255,0.66)" } }, "· " + props.duration) : null,
+    props.badge ? E("span", {
+      style: { marginLeft: "auto", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 800, color: "#ffd24a" }
+    }, props.badge) : null);
+  if (open) {
+    return E("div", { className: "no-print", style: { marginBottom: 28 } },
+      E("div", { className: "story-poster-frame", style: { marginBottom: 12 } }, bar),
+      E(WatchPlayer, { video: Object.assign({ autoplay: true }, props.video) }));
+  }
+  return E("div", { className: "no-print", style: { marginBottom: 28 } },
+    E("button", {
+      className: "story-poster",
+      onClick: function() { setOpen(true); },
+      "aria-label": props.alt || ("Play " + props.title)
+    },
+      E("div", { className: "story-poster-frame" },
+        bar,
+        E("div", { style: { position: "relative" } },
+          E("img", { src: props.image, alt: "", "aria-hidden": "true", style: { display: "block", width: "100%" } }),
+          E("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
+            E("span", { className: "story-poster-play", "aria-hidden": "true" },
+              E("svg", { width: 34, height: 34, viewBox: "0 0 16 16" },
+                E("path", { d: "M5.2 3.2 L13 8 L5.2 12.8 Z", fill: "#e8c552" }))))))));
 }
 // Full-width video card shown below a lesson title. Completed entries expand the inline
 // WatchPlayer; coming-soon entries preserve the same visual position without acting
@@ -13215,15 +13257,23 @@ function UnexpectedResultsSection(props) {
       happened: "More lanes invited more drivers. Within a few years, commutes ran up to 51% slower than before the expansion. The same math as the rats." }
   ];
   return E("div", null,
-    E(LessonHeader, { sectionId: "unexpected" }),
-    // Companion story video, deliberately at the top next to the lesson video so
-    // nobody misses it (owner call, 2026-08-25). The lesson video covers the
-    // concepts; this one tells the 1902 Hanoi rat story in full.
-    E(WatchOverview, { video: {
-      src: "videos/tail-of-hanoi.mp4", duration: "4 min",
-      title: "The Tail of Hanoi",
-      body: "Story time. The lesson mentions a rat bounty that backfired. This is the whole ridiculous true story, and it is worth four minutes."
-    } }),
+    E(LessonHeader, { sectionId: "unexpected", noWatch: true }),
+    // Companion story video FIRST, above the lesson's own watch card, so nobody
+    // misses it (owner call, 2026-08-25). Poster format: the lesson's own
+    // illustration with a large play control; one click opens the player directly.
+    E(StoryPoster, {
+      video: {
+        src: "videos/tail-of-hanoi.mp4",
+        caption: "The full story of the 1902 Hanoi rat bounty. The written lesson has only the short version."
+      },
+      image: "illustrations/unexpected-results.jpg",
+      alt: "Play the story of history's most unexpected result: in 1902 Hanoi, a clerk pays a one-cent rat-tail bounty beside baskets of tails while rats overrun the street behind, under the line The plan worked. The goal failed.",
+      eyebrow: "STORY TIME",
+      title: "History’s Most Unexpected Result",
+      duration: "4 min",
+      badge: "Must watch. Not covered in the written lesson."
+    }),
+    E(WatchOverview, { video: LESSON_VIDEOS.unexpected }),
     E(BodyP, null,
       "Everyone has opinions about AI’s future, whether they’re AI Worriers or AI Optimists. No matter how confident those people are, there’s a single truth about the future: the biggest results are usually what no one predicted."),
     E(BodyP, null,
@@ -13239,11 +13289,6 @@ function UnexpectedResultsSection(props) {
       "Some rat entrepreneurs went even further. They started ", E("strong", null, "rat farms"), ". You probably know where this is going. When Hanoi stopped the program, they had a mountain of rat tails, but more rats than when it started."),
     E(BodyP, null,
       "What’s the moral of this story? Every part of the government’s plan worked. People hunted rats, delivered their tails, and received payments of one cent per tail. But the boom in the rat population was the opposite of their goal: a true unexpected result."),
-    E("img", {
-      src: "illustrations/unexpected-results.jpg",
-      alt: "In 1902 Hanoi, Nate and Luke wear historical clothing as one pays the other a one-cent rat-tail bounty beside a ledger and baskets of tails; behind them, people tend cages of live rats under the line The plan worked. The goal failed.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
-    }),
     E(SectionKicker, null, "Unexpected Results"),
     E(BodyP, null,
       "Once you see that shape, you find it everywhere. Four famous plans, and where each one actually landed. Two turned out better than anyone predicted, two turned out worse."),

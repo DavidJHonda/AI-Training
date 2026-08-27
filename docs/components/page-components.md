@@ -16,6 +16,13 @@ The standard static concept container. It uses the live `--primaryFaint` outer
 surface, a 20 px radius, and free-form content. Use it for page-native explanations,
 supporting cards, and small frameworks that do not need a standalone 16:9 board.
 
+### ChatShowcaseBox
+
+A `ShowcaseBox` variant for worked chat exchanges: the same `--primaryFaint` outer
+surface and optional headline around a single white card that holds a column of
+`UserBubble`/`AIBubble` pairs. Use it when a lesson demonstrates a real
+conversation rather than a framework.
+
 ### InnerCard
 
 The standard white card inside a larger page component. Reuse it instead of

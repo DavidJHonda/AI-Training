@@ -761,8 +761,8 @@ const CLOSE_BOARDS = {
   computecost: { pill: "Every AI chat costs something real.", sticky: "Now you know what’s behind the magic." },
   unexpected: { pill: "The biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Finish Smarter
-  choosemodel: { pill: "The default is usually enough.", sticky: "When it isn’t, change the right thing." },
-  aitips: { pill: "Start with what you know.", sticky: "Then work with AI until the result is useful." },
+  choosemodel: { pill: "The choices you make shape the answer.", sticky: "The default usually works. Change it when the work demands more." },
+  aitips: { pill: "The next level starts after the first answer.", sticky: "Think with AI. Learn with it. Keep improving the result." },
   creativethinking: { pill: "AI widens the options.", sticky: "You still pick the better angle." },
   peopleskills: { pill: "AI can write it. It can’t be the person in the room.", sticky: "Say it clearly, be easy to work with, and people follow." },
   skillsthatmatter: { pill: "The typing got cheap.", sticky: "The judgment didn’t." },
@@ -843,6 +843,23 @@ function ShowcaseBox(props) {
       }, props.intro) : null,
       props.children
     )
+  );
+}
+function ChatShowcaseBox(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--primaryFaint)",
+      borderRadius: 20,
+      padding: 22,
+      marginBottom: props.marginBottom != null ? props.marginBottom : "var(--blockGap)"
+    }
+  },
+    props.headline ? /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 14 }
+    }, props.headline) : null,
+    /*#__PURE__*/React.createElement("div", {
+      style: { background: "#fff", borderRadius: 14, padding: "22px 24px", boxShadow: "var(--shadowSoft)" }
+    }, props.children)
   );
 }
 function OpenerCreed(props) {
@@ -2227,8 +2244,8 @@ function UserBubble(props) {
     React.createElement("div", { style: { maxWidth: maxWidth } },
       label ? React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--primary)", display: "inline-block", flexShrink: 0 } }),
-        React.createElement("span", { style: { color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)) : null,
-      React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 15, color: "var(--ink)", lineHeight: 1.6 } },
+        React.createElement("span", { style: { color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)) : null,
+      React.createElement("div", { style: { background: "#ECEAFB", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 16, color: "var(--ink)", lineHeight: 1.6 } },
         props.children != null ? props.children : text.slice(0, visibleChars),
         props.children == null && showCursor ? cursor : null)));
 }
@@ -2246,8 +2263,8 @@ function AIBubble(props) {
     React.createElement("div", { style: { maxWidth: maxWidth } },
       React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--tryAccent)", display: "inline-block", flexShrink: 0 } }),
-        React.createElement("span", { style: { color: "var(--tryAccent)", fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
-      React.createElement("div", { style: { background: "#eef4eb", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 15, color: "var(--ink)", lineHeight: 1.6, minHeight: 48 } },
+        React.createElement("span", { style: { color: "var(--tryAccent)", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
+      React.createElement("div", { style: { background: "#eef4eb", borderRadius: alignLeft ? "16px 16px 16px 4px" : "16px 16px 4px 16px", padding: "14px 16px", fontSize: 16, color: "var(--ink)", lineHeight: 1.6, minHeight: 48 } },
         props.children != null ? props.children : words.slice(0, visibleWords).join(" "),
         props.children == null && showCursor ? cursor : null)));
 }
@@ -2355,7 +2372,7 @@ const SECTION_META = {
   inference: { kicker: "THE FINE PRINT", label: "One More Thing", title: "One More Thing", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Which App?", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "WHAT CAN CHANGE THE ANSWER", label: "Your Choices", icon: "\uD83E\uDE9C" },
-  aitips: { kicker: "START WHERE YOU ARE", label: "Power User Moves", icon: "\uD83E\uDDF0" },
+  aitips: { kicker: "START WHERE YOU ARE", label: "Next Level Moves", icon: "\uD83E\uDDF0" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Mind Trap", icon: "\uD83E\uDEE5" },
@@ -7396,73 +7413,72 @@ function ChoosingModelSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Most apps ask you to make one big choice: which app to use. Pick Spotify, and it handles the rest. AI works differently. First you choose the app. Next, you may choose which model to use and how much reasoning the AI applies before answering."),
+      "Most apps ask you to make one big choice: which app to use. Pick Spotify, and it handles the rest. AI works differently. First you choose the app. Depending on the app and your subscription, you may also be able to choose the model, how much reasoning it uses, or whether it performs a deeper research process."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "You won\u2019t adjust all three every time. The default handles most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing."),
+      "You won\u2019t make all four choices every time. The default handles most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AGE RULES MATTER"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "If you\u2019re under 18, check an app\u2019s age requirements before using it. As of August 2026, ChatGPT requires parental permission for users ages 13\u201317, Gemini permits many teen accounts but limits some features, and Claude.ai requires users to be 18."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "YOUR CHOICES"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Some apps show all three. Some show only one or two, and some make the choices for you. The labels differ, but the decisions remain."),
+      "Some apps show all four. Some show only one or two, and some make the choices for you. The labels differ, but the decisions remain."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/your-choices-where-what.jpg?v=3",
       alt: "Choice 1, Which App: choose an available home-base app that fits your tools and work, and use a second app when its strengths fit the job. Choice 2, Which Model: each app offers a family of models; use the everyday model for most tasks and its strongest model for difficult work.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 16px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/your-choices-how-works.jpg?v=3",
-      alt: "Choice 3, Reasoning: apps may call these controls Effort, Thinking, or Reasoning. They determine whether the AI takes an extended reasoning pass and how much work it puts into the answer. Use more reasoning for math, code, planning, and problems with steps. Keep the default for routine work.",
+      src: "illustrations/your-choices-how-works-v6.png",
+      alt: "Choice 3, Reasoning: apps may call this Effort, Thinking, or Reasoning. Use more for math, code, planning, and problems with steps. Keep the default for routine work. Choice 4, Research: some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto 24px", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "WHEN THE QUESTION REQUIRES RESEARCH"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Some AI apps offer a ",
-      /*#__PURE__*/React.createElement("strong", null, "Research"),
-      " tool. Instead of producing one quick answer, it plans a multi-step search, gathers sources, compares what it finds, and returns a documented report. The name and availability vary by app."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Research takes longer because the job is larger. Use it when the question would otherwise send you through many tabs or when the final answer needs a trail of sources. For a quick current fact, ordinary web search is faster. A cited report still needs your review, so check the sources before relying on it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "TEMPERATURE"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "When AI predicts the next token, several choices may be possible. More likely tokens have a better chance of being selected, but they do not always win. ",
-      /*#__PURE__*/React.createElement("strong", null, "Temperature"),
-      " changes how widely the model considers those possibilities. Lower temperature concentrates the chances around the most likely words, making answers more predictable. Higher temperature spreads the chances farther down the list, creating more variation, more surprise, and sometimes more nonsense."),
-    /*#__PURE__*/React.createElement(TemperatureProbabilityBoard, null),
+      "AI companies control temperature behind the scenes, and you’ll likely never see or change it. Temperature works almost like a creativity switch. Low temperature makes answers more predictable. High temperature makes them more varied or surprising."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI companies set the temperature behind the scenes. Most users never see or control it."),
+      "Essentially, training teaches the model which tokens tend to fit together. As it creates an answer, the model gives each possible next token a starting probability. Temperature changes those probabilities before AI makes its selection. Low temperature favors the most likely choices. High temperature gives less likely choices a better chance, making answers more varied and sometimes less reliable."),
+    /*#__PURE__*/React.createElement(TemperatureProbabilityBoard, null),
     closeBoard("choosemodel"),
     /*#__PURE__*/React.createElement(YourChoicesTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Power User Moves" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Next Level Moves" }));
 }
 
 function TemperatureProbabilityBoard() {
   var E = React.createElement;
-  var names = ["Spot", "Max", "Buddy", "Rex", "Biscuit", "Pixel", "Mochi"];
+  var rows = [
+    { name: "Spot", starting: 50.0, low: 71.7, high: 26.2 },
+    { name: "Max", starting: 25.0, low: 20.4, high: 20.4 },
+    { name: "Buddy", starting: 12.0, low: 5.4, high: 15.7 },
+    { name: "Rex", starting: 6.0, low: 1.5, high: 12.3 },
+    { name: "Biscuit", starting: 4.0, low: 0.7, high: 10.6 },
+    { name: "Pixel", starting: 2.0, low: 0.2, high: 8.3 },
+    { name: "Mochi", starting: 1.0, low: 0.1, high: 6.5 }
+  ];
   var columns = [
     {
-      label: "LOW",
-      title: "Probability concentrates",
-      color: "#2563eb",
-      tint: "#eff6ff",
-      values: [71.7, 20.4, 5.4, 1.5, 0.7, 0.2, 0.1]
-    },
-    {
-      label: "MEDIUM",
-      title: "Several names compete",
+      key: "starting",
+      label: "STARTING PROBABILITY",
+      title: "Neutral distribution",
       color: "#6e51ff",
-      tint: "#f3f0ff",
-      values: [50.0, 25.0, 12.0, 6.0, 4.0, 2.0, 1.0]
+      tint: "#f3f0ff"
     },
     {
-      label: "HIGH",
-      title: "The gaps flatten",
+      key: "low",
+      label: "LOW TEMPERATURE",
+      title: "Concentrates",
+      color: "#2563eb",
+      tint: "#eff6ff"
+    },
+    {
+      key: "high",
+      label: "HIGH TEMPERATURE",
+      title: "Spreads",
       color: "#d4336f",
-      tint: "#fff0f5",
-      values: [26.2, 20.4, 15.7, 12.3, 10.6, 8.3, 6.5]
+      tint: "#fff0f5"
     }
   ];
-  var maxValue = 71.8;
+  var maxValue = 71.7;
   return E("div", {
     style: {
       background: "#f4f0ff",
@@ -7479,80 +7495,111 @@ function TemperatureProbabilityBoard() {
         boxShadow: "var(--shadowElevated)"
       }
     },
-      E("div", { style: { fontSize: 26, fontWeight: 800, color: "var(--ink)", lineHeight: 1.15, marginBottom: 8 } }, "Temperature changes the probability spread"),
-      E("div", { style: { fontSize: 15.5, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 18 } }, "The model scores the same possible completion three ways."),
-      E("div", {
-        style: {
-          background: "var(--bg)",
-          border: "1px solid var(--rule)",
-          borderRadius: 12,
-          padding: "13px 16px",
-          marginBottom: 16,
-          textAlign: "center",
-          fontFamily: "var(--mono)",
-          fontSize: 16,
-          fontWeight: 650,
-          color: "var(--ink)"
-        }
-      }, "You could name him ______."),
-      E("div", { className: "temp-prob-grid" },
-        columns.map(function(col) {
-          return E("div", {
-            key: col.label,
+      E("div", { style: { fontSize: 26, fontWeight: 800, color: "var(--ink)", lineHeight: 1.15, marginBottom: 8 } }, "You could name your new dog _____."),
+      E("div", { style: { fontSize: 15.5, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 18 } }, "You ask AI what to name your new dog."),
+      E("div", { style: { overflowX: "auto", WebkitOverflowScrolling: "touch" } },
+        E("div", {
+          style: {
+            minWidth: 760,
+            border: "1px solid #ddd7f0",
+            borderRadius: 14,
+            overflow: "hidden",
+            background: "#fff"
+          }
+        },
+          E("div", {
             style: {
-              border: "1px solid " + col.color + "33",
-              borderTop: "4px solid " + col.color,
-              borderRadius: 14,
-              padding: "15px 14px 13px",
-              background: "#fff"
+              display: "grid",
+              gridTemplateColumns: "110px repeat(3, minmax(190px, 1fr))",
+              borderBottom: "1px solid #ddd7f0",
+              background: "#fbfaff"
             }
           },
             E("div", {
               style: {
-                display: "inline-flex",
-                alignItems: "center",
-                borderRadius: 999,
-                padding: "5px 10px",
-                background: col.tint,
-                color: col.color,
-                fontSize: 11.5,
+                display: "flex",
+                alignItems: "flex-end",
+                padding: "14px 14px 13px",
+                fontSize: 12,
                 fontWeight: 800,
-                letterSpacing: "0.1em",
-                marginBottom: 8
+                letterSpacing: "0.09em",
+                color: "var(--inkMuted)"
               }
-            }, col.label + " TEMPERATURE"),
-            E("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--ink)", lineHeight: 1.3, marginBottom: 12 } }, col.title),
-            names.map(function(name, i) {
-              var value = col.values[i];
-              var isNewName = name === "Pixel" || name === "Mochi";
-              var isHigh = col.label === "HIGH";
+            }, "NAME"),
+            columns.map(function(col) {
               return E("div", {
-                key: name,
+                key: col.key,
                 style: {
-                  display: "grid",
-                  gridTemplateColumns: "58px 1fr 42px",
-                  gap: 8,
-                  alignItems: "center",
-                  padding: "6px 5px",
-                  borderRadius: 8,
-                  background: isNewName && isHigh ? col.tint : "transparent"
+                  padding: "12px 14px 11px",
+                  borderTop: "4px solid " + col.color,
+                  borderLeft: "1px solid #e8e3f3",
+                  background: col.tint
                 }
               },
-                E("div", { style: { fontFamily: "var(--mono)", fontSize: 12.5, fontWeight: isNewName && isHigh ? 800 : 650, color: "var(--ink)" } }, name),
-                E("div", { style: { height: 10, borderRadius: 999, background: "#eeeaf7", overflow: "hidden" } },
+                E("div", { style: { fontSize: 11.5, fontWeight: 850, letterSpacing: "0.08em", color: col.color, lineHeight: 1.25 } }, col.label),
+                E("div", { style: { marginTop: 4, fontSize: 14, fontWeight: 750, color: "var(--ink)", lineHeight: 1.25 } }, col.title));
+            })
+          ),
+          rows.map(function(row, rowIndex) {
+            var isLongShot = row.name === "Pixel" || row.name === "Mochi";
+            return E("div", {
+              key: row.name,
+              style: {
+                display: "grid",
+                gridTemplateColumns: "110px repeat(3, minmax(190px, 1fr))",
+                borderBottom: rowIndex === rows.length - 1 ? "none" : "1px solid #eeeaf5"
+              }
+            },
+              E("div", {
+                style: {
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "10px 14px",
+                  fontFamily: "var(--mono)",
+                  fontSize: 14,
+                  fontWeight: isLongShot ? 800 : 700,
+                  color: "var(--ink)",
+                  background: isLongShot ? "#fcfbff" : "#fff"
+                }
+              }, row.name),
+              columns.map(function(col) {
+                var value = row[col.key];
+                var highlight = isLongShot && col.key === "high";
+                return E("div", {
+                  key: col.key,
+                  style: {
+                    display: "grid",
+                    gridTemplateColumns: "1fr 48px",
+                    gap: 10,
+                    alignItems: "center",
+                    padding: "10px 14px",
+                    borderLeft: "1px solid #eeeaf5",
+                    background: highlight ? col.tint : "#fff"
+                  }
+                },
+                  E("div", { style: { height: 11, borderRadius: 999, background: "#eeeaf7", overflow: "hidden" } },
+                    E("div", {
+                      style: {
+                        width: Math.max(1.5, value / maxValue * 100) + "%",
+                        height: "100%",
+                        borderRadius: 999,
+                        background: col.color,
+                        opacity: value < 1 ? 0.5 : 0.92
+                      }
+                    })),
                   E("div", {
                     style: {
-                      width: Math.max(1.5, value / maxValue * 100) + "%",
-                      height: "100%",
-                      borderRadius: 999,
-                      background: col.color,
-                      opacity: value < 1 ? 0.45 : 0.9
+                      fontFamily: "var(--mono)",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: value < 1 ? "var(--inkMuted)" : col.color,
+                      textAlign: "right"
                     }
-                  })),
-                E("div", { style: { fontFamily: "var(--mono)", fontSize: 12, fontWeight: 750, color: value < 1 ? "var(--inkMuted)" : col.color, textAlign: "right" } }, value.toFixed(1) + "%"));
-            })
-          );
-        })),
+                  }, value.toFixed(1) + "%"));
+              })
+            );
+          })
+        )),
       E("div", {
         style: {
           marginTop: 16,
@@ -7565,8 +7612,8 @@ function TemperatureProbabilityBoard() {
           color: "var(--ink)",
           lineHeight: 1.4
         }
-      }, "Same ranked names. Higher temperature flattens the gaps."),
-      E("div", { style: { marginTop: 10, textAlign: "center", fontSize: 12.5, color: "var(--inkMuted)", lineHeight: 1.45 } }, "Illustrative probabilities. Pixel and Mochi move from long shots to real possibilities only at high temperature.")
+      }, "Temperature reshapes the probabilities. It does not change what the model learned."),
+      E("div", { style: { marginTop: 10, textAlign: "center", fontSize: 12.5, color: "var(--inkMuted)", lineHeight: 1.45 } }, "Illustrative probabilities for this exact unfinished sentence.")
     ));
 }
 
@@ -7763,83 +7810,59 @@ function AITipsSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "aitips" }),
     E(BodyP, null,
-      "Most people think a good AI user starts with the perfect prompt. Power users rarely do."),
+      "Most people think AI works like this: you type the perfect prompt, and AI returns the perfect answer. But that is not how you take your AI skills to the next level."),
     E(BodyP, null,
-      "They start with what they know, use the conversation to discover what is missing, and keep working until the result is useful. Four moves cover most of that work."),
-    E(BodyP, null,
-      E("strong", null, "You do not need perfect words."),
-      " You need a useful way to begin."),
+      "Think back to the best history group project you’ve been part of. Nobody began with the perfect finished project. You shared ideas, figured out what was missing, and improved it together. Working with AI follows a similar process. The group is smaller, just you and AI, but the best result still takes a conversation and several rounds of improvement."),
     E(SectionKicker, null, "THOUGHT PARTNER"),
     E(BodyP, null,
-      "A thought partner is someone you collaborate with to think something through."),
+      "During that history project, your group brainstormed ideas, asked questions, suggested next steps, and helped one another decide what worked. The group acted as your thought partner. You did not have to arrive with the perfect answer. You developed it together."),
     E(BodyP, null,
-      "Imagine you and your best friend are starting a basketball team for a summer league. You talk about possible names, explain what each of you likes, reject ideas that do not fit, and eventually choose one together. Neither person had to begin with the answer. You reached it by thinking together."),
-    E(BodyP, null,
-      "AI can be a thought partner in much the same way. It can ask questions, suggest possibilities, and help you compare tradeoffs. It should not make the decision for you. It helps you see more of the decision so you can make it better."),
-    E(ShowcaseBox, { headline: "Start with the idea you have.", marginBottom: 24 },
+      "AI can be a thought partner in much the same way. It can ask questions, suggest possibilities, and help you compare tradeoffs. It should not make the decision for you."),
+    E(ChatShowcaseBox, { headline: "Starting a Summer Business", marginBottom: 24 },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
         E(UserBubble, { align: "right", text: "I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?" }),
         E(AIBubble, { align: "left", text: "Absolutely. Let’s start with where you are. What are you already good at, and what problems do people around you regularly need help solving?" }),
-        E(UserBubble, { align: "right", text: "I’m good with dogs and younger kids, I can get around my neighborhood, and I have afternoons free." }),
-        E(AIBubble, { align: "left", text: "That gives us several realistic directions. Let’s compare pet care, tutoring or activity help, and a neighborhood errand service by startup cost, demand, and what you would enjoy." }))),
-    E(SectionKicker, null, "ASK AI"),
+        E(UserBubble, { align: "right", text: "I’m good with dogs and teaching younger kids math, I can get around my neighborhood, and I have afternoons free." }),
+        E(AIBubble, { align: "left", text: "That gives us three realistic directions: pet care, math tutoring, and a neighborhood errand service. Which sounds most interesting to you, and which would be easiest to start?" }))),
+    E(SectionKicker, null, "LEARN WITH AI"),
     E(BodyP, null,
-      "AI can be an on-demand teacher. When you come across something you do not understand, do not stop at a definition. Ask AI to connect the idea to something you already know, explain it at your level, and check whether you learned it."),
-    E(ShowcaseBox, { headline: "Turn a question into a lesson.", marginBottom: 24 },
+      "During the history group project, some members probably knew more about the subject than others. When you ran into something you did not understand, you could ask the group. That is one reason a group can be powerful: people share what they know and ask one another questions."),
+    E(BodyP, null,
+      "Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it."),
+    E(ChatShowcaseBox, { headline: "Understanding Profit", marginBottom: 24 },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-        E(UserBubble, { align: "right", text: "I’m considering starting a lawn-cutting business. I understand that revenue is the money customers pay me, but I don’t really understand profit. Teach me the difference using a lawn business. Include expenses I might overlook, use simple numbers, and then give me a short problem to solve myself." }),
-        E(AIBubble, { align: "left", text: "Revenue is all the money the business brings in. Profit is what remains after expenses. Suppose you cut six lawns at $20 each. Your revenue is $120. If gas, supplies, and equipment wear cost $30, your profit is $90. Your turn: if you earn $160 and your expenses are $35, what is your profit?" }))),
+        E(UserBubble, { align: "right", text: "I might start a business this summer mowing lawns. I have three friends who are available part-time to help me. I know that sales is the money customers pay me. What is profit, and how do I calculate it? Explain it using simple numbers that apply to a lawn-mowing business." }),
+        E(AIBubble, { align: "left", text: "Profit is the money left after you subtract every cost from your sales. Suppose your crew mows 10 lawns at $30 each. Your sales are $300. You pay each of your three friends $40, so labor costs $120. Gas and supplies cost another $30. Your total costs are $150, leaving you with $150 in profit. The formula is: Sales − Costs = Profit." }))),
+    E(SectionKicker, null, "FIND A PLACE TO START"),
     E(BodyP, null,
-      "When you do not understand something, ask AI to teach it in a way that connects to your life. Then ask it to check your understanding."),
-    E(SectionKicker, null, "LET AI GET YOU STARTED"),
+      "For the history project, the teacher gave your group a clear topic, such as “What caused the Civil War?” You knew the question you were trying to answer, so the group had a place to begin."),
     E(BodyP, null,
-      "Some decisions feel so big that the hardest part is knowing where to begin. You do not need to understand every factor or write a complete prompt. Ask AI to lead with questions."),
-    E(ShowcaseBox, { headline: "Let questions reveal what matters.", marginBottom: 24 },
+      "Life is not always that clear. Sometimes you face a big decision or unfamiliar problem and do not even know which questions to ask. In those moments, use AI to find a place to start."),
+    E(ChatShowcaseBox, { headline: "Thinking About College", marginBottom: 24 },
       E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
         E(UserBubble, { align: "right", text: "I need to start thinking about college, but I don’t know where to begin. Ask me one question at a time to help me figure out what matters to me. Don’t recommend a college yet." }),
         E(AIBubble, { align: "left", text: "Let’s start with the goal. Do you already have a career or field in mind, or do you want college to help you explore different possibilities?" }))),
-    E(BodyP, null,
-      "When you do not know where to start, ask AI to lead with questions. The questions help you discover what matters while giving AI the context it needs."),
     E(SectionKicker, null, "ITERATE WITH AI"),
     E(BodyP, null,
-      E("strong", null, "To iterate means to build something in versions, using each version to improve the next one.")),
+      "That history group project lasted four weeks. By the time you presented it to the class, it looked very different from the version your group had at the end of week one. You started with a topic, built a first version, and improved it week after week."),
     E(BodyP, null,
-      "When the final result looks much better than the first, you might wonder, “Why didn’t AI give me this in the first place?” Because neither you nor AI had completely defined what “this” should look like yet."),
-    E(ShowcaseBox, { headline: "The work changes. So does the feedback.", marginBottom: 24 },
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 } },
-        E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--primary)" } },
-          E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.12em" } }, "A BROAD OUTLINE"),
-          E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, "The big decisions"),
-          E("div", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } }, "An art teacher can discuss the subject, the composition, and what belongs in the empty spaces.")),
-        E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--green)" } },
-          E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--green)", letterSpacing: "0.12em" } }, "A NEARLY FINISHED PAINTING"),
-          E("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--ink)", lineHeight: 1.25 } }, "The finishing details"),
-          E("div", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } }, "Now the teacher can discuss shading, color, contrast, and the details that make the painting great.")))),
+      "That process is called ",
+      E("strong", null, "iteration"),
+      ". To iterate means to build something in versions, using each version to improve the next."),
     E(BodyP, null,
-      "The teacher did not become better between those conversations. The painting became developed enough to receive more precise feedback. AI works similarly. Each version gives you something new to evaluate, and your response gives the conversation more information about what the finished result should become."),
-    E(ShowcaseBox, { headline: "The same thing happens with AI.", marginBottom: 24 },
+      "Working with AI follows the same pattern. AI can only work with the idea, draft, or plan you give it. As each answer gets better, AI has better material to question, evaluate, and improve."),
+    E(ShowcaseBox, { headline: "From Idea to Business Plan", marginBottom: 24 },
       E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16 } },
         E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--primary)" } },
           E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.12em" } }, "EARLY ROUND"),
           E(UserBubble, { align: "right", text: "Give me ideas for a summer business." }),
-          E(AIBubble, { align: "left", text: "Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online." }),
-          E("div", { style: { fontSize: 15, lineHeight: 1.55, color: "var(--inkSoft)" } }, "The early round helps find a direction, so the response stays broad.")),
+          E(AIBubble, { align: "left", text: "Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online." })),
         E(InnerCard, { style: { display: "flex", flexDirection: "column", gap: 12, borderTop: "4px solid var(--green)" } },
           E("div", { style: { fontSize: 12, fontWeight: 800, color: "var(--green)", letterSpacing: "0.12em" } }, "LATER ROUND"),
           E(UserBubble, { align: "right", text: "I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it." }),
-          E(AIBubble, { align: "left", text: "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?" }),
-          E("div", { style: { fontSize: 15, lineHeight: 1.55, color: "var(--inkSoft)" } }, "The later round can question details, find missing pieces, and improve the actual plan.")))),
+          E(AIBubble, { align: "left", text: "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?" })))),
     E(BodyP, null,
-      E("strong", null, "Early rounds find the direction. Later rounds improve the details.")),
-    E(BodyP, null,
-      "This course was built that way. AI could create generic lesson text from a title. It could not create the finished lesson without the audience, teaching goals, earlier lessons, course standards, and many rounds of feedback."),
-    E(BodyP, null,
-      "To guide the next round, keep what worked, name what missed, and describe what should change."),
-    E(BodyP, null,
-      "AI does not need to see the finish line at the beginning. You get there by building, reviewing, and improving one version at a time."),
-    E(SectionKicker, null, "FOUR MOVES, ONE HABIT"),
-    E(BodyP, null,
-      "Start where you are. If the idea is fuzzy, think with AI. If there is something you want to learn, ask AI to teach it. If the subject feels too big, let AI get you started. If the result misses, iterate."),
+      "Looking at those two rounds, you might wonder, “Why didn’t AI give me the second answer first?” Because the first prompt did not yet include the details needed to produce it. You and AI were still defining what the finished result should become."),
     closeBoard("aitips"),
     E(InteractiveBox, {
       variant: "try",

@@ -305,6 +305,51 @@
   @keyframes levelDescFade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes trickFlash { 0%, 100% { color: var(--inkMuted); } 50% { color: #22c55e; } }
   @keyframes poppinsDrift { 0% { transform: translateY(-14vh) translateX(0) rotate(-10deg); opacity: 0; } 8% { opacity: 1; } 50% { transform: translateY(48vh) translateX(var(--sway)) rotate(8deg); } 100% { transform: translateY(116vh) translateX(0) rotate(-6deg); opacity: 1; } }
+  @keyframes quintBurst {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(.15) rotate(0deg); }
+    10% { opacity: 1; }
+    72% { opacity: 1; }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.65) rotate(var(--spin)); }
+  }
+  @keyframes quintNight {
+    0%, 100% { opacity: 0; }
+    8%, 82% { opacity: 1; }
+  }
+  @keyframes quintFlash {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(.15); }
+    18% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; }
+  }
+  @keyframes quintRing {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(.15); }
+    18% { opacity: .95; }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(3.4); }
+  }
+  @keyframes quintNumberRise {
+    0% { opacity: 0; transform: translate(-50%, 22vh) scale(.55) rotate(var(--tilt)); }
+    12% { opacity: .96; }
+    70% { opacity: 1; }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--drift)), -128vh) scale(1.18) rotate(var(--turn)); }
+  }
+  @keyframes quintBurgerFly {
+    0% { opacity: 0; transform: translate(calc(-50% - var(--dx)), calc(-50% - var(--dy))) scale(.3) rotate(var(--start-turn)); }
+    12% { opacity: 1; }
+    82% { opacity: 1; }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.22) rotate(var(--end-turn)); }
+  }
+  @keyframes quintBugFly {
+    0% { opacity: 0; transform: translate(var(--x0), var(--y0)) rotate(var(--r0)); animation-timing-function: cubic-bezier(.35,.02,.65,.98); }
+    8% { opacity: 1; }
+    25% { transform: translate(var(--x1), var(--y1)) rotate(var(--r1)); animation-timing-function: cubic-bezier(.35,.02,.65,.98); }
+    50% { transform: translate(var(--x2), var(--y2)) rotate(var(--r2)); animation-timing-function: cubic-bezier(.35,.02,.65,.98); }
+    75% { opacity: 1; transform: translate(var(--x3), var(--y3)) rotate(var(--r3)); animation-timing-function: cubic-bezier(.35,.02,.65,.98); }
+    100% { opacity: 0; transform: translate(var(--x4), var(--y4)) rotate(var(--r4)); }
+  }
+  @keyframes quintAnswerPop {
+    0% { transform: scale(1); }
+    42% { transform: scale(1.045); }
+    100% { transform: scale(1); }
+  }
   .redact-chunk {
     cursor: pointer;
     color: #3a3550;
@@ -731,7 +776,7 @@ const LESSON_VIDEOS = {
   bigupside: { src: "videos/big-upside.mp4", duration: "4 min", title: "They solved a fifty-year problem, then gave the answers away." },
   agents: { src: "videos/rise-of-agents.mp4", duration: "4 min", title: "A chatbot answers. An agent acts. Your name rides along." },
   workchanges: { src: "videos/work-changes.mp4", duration: "5 min", title: "Same job title, different Tuesday. The first pass is the starting line." },
-  computecost: { src: "videos/data-centers.mp4", duration: "3 min", title: "The real machines behind every instant answer." },
+  computecost: { src: "videos/data-centers.mp4", duration: "3 min", title: "The real machines behind every instant answer.", cta: "Be sure to answer the special bonus question!" },
   unexpected: { src: "videos/unexpected-results.mp4", duration: "4 min", title: "Plans can work perfectly and still surprise everyone." }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
@@ -12844,6 +12889,296 @@ function WorkChangesSection(props) {
     })
   );
 }
+function CourseComputeBonus() {
+  var E = React.createElement;
+  var _r = useState(false), revealed = _r[0], setRevealed = _r[1];
+  var _run = useState(0), celebrationRun = _run[0], setCelebrationRun = _run[1];
+  var reducedMotion = useReducedMotion();
+  var colors = ["#6e51ff", "#2f6fed", "#0f9d8a", "#f2a21b", "#ec4899", "#22c55e"];
+  var numberLabels = ["4", "0", "40", "000", "10¹⁹", "40,000", "0000"];
+  var _fw = useState(function() {
+    return Array.from({ length: 16 }, function(_, burstIndex) {
+      var particleCount = 22 + (burstIndex % 4) * 3;
+      var scale = .72 + Math.random() * .55;
+      var cellIndex = (burstIndex * 5) % 16;
+      var cellColumn = cellIndex % 4;
+      var cellRow = Math.floor(cellIndex / 4);
+      return {
+        x: 6 + cellColumn * 23 + Math.random() * 16,
+        y: 7 + cellRow * 22 + Math.random() * 15,
+        delay: 80 + burstIndex * 205 + Math.random() * 150,
+        colorIndex: burstIndex % colors.length,
+        particles: Array.from({ length: particleCount }, function(_, particleIndex) {
+          var angle = (Math.PI * 2 * particleIndex) / particleCount + (Math.random() - .5) * .12;
+          var distance = (72 + Math.random() * 92) * scale;
+          return {
+            dx: Math.cos(angle) * distance,
+            dy: Math.sin(angle) * distance,
+            duration: 900 + Math.random() * 520,
+            width: 4 + Math.random() * 5,
+            height: 9 + Math.random() * 13,
+            spin: 180 + Math.random() * 620,
+            colorOffset: particleIndex % 5 === 0 ? 2 : particleIndex % 3 === 0 ? 1 : 0
+          };
+        })
+      };
+    });
+  }), fireworks = _fw[0];
+  var _numbers = useState(function() {
+    return Array.from({ length: 72 }, function(_, numberIndex) {
+      return {
+        text: numberLabels[numberIndex % numberLabels.length],
+        x: 2 + (numberIndex % 12) * 8.3 + Math.random() * 4,
+        delay: (numberIndex % 18) * 68 + Math.floor(numberIndex / 18) * 190 + Math.random() * 120,
+        duration: 2600 + Math.random() * 1250,
+        size: 34 + Math.random() * 46,
+        drift: -75 + Math.random() * 150,
+        tilt: -18 + Math.random() * 36,
+        turn: -35 + Math.random() * 70
+      };
+    });
+  }), numberStream = _numbers[0];
+  var _burgers = useState(function() {
+    return Array.from({ length: 58 }, function(_, burgerIndex) {
+      return {
+        x: 5 + Math.random() * 90,
+        y: 7 + Math.random() * 86,
+        dx: 90 + Math.random() * 290,
+        dy: 70 + Math.random() * 240,
+        delay: (burgerIndex % 15) * 75 + Math.floor(burgerIndex / 15) * 170 + Math.random() * 120,
+        duration: 1900 + Math.random() * 1700,
+        size: 38 + Math.random() * 56,
+        directionX: Math.random() > .5 ? 1 : -1,
+        directionY: Math.random() > .5 ? 1 : -1,
+        startTurn: -220 + Math.random() * 180,
+        endTurn: 240 + Math.random() * 620
+      };
+    });
+  }), burgerStream = _burgers[0];
+  var bugLabels = ["🐞", "🪲", "🦋", "🐝", "🦗", "🐛", "🪰"];
+  var _bugs = useState(function() {
+    return Array.from({ length: 52 }, function(_, bugIndex) {
+      var point = function() {
+        return { x: 2 + Math.random() * 91, y: 3 + Math.random() * 88 };
+      };
+      return {
+        text: bugLabels[bugIndex % bugLabels.length],
+        points: [point(), point(), point(), point(), point()],
+        delay: (bugIndex % 13) * 72 + Math.floor(bugIndex / 13) * 145 + Math.random() * 100,
+        duration: 2700 + Math.random() * 1750,
+        size: 34 + Math.random() * 48,
+        turns: Array.from({ length: 5 }, function(_, turnIndex) {
+          return (turnIndex * (70 + Math.random() * 180) * (bugIndex % 2 === 0 ? 1 : -1)).toFixed(0) + "deg";
+        })
+      };
+    });
+  }), bugStream = _bugs[0];
+  var _drinks = useState(function() {
+    return Array.from({ length: 54 }, function(_, drinkIndex) {
+      var point = function() {
+        return { x: 1 + Math.random() * 92, y: 2 + Math.random() * 88 };
+      };
+      return {
+        type: drinkIndex % 2 === 0 ? "coke" : "coffee",
+        points: [point(), point(), point(), point(), point()],
+        delay: (drinkIndex % 14) * 74 + Math.floor(drinkIndex / 14) * 155 + Math.random() * 110,
+        duration: 2700 + Math.random() * 1800,
+        size: 38 + Math.random() * 38,
+        turns: Array.from({ length: 5 }, function(_, turnIndex) {
+          return (turnIndex * (95 + Math.random() * 220) * (drinkIndex % 2 === 0 ? 1 : -1)).toFixed(0) + "deg";
+        })
+      };
+    });
+  }), drinkStream = _drinks[0];
+  var celebrationMode = celebrationRun > 0 ? celebrationRun % 5 : -1;
+  var displayNumbers = celebrationMode === 2;
+  var displayBurgers = celebrationMode === 3;
+  var displayBugs = celebrationMode === 4;
+  var displayDrinks = celebrationMode === 0;
+  var celebration = celebrationRun > 0 && !reducedMotion ? ReactDOM.createPortal(
+    E("div", { key: "celebration-" + celebrationRun, "aria-hidden": "true", style: { position: "fixed", inset: 0, pointerEvents: "none", zIndex: 9999, overflow: "hidden" } },
+      E("div", { style: {
+        position: "absolute",
+        inset: 0,
+        background: displayNumbers ? "linear-gradient(rgba(0,32,18,.34), rgba(0,69,35,.24))" : displayBurgers ? "linear-gradient(rgba(74,35,0,.22), rgba(255,174,46,.13))" : displayBugs ? "linear-gradient(rgba(219,255,225,.34), rgba(68,173,103,.2))" : displayDrinks ? "linear-gradient(rgba(98,10,10,.24), rgba(89,52,16,.2))" : "linear-gradient(rgba(8,5,31,.34), rgba(20,12,58,.26))",
+        animation: "quintNight 4900ms ease-in-out both"
+      } }),
+      displayNumbers || displayBurgers || displayBugs || displayDrinks ? null : fireworks.map(function(burst, burstIndex) {
+        var mainColor = colors[burst.colorIndex];
+        return E(React.Fragment, { key: burstIndex },
+          E("span", { style: {
+            position: "absolute",
+            left: burst.x + "%",
+            top: burst.y + "%",
+            width: 46,
+            height: 46,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, #fff 0 8%, " + mainColor + " 24%, transparent 68%)",
+            filter: "drop-shadow(0 0 14px " + mainColor + ")",
+            animation: "quintFlash 650ms ease-out " + burst.delay + "ms both"
+          } }),
+          E("span", { style: {
+            position: "absolute",
+            left: burst.x + "%",
+            top: burst.y + "%",
+            width: 34,
+            height: 34,
+            border: "2px solid " + mainColor,
+            borderRadius: "50%",
+            boxShadow: "0 0 12px " + mainColor,
+            animation: "quintRing 820ms ease-out " + (burst.delay + 40) + "ms both"
+          } }),
+          burst.particles.map(function(particle, particleIndex) {
+            var particleColor = colors[(burst.colorIndex + particle.colorOffset) % colors.length];
+            return E("span", { key: particleIndex, style: {
+              position: "absolute",
+              left: burst.x + "%",
+              top: burst.y + "%",
+              width: particle.width,
+              height: particle.height,
+              borderRadius: 999,
+              background: particleColor,
+              boxShadow: "0 0 7px " + particleColor + ", 0 0 15px " + particleColor,
+              "--dx": particle.dx.toFixed(1) + "px",
+              "--dy": particle.dy.toFixed(1) + "px",
+              "--spin": particle.spin.toFixed(0) + "deg",
+              animation: "quintBurst " + particle.duration.toFixed(0) + "ms cubic-bezier(.12,.72,.2,1) " + burst.delay.toFixed(0) + "ms both"
+            } });
+          }));
+      }),
+      displayNumbers ? numberStream.map(function(number, numberIndex) {
+        return E("span", { key: numberIndex, style: {
+          position: "absolute",
+          left: number.x + "%",
+          bottom: "-24vh",
+          color: numberIndex % 5 === 0 ? "#d7ffe5" : numberIndex % 3 === 0 ? "#72ff9c" : "#27f47a",
+          fontFamily: "var(--mono)",
+          fontSize: number.size.toFixed(0) + "px",
+          fontWeight: 900,
+          lineHeight: 1,
+          letterSpacing: "-.06em",
+          textShadow: "0 0 8px #20f478, 0 0 20px #20f478, 0 0 38px rgba(32,244,120,.9)",
+          "--drift": number.drift.toFixed(0) + "px",
+          "--tilt": number.tilt.toFixed(0) + "deg",
+          "--turn": number.turn.toFixed(0) + "deg",
+          animation: "quintNumberRise " + number.duration.toFixed(0) + "ms linear " + number.delay.toFixed(0) + "ms both"
+        } }, number.text);
+      }) : null,
+      displayBurgers ? burgerStream.map(function(burger, burgerIndex) {
+        return E("span", { key: burgerIndex, style: {
+          position: "absolute",
+          left: burger.x + "%",
+          top: burger.y + "%",
+          fontSize: burger.size.toFixed(0) + "px",
+          lineHeight: 1,
+          filter: "drop-shadow(0 6px 8px rgba(54,24,0,.3)) drop-shadow(0 0 12px rgba(255,211,92,.65))",
+          "--dx": (burger.dx * burger.directionX).toFixed(0) + "px",
+          "--dy": (burger.dy * burger.directionY).toFixed(0) + "px",
+          "--start-turn": burger.startTurn.toFixed(0) + "deg",
+          "--end-turn": burger.endTurn.toFixed(0) + "deg",
+          animation: "quintBurgerFly " + burger.duration.toFixed(0) + "ms cubic-bezier(.18,.58,.3,1) " + burger.delay.toFixed(0) + "ms both"
+        } }, "🍔");
+      }) : null,
+      displayBugs ? bugStream.map(function(bug, bugIndex) {
+        var bugStyle = {
+          position: "absolute",
+          left: 0,
+          top: 0,
+          fontSize: bug.size.toFixed(0) + "px",
+          lineHeight: 1,
+          filter: "drop-shadow(0 5px 6px rgba(15,77,37,.28)) drop-shadow(0 0 10px rgba(132,255,160,.5))",
+          animation: "quintBugFly " + bug.duration.toFixed(0) + "ms linear " + bug.delay.toFixed(0) + "ms both"
+        };
+        bug.points.forEach(function(point, pointIndex) {
+          bugStyle["--x" + pointIndex] = point.x.toFixed(1) + "vw";
+          bugStyle["--y" + pointIndex] = point.y.toFixed(1) + "vh";
+          bugStyle["--r" + pointIndex] = bug.turns[pointIndex];
+        });
+        return E("span", { key: bugIndex, style: bugStyle }, bug.text);
+      }) : null,
+      displayDrinks ? drinkStream.map(function(drink, drinkIndex) {
+        var drinkStyle = {
+          position: "absolute",
+          left: 0,
+          top: 0,
+          fontSize: drink.size.toFixed(0) + "px",
+          lineHeight: 1,
+          filter: "drop-shadow(0 7px 8px rgba(42,14,5,.34)) drop-shadow(0 0 12px rgba(255,226,175,.42))",
+          animation: "quintBugFly " + drink.duration.toFixed(0) + "ms linear " + drink.delay.toFixed(0) + "ms both"
+        };
+        drink.points.forEach(function(point, pointIndex) {
+          drinkStyle["--x" + pointIndex] = point.x.toFixed(1) + "vw";
+          drinkStyle["--y" + pointIndex] = point.y.toFixed(1) + "vh";
+          drinkStyle["--r" + pointIndex] = drink.turns[pointIndex];
+        });
+        if (drink.type === "coffee") {
+          return E("span", { key: drinkIndex, style: drinkStyle }, "☕");
+        }
+        return E("span", { key: drinkIndex, style: Object.assign({}, drinkStyle, {
+          width: Math.round(drink.size * .62),
+          height: Math.round(drink.size * 1.06),
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "28% 28% 24% 24% / 12% 12% 10% 10%",
+          borderTop: "4px solid #d9d9d9",
+          borderBottom: "4px solid #d9d9d9",
+          background: "linear-gradient(90deg, #a50810 0%, #ef1721 45%, #b10811 100%)",
+          color: "#fff",
+          fontFamily: "var(--sans)",
+          fontSize: Math.max(12, drink.size * .22),
+          fontWeight: 900,
+          letterSpacing: "-.05em",
+          textShadow: "0 1px 2px rgba(80,0,0,.45)"
+        }) }, "COKE");
+      }) : null), document.body) : null;
+  return E(React.Fragment, null,
+    celebration,
+    E("div", { style: {
+      position: "relative",
+      overflow: "hidden",
+      marginTop: 20,
+      padding: "24px 26px",
+      borderRadius: 16,
+      border: "1px solid rgba(110,81,255,.24)",
+      background: revealed ? "linear-gradient(135deg, #f3efff 0%, #eef7ff 52%, #fff8e7 100%)" : "linear-gradient(135deg, #f7f4ff 0%, #f4f8ff 100%)",
+      boxShadow: revealed ? "0 18px 40px -28px rgba(73,48,173,.6)" : "var(--shadowSoft)",
+      animation: revealed && !reducedMotion ? "quintAnswerPop 650ms ease-out both" : "none"
+    } },
+      E("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: ".16em", color: "var(--primary)", textTransform: "uppercase", marginBottom: 12 } }, "Bonus Question"),
+      E("p", { style: { margin: "0 0 10px", fontSize: BOX_TEXT, lineHeight: 1.65, color: "var(--ink)" } },
+        "This is Nate and Luke. We asked ChatGPT to estimate how many math calculations AI systems performed in data centers while helping us build this course. Nobody can know the exact number, but ChatGPT gave us a wild estimate."),
+      E("p", { style: { margin: "0 0 18px", fontSize: BOX_TEXT, lineHeight: 1.6, color: "var(--inkSoft)" } },
+        "What’s your guess? This one is easy because there is only one choice."),
+      E("button", {
+        type: "button",
+        onClick: function() {
+          if (!revealed) setRevealed(true);
+          setCelebrationRun(function(run) { return run + 1; });
+        },
+        "aria-pressed": revealed,
+        style: {
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr) auto",
+          gap: 18,
+          alignItems: "center",
+          textAlign: "left",
+          padding: "17px 20px",
+          borderRadius: 13,
+          border: "2px solid " + (revealed ? "var(--primary)" : "rgba(110,81,255,.28)"),
+          background: revealed ? "#fff" : "rgba(255,255,255,.78)",
+          color: "var(--ink)",
+          cursor: "pointer",
+          fontFamily: "var(--sans)",
+          boxShadow: revealed ? "0 10px 24px -18px rgba(58,35,154,.65)" : "none"
+        }
+      },
+        E("span", { style: { fontSize: 21, fontWeight: 850, color: revealed ? "var(--primaryDeep)" : "var(--ink)" } }, "40 quintillion"),
+        E("span", { style: { fontFamily: "var(--mono)", fontSize: "clamp(12px, 2.3vw, 17px)", fontWeight: 700, color: "var(--inkSoft)", overflowWrap: "anywhere", textAlign: "right" } }, "40,000,000,000,000,000,000")),
+      revealed ? E("div", { role: "status", style: { marginTop: 18, textAlign: "center", animation: reducedMotion ? "none" : "levelReveal 420ms ease-out both" } },
+        E("div", { style: { fontSize: 24, fontWeight: 850, color: "var(--primaryDeep)" } }, "Click the button again to see a different celebration!")) : null));
+}
 function EnergyPerspectiveTryIt(props) {
   // Anchor: ~0.3 Wh per AI chat (Epoch AI 2025; OpenAI's own figure is 0.34 Wh).
   // Other figures are stable arithmetic: battery capacity, appliance wattage,
@@ -12899,7 +13234,8 @@ function EnergyPerspectiveTryIt(props) {
             return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
               onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
           }));
-      })));
+      })),
+    /*#__PURE__*/React.createElement(CourseComputeBonus, null));
 }
 function TheHiddenCostSection(props) {
   var E = React.createElement;

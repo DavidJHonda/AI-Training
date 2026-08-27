@@ -218,9 +218,9 @@ render_three_row_map \
   "THE LAST OF THE AI" \
   "First, the last of the tool itself. Which model to pick, how hard to make it" \
   "think, what to type, and two habits for the road." \
-  "SKILLS AI WON’T REPLACE" \
-  "Then, what stays valuable when everyone has the same tool. The person in the" \
-  "room, the angle nobody else brought, and the judgment that decides what’s worth doing." \
+  "SKILLS THAT GROW IN VALUE" \
+  "Then, additional skills grow in value when everyone has the same tool." \
+  "People skills help you work with others. Creative thinking brings a better angle." \
   "STAY SHARP" \
   "Then, staying current as the tools keep changing, and picking the one thing" \
   "you get genuinely good at."

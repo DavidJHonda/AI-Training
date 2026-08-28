@@ -3233,8 +3233,87 @@ function WatchTonightSeeIt() {
         genCard)));
 }
 // Shared step list for the hands-on labs: a checkbox row per step, plus an optional
-// starter-prompt card in mono. Lifted verbatim from the Build the Dino Game markup.
-// The five older labs still inline their own copy; converge them when one is next touched.
+// copyable starter-prompt card in mono. Older inline lab lists use the same prompt card.
+function CopyableLabPrompt(props) {
+  var E = React.createElement;
+  var _s = useState("idle"), status = _s[0], setStatus = _s[1];
+  var timerRef = useRef(null);
+  var text = typeof props.text === "string" ? props.text : "";
+  var disabled = !!props.disabled;
+  var hasPlaceholder = /\[[^\]]+\]/.test(text);
+
+  useEffect(function() {
+    return function() {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  function fallbackCopy() {
+    return new Promise(function(resolve, reject) {
+      try {
+        var field = document.createElement("textarea");
+        field.value = text;
+        field.setAttribute("readonly", "");
+        field.style.position = "fixed";
+        field.style.opacity = "0";
+        field.style.pointerEvents = "none";
+        document.body.appendChild(field);
+        field.focus();
+        field.select();
+        var copied = document.execCommand("copy");
+        document.body.removeChild(field);
+        copied ? resolve() : reject(new Error("Copy was not available"));
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  function copyPrompt() {
+    if (!text || disabled) return;
+    var copyAction;
+    try {
+      copyAction = navigator.clipboard && navigator.clipboard.writeText
+        ? navigator.clipboard.writeText(text).catch(fallbackCopy)
+        : fallbackCopy();
+    } catch (err) {
+      copyAction = fallbackCopy();
+    }
+    Promise.resolve(copyAction).then(function() {
+      setStatus("copied");
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(function() { setStatus("idle"); }, 1800);
+    }).catch(function() {
+      setStatus("error");
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(function() { setStatus("idle"); }, 2200);
+    });
+  }
+
+  return E("div", {
+    style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 8, padding: "10px 12px 12px 14px", color: "var(--ink)", borderLeft: "3px solid var(--labAccent)" }
+  },
+    E("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 7 } },
+      E("button", {
+        type: "button",
+        onClick: copyPrompt,
+        disabled: disabled,
+        "aria-live": "polite",
+        style: {
+          display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 6,
+          minWidth: 102, padding: "6px 10px", borderRadius: 7,
+          border: "1px solid " + (disabled ? "var(--rule)" : "var(--labAccent)"),
+          background: status === "copied" ? "var(--labAccent)" : (disabled ? "var(--bg)" : "#fff"),
+          color: status === "copied" ? "#fff" : (disabled ? "var(--inkMuted)" : "var(--labAccent)"),
+          fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 800,
+          cursor: disabled ? "not-allowed" : "pointer",
+          opacity: disabled ? 0.75 : 1
+        }
+      }, disabled ? "Enter Field First" : (status === "copied" ? "✓ Copied" : (status === "error" ? "Try Again" : "Copy Prompt")))),
+    E("div", { style: { fontFamily: "var(--mono)", fontSize: 12.5, lineHeight: 1.6, whiteSpace: "pre-wrap", overflowWrap: "anywhere" } }, props.text),
+    disabled && props.disabledMessage ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, props.disabledMessage) : null,
+    hasPlaceholder ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
+}
 function LabStepList(props) {
   var E = React.createElement;
   var steps = props.steps || [];
@@ -3251,10 +3330,11 @@ function LabStepList(props) {
           onClick: function() { props.onToggle(i); },
           style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }
         }, done ? "✓" : ""),
-        E("span", { style: { flex: 1, minWidth: 0 } },
+        E("div", { style: { flex: 1, minWidth: 0 } },
           E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
           E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
-          st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+          st.content ? E("div", { style: { marginTop: 12 } }, st.content) : null,
+          st.prompt ? E(CopyableLabPrompt, { text: st.prompt, disabled: st.promptDisabled, disabledMessage: st.promptDisabledMessage }) : null));
     }));
 }
 
@@ -5842,14 +5922,14 @@ function TrainingBiasSection(props) {
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
             /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
                 st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
                   st.prefix,
                   /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
                   st.suffix) : st.body),
-              st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+              st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Document Trap" })
@@ -8003,7 +8083,10 @@ function YourChoicesTryIt() {
 }
 function CareerExplorationPlanLab() {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-career-exploration-plan-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _c = useLocalStorage("llm-lab-career-exploration-plan-steps-v2", {}), checked = _c[0], setChecked = _c[1];
+  var _f = useLocalStorage("llm-career-field", ""), careerField = _f[0], setCareerField = _f[1];
+  var chosenField = typeof careerField === "string" ? careerField.trim() : "";
+  var fieldForPrompt = chosenField || "your chosen career field";
   var STEPS = [
     {
       title: "Open ChatGPT",
@@ -8024,17 +8107,38 @@ function CareerExplorationPlanLab() {
     },
     {
       title: "Choose one field to explore",
-      body: "Pick the field that makes you most curious. You are choosing what to investigate next, not making a permanent career decision. If none of the three fits, explain what missed and ask for three different fields."
+      body: "Pick the field that makes you most curious. You are choosing what to investigate next, not making a permanent career decision. If none of the three fits, explain what missed and ask for three different fields.",
+      content: E("label", { htmlFor: "career-field-input", style: { display: "block" } },
+        E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Career field"),
+        E("input", {
+          id: "career-field-input",
+          type: "text",
+          value: typeof careerField === "string" ? careerField : "",
+          onChange: function(event) { setCareerField(event.target.value); },
+          placeholder: "For example: teaching, nursing, or graphic design",
+          autoComplete: "off",
+          style: {
+            width: "100%", boxSizing: "border-box", border: "1.5px solid var(--rule)", borderRadius: 9,
+            background: "var(--bg)", color: "var(--ink)", padding: "10px 12px",
+            fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.4, outlineColor: "var(--labAccent)"
+          }
+        }),
+        E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
+          "Your answer will fill the remaining prompts automatically."))
     },
     {
       title: "Learn what the work is really like",
-      body: "Replace the brackets with your field and send this prompt.",
-      prompt: "Help me understand [CAREER FIELD] before I decide whether to explore it further. Explain what people in this field do during a normal week, what skills matter, the common education or training paths, and one part people often dislike or underestimate. Keep it concise and identify any facts I should verify because they may change."
+      body: "Send this prompt after you enter your field in Step 5.",
+      prompt: "Help me understand " + fieldForPrompt + " before I decide whether to explore it further. Explain what people in this field do during a normal week, what skills matter, the common education or training paths, and one part people often dislike or underestimate. Keep it concise and identify any facts I should verify because they may change.",
+      promptDisabled: !chosenField,
+      promptDisabledMessage: "Enter your career field in Step 5 to unlock this prompt."
     },
     {
       title: "Build your exploration plan",
-      body: "Replace the brackets again. This is the defined result of the lab.",
-      prompt: "Create a short Career Exploration Plan for [CAREER FIELD] with four headings: Why It Might Fit Me, What I Still Need to Learn, Three Questions to Investigate, and One Action I Can Take This Month. Do not tell me this is the right career for me."
+      body: "Use the field you entered in Step 5. This is the defined result of the lab.",
+      prompt: "Create a short Career Exploration Plan for " + fieldForPrompt + " with four headings: Why It Might Fit Me, What the Work Is Really Like, What I Still Need to Learn, and Three Questions I Want to Answer. Do not tell me this is the right career for me.",
+      promptDisabled: !chosenField,
+      promptDisabledMessage: "Enter your career field in Step 5 to unlock this prompt."
     }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
@@ -8552,14 +8656,14 @@ function HallucinationSection(props) {
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
             /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setDinoChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
                 st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
                   st.prefix,
                   /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
                   st.suffix) : st.body),
-              st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+              st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
@@ -9303,36 +9407,36 @@ function EvaluatingSection(props) {
 }
 function CreativeThinkingCareerLab() {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-career-creative-thinking-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _c = useLocalStorage("llm-lab-career-creative-thinking-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
     {
       title: "Return to your career chat",
       body: "Open the ChatGPT conversation you have been using for your career exploration. Continue with the same field. If you cannot find the chat, start a new one and tell ChatGPT which field you are exploring."
     },
     {
-      title: "Explore creative thinking in the field",
-      body: "Continue the conversation by sending this prompt.",
-      prompt: "For the career field we’ve been exploring, explain why creative thinking matters in this field. Give me three realistic situations in which someone doing this work would need to find a new angle instead of following the standard approach. Keep the examples specific and concise."
+      title: "Choose a problem from the field",
+      body: "Continue the conversation by sending this prompt. Pick the situation that makes you most curious.",
+      prompt: "For the career field we’ve been exploring, give me three small but realistic problems someone new to this field might need to solve. Each problem should allow more than one reasonable approach. Keep them specific and concise, then ask me which one I want to work on."
     },
     {
-      title: "Find ways to build the skill now",
-      body: "After you read the examples, send this prompt.",
-      prompt: "Based on those examples, give me four practical ways I could strengthen my creative thinking as a high school student. Include one activity I could do in school, one outside school, one with other people, and one on my own. Keep the ideas realistic and low-cost."
+      title: "Generate different approaches",
+      body: "After you choose the problem, send this prompt. Give your own idea before AI gives you its possibilities.",
+      prompt: "Help me think creatively about the problem I chose. First, ask me for one idea of my own and wait for my answer. Then give me six possible approaches. Include one surprising approach, one that changes a common assumption, and one that borrows an idea from a completely different field. Do not choose the best one for me."
     },
     {
-      title: "Choose one action",
-      body: "Send one final prompt. Answer the question ChatGPT asks, then save the action it helps you create in your career exploration chat.",
-      prompt: "Of those four ideas, ask me which one I want to try. After I choose, help me turn it into one specific action I can complete this month."
+      title: "Develop your solution",
+      body: "Choose the approach you think has the most potential. Replace the brackets with that approach, then send this final prompt.",
+      prompt: "I want to develop this approach: [APPROACH]. Ask me two questions that would help make it more useful, realistic, and specific. Ask one question at a time. After I answer both, write a short description of the solution we developed."
     }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "16",
-    title: "Creative Thinking in Your Field",
+    labNumber: "15",
+    title: "Solve a Problem in Your Field",
     hint: "Click the box after you finish each step.",
-    lead: "Continue your career exploration. In about 10 minutes, you will see how creative thinking matters in the field you chose and leave with one practical way to strengthen your creativity now.",
+    lead: "Continue your career exploration. In about 10 minutes, you will use creative-thinking techniques to develop an original solution to a realistic problem from the field.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -9396,7 +9500,7 @@ function CreativeThinkingSection(props) {
 }
 function PeopleSkillsCareerLab() {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-career-people-skills-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _c = useLocalStorage("llm-lab-career-people-skills-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
     {
       title: "Return to your career chat",
@@ -9412,19 +9516,19 @@ function PeopleSkillsCareerLab() {
       body: "Respond naturally to each message. Try to use the four people skills from the lesson, but do not worry about giving a perfect answer. After the third exchange, read the feedback."
     },
     {
-      title: "Connect it to the field",
-      body: "After the role-play and feedback are complete, send this separate prompt.",
-      prompt: "Based on the role-play and the field I’m exploring, identify the three people skills that matter most in this field. For each one, give me one realistic example of when it is used and one way I could practice it now as a high school student. Keep your answer concise."
+      title: "Try the difficult moment again",
+      body: "After the role-play and feedback are complete, send this prompt. Use the feedback to improve your response when AI replays the moment.",
+      prompt: "Choose the exchange in the role-play where my people skills had the most room to improve. Replay only that moment and wait for my revised response. Then tell me briefly whether my response improved and why."
     }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "15",
+    labNumber: "14",
     title: "Practice the People Side of Work",
     hint: "Click the box after you finish each step.",
-    lead: "Continue the career exploration you began in Lab 13. In about 10 minutes, you will practice a realistic interaction and learn which people skills matter in the field you are exploring.",
+    lead: "Continue the career exploration you began in Lab 13. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -9485,36 +9589,36 @@ function PeopleSkillsSection(props) {
 }
 function BeCuriousCareerLab() {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-career-curious-flexible-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _c = useLocalStorage("llm-lab-career-curious-flexible-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
     {
       title: "Return to your career chat",
       body: "Open the ChatGPT conversation you have been using for your career exploration. Continue with the same field. If you cannot find the chat, start a new one and tell ChatGPT which field you are exploring."
     },
     {
-      title: "Explore how AI may change the field",
+      title: "Map how the work may change",
       body: "Continue the conversation by sending this prompt. Remember that predictions are possibilities, not facts.",
-      prompt: "We have been exploring a career field together. Explain three realistic ways AI might change this field over the next five years. For each change, explain what work AI may handle, what people may still do best, and which human skills could become more valuable. Clearly separate likely changes from uncertain predictions."
+      prompt: "We have been exploring a career field together. Create a concise Future-of-the-Field Map with four headings: AI Already Helps With, AI May Handle More Of, People Still Own, and Most Uncertain. Include three specific items under each heading. Clearly separate current uses from predictions and identify claims I should verify because they may change."
     },
     {
-      title: "Prepare to adapt",
-      body: "After you read the three possibilities, send this prompt.",
-      prompt: "Based on those changes, suggest three things a high school student could do now to stay curious, flexible, and prepared for this field. Include one skill to build, one way to experiment with AI, and one reliable way to stay current. Keep the suggestions realistic and low-cost."
+      title: "Examine one uncertain change",
+      body: "Choose one prediction from the Most Uncertain section. Replace the brackets with that prediction, then send this prompt.",
+      prompt: "I want to examine this prediction: [PREDICTION]. Explain why it is plausible, what could slow or prevent it, and what we still do not know. Do not present the prediction as a fact."
     },
     {
-      title: "Choose one next step",
-      body: "Pick the suggestion that would help you most. Send this final prompt, answer the question AI asks, and keep the action in your career exploration chat.",
-      prompt: "Ask me which suggestion I want to try. After I choose, help me turn it into one specific action I can complete this month."
+      title: "Build a future watchlist",
+      body: "End with a short list you can use to recognize whether the field is actually changing.",
+      prompt: "Create a three-item Future Watchlist for this career field. For each item, name one specific change or signal worth watching and one reliable place where I could check for updates. Avoid generic advice such as ‘follow AI news.’ Do not create an action plan or recommend skills to practice."
     }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "17",
+    labNumber: "16",
     title: "Prepare for Change in Your Field",
     hint: "Click the box after you finish each step.",
-    lead: "Continue your career exploration. In about 10 minutes, you will examine how AI may change the field you chose and leave with one practical way to stay curious, flexible, and prepared.",
+    lead: "Continue your career exploration. In about 10 minutes, you will separate current changes from uncertain predictions and build a short watchlist for the field.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -9822,24 +9926,25 @@ function LegacyMakeYourMoveSection(props) {
 }
 function MakeYourMoveCareerLab() {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-career-make-one-move-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _c = useLocalStorage("llm-lab-career-make-one-move-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
     {
-      title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you have been using for your career exploration. Return to the action you chose at the end of Lab 17. If you cannot find the chat, start a new one and briefly describe the field and action you selected."
+      title: "Review your career exploration",
+      body: "Open the ChatGPT conversation you have been using for the Career Explorer. Skim the field you chose, the people-skills role-play, the creative solution you developed, and the future-of-the-field map. Notice one part that made you want to learn or do more."
     },
     {
       title: "Connect it to one move",
-      body: "Decide which move from this lesson best matches your action: learn from someone doing the work, build real depth, make something real, or step into responsibility. It can connect to more than one, but choose the closest match."
+      body: "Choose the move from this lesson that you most want to make next: learn from someone doing the work, build real depth, make something real, or step into responsibility. You are choosing a direction, not your entire future."
+    },
+    {
+      title: "Choose a specific action",
+      body: "Replace the brackets with the move you selected. Read the three possibilities and choose the one that feels both meaningful and realistic.",
+      prompt: "I want my next move to be: [MOVE]. Review our career exploration and suggest three specific actions that fit this move and the field I explored. Connect each option to something we learned earlier in this conversation. Do not repeat an earlier suggestion unless it is clearly the strongest fit. Keep the options safe, low-cost, and appropriate for a high school student. Ask me which one I choose."
     },
     {
       title: "Build a 30-day plan",
-      body: "Continue the conversation by sending this prompt. Replace the words in brackets with your action and the move you selected.",
-      prompt: "I chose this action: [ACTION]. It connects most closely to this move: [MOVE]. Help me turn it into something realistic I can complete within 30 days. Give it a clear finish line and a first step I can complete this week. Keep it safe, low-cost, and appropriate for a high school student."
-    },
-    {
-      title: "Check the plan",
-      body: "Make sure the plan tells you what you will do, what finished looks like, the first step, when you will do it, and one person who could give you feedback. If anything is missing, ask ChatGPT to add it."
+      body: "After you choose the action, send this prompt. Check that the answer includes a finish line, steps, something to do this week, a date, and a person who could give you feedback.",
+      prompt: "I chose this action: [ACTION]. Help me make a realistic 30-day plan. Organize it under five headings: Finish Line, Steps, What I Will Do This Week, When I Will Do It, and Who Could Give Me Feedback. Keep the plan safe, low-cost, and appropriate for a high school student."
     },
     {
       title: "Make your move",
@@ -9850,7 +9955,7 @@ function MakeYourMoveCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "18",
+    labNumber: "17",
     title: "Make One Move",
     hint: "Click the box after you finish each step.",
     lead: "Finish the Career Explorer by turning one idea into a real step. In about 10 minutes, you will create a practical 30-day plan and begin moving outside the chat.",
@@ -10544,14 +10649,14 @@ function FlatteryTrapSection(props) {
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
             /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            /*#__PURE__*/React.createElement("span", { style: { flex: 1, minWidth: 0 } },
+            /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
                 st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
                   st.prefix,
                   /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noopener noreferrer" }, st.linkLabel),
                   st.suffix) : st.body),
-              st.prompt ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+              st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("engagementtrap"); }, label: "Next: Engagement Trap" }));
@@ -12668,10 +12773,10 @@ function BigUpsideSection(props) {
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
             E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setVaultChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            E("span", { style: { flex: 1, minWidth: 0 } },
+            E("div", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
-              st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+              st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: Rise of Agents" }));
@@ -12896,14 +13001,14 @@ function PaceOfChangeSection(props) {
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
             E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setBuildChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            E("span", { style: { flex: 1, minWidth: 0 } },
+            E("div", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
                 st.href ? E(React.Fragment, null,
                   st.prefix,
                   E("a", { href: st.href, target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
                   st.suffix) : st.body),
-              st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+              st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigdownside"); }, label: "Next: Big Downside" }));
@@ -13226,10 +13331,10 @@ function WorkChangesSection(props) {
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
             E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            E("span", { style: { flex: 1, minWidth: 0 } },
+            E("div", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
-              st.prompt ? E("span", { style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 6, padding: "10px 14px", fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--ink)", lineHeight: 1.6, borderLeft: "3px solid var(--labAccent)" } }, st.prompt) : null));
+              st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
 
     E(LessonRule, null),

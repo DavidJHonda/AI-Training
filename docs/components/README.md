@@ -18,8 +18,8 @@ teaching job instead of forcing every idea into the same template.
 - [Page components](page-components.md) explains the roles of the live React
   components. `index.html` remains authoritative for implementation details.
 - [Board system](boards/README.md) defines the shared shell, the Friendly Schematic
-  and Editorial Explainer families, utility exceptions, accessibility rules, and
-  the production workflow.
+  and Editorial Explainer families, the named `EE-2FB` and `EE-3FB` full-bleed card
+  formats, utility exceptions, accessibility rules, and the production workflow.
 - [Board inventory](boards/BOARD-INVENTORY.md) classifies current lessons as Keep,
   Normalize, Redesign, or Exception before any broad visual retrofit.
 

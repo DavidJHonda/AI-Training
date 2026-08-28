@@ -106,6 +106,79 @@ corporate dashboards.
 - Status pills may identify claims such as current, limited, hypothetical, or not
   demonstrated.
 
+### Named full-bleed card formats
+
+Two card-based Editorial Explainer formats are now canonical. Use these names in
+planning notes, prompts, filenames, and review conversations so a request does not
+have to restate the layout from scratch.
+
+#### Editorial Explainer: Two-Card Full-Bleed (`EE-2FB`)
+
+Use for a direct comparison or for two related choices that deserve equal visual
+weight. The approved reference boards are:
+
+- `illustrations/your-choices-choose-tool-v3.png`
+- `illustrations/your-choices-choose-how-v8.png`
+
+At the current copy length, the reference canvas is 1600×880. Canvas height remains
+derived from the longest card copy rather than selected independently.
+
+- Lavender frame: `#eae7fd`, radius 22, padding 40.
+- No intermediate white panel. The title and cards are direct children of the
+  lavender frame.
+- Board title: 56 px / 800 / `-0.03em` / near-black / Title Case / left-aligned.
+- Two equal 744 px cards with a 32 px gutter and 14 px radius.
+- White card fill, 1 px accent border at 30% opacity, and a low soft shadow.
+- Full-bleed illustration first. The colored background reaches every edge of the
+  illustration area; no baked-in white margin or visible side line is allowed.
+- Source artwork is 16:9 and is cover-filled conservatively into the card art area.
+  Keep the full subject visible even when the card uses a wider crop.
+- Thin divider: card accent at 20% opacity.
+- Card title: 40 px / 800 / `-0.02em` / accent color / Title Case / left-aligned.
+- Body: 29 px / 1.4 / `#3a3550` / left-aligned.
+- Text padding: 32 px top and 34 px on the remaining sides. Title sits 14 px above
+  the body.
+- Both text areas use the same fixed height, derived from the longest card.
+
+#### Editorial Explainer: Three-Card Full-Bleed (`EE-3FB`)
+
+Use for three parallel categories, stages, or judgment levels. The approved
+reference boards are:
+
+- `illustrations/honesty-use-ai-help-follow-rules.png`
+- `illustrations/privacy-how-much-share-v5.png`
+
+At the current copy length, the reference canvas is 1600×790. Canvas height remains
+derived from the longest card copy rather than selected independently.
+
+- Use the same frame, title, card fill, border, shadow, art treatment, divider,
+  typography, text padding, and alignment rules as `EE-2FB`.
+- Three equal 486 px cards with 32 px gutters and 14 px radius.
+- Every illustration uses a distinct approved accent background that fills the
+  complete art area from left edge to right edge.
+- All card titles share one baseline. All body copy begins on one baseline.
+- All text areas use the same fixed height, derived from the longest card.
+- Color must reinforce labels or icons; it may not be the only way the categories
+  differ.
+
+#### Shared rules for `EE-2FB` and `EE-3FB`
+
+- Choose accents only from green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`,
+  purple `#4f2fc4`, amber `#a9760c`, and red `#c41f28`.
+- Preserve the order: illustration, card title, body. Never place the title above
+  the illustration inside a card.
+- Keep card copy unchanged when the assignment is only a visual normalization.
+- Do not add an intermediate panel, a thick top cap, centered body copy, all-caps
+  card titles, or a fourth card in a row.
+- A takeaway band is optional and appears only when the cards add up to a distinct
+  conclusion. Never invent a takeaway merely to fill the space.
+- Verify the final board at its authored size and at the approximately 880 px lesson
+  width before approval.
+
+When asking for one of these formats, use the full name at least once. The short IDs
+are useful for filenames and production notes, but the full names are clearer in
+conversation.
+
 ### Strong current examples
 
 - Pace of Change: Why so fast?

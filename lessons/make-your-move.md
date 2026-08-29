@@ -20,61 +20,9 @@ AI already handles or helps with some of those tasks, and it will likely take on
 
 Don’t focus on finding an AI-safe career. Instead, ask how AI might affect a specific career: Which tasks could AI handle? Which require human judgment, relationships, responsibility, or physical action? How might the work change as those tasks shift?
 
-How AI might change these careers
+![How AI might change careers, part one. Doctor, teacher, and lawyer.](make-your-move-1-careers-a.jpg)
 
-## Career
-
-## AI may help with
-
-## People still own
-
-🩺
-
-Doctor
-
-Review records, summarize research, and help identify patterns.
-
-Examine the patient, weigh context and uncertainty, explain choices, and take responsibility for care.
-
-📚
-
-Teacher
-
-Draft lessons, create practice activities, and help review student work.
-
-Know the student, build motivation, adapt in the moment, and create a classroom community.
-
-⚖️
-
-Lawyer
-
-Search cases, summarize documents, and help produce early drafts.
-
-Advise the client, build the strategy, persuade others, and take professional responsibility.
-
-🛠️
-
-Electrician
-
-Read manuals, suggest possible causes, and help plan the work.
-
-Work safely in the real world, diagnose what is actually happening, and adapt on site.
-
-🎨
-
-Graphic designer
-
-Generate drafts, variations, and possible directions quickly.
-
-Choose the purpose, understand the audience, apply taste, and direct the final result.
-
-🚀
-
-Entrepreneur
-
-Research markets, draft plans, compare options, and help organize the work.
-
-Choose the problem, take the risk, win customers, lead people, and own the decisions.
+![How AI might change careers, part two. Electrician, graphic designer, and entrepreneur.](make-your-move-1-careers-b.jpg)
 
 ## SKILLS THAT TRAVEL
 

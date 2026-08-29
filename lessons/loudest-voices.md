@@ -70,6 +70,8 @@ All three of them admit the other side might be right. That’s the tell: the pe
 
 Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions.
 
+![This Has Happened Before. Four confident technology predictions that missed: astronomer Clifford Stoll on online shopping, Microsoft CEO Steve Ballmer on the iPhone, Ethernet inventor Robert Metcalfe on an internet collapse, and Ford Motor Company founder Henry Ford on flying cars.](loudest-voices-2-missed-calls.jpg)
+
 📰
 
 People won’t shop online

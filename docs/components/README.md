@@ -14,14 +14,18 @@ The governing principle is **one course shell, two primary board families**. The
 shell makes the course recognizable. The two families let the visual tone match the
 teaching job instead of forcing every idea into the same template.
 
+Luke and Nate are recurring teaching actors within that system. When they appear,
+their actions should demonstrate the mechanism, comparison, choice, or consequence;
+they should not function as decorative witnesses beside an explanation.
+
 ## Current documentation
 
 - [Page components](page-components.md) explains the roles of the live React
   components. `index.html` remains authoritative for implementation details.
 - [Board system](boards/README.md) defines the shared shell, the Friendly Schematic
-  and Editorial Explainer families, the named `EE-2FB`, `EE-3FB`, `EE-4FB`, and
-  `EE-FLOW` formats, utility exceptions, accessibility rules, and the production
-  workflow.
+  and Editorial Explainer families, the named `EE-2FB`, `EE-3FB`, `EE-4FB`,
+  `EE-LONG`, `EE-FLOW`, and `EE-CHAT` formats, utility exceptions, accessibility
+  rules, and the production workflow.
 - [Board inventory](boards/BOARD-INVENTORY.md) classifies current lessons as Keep,
   Normalize, Redesign, or Exception before any broad visual retrofit.
 

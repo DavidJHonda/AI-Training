@@ -1,71 +1,45 @@
 ## BUILD YOUR SKILLS
 
-# AI Tips
+# Next Level Moves
 
-App, model, effort. The setup is done. Everything from here is just what you type into the box.
+Most people think AI works like this: you type the perfect prompt, and AI returns the perfect answer. But that is not how you take your AI skills to the next level.
 
-And everyone types into the same box. Some people get noticeably more back than everyone else, and it isn’t because they found the magic words. There are no magic words. What they have is a short list of moves they run on purpose, most of them one sentence long.
+Think back to the best history group project you’ve been part of. Nobody began with the perfect finished project. You shared ideas, figured out what was missing, and improved it together. Working with AI follows a similar process. The group is smaller, just you and AI, but the best result still takes a conversation and several rounds of improvement.
 
-**None of these are tricks, and none of them expire.** Five moves. Steal all five.
+## THOUGHT PARTNER
 
-## THE MOVE ALMOST NOBODY TRIES
+During that history project, your group brainstormed ideas, asked questions, suggested next steps, and helped one another decide what worked. The group acted as your thought partner. You did not have to arrive with the perfect answer. You developed it together.
 
-AI can’t see your class, your teacher, your deadline, or the two things you already decided. Most people handle that by typing more. There’s a faster way: make it ask you.
+AI can be a thought partner in much the same way. It can ask questions, suggest possibilities, and help you compare tradeoffs. It should not make the decision for you.
 
-Make it interview you.
+![Starting a Summer Business. AI asks about the student before suggesting realistic directions.](ai-tips-1-summer-business.jpg)
 
-## You
+## LEARN WITH AI
 
-Before you write anything, ask me whatever you need to know about me and this assignment to do it well. One question at a time.
+During the history group project, some members probably knew more about the subject than others. When you ran into something you did not understand, you could ask the group. That is one reason a group can be powerful: people share what they know and ask one another questions.
 
-## AI
+Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it.
 
-Happy to. First one: what did the assignment actually ask for, in your teacher’s words?
+![Understanding Profit. AI explains profit with a lawn-mowing example.](ai-tips-2-profit.jpg)
 
-Answer four or five of those and it knows more about the job than you would ever have thought to type. And the questions are the bonus: they tell you what mattered that you hadn’t considered.
+## FIND A PLACE TO START
 
-## FOUR MORE MOVES
+For the history project, the teacher gave your group a clear topic, such as “What caused the Civil War?” You knew the question you were trying to answer, so the group had a place to begin.
 
-Same shape every time: one sentence, typed on purpose, at the moment it fits.
+Life is not always that clear. Sometimes you face a big decision or unfamiliar problem and do not even know which questions to ask. In those moments, use AI to find a place to start.
 
-1
+![Thinking About College. AI begins with one question instead of making the decision.](ai-tips-3-college.jpg)
 
-Tell it what you already tried.
+## ITERATE WITH AI
 
-Ask cold and you get the average answer, and the average answer is usually the thing you already did. Rule out your dead ends in the prompt and the model has to go past them.
+That history group project lasted four weeks. By the time you presented it to the class, it looked very different from the version your group had at the end of week one. You started with a topic, built a first version, and improved it week after week.
 
-“Here’s the problem. I already tried [X] and [Y]. X changed nothing, Y made it worse. Skip both and tell me what else could be going on.”
+That process is called **iteration**. To iterate means to build something in versions, using each version to improve the next.
 
-2
+Working with AI follows the same pattern. AI can only work with the idea, draft, or plan you give it. As each answer gets better, AI has better material to question, evaluate, and improve.
 
-Ask for options, not an answer.
+![From Idea to Business Plan. Adding details turns a generic answer into a useful pressure test.](ai-tips-4-iteration.jpg)
 
-One answer and you’re stuck grading its pick. Several, and you’re choosing again, which was always the part that was yours.
+The next level starts after the first answer.
 
-“Give me five ways I could do this, ranked, with the tradeoff on each. Don’t pick for me.”
-
-When something is broken instead of undecided, same move, different shape: “Give me three possible explanations for why this is happening, most likely first.”
-
-3
-
-Say what wrong looks like.
-
-“Try again” gets you a different flavor of the same miss. The model can’t see what bothered you. Name it, keep the part that worked, and point the next try somewhere.
-
-“Not this. The tone is off. Keep the first paragraph, cut the hype, and make it sound like a text, not a newsletter.”
-
-4
-
-Start a new chat instead of arguing with the old one.
-
-Once a chat goes sideways, the wrong turn is still sitting in there, getting re-read before every new word. Twenty messages of correcting just adds more of it. Take the good part with you and leave the rest behind.
-
-“Summarize what we’ve settled so far in one paragraph I can paste into a new chat.”
-
-## Notice what all five have in common.
-
-Not one of them hands the work over. They pull your situation out of your head, rule out the dead ends you already found, widen the options before you pick, and aim the next try. The AI does more in every one of them, and so do you.
-
-There are no magic words.
-
-Just five moves, run on purpose.
+Think with AI. Learn with it. Keep improving the result.

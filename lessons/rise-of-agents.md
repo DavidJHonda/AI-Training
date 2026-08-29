@@ -4,77 +4,13 @@
 
 What’s an **agent**? In the spirit of this course, let’s start with an analogy.
 
-You’re driving to game 7 of the Stanley Cup finals to see your favorite team, the Dallas Stars.
-
-🗺️
-
-Drive with GPS
-
-You open up Waze or Google Maps, type in where you want to go, and the app tells you what to do. “In 500 feet, turn left.”
-
-## What happened
-
-Knows the whole route
-
-Calls out every turn, but you do the driving
-
-You catch its mistakes the moment they happen
-
-That’s regular AI. ChatGPT, Claude, Gemini. You ask, AI tells you what to do.
-
-🚗
-
-Self-Driving Car
-
-You tell the car where you want to go. Sit in the backseat, text your friends, whatever.
-
-## What happened
-
-Knows the exact same route
-
-Makes every turn itself, reroutes around traffic without asking
-
-You catch its mistakes at the end, if you go looking
-
-That’s an agent. You ask, and AI does it for you.
+![A Chatbot Answers. An Agent Acts. GPS is like ChatGPT: you enter a destination, it tells you each turn, and you still drive and catch mistakes. Self-driving is like an agent: you enter the same destination, the car steers, brakes, and reroutes, and you may not catch a mistake until later.](rise-of-agents-1-gps.jpg)
 
 ## AI agents
 
 Agents are suddenly everywhere, for the obvious reason: they do the work. Now, let’s give you an example.
 
-You scored 30 points in Friday’s basketball game. A friend videoed the game on their phone. You want to post the best highlights to TikTok.
-
-💬
-
-Ask ChatGPT/Claude/Gemini
-
-You watch all 50 raw clips to find the best plays. You trim each one, stitch them into a highlight reel, and ask AI for a caption. It writes a great one. You post at 4:30 on a Tuesday, hoping anyone is online.
-
-## What happened
-
-Wrote a caption when you asked
-
-You watched all 50 clips and built the post
-
-You guessed when to post it
-
-That’s regular AI. You ask, AI tells you what to do.
-
-🤖
-
-Hire an Agent
-
-You hand the agent your 50 raw clips. It pulls the best moments, writes the caption, waits until your followers are actually online, and posts.
-
-## What happened
-
-Picked the best 20 seconds itself
-
-Posted publicly, with your name on it
-
-Did it all while you were at practice
-
-That’s an agent. You ask, and AI does it for you.
+![Ask a Chatbot versus Hire an Agent. You scored 30 points in Friday’s basketball game, a friend recorded it, and you want to post the best highlights to TikTok. With regular AI, you review and edit the clips while AI writes a caption. An agent can review the clips, build the reel, write the caption, choose a posting time, and publish it, while you still own the goal and final review.](rise-of-agents-2-highlights.jpg)
 
 ## What an agent does
 

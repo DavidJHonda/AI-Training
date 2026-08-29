@@ -9,7 +9,7 @@ added deterministically by `scripts/video/render_embrace_editorial_batch.py`.
 Create a seamless contact sheet of premium editorial 3D illustrations for an AI
 literacy course. Match the polished visual system, subject scale, soft studio
 lighting, rounded geometric forms, subtle shadows, and pale gradient backgrounds
-of `illustrations/people-skills-four-ways-v2.png`. No people, hands, faces,
+of `illustrations/people-skills-four-ways-v2.jpg`. No people, hands, faces,
 robots, logos, letters, words, numbers, captions, borders, or labels. Every panel
 must read independently and crop cleanly to 16:9. Keep the tone calm,
 informative, contemporary, and serious rather than playful.

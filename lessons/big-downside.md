@@ -36,13 +36,11 @@ Those are possible future risks. Here’s one for right now: what if a person us
 
 Guardrails are supposed to catch this, but they do not always work. Attackers look for gaps on purpose, writing prompts designed to bypass a model’s guardrails. This is called **jailbreaking**.
 
-And here’s the challenge. **Defenders must protect many paths. An attacker needs to find only one opening.**
+![Why Jailbreaks Keep Appearing. A massive guardrail wall has many guarded paths, while an attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.](big-downside-2-jailbreak.jpg)
 
 🔓 A jailbreak
 
 In 2025, AI-security company HiddenLayer reported that a technique called **Policy Puppetry** got past the guardrails in every LLM it tested, including Claude, ChatGPT, and Gemini. The prompt was made to look like official instructions from the AI company. The models followed those fake instructions instead of their safety rules.
-
-New jailbreaking methods keep surfacing, making this an ongoing game of cat-and-mouse.
 
 ## IV - Bad Actors
 

@@ -6,7 +6,15 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
+
+from editorial_typography import (
+    INNER_TITLE_TRACKING,
+    draw_board_title,
+    draw_inner_title,
+    face,
+    tracked_width,
+)
 
 from editorial_takeaway import (
     TAKEAWAY_BOTTOM_PADDING,
@@ -18,7 +26,6 @@ from editorial_takeaway import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
 
 WIDTH = 1600
 FRAME = "#eae7fd"
@@ -43,14 +50,6 @@ ART_BORDER_OPACITY = 0.22
 ART_SHEET = ROOT / "scripts/video/assets/editorial-flow/rise-of-agents/art-sheet.png"
 PAGE_OUTPUT = ROOT / "illustrations/rise-of-agents-flow-v2.jpg"
 PREP_OUTPUT = ROOT / "lessons/rise-of-agents-3-loop.jpg"
-
-
-def face(weight: str, size: int) -> ImageFont.FreeTypeFont:
-    names = {
-        "heavy": "AvenirNextforINTUIT-Heavy.otf",
-        "medium": "AvenirNextforINTUIT-Medium.otf",
-    }
-    return ImageFont.truetype(str(FONT_ROOT / names[weight]), size)
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:
@@ -162,8 +161,7 @@ def arrow(
 
 
 def render() -> Image.Image:
-    title_font = face("heavy", 56)
-    step_title_font = face("heavy", 40)
+    step_title_font = face("bold", 40)
     body_font = face("medium", 29)
     number_font = face("heavy", 26)
     loop_font = face("heavy", 24)
@@ -196,7 +194,7 @@ def render() -> Image.Image:
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
 
     # Align the board title with the first step—not merely with the outer frame.
-    draw.text((art_lefts[0], 36), "What an Agent Does", font=title_font, fill=INK)
+    draw_board_title(draw, "What an Agent Does")
 
     stage = (40, 127, 1560, stage_bottom)
     draw.rounded_rectangle(stage, radius=14, fill=WHITE)
@@ -233,14 +231,8 @@ def render() -> Image.Image:
         draw.text(
             (center, marker_y), str(index), font=number_font, fill=WHITE, anchor="mm"
         )
-        assert draw.textlength(step_title, font=step_title_font) <= 310
-        draw.text(
-            (center, title_y),
-            step_title,
-            font=step_title_font,
-            fill=accent,
-            anchor="ma",
-        )
+        assert tracked_width(draw, step_title, step_title_font, INNER_TITLE_TRACKING) <= 310
+        draw_inner_title(draw, (center, title_y), step_title, fill=accent, anchor="ma")
         body_lines = wrapped_bodies[index - 1]
         centered_lines(draw, center, body_y, body_lines, body_font, BODY, 41)
 

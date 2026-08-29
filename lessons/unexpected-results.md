@@ -22,53 +22,7 @@ What’s the moral of this story? Every part of the government’s plan worked. 
 
 Once you see that shape, you find it everywhere. Four famous plans, and where each one actually landed. Two turned out better than anyone predicted, two turned out worse.
 
-💬
-
-Text messaging
-
-## The plan
-
-Engineers bolted SMS onto the phone network in 1992 as a leftover-bandwidth utility: 160 characters, handy for testing.
-
-## Better than the prediction
-
-It became the main way a generation communicates. No phone company predicted texting.
-
-🛰️
-
-GPS
-
-## The plan
-
-A U.S. military system for guiding ships, planes, and missiles.
-
-## Better than the prediction
-
-Opened to civilians, it put a map in every pocket: turn-by-turn directions, ride-hailing, finding your lost phone. None of that was in the plan.
-
-🐸
-
-Cane toads
-
-## The plan
-
-Australia imported 102 cane toads in 1935 to eat the beetles destroying sugar cane.
-
-## Worse than the prediction
-
-The toads ignored the beetles, ate almost everything else, and spread by the millions. The fix became a bigger plague than the problem.
-
-🛣️
-
-Wider highways
-
-## The plan
-
-Texas spent $2.8 billion widening Houston’s Katy Freeway to 26 lanes, one of the widest in the world, to end rush-hour traffic.
-
-## Worse than the prediction
-
-More lanes invited more drivers. Within a few years, commutes ran up to 51% slower than before the expansion. The same math as the rats.
+![The Biggest Results Were Never the Plan. Four examples show SMS becoming traditional text messaging, military GPS powering everyday location tools, imported cane toads spreading across Australia, and Houston’s widened Katy Freeway producing longer rush-hour travel.](unexpected-results-1-plans.jpg)
 
 ## The one sure thing
 

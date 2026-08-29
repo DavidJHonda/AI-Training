@@ -256,7 +256,7 @@ def render_guardrail_challenge() -> None:
     ])
 
 
-def render_hassabis_timeline() -> None:
+def _render_hassabis_timeline_legacy() -> None:
     base, _ = board_frame(
         "Demis Hassabis: from chess and games to the Nobel Prize",
         "A kid who loved games helped solve a fifty-year science problem.",
@@ -307,6 +307,20 @@ def render_hassabis_timeline() -> None:
         "illustrations/big-upside-hassabis-timeline.jpg",
         "lessons/big-upside-1-hassabis.jpg",
     ])
+
+
+def render_hassabis_timeline() -> None:
+    """Delegate to the canonical standard-title, minimum-type renderer."""
+    from render_embrace_utility_boards import (
+        render_hassabis_timeline as render_utility_hassabis_timeline,
+        save_pair,
+    )
+
+    save_pair(
+        render_utility_hassabis_timeline(),
+        "illustrations/big-upside-hassabis-timeline.jpg",
+        "lessons/big-upside-1-hassabis.jpg",
+    )
 
 
 def render_upside_discovery() -> None:

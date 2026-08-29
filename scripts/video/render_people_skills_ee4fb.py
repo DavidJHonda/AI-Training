@@ -4,7 +4,15 @@
 import shutil
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter
+
+from editorial_typography import (
+    INNER_TITLE_TRACKING,
+    draw_board_title,
+    draw_inner_title,
+    face,
+    tracked_width,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -16,9 +24,9 @@ NOTICE_ART = (
     ROOT
     / "scripts/video/assets/people-skills-ee4fb/notice-unsaid.png"
 )
-PAGE_OUTPUT = ROOT / "illustrations/people-skills-four-ways-v2.png"
-PREP_OUTPUT = ROOT / "lessons/people-skills-2-four-ways.png"
-REVIEW_OUTPUT = ROOT / "board-review-first-four/alternatives/build-your-skills/people-skills-four-ways-ee4fb-review.png"
+PAGE_OUTPUT = ROOT / "illustrations/people-skills-four-ways-v2.jpg"
+PREP_OUTPUT = ROOT / "lessons/people-skills-2-four-ways.jpg"
+REVIEW_OUTPUT = ROOT / "board-review-first-four/alternatives/build-your-skills/people-skills-four-ways-ee4fb-review.jpg"
 
 WIDTH = 1600
 FRAME = "#eae7fd"
@@ -40,7 +48,6 @@ TEXT_SIDE = 34
 TITLE_BODY_GAP = 14
 TEXT_BOTTOM = 34
 CARDS_TOP = 127
-FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
 
 PURPLE = "#4f2fc4"
 BLUE = "#1652f0"
@@ -71,14 +78,6 @@ CARDS = [
         "Address difficult things directly and calmly. Challenge the idea or behavior without attacking the person.",
     ),
 ]
-
-
-def face(weight: str, size: int) -> ImageFont.FreeTypeFont:
-    names = {
-        "heavy": "AvenirNextforINTUIT-Heavy.otf",
-        "medium": "AvenirNextforINTUIT-Medium.otf",
-    }
-    return ImageFont.truetype(str(FONT_ROOT / names[weight]), size)
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:
@@ -136,8 +135,7 @@ def multiline(draw, xy, lines, font, fill, line_height):
 
 
 def main() -> None:
-    title_font = face("heavy", TITLE_SIZE)
-    card_title_font = face("heavy", CARD_TITLE_SIZE)
+    card_title_font = face("bold", CARD_TITLE_SIZE)
     body_font = face("medium", BODY_SIZE)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     text_width = CARD_WIDTH - 2 * TEXT_SIDE
@@ -148,8 +146,8 @@ def main() -> None:
     for accent, title, body in CARDS:
         if accent not in LOCKED_ACCENTS:
             raise ValueError(f"Unknown card accent: {accent}")
-        title_lines = wrap(measure, title, card_title_font, text_width)
-        if len(title_lines) != 1:
+        title_lines = [title]
+        if tracked_width(measure, title, card_title_font, INNER_TITLE_TRACKING) > text_width:
             raise ValueError(f"Card title must stay on one line at 40 px: {title}")
         body_lines = wrap(measure, body, body_font, text_width)
         wrapped.append((title_lines, body_lines))
@@ -169,7 +167,7 @@ def main() -> None:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw.text((PADDING, 36), "Four Ways to Practice", font=title_font, fill=INK)
+    draw_board_title(draw, "Four Ways to Practice")
 
     sheet = Image.open(ART_SHEET).convert("RGB")
     half_w = sheet.width // 2
@@ -226,14 +224,14 @@ def main() -> None:
 
         text_x = x + TEXT_SIDE
         text_y = divider_y + TEXT_TOP
-        multiline(draw, (text_x, text_y), title_lines, card_title_font, accent, TITLE_LINE)
+        draw_inner_title(draw, (text_x, text_y), title_lines[0], fill=accent)
         body_y = text_y + max_title_lines * TITLE_LINE + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
 
     PAGE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     PREP_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     REVIEW_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(PAGE_OUTPUT, optimize=True)
+    image.save(PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUTPUT, PREP_OUTPUT)
     shutil.copyfile(PAGE_OUTPUT, REVIEW_OUTPUT)
     print(f"wrote {PAGE_OUTPUT} ({image.width}x{image.height})")

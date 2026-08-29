@@ -12,7 +12,7 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter
 
 from editorial_takeaway import (
     TAKEAWAY_BOTTOM_PADDING,
@@ -21,10 +21,16 @@ from editorial_takeaway import (
     TAKEAWAY_TEXT_SIZE,
     draw_takeaway_band,
 )
+from editorial_typography import (
+    INNER_TITLE_TRACKING,
+    draw_board_title,
+    draw_inner_title,
+    face,
+    tracked_width,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
-FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
 
 WIDTH = 1600
 FRAME = "#eae7fd"
@@ -264,14 +270,6 @@ FLOW_BOARDS = (
 )
 
 
-def face(weight: str, size: int) -> ImageFont.FreeTypeFont:
-    names = {
-        "heavy": "AvenirNextforINTUIT-Heavy.otf",
-        "medium": "AvenirNextforINTUIT-Medium.otf",
-    }
-    return ImageFont.truetype(str(FONT_ROOT / names[weight]), size)
-
-
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:
     lines: list[str] = []
     current = ""
@@ -397,8 +395,7 @@ def render_card_board(board: CardBoard) -> Image.Image:
     if len(accents) != count or any(accent not in LOCKED_ACCENTS for accent in accents):
         raise ValueError(f"{board.key}: assign one locked accent to every card")
 
-    title_font = face("heavy", TITLE_SIZE)
-    card_title_font = face("heavy", CARD_TITLE_SIZE)
+    card_title_font = face("bold", CARD_TITLE_SIZE)
     body_font = face("medium", BODY_SIZE)
     eyebrow_font = face("heavy", EYEBROW_SIZE)
     quote_font = face("heavy", QUOTE_SIZE)
@@ -427,7 +424,7 @@ def render_card_board(board: CardBoard) -> Image.Image:
     has_quote = any(card.quote for card in board.cards)
     for index, card in enumerate(board.cards):
         text_width = card_widths[index] - 2 * TEXT_SIDE
-        assert measure.textlength(card.title, font=card_title_font) <= text_width, f"{board.key}: title must stay on one line: {card.title}"
+        assert tracked_width(measure, card.title, card_title_font, INNER_TITLE_TRACKING) <= text_width, f"{board.key}: title must stay on one line: {card.title}"
         body_lines = wrap(measure, card.body, body_font, text_width)
         quote_lines = wrap(measure, card.quote or "", quote_font, text_width)
         wrapped.append((body_lines, quote_lines))
@@ -453,7 +450,7 @@ def render_card_board(board: CardBoard) -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw.text((PADDING, 36), board.title, font=title_font, fill=INK)
+    draw_board_title(draw, board.title)
 
     panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
@@ -487,7 +484,7 @@ def render_card_board(board: CardBoard) -> Image.Image:
                 draw.rounded_rectangle((text_x, text_y, text_x + label_w, text_y + 30), radius=15, fill=mix_with_white(accent, 0.12))
                 draw.text((text_x + 14, text_y + 15), label, font=eyebrow_font, fill=accent, anchor="lm")
             text_y += eyebrow_height + eyebrow_gap
-        draw.text((text_x, text_y), card.title, font=card_title_font, fill=accent)
+        draw_inner_title(draw, (text_x, text_y), card.title, fill=accent)
         body_y = text_y + TITLE_LINE + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
         if has_quote and quote_lines:
@@ -514,8 +511,7 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     if len(accents) != count or any(accent not in LOCKED_ACCENTS for accent in accents):
         raise ValueError(f"{board.key}: assign one locked accent to every step")
 
-    title_font = face("heavy", TITLE_SIZE)
-    step_title_font = face("heavy", CARD_TITLE_SIZE)
+    step_title_font = face("bold", CARD_TITLE_SIZE)
     body_font = face("medium", BODY_SIZE)
     number_font = face("heavy", 26)
     art_grid_left = 75
@@ -536,7 +532,7 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     bodies = [wrap(measure, step.body, body_font, column_width) for step in board.steps]
     for step in board.steps:
-        assert measure.textlength(step.title, font=step_title_font) <= column_width, f"{board.key}: title must stay on one line: {step.title}"
+        assert tracked_width(measure, step.title, step_title_font, INNER_TITLE_TRACKING) <= column_width, f"{board.key}: title must stay on one line: {step.title}"
     max_body_lines = max(len(lines) for lines in bodies)
     stage_bottom = body_y + max_body_lines * BODY_LINE + 45
     height = stage_bottom + PADDING
@@ -544,7 +540,7 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw.text((art_lefts[0], 36), board.title, font=title_font, fill=INK)
+    draw_board_title(draw, board.title)
     draw.rounded_rectangle((40, 127, 1560, stage_bottom), radius=14, fill=WHITE)
 
     panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
@@ -564,7 +560,7 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     for index, (center, accent, step, body_lines) in enumerate(zip(centers, accents, board.steps, bodies), start=1):
         draw.ellipse((center - 29, marker_y - 29, center + 29, marker_y + 29), fill=accent)
         draw.text((center, marker_y), str(index), font=number_font, fill=WHITE, anchor="mm")
-        draw.text((center, title_y), step.title, font=step_title_font, fill=accent, anchor="ma")
+        draw_inner_title(draw, (center, title_y), step.title, fill=accent, anchor="ma")
         centered_lines(draw, center, body_y, body_lines, body_font, BODY, BODY_LINE)
     return image
 

@@ -7,7 +7,7 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter
 
 from editorial_takeaway import (
     TAKEAWAY_BOTTOM_PADDING,
@@ -16,10 +16,16 @@ from editorial_takeaway import (
     TAKEAWAY_TEXT_SIZE,
     draw_takeaway_band,
 )
+from editorial_typography import (
+    INNER_TITLE_TRACKING,
+    draw_board_title,
+    draw_inner_title,
+    face,
+    tracked_width,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
-FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
 
 WIDTH = 1600
 FRAME = "#eae7fd"
@@ -82,8 +88,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/people-skills-why-matter/art-sheet.png",
-        page_output="illustrations/people-skills-why-matter-v2.png",
-        prep_output="lessons/people-skills-1-why-matter.png",
+        page_output="illustrations/people-skills-why-matter-v2.jpg",
+        prep_output="lessons/people-skills-1-why-matter.jpg",
         accents=(PURPLE, BLUE, TEAL),
     ),
     Board(
@@ -108,8 +114,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/creative-thinking-professions/art-sheet.png",
-        page_output="illustrations/creative-thinking-professions-v2.png",
-        prep_output="lessons/creative-thinking-1-professions.png",
+        page_output="illustrations/creative-thinking-professions-v2.jpg",
+        prep_output="lessons/creative-thinking-1-professions.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -134,8 +140,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/creative-thinking-practice/art-sheet.png",
-        page_output="illustrations/creative-thinking-practice-v2.png",
-        prep_output="lessons/creative-thinking-2-practice.png",
+        page_output="illustrations/creative-thinking-practice-v2.jpg",
+        prep_output="lessons/creative-thinking-2-practice.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -160,8 +166,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/be-curious-four-ways/art-sheet.png",
-        page_output="illustrations/be-curious-four-ways-v2.png",
-        prep_output="lessons/be-curious-1-four-ways.png",
+        page_output="illustrations/be-curious-four-ways-v2.jpg",
+        prep_output="lessons/be-curious-1-four-ways.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -186,8 +192,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/be-flexible-four-steps/art-sheet.png",
-        page_output="illustrations/be-flexible-four-steps-v3.png",
-        prep_output="lessons/be-curious-2-four-steps.png",
+        page_output="illustrations/be-flexible-four-steps-v3.jpg",
+        prep_output="lessons/be-curious-2-four-steps.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -212,8 +218,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/make-your-move-skills/art-sheet.png",
-        page_output="illustrations/make-your-move-skills.png",
-        prep_output="lessons/make-your-move-1-skills.png",
+        page_output="illustrations/make-your-move-skills.jpg",
+        prep_output="lessons/make-your-move-2-skills.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -238,19 +244,11 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/make-your-move-actions/art-sheet.png",
-        page_output="illustrations/make-your-move-actions.png",
-        prep_output="lessons/make-your-move-2-actions.png",
+        page_output="illustrations/make-your-move-actions.jpg",
+        prep_output="lessons/make-your-move-3-actions.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
 )
-
-
-def face(weight: str, size: int) -> ImageFont.FreeTypeFont:
-    names = {
-        "heavy": "AvenirNextforINTUIT-Heavy.otf",
-        "medium": "AvenirNextforINTUIT-Medium.otf",
-    }
-    return ImageFont.truetype(str(FONT_ROOT / names[weight]), size)
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:
@@ -332,8 +330,7 @@ def render(board: Board) -> Image.Image:
     ):
         raise ValueError(f"{board.key}: assign one locked accent to every card")
 
-    title_font = face("heavy", TITLE_SIZE)
-    card_title_font = face("heavy", CARD_TITLE_SIZE)
+    card_title_font = face("bold", CARD_TITLE_SIZE)
     body_font = face("medium", BODY_SIZE)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
 
@@ -351,8 +348,8 @@ def render(board: Board) -> Image.Image:
     max_body_lines = 0
     for index, (title, body) in enumerate(board.cards):
         text_width = card_widths[index] - 2 * TEXT_SIDE
-        title_lines = wrap(measure, title, card_title_font, text_width)
-        assert len(title_lines) == 1, (
+        title_lines = [title]
+        assert tracked_width(measure, title, card_title_font, INNER_TITLE_TRACKING) <= text_width, (
             f"{board.key}: title must stay on one line at 40 px: {title}"
         )
         body_lines = wrap(measure, body, body_font, text_width)
@@ -380,7 +377,7 @@ def render(board: Board) -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw.text((PADDING, 36), board.title, font=title_font, fill=INK)
+    draw_board_title(draw, board.title)
 
     sheet = Image.open(ROOT / board.art_sheet).convert("RGB")
     art_panels = split_art_sheet(sheet, count)
@@ -433,7 +430,7 @@ def render(board: Board) -> Image.Image:
 
         text_x = x + TEXT_SIDE
         text_y = divider_y + TEXT_TOP
-        multiline(draw, (text_x, text_y), title_lines, card_title_font, accent, TITLE_LINE)
+        draw_inner_title(draw, (text_x, text_y), title_lines[0], fill=accent)
         body_y = text_y + max_title_lines * TITLE_LINE + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
 
@@ -457,7 +454,7 @@ def main() -> None:
         prep_output = ROOT / board.prep_output
         page_output.parent.mkdir(parents=True, exist_ok=True)
         prep_output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(page_output, optimize=True)
+        image.save(page_output, quality=95, subsampling=0, optimize=True)
         shutil.copyfile(page_output, prep_output)
         print(f"wrote {page_output.relative_to(ROOT)} ({image.width}x{image.height})")
         print(f"copied byte-identically to {prep_output.relative_to(ROOT)}")

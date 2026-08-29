@@ -75,7 +75,7 @@ a decision map, not an instruction to rebuild every asset.
 | Lesson | Primary treatment | Status | Direction |
 |---|---|---:|---|
 | Opener | Opener utility | Keep | Preserve creed and section map. |
-| Loudest Voices | Story and evidence frame | Redesign | Keep the page story if desired, but create a no-person shared board before returning it to prep materials. |
+| Loudest Voices | Editorial Explainer: Long Version | Keep | Preserve “Even the Experts Don’t Know” as the `EE-LONG` reference: three evidence-rich cards with full-size quotations and explicit qualifications. |
 | Pace of Change | Editorial Explainer | Keep | Use the three new boards as current family exemplars; retain the three-years page comparison. |
 | Big Downside | Editorial Explainer | Keep | Preserve escalation and voice-clone sequence; apply only future shell normalization. |
 | Big Upside | Editorial timeline and examples | Keep | Preserve the timeline, discovery, and practical-help separation. |
@@ -99,7 +99,7 @@ define ordinary board chrome before the section stabilizes.
 | Creative Thinking | Friendly Schematic candidate | Defer | Likely Friendly Schematic after lesson structure settles. |
 | Skills That Matter | Mixed explainer candidates | Defer | Classify individual teaching beats later rather than assigning one style to the whole lesson. |
 | Be Curious | Page components | Defer | Keep responsive unless a recurring framework emerges. |
-| Make Your Move | Activity and workbook utility | Defer | Treat as a bespoke application experience. |
+| Make Your Move | Three-Card and Four-Card Full-Bleed | Adopted | Two three-card career boards plus the approved skills and action boards; keep the interactive lab bespoke. |
 
 ## Finish Smarter
 

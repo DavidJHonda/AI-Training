@@ -174,17 +174,14 @@ const BOARDS = [
   // lessons/loudest-voices-1-three-voices.jpg. Do not recapture it from the page.
   { section: "whatpeoplesay", out: "loudest-voices-2-missed-calls.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["People won’t shop online", "No chance for the iPhone", "Flying cars, any decade now"] },
-  { section: "paceofchange", out: "pace-of-change-1-three-years.jpg", width: 902, vw: 960,
-    find: ["ChatGPT three years ago vs today", "Context Window", "AI agents can even book, build, and fix while you watch."] },
+  // Pace of Change board 1 is the approved static utility board in
+  // lessons/pace-of-change-1-three-years.jpg. Do not recapture it from the page.
   // Pace of Change board 2 is the approved illustration-first “Why so fast?”
   // board in lessons/pace-of-change-2-accelerants.jpg. Do not recapture the
   // live ComparisonCards here or a batch run will overwrite that video source.
-  { section: "bigdownside", out: "big-downside-2-jailbreak.jpg", width: 902, vw: 960, wrapUp: 1,
-    find: ["🔓 A jailbreak", "Policy Puppetry", "ongoing game of cat-and-mouse"] },
-  { section: "bigdownside", out: "big-downside-4-goal.jpg", width: 902, vw: 960, wrapUp: 2,
-    find: ["The test that reached the internet", "accessed Hugging Face’s computers", "helped them reach the goal"] },
-  { section: "bigdownside", out: "big-downside-5-safety.jpg", width: 902, vw: 960,
-    find: ["Technology First. Safety Later.", "Cars → seat belts required", "AI → safeguards and rules"] },
+  // Big Downside boards 2, 4, and 5 are approved static boards. Their page and
+  // video-source copies are generated together; recapturing would reintroduce
+  // the legacy live-box typography and overwrite the approved assets.
   { section: "agents", out: "rise-of-agents-1-gps.jpg", width: 902, vw: 960,
     find: ["You’re driving to game 7 of the Stanley Cup finals", "Drive with GPS", "Self-Driving Car", "You catch its mistakes at the end"] },
   { section: "agents", out: "rise-of-agents-2-highlights.jpg", width: 902, vw: 960,

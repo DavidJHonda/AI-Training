@@ -44,7 +44,9 @@ that would become too small at video scale.
 - `NumberedRows` is for ordered ideas that need full-width explanations.
 - `NumberedColumns` is for short ordered sequences shown side by side.
 - `LabeledCardStack` is for labeled terms, modes, and implications.
-- `PullQuote` is reserved for sourced quotations.
+- `PullQuote` is reserved for sourced quotations. Its full container uses the
+  shared board lavender (`#eae7fd`) so quotations belong visually to the same
+  course system as the static boards.
 - `CoreLoopBox` and `TrainingLoopBox` are reusable course diagrams.
 
 Numbering communicates order. Do not number parallel categories simply because a

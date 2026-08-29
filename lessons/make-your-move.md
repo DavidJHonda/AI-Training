@@ -2,130 +2,108 @@
 
 # Make Your Move
 
-Three calls only you can make.
+Draft Lesson. Still working on it.
 
-Curiosity is wide on purpose. You try the new feature, poke at the thing nobody’s used yet, and keep a list of what surprised you. That’s how you stay current, and it costs you nothing but attention.
+Imagine you started a basketball team with friends. You learned the fundamentals, practiced regularly, and became better players. Then someone asks, “What’s next? Are we joining a league? Are we actually going to play?”
 
-But wide has a limit. Nobody gets picked for being generally interested. At some point the move is to narrow: pick one thing and get genuinely good at it. That’s this lesson, and it’s the last thing this course has to teach you.
+That is where you are now with AI. You have learned the fundamentals and built important skills. Now it is time to decide what you will do with them.
 
-AI raised the floor. Anyone with a keyboard can produce a fluent paragraph, plausible code, a reasonable-sounding plan. It raised the ceiling too. The fluent paragraph might be wrong, the plausible code might quietly break, and the reasonable plan might be missing the thing that actually matters. Catching that is what this whole course has been training you to do.
+## A NOTE FROM NATE AND LUKE
 
-That squeezes the middle. The person who just types a prompt and ships whatever comes back is the easiest person in the room to outpace. The person with real depth in something is the one AI makes louder.
+We are still in high school too. These are the moves we would make based on what we learned while building this course. Use them as starting points, talk with adults who know you, and remember that nobody can predict exactly how AI will change the future.
 
-**This is the move the whole course has been pointing at. Now we name it.**
+## AI AND YOUR FUTURE CAREER
 
-## THE EXPERT PARADOX
+If you’re thinking about how AI might change careers, you’re not alone. But here’s something important to remember: jobs are made up of many different tasks, and AI will not affect every task in the same way.
 
-AI didn’t change the value of depth. It made it louder.
+AI already handles or helps with some of those tasks, and it will likely take on more in the future. Other tasks may barely change.
 
-🪞
+Don’t focus on finding an AI-safe career. Instead, ask how AI might affect a specific career: Which tasks could AI handle? Which require human judgment, relationships, responsibility, or physical action? How might the work change as those tasks shift?
 
-The floor
+How AI might change these careers
 
-Produces fluent output. Can’t tell if it’s right. Ships whatever AI hands back. Easy to outpace by someone who can judge and improve what AI hands back.
+## Career
 
-⚙️
+## AI may help with
 
-The middle
+## People still own
 
-Knows enough to use AI. Doesn’t know enough to catch what’s missing. Easy to outpace by anyone with depth.
+🩺
 
-🎯
+Doctor
 
-The edge
+Review records, summarize research, and help identify patterns.
 
-Spots what AI gets wrong. Pushes past the first answer. Knows enough about something to direct AI instead of just borrowing from it. The payoff shows up here.
+Examine the patient, weigh context and uncertainty, explain choices, and take responsibility for care.
 
-Read this the wrong way and it sounds like “wait until you’re an expert.” That’s the trap. The whole point of the expert paradox is that AI rewards anyone who keeps building depth, and the years you’re in right now are the most valuable years of your life to be building.
+📚
 
-Earlier in the course you saw newer AI-related roles like prompt engineer, AI trainer, red teamer, and AI educator. Every one of them is built on depth in something specific. So is every other job worth doing. Doctor, lawyer, plumber, teacher, founder, designer, electrician, engineer. AI makes you more valuable in any of them when you have something underneath.
+Teacher
 
-So the real question was never “what do I do about AI.” The whole course was building to three calls, and every one of them is yours. Nobody can make them for you, and the answers won’t look the same for any two people. Here they are.
+Draft lessons, create practice activities, and help review student work.
 
-1
-
-What do I get good at?
-
-This is the big one, and the only one nobody else can answer for you. Here’s where to look.
-
-## FIVE PLACES DEPTH STILL PAYS
-
-Here are the categories. Pick one that calls you.
-
-These aren’t classes to take. They’re categories where AI can help, but where humans still own the standard, the context, the action, and the responsibility. Wherever you’re already drawn to, one of these is probably where you’re headed.
-
-✍️
-
-Communication
-
-Writing, speaking, persuasion. Putting an idea into another person’s head and making them care. AI can draft. You decide what’s worth saying, what the audience needs, and whether the words sound like something you can stand behind.
+Know the student, build motivation, adapt in the moment, and create a classroom community.
 
 ⚖️
 
-Judgment
+Lawyer
 
-Philosophy, ethics, history. The disciplines that train you for hard calls and tradeoffs nobody can run a formula on. AI can list the options. It can’t carry the decision.
+Search cases, summarize documents, and help produce early drafts.
 
-🔧
+Advise the client, build the strategy, persuade others, and take professional responsibility.
 
-Hands-on action
+🛠️
 
-Trades, sports, craft, building things. Working with your body in the real world. AI doesn’t have hands. It can guide, explain, and simulate. It can’t do the reps for you. The whole physical economy still runs on people who can.
+Electrician
 
-👥
+Read manuals, suggest possible causes, and help plan the work.
 
-Human systems
+Work safely in the real world, diagnose what is actually happening, and adapt on site.
 
-Psychology, leadership, relationships. Reading people, building trust, motivating a group. AI is a tool inside human systems. The systems themselves still belong to people.
+🎨
 
-🔬
+Graphic designer
 
-Deep knowledge in any field
+Generate drafts, variations, and possible directions quickly.
 
-Science, medicine, law, code, music, anything. Going far past the surface in one thing. AI sounds knowledgeable about almost anything. People with real depth catch when it’s shallow, wrong, or missing the point, and use AI as a power tool because of it. Everyone else gets answers they can’t verify.
+Choose the purpose, understand the audience, apply taste, and direct the final result.
 
-Depth isn’t the same as prestige. You can build it in writing, welding, debate, caregiving, coding, music, sports, design, science, cooking, leadership, repair, or anything else that rewards real reps and real feedback. The category matters less than the commitment.
+🚀
 
-Use AI two ways while you build. First as a coach: create reps, reveal gaps, explain mistakes, generate practice, widen your feedback. Then as a sparring partner: pressure-test your plan, force the other side of your argument, hunt for what you’re missing. Used both ways, AI doesn’t replace your thinking. It trains it.
+Entrepreneur
 
-## Pick one, not five.
+Research markets, draft plans, compare options, and help organize the work.
 
-You don’t have to plan a career. You have to be serious about something.
+Choose the problem, take the risk, win customers, lead people, and own the decisions.
 
-The kid who’s serious about debate is building depth in communication and judgment. The kid working a summer construction job is building depth in hands-on. The kid running a club is building depth in human systems. The kid in love with one subject in school is building deep knowledge. None of those students is doing it wrong.
+## SKILLS THAT TRAVEL
 
-You don’t pick the category. You pick the thing you’d keep doing anyway, and the category falls out of it. Then you treat the thing as the investment it actually is.
+In every example above, AI may take on more tasks, but people remain responsible for some of the work that matters most. That points to a practical move: build skills you can carry into almost any career.
 
-## Make things, not just prompts.
+### Four skills worth doubling down on
 
-A prompt costs you thirty seconds and proves nothing. Drafts, builds, reps, attempts: that’s the depth itself. Anyone can show you a chat history. A folder of things you actually made is a different kind of evidence, and it’s the only kind that holds up.
+**Work well with people:**Listen, explain ideas clearly, collaborate, build trust, and help lead others.
 
-Picking the thing is the easy part. Three moves turn an interest into the kind of depth that catches what AI gets wrong, and they work in any category. Read past what AI hands back and notice what’s missing, because the catch is the skill. Get feedback from people who know the field, because AI agrees with you too easily and they won’t. And keep filling that folder while you do it: notebooks, GitHub, sketches, drafts.
+**Critical thinking and judgment:**Decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.
 
-Your edge isn’t avoiding AI. It’s using the workflow while building real skill underneath it.
+**Create and solve problems:**Find new angles, combine ideas, test possibilities, and improve what already exists.
 
-Those five categories aren’t the only depth that pays. They’re the places where AI can help but the call still belongs to people. Wherever you end up building, the move is the same: build deep.
+**Stay curious and flexible:**Keep learning, explore new tools, test new approaches, and change when something better appears.
 
-2
+## FOUR MOVES YOU CAN MAKE NOW
 
-What do I never hand off?
+You do not need to choose your entire future today. These four moves work whether you already have a field in mind or are still exploring.
 
-**Skills That Matter** gave you four moves: frame the real problem, make sense of weird behavior, check what matters, make the human call. Those are things you do in the moment, every time you work with AI, and AI never owns them. Depth is what puts something behind them. Decide now which of those moves are non-negotiable for you, because the easy thing, every time, will be to let them slide.
+### Turn your interests into action
 
-**Evaluate the Results** gave you both checks that matter: is it true, and is it good enough for what you actually need it for. Make those automatic. The person who catches the problem before it goes out is the one people learn to trust.
+**Learn from people in the field:**Talk with someone in the field. Ask what a normal week looks like, what is changing, and what students usually misunderstand.
 
-3
+**Build real depth:**Choose something worth learning seriously. Take the class, do the reps, find feedback, and learn enough to catch what AI misses.
 
-Why pick me over AI?
+**Make something real:**Use AI to build a project, run an event, start a small business, conduct research, or solve a problem. Keep the finished work as proof.
 
-This is the question behind every job, every application, every team that picks you or doesn’t. And here’s the trap: if AI can produce the average version of your work for free, then “I can do the average version too” is not an answer. It’s the reason to pick AI instead.
+**Step into responsibility:**Join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.
 
-The answer has to be the thing AI can’t hand them: you can actually do it, you catch what’s wrong, and you stand behind the result. So keep the proof. The notebooks, the builds, the drafts, the reps, the record of real work. That’s how you show the depth is real instead of just claiming it.
+You know how to be smarter than the tool.
 
-## Anyone can sound smart now. Get good at something anyway.
-
-Three calls, one move underneath them: pick the thing you’d build anyway, get good at it, and keep the proof. Average is free now. Be the reason someone picks you over it.
-
-Your move now.
-
-The tool is ready. Are you?
+Keep learning. Keep building. Make your move.

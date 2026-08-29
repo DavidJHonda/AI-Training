@@ -22,11 +22,11 @@ The harder question is if guardrails will work as AI systems become far more cap
 
 ### The guardrail challenge gets harder
 
-An AI that changes itself would make guardrails a moving target.
+**AI Changes Itself:** Guardrails would have to keep up with a system that changes while people use it.
 
-An AI as smart as people might be better at finding gaps in rules made by people.
+**As Smart as People:** A system as capable as its builders might be better at finding gaps in their rules.
 
-With AI smarter than people, the rule makers could be less capable than the system they are trying to control.
+**Smarter Than Us:** The people setting the rules could be less capable than the system they are trying to control.
 
 The worry grows as capability grows.
 

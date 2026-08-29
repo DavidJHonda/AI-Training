@@ -79,7 +79,7 @@ a decision map, not an instruction to rebuild every asset.
 | Pace of Change | Editorial Explainer | Keep | Use the three new boards as current family exemplars; retain the three-years page comparison. |
 | Big Downside | Editorial Explainer | Keep | Preserve escalation and voice-clone sequence; apply only future shell normalization. |
 | Big Upside | Editorial timeline and examples | Keep | Preserve the timeline, discovery, and practical-help separation. |
-| Rise of Agents | Editorial process | Keep | Preserve Goal, Plan, Act, Check and the return loop. |
+| Rise of Agents | Editorial Explainer: Flow | Keep | Preserve Goal, Plan, Act, Check and the return loop. This is the `EE-FLOW` reference. |
 | Work Changes | Editorial comparison | Keep | Preserve Automate versus Augment and the outcomes board. |
 | Data Centers | Editorial Explainer | Keep | Preserve the four-part footprint board and its qualification in lesson prose. |
 | Unexpected Results | Story and evidence frame | Redesign | Keep page-only story art if useful; use a no-person board if the concept returns to prep materials. |

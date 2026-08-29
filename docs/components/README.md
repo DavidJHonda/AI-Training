@@ -4,8 +4,9 @@ This directory documents the visual language students see in the live course.
 It separates three surfaces that used to be treated as one component library:
 
 1. **Page components** are React layouts rendered by `index.html`.
-2. **Boards** are static 16:9 teaching graphics shared by lesson pages and video
-   preparation materials.
+2. **Boards** are static teaching graphics authored at 1600 px wide and shared by
+   lesson pages and video preparation materials. Their height is content-derived;
+   the exact asset is placed inside the 16:9 video frame.
 3. **Utility formats** are openers, closing cards, worked examples, activities,
    assessments, quotations, and other purpose-built exceptions.
 
@@ -18,8 +19,9 @@ teaching job instead of forcing every idea into the same template.
 - [Page components](page-components.md) explains the roles of the live React
   components. `index.html` remains authoritative for implementation details.
 - [Board system](boards/README.md) defines the shared shell, the Friendly Schematic
-  and Editorial Explainer families, the named `EE-2FB` and `EE-3FB` full-bleed card
-  formats, utility exceptions, accessibility rules, and the production workflow.
+  and Editorial Explainer families, the named `EE-2FB`, `EE-3FB`, `EE-4FB`, and
+  `EE-FLOW` formats, utility exceptions, accessibility rules, and the production
+  workflow.
 - [Board inventory](boards/BOARD-INVENTORY.md) classifies current lessons as Keep,
   Normalize, Redesign, or Exception before any broad visual retrofit.
 

@@ -1015,7 +1015,6 @@ def render_guardrails():
         "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-downside-1-guardrail-challenge.jpg",
         "illustrations/big-downside-guardrails.jpg",
-        "lessons/big-downside-1-worries.jpg",
     ])
 
 
@@ -1038,7 +1037,6 @@ def render_voice_clone():
         "board-review-first-four/alternatives/embrace-the-future/big-downside-voice-clone-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-downside-3-voice-clone.jpg",
         "illustrations/big-downside-voice-clone.jpg",
-        "lessons/big-downside-3-voice-clone.jpg",
     ])
 
 
@@ -1070,8 +1068,6 @@ def render_agent_loop():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/rise-of-agents-loop-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/rise-of-agents-4-loop.jpg",
-        "illustrations/rise-of-agents-loop.jpg",
-        "lessons/rise-of-agents-3-loop.jpg",
     ])
 
 
@@ -1090,7 +1086,6 @@ def render_work_concepts():
         "board-review-first-four/alternatives/embrace-the-future/work-changes-automate-augment-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/work-changes-3-concepts.jpg",
         "illustrations/work-changes-automate-augment.jpg",
-        "lessons/work-changes-3-concepts.jpg",
     ])
 
 
@@ -1111,7 +1106,6 @@ def render_work_outcomes():
         "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/work-changes-4-what-changes.jpg",
         "illustrations/work-changes-what-changes.jpg",
-        "lessons/work-changes-4-what-changes.jpg",
     ])
 
 
@@ -1131,7 +1125,6 @@ def render_data_center_footprint():
         "board-review-first-four/alternatives/embrace-the-future/data-centers-footprint-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/data-centers-2-footprint.jpg",
         "illustrations/data-centers-footprint.jpg",
-        "lessons/data-centers-2-footprint.jpg",
     ])
 
 
@@ -1150,7 +1143,6 @@ def render_upside_discovery():
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
         "illustrations/big-upside-discovery.jpg",
-        "lessons/big-upside-2-discovery.jpg",
     ])
 
 
@@ -1170,7 +1162,6 @@ def render_upside_help():
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
         "illustrations/big-upside-help.jpg",
-        "lessons/big-upside-3-help.jpg",
     ])
 
 

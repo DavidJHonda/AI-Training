@@ -170,8 +170,8 @@ const BOARDS = [
   // Embrace the Future video-source boards. These are captured from the live page
   // so late editorial changes (Doubter, Context Window, updated jailbreak copy,
   // and the Unexpected Results heading) cannot drift from the video kit.
-  { section: "whatpeoplesay", out: "loudest-voices-1-three-voices.jpg", width: 902, vw: 960,
-    find: ["Three voices from the top of the field", "Doubter", "LLMs have a more superficial understanding"] },
+  // Loudest Voices board 1 is the approved static Editorial Explainer at
+  // lessons/loudest-voices-1-three-voices.jpg. Do not recapture it from the page.
   { section: "whatpeoplesay", out: "loudest-voices-2-missed-calls.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["People won’t shop online", "No chance for the iPhone", "Flying cars, any decade now"] },
   { section: "paceofchange", out: "pace-of-change-1-three-years.jpg", width: 902, vw: 960,

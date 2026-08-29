@@ -62,7 +62,7 @@ What does the future of AI look like? There are four key ideas driving the AI co
 
 Automated AI Research is happening in limited form: AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results.
 
-Recursive Self-Improvement is a proposed process in which an AI improves its own design. The stronger version then does it again, creating a loop with little or no human direction.
+Self-Improving AI has not been demonstrated: an AI would improve its own design. The stronger version would then do it again, creating a loop with little or no human direction.
 
 Artificial General Intelligence usually means human-level ability across many kinds of work, but there is no accepted definition or test.
 

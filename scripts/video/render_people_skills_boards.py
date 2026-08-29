@@ -204,7 +204,7 @@ def render_why_people_skills_matter():
         image,
         [
             "board-review-first-four/alternatives/build-your-skills/people-skills-why-matter-alternative.jpg",
-            "illustrations/people-skills-why-matter.jpg",
+            "board-review-first-four/alternatives/build-your-skills/people-skills-why-matter-legacy.jpg",
         ],
     )
 
@@ -241,7 +241,7 @@ def render_four_ways_to_practice():
         image,
         [
             "board-review-first-four/alternatives/build-your-skills/people-skills-four-ways-alternative.jpg",
-            "illustrations/people-skills-four-ways.jpg",
+            "board-review-first-four/alternatives/build-your-skills/people-skills-four-ways-legacy.jpg",
         ],
     )
 
@@ -278,7 +278,7 @@ def render_creative_professions():
         image,
         [
             "board-review-first-four/alternatives/build-your-skills/creative-thinking-professions-alternative.jpg",
-            "illustrations/creative-thinking-professions.jpg",
+            "board-review-first-four/alternatives/build-your-skills/creative-thinking-professions-legacy.jpg",
         ],
     )
 
@@ -315,7 +315,7 @@ def render_creative_practice():
         image,
         [
             "board-review-first-four/alternatives/build-your-skills/creative-thinking-practice-alternative.jpg",
-            "illustrations/creative-thinking-practice.jpg",
+            "board-review-first-four/alternatives/build-your-skills/creative-thinking-practice-legacy.jpg",
         ],
     )
 

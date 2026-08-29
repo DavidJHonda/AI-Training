@@ -3,7 +3,9 @@
 
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageDraw
+
+from editorial_takeaway import TAKEAWAY_TEXT_SIZE, draw_takeaway_band
 
 from render_remaining_section_board_alternatives import (
     BLUE,
@@ -251,15 +253,30 @@ def render_guardrail_challenge() -> None:
         "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-downside-1-guardrail-challenge.jpg",
         "illustrations/big-downside-guardrails.jpg",
-        "lessons/big-downside-1-worries.jpg",
     ])
 
 
 def render_hassabis_timeline() -> None:
-    image, draw = board_frame(
+    base, _ = board_frame(
         "Demis Hassabis: from chess and games to the Nobel Prize",
         "A kid who loved games helped solve a fifty-year science problem.",
     )
+    # Preserve the approved timeline geometry, then replace its legacy banner with
+    # the canonical Editorial Explainer takeaway. The added four pixels keep the
+    # required 40 px outer padding without compressing the timeline above.
+    image = Image.new("RGB", (1600, 904), LAVENDER)
+    image.paste(base, (0, 0))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 776, 1600, 904), fill=LAVENDER)
+    draw_takeaway_band(
+        image,
+        top=776,
+        left=80,
+        right=1520,
+        text="A kid who loved games helped solve a fifty-year science problem.",
+        font=font("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    draw = ImageDraw.Draw(image)
     events = [
         ("1989", "Chess master", "at age 13", PURPLE),
         ("1994", "Co-designs Theme Park", "at age 17", BLUE),
@@ -325,7 +342,6 @@ def render_upside_discovery() -> None:
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
         "illustrations/big-upside-discovery.jpg",
-        "lessons/big-upside-2-discovery.jpg",
     ])
 
 
@@ -362,7 +378,6 @@ def render_upside_help() -> None:
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
         "illustrations/big-upside-help.jpg",
-        "lessons/big-upside-3-help.jpg",
     ])
 
 

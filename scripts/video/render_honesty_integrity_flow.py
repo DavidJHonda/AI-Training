@@ -159,7 +159,7 @@ def render() -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Before You Put Your Name on It")
+    draw_board_title(draw, "When AI Help Is Allowed")
 
     stage = (40, 127, 1560, stage_bottom)
     draw.rounded_rectangle(stage, radius=14, fill=WHITE)

@@ -16,7 +16,7 @@ And you’ll always be Smarter Than the Tool.
 
 Last section, and it’s the one you keep.
 
-Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. Whether you became a serious cyclist or just ride for fun, that skill stayed with you. Nobody could give you balance. You had to build it.
+Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. That skill made you a better cyclist, and it carried over into other physical activities, such as skating or playing basketball. Whether you became a serious cyclist or just rode for fun, the skill stayed with you. Nobody could give you balance. You had to build it.
 
 This section is about skills like that: the ones you build once and keep forever. Some of them are AI skills. The most important ones aren’t. You’ll build both here.
 
@@ -26,21 +26,21 @@ Build Your Skills
 
 1
 
-## THE LAST OF THE AI
+## USE AI ON PURPOSE
 
-First, the last of the tool itself: which model to pick, how hard to make it think, what to type, and two habits for the road.
+Choose what changes the answer, build ideas through conversation, and use AI honestly.
 
 2
 
-## SKILLS AI WON’T REPLACE
+## SKILLS THAT GROW IN VALUE
 
-Then, what stays valuable when everyone has the same tool: the person in the room, the angle nobody else brought, and the judgment that decides what’s worth doing.
+Additional skills grow in value when everyone has the same tool. People skills help you work with others. Creative thinking brings a better angle.
 
 3
 
-## STAY SHARP
+## STAY FLEXIBLE. MAKE YOUR MOVE.
 
-Then, staying current as the tools keep changing, and picking the one thing you get genuinely good at.
+Keep learning as AI changes, then turn your interests into action by building skills and making something real.
 
 ## Keep this question in mind
 

@@ -4,7 +4,7 @@
 
 Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked.
 
-The superficial things won’t change, like job titles. You have thousands of choices like entrepreneur, teacher, lawyer, or designer. What will change, and is already changing today, is what your day will look like.
+Some familiar job titles may still be around: entrepreneur, teacher, lawyer, or designer. But what those jobs look like is already changing, including what people do each day.
 
 ## YOU ALREADY KNOW THE PIECES
 
@@ -40,11 +40,11 @@ Second: the importance of learning. If everyone gets similar answers from AI, wh
 
 ## YOUR FIRST ASSIGNMENT
 
-Here’s the same job before AI and with AI. Spoiler alert: you’ll have more time for the interesting stuff.
+Here’s the same job before AI and with AI. AI can give you more time for the interesting stuff.
 
 ![Your First Assignment. Your manager asks you to analyze 500 customer reviews and recommend a fix. Before AI, Nate and Luke spend the week completing the first pass before the real thinking begins. With AI, the first pass takes minutes, leaving them to improve the work, investigate why, recommend the fix, and present the findings.](work-changes-2-assignment.jpg)
 
-Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just let you do things faster. **It lets you focus on what’s really important**.
+Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just help you work faster. **It can help you focus on what’s really important**.
 
 ## THE CONCEPTS
 
@@ -58,7 +58,7 @@ Put automation and augmentation together, and three changes show up across almos
 
 ## THE PART THAT MATTERS
 
-This is changing entry-level jobs. Much of the work that AI does used to belong to new college graduates just starting out. It was the way they learned the profession: basic research, starter code, and simple analysis.
+AI is already changing some entry-level work. Basic research, starter code, and simple analysis often helped new graduates learn a profession. AI can now handle or assist with some of that work.
 
 **AI can make you productive before it makes you knowledgeable.** That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it.
 

@@ -14,13 +14,13 @@ Agents are suddenly everywhere, for the obvious reason: they do the work. Now, l
 
 ## What an agent does
 
-Here’s the part many people don’t understand: an agent is not a new kind of AI. It runs on the same engine, or LLM, that you already use in Claude or ChatGPT. What changes is what happens after you type. ChatGPT answers and stops. An agent does the work, as shown in this diagram:
+Here’s the part many people don’t understand: an agent is not a new kind of AI. It runs on the same kind of LLM you already use in apps like ChatGPT. What changes is what happens after you type. A basic chatbot answers and stops. An agent plans, uses tools, checks the result, and keeps going.
 
 And here’s another important point: although agents do the work, it’s still your name on the finished product. Everything you know about evaluating the results still needs to happen. If an agent creates the TikTok clip and caption, **you are responsible for reviewing it and making it better**. Agents are good. But not perfect.
 
 ## Rogue agents
 
-AI does what it’s told. Ask ChatGPT to write a poem, you’ll get a poem. It works until it gets you that. Agents have the same marching orders. Plus, they have more tools. Give an agent the wrong goal, or skip the right constraints, and agents have been known to cause havoc.
+AI works toward the goal it is given. A basic chatbot usually returns an answer and stops. An agent can keep acting, and it may have tools and permissions. Give it a poorly defined goal or too much access, and its mistakes can cause real damage.
 
 APRIL 2026 · POCKETOS
 
@@ -40,7 +40,7 @@ Google’s Gemini agent wiped out a user’s project files, then apologized for 
 
 **AI should not send, spend, submit, delete, or post without you reviewing first.**
 
-The rule of thumb with agents: they’re great at automating steps, but they’re a power user thing. Get good at a tool like ChatGPT first. Agents are powerful and they’ll be there when you’re ready.
+The rule of thumb with agents: they’re great at automating steps, but they are advanced tools. Start by getting good at ChatGPT. Agents are powerful, and they’ll be there when you’re ready.
 
 Agents do the work. The name on it is yours.
 

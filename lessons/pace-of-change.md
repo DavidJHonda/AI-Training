@@ -4,11 +4,11 @@
 
 The AI argument is getting louder and louder. Why? Because the technology is advancing at blazing speeds.
 
-ChatGPT three years ago vs today
+ChatGPT: 2023 vs. 2026
 
-## 3 years ago
+## 2023
 
-## Today
+## 2026
 
 Answering
 
@@ -48,11 +48,11 @@ AI learns from more and better data. That translates into better results.
 
 AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute.
 
-### AI Builds AI
+### AI Helps Build AI
 
 The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people.
 
-Slow down and read that third one again. AI helps build better AI.
+Slow down and read that third one again. AI is already helping people build better AI.
 
 ## 4 Future Ideas
 

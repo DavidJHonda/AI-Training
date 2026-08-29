@@ -108,7 +108,7 @@ CARD_BOARDS = (
         cards=(
             Card("Better Training", "AI learns from more and better data. That translates into better results."),
             Card("More Compute", "AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute."),
-            Card("AI Builds AI", "The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people."),
+            Card("AI Helps Build AI", "The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-accelerants/art-sheet.png",
         page_output="illustrations/pace-of-change-accelerants-v5.jpg",
@@ -145,9 +145,9 @@ CARD_BOARDS = (
         key="big-downside-guardrails",
         title="The Guardrail Challenge Gets Harder",
         cards=(
-            Card("AI Changes Itself", "Guardrails would have to keep up with a system that changes while people use it."),
-            Card("As Smart as People", "A system as capable as its builders might be better at finding gaps in their rules."),
-            Card("Smarter Than Us", "The people setting the rules could be less capable than the system they are trying to control."),
+            Card("If AI Changes Itself", "Guardrails would have to keep up with a system that changes while people use it."),
+            Card("If AI Matches People", "A system as capable as its builders might be better at finding gaps in their rules."),
+            Card("If AI Surpasses People", "The people setting the rules could be less capable than the system they are trying to control."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-downside-guardrails/art-sheet.png",
         page_output="illustrations/big-downside-guardrails-v3.jpg",
@@ -227,7 +227,7 @@ CARD_BOARDS = (
         title="What Changes for You",
         cards=(
             Card("More Kinds", "You cover more of the workflow, with fewer handoffs to other people."),
-            Card("More Productive", "In one study, consultants finished tasks 25% faster with 40% better quality."),
+            Card("More Productive", "In one study, consultants finished certain tasks 25% faster with 40% higher quality."),
             Card("Meaningful Work", "AI can absorb busy work, leaving more time to investigate, decide, and recommend."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-what-changes/art-sheet.png",

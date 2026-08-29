@@ -8,9 +8,9 @@ We’ve said it many times: AI is a giant calculator running math at a scale nob
 
 Your body runs on proteins. Think of them as tiny machines. They digest your food, carry oxygen, fight off infections, and build muscle. Each one starts as a long string of chemical beads, and then that string folds itself into a specific 3D shape in a fraction of a second.
 
-That’s the fifty-year problem in one picture. A protein’s shape determines what it does. Some diseases involve proteins folding or behaving incorrectly. Many drugs work by binding to proteins and changing what they do. But a medium protein can fold more ways than there are atoms in the universe, so predicting shapes was brutal. Fifty years of lab work solved about 200,000, out of hundreds of millions.
+That’s the fifty-year problem in one picture. A protein’s shape determines what it does. Some diseases involve proteins folding or behaving incorrectly. Many drugs work by binding to proteins and changing what they do. But a medium protein can fold more ways than there are atoms in the universe, so predicting shapes was brutal. Scientists had experimentally determined about 200,000 protein structures. Hundreds of millions of protein sequences still had no known structure.
 
-## THE GUY WHO SOLVED IT
+## FROM GAMES TO A NOBEL PRIZE
 
 ### Demis Hassabis: from chess and games to the Nobel Prize
 
@@ -23,11 +23,11 @@ That’s the fifty-year problem in one picture. A protein’s shape determines w
 7. 2024: Wins the Nobel Prize in Chemistry.
 A kid who loved games helped solve a fifty-year science problem.
 
-DeepMind’s predictions came back about as accurate as real lab experiments.
+For many proteins, AlphaFold predicted shapes with accuracy close to lab methods.
 
 **Then DeepMind did the part that actually mattered: they gave the answers away, free to everyone.**
 
-More than three million researchers in over 190 countries have used AlphaFold. In 2024, Hassabis won the Nobel Prize in Chemistry for it.
+More than three million people in over 190 countries have used AlphaFold. In 2024, Hassabis won the Nobel Prize in Chemistry for it.
 
 “
 

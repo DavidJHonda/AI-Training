@@ -6,7 +6,7 @@ The scale of the math behind AI is almost impossible to grasp. A 2,000-word chat
 
 And to train a new model? It takes about 100 septillion individual math calculations. That’s the number 1 followed by twenty-six zeroes! And for you visual learners, that’s 100,000,000,000,000,000,000,000,000.
 
-That’s why there’s so much in the news about data centers. It’s about one thing: the ability to run the math, which the AI companies call **compute**. And they can never have enough of it.
+That’s why there’s so much in the news about data centers. It’s about one thing: the ability to run the math, which AI companies call **compute**. And they are racing to get more of it.
 
 ## WHAT IS A DATA CENTER
 
@@ -20,7 +20,7 @@ The electricity figures cover all data centers, not AI alone.
 
 ## SHRINKING THE BILL
 
-The AI companies know all of this, and the race to shrink the bill is real. Microsoft is paying to restart the Three Mile Island nuclear plant just to power its data centers, and other companies are betting on new kinds of small reactors. Newer cooling designs recycle water in a closed loop instead of evaporating it. And custom computer chips are being built to squeeze more math out of every watt.
+AI companies know all of this, and the race to shrink the bill is real. Microsoft signed a long-term agreement for electricity from a planned restart of a reactor at Three Mile Island to support its data centers. Other companies are betting on new kinds of small reactors. Some cooling systems reuse water in closed loops, reducing how much new water they need. And custom computer chips are being built to squeeze more math out of every watt.
 
 ## THE FOOTPRINT, HONESTLY
 

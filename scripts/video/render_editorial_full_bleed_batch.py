@@ -72,7 +72,7 @@ class Board:
 BOARDS = (
     Board(
         key="people-skills-why-matter",
-        title="Why People Skills Matter More in the AI Future",
+        title="People Skills Matter More",
         cards=(
             (
                 "AI Isn’t the Edge",
@@ -146,7 +146,7 @@ BOARDS = (
     ),
     Board(
         key="be-curious-four-ways",
-        title="Four Ways to Stay Curious with AI",
+        title="Stay Curious",
         cards=(
             (
                 "Use AI Regularly",
@@ -172,7 +172,7 @@ BOARDS = (
     ),
     Board(
         key="be-flexible-four-steps",
-        title="Four Steps for Staying Flexible with AI",
+        title="Be Flexible",
         cards=(
             (
                 "Start with a Real Need",
@@ -198,7 +198,7 @@ BOARDS = (
     ),
     Board(
         key="make-your-move-skills",
-        title="Four Skills Worth Doubling Down on",
+        title="Four Skills to Build",
         cards=(
             (
                 "Work Well with People",
@@ -224,7 +224,7 @@ BOARDS = (
     ),
     Board(
         key="make-your-move-actions",
-        title="Turn Your Interests into Action",
+        title="Moves to Make",
         cards=(
             (
                 "Learn from People in the Field",

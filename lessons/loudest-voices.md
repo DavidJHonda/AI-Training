@@ -64,7 +64,7 @@ LeCun
 
 Financial Times (January 2026); his own posts (2023).
 
-All three of them admit the other side might be right. That’s the tell: the people who know AI best don’t know where it’s going. **Where AI will be in ten years is a bet.**
+None of them has a simple, one-sided view. The Optimist sees danger. The Worrier sees benefits. The Doubter acknowledges risks. That’s the tell: the people who know AI best still don’t know where it’s going. **Where AI will be in ten years is a bet.**
 
 ## This has happened before
 

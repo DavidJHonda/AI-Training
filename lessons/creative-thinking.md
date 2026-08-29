@@ -6,21 +6,11 @@ Draft Lesson. Still working on it.
 
 Think about the last time someone told you, “Good idea!” It feels good to hear those words.
 
-What makes something a good idea? Often, it sees a possibility others missed, connects things in a new way, or finds a better way forward. That is creative thinking.
+Why did they say it to you? You probably saw something they missed, connected things in a new way, or found a better way to move forward. That is creative thinking. It’s the ability to see a problem differently, question the obvious approach, and find an angle other people missed.
 
-## CREATIVE THINKING
+## WHO THINKS CREATIVELY?
 
-Creative thinking is the ability to see a problem differently, question the obvious approach, and find an angle other people missed.
-
-Some people think creative thinking belongs to artists, writers, and musicians. But creative thinking matters anywhere people solve problems or imagine a better way. Steve Jobs helped build Apple by seeing that computers could be simpler, more personal, and easier to use. He did not follow the standard playbook. He saw a possibility other people had missed.
-
-## WHY IT MATTERS IN THE AI FUTURE
-
-AI can generate polished answers and long lists of ideas in seconds. That makes the first reasonable answer easier for everyone to reach. The advantage moves to the person who can notice what is missing, connect ideas from different places, and choose the better direction.
-
-AI can widen the options. You still bring the angle, recognize which idea fits the real situation, and decide which one is worth pursuing.
-
-## SEE IT IN ACTION
+It’s not just “creative-type” people like artists, writers, and musicians. It’s anyone who solves problems or imagines a better way. Think Steve Jobs. He helped build Apple by seeing that computers could be simpler, more personal, and easier to use. He wasn’t an artist, writer or musician. He saw a possibility other people had missed.
 
 ### Who thinks creatively?
 
@@ -34,9 +24,11 @@ AI can widen the options. You still bring the angle, recognize which idea fits t
 
 Creativity is not a job title or a personality trait. It is a habit of thinking that runs underneath any job where the standard answer is not enough.
 
-## BUILD THE SKILL
+## WHY IT MATTERS
 
-Creative thinking is not a gift some people receive. It is a set of habits anyone can practice.
+AI gives polished answers in seconds. And everyone, using the same AI, gets similar answers. The advantage moves to the person who can notice what is missing, connect ideas from different places, and choose the better direction. That’s creative thinking.
+
+Creative thinking is not a gift some people receive. It’s a set of habits that you can improve.
 
 ### Four ways to think creatively
 
@@ -47,10 +39,6 @@ Creative thinking is not a gift some people receive. It is a set of habits anyon
 **Connect unrelated things:**Borrow a pattern, feature, or approach from somewhere completely different and apply it to the problem.
 
 **Step away, then return:**Work on the problem, then take a walk or switch activities. New connections often appear after your attention moves elsewhere.
-
-## AI DOES THE TASK. YOU BRING THE ANGLE.
-
-Creative thinking can happen before you open AI, while you work with it, or after you review what it produced. The important part is that you do not confuse the first available answer with the best one.
 
 AI widens the options.
 

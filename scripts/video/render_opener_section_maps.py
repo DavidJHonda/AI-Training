@@ -46,6 +46,13 @@ TITLE_BODY_GAP = 8
 ROW_BOTTOM = 25
 ACCENTS = ("#4f2fc4", "#1652f0", "#0e8f86", "#0f7a4a")
 
+# The shipped Embrace the Future video uses this earlier section-map render.
+# Preserve it byte-for-byte so rerunning the board build cannot make the
+# on-page lesson and video diverge.
+LOCKED_VIDEO_MATCHES = {
+    "embrace-the-future": "board-review-first-four/alternatives/embrace-the-future/opener-embrace-2-section-map-alternative.jpg",
+}
+
 
 @dataclass(frozen=True)
 class Row:
@@ -110,9 +117,9 @@ BOARDS = (
         title="Embrace the Future",
         takeaway="Take both views of the map seriously.",
         rows=(
-            Row("The Argument", "The loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed."),
-            Row("Monsters and Open Water", "Both views of the unknown: the honest case for worry, and the upside that already happened."),
-            Row("Moves You Can Make Now", "How to explore careers, build skills that travel, make something real, and step into responsibility as AI changes the future."),
+            Row("The Argument", "First, the loudest voices and why they disagree, and the reason the argument keeps getting louder. The speed."),
+            Row("Monsters and Open Water", "Then, both views of the unknown. The honest case for worry, and the upside that already happened."),
+            Row("Where It Lands on You", "Then, where it all lands. AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction."),
         ),
         page_output="illustrations/opener-embrace-section-map.jpg",
         prep_output="lessons/opener-embrace-2-map.jpg",
@@ -123,9 +130,9 @@ BOARDS = (
         title="Build Your Skills",
         takeaway="Build the skills you keep when the tool changes.",
         rows=(
-            Row("The Last of the AI", "Which model to pick, how hard to make it think, what to type, and two habits for the road."),
+            Row("Use AI on Purpose", "Choose what changes the answer, build ideas through conversation, and use AI honestly."),
             Row("Skills That Grow in Value", "Additional skills grow in value when everyone has the same tool. People skills help you work with others. Creative thinking brings a better angle."),
-            Row("Stay Sharp", "Staying current as the tools keep changing, and picking the one thing you get genuinely good at."),
+            Row("Stay Flexible. Make Your Move.", "Keep learning as AI changes, then turn your interests into action by building skills and making something real."),
         ),
         page_output="illustrations/opener-build-section-map.jpg",
         prep_output="lessons/opener-build-2-map.jpg",
@@ -155,6 +162,10 @@ def multiline(draw, x: int, y: int, lines: list[str], font, fill: str) -> None:
 
 
 def render(board: MapBoard) -> Image.Image:
+    locked_source = LOCKED_VIDEO_MATCHES.get(board.key)
+    if locked_source:
+        return Image.open(ROOT / locked_source).convert("RGB")
+
     board_title_font = face("bold", 56)
     row_title_font = face("bold", 40)
     body_font = face("medium", 29)
@@ -219,6 +230,13 @@ def save(board: MapBoard, image: Image.Image) -> None:
     review = ROOT / board.review_output
     for path in (page, prep, review):
         path.parent.mkdir(parents=True, exist_ok=True)
+    locked_source = LOCKED_VIDEO_MATCHES.get(board.key)
+    if locked_source:
+        source = ROOT / locked_source
+        for path in (page, prep, review):
+            shutil.copyfile(source, path)
+        print(f"copied locked video-match board byte-identically to {page.relative_to(ROOT)}, {prep.relative_to(ROOT)}, and {review.relative_to(ROOT)}")
+        return
     image.save(page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     shutil.copyfile(page, review)

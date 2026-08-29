@@ -2,7 +2,7 @@
 
 # Unexpected Results
 
-Everyone has opinions about AI’s future, whether they’re AI Worriers or AI Optimists. No matter how confident those people are, there’s a single truth about the future: the biggest results are usually what no one predicted.
+Everyone has opinions about AI’s future, whether they’re AI Worriers or AI Optimists. No matter how confident those people are, some of the biggest results are things no one predicted.
 
 The best way to see it is a true story about rats.
 
@@ -16,7 +16,7 @@ It was another math thing. Rats can live a relatively full “rat life” even w
 
 Some rat entrepreneurs went even further. They started **rat farms**. You probably know where this is going. When Hanoi stopped the program, they had a mountain of rat tails, but more rats than when it started.
 
-What’s the moral of this story? Every part of the government’s plan worked. People hunted rats, delivered their tails, and received payments of one cent per tail. But the boom in the rat population was the opposite of their goal: a true unexpected result.
+What’s the moral of this story? The payment system worked exactly as designed. People delivered tails, and the government paid them. But the real goal was fewer rats, and the program encouraged people to keep rats alive.
 
 ## Unexpected Results
 
@@ -32,6 +32,6 @@ That’s not a reason to fear the future. It’s the reason to walk into it curi
 
 You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes.
 
-The biggest results are the ones nobody predicted.
+Some of the biggest results are the ones nobody predicted.
 
 That’s the best reason to stay curious.

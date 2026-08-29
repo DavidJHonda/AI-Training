@@ -4,21 +4,15 @@
 
 Draft Lesson. Still working on it.
 
-People need people.
+AI can do amazing things. But there is one thing it doesn’t replace: people.
 
-You already know that AI is basically a giant calculator, processing math at incredible speed. That calculator can do amazing things. But there is one thing it cannot replace: people.
+People need people. We always have. Long before modern technology, survival depended on working together, trusting one another, and understanding what others needed.
 
-People need people. We always have. Long before modern technology, survival depended on working together, trusting one another, and understanding what others needed. That is still part of who we are.
+People skills help you understand, communicate with, and work alongside other people. They include listening, empathy, explaining clearly, reading the room, and earning trust.
 
-And one thing AI will never be is a person.
+It’s easy to spot who has great people skills. They’re who you want in your group, talk to when something is wrong, and trust to help when things are difficult.
 
-## WHAT ARE PEOPLE SKILLS?
-
-People skills are the abilities that help you understand, communicate with, and work alongside other people. They include listening, empathy, explaining clearly, reading the room, earning trust, and helping a group act.
-
-You already know people with great people skills. They are the people you want in your group, talk to when something is wrong, and trust to handle a difficult moment. They listen, notice what others need, and help people work together.
-
-### Why people skills matter more in the AI future
+### People Skills Matter More
 
 **AI isn’t the edge:**When everyone has AI, polished work becomes common. How you work with people stands out.
 

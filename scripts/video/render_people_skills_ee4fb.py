@@ -18,11 +18,7 @@ from editorial_typography import (
 ROOT = Path(__file__).resolve().parents[2]
 ART_SHEET = (
     ROOT
-    / "scripts/video/assets/people-skills-ee4fb/art-sheet.png"
-)
-NOTICE_ART = (
-    ROOT
-    / "scripts/video/assets/people-skills-ee4fb/notice-unsaid.png"
+    / "scripts/video/assets/people-skills-ee4fb/art-sheet-v2.png"
 )
 PAGE_OUTPUT = ROOT / "illustrations/people-skills-four-ways-v2.jpg"
 PREP_OUTPUT = ROOT / "lessons/people-skills-2-four-ways.jpg"
@@ -174,7 +170,7 @@ def main() -> None:
     half_h = sheet.height // 2
     quadrants = [
         sheet.crop((0, 0, half_w, half_h)),
-        Image.open(NOTICE_ART).convert("RGB"),
+        sheet.crop((half_w, 0, sheet.width, half_h)),
         sheet.crop((0, half_h, half_w, sheet.height)),
         sheet.crop((half_w, half_h, sheet.width, sheet.height)),
     ]

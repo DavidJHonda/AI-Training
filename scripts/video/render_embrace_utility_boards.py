@@ -147,11 +147,11 @@ def render_three_years() -> Image.Image:
     header_h = 84
     sheet_bottom = SHEET_TOP + header_h + sum(row[3] for row in prepared)
     height = sheet_bottom + 40
-    image, draw = base_board("ChatGPT Three Years Ago vs Today", height, sheet_bottom)
+    image, draw = base_board("ChatGPT: 2023 vs. 2026", height, sheet_bottom)
 
     header_y = SHEET_TOP + 27
-    draw.text((past_x, header_y), "3 YEARS AGO", font=column_font, fill=MUTED)
-    draw.text((today_x + 26, header_y), "TODAY", font=column_font, fill=PURPLE)
+    draw.text((past_x, header_y), "2023", font=column_font, fill=MUTED)
+    draw.text((today_x + 26, header_y), "2026", font=column_font, fill=PURPLE)
     row_top = SHEET_TOP + header_h
     for index, (topic_lines, past_lines, today_lines, row_h) in enumerate(prepared):
         if index:

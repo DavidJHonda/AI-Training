@@ -92,7 +92,7 @@ define ordinary board chrome before the section stabilizes.
 | Lesson | Primary treatment | Status | Direction |
 |---|---|---:|---|
 | Opener | Opener utility | Keep | Preserve the standard opener shell. |
-| Tune the Model | Page component and data utility | Defer | Reassess after the draft lesson stabilizes. |
+| Your Choices | Static utility board and hands-on lab | Adopted | Keep the temperature probability board fixed at the shared 1600 px shell and preserve its 29 px minimum essential text. |
 | AI Tips | Page components | Defer | Keep responsive content page-native unless a video beat clearly needs a board. |
 | Habits for the Road | Page components and scenario utility | Defer | Do not turn every integrity or privacy card into a board. |
 | People Skills | Story and scenario utility | Defer | Preserve human tone; create shared boards only when a no-person visual can carry the idea. |

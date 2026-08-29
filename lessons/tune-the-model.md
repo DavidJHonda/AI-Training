@@ -1,171 +1,95 @@
 ## BUILD YOUR SKILLS
 
-# Tune the Model
+# Your Choices
 
-ChatGPT, Claude, and Gemini are all great choices for your go-to AI app. Now comes something normal apps never ask of you. Spotify doesn’t ask which Spotify you want. AI apps do: you get choices about which model does the work, how fast it answers, and how hard it thinks.
+Choosing a music app is simple. You pick Spotify, Apple Music, or something else, then start listening.
 
-Think about buying a new car. Your first decision is which dealership to visit: Ford, Chevy, Dodge, or somewhere else. When you arrive, the next choice is which model you want to buy.
+Using AI starts the same way: you pick an app such as ChatGPT or Gemini. But depending on the app and your subscription, you may also be able to choose the model, how much reasoning it uses, and whether it performs deeper research.
 
-Next come the options: engine size, wheel package, trim. And you’ll pick those based on how you plan to use the car.
+You won’t make all four choices every time. The default handles most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing.
 
-AI works the same way. The app was the dealership, and you’ve already picked it. The choices waiting inside are the model, the speed, and the thinking.
+## AGE RULES MATTER
+
+If you’re under 18, check an app’s age requirements before using it. As of August 2026, ChatGPT requires parental permission for users ages 13–17, Gemini permits many teen accounts but limits some features, and Claude requires users to be 18.
 
 ## YOUR CHOICES
 
-The choices live inside whichever app you picked. What makes them confusing is the names: each app names its models differently, and with every app improving this fast, the names keep changing. So don’t memorize names. Learn the three choices underneath them. Those don’t change.
+Your first choice is the app. The other three choices may or may not appear, depending on the app and your subscription. You do not need to see every choice. You need to understand what each one does when it appears.
 
-## Choice 1
+![Choice 1, Which App, and Choice 2, Which Model.](tune-the-model-1-app-model.jpg)
 
-Model
+### Which App
 
-## What it is
+Choose an available home-base app that fits your tools and work. Use a second app when its strengths fit the job.
 
-A family of models, not one brain.
+### Which Model
 
-The picker lists them by name, newest near the top.
+Each app offers a family of models. Use the everyday model for most tasks and its strongest model for difficult work.
 
-The labels carry the signal: one is marked most capable, one is the everyday default.
+![Choice 3, Reasoning, and Choice 4, Research.](tune-the-model-2-reasoning-research.jpg)
 
-## Why it exists
+### Reasoning
 
-Bigger models reason deeper and cost more to run. Smaller ones are cheap enough to answer everything else. No company can give everyone the biggest brain for every question, so the picker exists.
+Apps may call this Effort, Thinking, or Reasoning. Use more for math, code, planning, and problems with steps. Keep the default for routine work.
 
-## When to use it
+### Research
 
-The default handles most days. Switch up when the work is hard, long, or graded.
+Some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.
 
-## Choice 2
+## TEMPERATURE
 
-Speed
+AI companies control temperature behind the scenes, and you will likely never see or change it. Think of temperature as a variety switch. Low temperature makes answers more predictable. High temperature makes them more varied or surprising.
 
-## What it is
+During training, AI learns patterns it uses to predict the next token. Each possible token gets a probability. Temperature reshapes those probabilities before AI chooses one. Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance.
 
-Trimmed versions of the brain, built to answer fast.
+![How Temperature Changes the Odds.](tune-the-model-3-temperature.jpg)
 
-Short names that sound quick: mini, flash, lite.
+For the unfinished sentence “You could name your new dog _____,” the starting odds favor Spot. Low temperature concentrates the odds on the most likely choices. High temperature spreads the odds and gives less likely names a better chance.
 
-Some apps list them as their own models, others fold them into one menu.
+**Temperature reshapes the probabilities. It does not change what the model learned.**
 
-## Why it exists
+## CLOSING MESSAGE
 
-A quick question doesn’t need the deepest brain. Fast versions trade some depth for speed, and on most quick asks you’ll never notice what they traded.
+### The choices you make shape the answer.
 
-## When to use it
+The default usually works. Change it when the work demands more.
 
-Quick lookups, simple rewrites, anything you’d be fine asking twice. When the answer matters more than the wait, move up.
+## LAB 13
 
-## Choice 3
+# Map the Choices Behind an Answer
 
-Thinking
+Use the free teen version of ChatGPT to see which decisions you make and which decisions ChatGPT makes for you. Not seeing a choice does not mean it disappeared. It means ChatGPT made the choice for you.
 
-## What it is
+### 1. Open ChatGPT
 
-A switch that lets the model work longer before it answers.
+Go to chatgpt.com and sign in with the free account you set up in Lab 01.
 
-Named things like extended thinking, reasoning, or think longer.
+### 2. Start a new chat
 
-Same brain, more time.
+Start a new chat outside any project.
 
-## Why it exists
+### 3. Ask for one practical plan
 
-Hard problems need more than one pass. Thinking time lets the model try approaches, check its own work, and throw out weak drafts before you ever see one.
+Send this prompt. ChatGPT will make the hidden choices while it builds the answer.
 
-## When to use it
+> Help me plan a low-cost Saturday afternoon with two friends. Give me one safe, practical plan.
 
-Math, code, planning, anything with steps that build on each other. Skip it for quick facts: you’ll wait longer for the same answer.
+### 4. Inspect the interface
 
-One thing worth knowing about that first choice: the models in a family aren’t one brain dialed up and down. They’re different LLMs. The big one has more layers, more dimensions, and more training behind it. The small ones were built lighter from the start.
+Look at the top of the chat and around the message box. The free teen experience does not show separate controls for Model, Reasoning, or Deep Research.
 
-All three choices live in the same corner of the screen. Look for the model name at the top of the chat or next to the message box, and tap it: the whole family drops down, usually with the thinking switch close by. If there’s no picker at all, the app is choosing for you.
+### 5. Notice who made each choice
 
-## The default is a choice someone else made.
+For the answer you just received:
 
-Most people never open the picker and never learn what’s in there. You just did. Open it and choose on purpose when the problem deserves it.
+- **App:** You chose ChatGPT.
+- **Model:** ChatGPT chose it.
+- **Reasoning:** ChatGPT handled it.
+- **Research:** Unavailable in this version.
+- **Temperature:** OpenAI set it behind the scenes.
 
-One more thing if you’re on a free plan. The top tier has the tightest limits, and when you hit one, the app may quietly switch you to a smaller model or make you wait. If answers suddenly feel dumber mid-chat, that’s usually what happened: check the picker. And limits usually burn by how much text is in the conversation, not how many messages, so long pastes cost more. Start fresh chats when you can.
+### 6. Ask for more variety
 
-## Thinking, side by side
+Send this follow-up, then compare it with the first answer. You changed the request, but the model and temperature controls stayed hidden.
 
-Thinking is the choice people skip most, so here are the two settings next to each other. And it isn’t the same as picking a model, even though both say ‘turn it up for hard problems.’ A bigger model is more brain. More thinking is more time from the brain you already picked. And the time changes what the answer gets right, not how it sounds. Rule of thumb: pick the model that fits the job first. If the answer still feels shallow, turn the thinking up before you switch models.
-
-⚡
-
-#### Quick answer
-
-**How it works:**Pattern matches from training, answers immediately.
-
-Best for:
-
-You need a quick answer
-
-You’re brainstorming lots of options
-
-The task is simple formatting, rewriting, or summarizing
-
-You’re asking for a first draft, not final judgment
-
-Speed matters more than depth
-
-🧠
-
-#### Deeper thinking
-
-**How it works:**Reasons step by step before responding, checks its own work.
-
-Best for:
-
-The problem has multiple steps
-
-The answer needs logic, math, code, or careful comparison
-
-You’re analyzing an argument, plan, essay, or decision
-
-The first answer felt shallow and the issue is reasoning
-
-Accuracy matters more than speed
-
-The decision has real consequences
-
-## More thinking isn’t a tiny person inside the computer reconsidering.
-
-It’s an extra round of reasoning and self-checking the model runs before answering, which catches more on hard problems. But it’s not a truth machine. If the model is missing information, using old information, or relying on a bad source, thinking longer won’t fix that. For truth, you still need to evaluate the results.
-
-## The dial you won’t see
-
-Three choices are yours. This one isn’t. Back in One More Thing you met the weighted drawing: every token holds tickets equal to its probability, and the model draws one. **Temperature** is the dial on that drawing. Turn it down and the top pick takes nearly every ticket, so the model plays it safe and hands back almost the same answer every time. Turn it up and the tickets spread far down the list, so a long shot like Biscuit, which never wins at low, starts showing up. More range, more surprise, and sometimes more nonsense.
-
-You won’t find it in ChatGPT, Claude, or Gemini. The apps set it for you, and the dial itself lives in the tools developers use to build on these models. You can still ask for the effect in words. Ask for “your single best answer” and you pull toward the safe end. Ask for “ten very different options” and you pull toward the wild one. That’s the one dial you can’t reach. The rest of the machine you can.
-
-App. Model. Speed. Thinking.
-
-One decision you made back in Work With AI, and three you make inside it every day.
-
-1
-
-App
-
-Where you work. Your home base, plus another app when the job clearly fits its strength.
-
-2
-
-Model
-
-Which brain does the work: the most capable one, or the everyday default.
-
-3
-
-Speed
-
-How fast you need it back. Trimmed versions answer quick, and on simple asks you won’t miss what they left out.
-
-4
-
-Thinking
-
-How long it works before it commits: off for quick facts, on for problems with steps.
-
-**A bad answer doesn’t always mean ‘try harder.’**Sometimes you picked the wrong app. Sometimes the model is too small. Sometimes you’re on the fast version. Sometimes it just needs more thinking. Knowing the four decisions means you can fix the right one.
-
-The app was just the dealership.
-
-The real choices are inside.
+> Now give me five very different plans, including ideas I might not expect.

@@ -36,7 +36,7 @@ In this section
 
 1. THE ARGUMENT First, the loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed.
 2. MONSTERS AND OPEN WATER Then, both views of the unknown: the honest case for worry, and the upside that already happened.
-3. WHERE IT LANDS ON YOU Then, where it all lands: AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.
+3. MOVES YOU CAN MAKE NOW How to explore careers, build skills that travel, make something real, and step into responsibility as AI changes the future.
 Nobody has a map of what’s coming.
 
 You’re ready to sail into the blank space.

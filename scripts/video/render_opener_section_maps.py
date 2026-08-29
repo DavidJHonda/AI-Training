@@ -112,7 +112,7 @@ BOARDS = (
         rows=(
             Row("The Argument", "The loudest voices and why they disagree, and the reason the argument keeps getting louder: the speed."),
             Row("Monsters and Open Water", "Both views of the unknown: the honest case for worry, and the upside that already happened."),
-            Row("Where It Lands on You", "AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction."),
+            Row("Moves You Can Make Now", "How to explore careers, build skills that travel, make something real, and step into responsibility as AI changes the future."),
         ),
         page_output="illustrations/opener-embrace-section-map.jpg",
         prep_output="lessons/opener-embrace-2-map.jpg",

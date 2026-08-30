@@ -34,9 +34,9 @@ This section takes both views of the map seriously: the monsters and the open wa
 
 In this section
 
-1. THE ARGUMENT First, the loudest voices and why they disagree, and the reason the argument keeps getting louder. The speed.
-2. MONSTERS AND OPEN WATER Then, both views of the unknown. The honest case for worry, and the upside that already happened.
-3. WHERE IT LANDS ON YOU Then, where it all lands. AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction.
+1. The Argument. The loudest voices, why they disagree, and why the speed makes the argument louder.
+2. Monsters and Open Water. The honest case for worry alongside the real-world upside that has already happened.
+3. Where It Lands on You. How AI acts, how work may change, the bill for all that math, and what history teaches about predictions.
 Nobody has a map of what’s coming.
 
 You’re ready to sail into the blank space.

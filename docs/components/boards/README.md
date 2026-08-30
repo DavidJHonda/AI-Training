@@ -307,6 +307,17 @@ avoid editing ordinary card copy.
 
 #### Shared rules for `EE-2FB`, `EE-3FB`, `EE-4FB`, and `EE-LONG`
 
+- Create purpose-built internal artwork in the approved soft 3D editorial language
+  established by `illustrations/creative-thinking-professions-v2.jpg`. Compose each
+  scene for its final card frame, using its assigned accent as the native material,
+  lighting, and environment color.
+- Do not retrofit legacy artwork by cropping out a fragment, stretching it into the
+  new frame, or applying a color overlay to make it resemble the assigned accent.
+  Existing art may inform the concept, but the card needs a new self-contained scene
+  whenever the old composition was not designed for this board system.
+- Each scene must teach the card's specific idea through a complete visual
+  relationship. A generic isolated icon, even when rendered in the right style and
+  color, is not sufficient.
 - Choose accents only from green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`,
   purple `#4f2fc4`, amber `#a9760c`, and red `#c41f28`.
 - Assign one locked accent token to each card based on the illustration's dominant

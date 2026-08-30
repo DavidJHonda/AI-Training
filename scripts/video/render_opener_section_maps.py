@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import shutil
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -45,14 +46,6 @@ ROW_TOP = 29
 TITLE_BODY_GAP = 8
 ROW_BOTTOM = 25
 ACCENTS = ("#4f2fc4", "#1652f0", "#0e8f86", "#0f7a4a")
-
-# The shipped Embrace the Future video uses this earlier section-map render.
-# Preserve it byte-for-byte so rerunning the board build cannot make the
-# on-page lesson and video diverge.
-LOCKED_VIDEO_MATCHES = {
-    "embrace-the-future": "board-review-first-four/alternatives/embrace-the-future/opener-embrace-2-section-map-alternative.jpg",
-}
-
 
 @dataclass(frozen=True)
 class Row:
@@ -117,9 +110,9 @@ BOARDS = (
         title="Embrace the Future",
         takeaway="Take both views of the map seriously.",
         rows=(
-            Row("The Argument", "First, the loudest voices and why they disagree, and the reason the argument keeps getting louder. The speed."),
-            Row("Monsters and Open Water", "Then, both views of the unknown. The honest case for worry, and the upside that already happened."),
-            Row("Where It Lands on You", "Then, where it all lands. AI that acts, your work, the bill for all that math, and the one thing history promises about every prediction."),
+            Row("The Argument", "The loudest voices, why they disagree, and why the speed makes the argument louder."),
+            Row("Monsters and Open Water", "The honest case for worry alongside the real-world upside that has already happened."),
+            Row("Where It Lands on You", "How AI acts, how work may change, the bill for all that math, and what history teaches about predictions."),
         ),
         page_output="illustrations/opener-embrace-section-map.jpg",
         prep_output="lessons/opener-embrace-2-map.jpg",
@@ -162,10 +155,6 @@ def multiline(draw, x: int, y: int, lines: list[str], font, fill: str) -> None:
 
 
 def render(board: MapBoard) -> Image.Image:
-    locked_source = LOCKED_VIDEO_MATCHES.get(board.key)
-    if locked_source:
-        return Image.open(ROOT / locked_source).convert("RGB")
-
     board_title_font = face("bold", 56)
     row_title_font = face("bold", 40)
     body_font = face("medium", 29)
@@ -230,13 +219,6 @@ def save(board: MapBoard, image: Image.Image) -> None:
     review = ROOT / board.review_output
     for path in (page, prep, review):
         path.parent.mkdir(parents=True, exist_ok=True)
-    locked_source = LOCKED_VIDEO_MATCHES.get(board.key)
-    if locked_source:
-        source = ROOT / locked_source
-        for path in (page, prep, review):
-            shutil.copyfile(source, path)
-        print(f"copied locked video-match board byte-identically to {page.relative_to(ROOT)}, {prep.relative_to(ROOT)}, and {review.relative_to(ROOT)}")
-        return
     image.save(page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     shutil.copyfile(page, review)
@@ -245,7 +227,12 @@ def save(board: MapBoard, image: Image.Image) -> None:
 
 
 def main() -> None:
-    for board in BOARDS:
+    requested = set(sys.argv[1:])
+    selected = tuple(board for board in BOARDS if not requested or board.key in requested)
+    if requested and len(selected) != len(requested):
+        known = ", ".join(board.key for board in BOARDS)
+        raise SystemExit(f"unknown board key; choose from: {known}")
+    for board in selected:
         save(board, render(board))
 
 

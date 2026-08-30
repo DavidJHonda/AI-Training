@@ -27,7 +27,7 @@ For many proteins, AlphaFold predicted shapes with accuracy close to lab methods
 
 **Then DeepMind did the part that actually mattered: they gave the answers away, free to everyone.**
 
-More than three million people in over 190 countries have used AlphaFold. In 2024, Hassabis won the Nobel Prize in Chemistry for it.
+More than three million AlphaFold users in over 190 countries have used it. In 2024, Hassabis won the Nobel Prize in Chemistry for it.
 
 “
 

@@ -46,6 +46,18 @@ highlight states must use the course ring-and-chip treatment, whether they are c
 from DOM states or composited in post. A board discussed only as a whole gets the
 unmarked restrained push, not an arbitrary highlight.
 
+For the Editorial Explainer board family, the highlight color is inherited, never
+chosen during the edit. Each card or step stores one locked accent: green `#0f7a4a`,
+teal `#0e8f86`, blue `#1652f0`, editorial purple `#4f2fc4`, amber `#a9760c`, or red
+`#c41f28`. When narration names that card, step, title, or item, its ring and any
+associated chip use that exact token. Do not sample a color from the illustration and
+do not substitute standard purple. Neutral board titles and truly board-wide concepts
+may use the standard video purple `#6e51ff` when no local accent applies. Record the
+target, token, and source (`card_locked_accent` or `neutral_video_purple`) in the board
+sync manifest before rendering. When narration combines several differently colored
+cards, show their separate inherited rings only if the combination itself matters;
+otherwise return to the complete unmarked board.
+
 Background animation is expendable during a board walk; keeping the teaching framework
 visible is the priority. These rules are enforced at ship review by `GATE_BOARD_WALK`
 and `GATE_NO_NOTEBOOK_HIGHLIGHT`. Build and verify replacement legs with

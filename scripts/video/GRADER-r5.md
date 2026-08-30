@@ -163,7 +163,12 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
 - `GATE_NO_NOTEBOOK_HIGHLIGHT`: All teaching-board emphasis uses the course-native
   ring-and-chip treatment. Gemini Notebook highlighting is forbidden. Highlights
   replace one another unless narration explicitly combines points. Use the item's
-  accent color when available, otherwise course purple.
+  accent color when available, otherwise course purple. For Editorial Explainer
+  cards and flow steps, the ring and chip must match the component's explicitly
+  stored locked accent token. Do not sample the illustration, infer color from card
+  position, or substitute generic purple. The board sync manifest must record the
+  exact `highlight_color` and whether it came from `card_locked_accent`,
+  `neutral_video_purple`, or `none` before the repair is rendered.
 - `GATE_STANDARD_CLOSE`: The exact current app close is inserted in post, unmarked,
   on the standard canvas with standard centering, start framing, easing, fixed zoom
   endpoint, final visible size, and settled hold. Longer narration adds hold time,

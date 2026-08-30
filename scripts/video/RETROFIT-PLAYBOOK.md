@@ -80,6 +80,18 @@ node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
 - Match highlight granularity to the narration. Ring the whole board or card while the
   narration addresses it as a whole; move to an item or row ring when the narration
   names that part. If the narration walks several sections, the ring walks them too.
+- Resolve every highlight color in the repair manifest before capture. A target inside
+  an Editorial Explainer card or flow step inherits that component's stored locked
+  accent: green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`, editorial purple
+  `#4f2fc4`, amber `#a9760c`, or red `#c41f28`. Use the exact same token for the ring
+  and any title chip. Never infer color from column position, sample the illustration,
+  or default an accented component to purple. A neutral title or board-wide target may
+  use standard video purple `#6e51ff`. Write both `highlight_color` and
+  `highlight_source` in the board sync manifest; acceptable sources are
+  `card_locked_accent`, `neutral_video_purple`, and `none`.
+- If one spoken point explicitly combines differently colored components, preserve
+  each component's own accent when showing multiple rings. If the narration is only
+  summarizing the board, remove the rings and show the complete unmarked board.
 - Close boards: only touch if your span plan says so; closes were standardized 8/4.
 
 ## 3. Build legs (ken_burns_path.py)

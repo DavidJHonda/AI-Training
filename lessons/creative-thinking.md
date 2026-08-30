@@ -12,13 +12,13 @@ It’s not just “creative-type” people like artists, writers, and musicians.
 
 ### Who thinks creatively?
 
-**A lawyer:** Finds a strategy nobody else saw in the same case file. Same laws and facts, different approach.
+**A lawyer:**Finds a strategy nobody else saw in the same case file. Same laws and facts, different approach.
 
-**An entrepreneur:** Spots a need everyone else overlooked and builds a new way to meet it.
+**An entrepreneur:**Spots a need everyone else overlooked and builds a new way to meet it.
 
-**An engineer:** Finds a solution when the standard approach cannot solve the problem.
+**An engineer:**Finds a solution when the standard approach cannot solve the problem.
 
-**A doctor:** Looks at the same symptoms and considers a diagnosis others missed.
+**A doctor:**Looks at the same symptoms and considers a diagnosis others missed.
 
 Creativity is not a job title or a personality trait. It is a habit of thinking that runs underneath any job where the standard answer is not enough.
 
@@ -30,13 +30,13 @@ Creative thinking is not a gift some people receive. It’s a set of habits that
 
 ### Four ways to think creatively
 
-**Generate before you judge:** List several ideas, including bad ones, before deciding what works. The obvious ideas usually arrive first.
+**Generate before you judge:**List several ideas, including bad ones, before deciding what works. The obvious ideas usually arrive first.
 
-**Ask “What if?”:** Change one rule or assumption. Ask what would happen if the opposite were true.
+**Ask “What if?”:**Change one rule or assumption. Ask what would happen if the opposite were true.
 
-**Connect unrelated things:** Borrow a pattern, feature, or approach from somewhere completely different and apply it to the problem.
+**Connect unrelated things:**Borrow a pattern, feature, or approach from somewhere completely different and apply it to the problem.
 
-**Step away, then return:** Work on the problem, then take a walk or switch activities. New connections often appear after your attention moves elsewhere.
+**Step away, then return:**Work on the problem, then take a walk or switch activities. New connections often appear after your attention moves elsewhere.
 
 AI widens the options.
 

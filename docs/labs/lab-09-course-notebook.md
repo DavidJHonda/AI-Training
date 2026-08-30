@@ -14,9 +14,10 @@ authoritative if these notes ever disagree with the student-facing steps.
 - Run the current path once: click **Download the Start Smarter packet (PDF)** in the
   lab, confirm that `Start Smarter.pdf` downloads, create a fresh notebook, upload the
   PDF, send the exact quiz prompt from step 4, answer the quiz, and open a citation.
-- Make sure `packets/start-smarter.pdf` reflects the current Start Smarter lessons.
-  It is a static export, so regenerate it with `bash scripts/make-packet.sh` after
-  relevant lesson changes.
+- Make sure `packets/start-smarter.pdf` reflects the seven current Start Smarter
+  learning lessons. Welcome is intentionally excluded so the quiz tests AI concepts,
+  not course orientation. It is a static export, so regenerate it with
+  `bash scripts/make-packet.sh` after relevant lesson changes.
 
 ## The 30-minute session
 

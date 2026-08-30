@@ -160,7 +160,7 @@ arbitrary canvas height to make the copy fit.
 Use for a direct comparison or for two related choices that deserve equal visual
 weight. The approved reference boards are:
 
-- `illustrations/your-choices-choose-tool-v3.png`
+- `illustrations/your-choices-choose-tool-v4.jpg`
 - `illustrations/your-choices-choose-how-v8.png`
 
 At the current copy length, the reference canvas is 1600×880. Canvas height remains
@@ -193,7 +193,7 @@ Use for three parallel categories, stages, or judgment levels. The approved
 reference boards are:
 
 - `illustrations/honesty-use-ai-help-follow-rules.png`
-- `illustrations/privacy-how-much-share-v5.png`
+- `illustrations/privacy-how-much-share-v6.jpg`
 - `illustrations/people-skills-why-matter-v2.jpg`
 - `illustrations/make-your-move-careers-1-v2.jpg`
 - `illustrations/make-your-move-careers-2-v2.jpg`

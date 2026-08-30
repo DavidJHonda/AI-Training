@@ -2,8 +2,6 @@
 
 # People Skills
 
-Draft Lesson. Still working on it.
-
 AI can do amazing things. But there is one thing it doesn’t replace: people.
 
 People need people. We always have. Long before modern technology, survival depended on working together, trusting one another, and understanding what others needed.
@@ -36,4 +34,4 @@ AI can suggest what to say. It cannot understand the person for you, earn someon
 
 AI can write it. It can’t be the person in the room.
 
-Say it clearly, be easy to work with, and people follow.
+Listen well, speak clearly, and be someone people want to work with.

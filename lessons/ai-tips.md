@@ -18,7 +18,7 @@ Work with AI like it’s a 2-person group project: you and AI. Ask each other qu
 
 During the history group project, some members probably knew more about the subject than others. If a group member didn’t understand a concept, they asked the group.
 
-Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it.
+Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
 
 ![Understanding Profit. AI explains profit with a lawn-mowing example.](ai-tips-2-profit.jpg)
 
@@ -36,10 +36,10 @@ That history group project lasted four weeks. At the end of week one, your proje
 
 That process is called **iteration**. To iterate means to build something in versions, using each version to improve the next.
 
-Working with AI follows the same pattern. AI can only work with the idea, draft, or plan you give it. As each answer gets better, AI has better material to question, evaluate, and improve.
+Working with AI follows the same pattern. As you add details, correct weak spots, and improve the draft, AI has better material to question, evaluate, and improve.
 
 ![From Idea to Business Plan. Adding details turns a generic answer into a useful pressure test.](ai-tips-4-iteration.jpg)
 
 The next level starts after the first answer.
 
-Think with AI. Learn with it. Keep improving the result.
+Think, Learn, Start, and Iterate with AI.

@@ -6,7 +6,7 @@ Choosing a music app is simple. You pick Spotify, Apple Music, or something else
 
 Using AI starts the same way: you pick an app such as ChatGPT or Gemini. But depending on the app and your subscription, you may also be able to choose the model, how much reasoning it uses, and whether it performs deeper research.
 
-You won’t make all four choices every time. The default handles most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing.
+You won’t make all four choices every time. The default is a good starting point for most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing.
 
 ## AGE RULES MATTER
 
@@ -24,7 +24,7 @@ Choose an available home-base app that fits your tools and work. Use a second ap
 
 ### Which Model
 
-Each app offers a family of models. Use the everyday model for most tasks and its strongest model for difficult work.
+Some apps offer a family of models. Use the everyday model for most tasks and a more capable model for difficult work.
 
 ![Choice 3, Reasoning, and Choice 4, Research.](tune-the-model-2-reasoning-research.jpg)
 
@@ -36,9 +36,9 @@ Apps may call this Effort, Thinking, or Reasoning. Use more for math, code, plan
 
 Some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.
 
-## TEMPERATURE
+## A CHOICE YOU DON’T MAKE
 
-AI companies control temperature behind the scenes, and you will likely never see or change it. Think of temperature as a variety switch. Low temperature makes answers more predictable. High temperature makes them more varied or surprising.
+One more choice shapes every answer, even though AI companies control it behind the scenes: temperature. Think of temperature as a variety switch. Low temperature makes answers more predictable. High temperature makes them more varied or surprising.
 
 During training, AI learns patterns it uses to predict the next token. Each possible token gets a probability. Temperature reshapes those probabilities before AI chooses one. Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance.
 
@@ -50,9 +50,9 @@ For the unfinished sentence “You could name your new dog _____,” the startin
 
 ## CLOSING MESSAGE
 
-### The choices you make shape the answer.
+### The choices behind the answer shape it.
 
-The default usually works. Change it when the work demands more.
+Use the default when it works. Change what you can when the work demands more.
 
 ## LAB 13
 
@@ -90,6 +90,6 @@ For the answer you just received:
 
 ### 6. Ask for more variety
 
-Send this follow-up, then compare it with the first answer. You changed the request, but the model and temperature controls stayed hidden.
+Send this follow-up, then compare it with the first answer. The answer changed because you changed a choice you control: the words in your request. The model, reasoning, and temperature remained hidden.
 
 > Now give me five very different plans, including ideas I might not expect.

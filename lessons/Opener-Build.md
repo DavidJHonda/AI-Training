@@ -4,17 +4,17 @@
 
 ## WHAT MAKES YOU VALUABLE?
 
-Your setup.
+Your choices.
 
 Your questions.
 
 Your judgment.
 
-Your Skills.
+Your skills.
 
 And you’ll always be Smarter Than the Tool.
 
-Last section, and it’s the one you keep.
+This is the last section where you build new skills, and it’s the one you keep.
 
 Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. That skill made you a better cyclist, and it carried over into other physical activities, such as skating or playing basketball. Whether you became a serious cyclist or just rode for fun, the skill stayed with you. Nobody could give you balance. You had to build it.
 
@@ -28,13 +28,13 @@ Build Your Skills
 
 ## USE AI ON PURPOSE
 
-Choose what changes the answer, build ideas through conversation, and use AI honestly.
+Choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share.
 
 2
 
 ## SKILLS THAT GROW IN VALUE
 
-Additional skills grow in value when everyone has the same tool. People skills help you work with others. Creative thinking brings a better angle.
+People skills help you work with others. Creative thinking helps you find the better angle.
 
 3
 

@@ -130,7 +130,7 @@ BOARDS = (
         title="Build Your Skills",
         takeaway="Build the skills you keep when the tool changes.",
         rows=(
-            Row("Use AI on Purpose", "Choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share."),
+            Row("Use AI With Skill and Care", "Choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share."),
             Row("Skills That Grow in Value", "People skills help you work with others. Creative thinking helps you find the better angle."),
             Row("Stay Flexible. Make Your Move.", "Keep learning as AI changes, then turn your interests into action by building skills and making something real."),
         ),

@@ -26,7 +26,7 @@ Build Your Skills
 
 1
 
-## USE AI ON PURPOSE
+## USE AI WITH SKILL AND CARE
 
 Choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share.
 

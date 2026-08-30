@@ -2,8 +2,6 @@
 
 # Make Your Move
 
-Draft Lesson. Still working on it.
-
 Imagine you started a basketball team with friends. You learned the fundamentals, practiced regularly, and became better players. Then someone asks, “What’s next? Are we joining a league? Are we actually going to play?”
 
 That is where you are now with AI. You have learned the fundamentals and built important skills. Now it is time to decide what you will do with them.
@@ -26,13 +24,13 @@ In every example above, AI may take on more tasks, but people are responsible fo
 
 ### Four Skills to Build
 
-**Work well with people:**Listen, explain ideas clearly, collaborate, build trust, and help lead others.
+**Work well with people:** Listen, explain ideas clearly, collaborate, build trust, and help lead others.
 
-**Critical thinking and judgment:**Decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.
+**Critical thinking and judgment:** Decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.
 
-**Create and solve problems:**Find new angles, combine ideas, test possibilities, and improve what already exists.
+**Create and solve problems:** Find new angles, combine ideas, test possibilities, and improve what already exists.
 
-**Stay curious and flexible:**Keep learning, explore new tools, test new approaches, and change when something better appears.
+**Stay curious and flexible:** Keep learning, explore new tools, test new approaches, and change when something better appears.
 
 ## FOUR MOVES TO MAKE
 
@@ -40,13 +38,13 @@ You do not need to choose your entire future today. These four moves work whethe
 
 ### Moves to Make
 
-**Learn from people in the field:**Talk with someone in the field. Ask what a normal week looks like, what is changing, and what students usually misunderstand.
+**Learn from people in the field:** Talk with someone in the field. Ask what a normal week looks like, what is changing, and what students usually misunderstand.
 
-**Build real depth:**Choose something worth learning seriously. Take the class, do the reps, find feedback, and learn enough to catch what AI misses.
+**Build real depth:** Choose something worth learning seriously. Take the class, do the reps, find feedback, and learn enough to catch what AI misses.
 
-**Make something real:**Use AI to build a project, run an event, start a small business, conduct research, or solve a problem. Keep the finished work as proof.
+**Make something real:** Use AI to build a project, run an event, start a small business, conduct research, or solve a problem. Keep the finished work as proof.
 
-**Step into responsibility:**Join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.
+**Step into responsibility:** Join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.
 
 You know how to be smarter than the tool.
 

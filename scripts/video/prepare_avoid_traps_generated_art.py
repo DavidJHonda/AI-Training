@@ -36,6 +36,14 @@ STRIP_SHEETS = {
     "hallucination-why": 3,
 }
 
+PANEL_SHEETS = {
+    "support-danger": (
+        "01-leave-chat.png",
+        "02-do-it-now.png",
+        "03-safety-rule.png",
+    ),
+}
+
 
 def quadrants(source: Image.Image) -> list[Image.Image]:
     width, height = source.size
@@ -77,11 +85,27 @@ def prepare_strip(name: str, count: int) -> None:
     print(f"wrote {output_path.relative_to(ROOT)} ({source.width}x{source.height})")
 
 
+def prepare_panels(name: str, filenames: tuple[str, ...]) -> None:
+    directory = ASSETS / name
+    output_path = directory / "art-sheet.png"
+    panels = [Image.open(directory / filename).convert("RGB") for filename in filenames]
+    cell_width, cell_height = panels[0].size
+    if any(panel.size != (cell_width, cell_height) for panel in panels):
+        raise ValueError(f"{name}: every source panel must use the same dimensions")
+    output = Image.new("RGB", (cell_width * len(panels), cell_height))
+    for index, panel in enumerate(panels):
+        output.paste(panel, (index * cell_width, 0))
+    output.save(output_path, optimize=True)
+    print(f"wrote {output_path.relative_to(ROOT)} ({output.width}x{output.height})")
+
+
 def main() -> None:
     for name, count in SHEETS.items():
         prepare(name, count)
     for name, count in STRIP_SHEETS.items():
         prepare_strip(name, count)
+    for name, filenames in PANEL_SHEETS.items():
+        prepare_panels(name, filenames)
 
 
 if __name__ == "__main__":

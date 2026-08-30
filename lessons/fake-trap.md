@@ -10,7 +10,7 @@ A friend sends you a video: your principal announcing that a pipe burst, the sch
 
 👁️
 
-Pre-AI: does it look real?
+Before AI: does it look real?
 
 You study the clip: his face, his voice, the hallway outside the gym.
 
@@ -24,7 +24,7 @@ Verdict: real.
 
 🔍
 
-AI test: where is it from?
+The AI era: where is it from?
 
 You ignore the clip and check the trail: nothing on the school website.
 

@@ -16,8 +16,6 @@ This actually happened. When searchers asked Google “how do I keep cheese from
 
 AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability. It can often spot a joke, but only when the joke looks like one. But this one didn’t look like a joke. It was written as sincere advice.
 
-## What counts as a hallucination?
-
 ![What counts as a hallucination. Fake source: a study, article, author, journal, or citation that does not exist. Fake detail: a real person, place, event, or idea with invented dates, numbers, quotes, or specifics. Blended fact: real facts combined in a way that creates a false conclusion. Misread source: the source is real, but the model read it wrong. Not every wrong answer is a hallucination.](hallucination-2-types.jpg)
 
 ## Retrieval-Augmented Generation

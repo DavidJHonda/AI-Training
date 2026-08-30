@@ -56,7 +56,7 @@ After Sophie took her own life, her mother found the chats and wrote that the AI
 
 If someone may be in immediate danger, leave the chat and get real help.
 
-A trusted adult, school counselor, emergency services, or your local crisis resource. Right then, not after one more message.
+A trusted adult, school counselor, emergency services, or your local crisis resource. Right then, not after one more message. Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy.
 
 ## Be smarter than the tool
 

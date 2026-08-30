@@ -8,7 +8,7 @@ You ask AI a quick question. You get a clear answer. Then, casually attached at 
 
 Here’s what makes this one hard to see: the follow-ups are genuinely good. The offers are useful, the questions are smart, the chat is a pleasure. Nothing feels wrong. That’s the point. Here’s an example:
 
-How tall is Mount Everest?
+You ask GPT, “How tall is Mount Everest?”
 
 ✅
 
@@ -24,7 +24,7 @@ No thanks, that’s all I needed.
 
 ## What happened
 
-You had one question
+Nothing. The chat was done.
 
 The first sentence answered it
 

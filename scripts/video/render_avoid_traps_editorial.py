@@ -21,7 +21,7 @@ from render_editorial_ai_chat import Board as ChatBoard, Turn, render as render_
 from render_embrace_editorial_batch import (
     AMBER, BLUE, BODY, BODY_LINE, BODY_SIZE, CARD_BORDER_OPACITY, CARD_RADIUS,
     CARD_TITLE_SIZE, CARDS_TOP, FRAME, GREEN, INK, PADDING, PURPLE, RED,
-    TEAL, WHITE, Card, CardBoard, FlowBoard, accent_wash, centered_lines, cover,
+    TEAL, WHITE, Card, CardBoard, FlowBoard, accent_wash, cover,
     draw_shadow, mix_with_white, multiline, render_card_board, render_flow_board,
     rounded_mask, split_art_sheet, top_round_mask, tracked_width, wrap,
 )
@@ -261,7 +261,7 @@ def inward_arrow(draw: ImageDraw.ImageDraw, start: tuple[int, int], end: tuple[i
 def render_hallucination_convergence(art_sheet: str) -> Image.Image:
     """Render the Hallucination cause-cause-result flow."""
     steps = (
-        Card("Learns Patterns", "Training teaches patterns—not a verified database of facts."),
+        Card("Learns Patterns", "Training teaches patterns, not a verified database of facts."),
         Card("Predicts Words", "Generation chooses the most probable token one step at a time."),
         Card("Probable ≠ True", "The model can sound confident without checking its answer against reality."),
     )

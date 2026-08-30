@@ -855,6 +855,16 @@ const LESSON_VIDEOS = {
   engagementtrap: { src: "videos/engagement-trap.mp4", duration: "4 min", title: "The quietest trap: knowing when to stop." },
   supporttrap: { src: "videos/support-trap.mp4", duration: "4 min", title: "Supportive words aren’t support." },
   faketrap: { src: "videos/fake-trap.mp4", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." },
+  // Build Your Skills lessons are ready to read. These cards reserve the video
+  // position until the section's final videos are produced and approved.
+  openerskills: { comingSoon: true, title: "The Skills You Keep" },
+  choosemodel: { comingSoon: true, title: "The Choices Behind Every Answer" },
+  aitips: { comingSoon: true, title: "Go Beyond the First Answer" },
+  integrity: { comingSoon: true, title: "Own the Work. Protect the Details." },
+  peopleskills: { comingSoon: true, title: "The Skills AI Cannot Replace" },
+  creativethinking: { comingSoon: true, title: "Find the Better Angle" },
+  becurious: { comingSoon: true, title: "Stay Curious. Stay Flexible." },
+  makeyourmove: { comingSoon: true, title: "Turn Learning Into Action" },
   // The Finish Smarter opener's video will be REAL footage of Luke and Nate
   // delivering their letter and the five big ideas, not a generated cut. The
   // card holds the position until it's recorded.
@@ -940,13 +950,13 @@ const CLOSE_BOARDS = {
   openerskills: { pill: "The tool is rented.", sticky: "The skills are yours to keep." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two AI habits. They travel well." }
 };
-// Build Your Skills and Finish Smarter remain drafts: every lesson uses red text
-// in the icon navigation, the sticky title adds "· Draft", and the full lesson
-// header carries a prominent draft notice. Remove a group here when it graduates.
+// Finish Smarter remains a draft: its lessons use red text in the icon navigation,
+// the sticky title adds "· Draft", and the full lesson header carries a draft notice.
+// Remove the group here when it graduates.
 function isDraftLesson(sectionId) {
   var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
   if (!group) return false;
-  return group.label === "Build Your Skills" || group.label === "Finish Smarter";
+  return group.label === "Finish Smarter";
 }
 
 function LessonHeader(props) {
@@ -3230,7 +3240,7 @@ function CopyableLabPrompt(props) {
           cursor: disabled ? "not-allowed" : "pointer",
           opacity: disabled ? 0.75 : 1
         }
-      }, disabled ? "Enter Field First" : (status === "copied" ? "✓ Copied" : (status === "error" ? "Try Again" : "Copy Prompt")))),
+      }, disabled ? (props.disabledLabel || "Enter Field First") : (status === "copied" ? "✓ Copied" : (status === "error" ? "Try Again" : "Copy Prompt")))),
     E("div", { style: { fontFamily: "var(--mono)", fontSize: 12.5, lineHeight: 1.6, whiteSpace: "pre-wrap", overflowWrap: "anywhere" } }, props.text),
     disabled && props.disabledMessage ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, props.disabledMessage) : null,
     hasPlaceholder ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
@@ -3255,7 +3265,8 @@ function LabStepList(props) {
           E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
           E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
           st.content ? E("div", { style: { marginTop: 12 } }, st.content) : null,
-          st.prompt ? E(CopyableLabPrompt, { text: st.prompt, disabled: st.promptDisabled, disabledMessage: st.promptDisabledMessage }) : null));
+          st.prompt ? E(CopyableLabPrompt, { text: st.prompt, disabled: st.promptDisabled, disabledMessage: st.promptDisabledMessage, disabledLabel: st.promptDisabledLabel }) : null,
+          st.afterPromptContent ? E("div", { style: { marginTop: 12 } }, st.afterPromptContent) : null));
     }));
 }
 
@@ -3906,7 +3917,7 @@ function WelcomeSection(props) {
     E(BodyP, null,
       "Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery."),
     E("img", {
-      src: "lessons/welcome-2-how-to-take-course-page.jpg",
+      src: "lessons/welcome-2-how-to-take-course-page.jpg?v=20260829welcome1",
       alt: "Two ways to take the course: read the full lesson or press play for the video. Either way, finish the activity before moving to the next lesson.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
@@ -4130,7 +4141,7 @@ function AIMultiplierTryIt(props) {
     host.className = "aim";
     host.innerHTML =
       '<p class="aim-eyebrow">TRY IT</p>' +
-      '<p class="aim-lead">AI multiplies your effort. Pick a goal that resonates with you. Then see how AI supercharges it.</p>' +
+      '<p class="aim-lead">Click a goal, then press Round 2 when you&rsquo;re ready.</p>' +
       '<div class="aim-box"><div class="aim-card" data-stage></div></div>';
     root.appendChild(host);
     var stage = host.querySelector("[data-stage]");
@@ -7825,6 +7836,72 @@ function CareerExplorationPlanLab() {
       onToggle: function(i) { setChecked(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
     }));
 }
+
+function CareerFieldControl(props) {
+  var E = React.createElement;
+  var value = typeof props.value === "string" ? props.value : "";
+  return E("label", { htmlFor: props.id, style: { display: "block" } },
+    E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Career field"),
+    E("input", {
+      id: props.id,
+      type: "text",
+      value: value,
+      onChange: function(event) { props.onChange(event.target.value); },
+      placeholder: "For example: teaching, nursing, or graphic design",
+      autoComplete: "off",
+      style: {
+        width: "100%", boxSizing: "border-box", border: "1.5px solid var(--rule)", borderRadius: 9,
+        background: "var(--bg)", color: "var(--ink)", padding: "10px 12px",
+        fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.4, outlineColor: "var(--labAccent)"
+      }
+    }),
+    E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
+      "This field was saved in Lab 14. Change it here if you chose a different one."));
+}
+function CareerMoveSelector(props) {
+  var E = React.createElement;
+  var options = props.options || [];
+  return E("div", {
+    role: "group",
+    "aria-label": "Choose one move",
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 }
+  }, options.map(function(option) {
+    var selected = props.value === option;
+    return E("button", {
+      key: option,
+      type: "button",
+      "aria-pressed": selected,
+      onClick: function() { props.onChange(option); },
+      style: {
+        width: "100%", minHeight: 54, padding: "11px 13px", textAlign: "left",
+        borderRadius: 10, border: "1.5px solid " + (selected ? "var(--labAccent)" : "var(--rule)"),
+        background: selected ? "rgba(15, 118, 110, 0.09)" : "var(--bg)", color: "var(--ink)",
+        fontFamily: "var(--sans)", fontSize: 14.5, lineHeight: 1.35, fontWeight: 750,
+        cursor: "pointer", boxShadow: selected ? "0 0 0 1px var(--labAccent) inset" : "none"
+      }
+    }, selected ? "✓ " + option : option);
+  }));
+}
+function CareerActionControl(props) {
+  var E = React.createElement;
+  var value = typeof props.value === "string" ? props.value : "";
+  return E("label", { htmlFor: props.id, style: { display: "block" } },
+    E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Action I chose"),
+    E("textarea", {
+      id: props.id,
+      value: value,
+      onChange: function(event) { props.onChange(event.target.value); },
+      placeholder: "Paste the action you chose from ChatGPT",
+      rows: 3,
+      style: {
+        width: "100%", boxSizing: "border-box", resize: "vertical", border: "1.5px solid var(--rule)", borderRadius: 9,
+        background: "var(--bg)", color: "var(--ink)", padding: "10px 12px",
+        fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, outlineColor: "var(--labAccent)"
+      }
+    }),
+    E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
+      "This action will fill the Step 4 prompt automatically."));
+}
 function AITipsSection(props) {
   var E = React.createElement;
   return E("div", null,
@@ -9095,15 +9172,21 @@ function EvaluatingSection(props) {
 function CreativeThinkingCareerLab() {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-career-creative-thinking-steps-v2", {}), checked = _c[0], setChecked = _c[1];
+  var _f = useLocalStorage("llm-career-field", ""), careerField = _f[0], setCareerField = _f[1];
+  var chosenField = typeof careerField === "string" ? careerField.trim() : "";
+  var fieldForPrompt = chosenField || "the career field I chose";
   var STEPS = [
     {
       title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you have been using for your career exploration. Continue with the same field. If you cannot find the chat, start a new one and tell ChatGPT which field you are exploring."
+      body: "Open the ChatGPT conversation you have been using for your career exploration. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
+      content: E(CareerFieldControl, { id: "creative-thinking-career-field", value: careerField, onChange: setCareerField })
     },
     {
       title: "Choose a problem from the field",
       body: "Continue the conversation by sending this prompt. Pick the situation that makes you most curious.",
-      prompt: "For the career field we’ve been exploring, give me three small but realistic problems someone new to this field might need to solve. Each problem should allow more than one reasonable approach. Keep them specific and concise, then ask me which one I want to work on."
+      prompt: "For " + fieldForPrompt + ", give me three small but realistic problems someone new to this field might need to solve. Each problem should allow more than one reasonable approach. Keep them specific and concise, then ask me which one I want to work on.",
+      promptDisabled: !chosenField,
+      promptDisabledMessage: "Enter your career field in Step 1 to unlock this prompt."
     },
     {
       title: "Generate different approaches",
@@ -9179,15 +9262,21 @@ function CreativeThinkingSection(props) {
 function PeopleSkillsCareerLab() {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-career-people-skills-steps-v2", {}), checked = _c[0], setChecked = _c[1];
+  var _f = useLocalStorage("llm-career-field", ""), careerField = _f[0], setCareerField = _f[1];
+  var chosenField = typeof careerField === "string" ? careerField.trim() : "";
+  var fieldForPrompt = chosenField || "the career field I chose";
   var STEPS = [
     {
       title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you used in Lab 14. Continue with the field you chose to explore. If you cannot find the chat, start a new one and tell ChatGPT which field you are exploring."
+      body: "Open the ChatGPT conversation you used in Lab 14. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
+      content: E(CareerFieldControl, { id: "people-skills-career-field", value: careerField, onChange: setCareerField })
     },
     {
       title: "Start the role-play",
       body: "Continue the conversation by sending this prompt. Keep the situation fictional. Do not add real names or private information.",
-      prompt: "Using the career field we’ve been exploring, create a realistic but fictional situation in which someone new to this field needs strong people skills. Make it an interaction with a teammate, customer, patient, client, student, or manager, whichever fits the field. Role-play the other person. Give me one message at a time and wait for my response. After three exchanges, end the role-play. Tell me what I did well and give me one specific way to improve. Use these four skills in your feedback: listening to understand, noticing what isn’t being said, showing people they matter, and disagreeing without making it personal."
+      prompt: "For " + fieldForPrompt + ", create a realistic but fictional situation in which someone new to this field needs strong people skills. Make it an interaction with a teammate, customer, patient, client, student, or manager, whichever fits the field. Role-play the other person. Give me one message at a time and wait for my response. After three exchanges, end the role-play. Tell me what I did well and give me one specific way to improve. Use these four skills in your feedback: listening to understand, noticing what isn’t being said, showing people they matter, and disagreeing without making it personal.",
+      promptDisabled: !chosenField,
+      promptDisabledMessage: "Enter your career field in Step 1 to unlock this prompt."
     },
     {
       title: "Complete three exchanges",
@@ -9264,15 +9353,21 @@ function PeopleSkillsSection(props) {
 function BeCuriousCareerLab() {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-career-curious-flexible-steps-v2", {}), checked = _c[0], setChecked = _c[1];
+  var _f = useLocalStorage("llm-career-field", ""), careerField = _f[0], setCareerField = _f[1];
+  var chosenField = typeof careerField === "string" ? careerField.trim() : "";
+  var fieldForPrompt = chosenField || "the career field I chose";
   var STEPS = [
     {
       title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you have been using for your career exploration. Continue with the same field. If you cannot find the chat, start a new one and tell ChatGPT which field you are exploring."
+      body: "Open the ChatGPT conversation you have been using for your career exploration. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
+      content: E(CareerFieldControl, { id: "curious-flexible-career-field", value: careerField, onChange: setCareerField })
     },
     {
       title: "Map how the work may change",
       body: "Continue the conversation by sending this prompt. Remember that predictions are possibilities, not facts.",
-      prompt: "We have been exploring a career field together. Create a concise Future-of-the-Field Map with four headings: AI Already Helps With, AI May Handle More Of, People Still Own, and Most Uncertain. Include three specific items under each heading. Clearly separate current uses from predictions and identify claims I should verify because they may change."
+      prompt: "For " + fieldForPrompt + ", create a concise Future-of-the-Field Map with four headings: AI Already Helps With, AI May Handle More Of, People Still Own, and Most Uncertain. Include three specific items under each heading. Clearly separate current uses from predictions and identify claims I should verify because they may change.",
+      promptDisabled: !chosenField,
+      promptDisabledMessage: "Enter your career field in Step 1 to unlock this prompt."
     },
     {
       title: "Examine one uncertain change",
@@ -9599,24 +9694,45 @@ function LegacyMakeYourMoveSection(props) {
 function MakeYourMoveCareerLab() {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-career-make-one-move-steps-v2", {}), checked = _c[0], setChecked = _c[1];
+  var _f = useLocalStorage("llm-career-field", ""), careerField = _f[0], setCareerField = _f[1];
+  var _m = useLocalStorage("llm-career-next-move", ""), selectedMove = _m[0], setSelectedMove = _m[1];
+  var _a = useLocalStorage("llm-career-next-action", ""), selectedAction = _a[0], setSelectedAction = _a[1];
+  var chosenField = typeof careerField === "string" ? careerField.trim() : "";
+  var chosenMove = typeof selectedMove === "string" ? selectedMove.trim() : "";
+  var chosenAction = typeof selectedAction === "string" ? selectedAction.trim() : "";
+  var fieldForPrompt = chosenField || "the career field I chose";
+  var MOVE_OPTIONS = [
+    "Learn from people in the field",
+    "Build real depth",
+    "Make something real",
+    "Step into responsibility"
+  ];
   var STEPS = [
     {
       title: "Review your career exploration",
-      body: "Open the ChatGPT conversation you have been using for the Career Explorer. Skim the field you chose, the people-skills role-play, the creative solution you developed, and the future-of-the-field map. Notice one part that made you want to learn or do more."
+      body: "Open the ChatGPT conversation you have been using for the Career Explorer. If you cannot find it, start a new chat. Your saved career field appears below. Then skim the work you completed, if it is available, and notice one part that made you want to learn or do more.",
+      content: E(CareerFieldControl, { id: "make-your-move-career-field", value: careerField, onChange: setCareerField })
     },
     {
       title: "Connect it to one move",
-      body: "Choose the move from this lesson that you most want to make next: learn from someone doing the work, build real depth, make something real, or step into responsibility. You are choosing a direction, not your entire future."
+      body: "Choose the move from this lesson that you most want to make next. You are choosing a direction, not your entire future. Your choice will fill the next prompt automatically.",
+      content: E(CareerMoveSelector, { options: MOVE_OPTIONS, value: selectedMove, onChange: setSelectedMove })
     },
     {
       title: "Choose a specific action",
-      body: "Replace the brackets with the move you selected. Read the three possibilities and choose the one that feels both meaningful and realistic.",
-      prompt: "I want my next move to be: [MOVE]. Review our career exploration and suggest three specific actions that fit this move and the field I explored. Connect each option to something we learned earlier in this conversation. Do not repeat an earlier suggestion unless it is clearly the strongest fit. Keep the options safe, low-cost, and appropriate for a high school student. Ask me which one I choose."
+      body: "Read the three possibilities and choose the one that feels both meaningful and realistic. Verify any program, cost, deadline, or contact information yourself before choosing. Paste your choice below so it fills Step 4 automatically.",
+      prompt: "I explored " + fieldForPrompt + ". My next move is: " + (chosenMove || "the move I selected") + ". Suggest three specific actions that fit this move and career field. If our earlier career exploration is in this chat, connect each option to something we learned there. Do not repeat an earlier suggestion unless it is clearly the strongest fit. Keep the options safe, low-cost, and appropriate for a high school student. Ask me which one I choose.",
+      promptDisabled: !chosenField || !chosenMove,
+      promptDisabledMessage: !chosenField ? "Enter your career field in Step 1 to unlock this prompt." : "Choose one move in Step 2 to unlock this prompt.",
+      afterPromptContent: E(CareerActionControl, { id: "make-your-move-action", value: selectedAction, onChange: setSelectedAction })
     },
     {
       title: "Build a 30-day plan",
-      body: "After you choose the action, send this prompt. Check that the answer includes a finish line, steps, something to do this week, a date, and a person who could give you feedback.",
-      prompt: "I chose this action: [ACTION]. Help me make a realistic 30-day plan. Organize it under five headings: Finish Line, Steps, What I Will Do This Week, When I Will Do It, and Who Could Give Me Feedback. Keep the plan safe, low-cost, and appropriate for a high school student."
+      body: "After you paste your choice in Step 3, send this prompt. Check that the answer includes a finish line, steps, something to do this week, a date, and a person who could give you feedback.",
+      prompt: "I chose this action: " + (chosenAction || "the action I selected") + ". Help me make a realistic 30-day plan. Organize it under five headings: Finish Line, Steps, What I Will Do This Week, When I Will Do It, and Who Could Give Me Feedback. Keep the plan safe, low-cost, and appropriate for a high school student.",
+      promptDisabled: !chosenAction,
+      promptDisabledLabel: "Enter Action First",
+      promptDisabledMessage: "Paste the action you chose in Step 3 to unlock this prompt."
     },
     {
       title: "Make your move",
@@ -10911,10 +11027,10 @@ function OpenerSkillsSection(props) {
       eyebrow: "In this section",
       title: "Build Your Skills"
     },
-    sectionOverviewBoard: "illustrations/opener-build-section-map.jpg?v=20260829skills1",
+    sectionOverviewBoard: "illustrations/opener-build-section-map.jpg?v=20260829skills2",
     groups: [
       {
-        kicker: "Use AI on Purpose",
+        kicker: "Use AI With Skill and Care",
         bridge: "Choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share."
       },
       {

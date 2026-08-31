@@ -16,14 +16,14 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 from editorial_takeaway import TAKEAWAY_GAP, TAKEAWAY_HEIGHT, TAKEAWAY_TEXT_SIZE, draw_takeaway_band
-from editorial_typography import INNER_TITLE_TRACKING, draw_board_title, draw_inner_title, face
+from editorial_typography import draw_board_title, draw_inner_title, face
 from render_editorial_ai_chat import Board as ChatBoard, Turn, render as render_chat
 from render_embrace_editorial_batch import (
     AMBER, BLUE, BODY, BODY_LINE, BODY_SIZE, CARD_BORDER_OPACITY, CARD_RADIUS,
     CARD_TITLE_SIZE, CARDS_TOP, FRAME, GREEN, INK, PADDING, PURPLE, RED,
     TEAL, WHITE, Card, CardBoard, FlowBoard, accent_wash, centered_lines, cover,
     draw_shadow, mix_with_white, multiline, render_card_board, render_flow_board,
-    rounded_mask, split_art_sheet, top_round_mask, tracked_width, wrap,
+    rounded_mask, split_art_sheet, top_round_mask, wrap,
 )
 
 
@@ -415,36 +415,34 @@ def inward_arrow(draw: ImageDraw.ImageDraw, start: tuple[int, int], end: tuple[i
     ), fill=fill)
 
 
-def render_hallucination_convergence(art_sheet: str) -> Image.Image:
-    """Render the Hallucination cause-cause-result flow."""
+def render_hallucination_convergence(art_sheet: str, supporting_art_sheet: str) -> Image.Image:
+    """Render the Hallucination four-step teaching flow."""
     steps = (
-        Card("Learns Patterns", "Training teaches patterns, not a verified database of facts."),
-        Card("Predicts Words", "Generation chooses the most probable token one step at a time."),
-        Card("Probable ≠ True", "The model can sound confident without checking its answer against reality."),
+        Card("Learns From the Text It’s Fed", "That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too."),
+        Card("One Token at a Time", "It builds its response by predicting which token is likely to come next."),
+        Card("Taught to Answer", "AI is trained to be helpful, so it usually tries to answer instead of stopping when unsure."),
+        Card("Probable ≠ True", "An answer can sound exactly right even when the facts are wrong."),
     )
-    accents = (PURPLE, BLUE, TEAL)
-    roles = ("CAUSE-1", "CAUSE-2", "RESULT")
-    art_width = 310
+    accents = (PURPLE, BLUE, TEAL, AMBER)
+    art_width = 280
     art_height = round(art_width * 9 / 16)
-    art_lefts = (75, 645, 1215)
+    art_lefts = (70, 463, 857, 1250)
     centers = tuple(left + art_width // 2 for left in art_lefts)
     art_top = 175
-    role_y = art_top + art_height + 45
-    title_y = role_y + 49
-    body_y = title_y + 59
+    marker_y = art_top + art_height + 45
+    title_y = marker_y + 49
     column_width = 300
     body_font = face("medium", BODY_SIZE)
-    role_font = face("heavy", 20)
+    number_font = face("heavy", 26)
     title_font = face("bold", CARD_TITLE_SIZE)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    titles = [wrap(measure, step.title, title_font, column_width) for step in steps]
+    max_title_lines = max(len(lines) for lines in titles)
+    title_line_height = 48
+    body_y = title_y + max_title_lines * title_line_height + 10
     bodies = [wrap(measure, step.body, body_font, column_width) for step in steps]
-    for step in steps:
-        assert tracked_width(measure, step.title, title_font, INNER_TITLE_TRACKING) <= column_width, (
-            f"hallucination-why: title must stay on one line: {step.title}"
-        )
     stage_bottom = body_y + max(len(lines) for lines in bodies) * BODY_LINE + 45
-    footer_top = stage_bottom + TAKEAWAY_GAP
-    height = footer_top + TAKEAWAY_HEIGHT + PADDING
+    height = stage_bottom + PADDING
 
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
@@ -452,7 +450,11 @@ def render_hallucination_convergence(art_sheet: str) -> Image.Image:
     draw_board_title(draw, "Why Hallucinations Happen")
     draw.rounded_rectangle((40, 127, 1560, stage_bottom), radius=14, fill=WHITE)
 
-    panels = split_art_sheet(Image.open(ROOT / art_sheet).convert("RGB"), 3)
+    base_panels = split_art_sheet(Image.open(ROOT / art_sheet).convert("RGB"), 3)
+    supporting = Image.open(ROOT / supporting_art_sheet).convert("RGB")
+    supporting_width, supporting_height = supporting.size
+    probable_panel = supporting.crop((0, supporting_height // 2, supporting_width // 2, supporting_height))
+    panels = (base_panels[0], base_panels[1], base_panels[2], probable_panel)
     mask = rounded_mask((art_width, art_height), 14)
     for left, panel, accent in zip(art_lefts, panels, accents):
         art = accent_wash(cover(panel, (art_width, art_height)), accent)
@@ -466,42 +468,44 @@ def render_hallucination_convergence(art_sheet: str) -> Image.Image:
 
     draw = ImageDraw.Draw(image)
     arrow_y = art_top + art_height // 2
-    inward_arrow(draw, (art_lefts[0] + art_width + 10, arrow_y), (art_lefts[1] - 10, arrow_y), PURPLE)
-    inward_arrow(draw, (art_lefts[1] + art_width + 10, arrow_y), (art_lefts[2] - 10, arrow_y), BLUE)
-    for center, role, accent, step, body_lines in zip(centers, roles, accents, steps, bodies):
-        role_width = round(draw.textlength(role, font=role_font)) + 28
-        draw.rounded_rectangle(
-            (center - role_width // 2, role_y - 15, center + role_width // 2, role_y + 15),
-            radius=15,
-            fill=mix_with_white(accent, .12),
-        )
-        draw.text((center, role_y), role, font=role_font, fill=accent, anchor="mm")
-        draw_inner_title(draw, (center, title_y), step.title, fill=accent, anchor="ma")
+    for index in range(len(art_lefts) - 1):
+        inward_arrow(draw, (art_lefts[index] + art_width + 10, arrow_y), (art_lefts[index + 1] - 10, arrow_y), accents[index])
+    for index, (center, accent, title_lines, body_lines) in enumerate(zip(centers, accents, titles, bodies), start=1):
+        draw.ellipse((center - 29, marker_y - 29, center + 29, marker_y + 29), fill=accent)
+        draw.text((center, marker_y), str(index), font=number_font, fill=WHITE, anchor="mm")
+        for line_index, line in enumerate(title_lines):
+            draw_inner_title(draw, (center, title_y + line_index * title_line_height), line, fill=accent, anchor="ma")
         centered_lines(draw, center, body_y, body_lines, body_font, BODY, BODY_LINE)
-    draw_takeaway_band(
-        image,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="A likely sentence can still be false.",
-        font=face("medium", TAKEAWAY_TEXT_SIZE),
-    )
     return image
 
 
 def main() -> None:
     art = build_art_sheets()
 
+    hallucination_example = ChatBoard(
+        "hallucination-example",
+        "Nothing Sounds Wrong",
+        (
+            Turn("YOU", "Will my hype playlist on Spotify help me study for chemistry, or will it distract me?"),
+            Turn("AI", "Great question. A 2022 Stanford study of 1,200 high school students found that familiar instrumental music improved recall by 18%. Researchers recommend keeping the volume below 60 decibels. Want me to help you build a study playlist?"),
+        ),
+        "The study does not exist.",
+    )
     save_pair(
-        render_hallucination_convergence(art["hallucination_why"]),
+        render_chat(hallucination_example),
+        Pair("illustrations/hallucination-example-v2.jpg", "lessons/avoid-traps-2-hallucination-example.jpg"),
+    )
+
+    save_pair(
+        render_hallucination_convergence(art["hallucination_why"], art["hallucination_types"]),
         Pair("illustrations/hallucination-why-v2.jpg", "lessons/avoid-traps-2a-why.jpg"),
     )
 
     feature_boards = (
         ("Read the Water", "illustrations/opener-avoid.jpg", "The safest move is to notice the current before it pulls you in.", PURPLE,
          Pair("illustrations/opener-avoid-editorial-v2.jpg", "lessons/avoid-traps-1-read-water.jpg")),
-        ("Probable Isn’t Always True", "illustrations/hallucination.jpg", "A likely sentence can still be false.", AMBER,
-         Pair("illustrations/hallucination-probable-v2.jpg", "lessons/avoid-traps-2-probable.jpg")),
+        ("Real Text. Wrong Meaning.", "illustrations/hallucination-real-text.png", "The Reddit comment was real. The cooking advice was not.", AMBER,
+         Pair("illustrations/hallucination-real-text-v2.jpg", "lessons/avoid-traps-3-real-text.jpg")),
         ("Wrong Pattern. Wrong Answer.", "illustrations/training-bias.jpg", "A model can learn the background instead of the thing that matters.", TEAL,
          Pair("illustrations/training-bias-pattern-v2.jpg", "lessons/avoid-traps-5-wrong-pattern.jpg")),
         ("Uploaded Isn’t Fully Read", "illustrations/document-trap.jpg", "AI answers from the pieces it retrieved—not necessarily the whole file.", BLUE,

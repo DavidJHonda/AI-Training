@@ -2,40 +2,32 @@
 
 # Hallucination
 
-**AI can make mistakes. Check important information.**
+![Nothing sounds wrong. A user asks whether a hype playlist on Spotify will help with chemistry studying. AI cites a detailed Stanford study, recommends a volume limit, and offers to build a study playlist. The study does not exist.](avoid-traps-2-hallucination-example.jpg)
 
-That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? Yes. And you already know the reasons why:
+Stanford is real. The sample size sounds credible. The percentage sounds measured. Even the volume recommendation sounds careful. Every detail makes the answer easier to trust, but there is no study, no paper, and no source to open.
 
-![Why hallucinations happen. Training teaches patterns, not facts. Generation picks each next token by probability. Together they mean probable does not always mean true, and a likely sentence can still be false.](hallucination-1-why.jpg)
+**A hallucination is a factual claim AI makes up that sounds true but isn’t.**
 
-Sometimes AI gives you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a **hallucination**.
+A hallucination does not have to make up the whole answer. It can attach one invented detail to facts that are real. This makes hallucinations harder to spot.
 
-## A Famous Hallucination
+The fake study did not come from nowhere. AI knows what a research finding sounds like, even when it does not have a real finding to report.
 
-This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce. And some people actually tried it.
+![Why hallucinations happen. AI learns from text that can include mistakes, jokes, and lies. It generates one token at a time. It is trained to answer. A probable answer is not necessarily true.](avoid-traps-2a-why.jpg)
 
-AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability. It can often spot a joke, but only when the joke looks like one. But this one didn’t look like a joke. It was written as sincere advice.
+## Not Every AI Error Is a Hallucination
 
-![What counts as a hallucination. Fake source: a study, article, author, journal, or citation that does not exist. Fake detail: a real person, place, event, or idea with invented dates, numbers, quotes, or specifics. Blended fact: real facts combined in a way that creates a false conclusion. Misread source: the source is real, but the model read it wrong. Not every wrong answer is a hallucination.](hallucination-2-types.jpg)
+Hallucination is the term people often use whenever AI gets something wrong. But AI can produce a false answer without inventing anything.
 
-## Retrieval-Augmented Generation
+This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce.
 
-The industry’s workaround is **RAG** (Retrieval-Augmented Generation).
+That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant.
 
-## Why it helps
+![Real text. Wrong meaning. Luke feeds an old joke card into a brass pattern machine, which turns it into an authoritative-looking pictogram recommending glue on pizza. The Reddit comment was real. The cooking advice was not.](avoid-traps-3-real-text.jpg)
 
-For factual questions, modern chatbots search the web and write the answer from the real documents they find.
+This was not a hallucination. It was a different kind of AI error: real text, interpreted incorrectly.
 
-## Why it isn’t enough
+Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up.
 
-Even the big three don’t search for every answer. Plenty still come straight from the model’s memory.
+**Hallucinations sound like every other AI answer.**
 
-## And it still happens
-
-The glue-on-pizza advice happened with RAG on.
-
-It’s why hallucinations are rarer than they used to be. But rarer isn’t zero.
-
-Probable isn’t always true.
-
-And it sounds the same when it’s wrong.
+When something doesn’t add up, trace the claim to its source.

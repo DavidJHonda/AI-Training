@@ -847,7 +847,7 @@ const LESSON_VIDEOS = {
   prediction: { src: "videos/how-ai-answers.mp4?v=2", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "videos/one-more-thing.mp4", duration: "5 min", title: "Three more things: the lottery, the transcript, and the bill." },
   openerprotect: { src: "videos/opener-avoid.mp4?v=2", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
-  hallucination: { src: "videos/hallucination.mp4", duration: "3 min", title: "Why AI is confidently wrong, and the four patterns to catch it.", cta: "Both end at the same LAB." },
+  hallucination: { src: "videos/hallucination.mp4", duration: "3 min", title: "Why AI can make up facts that sound true.", cta: "Both end at the same LAB." },
   trainingbias: { src: "videos/training-bias.mp4", duration: "3 min", title: "Every fact checks out. The picture is still distorted.", cta: "Both end at the same LAB." },
   documenttrap: { src: "videos/document-trap.mp4", duration: "5 min", title: "Uploaded doesn’t mean read." },
   mindtrap: { src: "videos/mind-trap.mp4", duration: "4 min", title: "Why it feels like somebody’s there." },
@@ -922,7 +922,7 @@ const CLOSE_BOARDS = {
   inference: { pill: "Not a mind. Math, at a scale nobody can picture.", sticky: "Every time you hit send." },
   // Avoid Traps
   openerprotect: { pill: "When AI fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
-  hallucination: { pill: "Probable isn’t always true.", sticky: "And it sounds the same when it’s wrong." },
+  hallucination: { pill: "Hallucinations sound like every other AI answer.", sticky: "When something doesn’t add up, trace the claim to its source." },
   trainingbias: { pill: "AI learned from what we wrote.", sticky: "Flaws in the data become flaws in the answers." },
   documenttrap: { pill: "It answers from what it retrieved.", sticky: "Not from having read the whole thing." },
   mindtrap: { pill: "Human-sounding isn’t a mind.", sticky: "The words are real. Nobody’s home." },
@@ -8338,26 +8338,6 @@ function DinoGameDemo() {
         style: { display: "block", borderRadius: 8, background: "var(--bg)", outline: "none", touchAction: "none", cursor: "pointer" }
       })));
 }
-function RagLimitsBox() {
-  var E = React.createElement;
-  var CARDS = [
-    { h: "Why it helps", body: "For factual questions, modern chatbots search the web and write the answer from the real documents they find." },
-    { h: "Why it isn’t enough", body: "Even the big three don’t search for every answer. Plenty still come straight from the model’s memory." },
-    { h: "And it still happens", body: "The glue-on-pizza advice happened with RAG on." }
-  ];
-  return E(React.Fragment, null,
-    E("img", {
-      src: "illustrations/hallucination-rag-v2.jpg",
-      alt: "Three cards explain why retrieval-augmented generation helps, why it is not enough, and why hallucinations still happen.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "RAG Helps."),
-      CARDS.map(function(c, i) {
-        return E("p", { key: i }, E("strong", null, c.h), " ", c.body);
-      }),
-      E("p", null, "It’s why hallucinations are rarer than they used to be. But rarer isn’t zero.")));
-}
 function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
@@ -8369,59 +8349,56 @@ function HallucinationSection(props) {
     { title: "Make it yours", body: "Keep going until it feels like your game. If you downloaded the first version, download the revised HTML file and open that new version in Chrome to see the change." }
   ];
   var dinoCheckedCount = Object.keys(dinoChecked).filter(function(k) { return dinoChecked[k]; }).length;
-  var hallucinationTypes = [
-    { icon: "📚", title: "Fake source", body: "A study, article, author, journal, or citation that does not exist." },
-    { icon: "🔢", title: "Fake detail", body: "A real person, place, event, or idea with invented dates, numbers, quotes, or specifics." },
-    { icon: "🧩", title: "Blended fact", body: "Real facts combined in a way that creates a conclusion that is false." },
-    { icon: "🔀", title: "Misread source", body: "The source is real, but the model read it wrong." }
-  ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/hallucination-example-v2.jpg",
+      alt: "A user asks whether a hype playlist on Spotify will help with chemistry studying. AI cites a detailed Stanford study, recommends a volume limit, and offers to build a study playlist. A gold band reveals that the study does not exist.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "Nothing Sounds Wrong"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You:"), " Will my hype playlist on Spotify help me study for chemistry, or will it distract me?"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "AI:"), " Great question. A 2022 Stanford study of 1,200 high school students found that familiar instrumental music improved recall by 18%. Researchers recommend keeping the volume below 60 decibels. Want me to help you build a study playlist?"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The study does not exist."))),
     /*#__PURE__*/React.createElement(BodyP, null,
-      /*#__PURE__*/React.createElement("strong", null, "AI can make mistakes. Check important information.")),
+      "Stanford is real. The sample size sounds credible. The percentage sounds measured. Even the volume recommendation sounds careful. Every detail makes the answer easier to trust, but there is no study, no paper, and no source to open."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      /*#__PURE__*/React.createElement("strong", null, "A hallucination is a factual claim AI makes up that sounds true but isn’t.")),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "A hallucination does not have to make up the whole answer. It can attach one invented detail to facts that are real. This makes hallucinations harder to spot."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 8 },
-      "That’s the warning under every chat box you’ve ever used. Wait a second. For something this powerful, it makes mistakes? Yes. And you already know the reasons why:"),
+      "The fake study did not come from nowhere. AI knows what a research finding sounds like, even when it does not have a real finding to report."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/hallucination-why-v2.jpg",
-      alt: "",
+      alt: "Four steps explain why hallucinations happen. AI learns from text that can include mistakes, jokes, and lies; it generates one token at a time; it is trained to answer; and a probable answer is not necessarily true.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("ul", null,
-        /*#__PURE__*/React.createElement("li", null, "Training taught it patterns, not facts."),
-        /*#__PURE__*/React.createElement("li", null, "It builds answers one token at a time, picking each token by probability.")),
-      /*#__PURE__*/React.createElement(BodyP, null,
-        "The combination causes the problem: ", /*#__PURE__*/React.createElement("strong", null, "probable doesn’t always mean true."))),
+      /*#__PURE__*/React.createElement("h3", null, "Why Hallucinations Happen"),
+      /*#__PURE__*/React.createElement("ol", null,
+        /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Learns From the Text It’s Fed."), " That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too."),
+        /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "One Token at a Time."), " It builds its response by predicting which token is likely to come next."),
+        /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Taught to Answer."), " AI is trained to be helpful, so it usually tries to answer instead of stopping when unsure."),
+        /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Probable Does Not Equal True."), " An answer can sound exactly right even when the facts are wrong."))),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Not Every AI Error Is a Hallucination"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Sometimes AI gives you a false claim delivered in the same confident voice it uses for real facts. That confident-but-wrong claim is called a ", /*#__PURE__*/React.createElement("strong", null, "hallucination"), "."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "A Famous Hallucination"),
+      "Hallucination is the term people often use whenever AI gets something wrong. But AI can produce a false answer without inventing anything."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce. And some people actually tried it."),
+      "This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "AI didn’t invent this answer. It traced back to an old joke on Reddit that the AI read as sincere advice. And that’s the two reasons above in action: the model works in patterns and probability. It can often spot a joke, but only when the joke looks like one. But this one didn’t look like a joke. It was written as sincere advice."),
+      "That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/hallucination-probable-v2.jpg",
-      alt: "Luke feeds an old joke card into a brass pattern machine, which turns it into an authoritative-looking pictogram recommending glue on pizza. Nate points back to the joke source while an untouched glue bottle remains away from the food. The headline reads Probable isn't always true.",
+      src: "illustrations/hallucination-real-text-v2.jpg",
+      alt: "Luke feeds an old joke card into a brass pattern machine, which turns it into an authoritative-looking pictogram recommending glue on pizza. Nate points back to the joke source while an untouched glue bottle remains away from the food.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/hallucination-types-v2.jpg",
-      alt: "",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("p", null, "Not every wrong answer is a hallucination. These are the four patterns to watch for."),
-      hallucinationTypes.map(function(item, i) {
-        return /*#__PURE__*/React.createElement("p", { key: i },
-          item.icon, " ",
-          /*#__PURE__*/React.createElement("strong", null, item.title), " ",
-          item.body);
-      })),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Retrieval-Augmented Generation"),
+      /*#__PURE__*/React.createElement("h3", null, "Real Text. Wrong Meaning."),
+      /*#__PURE__*/React.createElement("p", null, "The Reddit comment was real. The cooking advice was not.")),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "The industry\u2019s workaround is ",
-      /*#__PURE__*/React.createElement("strong", null, "RAG"),
-      " (Retrieval-Augmented Generation)."),
-    /*#__PURE__*/React.createElement(RagLimitsBox, null),
+      "This was not a hallucination. It was a different kind of AI error: real text, interpreted incorrectly."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up."),
     closeBoard("hallucination"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
@@ -8429,7 +8406,7 @@ function HallucinationSection(props) {
       labNumber: "07",
       title: "Build the Dino Game",
       hint: "Click the box after you finish each step.",
-      lead: "You’ve spent this lesson catching AI when it’s wrong. Now see the other side: what it builds when you steer it. You’re going to make your own version of the classic no-wifi dinosaur game, without writing a single line of code.",
+      lead: "You just saw the downside of AI working through patterns. When a fact is missing, AI can fill the space with something that sounds true. Now see the upside. A simple game follows familiar coding patterns, and AI is extremely good at putting those patterns together. You’re going to make your own version of the classic no-wifi dinosaur game without writing a single line of code.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: dinoCheckedCount, total: DINO_STEPS.length })
     },
       /*#__PURE__*/React.createElement(DinoGameDemo, null),

@@ -30,6 +30,7 @@ BRAND = "#6e51ff"
 AI_FILL = "#f4f2fa"
 AI_BORDER = "#e6e2f5"
 AI_LABEL = "#6e6986"
+HUMAN_ROLES = {"YOU", "STUDENT", "HUMAN"}
 
 
 @dataclass(frozen=True)
@@ -149,11 +150,12 @@ def draw_role_label(
     y: int,
     font,
 ) -> None:
-    color = BRAND if role == "YOU" else AI_LABEL
+    is_human = role in HUMAN_ROLES
+    color = BRAND if is_human else AI_LABEL
     diameter = 11
     gap = 10
     label_width = round(draw.textlength(role, font=font))
-    if role == "YOU":
+    if is_human:
         dot_left = bubble_right - diameter
         draw.ellipse((dot_left, y + 5, dot_left + diameter, y + 5 + diameter), fill=color)
         draw.text((dot_left - gap, y), role, font=font, fill=color, anchor="ra")
@@ -207,7 +209,7 @@ def render(board: Board) -> Image.Image:
             y += 44 if turn.phase else 30
         if turn.phase:
             y = draw_phase(draw, y, turn.phase, phase_font)
-        if turn.role == "YOU":
+        if turn.role in HUMAN_ROLES:
             bubble_right = 1520
             bubble_left = bubble_right - bubble_width
             bubble_fill = mix_with_white(BRAND, 0.10)

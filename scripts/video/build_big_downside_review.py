@@ -8,7 +8,7 @@ the stored accent color. The close uses the canonical 48-frame prehold,
 150-frame push to 1.2x, and settled final hold.
 
 The shipped ``videos/big-downside.mp4`` is never overwritten. Review output is
-``videos/big-downside-v3.mp4``.
+``videos/big-downside-v4.mp4``.
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/big-downside.mp4"
-OUTPUT = ROOT / "videos/big-downside-v3.mp4"
+OUTPUT = ROOT / "videos/big-downside-v4.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -315,7 +315,7 @@ def build_legs() -> tuple[Leg, ...]:
 
     # Hold the exact lesson board through the roadblock/detour explanation so
     # the obsolete comparison graphic cannot flash back at 02:15.
-    policy_start, policy_end = at(128.800), at(157.500)
+    policy_start, policy_end = at(128.800), at(159.370)
     policy_points = [
         policy_start, policy_start + 12, at(132.560), at(139.680), at(149.120),
         policy_end,
@@ -378,7 +378,9 @@ def build_legs() -> tuple[Leg, ...]:
 
     # The on-page PullQuote replaces the reroll visuals for the narrated
     # Pacing the Frontier passage. The close begins with its own sentence.
-    quote_start, quote_end = at(276.130), at(292.480)
+    # Enter half a second before 04:20 so no source graphic survives on the
+    # quote transition frame.
+    quote_start, quote_end = at(275.630), at(292.480)
     quote_states = (State("quote", quote_end - quote_start),)
 
     close_start, close_end = quote_end, SOURCE_FRAMES

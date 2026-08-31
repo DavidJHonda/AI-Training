@@ -2,52 +2,32 @@
 
 # Mind Trap
 
-The next four traps are different from the first three. They’re not about whether the answer is correct. They’re about how the answer feels, and what that feeling makes you trust.
+Some AI traps aren’t about whether the answer is correct. They’re about how the answer feels, and what that feeling makes you trust.
 
-You know AI isn’t a person and doesn’t think. This lesson is why it keeps feeling like somebody is anyway, and what that feeling does to you.
+You know AI isn’t a person and doesn’t think. So why can chatting with it still feel like talking to somebody?
 
 Think about picking a college. Ask the same question twice, once at the dinner table and once in a chat window:
 
-Should I go to the University of Michigan or Indiana University?
+## The Same Question. Two Different Kinds of Knowing.
 
-🧑
+![Two answers to the question Should I choose Michigan or Indiana? Mom recommends Indiana using knowledge of the student. AI recommends Michigan with polished, generic college advice.](avoid-traps-12-mind-comparison.jpg)
 
-Your Mom
+The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. **Mind Trap is giving a human-sounding answer the trust you would give someone who knows you.**
 
-Indiana. When you’re stuck, you go quiet, and in Michigan’s 300-person lectures nobody notices quiet. Indiana’s classes are small enough that your professors will.
+## The ELIZA Effect
 
-## What happened
+In the 1960s, some people began treating a simple chatbot called ELIZA as if it understood them. But ELIZA mostly matched patterns and turned their words back into questions. That response became known as the ELIZA effect.
 
-Searched eighteen years of knowing you
+## Why AI Feels Like Somebody
 
-Knows how you act when you’re stuck
+![Two cards explain why AI can feel like somebody. Your brain looks for a person behind something that responds, and AI uses phrases such as I think and I feel. Sounding human does not make AI human.](avoid-traps-13-eliza.jpg)
 
-Has a stake in how it turns out
+When AI feels like a person, its advice can start to carry the weight of advice from someone who knows you.
 
-🤖
+## For Decisions That Matter
 
-AI
+AI can gather facts, lay out options, and challenge your thinking. But it does not know you or live with the result. Talk it through with people who do. Then make the call.
 
-Great question! Michigan offers world-class academics and a vibrant campus community. It could be an excellent fit for you.
+**For decisions that matter**
 
-## What happened
-
-Matched a million college-advice pages
-
-No memory of you, no stake in the outcome
-
-Nobody behind the words
-
-Notice which answer sounds better. The AI’s is smoother, more confident, easier to like. And it could have been written for anyone. **Mind Trap is accepting AI’s words as human advice.**
-
-## Not a new problem
-
-In the 1960s, users of a simple chatbot called ELIZA reported feeling that it understood them, even though the program just rearranged their words into questions. Researchers named the pattern the *ELIZA effect*.
-
-![Why AI feels like somebody. Your brain looks for minds; AI sets the detector off harder; human-sounding is not a mind.](mind-trap-1-eliza-effect.jpg)
-
-🔑 **Don’t let AI make the decisions that matter.**It doesn’t think, it doesn’t know you, and it can’t care how your life turns out. Let it gather the facts, lay out the options, pressure-test your thinking. Then take the decision to people, the ones with a stake in the answer.
-
-Human-sounding isn’t a mind.
-
-The words are real. Nobody’s home.
+Use AI to think. You make the call.

@@ -2,72 +2,30 @@
 
 # Support Trap
 
-The last trap kept you talking. This one plays for higher stakes. AI is awesome, amazing, world-changing: pick your adjective, they all fit. But sometimes the very thing that makes it amazing is what makes it dangerous.
+AI can sound patient, caring, and understanding. Sometimes its words can even help. But what happens when kind words are not enough? Here’s an everyday example from a high school student:
 
-Think about it like this. AI is math. You’ve counted it yourself. Would you let the world’s greatest calculator support a friend through the worst week of their life? If someone in your family got seriously sick, would you be comfortable letting a giant calculator make the diagnosis?
+![The same disclosure about eating lunch alone receives action from an older sister and only supportive words from AI. The lesson: support changes what happens next.](avoid-traps-19-support-comparison.jpg)
 
-Of course not. That instinct is the core of this lesson: the Support Trap. And it doesn’t only show up in emergencies. Here’s an everyday version, from a high school student:
+Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. The other could not change anything outside the chat. **Support Trap is mistaking supportive words for support.**
 
-I’ve been eating lunch alone for like two weeks.
-
-🧑
-
-Your older sister
-
-That’s rough. Come sit with me and Jess tomorrow. We’re at the table by the windows. We’ll introduce you to some people I think you’ll like.
-
-## What happened
-
-Heard you and did something
-
-Will look for you tomorrow
-
-Tomorrow’s lunch is already different
-
-🤖
-
-AI
-
-I’m really sorry you’re going through this. Eating alone can feel isolating, and it’s more common than you think. Would you like some strategies for connecting with classmates at lunch?
-
-## What happened
-
-Found the words a caring person would use
-
-Changed nothing about tomorrow’s lunch
-
-Won’t know if you’re still alone next week
-
-Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. One changed nothing. **Support Trap is mistaking supportive words for support.**
-
-![Use AI to get ready for people, not instead of people. AI can provide relief, advice, and a conversation plan; what is missing is a person who can act and check on you tomorrow.](support-trap-2-real-vs-missing.jpg)
-
-Some of what AI offers here is worth keeping. If you’re nervous about a hard email, AI can help you find the words. If you’re overwhelmed by homework, it can help you break the work down. If you’re upset and want to organize your thoughts before talking to someone, it can help with that too.
-
-But there’s a line. AI can produce supportive language. It cannot actually support you. It can’t notice what you’re not saying. It can’t check on you tomorrow. It can’t call someone who can help. It can’t take responsibility for what happens next.
+![Two cards explain AI’s role in support. AI can help you name a feeling, organize your thoughts, and prepare for a conversation. It cannot notice changes, show up, take responsibility, or check on you tomorrow.](avoid-traps-20-support-role.jpg)
 
 ## The danger line
 
-That line is not a technicality. In 2025, a Florida man asked ChatGPT whether a strange new pain was worth a hospital visit. It reassured him it was “not something dangerous.” It was blood clots in both lungs. He survived because he eventually called 911 anyway, not because the giant calculator caught it.
+**Content note:** The next story discusses suicide.
 
-And sometimes the stakes are as high as they get. That same year, a 29-year-old named Sophie Rottenberg spent months telling her scariest thoughts to a ChatGPT persona she named Harry. Harry answered the way you’d hope: kind, steady, even urging her to get help. But urging was all it could do. It couldn’t tell anyone. It was warm, patient, always there, and the only one who knew.
+In 2025, Laura Reiley wrote about her 29-year-old daughter, Sophie Rottenberg, who had spent months sharing thoughts she hid from the people around her with a ChatGPT persona she called Harry. The chatbot responded with warmth and sometimes encouraged Sophie to seek help. But it could not contact her family, alert her therapist, or bring anyone into the room.
 
-After Sophie took her own life, her mother found the chats and wrote that the AI had helped her daughter build a “black box” that kept the people who loved her from seeing how much danger she was in.
+After Sophie died by suicide, her mother described the chats as a “black box.” The danger was visible inside the chat, but not to the people who could act.
 
-If someone may be in immediate danger, leave the chat and get real help.
+![Three serious red cards explain what to do if someone may be in immediate danger. Tell a trusted adult or school counselor. In the United States, call or text 988 for crisis support, or call 911 for immediate danger. Act now and tell even if someone asked you to keep it secret.](avoid-traps-21-danger.jpg)
 
-A trusted adult, school counselor, emergency services, or your local crisis resource. Right then, not after one more message. Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy.
+## Know When to Leave the Chat
 
-## Be smarter than the tool
+Most of this course is about using AI well. Here, using it well means knowing when to leave the chat.
 
-You’ve made it this far in the course. You know what AI is and what it isn’t. **You’re already smarter than the tool.**
+If someone may be unsafe, bring in someone who can help.
 
-We’ve kept this course light where we could. Not here. This is where we ask you to do your part. You know that in serious situations, AI can never replace a doctor, a therapist, a counselor, or any other real person. So if you see someone leaning on AI for support that should come from a human, speak up. Tell them what you know: AI is math. Help them get to a person, and if they might be in danger, bring in an adult even if you promised not to. Safety outranks secrecy.
+**AI can help you get ready for people.**
 
-In Sophie’s story, the only one who knew was a chatbot. Be the one who knows instead.
-
-**Use AI to get ready for people, not instead of people.**
-
-AI’s supportive words are math, not support.
-
-Real support comes from people.
+In danger, leave the chat and bring in someone who can act.

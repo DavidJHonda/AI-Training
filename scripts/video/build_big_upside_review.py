@@ -2,13 +2,15 @@
 """Build the human-review repair of the Big Upside reroll.
 
 The reroll supplies the opening narration and its strongest explanatory
-illustrations. The exact Hassabis timeline remains on screen throughout that
-story, with its rows highlighted as they are narrated. Two narration defects are removed: the
+illustrations. The exact Hassabis timeline remains on screen through the first
+part of that story, then alternates with the reroll's explanatory visuals in
+the same places Gemini used it. Its rows are highlighted as they are narrated.
+Two narration defects are removed: the
 mispronounced name before "a new antibiotic" and the unsupported "life-saving
 answers" sentence. The canonical close is the literal ending.
 
 The shipped ``videos/big-upside.mp4`` is never overwritten. Review output is
-``videos/big-upside-v4.mp4``.
+``videos/big-upside-v6.mp4``.
 """
 
 from __future__ import annotations
@@ -25,7 +27,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/big-upside.mp4"
-OUTPUT = ROOT / "videos/big-upside-v4.mp4"
+OUTPUT = ROOT / "videos/big-upside-v6.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -229,13 +231,14 @@ def timeline_rows():
     middle = (800, 450, 1300)
     bottom = (800, 534, 1300)
     rows = {
-        1: (78, 157, 1528, 257),
-        2: (78, 283, 1528, 383),
-        3: (78, 409, 1528, 509),
-        4: (78, 535, 1528, 635),
-        5: (78, 662, 1528, 763),
-        6: (78, 789, 1528, 890),
-        7: (78, 916, 1528, 1016),
+        # Each rectangle is centered on the current export's actual text row.
+        1: (40, 140, 1560, 240),
+        2: (40, 267, 1560, 367),
+        3: (40, 393, 1560, 493),
+        4: (40, 519, 1560, 619),
+        5: (40, 645, 1560, 745),
+        6: (40, 770, 1560, 870),
+        7: (40, 896, 1560, 996),
     }
     colors = {1: PURPLE, 2: BLUE, 3: TEAL, 4: GREEN, 5: PURPLE, 6: BLUE, 7: TEAL}
     return rows, colors, top, middle, bottom
@@ -249,9 +252,9 @@ def card_states(
 ) -> tuple[State, ...]:
     rings = (
         None,
-        (37, 124, 529, card_bottom),
-        (555, 124, 1046, card_bottom),
-        (1072, 124, 1563, card_bottom),
+        (40, 127, 525, card_bottom),
+        (557, 127, 1043, card_bottom),
+        (1075, 127, 1560, card_bottom),
         None,
     )
     colors = (PURPLE, PURPLE, BLUE, TEAL, PURPLE)
@@ -286,7 +289,9 @@ def build_legs(following_graphic: Path) -> tuple[Leg, ...]:
     # clean 41.32 boundary so no single frame of that discarded art survives.
     early_start, early_end = at(41.32), at(44.50)
 
-    timeline_start, timeline_end = at(59.60), at(138.60)
+    # Keep the board continuously through 1:38, then follow Gemini's original
+    # alternation between explanatory visuals and board appearances.
+    timeline_start, timeline_end = at(59.60), at(97.83)
     timeline_points = (
         timeline_start,
         at(62.00),
@@ -294,10 +299,6 @@ def build_legs(following_graphic: Path) -> tuple[Leg, ...]:
         at(67.44),
         at(69.90),
         at(72.18),
-        at(99.64),
-        at(122.24),
-        at(130.96),
-        at(137.90),
         timeline_end,
     )
     timeline_specs = (
@@ -307,10 +308,6 @@ def build_legs(following_graphic: Path) -> tuple[Leg, ...]:
         ("phd", rows[3], colors[3], top, 18),
         ("deepmind", rows[4], colors[4], middle, 18),
         ("alphafold", rows[5], colors[5], middle, 24),
-        ("released-free", rows[6], colors[6], bottom, 24),
-        ("nobel", rows[7], colors[7], bottom, 24),
-        ("available-to-everyone", rows[6], colors[6], bottom, 24),
-        ("full-return", None, PURPLE, None, 24),
     )
     timeline_states = tuple(
         State(
@@ -324,7 +321,23 @@ def build_legs(following_graphic: Path) -> tuple[Leg, ...]:
         for index, (label, ring, color, camera, move) in enumerate(timeline_specs)
     )
 
-    discovery_start, discovery_end = timeline_end, at(165.88)
+    timeline_b_start, timeline_b_end = at(112.40), at(120.83)
+    timeline_b_states = (
+        State(
+            "released-free", timeline_b_end - timeline_b_start,
+            rows[6], colors[6], bottom, 24,
+        ),
+    )
+
+    timeline_c_start, timeline_c_end = at(132.20), at(138.60)
+    timeline_c_states = (
+        State(
+            "available-to-everyone", timeline_c_end - timeline_c_start,
+            rows[6], colors[6], bottom, 24,
+        ),
+    )
+
+    discovery_start, discovery_end = timeline_c_end, at(165.88)
     discovery_points = (
         discovery_start, at(145.14), at(153.00), at(159.56), at(165.30),
         discovery_end,
@@ -364,6 +377,14 @@ def build_legs(following_graphic: Path) -> tuple[Leg, ...]:
         Leg(
             "timeline", BOARDS["timeline"], timeline_start, timeline_end,
             timeline_states,
+        ),
+        Leg(
+            "timeline-b", BOARDS["timeline"], timeline_b_start, timeline_b_end,
+            timeline_b_states,
+        ),
+        Leg(
+            "timeline-c", BOARDS["timeline"], timeline_c_start, timeline_c_end,
+            timeline_c_states,
         ),
         Leg(
             "discovery", BOARDS["discovery"], discovery_start, discovery_end,
@@ -443,9 +464,16 @@ def main() -> None:
             duration = (end - start) / FPS
             fades = []
             if index > 0:
-                fades.append("afade=t=in:st=0:d=0.015")
+                # The second edit joins two separate sentences. Its original
+                # 15 ms fade left a tiny audible blip near 2:45, so bring that
+                # boundary cleanly up from silence over a longer window.
+                fade_in = 0.080 if index == 2 else 0.015
+                fades.append(f"afade=t=in:st=0:d={fade_in:.3f}")
             if index < len(AUDIO_KEEP) - 1:
-                fades.append(f"afade=t=out:st={duration - 0.015:.6f}:d=0.015")
+                fade_out = 0.080 if index == 1 else 0.015
+                fades.append(
+                    f"afade=t=out:st={duration - fade_out:.6f}:d={fade_out:.3f}"
+                )
             fade_chain = "," + ",".join(fades) if fades else ""
             graph.append(
                 f"[0:a]atrim=start={start/FPS:.6f}:end={end/FPS:.6f},"

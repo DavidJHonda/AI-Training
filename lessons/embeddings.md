@@ -14,7 +14,7 @@ To see how this works, you and your friends decide to rate Coke and a cup of cof
 
 Here are your results. We added a column for Token ID, even though that wasn’t part of your test.
 
-![Coke and coffee scored on the same six dimensions, with each value shown beneath its slider.](embeddings-1-taste-two.jpg)
+![Meaning Becomes an Ordered Row of Numbers. Coke and coffee are scored on the same six dimensions, with each value shown beneath its slider.](embeddings-meaning-row-editorial.jpg)
 
 If someone asked you, “Which drink has sweet of 9, bitter of 1, and fizz of 10?” you’d immediately answer Coke.
 
@@ -26,7 +26,7 @@ A row of numbers in a specific order, like this, is called a **Vector**. Each sl
 
 Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart.
 
-![Coke, Pepsi, and coffee scored on the same dimensions, with Citrus added as a seventh coordinate that separates Coke from Pepsi.](embeddings-2-taste-three.jpg)
+![One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee are scored on the same dimensions, with Citrus added as a seventh coordinate that separates Coke from Pepsi.](embeddings-new-dimension-editorial.jpg)
 
 To separate them, you added a new dimension, **Citrus**. Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ. Different numbers, different meanings: the rows no longer just name two drinks, they tell them apart.
 
@@ -37,6 +37,8 @@ Here’s an important point, easy to miss: every token in the vocabulary is scor
 ## INSIDE A REAL MODEL
 
 Here’s how it all fits together. The word **cat** is tokenized and assigned the **token ID** of 9246, which looks up a row in the **embedding table** (a giant lookup of every token’s numbers). That row is cat’s **embedding vector**: its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called **parameters**. Notice the dimensions aren’t named like in your taste test: during training, the model decides what each one tracks, and we usually can’t tell.
+
+![Inside a Real AI Model. The cat token becomes token ID 9246, which selects a highlighted row in the embedding table. That row becomes the token's embedding vector and continues into the model's later layers.](embeddings-inside-real-model-editorial.jpg)
 
 ## Does every token get its own vector?
 

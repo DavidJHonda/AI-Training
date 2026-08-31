@@ -158,6 +158,32 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
     board asset. Center the title ink vertically and horizontally inside the border
     with balanced padding. Never reuse title coordinates after a subtitle is removed,
     a header is resized, text wraps differently, or any other board-layout change.
+  - Define every component highlight from the visible ink bounds of the complete
+    spoken content group, then add balanced padding. Do not estimate a rectangle from
+    the card grid or reuse the neighboring component's height.
+  - For vertically stacked sections inside one card or column, use fixed horizontal
+    rails derived from the card's visible outer boundaries. Every section ring in the
+    card uses those same full-width left and right edges; only its vertical bounds
+    change with the spoken content. An entire-card highlight traces that same visible
+    card boundary. Do not inset ordinary card-section rings to the text block. Tight-
+    fit horizontal rings are reserved for truly independent inline elements.
+  - Keep the ring wholly inside its owning card or section. At the settled camera,
+    its outside stroke must have at least 16 visible pixels of clearance from the
+    card edge and may not cross a divider, overlap sibling text, or include text from
+    the preceding or following component.
+  - Derive the settled camera from that same padded highlight rectangle. The complete
+    ring must remain visible with at least 24 pixels of video-frame clearance, and the
+    highlighted content group must be centered inside both the ring and the frame.
+    Never choose ring coordinates and camera coordinates independently.
+  - Render the course-native ring after the camera crop at a constant 5-pixel weight
+    on the 1280x720 delivery frame. Zooming a board must not make its border thicker.
+  - Before delivery, inspect a settled full-resolution frame for every highlight
+    state. A state fails if any ring edge is clipped, any non-target ink enters the
+    ring, or top/bottom and left/right padding are visibly unbalanced.
+  - Treat spoken position and color words as binding sync cues. If narration says
+    "purple column on the left" or "yellow column on the right," the current board
+    asset, locked card accent, highlight color, and camera target must all agree.
+    Begin the matching highlight as the cue starts, not after the phrase finishes.
   Numeric Board Content credit does not waive this ship requirement. A redraw may
   teach the right content and still fail this gate.
 - `GATE_NO_NOTEBOOK_HIGHLIGHT`: All teaching-board emphasis uses the course-native

@@ -529,7 +529,7 @@ def render_first_assignment_long() -> Image.Image:
             ),
         },
         {
-            "accent": BLUE,
+            "accent": AMBER,
             "pill": "THE NEW JOB",
             "title": "With AI",
             "intro": "AI completes the first pass in minutes. Your week can begin with the real questions.",

@@ -52,7 +52,7 @@ There are two terms you’ll hear that describe how AI is changing the nature of
 
 Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome.
 
-## WHAT CHANGES FOR YOU
+## WHAT CHANGES WITH AI
 
 Put automation and augmentation together, and three changes show up across almost every career.
 

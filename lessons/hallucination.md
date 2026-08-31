@@ -12,11 +12,11 @@ A hallucination does not have to make up the whole answer. It can attach one inv
 
 The fake study did not come from nowhere. AI knows what a research finding sounds like, even when it does not have a real finding to report.
 
-![Why hallucinations happen. AI learns from text that can include mistakes, jokes, and lies. It generates one token at a time. It is trained to answer. A probable answer is not necessarily true.](avoid-traps-2a-why.jpg)
+![Why hallucinations happen. AI learns from text that can include mistakes, jokes, and lies. It generates one token at a time. It keeps trying to answer. A probable answer is not necessarily true.](avoid-traps-2a-why.jpg)
 
 ## Not Every AI Error Is a Hallucination
 
-Hallucination is the term people often use whenever AI gets something wrong. But AI can produce a false answer without inventing anything.
+Hallucination is the term people often use whenever AI gets something wrong. But AI can also get something wrong by misreading a real source.
 
 This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce.
 
@@ -24,7 +24,7 @@ That bizarre answer did not come from nowhere. It traced back to an old joke on 
 
 ![Real text. Wrong meaning. Luke feeds an old joke card into a brass pattern machine, which turns it into an authoritative-looking pictogram recommending glue on pizza. The Reddit comment was real. The cooking advice was not.](avoid-traps-3-real-text.jpg)
 
-This was not a hallucination. It was a different kind of AI error: real text, interpreted incorrectly.
+This was not the same kind of error as the fake Stanford study. The source was real, but AI interpreted it incorrectly.
 
 Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up.
 

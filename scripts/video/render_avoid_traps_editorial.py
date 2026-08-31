@@ -10,11 +10,14 @@ with the locked Editorial typography.
 from __future__ import annotations
 
 import shutil
-from dataclasses import dataclass
+import sys
+from dataclasses import dataclass, replace
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from PIL import Image, ImageDraw
 
+import render_embrace_editorial_batch as editorial_boards
 from editorial_takeaway import TAKEAWAY_GAP, TAKEAWAY_HEIGHT, TAKEAWAY_TEXT_SIZE, draw_takeaway_band
 from editorial_typography import draw_board_title, draw_inner_title, face
 from render_editorial_ai_chat import Board as ChatBoard, Turn, render as render_chat
@@ -49,6 +52,152 @@ def save_pair(image: Image.Image, pair: Pair) -> None:
     print(f"copied byte-identically to {prep.relative_to(ROOT)}")
 
 
+def render_flow_board_with_title_size(board: FlowBoard, title_size: int) -> Image.Image:
+    """Render one flow with a smaller card-title size without changing other boards."""
+    original_size = editorial_boards.CARD_TITLE_SIZE
+    try:
+        editorial_boards.CARD_TITLE_SIZE = title_size
+        return editorial_boards.render_flow_board(board)
+    finally:
+        editorial_boards.CARD_TITLE_SIZE = original_size
+
+
+def render_card_board_with_panel_order(board: CardBoard, order: tuple[int, ...]) -> Image.Image:
+    """Render a card board after reordering its generated art panels."""
+    panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), len(board.cards))
+    if sorted(order) != list(range(len(panels))):
+        raise ValueError(f"{board.key}: invalid panel order {order}")
+    cell_width = max(panel.width for panel in panels)
+    cell_height = max(panel.height for panel in panels)
+    sheet = Image.new("RGB", (cell_width * len(panels), cell_height), WHITE)
+    for slot, panel_index in enumerate(order):
+        panel = panels[panel_index]
+        left = slot * cell_width + (cell_width - panel.width) // 2
+        top = (cell_height - panel.height) // 2
+        sheet.paste(panel, (left, top))
+    with TemporaryDirectory(prefix="avoid-traps-art-") as temp_dir:
+        temp_path = Path(temp_dir) / "art-sheet.png"
+        sheet.save(temp_path)
+        return render_card_board(replace(board, art_sheet=str(temp_path)))
+
+
+def render_engagement_comparison() -> Image.Image:
+    """Render the Engagement Trap as one shared answer followed by two endings."""
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    title = "One Answer. Two Endings."
+    shared_top = 112
+    shared_left, shared_right = 40, 1560
+    shared_width = shared_right - shared_left
+    branch_top = 610
+    branch_width = 744
+    branch_height = 600
+    footer_top = branch_top + branch_height + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + 40
+
+    image = Image.new("RGB", (WIDTH, height), WHITE)
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+
+    label_font = face("heavy", 20)
+    speaker_font = face("heavy", 22)
+    body_font = face("medium", 30)
+    branch_title_font = face("bold", 34)
+    small_body_font = face("medium", 28)
+    bullet_font = face("medium", 29)
+
+    # The shared chat is deliberately dominant: both paths begin with the same
+    # useful answer, and only diverge when the student accepts or declines more.
+    draw.rounded_rectangle(
+        (shared_left, shared_top, shared_right, branch_top - 32),
+        radius=18,
+        fill=WHITE,
+        outline=mix_with_white(PURPLE, CARD_BORDER_OPACITY),
+        width=1,
+    )
+    draw.rectangle((shared_left, shared_top + 18, shared_left + 7, branch_top - 50), fill=PURPLE)
+    draw.text((72, shared_top + 22), "THE SAME START", font=label_font, fill=PURPLE)
+
+    user_text = "I’m doing math homework. What does slope mean, and what’s the formula?"
+    ai_text = (
+        "Slope tells you how steep a line is. Find it by dividing how far the line moves up or down "
+        "by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, "
+        "draw a graph, or make some practice questions?"
+    )
+
+    bubble_left, bubble_right = 96, 1504
+    user_lines = wrap(measure, user_text, body_font, bubble_right - bubble_left - 48)
+    user_top = shared_top + 78
+    user_height = 62 + len(user_lines) * 41 + 22
+    draw.rounded_rectangle((bubble_left, user_top, bubble_right, user_top + user_height), radius=16,
+                           fill=mix_with_white(PURPLE, 0.08), outline=mix_with_white(PURPLE, 0.3), width=1)
+    draw.text((bubble_left + 24, user_top + 18), "YOU", font=speaker_font, fill=PURPLE)
+    multiline(draw, (bubble_left + 24, user_top + 58), user_lines, body_font, BODY, 41)
+
+    ai_lines = wrap(measure, ai_text, body_font, bubble_right - bubble_left - 48)
+    ai_top = user_top + user_height + 20
+    ai_height = 62 + len(ai_lines) * 41 + 22
+    draw.rounded_rectangle((bubble_left, ai_top, bubble_right, ai_top + ai_height), radius=16,
+                           fill=mix_with_white(BLUE, 0.07), outline=mix_with_white(BLUE, 0.28), width=1)
+    draw.text((bubble_left + 24, ai_top + 18), "AI", font=speaker_font, fill=BLUE)
+    multiline(draw, (bubble_left + 24, ai_top + 58), ai_lines, body_font, BODY, 41)
+
+    def draw_branch(left: int, label: str, quote: str, items: tuple[str, ...], accent: str,
+                    timing: str | None = None, closing: str | None = None) -> None:
+        right = left + branch_width
+        draw.rounded_rectangle((left, branch_top, right, branch_top + branch_height), radius=18,
+                               fill=WHITE, outline=mix_with_white(accent, CARD_BORDER_OPACITY), width=1)
+        draw.rectangle((left, branch_top + 18, left + 7, branch_top + branch_height - 18), fill=accent)
+        x = left + 34
+        text_width = branch_width - 68
+        draw.text((x, branch_top + 28), label, font=label_font, fill=accent)
+        quote_lines = wrap(measure, f'“{quote}”', branch_title_font, text_width)
+        y = branch_top + 78
+        multiline(draw, (x, y), quote_lines, branch_title_font, INK, 46)
+        y += len(quote_lines) * 46 + 30
+        if timing:
+            draw.text((x, y), timing, font=label_font, fill=accent)
+            y += 44
+        for item in items:
+            lines = wrap(measure, item, bullet_font, text_width - 34)
+            draw.ellipse((x, y + 11, x + 12, y + 23), fill=accent)
+            multiline(draw, (x + 30, y), lines, bullet_font, BODY, 40)
+            y += len(lines) * 40 + 12
+        if closing:
+            y += 8
+            draw.line((x, y, right - 34, y), fill=mix_with_white(accent, 0.65), width=2)
+            y += 24
+            closing_lines = wrap(measure, closing, small_body_font, text_width)
+            multiline(draw, (x, y), closing_lines, small_body_font, BODY, 39)
+
+    draw_branch(
+        40,
+        "YOU STOP",
+        "No thanks. That’s all I needed.",
+        ("One minute", "Back to the homework", "The question was answered"),
+        BLUE,
+    )
+    draw_branch(
+        816,
+        "THE TRAP",
+        "Sure. Walk me through an example.",
+        ("Examples", "Graphs", "Practice problems", "A quiz"),
+        AMBER,
+        timing="TWENTY-FIVE MINUTES LATER",
+        closing="All of it was useful. None of it was what you opened the chat to do.",
+    )
+
+    draw_takeaway_band(
+        image,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Both chats answered the question. Only one ended there.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    return image
+
+
 def build_art_sheets() -> dict[str, str]:
     names = {
         "hallucination_why": "hallucination-why",
@@ -78,14 +227,15 @@ def build_art_sheets() -> dict[str, str]:
 
 
 def render_feature(title: str, source: str, takeaway: str, accent: str = PURPLE) -> Image.Image:
-    art_left, art_top, art_width = 40, CARDS_TOP, 1520
+    art_left, art_top, art_width = 40, (CARDS_TOP if title else PADDING), 1520
     art_height = round(art_width * 2 / 3)
     footer_top = art_top + art_height + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + 40
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, title)
+    if title:
+        draw_board_title(draw, title)
     art = cover(Image.open(ROOT / source).convert("RGB"), (art_width, art_height))
     image.paste(art, (art_left, art_top), rounded_mask((art_width, art_height), CARD_RADIUS))
     draw = ImageDraw.Draw(image)
@@ -120,10 +270,11 @@ class CompareSide:
 
 
 def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, CompareSide],
-                      source: str, takeaway: str | None = None) -> Image.Image:
+                      source: str, takeaway: str | None = None,
+                      scenario_label: str = "THE SCENARIO") -> Image.Image:
     card_width, gap = 744, 32
     lefts = (40, 816)
-    scenario_top = 112
+    scenario_top = 112 if title else PADDING
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     scenario_font = face("medium", 32)
     scenario_blocks = [wrap(measure, paragraph, scenario_font, 1430) for paragraph in scenario.split("\n")]
@@ -174,11 +325,12 @@ def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, Compa
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, title)
+    if title:
+        draw_board_title(draw, title)
     draw.rounded_rectangle((40, scenario_top, 1560, scenario_top + scenario_height), radius=18,
                            fill=WHITE, outline=mix_with_white(PURPLE, CARD_BORDER_OPACITY), width=1)
     draw.rectangle((40, scenario_top + 18, 47, scenario_top + scenario_height - 18), fill=PURPLE)
-    draw.text((72, scenario_top + 20), "THE SCENARIO", font=pill_font, fill=PURPLE)
+    draw.text((72, scenario_top + 20), scenario_label, font=pill_font, fill=PURPLE)
     scenario_y = scenario_top + 54
     for i, lines in enumerate(scenario_blocks):
         multiline(draw, (72, scenario_y), lines, scenario_font, BODY, 45)
@@ -314,7 +466,7 @@ def render_five_moves() -> Image.Image:
          "“Give me the three strongest counterarguments and explain why someone might hold them.”"),
     )
     standing = (
-        "Tell the model: “Be blunt. Lead with what’s weak, skip empty praise, and tell me when I’m wrong.”"
+        "“Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”"
     )
 
     content_top = 127
@@ -420,7 +572,7 @@ def render_hallucination_convergence(art_sheet: str, supporting_art_sheet: str) 
     steps = (
         Card("Learns From the Text It’s Fed", "That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too."),
         Card("One Token at a Time", "It builds its response by predicting which token is likely to come next."),
-        Card("Taught to Answer", "AI is trained to be helpful, so it usually tries to answer instead of stopping when unsure."),
+        Card("Keeps Trying to Answer", "AI is trained to be helpful, so it often keeps going even when it is unsure."),
         Card("Probable ≠ True", "An answer can sound exactly right even when the facts are wrong."),
     )
     accents = (PURPLE, BLUE, TEAL, AMBER)
@@ -479,8 +631,207 @@ def render_hallucination_convergence(art_sheet: str, supporting_art_sheet: str) 
     return image
 
 
+def render_mind_trap_boards(art: dict[str, str] | None = None) -> None:
+    """Render only the two Mind Trap boards and their lesson copies."""
+    art = art or build_art_sheets()
+
+    eliza = CardBoard(
+        "mind-eliza",
+        "",
+        (
+            Card(
+                "Your Brain Looks for a Person",
+                "When something responds to you, your brain starts looking for a person behind it.",
+            ),
+            Card(
+                "AI Sounds Like One",
+                "Your brain hears a person when AI says “I think” and “I feel.” But those are generated words.",
+            ),
+        ),
+        art["mind"],
+        "",
+        "",
+        "Sounding human does not make AI human.",
+        (TEAL, PURPLE),
+    )
+    save_pair(
+        render_card_board(eliza),
+        Pair("illustrations/mind-trap-eliza-effect-v2.jpg", "lessons/avoid-traps-13-eliza.jpg"),
+    )
+
+    comparison = render_comparison(
+        "",
+        "Should I choose Michigan or Indiana?",
+        (
+            CompareSide(
+                "MOM",
+                "Your Mom",
+                "Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking.",
+                (
+                    ("KNOWS", "Your history."),
+                    ("NOTICES", "How you act when you are stuck."),
+                    ("STAKE", "Shares the outcome."),
+                ),
+                BLUE,
+            ),
+            CompareSide(
+                "AI",
+                "The Chatbot",
+                "Michigan. It offers world-class academics and a vibrant campus community. It could be an excellent fit for you.",
+                (
+                    ("SEES", "What you typed."),
+                    ("MATCHES", "Common patterns."),
+                    ("STAKE", "Does not share the outcome."),
+                ),
+                AMBER,
+            ),
+        ),
+        "scripts/video/assets/editorial-avoid-traps/comparisons/human-vs-ai.png",
+        scenario_label="YOU",
+    )
+    save_pair(
+        comparison,
+        Pair("illustrations/mind-trap-comparison-v2.jpg", "lessons/avoid-traps-12-mind-comparison.jpg"),
+    )
+
+
+def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
+    """Render only the four Flattery Trap boards and their lesson copies."""
+    art = art or build_art_sheets()
+
+    praise_flow = FlowBoard(
+        "praise-flow",
+        "How the Praise Got Baked In",
+        (
+            Card("People Rank", "Reviewers compare answers and choose the ones they prefer."),
+            Card("Agreement Can Win", "Positive, confident, agreeable answers can feel better in the moment."),
+            Card("Numbers Move", "Training pushes the model toward patterns that earned approval."),
+        ),
+        art["praise_flow"],
+        "",
+        "",
+        (PURPLE, BLUE, TEAL),
+    )
+    save_pair(
+        render_flow_board_with_title_size(praise_flow, 31),
+        Pair("illustrations/flattery-trap-praise-loop-v2.jpg", "lessons/avoid-traps-15-praise-loop.jpg"),
+    )
+
+    comparison = render_comparison(
+        "Flattery vs. Useful Feedback",
+        "You ask AI to evaluate this Great Gatsby essay introduction:\n“The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”",
+        (
+            CompareSide(
+                "THE TRAP",
+                "Flattery",
+                "“Great start! You’ve clearly identified the central theme. This is a strong foundation.”",
+                (
+                    ("PRAISED", "The work without pointing to evidence."),
+                    ("COULD FIT", "Almost any Gatsby essay."),
+                    ("RESULT", "False praise for a weak essay intro."),
+                ),
+                AMBER,
+            ),
+            CompareSide(
+                "WHAT YOU NEED",
+                "Useful Feedback",
+                "“Right topic, but this needs work. The opening is filler, and you still need a thesis.”",
+                (
+                    ("PRAISED", "The topic and nothing more."),
+                    ("NAMED", "The missing thesis."),
+                    ("RESULT", "A specific next move."),
+                ),
+                BLUE,
+            ),
+        ),
+        "scripts/video/assets/editorial-avoid-traps/comparisons/flattery-vs-feedback.png",
+        "Good feedback improves the work. Empty praise only improves the feeling.",
+    )
+    save_pair(
+        comparison,
+        Pair("illustrations/flattery-trap-comparison-v2.jpg", "lessons/avoid-traps-14-flattery-comparison.jpg"),
+    )
+
+    save_pair(
+        render_sycophancy_example(),
+        Pair("illustrations/flattery-trap-sycophancy-v2.jpg", "lessons/avoid-traps-16-sycophancy.jpg"),
+    )
+    save_pair(
+        render_five_moves(),
+        Pair("illustrations/flattery-trap-five-moves-v2.jpg", "lessons/avoid-traps-16a-five-moves.jpg"),
+    )
+
+
+def render_engagement_trap_boards() -> None:
+    """Render only the three Engagement Trap boards and their lesson copies."""
+    save_pair(
+        render_engagement_comparison(),
+        Pair("illustrations/engagement-trap-comparison-v2.jpg", "lessons/avoid-traps-17-engagement-comparison.jpg"),
+    )
+    scroll_comparison = CardBoard(
+        "engagement-scroll",
+        "What Infinite Scroll Removed",
+        (
+            Card(
+                "Before Infinite Scroll",
+                "The page ends. You choose whether to click Next. That pause gives you a moment to decide: Do I want more?",
+            ),
+            Card(
+                "Infinite Scroll",
+                "New content loads automatically. The pause disappears, so continuing becomes the default.",
+            ),
+        ),
+        "scripts/video/assets/editorial-avoid-traps/engagement-scroll/art-sheet.png",
+        "",
+        "",
+        "The click was friction. It was also a choice.",
+        (BLUE, AMBER),
+    )
+    save_pair(
+        render_card_board(scroll_comparison),
+        Pair("illustrations/engagement-trap-scroll-v2.jpg", "lessons/avoid-traps-17a-scroll.jpg"),
+    )
+    save_pair(
+        render_feature(
+            "AI Won’t Quit for You",
+            "illustrations/engagement-trap-clean-v2.png",
+            "The skill is knowing when you already have what you came for.",
+            AMBER,
+        ),
+        Pair("illustrations/engagement-trap-stop-v2.jpg", "lessons/avoid-traps-18-stop.jpg"),
+    )
+
+
+def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair], ...]:
+    """Return the two Support Trap boards shared by full and lesson-only renders."""
+    return (
+        (CardBoard("support", "Use AI to Get Ready for People", (
+            Card("What Can Be Real", "A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation."),
+            Card("What Is Missing", "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow."),
+        ), art["support"], "", "", "Use AI to prepare for people, not replace them.", (TEAL, RED)),
+         Pair("illustrations/support-trap-real-vs-missing-v2.jpg", "lessons/avoid-traps-20-support-role.jpg")),
+        (CardBoard("support-danger", "If Someone May Be in Immediate Danger", (
+            Card("Leave the Chat", "Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger."),
+            Card("Do It Now", "Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility."),
+            Card("Tell Anyway", "Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy."),
+        ), art["danger"], "", "", "In danger, the next move must reach a person who can act.", (RED, RED, RED)),
+         Pair("illustrations/support-trap-danger-v2.jpg", "lessons/avoid-traps-21-danger.jpg")),
+    )
+
+
+def render_support_trap_boards(art: dict[str, str] | None = None) -> None:
+    """Render only the two changed Support Trap boards and their lesson copies."""
+    art = art or build_art_sheets()
+    for board, pair in support_trap_card_specs(art):
+        save_pair(render_card_board(board), pair)
+
+
 def main() -> None:
     art = build_art_sheets()
+
+    render_mind_trap_boards(art)
+    render_flattery_trap_boards(art)
+    render_engagement_trap_boards()
 
     hallucination_example = ChatBoard(
         "hallucination-example",
@@ -508,10 +859,8 @@ def main() -> None:
          Pair("illustrations/hallucination-real-text-v2.jpg", "lessons/avoid-traps-3-real-text.jpg")),
         ("Wrong Pattern. Wrong Answer.", "illustrations/training-bias.jpg", "A model can learn the background instead of the thing that matters.", TEAL,
          Pair("illustrations/training-bias-pattern-v2.jpg", "lessons/avoid-traps-5-wrong-pattern.jpg")),
-        ("Uploaded Isn’t Fully Read", "illustrations/document-trap.jpg", "AI answers from the pieces it retrieved—not necessarily the whole file.", BLUE,
+        ("", "illustrations/document-trap.jpg", "AI may answer from only part of the file.", BLUE,
          Pair("illustrations/document-trap-uploaded-v2.jpg", "lessons/avoid-traps-10-uploaded.jpg")),
-        ("AI Won’t Quit for You", "illustrations/engagement-trap.jpg", "The skill is knowing when you already have what you came for.", AMBER,
-         Pair("illustrations/engagement-trap-stop-v2.jpg", "lessons/avoid-traps-18-stop.jpg")),
         ("Check the Source, Not the Pixels", "illustrations/fake-trap.jpg", "Move the test away from appearance and toward independent evidence.", TEAL,
          Pair("illustrations/fake-trap-source-v2.jpg", "lessons/avoid-traps-23-source.jpg")),
     )
@@ -526,13 +875,13 @@ def main() -> None:
             Card("Misread Source", "The source is real, but the model read it wrong."),
         ), art["hallucination_types"], "", "", "Not every wrong answer is a hallucination.", (PURPLE, BLUE, AMBER, TEAL)),
          Pair("illustrations/hallucination-types-v2.jpg", "lessons/avoid-traps-3-hallucination-types.jpg")),
-        (CardBoard("rag-limits", "RAG Helps.", (
-            Card("Retrieve", "The system searches for material connected to your question."),
-            Card("Generate", "The model uses the retrieved material while it writes its answer."),
-            Card("Verify", "You still check the source. Retrieval can miss, misread, or retrieve bad evidence."),
-        ), art["rag"], "", "", "RAG adds evidence. It does not add certainty.", (PURPLE, BLUE, TEAL)),
-         Pair("illustrations/hallucination-rag-v2.jpg", "lessons/avoid-traps-4-rag.jpg")),
-        (CardBoard("bias-mechanisms", "How Training Bias Gets In", (
+        (CardBoard("rag-limits", "How RAG Works", (
+            Card("Retrieve", "The system finds information connected to your question."),
+            Card("Add to Context", "The retrieved material joins the information AI can use."),
+            Card("Generate", "The model uses that material while it writes the answer."),
+        ), art["rag"], "", "", "RAG gives AI more to read. It does not guarantee truth.", (PURPLE, BLUE, TEAL)),
+         Pair("illustrations/training-bias-rag-v2.jpg", "lessons/avoid-traps-8a-rag.jpg")),
+        (CardBoard("bias-mechanisms", "How Skewed Data Distorts the Picture", (
             Card("Defaults", "Common cases appear often, so the model treats them as the standard answer."),
             Card("Blind Spots", "Rare cases barely appear, so the model learns less about them."),
             Card("Wrong Patterns", "A clue works during training, so the model learns the clue instead of the concept."),
@@ -544,29 +893,14 @@ def main() -> None:
             Card("Remove the Famous", "“Answer again, leaving out the most famous examples.”"),
         ), art["bias_questions"], "", "", "The model often has the rest of the picture. It just doesn’t lead with it.", (PURPLE, BLUE, AMBER)),
          Pair("illustrations/training-bias-questions-v2.jpg", "lessons/avoid-traps-7-bias-questions.jpg")),
-        (CardBoard("document-moves", "Four Moves for Better Retrieval", (
+        (CardBoard("document-moves", "", (
             Card("Name the Section", "Use the document’s own headings and keywords."),
             Card("Ask One Thing", "Give retrieval one clear target at a time."),
-            Card("Share What Matters", "Paste the passage or upload only the relevant chapter."),
-            Card("Ask for the Quote", "A missing or mismatched quote can reveal failed retrieval."),
-        ), art["document_moves"], "", "", "Make the right chunks easy to find.", (PURPLE, BLUE, TEAL, AMBER)),
+            Card("Share What Matters", "Paste the exact passage or upload only the relevant section."),
+            Card("Ask for the Quote", "Ask AI to quote the exact passage, then compare it with the original."),
+        ), art["document_moves"], "", "", "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER)),
          Pair("illustrations/document-trap-moves-v2.jpg", "lessons/avoid-traps-11-document-moves.jpg")),
-        (CardBoard("mind-eliza", "Why AI Feels Like Somebody", (
-            Card("Your Brain Finds Minds", "You see faces in toast and personalities in cars. Your mind detector fires constantly."),
-            Card("AI Sets It Off Harder", "AI says “I think” and “I feel.” Your brain hears a person, but those are generated words."),
-        ), art["mind"], "", "", "Human-sounding is not a mind.", (TEAL, PURPLE)),
-         Pair("illustrations/mind-trap-eliza-effect-v2.jpg", "lessons/avoid-traps-13-eliza.jpg")),
-        (CardBoard("support", "Use AI to Get Ready for People", (
-            Card("What Can Be Real", "A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation."),
-            Card("What Is Missing", "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow."),
-        ), art["support"], "", "", "Use AI to prepare for people—not replace them.", (TEAL, RED)),
-         Pair("illustrations/support-trap-real-vs-missing-v2.jpg", "lessons/avoid-traps-20-support-role.jpg")),
-        (CardBoard("support-danger", "If Someone May Be in Immediate Danger", (
-            Card("Leave the Chat", "Get real help from a trusted adult, school counselor, emergency services, or a local crisis resource."),
-            Card("Do It Now", "Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility."),
-            Card("Tell Anyway", "Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy."),
-        ), art["danger"], "", "", "In danger, the next move must reach a person who can act.", (RED, RED, RED)),
-         Pair("illustrations/support-trap-danger-v2.jpg", "lessons/avoid-traps-21-danger.jpg")),
+        *support_trap_card_specs(art),
         (CardBoard("fake-reasons", "Why Some Fakes Aren’t Friendly", (
             Card("Money", "Outrage gets clicks, and clicks pay."),
             Card("Power", "Change what people believe and you change how they vote, protest, and spend."),
@@ -582,21 +916,20 @@ def main() -> None:
          Pair("illustrations/fake-trap-three-checks-v2.jpg", "lessons/avoid-traps-25-fake-checks.jpg")),
     )
     for board, pair in cards:
-        save_pair(render_card_board(board), pair)
+        rendered = (
+            render_card_board_with_panel_order(board, (0, 2, 1))
+            if board.key == "rag-limits"
+            else render_card_board(board)
+        )
+        save_pair(rendered, pair)
 
     flows = (
-        (FlowBoard("document-flow", "What Happens When AI Searches a Long Document", (
-            Card("Chunk", "Split the document into small pieces."),
-            Card("Embed", "Turn each chunk into a meaning vector."),
-            Card("Retrieve", "Match the question to the closest chunks."),
-        ), art["document_flow"], "", "", (PURPLE, BLUE, TEAL)),
+        (FlowBoard("document-flow", "", (
+            Card("Split", "Break the long document into smaller pieces."),
+            Card("Search", "Look for pieces that match the question by keywords and meaning."),
+            Card("Load", "Put the selected pieces into the context window for AI to use."),
+        ), art["document_flow"], "", "", (PURPLE, BLUE, TEAL), takeaway="Search decides which parts reach the answer."),
          Pair("illustrations/document-trap-flow-v2.jpg", "lessons/avoid-traps-9-document-flow.jpg")),
-        (FlowBoard("praise-flow", "How the Praise Got Baked In", (
-            Card("People Rank", "Reviewers compare answers and choose the ones they prefer."),
-            Card("Support Wins", "Positive, confident, agreeable answers often feel better in the moment."),
-            Card("Numbers Move", "Training pushes the model toward patterns that earned approval."),
-        ), art["praise_flow"], "", "", (PURPLE, BLUE, TEAL)),
-         Pair("illustrations/flattery-trap-praise-loop-v2.jpg", "lessons/avoid-traps-15-praise-loop.jpg")),
     )
     for board, pair in flows:
         save_pair(render_flow_board(board), pair)
@@ -610,27 +943,6 @@ def main() -> None:
     save_pair(render_chat(stale), Pair("illustrations/training-bias-stale-chat-v2.jpg", "lessons/avoid-traps-8-stale.jpg"))
 
     comparisons = (
-        ("Human Advice versus AI Advice", "Should I go to the University of Michigan or Indiana University?", (
-            CompareSide("PERSON", "Your Mom", "Indiana. When you’re stuck, you go quiet. In Michigan’s 300-person lectures, nobody may notice. Indiana’s smaller classes could fit you better.",
-                        (("KNOWS", "Eighteen years of you."), ("CAN NOTICE", "How you act when you’re stuck."), ("HAS", "A stake in how it turns out.")), BLUE),
-            CompareSide("AI", "The Chatbot", "Michigan offers world-class academics and a vibrant campus community. It could be an excellent fit for you.",
-                        (("MATCHED", "A million college-advice pages."), ("DOESN’T KNOW", "Your history or how you act."), ("HAS", "No stake in the outcome.")), AMBER),
-        ), "scripts/video/assets/editorial-avoid-traps/comparisons/human-vs-ai.png", "Take important decisions to people who know you and share the stakes.",
-         Pair("illustrations/mind-trap-comparison-v2.jpg", "lessons/avoid-traps-12-mind-comparison.jpg")),
-        ("Flattery versus Useful Feedback", "You ask AI to evaluate this Great Gatsby essay introduction:\n“The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”", (
-            CompareSide("THE TRAP", "Flattery", "“Great start! You’ve clearly identified the central theme. This is a strong foundation.”",
-                        (("PRAISED", "A theme it never named."), ("COULD FIT", "Almost any Gatsby essay."), ("RESULT", "False praise for a weak essay intro.")), AMBER),
-            CompareSide("WHAT YOU NEED", "Useful Feedback", "“Right topic, but this needs work. The opening is filler, and you still need a thesis.”",
-                        (("PRAISED", "The topic and nothing more."), ("NAMED", "The missing thesis."), ("RESULT", "A specific next move.")), BLUE),
-        ), "scripts/video/assets/editorial-avoid-traps/comparisons/flattery-vs-feedback.png", "Good feedback improves the work. Empty praise only improves the feeling.",
-         Pair("illustrations/flattery-trap-comparison-v2.jpg", "lessons/avoid-traps-14-flattery-comparison.jpg")),
-        ("One Answer. Two Endings.", "You ask GPT, “How tall is Mount Everest?”", (
-            CompareSide("YOU STOP", "One Minute", "AI: “29,032 feet. Want me to expand?”\nYou: “No thanks. That’s all I needed.”",
-                        (("WHAT HAPPENED NEXT", "Nothing. The chat was done."), ("THE ANSWER", "Was in the first sentence."), ("TIME SPENT", "One minute.")), BLUE),
-            CompareSide("THE TRAP", "Two Hours", "AI: “29,032 feet. Want me to expand?”\nYou: “Sure. Walk me through it.”",
-                        (("WHAT HAPPENED NEXT", "History, lists, quizzes, and flashcards."), ("THE CHAT", "Never suggested stopping."), ("TIME SPENT", "Two hours.")), AMBER),
-        ), "scripts/video/assets/editorial-avoid-traps/comparisons/stop-vs-engagement.png", "Both chats answered the question. Only one ended there.",
-         Pair("illustrations/engagement-trap-comparison-v2.jpg", "lessons/avoid-traps-17-engagement-comparison.jpg")),
         ("Supportive Words versus Support", "“I’ve been eating lunch alone for like two weeks.”", (
             CompareSide("PERSON", "Your Older Sister", "“Come sit with me and Jess tomorrow. We’re at the table by the windows.”",
                         (("HEARD YOU", "And did something."), ("TOMORROW", "She will look for you."), ("CHANGED", "Tomorrow’s lunch.")), BLUE),
@@ -649,13 +961,8 @@ def main() -> None:
     for title, scenario, sides, source, takeaway, pair in comparisons:
         save_pair(render_comparison(title, scenario, sides, source, takeaway), pair)
 
-    shells = (
-        (render_sycophancy_example(), Pair("illustrations/flattery-trap-sycophancy-v2.jpg", "lessons/avoid-traps-16-sycophancy.jpg")),
-        (render_five_moves(), Pair("illustrations/flattery-trap-five-moves-v2.jpg", "lessons/avoid-traps-16a-five-moves.jpg")),
-    )
-    for image, pair in shells:
-        save_pair(image, pair)
-
-
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 2 and sys.argv[1] == "support-trap":
+        render_support_trap_boards()
+    else:
+        main()

@@ -2,50 +2,54 @@
 
 # Training Bias
 
-Sometimes AI doesn’t invent anything. Every fact is real, but the picture is still distorted.
+Sometimes AI doesn’t invent anything. Every fact in an answer can be real, but the picture can still be distorted.
 
-Imagine the only driving advice online came from professional race car drivers. If you asked, “What’s the best way to drive?” Claude or ChatGPT might tell you to drive 180 miles per hour on a closed track.
+## Cows on the Beach
 
-This is called Training Bias. The data the model learned from during training was uneven, incomplete, or full of shortcuts, so AI treats a narrow slice of reality as the whole picture.
+Computer-vision researchers saw a famous version of this. A model could recognize cows in familiar photos. Then researchers showed it cows in unusual settings, including a beach, and its performance fell apart. Same animal. Different background.
 
-## Cows on the beach
+Most of the cows it learned from appeared on green pasture. The model had picked up a shortcut: green grass means cow. It learned the background along with the animal.
 
-Computer-vision researchers hit a famous version of this. They had a model that could spot cows in photos with high accuracy. Then they showed it a cow on a beach, and it went blank. Same animal, same shape, same spots.
+This is training bias. The data showed the model a narrow slice of reality, so the model treated that slice as the whole picture.
 
-The model trained on photos that almost all showed cows on green pasture. So, the model learned the wrong pattern: green grass means cow. It never learned the animal. It learned the background.
+Training data can create two different traps. It can be skewed, so AI sees a distorted picture. It can also be stale, so AI sees an old picture.
 
-## How Training Bias gets in
+![Wrong pattern. Wrong answer. A visual classifier learns to associate cows with green grass, then rejects a cow standing on a beach.](avoid-traps-5-wrong-pattern.jpg)
 
-Not one mechanism. Three overlapping ones, all rooted in the data the model was trained on.
+## How Skewed Data Distorts the Picture
 
-![How training bias gets in. Defaults: common cases become the standard answer. Blind spots: rare cases barely appear, so the model learns less about them. Wrong patterns: the model learns a clue that worked instead of the real concept. The model repeats the shape of its data.](training-bias-1-mechanisms-board.jpg)
+Skewed data creates three overlapping problems.
 
-You can’t fact-check your way out of this trap: every fact in a distorted answer can check out. The tell is sameness: **when every example looks alike, you’re seeing the model’s default, not the world.** When you spot it, three questions crack the picture open:
+![How skewed data distorts the picture: defaults, blind spots, and wrong patterns. What AI learns depends on the examples it gets.](avoid-traps-6-bias-mechanisms.jpg)
 
-![Three questions that crack the picture open. Ask what is missing: What’s missing from this answer? Ask for exceptions: Show me examples that don’t fit the pattern you just gave. Remove the famous: Answer again, leaving out the most famous examples. The model usually has the rest of the picture.](training-bias-2-questions-board.jpg)
+These patterns can have real consequences. Researchers have found major accuracy gaps across demographic groups in some facial-analysis systems. Face-recognition errors have even contributed to wrongful arrests. The stakes are much higher than a cow photo.
 
-## Stale information
+You cannot fact-check your way out of this trap because every individual fact may be correct. Look for sameness. **When every example looks alike, you are seeing the model’s default, not the world.** When you spot it, three questions can reveal what the first answer left out:
 
-One more data trap, and this one isn’t bias or hallucination. We hit it ourselves while building this course. We asked Claude to check an example sentence for the Tokens lesson:
+![Three questions that reveal bias. Ask what is missing. Ask for exceptions. Remove the famous. The model often has more of the picture, but it does not lead with it.](avoid-traps-7-bias-questions.jpg)
 
-## You
+## When Training Data Gets Old
 
-What about “Cooper Flagg is an amazing basketball player for the Dallas Mavericks”?
+Skewed data gives AI a distorted picture. Old data gives it an outdated one.
 
-## Claude
+Training eventually stops. Anything that happens afterward was not part of its training, so it may be missing from the answer. This is a different training-data problem. It is stale information, not a hallucination.
 
-One flag though: is Cooper Flagg actually on the Mavericks? I believe he was drafted by a different team. You’d want to verify that before committing it to the course.
+We encountered it while building this course. We asked Claude to check an example sentence from the Tokens lesson:
 
-Claude was wrong to doubt it. Flagg went to the Mavericks with the first pick of the 2025 draft. But Claude’s training ended before draft night, so a true sentence looked wrong to it. Notice what it did right, though: it flagged its doubt and asked us to verify instead of asserting. When the date matters, that’s your move too.
+![Claude doubts a current fact about Cooper Flagg. After the user asks it to search the web and check the date, Claude confirms that Dallas selected Flagg with the first pick in the 2025 NBA draft.](avoid-traps-8-stale.jpg)
 
-## What happens
+Claude answered from older information without searching first. Once we asked it to check a current source, it corrected itself. When the date matters, that is your move too.
 
-Training stopped on a cut-off date. Ask about anything newer, and the model answers as if time never passed.
+## When AI Looks Something Up
 
-## The fix
+AI does not always have to answer from training alone. It can retrieve outside information first, add that information to its context, and then build an answer from it.
 
-For anything that can change, check the date. The model doesn’t always search the web on its own. When it matters, ask it to search.
+This approach is called **Retrieval-Augmented Generation**, or **RAG**:
 
-AI learned from what we wrote.
+![How RAG works. The system retrieves information, adds the retrieved material to the model’s context, and generates an answer using it. RAG gives AI more to read, but it does not guarantee truth.](avoid-traps-8a-rag.jpg)
 
-Flaws in the data become flaws in the answers.
+RAG is especially useful when information changed after training. But it only gives AI more to read. It does not guarantee that the source is reliable or that AI interprets it correctly.
+
+**AI repeats the shape of its data.**
+
+Ask what’s missing. Check what’s changed.

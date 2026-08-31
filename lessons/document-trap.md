@@ -10,70 +10,34 @@ Wait a second. In last year’s tournament, you remember a player picking up fiv
 
 The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete. **Document Trap is thinking ‘uploaded’ means ‘fully read.’**
 
-## It’s about the Context Window
+## Uploaded Doesn’t Mean Fully Read
 
-As you learned earlier in the course, the model reads its full context window every time you send a message. Your 200-page rulebook equals around 100,000 tokens. That’s more than some models will load at once, and even when it fits, the system still needs room for your conversation and its answer.
+![A retrieval machine selects a few pages from a long basketball rulebook while the six-foul tournament exception is left out. AI may answer from only part of the file.](avoid-traps-10-uploaded.jpg)
 
-So when a long document doesn’t fit, and often even when it does, the system runs a process on it instead:
+## How AI Searches a Long Document
 
-1
+AI can only answer from the document text that reaches its context window. A short file may fit there in full. With a long file, the system may search for the parts that seem most relevant and add those passages instead.
 
-The document gets split into chunks
+One common process looks like this:
 
-Each chunk is a paragraph or two long. The model never works from the whole file at once. Everything that follows happens chunk by chunk.
+![One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.](avoid-traps-9-document-flow.jpg)
 
-2
-
-Each chunk becomes one meaning vector
-
-The chunk’s text splits into tokens, just like every message you send, and the model boils what the chunk is about down to one list of numbers: a single meaning vector. It’s the Embeddings idea, one size up.
-
-3
-
-Your question becomes a vector too
-
-The system measures which chunk vectors sit closest to your question’s vector, and only those few chunks get loaded into the context window. Everything else stays outside.
-
-Now you know what happened with the rulebook. It became a few hundred chunks. Your question pulled the chunks closest to it in meaning, and “how many fouls until I’m out of the game?” sits right next to the regular-season foul rules. The tournament section near the back is about tournaments first and fouls second, so it didn’t make the cut.
+This is how the rulebook mistake can happen. The search finds the regular-season foul rule but misses the tournament exception. Only the selected pieces reach the context window. The answer can sound complete even when an important passage was left out.
 
 ## Retrieval
 
-There’s a name for what just happened: **retrieval**. When the system can’t load everything, it retrieves the pieces that match your question. Done well, this finds you a specific answer in a 200-page rulebook in seconds. Done poorly, the wrong pieces get pulled, and the model answers from incomplete evidence.
+There’s a name for what happened: Retrieval-Augmented Generation, or RAG. Here, AI searched your basketball rulebook and added the selected passages to its context window. The same process can pull information from the web or a database.
 
-And you’ve met it before: this is the retrieval in Retrieval-Augmented Generation, RAG. There it searched the web. Here it searches your file.
+When retrieval finds the right passages, AI can answer a specific question in seconds. When retrieval misses something important, AI may miss it too.
 
-## What you can do
+## Four Moves for Better Retrieval
 
-You can steer what the model retrieves. Four moves help, and all four share one idea: **make the right chunks easy to find.**
+![Four ways to improve document retrieval: name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.](avoid-traps-11-document-moves.jpg)
 
-1
+This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer.
 
-Point to the section by name
+Uploading a document and asking AI for help is a good starting point.
 
-Include keywords from the document in your question. The system uses them to find matching chunks.
+**A missing passage can change the answer.**
 
-2
-
-Ask one question at a time
-
-Multi-part questions force the system to retrieve different chunks for different parts. One focused question per turn gives retrieval the best shot.
-
-3
-
-Share only what’s relevant
-
-Paste the paragraphs that matter into your message, or upload just the chapter instead of the whole book. Less to search means the right chunks are more likely to make the cut, and a pasted section skips the retrieval lottery entirely.
-
-4
-
-Ask the AI to quote
-
-Add ‘quote the exact section you’re basing this on’ to your question. If the quote is missing or doesn’t match the document, retrieval probably failed.
-
-This trap doesn’t stay in basketball. The documents that run your life only get longer from here: apartment leases, employment contracts, insurance policies, financial aid letters. Uploading one and asking AI what it says is the natural move, and a good one.
-
-Just remember the rulebook: the clause that changes everything is usually an exception near the back, exactly the kind of chunk that doesn’t make the cut.
-
-It answers from what it retrieved.
-
-Not from having read the whole thing.
+Ask for the passage. Then check it.

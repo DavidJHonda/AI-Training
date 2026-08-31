@@ -99,6 +99,7 @@ class FlowBoard:
     page_output: str
     prep_output: str
     accents: tuple[str, ...] = ()
+    takeaway: str | None = None
 
 
 CARD_BOARDS = (
@@ -224,7 +225,7 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="work-what-changes",
-        title="What Changes for You",
+        title="What Changes with AI",
         cards=(
             Card("More Kinds", "You cover more of the workflow, with fewer handoffs to other people."),
             Card("More Productive", "In one study, consultants finished certain tasks 25% faster with 40% higher quality."),
@@ -439,7 +440,8 @@ def render_card_board(board: CardBoard) -> Image.Image:
         + max_body_lines * BODY_LINE + quote_gap + max_quote_lines * QUOTE_LINE + TEXT_BOTTOM
     )
     card_height = art_height + text_height
-    cards_bottom = CARDS_TOP + rows * card_height + (rows - 1) * GUTTER
+    cards_top = CARDS_TOP if board.title else PADDING
+    cards_bottom = cards_top + rows * card_height + (rows - 1) * GUTTER
     footer_top = cards_bottom + TAKEAWAY_GAP if board.takeaway else None
     height = (
         footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
@@ -450,13 +452,14 @@ def render_card_board(board: CardBoard) -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, board.title)
+    if board.title:
+        draw_board_title(draw, board.title)
 
     panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
         row = 0 if count < 4 else index // 2
         x = card_xs[index]
-        y = CARDS_TOP + row * (card_height + GUTTER)
+        y = cards_top + row * (card_height + GUTTER)
         card_width = card_widths[index]
         draw_shadow(image, (x, y, x + card_width, y + card_height), CARD_RADIUS)
         draw = ImageDraw.Draw(image)
@@ -524,7 +527,8 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     centers = tuple(left + art_width // 2 for left in art_lefts)
     art_height = round(art_width * 9 / 16)
     column_width = min(300, round(pitch - 20))
-    art_top = 175
+    stage_top = 127 if board.title else PADDING
+    art_top = stage_top + 48
     marker_y = art_top + art_height + 45
     title_y = marker_y + 49
     body_y = title_y + 59
@@ -535,13 +539,19 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
         assert tracked_width(measure, step.title, step_title_font, INNER_TITLE_TRACKING) <= column_width, f"{board.key}: title must stay on one line: {step.title}"
     max_body_lines = max(len(lines) for lines in bodies)
     stage_bottom = body_y + max_body_lines * BODY_LINE + 45
-    height = stage_bottom + PADDING
+    footer_top = stage_bottom + TAKEAWAY_GAP if board.takeaway else None
+    height = (
+        footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+        if footer_top is not None
+        else stage_bottom + PADDING
+    )
 
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, board.title)
-    draw.rounded_rectangle((40, 127, 1560, stage_bottom), radius=14, fill=WHITE)
+    if board.title:
+        draw_board_title(draw, board.title)
+    draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
 
     panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     mask = rounded_mask((art_width, art_height), 14)
@@ -562,6 +572,8 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
         draw.text((center, marker_y), str(index), font=number_font, fill=WHITE, anchor="mm")
         draw_inner_title(draw, (center, title_y), step.title, fill=accent, anchor="ma")
         centered_lines(draw, center, body_y, body_lines, body_font, BODY, BODY_LINE)
+    if footer_top is not None and board.takeaway:
+        draw_takeaway(image, footer_top, board.takeaway)
     return image
 
 

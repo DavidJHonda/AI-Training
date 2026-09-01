@@ -14,7 +14,7 @@ Each pass is called a **layer**, and at every layer AI runs the two moves you ju
 
 And AI does it with math. At each layer, it adjusts the tokens’ numbers, each pass moving them a little closer to what the tokens mean.
 
-![Attention and transformation repeat through the model while the token vector changes after every layer, from its starting values to a richer output vector.](layers-2-inside.jpg)
+![How Every Layer Updates the Vector. A vector passes through many layers. Each layer applies attention to determine which words matter, then transformation to update the meaning. Two of the vector's many values are shown changing from the starting vector to the final vector.](layers-inside-layer-editorial.jpg)
 
 ## The mechanics
 

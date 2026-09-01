@@ -621,6 +621,94 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
     save(canvas, out_path)
 
 
+def render_horse_three_reads(out_path: Path) -> None:
+    """Show the garden-path sentence changing meaning across repeated passes."""
+    title = "The Horse Raced Past the Barn Fell"
+    steps = (
+        ("First Pass", "It doesn’t make sense. Did someone forget a word?", PURPLE, "horse-first-pass.png"),
+        ("More Passes", "Wait, did a barn fall? Did the horse race past the barn afterward?", BLUE, "horse-more-passes.png"),
+        ("Meaning Clicks", "Got it. A horse ran past a barn. After running past the barn, the horse fell.", TEAL, "horse-meaning-clicks.png"),
+    )
+    stage_top = 127
+    stage_left, stage_right = 40, 1560
+    gap = 34
+    cell_w = (stage_right - stage_left - 80 - gap * 2) // 3
+    art_h = round(cell_w * 9 / 16)
+    art_top = 175
+    marker_y = art_top + art_h + 43
+    title_y = marker_y + 47
+    body_y = title_y + 58
+    body_font = face("medium", 29)
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    bodies = [wrap(measure, body, body_font, cell_w - 10) for _, body, _, _ in steps]
+    body_bottom = body_y + max(len(lines) for lines in bodies) * 41
+    stage_bottom = body_bottom + 38
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle((stage_left, stage_top, stage_right, stage_bottom), radius=14, fill=WHITE)
+
+    centers: list[int] = []
+    left = stage_left + 40
+    for index, (_, _, accent, filename) in enumerate(steps):
+        centers.append(left + cell_w // 2)
+        source = Image.open(OUT / "assets" / "layers" / filename).convert("RGB")
+        panel = source.resize((cell_w, art_h), Image.Resampling.LANCZOS)
+        panel = accent_wash(panel, accent, 0.025)
+        pd = ImageDraw.Draw(panel)
+
+        if index == 0:
+            # The first reading feels incomplete: a detached FELL seems to need
+            # another word before it can connect to the sentence.
+            pd.rounded_rectangle((18, 15, 291, 93), radius=12, fill=(255, 255, 255), outline=mix(accent, 0.22), width=1)
+            pd.text((154, 38), "THE HORSE RACED", font=face("heavy", 29), fill=accent, anchor="mm")
+            pd.text((154, 72), "PAST THE BARN", font=face("heavy", 29), fill=accent, anchor="mm")
+            pd.text((326, 128), "?", font=face("heavy", 40), fill=accent, anchor="mm")
+            pd.text((414, 128), "FELL", font=face("heavy", 29), fill=accent, anchor="mm")
+        elif index == 1:
+            # The second pass holds two possible subjects for FELL in view.
+            for cx, label in ((120, "BARN?"), (344, "HORSE?")):
+                pd.rounded_rectangle((cx - 70, 14, cx + 70, 61), radius=12, fill=(255, 255, 255), outline=mix(accent, 0.22), width=1)
+                pd.text((cx, 38), label, font=face("heavy", 29), fill=accent, anchor="mm")
+            pd.text((cell_w // 2, 202), "FELL", font=face("heavy", 34), fill=accent, anchor="mm")
+        else:
+            # The final pass resolves the sentence into two events in order.
+            labels = ((113, "Passes the barn"), (345, "Horse falls"))
+            for cx, label in labels:
+                pd.rounded_rectangle((cx - 103, 14, cx + 103, 61), radius=12, fill=(255, 255, 255), outline=mix(accent, 0.22), width=1)
+                pd.text((cx, 38), label, font=face("heavy", 29), fill=accent, anchor="mm")
+
+        canvas.paste(panel, (left, art_top), rounded_mask((cell_w, art_h), 14))
+        draw.rounded_rectangle((left, art_top, left + cell_w, art_top + art_h), radius=14, outline=mix(accent, 0.22), width=1)
+        left += cell_w + gap
+
+    for a, b in zip(centers, centers[1:]):
+        arrow(draw, (a + cell_w // 2 + 7, art_top + art_h // 2), (b - cell_w // 2 - 7, art_top + art_h // 2), MUTED, 4)
+
+    for i, ((step_title, _, accent, _), center, lines) in enumerate(zip(steps, centers, bodies), 1):
+        draw.ellipse((center - 27, marker_y - 27, center + 27, marker_y + 27), fill=accent)
+        draw.text((center, marker_y), str(i), font=face("heavy", 24), fill=WHITE, anchor="mm")
+        draw_inner_title(draw, (center, title_y), step_title, fill=accent, anchor="ma")
+        yy = body_y
+        for line in lines:
+            draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
+            yy += 41
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Each pass updates the meaning until it clicks.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
 def crop_existing(source: Path, crop_box: tuple[float, float, float, float] | None = None) -> Image.Image:
     image = Image.open(source).convert("RGB")
     w, h = image.size
@@ -1075,7 +1163,9 @@ def render_attention_transformation(out_path: Path) -> None:
             # Quadratic curve from IT back toward CAT, matching the lesson's mechanism.
             start = (left + 558, card_top + 195)
             control = (left + 372, card_top + 76)
-            end = (left + 186, card_top + 195)
+            # End the curve at the arrowhead base, then extend the head along
+            # the curve's final tangent so the pointer follows the arc naturally.
+            end = (left + 224, card_top + 175)
             points = []
             for step in range(51):
                 t = step / 50
@@ -1083,8 +1173,29 @@ def render_attention_transformation(out_path: Path) -> None:
                 y = (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * control[1] + t ** 2 * end[1]
                 points.append((round(x), round(y)))
             draw.line(points, fill=accent, width=6)
+            tangent_x = end[0] - control[0]
+            tangent_y = end[1] - control[1]
+            tangent_length = math.hypot(tangent_x, tangent_y)
+            direction_x = tangent_x / tangent_length
+            direction_y = tangent_y / tangent_length
+            arrow_length = 36
+            arrow_half_width = 14
+            arrow_tip = (
+                round(end[0] + direction_x * arrow_length),
+                round(end[1] + direction_y * arrow_length),
+            )
+            perpendicular_x = -direction_y
+            perpendicular_y = direction_x
+            arrow_base_a = (
+                round(end[0] + perpendicular_x * arrow_half_width),
+                round(end[1] + perpendicular_y * arrow_half_width),
+            )
+            arrow_base_b = (
+                round(end[0] - perpendicular_x * arrow_half_width),
+                round(end[1] - perpendicular_y * arrow_half_width),
+            )
             draw.polygon(
-                ((end[0], end[1]), (end[0] + 34, end[1] - 5), (end[0] + 18, end[1] + 27)),
+                (arrow_tip, arrow_base_a, arrow_base_b),
                 fill=accent,
             )
         else:
@@ -2193,11 +2304,7 @@ def render_all() -> None:
     render_word_order_flow(board_path("transformer", "05-word-order.jpg"))
 
     # Layers
-    render_flow("The Horse Raced Past the Barn Fell", [
-        Card("First Pass", "It doesn’t make sense. Did someone forget a word?", PURPLE, "chunks"),
-        Card("More Passes", "Wait, did a barn fall? Did the horse race past the barn afterward?", BLUE, "attention"),
-        Card("Meaning Clicks", "Got it. A horse ran past a barn. After running past the barn, the horse fell.", TEAL, "ordered"),
-    ], "Each pass updates the meaning until it clicks.", board_path("layers", "01-three-reads.jpg"))
+    render_horse_three_reads(board_path("layers", "01-three-reads.jpg"))
     render_layers_inside_illustration(
         OUT / "assets" / "layers" / "inside-layer-many-layers.png",
         board_path("layers", "02-inside-layer.jpg"),

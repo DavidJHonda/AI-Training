@@ -80,6 +80,13 @@ node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
 - Match highlight granularity to the narration. Ring the whole board or card while the
   narration addresses it as a whole; move to an item or row ring when the narration
   names that part. If the narration walks several sections, the ring walks them too.
+- For AI Chat boards, every active turn ring traces the complete speech bubble. If the
+  narration walks the prompt and response separately, walk those bubbles separately
+  rather than enclosing the full round. Every takeaway ring traces the complete gold
+  banner boundary, not the text or checkmark inside it.
+- The first settled frame of an active bubble or takeaway must already show its full
+  ring. Never use an unmarked camera move as the opening of an active banner state;
+  complete the move before the state begins or cut directly to the settled framing.
 - Resolve every highlight color in the repair manifest before capture. A target inside
   an Editorial Explainer card or flow step inherits that component's stored locked
   accent: green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`, editorial purple
@@ -145,6 +152,10 @@ drops a frame).
    original frame and the -v2 frame at span start+1s and span midpoint, full res.
 7. Eyeball (Read) each leg's dive/hold framing: text legible, nothing sliced, ring on
    the right item.
+8. For every requested editorial pause, run `silencedetect` on the final encoded
+   output and report the measured interval. The prior teaching visual must hold until
+   the pause ends; the next visual begins with the next spoken idea. Confirm the pause
+   uses matched room tone with no orphan inhale or noise-floor cliff.
 
 ## Report format (your final message, nothing else)
 VIDEO: <slug>

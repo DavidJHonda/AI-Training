@@ -50,7 +50,7 @@ Back to that one-of-a-kind token. AI can’t look its numbers up, but it can do 
 
 Now, back to our sentence from the last lesson.
 
-![A map of vector space shows IT beginning as an ambiguous vector, moving through the layers across meaning neighborhoods, and landing in its final position closest to CAT.](vector-space-4-meaning-map.jpg)
+![The final vector for IT travels into the animal neighborhood and lands closest to CAT. KITTEN, DOG, and PET sit nearby, but CAT has the shortest distance.](vector-space-4-meaning-map.jpg)
 
 Meaning is a position.
 

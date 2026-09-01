@@ -70,13 +70,8 @@ const BOARDS = [
   { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 900, vw: 960, wrapUp: 1,
     find: ["One notebook per subject", "Trace it back to learn it", "Reading the original material"] },
 
-  // One More Thing: these two boards must preserve the lesson's full-width layout.
-  // The older kit captures were made through a narrow composition slot, which
-  // changed the wrapping and made the video boards visibly different from the page.
-  { section: "inference", out: "one-more-thing-2-two-sides.jpg", width: 902, vw: 960,
-    find: ["TWO SIDES OF THE SAME CHAT", "You carry the chat in your head", "AI carries nothing"] },
-  { section: "inference", out: "one-more-thing-3-bill.jpg", width: 902, vw: 960,
-    find: ["The Math", "One word", "Your complete chat about your new dog"] },
+  // One More Thing teaching boards are deterministic Editorial assets. Do not
+  // recapture the accessible HTML fallbacks and overwrite the canonical images.
 
   // NO CLOSE BOARDS BELONG IN THIS FILE (2026-07-30). Every close board in the
   // catalogue is generated from CLOSE_BOARDS by scripts/video/make_close_board.py,

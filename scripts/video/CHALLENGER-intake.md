@@ -28,8 +28,10 @@ Also check, from the same prompt:
 - did it end on the close board as the literal final frame?
 - did each qualifying board use the exact current lesson board and the r5 compact
   or dense treatment with course-native narration-synced highlights?
-- did the video avoid Gemini Notebook highlighting and use the standard close
-  framing and fixed endpoint?
+- if this is a raw Notebook roll, identify native highlighting and the engine close
+  only as post-production replacement spans; neither is a grading defect. If this is
+  a repaired or shipping candidate, did it contain only course-native highlighting
+  and the standard close framing with its fixed endpoint?
 - did it letter style words into the artwork ("fineliner", "analog texture")?
 
 ## Part 3 — harvest

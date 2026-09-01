@@ -46,6 +46,19 @@ highlight states must use the course ring-and-chip treatment, whether they are c
 from DOM states or composited in post. A board discussed only as a whole gets the
 unmarked restrained push, not an arbitrary highlight.
 
+On AI Chat boards, trace the full visible bubble for the active turn, not its text.
+Walk individual turns when the narration walks them; ring a whole round only when the
+narration treats the round as one combined idea. Takeaway rings always trace the full
+gold banner boundary from edge to edge, never only its checkmark or copy.
+When a bubble or takeaway becomes the active target, its first visible settled frame
+must already carry the complete ring. Do not expose an active banner unmarked while
+the camera reframes; finish the move before it appears or cut directly to the ringed
+state.
+
+That prohibition applies to repaired and shipping candidates. Native highlighting in
+a raw Notebook roll is expected disposable material: it is inventoried for replacement,
+but it is not an evaluation defect and never justifies a re-roll by itself.
+
 For the Editorial Explainer board family, the highlight color is inherited, never
 chosen during the edit. Each card or step stores one locked accent: green `#0f7a4a`,
 teal `#0e8f86`, blue `#1652f0`, editorial purple `#4f2fc4`, amber `#a9760c`, or red
@@ -123,6 +136,25 @@ For every splice:
 - verify that no spoken sentence ends early;
 - verify that there is no click, blip, or abrupt noise-floor dropout.
 
+Every edit build must declare its splice frames on the **finished output
+timeline** and run `transition_guard.py` after encoding. The guard sequentially
+decodes the finished MP4, writes every frame within 12 frames of each splice,
+and fails when it finds a one-to-six-frame intermediate visual between two
+cuts. This catches the common approved-board -> stale Notebook graphic ->
+approved-shot failure even when narration cuts have changed every later time
+stamp. Passing the detector is not enough: inspect the generated strips and
+confirm that the first frame after each boundary is already the approved
+destination shot. This seam-only review replaces a full-video search for
+flashes; it does not replace the normal teaching review.
+
+For card-board highlights, the ring rectangle is the card's canonical **outer
+component boundary** in the source asset. Do not estimate a content area, inset
+the rectangle toward the illustration or copy, or rely on the camera crop to
+make an inset ring look complete. Record named card bounds once and reuse those
+same coordinates for the ring and camera-fit calculation. The settled-frame QA
+must show the complete card—illustration, title, body, and every outer edge—
+inside a ring that tracks the card boundary within three source pixels.
+
 Breath cleanup is a separate reviewed audio pass. Never ripple-delete a breath.
 Keep it, attenuate it, or replace it with equal-duration matched room tone using
 short crossfades. Do not use digital zero when it creates an audible gap. For a
@@ -160,6 +192,7 @@ so any splice needs exactly ONE re-encode pass:
 | `$PY excise_audio.py` | remove a stray spoken word from audio only (`--probe` RMS map first, then `--cut`) |
 | `$PY graft_scene.py` | move a scene between videos: `--insert` (full graft, incl. replace-the-ending via `--resume-at` past the end) or `--replace-visual` (donor visuals over a base span, audio untouched, auto trim/freeze-fill) |
 | `$PY splice_integrity.py` | compare a visual repair with its pristine source; enforce frames/FPS/audio, detect residual source-frame islands, and render every-frame boundary strips |
+| `$PY transition_guard.py` | audit output-timeline splice frames after any hybrid/audio-changing edit; fail on 1-6-frame intermediate visuals and render mandatory every-frame strips |
 | `$PY audio_gap_review.py` | build contextual WAV clips for manual KEEP / ATTENUATE / ROOM_TONE decisions; never edits the source |
 | `$PY replace_audio_with_room_tone.py` | replace a confirmed blip or stray syllable with equal-duration nearby room tone; video stream is copied and verified bit-identical |
 | `$PY make_standard_close_plan.py` | build the fixed r5 close move: 48-frame full-board hold, 150-frame push to 1.2x, then a same-size settle for the remaining narration |
@@ -653,6 +686,14 @@ inside narration pauses, in both videos.
   "once." marked ending 215.36 actually carried its sibilant 215.48-215.62
   after a ~100ms nasal dip — a cut in that dip turns "once" into "one". Cut
   after the sibilant (verify on the 5ms peak profile), never in the dip.
+- **Measured-pause rule (next-level-moves 2026-09-01):** a requested one-second
+  teaching pause is an audio requirement, not merely a one-second visual hold. Hold
+  the current idea onscreen through the pause and move to the next visual only when
+  the next narration idea begins. Measure the final encoded file with `silencedetect`;
+  do not infer duration from source timestamps or from how long the frame remains.
+  Build the pause from clean matched room tone and remove any inhale that belongs to
+  deleted narration. The verified quiet interval must be at least the requested
+  duration without an audible noise-floor cliff.
 - **Word-inside-pause rule:** pauses.sh can flag a silence window that lives
   INSIDE a drawn-out word (a cut there clips mid-word). Verify every planned cut
   against word-level timestamps (faster-whisper, in the venv:

@@ -2,147 +2,49 @@
 
 # One More Thing
 
-One more thing. Actually, three more things. Across this section you built the whole machine: text becomes tokens, tokens become vectors, attention and the layers turn those vectors into meaning, and prediction reads the answer off a ranked list, one token at a time. But three facts about the machine never fit any single piece. They go here.
+One more thing. Actually, three.
 
-They’re worth the stop. Understand these three, and you’ll know more about what actually happens when you hit send than almost anyone who uses AI every day.
+Across this section, you built the machine from tokens to predictions. Three questions remain: Why can the same prompt produce a different answer? How does a chat seem to remember what came before? And how much math does one answer require?
 
-## Randomness
+Answer those, and the whole process comes together.
 
-Start with a confession. In How AI Answers, we told you the model takes the top of the list and types it: Spot. We should have said **usually**. You’ve seen the evidence yourself: ask the exact same question in two brand-new chats, and the answers come back different. Same model, same question, same everything the model can see, and still two different replies.
+## The top token does not always win
 
-Here’s the missing piece: the model doesn’t simply grab the top of its ranked list. It runs a weighted drawing across the whole list, where every token holds tickets equal to its probability. Spot, at 22%, holds 22 tickets out of 100. So Spot wins more drawings than any other single name. But with 78 tickets spread across everyone else, most drawings go to someone who isn’t Spot.
+When AI builds an answer, it scores many possible next tokens and ranks them. The token at the top has the best chance of being selected, but it does not always win. Another likely token can be chosen instead. That is one reason the same question can produce different answers.
 
-Why run a drawing at all? Because text built from only the safest word at every step turns out repetitive and lifeless. The randomness is what keeps the writing from sounding robotic.
+Suppose you ask AI, “What should I name my new dog?” As it builds the answer, it reaches the place where a dog name comes next.
 
-Same list, five draws
+Think of the choice as a weighted drawing. If Spot has a 22% chance, imagine Spot holding 22 of 100 tickets. Max holds 17, Buddy holds 14, and the other possible tokens share the rest.
 
-You could name him
+Spot has more tickets than any single choice, so it has the best chance to win. But the other choices hold 78 tickets together. Most drawings will select something other than Spot.
 
-Spot
+Why give other choices a chance? If AI always selected the safest token, its answers would start to sound repetitive. Letting other likely choices win gives the writing more variety.
 
-22% · 22 tickets
+![Same Odds, Five Draws. The same 100 tickets give Spot the best individual chance, but five drawings produce Max, Spot, Buddy, Rex, and Max. The best chance is not a guarantee.](one-more-thing-1-draws.jpg)
 
-Max
+When AI selects a different token, every prediction that follows starts from a different place. The replies do not just differ by one word. They can take different paths.
 
-17% · 17 tickets
+## AI doesn’t remember
 
-Buddy
+Back to naming your dog. This time, the question comes at the end of a long chat about whether to get a dog or a cat. After choosing a dog, you ask, “What should I name my new dog?”
 
-14% · 14 tickets
+AI can use that earlier discussion, which makes it seem like it remembers. It doesn’t. The app keeps the chat transcript and sends it along with your new question. The model sees the dog-or-cat discussion again and uses it to answer. The words are in front of it, not stored as a memory of making the decision with you.
 
-Rex
+![You Remember. AI Reads. A person remembers choosing a dog and why. The app instead sends the earlier chat transcript and new question to AI, which reads that text again.](one-more-thing-2-two-sides.jpg)
 
-9% · 9 tickets
-
-Biscuit
-
-6% · 6 tickets
-
-other tokens
-
-32% · 32 tickets
-
-## Five draws, same tickets every time
-
-1.
-
-Max
-
-2.
-
-Spot
-
-3.
-
-Buddy
-
-4.
-
-Rex
-
-5.
-
-Max
-
-Same odds every time. The favorite won just once.
-
-That drawing is why two identical chats come back with two different replies. And once the first word differs, everything after it starts from a different context, so the replies don’t just differ by a word. They diverge.
-
-## No memory
-
-The second thing sounds like it can’t be true: **AI has no memory.** None. Let’s assume your question about naming your new dog came at the end of a long chat. You’d been debating whether to get a dog or a cat at all, brainstorming with AI, and after plenty of typing and reading, you settled on the dog. Then you asked: “What should I name my new dog?”
-
-Here’s what happened each time you typed a message. AI ran **everything**, all your messages and its own responses, through the full process: tokens, positions, attention and transformation through the layers. Think about it like this: every word of the chat is written on one long transcript, and AI re-reads the full transcript every time you send a message.
-
-## TWO SIDES OF THE SAME CHAT
-
-🧠
-
-## You
-
-#### You carry the chat in your head
-
-You remember deciding on a dog over a cat, and why.
-
-You remember what you typed ten seconds ago.
-
-You’d recognize your own last sentence anywhere.
-
-You reply from memory.
-
-📄
-
-## AI
-
-#### AI carries nothing
-
-It remembers nothing, not even the reply it’s in the middle of writing.
-
-Everything lives in the transcript: your messages, its replies, all of it.
-
-Before every word, it re-reads the whole transcript, in milliseconds.
-
-So you never notice. The chat just flows.
-
-AI really doesn’t have a memory. And it goes further: it doesn’t even remember the last word it typed. Before every word, the model re-reads everything it can see: your question, its own reply so far, and the rest of the context window too. Personalization, saved memory, everything earlier in the chat. All of it, tokenized, embedded, and pushed through every layer, for every single word. The transcript is the memory.
+AI does not even remember the last word it wrote. It doesn’t have to. AI adds each new word to the reply and uses that growing reply to make the next prediction. The rest of the context window stays in front of AI too. That is how it uses earlier information without remembering it.
 
 ## The scale of the math
 
-Now count what that costs. The calculations aren’t a mystery. They’re the **weights** you met in Layers and Training, frozen since training day, multiplying the numbers that pass through them. Inference just runs them forward: the same machine, the same arithmetic, every time you ask.
+Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction. When you use AI, those weights stay fixed. For each new token, AI uses those weights in a massive set of calculations.
 
-So here’s the arithmetic on the arithmetic. Nobody outside OpenAI knows how big ChatGPT’s model really is; the companies stopped publishing sizes. So let’s make an honest guess and call it one trillion weights. Each word takes roughly two calculations per weight: a multiply and an add. That’s about 2 trillion calculations before ChatGPT can type one word.
+OpenAI doesn’t publish enough about the model behind ChatGPT to count its calculations exactly. So this is a rough guess. The exact number is not the point. What matters is how quickly the math becomes enormous.
 
-The Math
+Let’s estimate one trillion weights in an LLM. If each weight requires roughly a multiply and an add for every token, that comes to about two trillion calculations for one token.
 
-## One word
+![The Math Adds Up Fast. Under a rough estimate, one token requires about 2 trillion calculations, a short answer about 200 trillion, and the complete dog chat about 2 quadrillion. The estimates are rough. The scale is not.](one-more-thing-3-bill.jpg)
 
-Two calculations for each of a trillion weights
-
-≈ 2 trillion
-
-## One sentence
-
-“You could name him Spot.” is 7 tokens
-
-≈ 14 trillion
-
-## Your complete chat about your new dog
-
-2,000 words back and forth, about half of them typed by ChatGPT
-
-≈ 2 quadrillion
-
-The calculations required to name your dog Spot? 2 quadrillion.
-
-2,000,000,000,000,000
-
-And remember: no memory. The whole transcript gets re-read for every word. The longer the chat, the more the model re-reads before each new word, so the meter climbs faster as a conversation grows. That’s why long chats can get slow, and a new chat for a different task is smart.
-
-## Every time you hit send
-
-So here’s the picture to leave this section with. AI isn’t a mind, it’s math. Now you’ve counted it. Every time you hit send, a warehouse of computers spins up, runs trillions of calculations for every word it types back, and throws the work away the moment the reply ends. Not a mind. Math, at a scale nobody can picture.
-
-Somebody pays for all that arithmetic: in electricity, in water, and in money. You’ll learn about this later.
+A longer chat gives AI more information to work with, but it also creates more work. More text has to be processed and kept available while the reply is built. That can make long conversations slower. Starting a new chat for a different task keeps the work focused.
 
 Not a mind. Math, at a scale nobody can picture.
 

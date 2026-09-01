@@ -130,7 +130,11 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
   understanding. Every major beat is meaningfully taught; essential examples,
   frameworks, distinctions, and explanatory links survive; and the central idea
   is understandable and usable without opening the lesson. Minor optional detail
-  may be compressed.
+  may be compressed. A lesson's framing analogy is not automatically essential:
+  do not fail or re-roll a video merely because it does not repeat that analogy
+  through every beat when the underlying concepts and their relationships are all
+  taught clearly. The analogy becomes required only when it carries unique teaching
+  that the remaining explanation does not preserve.
 - `GATE_SPINE`: The narration includes every hard lesson requirement, including
   required full terms or verbatim lines. For example, Document Trap must say
   "Retrieval-Augmented Generation" in full. A missing hard requirement
@@ -167,6 +171,14 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
     change with the spoken content. An entire-card highlight traces that same visible
     card boundary. Do not inset ordinary card-section rings to the text block. Tight-
     fit horizontal rings are reserved for truly independent inline elements.
+  - On AI Chat boards, a turn highlight traces the complete visible speech bubble,
+    never the text inside it. When narration walks separate turns in an early or later
+    round, highlight each complete bubble as it is spoken; do not ring the whole round
+    unless the narration explicitly discusses that round as one combined unit.
+  - A takeaway highlight always traces the complete visible gold banner from its full
+    left edge to its full right edge. Never fit the ring to the checkmark or banner text.
+    Once the takeaway becomes the active target, its first settled frame is already
+    ringed; camera transit may not present the active band as an unmarked target.
   - Keep the ring wholly inside its owning card or section. At the settled camera,
     its outside stroke must have at least 16 visible pixels of clearance from the
     card edge and may not cross a divider, overlap sibling text, or include text from
@@ -186,9 +198,13 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
     Begin the matching highlight as the cue starts, not after the phrase finishes.
   Numeric Board Content credit does not waive this ship requirement. A redraw may
   teach the right content and still fail this gate.
-- `GATE_NO_NOTEBOOK_HIGHLIGHT`: All teaching-board emphasis uses the course-native
-  ring-and-chip treatment. Gemini Notebook highlighting is forbidden. Highlights
-  replace one another unless narration explicitly combines points. Use the item's
+- `GATE_NO_NOTEBOOK_HIGHLIGHT`: This is a post-production ship gate, not a raw-roll
+  evaluation criterion. Gemini Notebook's temporary highlighting is expected raw
+  material and must never lower a new roll's score or drive a re-roll decision; log
+  its spans only so the repair pass can replace them. For a repaired or shipping
+  candidate, all teaching-board emphasis uses the course-native ring-and-chip
+  treatment and no Notebook highlighting may remain. Highlights replace one another
+  unless narration explicitly combines points. Use the item's
   accent color when available, otherwise course purple. For Editorial Explainer
   cards and flow steps, the ring and chip must match the component's explicitly
   stored locked accent token. Do not sample the illustration, infer color from card
@@ -205,6 +221,17 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
   source audio. Natural breaths are not defects by default. A reviewed breath may
   be kept, attenuated, or replaced with equal-duration matched room tone. Do not
   ripple-delete breaths or substitute digital silence when it creates an audible gap.
+  A requested teaching pause is measured in the final encoded audio, holds the current
+  visual through its full duration, and hands off to the next visual with the next idea.
+  Every edited build must declare all visual splice frames on the final output
+  timeline and pass `transition_guard.py`. Its every-frame boundary strips must
+  also be inspected manually; sampled contact sheets or narration timestamps do
+  not satisfy this gate. Evidence records the guard report path and confirms the
+  first restored frame at every splice is already an approved shot.
+  Card-board highlights use the actual outer card geometry, never a manually
+  estimated or inset content rectangle. A settled full-resolution frame must
+  show all four card edges and the complete card inside the ring; the ring may
+  differ from the canonical source-card boundary by no more than three pixels.
 
 ### Repair meaning
 

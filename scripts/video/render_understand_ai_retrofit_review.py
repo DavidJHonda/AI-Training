@@ -621,6 +621,250 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
     save(canvas, out_path)
 
 
+def render_before_answer_begins(out_path: Path) -> None:
+    """Four-stage recap with the course's standard user-prompt treatment."""
+    title = "Before the Answer Begins"
+    prompt = "What should I name my new dog?"
+    steps = (
+        Card("Tokens", "Breaks the question into pieces.", PURPLE, "chunks"),
+        Card("Positions", "Marks where each piece belongs.", BLUE, "position"),
+        Card("Starting Vectors", "Turns each token into numbers that carry its starting meaning.", TEAL, "vector-bars"),
+        Card("Through the Layers", "Attention connects the tokens, and transformation updates their meaning.", GREEN, "layers-large"),
+    )
+
+    stage_left, stage_right = 40, 1560
+    prompt_top = 127
+    prompt_h = 122
+    flow_top = prompt_top + prompt_h + 32
+    gap = 34
+    cell_w = (stage_right - stage_left - 80 - gap * (len(steps) - 1)) // len(steps)
+    art_h = round(cell_w * 9 / 16)
+    art_top = flow_top + 48
+    marker_y = art_top + art_h + 43
+    title_y = marker_y + 47
+
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    title_font = face("bold", 40)
+    body_font = face("medium", 29)
+    title_lines = [wrap(measure, step.title, title_font, cell_w - 10) for step in steps]
+    body_lines = [wrap(measure, step.body, body_font, cell_w - 10) for step in steps]
+    max_title_lines = max(len(lines) for lines in title_lines)
+    max_body_lines = max(len(lines) for lines in body_lines)
+    body_y = title_y + max_title_lines * 48 + 14
+    body_bottom = body_y + max_body_lines * 41
+    flow_bottom = body_bottom + 38
+    footer_top = flow_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+
+    # The input is visually separate from the model's four processing stages.
+    draw.rounded_rectangle(
+        (stage_left, prompt_top, stage_right, prompt_top + prompt_h),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+    draw.rectangle((stage_left, prompt_top + 18, stage_left + 8, prompt_top + prompt_h - 18), fill=PURPLE)
+    draw.text((stage_left + 32, prompt_top + 30), "YOU", font=face("heavy", 20), fill=PURPLE, anchor="la")
+    draw.text((stage_left + 32, prompt_top + 68), prompt, font=face("medium", 32), fill=BODY, anchor="la")
+
+    draw.rounded_rectangle((stage_left, flow_top, stage_right, flow_bottom), radius=14, fill=WHITE)
+    centers: list[int] = []
+    left = stage_left + 40
+    for step in steps:
+        centers.append(left + cell_w // 2)
+        panel = art_panel((cell_w, art_h), step.accent, step.art)
+        canvas.paste(panel, (left, art_top), rounded_mask((cell_w, art_h), 14))
+        draw.rounded_rectangle(
+            (left, art_top, left + cell_w, art_top + art_h),
+            radius=14,
+            outline=mix(step.accent, 0.22),
+            width=1,
+        )
+        left += cell_w + gap
+
+    for a, b in zip(centers, centers[1:]):
+        arrow(
+            draw,
+            (a + cell_w // 2 + 7, art_top + art_h // 2),
+            (b - cell_w // 2 - 7, art_top + art_h // 2),
+            MUTED,
+            4,
+        )
+
+    for i, (center, step, headings, lines) in enumerate(zip(centers, steps, title_lines, body_lines), 1):
+        draw.ellipse((center - 27, marker_y - 27, center + 27, marker_y + 27), fill=step.accent)
+        draw.text((center, marker_y), str(i), font=face("heavy", 24), fill=WHITE, anchor="mm")
+        yy = title_y
+        for line in headings:
+            draw_inner_title(draw, (center, yy), line, fill=step.accent, anchor="ma")
+            yy += 48
+        yy = body_y
+        for line in lines:
+            draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
+            yy += 41
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=stage_left,
+        right=stage_right,
+        text="Now the question is ready. The answer begins with the final token.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
+def render_where_answer_begins(out_path: Path) -> None:
+    """Three-stage technical flow from the prompt to the first predicted token."""
+    title = "Where the Answer Begins"
+    steps = (
+        ("The Question", "The final token gathers information from every token before it.", PURPLE),
+        ("The Final Token", "Carries the meaning AI built from the whole question.", BLUE),
+        ("The First Prediction", "The ranked list gives AI possible ways to begin its answer.", TEAL),
+    )
+    stage_left, stage_right = 40, 1560
+    stage_top = 127
+    gap = 34
+    cell_w = (stage_right - stage_left - 80 - gap * 2) // 3
+    art_h = round(cell_w * 9 / 16)
+    art_top = stage_top + 48
+    marker_y = art_top + art_h + 43
+    title_y = marker_y + 47
+    body_y = title_y + 58
+    body_font = face("medium", 29)
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    bodies = [wrap(measure, body, body_font, cell_w - 10) for _, body, _ in steps]
+    body_bottom = body_y + max(len(lines) for lines in bodies) * 41
+    stage_bottom = body_bottom + 38
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle((stage_left, stage_top, stage_right, stage_bottom), radius=14, fill=WHITE)
+
+    centers: list[int] = []
+    lefts: list[int] = []
+    left = stage_left + 40
+    for _, _, accent in steps:
+        lefts.append(left)
+        centers.append(left + cell_w // 2)
+        draw.rounded_rectangle(
+            (left, art_top, left + cell_w, art_top + art_h),
+            radius=14,
+            fill=mix(accent, 0.10),
+            outline=mix(accent, 0.28),
+            width=2,
+        )
+        # Quiet technical grid keeps the three schematic panels in one family.
+        for x in range(left + 48, left + cell_w, 48):
+            draw.line((x, art_top, x, art_top + art_h), fill=mix(accent, 0.07), width=1)
+        for y in range(art_top + 48, art_top + art_h, 48):
+            draw.line((left, y, left + cell_w, y), fill=mix(accent, 0.07), width=1)
+        left += cell_w + gap
+
+    for a, b in zip(centers, centers[1:]):
+        arrow(
+            draw,
+            (a + cell_w // 2 + 7, art_top + art_h // 2),
+            (b - cell_w // 2 - 7, art_top + art_h // 2),
+            MUTED,
+            4,
+        )
+
+    # Stage 1: the complete prompt is visible as tokens, with the final token hot.
+    token_font = face("bold", 29)
+    token_rows = (("What", "should", "I", "name"), ("my", "new", "dog", "?"))
+    token_boxes: list[tuple[int, int, int, int, str]] = []
+    for row_index, row in enumerate(token_rows):
+        widths = [round(draw.textlength(token, font=token_font)) + 30 for token in row]
+        total_w = sum(widths) + (len(row) - 1) * 10
+        x = centers[0] - total_w // 2
+        y = art_top + 43 + row_index * 84
+        for token, width in zip(row, widths):
+            hot = token == "?"
+            box = (x, y, x + width, y + 58)
+            draw.rounded_rectangle(
+                box,
+                radius=12,
+                fill=PURPLE if hot else WHITE,
+                outline=PURPLE if hot else mix(PURPLE, 0.30),
+                width=2,
+            )
+            draw.text((x + width // 2, y + 29), token, font=token_font, fill=WHITE if hot else INK, anchor="mm")
+            token_boxes.append((*box, token))
+            x += width + 10
+    question_box = next(box for box in token_boxes if box[4] == "?")
+    qx = (question_box[0] + question_box[2]) // 2
+    qy = question_box[3] + 22
+    draw.text((qx, qy), "FINAL TOKEN", font=face("heavy", 20), fill=PURPLE, anchor="ma")
+
+    # Stage 2: the question-mark token carries a final vector into prediction.
+    token_cx = lefts[1] + 96
+    token_cy = art_top + art_h // 2
+    draw.ellipse((token_cx - 52, token_cy - 52, token_cx + 52, token_cy + 52), fill=BLUE)
+    draw.text((token_cx, token_cy), "?", font=face("heavy", 58), fill=WHITE, anchor="mm")
+    bars_left = lefts[1] + 202
+    bar_bottom = art_top + art_h - 48
+    heights = (82, 126, 64, 148, 102, 156, 88, 138)
+    for i, bar_h in enumerate(heights):
+        x = bars_left + i * 25
+        draw.rounded_rectangle((x, bar_bottom - bar_h, x + 15, bar_bottom), radius=7, fill=BLUE if i > 3 else mix(BLUE, 0.25))
+    arrow(draw, (token_cx + 65, token_cy), (bars_left - 18, token_cy), BLUE, 4)
+    draw.text((lefts[1] + cell_w - 28, art_top + 28), "FINAL VECTOR", font=face("heavy", 20), fill=BLUE, anchor="ra")
+
+    # Stage 3: a ranked list of possible first tokens, with the highest score hot.
+    rank_font = face("bold", 29)
+    pct_font = face("heavy", 25)
+    ranking = (("You", 18), ("A", 14), ("Great", 9))
+    row_left = lefts[2] + 34
+    row_right = lefts[2] + cell_w - 34
+    for i, (label, pct) in enumerate(ranking):
+        y = art_top + 26 + i * 72
+        hot = i == 0
+        draw.rounded_rectangle(
+            (row_left, y, row_right, y + 58),
+            radius=12,
+            fill=WHITE,
+            outline=TEAL if hot else mix(TEAL, 0.24),
+            width=3 if hot else 1,
+        )
+        draw.text((row_left + 20, y + 29), label, font=rank_font, fill=TEAL if hot else INK, anchor="lm")
+        track_left = row_left + 150
+        track_right = row_right - 70
+        draw.rounded_rectangle((track_left, y + 22, track_right, y + 36), radius=7, fill=mix(TEAL, 0.13))
+        fill_right = track_left + round((track_right - track_left) * pct / 20)
+        draw.rounded_rectangle((track_left, y + 22, fill_right, y + 36), radius=7, fill=TEAL if hot else mix(TEAL, 0.38))
+        draw.text((row_right - 14, y + 29), f"{pct}%", font=pct_font, fill=TEAL if hot else MUTED, anchor="rm")
+
+    for i, (center, (step_title, _, accent), lines) in enumerate(zip(centers, steps, bodies), 1):
+        draw.ellipse((center - 27, marker_y - 27, center + 27, marker_y + 27), fill=accent)
+        draw.text((center, marker_y), str(i), font=face("heavy", 24), fill=WHITE, anchor="mm")
+        draw_inner_title(draw, (center, title_y), step_title, fill=accent, anchor="ma")
+        yy = body_y
+        for line in lines:
+            draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
+            yy += 41
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=stage_left,
+        right=stage_right,
+        text="AI uses the final token’s vector to predict the first token of its answer.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
 def render_horse_three_reads(out_path: Path) -> None:
     """Show the garden-path sentence changing meaning across repeated passes."""
     title = "The Horse Raced Past the Barn Fell"
@@ -2393,6 +2637,168 @@ def render_vector_space_landing(source: Path, out_path: Path) -> None:
     save(canvas, out_path)
 
 
+def render_phone_prediction(out_path: Path) -> None:
+    """Opening phone-prediction board with one sheet and no nested trays."""
+    height = 650
+    stage_top = 127
+    stage_bottom = 610
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, "Your Phone Predicts the Next Word")
+    draw.rounded_rectangle(
+        (40, stage_top, 1560, stage_bottom),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+
+    prompt_font = face("bold", 48)
+    prompt_y = 286
+    prefix = "See you"
+    prefix_w = draw.textlength(prefix, font=prompt_font)
+    blank_w = 228
+    punctuation_w = draw.textlength(".", font=prompt_font)
+    total_w = prefix_w + 24 + blank_w + 10 + punctuation_w
+    start_x = (WIDTH - total_w) / 2
+    draw.text((start_x, prompt_y), prefix, font=prompt_font, fill=INK, anchor="lm")
+    line_left = round(start_x + prefix_w + 24)
+    line_right = line_left + blank_w
+    draw.line((line_left, prompt_y + 25, line_right, prompt_y + 25), fill=INK, width=5)
+    draw.text((line_right + 10, prompt_y), ".", font=prompt_font, fill=INK, anchor="lm")
+
+    choices = ("soon", "tomorrow", "later")
+    pill_font = face("bold", 30)
+    widths = [round(draw.textlength(choice, font=pill_font)) + 64 for choice in choices]
+    gap = 24
+    group_w = sum(widths) + gap * (len(choices) - 1)
+    x = (WIDTH - group_w) // 2
+    pill_y = 418
+    pill_h = 72
+    for choice, pill_w in zip(choices, widths):
+        draw.rounded_rectangle(
+            (x, pill_y, x + pill_w, pill_y + pill_h),
+            radius=pill_h // 2,
+            fill=BRAND,
+        )
+        draw.text(
+            (x + pill_w // 2, pill_y + pill_h // 2 - 1),
+            choice,
+            font=pill_font,
+            fill=WHITE,
+            anchor="mm",
+        )
+        x += pill_w + gap
+
+    save(canvas, out_path)
+
+
+def render_inference_teaching(source: Path, out_path: Path) -> None:
+    """Teach inference with one illustration, one process rail, and one definition."""
+    image = Image.open(source).convert("RGB")
+    stage_top = 127
+    art_left, art_top = 74, stage_top + 30
+    art_w, art_h = 1452, 817
+    rail_top = art_top + art_h + 28
+    rail_h = 226
+    stage_bottom = rail_top + rail_h + 28
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, "Inference: How AI Builds an Answer")
+    draw.rounded_rectangle(
+        (40, stage_top, 1560, stage_bottom),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+
+    fitted = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
+    canvas.paste(fitted, (art_left, art_top), rounded_mask((art_w, art_h), 12))
+    draw = ImageDraw.Draw(canvas)
+
+    def point(source_x: int, source_y: int) -> tuple[int, int]:
+        return (
+            art_left + round(source_x * art_w / 1672),
+            art_top + round(source_y * art_h / 941),
+        )
+
+    # Populate the blank plates with the exact worked example from the lesson.
+    candidate_font = face("bold", 19)
+    answer_font = face("bold", 22)
+    for label, coords, label_font in (
+        ("SPOT 22%", (326, 573), candidate_font),
+        ("MAX 17%", (345, 670), candidate_font),
+        ("BUDDY 14%", (346, 756), candidate_font),
+        ("YOU", (676, 774), answer_font),
+        ("COULD", (805, 766), answer_font),
+        ("NAME", (942, 755), answer_font),
+        ("HIM", (1060, 745), answer_font),
+        ("SPOT", (1217, 667), answer_font),
+    ):
+        draw.text(point(*coords), label, font=label_font, fill=INK, anchor="mm")
+
+    # The top-ranked and selected copies of SPOT share the same purple emphasis.
+    for source_box in ((247, 531, 414, 615), (1160, 617, 1274, 714)):
+        left, top = point(source_box[0], source_box[1])
+        right, bottom = point(source_box[2], source_box[3])
+        draw.rounded_rectangle((left, top, right, bottom), radius=11, outline=BRAND, width=5)
+
+    def label_pill(center: tuple[int, int], text: str, accent: str) -> None:
+        font = face("bold", 23)
+        text_w = round(draw.textlength(text, font=font))
+        w, h = text_w + 38, 48
+        x, y = center
+        draw.rounded_rectangle(
+            (x - w // 2, y - h // 2, x + w // 2, y + h // 2),
+            radius=15,
+            fill="#173b35",
+            outline=mix(accent, 0.55),
+            width=2,
+        )
+        draw.text((x, y - 1), text, font=font, fill=WHITE, anchor="mm")
+
+    label_pill(point(330, 485), "RANKED NEXT TOKENS", PURPLE)
+    label_pill(point(1215, 557), "TOP TOKEN", PURPLE)
+    label_pill(point(858, 875), "ANSWER SO FAR", TEAL)
+    arrow(draw, point(1216, 714), point(1212, 759), BRAND, 5)
+
+    # One open rail, divided by rules rather than nested cards.
+    steps = (
+        ("1 · Rank", "Score every possible\nnext token.", PURPLE),
+        ("2 · Pick", "Take the top-ranked\ntoken.", BLUE),
+        ("3 · Add", "Attach it to the\nanswer.", TEAL),
+        ("4 · Repeat", "Use the longer context\nto predict again.", GREEN),
+    )
+    rail_left, rail_right = 92, 1508
+    step_w = (rail_right - rail_left) // 4
+    for index, (heading, copy, accent) in enumerate(steps):
+        left = rail_left + index * step_w
+        right = rail_left + (index + 1) * step_w
+        if index:
+            draw.line((left, rail_top + 20, left, rail_top + rail_h - 20), fill=mix(PURPLE, 0.16), width=2)
+        draw.text((left + 24, rail_top + 32), heading, font=face("bold", 32), fill=accent)
+        for line_index, line in enumerate(copy.split("\n")):
+            draw.text((left + 24, rail_top + 88 + line_index * 39), line, font=face("medium", 29), fill=BODY)
+        if index < 3:
+            arrow(draw, (right - 34, rail_top + rail_h // 2), (right - 12, rail_top + rail_h // 2), mix(PURPLE, 0.48), 4)
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Inference is the process AI uses to generate an answer, one token at a time.",
+        font=face("heavy", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
 def render_inside_real_model(source: Path, out_path: Path) -> None:
     """Rebuild the original embedding summary as a readable long board."""
     image = Image.open(source).convert("RGB")
@@ -2679,18 +3085,9 @@ def render_all() -> None:
     )
 
     # How AI Answers
-    render_shell("See You…", ROOT / "lessons/how-ai-answers-1-phone-tray.jpg", board_path("how-ai-answers", "01-phone-prediction.jpg"))
-    render_flow("What Should I Name My New Dog?", [
-        Card("Tokens", "Break the question into pieces and look up token IDs.", PURPLE, "chunks"),
-        Card("Positions", "Stamp each token’s place so order cannot get lost.", BLUE, "position"),
-        Card("Starting Meaning", "Look up the starting vector for every token.", TEAL, "vector-bars"),
-        Card("Through Layers", "Attention and transformation add the question’s context.", GREEN, "layers-large"),
-    ], "The last token now carries the whole question.", board_path("how-ai-answers", "02-question-through-model.jpg"))
-    render_flow("The Last Token Carries the Whole Question", [
-        Card("The Question", "Every earlier token is folded into the final one.", PURPLE, "chunks"),
-        Card("Last-Token Vector", "The final vector represents the complete question.", BLUE, "vector-bars"),
-        Card("Reply Starters", "YOU scores above A and GREAT for the first token.", TEAL, "ordered"),
-    ], "The next word goes after the last token, so that’s the vector the model reads.", board_path("how-ai-answers", "03-last-token.jpg"))
+    render_phone_prediction(board_path("how-ai-answers", "01-phone-prediction.jpg"))
+    render_before_answer_begins(board_path("how-ai-answers", "02-question-through-model.jpg"))
+    render_where_answer_begins(board_path("how-ai-answers", "03-last-token.jpg"))
     render_shell("The Answer, Token by Token", ROOT / "lessons/how-ai-answers-9-answer.jpg", board_path("how-ai-answers", "04-token-by-token.jpg"), "One new token joins the context on every pass.")
     render_shell(
         "Score Every Token: The Name Slot",
@@ -2698,26 +3095,21 @@ def render_all() -> None:
         board_path("how-ai-answers", "05-name-slot.jpg"),
         crop_box=(.12, .23, .90, .87),
     )
-    render_teaching(
-        "One Token at a Time",
+    render_inference_teaching(
         teaching / "one-token-at-a-time.png",
         board_path("how-ai-answers", "06-one-token-at-a-time.jpg"),
-        (("CANDIDATES", .17, .84), ("GROWING CONTEXT", .60, .84), ("NEXT TOKEN", .88, .84)),
     )
 
     # One More Thing
-    render_shell("Same List, Five Draws", ROOT / "lessons/one-more-thing-1-draws.jpg", board_path("one-more-thing", "01-five-draws.jpg"), "Same odds every time. The favorite won just once.")
-    render_cards("Two Sides of the Same Chat", [
-        Card("You Carry the Chat", "You remember deciding on a dog, what you typed, and what the conversation meant.", BLUE, "human-memory"),
-        Card("AI Carries Nothing", "Everything lives in the transcript. Before every word, the model re-reads all it can see.", PURPLE, "no-memory"),
-    ], "The transcript is the memory.", board_path("one-more-thing", "02-two-sides-chat.jpg"))
-    render_shell(
-        "The Math",
-        ROOT / "lessons/one-more-thing-3-bill.jpg",
-        board_path("one-more-thing", "03-the-math.jpg"),
-        "The calculations required to name your dog Spot? About 2 quadrillion.",
-        crop_box=(.05, .20, .95, .88),
-    )
+    five_draws_path = board_path("one-more-thing", "01-five-draws.jpg")
+    five_draws_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / "lessons/one-more-thing-1-draws.jpg", five_draws_path)
+    memory_path = board_path("one-more-thing", "02-two-sides-chat.jpg")
+    memory_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / "lessons/one-more-thing-2-two-sides.jpg", memory_path)
+    math_path = board_path("one-more-thing", "03-the-math.jpg")
+    math_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / "lessons/one-more-thing-3-bill.jpg", math_path)
     render_teaching(
         "Every Time You Hit Send",
         teaching / "every-time-you-hit-send.png",

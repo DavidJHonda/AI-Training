@@ -63,9 +63,59 @@ def audio_pcm_md5(path: Path) -> str:
     return hashlib.md5(result.stdout).hexdigest()
 
 
+def replace_white_corner_matte(source: np.ndarray) -> np.ndarray:
+    """Replace the flattened white outside a rounded board with board lavender."""
+    cleaned = source.copy()
+    height, width = cleaned.shape[:2]
+    lavender = (253, 231, 234)
+    for seed in ((0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1)):
+        mask = np.zeros((height + 2, width + 2), dtype=np.uint8)
+        cv2.floodFill(
+            cleaned, mask, seed, lavender,
+            loDiff=(24, 24, 24), upDiff=(24, 24, 24),
+            flags=4 | cv2.FLOODFILL_FIXED_RANGE,
+        )
+    return cleaned
+
+
 def pad_plan(plan_path: Path, work: Path) -> Path:
-    """Pad a derived-height board to 1600x900 and move its annotations."""
+    """Place a derived-height board on a 1600x900 video canvas."""
     config = json.loads(plan_path.read_text())
+    if config.pop("video_fit_to_16_9", False):
+        image_path = (ROOT / config["image"]).resolve()
+        source = cv2.imread(str(image_path), cv2.IMREAD_COLOR)
+        if source is None:
+            raise SystemExit(f"cannot read {image_path}")
+        source = replace_white_corner_matte(source)
+        height, width = source.shape[:2]
+        scale = min(1600 / width, 900 / height)
+        fitted_width = round(width * scale)
+        fitted_height = round(height * scale)
+        fitted = cv2.resize(source, (fitted_width, fitted_height), interpolation=cv2.INTER_AREA)
+        left = (1600 - fitted_width) // 2
+        top = (900 - fitted_height) // 2
+        canvas = np.full((900, 1600, 3), (253, 231, 234), dtype=np.uint8)
+        canvas[top:top + fitted_height, left:left + fitted_width] = fitted
+        fitted_image = work / f"{plan_path.stem}-video.png"
+        cv2.imwrite(str(fitted_image), canvas)
+        config["image"] = str(fitted_image)
+        for state in config["states"]:
+            for key in ("ring", "chip"):
+                if key in state:
+                    x1, y1, x2, y2 = state[key]
+                    state[key] = [
+                        round(left + x1 * scale), round(top + y1 * scale),
+                        round(left + x2 * scale), round(top + y2 * scale),
+                    ]
+            for ring in state.get("rings", []):
+                x1, y1, x2, y2 = ring["rect"]
+                ring["rect"] = [
+                    round(left + x1 * scale), round(top + y1 * scale),
+                    round(left + x2 * scale), round(top + y2 * scale),
+                ]
+        fitted_plan = work / f"{plan_path.stem}-video.json"
+        fitted_plan.write_text(json.dumps(config, indent=2) + "\n")
+        return fitted_plan
     if not config.pop("video_pad", False):
         return plan_path
     image_path = (ROOT / config["image"]).resolve()
@@ -261,11 +311,13 @@ def main() -> None:
         review.mkdir(parents=True, exist_ok=True)
         samples = {
             "creed": 1550,
-            "water-title": 2240,
-            "water-current": 2850,
-            "water-takeaway": 3450,
+            "creed-inside": 1950,
+            "restored-live-footage": 2550,
+            "water-full-static": 3450,
             "map-answer": 3850,
+            "map-you": 4140,
             "map-world": 4350,
+            "map-takeaway": 4580,
             "close": 4900,
         }
         for label, frame in samples.items():

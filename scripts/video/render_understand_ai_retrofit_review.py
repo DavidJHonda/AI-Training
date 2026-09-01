@@ -800,19 +800,21 @@ def render_layers_inside_current(source: Path, out_path: Path) -> None:
 
 
 def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
-    """Build a unified illustrated pipeline with exact, board-sized teaching text."""
-    title = "What Happens Inside Every Layer"
+    """Show one representative layer followed by a visibly long repeated stack."""
+    title = "How Every Layer Updates the Vector"
     stage_top = 127
     legend_top = 153
-    art_top = 255
+    art_top = 245
     art_left = 74
     art_width = 1452
 
     art = Image.open(source).convert("RGB")
-    art = art.crop((0, 70, art.width, 860))
+    art = art.crop((0, 80, art.width, 825))
     scale = art_width / art.width
     art_height = round(art.height * scale)
-    stage_h = art_top - stage_top + art_height + 28
+    vector_top = art_top + art_height + 18
+    vector_h = 164
+    stage_h = vector_top - stage_top + vector_h + 28
     footer_top = stage_top + stage_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
 
@@ -828,13 +830,13 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
         width=1,
     )
 
-    # One board-sized legend defines the two operations; the numbered modules
-    # repeat those operations inside every illustrated layer.
+    # One board-sized legend defines the two operations; the foreground modules
+    # name them while the receding layers show that they repeat.
     legend_cards = (
-        (74, 786, PURPLE, "1", "ATTENTION", "Which words matter?"),
-        (814, 1526, "#e77700", "2", "TRANSFORMATION", "Update the meaning."),
+        (74, 786, PURPLE, "ATTENTION", "Which words matter?"),
+        (814, 1526, "#e77700", "TRANSFORMATION", "Update the meaning."),
     )
-    for left, right, accent, number, label, explanation in legend_cards:
+    for left, right, accent, label, explanation in legend_cards:
         draw.rounded_rectangle(
             (left, legend_top, right, legend_top + 78),
             radius=12,
@@ -842,60 +844,65 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
             outline=mix(accent, 0.22),
             width=2,
         )
-        draw.ellipse((left + 18, legend_top + 15, left + 66, legend_top + 63), fill=accent)
-        draw.text((left + 42, legend_top + 39), number, font=face("heavy", 27), fill=WHITE, anchor="mm")
-        draw.text((left + 86, legend_top + 39), label, font=face("heavy", 27), fill=accent, anchor="lm")
+        draw.text((left + 24, legend_top + 39), label, font=face("heavy", 29), fill=accent, anchor="lm")
         draw.text((right - 24, legend_top + 39), explanation, font=face("medium", 29), fill=BODY, anchor="rm")
 
     art = art.resize((art_width, art_height), Image.Resampling.LANCZOS)
     canvas.paste(art, (art_left, art_top))
     draw = ImageDraw.Draw(canvas)
 
-    # Replace the generated dot bookends with real number rows so a vector is
-    # represented consistently as numbers throughout the lesson.
-    draw.rectangle((74, 430, 288, 520), fill=WHITE)
-    draw.rounded_rectangle(
-        (82, 444, 286, 506),
-        radius=12,
-        fill=mix(PURPLE, 0.10),
-        outline=mix(PURPLE, 0.22),
-        width=2,
-    )
-    draw.text((184, 475), "[.42, −1.15, …]", font=face("bold", 29), fill=INK, anchor="mm")
+    # The main mechanism carries labels only. Numeric states appear once, in the
+    # aligned progression below, so the board does not repeat its bookends.
+    draw.text((152, 470), "VECTOR IN", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    draw.text((1443, 458), "RICHER", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    draw.text((1443, 494), "VECTOR OUT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
 
-    draw.rectangle((1264, 430, 1527, 520), fill=WHITE)
-    draw.rounded_rectangle(
-        (1272, 444, 1520, 506),
-        radius=12,
-        fill=mix(PURPLE, 0.10),
-        outline=mix(PURPLE, 0.22),
-        width=2,
-    )
-    draw.text((1396, 475), "[.19, −1.12, …]", font=face("bold", 29), fill=INK, anchor="mm")
+    # Name the two operations on the representative foreground layer; the
+    # receding copies make clear that both repeat many times.
+    draw.text((512, 400), "Attention", font=face("heavy", 34), fill=WHITE, anchor="mm")
+    draw.text((512, 612), "Transformation", font=face("heavy", 31), fill=WHITE, anchor="mm")
 
-    # Large numeric stage markers keep the illustration text-light while tying
-    # each colored module back to the legend above.
-    layer_centers = (504, 799, 1094)
-    for center_x in layer_centers:
-        draw.text((center_x, 401), "1", font=face("heavy", 46), fill=WHITE, anchor="mm")
-        draw.text((center_x, 540), "2", font=face("heavy", 46), fill=WHITE, anchor="mm")
-
+    card_gap = 18
+    card_left = 74
+    card_width = (1452 - 3 * card_gap) // 4
     vector_stations = (
-        (292, "STARTING VECTOR", "[.42, −1.15, …]", PURPLE),
-        (631, "AFTER LAYER 1", "[.51, −.87, …]", PURPLE),
-        (964, "AFTER LAYER 2", "[.27, −1.21, …]", PURPLE),
-        (1306, "RICHER VECTOR", "[.19, −1.12, …]", INK),
+        ("STARTING VECTOR", "[.42, −1.15, …]", PURPLE),
+        ("AFTER ONE LAYER", "[.51, −.87, …]", PURPLE),
+        ("AFTER MANY LAYERS", "[.27, −1.21, …]", PURPLE),
+        ("RICHER VECTOR", "[.19, −1.12, …]", INK),
     )
-    for center_x, label, value, value_color in vector_stations:
-        draw.text((center_x, 756), label, font=face("heavy", 29), fill=MUTED, anchor="mm")
-        draw.text((center_x, 817), value, font=face("bold", 29), fill=value_color, anchor="mm")
+    for index, (label, value, value_color) in enumerate(vector_stations):
+        left = card_left + index * (card_width + card_gap)
+        right = left + card_width
+        accent = PURPLE if index < 3 else TEAL
+        draw.rounded_rectangle(
+            (left, vector_top, right, vector_top + vector_h),
+            radius=12,
+            fill=mix(accent, 0.06),
+            outline=mix(accent, 0.22),
+            width=2,
+        )
+        draw.text(
+            ((left + right) // 2, vector_top + 51),
+            label,
+            font=face("heavy", 29),
+            fill=accent,
+            anchor="mm",
+        )
+        draw.text(
+            ((left + right) // 2, vector_top + 112),
+            value,
+            font=face("bold", 29),
+            fill=value_color,
+            anchor="mm",
+        )
 
     draw_takeaway_band(
         canvas,
         top=footer_top,
         left=40,
         right=1560,
-        text="Each layer uses attention and transformation to update the vector.",
+        text="Attention and transformation repeat across every layer, enriching the vector each time.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -2164,7 +2171,7 @@ def render_all() -> None:
         Card("Meaning Clicks", "Got it. A horse ran past a barn. After running past the barn, the horse fell.", TEAL, "ordered"),
     ], "Each pass updates the meaning until it clicks.", board_path("layers", "01-three-reads.jpg"))
     render_layers_inside_illustration(
-        OUT / "assets" / "layers" / "inside-layer-pipeline.png",
+        OUT / "assets" / "layers" / "inside-layer-many-layers.png",
         board_path("layers", "02-inside-layer.jpg"),
     )
     render_flow("How Layers Resolve IT", [

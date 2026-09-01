@@ -34,7 +34,8 @@ SOURCE_FRAMES = 5340
 CUT_START_FRAME = 3243       # 108.10s: silent shoulder after "water"
 CUT_END_FRAME = 3376         # 112.53s: silent shoulder before "Safety"
 SOURCE_TRIM_END_FRAME = 5173 # 172.43s: before obsolete final sentence
-OUTPUT_FRAMES = 5040
+PAUSE_FRAMES = 30            # one-second visual breath after the rip-current setup
+OUTPUT_FRAMES = 5070
 
 
 def run(command: list[str]) -> None:
@@ -67,14 +68,12 @@ def replace_white_corner_matte(source: np.ndarray) -> np.ndarray:
     """Replace the flattened white outside a rounded board with board lavender."""
     cleaned = source.copy()
     height, width = cleaned.shape[:2]
-    lavender = (253, 231, 234)
-    for seed in ((0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1)):
-        mask = np.zeros((height + 2, width + 2), dtype=np.uint8)
-        cv2.floodFill(
-            cleaned, mask, seed, lavender,
-            loDiff=(24, 24, 24), upDiff=(24, 24, 24),
-            flags=4 | cv2.FLOODFILL_FIXED_RANGE,
-        )
+    corner = min(48, height, width)
+    for y1, y2 in ((0, corner), (height - corner, height)):
+        for x1, x2 in ((0, corner), (width - corner, width)):
+            region = cleaned[y1:y2, x1:x2]
+            white = np.all(region >= 242, axis=2)
+            region[white] = (253, 231, 234)
     return cleaned
 
 
@@ -122,6 +121,7 @@ def pad_plan(plan_path: Path, work: Path) -> Path:
     source = cv2.imread(str(image_path), cv2.IMREAD_COLOR)
     if source is None:
         raise SystemExit(f"cannot read {image_path}")
+    source = replace_white_corner_matte(source)
     height, width = source.shape[:2]
     if width != 1600 or height > 900:
         raise SystemExit(f"unexpected map dimensions: {width}x{height}")
@@ -189,11 +189,15 @@ def make_cut_timeline(work: Path) -> Path:
     output = work / "opener-avoid-cut.mp4"
     filters = [
         f"[0:v]trim=start_frame=0:end_frame={CUT_START_FRAME},settb=1/30,setpts=N/(30*TB),setsar=1[v0]",
+        "color=c=#eae7fd:s=1280x720:r=30:d=1,format=yuv420p[vpause]",
         f"[0:v]trim=start_frame={CUT_END_FRAME}:end_frame={SOURCE_TRIM_END_FRAME},settb=1/30,setpts=N/(30*TB),setsar=1[v1]",
-        "[v0][v1]concat=n=2:v=1:a=0,format=yuv420p[v]",
+        "[v0][vpause][v1]concat=n=3:v=1:a=0,format=yuv420p[v]",
         f"[0:a]atrim=start=0:end={CUT_START_FRAME / 30:.9f},asetpts=PTS-STARTPTS[a0]",
+        "[0:a]atrim=start=116.10:end=116.60,asetpts=PTS-STARTPTS,asplit=2[rtf][rtr]",
+        "[rtr]areverse[rtrr]",
+        "[rtf][rtrr]concat=n=2:v=0:a=1,atrim=duration=1,afade=t=in:st=0:d=0.01,afade=t=out:st=0.99:d=0.01[apause]",
         f"[0:a]atrim=start={CUT_END_FRAME / 30:.9f}:end={SOURCE_TRIM_END_FRAME / 30:.9f},asetpts=PTS-STARTPTS[a1]",
-        "[a0][a1]concat=n=2:v=0:a=1[a]",
+        "[a0][apause][a1]concat=n=3:v=0:a=1[a]",
     ]
     run([
         FFMPEG, "-y", "-hide_banner", "-loglevel", "error", "-i", str(SOURCE),
@@ -313,12 +317,13 @@ def main() -> None:
             "creed": 1550,
             "creed-inside": 1950,
             "restored-live-footage": 2550,
-            "water-full-static": 3450,
-            "map-answer": 3850,
-            "map-you": 4140,
-            "map-world": 4350,
-            "map-takeaway": 4580,
-            "close": 4900,
+            "water-full-static": 3258,
+            "restored-tight-water-footage": 3420,
+            "map-answer": 3880,
+            "map-you": 4170,
+            "map-world": 4380,
+            "map-takeaway": 4610,
+            "close": 4930,
         }
         for label, frame in samples.items():
             cv2.imwrite(str(review / f"{label}.jpg"), frame_at(OUTPUT, frame))
@@ -330,6 +335,7 @@ def main() -> None:
             "source_frames": SOURCE_FRAMES,
             "output_frames": OUTPUT_FRAMES,
             "removed_sentence_frames": [CUT_START_FRAME, CUT_END_FRAME],
+            "inserted_pause_frames": [CUT_START_FRAME, CUT_START_FRAME + PAUSE_FRAMES],
             "trimmed_source_end_frame": SOURCE_TRIM_END_FRAME,
             "audio_pcm_md5": output_audio,
             "board_spans": [
@@ -343,7 +349,7 @@ def main() -> None:
     if total != OUTPUT_FRAMES or abs(fps - 30.0) > 0.001:
         raise SystemExit(f"output verify failed: {total} frames at {fps}")
     print(f"Built {OUTPUT.relative_to(ROOT)}: {total} frames, {total / fps:.2f}s")
-    print("Removed 108.10-112.53s and trimmed before the obsolete final sentence.")
+    print("Inserted a one-second board pause, removed 108.10-112.53s, and trimmed before the obsolete final sentence.")
     print("Review: video-audit/review-31/batch7/opener-avoid")
 
 

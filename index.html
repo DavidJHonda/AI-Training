@@ -4335,12 +4335,12 @@ function AIMultiplierTryIt(props) {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    lead: "You’ll move faster with AI. Want an estimate of what that looks like?",
+    lead: "You’ll move faster with AI. Want to see what that idea looks like?",
     instructions: [
       "Choose a goal.",
       "Run Round 1 and tap Your Effort as fast as you can after the countdown.",
       "Run Round 2 with AI and tap just as fast.",
-      "Compare the scores and read what the multiplier changed."
+      "Compare the scores and see what changed with AI."
     ]
   }, E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } }));
 }
@@ -4997,7 +4997,7 @@ function ControlStressGame() {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    lead: "Where do you stand today? Can you focus on what’s in your hands, or will you let the world stress you out? Find out.",
+    lead: "Can you separate what’s in your hands from what isn’t while the pressure builds? Find out.",
     instructions: [
       "Start the round and read each statement before the next one arrives.",
       "Click only statements that are in your hands; let the rest go by.",
@@ -5871,7 +5871,7 @@ function TrainingBiasSection(props) {
 }
 function TrainingWhoTaughtQuiz(props) {
   var ORDER = ["self", "humans"];
-  var LABELS = { self: "Taught itself", humans: "Taught by humans" };
+  var LABELS = { self: "Patterns in data", humans: "Human feedback" };
   var ROWS = [
     { q: "It can write fluent sentences about almost any topic.", correct: "self", fb: {
       ok: "Right. Pretraining: it ran the read-guess-correct loop billions of times over the training data, with no human grading its answers.",
@@ -6333,77 +6333,8 @@ function GoDeeper(props) {
       style: { marginTop: 8, marginBottom: 4, paddingLeft: 14, borderLeft: "3px solid var(--primary)", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.65, animation: "fadeIn 0.25s ease" }
     }, props.children));
 }
-function NameThatDrinkTryIt(props) {
-  var E = React.createElement;
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var questions = [
-    {
-      dims: [["Sweet", 9], ["Fizz", 10]],
-      options: [
-        { label: "\uD83E\uDD64 Coke", correct: true, headline: "Right.", feedback: "High sweet and high fizz point straight at Coke." },
-        { label: "\u2615 Coffee", correct: false, headline: "Not this one.", hint: "Coffee is not sweet, and it is not fizzy. Look at those two numbers again.", feedback: "Coffee is not sweet or fizzy. Those two numbers are screaming soda." }
-      ]
-    },
-    {
-      dims: [["Bitter", 9], ["Heat", 9]],
-      options: [
-        { label: "\uD83E\uDD64 Coke", correct: false, headline: "Not this one.", hint: "Coke is not bitter, and it is served cold. These numbers say something hot and bitter.", feedback: "Coke is cold and sweet, not hot and bitter. The numbers point elsewhere." },
-        { label: "\u2615 Coffee", correct: true, headline: "Right.", feedback: "High bitter and high heat is coffee." }
-      ]
-    },
-    {
-      title: "Trick Question",
-      dims: [["Caffeine", 3], ["Fizz", 10]],
-      options: [
-        { label: "\uD83E\uDD64 Coke", correct: false, headline: "Look closer.", hint: "Maybe. But check Pepsi. On just these two numbers, can you actually tell them apart?", feedback: "Coke fits, but so does Pepsi. Two numbers cannot separate them." },
-        { label: "\uD83E\uDD64 Pepsi", correct: false, headline: "Look closer.", hint: "Maybe. But Coke has the exact same two numbers. Two dimensions cannot tell them apart.", feedback: "Pepsi fits, but so does Coke. Two numbers cannot separate them." },
-        { label: "\uD83E\uDD37 Not Enough Info", correct: true, headline: "Exactly.", feedback: "Coke and Pepsi share these two numbers. Two dimensions cannot tell them apart. You need more." }
-      ]
-    }
-  ];
-  var answeredCount = Object.keys(answers).length;
-  var done = answeredCount >= questions.length;
-  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
-  return E(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Name That Drink",
-    lead: "To a model, meaning is just numbers. See whether the numbers alone carry enough meaning to identify a drink.",
-    instructions: [
-      "Read the five numbers in the row.",
-      "Choose the drink those values describe.",
-      "Read the feedback, then continue to the next vector."
-    ]
-  },
-    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      questions.map(function(q, i) {
-        var picked = answers[i];
-        var answered = picked !== undefined;
-        var opt = answered ? q.options[picked] : null;
-        return E(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          kicker: q.title || null,
-          prompt: E(React.Fragment, null, "Which drink has ", E("strong", null, q.dims[0][0] + " of " + q.dims[0][1]), " and ", E("strong", null, q.dims[1][0] + " of " + q.dims[1][1]), "?"),
-          answered: answered,
-          correct: answered && opt.correct,
-          headline: answered ? opt.headline : null,
-          feedback: answered ? opt.feedback : null
-        }, q.options.map(function(o, oi) {
-          return E(FeedbackPill, {
-            key: oi,
-            answered: answered,
-            isCorrect: o.correct,
-            isPicked: picked === oi,
-            label: o.label,
-            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, oi]])); }); }
-          });
-        }));
-      })));
-}
 function EmbeddingsSection(props) {
   var E = React.createElement;
-  var _mc = useState(false), meaningComplete = _mc[0], setMeaningComplete = _mc[1];
   var CLUBS = [
     { name: "Lego Club", emoji: "🧱", pillBg: "#fde8cf", pillFg: "#c2701a" },
     { name: "AI Club", emoji: "🤖", pillBg: "#e7dcf4", pillFg: "#7b3aa6" },
@@ -6516,7 +6447,7 @@ function EmbeddingsSection(props) {
       "Score each club from 0 to 10 on all five dimensions.",
       "Select Hide the names and match when every score is filled.",
       "Match each mystery vector to its club.",
-      "Use the revealed names to check how well the numbers carried the meaning."
+      "Use the feedback to see how well the numbers carried the meaning."
     ] },
       clubLocked ? null : clubEntryGrid,
       clubLocked ? null : E("div", { style: { marginTop: 18 } },
@@ -6853,7 +6784,7 @@ function Game2048TryIt(props) {
   return E(React.Fragment, null,
     E(InteractiveBox, {
       variant: "try", surface: "mint", title: "How high can you score?",
-      lead: "Time to give your brain a rest with a game. You’ll be building your own game in the next section of the course.",
+      lead: "Time to give your brain a rest with a game. You’ll build your own version later in the course.",
       instructions: [
         "Use the arrow keys or swipe to slide every tile.",
         "Join matching tiles to create larger numbers.",
@@ -7669,7 +7600,7 @@ function ModelSelectionSection(props) {
     variant: "try",
     surface: "mint",
     title: "It’s in the Name",
-    lead: "The names are not random. Each one quietly reveals the philosophy behind the app.",
+    lead: "Each name has a story. See if you can match the story to the app.",
     instructions: [
       "Read the origin of the name.",
       "Choose the AI app it belongs to.",
@@ -8593,7 +8524,7 @@ function CriticalThinkingSection(props) {
     variant: "try",
     surface: "mint",
     title: "What’s the problem with these claims?",
-    lead: "This isn’t a new skill. You already use it every day. Use your critical thinking skills to spot the problems in each of these scenarios.",
+    lead: "This isn’t new. You already use critical thinking every day. Use it to spot the problem in each scenario.",
     instructions: [
       "Read the claim and its evidence.",
       "Choose the problem that weakens the claim.",
@@ -10070,7 +10001,7 @@ function WhenAIActsSection(props) {
       instructions: [
         "Read the current moment in the job.",
         "Choose what a good agent should do next.",
-        "Read the feedback to unlock the next moment."
+        "Use the feedback to find the correct move and unlock the next moment."
       ]
     },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
@@ -10187,7 +10118,7 @@ function MindTrapSection(props) {
       lead: "Three decisions, three sizes. Same question every time.",
       instructions: [
         "Read the decision.",
-        "Decide whether AI should make the call, help you think, or leave the decision to you and people who know you.",
+        "Decide who should make the call.",
         "Choose your answer and read the feedback before continuing."
       ]
     },
@@ -10816,7 +10747,7 @@ function SupportTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "How does AI fit into each of these?",
-      lead: "Five moments, rising stakes, the same three choices every time. Practice the call now, so it’s already made when it matters.",
+      lead: "Five moments, rising stakes, the same three choices every time. Practice the decision now, so it’s easier to make when it matters.",
       instructions: [
         "Read the situation.",
         "Decide what role AI should play.",
@@ -11216,7 +11147,7 @@ function PrivacySection(props) {
       lead: "Privacy decisions often hide inside an otherwise harmless prompt. See whether you can catch them before you send.",
       instructions: [
         "Read the prompt one highlighted section at a time.",
-        "Click each section to decide whether it is safe to share with AI.",
+        "Decide whether each section is safe to share with AI, then click it to check.",
         "Finish every section, then compare the original prompt with the clean version."
       ]
     },

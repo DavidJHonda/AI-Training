@@ -109,12 +109,12 @@ def main() -> None:
     save_pair(
         render_school_board(),
         "honesty-using-ai-in-school.jpg",
-        "honesty-integrity-1-school.jpg",
+        "honesty-and-privacy-1-school.jpg",
     )
     save_pair(
         render_whole_photo_board(),
         "privacy-share-only-what-ai-needs.jpg",
-        "honesty-integrity-3-privacy.jpg",
+        "honesty-and-privacy-4-share-only.jpg",
     )
 
 

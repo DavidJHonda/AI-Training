@@ -1,48 +1,48 @@
 # Build Your Skills Video Kits
 
-Upload `Prompts/Master Prompt.md` with every kit. Upload only the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook; the prompt reserves their narration spans for exact replacement in post.
+Do not upload `Prompts/Master Prompt.md` with these kits. Each Build Your Skills lesson prompt is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook; the prompt reserves their narration spans for exact replacement in post.
 
 ## Opener
 
-- Prompt: `Prompts/opener-skills-video-prompt.txt`
+- Prompt: `Prompts/opener-build.txt`
 - Markdown: `Lessons/Opener-Build.md`
 - Notebook sources:
   1. `Lessons/opener-build-1-creed.jpg`
   2. `Lessons/opener-build-2-map.jpg`
-  3. `Lessons/openerskills-close.jpg`
+  3. `Lessons/opener-build-3-close.jpg`
 
 ## Your Choices
 
 - Prompt: `Prompts/your-choices-video-prompt.txt`
 - Markdown: `Lessons/your-choices.md`
 - Notebook sources:
-  1. `Lessons/tune-the-model-1-app-model.jpg`
-  2. `Lessons/tune-the-model-2-reasoning-research.jpg`
-  3. `Lessons/tune-the-model-3-temperature.jpg`
-  4. `Lessons/choosemodel-close.jpg`
+  1. `Lessons/your-choices-1-app-model.jpg`
+  2. `Lessons/your-choices-2-reasoning-research.jpg`
+  3. `Lessons/your-choices-3-temperature.jpg`
+  4. `Lessons/your-choices-4-close.jpg`
 
 ## Next Level Moves
 
 - Prompt: `Prompts/next-level-moves-video-prompt.txt`
 - Markdown: `Lessons/next-level-moves.md`
 - Notebook sources:
-  1. `Lessons/ai-tips-1-summer-business.jpg`
-  2. `Lessons/ai-tips-2-profit.jpg`
-  3. `Lessons/ai-tips-3-college.jpg`
-  4. `Lessons/ai-tips-4-iteration.jpg`
-  5. `Lessons/aitips-close.jpg`
+  1. `Lessons/next-level-moves-1-summer-business.jpg`
+  2. `Lessons/next-level-moves-2-profit.jpg`
+  3. `Lessons/next-level-moves-3-college.jpg`
+  4. `Lessons/next-level-moves-4-iteration.jpg`
+  5. `Lessons/next-level-moves-5-close.jpg`
 
 ## Honesty & Privacy
 
 - Prompt: `Prompts/honesty-and-privacy-video-prompt.txt`
 - Markdown: `Lessons/honesty-and-privacy.md`
 - Notebook sources:
-  1. `Lessons/honesty-integrity-1-school.jpg`
-  2. `Lessons/honesty-integrity-3-privacy.jpg`
-  3. `Lessons/honesty-integrity-4-share-only.jpg`
-  4. `Lessons/integrity-close.jpg`
+  1. `Lessons/honesty-and-privacy-1-school.jpg`
+  2. `Lessons/honesty-and-privacy-3-privacy.jpg`
+  3. `Lessons/honesty-and-privacy-4-share-only.jpg`
+  4. `Lessons/honesty-and-privacy-5-close.jpg`
 - Post-production boards:
-  - `Lessons/honesty-integrity-2-best-practices.jpg`
+  - `Lessons/honesty-and-privacy-2-best-practices.jpg`
 
 ## People Skills
 
@@ -50,8 +50,8 @@ Upload `Prompts/Master Prompt.md` with every kit. Upload only the files listed u
 - Markdown: `Lessons/people-skills.md`
 - Notebook sources:
   1. `Lessons/people-skills-1-why-matter.jpg`
-  2. `Lessons/peopleskills-close.jpg`
-- Post-production boards:
+  2. `Lessons/people-skills-3-close.jpg`
+- Post-production boards — **do not upload to Gemini Notebook:**
   - `Lessons/people-skills-2-four-ways.jpg`
 
 ## Creative Thinking
@@ -61,16 +61,16 @@ Upload `Prompts/Master Prompt.md` with every kit. Upload only the files listed u
 - Notebook sources:
   1. `Lessons/creative-thinking-1-professions.jpg`
   2. `Lessons/creative-thinking-2-practice.jpg`
-  3. `Lessons/creativethinking-close.jpg`
+  3. `Lessons/creative-thinking-3-close.jpg`
 
 ## Curious & Flexible
 
 - Prompt: `Prompts/curious-and-flexible-video-prompt.txt`
 - Markdown: `Lessons/curious-and-flexible.md`
 - Notebook sources:
-  1. `Lessons/be-curious-1-four-ways.jpg`
-  2. `Lessons/be-curious-2-four-steps.jpg`
-  3. `Lessons/becurious-close.jpg`
+  1. `Lessons/curious-and-flexible-1-stay-curious.jpg`
+  2. `Lessons/curious-and-flexible-2-be-flexible.jpg`
+  3. `Lessons/curious-and-flexible-3-close.jpg`
 
 ## Make Your Move
 
@@ -79,7 +79,7 @@ Upload `Prompts/Master Prompt.md` with every kit. Upload only the files listed u
 - Notebook sources:
   1. `Lessons/make-your-move-2-skills.jpg`
   2. `Lessons/make-your-move-3-actions.jpg`
-  3. `Lessons/makeyourmove-close.jpg`
-- Post-production boards:
+  3. `Lessons/make-your-move-4-close.jpg`
+- Post-production boards — **do not upload to Gemini Notebook:**
   - `Lessons/make-your-move-1-careers-a.jpg`
   - `Lessons/make-your-move-1-careers-b.jpg`

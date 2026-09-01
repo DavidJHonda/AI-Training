@@ -6,74 +6,50 @@ Here’s the strange thing about this trap: you already know it. AI can fake a v
 
 Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:
 
-A friend sends you a video: your principal announcing that a pipe burst, the school flooded, and school is closed all next week.
-
-👁️
-
-Before AI: does it look real?
-
-You study the clip: his face, his voice, the hallway outside the gym.
-
-## What happened
-
-Recognized the face and the voice
-
-Matched how he talks
-
-Verdict: real.
-
-🔍
-
-The AI era: where is it from?
-
-You ignore the clip and check the trail: nothing on the school website.
-
-## What happened
-
-Skipped the face and the voice
-
-Went to the source that would know
-
-Verdict: unverified.
+![The same school-closure clip is tested in two eras. Before AI, appearance suggests real; in the AI era, checking the school source leaves it unverified.](avoid-traps-22-fake-comparison.jpg)
 
 **The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
 
 ## Sometimes it’s just fun
 
-A friend fakes a picture of your hockey buddies hoisting the Stanley Cup, and everyone’s in on the joke. No harm.
+A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyone knows it is fake, and everyone is in on the joke. No harm. The trap begins when someone is meant to believe it.
 
 ## But some fakes aren’t friendly
 
-A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. The fakes that matter trace to four reasons:
+Harmful fakes are usually made to get something back. The goal often comes down to four things:
 
-![Why some fakes aren’t friendly. Money, power, fame, and cruelty are four reasons people make harmful fakes.](fake-trap-2-four-reasons-board.jpg)
+![Four common goals behind harmful fakes: money, power, fame, and cruelty.](avoid-traps-24-fake-reasons-v2.png)
 
 ## The detector dead end
 
-If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool.
+If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it.
 
-Don’t lean on it. A detector is one more AI making one more prediction, and the fakes improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all.
+Don’t let a detector make the decision for you. It looks for patterns that may suggest AI was involved, but different tools can produce different answers. Treat its verdict as a clue, never a ruling. Then check the source, context, and corroboration.
 
 ## So what do you do?
 
 The test moves off the image and onto the source, no matter how the fake was made.
 
-The fakes that travel are built to spike your emotions: outrage, fear, thrill, hope. Strong feeling is your cue to stop and run three checks before you react, share, or believe.
+![Luke pauses before sharing a convincing phone image of a flooded school hallway while Nate follows a physical evidence trail toward independent school and news source cards.](avoid-traps-23-source.jpg)
 
-![Move the test off the image. Check the source, context, and corroboration, then verify somewhere the sender does not control.](fake-trap-3-three-checks-board.jpg)
+Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe.
+
+![Three checks for suspicious media: identify the source, examine the context, and look for corroboration somewhere the sender does not control.](avoid-traps-25-fake-checks.jpg)
 
 ## One rule under all three checks
 
-Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer.
+Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for the original source or a source that would know. For something important, look for independent confirmation too. Until the trail checks out, “unverified” is your answer.
 
 Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector.
 
 ## If the fake is about you
 
-A photo, a clip, an account with your name: don’t handle it alone, and don’t delete the evidence. Screenshot everything, note where you saw it, and bring an adult in that day: a parent, a counselor, someone at school.
+If a photo, clip, or account uses your name, don’t handle it alone. Save the username, link, date, and messages when it is safe to do so. Then bring in an adult that day: a parent, a counselor, or someone at school.
 
-Platforms take impersonation and fake images of minors seriously, and takedown goes faster with documentation. You did nothing wrong by being targeted.
+If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. [NCMEC’s Take It Down](https://takeitdown.ncmec.org/) and [CyberTipline](https://report.cybertip.org/) can also help.
 
-Seeing or hearing isn’t proof anymore.
+You did nothing wrong by being targeted.
+
+**Seeing or hearing isn’t proof anymore.**
 
 Check the source, not the pixels.

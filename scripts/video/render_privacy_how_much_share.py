@@ -14,7 +14,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "illustrations/privacy-how-much-share-v5.png"
 PAGE = ROOT / "illustrations/privacy-how-much-share-v6.jpg"
-LESSON = ROOT / "lessons/honesty-integrity-3-privacy.jpg"
+LESSON = ROOT / "lessons/honesty-and-privacy-3-privacy.jpg"
 
 WIDTH = 1600
 FRAME = "#eae7fd"

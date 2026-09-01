@@ -14,7 +14,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "illustrations/your-choices-choose-tool-v3.png"
 PAGE = ROOT / "illustrations/your-choices-choose-tool-v4.jpg"
-LESSON = ROOT / "lessons/tune-the-model-1-app-model.jpg"
+LESSON = ROOT / "lessons/your-choices-1-app-model.jpg"
 
 WIDTH = 1600
 FRAME = "#eae7fd"

@@ -39,7 +39,7 @@ ART_BORDER_OPACITY = 0.22
 
 ART_SHEET = ROOT / "scripts/video/assets/editorial-flow/honesty-integrity/art-sheet.png"
 PAGE_OUTPUT = ROOT / "illustrations/honesty-integrity-best-practices-flow-v2.jpg"
-PREP_OUTPUT = ROOT / "lessons/honesty-integrity-2-best-practices.jpg"
+PREP_OUTPUT = ROOT / "lessons/honesty-and-privacy-2-best-practices.jpg"
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:

@@ -167,7 +167,7 @@ BOARDS = (
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/be-curious-four-ways/art-sheet.png",
         page_output="illustrations/be-curious-four-ways-v2.jpg",
-        prep_output="lessons/be-curious-1-four-ways.jpg",
+        prep_output="lessons/curious-and-flexible-1-stay-curious.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -193,7 +193,7 @@ BOARDS = (
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/be-flexible-four-steps/art-sheet.png",
         page_output="illustrations/be-flexible-four-steps-v3.jpg",
-        prep_output="lessons/be-curious-2-four-steps.jpg",
+        prep_output="lessons/curious-and-flexible-2-be-flexible.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(

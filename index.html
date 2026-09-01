@@ -120,12 +120,14 @@
      retain a readable line length. */
   @media (max-width:560px){
     .choicequiz-question{ gap:12px !important; }
-    .choicequiz-options{ margin-left:0 !important; padding-left:0 !important; flex-direction:column !important; gap:14px !important; }
+    .choicequiz-options{ display:flex !important; width:100% !important; margin-left:0 !important; padding-left:0 !important; flex-direction:column !important; gap:14px !important; }
     .choicequiz-options > button{ width:100%; }
     .choicequiz-feedback{ margin-left:0 !important; }
     .choicequiz-feedback-grid{ grid-template-columns:1fr !important; gap:10px !important; }
     .support-spot-row{ flex-direction:column !important; gap:12px !important; }
     .support-spot-number{ width:auto !important; font-size:36px !important; }
+    .fake-trap-scenario-row{ flex-direction:column !important; gap:12px !important; }
+    .fake-trap-scenario-number{ width:auto !important; font-size:36px !important; }
   }
   .temp-prob-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
   @media (max-width:700px){ .temp-prob-grid{ grid-template-columns:1fr; } }
@@ -11128,18 +11130,18 @@ function SyntheticMediaSection(props) {
       { label: "Call it fake", correct: false, headline: "Doubt has a finish line.", hint: "If the county account plus two newsrooms can’t clear the bar, what could?", feedback: "Overcorrection. If the source that would know plus two independent newsrooms can’t clear the bar, nothing can, and you’ve traded gullible for paralyzed. Both mean the fakes win." }
     ]
   }, {
-    setup: "You get a voicemail that sounds exactly like your mom. She says she needs you to text her the bank login from the family password manager. The voice is unmistakable. The urgency is real.",
+    setup: "You get a voicemail that sounds exactly like your mom. She says her car broke down and needs you to send $75 to a new payment account so she can get home. The voice is unmistakable. The urgency feels real.",
     options: [
-      { label: "Believe it", correct: false, headline: "Voice isn’t proof anymore.", hint: "A voice can be cloned from a tiny bit of audio, so ‘it sounds like her’ doesn’t confirm anything. And notice the pairing: urgency plus a request for bank logins. Before you send anything, how could you make sure it’s really her?", feedback: "Voice is no longer proof. AI tools can clone a voice from a surprisingly small amount of audio, and that audio can come from anywhere your mom has been recorded: a podcast, a school board meeting, even an outgoing voicemail. The urgency is the giveaway. Real moms have other ways to handle a work emergency than asking their kid to text bank logins." },
-      { label: "Check it", correct: true, headline: "Verify on a channel you trust.", feedback: "Call her actual number, the one already in your phone. If the real her picks up, you ask about the voicemail. If she didn’t send it, you just caught a scam in ten seconds. One warning: don’t ‘check’ by replying to the voicemail. Whoever sent it controls that channel, and a scammer is ready for ‘is this really you?’ Verify somewhere the sender doesn’t control." },
-      { label: "Call it fake", correct: false, headline: "You might be hanging up on your mom.", hint: "It could be a clone, or she could really need the help. Is there a move that covers both?", feedback: "Maybe it is fake. But if she really needed the help and you ignored her, that’s its own mess. Calling it fake is still a guess. A ten-second call to her real number settles it either way, and it costs you nothing." }
+      { label: "Believe it", correct: false, headline: "Voice isn’t proof anymore.", hint: "A voice can be cloned from a small amount of audio. Before you send money, how could you reach your mom somewhere the caller does not control?", feedback: "A familiar voice can still be fake. Urgency and a request to send money are reasons to pause. Call the number already saved in your phone before doing anything." },
+      { label: "Check it", correct: true, headline: "Verify on a channel you trust.", feedback: "Call the number already saved in your phone and ask about the voicemail. If she does not answer, contact another family member or trusted adult before sending anything. Do not verify by calling or replying to the number in the message. Whoever sent it controls that channel." },
+      { label: "Call it fake", correct: false, headline: "Fake is still a guess.", hint: "It might be fake, or it might be real. What move protects you either way?", feedback: "Calling it fake based only on suspicion is the trap in reverse. Contact your mom through the number already saved in your phone. Verification gives you an answer. Guessing does not." }
     ]
   }, {
     setup: "Another friend shows you a screenshot of texts where your hockey teammate supposedly trash-talked you behind your back. The screenshot looks real. The wording sounds like something they might say.",
     options: [
-      { label: "Believe it", correct: false, headline: "A fake can wreck a real bond.", hint: "Editing a text screenshot takes any photo app, and ‘sounds like them’ is exactly what makes a fake land. Marching in with the screenshot locks them into defending themselves before you know what’s real. What’s a calmer way to find out?", feedback: "A fake screenshot can blow up a real friendship in one minute. Editing one takes any photo app, and ‘sounds like something they’d say’ is exactly what makes a fake convincing. Confrontation locks them into defending themselves before you know what actually happened." },
-      { label: "Check it", correct: true, headline: "Ask, don’t accuse.", feedback: "Ask your teammate what happened, without showing the screenshot, and compare what they say to what’s in the image. If the texts are real, the conversation will line up. If they’re fake, the gaps will show. And keep it between you two: passing the screenshot around for opinions spreads the damage before you know what’s real. The screenshot is your check, not your accusation." },
-      { label: "Call it fake", correct: false, headline: "Loyalty isn’t evidence either.", hint: "You want it to be fake, and that wanting is its own kind of bias. What would actually tell you?", feedback: "Maybe it is fake. But deciding that because you want it to be true is the same trap in reverse: a verdict from feelings instead of a check. One calm conversation tells you more than either guess." }
+      { label: "Believe it", correct: false, headline: "A screenshot is not the whole conversation.", hint: "It could be edited, cropped, or missing context. What could you check before reacting?", feedback: "Treating the screenshot as proof could damage a real friendship. Do not spread it or lead with an accusation. Ask to see the original message thread and talk directly with your teammate before deciding what happened." },
+      { label: "Check it", correct: true, headline: "Check the conversation, not just the screenshot.", feedback: "Do not spread the screenshot or treat it as proof. Ask to see the original message thread, including what came before and after. Then talk directly with your teammate without accusing them. If you still cannot verify what happened, leave it unverified." },
+      { label: "Call it fake", correct: false, headline: "Loyalty isn’t evidence either.", hint: "Wanting it to be fake does not make it fake. What could you check without spreading it?", feedback: "Calling it fake is another verdict without enough evidence. Ask to see the original message thread, then talk directly with your teammate. If you cannot verify what happened, leave it unverified." }
     ]
   }];
   return /*#__PURE__*/React.createElement("div", null,
@@ -11164,18 +11166,13 @@ function SyntheticMediaSection(props) {
       " And it has a second jaw: dismissing the truth because it could be a fake."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Sometimes it’s just fun"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "A friend fakes a picture of your hockey buddies hoisting the Stanley Cup, and everyone’s in on the joke. No harm."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/fake-trap-source-v2.jpg",
-      alt: "Luke pauses before sharing a convincing phone image of a flooded school hallway while Nate follows a physical evidence trail toward independent school and news source cards.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
-    }),
+      "A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyone knows it is fake, and everyone is in on the joke. No harm. The trap begins when someone is meant to believe it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "But some fakes aren’t friendly"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "A fake doesn’t just happen. Someone made it, and making it costs effort, so ask what they get back. The fakes that matter trace to four reasons:"),
+      "Harmful fakes are usually made to get something back. The goal often comes down to four things:"),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/fake-trap-four-reasons-v2.jpg",
-      alt: "",
+      src: "illustrations/fake-trap-four-reasons-v3.png",
+      alt: "Four common goals behind harmful fakes: money, power, fame, and cruelty.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 32px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
@@ -11184,20 +11181,25 @@ function SyntheticMediaSection(props) {
       /*#__PURE__*/React.createElement("p", null, "Power: change what people believe and you change how they vote, protest, and spend."),
       /*#__PURE__*/React.createElement("p", null, "Fame: a viral clip means followers, and it does not have to be true to travel."),
       /*#__PURE__*/React.createElement("p", null, "Cruelty: some fakes exist to humiliate one person."),
-      /*#__PURE__*/React.createElement("p", null, "A fake is built to get something back.")),
+      /*#__PURE__*/React.createElement("p", null, "Harmful fakes are made to get something back.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The detector dead end"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it. Teachers run essays through the same kind of tool."),
+      "If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Don’t lean on it. A detector is one more AI making one more prediction, and the fakes improve faster than it does. Treat its verdict as a clue, never a ruling. The real checks don’t look at the image at all."),
+      "Don’t let a detector make the decision for you. It looks for patterns that may suggest AI was involved, but different tools can produce different answers. Treat its verdict as a clue, never a ruling. Then check the source, context, and corroboration."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "So what do you do?"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "The test moves off the image and onto the source, no matter how the fake was made."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/fake-trap-source-v2.jpg",
+      alt: "Luke pauses before sharing a convincing phone image of a flooded school hallway while Nate follows a physical evidence trail toward independent school and news source cards.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "The fakes that travel are built to spike your emotions: outrage, fear, thrill, hope. Strong feeling is your cue to stop and run three checks before you react, share, or believe."),
+      "Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/fake-trap-three-checks-v2.jpg",
-      alt: "",
+      alt: "Three checks for suspicious media: identify the source, examine the context, and look for corroboration somewhere the sender does not control.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
@@ -11209,26 +11211,37 @@ function SyntheticMediaSection(props) {
       /*#__PURE__*/React.createElement("p", null, "Verify somewhere the sender does not control.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "One rule under all three checks"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for it on a channel the poster doesn’t run. Until a second, independent source shows the same thing, ‘unverified’ is your answer."),
+      "Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for the original source or a source that would know. For something important, look for independent confirmation too. Until the trail checks out, ‘unverified’ is your answer."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "If the fake is about you"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "A photo, a clip, an account with your name: don’t handle it alone, and don’t delete the evidence. Screenshot everything, note where you saw it, and bring an adult in that day: a parent, a counselor, someone at school."),
+      "If a photo, clip, or account uses your name, don’t handle it alone. Save the username, link, date, and messages when it is safe to do so. Then bring in an adult that day: a parent, a counselor, or someone at school."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Platforms take impersonation and fake images of minors seriously, and takedown goes faster with documentation. You did nothing wrong by being targeted."),
+      "If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. ",
+      /*#__PURE__*/React.createElement("a", { href: "https://takeitdown.ncmec.org/", target: "_blank", rel: "noopener noreferrer" }, "NCMEC’s Take It Down"),
+      " and ",
+      /*#__PURE__*/React.createElement("a", { href: "https://report.cybertip.org/", target: "_blank", rel: "noopener noreferrer" }, "CyberTipline"),
+      " can also help."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "You did nothing wrong by being targeted."),
     closeBoard("faketrap"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Believe It, Check It, or Call It Fake?",
       lead: "Three moments, rising stakes. Same question every time."},
+      /*#__PURE__*/React.createElement("ol", { className: "no-print", style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 24px 28px", paddingLeft: 24, maxWidth: "62ch" } },
+        /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Read the situation."),
+        /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Decide what the evidence supports."),
+        /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Choose Believe it, Check it, or Call it fake."),
+        /*#__PURE__*/React.createElement("li", { style: { lineHeight: 1.4 } }, "Read the feedback before moving to the next situation.")),
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
           return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
+            /*#__PURE__*/React.createElement("div", { className: "fake-trap-scenario-row", style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
+              /*#__PURE__*/React.createElement("div", { className: "fake-trap-scenario-number", style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
               /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, ps.setup))),
             /*#__PURE__*/React.createElement(QuizBlock, {

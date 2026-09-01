@@ -52,7 +52,7 @@ def add_shadow(image: Image.Image, box: tuple[int, int, int, int]) -> None:
 
 def save_pair(image: Image.Image) -> None:
     page = ROOT / "illustrations/your-choices-temperature-v1.jpg"
-    prep = ROOT / "lessons/tune-the-model-3-temperature.jpg"
+    prep = ROOT / "lessons/your-choices-3-temperature.jpg"
     page.parent.mkdir(parents=True, exist_ok=True)
     prep.parent.mkdir(parents=True, exist_ok=True)
     flattened = Image.new("RGB", image.size, FRAME)

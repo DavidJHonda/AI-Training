@@ -4,7 +4,7 @@
 
 Read the following sentence.
 
-![The sentence The horse raced past the barn fell becomes clearer over multiple passes, moving from confusion to established meaning.](layers-1-three-reads.jpg)
+![The Horse Raced Past the Barn Fell. First pass: it does not make sense and may seem to be missing a word. More passes test whether the barn fell or whether the horse raced past it afterward. Then the meaning clicks: a horse ran past a barn, and after running past it, the horse fell. Each pass updates the meaning until it clicks.](layers-horse-three-reads-editorial.jpg)
 
 ## AI does the same thing
 

@@ -12,6 +12,8 @@ The fake looks real.
 
 every trap looks fine from the inside.
 
+![The traps ahead. The false fact sounds sure. The flattery feels good. The fake looks real. Every trap looks fine from the inside.](opener-avoid-1-traps.jpg)
+
 You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.
 
 And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.
@@ -24,9 +26,13 @@ AI is the same. It has its rip currents, and recognizing them is the real skill.
 
 And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way.
 
+![Read the Water. Nate and Luke recognize a deceptively calm channel between breaking waves as a rip current. The safest move is to notice the current before it pulls you in.](opener-avoid-2-read-water.jpg)
+
 ## In this section
 
 Avoid Traps
+
+![Avoid Traps section map. Traps in the Answer, Traps in You, and Traps from the World. Recognizing the pattern is the real skill.](opener-avoid-3-map.jpg)
 
 1
 

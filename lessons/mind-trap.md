@@ -10,7 +10,7 @@ Think about picking a college. Ask the same question twice, once at the dinner t
 
 ## The Same Question. Two Different Kinds of Knowing.
 
-![Two answers to the question Should I choose Michigan or Indiana? Mom recommends Indiana using knowledge of the student. AI recommends Michigan with polished, generic college advice.](avoid-traps-12-mind-comparison.jpg)
+![Two answers to the question Should I choose Michigan or Indiana? Mom recommends Indiana using knowledge of the student. AI recommends Michigan with polished, generic college advice.](mind-trap-1-comparison.jpg)
 
 The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. **Mind Trap is giving a human-sounding answer the trust you would give someone who knows you.**
 
@@ -20,7 +20,7 @@ In the 1960s, some people began treating a simple chatbot called ELIZA as if it 
 
 ## Why AI Feels Like Somebody
 
-![Two cards explain why AI can feel like somebody. Your brain looks for a person behind something that responds, and AI uses phrases such as I think and I feel. Sounding human does not make AI human.](avoid-traps-13-eliza.jpg)
+![Two cards explain why AI can feel like somebody. Your brain looks for a person behind something that responds, and AI uses phrases such as I think and I feel. Sounding human does not make AI human.](mind-trap-2-eliza.jpg)
 
 When AI feels like a person, its advice can start to carry the weight of advice from someone who knows you.
 

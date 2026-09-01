@@ -60,6 +60,12 @@ chk "page-bg used as outer band" 0 \
 chk "em-dashes in copy" 6 \
   "$(grep -oF '—' "$F" | wc -l | tr -d ' ')"
 
+if node scripts/check-try-it-instructions.js; then
+  printf "  OK   %-42s %s\n" "TRY ITs with explicit instructions" "all"
+else
+  fail=1
+fi
+
 echo "----------------------------------------------------"
 if [ "$fail" = 0 ]; then
   echo "PASS - no new drift against baselines."

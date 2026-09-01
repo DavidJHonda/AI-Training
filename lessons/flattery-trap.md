@@ -6,7 +6,7 @@ AI is often encouraging. It can praise your essay, support your idea, and agree 
 
 **The Flattery Trap is treating AI’s approval as honest evaluation.**
 
-![Flattery vs. Useful Feedback. The same Gatsby essay introduction receives generic praise on one side and specific feedback about the missing thesis on the other. Good feedback improves the work; empty praise only improves the feeling.](avoid-traps-14-flattery-comparison.jpg)
+![Flattery vs. Useful Feedback. The same Gatsby essay introduction receives generic praise on one side and specific feedback about the missing thesis on the other. Good feedback improves the work; empty praise only improves the feeling.](flattery-trap-1-comparison.jpg)
 
 Good feedback can still be positive. What matters is whether it points to something real in the work and helps you improve it.
 
@@ -14,7 +14,7 @@ Good feedback can still be positive. What matters is whether it points to someth
 
 One reason is a training process called reinforcement learning from human feedback, or RLHF. Reviewers compare answers, and agreeable answers can feel better in the moment. If those answers earn higher ratings, training can push the model toward the same pattern.
 
-![How the praise got baked in. Reviewers compare answers, agreeable answers can win, and training moves the model toward patterns that earned approval.](avoid-traps-15-praise-loop.jpg)
+![How the praise got baked in. Reviewers compare answers, agreeable answers can win, and training moves the model toward patterns that earned approval.](flattery-trap-2-praise-loop.jpg)
 
 ## A Real Sycophancy Failure
 
@@ -22,13 +22,13 @@ The technical name for this behavior is **sycophancy**: AI agrees with or praise
 
 A user pitched a gag product to ChatGPT called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
 
-![Sycophancy. ChatGPT enthusiastically calls the gag-product idea brilliant, genius, performance art, and viral gold.](avoid-traps-16-sycophancy.jpg)
+![Sycophancy. ChatGPT enthusiastically calls the gag-product idea brilliant, genius, performance art, and viral gold.](flattery-trap-3-sycophancy.jpg)
 
 OpenAI began rolling the update back three days after it launched and publicly described the behavior as sycophancy. The problem is not limited to ChatGPT. Researchers have found it across multiple AI assistants.
 
 AI companies now test for sycophancy and use training and system instructions to reduce it. The problem has improved, but it has not disappeared. How you ask still matters.
 
-![Five ways to fight the Flattery Trap: ask rather than tell, ask for gaps, use a rubric, argue the other side, and set a standing instruction. Ask AI to improve the work, not approve of you.](avoid-traps-16a-five-moves.jpg)
+![Five ways to fight the Flattery Trap: ask rather than tell, ask for gaps, use a rubric, argue the other side, and set a standing instruction. Ask AI to improve the work, not approve of you.](flattery-trap-4-five-moves.jpg)
 
 **Useful feedback points to the work.**
 

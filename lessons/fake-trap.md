@@ -6,7 +6,7 @@ Here’s the strange thing about this trap: you already know it. AI can fake a v
 
 Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:
 
-![The same school-closure clip is tested in two eras. Before AI, appearance suggests real; in the AI era, checking the school source leaves it unverified.](avoid-traps-22-fake-comparison.jpg)
+![The same school-closure clip is tested in two eras. Before AI, appearance suggests real; in the AI era, checking the school source leaves it unverified.](fake-trap-1-comparison.jpg)
 
 **The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
 
@@ -18,7 +18,7 @@ A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyo
 
 Harmful fakes are usually made to get something back. The goal often comes down to four things:
 
-![Four common goals behind harmful fakes: money, power, fame, and cruelty.](avoid-traps-24-fake-reasons-v2.png)
+![Four common goals behind harmful fakes: money, power, fame, and cruelty.](fake-trap-2-reasons.jpg)
 
 ## The detector dead end
 
@@ -30,11 +30,11 @@ Don’t let a detector make the decision for you. It looks for patterns that may
 
 The test moves off the image and onto the source, no matter how the fake was made.
 
-![Luke pauses before sharing a convincing phone image of a flooded school hallway while Nate follows a physical evidence trail toward independent school and news source cards.](avoid-traps-23-source.jpg)
+![Luke pauses before sharing a convincing phone image of a flooded school hallway while Nate follows a physical evidence trail toward independent school and news source cards.](fake-trap-3-source.jpg)
 
 Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe.
 
-![Three checks for suspicious media: identify the source, examine the context, and look for corroboration somewhere the sender does not control.](avoid-traps-25-fake-checks.jpg)
+![Three checks for suspicious media: identify the source, examine the context, and look for corroboration somewhere the sender does not control.](fake-trap-4-checks.jpg)
 
 ## One rule under all three checks
 

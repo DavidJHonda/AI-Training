@@ -70,7 +70,7 @@ def main():
     if base is None:
         raise SystemExit(f"cannot read {source}")
     height, width = base.shape[:2]
-    if width / height != 16 / 9:
+    if width / height != 16 / 9 and not config.get("allow_non_16_9", False):
         raise SystemExit(f"expected a 16:9 board, got {width}x{height}")
 
     states = config["states"]

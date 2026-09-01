@@ -12,7 +12,7 @@ The AI pulled the standard limit and missed the exception. The answer wasn’t m
 
 ## Uploaded Doesn’t Mean Fully Read
 
-![A retrieval machine selects a few pages from a long basketball rulebook while the six-foul tournament exception is left out. AI may answer from only part of the file.](avoid-traps-10-uploaded.jpg)
+![A retrieval machine selects a few pages from a long basketball rulebook while the six-foul tournament exception is left out. AI may answer from only part of the file.](document-trap-1-uploaded.jpg)
 
 ## How AI Searches a Long Document
 
@@ -20,7 +20,7 @@ AI can only answer from the document text that reaches its context window. A sho
 
 One common process looks like this:
 
-![One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.](avoid-traps-9-document-flow.jpg)
+![One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.](document-trap-2-flow.jpg)
 
 This is how the rulebook mistake can happen. The search finds the regular-season foul rule but misses the tournament exception. Only the selected pieces reach the context window. The answer can sound complete even when an important passage was left out.
 
@@ -32,7 +32,7 @@ When retrieval finds the right passages, AI can answer a specific question in se
 
 ## Four Moves for Better Retrieval
 
-![Four ways to improve document retrieval: name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.](avoid-traps-11-document-moves.jpg)
+![Four ways to improve document retrieval: name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.](document-trap-3-moves.jpg)
 
 This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer.
 

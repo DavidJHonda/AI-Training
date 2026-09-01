@@ -42,21 +42,7 @@ And it goes beyond these examples. Sarcasm, idioms, even an “it” that points
 
 One promise left to keep: the order question. Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: “Dog bites man.” Same three tokens. Same three vectors. But the order carries the meaning.
 
-Reading in order
-
-Dog bites man
-
-It’s clear what happened. A man was bitten by a dog.
-
-Reading everything at once
-
-Bites man dog
-
-Man bites dog
-
-Dog bites man
-
-Reading everything at once destroys the meaning.
+![How a Transformer Keeps Words in Order. First, order changes meaning: Dog bites man and Man bites dog describe different events. Second, without positions, simultaneously arriving tokens lose their sequence. Third, position stamps mark Dog as 1, bites as 2, and man as 3. Positional encoding tells the Transformer where every token belongs.](transformer-word-order-editorial.jpg)
 
 The fix happens before the first layer. Every token’s vector gets a **position stamp**: a second pattern of numbers mixed in that says “I’m token #1,” “I’m token #3.” Now the sentence can arrive all at once without losing its order. The proper name for the stamp is **positional encoding**.
 

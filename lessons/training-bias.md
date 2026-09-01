@@ -14,19 +14,19 @@ This is training bias. The data showed the model a narrow slice of reality, so t
 
 Training data can create two different traps. It can be skewed, so AI sees a distorted picture. It can also be stale, so AI sees an old picture.
 
-![Wrong pattern. Wrong answer. A visual classifier learns to associate cows with green grass, then rejects a cow standing on a beach.](avoid-traps-5-wrong-pattern.jpg)
+![Wrong pattern. Wrong answer. A visual classifier learns to associate cows with green grass, then rejects a cow standing on a beach.](training-bias-1-wrong-pattern.jpg)
 
 ## How Skewed Data Distorts the Picture
 
 Skewed data creates three overlapping problems.
 
-![How skewed data distorts the picture: defaults, blind spots, and wrong patterns. What AI learns depends on the examples it gets.](avoid-traps-6-bias-mechanisms.jpg)
+![How skewed data distorts the picture: defaults, blind spots, and wrong patterns. What AI learns depends on the examples it gets.](training-bias-2-mechanisms.jpg)
 
 These patterns can have real consequences. Researchers have found major accuracy gaps across demographic groups in some facial-analysis systems. Face-recognition errors have even contributed to wrongful arrests. The stakes are much higher than a cow photo.
 
 You cannot fact-check your way out of this trap because every individual fact may be correct. Look for sameness. **When every example looks alike, you are seeing the model’s default, not the world.** When you spot it, three questions can reveal what the first answer left out:
 
-![Three questions that reveal bias. Ask what is missing. Ask for exceptions. Remove the famous. The model often has more of the picture, but it does not lead with it.](avoid-traps-7-bias-questions.jpg)
+![Three questions that reveal bias. Ask what is missing. Ask for exceptions. Remove the famous. The model often has more of the picture, but it does not lead with it.](training-bias-3-questions.jpg)
 
 ## When Training Data Gets Old
 
@@ -36,7 +36,7 @@ Training eventually stops. Anything that happens afterward was not part of its t
 
 We encountered it while building this course. We asked Claude to check an example sentence from the Tokens lesson:
 
-![Claude doubts a current fact about Cooper Flagg. After the user asks it to search the web and check the date, Claude confirms that Dallas selected Flagg with the first pick in the 2025 NBA draft.](avoid-traps-8-stale.jpg)
+![Claude doubts a current fact about Cooper Flagg. After the user asks it to search the web and check the date, Claude confirms that Dallas selected Flagg with the first pick in the 2025 NBA draft.](training-bias-4-stale.jpg)
 
 Claude answered from older information without searching first. Once we asked it to check a current source, it corrected itself. When the date matters, that is your move too.
 
@@ -46,7 +46,7 @@ AI does not always have to answer from training alone. It can retrieve outside i
 
 This approach is called **Retrieval-Augmented Generation**, or **RAG**:
 
-![How RAG works. The system retrieves information, adds the retrieved material to the model’s context, and generates an answer using it. RAG gives AI more to read, but it does not guarantee truth.](avoid-traps-8a-rag.jpg)
+![How RAG works. The system retrieves information, adds the retrieved material to the model’s context, and generates an answer using it. RAG gives AI more to read, but it does not guarantee truth.](training-bias-5-rag.jpg)
 
 RAG is especially useful when information changed after training. But it only gives AI more to read. It does not guarantee that the source is reliable or that AI interprets it correctly.
 

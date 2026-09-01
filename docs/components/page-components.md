@@ -59,9 +59,17 @@ grid has several items.
 The shared activity shell. The live variants are TRY IT and LAB. Surface color is a
 separate choice from activity type.
 
+Every TRY IT supplies an `instructions` array to `InteractiveBox`. The shell renders
+the ordered steps inside the activity surface, after its title and before the
+interactive content. Keep the purpose-setting `lead` outside the box. Instructions
+should be short imperative actions that explain how to complete the activity; do not
+repeat the lesson or use a hand-styled `<ol>`.
+
 ### Activity support
 
 - `ScenarioRow` and `FeedbackPill` support parallel response activities.
+- `ActivityInstructions` is rendered by `InteractiveBox`; callers provide the steps
+  through the `instructions` prop rather than placing the list manually.
 - `ActivityCounter` reports completion for checkbox-style labs.
 - `ActivityButton` supplies standard activity actions.
 - `Takeaway` is optional, not a required ending for every activity.

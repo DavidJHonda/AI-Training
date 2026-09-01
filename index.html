@@ -137,9 +137,11 @@
      here rather than as an inline style on the row. */
   .oay-row{ display:grid; grid-template-columns:150px 1fr; gap:18px; align-items:center; padding:15px 2px; }
   .oay-row > .oay-figure{ font-family:var(--serif); font-size:30px; line-height:1.05; color:var(--primaryDeep); white-space:nowrap; text-align:right; }
+  .oay-time-fields{ display:flex; gap:12px; }
   @media (max-width:560px){
     .oay-row{ grid-template-columns:1fr; gap:2px; }
     .oay-row > .oay-figure{ text-align:left; font-size:26px; }
+    .oay-time-fields{ flex-direction:column; }
   }
   /* Be the Attention TRY IT: every word in the sentence is clickable, and an arc
      is drawn from the marked word to the one it depends on. Hover, wrapping and
@@ -1312,6 +1314,28 @@ function LabeledCardStack(props) {
 
 // ── end shared design kit ──────────────────────────────────────────────────
 
+function ActivityInstructions(props) {
+  var steps = props.steps || [];
+  if (!steps.length) return null;
+  return React.createElement("ol", {
+    className: "activity-instructions no-print",
+    style: {
+      fontFamily: "var(--sans)",
+      fontSize: 17,
+      lineHeight: 1.65,
+      color: "var(--inkSoft)",
+      margin: "0 0 0 28px",
+      paddingLeft: 24,
+      maxWidth: "62ch"
+    }
+  }, steps.map(function(step, i) {
+    return React.createElement("li", {
+      key: i,
+      style: { marginBottom: i === steps.length - 1 ? 0 : 6, lineHeight: 1.4 }
+    }, step);
+  }));
+}
+
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
   // A `lead` (priming kicker + paragraph rendered before the box) implies `primed`:
@@ -1321,6 +1345,7 @@ function InteractiveBox(props) {
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";
   var hasHint = props.hint !== undefined && props.hint !== null && props.hint !== "";
+  var hasInstructions = Array.isArray(props.instructions) && props.instructions.length > 0;
   var hasChildren = props.children !== undefined && props.children !== null && props.children !== false;
   var hasTextStack = hasTitle || hasHint;
   var surface = props.surface === "mint" ? "mint" : props.surface === "sand" ? "sand" : props.surface === "teal" ? "teal" : "default";
@@ -1375,8 +1400,11 @@ function InteractiveBox(props) {
     style: containerStyle
   },
     topRow,
-    hasChildren ? /*#__PURE__*/React.createElement("div", {
+    hasInstructions ? /*#__PURE__*/React.createElement("div", {
       style: { marginTop: hasTextStack || hasAction ? 18 : 0 }
+    }, /*#__PURE__*/React.createElement(ActivityInstructions, { steps: props.instructions })) : null,
+    hasChildren ? /*#__PURE__*/React.createElement("div", {
+      style: { marginTop: hasInstructions ? 24 : (hasTextStack || hasAction ? 18 : 0) }
     }, props.children) : null
   );
   if (props.lead == null) return boxEl;
@@ -2109,7 +2137,7 @@ function ChoiceQuiz(props) {
   var pick = function(si, oi) {
     setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, oi]])); });
   };
-  return React.createElement(InteractiveBox, { variant: "try", surface: props.surface || "mint", title: props.title, lead: props.instruction },
+  return React.createElement(InteractiveBox, { variant: "try", surface: props.surface || "mint", title: props.title, lead: props.instruction, instructions: props.instructions },
     React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       scenarios.map(function(sc, si) {
         var viewing = answers[si];
@@ -3463,7 +3491,13 @@ function BayesianMindReaderTryIt(props) {
   return /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try", surface: "mint", title: "Bayesian Mind Reader",
-      lead: "Think of a number between 1 and 200, and don’t tell me. I’ll guess; you say whether your number is higher or lower. Watch how conditional probability works: the probability changes as new evidence arrives."
+      lead: "New evidence does not change the secret number. It changes the odds.",
+      instructions: [
+        "Choose a whole number from 1 to 200 and keep it secret.",
+        "Compare each guess with your number.",
+        "Select Higher, Correct, or Lower.",
+        "Watch the belief chart change after each clue until the number is found."
+      ]
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
         hero,
@@ -4019,7 +4053,12 @@ function WelcomeSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      lead: "One last thing before you dive in: six honest questions. Yes or no, no score, no wrong answer. You’ll probably answer 'No' to at least a few. That’s the point.",
+      lead: "Take a quick baseline before you dive in. This is not a score; it is a starting point.",
+      instructions: [
+        "Read each statement.",
+        "Answer Yes or No based on where you are today.",
+        "Complete all six; there is no score and no wrong answer."
+      ]
     },
       E(InnerCard, null,
         QUESTIONS.map(function(q, i) {
@@ -4141,16 +4180,7 @@ function AIMultiplierTryIt(props) {
 
     var host = document.createElement("div");
     host.className = "aim";
-    host.innerHTML =
-      '<p class="aim-eyebrow">TRY IT</p>' +
-      '<p class="aim-lead aim-tight">You&rsquo;ll move faster with AI. Want an estimate of what that looks like?</p>' +
-      '<ol class="aim-steps">' +
-      '<li>Click a goal below.</li>' +
-      '<li>Click <b>Round 1: Just you</b>. After the countdown stops, tap the <b>YOUR EFFORT</b> button as fast as you can.</li>' +
-      '<li>When the round ends, click <b>Round 2: AI has your back</b> and tap just as fast.</li>' +
-      '<li>Read the takeaway to see how much faster you moved with AI.</li>' +
-      '</ol>' +
-      '<div class="aim-box"><div class="aim-card" data-stage></div></div>';
+    host.innerHTML = '<div class="aim-card" data-stage></div>';
     root.appendChild(host);
     var stage = host.querySelector("[data-stage]");
 
@@ -4302,7 +4332,17 @@ function AIMultiplierTryIt(props) {
     return function () { if (timer) { clearInterval(timer); timer = null; } };
   }, []);
 
-  return E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } });
+  return E(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    lead: "You’ll move faster with AI. Want an estimate of what that looks like?",
+    instructions: [
+      "Choose a goal.",
+      "Run Round 1 and tap Your Effort as fast as you can after the countdown.",
+      "Run Round 2 with AI and tap just as fast.",
+      "Compare the scores and read what the multiplier changed."
+    ]
+  }, E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } }));
 }
 
 function WhyDeeperSection(props) {
@@ -4585,7 +4625,13 @@ function WhyBotherSection(props) {
       variant: "try",
       surface: "mint",
       title: "Catch It, or Trust It?",
-     lead: "Five AI answers, each stated with total confidence, each hiding a mistake. The question isn\u2019t whether AI makes mistakes, it\u2019s whether what you\u2019ve learned lets you catch the errors. For each, be honest: do you know enough to catch it, or would you have to trust it?"},
+      lead: "Five AI answers sound completely confident and hide a mistake. The test is whether what you know lets you catch it.",
+      instructions: [
+        "Read the AI answer.",
+        "Decide whether you know enough to catch its mistake or would have to trust it.",
+        "Choose honestly, then read the explanation before continuing."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         CATCH_ITEMS.map(function(s, i) {
           var answered = catchAnswers[i] !== undefined;
@@ -4702,7 +4748,7 @@ function ControlStressGame() {
 
     var host = document.createElement("div");
     host.className = "ccl";
-    host.innerHTML = '<div class="ccl-box"><div class="ccl-card" data-stage></div></div>';
+    host.innerHTML = '<div class="ccl-card" data-stage></div>';
     root.appendChild(host);
     var card = host.querySelector("[data-stage]");
 
@@ -4948,16 +4994,17 @@ function ControlStressGame() {
     return clearTimers;
   }, []);
 
-  var stepBold = function(text) { return E("b", { style: { color: "var(--ink)" } }, text); };
-  return E(React.Fragment, null,
-    E(ActivityLead, { variant: "try" },
-      "Where do you stand today? Can you focus on what’s in your hands, or will you let the world stress you out? Find out."),
-    E("ol", { className: "no-print", style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 24px 28px", paddingLeft: 24, maxWidth: "60ch" } },
-      E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Click ", stepBold("Start the round"), "."),
-      E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Read each statement. You get two seconds before the next one arrives."),
-      E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Click only the statements that are ", stepBold("in your hands"), ". Let the rest go by."),
-      E("li", { style: { lineHeight: 1.4 } }, "Keep an eye on your stress meter. It only climbs when you make a mistake. When the round ends, read the takeaway to see what got to you.")),
-    E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } }));
+  return E(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    lead: "Where do you stand today? Can you focus on what’s in your hands, or will you let the world stress you out? Find out.",
+    instructions: [
+      "Start the round and read each statement before the next one arrives.",
+      "Click only statements that are in your hands; let the rest go by.",
+      "Watch the stress meter, which rises only when you make a mistake.",
+      "Read the recap when the round ends to see what got to you."
+    ]
+  }, E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } }));
 }
 function ControlSection(props) {
   var E = React.createElement;
@@ -5184,7 +5231,11 @@ function AIvsCodeSection(props) {
       "So when an app refuses something dangerous, that’s the guardrail talking, not the AI making a call of its own."
     ),
     closeBoard("aivscode"),
-    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This Better?", instruction: "For each situation, pick which one would handle it better. Some need the rules and structure of normal software. Others need the patterns and flexibility of AI.", scenarios: FIT_SCENARIOS }),
+    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This Better?", instruction: "The difference between normal software and AI becomes clearest when both are given the same job.", instructions: [
+      "Read the situation.",
+      "Choose normal software or AI based on the kind of job.",
+      "Read the feedback before moving to the next situation."
+    ], scenarios: FIT_SCENARIOS }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
@@ -5221,7 +5272,14 @@ function TransformerClaimsTryIt(props) {
   useEffect(function() { if (answeredCount >= CLAIMS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint",
-    lead: "The Transformer is the breakthrough that powers every layer you just learned about. Now put your new knowledge to work. Watch the short Gemini Notebook video below: it makes six claims about the Transformer, delivered with total confidence, but all of them are inaccurate. When it ends, click Show Questions and call each one: True or False. Spoiler Alert: They are all False."},
+    lead: "A confident explanation can sound right even when every claim is wrong. Put your Transformer knowledge against six confident mistakes.",
+    instructions: [
+      "Watch the short video and listen for its six claims.",
+      "Select Show Questions when the video ends.",
+      "Mark each claim True or False.",
+      "Read the correction before moving to the next claim."
+    ]
+  },
     /*#__PURE__*/React.createElement(WatchPlayer, { video: { src: "videos/transformers-quiz.mp4", caption: "" } }),
     !showQ ? /*#__PURE__*/React.createElement("button", {
       onClick: function() { setShowQ(true); },
@@ -5489,7 +5547,11 @@ function BeTheAttentionTryIt(props) {
             correct === null ? "No word in this sentence." : "Answer: " + words[correct].replace(/[.,]$/, "") + "."),
           E("span", null, ok)));
     };
-    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the Attention" },
+    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the Attention", instructions: [
+      "Read each sentence and find the marked word.",
+      "Choose the other word that settles what the marked word means.",
+      "Check the answer and explanation before continuing."
+    ] },
       E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
         BTA_ITEMS.map(function (item, i) {
           var sw = item.swap;
@@ -5506,7 +5568,12 @@ function BeTheAttentionTryIt(props) {
 
   return E(InteractiveBox, {
     variant: "try", surface: "mint", title: "Be the Attention",
-    lead: "Attention’s job is to work out, for each word, which other words matter. Your turn to do that job. Five sentences, each with one word marked: click the word that settles what it means."
+    lead: "Attention decides which surrounding words matter most to meaning. Now take its seat.",
+    instructions: [
+      "Read the sentence and find the marked word.",
+      "Click the other word that settles what the marked word means.",
+      "Read the explanation, then continue to the next sentence."
+    ]
   },
     E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
       BTA_ITEMS.map(function (item, i) {
@@ -5612,24 +5679,11 @@ function HowAIReadsSection(props) {
     E(SectionKicker, null, "One catch: word order"),
     E(BodyP, null,
       "One promise left to keep: the order question. Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: \u201cDog bites man.\u201d Same three tokens. Same three vectors. But the order carries the meaning."),
-    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 20, marginBottom: 28 } },
-      E("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto", columnGap: 14, rowGap: 12 } },
-        E("div", { style: { background: "#fbedd3", borderRadius: 14, padding: "18px 20px", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" } },
-          E("div", { style: { fontSize: 18, fontWeight: 800, color: "#d97706" } }, "Reading in order"),
-          E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", display: "grid", gridTemplateRows: "subgrid", gridRow: "2 / span 2" } },
-            E("div", null,
-              E("div", { style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.85 } }, "Dog bites man")),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6, borderTop: "1px solid var(--rule)", paddingTop: 12, alignSelf: "start" } },
-              "It\u2019s clear what happened. A man was bitten by a dog."))),
-        E("div", { style: { background: "#ece8fd", borderRadius: 14, padding: "18px 20px", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 3" } },
-          E("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--primary)" } }, "Reading everything at once"),
-          E("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", display: "grid", gridTemplateRows: "subgrid", gridRow: "2 / span 2" } },
-            E("div", null,
-              ["Bites man dog", "Man bites dog", "Dog bites man"].map(function(s, i) {
-                return E("div", { key: i, style: { fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink)", lineHeight: 1.85 } }, s);
-              })),
-            E("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6, borderTop: "1px solid var(--rule)", paddingTop: 12, alignSelf: "start" } },
-              "Reading everything at once destroys the meaning."))))),
+    E("img", {
+      src: "lessons/transformer-word-order-editorial.jpg?v=20260831order1",
+      alt: "How a Transformer Keeps Words in Order. First, order changes meaning: Dog bites man and Man bites dog describe different events. Second, without positions, simultaneously arriving tokens lose their sequence. Third, position stamps mark Dog as 1, bites as 2, and man as 3. Positional encoding tells the Transformer where every token belongs.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
+    }),
     E(BodyP, null,
       "The fix happens before the first layer. Every token\u2019s vector gets a ",
       E("strong", null, "position stamp"),
@@ -5843,7 +5897,13 @@ function TrainingWhoTaughtQuiz(props) {
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "How did AI learn to do this?",
-    lead: "AI taught itself some of what it does. Humans taught it the rest. Six things AI does: you sort out which is which."},
+    lead: "Some abilities come from patterns in data. Others come from human feedback. See whether you can tell which is which.",
+    instructions: [
+      "Read what AI learned to do.",
+      "Choose whether it came from patterns in data or from human feedback.",
+      "Read the feedback before moving to the next item."
+    ]
+  },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -6086,7 +6146,12 @@ function TokenTrueFalseTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Beat the Tokenizer: guess how many tokens are in each.",
-    lead: "Ten strings, straight from a real tokenizer. Make your guess, then see how the machine actually carved it. The splits are stranger than you think."
+    lead: "A real tokenizer makes stranger splits than human intuition expects.",
+    instructions: [
+      "Read the string and predict how many tokens it contains.",
+      "Choose a number to reveal the tokenizer’s split.",
+      "Compare your guess with the actual token count before continuing."
+    ]
   },
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROUNDS.map(function(r, i) {
@@ -6303,7 +6368,13 @@ function NameThatDrinkTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name That Drink",
-   lead: "To a model, meaning is just numbers. Each row shows a drink’s numbers. Read them and pick which drink it is."},
+    lead: "To a model, meaning is just numbers. See whether the numbers alone carry enough meaning to identify a drink.",
+    instructions: [
+      "Read the five numbers in the row.",
+      "Choose the drink those values describe.",
+      "Read the feedback, then continue to the next vector."
+    ]
+  },
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       questions.map(function(q, i) {
         var picked = answers[i];
@@ -6441,7 +6512,12 @@ function EmbeddingsSection(props) {
     style: { display: "inline-flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--tryAccent)", textTransform: "uppercase", letterSpacing: "0.08em", padding: "4px 0" }
   }, E("span", { style: { fontSize: 11 } }, clubTableShown ? "▾" : "▸"), clubTableShown ? "Collapse table" : "Expand table");
   var clubTryIt = E("div", null,
-    E(InteractiveBox, { surface: "mint", title: "Build your own vector", lead: "Your taste test turned meaning into numbers for Coke, Pepsi, and Coffee. Now do it for three clubs you could join at school: score each club from 0 to 10 on five dimensions. When you finish, we hide the names, and you\u2019ll guess each club from its vector alone." },
+    E(InteractiveBox, { surface: "mint", title: "Build your own vector", lead: "Can a row of numbers carry enough meaning for you to recognize something after its name disappears?", instructions: [
+      "Score each club from 0 to 10 on all five dimensions.",
+      "Select Hide the names and match when every score is filled.",
+      "Match each mystery vector to its club.",
+      "Use the revealed names to check how well the numbers carried the meaning."
+    ] },
       clubLocked ? null : clubEntryGrid,
       clubLocked ? null : E("div", { style: { marginTop: 18 } },
         E(ActivityButton, { onClick: lockClubs, disabled: !clubAllFilled, style: clubAllFilled ? null : { opacity: 0.4, cursor: "not-allowed" } }, "Hide the names and match →")),
@@ -6777,7 +6853,12 @@ function Game2048TryIt(props) {
   return E(React.Fragment, null,
     E(InteractiveBox, {
       variant: "try", surface: "mint", title: "How high can you score?",
-      lead: "Time to give your brain a rest with a game. You’ll be building your own game in the next section of the course."
+      lead: "Time to give your brain a rest with a game. You’ll be building your own game in the next section of the course.",
+      instructions: [
+        "Use the arrow keys or swipe to slide every tile.",
+        "Join matching tiles to create larger numbers.",
+        "Keep combining tiles and see how high you can score."
+      ]
     },
       E(InnerCard, null,
         E("div", { ref: rootRef }))));
@@ -6970,7 +7051,13 @@ function MatchTermsTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Name the Piece",
-   lead: "You’ve now met every piece of the machine. Read each definition and name the piece."},
+    lead: "Every part of the machine has a job. See whether the job is enough to name the part.",
+    instructions: [
+      "Read the definition.",
+      "Choose the machine part it describes.",
+      "Read the feedback before moving to the next definition."
+    ]
+  },
     E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       QUESTIONS.map(function(q, i) {
         var picked = answers[i];
@@ -6997,8 +7084,8 @@ function MatchTermsTryIt(props) {
 }
 function HorseReadsBox() {
   return React.createElement("img", {
-    src: "illustrations/layers-three-reads.jpg",
-    alt: "The sentence The horse raced past the barn fell becomes clearer over multiple passes, moving from confusion to established meaning",
+    src: "lessons/layers-horse-three-reads-editorial.jpg?v=20260831reads1",
+    alt: "The Horse Raced Past the Barn Fell. First pass: it does not make sense and may seem to be missing a word. More passes test whether the barn fell or whether the horse raced past it afterward. Then the meaning clicks: a horse ran past a barn, and after running past it, the horse fell. Each pass updates the meaning until it clicks.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
 }
@@ -7162,7 +7249,13 @@ function InferenceSection(props) {
     variant: "try",
     surface: "mint",
     title: "How Big Is 2 Quadrillion?",
-    lead: "To name your dog Spot, AI made 2 quadrillion math calculations. That’s a big number. But how big? You tell us."},
+    lead: "To name your dog Spot, AI made 2 quadrillion math calculations. The number becomes meaningful only when you compare it with something familiar.",
+    instructions: [
+      "Read each comparison.",
+      "Choose the estimate you think is closest.",
+      "Read the scale of the real answer before continuing."
+    ]
+  },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       BIG_TASKS.map(function(c, i) {
         var answered = bigAnswers[i] !== undefined;
@@ -7458,7 +7551,13 @@ function DocumentChatSection(props) {
       variant: "try",
       surface: "mint",
       title: "Pick the Better Move",
-     lead: "Your turn. Four documents, four questions. Pick the move that gives retrieval the best shot."},
+      lead: "Better retrieval starts by making the right passage easier to find.",
+      instructions: [
+        "Read the document situation and the question being asked.",
+        "Choose the move that gives retrieval the best chance to work.",
+        "Read the feedback before moving to the next document."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(sc, si) {
           var picked = scenarioAnswers[si];
@@ -7570,7 +7669,12 @@ function ModelSelectionSection(props) {
     variant: "try",
     surface: "mint",
     title: "It’s in the Name",
-    lead: "The names aren’t random. Each one quietly tells you the philosophy you just learned. Read where the name came from, then pick the app it belongs to."
+    lead: "The names are not random. Each one quietly reveals the philosophy behind the app.",
+    instructions: [
+      "Read the origin of the name.",
+      "Choose the AI app it belongs to.",
+      "Read the explanation before continuing."
+    ]
   },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       NAME_ORIGINS.map(function(r, i) {
@@ -8489,7 +8593,13 @@ function CriticalThinkingSection(props) {
     variant: "try",
     surface: "mint",
     title: "What’s the problem with these claims?",
-    lead: "This isn’t a new skill. You already use it every day. Use your critical thinking skills to spot the problems in each of these scenarios."},
+    lead: "This isn’t a new skill. You already use it every day. Use your critical thinking skills to spot the problems in each of these scenarios.",
+    instructions: [
+      "Read the claim and its evidence.",
+      "Choose the problem that weakens the claim.",
+      "Read the reasoning before moving to the next scenario."
+    ]
+  },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_101.map(function(sc, si) {
         var picked = problemAnswers[si];
@@ -8715,7 +8825,13 @@ function WhatItDoesBestSection(props) {
       variant: "try",
       surface: "mint",
       title: "Does this match an AI strength?",
-      lead: "AI is best at some kinds of work. For each scenario, decide whether it plays to an AI strength or not, then check your reasoning."},
+      lead: "The same AI can be a strong fit for one job and a weak fit for another.",
+      instructions: [
+        "Read the task.",
+        "Decide whether it matches an AI strength.",
+        "Choose your answer and check the reasoning before continuing."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         CLAIMS.map(function(r, i) {
           var picked = taskAnswers[i];
@@ -9002,7 +9118,13 @@ function DigDeeperTryIt(props) {
   useEffect(function() { if (allAnswered && props.onComplete) props.onComplete(); }, [allAnswered]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Are these AI responses good to go, or do you need to dig deeper?",
-    lead: "Your turn. For each response below, run the three questions and make the call."},
+    lead: "The three checking questions only matter if you can use them when an answer looks ready.",
+    instructions: [
+      "Read the request and AI’s response.",
+      "Run the three checking questions from the lesson.",
+      "Choose Good to go or Dig deeper, then read the feedback."
+    ]
+  },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       DD_SCENARIOS.map(function(sc, si) {
         var picked = answers[si];
@@ -9593,7 +9715,13 @@ function LegacyMakeYourMoveSection(props) {
       variant: "try",
       surface: "mint",
       title: "Spot the Gap",
-      lead: "AI’s answer can look complete and still miss something. Five moments where AI handed back something fluent: pick the depth that catches what’s missing."},
+      lead: "A fluent answer can look complete while something important is still missing.",
+      instructions: [
+        "Read the situation and AI’s fluent answer.",
+        "Choose the kind of depth that would expose what is missing.",
+        "Read the explanation before continuing."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(s, sIdx) {
           var picked = scenarioAnswers[sIdx];
@@ -9938,7 +10066,13 @@ function WhenAIActsSection(props) {
       variant: "try",
       surface: "mint",
       title: "Be the Agent",
-      lead: "You’re the agent now. Your human hands you a goal: “Post my best basketball highlights to TikTok.” Five moments from the job, one at a time. At each one, pick what a good agent does."},
+      lead: "A good agent makes judgment calls all the way from a goal to an action. This one starts with a basketball highlight reel.",
+      instructions: [
+        "Read the current moment in the job.",
+        "Choose what a good agent should do next.",
+        "Read the feedback to unlock the next moment."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         AGENT_STEPS.map(function(item, i) {
           if (i > 0) {
@@ -10050,7 +10184,13 @@ function MindTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "Who makes the call?",
-     lead: "Three decisions, three sizes. Same question every time."},
+      lead: "Three decisions, three sizes. Same question every time.",
+      instructions: [
+        "Read the decision.",
+        "Decide whether AI should make the call, help you think, or leave the decision to you and people who know you.",
+        "Choose your answer and read the feedback before continuing."
+      ]
+    },
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -10368,7 +10508,12 @@ function OneAppOneYearTryIt(props) {
   var isPrintMode = false;
   try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
   if (isPrintMode) {
-    return E(InteractiveBox, { variant: "try", surface: "mint", title: "One app, one year" },
+    return E(InteractiveBox, { variant: "try", surface: "mint", title: "One app, one year", instructions: [
+      "Enter the app you use most and its average daily time.",
+      "Run the calculation and read what that time becomes across one year.",
+      "Run the same calculation for AI chat and compare the totals.",
+      "Answer the final question about when an AI chat should end."
+    ] },
       E(InnerCard, { style: { marginBottom: 0 } },
         E("p", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 22px", maxWidth: "62ch" } },
           "In the live lesson, you name the app you use most and enter its average daily time. The activity shows what that time looks like across one year, then runs the same calculation for AI chat. The goal is not to judge how you spend every minute. It is to notice how small choices grow when they repeat."),
@@ -10419,7 +10564,7 @@ function OneAppOneYearTryIt(props) {
         })),
       E("div", { style: { marginBottom: 20 } },
         E(OAYFieldLabel, null, "What is your average daily time in this app?"),
-        E("div", { style: { display: "flex", gap: 12 } },
+        E("div", { className: "oay-time-fields" },
           E(OAYTimeField, { value: hVal, unit: "hours", name: "oay-app-hours", label: "Hours a day on this app", onChange: setHVal }),
           E(OAYTimeField, { value: mVal, unit: "mins", name: "oay-app-mins", label: "Minutes a day on this app", onChange: setMVal })),
         E("p", { style: { fontSize: 13.5, lineHeight: 1.5, color: "var(--inkMuted)", marginTop: 9 } },
@@ -10474,7 +10619,7 @@ function OneAppOneYearTryIt(props) {
       E("div", { style: turnKicker }, "Now Look at AI"),
       E("form", { onSubmit: submitAI },
         E(OAYFieldLabel, null, "What is your average daily time in ChatGPT, Claude, or whichever AI you use?"),
-        E("div", { style: { display: "flex", gap: 12, maxWidth: 420 } },
+        E("div", { className: "oay-time-fields", style: { maxWidth: 420 } },
           E(OAYTimeField, { value: aiH, unit: "hours", name: "oay-ai-hours", label: "Hours a day on AI", onChange: setAiH }),
           E(OAYTimeField, { value: aiM, unit: "mins", name: "oay-ai-mins", label: "Minutes a day on AI", onChange: setAiM })),
         aiErr ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginTop: 12 } }, aiErr) : null,
@@ -10516,19 +10661,19 @@ function OneAppOneYearTryIt(props) {
         "Those yearly totals are what small choices become when they repeat. Every follow-up is another chance to choose.") : null);
   }
 
-  return E(React.Fragment, null,
-    E(ActivityLead, { variant: "try" },
-      "Raskin’s estimate is too large to picture. Start with one app and one year: your own."),
-    E("ol", { className: "no-print", style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 24px 28px", paddingLeft: 24, maxWidth: "62ch" } },
-      E("li", { style: { marginBottom: 6 } }, "Name the app you use most."),
-      E("li", { style: { marginBottom: 6 } }, "Enter its average daily time. Use your phone’s screen-time report if you can."),
-      E("li", { style: { marginBottom: 6 } }, "Click ", E("b", { style: { color: "var(--ink)" } }, "Do the math"), " and read what that amount of time looks like across one year."),
-      E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Enter the average time you spend in ChatGPT, Claude, or another AI chat. If AI was your first app, this step will be skipped."),
-      E("li", { style: { marginBottom: 6 } }, "Click ", E("b", { style: { color: "var(--ink)" } }, "Run the same math"), " and compare the totals."),
-      E("li", null, "Answer the final question to decide when an AI chat should end.")),
-    E(InteractiveBox, { variant: "try", surface: "mint", primed: true },
-      E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
-        beatOne, beatTwo, beatThree)));
+  return E(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    lead: "Raskin’s estimate is too large to picture. Start with one app and one year: your own.",
+    instructions: [
+      "Name the app you use most and enter its average daily time.",
+      "Run the calculation and read what that time becomes across one year.",
+      "Enter your average daily AI-chat time and run the same calculation. This step is skipped if AI was your first app.",
+      "Compare the totals, then answer the final question about when an AI chat should end."
+    ]
+  },
+    E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
+      beatOne, beatTwo, beatThree));
 }
 function EngagementTrapSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -10671,13 +10816,14 @@ function SupportTrapSection(props) {
       variant: "try",
       surface: "mint",
       title: "How does AI fit into each of these?",
-      lead: "Five moments, rising stakes, the same three choices every time. Practice the call now, so it’s already made when it matters."
+      lead: "Five moments, rising stakes, the same three choices every time. Practice the call now, so it’s already made when it matters.",
+      instructions: [
+        "Read the situation.",
+        "Decide what role AI should play.",
+        "Choose your answer.",
+        "Read the feedback before moving to the next situation."
+      ]
     },
-      E("ol", { className: "no-print", style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 24px 28px", paddingLeft: 24, maxWidth: "62ch" } },
-        E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Read the situation."),
-        E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Decide what role AI should play."),
-        E("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Choose your answer."),
-        E("li", { style: { lineHeight: 1.4 } }, "Read the feedback before moving to the next situation.")),
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SPOT_EXERCISES.map(function(sc, si) {
           var picked = spotAnswers[si];
@@ -11067,7 +11213,13 @@ function PrivacySection(props) {
       variant: "try",
       surface: "mint",
       title: "What should you share with AI?",
-      lead: "Each prompt is split into sections. Click each section and you’ll see whether it’s something you should share with AI. After you click the last section, you’ll see a clean version of the prompt."},
+      lead: "Privacy decisions often hide inside an otherwise harmless prompt. See whether you can catch them before you send.",
+      instructions: [
+        "Read the prompt one highlighted section at a time.",
+        "Click each section to decide whether it is safe to share with AI.",
+        "Finish every section, then compare the original prompt with the clean version."
+      ]
+    },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       REDACT_SCENARIOS.map(function(prompt, pi) {
         var lastIdx = lastByPrompt[pi];
@@ -11230,12 +11382,14 @@ function SyntheticMediaSection(props) {
       variant: "try",
       surface: "mint",
       title: "Believe It, Check It, or Call It Fake?",
-      lead: "Three moments, rising stakes. Same question every time."},
-      /*#__PURE__*/React.createElement("ol", { className: "no-print", style: { fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.65, color: "var(--inkSoft)", margin: "0 0 24px 28px", paddingLeft: 24, maxWidth: "62ch" } },
-        /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Read the situation."),
-        /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Decide what the evidence supports."),
-        /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6, lineHeight: 1.4 } }, "Choose Believe it, Check it, or Call it fake."),
-        /*#__PURE__*/React.createElement("li", { style: { lineHeight: 1.4 } }, "Read the feedback before moving to the next situation.")),
+      lead: "Three moments, rising stakes. Same question every time.",
+      instructions: [
+        "Read the situation.",
+        "Decide what the evidence supports.",
+        "Choose Believe it, Check it, or Call it fake.",
+        "Read the feedback before moving to the next situation."
+      ]
+    },
       /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         SCENARIOS.map(function(ps, si) {
           var picked = permAnswers[si];
@@ -12091,7 +12245,12 @@ function QuestionsValuableSection(props) {
       variant: "try",
       surface: "mint",
       title: "Match the Quality",
-      lead: "Four qualities. Four jobs. Select a quality on the left, then select the description that matches it.",
+      lead: "A quality becomes useful when you can recognize the job it does.",
+      instructions: [
+        "Choose one quality from the left column.",
+        "Choose the description that matches it from the right column.",
+        "Keep matching until all four pairs are complete."
+      ],
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: qualityMatchCount, total: QUALITY_MATCHES.length })},
       /*#__PURE__*/React.createElement(InnerCard, null,
         /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 22, alignItems: "start" } },
@@ -12311,7 +12470,13 @@ function WhatPeopleSaySection(props) {
       variant: "try",
       surface: "mint",
       title: "Right or Wrong?",
-      lead: "Five predictions about technology, every one made by smart people. Your call: were the experts right or wrong?"},
+      lead: "Smart people have always made confident predictions about new technology. History did not reward all of them.",
+      instructions: [
+        "Read the expert prediction.",
+        "Choose whether history proved it right or wrong.",
+        "Read what happened before moving to the next prediction."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         BETS.map(function(c, i) {
           var answered = betAnswers[i] !== undefined;
@@ -12606,7 +12771,13 @@ function BigDownsideSection(props) {
       variant: "try",
       surface: "mint",
       title: "Which idea explains it?",
-      lead: "You just learned six important ideas about AI’s downside. Let’s see what you remember. Here are six new scenarios, each explained by one of the ideas from this lesson."},
+      lead: "The same downside mechanisms reappear in situations that look completely different.",
+      instructions: [
+        "Read the new scenario.",
+        "Choose the downside idea that best explains it.",
+        "Read the explanation before continuing."
+      ]
+    },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         DOWNSIDE_STORIES.map(function(item, si) {
           var picked = downsideAnswers[si];
@@ -13072,7 +13243,13 @@ function EnergyPerspectiveTryIt(props) {
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "Does it use more than an AI chat?",
-    lead: "A typical short question-and-answer with ChatGPT uses around 1/3 of a watt-hour of electricity. Longer answers, harder reasoning, and image or video generation can use more. Yes, all those calculations for a fraction of a watt-hour: chips are that good at math. The bills come from running billions of requests a day. For each everyday activity, decide: does it use more energy than one short question-and-answer, less, or about the same?"},
+    lead: "A typical short question-and-answer with ChatGPT uses around 1/3 of a watt-hour of electricity. Longer answers, harder reasoning, and image or video generation can use more. The real bill comes from running billions of requests a day.",
+    instructions: [
+      "Read the everyday activity.",
+      "Choose More, Less, or About the same compared with one short AI chat.",
+      "Read the energy comparison before moving to the next activity."
+    ]
+  },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       ROWS.map(function(r, i) {
         var answered = answers[i] !== undefined;
@@ -13216,7 +13393,13 @@ function RatQuizTryIt(props) {
   useEffect(function() { if (answeredCount >= QUESTIONS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "The Great Hanoi Rat Quiz",
-    lead: "Every bit of the rat story is true, and the details get better. Five questions, no grade, pure glory. Take your best guess."},
+    lead: "Every bit of the rat story is true, and the details get even better.",
+    instructions: [
+      "Read the question about the rat story.",
+      "Choose your best answer.",
+      "Read the real historical detail before continuing."
+    ]
+  },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       QUESTIONS.map(function(sc, si) {
         var picked = answers[si];

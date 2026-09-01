@@ -6,6 +6,7 @@ from __future__ import annotations
 import math
 import shutil
 import sys
+from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -699,6 +700,207 @@ def render_before_transformers(source: Path, out_path: Path) -> None:
     save(canvas, out_path)
 
 
+def render_layers_inside_current(source: Path, out_path: Path) -> None:
+    """Keep the existing teaching mechanism and standardize only its heading shell."""
+    title = "What Happens Inside Every Layer"
+    stage_top = 127
+    original = Image.open(source).convert("RGB")
+    # Remove the legacy centered heading while retaining the complete mechanism.
+    mechanism = original.crop((0, 145, original.width, original.height))
+    # The legacy illustration's lavender backdrop is baked into the raster. Flood
+    # only the border-connected backdrop to white so the closed layer panels and
+    # vector boxes retain their original fills and depth.
+    pixels = mechanism.load()
+    width, source_height = mechanism.size
+    visited = bytearray(width * source_height)
+    queue: deque[tuple[int, int]] = deque()
+
+    def is_backdrop(x: int, y: int) -> bool:
+        red, green, blue = pixels[x, y]
+        return (
+            220 < red < 245
+            and 216 < green < 244
+            and blue > 238
+            and blue >= red
+            and blue >= green
+        )
+
+    for x in range(width):
+        queue.append((x, 0))
+        queue.append((x, source_height - 1))
+    for y in range(source_height):
+        queue.append((0, y))
+        queue.append((width - 1, y))
+
+    while queue:
+        x, y = queue.popleft()
+        offset = y * width + x
+        if visited[offset] or not is_backdrop(x, y):
+            continue
+        visited[offset] = 1
+        pixels[x, y] = (255, 255, 255)
+        if x > 0:
+            queue.append((x - 1, y))
+        if x + 1 < width:
+            queue.append((x + 1, y))
+        if y > 0:
+            queue.append((x, y - 1))
+        if y + 1 < source_height:
+            queue.append((x, y + 1))
+    content_w = 1452
+    content_h = round(mechanism.height * content_w / mechanism.width)
+    stage_w = 1520
+    stage_h = content_h + 56
+    height = stage_top + stage_h + 40
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle(
+        (40, stage_top, 1560, stage_top + stage_h),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+
+    mechanism = mechanism.resize((content_w, content_h), Image.Resampling.LANCZOS)
+    canvas.paste(mechanism, (74, stage_top + 28), rounded_mask((content_w, content_h), 10))
+
+    # Replace the abstract dot bookends with the actual numeric vectors used in
+    # the progression below. This makes the input -> repeated updates -> output
+    # relationship explicit without changing the layer mechanism itself.
+    draw = ImageDraw.Draw(canvas)
+    draw.rectangle((74, 338, 306, 530), fill=WHITE)
+    draw.rectangle((1318, 338, 1527, 550), fill=WHITE)
+    arrow(draw, (294, 446), (350, 446), BRAND, width=8)
+
+    draw.rounded_rectangle(
+        (82, 354, 304, 512),
+        radius=12,
+        fill=mix(PURPLE, 0.10),
+        outline=mix(PURPLE, 0.22),
+        width=2,
+    )
+    draw.text((193, 390), "VECTOR IN", font=face("heavy", 24), fill=PURPLE, anchor="mm")
+    draw.text((193, 458), "[.42, −1.15, …]", font=face("bold", 29), fill=INK, anchor="mm")
+
+    draw.rounded_rectangle(
+        (1320, 380, 1538, 542),
+        radius=12,
+        fill=mix(PURPLE, 0.10),
+        outline=mix(PURPLE, 0.22),
+        width=2,
+    )
+    draw.text((1429, 410), "RICHER", font=face("heavy", 24), fill=PURPLE, anchor="mm")
+    draw.text((1429, 442), "VECTOR OUT", font=face("heavy", 24), fill=PURPLE, anchor="mm")
+    draw.text((1429, 505), "[.19, −1.12, …]", font=face("bold", 29), fill=INK, anchor="mm")
+    save(canvas, out_path)
+
+
+def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
+    """Build a unified illustrated pipeline with exact, board-sized teaching text."""
+    title = "What Happens Inside Every Layer"
+    stage_top = 127
+    legend_top = 153
+    art_top = 255
+    art_left = 74
+    art_width = 1452
+
+    art = Image.open(source).convert("RGB")
+    art = art.crop((0, 70, art.width, 860))
+    scale = art_width / art.width
+    art_height = round(art.height * scale)
+    stage_h = art_top - stage_top + art_height + 28
+    footer_top = stage_top + stage_h + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle(
+        (40, stage_top, 1560, stage_top + stage_h),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+
+    # One board-sized legend defines the two operations; the numbered modules
+    # repeat those operations inside every illustrated layer.
+    legend_cards = (
+        (74, 786, PURPLE, "1", "ATTENTION", "Which words matter?"),
+        (814, 1526, "#e77700", "2", "TRANSFORMATION", "Update the meaning."),
+    )
+    for left, right, accent, number, label, explanation in legend_cards:
+        draw.rounded_rectangle(
+            (left, legend_top, right, legend_top + 78),
+            radius=12,
+            fill=mix(accent, 0.10),
+            outline=mix(accent, 0.22),
+            width=2,
+        )
+        draw.ellipse((left + 18, legend_top + 15, left + 66, legend_top + 63), fill=accent)
+        draw.text((left + 42, legend_top + 39), number, font=face("heavy", 27), fill=WHITE, anchor="mm")
+        draw.text((left + 86, legend_top + 39), label, font=face("heavy", 27), fill=accent, anchor="lm")
+        draw.text((right - 24, legend_top + 39), explanation, font=face("medium", 29), fill=BODY, anchor="rm")
+
+    art = art.resize((art_width, art_height), Image.Resampling.LANCZOS)
+    canvas.paste(art, (art_left, art_top))
+    draw = ImageDraw.Draw(canvas)
+
+    # Replace the generated dot bookends with real number rows so a vector is
+    # represented consistently as numbers throughout the lesson.
+    draw.rectangle((74, 430, 288, 520), fill=WHITE)
+    draw.rounded_rectangle(
+        (82, 444, 286, 506),
+        radius=12,
+        fill=mix(PURPLE, 0.10),
+        outline=mix(PURPLE, 0.22),
+        width=2,
+    )
+    draw.text((184, 475), "[.42, −1.15, …]", font=face("bold", 29), fill=INK, anchor="mm")
+
+    draw.rectangle((1264, 430, 1527, 520), fill=WHITE)
+    draw.rounded_rectangle(
+        (1272, 444, 1520, 506),
+        radius=12,
+        fill=mix(PURPLE, 0.10),
+        outline=mix(PURPLE, 0.22),
+        width=2,
+    )
+    draw.text((1396, 475), "[.19, −1.12, …]", font=face("bold", 29), fill=INK, anchor="mm")
+
+    # Large numeric stage markers keep the illustration text-light while tying
+    # each colored module back to the legend above.
+    layer_centers = (504, 799, 1094)
+    for center_x in layer_centers:
+        draw.text((center_x, 401), "1", font=face("heavy", 46), fill=WHITE, anchor="mm")
+        draw.text((center_x, 540), "2", font=face("heavy", 46), fill=WHITE, anchor="mm")
+
+    vector_stations = (
+        (292, "STARTING VECTOR", "[.42, −1.15, …]", PURPLE),
+        (631, "AFTER LAYER 1", "[.51, −.87, …]", PURPLE),
+        (964, "AFTER LAYER 2", "[.27, −1.21, …]", PURPLE),
+        (1306, "RICHER VECTOR", "[.19, −1.12, …]", INK),
+    )
+    for center_x, label, value, value_color in vector_stations:
+        draw.text((center_x, 756), label, font=face("heavy", 29), fill=MUTED, anchor="mm")
+        draw.text((center_x, 817), value, font=face("bold", 29), fill=value_color, anchor="mm")
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Each layer uses attention and transformation to update the vector.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
 def render_transformer_reads_whole_message(out_path: Path) -> None:
     """Show the Transformer's simultaneous view without pre-teaching attention."""
     title = "How a Transformer Reads a Sentence"
@@ -888,6 +1090,153 @@ def render_attention_transformation(out_path: Path) -> None:
         left=40,
         right=1560,
         text="First find the relationship. Then update the meaning.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
+def render_word_order_flow(out_path: Path) -> None:
+    """Explain the need for positional encoding as a three-step causal flow."""
+    title = "How a Transformer Keeps Words in Order"
+    stage_top = 127
+    stage_left, stage_right = 40, 1560
+    gap = 34
+    side_padding = 40
+    cell_w = (stage_right - stage_left - side_padding * 2 - gap * 2) // 3
+    art_h = round(cell_w * 9 / 16)
+    art_top = 175
+    marker_y = art_top + art_h + 43
+    title_y = marker_y + 50
+    title_font = face("bold", 36)
+    body_font = face("medium", 29)
+    title_line_h = 47
+    body_line_h = 41
+    title_area_h = title_line_h * 2
+    body_y = title_y + title_area_h + 12
+    stage_bottom = body_y + body_line_h * 4 + 40
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle((stage_left, stage_top, stage_right, stage_bottom), radius=14, fill=WHITE)
+
+    steps = (
+        {
+            "title": "Order Changes Meaning",
+            "body": "The same three tokens can describe two different events.",
+            "accent": AMBER,
+            "kind": "meaning",
+        },
+        {
+            "title": "All Tokens Arrive Together",
+            "body": "Without positions, the model has the words but cannot tell which came first.",
+            "accent": PURPLE,
+            "kind": "together",
+        },
+        {
+            "title": "Position Stamps Preserve Order",
+            "body": "Before the first layer, positional encoding marks each token’s place.",
+            "accent": BLUE,
+            "kind": "positions",
+        },
+    )
+    lefts = [stage_left + side_padding + i * (cell_w + gap) for i in range(3)]
+    centers = [left + cell_w // 2 for left in lefts]
+    chip_font = face("heavy", 22)
+
+    def chip_width(word: str) -> int:
+        return max(94, round(draw.textlength(word, font=chip_font)) + 34)
+
+    def draw_chip(d: ImageDraw.ImageDraw, x: int, y: int, word: str, accent: str, strong: bool = False) -> tuple[int, int, int, int]:
+        width = chip_width(word)
+        box = (x, y, x + width, y + 58)
+        d.rounded_rectangle(
+            box,
+            radius=12,
+            fill=mix(accent, 0.18 if strong else 0.09),
+            outline=accent if strong else mix(accent, 0.55),
+            width=3 if strong else 2,
+        )
+        d.text((x + width // 2, y + 29), word, font=chip_font, fill=accent, anchor="mm")
+        return box
+
+    for index, (left, center, step) in enumerate(zip(lefts, centers, steps), 1):
+        accent = step["accent"]
+        draw.rounded_rectangle(
+            (left, art_top, left + cell_w, art_top + art_h),
+            radius=14,
+            fill=mix(accent, 0.10),
+            outline=mix(accent, 0.22),
+            width=2,
+        )
+        # Quiet grid matches the Flow board illustration family.
+        for gx in range(left + 46, left + cell_w, 46):
+            draw.line((gx, art_top, gx, art_top + art_h), fill=mix(accent, 0.07), width=1)
+        for gy in range(art_top + 46, art_top + art_h, 46):
+            draw.line((left, gy, left + cell_w, gy), fill=mix(accent, 0.07), width=1)
+
+        if step["kind"] == "meaning":
+            for row_y, words in ((art_top + 42, ("DOG", "BITES", "MAN")), (art_top + 151, ("MAN", "BITES", "DOG"))):
+                widths = [chip_width(word) for word in words]
+                row_gap = 12
+                x = left + (cell_w - sum(widths) - row_gap * 2) // 2
+                for word, width in zip(words, widths):
+                    draw_chip(draw, x, row_y, word, accent)
+                    x += width + row_gap
+        elif step["kind"] == "together":
+            positions = (
+                (left + 44, art_top + 47, "BITES"),
+                (left + cell_w - chip_width("DOG") - 42, art_top + 52, "DOG"),
+                (center - chip_width("MAN") // 2, art_top + 156, "MAN"),
+            )
+            for x, y, word in positions:
+                draw_chip(draw, x, y, word, accent)
+            for qx in (center - 55, center, center + 55):
+                draw.text((qx, art_top + 128), "?", font=face("heavy", 27), fill=mix(accent, 0.58), anchor="mm")
+        else:
+            words = ("DOG", "BITES", "MAN")
+            widths = [chip_width(word) for word in words]
+            row_gap = 14
+            x = left + (cell_w - sum(widths) - row_gap * 2) // 2
+            for position, (word, width) in enumerate(zip(words, widths), 1):
+                badge_x = x + width // 2
+                draw.ellipse((badge_x - 19, art_top + 43, badge_x + 19, art_top + 81), fill=accent)
+                draw.text((badge_x, art_top + 62), str(position), font=face("heavy", 20), fill=WHITE, anchor="mm")
+                draw.line((badge_x, art_top + 81, badge_x, art_top + 111), fill=accent, width=3)
+                draw_chip(draw, x, art_top + 111, word, accent, True)
+                x += width + row_gap
+
+        draw.ellipse((center - 27, marker_y - 27, center + 27, marker_y + 27), fill=accent)
+        draw.text((center, marker_y), str(index), font=face("heavy", 24), fill=WHITE, anchor="mm")
+        title_lines = wrap(draw, step["title"], title_font, cell_w)
+        y = title_y
+        for line in title_lines:
+            draw.text((left, y), line, font=title_font, fill=accent, anchor="la")
+            y += title_line_h
+        body_lines = wrap(draw, step["body"], body_font, cell_w)
+        y = body_y
+        for line in body_lines:
+            draw.text((left, y), line, font=body_font, fill=BODY, anchor="la")
+            y += body_line_h
+
+    for first, second in zip(lefts, lefts[1:]):
+        arrow(
+            draw,
+            (first + cell_w + 6, art_top + art_h // 2),
+            (second - 6, art_top + art_h // 2),
+            MUTED,
+            4,
+        )
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Positional encoding tells the Transformer where every token belongs.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -1806,23 +2155,18 @@ def render_all() -> None:
         OUT / "assets" / "card-illustrations" / "context-pronoun-pair.png",
         board_path("transformer", "04-context-resolves.jpg"),
     )
-    render_cards("One Catch: Word Order", [
-        Card("Reading in Order", "Dog bites man is clear because the sequence is preserved.", AMBER, "ordered"),
-        Card("Reading All at Once", "Position stamps preserve the sequence even when every token arrives together.", PURPLE, "position"),
-    ], "Positional encoding keeps word order from disappearing.", board_path("transformer", "05-word-order.jpg"))
+    render_word_order_flow(board_path("transformer", "05-word-order.jpg"))
 
     # Layers
     render_flow("The Horse Raced Past the Barn Fell", [
-        Card("First Pass", "It does not make sense yet.", PURPLE, "chunks"),
-        Card("More Passes", "The model tests other relationships.", BLUE, "attention"),
-        Card("Meaning Clicks", "Horse raced past a barn. Then the horse fell.", TEAL, "ordered"),
+        Card("First Pass", "It doesn’t make sense. Did someone forget a word?", PURPLE, "chunks"),
+        Card("More Passes", "Wait, did a barn fall? Did the horse race past the barn afterward?", BLUE, "attention"),
+        Card("Meaning Clicks", "Got it. A horse ran past a barn. After running past the barn, the horse fell.", TEAL, "ordered"),
     ], "Each pass updates the meaning until it clicks.", board_path("layers", "01-three-reads.jpg"))
-    render_flow("What Happens Inside Every Layer", [
-        Card("Vector In", "The token enters with its current numbers.", PURPLE, "vector-bars"),
-        Card("Attention", "Work out which other words matter.", BLUE, "attention"),
-        Card("Transformation", "Update the token’s numbers.", AMBER, "transform"),
-        Card("Richer Vector Out", "The token leaves with more context.", TEAL, "vector-bars"),
-    ], "Attention and transformation repeat in every layer.", board_path("layers", "02-inside-layer.jpg"))
+    render_layers_inside_illustration(
+        OUT / "assets" / "layers" / "inside-layer-pipeline.png",
+        board_path("layers", "02-inside-layer.jpg"),
+    )
     render_flow("How Layers Resolve IT", [
         Card("Starting Vector", "IT begins ambiguous.", PURPLE, "vector-bars"),
         Card("Repeated Layers", "Attention and transformation shift its numbers.", BLUE, "layers-large"),

@@ -175,6 +175,8 @@
   .gate-crest{ display:flex; flex-direction:column; align-items:center; text-align:center; }
   .gate-plate{ width:120px; height:120px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 6px rgba(255,210,74,.18), 0 18px 40px -14px rgba(0,0,0,.6); margin-bottom:26px; }
   .gate-plate img{ width:104px; height:104px; border-radius:50%; display:block; }
+  .gate-club-logo-frame{ width:188px; height:188px; border-radius:24px; overflow:hidden; background:#061d43; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 5px rgba(255,210,74,.18), 0 20px 44px -16px rgba(0,0,0,.68); margin-bottom:26px; }
+  .gate-club-logo-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
   .gate-eyebrow{ font-size:15px; font-weight:800; letter-spacing:.28em; text-transform:uppercase; color:#ffd24a; margin:0 0 20px; }
   .gate-title{ margin:0; line-height:.96; color:#fff; }
   .gate-title .l1{ display:block; font-weight:800; font-size:clamp(52px,9vw,88px); letter-spacing:-.02em; }
@@ -189,6 +191,14 @@
   .gate-notes li::before{ content:""; position:absolute; left:4px; top:11px; width:7px; height:7px; border-radius:50%; background:#ffd24a; }
   .gate-notes a{ color:#ffd24a; } .gate-notes a:hover{ color:#ffe08a; }
   .gate-red{ color:#ff8a8a; font-weight:700; }
+  .gate-campaign-kicker{ margin:0 0 10px; text-align:center; color:#fff; font-size:clamp(27px,4vw,38px); font-weight:800; letter-spacing:-.035em; }
+  .gate-campaign-lede{ margin:0 auto 30px; max-width:660px; text-align:center; color:#e4e9fb; font-size:20px; line-height:1.55; }
+  .gate-campaign-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 26px; }
+  .gate-campaign-card{ min-height:108px; padding:20px 22px; border:1px solid rgba(255,255,255,.16); border-radius:16px; background:rgba(255,255,255,.07); }
+  .gate-campaign-card strong{ display:block; margin-bottom:7px; color:#ffd24a; font-size:15px; letter-spacing:.09em; }
+  .gate-campaign-card span{ color:#eef1ff; font-size:16px; line-height:1.45; }
+  .gate-campaign-certificate{ margin:0; padding:21px 24px; border-radius:16px; background:#ffd24a; color:#152563; text-align:center; font-size:19px; line-height:1.45; font-weight:800; }
+  .gate-campaign-built{ margin:22px 0 0; text-align:center; color:#fff; font-size:15px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
   .gate-sig{ font-family:"Caveat",cursive; font-size:52px; color:#ffd24a; line-height:1; margin:6px 0 0; }
   .gate-ask{ text-align:center; margin-top:64px; }
   .gate-ask h2{ font-weight:800; font-size:28px; color:#fff; margin:0 0 26px; letter-spacing:-.01em; }
@@ -200,7 +210,7 @@
   .gate-form{ display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:640px; margin:0 auto; }
   .gate-form .gate-field{ width:100%; max-width:none; margin:0; }
   .gate-span2{ grid-column:1 / -1; }
-  @media (max-width:560px){ .gate-form{ grid-template-columns:1fr; } .gate-span2{ grid-column:auto; } }
+  @media (max-width:560px){ .gate-form, .gate-campaign-grid{ grid-template-columns:1fr; } .gate-span2{ grid-column:auto; } .gate-club-logo-frame{ width:156px; height:156px; border-radius:20px; } }
   .gate-go button:disabled{ background:rgba(255,255,255,.14); color:rgba(199,208,240,.55); cursor:not-allowed; transform:none; }
   .gate-hint{ text-align:center; font-size:14px; color:#aab6e6; margin:16px 0 34px; }
   .gate-go{ display:flex; justify-content:center; }
@@ -661,6 +671,22 @@ function getName() {
 }
 const COURSE_TITLE = "Be Smarter Than the Tool";
 const COURSE_SUBTITLE = "AI Predicts. You Decide.";
+// Temporary school-club entry treatment. The original entry screen remains
+// below as the automatic fallback before/after this window. Use
+// ?clubPromo=preview or ?clubPromo=off to override the date locally for QA.
+const CLUB_CAMPAIGN = {
+  startsAt: "2026-09-01T00:00:00-05:00",
+  endsAt: "2026-09-11T00:00:00-05:00"
+};
+function clubCampaignIsActive() {
+  try {
+    var override = new URLSearchParams(window.location.search).get("clubPromo");
+    if (override === "preview") return true;
+    if (override === "off") return false;
+  } catch (e) {}
+  var now = Date.now();
+  return now >= Date.parse(CLUB_CAMPAIGN.startsAt) && now < Date.parse(CLUB_CAMPAIGN.endsAt);
+}
 // Apps Script web app on the course Google account. It records enrollments and
 // first-time course completions, then emails besmarterthanthetool@gmail.com.
 const SIGNUP_ENDPOINT = "https://script.google.com/macros/s/AKfycbzk24DQcbSZ-QKgwCk_g8wQbtuQaTDgs0c31Gg8cD3oKOYp4_S4SWoIOAk3kjIerhbV/exec";
@@ -13818,6 +13844,7 @@ function LLMExplorer() {
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
   if (!hasName) {
+    var showClubCampaign = clubCampaignIsActive();
     var signupValid = signup.firstName.trim() && signup.city.trim() && signup.state.trim();
     var setField = function(k) { return function(e) { var v = e.target.value; setSignup(function(prev) { var next = Object.assign({}, prev); next[k] = v; return next; }); }; };
     var submitName = function() {
@@ -13844,29 +13871,47 @@ function LLMExplorer() {
       /*#__PURE__*/React.createElement("img", { className: "gate-watermark", src: "icons/logo-disc.png", alt: "", "aria-hidden": "true" }),
       /*#__PURE__*/React.createElement("div", { className: "gate-col", style: { animation: "fadeIn 0.4s ease" } },
         /*#__PURE__*/React.createElement("div", { className: "gate-crest" },
-          /*#__PURE__*/React.createElement("div", { className: "gate-plate" },
-            /*#__PURE__*/React.createElement("img", { src: "icons/logo-disc.png", alt: "AI Leadership Society" })),
-          /*#__PURE__*/React.createElement("p", { className: "gate-eyebrow" }, "AI for High Schoolers"),
+          /*#__PURE__*/React.createElement("div", { className: showClubCampaign ? "gate-club-logo-frame" : "gate-plate" },
+            /*#__PURE__*/React.createElement("img", {
+              src: showClubCampaign ? "icons/ai-society-club.png" : "icons/logo-disc.png",
+              alt: showClubCampaign ? "AI Society Club" : "AI Leadership Society"
+            })),
+          /*#__PURE__*/React.createElement("p", { className: "gate-eyebrow" }, showClubCampaign ? "AI Club" : "AI for High Schoolers"),
           /*#__PURE__*/React.createElement("h1", { className: "gate-title" },
             /*#__PURE__*/React.createElement("span", { className: "l1" }, "Be Smarter"),
             /*#__PURE__*/React.createElement("span", { className: "l2" }, "Than the Tool")),
           /*#__PURE__*/React.createElement("p", { className: "gate-tagline" }, COURSE_SUBTITLE)),
         /*#__PURE__*/React.createElement("div", { className: "gate-rule" }),
-        /*#__PURE__*/React.createElement("p", { className: "gate-lede" },
-          "We\u2019re building this course for high school students like us. AI is here to stay, and the more kids our age understand AI, the more successful we can be. A few notes about our course:"),
-        /*#__PURE__*/React.createElement("ul", { className: "gate-notes" },
-          /*#__PURE__*/React.createElement("li", null, "We would love your feedback. Send an email to ",
-            /*#__PURE__*/React.createElement("a", { href: "mailto:BeSmarterThanTheTool@gmail.com" },
-              /*#__PURE__*/React.createElement("b", null, "BeSmarterThanTheTool"), "@gmail.com"),
-            " with any and all comments."),
-          /*#__PURE__*/React.createElement("li", null, "You can read lessons, watch videos, and enlarge illustrations on a phone or tablet. For the full experience, especially the hands-on labs, a computer works best."),
-          /*#__PURE__*/React.createElement("li", null, "This course will always be ",
-            /*#__PURE__*/React.createElement("b", null, "free to everyone"),
-            ". That\u2019s how committed we are to giving our generation AI knowledge.")),
-        /*#__PURE__*/React.createElement("p", { className: "gate-outro" }, "Understanding AI is making all the difference for us. We hope you get value. And, enjoy the course!"),
-        /*#__PURE__*/React.createElement("p", { className: "gate-sig" }, "Luke and Nate"),
+        showClubCampaign ? /*#__PURE__*/React.createElement(React.Fragment, null,
+          /*#__PURE__*/React.createElement("p", { className: "gate-campaign-kicker" }, "AI is already everywhere."),
+          /*#__PURE__*/React.createElement("p", { className: "gate-campaign-lede" }, "The advantage goes to the students who understand it."),
+          /*#__PURE__*/React.createElement("div", { className: "gate-campaign-grid", role: "list", "aria-label": "What you will explore" },
+            [["USE", "Get better results from the tools everyone is already using."],
+             ["UNDERSTAND", "See how AI learns, predicts, and produces an answer."],
+             ["QUESTION", "Catch hallucinations, bias, and confident wrong answers."],
+             ["BUILD", "Turn AI into stronger skills, new ideas, and real projects."]].map(function(item) {
+              return /*#__PURE__*/React.createElement("div", { className: "gate-campaign-card", role: "listitem", key: item[0] },
+                /*#__PURE__*/React.createElement("strong", null, item[0]),
+                /*#__PURE__*/React.createElement("span", null, item[1]));
+            })),
+          /*#__PURE__*/React.createElement("p", { className: "gate-campaign-certificate" }, "Complete the course. Pass the Final. Earn a Certificate of Completion."),
+          /*#__PURE__*/React.createElement("p", { className: "gate-campaign-built" }, "Built by students. For students."))
+        : /*#__PURE__*/React.createElement(React.Fragment, null,
+          /*#__PURE__*/React.createElement("p", { className: "gate-lede" },
+            "We\u2019re building this course for high school students like us. AI is here to stay, and the more kids our age understand AI, the more successful we can be. A few notes about our course:"),
+          /*#__PURE__*/React.createElement("ul", { className: "gate-notes" },
+            /*#__PURE__*/React.createElement("li", null, "We would love your feedback. Send an email to ",
+              /*#__PURE__*/React.createElement("a", { href: "mailto:BeSmarterThanTheTool@gmail.com" },
+                /*#__PURE__*/React.createElement("b", null, "BeSmarterThanTheTool"), "@gmail.com"),
+              " with any and all comments."),
+            /*#__PURE__*/React.createElement("li", null, "You can read lessons, watch videos, and enlarge illustrations on a phone or tablet. For the full experience, especially the hands-on labs, a computer works best."),
+            /*#__PURE__*/React.createElement("li", null, "This course will always be ",
+              /*#__PURE__*/React.createElement("b", null, "free to everyone"),
+              ". That\u2019s how committed we are to giving our generation AI knowledge.")),
+          /*#__PURE__*/React.createElement("p", { className: "gate-outro" }, "Understanding AI is making all the difference for us. We hope you get value. And, enjoy the course!"),
+          /*#__PURE__*/React.createElement("p", { className: "gate-sig" }, "Luke and Nate")),
         /*#__PURE__*/React.createElement("div", { className: "gate-ask" },
-          /*#__PURE__*/React.createElement("h2", null, "Tell us a little about you"),
+          /*#__PURE__*/React.createElement("h2", null, showClubCampaign ? "Start the course" : "Tell us a little about you"),
           /*#__PURE__*/React.createElement("div", { className: "gate-form" },
             /*#__PURE__*/React.createElement("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), placeholder: "First name or nickname", autoFocus: true, className: "gate-field gate-span2", "aria-label": "First name or nickname", autoComplete: "given-name" }),
             /*#__PURE__*/React.createElement("input", { type: "text", value: signup.city, onChange: setField("city"), placeholder: "City", className: "gate-field", "aria-label": "City", autoComplete: "address-level2" }),

@@ -67,7 +67,10 @@ AUDIO = (
     AudioSpan(0, at(124.32), at(175.64), "framework-sms-gps"),
     AudioSpan(0, at(196.44), at(207.68), "cane-toad-setup"),
     AudioSpan(0, at(210.28), at(230.04), "cane-result-and-highway-setup"),
-    AudioSpan(1, at(193.00), at(197.92), "clean-induced-demand-line"),
+    # Keep nine frames of the donor's clean room tail.  Ending exactly on the
+    # transcript boundary clipped the final "s" in "routes" and made the next
+    # sentence sound broken.
+    AudioSpan(1, at(193.00), at(198.24), "clean-induced-demand-line"),
     AudioSpan(0, at(235.04), at(270.72), "highway-result-summary-ai-setup"),
     AudioSpan(0, at(279.16), at(294.80), "uncertainty-and-guidance"),
     AudioSpan(0, at(294.80), at(300.36), "exact-close"),
@@ -315,8 +318,9 @@ def write_board_walk(writer: RawWriter) -> None:
         ("gps", BLUE, at(18.64), 24),
         ("toads", TEAL, at(17.80), 24),
         # Exact frame arithmetic across the three source pieces totals one
-        # frame more than round(23.28 * 30).
-        ("highway", AMBER, 699, 24),
+        # The clean donor line includes a nine-frame room tail so "routes" can
+        # finish naturally before the following result sentence begins.
+        ("highway", AMBER, 708, 24),
         (None, None, at(12.92), 24),
     )
     expected = (

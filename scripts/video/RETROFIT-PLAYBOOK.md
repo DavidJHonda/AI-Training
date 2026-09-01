@@ -133,11 +133,17 @@ drops a frame).
 2. Audio md5 identical: `ffmpeg -i X -map 0:a -c copy -f data -` piped to md5.
 3. `scenes.py <v2> --seam A B` around EVERY splice boundary: exactly one diff spike
    at the boundary frame, flat (<5) neighbors — no leaked frames.
-4. Junction smoothness inside legs: state-pop junctions should diff <12 (motion
+4. **Visual handoff check:** narration selects the intended visual, but the source's
+   exact visual cut selects the integer splice frame. Inspect the final replaced
+   frame and first restored frame individually at full resolution, then inspect a
+   short sequence on both sides. The first restored frame must already be the next
+   approved shot; no frame from an old graphic may survive. Never approve a seam
+   from Whisper or second-based timing alone.
+5. Junction smoothness inside legs: state-pop junctions should diff <12 (motion
    continuous, only the ring/chip changes).
-5. Save review frames to /tmp/retrofit-review/<slug>/: for each replaced span, the
+6. Save review frames to /tmp/retrofit-review/<slug>/: for each replaced span, the
    original frame and the -v2 frame at span start+1s and span midpoint, full res.
-6. Eyeball (Read) each leg's dive/hold framing: text legible, nothing sliced, ring on
+7. Eyeball (Read) each leg's dive/hold framing: text legible, nothing sliced, ring on
    the right item.
 
 ## Report format (your final message, nothing else)

@@ -610,6 +610,20 @@ inside narration pauses, in both videos.
 
 ## Seam and grafting rules (owner preferences, learned the hard way)
 
+- **Visual-cut boundary rule (owner, 2026-09-01): never set a replacement
+  boundary from narration timing alone.** Narration determines which visual
+  belongs; the source video's exact visual transition determines the splice
+  frame. Whisper timestamps, spoken sentence endings, and second-based seeks
+  can land several frames before or after the source edit and leave a brief
+  flash of old content. Locate the visual transition by sequential frame
+  decoding, then cover every frame of the outdated graphic through the first
+  frame of the next approved shot. When the transition is ambiguous, extend
+  the replacement a few safe frames rather than expose an orphan beat. Record
+  all splice boundaries as integer frame numbers, not decimal seconds.
+  Mandatory handoff QA: inspect the final replaced frame and the first restored
+  frame individually at full resolution, plus a short frame sequence on both
+  sides. The first restored frame must already be the approved destination
+  shot; zero frames from the superseded graphic may remain.
 - At a seam, land ON the destination board immediately — no transitional flash
   frames (a 1.5s bridge card was rejected; start-clone fixed it).
 - Close grafts are the safe kind (one seam, nothing after it). Mid-video grafts

@@ -20,7 +20,7 @@ And AI does it with math. At each layer, it adjusts the tokens’ numbers, each 
 
 You saw this sentence in the Transformer lesson. Now follow one word, **IT**, as its numbers change from layer to layer.
 
-![Three stages show how layers resolve IT: the starting vector is ambiguous, repeated attention and transformation shift its numbers, and the final vector lands closest to CAT.](layers-3-resolves-it.jpg)
+![How “IT” Changes Through the Layers. IT begins as an ambiguous vector. Layer 1 and Layer 2 each apply attention and transformation, shifting its values closer to CAT. The same moves repeat through many more layers until IT resolves to CAT.](layers-3-resolves-it.jpg)
 
 ## Why are there dozens of layers?
 

@@ -634,7 +634,9 @@ def render_horse_three_reads(out_path: Path) -> None:
     gap = 34
     cell_w = (stage_right - stage_left - 80 - gap * 2) // 3
     art_h = round(cell_w * 9 / 16)
-    art_top = 175
+    caption_top = 175
+    caption_h = 76
+    art_top = caption_top + caption_h + 12
     marker_y = art_top + art_h + 43
     title_y = marker_y + 47
     body_y = title_y + 58
@@ -656,6 +658,22 @@ def render_horse_three_reads(out_path: Path) -> None:
     left = stage_left + 40
     for index, (_, _, accent, filename) in enumerate(steps):
         centers.append(left + cell_w // 2)
+        draw.rounded_rectangle(
+            (left, caption_top, left + cell_w, caption_top + caption_h),
+            radius=12,
+            fill=mix(accent, 0.07),
+            outline=mix(accent, 0.22),
+            width=1,
+        )
+        if index == 0:
+            draw.text((left + cell_w // 2, caption_top + 24), "THE HORSE RACED", font=face("heavy", 29), fill=accent, anchor="mm")
+            draw.text((left + cell_w // 2, caption_top + 55), "PAST THE BARN  …  FELL?", font=face("heavy", 29), fill=accent, anchor="mm")
+        elif index == 1:
+            draw.text((left + cell_w // 2, caption_top + caption_h // 2), "BARN?  ←  FELL  →  HORSE?", font=face("heavy", 29), fill=accent, anchor="mm")
+        else:
+            draw.text((left + cell_w // 2, caption_top + 24), "PASSES THE BARN", font=face("heavy", 29), fill=accent, anchor="mm")
+            draw.text((left + cell_w // 2, caption_top + 55), "THEN THE HORSE FALLS", font=face("heavy", 29), fill=accent, anchor="mm")
+
         source = Image.open(OUT / "assets" / "layers" / filename).convert("RGB")
         panel = source.resize((cell_w, art_h), Image.Resampling.LANCZOS)
         panel = accent_wash(panel, accent, 0.025)
@@ -664,23 +682,11 @@ def render_horse_three_reads(out_path: Path) -> None:
         if index == 0:
             # The first reading feels incomplete: a detached FELL seems to need
             # another word before it can connect to the sentence.
-            pd.rounded_rectangle((18, 15, 291, 93), radius=12, fill=(255, 255, 255), outline=mix(accent, 0.22), width=1)
-            pd.text((154, 38), "THE HORSE RACED", font=face("heavy", 29), fill=accent, anchor="mm")
-            pd.text((154, 72), "PAST THE BARN", font=face("heavy", 29), fill=accent, anchor="mm")
             pd.text((326, 128), "?", font=face("heavy", 40), fill=accent, anchor="mm")
             pd.text((414, 128), "FELL", font=face("heavy", 29), fill=accent, anchor="mm")
         elif index == 1:
             # The second pass holds two possible subjects for FELL in view.
-            for cx, label in ((120, "BARN?"), (344, "HORSE?")):
-                pd.rounded_rectangle((cx - 70, 14, cx + 70, 61), radius=12, fill=(255, 255, 255), outline=mix(accent, 0.22), width=1)
-                pd.text((cx, 38), label, font=face("heavy", 29), fill=accent, anchor="mm")
             pd.text((cell_w // 2, 202), "FELL", font=face("heavy", 34), fill=accent, anchor="mm")
-        else:
-            # The final pass resolves the sentence into two events in order.
-            labels = ((113, "Passes the barn"), (345, "Horse falls"))
-            for cx, label in labels:
-                pd.rounded_rectangle((cx - 103, 14, cx + 103, 61), radius=12, fill=(255, 255, 255), outline=mix(accent, 0.22), width=1)
-                pd.text((cx, 38), label, font=face("heavy", 29), fill=accent, anchor="mm")
 
         canvas.paste(panel, (left, art_top), rounded_mask((cell_w, art_h), 14))
         draw.rounded_rectangle((left, art_top, left + cell_w, art_top + art_h), radius=14, outline=mix(accent, 0.22), width=1)
@@ -705,6 +711,132 @@ def render_horse_three_reads(out_path: Path) -> None:
         right=1560,
         text="Each pass updates the meaning until it clicks.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
+def render_layers_resolve_it_flow(out_path: Path) -> None:
+    """Follow IT through five visible layer states using the approved type floor."""
+    title = "How “IT” Changes Through the Layers"
+    stage_top = 127
+    stage_bottom = 805
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
+
+    # Scenario card follows the approved Your First Assignment treatment.
+    sentence_box = (80, 158, 1520, 288)
+    draw.rounded_rectangle(sentence_box, radius=13, fill=WHITE, outline=mix(PURPLE, 0.22), width=1)
+    draw.rectangle((80, 174, 87, 272), fill=PURPLE)
+    draw.text((112, 184), "THE SENTENCE", font=face("heavy", 22), fill=PURPLE, anchor="la")
+    sentence_font = face("medium", 32)
+    sentence_bold = face("heavy", 32)
+    spans = (
+        ("“The ", sentence_font, BODY),
+        ("cat", sentence_bold, TEAL),
+        (" sat on the mat during the May rainstorm because ", sentence_font, BODY),
+        ("it", sentence_bold, PURPLE),
+        (" was ", sentence_font, BODY),
+        ("tired", sentence_bold, AMBER),
+        (".”", sentence_font, BODY),
+    )
+    total_w = sum(draw.textlength(text, font=font) for text, font, _ in spans)
+    sx = (WIDTH - total_w) / 2
+    for text_value, font, color in spans:
+        draw.text((sx, 246), text_value, font=font, fill=color, anchor="lm")
+        sx += draw.textlength(text_value, font=font)
+
+    card_top = 330
+    card_bottom = 750
+    card_w = 250
+    card_lefts = (80, 377, 674, 971, 1268)
+    card_titles = ("START", "LAYER 1", "LAYER 2", "REPEAT", "RESULT")
+    for index, (left, label) in enumerate(zip(card_lefts, card_titles)):
+        fill_opacity = 0.095 if index == 4 else 0.055
+        outline_opacity = 0.30 if index == 4 else 0.18
+        draw.rounded_rectangle(
+            (left, card_top, left + card_w, card_bottom),
+            radius=14,
+            fill=mix(PURPLE, fill_opacity),
+            outline=mix(PURPLE, outline_opacity),
+            width=1,
+        )
+        draw.text((left + card_w // 2, card_top + 42), label, font=face("heavy", 40), fill=PURPLE, anchor="mm")
+
+    # Start: IT is numeric but its referent is unresolved.
+    start_center = card_lefts[0] + card_w // 2
+    draw.ellipse((start_center - 35, 414, start_center + 35, 484), fill=WHITE, outline=mix(PURPLE, 0.48), width=3)
+    draw.text((start_center, 449), "IT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    draw.rounded_rectangle((card_lefts[0] + 22, 510, card_lefts[0] + card_w - 22, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+    draw.text((start_center, 542), "[.12, −.34, …]", font=face("heavy", 29), fill=INK, anchor="mm")
+    draw.text((start_center, 633), "Meaning is still", font=face("medium", 29), fill=BODY, anchor="mm")
+    draw.text((start_center, 673), "ambiguous.", font=face("medium", 29), fill=BODY, anchor="mm")
+
+    def layer_card(left: int, vector_text: str, note_lines: tuple[str, ...]) -> None:
+        center = left + card_w // 2
+        draw.rounded_rectangle((left + 10, 404, left + card_w - 10, 462), radius=11, fill=mix(PURPLE, 0.11), outline=mix(PURPLE, 0.24), width=1)
+        draw.text((center, 433), "Attention", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+        draw.polygon(((center - 7, 467), (center + 7, 467), (center, 478)), fill=MUTED)
+        draw.rounded_rectangle((left + 10, 480, left + card_w - 10, 538), radius=11, fill=mix(AMBER, 0.11), outline=mix(AMBER, 0.24), width=1)
+        draw.text((center, 509), "Transformation", font=face("heavy", 29), fill=AMBER, anchor="mm")
+        draw.rounded_rectangle((left + 20, 558, left + card_w - 20, 622), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+        draw.text((center, 590), vector_text, font=face("heavy", 29), fill=INK, anchor="mm")
+        note_y = 667 if len(note_lines) == 1 else 648
+        for line in note_lines:
+            draw.text((center, note_y), line, font=face("medium", 29), fill=BODY, anchor="mm")
+            note_y += 40
+
+    layer_card(card_lefts[1], "[.18, −.22, …]", ("IT shifts slightly.",))
+    layer_card(card_lefts[2], "[.25, −.09, …]", ("Closer to CAT", "than to MAT."))
+
+    # Repetition is a visible phase, not an ellipsis squeezed between cards.
+    repeat_left = card_lefts[3]
+    repeat_center = repeat_left + card_w // 2
+    for i in range(6):
+        y = 411 + i * 31
+        accent = PURPLE if i % 2 == 0 else AMBER
+        draw.rounded_rectangle(
+            (repeat_left + 25, y, repeat_left + card_w - 25, y + 19),
+            radius=8,
+            fill=mix(accent, 0.11),
+            outline=mix(accent, 0.20),
+            width=1,
+        )
+    draw.text((repeat_center, 628), "Same two moves", font=face("medium", 29), fill=BODY, anchor="mm")
+    draw.text((repeat_center, 668), "keep repeating.", font=face("medium", 29), fill=BODY, anchor="mm")
+
+    # Result: the horizontal connector is intentionally level.
+    result_left = card_lefts[4]
+    result_center = result_left + card_w // 2
+    draw.ellipse((result_left + 34, 410, result_left + 108, 484), fill=PURPLE)
+    draw.text((result_left + 71, 447), "CAT", font=face("heavy", 29), fill=WHITE, anchor="mm")
+    draw.ellipse((result_left + 142, 410, result_left + 216, 484), fill=WHITE, outline=mix(PURPLE, 0.48), width=3)
+    draw.text((result_left + 179, 447), "IT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    draw.line((result_left + 108, 447, result_left + 142, 447), fill=PURPLE, width=5)
+    draw.rounded_rectangle((result_left + 22, 510, result_left + card_w - 22, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+    draw.text((result_center, 542), "[.41, .06, …]", font=face("heavy", 29), fill=INK, anchor="mm")
+    draw.text((result_center, 633), "IT now resolves", font=face("medium", 29), fill=BODY, anchor="mm")
+    draw.text((result_center, 673), "to CAT.", font=face("medium", 29), fill=BODY, anchor="mm")
+
+    # Directional chevrons echo the reference while leaving every panel readable.
+    connector_color = mix(PURPLE, 0.42)
+    connector_y = 515
+    for left, next_left in zip(card_lefts, card_lefts[1:]):
+        cx = (left + card_w + next_left) // 2
+        draw.line((cx - 7, connector_y - 12, cx + 4, connector_y), fill=connector_color, width=4)
+        draw.line((cx + 4, connector_y, cx - 7, connector_y + 12), fill=connector_color, width=4)
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Each layer moves IT closer to CAT.",
+        font=face("heavy", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
@@ -2309,15 +2441,11 @@ def render_all() -> None:
         OUT / "assets" / "layers" / "inside-layer-many-layers.png",
         board_path("layers", "02-inside-layer.jpg"),
     )
-    render_flow("How Layers Resolve IT", [
-        Card("Starting Vector", "IT begins ambiguous.", PURPLE, "vector-bars"),
-        Card("Repeated Layers", "Attention and transformation shift its numbers.", BLUE, "layers-large"),
-        Card("Final Vector", "The result lands closest to CAT.", TEAL, "cat"),
-    ], "Meaning builds up, layer by layer.", board_path("layers", "03-resolve-it.jpg"))
+    render_layers_resolve_it_flow(board_path("layers", "03-resolve-it.jpg"))
     render_cards("Why Are There Dozens of Layers?", [
-        Card("A Few Passes", "Plain meaning settles early. It is only a handful of layers.", TEAL, "layers-small"),
-        Card("Dozens of Passes", "Sarcasm, story twists, and complicated reasoning need more depth.", PURPLE, "layers-large"),
-        Card("Why Not Hundreds?", "Past a point, extra depth adds cost without adding much meaning.", AMBER, "layers-curve"),
+        Card("A Few Passes", "Plain meaning settles early. It is only a handful of layers.", TEAL, "layers-few-passes"),
+        Card("Dozens of Passes", "Sarcasm, story twists, and complicated reasoning need more depth.", PURPLE, "layers-dozens-passes"),
+        Card("Why Not Hundreds?", "Past a point, extra depth adds cost without adding much meaning.", AMBER, "layers-not-hundreds"),
     ], "More depth leaves room for deeper meaning.", board_path("layers", "04-why-dozens.jpg"))
 
     # Vector Space

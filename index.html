@@ -6828,7 +6828,7 @@ function Game2048TryIt(props) {
 function VectorSpaceSection(props) {
   var E = React.createElement;
   var vsTasteProfile = E("img", {
-    src: "illustrations/vector-space-taste-profile.jpg",
+    src: "illustrations/vector-space-taste-profile.jpg?v=20260901vectorspace",
     alt: "Coke, Pepsi, and coffee scored on the same seven dimensions. Coke and Pepsi match closely across the row while Coffee is far away on most values",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
@@ -6871,7 +6871,7 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "Can we add New York City and Mountain View, California? Yep. They track the same dimensions."),
     E("img", {
-      src: "illustrations/vector-space-cities.jpg",
+      src: "illustrations/vector-space-cities.jpg?v=20260901vectorspace",
       alt: "Three known city coordinates on a United States map. Two new coordinates match no city exactly, so 38 north 120 west resolves to Mountain View and 39 north 70 west resolves to New York City as the closest points",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
@@ -6891,73 +6891,11 @@ function VectorSpaceSection(props) {
     vsTasteProfile,
     E(BodyP, null,
       "Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this."),
-    E("div", { style: { background: "var(--primaryFaint)", borderRadius: 20, padding: 22, marginBottom: 8 } },
-      E("div", { style: {
-        fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
-        color: "var(--inkMuted)", textAlign: "center", marginBottom: 16
-      } }, "Sweet \u00b7 Bitter \u00b7 Fizz \u00b7 Heat \u00b7 Caffeine \u00b7 Dark \u00b7 Citrus"),
-      E("div", { style: { overflowX: "auto" } },
-        // Same seven dimensions as the Taste Profile, in the same order, so the
-        // pair in each neighborhood is visibly near-identical: Coke and Pepsi
-        // differ on Citrus alone, exactly as the Embeddings lesson showed.
-        E("div", { style: { position: "relative", height: 450, minWidth: 516 } },
-          // The mystery row sits inside Soft drinks on purpose: the exercise below
-          // asks which drink 9,1,10,2,3,8,9 refers to, and the answer is readable
-          // only when those numbers sit in the same column grid as Coke and Pepsi.
-          [{ label: "Soft drinks neighborhood", left: "2%", top: "1%", drinks: [
-              { emoji: "\uD83E\uDD64", name: "Coke", pillBg: "#fbdfe2", pillFg: "#e6394d", vals: [9, 1, 10, 2, 3, 8, 1] },
-              { emoji: "\uD83E\uDD64", name: "Pepsi", pillBg: "#dbe6fb", pillFg: "#2f6fd6", vals: [9, 1, 10, 2, 3, 8, 10] },
-              { name: "?", mystery: true, vals: [9, 1, 10, 2, 3, 8, 9] }] },
-           { label: "Sports and energy neighborhood", left: "58%", top: "1%", drinks: [
-              { name: "Gatorade", vals: [7, 1, 0, 1, 0, 1, 6] },
-              { name: "Powerade", vals: [7, 1, 0, 1, 0, 1, 5] }] },
-           { label: "Juices neighborhood", left: "2%", top: "57%", drinks: [
-              { name: "lemonade", vals: [8, 1, 0, 1, 0, 0, 10] },
-              { name: "orange juice", vals: [7, 1, 0, 1, 0, 1, 10] }] },
-           { label: "Hot drinks neighborhood", left: "58%", top: "57%", drinks: [
-              { emoji: "\u2615", name: "Coffee", pillBg: "#e7dcf4", pillFg: "#7b3aa6", vals: [1, 9, 0, 9, 8, 10, 0] },
-              { name: "espresso", vals: [0, 10, 0, 9, 10, 10, 0] }] }].map(function(zone, zi) {
-            return E("div", { key: "zone-" + zi, style: {
-              position: "absolute", left: zone.left, top: zone.top, width: zi === 0 ? "48%" : "36%",
-              background: "var(--card)", border: "2px dotted rgba(110, 81, 255, 0.35)", borderRadius: 18,
-              boxShadow: "var(--shadowSoft)", padding: "10px 12px 8px", boxSizing: "border-box"
-            } },
-              E("div", { style: {
-                fontSize: 12, fontWeight: 800, textTransform: "uppercase",
-                letterSpacing: "1.2px", color: "var(--inkMuted)", marginBottom: 10
-              } }, zone.label),
-              zi === 0 ? E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2, marginBottom: 7 } },
-                ["SWE", "BIT", "FIZ", "HEA", "CAF", "DAR", "CIT"].map(function(h, hi) {
-                  return E("div", { key: "h-" + hi, style: {
-                    textAlign: "center", fontSize: 10, fontWeight: 800, color: "var(--inkMuted)"
-                  } }, h);
-                })) : null,
-              zone.drinks.map(function(d, di) {
-                var accent = !!d.pillFg;
-                var valColor = accent ? d.pillFg : (d.mystery ? "var(--primary)" : "var(--inkSoft)");
-                return E("div", { key: "d-" + di, style: {
-                  marginBottom: di === zone.drinks.length - 1 ? 0 : 10,
-                  borderTop: d.mystery ? "1px dashed rgba(110, 81, 255, 0.45)" : "none",
-                  paddingTop: d.mystery ? 9 : 0
-                } },
-                  E("div", { style: { textAlign: "center", marginBottom: 5 } },
-                    E("span", { style: {
-                      background: accent ? d.pillBg : "var(--card)",
-                      color: valColor,
-                      border: accent ? "none" : (d.mystery ? "1px dashed var(--primary)" : "1px solid var(--rule)"),
-                      fontWeight: accent || d.mystery ? 700 : 600, fontSize: 13,
-                      padding: "5px 10px", borderRadius: 999, display: "inline-flex",
-                      alignItems: "center", gap: 6, whiteSpace: "nowrap"
-                    } }, d.emoji || null, d.name)),
-                  zi === 0 ? E("div", { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", columnGap: 2 } },
-                    d.vals.map(function(v, vi) {
-                      return E("div", { key: "v-" + vi, style: {
-                        textAlign: "center", fontFamily: "var(--mono)", fontSize: 16, fontWeight: 700,
-                        color: valColor
-                      } }, v);
-                    })) : null);
-              }));
-          })))),
+    E("img", {
+      src: "illustrations/vector-space-neighborhoods.jpg?v=20260901vectorspace",
+      alt: "Coke, Pepsi, and a mystery vector sit in the soft drinks neighborhood, separated from sports drinks, juices, and hot drinks",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }),
     E(BodyP, { marginTop: 24 },
       "On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood."),
     E(BodyP, null,

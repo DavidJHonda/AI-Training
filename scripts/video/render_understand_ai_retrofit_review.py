@@ -886,6 +886,85 @@ def render_shell(
     save(canvas, out_path)
 
 
+def render_flattened_shell(
+    title: str,
+    source: Path,
+    out_path: Path,
+    crop_box: tuple[int, int, int, int],
+    takeaway: str | None = None,
+    whiten_connected_backdrop: bool = False,
+) -> None:
+    """Place legacy teaching content directly on one Editorial white sheet."""
+    content = Image.open(source).convert("RGB").crop(crop_box)
+
+    if whiten_connected_backdrop:
+        # Replace only the border-connected legacy lavender canvas. Enclosed white
+        # neighborhood cards and their outlines remain intact as teaching content.
+        pixels = content.load()
+        width, source_height = content.size
+        visited = bytearray(width * source_height)
+        queue: deque[tuple[int, int]] = deque()
+
+        def is_backdrop(x: int, y: int) -> bool:
+            red, green, blue = pixels[x, y]
+            return red >= 232 and green >= 232 and blue >= 238 and blue >= red - 2 and blue >= green - 2
+
+        for x in range(width):
+            queue.append((x, 0))
+            queue.append((x, source_height - 1))
+        for y in range(source_height):
+            queue.append((0, y))
+            queue.append((width - 1, y))
+
+        while queue:
+            x, y = queue.popleft()
+            offset = y * width + x
+            if visited[offset] or not is_backdrop(x, y):
+                continue
+            visited[offset] = 1
+            pixels[x, y] = (255, 255, 255)
+            if x > 0:
+                queue.append((x - 1, y))
+            if x + 1 < width:
+                queue.append((x + 1, y))
+            if y > 0:
+                queue.append((x, y - 1))
+            if y + 1 < source_height:
+                queue.append((x, y + 1))
+
+    content_w = 1452
+    content_h = round(content.height * content_w / content.width)
+    stage_top = 127
+    stage_h = content_h + 56
+    footer_top = stage_top + stage_h + (TAKEAWAY_GAP if takeaway else 0)
+    height = footer_top + (TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING if takeaway else 40)
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+    draw.rounded_rectangle(
+        (40, stage_top, 1560, stage_top + stage_h),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+    fitted = content.resize((content_w, content_h), Image.Resampling.LANCZOS)
+    canvas.paste(fitted, (74, stage_top + 28))
+
+    if takeaway:
+        draw_takeaway_band(
+            canvas,
+            top=footer_top,
+            left=40,
+            right=1560,
+            text=takeaway,
+            font=face("medium", TAKEAWAY_TEXT_SIZE),
+        )
+    save(canvas, out_path)
+
+
 def render_before_transformers(source: Path, out_path: Path) -> None:
     """Preserve the full sentence mechanism while standardizing the board shell."""
     title = "AI Used to Read One Word at a Time"
@@ -2189,6 +2268,131 @@ def render_teaching(
     save(canvas, out_path)
 
 
+def render_vector_space_landing(source: Path, out_path: Path) -> None:
+    """Turn the vector-space landscape into a guided teaching illustration."""
+    image = Image.open(source).convert("RGB")
+    stage_top = 127
+    stage_h = 877
+    art_left, art_top = 74, stage_top + 30
+    art_w, art_h = 1452, 817
+    footer_top = stage_top + stage_h + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, "Meaning Is a Position")
+    draw.rounded_rectangle(
+        (40, stage_top, 1560, stage_top + stage_h),
+        radius=14,
+        fill=WHITE,
+        outline=mix(PURPLE, 0.22),
+        width=1,
+    )
+
+    fitted = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
+    canvas.paste(fitted, (art_left, art_top), rounded_mask((art_w, art_h), 12))
+    draw = ImageDraw.Draw(canvas)
+
+    # Important points in the generated 1672 × 941 landscape, mapped to the
+    # displayed art. Keeping them explicit makes later rerenders deterministic.
+    def point(source_x: int, source_y: int) -> tuple[int, int]:
+        return (
+            art_left + round(source_x * art_w / 1672),
+            art_top + round(source_y * art_h / 941),
+        )
+
+    landing = point(1122, 548)
+    nodes = {
+        "KITTEN": point(1041, 252),
+        "DOG": point(1291, 352),
+        "CAT": point(1247, 711),
+        "PET": point(1492, 602),
+    }
+
+    # Distance rays make the nearest-neighbor rule visible. CAT receives the
+    # only solid, high-emphasis connection because it is the shortest.
+    for label in ("KITTEN", "DOG", "PET"):
+        target = nodes[label]
+        steps = 18
+        for i in range(0, steps, 2):
+            t1, t2 = i / steps, min((i + 1) / steps, 1)
+            draw.line(
+                (
+                    landing[0] + round((target[0] - landing[0]) * t1),
+                    landing[1] + round((target[1] - landing[1]) * t1),
+                    landing[0] + round((target[0] - landing[0]) * t2),
+                    landing[1] + round((target[1] - landing[1]) * t2),
+                ),
+                fill="#78a6c4",
+                width=3,
+            )
+    draw.line((*landing, *nodes["CAT"]), fill=TEAL, width=9)
+    draw.ellipse(
+        (landing[0] - 15, landing[1] - 15, landing[0] + 15, landing[1] + 15),
+        fill="#ffd166",
+        outline=WHITE,
+        width=5,
+    )
+
+    def pill(
+        center: tuple[int, int],
+        text: str,
+        *,
+        font_size: int = 27,
+        fill: str = WHITE,
+        text_fill: str = INK,
+        outline: str = "#a8cfe0",
+        pad_x: int = 19,
+        height: int = 48,
+    ) -> None:
+        font = face("bold", font_size)
+        text_w = round(draw.textlength(text, font=font))
+        x, y = center
+        box = (x - text_w // 2 - pad_x, y - height // 2, x + text_w // 2 + pad_x, y + height // 2)
+        draw.rounded_rectangle(box, radius=height // 2, fill=fill, outline=outline, width=2)
+        draw.text((x, y - 1), text, font=font, fill=text_fill, anchor="mm")
+
+    # Neighborhood labels. The distant ones stay restrained; the destination
+    # neighborhood is the clear visual hierarchy.
+    pill(point(1195, 100), "ANIMAL NEIGHBORHOOD", font_size=29, fill="#e6f7fb", text_fill="#075a68", outline="#6eb7c4", height=54)
+    pill(point(465, 94), "ACTIONS", font_size=23, fill="#f4fbf5", text_fill="#47765a", outline="#b8d5c0", height=44)
+    pill(point(210, 787), "FEELINGS", font_size=23, fill="#f6f0fb", text_fill="#715182", outline="#cbb7d6", height=44)
+
+    # Word labels sit beside their platforms so the generated art remains
+    # visible. CAT is larger and uses the course's teal accent.
+    pill((nodes["KITTEN"][0] - 10, nodes["KITTEN"][1] - 48), "KITTEN")
+    pill((nodes["DOG"][0] + 18, nodes["DOG"][1] - 48), "DOG")
+    pill((nodes["PET"][0] - 12, nodes["PET"][1] - 48), "PET")
+    pill((nodes["CAT"][0] + 4, nodes["CAT"][1] + 55), "CAT", font_size=31, fill="#dff6f3", text_fill="#087a72", outline="#4aaea6", height=54)
+
+    # Minimal text guidance explains the two points students must read.
+    callout_font = face("bold", 26)
+    small_font = face("bold", 20)
+    vector_box = (106, 438, 386, 548)
+    draw.rounded_rectangle(vector_box, radius=17, fill=WHITE, outline=mix(PURPLE, 0.42), width=3)
+    draw.text((130, 463), "FINAL VECTOR", font=small_font, fill=PURPLE)
+    draw.text((130, 500), "“IT”  [.41, .06, …]", font=callout_font, fill=INK)
+
+    lands_box = (landing[0] - 212, landing[1] - 105, landing[0] - 20, landing[1] - 47)
+    draw.rounded_rectangle(lands_box, radius=15, fill="#fff5d9", outline="#d19b29", width=2)
+    draw.text(((lands_box[0] + lands_box[2]) // 2, (lands_box[1] + lands_box[3]) // 2), "IT LANDS HERE", font=face("bold", 23), fill="#815908", anchor="mm")
+    arrow(draw, (lands_box[2] - 15, lands_box[3] - 2), (landing[0] - 8, landing[1] - 8), "#d19b29", 4)
+
+    shortest_mid = ((landing[0] + nodes["CAT"][0]) // 2 + 55, (landing[1] + nodes["CAT"][1]) // 2 - 12)
+    pill(shortest_mid, "SHORTEST DISTANCE", font_size=22, fill="#e3f6f3", text_fill="#087a72", outline="#4aaea6", height=44)
+
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="IT does not become CAT. Its vector lands closest to CAT.",
+        font=face("heavy", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
 def render_inside_real_model(source: Path, out_path: Path) -> None:
     """Rebuild the original embedding summary as a readable long board."""
     image = Image.open(source).convert("RGB")
@@ -2449,14 +2653,29 @@ def render_all() -> None:
     ], "More depth leaves room for deeper meaning.", board_path("layers", "04-why-dozens.jpg"))
 
     # Vector Space
-    render_shell("No Exact Match? Find the Closest Point.", ROOT / "lessons/vector-space-1-cities.jpg", board_path("vector-space", "01-closest-point.jpg"), "When nothing matches exactly, distance finds the closest one.")
-    render_shell("Coke Sits Closer to Pepsi Than to Coffee", ROOT / "lessons/vector-space-2-taste.jpg", board_path("vector-space", "02-taste-distance.jpg"))
-    render_shell("Meaning Neighborhoods", ROOT / "lessons/vector-space-neighborhoods.jpg", board_path("vector-space", "03-meaning-neighborhoods.jpg"))
-    render_teaching(
-        "Meaning Is a Position",
-        teaching / "meaning-is-a-position.png",
+    render_flattened_shell(
+        "No Exact Match? Find the Closest Point.",
+        ROOT / "lessons/vector-space-1-cities.jpg",
+        board_path("vector-space", "01-closest-point.jpg"),
+        (105, 166, 1495, 711),
+        "When nothing matches exactly, distance finds the closest one.",
+    )
+    render_flattened_shell(
+        "Coke Sits Closer to Pepsi Than to Coffee",
+        ROOT / "lessons/vector-space-2-taste.jpg",
+        board_path("vector-space", "02-taste-distance.jpg"),
+        (110, 172, 1490, 818),
+    )
+    render_flattened_shell(
+        "Meaning Neighborhoods",
+        ROOT / "lessons/vector-space-neighborhoods.jpg",
+        board_path("vector-space", "03-meaning-neighborhoods.jpg"),
+        (120, 58, 1480, 720),
+        whiten_connected_backdrop=True,
+    )
+    render_vector_space_landing(
+        teaching / "meaning-is-a-position-v2.png",
         board_path("vector-space", "04-meaning-position.jpg"),
-        (("ANIMALS", .31, .55), ("WEATHER", .75, .74), ("FEELINGS", .76, .42)),
     )
 
     # How AI Answers

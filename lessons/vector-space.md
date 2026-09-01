@@ -30,73 +30,7 @@ This is how you learned a token’s meaning with numbers: a taste profile of Cok
 
 Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this.
 
-## Sweet · Bitter · Fizz · Heat · Caffeine · Dark · Citrus
-
-## Soft drinks neighborhood
-
-SWE
-
-BIT
-
-FIZ
-
-HEA
-
-CAF
-
-DAR
-
-CIT
-
-🥤Coke
-
-9
-
-1
-
-10
-
-2
-
-3
-
-8
-
-1
-
-🥤Pepsi
-
-9
-
-1
-
-10
-
-2
-
-3
-
-8
-
-10
-
-## Sports and energy neighborhood
-
-Gatorade
-
-Powerade
-
-## Juices neighborhood
-
-lemonade
-
-orange juice
-
-## Hot drinks neighborhood
-
-☕Coffee
-
-espresso
+![Coke, Pepsi, and a mystery vector sit in the soft drinks neighborhood, separated from sports drinks, juices, and hot drinks.](vector-space-neighborhoods.jpg)
 
 On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood.
 

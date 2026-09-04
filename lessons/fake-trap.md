@@ -6,7 +6,15 @@ Here’s the strange thing about this trap: you already know it. AI can fake a v
 
 Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:
 
-![The same school-closure clip is tested in two eras. Before AI, appearance suggests real; in the AI era, checking the school source leaves it unverified.](fake-trap-1-comparison.jpg)
+### The same clip. Two eras.
+
+**The scenario:** A friend sends a video of your principal announcing that school is closed next week.
+
+**Before AI: does it look real?** You study the face, voice, and hallway. Everything looks right. Verdict: real.
+
+**The AI era: where is it from?** You ignore the pixels and check the trail. Nothing appears on the school website. Verdict: unverified.
+
+Appearance can mislead. The source trail can be checked.
 
 **The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
 
@@ -18,7 +26,17 @@ A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyo
 
 Harmful fakes are usually made to get something back. The goal often comes down to four things:
 
-![Four common goals behind harmful fakes: money, power, fame, and cruelty.](fake-trap-2-reasons.jpg)
+### Why some fakes aren’t friendly
+
+Money: outrage gets clicks, and clicks pay.
+
+Power: change what people believe and you change how they vote, protest, and spend.
+
+Fame: a viral clip means followers, and it does not have to be true to travel.
+
+Cruelty: some fakes exist to humiliate one person.
+
+Harmful fakes are made to get something back.
 
 ## The detector dead end
 
@@ -30,15 +48,19 @@ Don’t let a detector make the decision for you. It looks for patterns that may
 
 The test moves off the image and onto the source, no matter how the fake was made.
 
-![Luke pauses before sharing a convincing phone image of a flooded school hallway while Nate follows a physical evidence trail toward independent school and news source cards.](fake-trap-3-source.jpg)
-
 Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe.
 
-![Three checks for suspicious media: identify the source, examine the context, and look for corroboration somewhere the sender does not control.](fake-trap-4-checks.jpg)
+### Move the test off the image
+
+1. **Source:** Who posted it? Do they have a reason and a way to know?
+2. **Context:** What happened before and after? What important details are missing?
+3. **Corroboration:** Can an independent source confirm the same event or claim?
+
+Verify somewhere the sender does not control.
 
 ## One rule under all three checks
 
-Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for the original source or a source that would know. For something important, look for independent confirmation too. Until the trail checks out, “unverified” is your answer.
+Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for the original source or a source that would know. For something important, look for independent confirmation too. Until the trail checks out, ‘unverified’ is your answer.
 
 Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector.
 
@@ -46,10 +68,10 @@ Your eyes still work fine for reading, judging, and enjoying what you know is ma
 
 If a photo, clip, or account uses your name, don’t handle it alone. Save the username, link, date, and messages when it is safe to do so. Then bring in an adult that day: a parent, a counselor, or someone at school.
 
-If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. [NCMEC’s Take It Down](https://takeitdown.ncmec.org/) and [CyberTipline](https://report.cybertip.org/) can also help.
+If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. NCMEC’s Take It Down and CyberTipline can also help.
 
 You did nothing wrong by being targeted.
 
-**Seeing or hearing isn’t proof anymore.**
+Seeing or hearing isn’t proof anymore.
 
 Check the source, not the pixels.

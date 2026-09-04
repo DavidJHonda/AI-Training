@@ -26,7 +26,7 @@ The better approach is smaller: notice changes that might matter, then test them
 
 ## BE CURIOUS
 
-Suppose you use AI to study for biology. You usually give it your notes and ask it to create practice questions. Then a friend tells you about a different way to do it.
+Suppose you use AI to study for biology. You usually give it your notes and ask it to create a list of practice questions. Then a friend suggests a different approach: ask AI to quiz you one question at a time, wait for each answer, and explain what you missed.
 
 You do not need to switch immediately. You also should not dismiss it because your current approach already works. Curiosity means learning enough to decide whether the idea deserves a test.
 
@@ -46,7 +46,7 @@ These habits are not about knowing every AI update. They help you notice the few
 
 Curiosity finds a possibility. Flexibility decides whether that possibility belongs in your work.
 
-Go back to the biology example. Your friend’s approach sounds promising. Now you need a fair test. The goal is not to prove that the new way is exciting. The goal is to learn whether it helps you study.
+Go back to the biology example. Your friend’s one-question-at-a-time approach sounds promising. Now you need a fair test. The goal is not to prove that the new way is exciting. The goal is to learn whether it helps you study.
 
 ### Be Flexible
 

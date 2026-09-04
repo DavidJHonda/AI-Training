@@ -12,7 +12,7 @@ The AI pulled the standard limit and missed the exception. The answer wasn’t m
 
 ## Uploaded Doesn’t Mean Fully Read
 
-![A retrieval machine selects a few pages from a long basketball rulebook while the six-foul tournament exception is left out. AI may answer from only part of the file.](document-trap-1-uploaded.jpg)
+AI may answer from only part of the file.
 
 ## How AI Searches a Long Document
 
@@ -20,7 +20,11 @@ AI can only answer from the document text that reaches its context window. A sho
 
 One common process looks like this:
 
-![One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.](document-trap-2-flow.jpg)
+1. **Split** Break the long document into smaller pieces.
+2. **Search** Look for pieces that match the question by keywords and meaning.
+3. **Load** Put the selected pieces into the context window for AI to use.
+
+Search decides which parts reach the answer.
 
 This is how the rulebook mistake can happen. The search finds the regular-season foul rule but misses the tournament exception. Only the selected pieces reach the context window. The answer can sound complete even when an important passage was left out.
 
@@ -32,12 +36,17 @@ When retrieval finds the right passages, AI can answer a specific question in se
 
 ## Four Moves for Better Retrieval
 
-![Four ways to improve document retrieval: name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.](document-trap-3-moves.jpg)
+1. **Name the Section** Use the document’s own headings and keywords.
+2. **Ask One Thing** Give retrieval one clear target at a time.
+3. **Share What Matters** Paste the exact passage or upload only the relevant section.
+4. **Ask for the Quote** Ask AI to quote the exact passage, then compare it with the original.
+
+Make the right passages easier to find.
 
 This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer.
 
 Uploading a document and asking AI for help is a good starting point.
 
-**A missing passage can change the answer.**
+A missing passage can change the answer.
 
 Ask for the passage. Then check it.

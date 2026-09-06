@@ -952,7 +952,7 @@ const CLOSE_BOARDS = {
   training: { pill: "AI learns from examples and feedback.", sticky: "Guess. Check. Adjust. Repeat." },
   aiismath: { pill: "AI builds answers with probabilities.", sticky: "One prediction at a time." },
   tokens: { pill: "Words become numbers.", sticky: "That lets AI work with your language using math." },
-  embeddings: { pill: "Meaning is a row of numbers.", sticky: "Same dimensions for every token. Only the values change." },
+  embeddings: { pill: "An ID identifies. An embedding describes.", sticky: "A row of learned numbers helps AI work with meaning." },
   attention: { pill: "Attention is all you need.", sticky: "Every nuance resolved by weighing the words around it." },
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "Attention and transformation. Dozens of times." },
   vectorspace: { pill: "Meaning is a position.", sticky: "Close in space is close in meaning." },
@@ -6354,7 +6354,7 @@ function EmbeddingsSection(props) {
     var tie = CLUBS.filter(function(c, idx) { return idx !== actualIdx && rowsEqual(clubVals[idx], row); }).length > 0;
     var fb;
     if (!answered) fb = null;
-    else if (correct && tie) fb = "These rows came out too similar to tell apart, so more than one answer fits. That is the whole point: when the numbers barely differ, even you can’t separate them, and neither can the model. Adding a dimension that splits them is the fix.";
+    else if (correct && tie) fb = "You gave more than one club exactly the same scores, so more than one answer fits. To tell those clubs apart, your numerical profiles would need to capture a difference between them.";
     else if (correct) fb = "The numbers alone were enough. You stripped the name off and still found the club, because the values carried its meaning.";
     else fb = "That row’s numbers don’t match the values you gave that club. Read the row again and find the club whose profile fits.";
     var letters = ["A", "B", "C"];
@@ -6398,7 +6398,7 @@ function EmbeddingsSection(props) {
         clubExpandToggle,
         clubTableShown ? E("div", { style: { marginTop: 14 } }, clubEntryGrid) : null) : null,
       clubLocked ? E(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 18 } }, clubMysteryRows) : null),
-    clubMatchComplete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "The numbers carried the meaning.", body: "You stripped the names off and still found each club, because the row of values held everything that made it that club. That is exactly what an embedding does for a token: it stores meaning as numbers the model can read." }) : null);
+    clubMatchComplete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "The numbers carried the meaning.", body: "You recognized the clubs from their numerical profiles. An embedding gives AI a numerical profile it can use to recognize patterns and relationships in meaning." }) : null);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
@@ -6411,9 +6411,9 @@ function EmbeddingsSection(props) {
     style: { display: "block", width: "100%", maxWidth: 820, margin: "8px auto 24px", borderRadius: 16 }
   }),
   E(BodyP, null,
-    "AI has a way to turn those token IDs into meaning. It\u2019s called ",
-    E("strong", null, "Embedding"),
-    "."),
+    "AI uses each token ID to look up a row of numbers called an ",
+    E("strong", null, "embedding"),
+    ". These numbers are learned during training and help the model work with the token’s meaning and how it is used."),
   E(BodyP, null,
     "To see how this works, you and your friends decide to rate Coke and a cup of coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark."),
   E(BodyP, null,
@@ -6422,7 +6422,7 @@ function EmbeddingsSection(props) {
   E(BodyP, { style: { marginTop: 18 } },
     "If someone asked you, \u201cWhich drink has sweet of 9, bitter of 1, and fizz of 10?\u201d you\u2019d immediately answer Coke."),
   E(BodyP, null,
-    "By rating each drink on those dimensions, you\u2019ve done what AI does on a massive scale: you\u2019ve represented a word\u2019s meaning with a row of numbers."),
+    "You’ve turned each drink’s characteristics into a row of numbers. The row tells you something about the drink that its ID alone cannot."),
   E(BodyP, null,
     "A row of numbers in a specific order, like this, is called a ",
     E("strong", null, "Vector"),
@@ -6436,30 +6436,28 @@ function EmbeddingsSection(props) {
   pepsiProfile,
   E(BodyP, null, "To separate them, you added a new dimension, ", E("strong", null, "Citrus"), ". Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ. Different numbers, different meanings: the rows no longer just name two drinks, they tell them apart."),
   E(BodyP, null,
-    "But AI can\u2019t add a unique dimension like Citrus for every difference between all the words in the English language. So instead of a handful of labeled dimensions, real models give each token ",
-    E("strong", null, "thousands of dimensions"),
-    ", learned during training."),
-  E(BodyP, null, "Here\u2019s an important point, easy to miss: every token in the vocabulary is scored on the same dimensions. In the taste test, that would mean scoring unrelated words like \u201cmap\u201d and \u201ctruck\u201d on Sweet and Fizz too (they\u2019d sit near zero, and that\u2019s fine). What changes from token to token is the values, never the dimensions. That\u2019s what makes any two rows comparable at all."),
+    "In a real model, engineers choose the number of dimensions, often thousands. Training learns the values in each token’s row. Those values work together to capture patterns in how the token is used. They aren’t simple ratings for traits like Sweet or Fizz."),
+  E(BodyP, null, "Every token in the model’s vocabulary gets a row with the same number of dimensions, in the same order. What changes from token to token is the values. That shared structure helps the model recognize similarities and differences in meaning."),
   E(SectionKicker, null, "INSIDE A REAL MODEL"),
   E(BodyP, null,
     "Here’s how it all fits together. The word ",
     E("strong", null, "cat"),
     " is tokenized and assigned the ",
     E("strong", null, "token ID"),
-    " of 9246, which looks up a row in the ",
+    " of 4719, which looks up a row in the ",
     E("strong", null, "embedding table"),
     " (a giant lookup of every token’s numbers). That row is cat’s ",
     E("strong", null, "embedding vector"),
     ": its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called ",
     E("strong", null, "parameters"),
-    ". Notice the dimensions aren’t named like in your taste test: during training, the model decides what each one tracks, and we usually can’t tell."),
+    "."),
   E("img", {
-    src: "lessons/embeddings-inside-real-model-editorial.jpg?v=20260831retrofit2",
-    alt: "Inside a Real AI Model. The cat token becomes token ID 9246, which selects a highlighted row in the embedding table. That row becomes the token's embedding vector and continues into the model's later layers.",
+    src: "lessons/embeddings-inside-real-model-editorial.jpg?v=20260906lookup2",
+    alt: "From Token ID to Embedding. The cat token has ID 4719, which selects its highlighted row in the embedding table. That row is the token’s embedding vector. Each dimension is a position in the vector, and each value in the table is a parameter adjusted during training. The values work together to represent meaning.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018believ\u2019, \u2018able\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018belie\u2019, \u2018vable\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
   closeBoard("embeddings"),
   clubTryIt,
   /*#__PURE__*/React.createElement(LessonRule, null),

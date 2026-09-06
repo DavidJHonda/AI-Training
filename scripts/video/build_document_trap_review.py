@@ -16,7 +16,7 @@ from build_work_changes_hybrid import render_leg
 ROOT=Path(__file__).resolve().parents[2]
 SOURCE=ROOT/'Prompts/document-trap.mp4'
 OUTPUT=ROOT/'Prompts/document-trap-patched.mp4'
-AUDIT=ROOT/'video-audit/document-trap-board-update-2026-09-06'
+AUDIT=ROOT/'video-audit/document-trap-pause-cut-2026-09-06'
 LIVE=ROOT/'videos/document-trap.mp4'
 at=common.at
 LIVE_END=at(65.533333)
@@ -25,6 +25,7 @@ LIVE_BOARD_START=at(57.8)
 CUTS=((at(130.666667),at(142.966667)),
       (at(146.433333),at(156.0)),
       (at(196.5),at(199.633333)),
+      (at(208.466667),at(211.066667)),  # Pause-video request and adjacent breaths.
       (at(239.633333),at(245.833333)))
 common.CUTS=CUTS
 def mapped(frame):
@@ -62,13 +63,12 @@ def replacements():
             ('full-takeaway',FLOW_BANNER,VP,None,24),
             ('load',FLOW_STEPS[2],T,centered_camera(FLOW_STEPS[2],1020),24)))
     add('moves','document-trap-moves-v3.jpg',
-        (161.6,167.35,178.2,188.25,200.2,208.2,211.033333),(
+        (161.6,167.35,178.2,188.25,200.2,211.066667),(
             ('full',None,VP,None,0),
             ('name-section',MOVE_CARDS[0],P,centered_camera(MOVE_CARDS[0],1160),24),
             ('ask-one-thing',MOVE_CARDS[1],B,centered_camera(MOVE_CARDS[1],1160),24),
             ('share-what-matters',MOVE_CARDS[2],T,centered_camera(MOVE_CARDS[2],1160),24),
-            ('ask-for-quote',MOVE_CARDS[3],A,centered_camera(MOVE_CARDS[3],1160),24),
-            ('full-takeaway',MOVES_BANNER,VP,(800,1177,1700),24)))
+            ('ask-for-quote',MOVE_CARDS[3],A,centered_camera(MOVE_CARDS[3],1160),24)))
     return result
 
 

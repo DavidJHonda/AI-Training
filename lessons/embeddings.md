@@ -8,7 +8,7 @@ It’s the same as the number assigned to your Student ID. It might let you in t
 
 ![Four students at a cafeteria table; one student slips french fries into his shirt pocket.](embeddings-0-cafeteria.jpg)
 
-AI has a way to turn those token IDs into meaning. It’s called **Embedding**.
+AI uses each token ID to look up a row of numbers called an **embedding**. These numbers are learned during training and help the model work with the token’s meaning and how it is used.
 
 To see how this works, you and your friends decide to rate Coke and a cup of coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark.
 
@@ -18,7 +18,7 @@ Here are your results. We added a column for Token ID, even though that wasn’t
 
 If someone asked you, “Which drink has sweet of 9, bitter of 1, and fizz of 10?” you’d immediately answer Coke.
 
-By rating each drink on those dimensions, you’ve done what AI does on a massive scale: you’ve represented a word’s meaning with a row of numbers.
+You’ve turned each drink’s characteristics into a row of numbers. The row tells you something about the drink that its ID alone cannot.
 
 A row of numbers in a specific order, like this, is called a **Vector**. Each slot (Sweet, Bitter, etc.) is a **Dimension**. And each number is a **Value**.
 
@@ -30,20 +30,20 @@ Now add a third drink to the taste test: Pepsi. Score it on the same six dimensi
 
 To separate them, you added a new dimension, **Citrus**. Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ. Different numbers, different meanings: the rows no longer just name two drinks, they tell them apart.
 
-But AI can’t add a unique dimension like Citrus for every difference between all the words in the English language. So instead of a handful of labeled dimensions, real models give each token **thousands of dimensions**, learned during training.
+In a real model, engineers choose the number of dimensions, often thousands. Training learns the values in each token’s row. Those values work together to capture patterns in how the token is used. They aren’t simple ratings for traits like Sweet or Fizz.
 
-Here’s an important point, easy to miss: every token in the vocabulary is scored on the same dimensions. In the taste test, that would mean scoring unrelated words like “map” and “truck” on Sweet and Fizz too (they’d sit near zero, and that’s fine). What changes from token to token is the values, never the dimensions. That’s what makes any two rows comparable at all.
+Every token in the model’s vocabulary gets a row with the same number of dimensions, in the same order. What changes from token to token is the values. That shared structure helps the model recognize similarities and differences in meaning.
 
 ## INSIDE A REAL MODEL
 
-Here’s how it all fits together. The word **cat** is tokenized and assigned the **token ID** of 9246, which looks up a row in the **embedding table** (a giant lookup of every token’s numbers). That row is cat’s **embedding vector**: its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called **parameters**. Notice the dimensions aren’t named like in your taste test: during training, the model decides what each one tracks, and we usually can’t tell.
+Here’s how it all fits together. The word **cat** is tokenized and assigned the **token ID** of 4719, which looks up a row in the **embedding table** (a giant lookup of every token’s numbers). That row is cat’s **embedding vector**: its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called **parameters**.
 
-![Inside a Real AI Model. The cat token becomes token ID 9246, which selects a highlighted row in the embedding table. That row becomes the token's embedding vector and continues into the model's later layers.](embeddings-inside-real-model-editorial.jpg)
+![From Token ID to Embedding. The cat token has ID 4719, which selects its highlighted row in the embedding table. That row is the token’s embedding vector. Each dimension is a position in the vector, and each value in the table is a parameter adjusted during training. The values work together to represent meaning.](embeddings-inside-real-model-editorial.jpg)
 
 ## Does every token get its own vector?
 
-Yes. Remember how ‘unbelievable’ became three tokens? Each one (‘un’, ‘believ’, ‘able’) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers.
+Yes. Remember how ‘unbelievable’ became three tokens? Each one (‘un’, ‘belie’, ‘vable’) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers.
 
-Meaning is a row of numbers.
+An ID identifies. An embedding describes.
 
-Same dimensions for every token. Only the values change.
+A row of learned numbers helps AI work with meaning.

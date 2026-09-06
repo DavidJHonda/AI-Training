@@ -2875,24 +2875,26 @@ def render_inference_teaching(source: Path, out_path: Path) -> None:
 
 
 def render_inside_real_model(source: Path, out_path: Path) -> None:
-    """Rebuild the original embedding summary as a readable long board."""
+    """Show the embedding lookup, ending at the selected row."""
     image = Image.open(source).convert("RGB")
     stage_top = 127
     art_w, art_h = 1520, 855
-    cards_top = stage_top + art_h + 32
-    cards_h = 350
+    lookup_width = 1240
+    display_art_h = round(art_h * art_w / lookup_width)
+    cards_top = stage_top + display_art_h + 32
+    cards_h = 390
     lower_top = cards_top + cards_h + 32
-    lower_h = 280
+    lower_h = 180
     footer_top = lower_top + lower_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Inside a Real AI Model")
+    draw_board_title(draw, "From Token ID to Embedding")
     art = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
     canvas.paste(art, (40, stage_top), rounded_mask((art_w, art_h), 14))
 
-    label_font = face("heavy", 20)
+    label_font = face("heavy", 24)
 
     def dark_label(text: str, cx: int, cy: int) -> None:
         text_w = round(draw.textlength(text, font=label_font))
@@ -2908,12 +2910,9 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
     dark_label("TOKEN · cat", 214, 276)
     dark_label("TOKEN ID", 214, 565)
     dark_label("EMBEDDING TABLE · LOOKUP TABLE", 815, 278)
-    dark_label("LATER LAYERS", 1400, 278)
 
-    # Deterministic text restores the specific lookup example from the source
-    # illustration while keeping every table label at the 20 px structural floor.
-    draw.text((214, 701), "9246", font=face("heavy", 42), fill="#b894ff", anchor="mm")
-    arrow(draw, (214, 552), (214, 584), "#8a5cf6", 5)
+    # Text stays editable and is enlarged with the lookup illustration below.
+    draw.text((214, 701), "4719", font=face("heavy", 42), fill="#b894ff", anchor="mm")
     arrow(draw, (330, 751), (392, 751), "#8a5cf6", 5)
 
     column_centers = (470, 590, 680, 775, 870, 965, 1060, 1165)
@@ -2928,21 +2927,28 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
         ("8801", "truck", "-0.67", "0.14", "-0.58", "-0.36", "…", "0.38"),
         ("9910", "bicycle", "-0.52", "0.05", "-0.41", "-0.20", "…", "0.21"),
         ("7344", "map", "0.18", "-0.09", "0.33", "0.57", "…", "-0.12"),
-        ("9246", "cat", "0.45", "-0.23", "0.80", "0.17", "…", "-0.35"),
+        ("4719", "cat", "0.45", "-0.23", "0.80", "0.17", "…", "-0.35"),
     )
     row_centers = (402, 470, 538, 606, 675, 751)
+    table_font = face("bold", 24)
     for row_index, (row, y) in enumerate(zip(rows, row_centers)):
         fill = WHITE if row_index == len(rows) - 1 else "#2b231f"
         for x, value in zip(column_centers, row):
             draw.text((x, y), value, font=table_font, fill=fill, anchor="mm")
     dark_label("HIGHLIGHTED ROW = cat’s EMBEDDING VECTOR", 815, 920)
 
+    # Reframe the composed lookup to fill the area formerly shared with layers.
+    lookup = canvas.crop((40, stage_top, 40 + lookup_width, stage_top + art_h))
+    lookup = lookup.resize((art_w, display_art_h), Image.Resampling.LANCZOS)
+    draw.rectangle((40, stage_top, 1560, stage_top + display_art_h), fill=FRAME)
+    canvas.paste(lookup, (40, stage_top), rounded_mask(lookup.size, 14))
+
     card_lefts = (40, 557, 1075)
     card_widths = (485, 486, 485)
     definitions = (
         (
             "DIMENSION",
-            "One slot used to compare tokens. Real models use thousands, and people usually cannot name what each slot tracks.",
+            "One position in an embedding vector. Every token uses the same number of dimensions. The values across them work together to represent meaning.",
             PURPLE,
         ),
         (
@@ -2968,24 +2974,13 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
         draw_wrapped(draw, body, left + 34, cards_top + 102, width - 68, face("medium", 29), BODY)
 
     draw.rounded_rectangle((40, lower_top, 1560, lower_top + lower_h), radius=14, fill=WHITE)
-    draw.line((800, lower_top + 34, 800, lower_top + lower_h - 34), fill=mix(PURPLE, 0.20), width=2)
     draw.text((74, lower_top + 34), "PARAMETER", font=face("heavy", 40), fill=AMBER, anchor="la")
     draw_wrapped(
         draw,
         "A learned number created and adjusted during training. Every value in the embedding table is a parameter.",
         74,
         lower_top + 102,
-        650,
-        face("medium", 29),
-        BODY,
-    )
-    draw.text((834, lower_top + 34), "LATER LAYERS", font=face("heavy", 40), fill=PURPLE, anchor="la")
-    draw_wrapped(
-        draw,
-        "The embedding vector is only the start. Many more parameters transform it as it moves through the model.",
-        834,
-        lower_top + 102,
-        650,
+        1452,
         face("medium", 29),
         BODY,
     )
@@ -3085,7 +3080,7 @@ def render_all() -> None:
     # Embeddings
     render_embedding_rows("Meaning Becomes an Ordered Row of Numbers", ROOT / "lessons/embeddings-1-taste-two.jpg", board_path("embeddings", "01-meaning-row-numbers.jpg"))
     render_embedding_rows("One New Dimension Separates Similar Meanings", ROOT / "lessons/embeddings-2-taste-three.jpg", board_path("embeddings", "02-new-dimension.jpg"))
-    render_inside_real_model(teaching / "inside-real-model-summary.png", board_path("embeddings", "03-inside-model.jpg"))
+    render_inside_real_model(teaching / "embedding-lookup-only.png", board_path("embeddings", "03-inside-model.jpg"))
 
     # Transformer
     render_context_problems(

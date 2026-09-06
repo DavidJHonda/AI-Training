@@ -684,7 +684,7 @@ def render_cat_token_id(out_path: Path) -> None:
 
 
 def render_tokenization_flow(out_path: Path) -> None:
-    render_flow("How Tokenization Works", [
+    render_flow("What Happens When You Hit Send", [
         Card("Start With Text", "You type a question or message.", PURPLE, "token-flow-text"),
         Card("Split Into Tokens", "A program called a tokenizer breaks the text into reusable chunks.", BLUE, "token-flow-chunks"),
         Card("Look Up Token IDs", "The tokenizer finds each chunk’s number in its vocabulary.", TEAL, "token-flow-ids"),
@@ -2210,13 +2210,13 @@ def render_rain_probability(out_path: Path) -> None:
 
 
 def render_chat_shell(out_path: Path) -> None:
-    title = "What Using AI Feels Like"
-    height = 835
+    title = "You Use Words. AI Uses Numbers."
+    height = 663
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
-    draw.rounded_rectangle((40, 127, 1560, 795), radius=14, fill=WHITE)
+    draw.rounded_rectangle((40, 127, 1560, height - 40), radius=14, fill=WHITE)
     prompt = "What’s the best Avengers movie?"
     response = "Most people point to Avengers: Endgame. It’s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending."
     label_font = face("heavy", 19)
@@ -2243,6 +2243,39 @@ def render_chat_shell(out_path: Path) -> None:
     for line in lines:
         draw.text((155, y), line, font=face("medium", 29), fill=BODY, anchor="la")
         y += 41
+    save(canvas, out_path)
+
+
+def render_token_building_blocks(out_path: Path) -> None:
+    """Pair the tokenizer illustration with reuse examples in one teaching board."""
+    art = Image.open(OUT / "assets/card-illustrations/token-building-blocks.png").convert("RGB")
+    art_width = WIDTH - 80
+    art_height = round(art.height * art_width / art.width)
+    art_top = 127
+    reuse_top = art_top + art_height
+    stage_bottom = reuse_top + 210
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw_board_title(draw, "Building Blocks for Language")
+    draw.rounded_rectangle((40, art_top, 1560, stage_bottom), radius=14, fill=WHITE)
+    art = art.resize((art_width, art_height), Image.Resampling.LANCZOS)
+    canvas.paste(art, (40, art_top), rounded_mask(art.size, 14))
+    draw_inner_title(draw, (800, reuse_top + 48), "The same piece in different words", fill=INK, anchor="mm")
+    word_font = face("bold", 40)
+    text_y = reuse_top + 135
+    for center, suffix in zip((310, 800, 1290), ("believable", "matchable", "usual")):
+        prefix_width = draw.textlength("un", font=word_font)
+        word_width = prefix_width + draw.textlength(suffix, font=word_font)
+        left = center - word_width / 2
+        # Only the shared token is boxed; each suffix can span multiple tokens.
+        draw.rounded_rectangle((left - 7, text_y - 34, left + prefix_width, text_y + 34),
+                               radius=10, fill="#dce6ab")
+        draw.text((left, text_y), "un", font=word_font, fill="#36451b", anchor="lm")
+        draw.text((left + prefix_width, text_y), suffix, font=word_font, fill=INK, anchor="lm")
+    draw_takeaway_band(canvas, top=footer_top, left=40, right=1560,
+                       text="Reuse the pieces. Build more words.", font=face("medium", TAKEAWAY_TEXT_SIZE))
     save(canvas, out_path)
 
 
@@ -3038,7 +3071,7 @@ def render_all() -> None:
 
     # Tokens
     render_chat_shell(board_path("tokens", "01-what-using-ai-feels-like.jpg"))
-    render_one_chunk(board_path("tokens", "02-one-chunk.jpg"))
+    render_token_building_blocks(board_path("tokens", "02-building-blocks.jpg"))
     render_tokenization_flow(board_path("tokens", "03-how-tokenization-works.jpg"))
     render_cat_token_id(board_path("tokens", "04-cat-vs-token-id.jpg"))
     render_token_splits(board_path("tokens", "05-token-splits-verified.jpg"))

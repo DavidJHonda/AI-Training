@@ -16,7 +16,7 @@ from build_work_changes_hybrid import render_leg
 ROOT=Path(__file__).resolve().parents[2]
 SOURCE=ROOT/'Prompts/document-trap.mp4'
 OUTPUT=ROOT/'Prompts/document-trap-patched.mp4'
-AUDIT=ROOT/'video-audit/avoid-traps-rerolls-2026-09-05/document-trap/patch'
+AUDIT=ROOT/'video-audit/document-trap-board-update-2026-09-06'
 LIVE=ROOT/'videos/document-trap.mp4'
 at=common.at
 LIVE_END=at(65.533333)
@@ -33,6 +33,20 @@ END=7807
 P,B,T,A,VP='#4f2fc4','#1652f0','#0e8f86','#a9760c','#6e51ff'
 CLOSE_START=at(252.633333)
 
+# Measured canonical v3 asset boundaries, in authored 1600px coordinates.
+# Rings follow the outer card/illustration edges, never an inset text area.
+FLOW_STEPS=((75,175,385,676),(645,175,955,676),(1215,175,1525,676))
+MOVE_CARDS=((40,127,784,676),(816,127,1560,676),
+            (40,708,784,1257),(816,708,1560,1257))
+FLOW_BANNER=(40,751,1560,839)
+MOVES_BANNER=(40,1297,1560,1385)
+UPLOADED_BANNER=(40,1180,1560,1268)
+
+def centered_camera(rect, width):
+    x1,y1,x2,y2=rect
+    assert width*9/16 >= y2-y1+60
+    return ((x1+x2)/2,(y1+y2)/2,width)
+
 
 def replacements():
     result=[]
@@ -40,31 +54,31 @@ def replacements():
         points=tuple(at(t) for t in points)
         item=common.make_leg(name,ROOT/'illustrations'/asset,points,tuple(states))
         result.append((points[0],points[-1],item))
-    add('flow','document-trap-flow-v2.jpg',
+    add('flow','document-trap-flow-v3.jpg',
         (67.5,80.0,87.55,100.45,113.65,124.866667),(
             ('full',None,VP,None,0),
-            ('split',(75,89,385,589),P,(230,339,1020),24),
-            ('search',(645,89,955,589),B,(800,339,1020),24),
-            ('full-takeaway',(40,664,1560,754),VP,None,24),
-            ('load',(1215,89,1525,589),T,(1370,339,1020),24)))
-    add('moves','document-trap-moves-v2.jpg',
+            ('split',FLOW_STEPS[0],P,centered_camera(FLOW_STEPS[0],1020),24),
+            ('search',FLOW_STEPS[1],B,centered_camera(FLOW_STEPS[1],1020),24),
+            ('full-takeaway',FLOW_BANNER,VP,None,24),
+            ('load',FLOW_STEPS[2],T,centered_camera(FLOW_STEPS[2],1020),24)))
+    add('moves','document-trap-moves-v3.jpg',
         (161.6,167.35,178.2,188.25,200.2,208.2,211.033333),(
             ('full',None,VP,None,0),
-            ('name-section',(40,40,784,590),P,(412,315,1160),24),
-            ('ask-one-thing',(816,40,1560,590),B,(1188,315,1160),24),
-            ('share-what-matters',(40,622,784,1172),T,(412,897,1160),24),
-            ('ask-for-quote',(816,622,1560,1172),A,(1188,897,1160),24),
-            ('full-takeaway',(40,1210,1560,1299),VP,(800,1090,1700),24)))
+            ('name-section',MOVE_CARDS[0],P,centered_camera(MOVE_CARDS[0],1160),24),
+            ('ask-one-thing',MOVE_CARDS[1],B,centered_camera(MOVE_CARDS[1],1160),24),
+            ('share-what-matters',MOVE_CARDS[2],T,centered_camera(MOVE_CARDS[2],1160),24),
+            ('ask-for-quote',MOVE_CARDS[3],A,centered_camera(MOVE_CARDS[3],1160),24),
+            ('full-takeaway',MOVES_BANNER,VP,(800,1177,1700),24)))
     return result
 
 
 def render_live_opening(work):
     # Preserve the live story and its regular-season/tournament graphics.
     # Cover its system-error title before its first frame with the lesson art.
-    board=common.make_leg('uploaded',ROOT/'illustrations/document-trap-uploaded-v2.jpg',
+    board=common.make_leg('uploaded',ROOT/'illustrations/document-trap-uploaded-v3.jpg',
         (LIVE_BOARD_START,at(60.2),LIVE_END),(
             ('full',None,VP,None,0),
-            ('full-takeaway',(40,1093,1560,1182),VP,None,0)))
+            ('full-takeaway',UPLOADED_BANNER,VP,None,0)))
     board_path=work/'live-uploaded.mkv'
     render_leg(board,board_path)
     target=work/'live-opening.mkv'
@@ -160,7 +174,8 @@ def main():
                         'reroll_resume':REROLL_RESUME/30},
         'cuts':[{'source_start':0,'source_end':REROLL_RESUME/30,'output_frame':LIVE_END}]+
                [{'source_start':a/30,'source_end':b/30,'output_frame':mapped(a)} for a,b in CUTS],
-        'replacements':[{'name':item.name,'source_start':a/30,'source_end':b/30} for a,b,item in items],
+        'replacements':[{'name':item.name,'asset':str(item.board),'source_start':a/30,'source_end':b/30} for a,b,item in items],
+        'uploaded_asset':'illustrations/document-trap-uploaded-v3.jpg',
         'states':states,'boundaries':boundaries,'live_video_modified':False}
     (AUDIT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     command=[sys.executable,str(ROOT/'scripts/video/transition_guard.py'),str(OUTPUT)]

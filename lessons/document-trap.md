@@ -10,9 +10,9 @@ Wait a second. In last year’s tournament, you remember a player picking up fiv
 
 The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete. **Document Trap is thinking ‘uploaded’ means ‘fully read.’**
 
-## Uploaded Doesn’t Mean Fully Read
+## An Incomplete Answer
 
-AI may answer from only part of the file.
+Uploading a file doesn’t mean AI has read it all.
 
 ## How AI Searches a Long Document
 

@@ -33,7 +33,7 @@ KITS = [
     ("hallucination", "hallucination", "hallucination", [
         ("1-example", "hallucination-example-v2.jpg", True),
         ("2-why", "hallucination-why-v2.jpg", True),
-        ("3-real-text", "hallucination-real-text-v2.jpg", False),
+        ("3-real-text", "hallucination-real-text-v3.jpg", False),
         ("4-close", "close", True),
     ]),
     ("training-bias", "trainingbias", "training-bias", [
@@ -45,14 +45,14 @@ KITS = [
         ("6-close", "close", True),
     ]),
     ("document-trap", "documenttrap", "document-trap", [
-        ("1-uploaded", "document-trap-uploaded-v2.jpg", False),
-        ("2-flow", "document-trap-flow-v2.jpg", True),
-        ("3-moves", "document-trap-moves-v2.jpg", True),
+        ("1-uploaded", "document-trap-uploaded-v3.jpg", False),
+        ("2-flow", "document-trap-flow-v3.jpg", True),
+        ("3-moves", "document-trap-moves-v3.jpg", True),
         ("4-close", "close", True),
     ]),
     ("mind-trap", "mindtrap", "mind-trap", [
-        ("1-comparison", "mind-trap-comparison-v2.jpg", False),
-        ("2-eliza", "mind-trap-eliza-effect-v2.jpg", True),
+        ("1-comparison", "mind-trap-comparison-v3.jpg", False),
+        ("2-eliza", "mind-trap-eliza-effect-v3.jpg", True),
         ("3-close", "close", True),
     ]),
     ("flattery-trap", "flattery", "flattery-trap", [

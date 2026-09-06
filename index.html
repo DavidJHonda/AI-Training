@@ -951,7 +951,7 @@ const CLOSE_BOARDS = {
   openerfoundations: { pill: "The machine won’t feel like magic anymore.", sticky: "Take it a piece at a time." },
   training: { pill: "AI learns from examples and feedback.", sticky: "Guess. Check. Adjust. Repeat." },
   aiismath: { pill: "AI builds answers with probabilities.", sticky: "One prediction at a time." },
-  tokens: { pill: "Computers don’t read text.", sticky: "Tokens convert language into readable numbers." },
+  tokens: { pill: "Words become numbers.", sticky: "That lets AI work with your language using math." },
   embeddings: { pill: "Meaning is a row of numbers.", sticky: "Same dimensions for every token. Only the values change." },
   attention: { pill: "Attention is all you need.", sticky: "Every nuance resolved by weighing the words around it." },
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "Attention and transformation. Dozens of times." },
@@ -6044,25 +6044,25 @@ function TokenTrueFalseTryIt(props) {
   // (tiktoken cl100k_base, 2026-07-08). Do not invent or edit splits by hand.
   var ROUNDS = [
     { text: "Be Smarter Than the Tool", options: ["2", "4", "6", "8"], answer: "6", chunks: [["Be", 3513], [" Sm", 4487], ["arter", 5408], [" Than", 34776], [" the", 279], [" Tool", 13782]],
-      explain: "Six tokens \u2014 and look at Smarter: Sm + arter. Even the course\u2019s own name gets carved by statistics." },
+      explain: "Six tokens. Smarter splits into Sm + arter, while each of the other words fits into one token. Token pieces don’t have to be words on their own." },
     { text: "cats", options: ["1", "2", "3", "4+"], answer: "1", chunks: [["cats", 38552]],
-      explain: "One token \u2014 but not cat plus s. Both cat and cats are common enough to earn their own separate tokens, each with its own ID." },
+      explain: "One token: cats. Adding an s doesn’t always add another token. Here, cat and cats each have their own ID." },
     { text: "I \u2764\ufe0f Homework", options: ["1", "2", "3", "4+"], answer: "4+", chunks: [["I", 40], [" \u2764", 71570], ["\ufe0f", 31643], [" Homework", 83813]],
-      explain: "Four \u2014 and that empty third chip is real. The heart emoji hides an invisible styling mark (its own token!) that tells the screen to draw it red. Emoji are sneakier than words." },
+      explain: "Four tokens! The heart includes an invisible mark that asks for emoji styling. Here, that mark gets its own token, which is why the third chip looks empty. One visible symbol can take more than one token." },
     { text: "Luke and Nate", options: ["1", "2", "3", "4+"], answer: "3", chunks: [["Luke", 59447], [" and", 323], [" Nate", 55769]],
-      explain: "One token per word. Luke and Nate are common enough names to live in the vocabulary \u2014 the course\u2019s builders are officially well-known to the machine." },
+      explain: "Three tokens, one for each word. No splitting needed this time. But having tokens for “Luke” and “Nate” doesn’t mean AI knows who they are." },
     { text: "peanut butter and jelly", options: ["2", "4", "5", "7"], answer: "5", chunks: [["pe", 375], ["anut", 38918], [" butter", 14432], [" and", 323], [" jelly", 52441]],
       explain: "Even the course\u2019s favorite sentence gets carved oddly: pe + anut. And see the spaces riding along with butter, and, and jelly \u2014 the space before a word is part of its token." },
     { text: "Gemini Notebook", options: ["1", "2", "3", "4+"], answer: "3", chunks: [["Gem", 96140], ["ini", 6729], [" Notebook", 69755]],
-      explain: "Gem + ini + Notebook. Brand names are rare in training text, so the machine builds them from parts it already owns." },
+      explain: "Three tokens: Gem + ini + Notebook. Gemini takes two pieces, while Notebook fits into one. Two words doesn’t always mean two tokens." },
     { text: "Dallas Stars", options: ["1", "2", "3", "4+"], answer: "2", chunks: [["Dallas", 87614], [" Stars", 25676]],
-      explain: "Two words famous enough to be one token each. The IDs are just addresses in the vocabulary \u2014 they say which tokens these are, not what they mean." },
+      explain: "Two tokens. Dallas and Stars each fit into one. Their IDs identify the tokens in the vocabulary, not what they mean. Even our favorite hockey team starts as numbers." },
     { text: "FOMO", options: ["1", "2", "3", "4+"], answer: "3", chunks: [["F", 37], ["OM", 1937], ["O", 46]],
-      explain: "F + OM + O. Slang and acronyms are too rare for their own tokens, so the machine practically spells them out." },
+      explain: "Three tokens: F + OM + O. Just four letters, but it takes more tokens than Dallas Stars! Shorter text doesn’t always mean fewer tokens." },
     { text: "2026", options: ["1", "2", "3", "4+"], answer: "2", chunks: [["202", 2366], ["6", 21]],
-      explain: "Numbers get chunked too. The model doesn\u2019t see a year; it sees 202 and 6." },
+      explain: "Two tokens: 202 + 6. Numbers get split into chunks too. The tokenizer breaks up the digits; figuring out what they mean comes later." },
     { text: "supercalifragilisticexpialidocious", options: ["3", "7", "11", "15"], answer: "11", chunks: [["sup", 13066], ["erc", 3035], ["al", 278], ["if", 333], ["rag", 4193], ["il", 321], ["istic", 4633], ["exp", 4683], ["ial", 532], ["id", 307], ["ocious", 78287]],
-      explain: "Eleven chunks of spare parts. When a word is rare enough, the tokenizer just does its best with the pieces it owns." }
+      explain: "Eleven tokens for one word! Even this mouthful can be built from pieces already in the vocabulary. The tokenizer doesn’t need a separate token for every word you might type." }
   ];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
   var _p = useState(false), poppins = _p[0], setPoppins = _p[1];
@@ -6103,9 +6103,9 @@ function TokenTrueFalseTryIt(props) {
     variant: "try",
     surface: "mint",
     title: "Beat the Tokenizer: guess how many tokens are in each.",
-    lead: "A real tokenizer makes stranger splits than human intuition expects.",
+    lead: "These examples use the same tokenizer shown in the lesson. Some splits may surprise you.",
     instructions: [
-      "Read the string and predict how many tokens it contains.",
+      "Read the text and predict how many tokens it contains.",
       "Choose a number to reveal the tokenizer’s split.",
       "Compare your guess with the actual token count before continuing."
     ]
@@ -6135,7 +6135,7 @@ function TokenTrueFalseTryIt(props) {
         }));
       }),
       done ? E("div", { style: { borderTop: "1px solid var(--tryRule)", paddingTop: 18, textAlign: "center", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: "var(--ink)", animation: "fadeIn 0.3s ease" } },
-        "You beat the tokenizer on " + score + " of " + ROUNDS.length + "." + (score >= 7 ? " Impressive radar." : score >= 4 ? " The splits are weirder than they look." : " Nobody sees the splits coming. That\u2019s the point.")) : null)));
+        "You beat the tokenizer on " + score + " of " + ROUNDS.length + ". Some splits are surprising! The same vocabulary of reusable pieces handled every example.") : null)));
 }
 // Tokenization defined on its own board. The video's narration for this beat is
 // strong while its screen shows junk, so the definition paragraph becomes a board
@@ -6200,70 +6200,65 @@ function TokenSection(props) {
         E("strong", null, "AI: Token ID. "),
         "Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning."),
       E("p", null, "A token ID identifies the token. Meaning comes later.")));
-  var vocabDeeper = E(BodyP, { style: { marginTop: 24 } },
-    "Once it\u2019s built, the model uses that same fixed vocabulary of tokens every time it reads text.");
   var navButton = E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
   var exchange = E("img", {
-      src: "lessons/tokens-using-ai-feels-like-editorial.jpg?v=20260831retrofit2",
-    alt: "What using AI feels like: You ask what the best Avengers movie is, and AI answers in natural language with Avengers Endgame and Infinity War as the leading choices.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-  });
-  var reuseBox = E("img", {
-    src: "lessons/tokens-one-chunk-editorial.jpg?v=20260905reuse1",
-    alt: "One Chunk, Many Words. The shared token un is highlighted in unbelievable, unmatchable, and unusual. The rest of each word may contain one or more additional tokens.",
+      src: "lessons/tokens-using-ai-feels-like-editorial.jpg?v=20260906words1",
+    alt: "You Use Words. AI Uses Numbers. You ask what the best Avengers movie is, and AI answers in natural language with Avengers Endgame and Infinity War as the leading choices.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   });
   return E("div", null,
     E(LessonHeader, { sectionId: "tokens" }),
     E(BodyP, null,
       E("strong", null, "Math is the magic that powers AI."),
-      " But you ask AI questions in words, not numbers. How do your words become numbers that AI can use?"),
+      " But you ask AI questions in words, not numbers."),
     exchange,
     E(BodyP, null,
-      "You see a conversation in words. Behind the scenes, your question is converted into numbers before the model processes it."),
+      "How do your words become numbers that AI can use?"),
     E(BodyP, null,
-      "Why not give every word its own number? People keep inventing words, names, and slang. They also make typos and include things like emojis and code. Even a list of a million words couldn’t cover everything a person might type."),
-    E(SectionKicker, null, "THE SOLUTION"),
+      "One idea is to assign each word in every language a unique number. That way, you type the word, AI gets a number."),
     E(BodyP, null,
-      "The solution is to break text into reusable chunks called ",
+      "But that breaks down fast. People keep inventing words, names, and slang. They also make typos and include things like emojis and code. Even a list of a million words couldn’t cover everything a person might type."),
+    E(SectionKicker, null, "WORDS INTO PIECES"),
+    E(BodyP, null,
+      "Instead of giving every word its own number, AI uses reusable pieces of text called ",
       E("strong", null, "tokens"),
-      ". A token can be a whole word or just part of one. For example, the chunk ",
+      ". Think of them as building blocks for language. A token can be a whole word or just part of one. The full collection of tokens is called the model’s ",
+      E("strong", null, "vocabulary"),
+      ". The same pieces can combine in different ways, so the vocabulary doesn’t need a new entry for every new word. For example, ",
       E("strong", null, "un"),
-      " can be reused in words like ",
+      " can be reused in ",
       E("strong", null, "unbelievable"), " and ",
       E("strong", null, "unusual"), "."),
     E("img", {
-      src: "illustrations/tokens.jpg",
-      alt: "Luke and Nate feed text into a tokenizer that splits unbelievable into UN, BELIEV, and ABLE tiles and assigns each chunk a token ID",
+      src: "lessons/tokens-building-blocks-editorial.jpg?v=20260906blocks1",
+      alt: "Building Blocks for Language. Luke and Nate feed the written word unbelievable into a brass tokenizer, which produces un, belie, and vable tiles. Below, the same green un piece is highlighted in unbelievable, unmatchable, and unusual; the remaining letters are unboxed and may span multiple tokens. Reuse the pieces. Build more words.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
-    reuseBox,
-    E(BodyP, null, "Here’s how it works:"),
-    E("img", {
-      src: "lessons/tokens-how-tokenization-works-editorial.jpg?v=20260905flow1",
-      alt: "How Tokenization Works. Start With Text: You type a question or message. Split Into Tokens: A program called a tokenizer breaks the text into reusable chunks. Look Up Token IDs: The tokenizer finds each chunk’s number in its vocabulary. In this cl100k_base example, unbelievable becomes un, belie, and vable, with IDs 359, 32898, and 24694. Tokenization turns text into token IDs the model can use.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
+    E(SectionKicker, null, "WHERE THE PIECES COME FROM"),
     E(BodyP, null,
-      "Each model knows a fixed set of them, called its ",
-      E("strong", null, "vocabulary"),
-      ", and these run large: ChatGPT’s holds about ",
+      "When setting up AI, engineers choose how text will be split into tokens and how large the vocabulary will be. A program analyzes a large collection of text to build that vocabulary. Each token gets a number, its ",
+      E("strong", null, "token ID"),
+      ". Think of it as an address in the vocabulary: it identifies the token, but says nothing about what it means. The model uses those same tokens and IDs during training and when you chat."),
+    E(BodyP, null,
+      "These vocabularies can be large: ChatGPT’s holds about ",
       E("strong", null, "200,000"),
       " tokens and Gemini’s about ",
       E("strong", null, "256,000"),
       ". Anthropic hasn’t published Claude’s."),
-    E(BodyP, null,
-      "Each token gets a number, its ",
-      E("strong", null, "token ID"),
-      ". Think of it as an address in the model\u2019s vocabulary: it tells the model which token, but says nothing about what it means."),
+    E("img", {
+      src: "lessons/tokens-how-tokenization-works-editorial.jpg?v=20260906send1",
+      alt: "What Happens When You Hit Send. Start With Text: You type a question or message. Split Into Tokens: A program called a tokenizer breaks the text into reusable chunks. Look Up Token IDs: The tokenizer finds each chunk’s number in its vocabulary. In this cl100k_base example, unbelievable becomes un, belie, and vable, with IDs 359, 32898, and 24694. Tokenization turns text into token IDs the model can use.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
     catCompare,
-    E(BodyP, { style: { marginTop: 24 } }, "Different tokenizers can split the same text differently. Here are examples from one tokenizer."),
+    E(BodyP, { style: { marginTop: 24 } }, "All the text you send to AI gets split into tokens. Here are some examples."),
     E("img", {
       src: "lessons/tokens-how-ai-splits-text-verified-editorial.jpg?v=20260905verified1",
       alt: "How AI Splits Text Into Tokens. Verified cl100k_base examples: unbelievable becomes un (359), belie (32898), vable (24694); basketball becomes basket (60864), ball (4047); ChatGPT becomes Chat (16047), G (38), PT (2898); I ♥ AI becomes I (40), space plus ♥ (68679), space plus AI (15592). https://www.quickbookstraining.com becomes eight tokens: https (2485), :// (1129), www (2185), .quick (92074), book (2239), str (496), aining (2101), .com (916). SP marks a leading space. Numbers below the chunks are token IDs.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
-    vocabDeeper,
+    E(BodyP, null,
+      "When AI replies, its answer comes out as token IDs. The tokenizer converts those IDs back into pieces of text and joins them together into the answer you read."),
     closeBoard("tokens"),
     E(TokenTrueFalseTryIt, null),
     E(LessonRule, null),
@@ -7383,10 +7378,9 @@ function DocumentChatSection(props) {
     E(BodyP, { marginBottom: 24 },
       "The AI pulled the standard limit and missed the exception. The answer wasn’t made up. It was incomplete. ",
       E("strong", null, "Document Trap is thinking ‘uploaded’ means ‘fully read.’")),
-    E(SectionKicker, null, "Uploaded Doesn’t Mean Fully Read"),
     E("img", {
-      src: "illustrations/document-trap-uploaded-v2.jpg",
-      alt: "A retrieval machine selects a few pages from a long basketball rulebook while the six-foul tournament exception is left out. AI may answer from only part of the file.",
+      src: "illustrations/document-trap-uploaded-v3.jpg",
+      alt: "An Incomplete Answer. A retrieval machine selects a few pages from a long basketball rulebook while the six-foul tournament exception is left out. Uploading a file doesn’t mean AI has read it all.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E(SectionKicker, null, "How AI Searches a Long Document"),
@@ -7394,14 +7388,14 @@ function DocumentChatSection(props) {
       "AI can only answer from the document text that reaches its context window. A short file may fit there in full. With a long file, the system may search for the parts that seem most relevant and add those passages instead."),
     E(BodyP, { marginBottom: 24 }, "One common process looks like this:"),
     E("img", {
-      src: "illustrations/document-trap-flow-v2.jpg",
-      alt: "One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.",
+      src: "illustrations/document-trap-flow-v3.jpg",
+      alt: "Split, Search, Load. One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
     E("div", {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
-      E("h3", null, "How AI searches a long document"),
+      E("h3", null, "Split, Search, Load"),
       E("ol", null,
         CHUNK_STEPS.map(function(step, i) {
           return E("li", { key: i },
@@ -7416,9 +7410,8 @@ function DocumentChatSection(props) {
       "There’s a name for what happened: Retrieval-Augmented Generation, or RAG. Here, AI searched your basketball rulebook and added the selected passages to its context window. The same process can pull information from the web or a database."),
     E(BodyP, { marginBottom: 24 },
       "When retrieval finds the right passages, AI can answer a specific question in seconds. When retrieval misses something important, AI may miss it too."),
-    E(SectionKicker, null, "Four Moves for Better Retrieval"),
     E("img", {
-      src: "illustrations/document-trap-moves-v2.jpg",
+      src: "illustrations/document-trap-moves-v3.jpg",
       alt: "Four ways to improve document retrieval: name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
@@ -8257,8 +8250,8 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/hallucination-real-text-v2.jpg",
-      alt: "Luke feeds an old joke card into a brass pattern machine, which turns it into an authoritative-looking pictogram recommending glue on pizza. Nate points back to the joke source while an untouched glue bottle remains away from the food.",
+      src: "illustrations/hallucination-real-text-v3.jpg",
+      alt: "Nate and Luke examine a brass pattern machine that turns a real joke card into an authoritative-looking pictogram recommending glue on pizza. The Reddit comment was real. The cooking advice was not.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
@@ -9999,14 +9992,13 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "Some AI traps aren\u2019t about whether the answer is correct. They\u2019re about how the answer feels, and what that feeling makes you trust."),
     /*#__PURE__*/React.createElement(BodyP, null, "You know AI isn\u2019t a person and doesn\u2019t think. So why can chatting with it still feel like talking to somebody?"),
     /*#__PURE__*/React.createElement(BodyP, null, "Think about picking a college. Ask the same question twice, once at the dinner table and once in a chat window:"),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "The Same Question. Two Different Kinds of Knowing."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/mind-trap-comparison-v2.jpg",
-      alt: "Two answers to the question Should I choose Michigan or Indiana? Mom recommends Indiana using knowledge of the student. AI recommends Michigan with polished, generic college advice.",
+      src: "illustrations/mind-trap-comparison-v3.jpg",
+      alt: "The Same Question. Different Answers. Should I choose Michigan or Indiana? Mom recommends Indiana using knowledge of the student. AI recommends Michigan with polished, generic college advice.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "The Same Question. Two Different Kinds of Knowing."),
+      /*#__PURE__*/React.createElement("h3", null, "The Same Question. Different Answers."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You:"), " Should I choose Michigan or Indiana?"),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Mom:"), " Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking."),
       /*#__PURE__*/React.createElement("p", null, "She knows your history, notices how you act, and shares the stakes."),
@@ -10018,10 +10010,9 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "The ELIZA Effect"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "In the 1960s, some people began treating a simple chatbot called ELIZA as if it understood them. But ELIZA mostly matched patterns and turned their words back into questions. That response became known as the ELIZA effect."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Why AI Feels Like Somebody"),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/mind-trap-eliza-effect-v2.jpg",
-      alt: "Two cards explain why AI can feel like somebody. Your brain looks for a person behind something that responds, and AI uses phrases such as I think and I feel. Sounding human does not make AI human.",
+      src: "illustrations/mind-trap-eliza-effect-v3.jpg",
+      alt: "Why AI Feels Like Somebody. Your brain looks for a person behind something that responds, and AI uses phrases such as I think and I feel. Sounding human does not make AI human.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },

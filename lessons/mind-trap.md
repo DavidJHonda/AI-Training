@@ -8,7 +8,7 @@ You know AI isn’t a person and doesn’t think. So why can chatting with it st
 
 Think about picking a college. Ask the same question twice, once at the dinner table and once in a chat window:
 
-## The Same Question. Two Different Kinds of Knowing.
+## The Same Question. Different Answers.
 
 **You:** Should I choose Michigan or Indiana?
 

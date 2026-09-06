@@ -10,9 +10,9 @@ It’s the same as the number assigned to your Student ID. It might let you in t
 
 AI uses each token ID to look up a row of numbers called an **embedding**. These numbers are learned during training and help the model work with the token’s meaning and how it is used.
 
-To see how this works, you and your friends decide to rate Coke and a cup of coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark.
+Imagine you and your friends rate Coke and coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Each score runs from 0 to 10. A higher number means more of that characteristic.
 
-Here are your results. We added a column for Token ID, even though that wasn’t part of your test.
+Here are your results. Compare what the ID tells you about each drink with what its scores tell you.
 
 ![Meaning Becomes an Ordered Row of Numbers. Coke and coffee are scored on the same six dimensions, with each value shown beneath its slider.](embeddings-meaning-row-editorial.jpg)
 
@@ -28,7 +28,7 @@ Now add a third drink to the taste test: Pepsi. Score it on the same six dimensi
 
 ![One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee are scored on the same dimensions, with Citrus added as a seventh coordinate that separates Coke from Pepsi.](embeddings-new-dimension-editorial.jpg)
 
-To separate them, you added a new dimension, **Citrus**. Pepsi scores high on it while Coke sits near zero, and only then do the two rows finally differ. Different numbers, different meanings: the rows no longer just name two drinks, they tell them apart.
+To tell them apart, you add a seventh dimension, **Citrus**. In your ratings, Pepsi scores 10 and Coke scores 1. Their numerical profiles now capture a difference the first six dimensions missed.
 
 In a real model, engineers choose the number of dimensions, often thousands. Training learns the values in each token’s row. Those values work together to capture patterns in how the token is used. They aren’t simple ratings for traits like Sweet or Fizz.
 
@@ -36,7 +36,7 @@ Every token in the model’s vocabulary gets a row with the same number of dimen
 
 ## INSIDE A REAL MODEL
 
-Here’s how it all fits together. The word **cat** is tokenized and assigned the **token ID** of 4719, which looks up a row in the **embedding table** (a giant lookup of every token’s numbers). That row is cat’s **embedding vector**: its full profile of values across the dimensions. The numbers that fill the table, plus many more throughout the model, are called **parameters**.
+In this example, the token **cat** has the **token ID** 4719. AI uses that ID to find cat’s row in the **embedding table**, which stores an embedding for every token. That row is cat’s **embedding vector**. The numbers that fill the table, plus many more throughout the model, are called **parameters**.
 
 ![From Token ID to Embedding. The cat token has ID 4719, which selects its highlighted row in the embedding table. That row is the token’s embedding vector. Each dimension is a position in the vector, and each value in the table is a parameter adjusted during training. The values work together to represent meaning.](embeddings-inside-real-model-editorial.jpg)
 

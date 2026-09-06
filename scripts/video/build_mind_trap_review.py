@@ -10,57 +10,43 @@ import subprocess
 import sys
 import tempfile
 import cv2
-from PIL import Image, ImageDraw
-from editorial_typography import face
 import build_your_choices_reroll_review as common
-from build_work_changes_hybrid import render_leg
+from build_work_changes_hybrid import render_leg, crop_frame, smoothstep
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT/'Prompts/mind-trap.mp4'
 OUTPUT = ROOT/'Prompts/mind-trap-patched.mp4'
-AUDIT = ROOT/'video-audit/mind-trap-repair-2026-09-06'
+AUDIT = ROOT/'video-audit/mind-trap-repair-2026-09-06-v2'
 at = common.at
 CUTS = tuple((at(a),at(b)) for a,b in (
     (30.266667,34.366667), (50.2,58.366667),
     (100.4,103.2), (122.966667,136.533333),
     (180.5,188.033333), (206.966667,209.433333),
-    (228.133333,252.533333)))
+    (228.133333,254.533333)))
 common.CUTS = CUTS
 mapped = common.output_frame
 END = 7771
 P, B, T, A, VP = '#4f2fc4', '#1652f0', '#0e8f86', '#a9760c', '#6e51ff'
 
 
-def terminal_assets():
-    """Code-drawn illustrative interface, never an unlicensed archival photo."""
-    assets=AUDIT/'assets'
-    assets.mkdir(parents=True,exist_ok=True)
-    paths=[]
-    for stage in range(3):
-        im=Image.new('RGB',(1600,900),'#eee9fc')
-        d=ImageDraw.Draw(im)
-        d.text((60,40),'ELIZA',font=face('heavy',56),fill='#101025')
-        d.text((60,115),'1960s · A pattern-matching conversation',font=face('medium',30),fill='#626078')
-        d.rounded_rectangle((60,190,1540,805),radius=26,fill='#ffffff')
-        d.rounded_rectangle((60,190,1540,275),radius=26,fill='#143778')
-        d.rectangle((60,240,1540,275),fill='#143778')
-        d.text((100,211),'ELIZA  /  TEXT CONVERSATION',font=face('heavy',25),fill='white')
-        if stage>=1:
-            d.text((112,315),'USER',font=face('heavy',24),fill=P)
-            d.rounded_rectangle((110,362,1490,480),radius=18,fill='#f0eafd')
-            d.text((150,390),'I am stressed.',font=face('medium',42),fill='#28253f')
-        else:
-            d.text((112,340),'A statement goes in.',font=face('medium',40),fill='#57516c')
-            d.text((112,410),'A question comes back.',font=face('medium',40),fill='#57516c')
-        if stage>=2:
-            d.text((112,530),'ELIZA',font=face('heavy',24),fill=T)
-            d.rounded_rectangle((110,577,1490,695),radius=18,fill='#e5f4f2')
-            d.text((150,605),'Why are you stressed?',font=face('medium',42),fill='#28253f')
-        d.text((60,836),'Illustrative example, not an archival screenshot.',font=face('medium',22),fill='#77718b')
-        path=assets/f'eliza-terminal-{stage}.png'
-        im.save(path)
-        paths.append(path)
-    return paths
+def render_illustration(leg, target):
+    """Full-bleed B-roll, without board framing, borders or highlights."""
+    im=cv2.imread(str(leg.board))
+    h,w=im.shape[:2]
+    previous=(w/2,h/2,float(w))
+    process=subprocess.Popen([common.FFMPEG,'-y','-hide_banner','-loglevel','error',
+        '-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','-',
+        '-c:v','ffv1','-level','3',str(target)],stdin=subprocess.PIPE)
+    for state in leg.states:
+        camera=state.camera or (w/2,h/2,float(w))
+        move=min(state.move_frames,state.frames)
+        for i in range(state.frames):
+            t=smoothstep(i/max(1,move-1)) if move and i<move else 1
+            current=tuple(a+(b-a)*t for a,b in zip(previous,camera))
+            process.stdin.write(crop_frame(im,current).tobytes())
+        previous=camera
+    process.stdin.close()
+    assert process.wait()==0
 
 
 def replacements():
@@ -79,19 +65,17 @@ def replacements():
         ('mom-notices',(40,1137,784,1248),B,(412,1198,1150),36),
         ('mom-shares-stake',(40,1230,784,1384),B,(412,1198,1150),0),
         ('compare-both',None,VP,None,24)))
-    terminals=terminal_assets()
-    add('eliza-history',terminals[0],(90.733333,95.0,103.4),(
-        ('introduce-eliza',None,VP,None,0),
-        ('gentle-push',None,VP,(800,450,1530),100)))
-    add('eliza-example-user',terminals[1],(108.833333,114.2),(
-        ('full-user-message',(110,362,1490,480),P,None,0),))
-    add('eliza-example-reply',terminals[2],(114.2,115.733333),(
-        ('full-eliza-message',(110,577,1490,695),T,None,0),))
-    add('eliza-effect',ROOT/'illustrations/mind-trap-eliza-effect-v3.jpg',
+    add('eliza-illustration',ROOT/'scripts/video/assets/mind-trap/eliza-vignette-v1.png',
+        (90.733333,95.0,103.4,110.9,115.733333),(
+        ('establishing',None,VP,None,0),
+        ('push-to-machine',None,VP,(680,425,1320),165),
+        ('pan-to-printout',None,VP,(1032,520,1250),180),
+        ('printed-conversation',None,VP,(1126,540,1080),140)))
+    add('eliza-effect',ROOT/'illustrations/mind-trap-eliza-effect-v4.jpg',
         (136.533333,145.96,158.12,169.1),(
         ('full-two-part-explanation',None,VP,None,0),
-        ('human-language',(816,127,1560,676),P,None,0),
-        ('human-response',(40,127,784,676),T,None,0)))
+        ('human-language',(40,127,784,676),P,None,0),
+        ('human-response',(816,127,1560,676),T,None,0)))
     # Narration cuts precede the next visual cut by a few frames. Hold the
     # last clean native image through those frames so the removed art cannot flash.
     cap=cv2.VideoCapture(str(SOURCE))
@@ -109,7 +93,7 @@ def replacements():
 
 
 def main():
-    AUDIT.mkdir(parents=True,exist_ok=True)
+    (AUDIT/'assets').mkdir(parents=True,exist_ok=True)
     assert common.frame_count(SOURCE)==END
     original_hash=common.file_md5(SOURCE)
     live=ROOT/'videos/mind-trap.mp4'
@@ -124,7 +108,9 @@ def main():
         for a,b,item in items:
             path=work/(item.name+'.mkv')
             print('Rendering',item.name,flush=True)
-            if item.name.startswith('bridge-'):
+            if item.name=='eliza-illustration':
+                render_illustration(item,path)
+            elif item.name.startswith('bridge-'):
                 # Preserve the native frame edge-to-edge: no board corner mask.
                 subprocess.run([common.FFMPEG,'-y','-hide_banner','-loglevel','error',
                     '-loop','1','-framerate','30','-i',str(item.board),

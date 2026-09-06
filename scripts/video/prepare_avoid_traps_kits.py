@@ -52,7 +52,7 @@ KITS = [
     ]),
     ("mind-trap", "mindtrap", "mind-trap", [
         ("1-comparison", "mind-trap-comparison-v3.jpg", False),
-        ("2-eliza", "mind-trap-eliza-effect-v3.jpg", True),
+        ("2-eliza", "mind-trap-eliza-effect-v4.jpg", True),
         ("3-close", "close", True),
     ]),
     ("flattery-trap", "flattery", "flattery-trap", [

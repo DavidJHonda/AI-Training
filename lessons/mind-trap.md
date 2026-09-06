@@ -28,9 +28,9 @@ In the 1960s, some people began treating a simple chatbot called ELIZA as if it 
 
 ## Why AI Feels Like Somebody
 
-**Your brain looks for a person.** When something responds to you, your brain starts looking for a person behind it.
-
 **AI sounds like one.** Your brain hears a person when AI says “I think” and “I feel.” But those are generated words.
+
+**Your brain looks for a person.** When something responds to you, your brain starts looking for a person behind it.
 
 Sounding human does not make AI human.
 
@@ -42,4 +42,4 @@ AI can gather facts, lay out options, and challenge your thinking. But it does n
 
 For decisions that matter
 
-Use AI to think. You make the call.
+You make the call.

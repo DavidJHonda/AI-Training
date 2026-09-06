@@ -45,7 +45,7 @@ BODY_LINE = 41
 ROW_TOP = 29
 TITLE_BODY_GAP = 8
 ROW_BOTTOM = 25
-ACCENTS = ("#4f2fc4", "#1652f0", "#0e8f86", "#0f7a4a")
+ACCENTS = ("#4f2fc4", "#1652f0", "#0e8f86", "#0f7a4a", "#a9760c")
 
 @dataclass(frozen=True)
 class Row:
@@ -83,10 +83,11 @@ BOARDS = (
         title="Understand AI",
         takeaway="Each piece builds on the one before it.",
         rows=(
-            Row("How It Learned", "The machine gets built through one guess-and-correct loop, run billions of times over mountains of text."),
-            Row("It All Runs on Math", "The math underneath AI, and how your words get turned into numbers the machine can work with."),
-            Row("Inside the Black Box", "AI gets called a “black box.” Open it and find real, understandable machinery inside, even if parts stay genuinely hard to explain."),
-            Row("Where It All Comes Together", "Every piece snaps into place here. Learn how AI builds answers from scratch, and you’ll never look at a reply the same way again."),
+            Row("How AI Learned", "How training builds the patterns AI uses to answer you."),
+            Row("Why Probability Matters", "How the information AI has changes what is likely to come next."),
+            Row("How Words Become Numbers", "How text becomes tokens, and tokens get numbers that represent meaning."),
+            Row("How Meaning Takes Shape", "How words affect one another, changing their numbers and the relationships those numbers represent."),
+            Row("How AI Builds an Answer", "How AI chooses each next token, why answers vary, and what keeps a conversation going."),
         ),
         page_output="illustrations/opener-understand-section-map.jpg",
         prep_output="lessons/opener-understand-2-map.jpg",

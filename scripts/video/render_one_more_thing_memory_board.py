@@ -88,31 +88,26 @@ def human_art() -> Image.Image:
     art = Image.new("RGB", (744, 339), BLUE_ART)
     draw = ImageDraw.Draw(art)
 
-    # The earlier decision.
-    draw.rounded_rectangle((42, 48, 294, 286), radius=18, fill=WHITE, outline="#b8cdf3", width=2)
-    draw.text((68, 72), "DOG OR CAT?", font=font(24, "Bold"), fill=BLUE)
-    draw.rounded_rectangle((68, 126, 268, 184), radius=12, fill="#e9f8f0", outline="#a7d8bd", width=2)
-    check(draw, 99, 155, 16)
-    draw.text((129, 155), "DOG", font=font(27, "Bold"), fill=INK, anchor="lm")
-    draw.rounded_rectangle((68, 202, 268, 260), radius=12, fill="#f6f7fb", outline=RULE, width=2)
-    draw.ellipse((83, 217, 115, 249), outline=MUTED, width=3)
-    draw.text((129, 231), "CAT", font=font(27, "SemiBold"), fill=MUTED, anchor="lm")
+    # You recall the choice and the reason behind it.
+    draw.rounded_rectangle((42, 56, 290, 282), radius=18, fill=WHITE, outline="#b8cdf3", width=2)
+    draw.text((68, 79), "DOG OR CAT?", font=font(23, "Bold"), fill=BLUE)
+    draw.rounded_rectangle((68, 126, 264, 184), radius=11, fill="#edf3ff", outline=BLUE, width=2)
+    draw.ellipse((84, 140, 114, 170), outline=BLUE, width=3)
+    draw.ellipse((92, 148, 106, 162), fill=BLUE)
+    draw.text((128, 155), "DOG", font=font(26, "Bold"), fill=BLUE, anchor="lm")
+    draw.rounded_rectangle((68, 202, 264, 260), radius=11, fill=WHITE, outline=RULE, width=2)
+    draw.ellipse((84, 216, 114, 246), outline="#9eb9ec", width=3)
+    draw.text((128, 231), "CAT", font=font(26, "SemiBold"), fill=INK, anchor="lm")
 
-    arrow(draw, (322, 169), (397, 169), "#9db6e6")
+    draw.text((358, 139), "RECALL", font=font(21, "Bold"), fill=MUTED, anchor="mm")
+    arrow(draw, (320, 176), (397, 176), "#9b94ad")
 
-    # The choice and its reason stay available in the person's mind.
-    draw.ellipse((522, 46, 650, 174), fill="#f7faff", outline=BLUE, width=4)
-    draw.arc((540, 72, 632, 151), 200, 520, fill=BLUE, width=4)
-    draw.ellipse((506, 163, 666, 323), fill="#f7faff", outline=BLUE, width=4)
-    draw.rectangle((504, 238, 668, 339), fill=BLUE_ART)
-
-    draw.rounded_rectangle((382, 54, 526, 166), radius=16, fill=WHITE, outline="#b8cdf3", width=2)
-    draw.text((454, 84), "DOG", font=font(28, "Bold"), fill=BLUE, anchor="mm")
-    draw.line((408, 112, 500, 112), fill="#c5d5f3", width=3)
-    draw.text((454, 137), "WHY", font=font(22, "Bold"), fill=MUTED, anchor="mm")
-    draw.ellipse((508, 148, 526, 166), fill=WHITE, outline="#b8cdf3", width=2)
-    draw.ellipse((526, 163, 540, 177), fill=WHITE, outline="#b8cdf3", width=2)
-    draw.text((584, 281), "YOU", font=font(24, "Bold"), fill=BLUE, anchor="mm")
+    draw.rounded_rectangle((426, 73, 694, 267), radius=18, fill=WHITE, outline="#b8cdf3", width=2)
+    draw.rounded_rectangle((506, 94, 614, 134), radius=20, fill=BLUE)
+    draw.text((560, 114), "YOU", font=font(21, "Bold"), fill=WHITE, anchor="mm")
+    for y, label in [(170, "DOG"), (222, "WHY")]:
+        draw.rounded_rectangle((458, y - 20, 662, y + 20), radius=8, fill="#e5edff")
+        draw.text((560, y), label, font=font(22, "Bold"), fill=BLUE, anchor="mm")
     return art
 
 
@@ -121,26 +116,26 @@ def ai_art() -> Image.Image:
     draw = ImageDraw.Draw(art)
 
     # The app bundles the earlier chat with the new question.
-    draw.rounded_rectangle((38, 34, 340, 304), radius=18, fill=WHITE, outline="#cbbcf1", width=2)
-    draw.text((64, 58), "CHAT TRANSCRIPT", font=font(21, "Bold"), fill=PURPLE_DARK)
-    draw.rounded_rectangle((64, 100, 302, 150), radius=12, fill="#f2effc")
-    draw.text((82, 125), "Dog or cat?", font=font(22, "SemiBold"), fill=INK, anchor="lm")
-    draw.rounded_rectangle((98, 164, 302, 214), radius=12, fill="#e7ddff")
-    draw.text((116, 189), "I chose a dog.", font=font(22, "SemiBold"), fill=INK, anchor="lm")
-    draw.rounded_rectangle((64, 234, 302, 282), radius=12, fill=GOLD)
-    draw.text((82, 258), "Name my dog?", font=font(21, "Bold"), fill=INK, anchor="lm")
+    draw.rounded_rectangle((32, 42, 302, 297), radius=18, fill=WHITE, outline="#cbbcf1", width=2)
+    draw.text((57, 67), "CHAT TRANSCRIPT", font=font(20, "Bold"), fill=PURPLE_DARK)
+    draw.rounded_rectangle((57, 105, 276, 151), radius=10, fill="#f2effc")
+    draw.text((73, 128), "Dog or cat?", font=font(21, "SemiBold"), fill=INK, anchor="lm")
+    draw.rounded_rectangle((76, 166, 276, 212), radius=10, fill=PURPLE_DARK)
+    draw.text((92, 189), "I chose a dog.", font=font(21, "SemiBold"), fill=WHITE, anchor="lm")
+    draw.rounded_rectangle((57, 227, 276, 273), radius=10, fill=PURPLE_DARK)
+    draw.text((73, 250), "Name my dog?", font=font(20, "Bold"), fill=WHITE, anchor="lm")
 
-    draw.text((420, 109), "SENT", font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    draw.text((420, 138), "AGAIN", font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    arrow(draw, (365, 171), (479, 171), "#b09ce8")
+    draw.text((380, 137), "SENT", font=font(20, "Bold"), fill=MUTED, anchor="mm")
+    draw.text((380, 163), "AGAIN", font=font(20, "Bold"), fill=MUTED, anchor="mm")
+    arrow(draw, (326, 191), (434, 191), "#9b94ad")
 
     # AI gets the text in front of it, not a remembered experience.
-    draw.rounded_rectangle((490, 56, 706, 284), radius=20, fill=WHITE, outline=PURPLE, width=3)
-    draw.rounded_rectangle((520, 80, 676, 128), radius=24, fill=PURPLE)
-    draw.text((598, 103), "AI READS", font=font(22, "Bold"), fill=WHITE, anchor="mm")
-    for y, label in [(158, "DOG"), (202, "WHY"), (246, "NAME?")]:
-        draw.rounded_rectangle((524, y - 18, 672, y + 18), radius=9, fill="#f2effc")
-        draw.text((598, y), label, font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
+    draw.rounded_rectangle((452, 57, 712, 282), radius=18, fill=WHITE, outline="#cbbcf1", width=2)
+    draw.rounded_rectangle((506, 78, 658, 120), radius=21, fill=PURPLE_DARK)
+    draw.text((582, 99), "AI READS", font=font(21, "Bold"), fill=WHITE, anchor="mm")
+    for y, label in [(151, "DOG"), (198, "WHY"), (245, "NAME?")]:
+        draw.rounded_rectangle((486, y - 18, 678, y + 18), radius=8, fill="#f2effc")
+        draw.text((582, y), label, font=font(20, "Bold"), fill=PURPLE_DARK, anchor="mm")
     return art
 
 

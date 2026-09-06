@@ -12,13 +12,21 @@ Not normal software.
 
 it’s its own kind of thing.
 
-This is when AI stops being magic. Once you see how the machine actually works, the hype, the fear, the weird mistakes all start to make sense, and the judgment you’ve started building gets a lot harder to fool.
+Sometimes working with AI feels like having a PhD expert at your side. Other times, it makes a mistake you’d expect from a six-year-old. How can the same tool do both? Understanding what happens inside helps explain why.
 
-Think about driving a car. You can get good at it without ever opening the hood. But the driver who knows what the engine is doing reads trouble early, pushes the machine further, and never gets fooled by a strange noise. Knowing what’s underneath is what turns a user into someone Smarter Than the Tool.
+Think about driving a car. You can get good at it without ever opening the hood. But knowing what’s happening underneath helps you understand what the car can do and why something might go wrong. The same goes for AI. Knowing how it works helps you Be Smarter Than the Tool.
 
-That’s what this section is. It’s the longest and most complicated section in the course, because AI works unlike anything you’ve used before. That’s normal. Take it a piece at a time. Each one builds on the last, and by the end, the machine won’t feel like magic anymore.
+![Under the Hood. Luke and Nate examine AI-inspired machinery beneath a car’s open hood. Knowing how it works helps you Be Smarter Than the Tool.](../illustrations/opener-understand-under-hood-v3.jpg)
 
-![Understand AI section map: How It Learned, It All Runs on Math, Inside the Black Box, and Where It All Comes Together.](opener-understand-2-map.jpg)
+This section takes you inside the machine, one piece at a time. Some of this will be new to you, but each piece builds on the one before it. You don’t need to memorize every term. The goal is to understand how your words become an answer.
+
+![Understand AI section map: How AI Learned, Why Probability Matters, How Words Become Numbers, How Meaning Takes Shape, and How AI Builds an Answer. Each piece builds on the one before it.](opener-understand-2-map.jpg)
+
+1. **How AI Learned:** How training builds the patterns AI uses to answer you.
+2. **Why Probability Matters:** How the information AI has changes what is likely to come next.
+3. **How Words Become Numbers:** How text becomes tokens, and tokens get numbers that represent meaning.
+4. **How Meaning Takes Shape:** How words affect one another, changing their numbers and the relationships those numbers represent.
+5. **How AI Builds an Answer:** How AI chooses each next token, why answers vary, and what keeps a conversation going.
 
 The machine won’t feel like magic anymore.
 

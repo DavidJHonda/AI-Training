@@ -57,6 +57,20 @@ def draw_ticket(draw: ImageDraw.ImageDraw, box, label: str, rotation=0):
     draw._image.alpha_composite(ticket, (int((x0 + x1 - ticket.width) / 2), int((y0 + y1 - ticket.height) / 2)))
 
 
+def draw_striped_bar(draw: ImageDraw.ImageDraw, box):
+    x0, y0, x1, y1 = box
+    width, height = x1 - x0, y1 - y0
+    bar = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(bar)
+    bd.rectangle((0, 0, width, height), fill=PURPLE_LIGHT)
+    for sx in range(-height, width + height, 18):
+        bd.line((sx, height, sx + 20, 0), fill="#cfc4f4", width=4)
+    mask = Image.new("L", (width, height), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, width - 1, height - 1), radius=height // 2, fill=255)
+    bar.putalpha(mask)
+    draw._image.alpha_composite(bar, (x0, y0))
+
+
 def render() -> None:
     image = Image.new("RGBA", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
@@ -64,8 +78,6 @@ def render() -> None:
     draw.text((40, 28), "Same Odds, Five Draws", font=font(56, "Bold"), fill=INK)
 
     stage = (40, 118, 1560, 742)
-    rounded_shadow(image, stage)
-    draw = ImageDraw.Draw(image)
     draw.rounded_rectangle(stage, radius=22, fill=WHITE)
 
     # The sentence being completed keeps the probability example anchored to the lesson.
@@ -89,47 +101,54 @@ def render() -> None:
         ("Buddy", 14, False, False),
         ("Rex", 9, False, False),
         ("Biscuit", 6, False, False),
-        ("Other tokens", 32, True, False),
+        ("Other", 32, True, False),
     ]
-    row_y = 369
-    label_face = font(28, "SemiBold")
+    row_y = 362
+    label_face = font(27, "SemiBold")
     value_face = font(26, "Bold")
-    track_x0, track_x1 = 292, 454
+    track_x0, track_x1 = 280, 436
     track_w = track_x1 - track_x0
     max_value = 32
     for i, (label, value, striped, top) in enumerate(rows):
-        y = row_y + i * 55
-        if top:
-            draw.rounded_rectangle((82, y - 10, 700, y + 41), radius=10, fill=PURPLE_PALE)
-        draw.text((98, y + 14), label, font=label_face, fill=INK, anchor="lm")
-        draw.rounded_rectangle((track_x0, y + 2, track_x1, y + 26), radius=12, fill="#f0edf8")
+        y0 = row_y + i * 56
+        y_mid = y0 + 24
+        draw.rounded_rectangle(
+            (96, y0, 650, y0 + 48),
+            radius=9,
+            fill=WHITE,
+            outline=PURPLE if top else RULE,
+            width=2,
+        )
+        draw.text((116, y_mid), label, font=label_face, fill=PURPLE_DARK if top else INK, anchor="lm")
+        draw.rounded_rectangle((track_x0, y_mid - 8, track_x1, y_mid + 8), radius=8, fill="#efedf8")
         bar_x1 = track_x0 + int(track_w * value / max_value)
-        bar_fill = PURPLE if top else PURPLE_LIGHT
-        draw.rounded_rectangle((track_x0, y + 2, bar_x1, y + 26), radius=12, fill=bar_fill)
         if striped:
-            for sx in range(track_x0 - 16, bar_x1 + 18, 18):
-                draw.line((sx, y + 26, sx + 24, y + 2), fill="#cfc4f4", width=5)
-        draw.text((690, y + 14), f"{value}%  ·  {value} tickets", font=value_face, fill=PURPLE_DARK if top else BODY, anchor="rm")
+            draw_striped_bar(draw, (track_x0, y_mid - 8, bar_x1, y_mid + 8))
+        else:
+            bar_fill = PURPLE if top else PURPLE_LIGHT
+            draw.rounded_rectangle((track_x0, y_mid - 8, bar_x1, y_mid + 8), radius=8, fill=bar_fill)
+        draw.text((630, y_mid), f"{value} tickets", font=value_face, fill=PURPLE_DARK if top else BODY, anchor="rm")
 
     # Center: one unchanged drawing process, repeated five times.
-    draw_arrow(draw, 718, 469, 758)
-    draw.ellipse((758, 385, 916, 543), fill=PURPLE_PALE, outline=PURPLE_MID, width=3)
-    draw_ticket(draw, (790, 411, 884, 459), "Spot", rotation=-7)
-    draw_ticket(draw, (790, 449, 884, 497), "Max", rotation=6)
-    draw.text((837, 575), "DRAW FIVE", font=font(23, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    draw.text((837, 606), "TIMES", font=font(23, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    draw_arrow(draw, 916, 469, 956)
+    draw_arrow(draw, 681, 482, 716)
+    draw.ellipse((716, 403, 874, 561), fill=PURPLE_PALE, outline=PURPLE_MID, width=3)
+    draw_ticket(draw, (748, 429, 842, 477), "Spot", rotation=-7)
+    draw_ticket(draw, (748, 467, 842, 515), "Max", rotation=6)
+    draw.text((795, 595), "DRAW FIVE", font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
+    draw.text((795, 623), "TIMES", font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
+    draw_arrow(draw, 874, 482, 929)
 
     # Right: five outcomes from that same list.
-    draw.text((972, 274), "Five Draws", font=font(40, "Bold"), fill=PURPLE_DARK)
-    draw.text((972, 323), "One possible set", font=font(26, "Medium"), fill=MUTED)
+    draw.text((956, 274), "Five Draws", font=font(40, "Bold"), fill=PURPLE_DARK)
+    draw.text((956, 323), "One possible set", font=font(26, "Medium"), fill=MUTED)
     draws = ["Max", "Spot", "Buddy", "Rex", "Max"]
     for i, name in enumerate(draws, start=1):
-        y0 = 362 + (i - 1) * 58
-        draw.rounded_rectangle((970, y0, 1500, y0 + 47), radius=12, fill=PURPLE_PALE, outline=RULE, width=2)
-        draw.ellipse((984, y0 + 6, 1019, y0 + 41), fill=PURPLE)
-        draw.text((1001.5, y0 + 23), str(i), font=font(19, "Bold"), fill=WHITE, anchor="mm")
-        draw.text((1042, y0 + 23), name, font=font(29, "Bold"), fill=INK, anchor="lm")
+        y0 = 362 + (i - 1) * 64
+        row_fill = "#efedfb" if i in (1, 5) else WHITE
+        draw.rounded_rectangle((956, y0, 1520, y0 + 52), radius=9, fill=row_fill, outline=RULE, width=2)
+        draw.ellipse((976, y0 + 7, 1014, y0 + 45), fill=PURPLE_DARK)
+        draw.text((995, y0 + 26), str(i), font=font(20, "Bold"), fill=WHITE, anchor="mm")
+        draw.text((1038, y0 + 26), name, font=font(29, "Bold"), fill=INK, anchor="lm")
 
     # Standard takeaway band.
     banner = (40, 770, 1560, 864)

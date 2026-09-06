@@ -2,35 +2,33 @@
 
 # Tokens
 
-You’ve seen the idea already; **Math is the magic that powers AI**.
+**Math is the magic that powers AI.** But you ask AI questions in words, not numbers. How do your words become numbers that AI can use?
 
 ![What using AI feels like: You ask what the best Avengers movie is, and AI answers in natural language with Avengers Endgame and Infinity War as the leading choices.](tokens-using-ai-feels-like-editorial.jpg)
 
-That felt effortless, because you think in language. You read *“Avengers”* and instantly picture the movie.
+You see a conversation in words. Behind the scenes, your question is converted into numbers before the model processes it.
 
-A computer can’t do that. Here’s the fact underneath everything: **computers work only with numbers. They don’t read text at all**. So before AI can read your question, it must convert all your text to numbers.
-
-An obvious solution is to assign every word in the English language its own number. But, that falls apart fast. Counting names, slang, typos, and code, you’d need **millions** of numbers, and you still couldn’t cover words nobody’s invented yet.
+Why not give every word its own number? People keep inventing words, names, and slang. They also make typos and include things like emojis and code. Even a list of a million words couldn’t cover everything a person might type.
 
 ## THE SOLUTION
 
-Software engineers found a smarter way: break language into **reusable chunks**. For example, take every word that starts with **UN**: **UN**believable, **UN**matchable, **UN**tied. Thousands of words reuse that one piece, so the vocabulary stores **UN** once and uses the chunk to help spell all words that use it.
+The solution is to break text into reusable chunks called **tokens**. A token can be a whole word or just part of one. For example, the chunk **un** can be reused in words like **unbelievable** and **unusual**.
 
-![One chunk. Thousands of words. The reusable token un appears in unbelievable, unmatchable, untied, unlock, unfair, undo, unknown, unusual, unhappy, unplug, unfold, and unseen, plus thousands more.](tokens-one-chunk-editorial.jpg)
+![One Chunk, Many Words. The shared token un is highlighted in unbelievable, unmatchable, and unusual. The rest of each word may contain one or more additional tokens.](tokens-one-chunk-editorial.jpg)
 
 Here’s how it works:
 
-![How Tokenization Works. Before the Model: An ordinary tokenizer breaks text into reusable chunks before the words ever reach AI. Two Names: Tokenization is the process. Tokens are the chunks it produces. A Token Might Be: A word, part of a word, punctuation, an emoji, or the space before a word.](tokens-how-tokenization-works-editorial.jpg)
+![How Tokenization Works. Start With Text: You type a question or message. Split Into Tokens: A program called a tokenizer breaks the text into reusable chunks. Look Up Token IDs: The tokenizer finds each chunk’s number in its vocabulary. In this cl100k_base example, unbelievable becomes un, belie, and vable, with IDs 359, 32898, and 24694. Tokenization turns text into token IDs the model can use.](tokens-how-tokenization-works-editorial.jpg)
 
 Each model knows a fixed set of them, called its **vocabulary**, and these run large: ChatGPT’s holds about **200,000** tokens and Gemini’s about **256,000**. Anthropic hasn’t published Claude’s.
 
 Each token gets a number, its **token ID**. Think of it as an address in the model’s vocabulary: it tells the model which token, but says nothing about what it means.
 
-![Humans See a Cat. AI Starts With a Token ID. A person recognizes the complete animal immediately. A tokenizer instead converts the cat token into vocabulary ID 9246; the identifier does not contain the token's meaning.](tokens-cat-token-id-editorial.jpg)
+![Humans See a Cat. AI Starts With a Token ID. A person recognizes the animal. On the AI side, the written word cat becomes token ID 4719, using cl100k_base. A token ID identifies the token. Meaning comes later.](tokens-cat-token-id-editorial.jpg)
 
-Here’s how AI splits text into tokens. Each AI does this differently, so this is only an example.
+Different tokenizers can split the same text differently. Here are examples from one tokenizer.
 
-![How AI Splits Text Into Tokens. Examples show unbelievable split into un, believ, and able; basketball into basket and ball; ChatGPT into Chat, G, and PT; I love AI split into three tokens including leading spaces; and a web address split into seven reusable pieces.](tokens-how-ai-splits-text-editorial.jpg)
+![How AI Splits Text Into Tokens. Verified cl100k_base examples: unbelievable becomes un (359), belie (32898), vable (24694); basketball becomes basket (60864), ball (4047); ChatGPT becomes Chat (16047), G (38), PT (2898); I ♥ AI becomes I (40), space plus ♥ (68679), space plus AI (15592). https://www.quickbookstraining.com becomes eight tokens: https (2485), :// (1129), www (2185), .quick (92074), book (2239), str (496), aining (2101), .com (916). SP marks a leading space. Numbers below the chunks are token IDs.](tokens-how-ai-splits-text-verified-editorial.jpg)
 
 Once it’s built, the model uses that same fixed vocabulary of tokens every time it reads text.
 

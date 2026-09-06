@@ -8,7 +8,7 @@ That is where you are now with AI. You have learned the fundamentals and built i
 
 ## A NOTE FROM NATE AND LUKE
 
-We’re still in high school, too. We’re not qualified to tell you what to do next. But we learned a lot while building this course. Use these moves as starting points, talk with adults who know you, and remember that nobody can predict what the future will look like.
+We’re still in high school, too. Building this course taught us a lot. Use these moves as starting points, talk with adults who know you, and remember: nobody knows exactly what the future holds.
 
 ## AI AND YOUR FUTURE CAREER
 

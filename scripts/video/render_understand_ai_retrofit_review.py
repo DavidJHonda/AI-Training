@@ -53,6 +53,7 @@ class Card:
     body: str
     accent: str
     art: str
+    bold_word: str | None = None
 
 
 def mix(color: str, opacity: float, base: str = "#ffffff") -> tuple[int, int, int]:
@@ -120,6 +121,25 @@ def draw_token(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], accent
 
 def art_panel(size: tuple[int, int], accent: str, kind: str) -> Image.Image:
     w, h = size
+    if kind.startswith("token-flow-"):
+        # Verified cl100k_base example; keep the same chunks across all stages.
+        art = Image.new("RGB", size, mix(accent, 0.10))
+        draw = ImageDraw.Draw(art)
+        if kind == "token-flow-text":
+            draw.rounded_rectangle((20, h // 2 - 40, w - 20, h // 2 + 40), radius=12, fill=WHITE)
+            draw.text((w / 2, h / 2), "unbelievable", font=face("bold", 36), fill=INK, anchor="mm")
+        else:
+            chunks = (("un", "359"), ("belie", "32898"), ("vable", "24694"))
+            column = (w - 40) / 3
+            for i, (chunk, token_id) in enumerate(chunks):
+                x = 20 + column * (i + 0.5)
+                y = h / 2 if kind == "token-flow-chunks" else h / 2 - 53
+                draw.rounded_rectangle((x - column / 2 + 5, y - 32, x + column / 2 - 5, y + 32), radius=10, fill=WHITE, outline=mix(accent, 0.30), width=2)
+                draw.text((x, y), chunk, font=face("bold", 32), fill=accent, anchor="mm")
+                if kind == "token-flow-ids":
+                    arrow(draw, (x, y + 43), (x, y + 69), accent, 3)
+                    draw.text((x, y + 104), token_id, font=face("bold", 29), fill=INK, anchor="mm")
+        return art
     custom = OUT / "assets" / "card-illustrations" / f"{kind}.png"
     if custom.exists():
         image = Image.open(custom).convert("RGB")
@@ -566,7 +586,7 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
     save(canvas, out_path)
 
 
-def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: Path, loop_to: int | None = None) -> None:
+def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: Path, loop_to: int | None = None, intro: str | None = None) -> None:
     n = len(steps)
     stage_top = 127
     stage_left, stage_right = 40, 1560
@@ -574,10 +594,32 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
     gap = 34
     cell_w = (inner_w - 80 - gap * (n - 1)) // n
     art_h = round(cell_w * 9 / 16)
-    art_top = 175
+    art_top = 175 + (76 if intro else 0)
     body_font = face("medium", 29)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
-    bodies = [wrap(measure, step.body, body_font, cell_w - 10) for step in steps]
+    bold_font = face("bold", 29)
+
+    def line_width(text: str, emphasis: str | None) -> float:
+        if emphasis and emphasis in text:
+            before, word, after = text.partition(emphasis)
+            return (measure.textlength(before, font=body_font)
+                    + measure.textlength(word, font=bold_font)
+                    + measure.textlength(after, font=body_font))
+        return measure.textlength(text, font=body_font)
+
+    bodies = []
+    for step in steps:
+        lines, current = [], ""
+        for word in step.body.split():
+            trial = f"{current} {word}".strip()
+            if current and line_width(trial, step.bold_word) > cell_w - 10:
+                lines.append(current)
+                current = word
+            else:
+                current = trial
+        if current:
+            lines.append(current)
+        bodies.append(lines)
     max_lines = max(len(lines) for lines in bodies)
     marker_y = art_top + art_h + 43
     title_y = marker_y + 47
@@ -592,6 +634,8 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
     draw.rounded_rectangle((stage_left, stage_top, stage_right, stage_bottom), radius=14, fill=WHITE)
+    if intro:
+        draw.text((80, 165), intro, font=body_font, fill=BODY, anchor="la")
     centers = []
     left = stage_left + 40
     for i, step in enumerate(steps):
@@ -608,7 +652,18 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
         draw_inner_title(draw, (center, title_y), step.title, fill=step.accent, anchor="ma")
         yy = body_y
         for line in lines:
-            draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
+            if step.bold_word and step.bold_word in line:
+                before, word, after = line.partition(step.bold_word)
+                runs = ((before, body_font), (word, face("bold", 29)), (after, body_font))
+                line_width = sum(draw.textlength(text, font=font) for text, font in runs)
+                if line_width > cell_w - 10:
+                    raise ValueError(f"Emphasized flow line overflows: {line}")
+                x = center - line_width / 2
+                for text, font in runs:
+                    draw.text((x, yy), text, font=font, fill=BODY, anchor="la")
+                    x += draw.textlength(text, font=font)
+            else:
+                draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
             yy += 41
     if loop_to is not None:
         y = body_bottom + 90
@@ -619,6 +674,21 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
     if takeaway:
         draw_takeaway_band(canvas, top=footer_top, left=40, right=1560, text=takeaway, font=face("medium", TAKEAWAY_TEXT_SIZE))
     save(canvas, out_path)
+
+
+def render_cat_token_id(out_path: Path) -> None:
+    render_cards("Humans See a Cat. AI Starts With a Token ID.", [
+        Card("Instant Understanding", "You know what cat means: fur, whiskers, the animal.", TEAL, "human-cat"),
+        Card("Token ID", "Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.", PURPLE, "token-id-written"),
+    ], "A token ID identifies the token. Meaning comes later.", out_path)
+
+
+def render_tokenization_flow(out_path: Path) -> None:
+    render_flow("How Tokenization Works", [
+        Card("Start With Text", "You type a question or message.", PURPLE, "token-flow-text"),
+        Card("Split Into Tokens", "A program called a tokenizer breaks the text into reusable chunks.", BLUE, "token-flow-chunks"),
+        Card("Look Up Token IDs", "The tokenizer finds each chunk’s number in its vocabulary.", TEAL, "token-flow-ids"),
+    ], "Tokenization turns text into token IDs the model can use.", out_path)
 
 
 def render_before_answer_begins(out_path: Path) -> None:
@@ -1858,7 +1928,7 @@ def render_math_formula(out_path: Path) -> None:
 
     fraction_center = 650
     formula_y = 282
-    draw.text((fraction_center, formula_y - 42), "Ways it happens", font=face("bold", 38), fill=INK, anchor="mm")
+    draw.text((fraction_center, formula_y - 42), "Ways to get the result", font=face("bold", 38), fill=INK, anchor="mm")
     draw.line((400, formula_y, 900, formula_y), fill=INK, width=4)
     draw.text((fraction_center, formula_y + 48), "Total possible outcomes", font=face("medium", 34), fill=INK, anchor="mm")
     draw.text((980, formula_y), "=", font=face("bold", 40), fill=INK, anchor="mm")
@@ -1868,7 +1938,7 @@ def render_math_formula(out_path: Path) -> None:
         top=footer_top,
         left=40,
         right=1560,
-        text="Ways it happens ÷ total outcomes = probability.",
+        text="Ways to get the result ÷ total possible outcomes = probability.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -1924,8 +1994,8 @@ def render_one_coin(out_path: Path) -> None:
 
 
 def render_two_coins(out_path: Path) -> None:
-    title = "Chance of Two Heads: Two Coin Tosses"
-    stage_top = 127
+    title = "Counting the Possibilities"
+    stage_top = 287
     stage_h = 660
     footer_top = stage_top + stage_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
@@ -1933,6 +2003,11 @@ def render_two_coins(out_path: Path) -> None:
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
+    # Match the course's full-width scenario strip above the worked example.
+    draw.rounded_rectangle((40, 127, 1560, 255), radius=14, fill=WHITE, outline=mix(PURPLE, 0.22), width=1)
+    draw.rectangle((40, 145, 48, 237), fill=PURPLE)
+    draw.text((72, 157), "THE SCENARIO", font=face("heavy", 20), fill=PURPLE, anchor="la")
+    draw.text((72, 195), "You toss two coins. What’s the chance that both land on heads?", font=face("medium", 32), fill=BODY, anchor="la")
     draw.rounded_rectangle((40, stage_top, 1560, stage_top + stage_h), radius=14, fill=WHITE)
 
     outcomes = (
@@ -1943,21 +2018,21 @@ def render_two_coins(out_path: Path) -> None:
     )
     centers = (245, 615, 985, 1355)
     for center, (label, first, second, result, result_color) in zip(centers, outcomes):
-        draw.text((center, 190), label, font=face("heavy", 21), fill=GREEN if result_color == GREEN else BLUE, anchor="ma")
-        draw_coin_face(draw, (center - 55, 286), first)
-        draw_coin_face(draw, (center + 55, 286), second)
-        draw.text((center, 378), result, font=face("heavy", 19), fill=result_color, anchor="ma")
+        draw.text((center, 350), label, font=face("heavy", 29), fill=GREEN if result_color == GREEN else BLUE, anchor="ma")
+        draw_coin_face(draw, (center - 55, 446), first)
+        draw_coin_face(draw, (center + 55, 446), second)
+        draw.text((center, 538), result, font=face("heavy", 29), fill=result_color, anchor="ma")
 
-    draw.line((110, 474, 1490, 474), fill=mix(PURPLE, 0.20), width=2)
-    draw.text((535, 570), "favorable outcome", font=face("bold", 38), fill=INK, anchor="mm")
-    draw.line((315, 611, 755, 611), fill=INK, width=4)
-    draw.text((535, 655), "possible outcomes", font=face("medium", 34), fill=INK, anchor="mm")
-    draw.text((820, 611), "=", font=face("bold", 40), fill=INK, anchor="mm")
-    draw.text((930, 571), "1", font=face("bold", 36), fill=INK, anchor="mm")
-    draw.line((896, 611, 964, 611), fill=INK, width=4)
-    draw.text((930, 653), "4", font=face("bold", 36), fill=INK, anchor="mm")
-    draw.text((1040, 611), "=", font=face("bold", 40), fill=INK, anchor="mm")
-    draw.text((1220, 611), "25%", font=face("heavy", 44), fill=PURPLE, anchor="mm")
+    draw.line((110, 634, 1490, 634), fill=mix(PURPLE, 0.20), width=2)
+    draw.text((535, 730), "Ways to get two heads", font=face("bold", 38), fill=INK, anchor="mm")
+    draw.line((270, 771, 800, 771), fill=INK, width=4)
+    draw.text((535, 815), "Total possible outcomes", font=face("medium", 34), fill=INK, anchor="mm")
+    draw.text((820, 771), "=", font=face("bold", 40), fill=INK, anchor="mm")
+    draw.text((930, 731), "1", font=face("bold", 36), fill=INK, anchor="mm")
+    draw.line((896, 771, 964, 771), fill=INK, width=4)
+    draw.text((930, 813), "4", font=face("bold", 36), fill=INK, anchor="mm")
+    draw.text((1040, 771), "=", font=face("bold", 40), fill=INK, anchor="mm")
+    draw.text((1220, 771), "25%", font=face("heavy", 44), fill=PURPLE, anchor="mm")
 
     draw_takeaway_band(
         canvas,
@@ -1971,8 +2046,8 @@ def render_two_coins(out_path: Path) -> None:
 
 
 def render_conditional_probability(out_path: Path) -> None:
-    title = "Chance of Two Heads After the Peek"
-    stage_top = 127
+    title = "A Clue Changes the Odds"
+    stage_top = 327
     stage_h = 660
     footer_top = stage_top + stage_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
@@ -1980,6 +2055,12 @@ def render_conditional_probability(out_path: Path) -> None:
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
+    # The setup stays on the board, matching the preceding coin example.
+    draw.rounded_rectangle((40, 127, 1560, 295), radius=14, fill=WHITE, outline=mix(PURPLE, 0.22), width=1)
+    draw.rectangle((40, 145, 48, 277), fill=PURPLE)
+    draw.text((72, 157), "THE SCENARIO", font=face("heavy", 20), fill=PURPLE, anchor="la")
+    draw.text((72, 195), "You toss two coins. Someone peeks and tells you the first coin landed heads.", font=face("medium", 32), fill=BODY, anchor="la")
+    draw.text((72, 236), "What’s the chance that both coins landed heads now?", font=face("medium", 32), fill=BODY, anchor="la")
     draw.rounded_rectangle((40, stage_top, 1560, stage_top + stage_h), radius=14, fill=WHITE)
 
     outcomes = (
@@ -1991,25 +2072,25 @@ def render_conditional_probability(out_path: Path) -> None:
     centers = (245, 615, 985, 1355)
     for center, (label, first, second, result, result_color, ruled_out) in zip(centers, outcomes):
         title_color = GREEN if result_color == GREEN else RED if ruled_out else BLUE
-        draw.text((center, 190), label, font=face("heavy", 21), fill=title_color, anchor="ma")
-        draw_coin_face(draw, (center - 55, 286), first)
-        draw_coin_face(draw, (center + 55, 286), second)
-        draw.text((center, 378), result, font=face("heavy", 19), fill=result_color, anchor="ma")
+        draw.text((center, 390), label, font=face("heavy", 29), fill=title_color, anchor="ma")
+        draw_coin_face(draw, (center - 55, 486), first)
+        draw_coin_face(draw, (center + 55, 486), second)
+        draw.text((center, 578), result, font=face("heavy", 29), fill=result_color, anchor="ma")
         if ruled_out:
             strike = mix(RED, 0.72)
-            draw.line((center - 122, 223, center + 122, 350), fill=strike, width=8)
-            draw.line((center + 122, 223, center - 122, 350), fill=strike, width=8)
+            draw.line((center - 122, 423, center + 122, 550), fill=strike, width=8)
+            draw.line((center + 122, 423, center - 122, 550), fill=strike, width=8)
 
-    draw.line((110, 474, 1490, 474), fill=mix(PURPLE, 0.20), width=2)
-    draw.text((535, 570), "favorable outcome", font=face("bold", 38), fill=INK, anchor="mm")
-    draw.line((315, 611, 755, 611), fill=INK, width=4)
-    draw.text((535, 655), "possible outcomes", font=face("medium", 34), fill=INK, anchor="mm")
-    draw.text((820, 611), "=", font=face("bold", 40), fill=INK, anchor="mm")
-    draw.text((930, 571), "1", font=face("bold", 36), fill=INK, anchor="mm")
-    draw.line((896, 611, 964, 611), fill=INK, width=4)
-    draw.text((930, 653), "2", font=face("bold", 36), fill=INK, anchor="mm")
-    draw.text((1040, 611), "=", font=face("bold", 40), fill=INK, anchor="mm")
-    draw.text((1220, 611), "50%", font=face("heavy", 44), fill=GREEN, anchor="mm")
+    draw.line((110, 674, 1490, 674), fill=mix(PURPLE, 0.20), width=2)
+    draw.text((535, 770), "Ways to get two heads", font=face("bold", 38), fill=INK, anchor="mm")
+    draw.line((270, 811, 800, 811), fill=INK, width=4)
+    draw.text((535, 855), "Total possible outcomes", font=face("medium", 34), fill=INK, anchor="mm")
+    draw.text((820, 811), "=", font=face("bold", 40), fill=INK, anchor="mm")
+    draw.text((930, 771), "1", font=face("bold", 36), fill=INK, anchor="mm")
+    draw.line((896, 811, 964, 811), fill=INK, width=4)
+    draw.text((930, 853), "2", font=face("bold", 36), fill=INK, anchor="mm")
+    draw.text((1040, 811), "=", font=face("bold", 40), fill=INK, anchor="mm")
+    draw.text((1220, 811), "50%", font=face("heavy", 44), fill=GREEN, anchor="mm")
 
     draw_takeaway_band(
         canvas,
@@ -2017,6 +2098,45 @@ def render_conditional_probability(out_path: Path) -> None:
         left=40,
         right=1560,
         text="After the clue: 1 out of 2 = 50%.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
+def render_dog_prediction_preview(out_path: Path) -> None:
+    """A brief language example, without the later lesson's prediction mechanics."""
+    title = "What Comes Next?"
+    prompt_top, prompt_bottom = 127, 255
+    stage_top, stage_bottom = 287, 748
+    footer_top = stage_bottom + TAKEAWAY_GAP
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_board_title(draw, title)
+
+    draw.rounded_rectangle((40, prompt_top, 1560, prompt_bottom), radius=14,
+                           fill=WHITE, outline=mix(PURPLE, 0.22), width=1)
+    draw.rectangle((40, prompt_top + 18, 48, prompt_bottom - 18), fill=PURPLE)
+    draw.text((72, prompt_top + 30), "YOU", font=face("heavy", 20), fill=PURPLE, anchor="la")
+    draw.text((72, prompt_top + 68), "What should I name my new dog?",
+              font=face("medium", 32), fill=BODY, anchor="la")
+
+    draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
+    draw.text((800, 322), "AI’S REPLY SO FAR", font=face("bold", 29), fill=PURPLE, anchor="ma")
+    draw.text((800, 376), "You could name him ____", font=face("bold", 44), fill=INK, anchor="ma")
+    draw.text((800, 465), "A FEW POSSIBLE NEXT WORDS", font=face("bold", 29), fill=BODY, anchor="ma")
+    for center, (word, percent) in zip((460, 800, 1140), (("Spot", 22), ("Max", 17), ("Buddy", 14))):
+        draw.rounded_rectangle((center - 140, 518, center + 140, 648), radius=14,
+                               fill=mix(PURPLE, 0.09), outline=mix(PURPLE, 0.24), width=2)
+        draw.text((center, 555), word, font=face("bold", 40), fill=PURPLE, anchor="mm")
+        draw.text((center, 606), f"{percent}%", font=face("bold", 36), fill=INK, anchor="mm")
+    draw.text((800, 685), "Illustrative probabilities. Other possible next words make up the remaining 47%.",
+              font=face("medium", 29), fill=BODY, anchor="ma")
+
+    draw_takeaway_band(
+        canvas, top=footer_top, left=40, right=1560,
+        text="The question and the words already written shape what is likely to come next.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -2127,9 +2247,9 @@ def render_chat_shell(out_path: Path) -> None:
 
 
 def render_one_chunk(out_path: Path) -> None:
-    title = "One Chunk. Thousands of Words."
-    stage_top = 127
-    stage_h = 560
+    """Highlight a shared chunk without claiming a full token-by-token split."""
+    title = "One Chunk, Many Words"
+    stage_top, stage_h = 127, 220
     height = stage_top + stage_h + 40
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
@@ -2137,39 +2257,20 @@ def render_one_chunk(out_path: Path) -> None:
     draw_board_title(draw, title)
     draw.rounded_rectangle((40, stage_top, 1560, stage_top + stage_h), radius=14, fill=WHITE)
 
-    def chunk(left: int, top: int, width: int, suffix: str) -> None:
+    word_font = face("bold", 40)
+    text_y = stage_top + stage_h // 2
+    # All three begin with the "un" token in cl100k_base. The rest of each word
+    # stays unboxed: it may contain one or more additional tokens.
+    for center, suffix in zip((310, 800, 1290), ("believable", "matchable", "usual")):
+        prefix_width = draw.textlength("un", font=word_font)
+        word_width = prefix_width + draw.textlength(suffix, font=word_font)
+        left = center - word_width / 2
         draw.rounded_rectangle(
-            (left, top, left + width, top + 100),
-            radius=16,
-            fill=WHITE,
-            outline=mix(PURPLE, 0.20),
-            width=2,
+            (left - 10, text_y - 36, left + prefix_width + 10, text_y + 36),
+            radius=12, fill=mix(PURPLE, 0.12),
         )
-        draw.rounded_rectangle(
-            (left + 22, top + 22, left + 104, top + 78),
-            radius=14,
-            fill=mix(PURPLE, 0.10),
-            outline=mix(PURPLE, 0.30),
-            width=2,
-        )
-        draw.text((left + 63, top + 50), "un", font=face("heavy", 27), fill=PURPLE, anchor="mm")
-        draw.text((left + 120, top + 50), suffix, font=face("bold", 28), fill=INK, anchor="lm")
-
-    rows = (
-        (("believable", 335), ("matchable", 335), ("tied", 230), ("lock", 220)),
-        (("fair", 230), ("do", 200), ("known", 250), ("usual", 250), ("happy", 250)),
-        (("plug", 230), ("fold", 230), ("seen", 230)),
-    )
-    row_tops = (177, 307, 437)
-    for row, top in zip(rows, row_tops):
-        gap = 24
-        total = sum(width for _, width in row) + gap * (len(row) - 1)
-        left = (WIDTH - total) // 2
-        for suffix, width in row:
-            chunk(left, top, width, suffix)
-            left += width + gap
-
-    draw.text((126, 600), "Plus thousands more", font=face("bold", 29), fill=MUTED, anchor="la")
+        draw.text((left, text_y), "un", font=word_font, fill=PURPLE, anchor="lm")
+        draw.text((left + prefix_width, text_y), suffix, font=word_font, fill=INK, anchor="lm")
     save(canvas, out_path)
 
 
@@ -2180,17 +2281,17 @@ def render_token_splits(out_path: Path) -> None:
     they are never scaled down to fit a preselected shell.
     """
     rows = (
-        ("01", "unbelievable", (("un", "359"), ("believ", "81928"), ("able", "481")), "3 tokens (broken into known parts)"),
-        ("02", "basketball", (("basket", "60844"), ("ball", "4803")), "2 tokens"),
-        ("03", "ChatGPT", (("Chat", "16047"), ("G", "38"), ("PT", "2898")), "3 tokens (brand names get split)"),
-        ("04", "I ♥ AI", (("I", "40"), ("SP ♥", "157644"), ("SP AI", "15592")), "3 tokens (SP marks a leading space)"),
-        ("05", "https://www.quickbookstraining.com", (("https", "5765"), ("://", "1358"), ("www", "2185"), (".quick", "23489"), ("books", "12483"), ("training", "6573"), (".com", "916")), "7 tokens (URLs split into known pieces)"),
+        ("01", "unbelievable", (("un", "359"), ("belie", "32898"), ("vable", "24694")), "3 tokens (one word, three chunks)"),
+        ("02", "basketball", (("basket", "60864"), ("ball", "4047")), "2 tokens"),
+        ("03", "ChatGPT", (("Chat", "16047"), ("G", "38"), ("PT", "2898")), "3 tokens (this name splits into three chunks)"),
+        ("04", "I ♥ AI", (("I", "40"), ("SP ♥", "68679"), ("SP AI", "15592")), "3 tokens (SP marks a leading space)"),
+        ("05", "https://www.quickbookstraining.com", (("https", "2485"), ("://", "1129"), ("www", "2185"), (".quick", "92074"), ("book", "2239"), ("str", "496"), ("aining", "2101"), (".com", "916")), "8 tokens (even a web address breaks into chunks)"),
     )
     stage_top = 127
     first_row_top = 155
     standard_row_h = 190
     final_row_h = 245
-    stage_bottom = first_row_top + standard_row_h * 4 + final_row_h + 28
+    stage_bottom = first_row_top + standard_row_h * 4 + final_row_h + 88
     height = stage_bottom + 40
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
@@ -2201,7 +2302,7 @@ def render_token_splits(out_path: Path) -> None:
     number_font = face("bold", 40)
     example_font = face("heavy", 29)
     token_font = face("bold", 29)
-    id_font = face("heavy", 20)
+    id_font = face("bold", 29)
     note_font = face("medium", 29)
 
     def draw_heart(cx: int, cy: int, size: int) -> None:
@@ -2231,7 +2332,9 @@ def render_token_splits(out_path: Path) -> None:
 
     def draw_chip(x: int, top: int, label: str, token_id: str, alternate: bool) -> int:
         text_w = round(draw.textlength(label.replace("♥", ""), font=token_font)) + (26 if "♥" in label else 0)
-        chip_w = max(86, text_w + 44)
+        chip_w = max(86, text_w + 44, round(draw.textlength(token_id, font=id_font)) + 24)
+        if x + chip_w > 1520:
+            raise ValueError(f"Token chip overflows board: {label}")
         draw.rounded_rectangle(
             (x, top, x + chip_w, top + 62),
             radius=14,
@@ -2240,7 +2343,7 @@ def render_token_splits(out_path: Path) -> None:
             width=2,
         )
         draw_label_with_heart(x + chip_w // 2, top + 31, label, token_font)
-        draw.text((x + chip_w // 2, top + 78), token_id, font=id_font, fill=MUTED, anchor="mm")
+        draw.text((x + chip_w // 2, top + 84), token_id, font=id_font, fill=BODY, anchor="mm")
         return x + chip_w
 
     top = first_row_top
@@ -2271,6 +2374,7 @@ def render_token_splits(out_path: Path) -> None:
             draw.text((162, top + 196), note, font=note_font, fill=BODY, anchor="la")
             top += final_row_h
 
+    draw.text((80, stage_bottom - 48), "Numbers below the chunks are token IDs. Tokenizer: cl100k_base.", font=note_font, fill=BODY, anchor="lm")
     save(canvas, out_path)
 
 
@@ -2347,93 +2451,16 @@ def draw_phase_section(
 
 
 def render_pretraining_phase(out_path: Path) -> None:
-    title = "1 · Pretraining"
-    accent = PURPLE
-    height = 1410
-    canvas = Image.new("RGB", (WIDTH, height), FRAME)
-    draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_phase_header(draw, title)
-    draw.rounded_rectangle((40, 127, 1560, height - 40), radius=14, fill=WHITE)
-
-    draw.text((74, 174), "LEARN BROAD PATTERNS", font=face("heavy", 20), fill=accent, anchor="la")
-    draw_wrapped(
-        draw,
-        "The model grinds through the data on its own. It runs this same loop billions of times.",
-        74,
-        214,
-        1410,
-        face("medium", 29),
-    )
-
-    card_top, card_h, card_w = 298, 388, 448
-    lefts = (74, 576, 1078)
-    cards = (
-        ("READS", "Books · websites · chats · code", "More than you could read in 1,000 lifetimes."),
-        ("GUESSES", "Peanut butter and ___", "Wrong. Nudge the model’s internal numbers."),
-        ("CORRECTS", "Peanut butter and ___", "A little more accurate with every pass."),
-    )
-    for i, (left, (label, lead, body)) in enumerate(zip(lefts, cards), 1):
-        draw.rounded_rectangle(
-            (left, card_top, left + card_w, card_top + card_h),
-            radius=14,
-            fill=mix(accent, 0.06),
-            outline=mix(accent, 0.22),
-            width=2,
-        )
-        draw.rounded_rectangle((left + 28, card_top + 26, left + 74, card_top + 60), radius=17, fill=mix(accent, 0.15))
-        draw.text((left + 51, card_top + 43), str(i), font=face("heavy", 20), fill=accent, anchor="mm")
-        draw.text((left + 92, card_top + 43), label, font=face("heavy", 20), fill=accent, anchor="lm")
-        if i == 1:
-            draw_wrapped(draw, lead, left + 28, card_top + 104, card_w - 56, face("bold", 32), INK, 44)
-            draw.line((left + 28, card_top + 207, left + card_w - 28, card_top + 207), fill=mix(accent, 0.22), width=2)
-        else:
-            draw.text((left + 28, card_top + 117), lead, font=face("bold", 31), fill=INK, anchor="la")
-            answer = "cloud" if i == 2 else "jelly"
-            result_accent = RED if i == 2 else GREEN
-            draw.rounded_rectangle(
-                (left + 28, card_top + 180, left + card_w - 28, card_top + 252),
-                radius=14,
-                fill=mix(result_accent, 0.10),
-                outline=mix(result_accent, 0.30),
-                width=2,
-            )
-            if i == 2:
-                draw.line((left + 48, card_top + 204, left + 62, card_top + 228), fill=result_accent, width=6)
-                draw.line((left + 62, card_top + 204, left + 48, card_top + 228), fill=result_accent, width=6)
-            else:
-                draw.line((left + 45, card_top + 216, left + 56, card_top + 227), fill=result_accent, width=6)
-                draw.line((left + 56, card_top + 227, left + 73, card_top + 202), fill=result_accent, width=6)
-            draw.text((left + 103, card_top + 216), answer, font=face("bold", 32), fill=result_accent, anchor="lm")
-        draw_wrapped(draw, body, left + 28, card_top + 278, card_w - 56, face("medium", 27), BODY, 38)
-
-    arrow(draw, (530, card_top + 194), (566, card_top + 194), PURPLE, 6)
-    arrow(draw, (1032, card_top + 194), (1068, card_top + 194), PURPLE, 6)
-
-    draw_phase_section(
-        draw,
-        (74, 732, 1526, 910),
-        "WHAT HAPPENED",
-        "Knowledge now lives in learned patterns. Jelly follows peanut butter and. Star follows Twinkle, twinkle, little. Those patterns live in the model’s weights.",
-        accent,
-    )
-    draw_phase_section(
-        draw,
-        (74, 944, 1526, 1174),
-        "HOW IT ANSWERS · BASKETBALL",
+    render_training_phase(
+        "1 · Pretraining",
+        PURPLE,
+        "Learn from Vast Amounts of Data",
+        "The model guesses what comes next in vast amounts of text and code, then checks its guess against the example. Training adjusts its internal numbers, called weights. Across many examples, it learns patterns that help it write sentences, explain ideas, and produce code.",
         "“The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”",
-        accent,
-        wash=True,
-        strong=True,
+        "The model can produce fluent text, but it doesn’t reliably follow your instructions yet.",
+        out_path,
+        subtitle="More than you could read in 1,000 lifetimes.",
     )
-    draw_phase_section(
-        draw,
-        (74, 1208, 1526, 1336),
-        "WHAT IT DOESN’T KNOW",
-        "It does not know it is in a conversation.",
-        accent,
-    )
-    save(canvas, out_path)
 
 
 def render_training_phase(
@@ -2441,36 +2468,51 @@ def render_training_phase(
     accent: str,
     method_title: str,
     method_text: str,
-    happened_text: str,
     answer_text: str,
     missing_text: str,
     out_path: Path,
+    *,
+    subtitle: str | None = None,
 ) -> None:
-    height = 1160
+    """Three matching, content-sized panels. No duplicate 'What Happened' block."""
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    body_font = face("medium", 29)
+    text_width = 1384
+    method_lines = wrap(measure, method_text, body_font, text_width)
+    answer_lines = wrap(measure, answer_text, body_font, text_width)
+    missing_lines = wrap(measure, missing_text, body_font, text_width)
+    method_top = 165
+    method_body_y = method_top + 94 + (55 if subtitle else 0)
+    method_bottom = method_body_y + len(method_lines) * 41 + 30
+    answer_top = method_bottom + 32
+    answer_body_y = answer_top + 94
+    answer_bottom = answer_body_y + len(answer_lines) * 41 + 30
+    missing_top = answer_bottom + 32
+    missing_body_y = missing_top + 94
+    missing_bottom = missing_body_y + len(missing_lines) * 41 + 30
+    height = missing_bottom + 74
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_phase_header(draw, title)
+    draw_board_title(draw, title)
     draw.rounded_rectangle((40, 127, 1560, height - 40), radius=14, fill=WHITE)
 
-    draw_phase_section(draw, (74, 165, 950, 518), method_title, method_text, accent)
-    draw_phase_section(draw, (984, 165, 1526, 518), "WHAT HAPPENED", happened_text, accent, wash=True)
-    draw_phase_section(
-        draw,
-        (74, 552, 1526, 842),
-        "HOW IT ANSWERS · BASKETBALL",
-        answer_text,
-        accent,
-        wash=True,
-        strong=True,
-    )
-    draw_phase_section(
-        draw,
-        (74, 876, 1526, 1086),
-        "WHAT IT DOESN’T KNOW",
-        missing_text,
-        accent,
-    )
+    for top, bottom, heading, lines, body_y, wash in (
+        (method_top, method_bottom, method_title, method_lines, method_body_y, False),
+        (answer_top, answer_bottom, "What an Answer Might Look Like", answer_lines, answer_body_y, True),
+        (missing_top, missing_bottom, "What Still Needs Work", missing_lines, missing_body_y, False),
+    ):
+        draw.rounded_rectangle(
+            (74, top, 1526, bottom), radius=14,
+            fill=mix(accent, 0.075) if wash else WHITE,
+            outline=mix(accent, 0.22), width=2,
+        )
+        draw.rectangle((74, top + 14, 81, bottom - 14), fill=accent)
+        draw_inner_title(draw, (108, top + 30), heading, fill=accent)
+        for i, line in enumerate(lines):
+            draw.text((108, body_y + i * 41), line, font=body_font, fill=BODY, anchor="la")
+    if subtitle:
+        draw.text((108, method_top + 90), subtitle, font=body_font, fill=accent, anchor="la")
     save(canvas, out_path)
 
 
@@ -2936,6 +2978,42 @@ def board_path(lesson: str, filename: str) -> Path:
     return OUT / "boards" / lesson / filename
 
 
+def render_training_boards() -> None:
+    """Render only Training, without removing or rebuilding any other lesson."""
+    render_flow("The Training Loop", [
+        Card("Guess", "Given ‘Peanut butter and ___,’ the model guesses cloud.", PURPLE, "training-guess", bold_word="cloud"),
+        Card("Check", "The example says jelly. Compare the guess with that word.", BLUE, "training-check", bold_word="jelly"),
+        Card("Adjust", "Adjust the model’s internal numbers to make jelly more likely in this situation.", TEAL, "training-nudge", bold_word="jelly"),
+    ], "Repeat with more examples. The patterns build.", board_path("training", "01-training-loop.jpg"),
+        loop_to=0, intro="Training example: “Peanut butter and jelly.”")
+    render_cards("Before Training Starts", [
+        Card("Set Up the System", "Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.", PURPLE, "training-setup-system"),
+        Card("Gather the Data", "Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.", BLUE, "training-gather-data"),
+    ], None, board_path("training", "02-before-training.jpg"))
+    render_pretraining_phase(board_path("training", "03-pretraining.jpg"))
+    render_training_phase(
+        "2 · Instruction Tuning", BLUE, "Learn to Follow Instructions",
+        "People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.",
+        "“To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”",
+        "The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.",
+        board_path("training", "04-instruction-tuning.jpg"),
+    )
+    render_training_phase(
+        "3 · Preference Tuning", GREEN, "Learn from Feedback",
+        "People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.",
+        "“Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.”",
+        "Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.",
+        board_path("training", "05-preference-tuning.jpg"),
+    )
+    render_teaching(
+        "Training Is Finished",
+        OUT / "assets/teaching-illustrations/training-finished.png",
+        board_path("training", "06-training-finished.jpg"),
+        (("PRETRAINING", .17, .79), ("INSTRUCTION", .44, .79), ("PREFERENCE", .66, .79), ("FINISHED MODEL", .88, .79)),
+    )
+
+
+
 def render_all() -> None:
     # Preserve the title-free review art generated for this package.
     shutil.rmtree(OUT / "boards", ignore_errors=True)
@@ -2950,70 +3028,20 @@ def render_all() -> None:
         board_path("opener", "01-under-the-hood.jpg"),
     )
 
-    # Training
-    render_flow("The Training Loop", [
-        Card("Guess", "The model produces an answer.", PURPLE, "training-guess"),
-        Card("Check", "The model compares its guess to the correct answer, or a person evaluates it.", BLUE, "training-check"),
-        Card("Nudge", "Adjust the model’s internal numbers.", TEAL, "training-nudge"),
-    ], "Same loop. Different lessons.", board_path("training", "01-training-loop.jpg"), loop_to=0)
-    render_cards("Before Training Starts", [
-        Card("Set Up the System", "Engineers define the vocabulary, dimensions, layers, and architecture. Every internal number begins random.", PURPLE, "training-setup-system"),
-        Card("Gather the Data", "Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.", BLUE, "training-gather-data"),
-    ], None, board_path("training", "02-before-training.jpg"))
-    render_pretraining_phase(board_path("training", "03-pretraining.jpg"))
-    render_training_phase(
-        "2 · Instruction Tuning",
-        BLUE,
-        "TEACH IT TO HAVE CONVERSATIONS",
-        "Human-written examples show a question and a strong answer. The model tries the same prompt, compares its answer with the human answer, and nudges its weights toward the example.",
-        "The model now recognizes that it is in a conversation. It answers the question instead of continuing the text.",
-        "“To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”",
-        "It does not know what makes one answer feel better than another.",
-        board_path("training", "04-instruction-tuning.jpg"),
-    )
-    render_training_phase(
-        "3 · Preference Tuning",
-        GREEN,
-        "RANK THE AI’S ANSWERS · RLHF",
-        "People ask a question. The model writes several answers. Reviewers rank them from best to worst, and training nudges the model toward the winners.",
-        "The rankings teach preference. Then the weights freeze and the finished model is ready to use.",
-        "“Great question! The biggest thing beginners get wrong is using two hands to push the ball. Try this: flick your wrist like you’re reaching into a cookie jar on a high shelf. Want tips on free throws?”",
-        "It still does not know whether an answer is true. Fluency, confidence, and likability do not guarantee correctness.",
-        board_path("training", "05-preference-tuning.jpg"),
-    )
-    render_teaching(
-        "Training Is Finished",
-        teaching / "training-finished.png",
-        board_path("training", "06-training-finished.jpg"),
-        (("PRETRAINING", .17, .79), ("INSTRUCTION", .44, .79), ("PREFERENCE", .66, .79), ("FINISHED MODEL", .88, .79)),
-    )
-
+    render_training_boards()
     # AI Is Math
     render_math_formula(board_path("ai-is-math", "01-the-math.jpg"))
     render_one_coin(board_path("ai-is-math", "02-one-coin.jpg"))
     render_two_coins(board_path("ai-is-math", "03-two-coins.jpg"))
     render_conditional_probability(board_path("ai-is-math", "04-conditional-probability.jpg"))
-    render_rain_probability(board_path("ai-is-math", "05-evidence-to-next-word.jpg"))
-    render_teaching(
-        "From Base Rate to Next Word",
-        teaching / "base-rate-next-word.png",
-        board_path("ai-is-math", "06-base-rate-teaching.jpg"),
-        (("BASE RATE", .14, .77), ("NEW CLUE", .47, .77), ("NEXT WORD", .78, .82)),
-    )
+    render_dog_prediction_preview(board_path("ai-is-math", "05-what-comes-next.jpg"))
 
     # Tokens
     render_chat_shell(board_path("tokens", "01-what-using-ai-feels-like.jpg"))
     render_one_chunk(board_path("tokens", "02-one-chunk.jpg"))
-    render_cards("How Tokenization Works", [
-        Card("Before the Model", "An ordinary tokenizer breaks text into reusable chunks before the words ever reach AI.", PURPLE, "tokenizer"),
-        Card("Two Names", "Tokenization is the process. Tokens are the chunks it produces.", BLUE, "chunks"),
-        Card("A Token Might Be", "A word, part of a word, punctuation, an emoji, or the space before a word.", TEAL, "split"),
-    ], None, board_path("tokens", "03-how-tokenization-works.jpg"))
-    render_cards("Humans See a Cat. AI Starts With a Token ID.", [
-        Card("Instant Understanding", "You know what cat means: fur, whiskers, the animal.", TEAL, "human-cat"),
-        Card("Token ID", "The tokenizer assigns cat the ID 9246. The number identifies the token, not its meaning.", PURPLE, "token-id"),
-    ], "A token ID identifies the token. Meaning comes later.", board_path("tokens", "04-cat-vs-token-id.jpg"))
-    render_token_splits(board_path("tokens", "05-token-splits.jpg"))
+    render_tokenization_flow(board_path("tokens", "03-how-tokenization-works.jpg"))
+    render_cat_token_id(board_path("tokens", "04-cat-vs-token-id.jpg"))
+    render_token_splits(board_path("tokens", "05-token-splits-verified.jpg"))
     render_teaching(
         "Text Becomes Tokens",
         teaching / "text-becomes-tokens.png",

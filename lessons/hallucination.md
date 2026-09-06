@@ -41,6 +41,26 @@ This was not the same kind of error as the fake Stanford study. The source was r
 
 Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up.
 
+### Check the Claim
+
+The two examples show why checking takes more than noticing that an answer includes a source. A source can be invented, or a real source can be misread. Check for both.
+
+**1. Notice the Claim.** Something doesn’t add up. Identify the fact, number, or study you want to check.
+
+Start with something specific. In the playlist answer, that could be the claim that a Stanford study found music improved recall by 18%. You have a particular claim to investigate, rather than a vague feeling about the entire answer.
+
+**2. Find the Source.** Look for the original study, article, or document. A citation alone isn’t proof.
+
+Look for something you can actually open and read. In our playlist example, the named study does not exist. If you cannot find a source, do not treat the claim as verified just because AI supplied an impressive name or precise number.
+
+**3. Check the Match.** Does the source exist, and does it actually support what AI said?
+
+Finding a source is not the finish line. Read what it says and consider its context. The Reddit comment existed, but it was a joke, not sincere advice about making pizza. AI found real text and gave it the wrong meaning.
+
+That is the practical difference between our examples: the Stanford study fails the source check. The Reddit comment fails the meaning check. The goal is not to distrust every sentence. It is to trace a questionable claim back to evidence that actually supports it.
+
+### Closing Message
+
 Hallucinations sound like every other AI answer.
 
 When something doesn’t add up, trace the claim to its source.

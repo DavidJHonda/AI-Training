@@ -1,6 +1,6 @@
 # Flattery Trap targeted re-roll and pending repairs
 
-Status: awaiting a newly generated five-moves segment. Do not ship the current patched candidate yet.
+Status: donor evaluated and approved, and the combined review candidate built on 2026-09-07. Review `Prompts/flattery-trap-five-moves-patched.mp4` (6:21.5). See `video-audit/flattery-five-moves-hybrid-2026-09-07/REVIEW.md`. Neither candidate is shipped yet. The remainder of this file preserves the original revision brief.
 
 ## Upload kit
 
@@ -36,4 +36,3 @@ Times below refer approximately to the 4:06.5 patched review candidate, not the 
 Record final-output splice frames after all cuts, inserted pause and new segment. Run transition_guard.py and inspect every-frame boundary strips, plus every settled highlight state. Check complete words and sentence transitions, breaths and signal continuity. Verify a full one-second inserted pause in encoded audio, with the quote visual held throughout. Exact course closing must be the literal final frame.
 
 Do not modify index.html, live videos, or the current lesson in this preparation pass.
-

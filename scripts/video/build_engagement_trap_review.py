@@ -9,8 +9,9 @@ import build_your_choices_reroll_review as common
 from build_work_changes_hybrid import render_leg
 from build_flattery_trap_review import render_illustration
 SOURCE=ROOT/'Prompts/engagement-trap.mp4'
-OUTPUT=ROOT/'Prompts/engagement-trap-patched.mp4'
-AUDIT=ROOT/'video-audit/engagement-trap-repair-2026-09-07'
+APPROVED=ROOT/'Prompts/engagement-trap-patched.mp4'
+OUTPUT=ROOT/'Prompts/engagement-trap-patched-v4.mp4'
+AUDIT=ROOT/'video-audit/engagement-trap-flat-frame-2026-09-07'
 at=common.at
 CUTS=tuple((at(a),at(b)) for a,b in ((58.3,74.4),(105.1,117.933333),(236.833333,246.066667)))
 common.CUTS=CUTS
@@ -24,13 +25,17 @@ def replacements():
         p=tuple(at(t) for t in points)
         result.append((p[0],p[-1],common.make_leg(name,asset,p,tuple(states))))
     compare=ROOT/'illustrations/engagement-trap-comparison-v2.jpg'
-    add('follow-up-offer',compare,(16.7,19.4,40.233333),(
+    # Exact upper portion of the lesson board: keep both turns readable without
+    # clipping the neighboring prompt or displaying fragments of the outcomes.
+    chat= AUDIT/'assets/comparison-chat-only.png'
+    cv2.imwrite(str(chat),cv2.imread(str(compare))[:740])
+    add('follow-up-offer',chat,(16.7,19.4,40.233333),(
         ('establish',None,VP,None,0),
-        ('complete-ai-bubble',(96,335,1504,542),B,(800,438.5,1680),30)))
+        ('complete-ai-bubble',(80,452,1000,668),VP,None,0)))
     add('two-endings',compare,(58.3,78.5,82.4,92.833333),(
         ('establish',None,VP,None,0),
-        ('you-stop',(40,610,784,1210),B,(800,974,1680),30),
-        ('the-trap',(816,610,1560,1210),A,(800,974,1680),0)))
+        ('you-stop',(40,740,784,1340),B,(800,1104,1680),30),
+        ('the-trap',(816,740,1560,1340),A,(800,1104,1680),0)))
     add('infinite-scroll',ROOT/'illustrations/engagement-trap-scroll-v2.jpg',
         (149.366667,153.4,164.2,179.5,186.166667),(
         ('establish',None,VP,None,0),
@@ -75,6 +80,7 @@ def main():
     (AUDIT/'assets').mkdir(parents=True,exist_ok=True)
     assert common.frame_count(SOURCE)==8480
     sourcehash=common.file_md5(SOURCE)
+    approvedhash=common.file_md5(APPROVED)
     live=ROOT/'videos/engagement-trap.mp4';livehash=common.file_md5(live)
     items=replacements();expected=mapped(END)
     boundaries={mapped(a):f'audio-cut-{i+1}' for i,(a,b) in enumerate(CUTS)}
@@ -112,17 +118,19 @@ def main():
         for i,(a,b,path,n) in enumerate(renders,1):
             native(cursor,a);common.rendered_video(graph,vl,i,n);cursor=b
         graph.append(''.join(vl)+f'concat=n={len(vl)}:v=1:a=0,format=yuv420p[outv]')
-        cursor=0
-        for a,b in CUTS:splice_audio(graph,al,cursor,a);cursor=b
-        splice_audio(graph,al,cursor,END)
-        graph.append(''.join(al)+f'concat=n={len(al)}:v=0:a=1[outa]')
+        # Rebuild visuals from the pristine roll, but stream-copy the already
+        # approved narration so this visual-only revision cannot change a breath.
+        assert common.frame_count(APPROVED)==expected
         cmd=[common.FFMPEG,'-y','-hide_banner','-loglevel','error','-i',str(SOURCE)]
         for a,b,path,n in renders:cmd+=['-i',str(path)]
-        cmd+=['-filter_complex',';'.join(graph),'-map','[outv]','-map','[outa]','-r','30','-c:v','libx264','-crf','18','-preset','medium','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(OUTPUT)]
+        cmd+=['-i',str(APPROVED)]
+        cmd+=['-filter_complex',';'.join(graph),'-map','[outv]','-map',f'{len(renders)+1}:a:0','-r','30','-c:v','libx264','-crf','18','-preset','medium','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(OUTPUT)]
         print('Encoding review candidate',flush=True);subprocess.run(cmd,check=True)
     assert common.frame_count(OUTPUT)==expected
     assert common.file_md5(SOURCE)==sourcehash and common.file_md5(live)==livehash
+    assert common.file_md5(APPROVED)==approvedhash
     manifest={'source':str(SOURCE),'source_md5':sourcehash,'output':str(OUTPUT),'output_frames':expected,'seconds':expected/30,
+        'audio_source':str(APPROVED),'audio_source_md5':approvedhash,'audio_stream_copied':True,
         'cuts':[{'source_start':a/30,'source_end':b/30,'output_frame':mapped(a)} for a,b in CUTS],
         'replacements':[{'name':item.name,'source_start':a/30,'source_end':b/30} for a,b,item in items],
         'states':states,'boundaries':boundaries,'live_video_modified':False,'index_modified':False}

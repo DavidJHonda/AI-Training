@@ -953,7 +953,7 @@ const CLOSE_BOARDS = {
   aiismath: { pill: "AI builds answers with probabilities.", sticky: "One prediction at a time." },
   tokens: { pill: "Words become numbers.", sticky: "That lets AI work with your language using math." },
   embeddings: { pill: "AI uses numbers to work with meaning.", sticky: "Those numbers help AI recognize similarities and differences." },
-  attention: { pill: "Attention is all you need.", sticky: "Every nuance resolved by weighing the words around it." },
+  attention: { pill: "Attention is all you need.", sticky: "AI uses relationships between words to help interpret your message." },
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "Attention and transformation. Dozens of times." },
   vectorspace: { pill: "Meaning is a position.", sticky: "Close in space is close in meaning." },
   prediction: { pill: "Every answer is built one token at a time.", sticky: "The whole run is called inference." },
@@ -5227,11 +5227,11 @@ function TransformerClaimsTryIt(props) {
 // a measuring effect plus a ResizeObserver; everything else is ordinary state.
 var BTA_ITEMS = [
   {
-    q: ["Which word tells AI what ", "BANK", " means?"],
+    q: ["Which word tells you what ", "BANK", " means?"],
     words: ["She", "sat", "on", "the", "BANK", "and", "watched", "the", "river."],
     target: 4, correct: 8,
     fb: {
-      ok: "“River” locks BANK to the water’s edge, not the place with a vault. Attention leans hardest right here.",
+      ok: "“River” locks BANK to the water’s edge, not the place with a vault.",
       0: "“She” says who is sitting, but nothing about what kind of BANK she’s on. “River” is the word that locks BANK to the water’s edge.",
       1: "“Sat” says someone settled somewhere, but you can sit in a money bank too. “River” is the word that locks BANK to the water’s edge.",
       6: "Close. “Watched” tells you she’s looking at something, but not at what. The word that settles BANK is “river.”",
@@ -5256,7 +5256,7 @@ var BTA_ITEMS = [
     words: ["The", "package", "my", "aunt", "mailed", "from", "Alaska", "two", "weeks", "before", "the", "holidays", "finally", "arrived,", "and", "IT", "was", "damaged."],
     target: 15, correct: 1,
     fb: {
-      ok: "A dozen words apart, and attention still connects IT straight to the package. Distance doesn’t weaken the link.",
+      ok: "IT refers to the package, even with several words in between.",
       3: "Your aunt mailed it. She isn’t the one that arrived damaged. IT points to the package.",
       6: "Alaska is where the package started, but a state can’t arrive damaged. IT points to the package, a dozen words back.",
       11: "The holidays are a time, not a thing that can arrive damaged. IT points to the package, a dozen words back.",
@@ -5296,7 +5296,7 @@ var BTA_ITEMS = [
         none: "It still points somewhere. Ask which thing being too small would stop the fit.",
         any: "Ask which one being too small would stop the fit. The suitcase."
       },
-      take: ["Same twelve words, one swap at the end, and the link jumps to the other noun. Sentences built exactly like this were used for years as a test AI kept failing. ", "Attention is how it started passing."]
+      take: ["Changing just one word changes what IT refers to. ", "The surrounding words help determine meaning."]
     }
   }
 ];
@@ -5316,15 +5316,13 @@ function BTAArc(props) {
       var aR = a.getBoundingClientRect(), bR = b.getBoundingClientRect();
       var x1 = aR.left - boxR.left + aR.width / 2, y1 = aR.top - boxR.top;
       var x2 = bR.left - boxR.left + bR.width / 2, y2 = bR.top - boxR.top;
-      // Bow perpendicular to the line between the two words rather than always
-      // lifting above the higher one. On one line that still arcs upward; when
-      // the sentence has wrapped and the words sit lines apart, it swings out
-      // sideways instead of looping over the start and plunging down.
+      // Keep the arch above both words regardless of reading direction or wrapping.
+      // A perpendicular offset flips downward when the answer is to the left.
       var vx = x2 - x1, vy = y2 - y1;
       var len = Math.sqrt(vx * vx + vy * vy) || 1;
       var bow = Math.min(46, 18 + len * 0.12);
-      var cx = (x1 + x2) / 2 + (vy / len) * bow;
-      var cy = (y1 + y2) / 2 - (vx / len) * bow;
+      var cx = (x1 + x2) / 2;
+      var cy = Math.min(y1, y2) - bow;
       var next = {
         d: "M " + x1 + " " + y1 + " Q " + cx + " " + cy + " " + x2 + " " + y2,
         x2: x2, y2: y2
@@ -5466,8 +5464,7 @@ function BeTheAttentionTryIt(props) {
     };
     return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the Attention", instructions: [
       "Read each sentence and find the marked word.",
-      "Choose the other word that settles what the marked word means.",
-      "Check the answer and explanation before continuing."
+      E("span", null, "Choose the word that answers the question, or choose ", E("strong", null, "No word in this sentence"), ".")
     ] },
       E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
         BTA_ITEMS.map(function (item, i) {
@@ -5485,11 +5482,10 @@ function BeTheAttentionTryIt(props) {
 
   return E(InteractiveBox, {
     variant: "try", surface: "mint", title: "Be the Attention",
-    lead: "Attention decides which surrounding words matter most to meaning. Now take its seat.",
+    lead: "The Transformer uses connections between words to help interpret your message. Now you’ll find those connections yourself.",
     instructions: [
       "Read the sentence and find the marked word.",
-      "Click the other word that settles what the marked word means.",
-      "Read the explanation, then continue to the next sentence."
+      E("span", null, "Click the word that answers the question, or choose ", E("strong", null, "No word in this sentence"), ".")
     ]
   },
     E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
@@ -5504,15 +5500,21 @@ function HowAIReadsSection(props) {
     E(LessonHeader, { sectionId: "attention" }),
 
     E(BodyP, null,
-      "When you type a message to ChatGPT, you type real words and it responds the same way. You’ve already learned what happens underneath: AI turns your text into tokens, and each token’s vector carries its meaning. If only it were that easy."
+      "When you type a message to ChatGPT, you use words, and it responds with words. Underneath, AI splits your text into small pieces called ",
+      E("strong", null, "tokens"),
+      ". Each token has an ",
+      E("strong", null, "embedding"),
+      ", a row of numbers that represents its starting meaning."
     ),
 
     E(BodyP, null,
-      "Here are two nuances in language that break this idea. In both, the word’s meaning isn’t clear until you read the words around it."
+      "These two examples show how the surrounding words, or ",
+      E("strong", null, "context"),
+      ", shape meaning. AI works with tokens, but we’ll use whole words to make the connections easier to see."
     ),
 
     E("img", {
-      src: "lessons/transformer-context-problems-editorial.jpg?v=20260831context1",
+      src: "lessons/transformer-context-problems-editorial.jpg?v=20260907context2",
       alt: "Two Problems Context Must Solve. Different meanings: Please turn on the LIGHT means brightness, while The suitcase is LIGHT enough to carry means not-heavy. Pronouns: The cat drank the milk because IT was thirsty points to the cat, while IT was fresh points to the milk. Context determines which meaning fits.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
@@ -5520,22 +5522,14 @@ function HowAIReadsSection(props) {
     E(SectionKicker, null, "WHY THIS WAS HARD FOR AI"),
 
     E(BodyP, null,
-      "Our human brains see the right meaning instantly from the surrounding words. For AI, this was the big challenge, because of how it used to read text: in order, one word at a time. The further it read, the more the early words faded. Try it yourself with the sentence below. What does ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"), " point to: cat, mat, May, or the rainstorm?"
+      "Our human brains see the right meaning instantly from the surrounding words. For earlier AI, this was a challenge because it read text in order, one word at a time. The further it read, the more the early words faded."
     ),
 
     E("img", {
-      src: "lessons/transformer-before-transformers-editorial.jpg?v=20260831before1",
-      alt: "AI Used to Read One Word at a Time. AI moves forward through the full sentence The cat sat on the mat during the May rainstorm because it was tired. By the time AI reaches IT, CAT has faded.",
+      src: "lessons/transformer-before-transformers-editorial.jpg?v=20260907before5",
+      alt: "How Earlier AI Read Text. The diagram follows the full sentence The cat sat on the mat during the May rainstorm because it was tired. We know IT refers to CAT. Earlier AI often struggled to keep that connection, especially in longer passages.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
-
-    E(BodyP, null,
-      "We instantly know ",
-      E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"),
-      " points back to ",
-      E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "CAT"),
-      ", even ten words later. A computer reading strictly in order doesn\u2019t, and that\u2019s what kept old AI from reading like we do."
-    ),
 
     E(SectionKicker, null, "THE BREAKTHROUGH"),
 
@@ -5544,69 +5538,58 @@ function HowAIReadsSection(props) {
       E("strong", null, "Attention Is All You Need"),
       ". It introduced the ",
       E("strong", null, "Transformer"),
-      ", the architecture behind every modern LLM, and the “T” in ChatGPT. We’ll share the specific concepts next, but for now, let’s focus on the impact."
+      ", a widely used architecture for large language models, and the “T” in ChatGPT."
     ),
 
     E(BodyP, null,
-      "Instead of reading information sequentially, one word (token) at a time, the Transformer reads your whole message at once. That means it can establish the meaning of the word ",
+      "The Transformer reads your whole message at once. In our example, ",
       E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"),
-      " based on the words around it, like ",
+      " can draw on information from the earlier word ",
       E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "CAT"),
-      ", no matter how far apart they sit. And, it sees that the ",
-      E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "CAT"),
-      " is ",
-      E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "TIRED"),
-      "."
+      ", even with several words in between."
     ),
 
     E("img", {
-      src: "lessons/transformer-how-transformer-reads-editorial.jpg?v=20260831transformer1",
-      alt: "How a Transformer Reads a Sentence. The complete message arrives together: The cat sat on the mat during the May rainstorm because it was tired. All words are present from the start. Nothing has faded or fallen behind. The Transformer reads the whole message at once.",
+      src: "lessons/transformer-how-transformer-reads-editorial.jpg?v=20260907transformer2",
+      alt: "How a Transformer Reads a Sentence. The complete message arrives together: The cat sat on the mat during the May rainstorm because it was tired. All words are present from the start.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
 
     E(BodyP, null,
-      "One question this raises: if all the words arrive at once, how does the model keep them in order? Hold that thought. The answer comes at the end of the lesson."),
-    E(BodyP, null,
-      "Reading your whole message at once was only the start. To turn reading into meaning, AI has to do two things. First, figure out which other words matter. For ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"), ", the words that matter are ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "CAT"), " and ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "TIRED"), ". Second, update ", E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"), "’s vector to lock in the right meaning: the cat, not the mat, May, or the rainstorm."
+      "Reading your whole message at once is only the start. AI needs to figure out which words matter and use that information to update the numbers. In our example, ",
+      E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "IT"),
+      " needs information from ",
+      E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.85em", color: "var(--primary)", fontWeight: 800, background: "#6e51ff22", padding: "2px 7px", borderRadius: 5 } }, "CAT"),
+      " to help represent what it refers to in this sentence. Attention and transformation work together to make that happen."
     ),
 
-    E(BodyP, null, "Here are the two steps:"),
-
     E("img", {
-      src: "lessons/transformer-attention-transformation-editorial.jpg?v=20260901attention4",
-      alt: "Attention, Then Transformation. Attention: reading IT, the model weighs every word and leans hardest on CAT. Transformation: IT's raw vector updates so its meaning moves toward CAT. First find the relationship, then update the meaning.",
+      src: "lessons/transformer-attention-transformation-editorial.jpg?v=20260907attention7",
+      alt: "How Context Changes the Numbers. Attention weighs information from relevant words and blends it into the token’s numbers, illustrated by IT connecting back to CAT. Transformation uses learned patterns to further process those numbers, shown as IT after attention becoming IT with context. Attention and transformation work together to build meaning from context.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
 
     E(BodyP, null,
-      "Now let’s answer the two questions we left open."
+      "Now let’s return to our two examples."
     ),
 
     E("img", {
-      src: "lessons/transformer-resolves-meaning-editorial.jpg?v=20260831resolve1",
-      alt: "How the Transformer Resolves Meaning. Different meanings: attention links LIGHT to turn on or carry, and transformation sets brightness or not-heavy. Pronouns: attention links IT to the cat or milk, and transformation sets the correct meaning. Attention finds the relationship. Transformation sets the meaning.",
+      src: "lessons/transformer-resolves-meaning-editorial.jpg?v=20260907resolve5",
+      alt: "How the Transformer Resolves Meaning: Different meanings: “turn on” tells us LIGHT means brightness; “carry” tells us LIGHT means not-heavy. Pronouns: “thirsty” describes the cat, so IT refers to the cat; “fresh” describes the milk, so IT refers to the milk. Each panel asks which words provide the clues. Attention and transformation help AI work out which meaning fits.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
     E(BodyP, null,
-      "And it goes beyond these examples. Sarcasm, idioms, even an “it” that points to nothing at all (“it was a cold day”): every nuance in language gets resolved the same way, by weighing all the words around it. That’s why eight researchers dared to put such a bold claim in their title. ",
-      E("strong", null, "Attention is all you need.")
+      "Attention and transformation also help AI interpret sarcasm, idioms, and even an “it” that points to nothing at all, as in “it was a cold day.”"
     ),
 
     E(SectionKicker, null, "One catch: word order"),
     E(BodyP, null,
-      "One promise left to keep: the order question. Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: \u201cDog bites man.\u201d Same three tokens. Same three vectors. But the order carries the meaning."),
+      "Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: \u201cDog bites man.\u201d Same three tokens. Same starting embeddings. But the order carries the meaning."),
     E("img", {
-      src: "lessons/transformer-word-order-editorial.jpg?v=20260831order1",
-      alt: "How a Transformer Keeps Words in Order. First, order changes meaning: Dog bites man and Man bites dog describe different events. Second, without positions, simultaneously arriving tokens lose their sequence. Third, position stamps mark Dog as 1, bites as 2, and man as 3. Positional encoding tells the Transformer where every token belongs.",
+      src: "lessons/transformer-word-order-editorial.jpg?v=20260907order5",
+      alt: "How a Transformer Keeps Words in Order. The top strip compares Dog bites man with Man bites dog: the same tokens describe different events. Below, Without Position Information shows scattered words; Position Stamps Preserve Order marks Dog as 1, bites as 2, and man as 3. Positional encoding tells the Transformer where every token belongs.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
-    E(BodyP, null,
-      "The fix happens before the first layer. Every token\u2019s vector gets a ",
-      E("strong", null, "position stamp"),
-      ": a second pattern of numbers mixed in that says \u201cI\u2019m token #1,\u201d \u201cI\u2019m token #3.\u201d Now the sentence can arrive all at once without losing its order. The proper name for the stamp is ",
-      E("strong", null, "positional encoding"),
-      "."),
     closeBoard("attention"),
     E(BeTheAttentionTryIt, null),
     E(LessonRule, null),
@@ -6312,6 +6295,11 @@ function EmbeddingsSection(props) {
     var actualIdx = clubOrder[pos];
     return rowsEqual(clubVals[pick], clubVals[actualIdx]);
   });
+  var clubHasMatchingProfiles = clubLocked && clubVals.some(function(row, index) {
+    return clubVals.some(function(other, otherIndex) {
+      return otherIndex > index && rowsEqual(row, other);
+    });
+  });
   var profileImageStyle = { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 };
   var tasteProfile = E("img", {
     src: "lessons/embeddings-meaning-row-editorial.jpg?v=20260907drinks2",
@@ -6389,7 +6377,13 @@ function EmbeddingsSection(props) {
       clubLocked ? null : E("div", { style: { marginTop: 18 } },
         E(ActivityButton, { onClick: lockClubs, disabled: !clubAllFilled, style: clubAllFilled ? null : { opacity: 0.4, cursor: "not-allowed" } }, "Hide the names and match →")),
       clubLocked ? E(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 18 } }, clubMysteryRows) : null),
-    clubMatchComplete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "The numbers carried the meaning.", body: "You recognized the clubs from their numerical profiles. An embedding gives AI a numerical profile it can use to recognize patterns and relationships in meaning." }) : null);
+    clubMatchComplete ? E(Takeaway, {
+      accent: "var(--tryAccent)",
+      headline: clubHasMatchingProfiles ? "Matching scores can’t tell clubs apart." : "The numbers carried the meaning.",
+      body: clubHasMatchingProfiles
+        ? "When clubs have identical scores, the numbers can’t tell them apart. Their profiles need to capture a difference."
+        : "You recognized the clubs from their numerical profiles. An embedding gives AI a numerical profile it can use to recognize patterns and relationships in meaning."
+    }) : null);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
   E(BodyP, null,
@@ -6406,9 +6400,9 @@ function EmbeddingsSection(props) {
     "Imagine you and your friends rate Coke and coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Each score runs from 0 to 10. A higher number means more of that characteristic."),
   tasteProfile,
   E(BodyP, { style: { marginTop: 18 } },
-    "If someone asked you, \u201cWhich drink has sweet of 9, bitter of 1, and fizz of 10?\u201d you\u2019d immediately answer Coke."),
+    "If someone asked you, \u201cWhich drink scores 9 for Sweet, 1 for Bitter, and 10 for Fizz?\u201d you\u2019d immediately answer Coke."),
   E(BodyP, null,
-    "You’ve turned each drink’s characteristics into a row of numbers. The row tells you something about the drink that its ID alone cannot."),
+    "You’ve turned each drink’s characteristics into a row of numbers that describes it."),
   E(BodyP, null,
     "The whole row of numbers is a ",
     E("strong", null, "vector"),
@@ -6419,13 +6413,13 @@ function EmbeddingsSection(props) {
     "."),
   E(SectionKicker, null, "When You Need Another Dimension"),
   E(BodyP, null, "Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi scores the same as Coke. On these six numbers alone, you cannot tell them apart."),
-  pepsiProfile,
   E(BodyP, null, "To tell them apart, you add a seventh dimension, ", E("strong", null, "Citrus"), ". In your ratings, Pepsi scores 10 and Coke scores 1. Their numerical profiles now capture a difference the first six dimensions missed."),
+  pepsiProfile,
   E(SectionKicker, null, "How AI Uses This Idea"),
   E(BodyP, null, "AI also uses numbers to represent meaning. Just as each drink has a numerical profile, each token has its own row of numbers. That row is called an ", E("strong", null, "embedding"), "."),
   E("img", {
-    src: "lessons/embeddings-taste-test-to-ai-editorial.jpg?v=20260907comparison2",
-    alt: "From Taste Ratings to AI Embeddings. Your taste test: three drinks; six, then seven dimensions per row; you choose the ratings; named traits like Sweet and Fizz; you name the dimensions. AI: every token in the model’s vocabulary; typically thousands of dimensions per row; AI learns the values during training; patterns in how a token is used; no dimension labels, with values working together to represent meaning. Both use a row of numbers to describe something.",
+    src: "lessons/embeddings-taste-test-to-ai-editorial.jpg?v=20260907comparison3",
+    alt: "From Taste Ratings to AI Embeddings. Your taste test: three drinks; six, then seven dimensions per row; you choose the ratings (0 to 10); named traits like Sweet and Fizz; you name the dimensions. AI: every token in the model’s vocabulary; typically thousands of dimensions per row; AI learns the values during training (positive and negative numbers, including decimals); patterns in how a token is used; no dimension labels, with values working together to represent meaning. Both use a row of numbers to describe something.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   }),
   E(SectionKicker, null, "Putting the Pieces Together"),
@@ -6435,8 +6429,8 @@ function EmbeddingsSection(props) {
     alt: "Inside a Real Model. Token cat has token ID 4719, which selects its highlighted row in the embedding table. The table stores one embedding for every token. Dimensions: the d1 through dn column headings mark positions in the embedding. Value: the circled 0.45 is one learned number, also called a parameter. Embedding: the outlined numerical row is the complete row of numbers for one token.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
   }),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Yes. For example, “unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each one gets its own embedding vector. Even a piece of a word gets its own row of learned numbers."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Even Pieces of Words Get Embeddings"),
+  /*#__PURE__*/React.createElement(BodyP, null, "“Unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each piece gets its own embedding, a row of learned numbers."),
   closeBoard("embeddings"),
   clubTryIt,
   /*#__PURE__*/React.createElement(LessonRule, null),

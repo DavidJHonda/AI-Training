@@ -439,13 +439,13 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path) 
 
 
 def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Path) -> None:
-    """Resolve the same two context problems with Attention and Transformation."""
-    title = "How the Transformer Resolves Meaning."
+    """Show the language clues that distinguish the meanings in each example."""
+    title = "How the Transformer Resolves Meaning"
     card_top = 127
     card_w = 744
     gutter = 32
     art_h = round(card_w * 9 / 16)
-    content_h = 834
+    content_h = 690
     card_h = art_h + content_h
     card_bottom = card_top + card_h
     footer_top = card_bottom + TAKEAWAY_GAP
@@ -467,14 +467,6 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
                 ("SENTENCE 1", "LIGHT = BRIGHTNESS", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
                 ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The suitcase is ", "medium", BODY), ("LIGHT", "bold", BLUE), (" enough to carry.", "medium", BODY))),
             ),
-            "attention": (
-                (("LIGHT", "bold", BLUE), (" links to “turn on” in the first sentence", "medium", BODY)),
-                (("and “carry” in the second.", "medium", BODY),),
-            ),
-            "transformation": (
-                (("It sets ", "medium", BODY), ("LIGHT", "bold", BLUE), ("’s meaning: brightness in one,", "medium", BODY)),
-                (("not-heavy in the other.", "medium", BODY),),
-            ),
         },
         {
             "left": 40 + card_w + gutter,
@@ -485,14 +477,6 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             "rows": (
                 ("SENTENCE 1", "IT = THE CAT", (("The cat drank the milk because ", "medium", BODY), ("IT", "bold", GREEN), (" was ", "medium", BODY), ("thirsty", "bold", GREEN), (".", "medium", BODY))),
                 ("SENTENCE 2", "IT = THE MILK", (("The cat drank the milk because ", "medium", BODY), ("IT", "bold", GREEN), (" was ", "medium", BODY), ("fresh", "bold", GREEN), (".", "medium", BODY))),
-            ),
-            "attention": (
-                (("“Thirsty” links ", "medium", BODY), ("IT", "bold", GREEN), (" to the cat; “fresh” links", "medium", BODY)),
-                (("IT", "bold", GREEN), (" to the milk.", "medium", BODY)),
-            ),
-            "transformation": (
-                (("It sets ", "medium", BODY), ("IT", "bold", GREEN), ("’s meaning: the cat in one sentence,", "medium", BODY)),
-                (("the milk in the other.", "medium", BODY),),
             ),
         },
     )
@@ -553,34 +537,37 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             y += row_h + 14
 
         y += 10
-        draw.text((x, y), "HOW IT GETS RESOLVED", font=row_label_font, fill=MUTED, anchor="la")
-        y += 35
-        for label, label_color, lines in (
-            ("ATTENTION", PURPLE, card["attention"]),
-            ("TRANSFORMATION", AMBER, card["transformation"]),
-        ):
-            block_h = 145
-            draw.rounded_rectangle(
-                (x, y, left + card_w - 34, y + block_h),
-                radius=12,
-                fill=mix(label_color, 0.07),
-                outline=mix(label_color, 0.20),
-                width=1,
+        draw.text((x, y), "WHICH WORDS PROVIDE THE CLUES?", font=step_label_font, fill=accent, anchor="la")
+        y += 39
+        draw.rounded_rectangle((x, y, left + card_w - 34, y + 218), radius=12,
+                               fill=mix(accent, 0.055), outline=mix(accent, 0.20), width=1)
+        if card["left"] == 40:
+            explanations = (
+                ((("“Turn on”", "bold", accent), (" tells us LIGHT means", "medium", BODY)),
+                 (("brightness.", "medium", BODY),)),
+                ((("“Carry”", "bold", accent), (" tells us LIGHT means", "medium", BODY)),
+                 (("not-heavy.", "medium", BODY),)),
             )
-            draw.rectangle((x, y + 14, x + 6, y + block_h - 14), fill=label_color)
-            draw.text((x + 22, y + 25), label, font=step_label_font, fill=label_color, anchor="la")
-            line_y = y + 63
-            for line in lines:
-                draw_spans(draw, x + 22, line_y, line)
+        else:
+            explanations = (
+                ((("“Thirsty”", "bold", accent), (" describes the cat, so IT", "medium", BODY)),
+                 (("refers to the cat.", "medium", BODY),)),
+                ((("“Fresh”", "bold", accent), (" describes the milk, so IT", "medium", BODY)),
+                 (("refers to the milk.", "medium", BODY),)),
+            )
+        line_y = y + 20
+        for explanation in explanations:
+            for spans in explanation:
+                draw_spans(draw, x + 22, line_y, spans)
                 line_y += 39
-            y += block_h + 14
+            line_y += 18
 
     draw_takeaway_band(
         canvas,
         top=footer_top,
         left=40,
         right=1560,
-        text="Attention finds the relationship. Transformation sets the meaning.",
+        text="Attention and transformation help AI work out which meaning fits.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -1281,19 +1268,20 @@ def render_flattened_shell(
 
 def render_before_transformers(source: Path, out_path: Path) -> None:
     """Preserve the full sentence mechanism while standardizing the board shell."""
-    title = "AI Used to Read One Word at a Time"
+    title = "How Earlier AI Read Text"
     stage_top = 127
-    stage_h = 600
+    stage_h = 391
+    banner_h = 136
     footer_top = stage_top + stage_h + TAKEAWAY_GAP
-    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    height = footer_top + banner_h + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
 
     original = Image.open(source).convert("RGB")
-    # Remove the legacy centered heading and retain the complete sentence path.
-    mechanism = original.crop((80, 170, 1520, 738)).resize((1520, stage_h), Image.Resampling.LANCZOS)
+    # Keep only the sentence path; its explanation now belongs in the banner.
+    mechanism = original.crop((80, 230, 1520, 600)).resize((1520, stage_h), Image.Resampling.LANCZOS)
     canvas.paste(mechanism, (40, stage_top), rounded_mask((1520, stage_h), 14))
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle(
@@ -1302,14 +1290,24 @@ def render_before_transformers(source: Path, out_path: Path) -> None:
         outline=mix(PURPLE, 0.22),
         width=1,
     )
-    draw_takeaway_band(
-        canvas,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="By the time AI reaches IT, CAT has faded.",
-        font=face("medium", TAKEAWAY_TEXT_SIZE),
-    )
+    # Expanded takeaway uses canonical colors and type with centered text.
+    import editorial_takeaway as takeaway_style
+
+    first_parts = [("We know ", "medium"), ("IT", "bold"), (" refers to ", "medium"), ("CAT", "bold"), (".", "medium")]
+    second = "Earlier AI often struggled to keep that connection, especially in longer passages."
+    second_font = face("medium", 29)
+    first_width = sum(draw.textlength(text, font=face(weight, TAKEAWAY_TEXT_SIZE)) for text, weight in first_parts)
+    second_width = draw.textlength(second, font=second_font)
+    text_width = max(first_width, second_width)
+    assert text_width <= 1440, "Expanded takeaway exceeds its available width"
+    draw.rounded_rectangle((40, footer_top, 1560, footer_top + banner_h), radius=takeaway_style.TAKEAWAY_RADIUS, fill=takeaway_style.GOLD)
+    text_center = WIDTH / 2
+    x = text_center - first_width / 2
+    for text, weight in first_parts:
+        part_font = face(weight, TAKEAWAY_TEXT_SIZE)
+        draw.text((x, footer_top + 44), text, font=part_font, fill=INK, anchor="lm")
+        x += draw.textlength(text, font=part_font)
+    draw.text((text_center, footer_top + 91), second, font=second_font, fill=INK, anchor="mm")
     save(canvas, out_path)
 
 
@@ -1553,7 +1551,7 @@ def render_transformer_reads_whole_message(out_path: Path) -> None:
     """Show the Transformer's simultaneous view without pre-teaching attention."""
     title = "How a Transformer Reads a Sentence"
     stage_top = 127
-    stage_h = 610
+    stage_h = 460
     footer_top = stage_top + stage_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
@@ -1616,39 +1614,24 @@ def render_transformer_reads_whole_message(out_path: Path) -> None:
             draw.text((x + token_w // 2, y + token_h // 2), word, font=token_font, fill=BLUE, anchor="mm")
             x += token_w + gap
 
-    draw.text(
-        (800, 590),
-        "All words are present from the start.",
-        font=face("bold", 32),
-        fill=INK,
-        anchor="ma",
-    )
-    draw.text(
-        (800, 642),
-        "Nothing has faded or fallen behind.",
-        font=face("medium", 29),
-        fill=BODY,
-        anchor="ma",
-    )
-
     draw_takeaway_band(
         canvas,
         top=footer_top,
         left=40,
         right=1560,
-        text="The Transformer reads the whole message at once.",
+        text="All words are present from the start.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
 
 def render_attention_transformation(out_path: Path) -> None:
-    """Use the lesson-specific CAT/IT mechanisms inside the standard two-card shell."""
-    title = "Attention, Then Transformation"
+    """Use white cards with one tinted illustration area and the approved teaching copy."""
+    title = "How Context Changes the Numbers"
     card_top = 127
     card_w = 744
     gutter = 32
-    art_h = 339
+    art_h = 390
     text_h = 212
     card_h = art_h + text_h
     card_bottom = card_top + card_h
@@ -1660,8 +1643,8 @@ def render_attention_transformation(out_path: Path) -> None:
     draw_board_title(draw, title)
 
     cards = (
-        (40, PURPLE, "Attention", "Reading IT, the model weighs every word and leans hardest on CAT."),
-        (40 + card_w + gutter, AMBER, "Transformation", "IT’s vector updates so its meaning moves toward CAT."),
+        (40, BLUE, "Attention", "Weigh information from relevant words and blend it into the token’s numbers."),
+        (40 + card_w + gutter, TEAL, "Transformation", "Use learned patterns to further process those numbers."),
     )
     body_font = face("medium", 29)
 
@@ -1669,19 +1652,14 @@ def render_attention_transformation(out_path: Path) -> None:
         shadow = soft_card((card_w, card_h), 14)
         canvas.paste(shadow, (left, card_top), shadow)
         draw = ImageDraw.Draw(canvas)
-        draw.rounded_rectangle(
-            (left, card_top, left + card_w - 1, card_top + art_h),
-            radius=14,
-            fill=mix(accent, 0.10),
-        )
-        inset = (left + 42, card_top + 40, left + card_w - 42, card_top + art_h - 38)
-        draw.rounded_rectangle(inset, radius=18, fill=WHITE, outline=mix(accent, 0.22), width=1)
+        inset = (left + 24, card_top + 24, left + card_w - 24, card_top + art_h)
+        draw.rounded_rectangle(inset, radius=14, fill=mix(accent, 0.09))
 
         if index == 0:
             cat_box = (left + 122, card_top + 195, left + 250, card_top + 257)
             it_box = (left + 494, card_top + 195, left + 622, card_top + 257)
             for box, label in ((cat_box, "CAT"), (it_box, "IT")):
-                draw.rounded_rectangle(box, radius=14, fill=mix(accent, 0.14), outline=mix(accent, 0.30), width=1)
+                draw.rounded_rectangle(box, radius=14, fill=WHITE, outline=mix(accent, 0.16), width=1)
                 draw.text(((box[0] + box[2]) // 2, (box[1] + box[3]) // 2), label, font=face("heavy", 28), fill=accent, anchor="mm")
             for dot_x in (left + 342, left + 372, left + 402):
                 draw.ellipse((dot_x - 6, card_top + 220, dot_x + 6, card_top + 232), fill=mix(accent, 0.48))
@@ -1697,14 +1675,14 @@ def render_attention_transformation(out_path: Path) -> None:
                 x = (1 - t) ** 2 * start[0] + 2 * (1 - t) * t * control[0] + t ** 2 * end[0]
                 y = (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * control[1] + t ** 2 * end[1]
                 points.append((round(x), round(y)))
-            draw.line(points, fill=accent, width=6)
+            draw.line(points, fill=accent, width=4)
             tangent_x = end[0] - control[0]
             tangent_y = end[1] - control[1]
             tangent_length = math.hypot(tangent_x, tangent_y)
             direction_x = tangent_x / tangent_length
             direction_y = tangent_y / tangent_length
-            arrow_length = 36
-            arrow_half_width = 14
+            arrow_length = 24
+            arrow_half_width = 10
             arrow_tip = (
                 round(end[0] + direction_x * arrow_length),
                 round(end[1] + direction_y * arrow_length),
@@ -1728,24 +1706,17 @@ def render_attention_transformation(out_path: Path) -> None:
             final_x = left + 477
             baseline = card_top + 218
             heights = (46, 72, 88, 54, 78, 48)
-            final_colors = (PURPLE, "#2fc8b8", PURPLE, "#2fc8b8", PURPLE, "#2fc8b8")
+            final_colors = (TEAL,) * 6
             for i, bar_h in enumerate(heights):
                 x = raw_x + i * 25
-                draw.rounded_rectangle((x, baseline - bar_h, x + 14, baseline), radius=7, fill=mix(PURPLE, 0.22))
+                draw.rounded_rectangle((x, baseline - bar_h, x + 14, baseline), radius=7, fill=mix(TEAL, 0.25))
             for i, bar_h in enumerate((62, 82, 104, 68, 90, 108)):
                 x = final_x + i * 25
                 draw.rounded_rectangle((x, baseline - bar_h, x + 14, baseline), radius=7, fill=final_colors[i])
-            arrow(draw, (left + 370, card_top + 184), (left + 445, card_top + 184), AMBER, 5)
-            draw.text((raw_x + 70, card_top + 259), "IT (raw)", font=face("medium", 22), fill=MUTED, anchor="ma")
-            draw.text((final_x + 70, card_top + 259), "IT ≈ CAT", font=face("heavy", 22), fill=AMBER, anchor="ma")
+            arrow(draw, (left + 370, card_top + 184), (left + 445, card_top + 184), MUTED, 3)
+            draw.text((raw_x + 70, card_top + 259), "IT after attention", font=face("medium", 22), fill=MUTED, anchor="ma")
+            draw.text((final_x + 70, card_top + 259), "IT with context", font=face("heavy", 22), fill=TEAL, anchor="ma")
 
-        draw.rounded_rectangle(
-            (left, card_top, left + card_w - 1, card_bottom - 1),
-            radius=14,
-            outline=mix(accent, 0.22),
-            width=2,
-        )
-        draw.line((left, card_top + art_h, left + card_w, card_top + art_h), fill=mix(accent, 0.22), width=2)
         draw_inner_title(draw, (left + 34, card_top + art_h + 32), card_title, fill=accent, anchor="la")
         lines = wrap(draw, body, body_font, card_w - 68)
         y = card_top + art_h + 94
@@ -1760,156 +1731,79 @@ def render_attention_transformation(out_path: Path) -> None:
         top=footer_top,
         left=40,
         right=1560,
-        text="First find the relationship. Then update the meaning.",
+        text="Attention and transformation work together to build meaning from context.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
 
 def render_word_order_flow(out_path: Path) -> None:
-    """Explain the need for positional encoding as a three-step causal flow."""
+    """Establish why order matters, then compare missing and supplied positions."""
     title = "How a Transformer Keeps Words in Order"
-    stage_top = 127
-    stage_left, stage_right = 40, 1560
-    gap = 34
-    side_padding = 40
-    cell_w = (stage_right - stage_left - side_padding * 2 - gap * 2) // 3
-    art_h = round(cell_w * 9 / 16)
-    art_top = 175
-    marker_y = art_top + art_h + 43
-    title_y = marker_y + 50
-    title_font = face("bold", 36)
-    body_font = face("medium", 29)
-    title_line_h = 47
-    body_line_h = 41
-    title_area_h = title_line_h * 2
-    body_y = title_y + title_area_h + 12
-    stage_bottom = body_y + body_line_h * 4 + 40
-    footer_top = stage_bottom + TAKEAWAY_GAP
+    card_top, card_w, card_h = 299, 744, 460
+    footer_top = card_top + card_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
-
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
-    draw.rounded_rectangle((stage_left, stage_top, stage_right, stage_bottom), radius=14, fill=WHITE)
 
-    steps = (
-        {
-            "title": "Order Changes Meaning",
-            "body": "The same three tokens can describe two different events.",
-            "accent": AMBER,
-            "kind": "meaning",
-        },
-        {
-            "title": "All Tokens Arrive Together",
-            "body": "Without positions, the model has the words but cannot tell which came first.",
-            "accent": PURPLE,
-            "kind": "together",
-        },
-        {
-            "title": "Position Stamps Preserve Order",
-            "body": "Before the first layer, positional encoding marks each token’s place.",
-            "accent": BLUE,
-            "kind": "positions",
-        },
+    # A compact example establishes the reason for the two cards below.
+    draw.rounded_rectangle((40, 127, 1560, 267), radius=14, fill=WHITE)
+    for y, words, accent in ((146, ("DOG", "BITES", "MAN"), BLUE), (204, ("MAN", "BITES", "DOG"), AMBER)):
+        x = 78
+        for word in words:
+            width = 104 if word == "BITES" else 96
+            draw.rounded_rectangle((x, y, x + width, y + 44), radius=12, fill=mix(accent, 0.10))
+            draw.text((x + width / 2, y + 22), word, font=face("heavy", 25), fill=accent, anchor="mm")
+            x += width + 10
+    draw.text((440, 197), "The same three tokens can describe two different events.", font=face("medium", 29), fill=BODY, anchor="lm")
+
+    cards = (
+        (40, TEAL, "Without Position Information", "Without positions, the model has the words but cannot tell which came first."),
+        (816, PURPLE, "Position Stamps Preserve Order", "Positional encoding helps the model keep track of each token’s place."),
     )
-    lefts = [stage_left + side_padding + i * (cell_w + gap) for i in range(3)]
-    centers = [left + cell_w // 2 for left in lefts]
-    chip_font = face("heavy", 22)
+    chip_font = face("heavy", 30)
 
-    def chip_width(word: str) -> int:
-        return max(94, round(draw.textlength(word, font=chip_font)) + 34)
+    def chip(x: int, y: int, word: str, accent: str) -> int:
+        width = max(112, round(draw.textlength(word, font=chip_font)) + 40)
+        draw.rounded_rectangle((x, y, x + width, y + 58), radius=12, fill=WHITE, outline=mix(accent, 0.14), width=1)
+        draw.text((x + width / 2, y + 29), word, font=chip_font, fill=accent, anchor="mm")
+        return width
 
-    def draw_chip(d: ImageDraw.ImageDraw, x: int, y: int, word: str, accent: str, strong: bool = False) -> tuple[int, int, int, int]:
-        width = chip_width(word)
-        box = (x, y, x + width, y + 58)
-        d.rounded_rectangle(
-            box,
-            radius=12,
-            fill=mix(accent, 0.18 if strong else 0.09),
-            outline=accent if strong else mix(accent, 0.55),
-            width=3 if strong else 2,
-        )
-        d.text((x + width // 2, y + 29), word, font=chip_font, fill=accent, anchor="mm")
-        return box
-
-    for index, (left, center, step) in enumerate(zip(lefts, centers, steps), 1):
-        accent = step["accent"]
-        draw.rounded_rectangle(
-            (left, art_top, left + cell_w, art_top + art_h),
-            radius=14,
-            fill=mix(accent, 0.10),
-            outline=mix(accent, 0.22),
-            width=2,
-        )
-        # Quiet grid matches the Flow board illustration family.
-        for gx in range(left + 46, left + cell_w, 46):
-            draw.line((gx, art_top, gx, art_top + art_h), fill=mix(accent, 0.07), width=1)
-        for gy in range(art_top + 46, art_top + art_h, 46):
-            draw.line((left, gy, left + cell_w, gy), fill=mix(accent, 0.07), width=1)
-
-        if step["kind"] == "meaning":
-            for row_y, words in ((art_top + 42, ("DOG", "BITES", "MAN")), (art_top + 151, ("MAN", "BITES", "DOG"))):
-                widths = [chip_width(word) for word in words]
-                row_gap = 12
-                x = left + (cell_w - sum(widths) - row_gap * 2) // 2
-                for word, width in zip(words, widths):
-                    draw_chip(draw, x, row_y, word, accent)
-                    x += width + row_gap
-        elif step["kind"] == "together":
-            positions = (
-                (left + 44, art_top + 47, "BITES"),
-                (left + cell_w - chip_width("DOG") - 42, art_top + 52, "DOG"),
-                (center - chip_width("MAN") // 2, art_top + 156, "MAN"),
-            )
-            for x, y, word in positions:
-                draw_chip(draw, x, y, word, accent)
-            for qx in (center - 55, center, center + 55):
-                draw.text((qx, art_top + 128), "?", font=face("heavy", 27), fill=mix(accent, 0.58), anchor="mm")
+    for index, (left, accent, heading, body) in enumerate(cards):
+        shadow = soft_card((card_w, card_h), 14)
+        canvas.paste(shadow, (left, card_top), shadow)
+        draw = ImageDraw.Draw(canvas)
+        draw.rounded_rectangle((left + 24, card_top + 24, left + card_w - 24, card_top + 274), radius=14, fill=mix(accent, 0.09))
+        if index == 0:
+            chip(left + 130, card_top + 51, "BITES", accent)
+            chip(left + 497, card_top + 66, "DOG", accent)
+            chip(left + 315, card_top + 191, "MAN", accent)
+            for x in (left + 284, left + 344, left + 404):
+                draw.text((x, card_top + 143), "?", font=face("heavy", 29), fill=mix(accent, 0.38), anchor="mm")
         else:
             words = ("DOG", "BITES", "MAN")
-            widths = [chip_width(word) for word in words]
-            row_gap = 14
-            x = left + (cell_w - sum(widths) - row_gap * 2) // 2
+            widths = [max(112, round(draw.textlength(word, font=chip_font)) + 40) for word in words]
+            x = left + (card_w - sum(widths) - 48) // 2
             for position, (word, width) in enumerate(zip(words, widths), 1):
-                badge_x = x + width // 2
-                draw.ellipse((badge_x - 19, art_top + 43, badge_x + 19, art_top + 81), fill=accent)
-                draw.text((badge_x, art_top + 62), str(position), font=face("heavy", 20), fill=WHITE, anchor="mm")
-                draw.line((badge_x, art_top + 81, badge_x, art_top + 111), fill=accent, width=3)
-                draw_chip(draw, x, art_top + 111, word, accent, True)
-                x += width + row_gap
+                cx, cy = x + width / 2, card_top + 94
+                draw.ellipse((cx - 20, cy - 20, cx + 20, cy + 20), fill=accent)
+                draw.text((cx, cy), str(position), font=face("heavy", 23), fill=WHITE, anchor="mm")
+                draw.line((cx, cy + 20, cx, card_top + 141), fill=accent, width=3)
+                chip(x, card_top + 141, word, accent)
+                x += width + 24
+        heading_font = face("bold", 40)
+        assert draw.textlength(heading, font=heading_font) <= card_w - 72
+        draw.text((left + 36, card_top + 294), heading, font=heading_font, fill=accent, anchor="la")
+        lines = wrap(draw, body, face("medium", 29), card_w - 72)
+        assert len(lines) <= 2
+        for line_index, line in enumerate(lines):
+            draw.text((left + 36, card_top + 352 + line_index * 40), line, font=face("medium", 29), fill=BODY, anchor="la")
 
-        draw.ellipse((center - 27, marker_y - 27, center + 27, marker_y + 27), fill=accent)
-        draw.text((center, marker_y), str(index), font=face("heavy", 24), fill=WHITE, anchor="mm")
-        title_lines = wrap(draw, step["title"], title_font, cell_w)
-        y = title_y
-        for line in title_lines:
-            draw.text((left, y), line, font=title_font, fill=accent, anchor="la")
-            y += title_line_h
-        body_lines = wrap(draw, step["body"], body_font, cell_w)
-        y = body_y
-        for line in body_lines:
-            draw.text((left, y), line, font=body_font, fill=BODY, anchor="la")
-            y += body_line_h
-
-    for first, second in zip(lefts, lefts[1:]):
-        arrow(
-            draw,
-            (first + cell_w + 6, art_top + art_h // 2),
-            (second - 6, art_top + art_h // 2),
-            MUTED,
-            4,
-        )
-
-    draw_takeaway_band(
-        canvas,
-        top=footer_top,
-        left=40,
-        right=1560,
+    draw_takeaway_band(canvas, top=footer_top, left=40, right=1560,
         text="Positional encoding tells the Transformer where every token belongs.",
-        font=face("medium", TAKEAWAY_TEXT_SIZE),
-    )
+        font=face("medium", TAKEAWAY_TEXT_SIZE))
     save(canvas, out_path)
 
 
@@ -2440,14 +2334,20 @@ def render_embedding_comparison(out_path: Path) -> None:
     rows = [
         ("What gets a row", "Three drinks", "Every token in the model’s vocabulary"),
         ("Dimensions per row", "Six, then seven", "Typically thousands"),
-        ("Values", "You choose the ratings", "AI learns them during training"),
+        ("Values", "You choose the ratings (0 to 10).", "AI learns them during training (positive and negative numbers, including decimals)."),
         ("What they capture", "Named traits like Sweet and Fizz", "Patterns in how a token is used"),
         ("Dimension labels", "You name them", "None. The values work together to represent meaning."),
     ]
     stage_top = 127
     rows_top = 249
-    row_height = 108
-    rows_bottom = rows_top + len(rows) * row_height
+    cells = [(112, 278, "bold", INK), (452, 476, "medium", BODY), (1012, 476, "medium", BODY)]
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    row_heights = [
+        max(108, max(len(wrap(measure, text, face(weight, 29), width))
+                     for text, (_, width, weight, _) in zip(row, cells)) * 40 + 28)
+        for row in rows
+    ]
+    rows_bottom = rows_top + sum(row_heights)
     stage_bottom = rows_bottom + 32
     banner_top = stage_bottom + TAKEAWAY_GAP
     height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
@@ -2459,9 +2359,8 @@ def render_embedding_comparison(out_path: Path) -> None:
     draw.rounded_rectangle((980, 157, 1520, rows_bottom), radius=14, fill=mix(PURPLE, 0.075))
     draw_inner_title(draw, (452, 178), "Your Taste Test", fill=TEAL)
     draw_inner_title(draw, (1012, 178), "AI", fill=PURPLE)
-    cells = [(112, 278, "bold", INK), (452, 476, "medium", BODY), (1012, 476, "medium", BODY)]
-    for row_index, row in enumerate(rows):
-        top = rows_top + row_index * row_height
+    top = rows_top
+    for row, row_height in zip(rows, row_heights):
         for text, (left, width, weight, color) in zip(row, cells):
             font = face(weight, 29)
             lines = wrap(draw, text, font, width)
@@ -2469,6 +2368,7 @@ def render_embedding_comparison(out_path: Path) -> None:
             for line in lines:
                 draw.text((left, text_top), line, font=font, fill=color, anchor="la")
                 text_top += 40
+        top += row_height
     draw_takeaway_band(
         canvas, top=banner_top, left=40, right=1560,
         text="Both use a row of numbers to describe something.",
@@ -3155,7 +3055,7 @@ def render_all() -> None:
     # Transformer
     render_context_problems(
         OUT / "assets" / "card-illustrations" / "context-light-pair.png",
-        OUT / "assets" / "card-illustrations" / "context-pronoun-pair.png",
+        OUT / "assets" / "card-illustrations" / "context-pronoun-pair-ragdoll-v1.png",
         board_path("transformer", "01-context-problems.jpg"),
     )
     render_before_transformers(
@@ -3166,7 +3066,7 @@ def render_all() -> None:
     render_attention_transformation(board_path("transformer", "03-attention-transformation.jpg"))
     render_context_resolutions(
         OUT / "assets" / "card-illustrations" / "context-light-pair.png",
-        OUT / "assets" / "card-illustrations" / "context-pronoun-pair.png",
+        OUT / "assets" / "card-illustrations" / "context-pronoun-pair-ragdoll-v1.png",
         board_path("transformer", "04-context-resolves.jpg"),
     )
     render_word_order_flow(board_path("transformer", "05-word-order.jpg"))

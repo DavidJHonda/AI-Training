@@ -14,9 +14,9 @@ Imagine you and your friends rate Coke and coffee on six characteristics: Sweet,
 
 ![Meaning Becomes an Ordered Row of Numbers. Coke and coffee have colored number tiles on the same six dimensions: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Ratings run from 0 to 10. Each position always means the same thing; the number says how much.](embeddings-meaning-row-editorial.jpg)
 
-If someone asked you, “Which drink has sweet of 9, bitter of 1, and fizz of 10?” you’d immediately answer Coke.
+If someone asked you, “Which drink scores 9 for Sweet, 1 for Bitter, and 10 for Fizz?” you’d immediately answer Coke.
 
-You’ve turned each drink’s characteristics into a row of numbers. The row tells you something about the drink that its ID alone cannot.
+You’ve turned each drink’s characteristics into a row of numbers that describes it.
 
 The whole row of numbers is a **vector**. Each position in the row is a **dimension**, such as Sweet or Bitter. The number in that position is its **value**.
 
@@ -24,15 +24,15 @@ The whole row of numbers is a **vector**. Each position in the row is a **dimens
 
 Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi scores the same as Coke. On these six numbers alone, you cannot tell them apart.
 
-![One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee have colored number tiles on a 0 to 10 scale. Coke and Pepsi match on the first six dimensions. Citrus is labeled NEW, with green tiles showing Coke 1, Pepsi 10, and coffee 0. Pepsi’s 10 is emphasized in solid green. Six numbers match. The seventh tells them apart.](embeddings-new-dimension-editorial.jpg)
-
 To tell them apart, you add a seventh dimension, **Citrus**. In your ratings, Pepsi scores 10 and Coke scores 1. Their numerical profiles now capture a difference the first six dimensions missed.
+
+![One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee have colored number tiles on a 0 to 10 scale. Coke and Pepsi match on the first six dimensions. Citrus is labeled NEW, with green tiles showing Coke 1, Pepsi 10, and coffee 0. Pepsi’s 10 is emphasized in solid green. Six numbers match. The seventh tells them apart.](embeddings-new-dimension-editorial.jpg)
 
 ## How AI Uses This Idea
 
 AI also uses numbers to represent meaning. Just as each drink has a numerical profile, each token has its own row of numbers. That row is called an **embedding**.
 
-![From Taste Ratings to AI Embeddings. Your taste test: three drinks; six, then seven dimensions per row; you choose the ratings; named traits like Sweet and Fizz; you name the dimensions. AI: every token in the model’s vocabulary; typically thousands of dimensions per row; AI learns the values during training; patterns in how a token is used; no dimension labels, with values working together to represent meaning. Both use a row of numbers to describe something.](embeddings-taste-test-to-ai-editorial.jpg)
+![From Taste Ratings to AI Embeddings. Your taste test: three drinks; six, then seven dimensions per row; you choose the ratings (0 to 10); named traits like Sweet and Fizz; you name the dimensions. AI: every token in the model’s vocabulary; typically thousands of dimensions per row; AI learns the values during training (positive and negative numbers, including decimals); patterns in how a token is used; no dimension labels, with values working together to represent meaning. Both use a row of numbers to describe something.](embeddings-taste-test-to-ai-editorial.jpg)
 
 ## Putting the Pieces Together
 
@@ -40,9 +40,9 @@ What happens when you type “cat” into AI? Follow its token ID to the matchin
 
 ![Inside a Real Model. Token cat has token ID 4719, which selects its highlighted row in the embedding table. The table stores one embedding for every token. Dimensions: the d1 through dn column headings mark positions in the embedding. Value: the circled 0.45 is one learned number, also called a parameter. Embedding: the outlined numerical row is the complete row of numbers for one token.](embeddings-inside-real-model-editorial.jpg)
 
-## Does every token get its own vector?
+## Even Pieces of Words Get Embeddings
 
-Yes. For example, “unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each one gets its own embedding vector. Even a piece of a word gets its own row of learned numbers.
+“Unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each piece gets its own embedding, a row of learned numbers.
 
 AI uses numbers to work with meaning.
 

@@ -115,9 +115,6 @@ def build_before():
     centered(draw, (800, 117), "Yesterday's AI read one word at a time", font("heavy", 44))
     rounded(draw, (80, 172, 1520, 736), 16, WHITE)
 
-    centered(draw, (800, 220), "AI moves forward through the sentence", font("demi", 28), CARD_TITLE)
-    arrow(draw, 1080, 221, 1308, "#9885e5", 4)
-
     words = [
         "The", "cat", "sat", "on", "the", "mat", "during",
         "the", "May", "rainstorm", "because", "it", "was", "tired",
@@ -142,7 +139,15 @@ def build_before():
     # Keep reading order obvious when the sentence wraps to its second line.
     draw.line((1488, 327, 1502, 327, 1502, 462, 99, 462, 99, 535), fill="#c1b5eb", width=4, joint="curve")
     draw.polygon([(99, 548), (89, 532), (109, 532)], fill="#c1b5eb")
-    centered(draw, (800, 662), "CAT is still readable here, but old AI struggled to carry it forward to IT.", font("medium", 29), MUTED)
+    caption_parts = [("We know ", "medium"), ("IT", "bold"), (" refers to ", "medium"), ("CAT", "bold"), (".", "medium")]
+    caption_width = sum(draw.textlength(text, font=font(weight, 29)) for text, weight in caption_parts)
+    caption_x = 800 - caption_width / 2
+    for text, weight in caption_parts:
+        caption_font = font(weight, 29)
+        draw.text((caption_x, 620), text, font=caption_font, fill=MUTED, anchor="lm")
+        caption_x += draw.textlength(text, font=caption_font)
+    centered(draw, (800, 662), "Earlier AI often struggled to keep that connection,", font("medium", 29), MUTED)
+    centered(draw, (800, 704), "especially in longer passages.", font("medium", 29), MUTED)
     takeaway(draw, "By the time AI reaches IT, CAT has faded.")
     return image
 

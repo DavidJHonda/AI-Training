@@ -1,0 +1,54 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/support-trap-patched.mp4`
+- Decoded frames: 5050
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f903 `establish` — [`boundary-000903-establish.jpg`](boundary-000903-establish.jpg)
+- PASS — f1133 `takeaway` — [`boundary-001133-takeaway.jpg`](boundary-001133-takeaway.jpg)
+- PASS — f1428 `establish` — [`boundary-001428-establish.jpg`](boundary-001428-establish.jpg)
+- PASS — f1574 `real-relief` — [`boundary-001574-real-relief.jpg`](boundary-001574-real-relief.jpg)
+- PASS — f1726 `useful-applications` — [`boundary-001726-useful-applications.jpg`](boundary-001726-useful-applications.jpg)
+- PASS — f2126 `why-not` — [`boundary-002126-why-not.jpg`](boundary-002126-why-not.jpg)
+- PASS — f2279 `human-action` — [`boundary-002279-human-action.jpg`](boundary-002279-human-action.jpg)
+- PASS — f2429 `organize-thoughts` — [`boundary-002429-organize-thoughts.jpg`](boundary-002429-organize-thoughts.jpg)
+- PASS — f2543 `not-human-care` — [`boundary-002543-not-human-care.jpg`](boundary-002543-not-human-care.jpg)
+- PASS — f2725 `warning` — [`boundary-002725-warning.jpg`](boundary-002725-warning.jpg)
+- PASS — f2850 `pause` — [`boundary-002850-pause.jpg`](boundary-002850-pause.jpg)
+- PASS — f2865 `sophie-introduction` — [`boundary-002865-sophie-introduction.jpg`](boundary-002865-sophie-introduction.jpg)
+- PASS — f3081 `harry` — [`boundary-003081-harry.jpg`](boundary-003081-harry.jpg)
+- PASS — f3214 `sophie-consequence` — [`boundary-003214-sophie-consequence.jpg`](boundary-003214-sophie-consequence.jpg)
+- PASS — f3698 `pause` — [`boundary-003698-pause.jpg`](boundary-003698-pause.jpg)
+- PASS — f3716 `establish` — [`boundary-003716-establish.jpg`](boundary-003716-establish.jpg)
+- FAIL — f3772 `leave-chat` — [`boundary-003772-leave-chat.jpg`](boundary-003772-leave-chat.jpg)
+  - Possible stale visual: f3778 to f3779 (1 frames)
+  - Possible stale visual: f3779 to f3780 (1 frames)
+  - Possible stale visual: f3780 to f3781 (1 frames)
+  - Possible stale visual: f3781 to f3782 (1 frames)
+  - Possible stale visual: f3782 to f3783 (1 frames)
+  - Possible stale visual: f3783 to f3784 (1 frames)
+- PASS — f3910 `not-another-message` — [`boundary-003910-not-another-message.jpg`](boundary-003910-not-another-message.jpg)
+- PASS — f3983 `involve-adult` — [`boundary-003983-involve-adult.jpg`](boundary-003983-involve-adult.jpg)
+- PASS — f4036 `crisis-and-emergency-numbers` — [`boundary-004036-crisis-and-emergency-numbers.jpg`](boundary-004036-crisis-and-emergency-numbers.jpg)
+- FAIL — f4122 `do-it-now` — [`boundary-004122-do-it-now.jpg`](boundary-004122-do-it-now.jpg)
+  - Possible stale visual: f4129 to f4130 (1 frames)
+  - Possible stale visual: f4130 to f4131 (1 frames)
+  - Possible stale visual: f4131 to f4132 (1 frames)
+  - Possible stale visual: f4132 to f4133 (1 frames)
+  - Possible stale visual: f4133 to f4134 (1 frames)
+- FAIL — f4241 `tell-anyway` — [`boundary-004241-tell-anyway.jpg`](boundary-004241-tell-anyway.jpg)
+  - Possible stale visual: f4245 to f4246 (1 frames)
+  - Possible stale visual: f4246 to f4247 (1 frames)
+  - Possible stale visual: f4247 to f4248 (1 frames)
+  - Possible stale visual: f4248 to f4249 (1 frames)
+  - Possible stale visual: f4249 to f4250 (1 frames)
+  - Possible stale visual: f4250 to f4251 (1 frames)
+  - Possible stale visual: f4251 to f4252 (1 frames)
+  - Possible stale visual: f4252 to f4253 (1 frames)
+- PASS — f4284 `help-friend-and-break-secrecy` — [`boundary-004284-help-friend-and-break-secrecy.jpg`](boundary-004284-help-friend-and-break-secrecy.jpg)
+- PASS — f4756 `pause` — [`boundary-004756-pause.jpg`](boundary-004756-pause.jpg)
+- PASS — f4786 `standard-close` — [`boundary-004786-standard-close.jpg`](boundary-004786-standard-close.jpg)

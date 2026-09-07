@@ -85,10 +85,19 @@ def render_engagement_comparison() -> Image.Image:
     """Render the Engagement Trap as one shared answer followed by two endings."""
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     title = "One Answer. Two Endings."
-    shared_top = 112
-    shared_left, shared_right = 40, 1560
-    shared_width = shared_right - shared_left
-    branch_top = 610
+    user_text = "I’m doing math homework. What does slope mean, and what’s the formula?"
+    ai_text = (
+        "Slope tells you how steep a line is. Find it by dividing how far the line moves up or down "
+        "by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, "
+        "draw a graph, or make some practice questions?"
+    )
+    # Reuse EE-CHAT rather than maintaining a second set of speaker/bubble rules.
+    # Its measured height determines where the unchanged outcome cards begin.
+    chat = render_chat(ChatBoard("engagement-start", title, (
+        Turn("YOU", user_text, phase="THE SAME START"),
+        Turn("AI", ai_text),
+    )))
+    branch_top = chat.height - 40 + 32
     branch_width = 744
     branch_height = 600
     footer_top = branch_top + branch_height + TAKEAWAY_GAP
@@ -97,50 +106,14 @@ def render_engagement_comparison() -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, title)
+    # Keep the transcript's sheet shadow, but omit its old bottom frame corners.
+    image.paste(chat.crop((0, 0, WIDTH, chat.height - 24)), (0, 0))
+    draw = ImageDraw.Draw(image)
 
     label_font = face("heavy", 20)
-    speaker_font = face("heavy", 22)
-    body_font = face("medium", 30)
     branch_title_font = face("bold", 34)
     small_body_font = face("medium", 28)
     bullet_font = face("medium", 29)
-
-    # The shared chat is deliberately dominant: both paths begin with the same
-    # useful answer, and only diverge when the student accepts or declines more.
-    draw.rounded_rectangle(
-        (shared_left, shared_top, shared_right, branch_top - 32),
-        radius=18,
-        fill=WHITE,
-        outline=mix_with_white(PURPLE, CARD_BORDER_OPACITY),
-        width=1,
-    )
-    draw.rectangle((shared_left, shared_top + 18, shared_left + 7, branch_top - 50), fill=PURPLE)
-    draw.text((72, shared_top + 22), "THE SAME START", font=label_font, fill=PURPLE)
-
-    user_text = "I’m doing math homework. What does slope mean, and what’s the formula?"
-    ai_text = (
-        "Slope tells you how steep a line is. Find it by dividing how far the line moves up or down "
-        "by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, "
-        "draw a graph, or make some practice questions?"
-    )
-
-    bubble_left, bubble_right = 96, 1504
-    user_lines = wrap(measure, user_text, body_font, bubble_right - bubble_left - 48)
-    user_top = shared_top + 78
-    user_height = 62 + len(user_lines) * 41 + 22
-    draw.rounded_rectangle((bubble_left, user_top, bubble_right, user_top + user_height), radius=16,
-                           fill=mix_with_white(PURPLE, 0.08), outline=mix_with_white(PURPLE, 0.3), width=1)
-    draw.text((bubble_left + 24, user_top + 18), "YOU", font=speaker_font, fill=PURPLE)
-    multiline(draw, (bubble_left + 24, user_top + 58), user_lines, body_font, BODY, 41)
-
-    ai_lines = wrap(measure, ai_text, body_font, bubble_right - bubble_left - 48)
-    ai_top = user_top + user_height + 20
-    ai_height = 62 + len(ai_lines) * 41 + 22
-    draw.rounded_rectangle((bubble_left, ai_top, bubble_right, ai_top + ai_height), radius=16,
-                           fill=mix_with_white(BLUE, 0.07), outline=mix_with_white(BLUE, 0.28), width=1)
-    draw.text((bubble_left + 24, ai_top + 18), "AI", font=speaker_font, fill=BLUE)
-    multiline(draw, (bubble_left + 24, ai_top + 58), ai_lines, body_font, BODY, 41)
 
     def draw_branch(left: int, label: str, quote: str, items: tuple[str, ...], accent: str,
                     timing: str | None = None, closing: str | None = None) -> None:
@@ -766,7 +739,7 @@ def render_engagement_trap_boards() -> None:
     """Render only the three Engagement Trap boards and their lesson copies."""
     save_pair(
         render_engagement_comparison(),
-        Pair("illustrations/engagement-trap-comparison-v2.jpg", "lessons/avoid-traps-17-engagement-comparison.jpg"),
+        Pair("illustrations/engagement-trap-comparison-v2.jpg", "lessons/engagement-trap-1-comparison.jpg"),
     )
     scroll_comparison = CardBoard(
         "engagement-scroll",

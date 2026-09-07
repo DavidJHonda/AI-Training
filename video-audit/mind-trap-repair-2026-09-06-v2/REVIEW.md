@@ -1,6 +1,6 @@
-# Mind Trap revision 2: ready for review
+# Mind Trap revision 2: shipped 2026-09-07
 
-Candidate: `Prompts/mind-trap-patched.mp4`, 5820 frames, **3:14.000**.
+Live: `videos/mind-trap.mp4`, 5820 frames, **3:14.000**.
 
 SHA-256: `1724ee7fe0219d24a3ac4f3b49cda97e9b87cc1d070739925db4610698baec76`.
 
@@ -19,4 +19,4 @@ SHA-256: `1724ee7fe0219d24a3ac4f3b49cda97e9b87cc1d070739925db4610698baec76`.
 - Remaining six audio seams are unchanged from revision1. Source and live video hashes remain unchanged.
 - Inline JavaScript parses successfully and `git diff --check` passes. Index changes are limited to the user-approved Mind Trap card order and closing.
 
-Status: review candidate, not shipped. No unused videos deleted in this revision.
+Status: shipped after user approval on 2026-09-07. Approved candidate moved from Prompts into the existing live filename; final hash and frame count verified. The shipping operation did not modify index.html or any lesson files. Previous live video preserved at `Archive/video-candidates/mind-trap-previous-live-20260907-zri3xy5f/mind-trap.mp4`. Other source videos remain untouched.

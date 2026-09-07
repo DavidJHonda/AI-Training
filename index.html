@@ -952,7 +952,7 @@ const CLOSE_BOARDS = {
   training: { pill: "AI learns from examples and feedback.", sticky: "Guess. Check. Adjust. Repeat." },
   aiismath: { pill: "AI builds answers with probabilities.", sticky: "One prediction at a time." },
   tokens: { pill: "Words become numbers.", sticky: "That lets AI work with your language using math." },
-  embeddings: { pill: "An ID identifies. An embedding describes.", sticky: "A row of learned numbers helps AI work with meaning." },
+  embeddings: { pill: "AI uses numbers to work with meaning.", sticky: "Those numbers help AI recognize similarities and differences." },
   attention: { pill: "Attention is all you need.", sticky: "Every nuance resolved by weighing the words around it." },
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "Attention and transformation. Dozens of times." },
   vectorspace: { pill: "Meaning is a position.", sticky: "Close in space is close in meaning." },
@@ -6287,7 +6287,6 @@ function EmbeddingsSection(props) {
   var _cl = useState(false), clubLocked = _cl[0], setClubLocked = _cl[1];
   var _co = useState([null, null, null]), clubOrder = _co[0], setClubOrder = _co[1];
   var _cp = useState([null, null, null]), clubPicks = _cp[0], setClubPicks = _cp[1];
-  var _ct = useState(false), clubTableShown = _ct[0], setClubTableShown = _ct[1];
   var clubAllFilled = clubVals.every(function(row) { return row.every(function(v) { return v !== "" && !isNaN(parseInt(v, 10)); }); });
   function setClubCell(ci, di, raw) {
     var n = raw.replace(/[^0-9]/g, "");
@@ -6315,13 +6314,13 @@ function EmbeddingsSection(props) {
   });
   var profileImageStyle = { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 };
   var tasteProfile = E("img", {
-    src: "lessons/embeddings-meaning-row-editorial.jpg?v=20260831retrofit1",
-    alt: "Coke and coffee scored on the same six dimensions, with each value shown beneath its slider",
+    src: "lessons/embeddings-meaning-row-editorial.jpg?v=20260907drinks2",
+    alt: "Meaning Becomes an Ordered Row of Numbers. Coke and coffee have colored number tiles on the same six dimensions: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Ratings run from 0 to 10. Each position always means the same thing; the number says how much.",
     style: profileImageStyle
   });
   var pepsiProfile = E("img", {
-    src: "lessons/embeddings-new-dimension-editorial.jpg?v=20260831retrofit1",
-    alt: "Coke, Pepsi, and coffee scored on the same dimensions, with Citrus added as a seventh coordinate that separates Coke from Pepsi",
+    src: "lessons/embeddings-new-dimension-editorial.jpg?v=20260907drinks3",
+    alt: "One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee have colored number tiles on a 0 to 10 scale. Coke and Pepsi match on the first six dimensions. Citrus is labeled NEW, with green tiles showing Coke 1, Pepsi 10, and coffee 0. Pepsi’s 10 is emphasized in solid green. Six numbers match. The seventh tells them apart.",
     style: profileImageStyle
   });
   var clubEntryCols = "minmax(96px, 130px) repeat(5, minmax(58px, 1fr))";
@@ -6379,24 +6378,16 @@ function EmbeddingsSection(props) {
       });
     }));
   }) : null;
-  var clubExpandToggle = E("button", {
-    onClick: function() { setClubTableShown(!clubTableShown); },
-    "aria-expanded": clubTableShown ? "true" : "false",
-    style: { display: "inline-flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--tryAccent)", textTransform: "uppercase", letterSpacing: "0.08em", padding: "4px 0" }
-  }, E("span", { style: { fontSize: 11 } }, clubTableShown ? "▾" : "▸"), clubTableShown ? "Collapse table" : "Expand table");
   var clubTryIt = E("div", null,
     E(InteractiveBox, { surface: "mint", title: "Build your own vector", lead: "Can a row of numbers carry enough meaning for you to recognize something after its name disappears?", instructions: [
       "Score each club from 0 to 10 on all five dimensions.",
-      "Select Hide the names and match when every score is filled.",
-      "Match each mystery vector to its club.",
+      E(React.Fragment, null, "Select ", E("strong", null, "Hide the names and match"), " when every score is filled."),
+      "Look at each mystery club’s scores. Which club matches the scores?",
       "Use the feedback to see how well the numbers carried the meaning."
     ] },
       clubLocked ? null : clubEntryGrid,
       clubLocked ? null : E("div", { style: { marginTop: 18 } },
         E(ActivityButton, { onClick: lockClubs, disabled: !clubAllFilled, style: clubAllFilled ? null : { opacity: 0.4, cursor: "not-allowed" } }, "Hide the names and match →")),
-      clubLocked ? E("div", null,
-        clubExpandToggle,
-        clubTableShown ? E("div", { style: { marginTop: 14 } }, clubEntryGrid) : null) : null,
       clubLocked ? E(InnerCard, { style: { display: "flex", flexDirection: "column", marginTop: 18 } }, clubMysteryRows) : null),
     clubMatchComplete ? E(Takeaway, { accent: "var(--tryAccent)", headline: "The numbers carried the meaning.", body: "You recognized the clubs from their numerical profiles. An embedding gives AI a numerical profile it can use to recognize patterns and relationships in meaning." }) : null);
   return /*#__PURE__*/E("div", null,
@@ -6406,58 +6397,46 @@ function EmbeddingsSection(props) {
   E(BodyP, null,
     "It\u2019s the same as the number assigned to your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
   E("img", {
-    src: "illustrations/embeddings.jpg",
-    alt: "Four students at a cafeteria table; one student slips french fries into his shirt pocket",
-    style: { display: "block", width: "100%", maxWidth: 820, margin: "8px auto 24px", borderRadius: 16 }
+    src: "lessons/embeddings-student-id-editorial.jpg?v=20260907nate3",
+    alt: "An ID Identifies You. It Doesn’t Describe You. Four students at a cafeteria table wear lanyard badges numbered 1024, 2048, 3072, and 4096. The standing student slips french fries into his shirt pocket. His ID won’t tell you he steals fries.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   }),
-  E(BodyP, null,
-    "AI uses each token ID to look up a row of numbers called an ",
-    E("strong", null, "embedding"),
-    ". These numbers are learned during training and help the model work with the token’s meaning and how it is used."),
+  E(SectionKicker, null, "How Numbers Can Represent Meaning"),
   E(BodyP, null,
     "Imagine you and your friends rate Coke and coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Each score runs from 0 to 10. A higher number means more of that characteristic."),
-  E(BodyP, null,
-    "Here are your results. Compare what the ID tells you about each drink with what its scores tell you."),
   tasteProfile,
   E(BodyP, { style: { marginTop: 18 } },
     "If someone asked you, \u201cWhich drink has sweet of 9, bitter of 1, and fizz of 10?\u201d you\u2019d immediately answer Coke."),
   E(BodyP, null,
     "You’ve turned each drink’s characteristics into a row of numbers. The row tells you something about the drink that its ID alone cannot."),
   E(BodyP, null,
-    "A row of numbers in a specific order, like this, is called a ",
-    E("strong", null, "Vector"),
-    ". Each slot (Sweet, Bitter, etc.) is a ",
-    E("strong", null, "Dimension"),
-    ". And each number is a ",
-    E("strong", null, "Value"),
+    "The whole row of numbers is a ",
+    E("strong", null, "vector"),
+    ". Each position in the row is a ",
+    E("strong", null, "dimension"),
+    ", such as Sweet or Bitter. The number in that position is its ",
+    E("strong", null, "value"),
     "."),
-  E(SectionKicker, null, "What about Pepsi?"),
-  E(BodyP, null, "Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart."),
+  E(SectionKicker, null, "When You Need Another Dimension"),
+  E(BodyP, null, "Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi scores the same as Coke. On these six numbers alone, you cannot tell them apart."),
   pepsiProfile,
   E(BodyP, null, "To tell them apart, you add a seventh dimension, ", E("strong", null, "Citrus"), ". In your ratings, Pepsi scores 10 and Coke scores 1. Their numerical profiles now capture a difference the first six dimensions missed."),
-  E(BodyP, null,
-    "In a real model, engineers choose the number of dimensions, often thousands. Training learns the values in each token’s row. Those values work together to capture patterns in how the token is used. They aren’t simple ratings for traits like Sweet or Fizz."),
-  E(BodyP, null, "Every token in the model’s vocabulary gets a row with the same number of dimensions, in the same order. What changes from token to token is the values. That shared structure helps the model recognize similarities and differences in meaning."),
-  E(SectionKicker, null, "INSIDE A REAL MODEL"),
-  E(BodyP, null,
-    "In this example, the token ",
-    E("strong", null, "cat"),
-    " has the ",
-    E("strong", null, "token ID"),
-    " 4719. AI uses that ID to find cat’s row in the ",
-    E("strong", null, "embedding table"),
-    ", which stores an embedding for every token. That row is cat’s ",
-    E("strong", null, "embedding vector"),
-    ". The numbers that fill the table, plus many more throughout the model, are called ",
-    E("strong", null, "parameters"),
-    "."),
+  E(SectionKicker, null, "How AI Uses This Idea"),
+  E(BodyP, null, "AI also uses numbers to represent meaning. Just as each drink has a numerical profile, each token has its own row of numbers. That row is called an ", E("strong", null, "embedding"), "."),
   E("img", {
-    src: "lessons/embeddings-inside-real-model-editorial.jpg?v=20260906lookup2",
-    alt: "From Token ID to Embedding. The cat token has ID 4719, which selects its highlighted row in the embedding table. That row is the token’s embedding vector. Each dimension is a position in the vector, and each value in the table is a parameter adjusted during training. The values work together to represent meaning.",
+    src: "lessons/embeddings-taste-test-to-ai-editorial.jpg?v=20260907comparison2",
+    alt: "From Taste Ratings to AI Embeddings. Your taste test: three drinks; six, then seven dimensions per row; you choose the ratings; named traits like Sweet and Fizz; you name the dimensions. AI: every token in the model’s vocabulary; typically thousands of dimensions per row; AI learns the values during training; patterns in how a token is used; no dimension labels, with values working together to represent meaning. Both use a row of numbers to describe something.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  }),
+  E(SectionKicker, null, "Putting the Pieces Together"),
+  E(BodyP, null, "What happens when you type “cat” into AI? Follow its token ID to the matching row in the embedding table."),
+  E("img", {
+    src: "lessons/embeddings-inside-real-model-editorial.jpg?v=20260907key4",
+    alt: "Inside a Real Model. Token ID 4719 selects cat’s highlighted row in the embedding table. Dimension: one position in the row. Value: one number in that position. Embedding: the complete row for one token. Embedding Table: a table that stores one embedding for every token. Parameter: a number learned during training. Every value in the embedding table is a parameter.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "12px auto 28px", borderRadius: 16 }
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Does every token get its own vector?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Yes. Remember how \u2018unbelievable\u2019 became three tokens? Each one (\u2018un\u2019, \u2018belie\u2019, \u2018vable\u2019) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Yes. For example, “unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each one gets its own embedding vector. Even a piece of a word gets its own row of learned numbers."),
   closeBoard("embeddings"),
   clubTryIt,
   /*#__PURE__*/React.createElement(LessonRule, null),
@@ -6737,8 +6716,8 @@ function Game2048TryIt(props) {
 function VectorSpaceSection(props) {
   var E = React.createElement;
   var vsTasteProfile = E("img", {
-    src: "illustrations/vector-space-taste-profile.jpg?v=20260901vectorspace",
-    alt: "Coke, Pepsi, and coffee scored on the same seven dimensions. Coke and Pepsi match closely across the row while Coffee is far away on most values",
+    src: "illustrations/vector-space-taste-profile.jpg?v=20260907tiles1",
+    alt: "Comparing Numerical Profiles. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
   // Body-scale bullets: prose that happens to be listed, not a box. Matches BodyP

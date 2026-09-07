@@ -2411,23 +2411,142 @@ def render_token_splits(out_path: Path) -> None:
     save(canvas, out_path)
 
 
-def render_embedding_rows(title: str, source_path: Path, out_path: Path) -> None:
-    """Retitle a number-row graphic without reducing its internal type."""
-    source = Image.open(source_path).convert("RGB")
-    # Remove only the source's centered title band. Preserve the complete chart
-    # at its authored 1:1 scale so its labels and values remain readable.
-    chart = source.crop((80, 132, 1520, 862))
+def render_student_id_board(source: Path, out_path: Path) -> None:
+    """Frame the complete cafeteria scene with the student-ID teaching point."""
+    photo = Image.open(source).convert("RGB")
+    art_width = WIDTH - 80
+    art_height = round(photo.height * art_width / photo.width)
+    art_top = 127
+    banner_top = art_top + art_height + TAKEAWAY_GAP
+    height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw_board_title(draw, "An ID Identifies You. It Doesn’t Describe You.")
+    fitted = photo.resize((art_width, art_height), Image.Resampling.LANCZOS)
+    canvas.paste(fitted, (40, art_top), rounded_mask((art_width, art_height), 14))
+    draw_takeaway_band(
+        canvas,
+        top=banner_top,
+        left=40,
+        right=1560,
+        text="His ID won’t tell you he steals fries.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
+def render_embedding_comparison(out_path: Path) -> None:
+    """Compare the familiar taste test with learned token embeddings."""
+    rows = [
+        ("What gets a row", "Three drinks", "Every token in the model’s vocabulary"),
+        ("Dimensions per row", "Six, then seven", "Typically thousands"),
+        ("Values", "You choose the ratings", "AI learns them during training"),
+        ("What they capture", "Named traits like Sweet and Fizz", "Patterns in how a token is used"),
+        ("Dimension labels", "You name them", "None. The values work together to represent meaning."),
+    ]
     stage_top = 127
-    chart_left = 80
-    chart_top = 151
-    stage_bottom = chart_top + chart.height + 30
-    height = stage_bottom + 40
+    rows_top = 249
+    row_height = 108
+    rows_bottom = rows_top + len(rows) * row_height
+    stage_bottom = rows_bottom + 32
+    banner_top = stage_bottom + TAKEAWAY_GAP
+    height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw_board_title(draw, "From Taste Ratings to AI Embeddings")
+    draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
+    draw.rounded_rectangle((420, 157, 960, rows_bottom), radius=14, fill=mix(TEAL, 0.075))
+    draw.rounded_rectangle((980, 157, 1520, rows_bottom), radius=14, fill=mix(PURPLE, 0.075))
+    draw_inner_title(draw, (452, 178), "Your Taste Test", fill=TEAL)
+    draw_inner_title(draw, (1012, 178), "AI", fill=PURPLE)
+    cells = [(112, 278, "bold", INK), (452, 476, "medium", BODY), (1012, 476, "medium", BODY)]
+    for row_index, row in enumerate(rows):
+        top = rows_top + row_index * row_height
+        for text, (left, width, weight, color) in zip(row, cells):
+            font = face(weight, 29)
+            lines = wrap(draw, text, font, width)
+            text_top = top + (row_height - len(lines) * 40) // 2
+            for line in lines:
+                draw.text((left, text_top), line, font=font, fill=color, anchor="la")
+                text_top += 40
+    draw_takeaway_band(
+        canvas, top=banner_top, left=40, right=1560,
+        text="Both use a row of numbers to describe something.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(canvas, out_path)
+
+
+def render_embedding_rows(
+    title: str,
+    out_path: Path,
+    *,
+    include_pepsi: bool = False,
+    introduce_citrus: bool = True,
+    show_token_ids: bool = False,
+    takeaway: str | None = None,
+) -> None:
+    """Draw the drink ratings as ordered number tiles in the editorial frame."""
+    dimensions = ["SWEET", "BITTER", "FIZZ", "HEAT", "CAFFEINE", "DARK"]
+    colors = [RED, TEAL, BLUE, "#b86108", PURPLE, INK]
+    rows = [
+        ("Coke", "24317", [9, 1, 10, 2, 3, 8]),
+        ("Coffee", "51820", [1, 9, 0, 9, 8, 10]),
+    ]
+    if include_pepsi:
+        dimensions.append("CITRUS")
+        colors.append(GREEN)
+        rows = [
+            ("Coke", "24317", [9, 1, 10, 2, 3, 8, 1]),
+            ("Pepsi", "38106", [9, 1, 10, 2, 3, 8, 10]),
+            ("Coffee", "51820", [1, 9, 0, 9, 8, 10, 0]),
+        ]
+    stage_top = 127
+    first_row_top = 284
+    row_height = 174
+    row_gap = 16
+    rows_bottom = first_row_top + len(rows) * (row_height + row_gap) - row_gap
+    stage_bottom = rows_bottom + 32
+    banner_top = stage_bottom + TAKEAWAY_GAP
+    height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
-    canvas.paste(chart, (chart_left, chart_top))
+
+    draw.text((800, 164), "Ratings: 0 = low  ·  10 = high", font=face("medium", 29), fill=MUTED, anchor="mm")
+    for i, (name, token_id, values) in enumerate(rows):
+        top = first_row_top + i * (row_height + row_gap)
+        draw.rounded_rectangle((80, top, 1520, top + row_height), radius=14, fill=WHITE, outline=mix(BRAND, 0.22), width=2)
+        name_y = top + 64 if show_token_ids else top + row_height // 2
+        draw.text((112, name_y), name, font=face("bold", 36), fill=INK, anchor="lm")
+        if show_token_ids:
+            draw.text((112, top + 111), f"TOKEN ID {token_id}", font=face("medium", 29), fill=MUTED, anchor="lm")
+
+    column_width = 1120 / len(dimensions)
+    centers = [400 + column_width * (i + 0.5) for i in range(len(dimensions))]
+    if include_pepsi and introduce_citrus:
+        citrus_x = centers[-1]
+        draw.rounded_rectangle((citrus_x - 43, 202, citrus_x + 43, 227), radius=12, fill="#ffe39a")
+        draw.text((citrus_x, 214), "NEW", font=face("heavy", 18), fill=INK, anchor="mm")
+
+    draw.text((112, 248), "TOKEN" if show_token_ids else "DRINK", font=face("heavy", 29), fill=INK, anchor="lm")
+    for x, label, color in zip(centers, dimensions, colors):
+        draw.text((x, 248), label, font=face("heavy", 29), fill=color, anchor="mm")
+    for row_index, (name, _, values) in enumerate(rows):
+        center_y = first_row_top + row_index * (row_height + row_gap) + row_height // 2
+        for x, value, color, dimension in zip(centers, values, colors, dimensions):
+            highlight = introduce_citrus and name == "Pepsi" and dimension == "CITRUS"
+            draw.rounded_rectangle((x - 49, center_y - 49, x + 49, center_y + 49), radius=14, fill=color if highlight else mix(color, 0.10), outline=mix(color, 0.25), width=1)
+            draw.text((x, center_y), str(value), font=face("bold", 46), fill=WHITE if highlight else color, anchor="mm")
+
+    takeaway = takeaway or (
+        "Six numbers match. The seventh tells them apart."
+        if include_pepsi else
+        "Each position always means the same thing. The number says how much."
+    )
+    draw_takeaway_band(canvas, top=banner_top, left=40, right=1560, text=takeaway, font=face("medium", TAKEAWAY_TEXT_SIZE))
     save(canvas, out_path)
 
 
@@ -2880,17 +2999,17 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
     stage_top = 127
     art_w, art_h = 1520, 855
     lookup_width = 1240
-    display_art_h = round(art_h * art_w / lookup_width)
+    lookup_height = 745
+    display_art_h = round(lookup_height * art_w / lookup_width)
     cards_top = stage_top + display_art_h + 32
-    cards_h = 390
+    cards_h = 210
     lower_top = cards_top + cards_h + 32
-    lower_h = 180
-    footer_top = lower_top + lower_h + TAKEAWAY_GAP
-    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    lower_h = 240
+    height = lower_top + lower_h + 40
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "From Token ID to Embedding")
+    draw_board_title(draw, "Inside a Real Model")
     art = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
     canvas.paste(art, (40, stage_top), rounded_mask((art_w, art_h), 14))
 
@@ -2909,7 +3028,7 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
 
     dark_label("TOKEN · cat", 214, 276)
     dark_label("TOKEN ID", 214, 565)
-    dark_label("EMBEDDING TABLE · LOOKUP TABLE", 815, 278)
+    dark_label("EMBEDDING TABLE", 815, 278)
 
     # Text stays editable and is enlarged with the lookup illustration below.
     draw.text((214, 701), "4719", font=face("heavy", 42), fill="#b894ff", anchor="mm")
@@ -2935,10 +3054,9 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
         fill = WHITE if row_index == len(rows) - 1 else "#2b231f"
         for x, value in zip(column_centers, row):
             draw.text((x, y), value, font=table_font, fill=fill, anchor="mm")
-    dark_label("HIGHLIGHTED ROW = cat’s EMBEDDING VECTOR", 815, 920)
 
     # Reframe the composed lookup to fill the area formerly shared with layers.
-    lookup = canvas.crop((40, stage_top, 40 + lookup_width, stage_top + art_h))
+    lookup = canvas.crop((40, stage_top, 40 + lookup_width, stage_top + lookup_height))
     lookup = lookup.resize((art_w, display_art_h), Image.Resampling.LANCZOS)
     draw.rectangle((40, stage_top, 1560, stage_top + display_art_h), fill=FRAME)
     canvas.paste(lookup, (40, stage_top), rounded_mask(lookup.size, 14))
@@ -2948,17 +3066,17 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
     definitions = (
         (
             "DIMENSION",
-            "One position in an embedding vector. Every token uses the same number of dimensions. The values across them work together to represent meaning.",
+            "One position in the row.",
             PURPLE,
         ),
         (
             "VALUE",
-            "One number inside a dimension. Training adjusts values across millions of examples until the model predicts better.",
+            "One number in that position.",
             BLUE,
         ),
         (
-            "EMBEDDING VECTOR",
-            "The complete row of values for one token. It is the token’s full numerical profile for comparing meaning.",
+            "EMBEDDING",
+            "The complete row for one token.",
             TEAL,
         ),
     )
@@ -2973,26 +3091,14 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
         draw.text((left + 34, cards_top + 34), heading, font=face("heavy", 40), fill=accent, anchor="la")
         draw_wrapped(draw, body, left + 34, cards_top + 102, width - 68, face("medium", 29), BODY)
 
-    draw.rounded_rectangle((40, lower_top, 1560, lower_top + lower_h), radius=14, fill=WHITE)
-    draw.text((74, lower_top + 34), "PARAMETER", font=face("heavy", 40), fill=AMBER, anchor="la")
-    draw_wrapped(
-        draw,
-        "A learned number created and adjusted during training. Every value in the embedding table is a parameter.",
-        74,
-        lower_top + 102,
-        1452,
-        face("medium", 29),
-        BODY,
+    lower_definitions = (
+        (40, "EMBEDDING TABLE", "A table that stores one embedding for every token.", TEAL),
+        (816, "PARAMETER", "A number learned during training. Every value in the embedding table is a parameter.", AMBER),
     )
-
-    draw_takeaway_band(
-        canvas,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="A token becomes a row of numbers the model uses to compare meaning.",
-        font=face("medium", TAKEAWAY_TEXT_SIZE),
-    )
+    for left, heading, body, accent in lower_definitions:
+        draw.rounded_rectangle((left, lower_top, left + 744, lower_top + lower_h), radius=14, fill=WHITE, outline=mix(accent, 0.22), width=2)
+        draw.text((left + 34, lower_top + 34), heading, font=face("heavy", 40), fill=accent, anchor="la")
+        draw_wrapped(draw, body, left + 34, lower_top + 102, 676, face("medium", 29), BODY)
     save(canvas, out_path)
 
 
@@ -3078,8 +3184,10 @@ def render_all() -> None:
     )
 
     # Embeddings
-    render_embedding_rows("Meaning Becomes an Ordered Row of Numbers", ROOT / "lessons/embeddings-1-taste-two.jpg", board_path("embeddings", "01-meaning-row-numbers.jpg"))
-    render_embedding_rows("One New Dimension Separates Similar Meanings", ROOT / "lessons/embeddings-2-taste-three.jpg", board_path("embeddings", "02-new-dimension.jpg"))
+    render_student_id_board(teaching / "cafeteria-student-ids-nate-v2.png", board_path("embeddings", "00-student-ids.jpg"))
+    render_embedding_rows("Meaning Becomes an Ordered Row of Numbers", board_path("embeddings", "01-meaning-row-numbers.jpg"))
+    render_embedding_rows("One New Dimension Separates Similar Meanings", board_path("embeddings", "02-new-dimension.jpg"), include_pepsi=True)
+    render_embedding_comparison(board_path("embeddings", "02b-taste-test-to-ai.jpg"))
     render_inside_real_model(teaching / "embedding-lookup-only.png", board_path("embeddings", "03-inside-model.jpg"))
 
     # Transformer
@@ -3122,11 +3230,13 @@ def render_all() -> None:
         (105, 166, 1495, 711),
         "When nothing matches exactly, distance finds the closest one.",
     )
-    render_flattened_shell(
-        "Coke Sits Closer to Pepsi Than to Coffee",
-        ROOT / "lessons/vector-space-2-taste.jpg",
+    render_embedding_rows(
+        "Comparing Numerical Profiles",
         board_path("vector-space", "02-taste-distance.jpg"),
-        (110, 172, 1490, 818),
+        include_pepsi=True,
+        introduce_citrus=False,
+        show_token_ids=True,
+        takeaway="Coke and Pepsi have more similar profiles than either does to coffee.",
     )
     render_flattened_shell(
         "Meaning Neighborhoods",

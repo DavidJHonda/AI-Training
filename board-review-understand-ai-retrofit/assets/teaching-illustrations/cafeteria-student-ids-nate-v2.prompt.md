@@ -1,0 +1,10 @@
+# Cafeteria: Nate face and hair update
+
+Created with the built-in image-generation tool. The previous cafeteria source is preserved as `cafeteria-student-ids.png`. The teaching-board title and banner are applied separately by `render_student_id_board`.
+
+Use case: identity-preserve.
+Asset type: existing course cafeteria illustration.
+Input 1: EDIT TARGET, the cafeteria photograph with four students wearing numbered lanyards. Input 2: Nate's actual face and hair identity reference. Input 3: canonical approved course illustration, A Note from Nate and Luke; use ONLY the darker straight/wavy-haired boy (jersey 4) as a supporting reference for Nate's rendered likeness.
+Primary request: change ONLY the face and hair of the standing student who is putting french fries in his shirt pocket and wears student ID 3072. Give him Nate's facial features and dark-brown straight-to-gently-wavy layered hair with natural fringe, matching the identity reference and the approved darker-haired course character. Remove the standing student's tight curly, voluminous hairstyle. Keep his youthful appearance, natural skin detail, relaxed smiling expression, head angle and gaze toward the seated student on the right. Match the target photo's warm lighting, perspective and photographic realism.
+Critical preservation: Keep all pixels outside the standing student's face/hair region as unchanged as possible. Do not change the other three students' faces or hair. Preserve the standing student's exact white shirt, green striped tie, dark-green lanyard, readable 3072 ID badge, torso, arms, hands and both groups of fries. Preserve the fries being put into his breast pocket. Preserve all other badges, their numbers, lunch trays, food, background flags, furniture, lighting and camera framing. Do NOT bring hockey jerseys, black hoodies, a workshop, or paper note from the reference images into the cafeteria scene.
+Output: same 3:2 landscape composition and full original scene. No title, border, banner, callouts or new text. The teaching-board frame will be reapplied separately.

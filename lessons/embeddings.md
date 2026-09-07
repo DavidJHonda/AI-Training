@@ -6,44 +6,44 @@ You’ve learned that text is converted to tokens, and each has a unique identif
 
 It’s the same as the number assigned to your Student ID. It might let you in the building, but it doesn’t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch.
 
-![Four students at a cafeteria table; one student slips french fries into his shirt pocket.](embeddings-0-cafeteria.jpg)
+![An ID Identifies You. It Doesn’t Describe You. Four students at a cafeteria table wear lanyard badges numbered 1024, 2048, 3072, and 4096. The standing student slips french fries into his shirt pocket. His ID won’t tell you he steals fries.](embeddings-student-id-editorial.jpg)
 
-AI uses each token ID to look up a row of numbers called an **embedding**. These numbers are learned during training and help the model work with the token’s meaning and how it is used.
+## How Numbers Can Represent Meaning
 
 Imagine you and your friends rate Coke and coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Each score runs from 0 to 10. A higher number means more of that characteristic.
 
-Here are your results. Compare what the ID tells you about each drink with what its scores tell you.
-
-![Meaning Becomes an Ordered Row of Numbers. Coke and coffee are scored on the same six dimensions, with each value shown beneath its slider.](embeddings-meaning-row-editorial.jpg)
+![Meaning Becomes an Ordered Row of Numbers. Coke and coffee have colored number tiles on the same six dimensions: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Ratings run from 0 to 10. Each position always means the same thing; the number says how much.](embeddings-meaning-row-editorial.jpg)
 
 If someone asked you, “Which drink has sweet of 9, bitter of 1, and fizz of 10?” you’d immediately answer Coke.
 
 You’ve turned each drink’s characteristics into a row of numbers. The row tells you something about the drink that its ID alone cannot.
 
-A row of numbers in a specific order, like this, is called a **Vector**. Each slot (Sweet, Bitter, etc.) is a **Dimension**. And each number is a **Value**.
+The whole row of numbers is a **vector**. Each position in the row is a **dimension**, such as Sweet or Bitter. The number in that position is its **value**.
 
-## What about Pepsi?
+## When You Need Another Dimension
 
-Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi looks almost exactly like Coke: both sweet, both fizzy, both lightly caffeinated, neither bitter nor hot. On these six numbers alone, you cannot tell them apart.
+Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi scores the same as Coke. On these six numbers alone, you cannot tell them apart.
 
-![One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee are scored on the same dimensions, with Citrus added as a seventh coordinate that separates Coke from Pepsi.](embeddings-new-dimension-editorial.jpg)
+![One New Dimension Separates Similar Meanings. Coke, Pepsi, and coffee have colored number tiles on a 0 to 10 scale. Coke and Pepsi match on the first six dimensions. Citrus is labeled NEW, with green tiles showing Coke 1, Pepsi 10, and coffee 0. Pepsi’s 10 is emphasized in solid green. Six numbers match. The seventh tells them apart.](embeddings-new-dimension-editorial.jpg)
 
 To tell them apart, you add a seventh dimension, **Citrus**. In your ratings, Pepsi scores 10 and Coke scores 1. Their numerical profiles now capture a difference the first six dimensions missed.
 
-In a real model, engineers choose the number of dimensions, often thousands. Training learns the values in each token’s row. Those values work together to capture patterns in how the token is used. They aren’t simple ratings for traits like Sweet or Fizz.
+## How AI Uses This Idea
 
-Every token in the model’s vocabulary gets a row with the same number of dimensions, in the same order. What changes from token to token is the values. That shared structure helps the model recognize similarities and differences in meaning.
+AI also uses numbers to represent meaning. Just as each drink has a numerical profile, each token has its own row of numbers. That row is called an **embedding**.
 
-## INSIDE A REAL MODEL
+![From Taste Ratings to AI Embeddings. Your taste test: three drinks; six, then seven dimensions per row; you choose the ratings; named traits like Sweet and Fizz; you name the dimensions. AI: every token in the model’s vocabulary; typically thousands of dimensions per row; AI learns the values during training; patterns in how a token is used; no dimension labels, with values working together to represent meaning. Both use a row of numbers to describe something.](embeddings-taste-test-to-ai-editorial.jpg)
 
-In this example, the token **cat** has the **token ID** 4719. AI uses that ID to find cat’s row in the **embedding table**, which stores an embedding for every token. That row is cat’s **embedding vector**. The numbers that fill the table, plus many more throughout the model, are called **parameters**.
+## Putting the Pieces Together
 
-![From Token ID to Embedding. The cat token has ID 4719, which selects its highlighted row in the embedding table. That row is the token’s embedding vector. Each dimension is a position in the vector, and each value in the table is a parameter adjusted during training. The values work together to represent meaning.](embeddings-inside-real-model-editorial.jpg)
+What happens when you type “cat” into AI? Follow its token ID to the matching row in the embedding table.
+
+![Inside a Real Model. Token ID 4719 selects cat’s highlighted row in the embedding table. Dimension: one position in the row. Value: one number in that position. Embedding: the complete row for one token. Embedding Table: a table that stores one embedding for every token. Parameter: a number learned during training. Every value in the embedding table is a parameter.](embeddings-inside-real-model-editorial.jpg)
 
 ## Does every token get its own vector?
 
-Yes. Remember how ‘unbelievable’ became three tokens? Each one (‘un’, ‘belie’, ‘vable’) gets its own vector with thousands of values. The model does not start with the meaning of the full word. Combining those pieces into the meaning of the whole word happens later, in the layers.
+Yes. For example, “unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each one gets its own embedding vector. Even a piece of a word gets its own row of learned numbers.
 
-An ID identifies. An embedding describes.
+AI uses numbers to work with meaning.
 
-A row of learned numbers helps AI work with meaning.
+Those numbers help AI recognize similarities and differences.

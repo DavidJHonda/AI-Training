@@ -38,7 +38,7 @@ AI also uses numbers to represent meaning. Just as each drink has a numerical pr
 
 What happens when you type “cat” into AI? Follow its token ID to the matching row in the embedding table.
 
-![Inside a Real Model. Token ID 4719 selects cat’s highlighted row in the embedding table. Dimension: one position in the row. Value: one number in that position. Embedding: the complete row for one token. Embedding Table: a table that stores one embedding for every token. Parameter: a number learned during training. Every value in the embedding table is a parameter.](embeddings-inside-real-model-editorial.jpg)
+![Inside a Real Model. Token cat has token ID 4719, which selects its highlighted row in the embedding table. The table stores one embedding for every token. Dimensions: the d1 through dn column headings mark positions in the embedding. Value: the circled 0.45 is one learned number, also called a parameter. Embedding: the outlined numerical row is the complete row of numbers for one token.](embeddings-inside-real-model-editorial.jpg)
 
 ## Does every token get its own vector?
 

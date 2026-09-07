@@ -2994,52 +2994,26 @@ def render_inference_teaching(source: Path, out_path: Path) -> None:
 
 
 def render_inside_real_model(source: Path, out_path: Path) -> None:
-    """Show the embedding lookup, ending at the selected row."""
-    image = Image.open(source).convert("RGB")
-    stage_top = 127
-    art_w, art_h = 1520, 855
-    lookup_width = 1240
-    lookup_height = 745
-    display_art_h = round(lookup_height * art_w / lookup_width)
-    cards_top = stage_top + display_art_h + 32
-    cards_h = 210
-    lower_top = cards_top + cards_h + 32
-    lower_h = 240
-    height = lower_top + lower_h + 40
-    canvas = Image.new("RGB", (WIDTH, height), FRAME)
-    draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Inside a Real Model")
-    art = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
-    canvas.paste(art, (40, stage_top), rounded_mask((art_w, art_h), 14))
+    """Integrate definitions into the approved embedding lookup illustration."""
+    # Keep the existing illustration and editable table labels at native scale.
+    scene = Image.open(source).convert("RGB").resize((1520, 855), Image.Resampling.LANCZOS)
+    draw = ImageDraw.Draw(scene)
 
-    label_font = face("heavy", 24)
+    def plaque(text, x, y):
+        font = face("heavy", 24)
+        width = draw.textlength(text, font=font) + 36
+        draw.rounded_rectangle((x - width / 2, y - 21, x + width / 2, y + 21), radius=14, fill="#24172f", outline="#bca6e8", width=2)
+        draw.text((x, y), text, font=font, fill=WHITE, anchor="mm")
 
-    def dark_label(text: str, cx: int, cy: int) -> None:
-        text_w = round(draw.textlength(text, font=label_font))
-        draw.rounded_rectangle(
-            (cx - text_w // 2 - 18, cy - 21, cx + text_w // 2 + 18, cy + 21),
-            radius=14,
-            fill="#24172f",
-            outline="#bca6e8",
-            width=2,
-        )
-        draw.text((cx, cy), text, font=label_font, fill=WHITE, anchor="mm")
-
-    dark_label("TOKEN · cat", 214, 276)
-    dark_label("TOKEN ID", 214, 565)
-    dark_label("EMBEDDING TABLE", 815, 278)
-
-    # Text stays editable and is enlarged with the lookup illustration below.
-    draw.text((214, 701), "4719", font=face("heavy", 42), fill="#b894ff", anchor="mm")
-    arrow(draw, (330, 751), (392, 751), "#8a5cf6", 5)
-
-    column_centers = (470, 590, 680, 775, 870, 965, 1060, 1165)
-    headers = ("TOKEN ID", "TOKEN", "d₁", "d₂", "d₃", "d₄", "…", "dₙ")
-    table_font = face("bold", 20)
-    for x, header in zip(column_centers, headers):
-        draw.text((x, 341), header, font=table_font, fill="#f2e8ff", anchor="mm")
-
+    plaque("TOKEN · cat", 169, 197)
+    plaque("TOKEN ID", 169, 445)
+    draw.text((169, 538), "4719", font=face("heavy", 36), fill="#b894ff", anchor="mm")
+    draw.line([(247, 538), (312, 538), (312, 624)], fill="#b894ff", width=5)
+    arrow(draw, (312, 624), (352, 624), "#b894ff", 5)
+    centers = (430, 550, 640, 735, 830, 925, 1020, 1125)
+    headers = ("TOKEN ID", "TOKEN", "d1", "d2", "d3", "d4", "…", "dn")
+    for x, header in zip(centers, headers):
+        draw.text((x, 214), header, font=face("bold", 20), fill="#f2e8ff", anchor="mm")
     rows = (
         ("1021", "dog", "0.41", "-0.27", "0.84", "0.19", "…", "-0.37"),
         ("5022", "latte", "-0.31", "0.72", "-0.21", "0.64", "…", "0.49"),
@@ -3048,57 +3022,45 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
         ("7344", "map", "0.18", "-0.09", "0.33", "0.57", "…", "-0.12"),
         ("4719", "cat", "0.45", "-0.23", "0.80", "0.17", "…", "-0.35"),
     )
-    row_centers = (402, 470, 538, 606, 675, 751)
-    table_font = face("bold", 24)
-    for row_index, (row, y) in enumerate(zip(rows, row_centers)):
-        fill = WHITE if row_index == len(rows) - 1 else "#2b231f"
-        for x, value in zip(column_centers, row):
-            draw.text((x, y), value, font=table_font, fill=fill, anchor="mm")
+    for row_index, (row, y) in enumerate(zip(rows, (275, 343, 411, 479, 548, 624))):
+        for x, text in zip(centers, row):
+            draw.text((x, y), text, font=face("bold", 24), fill=WHITE if row_index == 5 else "#2b231f", anchor="mm")
 
-    # Reframe the composed lookup to fill the area formerly shared with layers.
-    lookup = canvas.crop((40, stage_top, 40 + lookup_width, stage_top + lookup_height))
-    lookup = lookup.resize((art_w, display_art_h), Image.Resampling.LANCZOS)
-    draw.rectangle((40, stage_top, 1560, stage_top + display_art_h), fill=FRAME)
-    canvas.paste(lookup, (40, stage_top), rounded_mask(lookup.size, 14))
+    # The original purple glow marks the selected lookup row. The teal outline
+    # identifies only the numerical embedding, excluding the ID and token name.
+    # Group the numeric column headings rather than outlining one full column.
+    draw.line([(591, 198), (591, 184), (1182, 184), (1182, 198)], fill="#cbb6ff", width=3)
+    draw.rounded_rectangle((591, 589, 1182, 663), radius=9, outline="#63e3c4", width=4)
+    draw.ellipse((607, 598, 673, 650), outline="#ffe39a", width=3)
 
-    card_lefts = (40, 557, 1075)
-    card_widths = (485, 486, 485)
-    definitions = (
-        (
-            "DIMENSION",
-            "One position in the row.",
-            PURPLE,
-        ),
-        (
-            "VALUE",
-            "One number in that position.",
-            BLUE,
-        ),
-        (
-            "EMBEDDING",
-            "The complete row for one token.",
-            TEAL,
-        ),
-    )
-    for left, width, (heading, body, accent) in zip(card_lefts, card_widths, definitions):
-        draw.rounded_rectangle(
-            (left, cards_top, left + width, cards_top + cards_h),
-            radius=14,
-            fill=WHITE,
-            outline=mix(accent, 0.22),
-            width=2,
-        )
-        draw.text((left + 34, cards_top + 34), heading, font=face("heavy", 40), fill=accent, anchor="la")
-        draw_wrapped(draw, body, left + 34, cards_top + 102, width - 68, face("medium", 29), BODY)
+    scene = scene.crop((0, 0, 1240, 855))
+    scene = scene.resize((1520, 1048), Image.Resampling.LANCZOS)
+    canvas = Image.new("RGB", (1600, 1215), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw_board_title(draw, "Inside a Real Model")
+    canvas.paste(scene, (40, 127), rounded_mask(scene.size, 14))
+    draw = ImageDraw.Draw(canvas)
 
-    lower_definitions = (
-        (40, "EMBEDDING TABLE", "A table that stores one embedding for every token.", TEAL),
-        (816, "PARAMETER", "A number learned during training. Every value in the embedding table is a parameter.", AMBER),
-    )
-    for left, heading, body, accent in lower_definitions:
-        draw.rounded_rectangle((left, lower_top, left + 744, lower_top + lower_h), radius=14, fill=WHITE, outline=mix(accent, 0.22), width=2)
-        draw.text((left + 34, lower_top + 34), heading, font=face("heavy", 40), fill=accent, anchor="la")
-        draw_wrapped(draw, body, left + 34, lower_top + 102, 676, face("medium", 29), BODY)
+    def point(x, y):
+        return (round(40 + x * 1520 / 1240), round(127 + y * 1048 / 855))
+
+    # Annotations live on the scene itself, adjacent to what they explain.
+    def annotation(x, y, heading, lines, color):
+        draw.text((x, y), heading, font=face("bold", 40), fill=color, anchor="la")
+        for i, line in enumerate(lines):
+            draw.text((x, y + 52 + i * 38), line, font=face("medium", 29), fill="#fff7ed", anchor="la")
+
+    annotation(480, 157, "EMBEDDING TABLE", ["One embedding for every token."], "#ffffff")
+    arrow(draw, (720, 250), (720, 284), "#ffffff", 3)
+    annotation(1120, 157, "DIMENSIONS", ["Each column is one position", "in the embedding."], "#cbb6ff")
+    arrow(draw, (1260, 295), point(925, 180), "#cbb6ff", 3)
+
+    annotation(112, 1030, "VALUE", ["One learned number,", "also called a parameter."], "#ffe39a")
+    draw.line([(526, 1069), (660, 1069), (point(640, 650)[0], 991)], fill="#ffe39a", width=3)
+    arrow(draw, (point(640, 650)[0], 991), point(640, 652), "#ffe39a", 3)
+    annotation(960, 1030, "EMBEDDING", ["The complete row of numbers", "for one token."], "#63e3c4")
+    arrow(draw, (1150, 1022), point(906, 669), "#63e3c4", 3)
+
     save(canvas, out_path)
 
 
@@ -3188,7 +3150,7 @@ def render_all() -> None:
     render_embedding_rows("Meaning Becomes an Ordered Row of Numbers", board_path("embeddings", "01-meaning-row-numbers.jpg"))
     render_embedding_rows("One New Dimension Separates Similar Meanings", board_path("embeddings", "02-new-dimension.jpg"), include_pepsi=True)
     render_embedding_comparison(board_path("embeddings", "02b-taste-test-to-ai.jpg"))
-    render_inside_real_model(teaching / "embedding-lookup-only.png", board_path("embeddings", "03-inside-model.jpg"))
+    render_inside_real_model(teaching / "embedding-lookup-compact-cards.png", board_path("embeddings", "03-inside-model.jpg"))
 
     # Transformer
     render_context_problems(

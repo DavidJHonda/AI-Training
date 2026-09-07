@@ -1,6 +1,6 @@
 # Avoid Traps Video Kits
 
-Prepared against the current lesson pages on 2026-09-04. All nine lessons are being rerolled at the owner's request. Each has one canonical Markdown, one prompt under 500 words, and the exact current JPG sources. There are 39 JPGs: **29 for Notebook upload and 10 for post-production only**. Numbering follows teaching order; gaps in the upload list are intentional.
+Initially prepared against the lesson pages on 2026-09-04; individual kits are updated as reviewed. Each has one canonical Markdown, one prompt under 500 words, and the current JPG sources. Support Trap was rebuilt on 2026-09-07 with a face-free comparison upload variant. Follow each lesson's current checklist rather than the original batch counts. Numbering follows teaching order; gaps in the upload list are intentional.
 
 Do not upload `Prompts/Master Prompt.md`. Each prompt below is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook. Each prompt reserves an uninterrupted narration span for those boards so they can be inserted exactly in post-production.
 
@@ -101,14 +101,21 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 
 ## Support Trap
 
+Rebuilt 2026-09-07. Target 4:00–4:45, with a 460-word prompt and expanded teaching Markdown. Scene order: lunch comparison → genuine relief and its limits (including venting versus replacing a needed conversation) → content note and Sophie's story → Leave the Chat / Do It Now / Tell Anyway → exact close.
+
 - Prompt: `Prompts/support-trap-video-prompt.txt`
 - Markdown: `lessons/support-trap.md`
 - Notebook sources:
-  1. `lessons/support-trap-2-role.jpg`
-  2. `lessons/support-trap-3-danger.jpg`
-  3. `lessons/support-trap-4-close.jpg`
+  1. `lessons/support-trap-1-comparison-notebook.jpg`
+  2. `lessons/support-trap-2-role.jpg`
+  3. `lessons/support-trap-3-danger.jpg`
+  4. `lessons/support-trap-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
   - `lessons/support-trap-1-comparison.jpg`
+
+The comparison Notebook version retains the illustrated lesson board's words, order, colors, and conclusion but omits both photographs. This is an intentional upload-only variant, not a replacement for the on-page board. Replace it with the illustrated version in post. The other boards match the page; the current close is retained. Do not upload the PDF, old videos, this checklist, or Master Prompt.md.
+
+Rebuild only this kit with `scripts/video/prepare_support_trap_reroll.py`. The expanded Markdown is video-prep teaching, including nuance from the lesson's activity; a plain DOM export would lose it. Save the next generation as `Prompts/support-trap-reroll.mp4`. Current raw, patched, and live videos are retained.
 
 ## Fake Trap
 

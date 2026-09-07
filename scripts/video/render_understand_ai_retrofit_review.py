@@ -286,7 +286,9 @@ def render_cards(title: str, cards: list[Card], takeaway: str | None, out_path: 
     widths = card_w - 68
     bodies = [wrap(measure, c.body, body_font, widths) for c in cards]
     max_lines = max(len(x) for x in bodies)
-    text_h = 32 + 48 + 14 + max_lines * 41 + 34
+    title_lines = [c.title.splitlines() for c in cards]
+    title_h = 48 * max(len(lines) for lines in title_lines)
+    text_h = 32 + title_h + 14 + max_lines * 41 + 34
     card_h = art_h + text_h
     card_top = 127
     stage_bottom = card_top + card_h
@@ -305,8 +307,9 @@ def render_cards(title: str, cards: list[Card], takeaway: str | None, out_path: 
         d = ImageDraw.Draw(canvas)
         d.line((left, card_top + art_h, left + card_w, card_top + art_h), fill=mix(card.accent, 0.20), width=1)
         d.rounded_rectangle((left, card_top, left + card_w - 1, card_top + card_h - 1), radius=14, outline=mix(card.accent, 0.22), width=1)
-        draw_inner_title(d, (left + 34, card_top + art_h + 32), card.title, fill=card.accent, anchor="la")
-        y = card_top + art_h + 32 + 62
+        for line_index, title_line in enumerate(title_lines[idx]):
+            draw_inner_title(d, (left + 34, card_top + art_h + 32 + line_index * 48), title_line, fill=card.accent, anchor="la")
+        y = card_top + art_h + 32 + title_h + 14
         for line in lines:
             d.text((left + 34, y), line, font=body_font, fill=BODY, anchor="la")
             y += 41
@@ -926,9 +929,9 @@ def render_horse_three_reads(out_path: Path) -> None:
     """Show the garden-path sentence changing meaning across repeated passes."""
     title = "The Horse Raced Past the Barn Fell"
     steps = (
-        ("First Pass", "It doesn’t make sense. Did someone forget a word?", PURPLE, "horse-first-pass.png"),
-        ("More Passes", "Wait, did a barn fall? Did the horse race past the barn afterward?", BLUE, "horse-more-passes.png"),
-        ("Meaning Clicks", "Got it. A horse ran past a barn. After running past the barn, the horse fell.", TEAL, "horse-meaning-clicks.png"),
+        ("First Read", "It doesn’t make sense. Did someone forget a word?", PURPLE, "horse-first-pass.png"),
+        ("More Reads", "Wait, did a barn fall? Did the horse race past the barn afterward?", BLUE, "horse-more-passes.png"),
+        ("Meaning Clicks", "The horse that was raced past the barn fell.", TEAL, "horse-meaning-clicks.png"),
     )
     stage_top = 127
     stage_left, stage_right = 40, 1560
@@ -944,6 +947,7 @@ def render_horse_three_reads(out_path: Path) -> None:
     body_font = face("medium", 29)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     bodies = [wrap(measure, body, body_font, cell_w - 10) for _, body, _, _ in steps]
+    bodies[2] = ["The horse that was", "raced past the barn fell."]
     body_bottom = body_y + max(len(lines) for lines in bodies) * 41
     stage_bottom = body_bottom + 38
     footer_top = stage_bottom + TAKEAWAY_GAP
@@ -1002,7 +1006,15 @@ def render_horse_three_reads(out_path: Path) -> None:
         draw_inner_title(draw, (center, title_y), step_title, fill=accent, anchor="ma")
         yy = body_y
         for line in lines:
-            draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
+            if i == 3 and "that was" in line:
+                prefix, suffix = line.split("that was", 1)
+                parts = [(prefix, body_font), ("that was", face("bold", 29)), (suffix, body_font)]
+                x = center - sum(draw.textlength(text, font=part_font) for text, part_font in parts) / 2
+                for text, part_font in parts:
+                    draw.text((x, yy), text, font=part_font, fill=BODY, anchor="la")
+                    x += draw.textlength(text, font=part_font)
+            else:
+                draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
             yy += 41
 
     draw_takeaway_band(
@@ -1010,7 +1022,7 @@ def render_horse_three_reads(out_path: Path) -> None:
         top=footer_top,
         left=40,
         right=1560,
-        text="Each pass updates the meaning until it clicks.",
+        text="Each read updates the meaning until it clicks.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -1079,14 +1091,11 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
 
     def layer_card(left: int, vector_text: str, note_lines: tuple[str, ...]) -> None:
         center = left + card_w // 2
-        draw.rounded_rectangle((left + 10, 404, left + card_w - 10, 462), radius=11, fill=mix(PURPLE, 0.11), outline=mix(PURPLE, 0.24), width=1)
-        draw.text((center, 433), "Attention", font=face("heavy", 29), fill=PURPLE, anchor="mm")
-        draw.polygon(((center - 7, 467), (center + 7, 467), (center, 478)), fill=MUTED)
-        draw.rounded_rectangle((left + 10, 480, left + card_w - 10, 538), radius=11, fill=mix(AMBER, 0.11), outline=mix(AMBER, 0.24), width=1)
-        draw.text((center, 509), "Transformation", font=face("heavy", 29), fill=AMBER, anchor="mm")
-        draw.rounded_rectangle((left + 20, 558, left + card_w - 20, 622), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
-        draw.text((center, 590), vector_text, font=face("heavy", 29), fill=INK, anchor="mm")
-        note_y = 667 if len(note_lines) == 1 else 648
+        draw.ellipse((center - 35, 414, center + 35, 484), fill=WHITE, outline=mix(PURPLE, 0.48), width=3)
+        draw.text((center, 449), "IT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+        draw.rounded_rectangle((left + 20, 510, left + card_w - 20, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+        draw.text((center, 542), vector_text, font=face("heavy", 29), fill=INK, anchor="mm")
+        note_y = 653 if len(note_lines) == 1 else 633
         for line in note_lines:
             draw.text((center, note_y), line, font=face("medium", 29), fill=BODY, anchor="mm")
             note_y += 40
@@ -1099,7 +1108,7 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
     repeat_center = repeat_left + card_w // 2
     for i in range(6):
         y = 411 + i * 31
-        accent = PURPLE if i % 2 == 0 else AMBER
+        accent = PURPLE
         draw.rounded_rectangle(
             (repeat_left + 25, y, repeat_left + card_w - 25, y + 19),
             radius=8,
@@ -1107,8 +1116,8 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
             outline=mix(accent, 0.20),
             width=1,
         )
-    draw.text((repeat_center, 628), "Same two moves", font=face("medium", 29), fill=BODY, anchor="mm")
-    draw.text((repeat_center, 668), "keep repeating.", font=face("medium", 29), fill=BODY, anchor="mm")
+    draw.text((repeat_center, 628), "The numbers", font=face("medium", 29), fill=BODY, anchor="mm")
+    draw.text((repeat_center, 668), "keep changing.", font=face("medium", 29), fill=BODY, anchor="mm")
 
     # Result: the horizontal connector is intentionally level.
     result_left = card_lefts[4]
@@ -1422,9 +1431,7 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
     art = art.crop((0, 80, art.width, 825))
     scale = art_width / art.width
     art_height = round(art.height * scale)
-    definitions_top = art_top + art_height + 16
-    definitions_h = 74
-    scope_note_y = definitions_top + definitions_h + 52
+    scope_note_y = art_top + art_height + 52
     vector_top = scope_note_y + 45
     vector_h = 132
     stage_h = vector_top - stage_top + vector_h + 28
@@ -1457,33 +1464,6 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
     # receding copies make clear that both repeat many times.
     draw.text((512, 308), "Attention", font=face("heavy", 34), fill=WHITE, anchor="mm")
     draw.text((512, 520), "Transformation", font=face("heavy", 31), fill=WHITE, anchor="mm")
-
-    definition_cards = (
-        (74, 786, PURPLE, "Attention", "Which words matter?", 260),
-        (814, 1526, "#c57b00", "Transformation", "Update the meaning.", 1084),
-    )
-    for left, right, accent, label, explanation, explanation_x in definition_cards:
-        draw.rounded_rectangle(
-            (left, definitions_top, right, definitions_top + definitions_h),
-            radius=12,
-            fill=mix(accent, 0.08),
-            outline=mix(accent, 0.22),
-            width=2,
-        )
-        draw.text(
-            (left + 24, definitions_top + definitions_h // 2),
-            label,
-            font=face("heavy", 29),
-            fill=accent,
-            anchor="lm",
-        )
-        draw.text(
-            (explanation_x, definitions_top + definitions_h // 2),
-            explanation,
-            font=face("medium", 29),
-            fill=BODY,
-            anchor="lm",
-        )
 
     card_gap = 64
     card_left = 74
@@ -3081,7 +3061,7 @@ def render_all() -> None:
     render_cards("Why Are There Dozens of Layers?", [
         Card("A Few Passes", "Plain meaning settles early. It is only a handful of layers.", TEAL, "layers-few-passes"),
         Card("Dozens of Passes", "Sarcasm, story twists, and complicated reasoning need more depth.", PURPLE, "layers-dozens-passes"),
-        Card("Why Not Hundreds?", "Past a point, extra depth adds cost without adding much meaning.", AMBER, "layers-not-hundreds"),
+        Card("Why Not Keep\nAdding Layers?", "More layers require more computing power and time. The extra benefit has to be worth the cost.", AMBER, "layers-not-hundreds"),
     ], "More depth leaves room for deeper meaning.", board_path("layers", "04-why-dozens.jpg"))
 
     # Vector Space

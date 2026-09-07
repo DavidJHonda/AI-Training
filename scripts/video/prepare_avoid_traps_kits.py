@@ -70,6 +70,8 @@ KITS = [
     ]),
     ("support-trap", "supporttrap", "support-trap", [
         ("1-comparison", "support-trap-comparison-v2.jpg", False),
+        # Upload surrogate rendered by prepare_support_trap_reroll.py.
+        ("1-comparison-notebook", None, True),
         ("2-role", "support-trap-real-vs-missing-v2.jpg", True),
         ("3-danger", "support-trap-danger-v2.jpg", True),
         ("4-close", "close", True),
@@ -151,6 +153,9 @@ def main():
             if source_name == "close":
                 item["pill"], item["sticky"] = close_board_copy(section)
                 assert item["pill"] in markdown.read_text() and item["sticky"] in markdown.read_text(), f"Close text drift: {slug}"
+            if slug == "support-trap" and suffix == "1-comparison-notebook":
+                item["source"] = "scripts/video/prepare_support_trap_reroll.py"
+                item["purpose"] = "Face-free upload surrogate; replace with illustrated comparison in final video."
             entry["boards"].append(item)
             panel = Image.new("RGB", (640, 470), "#eeeeee")
             im.thumbnail((620, 420))

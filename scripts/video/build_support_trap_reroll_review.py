@@ -51,7 +51,9 @@ c1=(40,127,525,733);c2=(557,127,1043,733);c3=(1075,127,1560,733)
 keep(171.9,184.9,'danger','leave-chat-and-numbers',c1,R,cam(c1),24)
 keep(184.9,197.1,'danger','do-it-now',c2,R,cam(c2),24)
 keep(197.1,209.5,'danger','tell-anyway',c3,R,cam(c3),24)
-keep(209.5,212.2,'danger','safety-outranks-secrecy',(40,773,1560,861),H,None,24)
+# The word-alignment estimate ends "secrecy" early. Its audible final syllable
+# continues through ~212.35; preserve its decay before the one-second pause.
+keep(209.5,212.5,'danger','safety-outranks-secrecy',(40,773,1560,861),H,None,24)
 pause(30,'pause-before-close')
 keep(212.9,218.866667,'close','standard-close')
 # The close has fixed 48f orientation + 150f push + 30f settled finish.

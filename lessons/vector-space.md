@@ -27,7 +27,7 @@ These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each d
 
 ![Three Drinks, Seven Dimensions Each. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.](vector-space-2-taste.jpg)
 
-We can use these numbers as coordinates on a **map of similarities**. Coke and Pepsi have similar ratings, so their vectors sit close together. Coffee’s ratings are quite different, so its vector sits farther away.
+Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s **vector space**. We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away.
 
 ![A Map of Drink Similarities. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.](vector-space-neighborhoods.jpg)
 
@@ -35,7 +35,7 @@ Now someone gives you the ratings for a mystery drink. They don’t match Coke, 
 
 - **9, 1, 10, 2, 3, 8, 9**
 
-![Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short purple dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. The mystery drink’s ratings are closest to Pepsi’s.](vector-space-closest-drink.jpg)
+![Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short dark orange dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. The mystery drink’s ratings are closest to Pepsi’s.](vector-space-closest-drink.jpg)
 
 ## Distance
 

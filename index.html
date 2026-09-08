@@ -6776,9 +6776,9 @@ function VectorSpaceSection(props) {
       "."),
     vsTasteProfile,
     E(BodyP, null,
-      "We can use these numbers as coordinates on a ",
-      E("strong", null, "map of similarities"),
-      ". Coke and Pepsi have similar ratings, so their vectors sit close together. Coffee’s ratings are quite different, so its vector sits farther away."),
+      "Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s ",
+      E("strong", null, "vector space"),
+      ". We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away."),
     E("img", {
       src: "illustrations/vector-space-neighborhoods.jpg?v=20260908maptitle1",
       alt: "A Map of Drink Similarities. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.",
@@ -6791,7 +6791,7 @@ function VectorSpaceSection(props) {
     ]),
     E("img", {
       src: "illustrations/vector-space-closest-drink.jpg?v=20260908orange1",
-      alt: "Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short purple dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. The mystery drink’s ratings are closest to Pepsi’s.",
+      alt: "Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short dark orange dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. The mystery drink’s ratings are closest to Pepsi’s.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     E(SectionKicker, null, "Distance"),
@@ -6934,55 +6934,63 @@ function PredictionLoopTryIt(props) {
         });
       }));
   }
-  function step(number, title, children) {
+  function step(number, title, children, context) {
     return E("div", { style: { padding: number === 1 ? "0 4px 24px" : "24px 4px", borderTop: number === 1 ? "none" : "1px solid var(--tryRule)" } },
+      E("div", { style: { paddingBottom: 8 } }, context),
       E("div", { style: { display: "flex", gap: 20, alignItems: "flex-start", marginBottom: 16 } },
         E("div", { style: { fontFamily: "var(--serif)", fontSize: 40, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(number).padStart(2, "0")),
         E("div", { style: { fontSize: 18, lineHeight: 1.4, color: "var(--ink)" } }, title)),
       E("div", { style: { paddingLeft: 60 } }, children));
   }
-  function contextLine(words, hotIndex) {
-    return E("div", { style: { display: "flex", gap: 7, flexWrap: "wrap", background: "#f7f6fb", border: "1px solid var(--rule)", borderRadius: 12, padding: "13px 14px", marginBottom: 16 } },
-      words.map(function(word, i) {
-        return E("span", { key: i, style: { fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, color: i === hotIndex ? "#fff" : "var(--ink)", background: i === hotIndex ? "var(--primary)" : "#fff", border: "1px solid " + (i === hotIndex ? "var(--primary)" : "var(--rule)"), borderRadius: 8, padding: "5px 9px" } }, word);
-      }));
+  function contextLine(promptWords, replyWords, hotIndex) {
+    function row(label, words, tokenOffset) {
+      return E("div", { style: { marginTop: tokenOffset ? 18 : 0 } },
+        E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", color: "var(--ink)", marginBottom: 8 } }, label),
+        E("div", { style: { display: "flex", gap: 7, flexWrap: "wrap" } },
+          words.map(function(word, i) {
+            var highlighted = tokenOffset + i === hotIndex;
+            return E("span", { key: i, style: { fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, color: highlighted ? "#fff" : "var(--ink)", background: highlighted ? "var(--ink)" : "#fff", border: "1px solid " + (highlighted ? "var(--ink)" : "var(--rule)"), borderRadius: 8, padding: "5px 9px" } }, word);
+          })));
+    }
+    return E("div", { style: { background: "#f7f6fb", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 14px", marginBottom: 16 } },
+      row("YOU", promptWords, 0),
+      replyWords.length ? row("AI’S REPLY SO FAR", replyWords, promptWords.length) : null);
   }
 
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Run the Prediction Loop",
-    lead: "The final token carries the context forward. See whether you can use it to build the beginning of a new answer.",
+    lead: "Build the beginning of an answer, one token at a time. Each prediction uses the question and the reply so far.",
     instructions: [
-      "Read the prompt and identify the final token.",
-      "Use the ranked list to select the next token.",
-      "Watch the selected token join the context and become the new final token.",
-      "Repeat the process once, then name the complete process."
+      "Choose an answer below. Each correct answer reveals the next step."
     ]
   },
     E(InnerCard, { style: { marginBottom: 0 } },
-      step(1, "Which final token begins the answer?",
+      step(1, "Which token comes last in the question shown above?",
         E(React.Fragment, null,
-          contextLine(["Why", "does", "ice", "float", "?"], 4),
           choiceRow(["Why", "float", "?"], finalPick, "?", setFinalPick),
-          feedback(finalPick, "?", "The question mark is the final token, so its vector carries the question into the first prediction.", "The answer begins from the token at the very end of the prompt."))),
+          feedback(finalPick, "?", "The question mark is the final token, so its vector carries the question into the first prediction.", "The answer begins from the token at the very end of the prompt.")),
+        contextLine(["Why", "does", "ice", "float", "?"], [], finalCorrect ? 4 : -1)),
       finalCorrect ? step(2, "Select the highest-scoring first token.",
         E(React.Fragment, null,
           E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 10 } }, "Top predictions"),
           ranking([["Ice", 24], ["It", 18], ["Because", 11]], firstPick, "Ice", setFirstPick),
-          feedback(firstPick, "Ice", "Ice joins the context and becomes the new final token.", "For this walkthrough, choose the token with the highest score."))) : null,
-      firstCorrect ? step(3, "What does the final token Ice carry forward?",
+          feedback(firstPick, "Ice", "Ice joins the context and becomes the new final token.", "For this walkthrough, choose the token with the highest score.")),
+        contextLine(["Why", "does", "ice", "float", "?"], [], 4)) : null,
+      firstCorrect ? step(3, "What information does AI use to predict the next token?",
         E(React.Fragment, null,
-          contextLine(["Why", "does", "ice", "float", "?", "Ice"], 5),
           choiceRow(["Only the meaning of Ice", "The question and the answer so far", "The previous ranked list"], meaningPick, "The question and the answer so far", setMeaningPick),
-          feedback(meaningPick, "The question and the answer so far", "The new final token carries the growing context into the next prediction.", "The final token carries more than its own starting meaning."))) : null,
+          feedback(meaningPick, "The question and the answer so far", "AI uses the question and the answer so far to predict what comes next.", "AI uses more than the meaning of Ice. Consider the full context shown above.")),
+        contextLine(["Why", "does", "ice", "float", "?"], ["Ice"], 5)) : null,
       meaningCorrect ? step(4, "Run the prediction one more time.",
         E(React.Fragment, null,
           E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 10 } }, "Top predictions"),
           ranking([["floats", 31], ["is", 19], ["can", 8]], secondPick, "floats", setSecondPick),
-          feedback(secondPick, "floats", "Floats joins the context. You have now repeated the prediction loop.", "Choose the highest-scoring token in this walkthrough."))) : null,
-      done ? E("div", { style: { marginTop: 24, background: "#e7f7ef", border: "1px solid #b9e4cd", borderRadius: 14, padding: "18px 20px", animation: "fadeIn 0.3s ease" } },
-        contextLine(["Why", "does", "ice", "float", "?", "Ice", "floats"], 6),
+          feedback(secondPick, "floats", "Floats joins the context. You have now repeated the prediction loop.", "Choose the highest-scoring token in this walkthrough.")),
+        contextLine(["Why", "does", "ice", "float", "?"], ["Ice"], 5)) : null,
+      done ? E("div", { style: { marginTop: 24, background: "var(--tryBand)", border: "1px solid var(--tryRule)", borderRadius: 14, padding: "18px 20px", animation: "fadeIn 0.3s ease" } },
+        contextLine(["Why", "does", "ice", "float", "?"], ["Ice", "floats"], 6),
         E("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--ink)", marginBottom: 6 } }, "You ran the prediction loop."),
         E("div", { style: { fontSize: 15, lineHeight: 1.6, color: "var(--inkSoft)" } }, "AI scored possible next tokens, selected one, added it to the context, and repeated. That answer-time process is called ", E("strong", { style: { color: "var(--ink)" } }, "inference"), ".")) : null));
 }
@@ -7928,12 +7936,12 @@ function DogRecapStrip() {
     ["Tokens", "Breaks the question into pieces."],
     ["Positions", "Marks where each piece belongs."],
     ["Starting Vectors", "Turns each token into numbers that carry its starting meaning."],
-    ["Through the Layers", "Attention connects the tokens, and transformation updates their meaning."]
+    ["Through Layers", "Attention and transformation work together to update the numbers."]
   ];
   return E(React.Fragment, null,
     E("img", {
-      src: "illustrations/how-ai-answers-before-answer-begins-v2.jpg?v=20260901beforeanswer1",
-      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers. The answer begins with the final token.",
+      src: "illustrations/how-ai-answers-before-answer-begins-v2.jpg?v=20260908layers1",
+      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers. AI uses the final token’s updated numbers to predict what comes next.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", { style: visuallyHidden },
@@ -7942,121 +7950,59 @@ function DogRecapStrip() {
       E("ol", null, steps.map(function(step, i) {
         return E("li", { key: i }, E("strong", null, step[0]), " ", step[1]);
       })),
-      E("p", null, "Now the question is ready. The answer begins with the final token.")));
+      E("p", null, "AI uses the final token’s updated numbers to predict what comes next.")));
 }
 function AnswerBuildStrip() {
   var E = React.createElement;
-  var steps = [
-    { number: 1, topLabel: "Final token", reply: ["?"], hood: "Reply starters", picks: [["You", 18], ["A", 14], ["Great", 9]], selected: "You", accent: "#5432c7", tint: "#f2effc", bar: "#c5bdeb" },
-    { number: 5, topLabel: "Reply so far", reply: ["You", "could", "name", "him"], hood: "Dog names", picks: [["Spot", 22], ["Max", 17], ["Buddy", 14]], selected: "Spot", accent: "#0e9489", tint: "#edf8f6", bar: "#9ed1cc" }
-  ];
-  function tokenTile(token, i, s) {
-    var isFinal = i === s.reply.length - 1;
-    return E("span", { key: token + i, style: {
-      display: "inline-flex", alignItems: "center", justifyContent: "center",
-      minWidth: token.length > 4 ? 54 : 40, height: 38, padding: "0 10px",
-      borderRadius: 9, background: isFinal ? s.accent : "#fff",
-      border: "1px solid " + (isFinal ? s.accent : s.accent + "45"),
-      color: isFinal ? "#fff" : "var(--ink)", fontFamily: "var(--mono)",
-      fontSize: 16, fontWeight: 800, boxSizing: "border-box"
-    } }, token);
-  }
-  function rankingRow(p, i, s) {
-    var selected = p[0] === s.selected;
-    return E("div", { key: p[0], style: {
-      display: "grid", gridTemplateColumns: "62px minmax(44px, 1fr) 38px",
-      alignItems: "center", gap: 8, minHeight: 38, padding: "0 10px",
-      marginTop: i ? 7 : 0, borderRadius: 9, background: "#fff",
-      border: "2px solid " + (selected ? s.accent : "transparent")
-    } },
-      E("span", { style: { color: selected ? s.accent : "var(--ink)", fontSize: 16, fontWeight: 800 } }, p[0]),
-      E("span", { style: { height: 8, borderRadius: 999, background: "#dceceb", overflow: "hidden" } },
-        E("span", { style: { display: "block", height: "100%", width: Math.max(30, p[1] * 3.5) + "%", maxWidth: "100%", borderRadius: 999, background: selected ? s.accent : s.bar } })),
-      E("span", { style: { color: selected ? s.accent : "var(--inkSoft)", fontFamily: "var(--mono)", fontSize: 16, fontWeight: 800, textAlign: "right" } }, p[1] + "%"));
-  }
-  function predictionStage(s) {
-    return E("div", { key: s.number, style: { minWidth: 0, textAlign: "center" } },
-      E("div", { style: {
-        minHeight: 286, padding: "18px 16px", borderRadius: 15,
-        border: "1px solid " + s.accent + "45", backgroundColor: s.tint,
-        boxSizing: "border-box"
-      } },
-        E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.09em", color: s.accent, marginBottom: 10 } }, s.topLabel),
-        E("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 7, flexWrap: "wrap", minHeight: 42, marginBottom: 14 } },
-          s.reply.map(function(token, i) { return tokenTile(token, i, s); })),
-        E("div", { style: { width: "fit-content", maxWidth: "100%", margin: "0 auto 13px", padding: "6px 11px", borderRadius: 999, background: "#fff", color: s.accent, fontSize: 16, fontWeight: 800 } },
-          "Neighborhood: ", s.hood),
-        E("div", { style: { textAlign: "left" } }, s.picks.map(function(p, i) { return rankingRow(p, i, s); }))),
-      E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 14, whiteSpace: "nowrap" } },
-        E("span", { style: { width: 42, height: 42, borderRadius: "50%", background: s.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "var(--mono)", fontSize: 15, fontWeight: 800 } }, s.number),
-        E("span", { style: { fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: s.accent } }, "Prediction " + s.number),
-        E("span", { style: { color: "var(--inkSoft)", fontSize: 16 } },
-          "Selects ", E("strong", { style: { color: "var(--ink)" } }, s.selected), ".")));
-  }
-  return E("div", { style: { background: "#eae7fd", borderRadius: 22, padding: "24px 22px 22px", margin: "8px 0 24px" } },
-    E("div", { style: { fontSize: 31, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.12, color: "var(--ink)", marginBottom: 22 } }, "The Answer, Token by Token"),
-    E("div", { style: { background: "#fff", borderRadius: 16, padding: "22px 20px 20px" } },
-      E("div", { style: { display: "grid", gridTemplateColumns: "minmax(0, 1fr) 210px minmax(0, 1fr)", alignItems: "center", gap: 14 } },
-        predictionStage(steps[0]),
-        E("div", { style: { textAlign: "center", color: "#2859df" } },
-          E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 5, marginBottom: 14 } },
-            E("span", { style: { color: "var(--inkMuted)", fontSize: 22, fontWeight: 900 } }, "→"),
-            E("span", { style: { color: "#2859df", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", lineHeight: 1.25 } }, "Three more", E("br"), "predictions"),
-            E("span", { style: { color: "var(--inkMuted)", fontSize: 22, fontWeight: 900 } }, "→")),
-          E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 7 } },
-            ["could", "name", "him"].map(function(token, i) {
-              return E(React.Fragment, { key: token },
-                i ? E("span", { style: { color: "#8792ab", fontSize: 14, fontWeight: 900 } }, "→") : null,
-                E("span", { style: { minWidth: token === "him" ? 40 : 50, padding: "7px 6px", borderRadius: 8, background: "#eef3ff", border: "1px solid #2859df55", color: "#2859df", fontFamily: "var(--mono)", fontSize: 16, fontWeight: 800, boxSizing: "border-box" } }, token));
-            }))),
-        predictionStage(steps[1])),
-      E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "#f6f8f8", borderRadius: 11, padding: "12px 16px", marginTop: 18 } },
-        E("span", { style: { width: 26, height: 26, borderRadius: "50%", background: "#0e9489", color: "#fff", fontSize: 14, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
-        E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 800, color: "var(--ink)" } }, "You could name him Spot."))),
-    E("div", { style: { minHeight: 48, marginTop: 22, background: "#ffe39a", borderRadius: 8, padding: "12px 15px", boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center", gap: 13, color: "var(--ink)" } },
-      E("span", { style: { width: 24, height: 24, borderRadius: "50%", background: "#4f2fc4", color: "#fff", fontSize: 14, fontWeight: 900, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, "✓"),
-      E("span", { style: { fontSize: 18, fontWeight: 500, lineHeight: 1.3, textAlign: "center" } }, "Each selected token joins the context and starts the next prediction.")));
+  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
+  return E(React.Fragment, null,
+    E("img", {
+      src: "illustrations/how-ai-answers-token-by-token.jpg?v=20260908answerbanner1",
+      alt: "The Answer, Token by Token. You ask: What should I name my new dog? Prediction 1 selects You. Three more predictions add could, name, and him. Prediction 5 selects Spot, producing You could name him Spot.",
+      width: 1600, height: 1126,
+      style: { display: "block", width: "100%", height: "auto", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { style: visuallyHidden },
+      E("h3", null, "The Answer, Token by Token"),
+      E("p", null, "Question: What should I name my new dog?"),
+      E("ol", null,
+        E("li", null, "Prediction 1. The reply has not started. Final token: question mark. Top predictions: You 18%, A 14%, Great 9%. Selects You."),
+        E("li", null, "Three more predictions add could, name, and him."),
+        E("li", null, "Prediction 5. Reply so far: You could name him. Final token: him. Top predictions: Spot 22%, Max 17%, Buddy 14%. Selects Spot.")),
+      E("p", null, "You could name him Spot.")));
 }
 function LastTokenBridgeBoard() {
   var E = React.createElement;
   var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
   return E(React.Fragment, null,
     E("img", {
-      src: "illustrations/how-ai-answers-where-answer-begins-v2.jpg?v=20260901whereanswer2",
-      alt: "Where the Answer Begins. The final token gathers information from the question, its vector carries the meaning AI built from the whole question, and a ranked list shows You above A and Great as possible first tokens of the reply.",
+      src: "illustrations/how-ai-answers-where-answer-begins-v2.jpg?v=20260908reply1",
+      alt: "Why the Final Token Matters. The question appears as tokens with the final question mark highlighted. The final token gathers information from preceding tokens, and its updated numbers help AI predict a reply that fits the question.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", { style: visuallyHidden },
-      E("h3", null, "Where the answer begins"),
-      E("ol", null,
+      E("h3", null, "Why the Final Token Matters"),
+      E("ul", null,
         E("li", null, E("strong", null, "The Question. "), "The final token gathers information from every token before it."),
-        E("li", null, E("strong", null, "The Final Token. "), "Carries the meaning AI built from the whole question."),
-        E("li", null, E("strong", null, "The First Prediction. "), "The ranked list gives AI possible ways to begin its answer.")),
+        E("li", null, E("strong", null, "The Final Token. "), "Its updated numbers help AI predict a reply that fits the question.")),
       E("p", null, "AI uses the final token’s vector to predict the first token of its answer.")));
 }
 function PredictionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you ask AI a question, it first works out what your words mean together. Then it faces a new problem: how does it begin an answer?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Start with your phone. As you type a text, it suggests what might come next based on what you’ve typed so far."),
-  /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/how-ai-answers-phone-prediction.jpg?v=20260901phoneprediction",
-    alt: "Your Phone Predicts the Next Word. See you blank, with the suggested choices soon, tomorrow, and later.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-  }),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI does the same basic thing, but on a much larger scale. Let’s give it a simple question and watch how it predicts the first token of its answer."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Let’s give AI a simple question and watch how it builds an answer, one token at a time. We’ll show words as single tokens to make the example easier to follow."),
   /*#__PURE__*/React.createElement(DogRecapStrip, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "The final token in the question is the question mark. As the question passes through the layers, that token gathers information from every token before it. By the final layer, its vector carries the meaning AI has built from the whole question."),
   /*#__PURE__*/React.createElement(LastTokenBridgeBoard, null),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "How the List Appears"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The final vector does not point straight to one answer. A final math step gives every token in the model’s vocabulary a score based on how well it fits. Those scores create a ranked list of possible next tokens."),
-  /*#__PURE__*/React.createElement(BodyP, null, "To keep this walkthrough simple, we’ll choose the highest-scoring token each time. Real AI does not always do that. The next lesson explains why."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now watch the loop. The first box shows how AI begins the reply. The second jumps to the final prediction. Between them, the same process repeats three times as the reply grows. Each selected token joins the reply and becomes the new final token. Each selection is a ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Starting the Answer"),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI is ready to answer your question. It uses the final token’s updated numbers to calculate a probability for every token in its vocabulary."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now watch the loop. AI selects a token, adds it to the reply, and uses the growing context to predict again. Each selection is a ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
   /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
-  /*#__PURE__*/React.createElement(BodyP, null, "You asked for a dog name, but AI did not begin with one. It began with You, a likely first token of a reply. The neighborhoods narrowed along the way: reply starters, ways to suggest, naming verbs, who gets named, then dog names. Spot appeared only after the sentence created a place where a name fit. Five predictions. One repeated move."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You asked for a dog name, but AI began with ", /*#__PURE__*/React.createElement("strong", null, "You"), ", a possible start to a reply. Each added token changes what can fit next. After ", /*#__PURE__*/React.createElement("strong", null, "You could name him"), ", a dog name becomes a likely continuation."),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI keeps predicting tokens until it produces a special token that signals the answer is finished."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/how-ai-answers.jpg?v=20260901inferenceboard",
-    alt: "Inference: How AI Builds an Answer. AI ranks every possible next token, picks the top-ranked token, adds it to the answer, and repeats using the longer context.",
+    src: "illustrations/how-ai-answers.jpg?v=20260908flush1",
+    alt: "Inference: How AI Builds an Answer. AI ranks every possible next token, selects a next token, adds it to the answer, and repeats using the longer context.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 16 }
   }),
   closeBoard("prediction"),

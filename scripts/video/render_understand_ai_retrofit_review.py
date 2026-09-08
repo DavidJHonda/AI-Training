@@ -691,7 +691,7 @@ def render_before_answer_begins(out_path: Path) -> None:
         Card("Tokens", "Breaks the question into pieces.", PURPLE, "chunks"),
         Card("Positions", "Marks where each piece belongs.", BLUE, "position"),
         Card("Starting Vectors", "Turns each token into numbers that carry its starting meaning.", TEAL, "vector-bars"),
-        Card("Through the Layers", "Attention connects the tokens, and transformation updates their meaning.", GREEN, "layers-large"),
+        Card("Through Layers", "Attention and transformation work together to update the numbers.", GREEN, "layers-large"),
     )
 
     stage_left, stage_right = 40, 1560
@@ -776,32 +776,29 @@ def render_before_answer_begins(out_path: Path) -> None:
         top=footer_top,
         left=stage_left,
         right=stage_right,
-        text="Now the question is ready. The answer begins with the final token.",
+        text="AI uses the final token’s updated numbers to predict what comes next.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
 
 def render_where_answer_begins(out_path: Path) -> None:
-    """Three-stage technical flow from the prompt to the first predicted token."""
-    title = "Where the Answer Begins"
+    """Two-stage view of the question and its final token’s updated numbers."""
+    title = "Why the Final Token Matters"
     steps = (
-        ("The Question", "The final token gathers information from every token before it.", PURPLE),
-        ("The Final Token", "Carries the meaning AI built from the whole question.", BLUE),
-        ("The First Prediction", "The ranked list gives AI possible ways to begin its answer.", TEAL),
+        ("The Question", "The final token gathers information\nfrom every token before it.", PURPLE),
+        ("The Final Token", "Its updated numbers help AI predict\na reply that fits the question.", BLUE),
     )
     stage_left, stage_right = 40, 1560
     stage_top = 127
     gap = 34
-    cell_w = (stage_right - stage_left - 80 - gap * 2) // 3
-    art_h = round(cell_w * 9 / 16)
+    cell_w = (stage_right - stage_left - 80 - gap) // 2
+    art_h = 300
     art_top = stage_top + 48
-    marker_y = art_top + art_h + 43
-    title_y = marker_y + 47
+    title_y = art_top + art_h + 32
     body_y = title_y + 58
     body_font = face("medium", 29)
-    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
-    bodies = [wrap(measure, body, body_font, cell_w - 10) for _, body, _ in steps]
+    bodies = [body.split("\n") for _, body, _ in steps]
     body_bottom = body_y + max(len(lines) for lines in bodies) * 41
     stage_bottom = body_bottom + 38
     footer_top = stage_bottom + TAKEAWAY_GAP
@@ -826,31 +823,22 @@ def render_where_answer_begins(out_path: Path) -> None:
             outline=mix(accent, 0.28),
             width=2,
         )
-        # Quiet technical grid keeps the three schematic panels in one family.
+        # Quiet technical grid keeps the two schematic panels in one family.
         for x in range(left + 48, left + cell_w, 48):
             draw.line((x, art_top, x, art_top + art_h), fill=mix(accent, 0.07), width=1)
         for y in range(art_top + 48, art_top + art_h, 48):
             draw.line((left, y, left + cell_w, y), fill=mix(accent, 0.07), width=1)
         left += cell_w + gap
 
-    for a, b in zip(centers, centers[1:]):
-        arrow(
-            draw,
-            (a + cell_w // 2 + 7, art_top + art_h // 2),
-            (b - cell_w // 2 - 7, art_top + art_h // 2),
-            MUTED,
-            4,
-        )
-
     # Stage 1: the complete prompt is visible as tokens, with the final token hot.
-    token_font = face("bold", 29)
+    token_font = face("bold", 36)
     token_rows = (("What", "should", "I", "name"), ("my", "new", "dog", "?"))
     token_boxes: list[tuple[int, int, int, int, str]] = []
     for row_index, row in enumerate(token_rows):
         widths = [round(draw.textlength(token, font=token_font)) + 30 for token in row]
         total_w = sum(widths) + (len(row) - 1) * 10
         x = centers[0] - total_w // 2
-        y = art_top + 43 + row_index * 84
+        y = art_top + 65 + row_index * 92
         for token, width in zip(row, widths):
             hot = token == "?"
             box = (x, y, x + width, y + 58)
@@ -869,47 +857,21 @@ def render_where_answer_begins(out_path: Path) -> None:
     qy = question_box[3] + 22
     draw.text((qx, qy), "FINAL TOKEN", font=face("heavy", 20), fill=PURPLE, anchor="ma")
 
-    # Stage 2: the question-mark token carries a final vector into prediction.
-    token_cx = lefts[1] + 96
+    # Stage 2: the question-mark token and its updated vector.
+    token_cx = lefts[1] + 145
     token_cy = art_top + art_h // 2
-    draw.ellipse((token_cx - 52, token_cy - 52, token_cx + 52, token_cy + 52), fill=BLUE)
-    draw.text((token_cx, token_cy), "?", font=face("heavy", 58), fill=WHITE, anchor="mm")
-    bars_left = lefts[1] + 202
+    draw.ellipse((token_cx - 62, token_cy - 62, token_cx + 62, token_cy + 62), fill=BLUE)
+    draw.text((token_cx, token_cy), "?", font=face("heavy", 68), fill=WHITE, anchor="mm")
+    bars_left = lefts[1] + 340
     bar_bottom = art_top + art_h - 48
-    heights = (82, 126, 64, 148, 102, 156, 88, 138)
+    heights = (105, 162, 82, 190, 131, 200, 113, 177)
     for i, bar_h in enumerate(heights):
-        x = bars_left + i * 25
-        draw.rounded_rectangle((x, bar_bottom - bar_h, x + 15, bar_bottom), radius=7, fill=BLUE if i > 3 else mix(BLUE, 0.25))
-    arrow(draw, (token_cx + 65, token_cy), (bars_left - 18, token_cy), BLUE, 4)
-    draw.text((lefts[1] + cell_w - 28, art_top + 28), "FINAL VECTOR", font=face("heavy", 20), fill=BLUE, anchor="ra")
+        x = bars_left + i * 34
+        draw.rounded_rectangle((x, bar_bottom - bar_h, x + 22, bar_bottom), radius=7, fill=BLUE if i > 3 else mix(BLUE, 0.25))
+    arrow(draw, (token_cx + 80, token_cy), (bars_left - 18, token_cy), BLUE, 4)
+    draw.text((bars_left + 130, art_top + 23), "FINAL VECTOR", font=face("heavy", 20), fill=BLUE, anchor="ma")
 
-    # Stage 3: a ranked list of possible first tokens, with the highest score hot.
-    rank_font = face("bold", 29)
-    pct_font = face("heavy", 25)
-    ranking = (("You", 18), ("A", 14), ("Great", 9))
-    row_left = lefts[2] + 34
-    row_right = lefts[2] + cell_w - 34
-    for i, (label, pct) in enumerate(ranking):
-        y = art_top + 26 + i * 72
-        hot = i == 0
-        draw.rounded_rectangle(
-            (row_left, y, row_right, y + 58),
-            radius=12,
-            fill=WHITE,
-            outline=TEAL if hot else mix(TEAL, 0.24),
-            width=3 if hot else 1,
-        )
-        draw.text((row_left + 20, y + 29), label, font=rank_font, fill=TEAL if hot else INK, anchor="lm")
-        track_left = row_left + 150
-        track_right = row_right - 70
-        draw.rounded_rectangle((track_left, y + 22, track_right, y + 36), radius=7, fill=mix(TEAL, 0.13))
-        fill_right = track_left + round((track_right - track_left) * pct / 20)
-        draw.rounded_rectangle((track_left, y + 22, fill_right, y + 36), radius=7, fill=TEAL if hot else mix(TEAL, 0.38))
-        draw.text((row_right - 14, y + 29), f"{pct}%", font=pct_font, fill=TEAL if hot else MUTED, anchor="rm")
-
-    for i, (center, (step_title, _, accent), lines) in enumerate(zip(centers, steps, bodies), 1):
-        draw.ellipse((center - 27, marker_y - 27, center + 27, marker_y + 27), fill=accent)
-        draw.text((center, marker_y), str(i), font=face("heavy", 24), fill=WHITE, anchor="mm")
+    for center, (step_title, _, accent), lines in zip(centers, steps, bodies):
         draw_inner_title(draw, (center, title_y), step_title, fill=accent, anchor="ma")
         yy = body_y
         for line in lines:
@@ -2839,12 +2801,79 @@ def render_phone_prediction(out_path: Path) -> None:
     save(canvas, out_path)
 
 
+def render_answer_token_by_token(out_path: Path) -> None:
+    """Static counterpart of the two-prediction walkthrough, with standard board styling."""
+    offset = 154
+    canvas = Image.new("RGB", (WIDTH, 972 + offset), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw_board_title(draw, "The Answer, Token by Token")
+    draw.rounded_rectangle((40, 127, 1560, 249), radius=14, fill=WHITE,
+                           outline=mix(PURPLE, .22), width=1)
+    draw.rectangle((40, 145, 48, 231), fill=PURPLE)
+    draw.text((72, 157), "YOU", font=face("heavy", 20), fill=PURPLE, anchor="la")
+    draw.text((72, 195), "What should I name my new dog?",
+              font=face("medium", 32), fill=BODY, anchor="la")
+    draw.rounded_rectangle((40, 127 + offset, 1560, 804 + offset), radius=14, fill=WHITE)
+
+    def tokens(words, center_x, top, accent, highlight_last=True, size=29):
+        font = face("bold", size)
+        widths = [max(66, round(draw.textlength(word, font=font)) + 30) for word in words]
+        left = center_x - (sum(widths) + 12 * (len(words) - 1)) // 2
+        for i, (word, width) in enumerate(zip(words, widths)):
+            active = highlight_last and i == len(words) - 1
+            draw.rounded_rectangle((left, top, left + width, top + 64), radius=11,
+                                   fill=accent if active else WHITE,
+                                   outline=accent if active else mix(accent, .3), width=2)
+            draw.text((left + width / 2, top + 31), word, font=font,
+                      fill=WHITE if active else INK, anchor="mm")
+            left += width + 12
+
+    for left, number, label, words, candidates, accent in (
+        (80, 1, "FINAL TOKEN", ["?"], [("You", 18), ("A", 14), ("Great", 9)], PURPLE),
+        (1000, 5, "REPLY SO FAR", ["You", "could", "name", "him"], [("Spot", 22), ("Max", 17), ("Buddy", 14)], TEAL),
+    ):
+        center = left + 260
+        draw.rounded_rectangle((left, 167 + offset, left + 520, 605 + offset), radius=16,
+                               fill=mix(accent, .08), outline=mix(accent, .25), width=2)
+        draw.text((center, 204 + offset), label, font=face("heavy", 23), fill=accent, anchor="mm")
+        tokens(words, center, 238 + offset, accent)
+        draw.text((left + 26, 329 + offset), "TOP PREDICTIONS", font=face("heavy", 20), fill=MUTED)
+        for i, (word, percentage) in enumerate(candidates):
+            top = 369 + offset + i * 72
+            draw.rounded_rectangle((left + 24, top, left + 496, top + 60), radius=11,
+                                   fill=WHITE, outline=accent if i == 0 else WHITE, width=3)
+            draw.text((left + 44, top + 30), word, font=face("bold", 31),
+                      fill=accent if i == 0 else INK, anchor="lm")
+            draw.rounded_rectangle((left + 196, top + 23, left + 382, top + 37),
+                                   radius=7, fill=mix(accent, .12))
+            bar_width = round(186 * percentage / candidates[0][1])
+            draw.rounded_rectangle((left + 196, top + 23, left + 196 + bar_width, top + 37),
+                                   radius=7, fill=accent if i == 0 else mix(accent, .38))
+            draw.text((left + 473, top + 30), f"{percentage}%", font=face("bold", 29),
+                      fill=accent if i == 0 else BODY, anchor="rm")
+        draw.ellipse((left + 78, 632 + offset, left + 128, 682 + offset), fill=accent)
+        draw.text((left + 103, 657 + offset), str(number), font=face("heavy", 25), fill=WHITE, anchor="mm")
+        draw_inner_title(draw, (left + 146, 632 + offset), f"Prediction {number}", fill=accent)
+        tokens([candidates[0][0]], center, 700 + offset, accent, size=32)
+
+    draw.text((800, 331 + offset), "THREE MORE", font=face("heavy", 23), fill=BLUE, anchor="mm")
+    draw.text((800, 365 + offset), "PREDICTIONS", font=face("heavy", 23), fill=BLUE, anchor="mm")
+    tokens(["could", "name", "him"], 800, 405 + offset, BLUE, highlight_last=False, size=26)
+    arrow(draw, (637, 506 + offset), (963, 506 + offset), BLUE, 4)
+
+    draw_takeaway_band(canvas, top=844 + offset, left=40, right=1560,
+                       text="You could name him Spot.",
+                       font=face("medium", TAKEAWAY_TEXT_SIZE))
+    save(canvas, out_path)
+
+
 def render_inference_teaching(source: Path, out_path: Path) -> None:
     """Teach inference with one illustration, one process rail, and one definition."""
     image = Image.open(source).convert("RGB")
     stage_top = 127
-    art_left, art_top = 74, stage_top + 30
-    art_w, art_h = 1452, 817
+    art_left, art_top = 40, stage_top
+    art_w = 1520
+    art_h = round(art_w * image.height / image.width)
     rail_top = art_top + art_h + 28
     rail_h = 226
     stage_bottom = rail_top + rail_h + 28
@@ -2859,12 +2888,13 @@ def render_inference_teaching(source: Path, out_path: Path) -> None:
         (40, stage_top, 1560, stage_bottom),
         radius=14,
         fill=WHITE,
-        outline=mix(PURPLE, 0.22),
-        width=1,
     )
 
     fitted = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
-    canvas.paste(fitted, (art_left, art_top), rounded_mask((art_w, art_h), 12))
+    art_mask = rounded_mask((art_w, art_h), 14)
+    # Keep only the upper corners rounded; the photo meets the caption panel below.
+    ImageDraw.Draw(art_mask).rectangle((0, art_h - 14, art_w, art_h), fill=255)
+    canvas.paste(fitted, (art_left, art_top), art_mask)
     draw = ImageDraw.Draw(canvas)
 
     def point(source_x: int, source_y: int) -> tuple[int, int]:
@@ -2909,14 +2939,14 @@ def render_inference_teaching(source: Path, out_path: Path) -> None:
         draw.text((x, y - 1), text, font=font, fill=WHITE, anchor="mm")
 
     label_pill(point(330, 485), "RANKED NEXT TOKENS", PURPLE)
-    label_pill(point(1215, 557), "TOP TOKEN", PURPLE)
+    label_pill(point(1215, 557), "SELECTED TOKEN", PURPLE)
     label_pill(point(858, 875), "ANSWER SO FAR", TEAL)
     arrow(draw, point(1216, 714), point(1212, 759), BRAND, 5)
 
     # One open rail, divided by rules rather than nested cards.
     steps = (
         ("1 · Rank", "Score every possible\nnext token.", PURPLE),
-        ("2 · Pick", "Take the top-ranked\ntoken.", BLUE),
+        ("2 · Pick", "Select a next token.", BLUE),
         ("3 · Add", "Attach it to the\nanswer.", TEAL),
         ("4 · Repeat", "Use the longer context\nto predict again.", GREEN),
     )
@@ -2939,7 +2969,7 @@ def render_inference_teaching(source: Path, out_path: Path) -> None:
         left=40,
         right=1560,
         text="Inference is the process AI uses to generate an answer, one token at a time.",
-        font=face("heavy", TAKEAWAY_TEXT_SIZE),
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
@@ -3157,7 +3187,7 @@ def render_all() -> None:
     render_phone_prediction(board_path("how-ai-answers", "01-phone-prediction.jpg"))
     render_before_answer_begins(board_path("how-ai-answers", "02-question-through-model.jpg"))
     render_where_answer_begins(board_path("how-ai-answers", "03-last-token.jpg"))
-    render_shell("The Answer, Token by Token", ROOT / "lessons/how-ai-answers-9-answer.jpg", board_path("how-ai-answers", "04-token-by-token.jpg"), "One new token joins the context on every pass.")
+    render_answer_token_by_token(board_path("how-ai-answers", "04-token-by-token.jpg"))
     render_shell(
         "Score Every Token: The Name Slot",
         ROOT / "lessons/how-ai-answers-8-ranked-list.jpg",

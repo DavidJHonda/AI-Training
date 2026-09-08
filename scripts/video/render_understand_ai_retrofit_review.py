@@ -1437,7 +1437,7 @@ def render_layers_inside_current(source: Path, out_path: Path) -> None:
 
 def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
     """Show one representative layer followed by a visibly long repeated stack."""
-    title = "How Every Layer Updates the Vector"
+    title = "How Layers Update the Numbers"
     stage_top = 127
     art_top = 153
     art_left = 74
@@ -1472,9 +1472,9 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
 
     # The main mechanism carries labels only. Numeric states appear once, in the
     # aligned progression below, so the board does not repeat its bookends.
-    draw.text((152, 378), "VECTOR IN", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    draw.text((152, 378), "NUMBERS IN", font=face("heavy", 29), fill=PURPLE, anchor="mm")
     draw.text((1443, 366), "FINAL", font=face("heavy", 29), fill=PURPLE, anchor="mm")
-    draw.text((1443, 402), "VECTOR", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    draw.text((1443, 402), "NUMBERS", font=face("heavy", 29), fill=PURPLE, anchor="mm")
 
     # Name the two operations on the representative foreground layer; the
     # receding copies make clear that both repeat many times.
@@ -1486,16 +1486,16 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
     card_width = (1452 - 3 * card_gap) // 4
     draw.text(
         (800, scope_note_y),
-        "Each vector contains many values. Two are shown here.",
+        "Each row contains many numbers. Two are shown here.",
         font=face("medium", 29),
         fill=BODY,
         anchor="mm",
     )
     vector_stations = (
-        ("Starting Vector", "[.42, −1.15, …]"),
+        ("Starting Numbers", "[.42, −1.15, …]"),
         ("After One Layer", "[.51, −.87, …]"),
         ("After Many Layers", "[.27, −1.21, …]"),
-        ("Final Vector", "[.19, −1.12, …]"),
+        ("Final Numbers", "[.19, −1.12, …]"),
     )
     for index, (label, value) in enumerate(vector_stations):
         left = card_left + index * (card_width + card_gap)
@@ -1537,7 +1537,7 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
         top=footer_top,
         left=40,
         right=1560,
-        text="Attention and transformation repeat across every layer, enriching the vector each time.",
+        text="Attention and transformation update the numbers at each layer.",
         font=face("bold", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -2602,6 +2602,61 @@ def render_teaching(
     save(canvas, out_path)
 
 
+def render_drink_positions(out_path: Path) -> None:
+    """Show the three drinks with a clear visual comparison of similarity."""
+    stage_bottom = 770
+    banner_top = stage_bottom + TAKEAWAY_GAP
+    height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    canvas = Image.new("RGB", (WIDTH, height), FRAME)
+    draw = ImageDraw.Draw(canvas)
+    draw_board_title(draw, "Meaning Neighborhoods")
+    draw.rounded_rectangle((40, 127, 1560, stage_bottom), radius=14, fill=WHITE)
+    draw.ellipse((165, 185, 650, 720), fill=mix(BLUE, 0.055))
+    draw.ellipse((970, 350, 1420, 700), fill=mix(PURPLE, 0.055))
+    draw.text((430, 650), "SOFT DRINKS", font=face("heavy", 28), fill=BLUE, anchor="mm")
+    draw.text((1180, 415), "HOT DRINKS", font=face("heavy", 28), fill=PURPLE, anchor="mm")
+    dimensions = ["SWEET", "BITTER", "FIZZ", "HEAT", "CAFFEINE", "DARK", "CITRUS"]
+    score_colors = [RED, TEAL, BLUE, "#b86108", PURPLE, INK, GREEN]
+    legend_font = face("heavy", 21)
+    legend_widths = [draw.textlength(label, font=legend_font) for label in dimensions]
+    legend_x = (WIDTH - sum(legend_widths) - 6 * 28) / 2
+    for dimension, color, width in zip(dimensions, score_colors, legend_widths):
+        draw.text((legend_x, 161), dimension, font=legend_font, fill=color, anchor="lm")
+        legend_x += width + 28
+
+    # Keep the soft drinks close together and coffee farther from both.
+    # These positions illustrate the relationship, not a numerical scale.
+    coke = (430, 530)
+    pepsi = (430, 260)
+    coffee = (480 + math.sqrt(333) * 30, 560)
+    for start, end in [(coke, pepsi), (coke, coffee), (pepsi, coffee)]:
+        length = math.dist(start, end)
+        for step in range(0, round(length), 15):
+            fraction = step / length
+            x = start[0] + (end[0] - start[0]) * fraction
+            y = start[1] + (end[1] - start[1]) * fraction
+            draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=mix(BRAND, 0.3))
+    for name, point, color, label, values, score_center in [
+        ("Coke", coke, RED, (300, 540), [9, 1, 10, 2, 3, 8, 1], (420, 591)),
+        ("Pepsi", pepsi, BLUE, (325, 285), [9, 1, 10, 2, 3, 8, 10], (420, 339)),
+        ("Coffee", coffee, PURPLE, (1190, 565), [1, 9, 0, 9, 8, 10, 0], (1180, 617)),
+    ]:
+        x, y = point
+        draw.ellipse((x - 23, y - 23, x + 23, y + 23), fill=WHITE)
+        draw.ellipse((x - 16, y - 16, x + 16, y + 16), fill=color)
+        draw.text(label, name, font=face("bold", 40), fill=color, anchor="mm")
+        for i, (value, score_color) in enumerate(zip(values, score_colors)):
+            cx = score_center[0] + (i - 3) * 45
+            cy = score_center[1]
+            draw.rounded_rectangle((cx - 19, cy - 21, cx + 19, cy + 21), radius=7,
+                                   fill=mix(score_color, 0.10), outline=mix(score_color, 0.25))
+            draw.text((cx, cy), str(value), font=face("bold", 26), fill=score_color, anchor="mm")
+    draw_takeaway_band(canvas, top=banner_top, left=40, right=1560,
+                       text="Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.",
+                       font=face("medium", TAKEAWAY_TEXT_SIZE))
+    save(canvas, out_path)
+
+
 def render_vector_space_landing(source: Path, out_path: Path) -> None:
     """Turn the vector-space landscape into a guided teaching illustration."""
     image = Image.open(source).convert("RGB")
@@ -3082,10 +3137,17 @@ def render_all() -> None:
 
     # Vector Space
     render_flattened_shell(
-        "No Exact Match? Find the Closest Point.",
-        ROOT / "lessons/vector-space-1-cities.jpg",
+        "Three Cities, Two Coordinates Each",
+        ROOT / "board-review-first-four/alternatives/understand-ai/vector-space-city-known-alternative.jpg",
+        board_path("vector-space", "01-known-cities.jpg"),
+        (116, 236, 976, 676),
+        "Latitude and longitude give each city a position.",
+    )
+    render_flattened_shell(
+        "Find the Closest City",
+        ROOT / "board-review-first-four/alternatives/understand-ai/vector-space-city-closest-alternative.jpg",
         board_path("vector-space", "01-closest-point.jpg"),
-        (105, 166, 1495, 711),
+        (116, 236, 976, 676),
         "When nothing matches exactly, distance finds the closest one.",
     )
     render_embedding_rows(
@@ -3093,16 +3155,10 @@ def render_all() -> None:
         board_path("vector-space", "02-taste-distance.jpg"),
         include_pepsi=True,
         introduce_citrus=False,
-        show_token_ids=True,
+        show_token_ids=False,
         takeaway="Coke and Pepsi have more similar profiles than either does to coffee.",
     )
-    render_flattened_shell(
-        "Meaning Neighborhoods",
-        ROOT / "lessons/vector-space-neighborhoods.jpg",
-        board_path("vector-space", "03-meaning-neighborhoods.jpg"),
-        (120, 58, 1480, 720),
-        whiten_connected_backdrop=True,
-    )
+    render_drink_positions(board_path("vector-space", "03-meaning-neighborhoods.jpg"))
     render_vector_space_landing(
         teaching / "meaning-is-a-position-v2.png",
         board_path("vector-space", "04-meaning-position.jpg"),

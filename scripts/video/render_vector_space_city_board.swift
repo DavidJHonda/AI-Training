@@ -5,11 +5,6 @@ import CoreText
 import Foundation
 
 let repoRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-let outputPaths = [
-    "board-review-first-four/alternatives/understand-ai/vector-space-city-closest-alternative.jpg",
-    "illustrations/vector-space-cities.jpg",
-    "lessons/vector-space-1-cities.jpg"
-]
 
 let width: CGFloat = 1600
 let height: CGFloat = 900
@@ -140,15 +135,32 @@ func drawMatch(y: CGFloat, coordinates: String, answer: String, accent: NSColor)
     drawText("Closest known city", in: NSRect(x: 1034, y: y + 98, width: 398, height: 32), font: medium(23), color: muted, alignment: .center)
 }
 
+func drawNewCoordinates(lon: CGFloat, lat: CGFloat, cityLon: CGFloat, cityLat: CGFloat, coordinates: String, labelX: CGFloat, labelY: CGFloat) {
+    let point = mapPoint(lon: lon, lat: lat)
+    let city = mapPoint(lon: cityLon, lat: cityLat)
+    line(from: point, to: city, color: purple, width: 3, dash: [2, 5])
+    roundedRect(NSRect(x: point.x - 8, y: point.y - 8, width: 16, height: 16), radius: 8, fill: .white, stroke: purple, lineWidth: 3)
+    line(from: point, to: NSPoint(x: labelX + 12, y: labelY + 19), color: purple.withAlphaComponent(0.45), width: 1.5)
+    roundedRect(NSRect(x: labelX, y: labelY, width: 190, height: 38), radius: 9, fill: .white, stroke: purple.withAlphaComponent(0.35))
+    drawText(coordinates, in: NSRect(x: labelX + 10, y: labelY + 6, width: 170, height: 28), font: demi(21), color: purple, alignment: .center)
+}
+
+// Render both stages from the same geometry so only the new positions change.
+for showNewPoints in [false, true] {
+let outputPaths = [showNewPoints
+    ? "board-review-first-four/alternatives/understand-ai/vector-space-city-closest-alternative.jpg"
+    : "board-review-first-four/alternatives/understand-ai/vector-space-city-known-alternative.jpg"]
 let image = NSImage(size: NSSize(width: width, height: height))
 image.lockFocusFlipped(true)
 lavender.setFill()
 NSRect(x: 0, y: 0, width: width, height: height).fill()
 
-drawText("No exact match? Find the closest point.", in: NSRect(x: 80, y: 57, width: 1440, height: 58), font: heavy(44), color: navy, alignment: .center)
+drawText(showNewPoints ? "Find the Closest City" : "Three cities, two coordinates each", in: NSRect(x: 80, y: 57, width: 1440, height: 58), font: heavy(44), color: navy, alignment: .center)
 roundedRect(NSRect(x: 80, y: 172, width: 1440, height: 564), radius: 16, fill: .white)
 drawText("KNOWN COORDINATES", in: NSRect(x: 116, y: 196, width: 850, height: 32), font: demi(24), color: muted, alignment: .center)
+if showNewPoints {
 drawText("NEW COORDINATES", in: NSRect(x: 1010, y: 196, width: 446, height: 32), font: demi(24), color: muted, alignment: .center)
+}
 
 let outlinePath = NSBezierPath()
 for (index, pair) in outline.enumerated() {
@@ -163,19 +175,20 @@ outlinePath.lineWidth = 4
 outlinePath.lineJoinStyle = .round
 outlinePath.stroke()
 
-let dallas = mapPoint(lon: -96.8, lat: 32.78)
-line(from: NSPoint(x: mapRect.minX + 20, y: dallas.y), to: dallas, color: red.withAlphaComponent(0.65), width: 3, dash: [10, 10])
-line(from: NSPoint(x: dallas.x, y: dallas.y), to: NSPoint(x: dallas.x, y: mapRect.maxY - 12), color: red.withAlphaComponent(0.65), width: 3, dash: [10, 10])
-
 drawCity(name: "Mountain View, CA", coordinates: "37 N, 122 W", lon: -122.08, lat: 37.39, accent: teal, labelX: 168, labelY: 332, labelWidth: 244)
 drawCity(name: "Dallas, Texas", coordinates: "33 N, 97 W", lon: -96.8, lat: 32.78, accent: red, labelX: 550, labelY: 420, labelWidth: 210)
 drawCity(name: "New York City", coordinates: "41 N, 74 W", lon: -74.01, lat: 40.71, accent: blue, labelX: 714, labelY: 274, labelWidth: 210)
 
+if showNewPoints {
+drawNewCoordinates(lon: -120, lat: 38, cityLon: -122.08, cityLat: 37.39, coordinates: "38 N, 120 W", labelX: 250, labelY: 422)
+drawNewCoordinates(lon: -70, lat: 39, cityLon: -74.01, cityLat: 40.71, coordinates: "39 N, 70 W", labelX: 765, labelY: 468)
+
 drawMatch(y: 268, coordinates: "38 N, 120 W", answer: "MOUNTAIN\nVIEW", accent: teal)
 drawMatch(y: 452, coordinates: "39 N, 70 W", answer: "NEW YORK\nCITY", accent: blue)
+}
 
 roundedRect(NSRect(x: 80, y: 776, width: 1440, height: 84), radius: 16, fill: gold)
-let takeaway = "When nothing matches exactly, distance finds the closest one."
+let takeaway = showNewPoints ? "When nothing matches exactly, distance finds the closest one." : "Latitude and longitude give each city a position."
 let takeawayFont = demi(32)
 let takeawaySize = textSize(takeaway, font: takeawayFont)
 let lockupWidth: CGFloat = 52 + 16 + takeawaySize.width
@@ -205,4 +218,5 @@ for relativePath in outputPaths {
     try FileManager.default.createDirectory(at: outputURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     try jpeg.write(to: outputURL)
     print("Built \(outputURL.path)")
+}
 }

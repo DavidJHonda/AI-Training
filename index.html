@@ -6708,7 +6708,7 @@ function Game2048TryIt(props) {
 function VectorSpaceSection(props) {
   var E = React.createElement;
   var vsTasteProfile = E("img", {
-    src: "illustrations/vector-space-taste-profile.jpg?v=20260907tiles1",
+    src: "illustrations/vector-space-taste-profile.jpg?v=20260907tiles2",
     alt: "Comparing Numerical Profiles. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
@@ -6730,7 +6730,7 @@ function VectorSpaceSection(props) {
           marginLeft: 62, listStylePosition: "outside"
         } },
           E("div", { style: { color: "var(--inkSoft)" } }, item.lead),
-          E("div", { style: { color: "var(--inkSoft)" } }, item.body));
+          item.body ? E("div", { style: { color: "var(--inkSoft)" } }, item.body) : null);
       }));
   };
   // Coordinates and vectors set in mono, so they read as positions rather than
@@ -6741,45 +6741,47 @@ function VectorSpaceSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
-      "As a token moves through the layers, its numbers change at every step. In theory, AI could look up those finished numbers in its full table of token embeddings and see which token they match. ",
-      E("strong", null, "But it can’t: the transformed numbers are one of a kind, lining up with no token in the table.")),
+      "AI represents meaning with rows of numbers called ",
+      E("strong", null, "embeddings"),
+      ". Each row is a ",
+      E("strong", null, "vector"),
+      ". One way to understand these numbers is to think of them as coordinates on a map. Coordinates tell you a place’s position. Comparing two places’ positions tells you how close they are to each other."),
+    E(SectionKicker, null, "Start With a Familiar Map"),
     E(BodyP, null,
-      "So how does AI work out what the token means, when its vector matches nothing on file? It finds the closest match. That sounds simple, but there’s more to it."),
-    E(SectionKicker, null, "AI uses a map (kind of)"),
+      "A map uses two numbers to describe a place’s position: latitude and longitude. Dallas, Texas, is roughly 33° north, 97° west. New York City and Mountain View, California, have their own coordinates, using those same two dimensions."),
     E(BodyP, null,
-      "A regular map works like this. You can find any place by knowing two things: the latitude and the longitude. Want to find Dallas, Texas? Just give it a north latitude of 33 and a west longitude of 97."),
-    E(BodyP, null,
-      "Can we add New York City and Mountain View, California? Yep. They track the same dimensions."),
+      "Imagine these are the only three cities on our map."),
     E("img", {
-      src: "illustrations/vector-space-cities.jpg?v=20260901vectorspace",
-      alt: "Three known city coordinates on a United States map. Two new coordinates match no city exactly, so 38 north 120 west resolves to Mountain View and 39 north 70 west resolves to New York City as the closest points",
+      src: "illustrations/vector-space-cities.jpg?v=20260907twomaps2",
+      alt: "Three Cities, Two Coordinates Each. A United States map marks Mountain View at roughly 37 north, 122 west; Dallas at 33 north, 97 west; and New York City at 41 north, 74 west.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     E(BodyP, null,
-      "Now, let\u2019s pretend those are the only three cities in the United States. Your job is simple. You get the coordinates and have to match them to the closest city."),
+      "Now try two new sets of coordinates. Which city is closest to each one?"),
     bulletList([
-      { lead: E(React.Fragment, null, mono("38 N, 120 W"), "?"), body: "That\u2019s right. The closest match is Mountain View." },
-      { lead: E(React.Fragment, null, mono("39 N, 70 W"), "?"), body: "Of course, New York City." }
+      { lead: mono("38 N, 120 W") },
+      { lead: mono("39 N, 70 W") }
     ]),
+    E("img", {
+      src: "illustrations/vector-space-cities-closest.jpg?v=20260907twomaps2",
+      alt: "Find the Closest City. The same map now adds two purple outlined points. Dotted lines connect 38 north, 120 west to Mountain View and 39 north, 70 west to New York City, the nearest of the three cities.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }),
     E(BodyP, null,
-      "You did exactly what AI does. There was no match for the numbers, so you found the closest match."),
-    E(SectionKicker, null, "AI is way more complicated"),
+      "The new coordinates don’t match any city exactly. But comparing positions lets you find the closest city."),
+    E(SectionKicker, null, "From Places to Meaning"),
     E(BodyP, null,
-      "You’ve learned there are many more dimensions than two. But the core idea is the same: it establishes meaning based on distance."),
-    E(BodyP, null,
-      "This is how you learned a token’s meaning with numbers: a taste profile of Coke vs. Pepsi vs. Coffee."),
+      "Now imagine a map where positions describe characteristics instead of locations. These ratings for Coke, Pepsi, and coffee give each drink a row of numbers, its vector. Drinks with similar ratings sit closer together."),
     vsTasteProfile,
     E(BodyP, null,
-      "Coke and Pepsi’s vectors (their rows of numbers) sit much closer to each other than either does to Coffee. If this was a map, it might look like this."),
+      "Coke and Pepsi have similar ratings, so their vectors sit close together. Coffee’s ratings are quite different, so its vector sits farther away. Let’s picture that as a map."),
     E("img", {
-      src: "illustrations/vector-space-neighborhoods.jpg?v=20260901vectorspace",
-      alt: "Coke, Pepsi, and a mystery vector sit in the soft drinks neighborhood, separated from sports drinks, juices, and hot drinks",
+      src: "illustrations/vector-space-neighborhoods.jpg?v=20260907scores2",
+      alt: "Meaning Neighborhoods. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
-    E(BodyP, { marginTop: 24 },
-      "On the map, Coke and Pepsi sit side by side in the Soft drinks neighborhood. Coffee is all the way across, in the Hot drinks neighborhood."),
     E(BodyP, null,
-      "Let’s try the same exercise you used on a real map. Here are coordinates you need to match to a drink. Those numbers don’t exist on the table, so you need to figure out which drink these numbers mean."),
+      "Now try a new set of ratings. They don’t match any drink exactly. Which drink is closest?"),
     bulletList([
       { lead: E(React.Fragment, null, mono("9, 1, 10, 2, 3, 8, 9"), "?"), body: "A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It doesn’t match anything on file exactly, and it doesn’t have to. You know it refers to Pepsi." }
     ]),
@@ -6967,8 +6969,8 @@ function HorseReadsBox() {
 }
 function LayersStackBox() {
   return React.createElement("img", {
-    src: "lessons/layers-inside-layer-editorial.jpg?v=20260907layers3",
-    alt: "How Every Layer Updates the Vector. A vector passes through many layers. At each layer, attention and transformation work together to update the token’s numbers. Two of the vector's many values are shown changing from the starting vector to the final vector.",
+    src: "lessons/layers-inside-layer-editorial.jpg?v=20260907layers4",
+    alt: "How Layers Update the Numbers. Starting numbers pass through many layers. At each layer, attention and transformation work together to update the numbers. Each row contains many numbers; two are shown changing from the starting numbers to the final numbers.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
 }
@@ -7009,7 +7011,7 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "Following One Word Through the Layers"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Now follow one word, ",
-      /*#__PURE__*/React.createElement("strong", { style: { color: "var(--primary)" } }, "IT"),
+      /*#__PURE__*/React.createElement("strong", { style: { color: "#1652f0" } }, "IT"),
       ", as its numbers change from layer to layer."),
     /*#__PURE__*/React.createElement(LayersResolutionBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "How Many Layers Are There?"),

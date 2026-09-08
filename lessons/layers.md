@@ -12,7 +12,7 @@ AI doesn’t read your message the way you do. It processes your text through a 
 
 The whole stack of layers is called a **neural network**.
 
-![How Every Layer Updates the Vector. A vector passes through many layers. At each layer, attention and transformation work together to update the token’s numbers. Two of the vector's many values are shown changing from the starting vector to the final vector.](layers-inside-layer-editorial.jpg)
+![How Layers Update the Numbers. Starting numbers pass through many layers. At each layer, attention and transformation work together to update the numbers. Each row contains many numbers; two are shown changing from the starting numbers to the final numbers.](layers-inside-layer-editorial.jpg)
 
 ## Following One Word Through the Layers
 

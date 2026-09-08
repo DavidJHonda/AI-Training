@@ -65,6 +65,16 @@ interactive content. Keep the purpose-setting `lead` outside the box. Instructio
 should be short imperative actions that explain how to complete the activity; do not
 repeat the lesson or use a hand-styled `<ol>`.
 
+Do not add TRY IT steps telling students to read or review feedback, reasoning,
+corrections, explanations, or result recaps. That content appears as part of the
+activity. If a step also names a required action, keep the action and remove the
+feedback reminder. Keep the feedback itself and its reveal behavior.
+
+When a TRY IT instruction names a specific button or response option, bold that
+label with a semantic `<strong>` element, matching the Transformer activity. Keep
+the surrounding directions in normal weight. Supply rich React content in the
+`instructions` array rather than Markdown asterisks in a plain string.
+
 ### Activity support
 
 - `ScenarioRow` and `FeedbackPill` support parallel response activities.

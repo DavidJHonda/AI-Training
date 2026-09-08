@@ -48,7 +48,7 @@ In 2025, Laura Reiley wrote about her 29-year-old daughter, Sophie Rottenberg. S
 
 The chatbot responded with warmth and sometimes encouraged Sophie to seek help. But it could not contact her family, alert her therapist, or bring anyone into the room.
 
-After Sophie died by suicide, her mother described the chats as a “black box.” The danger was visible inside the chat, but not to the people who could act.
+After Sophie died by suicide, her mother described the chats as a “black box.” The chats held details that made it harder for the people around her to understand the severity of her distress.
 
 The account illustrates why a caring conversation is not the same as bringing someone into a dangerous situation who can help. It does not establish that a chatbot alone caused Sophie's death.
 

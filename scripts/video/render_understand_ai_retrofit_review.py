@@ -927,29 +927,28 @@ def render_where_answer_begins(out_path: Path) -> None:
 
 def render_horse_three_reads(out_path: Path) -> None:
     """Show the garden-path sentence changing meaning across repeated passes."""
-    title = "The Horse Raced Past the Barn Fell"
+    title = "“The Horse Raced Past the Barn Fell”"
     steps = (
         ("First Read", "It doesn’t make sense. Did someone forget a word?", PURPLE, "horse-first-pass.png"),
         ("More Reads", "Wait, did a barn fall? Did the horse race past the barn afterward?", BLUE, "horse-more-passes.png"),
-        ("Meaning Clicks", "The horse that was raced past the barn fell.", TEAL, "horse-meaning-clicks.png"),
+        ("Meaning Clicks", "Someone raced a horse past a barn. Then the horse fell.", TEAL, "horse-meaning-clicks.png"),
     )
     stage_top = 127
     stage_left, stage_right = 40, 1560
     gap = 34
     cell_w = (stage_right - stage_left - 80 - gap * 2) // 3
     art_h = round(cell_w * 9 / 16)
-    caption_top = 175
-    caption_h = 76
-    art_top = caption_top + caption_h + 12
-    marker_y = art_top + art_h + 43
+    marker_y = stage_top + 58
     title_y = marker_y + 47
     body_y = title_y + 58
+    caption_h = 76
     body_font = face("medium", 29)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     bodies = [wrap(measure, body, body_font, cell_w - 10) for _, body, _, _ in steps]
-    bodies[2] = ["The horse that was", "raced past the barn fell."]
     body_bottom = body_y + max(len(lines) for lines in bodies) * 41
-    stage_bottom = body_bottom + 38
+    caption_top = body_bottom + 22
+    art_top = caption_top + caption_h + 12
+    stage_bottom = art_top + art_h + 38
     footer_top = stage_bottom + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
 
@@ -1006,15 +1005,7 @@ def render_horse_three_reads(out_path: Path) -> None:
         draw_inner_title(draw, (center, title_y), step_title, fill=accent, anchor="ma")
         yy = body_y
         for line in lines:
-            if i == 3 and "that was" in line:
-                prefix, suffix = line.split("that was", 1)
-                parts = [(prefix, body_font), ("that was", face("bold", 29)), (suffix, body_font)]
-                x = center - sum(draw.textlength(text, font=part_font) for text, part_font in parts) / 2
-                for text, part_font in parts:
-                    draw.text((x, yy), text, font=part_font, fill=BODY, anchor="la")
-                    x += draw.textlength(text, font=part_font)
-            else:
-                draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
+            draw.text((center, yy), line, font=body_font, fill=BODY, anchor="ma")
             yy += 41
 
     draw_takeaway_band(
@@ -1030,16 +1021,40 @@ def render_horse_three_reads(out_path: Path) -> None:
 
 def render_layers_resolve_it_flow(out_path: Path) -> None:
     """Follow IT through five visible layer states using the approved type floor."""
-    title = "How “IT” Changes Through the Layers"
+    title = "How AI Connects ‘IT’ to ‘CAT’"
     stage_top = 127
-    stage_bottom = 805
-    footer_top = stage_bottom + TAKEAWAY_GAP
-    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    stage_bottom = 885
+    height = stage_bottom + 40
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, title)
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
+
+    def it_pill(center_x: float, center_y: float, scale: float = 1) -> None:
+        draw.rounded_rectangle(
+            (center_x - 35 * scale, center_y - 24 * scale, center_x + 35 * scale, center_y + 24 * scale),
+            radius=round(12 * scale), fill=BLUE,
+        )
+        draw.text((center_x, center_y), "IT", font=face("heavy", round(32 * scale)), fill=WHITE, anchor="mm")
+
+    def cat_circle(center_x: float, center_y: float, scale: float = 1) -> None:
+        draw.ellipse((center_x - 37 * scale, center_y - 37 * scale, center_x + 37 * scale, center_y + 37 * scale), fill=TEAL)
+        draw.text((center_x, center_y), "CAT", font=face("heavy", round(29 * scale)), fill=WHITE, anchor="mm")
+
+    def explanation(center_x: float, center_y: float, parts: tuple[str, ...]) -> None:
+        font = face("medium", 29)
+        scale = 0.7
+        widths = [70 * scale if part == "IT" else 74 * scale if part == "CAT" else draw.textlength(part, font=font) for part in parts]
+        x = center_x - sum(widths) / 2
+        for part, width in zip(parts, widths):
+            if part == "IT":
+                it_pill(x + width / 2, center_y, scale)
+            elif part == "CAT":
+                cat_circle(x + width / 2, center_y, scale)
+            else:
+                draw.text((x, center_y), part, font=font, fill=BODY, anchor="lm")
+            x += width
 
     # Scenario card follows the approved Your First Assignment treatment.
     sentence_box = (80, 158, 1520, 288)
@@ -1050,21 +1065,28 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
     sentence_bold = face("heavy", 32)
     spans = (
         ("“The ", sentence_font, BODY),
-        ("cat", sentence_bold, TEAL),
+        ("CAT", sentence_bold, TEAL),
         (" sat on the mat during the May rainstorm because ", sentence_font, BODY),
-        ("it", sentence_bold, PURPLE),
+        ("IT", sentence_bold, BLUE),
         (" was ", sentence_font, BODY),
-        ("tired", sentence_bold, AMBER),
+        ("tired", sentence_font, BODY),
         (".”", sentence_font, BODY),
     )
-    total_w = sum(draw.textlength(text, font=font) for text, font, _ in spans)
+    total_w = sum(70 if text == "IT" else 74 if text == "CAT" else draw.textlength(text, font=font) for text, font, _ in spans)
     sx = (WIDTH - total_w) / 2
     for text_value, font, color in spans:
-        draw.text((sx, 246), text_value, font=font, fill=color, anchor="lm")
-        sx += draw.textlength(text_value, font=font)
+        if text_value == "IT":
+            it_pill(sx + 35, 246)
+            sx += 70
+        elif text_value == "CAT":
+            cat_circle(sx + 37, 246)
+            sx += 74
+        else:
+            draw.text((sx, 246), text_value, font=font, fill=color, anchor="lm")
+            sx += draw.textlength(text_value, font=font)
 
     card_top = 330
-    card_bottom = 750
+    card_bottom = 830
     card_w = 250
     card_lefts = (80, 377, 674, 971, 1268)
     card_titles = ("START", "LAYER 1", "LAYER 2", "REPEAT", "RESULT")
@@ -1082,55 +1104,57 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
 
     # Start: IT is numeric but its referent is unresolved.
     start_center = card_lefts[0] + card_w // 2
-    draw.ellipse((start_center - 35, 414, start_center + 35, 484), fill=WHITE, outline=mix(PURPLE, 0.48), width=3)
-    draw.text((start_center, 449), "IT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+    it_pill(start_center, 449)
     draw.rounded_rectangle((card_lefts[0] + 22, 510, card_lefts[0] + card_w - 22, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
     draw.text((start_center, 542), "[.12, −.34, …]", font=face("heavy", 29), fill=INK, anchor="mm")
-    draw.text((start_center, 633), "Meaning is still", font=face("medium", 29), fill=BODY, anchor="mm")
-    draw.text((start_center, 673), "ambiguous.", font=face("medium", 29), fill=BODY, anchor="mm")
+    explanation(start_center, 623, ("IT", " could refer to"))
+    explanation(start_center, 663, ("different things.",))
+    explanation(start_center, 713, ("The starting",))
+    explanation(start_center, 753, ("numbers don’t",))
+    explanation(start_center, 793, ("tell us which one.",))
 
-    def layer_card(left: int, vector_text: str, note_lines: tuple[str, ...]) -> None:
+    def layer_card(left: int, vector_text: str, note_lines: tuple[tuple[str, ...], ...]) -> None:
         center = left + card_w // 2
-        draw.ellipse((center - 35, 414, center + 35, 484), fill=WHITE, outline=mix(PURPLE, 0.48), width=3)
-        draw.text((center, 449), "IT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
+        it_pill(center, 449)
         draw.rounded_rectangle((left + 20, 510, left + card_w - 20, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
         draw.text((center, 542), vector_text, font=face("heavy", 29), fill=INK, anchor="mm")
         note_y = 653 if len(note_lines) == 1 else 633
         for line in note_lines:
-            draw.text((center, note_y), line, font=face("medium", 29), fill=BODY, anchor="mm")
-            note_y += 40
+            explanation(center, note_y, line)
+            note_y += 50
 
-    layer_card(card_lefts[1], "[.18, −.22, …]", ("IT shifts slightly.",))
-    layer_card(card_lefts[2], "[.25, −.09, …]", ("Closer to CAT", "than to MAT."))
+    layer_card(card_lefts[1], "[.18, −.22, …]", (("The numbers",), ("begin shifting",), ("toward ", "CAT", ".")))
+    layer_card(card_lefts[2], "[.25, −.09, …]", (("Closer to ", "CAT"), ("than to MAT.",)))
 
     # Repetition is a visible phase, not an ellipsis squeezed between cards.
     repeat_left = card_lefts[3]
     repeat_center = repeat_left + card_w // 2
+    it_pill(repeat_center, 449)
     for i in range(6):
-        y = 411 + i * 31
+        y = 496 + i * 17
         accent = PURPLE
         draw.rounded_rectangle(
-            (repeat_left + 25, y, repeat_left + card_w - 25, y + 19),
+            (repeat_left + 25, y, repeat_left + card_w - 25, y + 11),
             radius=8,
             fill=mix(accent, 0.11),
             outline=mix(accent, 0.20),
             width=1,
         )
-    draw.text((repeat_center, 628), "The numbers", font=face("medium", 29), fill=BODY, anchor="mm")
-    draw.text((repeat_center, 668), "keep changing.", font=face("medium", 29), fill=BODY, anchor="mm")
+    explanation(repeat_center, 628, ("The numbers",))
+    explanation(repeat_center, 668, ("keep shifting",))
+    explanation(repeat_center, 708, ("toward ", "CAT", "."))
 
     # Result: the horizontal connector is intentionally level.
     result_left = card_lefts[4]
     result_center = result_left + card_w // 2
-    draw.ellipse((result_left + 34, 410, result_left + 108, 484), fill=PURPLE)
-    draw.text((result_left + 71, 447), "CAT", font=face("heavy", 29), fill=WHITE, anchor="mm")
-    draw.ellipse((result_left + 142, 410, result_left + 216, 484), fill=WHITE, outline=mix(PURPLE, 0.48), width=3)
-    draw.text((result_left + 179, 447), "IT", font=face("heavy", 29), fill=PURPLE, anchor="mm")
-    draw.line((result_left + 108, 447, result_left + 142, 447), fill=PURPLE, width=5)
+    cat_circle(result_left + 71, 447)
+    draw.line((result_left + 108, 447, result_left + 144, 447), fill=PURPLE, width=5)
+    it_pill(result_left + 179, 447)
     draw.rounded_rectangle((result_left + 22, 510, result_left + card_w - 22, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
     draw.text((result_center, 542), "[.41, .06, …]", font=face("heavy", 29), fill=INK, anchor="mm")
-    draw.text((result_center, 633), "IT now resolves", font=face("medium", 29), fill=BODY, anchor="mm")
-    draw.text((result_center, 673), "to CAT.", font=face("medium", 29), fill=BODY, anchor="mm")
+    explanation(result_center, 623, ("AI works out",))
+    explanation(result_center, 663, ("that ", "IT", " refers"))
+    explanation(result_center, 713, ("to ", "CAT", "."))
 
     # Directional chevrons echo the reference while leaving every panel readable.
     connector_color = mix(PURPLE, 0.42)
@@ -1140,14 +1164,6 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
         draw.line((cx - 7, connector_y - 12, cx + 4, connector_y), fill=connector_color, width=4)
         draw.line((cx + 4, connector_y, cx - 7, connector_y + 12), fill=connector_color, width=4)
 
-    draw_takeaway_band(
-        canvas,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="Each layer moves IT closer to CAT.",
-        font=face("heavy", TAKEAWAY_TEXT_SIZE),
-    )
     save(canvas, out_path)
 
 

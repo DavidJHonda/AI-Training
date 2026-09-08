@@ -10,8 +10,10 @@ AUDIT=ROOT/'video-audit/fake-trap-repair-2026-09-07'
 OUT=ROOT/'Prompts/fake-trap-patched.mp4'
 SOURCES=[ROOT/'Prompts/fake-trap.mp4',ROOT/'videos/fake-trap.mp4']
 P,B,A,T,R='#4f2fc4','#1652f0','#a9760c','#0e8f86','#c41f28'
+H='#6e51ff' # Standard neutral-purple outline for takeaway banners.
 BOARDS={'compare':ROOT/'illustrations/fake-trap-comparison-v2.jpg','motives':ROOT/'illustrations/fake-trap-four-reasons-v3.png','source':ROOT/'illustrations/fake-trap-source-v2.jpg','checks':ROOT/'illustrations/fake-trap-three-checks-v2.jpg'}
-HOCKEY=AUDIT/'assets/hockey-celebration.png'
+HOCKEY=AUDIT/'assets/hockey-celebration-v2.png'
+EMOTION=AUDIT/'assets/pause-before-sharing-v2.png'
 CLOSE=ROOT/'lessons/fake-trap-5-close.jpg'
 chunks=[]
 def keep(src,a,b,board=None,label='native',rect=None,color=P,camera=None,move=0):
@@ -22,11 +24,13 @@ def cam(r):
     return ((x1+x2)/2,(y1+y2)/2,max((x2-x1)*1.12,(y2-y1)*16/9*1.12))
 # Source-time edit decisions; video coverage is deliberately independent of words.
 keep(0,0,13.4)
-keep(0,13.4,19.1,'compare','comparison-establish')
+keep(0,13.4,19.1,'compare','scenario',(40,112,1560,239),P)
 left=(40,271,784,1302);right=(816,271,1560,1302)
 keep(0,19.1,30.5,'compare','appearance-test',left,A,cam(left),24)
 keep(0,30.5,43.2,'compare','source-trail-test',right,B,cam(right),24)
 keep(0,43.2,58.7,None,'two-jaws-definition')
+pause(30)
+chunks[-1]['label']='pause-before-harmless-fakes'
 # Discard 59.32–68.46, not the harmless-fake qualification.
 keep(0,68.95,74.45,None,'harmless-context')
 keep(0,74.45,83.55,'hockey','original-hockey-joke')
@@ -46,15 +50,15 @@ c1=(40,127,525,651);c2=(557,127,1043,651);c3=(1075,127,1560,651)
 keep(0,162.25,166.5,'checks','source-check',c1,P,cam(c1),20)
 keep(0,166.5,171.65,'checks','context-check',c2,B,cam(c2),20)
 keep(0,171.65,176.85,'checks','corroboration-check',c3,T,cam(c3),20)
-keep(0,176.85,180.5,'checks','independent-verification-banner',(40,691,1560,779),A,None,20)
-# Complete donor sentence replaces unsafe, unspecific "call back".
-keep(1,195.55,205.85,None,'trusted-number-donor')
+keep(0,176.85,180.5,'checks','independent-verification-banner',(40,691,1560,779),H,None,20)
+# Owner removed the bank-fraud detour. Keep independent verification and
+# unverified-claim guidance; do not reinstate the raw unspecific "call back".
 keep(0,184.15,188.866667,'checks','verify-viral-video',c3,T,None,0)
 keep(0,188.866667,236.0,None,'unverified-and-targeted-help')
 # Remove redundant final paragraph, preserve reassurance and full one-second pause.
 pause(30)
 keep(0,245.0,249.97,'close','standard-close')
-pause(18)
+pause(30)
 chunks[-1]['label']='closing-hold'
 
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -64,6 +68,7 @@ def main():
     canvases={k:v.build_canvas(p) for k,p in BOARDS.items()}
     close=cv2.resize(cv2.imread(str(CLOSE)),(1600,900),interpolation=cv2.INTER_AREA)
     hockey,hox,hoy,hfull=v.build_canvas(HOCKEY)
+    emotion,eox,eoy,efull=v.build_canvas(EMOTION)
     picture=AUDIT/'picture.mp4'
     encoder=subprocess.Popen([FF,'-y','-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','-','-an','-c:v','libx264','-pix_fmt','yuv420p','-profile:v','high','-level:v','3.1','-crf','18','-preset','fast','-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709',str(picture)],stdin=subprocess.PIPE)
     needed=[set(),set()]
@@ -102,6 +107,11 @@ def main():
             elif c['board']=='hockey':
                 # Subtle 4% push preserves the complete trophy and all four faces.
                 t=v.smoothstep(j/(c['b']-c['a']-1));out=v.crop_frame(hockey,(hfull[0],hfull[1],hfull[2]/(1+.025*t)))
+            elif c.get('board')=='source':
+                # Keep current character identities throughout this passage;
+                # do not briefly return to the older lesson character art.
+                t=v.smoothstep(j/max(1,c['b']-c['a']-1))
+                out=v.crop_frame(emotion,(efull[0],efull[1],efull[2]/(1+.035*t)))
             elif c['board']:
                 canvas,ox,oy,full=canvases[c['board']]
                 target=v.map_camera(c['camera'],ox,oy) if c['camera'] else full
@@ -109,8 +119,7 @@ def main():
                 camera=target
                 if c['move'] and j<c['move']:
                     t=v.smoothstep(j/max(1,c['move']-1));camera=tuple(a+(b-a)*t for a,b in zip(start,target))
-                if c['board']=='source':
-                    t=v.smoothstep(j/max(1,c['b']-c['a']-1));camera=(full[0],full[1],full[2]/(1+.035*t))
+                if c['board']=='source':camera=full
                 active=focus
                 if c['move'] and j<c['move']:
                     active=cv2.addWeighted(old_focus,1-t,focus,t,0)
@@ -135,7 +144,7 @@ def main():
         elif c['src']!=-1:prev_board=None;prev_cam=None;prev_focus=None
         c['output_end']=cursor
         c['highlight_color']=c.get('color') if c.get('rect') else None
-        c['color_source']='current-card-or-banner-accent' if c.get('rect') else 'none'
+        c['color_source']=('standard-neutral-banner-purple' if c.get('color')==H else 'current-card-accent') if c.get('rect') else 'none'
     encoder.stdin.close();assert encoder.wait()==0
     graph=[];labels=[]
     for i,c in enumerate(chunks):

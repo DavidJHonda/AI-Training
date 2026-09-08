@@ -2,17 +2,13 @@
 
 # Layers
 
-Sometimes you need to read a sentence more than once before its meaning clicks. Try this one.
+Have you ever read a passage in English class that only made sense after a few reads? Try the sentence below. You might need to read it more than once before the meaning clicks.
 
-![The Horse Raced Past the Barn Fell. First read: it does not make sense and may seem to be missing a word. More reads test whether the barn fell or whether the horse raced past it afterward. Then the meaning clicks: The horse that was raced past the barn fell. The implied words “that was” are bolded to clarify the sentence. Each read updates the meaning until it clicks.](layers-horse-three-reads-editorial.jpg)
+![“The Horse Raced Past the Barn Fell”. First read: it does not make sense and may seem to be missing a word. More reads test whether the barn fell or whether the horse raced past it afterward. Then the meaning clicks: Someone raced a horse past a barn. Then the horse fell. Each read updates the meaning until it clicks.](layers-horse-three-reads-editorial.jpg)
 
-## AI Builds Meaning in Stages
+## AI Does Something Similar
 
-AI splits your message into small pieces called **tokens**. Each token is represented by a row of numbers called a **vector**.
-
-AI processes your message through a series of **layers**. Each layer updates the numbers that represent your tokens, then passes those updated numbers forward. And because language is full of nuance, many AI models use dozens of layers to build up meaning.
-
-At each layer, **attention** and **transformation** work together to update the tokens’ numbers.
+AI doesn’t read your message the way you do. It processes your text through a series of **layers**. Within each layer, **attention** and **transformation** work together to update the numbers, helping AI work out what your words mean together. Those updated numbers pass to the next layer. Like rereading a difficult sentence, the process builds on what came before.
 
 The whole stack of layers is called a **neural network**.
 
@@ -20,15 +16,17 @@ The whole stack of layers is called a **neural network**.
 
 ## Following One Word Through the Layers
 
-You saw this sentence in the Transformer lesson. Now follow one word, **IT**, as its numbers change from layer to layer.
+Now follow one word, **IT**, as its numbers change from layer to layer.
 
-![How “IT” Changes Through the Layers. IT begins as an ambiguous vector. Its numbers change through Layer 1, Layer 2, and more layers until IT resolves to CAT.](layers-3-resolves-it.jpg)
+![How AI Connects ‘IT’ to ‘CAT’. The same blue IT pill appears in the sentence and every step. Matching teal CAT circles appear in the sentence and result. Smaller matching labels highlight IT and CAT in the explanations. IT could refer to different things. The starting numbers don’t tell us which one. In Layer 1, the numbers begin shifting toward CAT. They keep changing through Layer 2 and more layers. AI works out that IT refers to CAT.](layers-3-resolves-it.jpg)
 
-## Why are there dozens of layers?
+## How Many Layers Are There?
 
-Some meaning takes more steps to work out.
+AI companies don’t always share how many layers their models use. But published designs give us an idea of the scale: dozens of layers, and sometimes more than a hundred.
 
-![A few layers settle plain meaning and dozens support nuance and reasoning. More layers require more computing power and time, so the extra benefit has to be worth the cost.](layers-3-why-dozens.jpg)
+The horse sentence took a few reads to untangle. Sarcasm, story twists, and complicated reasoning can take even more work. AI’s layers give it more steps to work through those relationships and build meaning.
+
+Why not keep adding layers? More layers require more computing power and time. The extra benefit has to be worth the cost.
 
 Meaning builds up, layer by layer.
 

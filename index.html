@@ -955,7 +955,7 @@ const CLOSE_BOARDS = {
   embeddings: { pill: "AI uses numbers to work with meaning.", sticky: "Those numbers help AI recognize similarities and differences." },
   attention: { pill: "Attention is all you need.", sticky: "AI uses relationships between words to help interpret your message." },
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "Attention and transformation. Dozens of times." },
-  vectorspace: { pill: "Meaning is a position.", sticky: "Close in space is close in meaning." },
+  vectorspace: { pill: "Meaning is a position.", sticky: "Similar meanings usually sit close together." },
   prediction: { pill: "Every answer is built one token at a time.", sticky: "The whole run is called inference." },
   inference: { pill: "Not a mind. Math, at a scale nobody can picture.", sticky: "Every time you hit send." },
   // Avoid Traps
@@ -6708,8 +6708,8 @@ function Game2048TryIt(props) {
 function VectorSpaceSection(props) {
   var E = React.createElement;
   var vsTasteProfile = E("img", {
-    src: "illustrations/vector-space-taste-profile.jpg?v=20260907tiles2",
-    alt: "Comparing Numerical Profiles. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.",
+    src: "illustrations/vector-space-taste-profile.jpg?v=20260908dimensions1",
+    alt: "Three Drinks, Seven Dimensions Each. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
   // Body-scale bullets: prose that happens to be listed, not a box. Matches BodyP
@@ -6743,66 +6743,82 @@ function VectorSpaceSection(props) {
     E(BodyP, null,
       "AI represents meaning with rows of numbers called ",
       E("strong", null, "embeddings"),
-      ". Each row is a ",
-      E("strong", null, "vector"),
-      ". One way to understand these numbers is to think of them as coordinates on a map. Coordinates tell you a place’s position. Comparing two places’ positions tells you how close they are to each other."),
-    E(SectionKicker, null, "Start With a Familiar Map"),
+      ". As AI processes your message, the layers change the numbers. If the numbers are different, how do they still represent meaning? To understand how, let’s explore vector space."),
+    E(SectionKicker, null, "Let’s Start With a Map"),
     E(BodyP, null,
-      "A map uses two numbers to describe a place’s position: latitude and longitude. Dallas, Texas, is roughly 33° north, 97° west. New York City and Mountain View, California, have their own coordinates, using those same two dimensions."),
+      "A map uses two numbers to describe position: latitude and longitude. Dallas, Texas, is roughly 33° north, 97° west. New York City and Mountain View, California, have their own coordinates, using those same two dimensions."),
     E(BodyP, null,
       "Imagine these are the only three cities on our map."),
     E("img", {
-      src: "illustrations/vector-space-cities.jpg?v=20260907twomaps2",
+      src: "illustrations/vector-space-cities.jpg?v=20260908redraw1",
       alt: "Three Cities, Two Coordinates Each. A United States map marks Mountain View at roughly 37 north, 122 west; Dallas at 33 north, 97 west; and New York City at 41 north, 74 west.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     E(BodyP, null,
-      "Now try two new sets of coordinates. Which city is closest to each one?"),
+      "Someone hands you two sets of coordinates. For each position, which of the three cities is closest?"),
     bulletList([
       { lead: mono("38 N, 120 W") },
       { lead: mono("39 N, 70 W") }
     ]),
     E("img", {
-      src: "illustrations/vector-space-cities-closest.jpg?v=20260907twomaps2",
-      alt: "Find the Closest City. The same map now adds two purple outlined points. Dotted lines connect 38 north, 120 west to Mountain View and 39 north, 70 west to New York City, the nearest of the three cities.",
+      src: "illustrations/vector-space-cities-closest.jpg?v=20260908maptitle2",
+      alt: "Use the Map to Find the Closest City. The same U.S. map shows cities as solid colored dots and new positions as purple outlined diamonds. Dotted lines connect 38 north, 120 west to Mountain View and 39 north, 70 west to New York City, the nearest of the three cities.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     E(BodyP, null,
       "The new coordinates don’t match any city exactly. But comparing positions lets you find the closest city."),
     E(SectionKicker, null, "From Places to Meaning"),
     E(BodyP, null,
-      "Now imagine a map where positions describe characteristics instead of locations. These ratings for Coke, Pepsi, and coffee give each drink a row of numbers, its vector. Drinks with similar ratings sit closer together."),
+      "These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each drink gets a row of numbers called a ",
+      E("strong", null, "vector"),
+      "."),
     vsTasteProfile,
     E(BodyP, null,
-      "Coke and Pepsi have similar ratings, so their vectors sit close together. Coffee’s ratings are quite different, so its vector sits farther away. Let’s picture that as a map."),
+      "We can use these numbers as coordinates on a map of similarities. Coke and Pepsi have similar ratings, so their vectors sit close together. Coffee’s ratings are quite different, so its vector sits farther away."),
     E("img", {
-      src: "illustrations/vector-space-neighborhoods.jpg?v=20260907scores2",
-      alt: "Meaning Neighborhoods. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.",
+      src: "illustrations/vector-space-neighborhoods.jpg?v=20260908maptitle1",
+      alt: "A Map of Drink Similarities. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     E(BodyP, null,
-      "Now try a new set of ratings. They don’t match any drink exactly. Which drink is closest?"),
+      "Someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match."),
     bulletList([
-      { lead: E(React.Fragment, null, mono("9, 1, 10, 2, 3, 8, 9"), "?"), body: "A fizz of 10 puts it with the sodas, and a citrus of 9 puts it right beside Pepsi. It doesn’t match anything on file exactly, and it doesn’t have to. You know it refers to Pepsi." }
+      { lead: mono("9, 1, 10, 2, 3, 8, 9") }
     ]),
+    E("img", {
+      src: "illustrations/vector-space-closest-drink.jpg?v=20260908maptitle2",
+      alt: "Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short purple dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. Pepsi is the closest match.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }),
+    E(BodyP, null,
+      "Changing Pepsi’s Citrus score from 10 to 9 creates a new vector. It doesn’t match any drink in our table exactly, but it still describes something: a sweet, fizzy drink with a strong citrus taste. ",
+      E("strong", null, "New numbers can represent a new combination of characteristics.")),
     E(SectionKicker, null, "Distance"),
     E(BodyP, null,
-      "Here’s what you just did. Add up the gap between two sets of numbers across every dimension, and you get their ",
+      "To measure ",
       E("strong", null, "distance"),
-      ". That is how AI measures closeness."),
+      ", compare the numbers in matching positions across the two vectors. The gaps between those numbers tell you how far apart the vectors are. Smaller gaps mean closer positions."),
     E(BodyP, null,
-      "Of course, AI does it on a massive scale. Every token carries thousands of dimensions, not seven, and AI learned every one of those values during training. And just like on our maps, tokens that mean similar things sit close together, so landing near a token is not a near miss. It is how the meaning gets read."),
+      "AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. Similar meanings usually occupy nearby positions."),
     E(SectionKicker, null, "Meaning is a position"),
     E(BodyP, null,
-      "Back to that one-of-a-kind token. AI can’t look its numbers up, but it can do what we just did with the drinks: read the token’s ",
+      "A vector’s numbers describe a ",
       E("strong", null, "position"),
-      " on a map where similar meanings sit close together. That’s ",
+      " in a space with many dimensions. That’s ",
       E("strong", null, "vector space"),
-      "."),
-    E(BodyP, null, "Now, back to our sentence from the Layers lesson."),
+      ". As the layers change a token’s numbers, its position changes, reflecting information from the surrounding text."),
+    E(BodyP, null,
+      "As the layers change the numbers, they change the information those numbers represent. The updated numbers can capture how a word is being used in this particular sentence. During training, AI learns how to produce and use these numerical patterns."),
+    E(BodyP, null, "Consider this sentence:"),
+    E(BodyP, null,
+      "“The ",
+      E("strong", null, "cat"),
+      " sat on the mat during the May rainstorm because ",
+      E("strong", null, "it"),
+      " was tired.”"),
     E("img", {
-      src: "illustrations/vector-space.jpg?v=20260901meaningposition",
-      alt: "The final vector for IT travels into the animal neighborhood and lands closest to CAT. KITTEN, DOG, and PET sit nearby, but CAT has the shortest distance.",
+      src: "illustrations/vector-space.jpg?v=20260908context1",
+      alt: "Meaning Is a Position. IT’s updated vector is shown on a conceptual map with the label IT WITH CONTEXT. An arrow labeled REFERS TO connects it to CAT, illustrating the contextual relationship represented by the updated numbers. KITTEN, DOG, and PET appear nearby as background examples.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     closeBoard("vectorspace"),
@@ -8215,7 +8231,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/hallucination-real-text-v3.jpg",
+      src: "illustrations/hallucination-real-text-v4.png",
       alt: "Nate and Luke examine a brass pattern machine that turns a real joke card into an authoritative-looking pictogram recommending glue on pizza. The Reddit comment was real. The cooking advice was not.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),

@@ -2636,13 +2636,15 @@ def render_city_positions(out_path: Path, *, show_new: bool = False) -> None:
     draw.line(polygon, fill=mix(PURPLE, 0.45), width=3, joint="curve")
 
     cities = [
-        ("Mountain View", "37° N, 122° W", (-122.08, 37.39), TEAL, (110, 330, 425, 425), (310, 425)),
-        ("Dallas", "33° N, 97° W", (-96.8, 32.78), RED, (705, 725, 1005, 820), (815, 725)),
-        ("New York City", "41° N, 74° W", (-74.01, 40.71), BLUE, (990, 290, 1330, 385), (1190, 385)),
+        ("Mountain View", "37° N, 122° W", (-122.08, 37.39), TEAL, 316, 330),
+        ("Dallas", "33° N, 97° W", (-96.8, 32.78), RED, 300, 500),
+        ("New York City", "41° N, 74° W", (-74.01, 40.71), BLUE, 340, 290),
     ]
-    for name, coordinates, location, color, box, anchor in cities:
+    for name, coordinates, location, color, box_width, box_top in cities:
         x, y = point(*location)
-        draw.line(((x, y), anchor), fill=mix(color, 0.6), width=2)
+        box = (x - box_width // 2, box_top, x + box_width // 2, box_top + 95)
+        anchor = (x, box[3])
+        draw.line(((x, y), anchor), fill=mix(color, 0.6), width=4)
         draw.rounded_rectangle(box, radius=14, fill=WHITE, outline=mix(color, 0.5), width=2)
         cx = (box[0] + box[2]) // 2
         draw.text((cx, box[1] + 30), name, font=face("bold", 32), fill=INK, anchor="mm")
@@ -2651,25 +2653,31 @@ def render_city_positions(out_path: Path, *, show_new: bool = False) -> None:
         draw.ellipse((x - 12, y - 12, x + 12, y + 12), fill=color)
 
     if show_new:
-        for coordinates, location, closest, box, anchor in [
-            ("38° N, 120° W", (-120, 38), (-122.08, 37.39), (445, 455, 750, 550), (445, 490)),
-            ("39° N, 70° W", (-70, 39), (-74.01, 40.71), (1120, 535, 1460, 630), (1280, 535)),
+        position_color = "#b86108"  # Course Heat color.
+        # Extend the previous 113px connector by 80%, then align both cards
+        # with the left card. Each leader still begins at its own map point.
+        box_top = point(-120, 38)[1] + round(113 * 1.8)
+        for coordinates, location, closest in [
+            ("38° N, 120° W", (-120, 38), (-122.08, 37.39)),
+            ("40° N, 76° W", (-76, 40), (-74.01, 40.71)),
         ]:
             x, y = point(*location)
+            box = (x - 170, box_top, x + 170, box_top + 95)
+            anchor = (x, box[1])
             city = point(*closest)
             length = math.dist((x, y), city)
             for step in range(16, round(length) - 14, 8):
                 t = step / length
                 dx, dy = x + (city[0] - x) * t, y + (city[1] - y) * t
-                draw.ellipse((dx - 2, dy - 2, dx + 2, dy + 2), fill=BRAND)
-            draw.line(((x, y), anchor), fill=mix(BRAND, 0.5), width=2)
-            draw.rounded_rectangle(box, radius=14, fill=GOLD, outline=BRAND, width=2)
+                draw.ellipse((dx - 2, dy - 2, dx + 2, dy + 2), fill=position_color)
+            draw.line(((x, y), anchor), fill=position_color, width=4)
+            draw.rounded_rectangle(box, radius=14, fill=WHITE, outline=position_color, width=2)
             cx = (box[0] + box[2]) // 2
-            draw.text((cx, box[1] + 25), "NEW POSITION", font=face("heavy", 18), fill=PURPLE, anchor="mm")
-            draw.text((cx, box[1] + 62), coordinates, font=face("bold", 29), fill=PURPLE, anchor="mm")
+            draw.text((cx, box[1] + 30), "NEW POSITION", font=face("heavy", 32), fill=position_color, anchor="mm")
+            draw.text((cx, box[1] + 68), coordinates, font=face("bold", 29), fill=position_color, anchor="mm")
             diamond = [(x, y - 15), (x + 15, y), (x, y + 15), (x - 15, y)]
-            draw.polygon(diamond, fill=WHITE)
-            draw.line(diamond + diamond[:1], fill=BRAND, width=4, joint="curve")
+            draw.polygon(diamond, fill=position_color)
+            draw.line(diamond + diamond[:1], fill=position_color, width=4, joint="curve")
     draw_takeaway_band(canvas, top=banner_top, left=40, right=1560,
                        text="When nothing matches exactly, distance finds the closest one." if show_new else "Latitude and longitude give each city a position.",
                        font=face("medium", TAKEAWAY_TEXT_SIZE))
@@ -2726,138 +2734,50 @@ def render_drink_positions(out_path: Path, *, show_mystery: bool = False) -> Non
                                    fill=mix(score_color, 0.10), outline=mix(score_color, 0.25))
             draw.text((cx, cy), str(value), font=face("bold", 26), fill=score_color, anchor="mm")
     if show_mystery:
+        mystery_color = "#b86108"  # Match the new-position city callouts.
         mystery = (485, 285)
         length = math.dist(pepsi, mystery)
-        for step in range(0, round(length), 10):
+        for step in range(24, round(length) - 16, 10):
             fraction = step / length
             x = pepsi[0] + (mystery[0] - pepsi[0]) * fraction
             y = pepsi[1] + (mystery[1] - pepsi[1]) * fraction
-            draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill=BRAND)
-        # A thin leader identifies the new point; the short dotted connection
+            draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill=mystery_color)
+        # A leader identifies the new point; the short dotted connection
         # to Pepsi shows the closest match. Existing positions stay identical.
-        draw.line((mystery, (740, 260)), fill=mix(BRAND, 0.45), width=2)
-        draw.ellipse((469, 269, 501, 301), fill=WHITE, outline=BRAND, width=4)
-        draw.text(mystery, "?", font=face("heavy", 22), fill=PURPLE, anchor="mm")
+        draw.line((mystery, (740, 260)), fill=mystery_color, width=4)
+        draw.ellipse((469, 269, 501, 301), fill=mystery_color, outline=mystery_color, width=4)
+        draw.text(mystery, "?", font=face("heavy", 22), fill=WHITE, anchor="mm")
         draw.rounded_rectangle((740, 205, 1270, 320), radius=14,
-                               fill=GOLD, outline=BRAND, width=2)
-        draw.text((1005, 235), "MYSTERY DRINK", font=face("heavy", 27), fill=PURPLE, anchor="mm")
+                               fill=WHITE, outline=mystery_color, width=2)
+        draw.text((1005, 235), "MYSTERY DRINK", font=face("heavy", 32), fill=mystery_color, anchor="mm")
         for i, (value, color) in enumerate(zip([9, 1, 10, 2, 3, 8, 9], score_colors)):
             cx = 1005 + (i - 3) * 45
             draw.rounded_rectangle((cx - 19, 259, cx + 19, 301), radius=7,
                                    fill=mix(color, 0.10), outline=mix(color, 0.25))
             draw.text((cx, 280), str(value), font=face("bold", 26), fill=color, anchor="mm")
     draw_takeaway_band(canvas, top=banner_top, left=40, right=1560,
-                       text="Pepsi is the closest match." if show_mystery else "Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.",
+                       text="The mystery drink’s ratings are closest to Pepsi’s." if show_mystery else "Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.",
                        font=face("medium", TAKEAWAY_TEXT_SIZE))
     save(canvas, out_path)
 
 
 def render_vector_space_landing(source: Path, out_path: Path) -> None:
-    """Turn the vector-space landscape into a guided teaching illustration."""
-    image = Image.open(source).convert("RGB")
+    """Frame the approved context-journey artwork with standard board styling."""
+    art = Image.open(source).convert("RGB")
+    art_width = 1520
+    art_height = round(art.height * art_width / art.width)
     stage_top = 127
-    stage_h = 877
-    art_left, art_top = 74, stage_top + 30
-    art_w, art_h = 1452, 817
-    footer_top = stage_top + stage_h + TAKEAWAY_GAP
-    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
-
+    banner_top = stage_top + art_height + TAKEAWAY_GAP
+    height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Meaning Is a Position")
-    draw.rounded_rectangle(
-        (40, stage_top, 1560, stage_top + stage_h),
-        radius=14,
-        fill=WHITE,
-        outline=mix(PURPLE, 0.22),
-        width=1,
-    )
-
-    fitted = image.resize((art_w, art_h), Image.Resampling.LANCZOS)
-    canvas.paste(fitted, (art_left, art_top), rounded_mask((art_w, art_h), 12))
-    draw = ImageDraw.Draw(canvas)
-
-    # Important points in the generated 1672 × 941 landscape, mapped to the
-    # displayed art. Keeping them explicit makes later rerenders deterministic.
-    def point(source_x: int, source_y: int) -> tuple[int, int]:
-        return (
-            art_left + round(source_x * art_w / 1672),
-            art_top + round(source_y * art_h / 941),
-        )
-
-    landing = point(1122, 548)
-    nodes = {
-        "KITTEN": point(1041, 252),
-        "DOG": point(1291, 352),
-        "CAT": point(1247, 711),
-        "PET": point(1492, 602),
-    }
-
-    # This arrow illustrates the contextual referent, not a nearest-embedding
-    # search. The other words provide background without candidate-distance rays.
-    arrow(draw, landing, nodes["CAT"], TEAL, 7)
-    draw.ellipse(
-        (landing[0] - 15, landing[1] - 15, landing[0] + 15, landing[1] + 15),
-        fill="#ffd166",
-        outline=WHITE,
-        width=5,
-    )
-
-    def pill(
-        center: tuple[int, int],
-        text: str,
-        *,
-        font_size: int = 27,
-        fill: str = WHITE,
-        text_fill: str = INK,
-        outline: str = "#a8cfe0",
-        pad_x: int = 19,
-        height: int = 48,
-    ) -> None:
-        font = face("bold", font_size)
-        text_w = round(draw.textlength(text, font=font))
-        x, y = center
-        box = (x - text_w // 2 - pad_x, y - height // 2, x + text_w // 2 + pad_x, y + height // 2)
-        draw.rounded_rectangle(box, radius=height // 2, fill=fill, outline=outline, width=2)
-        draw.text((x, y - 1), text, font=font, fill=text_fill, anchor="mm")
-
-    # Neighborhood labels. The distant ones stay restrained; the destination
-    # neighborhood is the clear visual hierarchy.
-    pill(point(1195, 100), "ANIMAL NEIGHBORHOOD", font_size=29, fill="#e6f7fb", text_fill="#075a68", outline="#6eb7c4", height=54)
-    pill(point(465, 94), "ACTIONS", font_size=23, fill="#f4fbf5", text_fill="#47765a", outline="#b8d5c0", height=44)
-    pill(point(210, 787), "FEELINGS", font_size=23, fill="#f6f0fb", text_fill="#715182", outline="#cbb7d6", height=44)
-
-    # Word labels sit beside their platforms so the generated art remains
-    # visible. CAT is larger and uses the course's teal accent.
-    pill((nodes["KITTEN"][0] - 10, nodes["KITTEN"][1] - 48), "KITTEN")
-    pill((nodes["DOG"][0] + 18, nodes["DOG"][1] - 48), "DOG")
-    pill((nodes["PET"][0] - 12, nodes["PET"][1] - 48), "PET")
-    pill((nodes["CAT"][0] + 4, nodes["CAT"][1] + 55), "CAT", font_size=31, fill="#dff6f3", text_fill="#087a72", outline="#4aaea6", height=54)
-
-    # Minimal text guidance explains the two points students must read.
-    callout_font = face("bold", 26)
-    small_font = face("bold", 20)
-    vector_box = (106, 438, 386, 548)
-    draw.rounded_rectangle(vector_box, radius=17, fill=WHITE, outline=mix(PURPLE, 0.42), width=3)
-    draw.text((130, 463), "FINAL VECTOR", font=small_font, fill=PURPLE)
-    draw.text((130, 500), "“IT”  [.41, .06, …]", font=callout_font, fill=INK)
-
-    lands_box = (landing[0] - 262, landing[1] - 105, landing[0] - 20, landing[1] - 47)
-    draw.rounded_rectangle(lands_box, radius=15, fill="#fff5d9", outline="#d19b29", width=2)
-    draw.text(((lands_box[0] + lands_box[2]) // 2, (lands_box[1] + lands_box[3]) // 2), "IT WITH CONTEXT", font=face("bold", 23), fill="#815908", anchor="mm")
-    arrow(draw, (lands_box[2] - 15, lands_box[3] - 2), (landing[0] - 8, landing[1] - 8), "#d19b29", 4)
-
-    relation_mid = ((landing[0] + nodes["CAT"][0]) // 2 + 55, (landing[1] + nodes["CAT"][1]) // 2 - 12)
-    pill(relation_mid, "REFERS TO", font_size=22, fill="#e3f6f3", text_fill="#087a72", outline="#4aaea6", height=44)
-
+    draw_board_title(draw, "How Context Changes IT’s Position")
+    art = art.resize((art_width, art_height), Image.Resampling.LANCZOS)
+    canvas.paste(art, (40, stage_top), rounded_mask(art.size, 14))
     draw_takeaway_band(
-        canvas,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="IT’s updated numbers carry information connecting it to CAT.",
-        font=face("heavy", TAKEAWAY_TEXT_SIZE),
+        canvas, top=banner_top, left=40, right=1560,
+        text="IT’s new position reflects its connection to CAT in this sentence.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
@@ -3229,7 +3149,7 @@ def render_all() -> None:
     render_drink_positions(board_path("vector-space", "03-meaning-neighborhoods.jpg"))
     render_drink_positions(board_path("vector-space", "03-closest-drink.jpg"), show_mystery=True)
     render_vector_space_landing(
-        teaching / "meaning-is-a-position-v2.png",
+        teaching / "vector-space-context-journey.png",
         board_path("vector-space", "04-meaning-position.jpg"),
     )
 
